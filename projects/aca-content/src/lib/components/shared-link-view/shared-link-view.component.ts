@@ -26,14 +26,15 @@ import { AppStore, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { ViewerModule } from '@alfresco/adf-core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { SharedLinkEntry, SharedlinksApi } from '@alfresco/js-api';
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { forkJoin, from, of, Subject } from 'rxjs';
-import { catchError, mergeMap, takeUntil } from 'rxjs/operators';
+import { forkJoin, from, of } from 'rxjs';
+import { catchError, mergeMap } from 'rxjs/operators';
 import { AppExtensionService, AppService, ToolbarComponent } from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
 import { AlfrescoApiService, AlfrescoViewerModule } from '@alfresco/adf-content-services';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -44,11 +45,13 @@ import { AlfrescoApiService, AlfrescoViewerModule } from '@alfresco/adf-content-
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-shared-link-view' }
 })
-export class SharedLinkViewComponent implements OnInit, OnDestroy {
-  private onDestroy$: Subject<boolean> = new Subject<boolean>();
-  private sharedLinksApi: SharedlinksApi;
+export class SharedLinkViewComponent implements OnInit {
   sharedLinkId: string = null;
   viewerToolbarActions: Array<ContentActionRef> = [];
+
+  private sharedLinksApi: SharedlinksApi;
+
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(
     private route: ActivatedRoute,
@@ -77,14 +80,9 @@ export class SharedLinkViewComponent implements OnInit, OnDestroy {
 
     this.extensions
       .getSharedLinkViewerToolbarActions()
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((actions) => {
         this.viewerToolbarActions = actions;
       });
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
   }
 }

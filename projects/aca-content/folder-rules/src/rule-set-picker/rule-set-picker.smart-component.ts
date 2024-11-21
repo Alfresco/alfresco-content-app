@@ -22,13 +22,13 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, DestroyRef, inject, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { FolderRuleSetsService } from '../services/folder-rule-sets.service';
 import { Node } from '@alfresco/js-api';
 import { RuleSet } from '../model/rule-set.model';
-import { BehaviorSubject, combineLatest, from, of, Subject } from 'rxjs';
-import { finalize, map, switchMap, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, from, of } from 'rxjs';
+import { finalize, map, switchMap } from 'rxjs/operators';
 import { NotificationService, TemplateModule } from '@alfresco/adf-core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -37,6 +37,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ContentNodeSelectorModule } from '@alfresco/adf-content-services';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RuleListItemUiComponent } from '../rule-list/rule-list-item/rule-list-item.ui-component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 export interface RuleSetPickerOptions {
   nodeId: string;
@@ -64,7 +65,7 @@ export interface RuleSetPickerOptions {
   host: { class: 'aca-rule-set-picker' },
   providers: [FolderRuleSetsService]
 })
-export class RuleSetPickerSmartComponent implements OnInit, OnDestroy {
+export class RuleSetPickerSmartComponent implements OnInit {
   nodeId = '-root-';
   defaultNodeId = '-root-';
   isBusy = false;
@@ -79,7 +80,7 @@ export class RuleSetPickerSmartComponent implements OnInit, OnDestroy {
     map(([rulesLoading, folderLoading]) => rulesLoading || folderLoading)
   );
 
-  onDestroy$ = new Subject<void>();
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: RuleSetPickerOptions,
@@ -93,14 +94,9 @@ export class RuleSetPickerSmartComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.mainRuleSet$.pipe(takeUntil(this.onDestroy$)).subscribe((mainRuleSet) => {
+    this.mainRuleSet$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((mainRuleSet) => {
       this.hasOwnedRules = mainRuleSet?.rules.length > 0 && FolderRuleSetsService.isOwnedRuleSet(mainRuleSet, this.selectedNodeId);
     });
-  }
-
-  ngOnDestroy(): void {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
   }
 
   onNodeSelect(nodes: Node[]) {

@@ -22,23 +22,24 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Node } from '@alfresco/js-api';
-import { NodePermissionService, isLocked, AppExtensionService } from '@alfresco/aca-shared';
-import { AppStore, EditOfflineAction, NodeActionTypes, infoDrawerMetadataAspect } from '@alfresco/aca-shared/store';
+import { AppExtensionService, isLocked, NodePermissionService } from '@alfresco/aca-shared';
+import { AppStore, EditOfflineAction, infoDrawerMetadataAspect, NodeActionTypes } from '@alfresco/aca-shared/store';
 import { AppConfigService, NotificationService } from '@alfresco/adf-core';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
-  ContentMetadataService,
-  ContentMetadataCustomPanel,
-  TagService,
   CategoryService,
-  ContentMetadataComponent
+  ContentMetadataComponent,
+  ContentMetadataCustomPanel,
+  ContentMetadataService,
+  TagService
 } from '@alfresco/adf-content-services';
-import { filter, map, takeUntil } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -58,8 +59,7 @@ import { Store } from '@ngrx/store';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-metadata-tab' }
 })
-export class MetadataTabComponent implements OnInit, OnDestroy {
-  protected onDestroy$ = new Subject<boolean>();
+export class MetadataTabComponent implements OnInit {
   private _displayCategories = true;
   private _displayTags = true;
 
@@ -76,6 +76,8 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
   get displayTags(): boolean {
     return this._displayTags;
   }
+
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(
     private permission: NodePermissionService,
@@ -97,7 +99,7 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
     this._displayTags = this.tagService.areTagsEnabled();
     this._displayCategories = this.categoryService.areCategoriesEnabled();
 
-    this.contentMetadataService.error.pipe(takeUntil(this.onDestroy$)).subscribe((err: { message: string }) => {
+    this.contentMetadataService.error.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((err: { message: string }) => {
       this.notificationService.showError(err.message);
     });
     this.checkIfNodeIsUpdatable(this.node);
@@ -105,7 +107,7 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
       .pipe(
         ofType<EditOfflineAction>(NodeActionTypes.EditOffline),
         filter((updatedNode) => this.node.id === updatedNode.payload.entry.id),
-        takeUntil(this.onDestroy$)
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe((updatedNode) => {
         this.checkIfNodeIsUpdatable(updatedNode?.payload.entry);
@@ -116,17 +118,12 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
           return { panelTitle: panel.title, component: panel.component };
         });
       }),
-      takeUntil(this.onDestroy$)
+      takeUntilDestroyed(this.destroyRef)
     );
     this.store
       .select(infoDrawerMetadataAspect)
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((metadataAspect) => (this.metadataAspect = metadataAspect));
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
   }
 
   private checkIfNodeIsUpdatable(node: Node) {

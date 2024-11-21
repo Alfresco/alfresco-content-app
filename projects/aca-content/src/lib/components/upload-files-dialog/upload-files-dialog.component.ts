@@ -22,13 +22,14 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { delay, takeUntil } from 'rxjs/operators';
+import { Component, ViewEncapsulation } from '@angular/core';
+import { Observable } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppStore, getFileUploadingDialog } from '@alfresco/aca-shared/store';
 import { CommonModule } from '@angular/common';
 import { UploadModule } from '@alfresco/adf-content-services';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -37,17 +38,10 @@ import { UploadModule } from '@alfresco/adf-content-services';
   templateUrl: './upload-files-dialog.component.html',
   encapsulation: ViewEncapsulation.None
 })
-export class UploadFilesDialogComponent implements OnDestroy {
+export class UploadFilesDialogComponent {
   showFileUploadingDialog$: Observable<boolean>;
 
-  private onDestroy$: Subject<boolean> = new Subject<boolean>();
-
   constructor(private store: Store<AppStore>) {
-    this.showFileUploadingDialog$ = this.store.select(getFileUploadingDialog).pipe(delay(0), takeUntil(this.onDestroy$));
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
+    this.showFileUploadingDialog$ = this.store.select(getFileUploadingDialog).pipe(delay(0), takeUntilDestroyed());
   }
 }

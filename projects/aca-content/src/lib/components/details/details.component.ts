@@ -67,11 +67,12 @@ import { FileSizePipe, InfoDrawerButtonsDirective } from '@alfresco/adf-core';
 export class DetailsComponent extends PageComponent implements OnInit, OnDestroy {
   nodeId: string;
   isLoading: boolean;
-  onDestroy$ = new Subject<void>();
   activeTab = 1;
   aspectActions: Array<ContentActionRef> = [];
   nodeIcon: string;
   canManagePermissions = true;
+
+  private readonly onDestroy$: Subject<void> = new Subject<void>();
 
   constructor(private route: ActivatedRoute, private contentApi: ContentApiService, private contentService: ContentService) {
     super();
@@ -145,9 +146,10 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch(new SetSelectedNodesAction([]));
     this.onDestroy$.next();
     this.onDestroy$.complete();
+    this.store.dispatch(new SetSelectedNodesAction([]));
+    super.ngOnDestroy();
   }
 
   private isSmartFolder(): boolean {

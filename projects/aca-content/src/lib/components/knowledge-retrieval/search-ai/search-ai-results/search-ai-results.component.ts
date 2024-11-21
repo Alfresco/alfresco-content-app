@@ -22,10 +22,10 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PageComponent, PageLayoutComponent, ToolbarActionComponent, ToolbarComponent } from '@alfresco/aca-shared';
-import { concatMap, delay, filter, finalize, retryWhen, skipWhile, switchMap, takeUntil } from 'rxjs/operators';
+import { concatMap, delay, filter, finalize, retryWhen, skipWhile, switchMap } from 'rxjs/operators';
 import { AvatarComponent, ClipboardService, EmptyContentComponent, ThumbnailService, ToolbarModule, UnsavedChangesGuard } from '@alfresco/adf-core';
 import { AiAnswer, Node } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
@@ -42,6 +42,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ModalAiService } from '../../../../services/modal-ai.service';
 import { ViewNodeAction } from '@alfresco/aca-shared/store';
 import { ViewerService } from '@alfresco/aca-content/viewer';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -67,7 +68,7 @@ import { ViewerService } from '@alfresco/aca-content/viewer';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'aca-search-ai-results' }
 })
-export class SearchAiResultsComponent extends PageComponent implements OnInit, OnDestroy {
+export class SearchAiResultsComponent extends PageComponent implements OnInit {
   private _agentId: string;
   private _hasAnsweringError = false;
   private _hasError = false;
@@ -133,7 +134,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
           this.openedViewer = !!params.location;
           return !this.openedViewer && (!openedViewerPreviously || !this.queryAnswer);
         }),
-        takeUntil(this.onDestroy$)
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe((params) => {
         this._agentId = params.agentId;
@@ -154,11 +155,6 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
       confirmButtonText: 'KNOWLEDGE_RETRIEVAL.SEARCH.DISCARD_CHANGES.OKAY',
       headerText: 'KNOWLEDGE_RETRIEVAL.SEARCH.DISCARD_CHANGES.WARNING'
     };
-  }
-
-  ngOnDestroy(): void {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
   }
 
   copyResponseToClipboard(): void {
@@ -192,7 +188,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
         }),
         retryWhen((errors: Observable<Error>) => this.aiSearchRetryWhen(errors)),
         finalize(() => (this._loading = false)),
-        takeUntil(this.onDestroy$)
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe(
         (nodes) => {

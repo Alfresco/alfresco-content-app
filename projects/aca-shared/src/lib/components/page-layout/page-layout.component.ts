@@ -22,14 +22,14 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, Input, OnDestroy } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Observable } from 'rxjs';
 import { AppService } from '../../services/app.service';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -40,23 +40,17 @@ import { MatIconModule } from '@angular/material/icon';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'aca-page-layout' }
 })
-export class PageLayoutComponent implements OnDestroy {
+export class PageLayoutComponent {
   @Input()
   hasError = false;
 
-  private onDestroy$ = new Subject<boolean>();
   appNavNarMode$: Observable<'collapsed' | 'expanded'>;
 
   constructor(private appService: AppService) {
-    this.appNavNarMode$ = appService.appNavNarMode$.pipe(takeUntil(this.onDestroy$));
+    this.appNavNarMode$ = appService.appNavNarMode$.pipe(takeUntilDestroyed());
   }
 
   toggleClick() {
     this.appService.toggleAppNavBar$.next();
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
   }
 }

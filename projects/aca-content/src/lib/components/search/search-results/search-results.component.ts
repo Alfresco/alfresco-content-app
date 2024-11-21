@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ChangeDetectorRef, Component, DestroyRef, inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { NodeEntry, Pagination, ResultSetPaging } from '@alfresco/js-api';
 import { ActivatedRoute, Params } from '@angular/router';
 import {
@@ -153,8 +153,6 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   searchConfig: SearchConfiguration;
 
   private readonly loadedFilters$ = new Subject<void>();
-  private readonly destroyRef = inject(DestroyRef);
-
   constructor(
     tagsService: TagService,
     private readonly queryBuilder: SearchQueryBuilderService,

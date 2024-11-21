@@ -25,6 +25,7 @@
 import { NavigationEnd } from '@angular/router';
 import { ExpansionPanelDirective } from './expansion-panel.directive';
 import { Subject } from 'rxjs';
+import { TestBed } from '@angular/core/testing';
 
 class RouterStub {
   url;
@@ -64,7 +65,10 @@ describe('AcaExpansionPanel', () => {
       const item = {
         children: [{ url: 'dummy-route-1' }, { url: 'dummy-route-2' }]
       };
-      const directive = new ExpansionPanelDirective(mockStore, router, mockMatExpansionPanel);
+      let directive: ExpansionPanelDirective;
+      TestBed.runInInjectionContext(() => {
+        directive = new ExpansionPanelDirective(mockStore, router, mockMatExpansionPanel);
+      });
 
       directive.acaExpansionPanel = item;
 
@@ -75,7 +79,10 @@ describe('AcaExpansionPanel', () => {
       const item = {
         children: [{ url: 'dummy-route-1' }, { url: 'dummy-route-2' }]
       };
-      const directive = new ExpansionPanelDirective(mockStore, router, mockMatExpansionPanel);
+      let directive: ExpansionPanelDirective;
+      TestBed.runInInjectionContext(() => {
+        directive = new ExpansionPanelDirective(mockStore, router, mockMatExpansionPanel);
+      });
 
       directive.acaExpansionPanel = item;
 
@@ -93,7 +100,10 @@ describe('AcaExpansionPanel', () => {
 
       mockMatExpansionPanel.expanded = true;
 
-      const directive = new ExpansionPanelDirective(mockStore, router, mockMatExpansionPanel);
+      let directive: ExpansionPanelDirective;
+      TestBed.runInInjectionContext(() => {
+        directive = new ExpansionPanelDirective(mockStore, router, mockMatExpansionPanel);
+      });
 
       directive.acaExpansionPanel = item;
 
@@ -109,7 +119,10 @@ describe('AcaExpansionPanel', () => {
         children: [{ url: 'dummy-route-1' }, { url: 'dummy-route-2' }]
       };
 
-      const directive = new ExpansionPanelDirective(mockStore, router, mockMatExpansionPanel);
+      let directive: ExpansionPanelDirective;
+      TestBed.runInInjectionContext(() => {
+        directive = new ExpansionPanelDirective(mockStore, router, mockMatExpansionPanel);
+      });
 
       directive.acaExpansionPanel = item;
       mockMatExpansionPanel.expanded = true;
@@ -129,7 +142,10 @@ describe('AcaExpansionPanel', () => {
         }
       };
 
-      const directive = new ExpansionPanelDirective(mockStore, router, mockMatExpansionPanel);
+      let directive: ExpansionPanelDirective;
+      TestBed.runInInjectionContext(() => {
+        directive = new ExpansionPanelDirective(mockStore, router, mockMatExpansionPanel);
+      });
 
       directive.acaExpansionPanel = item;
       mockMatExpansionPanel.expanded = true;

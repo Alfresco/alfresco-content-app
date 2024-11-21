@@ -27,10 +27,9 @@ import { IconComponent } from '@alfresco/adf-core';
 import { DynamicExtensionComponent } from '@alfresco/adf-extensions';
 import { NodeEntry } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'aca-datatable-cell-badges',
@@ -41,27 +40,22 @@ import { takeUntil } from 'rxjs/operators';
   imports: [CommonModule, TranslateModule, DynamicExtensionComponent, IconComponent],
   standalone: true
 })
-export class DatatableCellBadgesComponent implements OnInit, OnDestroy {
+export class DatatableCellBadgesComponent implements OnInit {
   @Input() node: NodeEntry;
 
   badges: Badge[];
 
-  private onDestroy$ = new Subject<boolean>();
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(private appExtensionService: AppExtensionService) {}
 
   ngOnInit() {
     this.appExtensionService
       .getBadges(this.node)
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((badges) => {
         this.badges = badges;
       });
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
   }
 
   onBadgeClick(badge: Badge) {

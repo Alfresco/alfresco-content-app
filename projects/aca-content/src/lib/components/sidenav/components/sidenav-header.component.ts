@@ -22,14 +22,13 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, EventEmitter, inject, OnDestroy, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Component, DestroyRef, EventEmitter, inject, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { AppExtensionService, AppSettingsService, ToolbarComponent } from '@alfresco/aca-shared';
-import { takeUntil } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -39,10 +38,11 @@ import { RouterModule } from '@angular/router';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-sidenav-header' }
 })
-export class SidenavHeaderComponent implements OnInit, OnDestroy {
-  private onDestroy$ = new Subject<boolean>();
+export class SidenavHeaderComponent implements OnInit {
   private appSettings = inject(AppSettingsService);
   private appExtensions = inject(AppExtensionService);
+
+  private readonly destroyRef = inject(DestroyRef);
 
   appName = this.appSettings.appName;
   logoUrl = this.appSettings.appLogoUrl;
@@ -55,14 +55,9 @@ export class SidenavHeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.appExtensions
       .getHeaderActions()
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((actions) => {
         this.actions = actions;
       });
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
   }
 }

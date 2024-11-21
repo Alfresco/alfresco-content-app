@@ -22,12 +22,11 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { DynamicExtensionComponent, NavBarGroupRef, NavBarLinkRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
 import { AppStore, getSideNavState } from '@alfresco/aca-shared/store';
-import { Subject } from 'rxjs';
-import { takeUntil, distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { AppExtensionService, AppService, NavigationHistoryService } from '@alfresco/aca-shared';
 import { SidenavLayoutComponent } from '@alfresco/adf-core';
 import { CommonModule } from '@angular/common';
@@ -35,6 +34,7 @@ import { SidenavHeaderComponent } from './components/sidenav-header.component';
 import { MatListModule } from '@angular/material/list';
 import { ExpandMenuComponent } from './components/expand-menu.component';
 import { NavigationEnd } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -45,7 +45,7 @@ import { NavigationEnd } from '@angular/router';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-sidenav' }
 })
-export class SidenavComponent implements OnInit, OnDestroy {
+export class SidenavComponent implements OnInit {
   @Input()
   data: {
     layout?: SidenavLayoutComponent;
@@ -53,7 +53,8 @@ export class SidenavComponent implements OnInit, OnDestroy {
   } = {};
 
   groups: Array<NavBarGroupRef> = [];
-  private onDestroy$ = new Subject<boolean>();
+
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(
     private store: Store<AppStore>,
@@ -65,17 +66,17 @@ export class SidenavComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.store
       .select(getSideNavState)
-      .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.onDestroy$))
+      .pipe(debounceTime(300), distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
         this.groups = this.extensions.getApplicationNavigation(this.extensions.navbar);
       });
 
     this.appService.setAppNavbarMode(this.data.mode);
-    this.appService.toggleAppNavBar$.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.toggleNavBar());
-    this.data.layout.expanded.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.setNavBarMode());
+    this.appService.toggleAppNavBar$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.toggleNavBar());
+    this.data.layout.expanded.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.setNavBarMode());
     this.navigationHistoryService
       .listenToRouteChanges()
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((event: NavigationEnd) => {
         this.navigationHistoryService.setHistory(event, 3);
       });
@@ -100,10 +101,5 @@ export class SidenavComponent implements OnInit, OnDestroy {
   private toggleNavBar() {
     this.data.layout.toggleMenu();
     this.setNavBarMode();
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
   }
 }

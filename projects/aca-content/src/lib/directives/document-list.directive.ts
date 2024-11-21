@@ -22,29 +22,29 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, OnDestroy, OnInit, HostListener } from '@angular/core';
+import { DestroyRef, Directive, HostListener, inject, OnInit } from '@angular/core';
 import { DocumentListComponent, DocumentListService } from '@alfresco/adf-content-services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserPreferencesService } from '@alfresco/adf-core';
-import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
-import { takeUntil, filter } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { NodeEntry } from '@alfresco/js-api';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Directive({
   standalone: true,
   selector: '[acaDocumentList]'
 })
-export class DocumentListDirective implements OnInit, OnDestroy {
+export class DocumentListDirective implements OnInit {
   private isLibrary = false;
   selectedNode: NodeEntry;
-
-  onDestroy$ = new Subject<boolean>();
 
   get sortingPreferenceKey(): string {
     return this.route.snapshot.data.sortingPreferenceKey;
   }
+
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(
     private store: Store<any>,
@@ -87,22 +87,17 @@ export class DocumentListDirective implements OnInit, OnDestroy {
     this.documentList.ready
       .pipe(
         filter(() => !this.router.url.includes('viewer:view')),
-        takeUntil(this.onDestroy$)
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe(() => this.onReady());
 
-    this.documentListService.reload$.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+    this.documentListService.reload$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.reload();
     });
 
-    this.documentListService.resetSelection$.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+    this.documentListService.resetSelection$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.reset();
     });
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
   }
 
   @HostListener('sorting-changed', ['$event'])

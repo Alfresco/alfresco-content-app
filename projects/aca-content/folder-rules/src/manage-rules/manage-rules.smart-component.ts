@@ -22,17 +22,17 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FolderRulesService } from '../services/folder-rules.service';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Rule } from '../model/rule.model';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { NodeInfo } from '@alfresco/aca-shared/store';
-import { delay, takeUntil } from 'rxjs/operators';
+import { delay } from 'rxjs/operators';
 import { EditRuleDialogUiComponent } from '../rule-details/edit-rule-dialog.ui-component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { NotificationService, TemplateModule, ToolbarModule, ConfirmDialogComponent } from '@alfresco/adf-core';
+import { ConfirmDialogComponent, NotificationService, TemplateModule, ToolbarModule } from '@alfresco/adf-core';
 import { ActionDefinitionTransformed } from '../model/rule-action.model';
 import { ActionsService } from '../services/actions.service';
 import { FolderRuleSetsService } from '../services/folder-rule-sets.service';
@@ -48,6 +48,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDividerModule } from '@angular/material/divider';
 import { RuleListUiComponent } from '../rule-list/rule-list/rule-list.ui-component';
 import { RuleDetailsUiComponent } from '../rule-details/rule-details.ui-component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -75,7 +76,7 @@ import { RuleDetailsUiComponent } from '../rule-details/rule-details.ui-componen
   changeDetection: ChangeDetectionStrategy.Default,
   host: { class: 'aca-manage-rules' }
 })
-export class ManageRulesSmartComponent implements OnInit, OnDestroy {
+export class ManageRulesSmartComponent implements OnInit {
   nodeId = '';
   isInheritanceEnabled = true;
   isInheritanceToggleDisabled = false;
@@ -96,8 +97,7 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
   isMainRuleSetNotEmpty = false;
   isInheritedRuleSetsNotEmpty = false;
 
-  private destroyed$ = new Subject<void>();
-  private _actionDefinitionsSub: Subscription;
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(
     private location: Location,
@@ -122,7 +122,7 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
     this.actionDefinitions$ = this.actionsService.actionDefinitionsListing$;
     this.parameterConstraints$ = this.actionsService.parameterConstraints$;
 
-    this.folderRulesService.deletedRuleId$.pipe(takeUntil(this.destroyed$)).subscribe((deletedRuleId) => this.onRuleDelete(deletedRuleId));
+    this.folderRulesService.deletedRuleId$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((deletedRuleId) => this.onRuleDelete(deletedRuleId));
 
     this.actionsService.loadActionDefinitions();
 
@@ -137,28 +137,22 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
       }
     });
 
-    this._actionDefinitionsSub = this.actionDefinitions$.subscribe((actionDefinitions: ActionDefinitionTransformed[]) =>
-      this.actionsService.loadActionParameterConstraints(actionDefinitions)
-    );
+    this.actionDefinitions$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((actionDefinitions: ActionDefinitionTransformed[]) => this.actionsService.loadActionParameterConstraints(actionDefinitions));
 
-    this.mainRuleSet$.pipe(takeUntil(this.destroyed$)).subscribe((ruleSet) => {
+    this.mainRuleSet$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((ruleSet) => {
       this.canEditMainRule = this.canEditRule(ruleSet);
       this.isMainRuleSetNotEmpty = !!ruleSet;
     });
 
-    this.inheritedRuleSets$.pipe(takeUntil(this.destroyed$)).subscribe((inheritedRuleSet) => {
+    this.inheritedRuleSets$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((inheritedRuleSet) => {
       this.isInheritedRuleSetsNotEmpty = inheritedRuleSet.some((ruleSet) => ruleSet.rules.some((rule: Rule) => rule.isEnabled));
     });
 
-    this.selectedRuleSet$.pipe(takeUntil(this.destroyed$)).subscribe((ruleSet) => {
+    this.selectedRuleSet$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((ruleSet) => {
       this.canEditSelectedRule = this.canEditRule(ruleSet);
     });
-  }
-
-  ngOnDestroy() {
-    this.destroyed$.next();
-    this.destroyed$.complete();
-    this._actionDefinitionsSub.unsubscribe();
   }
 
   goBack(): void {

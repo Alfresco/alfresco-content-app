@@ -32,20 +32,19 @@ import {
 } from '@alfresco/adf-content-services';
 import { ShowHeaderMode, UserPreferencesService } from '@alfresco/adf-core';
 import { ContentActionRef, DocumentListPresetRef, SelectionState } from '@alfresco/adf-extensions';
-import { OnDestroy, OnInit, OnChanges, ViewChild, SimpleChanges, Directive, inject, HostListener } from '@angular/core';
+import { DestroyRef, Directive, HostListener, inject, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { NodeEntry, Node, NodePaging } from '@alfresco/js-api';
-import { Observable, Subject, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Node, NodeEntry, NodePaging } from '@alfresco/js-api';
+import { Observable, Subscription } from 'rxjs';
 import { DocumentBasePageService } from './document-base-page.service';
 import {
   AppStore,
-  getCurrentFolder,
   getAppSelection,
+  getCurrentFolder,
   isInfoDrawerOpened,
+  SetSelectedNodesAction,
   ViewNodeAction,
-  ViewNodeExtras,
-  SetSelectedNodesAction
+  ViewNodeExtras
 } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '../../services/app.extension.service';
 import { isLibrary, isLocked } from '../../utils/node.utils';
@@ -54,12 +53,11 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Router } from '@angular/router';
 import { AppSettingsService } from '../../services/app-settings.service';
 import { NavigationHistoryService } from '../../services/navigation-history.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 /* eslint-disable @angular-eslint/directive-class-suffix */
 @Directive()
 export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
-  onDestroy$: Subject<void> = new Subject<void>();
-
   @ViewChild(DocumentListComponent)
   documentList: DocumentListComponent;
 
@@ -90,6 +88,9 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   protected router = inject(Router);
   protected userPreferencesService = inject(UserPreferencesService);
   protected searchAiService = inject(SearchAiService);
+
+  protected readonly destroyRef = inject(DestroyRef);
+
   private autoDownloadService = inject(AutoDownloadService, { optional: true });
   private navigationHistoryService = inject(NavigationHistoryService);
 
@@ -106,7 +107,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit() {
     this.extensions
       .getCreateActions()
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((actions) => {
         this.createActions = actions;
       });
@@ -115,7 +116,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
 
     this.store
       .select(getAppSelection)
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((selection) => {
         this.selection = selection;
         this.canUpdateNode = this.selection.count === 1 && this.content.canUpdateNode(selection.first);
@@ -123,41 +124,41 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
 
     this.extensions
       .getAllowedToolbarActions()
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((actions) => {
         this.actions = actions;
       });
 
     this.extensions
       .getBulkActions()
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((actions) => {
         this.bulkActions = actions;
       });
 
     this.extensions
       .getViewerToolbarActions()
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((actions) => {
         this.viewerToolbarActions = actions;
       });
 
     this.store
       .select(getCurrentFolder)
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((node) => {
         this.canUpload = node && this.content.canUploadContent(node);
       });
 
     this.breakpointObserver
       .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((result) => {
         this.isSmallScreen = result.matches;
       });
 
     this.searchAiService.toggleSearchAiInput$
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((searchAiInputState) => (this._searchAiInputState = searchAiInputState));
 
     this.setKnowledgeRetrievalState();
@@ -173,8 +174,6 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
     this.subscriptions = [];
 
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
     this.store.dispatch(new SetSelectedNodesAction([]));
   }
 

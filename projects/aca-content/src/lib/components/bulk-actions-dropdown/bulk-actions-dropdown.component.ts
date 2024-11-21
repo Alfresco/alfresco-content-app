@@ -25,15 +25,16 @@
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { AppStore, getSearchItemsTotalCount } from '@alfresco/aca-shared/store';
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { combineLatest, Observable, Subject } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { IconComponent, TranslationService } from '@alfresco/adf-core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { switchMap, takeUntil } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { AppExtensionService } from '@alfresco/aca-shared';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -43,7 +44,7 @@ import { AppExtensionService } from '@alfresco/aca-shared';
   imports: [CommonModule, TranslateModule, MatSelectModule, IconComponent, ReactiveFormsModule],
   encapsulation: ViewEncapsulation.None
 })
-export class BulkActionsDropdownComponent implements OnInit, OnDestroy {
+export class BulkActionsDropdownComponent implements OnInit {
   @Input() items: ContentActionRef[];
 
   placeholder: string;
@@ -53,9 +54,9 @@ export class BulkActionsDropdownComponent implements OnInit, OnDestroy {
   private readonly store = inject<Store<AppStore>>(Store);
   private readonly translationService = inject(TranslationService);
   private readonly extensions = inject(AppExtensionService);
-
-  private readonly onDestroy$ = new Subject();
+  private readonly destroyRef = inject(DestroyRef);
   private readonly totalItems$: Observable<number> = this.store.select(getSearchItemsTotalCount);
+
   ngOnInit() {
     this.totalItems$
       .pipe(
@@ -76,21 +77,16 @@ export class BulkActionsDropdownComponent implements OnInit, OnDestroy {
             ]);
           }
         }),
-        takeUntil(this.onDestroy$)
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe(([placeholder, title]) => {
         this.tooltip = title;
         this.placeholder = placeholder;
       });
 
-    this.extensions.bulkActionExecuted$.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+    this.extensions.bulkActionExecuted$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.bulkSelectControl.setValue(null);
     });
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
   }
 
   runAction(actionOption: ContentActionRef) {

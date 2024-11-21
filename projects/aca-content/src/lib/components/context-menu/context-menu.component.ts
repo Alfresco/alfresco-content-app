@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, OnInit, AfterViewInit, Inject, inject, DestroyRef } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, inject, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { DynamicExtensionComponent } from '@alfresco/adf-extensions';
 import { ContextMenuOverlayRef } from './context-menu-overlay';

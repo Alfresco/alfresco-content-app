@@ -22,20 +22,21 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
 import { AppStore, getAppSelection } from '@alfresco/aca-shared/store';
 import { AvatarComponent, IconComponent, NotificationService } from '@alfresco/adf-core';
-import { forkJoin, Subject, throwError } from 'rxjs';
-import { catchError, take, takeUntil } from 'rxjs/operators';
+import { forkJoin, throwError } from 'rxjs';
+import { catchError, take } from 'rxjs/operators';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule, MatSelectionListChange } from '@angular/material/list';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Agent } from '@alfresco/js-api';
 import { AgentService, SearchAiService } from '@alfresco/adf-content-services';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -46,13 +47,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'aca-agents-button' }
 })
-export class AgentsButtonComponent implements OnInit, OnDestroy {
+export class AgentsButtonComponent implements OnInit {
   @Input()
   data: { trigger: string };
 
   private selectedNodesState: SelectionState;
   private _agents: Agent[] = [];
-  private onDestroy$ = new Subject<void>();
   private _disabled = true;
   private _initialsByAgentId: { [key: string]: string } = {};
   private _hxInsightUrl: string;
@@ -73,6 +73,8 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
     return this._hxInsightUrl;
   }
 
+  private readonly destroyRef = inject(DestroyRef);
+
   constructor(
     private store: Store<AppStore>,
     private notificationService: NotificationService,
@@ -85,7 +87,7 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store
       .select(getAppSelection)
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((selection) => {
         this.selectedNodesState = selection;
       });
@@ -112,11 +114,6 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
       },
       (error: string) => this.notificationService.showError(this.translateService.instant(error))
     );
-  }
-
-  ngOnDestroy(): void {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
   }
 
   onClick(): void {

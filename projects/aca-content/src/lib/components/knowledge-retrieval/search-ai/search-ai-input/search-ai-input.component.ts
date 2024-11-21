@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -32,10 +32,8 @@ import { MatInputModule } from '@angular/material/input';
 import { A11yModule } from '@angular/cdk/a11y';
 import { AvatarComponent, IconComponent, NotificationService, UserPreferencesService } from '@alfresco/adf-core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AiSearchByTermPayload, AppStore, getAppSelection, SearchByTermAiAction, ToggleAISearchInput } from '@alfresco/aca-shared/store';
-import { takeUntil } from 'rxjs/operators';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { MatSelectModule } from '@angular/material/select';
 import { AgentService, SearchAiService } from '@alfresco/adf-content-services';
@@ -48,6 +46,7 @@ import {
 } from '@angular/material/tooltip';
 import { ModalAiService } from '../../../../services/modal-ai.service';
 import { Agent } from '@alfresco/js-api';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 const MatTooltipOptions: MatTooltipDefaultOptions = {
   ...MAT_TOOLTIP_DEFAULT_OPTIONS_FACTORY(),
@@ -78,7 +77,7 @@ const MatTooltipOptions: MatTooltipDefaultOptions = {
   encapsulation: ViewEncapsulation.None,
   providers: [{ provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: MatTooltipOptions }]
 })
-export class SearchAiInputComponent implements OnInit, OnDestroy {
+export class SearchAiInputComponent implements OnInit {
   @Input()
   placeholder: string;
 
@@ -95,7 +94,6 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
 
   private _agentControl = new FormControl<Agent>(null);
   private _agents: Agent[] = [];
-  private onDestroy$ = new Subject<void>();
   private selectedNodesState: SelectionState;
   private _queryControl = new FormControl('');
   private _initialsByAgentId: { [key: string]: string } = {};
@@ -116,6 +114,8 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
     return this._initialsByAgentId;
   }
 
+  private readonly destroyRef = inject(DestroyRef);
+
   constructor(
     private store: Store<AppStore>,
     private searchAiService: SearchAiService,
@@ -133,7 +133,7 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
     if (!this.usedInAiResultsPage) {
       this.store
         .select(getAppSelection)
-        .pipe(takeUntil(this.onDestroy$))
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe((selection) => {
           this.selectedNodesState = selection;
         });
@@ -143,7 +143,7 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
 
     this.agentService
       .getAgents()
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(
         (agents) => {
           this._agents = agents;
@@ -157,11 +157,6 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
         },
         () => this.notificationService.showError(this.translateService.instant('KNOWLEDGE_RETRIEVAL.SEARCH.ERRORS.AGENTS_FETCHING'))
       );
-  }
-
-  ngOnDestroy(): void {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
   }
 
   onSearchSubmit() {

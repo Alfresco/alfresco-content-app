@@ -22,15 +22,13 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, HostListener, Input, OnChanges, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { NodeEntry, Node, SiteEntry } from '@alfresco/js-api';
+import { Component, DestroyRef, HostListener, inject, Input, OnChanges, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Node, NodeEntry, SiteEntry } from '@alfresco/js-api';
 import { ContentActionRef, DynamicTabComponent, SidebarTabRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
-import { SetInfoDrawerStateAction, ToggleInfoDrawerAction, infoDrawerPreview } from '@alfresco/aca-shared/store';
+import { infoDrawerPreview, SetInfoDrawerStateAction, ToggleInfoDrawerAction } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '../../services/app.extension.service';
 import { ContentApiService } from '../../services/content-api.service';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { InfoDrawerModule } from '@alfresco/adf-core';
@@ -38,6 +36,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { A11yModule } from '@angular/cdk/a11y';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
 import { ContentService, NodesApiService } from '@alfresco/adf-content-services';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -57,7 +56,7 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
   displayNode: Node | SiteEntry;
   tabs: Array<SidebarTabRef> = [];
   actions: Array<ContentActionRef> = [];
-  onDestroy$ = new Subject<boolean>();
+
   preventFromClosing = false;
   icon: string = null;
 
@@ -65,6 +64,8 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
   onEscapeKeyboardEvent(): void {
     this.close();
   }
+
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(
     private store: Store<any>,
@@ -78,26 +79,24 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
     this.tabs = this.extensions.getSidebarTabs();
     this.extensions
       .getAllowedSidebarActions()
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((actions) => {
         this.actions = actions;
       });
 
     this.store
       .select(infoDrawerPreview)
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((isInfoDrawerPreviewOpened) => {
         this.preventFromClosing = isInfoDrawerPreviewOpened;
       });
 
-    this.nodesService.nodeUpdated.pipe(takeUntil(this.onDestroy$)).subscribe((node: any) => {
+    this.nodesService.nodeUpdated.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((node: any) => {
       this.node.entry = node;
     });
   }
 
   ngOnDestroy() {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
     if (!this.preventFromClosing) {
       this.store.dispatch(new SetInfoDrawerStateAction(false));
     }

@@ -46,7 +46,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { DocumentListDirective } from '../../../directives/document-list.directive';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { extractSearchedWordFromEncodedQuery } from '../../../utils/aca-search-utils';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -130,7 +130,7 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
     );
 
     if (this.route) {
-      this.route.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe((params: Params) => {
+      this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params: Params) => {
         const encodedQuery = params[this.queryParamName] || null;
         this.searchedWord = extractSearchedWordFromEncodedQuery(encodedQuery);
         if (this.searchedWord?.length > 1) {

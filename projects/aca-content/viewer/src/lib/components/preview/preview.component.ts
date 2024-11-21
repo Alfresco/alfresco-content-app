@@ -22,25 +22,26 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, OnDestroy, ViewEncapsulation, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
-import { UrlTree, UrlSegmentGroup, UrlSegment, PRIMARY_OUTLET, ActivatedRoute } from '@angular/router';
-import { debounceTime, map, takeUntil } from 'rxjs/operators';
+import { ActivatedRoute, PRIMARY_OUTLET, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
+import { debounceTime, map } from 'rxjs/operators';
 import { ViewerModule } from '@alfresco/adf-core';
-import { ClosePreviewAction, ViewerActionTypes, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
+import { ClosePreviewAction, SetSelectedNodesAction, ViewerActionTypes } from '@alfresco/aca-shared/store';
 import {
-  PageComponent,
   AppHookService,
   ContentApiService,
   InfoDrawerComponent,
-  ToolbarMenuItemComponent,
-  ToolbarComponent
+  PageComponent,
+  ToolbarComponent,
+  ToolbarMenuItemComponent
 } from '@alfresco/aca-shared';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { from } from 'rxjs';
 import { Actions, ofType } from '@ngrx/effects';
 import { AlfrescoViewerModule, NodesApiService } from '@alfresco/adf-content-services';
 import { ViewerService } from '../../services/viewer.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -51,7 +52,7 @@ import { ViewerService } from '../../services/viewer.service';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-preview' }
 })
-export class PreviewComponent extends PageComponent implements OnInit, OnDestroy {
+export class PreviewComponent extends PageComponent implements OnInit {
   folderId: string = null;
   navigateBackAsClose = false;
   navigateMultiple = false;
@@ -84,7 +85,7 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
     super.ngOnInit();
 
     from(this.infoDrawerOpened$)
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((val) => {
         this.showRightSide = val;
       });
@@ -131,14 +132,10 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
 
     this.extensions
       .getOpenWithActions()
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((actions) => {
         this.openWith = actions;
       });
-  }
-
-  ngOnDestroy() {
-    super.ngOnDestroy();
   }
 
   /**

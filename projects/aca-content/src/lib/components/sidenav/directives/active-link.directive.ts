@@ -22,11 +22,23 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AfterContentInit, ContentChildren, Directive, ElementRef, Input, OnInit, Optional, QueryList, Renderer2 } from '@angular/core';
+import {
+  AfterContentInit,
+  ContentChildren,
+  DestroyRef,
+  Directive,
+  ElementRef,
+  inject,
+  Input,
+  OnInit,
+  Optional,
+  QueryList,
+  Renderer2
+} from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { ActionDirective } from './action.directive';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Directive({
   standalone: true,
@@ -39,7 +51,7 @@ export class ActiveLinkDirective implements OnInit, AfterContentInit {
   links: QueryList<ActionDirective>;
   isLinkActive = false;
 
-  private onDestroy$: Subject<boolean> = new Subject<boolean>();
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(private router: Router, private element: ElementRef, private renderer: Renderer2, @Optional() private action?: ActionDirective) {}
 
@@ -47,7 +59,7 @@ export class ActiveLinkDirective implements OnInit, AfterContentInit {
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
-        takeUntil(this.onDestroy$)
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe((event: NavigationEnd) => {
         this.update(event.urlAfterRedirects);

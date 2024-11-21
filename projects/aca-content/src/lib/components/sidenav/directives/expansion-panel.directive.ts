@@ -22,23 +22,21 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, Input, HostListener, OnInit, OnDestroy } from '@angular/core';
-import { Router, NavigationEnd, PRIMARY_OUTLET } from '@angular/router';
-import { filter, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { DestroyRef, Directive, HostListener, inject, Input, OnInit } from '@angular/core';
+import { NavigationEnd, PRIMARY_OUTLET, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { Store } from '@ngrx/store';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Directive({
   standalone: true,
   selector: '[acaExpansionPanel]',
   exportAs: 'acaExpansionPanel'
 })
-export class ExpansionPanelDirective implements OnInit, OnDestroy {
+export class ExpansionPanelDirective implements OnInit {
   @Input() acaExpansionPanel;
   public hasActiveChildren = false;
-
-  private onDestroy$: Subject<boolean> = new Subject<boolean>();
 
   @HostListener('click')
   onClick() {
@@ -55,6 +53,8 @@ export class ExpansionPanelDirective implements OnInit, OnDestroy {
     }
   }
 
+  private readonly destroyRef = inject(DestroyRef);
+
   constructor(private store: Store<any>, private router: Router, private expansionPanel: MatExpansionPanel) {}
 
   hasActiveLinks() {
@@ -70,16 +70,11 @@ export class ExpansionPanelDirective implements OnInit, OnDestroy {
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
-        takeUntil(this.onDestroy$)
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe(() => {
         this.hasActiveChildren = this.hasActiveLinks();
       });
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
   }
 
   private getNavigationCommands(url: string): any[] {

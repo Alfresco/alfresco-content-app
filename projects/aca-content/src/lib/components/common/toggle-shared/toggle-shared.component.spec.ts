@@ -24,6 +24,7 @@
 
 import { ToggleSharedComponent } from './toggle-shared.component';
 import { of } from 'rxjs';
+import { TestBed } from '@angular/core/testing';
 
 describe('ToggleSharedComponent', () => {
   let component;
@@ -41,7 +42,9 @@ describe('ToggleSharedComponent', () => {
       }
     };
 
-    component = new ToggleSharedComponent(storeMock);
+    TestBed.runInInjectionContext(() => {
+      component = new ToggleSharedComponent(storeMock);
+    });
   });
 
   it('should get Store selection entry on initialization', (done) => {
