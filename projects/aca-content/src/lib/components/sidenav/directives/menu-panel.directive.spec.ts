@@ -25,6 +25,7 @@
 import { NavigationEnd } from '@angular/router';
 import { MenuPanelDirective } from './menu-panel.directive';
 import { Subject } from 'rxjs';
+import { TestBed } from '@angular/core/testing';
 
 class RouterStub {
   url;
@@ -64,7 +65,10 @@ describe('MenuPanelDirective', () => {
       const item = {
         children: [{ url: 'dummy-route-1' }, { url: 'dummy-route-2' }]
       };
-      const directive = new MenuPanelDirective(mockStore, router);
+      let directive: MenuPanelDirective;
+      TestBed.runInInjectionContext(() => {
+        directive = new MenuPanelDirective(mockStore, router);
+      });
 
       directive.acaMenuPanel = item;
 
@@ -75,7 +79,10 @@ describe('MenuPanelDirective', () => {
       const item = {
         children: [{ url: 'dummy-route-1' }, { url: 'dummy-route-2' }]
       };
-      const directive = new MenuPanelDirective(mockStore, router);
+      let directive: MenuPanelDirective;
+      TestBed.runInInjectionContext(() => {
+        directive = new MenuPanelDirective(mockStore, router);
+      });
 
       directive.acaMenuPanel = item;
 
@@ -93,7 +100,10 @@ describe('MenuPanelDirective', () => {
 
       mockMatExpansionPanel.expanded = true;
 
-      const directive = new MenuPanelDirective(mockStore, router);
+      let directive: MenuPanelDirective;
+      TestBed.runInInjectionContext(() => {
+        directive = new MenuPanelDirective(mockStore, router);
+      });
 
       directive.acaMenuPanel = item;
 
@@ -109,7 +119,10 @@ describe('MenuPanelDirective', () => {
         children: [{ url: 'dummy-route-1' }, { url: 'dummy-route-2' }]
       };
 
-      const directive = new MenuPanelDirective(mockStore, router);
+      let directive: MenuPanelDirective;
+      TestBed.runInInjectionContext(() => {
+        directive = new MenuPanelDirective(mockStore, router);
+      });
 
       directive.acaMenuPanel = item;
       mockMatExpansionPanel.expanded = true;
