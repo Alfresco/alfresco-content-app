@@ -31,7 +31,7 @@ test.describe('viewer action file', () => {
   let siteActions: SitesApi;
   let trashcanApi: TrashcanApi;
   const username = `user-${Utils.random()}`;
-  const parent = `parent-${Utils.random()}`;
+  const parent = `parent-viewer-${Utils.random()}`;
   let parentId: string;
   const subFolder1 = `subFolder1-${Utils.random()}`;
   let subFolder1Id: string;
@@ -39,7 +39,7 @@ test.describe('viewer action file', () => {
   let subFolder2Id: string;
   const fileName1 = `file1-${Utils.random()}.txt`;
 
-  const siteName = `site-${Utils.random()}`;
+  const siteName = `site-breadcrumb-${Utils.random()}`;
   let docLibId: string;
   const parentFromSite = `parent-in-site-${Utils.random()}`;
   let parentFromSiteId: string;

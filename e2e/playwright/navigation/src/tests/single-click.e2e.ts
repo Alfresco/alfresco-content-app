@@ -35,7 +35,7 @@ test.describe('Single click on item name', () => {
   const deletedFile1 = `file1-${Utils.random()}.txt`;
   const deletedFolder1 = `folder1-${Utils.random()}`;
 
-  const siteName = `site-${Utils.random()}`;
+  const siteName = `site-single-${Utils.random()}`;
   const fileSite = `fileSite-${Utils.random()}.txt`;
 
   test.beforeAll(async () => {

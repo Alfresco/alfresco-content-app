@@ -363,7 +363,7 @@ test.describe('Create file from template', () => {
   });
 
   test.describe('File created from template on Personal Files Libraries', () => {
-    const randomLibraryName = `playwright-library-${Utils.random()}`;
+    const randomLibraryName = `playwright-library-c2-${Utils.random()}`;
     let sitesApi: SitesApi;
 
     test.beforeAll(async () => {

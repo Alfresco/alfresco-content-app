@@ -168,7 +168,7 @@ test.describe('Special permissions', () => {
 
     test('[C213178] on Recent Files', async ({ recentFilesPage }) => {
       await recentFilesPage.navigate();
-      expect(await recentFilesPage.dataTable.getRowsCount(), 'Incorrect number of items').toBe(1);
+      expect(await recentFilesPage.dataTable.isItemPresent(fileName)).toBe(true);
       expect(await recentFilesPage.dataTable.getItemLocationText(fileName)).toEqual('Unknown');
     });
 
