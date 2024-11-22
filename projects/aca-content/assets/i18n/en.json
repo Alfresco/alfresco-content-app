@@ -549,7 +549,10 @@
           "FILES": "Files",
           "FOLDERS": "Folders",
           "LIBRARIES": "Libraries",
-          "HINT": "Search input must have at least 2 alphanumeric characters."
+          "HINT": "Search input must have at least 2 alphanumeric characters.",
+          "ERRORS": {
+            "SPECIAL_CHARACTERS": "Search term cannot contain these characters ^ ( ) [ ] { } : /"
+          }
         },
         "SORT": {
             "SORTING_OPTION": "Sort by",

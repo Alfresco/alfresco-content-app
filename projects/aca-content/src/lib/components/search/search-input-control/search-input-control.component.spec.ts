@@ -26,6 +26,7 @@ import { SearchInputControlComponent } from './search-input-control.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { By } from '@angular/platform-browser';
 
 describe('SearchInputControlComponent', () => {
   let fixture: ComponentFixture<SearchInputControlComponent>;
@@ -43,31 +44,29 @@ describe('SearchInputControlComponent', () => {
   });
 
   it('should emit submit event on searchSubmit', () => {
-    const keyboardEvent = { target: { value: 'a' } };
+    component.searchTerm = 'mock-search-term';
 
-    let eventArgs = null;
-    component.submit.subscribe((args) => (eventArgs = args));
+    let submittedSearchTerm = '';
+    component.submit.subscribe((searchTerm) => (submittedSearchTerm = searchTerm));
 
-    component.searchSubmit(keyboardEvent);
-    expect(eventArgs).toBe(keyboardEvent);
+    component.searchSubmit();
+    expect(submittedSearchTerm).toBe('mock-search-term');
   });
 
   it('should emit searchChange event on inputChange', () => {
-    const searchTerm = 'b';
+    let emittedSearchTerm = '';
+    component.searchChange.subscribe((searchTerm) => (emittedSearchTerm = searchTerm));
+    component.searchTerm = 'mock-search-term';
 
-    let eventArgs = null;
-    component.searchChange.subscribe((args) => (eventArgs = args));
-
-    component.inputChange(searchTerm);
-    expect(eventArgs).toBe(searchTerm);
+    expect(emittedSearchTerm).toBe('mock-search-term');
   });
 
   it('should emit searchChange event on clear', () => {
-    let eventArgs = null;
-    component.searchChange.subscribe((args) => (eventArgs = args));
+    let emittedSearchTerm: string = null;
+    component.searchChange.subscribe((searchTerm) => (emittedSearchTerm = searchTerm));
 
     component.clear();
-    expect(eventArgs).toBe('');
+    expect(emittedSearchTerm).toBe('');
   });
 
   it('should clear searchTerm', () => {
@@ -88,5 +87,19 @@ describe('SearchInputControlComponent', () => {
     component.searchTerm = 'dd';
     fixture.detectChanges();
     expect(component.isTermTooShort()).toBe(false);
+  });
+
+  it('should show validation error when search term contains certain special characters', () => {
+    component.searchTerm = 'special-char-:-/-^';
+    fixture.detectChanges();
+    const errorElement = fixture.debugElement.query(By.css('[data-automation-id="special-char-error"]'));
+    expect(errorElement).not.toBeNull();
+  });
+
+  it('should not show validation error when search term contains allowed characters', () => {
+    component.searchTerm = 'special-char-!-@-#';
+    fixture.detectChanges();
+    const errorElement = fixture.debugElement.query(By.css('[data-automation-id="special-char-error"]'));
+    expect(errorElement).toBeNull();
   });
 });

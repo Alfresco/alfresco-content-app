@@ -5,7 +5,7 @@
       mat-icon-button
       matPrefix
       class="app-search-button"
-      (click)="searchSubmit(searchTerm)"
+      (click)="searchSubmit()"
       [title]="'SEARCH.BUTTON.TOOLTIP' | translate"
     >
       <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
@@ -17,12 +17,14 @@
       [attr.aria-label]="'SEARCH.INPUT.ARIA-LABEL' | translate"
       [type]="inputType"
       id="app-control-input"
-      [(ngModel)]="searchTerm"
-      (ngModelChange)="inputChange($event)"
-      (keyup.enter)="searchSubmit($event)"
+      [formControl]="searchFieldFormControl"
+      (keyup.enter)="searchSubmit()"
       [placeholder]="'SEARCH.INPUT.PLACEHOLDER' | translate"
       autocomplete="off"
     />
+    <mat-error *ngIf="searchFieldFormControl.errors?.specialCharacters" data-automation-id="special-char-error">
+      {{ 'SEARCH.INPUT.ERRORS.SPECIAL_CHARACTERS' | translate }}
+    </mat-error>
     <div matSuffix>
       <button mat-icon-button (click)="clear()">
         <mat-icon *ngIf="searchTerm.length" class="app-suffix-icon">clear</mat-icon>
