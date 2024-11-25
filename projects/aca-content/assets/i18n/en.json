@@ -677,7 +677,7 @@
           "WARNING": "Warning!",
           "ASK_AI": "Ask AI",
           "DO_NOT_SHOW_MESSAGE": "Don't show this message again",
-          "OKAY": "Okay",
+          "DISCARD_CONVERSATION": "Discard Conversation",
           "CONVERSATION_DISCARDED": "This conversation will be discarded",
           "LOSE_RESPONSE": "By asking another question you will lose your previous response"
         }
