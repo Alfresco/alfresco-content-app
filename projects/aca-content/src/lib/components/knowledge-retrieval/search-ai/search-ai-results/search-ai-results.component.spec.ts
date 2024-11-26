@@ -421,5 +421,15 @@ describe('SearchAiResultsComponent', () => {
       component.ngOnInit();
       expect(unsavedChangesGuard.unsaved).toBeTrue();
     });
+
+    it('should set correct data on unsavedChangesGuard', () => {
+      component.ngOnInit();
+      expect(unsavedChangesGuard.data).toEqual({
+        descriptionText: 'KNOWLEDGE_RETRIEVAL.SEARCH.DISCARD_CHANGES.CONVERSATION_DISCARDED',
+        confirmButtonText: 'KNOWLEDGE_RETRIEVAL.SEARCH.DISCARD_CHANGES.DISCARD_CONVERSATION',
+        headerText: 'KNOWLEDGE_RETRIEVAL.SEARCH.DISCARD_CHANGES.WARNING',
+        maxWidth: 'none'
+      });
+    });
   });
 });
