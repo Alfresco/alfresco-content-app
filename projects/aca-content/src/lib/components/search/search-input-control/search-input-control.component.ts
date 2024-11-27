@@ -29,7 +29,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { AbstractControl, FormControl, FormsModule, ReactiveFormsModule, ValidationErrors } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -43,11 +43,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class SearchInputControlComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
-
-  private readonly noSpecialCharsValidator = (searchFieldControl: AbstractControl): ValidationErrors | null => {
-    const searchTerm = searchFieldControl.value as string;
-    return searchTerm.match(/[\^()\[\]{}:/]/g)?.length > 0 ? { specialCharacters: true } : null;
-  };
 
   /** Type of the input field to render, e.g. "search" or "text" (default). */
   @Input()
@@ -71,10 +66,10 @@ export class SearchInputControlComponent implements OnInit {
   @ViewChild('searchInput', { static: true })
   searchInput: ElementRef;
 
-  searchFieldFormControl = new FormControl('', this.noSpecialCharsValidator);
+  searchFieldFormControl = new FormControl('');
 
   get searchTerm(): string {
-    return this.searchFieldFormControl.value;
+    return this.searchFieldFormControl.value.replace('text:', 'TEXT:');
   }
 
   set searchTerm(value: string) {

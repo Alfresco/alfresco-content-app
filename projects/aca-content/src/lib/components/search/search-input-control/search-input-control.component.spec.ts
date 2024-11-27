@@ -26,7 +26,6 @@ import { SearchInputControlComponent } from './search-input-control.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { By } from '@angular/platform-browser';
 
 describe('SearchInputControlComponent', () => {
   let fixture: ComponentFixture<SearchInputControlComponent>;
@@ -87,19 +86,5 @@ describe('SearchInputControlComponent', () => {
     component.searchTerm = 'dd';
     fixture.detectChanges();
     expect(component.isTermTooShort()).toBe(false);
-  });
-
-  it('should show validation error when search term contains certain special characters', () => {
-    component.searchTerm = 'special-char-:-/-^';
-    fixture.detectChanges();
-    const errorElement = fixture.debugElement.query(By.css('[data-automation-id="special-char-error"]'));
-    expect(errorElement).not.toBeNull();
-  });
-
-  it('should not show validation error when search term contains allowed characters', () => {
-    component.searchTerm = 'special-char-!-@-#';
-    fixture.detectChanges();
-    const errorElement = fixture.debugElement.query(By.css('[data-automation-id="special-char-error"]'));
-    expect(errorElement).toBeNull();
   });
 });
