@@ -204,6 +204,10 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
       this.queryBuilder.error.subscribe((err: any) => {
         this.onSearchError(err);
+      }),
+
+      this.queryBuilder.filterQueryUpdate.subscribe(() => {
+        this.isLoading = true;
       })
     );
 
