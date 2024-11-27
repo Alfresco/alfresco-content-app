@@ -75,6 +75,8 @@ export class ContextMenuComponent extends BaseContextMenuDirective implements On
   }
 
   ngAfterViewInit() {
-    setTimeout(() => this.trigger.openMenu(), 0);
+    if (this.actions.length) {
+      setTimeout(() => this.trigger.openMenu(), 0);
+    }
   }
 }
