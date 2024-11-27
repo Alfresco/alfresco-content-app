@@ -85,7 +85,7 @@ export class SearchInputControlComponent implements OnInit {
 
   searchSubmit() {
     if (!this.searchFieldFormControl.errors) {
-      this.submit.emit(this.searchFieldFormControl.value);
+      this.submit.emit(this.searchTerm);
     }
   }
 
