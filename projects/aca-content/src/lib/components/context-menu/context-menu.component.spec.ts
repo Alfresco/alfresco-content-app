@@ -70,17 +70,18 @@ describe('ContextMenuComponent', () => {
     component = fixture.componentInstance;
 
     extensionsService = TestBed.inject(AppExtensionService);
-
-    spyOn(extensionsService, 'getAllowedContextMenuActions').and.returnValue(of([contextItem]));
-
-    fixture.detectChanges();
   });
 
   it('should load context menu actions on init', () => {
+    spyOn(extensionsService, 'getAllowedContextMenuActions').and.returnValue(of([contextItem]));
+    fixture.detectChanges();
+
     expect(component.actions.length).toBe(1);
   });
 
   it('should render defined context menu actions items', async () => {
+    spyOn(extensionsService, 'getAllowedContextMenuActions').and.returnValue(of([contextItem]));
+    fixture.detectChanges();
     await fixture.whenStable();
 
     const contextMenuElements = document.body.querySelector('.aca-context-menu')?.querySelectorAll('button');
@@ -88,5 +89,15 @@ describe('ContextMenuComponent', () => {
 
     expect(contextMenuElements?.length).toBe(1);
     expect(actionButtonLabel.innerText).toBe(contextItem.title);
+  });
+
+  it('should not render context menu if no actions items', async () => {
+    spyOn(extensionsService, 'getAllowedContextMenuActions').and.returnValue(of([]));
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const contextMenuElements = document.body.querySelector('.aca-context-menu');
+
+    expect(contextMenuElements).toBeNull();
   });
 });
