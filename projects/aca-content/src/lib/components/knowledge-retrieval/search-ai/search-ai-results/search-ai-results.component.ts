@@ -152,8 +152,9 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
     this.unsavedChangesGuard.unsaved = this.route.snapshot?.queryParams?.query?.length > 0 && !this.hasError;
     this.unsavedChangesGuard.data = {
       descriptionText: 'KNOWLEDGE_RETRIEVAL.SEARCH.DISCARD_CHANGES.CONVERSATION_DISCARDED',
-      confirmButtonText: 'KNOWLEDGE_RETRIEVAL.SEARCH.DISCARD_CHANGES.OKAY',
-      headerText: 'KNOWLEDGE_RETRIEVAL.SEARCH.DISCARD_CHANGES.WARNING'
+      confirmButtonText: 'KNOWLEDGE_RETRIEVAL.SEARCH.DISCARD_CHANGES.DISCARD_CONVERSATION',
+      headerText: 'KNOWLEDGE_RETRIEVAL.SEARCH.DISCARD_CHANGES.WARNING',
+      maxWidth: 'none'
     };
   }
 
