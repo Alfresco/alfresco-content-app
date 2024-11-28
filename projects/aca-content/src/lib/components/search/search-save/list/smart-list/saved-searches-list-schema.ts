@@ -38,7 +38,8 @@ export const savedSearchesListSchema = {
       title: 'APP.BROWSE.SEARCH.SAVE_SEARCH.LIST.DESCRIPTION',
       class: 'adf-ellipsis-cell',
       sortable: false,
-      draggable: false
+      draggable: false,
+      truncated: true
     }
   ]
 };
