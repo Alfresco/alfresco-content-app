@@ -458,6 +458,8 @@
           "TITLE": "Folder Information",
           "SIZE" : "Size",
           "CALCULATING": "Calculating...",
+          "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} on disk) for {{count}} files",
+          "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes for {{count}} files",
           "LOCATION": "Location",
           "CREATED": "Created",
           "MODIFIED": "Modified",

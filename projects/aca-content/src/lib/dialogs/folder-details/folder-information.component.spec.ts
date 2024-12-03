@@ -25,16 +25,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FolderInformationComponent } from './folder-information.component';
 import { DIALOG_COMPONENT_DATA, RedirectAuthService } from '@alfresco/adf-core';
-import { ContentService } from '@alfresco/adf-content-services';
+import { ContentService, NodesApiService } from '@alfresco/adf-content-services';
 import { By } from '@angular/platform-browser';
-import { EMPTY } from 'rxjs';
+import { EMPTY, Subject } from 'rxjs';
 import { LibTestingModule } from '@alfresco/aca-shared';
 
 describe('FolderInformationComponent', () => {
   let fixture: ComponentFixture<FolderInformationComponent>;
+  let nodeService: NodesApiService;
+  let initiateFolderSizeCalculationSpy: jasmine.Spy;
+  let getFolderSizeInfoSpy: jasmine.Spy;
+  const mockSub = new Subject<{ entry: { jobId: string } }>();
 
   const dialogData = {
     name: 'mock-folder',
+    id: 'mock-folder-id',
     path: {
       name: 'mock-folder-path'
     },
@@ -43,7 +48,6 @@ describe('FolderInformationComponent', () => {
   };
 
   const getValueFromElement = (id: string) => fixture.debugElement.query(By.css(`[data-automation-id="${id}"]`)).nativeElement.textContent;
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [FolderInformationComponent, LibTestingModule],
@@ -52,17 +56,32 @@ describe('FolderInformationComponent', () => {
         { provide: RedirectAuthService, useValue: { onLogin: EMPTY, onTokenReceived: EMPTY } }
       ]
     });
-
     fixture = TestBed.createComponent(FolderInformationComponent);
+    nodeService = TestBed.inject(NodesApiService);
     spyOn(TestBed.inject(ContentService), 'getNodeIcon').and.returnValue('./assets/images/ft_ic_folder.svg');
-    fixture.detectChanges();
+    initiateFolderSizeCalculationSpy = spyOn(nodeService, 'initiateFolderSizeCalculation').and.returnValue(mockSub.asObservable());
+    getFolderSizeInfoSpy = spyOn(nodeService, 'getFolderSizeInfo').and.returnValue(EMPTY);
   });
 
   it('should render all information in init', () => {
+    fixture.detectChanges();
     expect(getValueFromElement('folder-info-name')).toBe('mock-folder');
     expect(getValueFromElement('folder-info-size')).toBe('APP.FOLDER_INFO.CALCULATING');
     expect(getValueFromElement('folder-info-location')).toBe('mock-folder-path');
     expect(getValueFromElement('folder-info-creation-date')).toBe('01/02/2024 11:11');
     expect(getValueFromElement('folder-info-modify-date')).toBe('02/03/2024 22:22');
+  });
+
+  it('should make API call on init to start folder size calculation', () => {
+    fixture.detectChanges();
+    expect(initiateFolderSizeCalculationSpy).toHaveBeenCalledWith('mock-folder-id');
+  });
+
+  it('should fetch folder size only when the initial folder size calculation request is completed', () => {
+    fixture.detectChanges();
+    expect(initiateFolderSizeCalculationSpy).toHaveBeenCalledWith('mock-folder-id');
+    expect(getFolderSizeInfoSpy).not.toHaveBeenCalled();
+    mockSub.next({ entry: { jobId: 'mock-job-id' } });
+    expect(getFolderSizeInfoSpy).toHaveBeenCalled();
   });
 });
