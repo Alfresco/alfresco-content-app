@@ -38,7 +38,7 @@
     }
   }
 
-  &__section {
+  .aca-sidenav__section {
     overflow-y: auto;
 
     .aca-expansion-panel {
@@ -81,6 +81,7 @@
 
         .aca-action-button__label {
           color: var(--theme-action-button-text-color);
+          -webkit-font-smoothing: antialiased;
         }
 
         &:hover .aca-action-button__label {
@@ -119,9 +120,10 @@
       width: 100%;
     }
 
-    &__actions {
+    .aca-sidenav__section__actions {
       &__item:has(span) {
         padding: 0;
+        height: 100%;
 
         span {
           pointer-events: auto;
