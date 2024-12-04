@@ -361,6 +361,13 @@
         "playwright/valid-expect-in-promise": "off",
         "playwright/valid-title": "off"
       }
+    },
+    {
+      "files": ["*.json"],
+      "parser": "jsonc-eslint-parser",
+      "rules": {
+        "comma-dangle": ["error", "never"]
+      }
     }
   ]
 }

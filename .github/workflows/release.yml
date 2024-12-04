@@ -131,3 +131,23 @@ jobs:
           npm_registry_token: ${{ secrets.NPM_REGISTRY_TOKEN }}
           npm_tag: ${{ env.TAG_NPM }}
           dry-run: ${{ inputs.dry-run-release }}
+
+  push-translation-keys-to-crowdin:
+    name: Push translations keys to Crowdin
+    if: ${{ github.ref == 'refs/heads/develop' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+      actions: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Push Source Files to Crowdin
+        uses: crowdin/github-action@2d540f18b0a416b1fbf2ee5be35841bd380fc1da # v2.3.0
+        with:
+          upload_sources: true
+          upload_sources_args: --delete-obsolete
+        env:
+          CROWDIN_TOKEN: ${{ secrets.CROWDIN_TRANSLATIONS_TOKEN }}
