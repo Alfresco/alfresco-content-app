@@ -56,6 +56,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
       [displayAspect]="metadataAspect"
     />
   `,
+  styleUrls: ['metadata-tab.component.scss'],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-metadata-tab' }
 })
