@@ -25,7 +25,7 @@
 import { Component, DestroyRef, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule, NgIf } from '@angular/common';
 import { DIALOG_COMPONENT_DATA, LocalizedDatePipe, TimeAgoPipe } from '@alfresco/adf-core';
-import { Node } from '@alfresco/js-api';
+import { JobIdBodyEntry, Node, SizeDetailsEntry } from '@alfresco/js-api';
 import { MatDividerModule } from '@angular/material/divider';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ContentService, NodesApiService } from '@alfresco/adf-content-services';
@@ -70,7 +70,7 @@ export class FolderInformationComponent implements OnInit {
     this.nodesService
       .initiateFolderSizeCalculation(this.data.id)
       .pipe(first())
-      .subscribe((jobIdEntry: { entry: { jobId: string } }) => {
+      .subscribe((jobIdEntry: JobIdBodyEntry) => {
         this.nodesService
           .getFolderSizeInfo(this.data.id, jobIdEntry.entry.jobId)
           .pipe(
@@ -79,7 +79,7 @@ export class FolderInformationComponent implements OnInit {
             ),
             takeUntilDestroyed(this.destroyRef)
           )
-          .subscribe((folderInfo) => {
+          .subscribe((folderInfo: SizeDetailsEntry) => {
             let size = parseFloat(folderInfo.entry.sizeInBytes);
             let unitIndex = 0;
             let isMoreThanBytes = false;
