@@ -69,6 +69,7 @@ export class SaveSearchSidenavComponent implements OnInit {
         id: 'search' + child.name,
         icon: '',
         title: child.name,
+        description: child.name,
         route: `search?q=${child.encodedUrl}`,
         url: `search?q=${child.encodedUrl}`
       }))
@@ -78,6 +79,7 @@ export class SaveSearchSidenavComponent implements OnInit {
       id: this.manageSearchesId,
       icon: '',
       title: 'APP.BROWSE.SEARCH.SAVE_SEARCH.NAVBAR.MANAGE_BUTTON',
+      description: 'APP.BROWSE.SEARCH.SAVE_SEARCH.NAVBAR.MANAGE_BUTTON',
       route: 'saved-searches',
       url: 'saved-searches'
     });

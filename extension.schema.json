@@ -590,6 +590,14 @@
           "description": "Toggles resizable state of the column",
           "type": "boolean"
         },
+        "draggable": {
+          "description": "Toggles draggable state of the column",
+          "type": "boolean"
+        },
+        "isHidden": {
+          "description": "Toggles hidden state of the column",
+          "type": "boolean"
+        },
         "template": {
           "description": "Column template id",
           "type": "string"
@@ -597,6 +605,10 @@
         "desktopOnly": {
           "description": "Display column only for large screens",
           "type": "boolean"
+        },
+        "maxTextLength": {
+          "description": "Maximum text length before truncation",
+          "type": "number"
         }
       }
     },

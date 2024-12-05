@@ -34,7 +34,9 @@ export class UniqueSearchNameValidator implements AsyncValidator {
   validate(control: AbstractControl): Observable<ValidationErrors | null> {
     return this.savedSearchesService.getSavedSearches().pipe(
       map((searches) =>
-        searches.some((search) => search.name === control.value) ? { message: 'APP.BROWSE.SEARCH.SAVE_SEARCH.SEARCH_NAME_NOT_UNIQUE_ERROR' } : null
+        searches.some((search) => search.name === control.value && control.dirty)
+          ? { message: 'APP.BROWSE.SEARCH.SAVE_SEARCH.SEARCH_NAME_NOT_UNIQUE_ERROR' }
+          : null
       ),
       catchError(() => of(null))
     );

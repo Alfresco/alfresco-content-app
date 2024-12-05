@@ -51,7 +51,9 @@ describe('UniqueSearchNameValidator', () => {
     });
 
     it('should return error when name is not unique', (done) => {
-      validator.validate(new FormControl({ value: 'test', disabled: false })).subscribe((result) => {
+      const form = new FormControl({ value: 'test', disabled: false });
+      form.markAsDirty();
+      validator.validate(form).subscribe((result) => {
         expect(result).toEqual({ message: 'APP.BROWSE.SEARCH.SAVE_SEARCH.SEARCH_NAME_NOT_UNIQUE_ERROR' });
         done();
       });
