@@ -22,12 +22,12 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FolderInformationComponent } from './folder-information.component';
 import { DIALOG_COMPONENT_DATA, RedirectAuthService } from '@alfresco/adf-core';
 import { ContentService, NodesApiService } from '@alfresco/adf-content-services';
 import { By } from '@angular/platform-browser';
-import { EMPTY, Subject } from 'rxjs';
+import { EMPTY, of, Subject } from 'rxjs';
 import { LibTestingModule } from '@alfresco/aca-shared';
 
 describe('FolderInformationComponent', () => {
@@ -84,4 +84,21 @@ describe('FolderInformationComponent', () => {
     mockSub.next({ entry: { jobId: 'mock-job-id' } });
     expect(getFolderSizeInfoSpy).toHaveBeenCalled();
   });
+
+  it('should make repeated calls to get folder size info, if the response returned from the API is IN_PROGRESS', fakeAsync(() => {
+    getFolderSizeInfoSpy.and.returnValue(of({ entry: { status: 'IN_PROGRESS' } }));
+    fixture.detectChanges();
+    expect(getFolderSizeInfoSpy).not.toHaveBeenCalled();
+    mockSub.next({ entry: { jobId: 'mock-job-id' } });
+    expect(getFolderSizeInfoSpy).toHaveBeenCalledTimes(1);
+    tick(5000);
+    expect(getFolderSizeInfoSpy).toHaveBeenCalledTimes(2);
+    tick(5000);
+    expect(getFolderSizeInfoSpy).toHaveBeenCalledTimes(3);
+    getFolderSizeInfoSpy.and.returnValue(of({ entry: { status: 'COMPLETE' } }));
+    tick(5000);
+    expect(getFolderSizeInfoSpy).toHaveBeenCalledTimes(4);
+    tick(5000);
+    expect(getFolderSizeInfoSpy).not.toHaveBeenCalledTimes(5);
+  }));
 });
