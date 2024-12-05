@@ -1,3 +1,5 @@
+@import '@alfresco/adf-core/lib/styles/mat-selectors';
+
 .aca-sidenav {
   display: flex;
   flex: 1;
@@ -107,6 +109,11 @@
       border-radius: 0;
       line-height: 32px;
       justify-content: start;
+
+      #{$mat-button-label} {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
 
       &--active {
         color: var(--theme-sidenav-active-text-color);

@@ -606,10 +606,6 @@
           "description": "Display column only for large screens",
           "type": "boolean"
         },
-        "truncated": {
-          "description": "Should text in the column be truncated?",
-          "type": "boolean"
-        },
         "maxTextLength": {
           "description": "Maximum text length before truncation",
           "type": "number"

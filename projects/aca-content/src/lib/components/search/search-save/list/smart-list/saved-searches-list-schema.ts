@@ -30,7 +30,8 @@ export const savedSearchesListSchema = {
       title: 'APP.BROWSE.SEARCH.SAVE_SEARCH.LIST.NAME',
       class: 'adf-ellipsis-cell',
       sortable: false,
-      draggable: false
+      draggable: false,
+      maxTextLength: 250
     },
     {
       type: 'text',
@@ -39,7 +40,7 @@ export const savedSearchesListSchema = {
       class: 'adf-ellipsis-cell',
       sortable: false,
       draggable: false,
-      truncated: true
+      maxTextLength: 250
     }
   ]
 };
