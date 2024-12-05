@@ -29,9 +29,9 @@ import { JobIdBodyEntry, Node, SizeDetailsEntry } from '@alfresco/js-api';
 import { MatDividerModule } from '@angular/material/divider';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ContentService, NodesApiService } from '@alfresco/adf-content-services';
-import { expand, first } from 'rxjs/operators';
+import { concatMap, expand, first } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { EMPTY } from 'rxjs';
+import { EMPTY, timer } from 'rxjs';
 
 const MEMORY_UNIT_LIST = ['bytes', 'KB', 'MB', 'GB', 'TB'];
 
@@ -75,7 +75,9 @@ export class FolderInformationComponent implements OnInit {
           .getFolderSizeInfo(this.data.id, jobIdEntry.entry.jobId)
           .pipe(
             expand((result: any) =>
-              result.entry.status !== 'COMPLETED' ? this.nodesService.getFolderSizeInfo(this.data.id, jobIdEntry.entry.jobId) : EMPTY
+              result.entry.status === 'IN_PROGRESS'
+                ? timer(5000).pipe(concatMap(() => this.nodesService.getFolderSizeInfo(this.data.id, jobIdEntry.entry.jobId)))
+                : EMPTY
             ),
             takeUntilDestroyed(this.destroyRef)
           )
