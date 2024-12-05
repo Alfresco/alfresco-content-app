@@ -1,600 +1,687 @@
 {
-  "APP": {
-    "COPYRIGHT": "© 2005-2024 Hyland Software, Inc. og deres associerede selskaber. Alle rettigheder forbeholdes.",
-    "TITLE": "Workspace",
-    "ABOUT": {
-      "VERSION": "Version:",
-      "PLUGINS": {
-        "TITLE": "Udvidelser",
-        "ID": "Id",
-        "NAME": "Navn",
-        "VERSION": "Version",
-        "VENDOR": "Leverandør",
-        "LICENSE": "Licens",
-        "RUNTIME": "Kørselstidspunkt",
-        "DESCRIPTION": "Beskrivelse"
-      },
-      "LICENSE": {
-        "TITLE": "Licens",
-        "PROPERTY": "Egenskab",
-        "VALUE": "Værdi"
-      },
-      "STATUS": {
-        "TITLE": "Status",
-        "PROPERTY": "Egenskab",
-        "VALUE": "Værdi"
-      },
-      "MODULES": {
-        "TITLE": "Alfresco-platformmoduler",
-        "ID": "Id",
-        "NAME": "Navn",
-        "VERSION": "Version"
-      },
-      "PACKAGES": {
-        "TITLE": "Pakker",
-        "NAME": "Navn",
-        "VERSION": "Version"
-      }
+    "APP": {
+        "COPYRIGHT": "© 2005-2024 Hyland Software, Inc. og deres associerede selskaber. Alle rettigheder forbeholdes.",
+        "TITLE": "Workspace",
+        "ABOUT": {
+            "VERSION": "Version:",
+            "PLUGINS": {
+                "TITLE": "Udvidelser",
+                "ID": "Id",
+                "NAME": "Navn",
+                "VERSION": "Version",
+                "VENDOR": "Leverandør",
+                "LICENSE": "Licens",
+                "RUNTIME": "Kørselstidspunkt",
+                "DESCRIPTION": "Beskrivelse",
+                "TEST_KEY": "Test Key"
+            },
+            "LICENSE": {
+                "TITLE": "Licens",
+                "PROPERTY": "Egenskab",
+                "VALUE": "Værdi"
+            },
+            "STATUS": {
+                "TITLE": "Status",
+                "PROPERTY": "Egenskab",
+                "VALUE": "Værdi"
+            },
+            "MODULES": {
+                "TITLE": "Alfresco-platformmoduler",
+                "ID": "Id",
+                "NAME": "Navn",
+                "VERSION": "Version"
+            },
+            "PACKAGES": {
+                "TITLE": "Pakker",
+                "NAME": "Navn",
+                "VERSION": "Version"
+            }
+        },
+        "LANGUAGE": "Sprog",
+        "SIGN_IN": "Log ind",
+        "SIGN_OUT": "Log af",
+        "EDIT_PROFILE": {
+            "MY_PROFILE": "Min profil",
+            "GENERAL": "Generelt",
+            "EDIT": "Rediger",
+            "CANCEL": "Annuller",
+            "SAVE": "Gem",
+            "FIRST_NAME": "Fornavn",
+            "LAST_NAME": "Efternavn",
+            "JOB_TITLE": "Jobtitel",
+            "LOCATION": "Placering",
+            "TELEPHONE": "Telefon",
+            "MOBILE": "Mobil",
+            "LOGIN": "Log ind",
+            "USERNAME": "Brugernavn",
+            "EMAIL": "E-mail",
+            "PASSWORD": "Adgangskode",
+            "OLD_PASSWORD": "Gammel adgangskode",
+            "FORGOT_PASSWORD": "Glemt adgangskode",
+            "NEW_PASSWORD": "Ny adgangskode",
+            "VERIFY_PASSWORD": "Bekræft adgangskode",
+            "COMPANY_DETAILS": "Virksomhedsoplysninger",
+            "NAME": "Navn",
+            "ADDRESS": "Adresse",
+            "POSTCODE": "Postnummer",
+            "INVALID_INPUT": "Ugyldig indtastning"
+        },
+        "LOCKED_BY": "Låst af: ",
+        "PREVIEW": {
+            "TITLE": "Forhåndsvis"
+        },
+        "DETAILS": {
+            "TITLE": "Detaljer"
+        },
+        "NEW_MENU": {
+            "MENU_ITEMS": {
+                "CREATE_FOLDER": "Opret mappe",
+                "UPLOAD_FILE": "Upload fil",
+                "UPLOAD_FOLDER": "Upload mappe",
+                "CREATE_LIBRARY": "Opret bibliotek",
+                "FILE_TEMPLATE": "Opret fil fra skabelon",
+                "FOLDER_TEMPLATE": "Opret mappe fra skabelon"
+            },
+            "TOOLTIPS": {
+                "CREATE_FOLDER": "Opret ny mappe",
+                "CREATE_FOLDER_NOT_ALLOWED": "Der kan ikke oprettes mapper, mens du får vist de aktuelle elementer",
+                "CREATE_FILE_NOT_ALLOWED": "Filer kan ikke oprettes, samtidig med at de aktuelle elementer vises",
+                "UPLOAD_FILES": "Vælg de filer, du vil uploade",
+                "UPLOAD_FILES_NOT_ALLOWED": "Der kan ikke uploades filer, mens du får vist de aktuelle elementer",
+                "UPLOAD_FOLDERS": "Vælg de mapper, du vil uploade",
+                "UPLOAD_FOLDERS_NOT_ALLOWED": "Der kan ikke uploades mapper, mens du får vist de aktuelle elementer",
+                "CREATE_LIBRARY": "Opret et nyt filbibliotek"
+            }
+        },
+        "HEADER": {
+            "BUTTONS": {
+                "CREATE": "Opret",
+                "CREATE_TOOLTIP": "Opret indhold",
+                "UPLOAD": "Upload",
+                "UPLOAD_TOOLTIP": "Upload indhold"
+            },
+            "SELECTED": "Valgt ({{ count }})"
+        },
+        "BROWSE": {
+            "FILE": {
+                "SIDENAV_LINK": {
+                    "LABEL": "Filer",
+                    "TOOLTIP": "Filer"
+                }
+            },
+            "PERSONAL": {
+                "TITLE": "Personlige filer",
+                "SIDENAV_LINK": {
+                    "LABEL": "Personlige filer",
+                    "TOOLTIP": "Se dine personlige filer"
+                },
+                "PERMISSIONS": {
+                    "TITLE": "Tilladelser"
+                }
+            },
+            "LIBRARIES": {
+                "TITLE": "Filbiblioteker",
+                "DESCRIPTION": "Adgang til filbiblioteker",
+                "SIDENAV_LINK": {
+                    "LABEL": "Filbiblioteker",
+                    "TOOLTIP": "Filbiblioteker"
+                },
+                "EMPTY_STATE": {
+                    "FILE_LIBRARIES": {
+                        "TITLE": "Du er endnu ikke medlem af nogen filbiblioteker",
+                        "TEXT": "Tilmeld dig biblioteker for at uploade, få vist og dele filer."
+                    },
+                    "FAVORITE_LIBRARIES": {
+                        "TITLE": "Du har ikke angivet nogen biblioteker som favorit",
+                        "TEXT": "Angiv et bibliotek som favorit for at gøre det nemt at finde biblioteket igen."
+                    }
+                },
+                "MENU": {
+                    "MY_LIBRARIES": {
+                        "TITLE": "Mine biblioteker",
+                        "SIDENAV_LINK": {
+                            "LABEL": "Mine biblioteker",
+                            "TOOLTIP": "Adgang til mine biblioteker"
+                        }
+                    },
+                    "FAVORITE_LIBRARIES": {
+                        "TITLE": "Biblioteker, der er angivet som favorit",
+                        "SIDENAV_LINK": {
+                            "LABEL": "Biblioteker, der er angivet som favorit",
+                            "TOOLTIP": "Adgang til de biblioteker, jeg har angivet som favorit"
+                        }
+                    }
+                }
+            },
+            "SHARED": {
+                "TITLE": "Delte filer",
+                "SIDENAV_LINK": {
+                    "LABEL": "Delt",
+                    "TOOLTIP": "Se de filer, der er blevet delt"
+                },
+                "EMPTY_STATE": {
+                    "TITLE": "Der er ingen delte filer eller mapper",
+                    "TEXT": "De elementer, du deler med indstillingen Del, vises her."
+                }
+            },
+            "RECENT": {
+                "TITLE": "Seneste filer",
+                "SIDENAV_LINK": {
+                    "LABEL": "Seneste filer",
+                    "TOOLTIP": "Se de filer, du har redigeret for nylig"
+                },
+                "EMPTY_STATE": {
+                    "TITLE": "Der er ingen seneste filer",
+                    "TEXT": "De elementer, du har uploadet eller redigeret inden for de seneste 30 dage, vises her."
+                }
+            },
+            "FAVORITES": {
+                "TITLE": "Favoritter",
+                "SIDENAV_LINK": {
+                    "LABEL": "Favoritter",
+                    "TOOLTIP": "Se de filer og mapper, du har angivet som favorit"
+                },
+                "EMPTY_STATE": {
+                    "TITLE": "Du har ikke angivet nogen filer eller mapper som favorit",
+                    "TEXT": "Angiv elementer som favorit, så du nemt kan finde dem på et senere tidspunkt."
+                }
+            },
+            "TRASHCAN": {
+                "TITLE": "Papirkurv",
+                "SIDENAV_LINK": {
+                    "LABEL": "Papirkurv",
+                    "TOOLTIP": "Se de slettede filer i papirkurven"
+                },
+                "EMPTY_STATE": {
+                    "TITLE": "Papirkurven er tom",
+                    "FIRST_TEXT": "De elementer, du sletter, flyttes til papirkurven.",
+                    "SECOND_TEXT": "Tøm papirkurven for at slette elementerne permanent."
+                }
+            },
+            "ABOUT": {
+                "TITLE": "Om"
+            },
+            "SEARCH": {
+                "DEFAULT_SEARCH": "Standard",
+                "DUBLIN_CORE": "Dublin-kerne",
+                "EFFECTIVITY": "Gældende periode",
+                "TITLE": "Søgeresultater",
+                "FILTER_SET": "Filter indstillet:",
+                "ADVANCED_FILTERS": "Avancerede filtre:",
+                "RESET": "Nulstil",
+                "RESET_ACTION": "Nulstil søgefiltre",
+                "SAVE_SEARCH": {
+                    "ACTION_BUTTON": "Save Search",
+                    "SAVE_CHANGES": "Save changes",
+                    "SAVE_AS_NEW": "Save as new",
+                    "MODAL_HEADER": "Save this search",
+                    "NAME_LABEL": "Name",
+                    "NAME_REQUIRED_ERROR": "This field is required",
+                    "DESCRIPTION_LABEL": "Description",
+                    "SAVE_SUCCESS": "Search Saved",
+                    "SAVE_ERROR": "Error occurred. Search could not be saved.",
+                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "Saved Search with '{{ name }}' name already exists.",
+                    "NAVBAR": {
+                        "TITLE": "Saved Searches ({{ number }})",
+                        "MANAGE_BUTTON": "Manage searches"
+                    },
+                    "EDIT_DIALOG": {
+                        "CONTEXT_OPTION": "Edit Search",
+                        "TITLE": "Edit Saved Search",
+                        "SUCCESS_MESSAGE": "Saved Search edited successfully",
+                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be edited."
+                    },
+                    "DELETE_DIALOG": {
+                        "CONTEXT_OPTION": "Delete Search",
+                        "TITLE": "Delete Saved Search",
+                        "CONTENT": "Are you sure you want to delete this search",
+                        "SUCCESS_MESSAGE": "Saved Search deleted successfully",
+                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be deleted."
+                    },
+                    "LIST": {
+                        "TITLE": "Saved Searches",
+                        "NAME": "Name",
+                        "DESCRIPTION": "Description",
+                        "EMPTY_LIST": "No saved searches",
+                        "COPY_TO_CLIPBOARD": "Copy to clipboard",
+                        "COPY_TO_CLIPBOARD_SUCCESS": "Search copied to clipboard",
+                        "EXECUTE_SEARCH": "Execute Search"
+                    }
+                },
+                "FOUND_RESULTS": "{{ number }} resultater fundet",
+                "FOUND_ONE_RESULT": "{{ number }} resultat fundet",
+                "CUSTOM_ROW": {
+                    "MODIFIED": "Ændret",
+                    "BY_USER": "af {{ user }}",
+                    "LOCATION": "Placering",
+                    "SIZE": "Størrelse"
+                },
+                "UNKNOWN_LOCATION": "Ukendt",
+                "NO_RESULTS": "Der blev ikke fundet nogen søgeresultater",
+                "EMPTY_SEARCH": "Søgeord er obligatorisk",
+                "NO_FILTER_RESULTS": "Der blev ikke fundet nogen filterresultater",
+                "ERRORS": {
+                    "500": "Der opstod en fejl under behandling af søgeforespørgslen [500]",
+                    "GENERIC": "Der opstod en fejl under behandling af søgeforespørgslen"
+                }
+            },
+            "SEARCH_LIBRARIES": {
+                "FOUND_RESULTS": "{{ number }} resultater",
+                "FOUND_ONE_RESULT": "{{ number }} resultat"
+            }
+        },
+        "ACTIONS": {
+            "VIEW": "Vis",
+            "EDIT": "Rediger",
+            "DOWNLOAD": "Download",
+            "COPY": "Kopiér",
+            "MOVE": "Flyt",
+            "DELETE": "Slet",
+            "DELETE_PERMANENT": "Slet permanent",
+            "MORE": "Flere handlinger",
+            "UNDO": "Fortryd",
+            "PERMISSIONS": "Tilladelser",
+            "RESTORE": "Gendan",
+            "FAVORITE": "Favorit",
+            "ADD_FAVORITE": "Angiv som favorit",
+            "REMOVE_FAVORITE": "Fjern favorit",
+            "UNSHARE": "Ophæv deling",
+            "DETAILS": "Vis detaljer",
+            "VERSIONS": "Administrer versioner",
+            "UPLOAD_VERSION": "Upload ny version",
+            "TOGGLE-SIDENAV": "Slå navigationslinjen i siden til/fra",
+            "SHARE": "Del",
+            "SHARE_EDIT": "Indstillinger for delte links",
+            "PRINT": "Udskriv",
+            "FULLSCREEN": "Aktivér fuld skærm",
+            "JOIN": "Tilmeld",
+            "CANCEL_JOIN": "Annuller anmodning om tilmelding",
+            "LEAVE": "Forlad bibliotek",
+            "EDIT_OFFLINE": "Rediger offline",
+            "EDIT_OFFLINE_CANCEL": "Annuller redigering",
+            "CHANGE_ASPECT": "Rediger udseende",
+            "ADD_ASPECTS": "Add Aspects"
+        },
+        "DIALOGS": {
+            "CONFIRM_PURGE": {
+                "TITLE": "Vil du slette elementet fra papirkurven?",
+                "MESSAGE": "Dette vil slette elementerne permanent.",
+                "YES_LABEL": "Slet",
+                "NO_LABEL": "Behold"
+            },
+            "CONFIRM_LEAVE": {
+                "TITLE": "Vil du forlade biblioteket?",
+                "MESSAGE": "Hvis du forlader biblioteket, har du ikke længere adgang.",
+                "YES_LABEL": "OK",
+                "NO_LABEL": "Annuller"
+            },
+            "MOBILE_APP": {
+                "MOBILE_APP_BUTTON_LABEL": "Åbn i app",
+                "DOWNLOAD_APP_BUTTON_LABEL": "Har du ikke appen? Download den nu.",
+                "OPEN_ALFRESCO_MOBILE_APP": "Åbn med Alfresco Mobile-applikationen?"
+            }
+        },
+        "DOCUMENT_LIST": {
+            "COLUMNS": {
+                "ID": "Id",
+                "NAME": "Navn",
+                "DESCRIPTION": "Beskrivelse",
+                "SIZE": "Størrelse",
+                "MODIFIED_ON": "Ændret",
+                "MODIFIED_BY": "Ændret af",
+                "VISIBILITY": "Synlighed",
+                "TITLE": "Titel",
+                "LOCATION": "Placering",
+                "SHARED_BY": "Delt af",
+                "DELETED_ON": "Slettet",
+                "DELETED_BY": "Slettet af",
+                "ROLE": "Min rolle",
+                "TAGS": "Tags"
+            }
+        },
+        "MESSAGES": {
+            "ERRORS": {
+                "CANNOT_NAVIGATE_LOCATION": "Placeringen kan ikke åbnes",
+                "MISSING_CONTENT": "Elementet findes ikke længere, eller du har ikke tilladelse til at få det vist.",
+                "GENERIC": "Handlingen blev ikke fuldført. Prøv igen, eller kontakt dit it-team.",
+                "CONFLICT": "Navnet er allerede i brug. Prøv et andet navn.",
+                "NODE_MOVE": "Flytningen lykkedes ikke, da der allerede findes en fil med samme navn.",
+                "EXISTENT_FOLDER": "Der er allerede en mappe med det navn. Prøv et andet navn.",
+                "NODE_DELETION": "{{ name }} kunne ikke slettes",
+                "NODE_DELETION_PLURAL": "{{ number }} elementer kunne ikke slettes",
+                "NODE_RESTORE": "{{ name }} kunne ikke gendannes",
+                "NODE_RESTORE_PLURAL": "{{ number }} elementer kunne ikke gendannes",
+                "PERMISSION": "Du har ikke adgang til dette",
+                "LOCK_NODE": "Der opstod et problem under låsning af filen {{ fileName }}",
+                "UNLOCK_NODE": "Der opstod et problem under oplåsning af filen {{ fileName }}",
+                "TRASH": {
+                    "NODES_PURGE": {
+                        "PLURAL": "{{ number }} elementer kunne ikke slettes",
+                        "SINGULAR": "{{ name }} kunne ikke slettes"
+                    },
+                    "NODES_RESTORE": {
+                        "PARTIAL_PLURAL": "{{ number }} elementer kunne ikke gendannes, fordi der er problemer med placeringen for gendannelse",
+                        "NODE_EXISTS": "Der kan ikke gendannes, da {{ name }} allerede findes",
+                        "LOCATION_MISSING": "{{ name }} kan ikke gendannes. Den oprindelige placering findes ikke længere",
+                        "GENERIC": "Der opstod et problem under forsøget på at gendanne {{ name }}"
+                    }
+                },
+                "DELETE_LIBRARY_FAILED": "Biblioteket kan ikke slettes",
+                "LEAVE_LIBRARY_FAILED": "Du kan ikke forlade biblioteket"
+            },
+            "UPLOAD": {
+                "ERROR": {
+                    "GENERIC": "Der kunne ikke uploades. Kontakt din it-afdeling, hvis problemet fortsætter",
+                    "CONFLICT": "Den nye version blev ikke uploadet. Der findes allerede en anden fil med det navn",
+                    "500": "Der opstod en intern serverfejl. Prøv igen, eller kontakt it-support [500]",
+                    "504": "Der opstod en timeout for serveren. Prøv igen, eller kontakt it-support [504]",
+                    "403": "Du har ikke de nødvendige tilladelser til at uploade på denne placering [403]",
+                    "404": "Uploadplaceringen findes ikke længere [404]"
+                }
+            },
+            "INFO": {
+                "TRASH": {
+                    "NODES_PURGE": {
+                        "PLURAL": "{{ number }} elementer er blevet slettet",
+                        "SINGULAR": "{{ name }} er blevet slettet",
+                        "PARTIAL_SINGULAR": "{{ name }} er blevet slettet. {{ failed }} kunne ikke slettes",
+                        "PARTIAL_PLURAL": "{{ number }} elementer er blevet slettet. {{ failed }} kunne ikke slettes"
+                    },
+                    "NODES_RESTORE": {
+                        "PLURAL": "Gendannelsen er fuldført",
+                        "SINGULAR": "{{ name }} er gendannet"
+                    }
+                },
+                "NODE_DELETION": {
+                    "SINGULAR": "{{ name }} er blevet slettet",
+                    "PLURAL": "{{ number }} elementer er blevet slettet",
+                    "PARTIAL_SINGULAR": "{{ success }} element er blevet slettet. {{ failed }} elementer kunne ikke slettes",
+                    "PARTIAL_PLURAL": "{{ success }} elementer er blevet slettet. {{ failed }} elementer kunne ikke slettes"
+                },
+                "NODE_COPY": {
+                    "SINGULAR": "{{ success }} element er blevet kopieret",
+                    "PLURAL": "{{ success }} elementer er blevet kopieret",
+                    "PARTIAL_SINGULAR": "{{ success }} element er blevet kopieret. {{ failed }} elementer kunne ikke kopieres.",
+                    "PARTIAL_PLURAL": "{{ success }} elementer er blevet kopieret. {{ failed }} elementer kunne ikke kopieres.",
+                    "FAIL_SINGULAR": "{{ failed }} element kunne ikke kopieres.",
+                    "FAIL_PLURAL": "{{ failed }} elementer kunne ikke kopieres."
+                },
+                "NODE_MOVE": {
+                    "SINGULAR": "{{ success }} element er blevet flyttet.",
+                    "PLURAL": "{{ success }} elementer er blevet flyttet.",
+                    "PARTIAL": {
+                        "SINGULAR": "{{ partially }} element er blevet delvist flyttet.",
+                        "PLURAL": "{{ partially }} elementer er blevet delvist flyttet.",
+                        "FAIL": "{{ failed }} kunne ikke flyttes."
+                    }
+                },
+                "LIBRARY_DELETED": "Biblioteket er blevet slettet",
+                "LEFT_LIBRARY": "Du er ikke længere tilmeldt biblioteket"
+            }
+        },
+        "CONTENT_METADATA": {
+            "EXIF_GROUP_TITLE": "Billed-EXIF",
+            "GROUP_IPTC_CORE_CONTACT_INFO": "IPTC-kontakt",
+            "GROUP_IPTC_CORE_IMAGE_INFO": "IPTC-billede",
+            "GROUP_IPTC_CORE_CONTENT_INFO": "IPTC-indhold",
+            "GROUP_IPTC_CORE_STATUS_INFO": "IPTC-status",
+            "GROUP_IPTC_EXT_DESCRIPTION": "IPTC-billedbeskrivelse",
+            "GROUP_IPTC_EXT_AO_DETAIL": "IPTC-illustrationsmateriale eller detaljer",
+            "GROUP_IPTC_EXT_MODEL_INFO": "Oplysninger om IPTC-model",
+            "GROUP_IPTC_EXT_ADMIN_INFO": "Oplysninger om IPTC -admin",
+            "GROUP_IPTC_EXT_RIGHTS_INFO": "Oplysninger om IPTC-rettigheder",
+            "GROUP_IPTC_EXT_OTHER": "IPTC andet",
+            "EFFECTIVITY_GROUP_TITLE": "Gældende periode"
+        },
+        "INFO_DRAWER": {
+            "TITLE": "Detaljer",
+            "REDUCE_PANEL": "Reduce panel",
+            "DATA_LOADING": "Data indlæses",
+            "ICON": "Node Icon",
+            "TABS": {
+                "PROPERTIES": "Egenskaber",
+                "LIBRARY_PROPERTIES": "Om",
+                "VERSIONS": "Versioner",
+                "COMMENTS": "Kommentarer",
+                "PERMISSIONS": "Tilladelser",
+                "EXPAND": "Udvid"
+            }
+        },
+        "TOOLTIPS": {
+            "COLLAPSE_NAVIGATION": "Luk navigationsmenuen",
+            "OPTIONS_SETTINGS": "Valgmuligheder og indstillinger",
+            "MY_PROFILE": "Min profil",
+            "EXPAND_NAVIGATION": "Udvid navigationsmenu"
+        }
     },
-    "LANGUAGE": "Sprog",
-    "SIGN_IN": "Log ind",
-    "SIGN_OUT": "Log af",
-    "EDIT_PROFILE": {
-      "MY_PROFILE": "Min profil",
-      "GENERAL": "Generelt",
-      "EDIT": "Rediger",
-      "CANCEL": "Annuller",
-      "SAVE": "Gem",
-      "FIRST_NAME": "Fornavn",
-      "LAST_NAME": "Efternavn",
-      "JOB_TITLE": "Jobtitel",
-      "LOCATION": "Placering",
-      "TELEPHONE": "Telefon",
-      "MOBILE": "Mobil",
-      "LOGIN": "Log ind",
-      "USERNAME": "Brugernavn",
-      "EMAIL": "E-mail",
-      "PASSWORD": "Adgangskode",
-      "OLD_PASSWORD": "Gammel adgangskode",
-      "FORGOT_PASSWORD": "Glemt adgangskode",
-      "NEW_PASSWORD": "Ny adgangskode",
-      "VERIFY_PASSWORD": "Bekræft adgangskode",
-      "COMPANY_DETAILS": "Virksomhedsoplysninger",
-      "NAME": "Navn",
-      "ADDRESS": "Adresse",
-      "POSTCODE": "Postnummer",
-      "INVALID_INPUT": "Ugyldig indtastning"
+    "NODE_SELECTOR": {
+        "COPY_ITEM": "Kopiér '{{ name }}' til...",
+        "COPY_ITEMS": "Kopiér {{ number }} elementer til...",
+        "MOVE_ITEM": "Flyt '{{ name }}' til...",
+        "MOVE_ITEMS": "Flyt {{ number }} elementer til...",
+        "SEARCH": "Søg",
+        "NEXT": "Næste",
+        "SELECT_FILE_TEMPLATE_TITLE": "Vælg en dokumentskabelon",
+        "SELECT_FOLDER_TEMPLATE_TITLE": "Vælg en mappeskabelon"
     },
-    "LOCKED_BY": "Låst af: ",
-    "PREVIEW": {
-      "TITLE": "Forhåndsvis"
-    },
-    "DETAILS": {
-      "TITLE": "Detaljer"
-    },
-    "NEW_MENU": {
-      "MENU_ITEMS": {
-        "CREATE_FOLDER": "Opret mappe",
-        "UPLOAD_FILE": "Upload fil",
-        "UPLOAD_FOLDER": "Upload mappe",
-        "CREATE_LIBRARY": "Opret bibliotek",
-        "FILE_TEMPLATE": "Opret fil fra skabelon",
-        "FOLDER_TEMPLATE": "Opret mappe fra skabelon"
-      },
-      "TOOLTIPS": {
-        "CREATE_FOLDER": "Opret ny mappe",
-        "CREATE_FOLDER_NOT_ALLOWED": "Der kan ikke oprettes mapper, mens du får vist de aktuelle elementer",
-        "CREATE_FILE_NOT_ALLOWED": "Filer kan ikke oprettes, samtidig med at de aktuelle elementer vises",
-        "UPLOAD_FILES": "Vælg de filer, du vil uploade",
-        "UPLOAD_FILES_NOT_ALLOWED": "Der kan ikke uploades filer, mens du får vist de aktuelle elementer",
-        "UPLOAD_FOLDERS": "Vælg de mapper, du vil uploade",
-        "UPLOAD_FOLDERS_NOT_ALLOWED": "Der kan ikke uploades mapper, mens du får vist de aktuelle elementer",
-        "CREATE_LIBRARY": "Opret et nyt filbibliotek"
-      }
-    },
-    "HEADER": {
-      "BUTTONS": {
+    "NODE_FROM_TEMPLATE": {
+        "CANCEL": "Annuller",
         "CREATE": "Opret",
-        "CREATE_TOOLTIP": "Opret indhold",
-        "UPLOAD": "Upload",
-        "UPLOAD_TOOLTIP": "Upload indhold"
-      },
-      "SELECTED": "Valgt ({{ count }})"
-    },
-    "BROWSE": {
-      "FILE": {
-        "SIDENAV_LINK": {
-          "LABEL": "Filer",
-          "TOOLTIP": "Filer"
-        }
-      },
-      "PERSONAL": {
-        "TITLE": "Personlige filer",
-        "SIDENAV_LINK": {
-          "LABEL": "Personlige filer",
-          "TOOLTIP": "Se dine personlige filer"
-        },
-        "PERMISSIONS": {
-          "TITLE": "Tilladelser"
-        }
-      },
-      "LIBRARIES": {
-        "TITLE": "Filbiblioteker",
-        "DESCRIPTION": "Adgang til filbiblioteker",
-        "SIDENAV_LINK": {
-          "LABEL": "Filbiblioteker",
-          "TOOLTIP": "Filbiblioteker"
-        },
-        "EMPTY_STATE": {
-          "FILE_LIBRARIES": {
-            "TITLE": "Du er endnu ikke medlem af nogen filbiblioteker",
-            "TEXT": "Tilmeld dig biblioteker for at uploade, få vist og dele filer."
-          },
-          "FAVORITE_LIBRARIES": {
-            "TITLE": "Du har ikke angivet nogen biblioteker som favorit",
-            "TEXT": "Angiv et bibliotek som favorit for at gøre det nemt at finde biblioteket igen."
-          }
-        },
-        "MENU": {
-          "MY_LIBRARIES": {
-            "TITLE": "Mine biblioteker",
-            "SIDENAV_LINK": {
-              "LABEL": "Mine biblioteker",
-              "TOOLTIP": "Adgang til mine biblioteker"
+        "FOLDER_DIALOG_TITLE": "Opret en ny mappe fra <span class=\"bold\">'{{ template }}'</span>",
+        "FILE_DIALOG_TITLE": "Opret et nyt dokument fra <span class=\"bold\">'{{ template }}'</span>",
+        "FORM": {
+            "PLACEHOLDER": {
+                "NAME": "Navn",
+                "TITLE": "Titel",
+                "DESCRIPTION": "Beskrivelse"
+            },
+            "ERRORS": {
+                "DESCRIPTION_TOO_LONG": "Beskrivelsen må ikke være på mere end 512 tegn",
+                "TITLE_TOO_LONG": "Titlen må ikke være på mere end 256 tegn",
+                "REQUIRED": "Et navn er påkrævet",
+                "SPECIAL_CHARACTERS": "Navnet må ikke indeholde følgende tegn: * \" < > \\ / ? : |",
+                "ENDING_DOT": "Navnet må ikke slutte med et punktum (.)",
+                "ONLY_SPACES": "Navnet skal indeholde andet end mellemrum"
             }
-          },
-          "FAVORITE_LIBRARIES": {
-            "TITLE": "Biblioteker, der er angivet som favorit",
-            "SIDENAV_LINK": {
-              "LABEL": "Biblioteker, der er angivet som favorit",
-              "TOOLTIP": "Adgang til de biblioteker, jeg har angivet som favorit"
-            }
-          }
         }
-      },
-      "SHARED": {
-        "TITLE": "Delte filer",
-        "SIDENAV_LINK": {
-          "LABEL": "Delt",
-          "TOOLTIP": "Se de filer, der er blevet delt"
-        },
-        "EMPTY_STATE": {
-          "TITLE": "Der er ingen delte filer eller mapper",
-          "TEXT": "De elementer, du deler med indstillingen Del, vises her."
-        }
-      },
-      "RECENT": {
-        "TITLE": "Seneste filer",
-        "SIDENAV_LINK": {
-          "LABEL": "Seneste filer",
-          "TOOLTIP": "Se de filer, du har redigeret for nylig"
-        },
-        "EMPTY_STATE": {
-          "TITLE": "Der er ingen seneste filer",
-          "TEXT": "De elementer, du har uploadet eller redigeret inden for de seneste 30 dage, vises her."
-        }
-      },
-      "FAVORITES": {
-        "TITLE": "Favoritter",
-        "SIDENAV_LINK": {
-          "LABEL": "Favoritter",
-          "TOOLTIP": "Se de filer og mapper, du har angivet som favorit"
-        },
-        "EMPTY_STATE": {
-          "TITLE": "Du har ikke angivet nogen filer eller mapper som favorit",
-          "TEXT": "Angiv elementer som favorit, så du nemt kan finde dem på et senere tidspunkt."
-        }
-      },
-      "TRASHCAN": {
-        "TITLE": "Papirkurv",
-        "SIDENAV_LINK": {
-          "LABEL": "Papirkurv",
-          "TOOLTIP": "Se de slettede filer i papirkurven"
-        },
-        "EMPTY_STATE": {
-          "TITLE": "Papirkurven er tom",
-          "FIRST_TEXT": "De elementer, du sletter, flyttes til papirkurven.",
-          "SECOND_TEXT": "Tøm papirkurven for at slette elementerne permanent."
-        }
-      },
-      "ABOUT": {
-        "TITLE": "Om"
-      },
-      "SEARCH": {
-        "DEFAULT_SEARCH": "Standard",
-        "DUBLIN_CORE": "Dublin-kerne",
-        "EFFECTIVITY": "Gældende periode",
-        "TITLE": "Søgeresultater",
-        "FILTER_SET": "Filter indstillet:",
-        "ADVANCED_FILTERS": "Avancerede filtre:",
-        "RESET": "Nulstil",
-        "RESET_ACTION": "Nulstil søgefiltre",
-        "FOUND_RESULTS": "{{ number }} resultater fundet",
-        "FOUND_ONE_RESULT": "{{ number }} resultat fundet",
-        "CUSTOM_ROW": {
-          "MODIFIED": "Ændret",
-          "BY_USER": "af {{ user }}",
-          "LOCATION": "Placering",
-          "SIZE": "Størrelse"
-        },
-        "UNKNOWN_LOCATION": "Ukendt",
-        "NO_RESULTS": "Der blev ikke fundet nogen søgeresultater",
-        "EMPTY_SEARCH": "Søgeord er obligatorisk",
-        "NO_FILTER_RESULTS": "Der blev ikke fundet nogen filterresultater",
-        "ERRORS": {
-          "500": "Der opstod en fejl under behandling af søgeforespørgslen [500]",
-          "GENERIC": "Der opstod en fejl under behandling af søgeforespørgslen"
-        }
-      },
-      "SEARCH_LIBRARIES": {
-        "FOUND_RESULTS": "{{ number }} resultater",
-        "FOUND_ONE_RESULT": "{{ number }} resultat"
-      }
     },
-    "ACTIONS": {
-      "VIEW": "Vis",
-      "EDIT": "Rediger",
-      "DOWNLOAD": "Download",
-      "COPY": "Kopiér",
-      "MOVE": "Flyt",
-      "DELETE": "Slet",
-      "DELETE_PERMANENT": "Slet permanent",
-      "MORE": "Flere handlinger",
-      "UNDO": "Fortryd",
-      "PERMISSIONS": "Tilladelser",
-      "RESTORE": "Gendan",
-      "FAVORITE": "Favorit",
-      "ADD_FAVORITE": "Angiv som favorit",
-      "REMOVE_FAVORITE": "Fjern favorit",
-      "UNSHARE": "Ophæv deling",
-      "DETAILS": "Vis detaljer",
-      "VERSIONS": "Administrer versioner",
-      "UPLOAD_VERSION": "Upload ny version",
-      "TOGGLE-SIDENAV": "Slå navigationslinjen i siden til/fra",
-      "SHARE": "Del",
-      "SHARE_EDIT": "Indstillinger for delte links",
-      "PRINT": "Udskriv",
-      "FULLSCREEN": "Aktivér fuld skærm",
-      "JOIN": "Tilmeld",
-      "CANCEL_JOIN": "Annuller anmodning om tilmelding",
-      "LEAVE": "Forlad bibliotek",
-      "EDIT_OFFLINE": "Rediger offline",
-      "EDIT_OFFLINE_CANCEL": "Annuller redigering",
-      "CHANGE_ASPECT": "Rediger udseende"
+    "SHARED_LINK": {
+        "UNSHARE_PERMISSION_ERROR": "Du har ikke tilladelse til at ophæve delingen af denne fil"
     },
-    "DIALOGS": {
-      "CONFIRM_PURGE": {
-        "TITLE": "Vil du slette elementet fra papirkurven?",
-        "MESSAGE": "Dette vil slette elementerne permanent.",
-        "YES_LABEL": "Slet",
-        "NO_LABEL": "Behold"
-      },
-      "CONFIRM_LEAVE": {
-        "TITLE": "Vil du forlade biblioteket?",
-        "MESSAGE": "Hvis du forlader biblioteket, har du ikke længere adgang.",
-        "YES_LABEL": "OK",
-        "NO_LABEL": "Annuller"
-      },
-      "MOBILE_APP": {
-        "MOBILE_APP_BUTTON_LABEL": "Åbn i app",
-        "DOWNLOAD_APP_BUTTON_LABEL": "Har du ikke appen? Download den nu.",
-        "OPEN_ALFRESCO_MOBILE_APP": "Åbn med Alfresco Mobile-applikationen?"
-      }
-    },
-    "DOCUMENT_LIST": {
-      "COLUMNS": {
-        "ID": "Id",
-        "NAME": "Navn",
-        "DESCRIPTION": "Beskrivelse",
-        "SIZE": "Størrelse",
-        "MODIFIED_ON": "Ændret",
-        "MODIFIED_BY": "Ændret af",
-        "VISIBILITY": "Synlighed",
-        "TITLE": "Titel",
-        "LOCATION": "Placering",
-        "SHARED_BY": "Delt af",
-        "DELETED_ON": "Slettet",
-        "DELETED_BY": "Slettet af",
-        "ROLE": "Min rolle",
-        "TAGS": "Tags"
-      }
-    },
-    "MESSAGES": {
-      "ERRORS": {
-        "CANNOT_NAVIGATE_LOCATION": "Placeringen kan ikke åbnes",
-        "MISSING_CONTENT": "Elementet findes ikke længere, eller du har ikke tilladelse til at få det vist.",
-        "GENERIC": "Handlingen blev ikke fuldført. Prøv igen, eller kontakt dit it-team.",
-        "CONFLICT": "Navnet er allerede i brug. Prøv et andet navn.",
-        "NODE_MOVE": "Flytningen lykkedes ikke, da der allerede findes en fil med samme navn.",
-        "EXISTENT_FOLDER": "Der er allerede en mappe med det navn. Prøv et andet navn.",
-        "NODE_DELETION": "{{ name }} kunne ikke slettes",
-        "NODE_DELETION_PLURAL": "{{ number }} elementer kunne ikke slettes",
-        "NODE_RESTORE": "{{ name }} kunne ikke gendannes",
-        "NODE_RESTORE_PLURAL": "{{ number }} elementer kunne ikke gendannes",
-        "PERMISSION": "Du har ikke adgang til dette",
-        "LOCK_NODE": "Der opstod et problem under låsning af filen {{ fileName }}",
-        "UNLOCK_NODE": "Der opstod et problem under oplåsning af filen {{ fileName }}",
-        "TRASH": {
-          "NODES_PURGE": {
-            "PLURAL": "{{ number }} elementer kunne ikke slettes",
-            "SINGULAR": "{{ name }} kunne ikke slettes"
-          },
-          "NODES_RESTORE": {
-            "PARTIAL_PLURAL": "{{ number }} elementer kunne ikke gendannes, fordi der er problemer med placeringen for gendannelse",
-            "NODE_EXISTS": "Der kan ikke gendannes, da {{ name }} allerede findes",
-            "LOCATION_MISSING": "{{ name }} kan ikke gendannes. Den oprindelige placering findes ikke længere",
-            "GENERIC": "Der opstod et problem under forsøget på at gendanne {{ name }}"
-          }
+    "VERSION": {
+        "DIALOG": {
+            "TITLE": "Upload ny version",
+            "CANCEL": "Annuller",
+            "UPLOAD": "Upload"
         },
-        "DELETE_LIBRARY_FAILED": "Biblioteket kan ikke slettes",
-        "LEAVE_LIBRARY_FAILED": "Du kan ikke forlade biblioteket"
-      },
-      "UPLOAD": {
+        "SELECTION": {
+            "EMPTY": "Vælg et dokument for at se versionerne af dokumentet.",
+            "NO_PERMISSION": "Du har ikke tilladelse til at administrere versionerne af dette indhold."
+        },
         "ERROR": {
-          "GENERIC": "Der kunne ikke uploades. Kontakt din it-afdeling, hvis problemet fortsætter",
-          "CONFLICT": "Den nye version blev ikke uploadet. Der findes allerede en anden fil med det navn",
-          "500": "Der opstod en intern serverfejl. Prøv igen, eller kontakt it-support [500]",
-          "504": "Der opstod en timeout for serveren. Prøv igen, eller kontakt it-support [504]",
-          "403": "Du har ikke de nødvendige tilladelser til at uploade på denne placering [403]",
-          "404": "Uploadplaceringen findes ikke længere [404]"
+            "GENERIC": "Der opstod en fejl under versionsangivelse for filen"
         }
-      },
-      "INFO": {
-        "TRASH": {
-          "NODES_PURGE": {
-            "PLURAL": "{{ number }} elementer er blevet slettet",
-            "SINGULAR": "{{ name }} er blevet slettet",
-            "PARTIAL_SINGULAR": "{{ name }} er blevet slettet. {{ failed }} kunne ikke slettes",
-            "PARTIAL_PLURAL": "{{ number }} elementer er blevet slettet. {{ failed }} kunne ikke slettes"
-          },
-          "NODES_RESTORE": {
-            "PLURAL": "Gendannelsen er fuldført",
-            "SINGULAR": "{{ name }} er gendannet"
-          }
+    },
+    "LIBRARY": {
+        "DIALOG": {
+            "CREATE_TITLE": "Opret bibliotek",
+            "CREATE": "Opret",
+            "UPDATE": "Opdater",
+            "EDIT": "Rediger",
+            "CANCEL": "Annuller",
+            "FORM": {
+                "DESCRIPTION": "Beskrivelse",
+                "SITE_ID": "Biblioteks-id",
+                "NAME": "Navn",
+                "VISIBILITY": "Synlighed"
+            }
         },
-        "NODE_DELETION": {
-          "SINGULAR": "{{ name }} er blevet slettet",
-          "PLURAL": "{{ number }} elementer er blevet slettet",
-          "PARTIAL_SINGULAR": "{{ success }} element er blevet slettet. {{ failed }} elementer kunne ikke slettes",
-          "PARTIAL_PLURAL": "{{ success }} elementer er blevet slettet. {{ failed }} elementer kunne ikke slettes"
+        "VISIBILITY": {
+            "PRIVATE": "Privat",
+            "PUBLIC": "Offentlig",
+            "MODERATED": "Modereret"
         },
-        "NODE_COPY": {
-          "SINGULAR": "{{ success }} element er blevet kopieret",
-          "PLURAL": "{{ success }} elementer er blevet kopieret",
-          "PARTIAL_SINGULAR": "{{ success }} element er blevet kopieret. {{ failed }} elementer kunne ikke kopieres.",
-          "PARTIAL_PLURAL": "{{ success }} elementer er blevet kopieret. {{ failed }} elementer kunne ikke kopieres.",
-          "FAIL_SINGULAR": "{{ failed }} element kunne ikke kopieres.",
-          "FAIL_PLURAL": "{{ failed }} elementer kunne ikke kopieres."
+        "HINTS": {
+            "SITE_TITLE_EXISTS": "Biblioteksnavnet er allerede i brug"
         },
-        "NODE_MOVE": {
-          "SINGULAR": "{{ success }} element er blevet flyttet.",
-          "PLURAL": "{{ success }} elementer er blevet flyttet.",
-          "PARTIAL": {
-            "SINGULAR": "{{ partially }} element er blevet delvist flyttet.",
-            "PLURAL": "{{ partially }} elementer er blevet delvist flyttet.",
-            "FAIL": "{{ failed }} kunne ikke flyttes."
-          }
+        "ERRORS": {
+            "GENERIC": "Der opstod et problem",
+            "EXISTENT_SITE": "Dette biblioteks-id er ikke tilgængeligt. Prøv et andet biblioteks-id.",
+            "CONFLICT": "Dette biblioteks-id er allerede i brug. Se eventuelt papirkurven.",
+            "ID_TOO_LONG": "URL-navnet må ikke være på mere end 72 tegn",
+            "DESCRIPTION_TOO_LONG": "Beskrivelsen må ikke være på mere end 512 tegn",
+            "TITLE_TOO_LONG_OR_MISSING": "Use 256 characters or less for title",
+            "ILLEGAL_CHARACTERS": "Brug kun tal og bogstaver",
+            "ONLY_SPACES": "Biblioteksnavnet skal indeholde andet end mellemrum",
+            "LIBRARY_UPDATE_ERROR": "Der opstod fejl under opdatering af egenskaberne for biblioteket"
         },
-        "LIBRARY_DELETED": "Biblioteket er blevet slettet",
-        "LEFT_LIBRARY": "Du er ikke længere tilmeldt biblioteket"
-      }
-    },
-    "CONTENT_METADATA": {
-      "EXIF_GROUP_TITLE": "Billed-EXIF",
-      "GROUP_IPTC_CORE_CONTACT_INFO": "IPTC-kontakt",
-      "GROUP_IPTC_CORE_IMAGE_INFO": "IPTC-billede",
-      "GROUP_IPTC_CORE_CONTENT_INFO": "IPTC-indhold",
-      "GROUP_IPTC_CORE_STATUS_INFO": "IPTC-status",
-      "GROUP_IPTC_EXT_DESCRIPTION": "IPTC-billedbeskrivelse",
-      "GROUP_IPTC_EXT_AO_DETAIL": "IPTC-illustrationsmateriale eller detaljer",
-      "GROUP_IPTC_EXT_MODEL_INFO": "Oplysninger om IPTC-model",
-      "GROUP_IPTC_EXT_ADMIN_INFO": "Oplysninger om IPTC -admin",
-      "GROUP_IPTC_EXT_RIGHTS_INFO": "Oplysninger om IPTC-rettigheder",
-      "GROUP_IPTC_EXT_OTHER": "IPTC andet",
-      "EFFECTIVITY_GROUP_TITLE": "Gældende periode"
-    },
-    "INFO_DRAWER": {
-      "TITLE": "Detaljer",
-      "DATA_LOADING": "Data indlæses",
-      "TABS": {
-        "PROPERTIES": "Egenskaber",
-        "LIBRARY_PROPERTIES": "Om",
-        "VERSIONS": "Versioner",
-        "COMMENTS": "Kommentarer",
-        "PERMISSIONS": "Tilladelser",
-        "EXPAND": "Udvid"
-      }
-    },
-    "TOOLTIPS": {
-      "COLLAPSE_NAVIGATION": "Luk navigationsmenuen",
-      "OPTIONS_SETTINGS": "Valgmuligheder og indstillinger",
-      "MY_PROFILE": "Min profil",
-      "EXPAND_NAVIGATION": "Udvid navigationsmenu"
-    }
-  },
-  "NODE_SELECTOR": {
-    "COPY_ITEM": "Kopiér '{{ name }}' til...",
-    "COPY_ITEMS": "Kopiér {{ number }} elementer til...",
-    "MOVE_ITEM": "Flyt '{{ name }}' til...",
-    "MOVE_ITEMS": "Flyt {{ number }} elementer til...",
-    "SEARCH": "Søg",
-    "NEXT": "Næste",
-    "SELECT_FILE_TEMPLATE_TITLE": "Vælg en dokumentskabelon",
-    "SELECT_FOLDER_TEMPLATE_TITLE": "Vælg en mappeskabelon"
-  },
-  "NODE_FROM_TEMPLATE": {
-    "CANCEL": "Annuller",
-    "CREATE": "Opret",
-    "FOLDER_DIALOG_TITLE": "Opret en ny mappe fra <span class=\"bold\">'{{ template }}'</span>",
-    "FILE_DIALOG_TITLE": "Opret et nyt dokument fra <span class=\"bold\">'{{ template }}'</span>",
-    "FORM": {
-      "PLACEHOLDER": {
-        "NAME": "Navn",
-        "TITLE": "Titel",
-        "DESCRIPTION": "Beskrivelse"
-      },
-      "ERRORS": {
-        "DESCRIPTION_TOO_LONG": "Beskrivelsen må ikke være på mere end 512 tegn",
-        "TITLE_TOO_LONG": "Titlen må ikke være på mere end 256 tegn",
-        "REQUIRED": "Et navn er påkrævet",
-        "SPECIAL_CHARACTERS": "Navnet må ikke indeholde følgende tegn: * \" < > \\ / ? : |",
-        "ENDING_DOT": "Navnet må ikke slutte med et punktum (.)",
-        "ONLY_SPACES": "Navnet skal indeholde andet end mellemrum"
-      }
-    }
-  },
-  "SHARED_LINK": {
-    "UNSHARE_PERMISSION_ERROR": "Du har ikke tilladelse til at ophæve delingen af denne fil"
-  },
-  "VERSION": {
-    "DIALOG": {
-      "TITLE": "Upload ny version",
-      "CANCEL": "Annuller",
-      "UPLOAD": "Upload"
-    },
-    "SELECTION": {
-      "EMPTY": "Vælg et dokument for at se versionerne af dokumentet.",
-      "NO_PERMISSION": "Du har ikke tilladelse til at administrere versionerne af dette indhold."
-    },
-    "ERROR": {
-      "GENERIC": "Der opstod en fejl under versionsangivelse for filen"
-    }
-  },
-  "LIBRARY": {
-    "DIALOG": {
-      "CREATE_TITLE": "Opret bibliotek",
-      "CREATE": "Opret",
-      "UPDATE": "Opdater",
-      "EDIT": "Rediger",
-      "CANCEL": "Annuller",
-      "FORM": {
-        "DESCRIPTION": "Beskrivelse",
-        "SITE_ID": "Biblioteks-id",
-        "NAME": "Navn",
-        "VISIBILITY": "Synlighed"
-      }
-    },
-    "VISIBILITY": {
-      "PRIVATE": "Privat",
-      "PUBLIC": "Offentlig",
-      "MODERATED": "Modereret"
-    },
-    "HINTS": {
-      "SITE_TITLE_EXISTS": "Biblioteksnavnet er allerede i brug"
-    },
-    "ERRORS": {
-      "GENERIC": "Der opstod et problem",
-      "EXISTENT_SITE": "Dette biblioteks-id er ikke tilgængeligt. Prøv et andet biblioteks-id.",
-      "CONFLICT": "Dette biblioteks-id er allerede i brug. Se eventuelt papirkurven.",
-      "ID_TOO_LONG": "URL-navnet må ikke være på mere end 72 tegn",
-      "DESCRIPTION_TOO_LONG": "Beskrivelsen må ikke være på mere end 512 tegn",
-      "TITLE_TOO_LONG": "Titlen må ikke være på mere end 256 tegn",
-      "ILLEGAL_CHARACTERS": "Brug kun tal og bogstaver",
-      "ONLY_SPACES": "Biblioteksnavnet skal indeholde andet end mellemrum",
-      "LIBRARY_UPDATE_ERROR": "Der opstod fejl under opdatering af egenskaberne for biblioteket"
-    },
-    "SUCCESS": {
-      "LIBRARY_UPDATED": "Egenskaberne for biblioteket er blevet opdateret"
-    }
-  },
-  "SEARCH": {
-    "INPUT": {
-      "PLACEHOLDER": "Søg",
-      "FILES": "Filer",
-      "FOLDERS": "Mapper",
-      "LIBRARIES": "Biblioteker",
-      "HINT": "Din søgetekst skal være på mindst 2 tal/bogstaver."
-    },
-    "SORT": {
-      "SORTING_OPTION": "Sortér efter",
-      "ASCENDING": "Stigende rækkefølge",
-      "DESCENDING": "Faldende rækkefølge",
-      "RELEVANCE": "Relevans",
-      "FILENAME": "Filnavn",
-      "TITLE": "Titel",
-      "MODIFIED_DATE": "Ændringsdato",
-      "SIZE": "Størrelse",
-      "TYPE": "Type",
-      "MODIFIER": "Ændret af",
-      "CREATE_DATE": "Oprettelsesdato"
-    },
-    "FACET_FIELDS": {
-      "CREATOR": "Oprettet af",
-      "MODIFIER": "Ændret af",
-      "LOCATION": "Placering",
-      "CATEGORIES": "Kategorier"
-    },
-    "CATEGORIES": {
-      "EFFECTIVITY_FROM": "Gældende periode fra",
-      "EFFECTIVITY_TO": "Gældende periode til",
-      "LOGIC": "Logik"
-    },
-    "SEARCH_HEADER": {
-      "TITLE": "Filter",
-      "TYPE": "Type",
-      "FILTER_BY": "Sorter efter {{ category }}",
-      "CLEAR": "Ryd",
-      "APPLY": "Anvend",
-      "FILTERS": {
-        "NAME": {
-          "TITLE": "Navn",
-          "PLACEHOLDER": "Angiv navnet"
-        },
-        "TYPE": {
-          "TITLE": "Kontrollér type",
-          "FOLDER": "Mappe",
-          "DOCUMENT": "Dokument"
-        },
-        "SIZE": {
-          "TITLE": "Indholdsstørrelse (interval)",
-          "SMALL": "Lille",
-          "MEDIUM": "Medium",
-          "LARGE": "Stor",
-          "HUGE": "Meget stor"
-        },
-        "DATE": {
-          "TITLE": "Oprettelsesdato (interval)"
+        "SUCCESS": {
+            "LIBRARY_UPDATED": "Egenskaberne for biblioteket er blevet opdateret"
         }
-      }
+    },
+    "SEARCH": {
+        "BULK_ACTIONS_DROPDOWN": {
+            "TITLE": "Bulk Actions ({{ count }} Items)",
+            "BULK_NOT_AVAILABLE": "Bulk Actions (Not Available)",
+            "BULK_NOT_AVAILABLE_TOOLTIP": "Bulk Actions cannot be used without search results"
+        },
+        "INPUT": {
+            "PLACEHOLDER": "Søg",
+            "FILES": "Filer",
+            "FOLDERS": "Mapper",
+            "LIBRARIES": "Biblioteker",
+            "HINT": "Din søgetekst skal være på mindst 2 tal/bogstaver."
+        },
+        "SORT": {
+            "SORTING_OPTION": "Sortér efter",
+            "ASCENDING": "Stigende rækkefølge",
+            "DESCENDING": "Faldende rækkefølge",
+            "RELEVANCE": "Relevans",
+            "FILENAME": "Filnavn",
+            "TITLE": "Titel",
+            "MODIFIED_DATE": "Ændringsdato",
+            "SIZE": "Størrelse",
+            "TYPE": "Type",
+            "MODIFIER": "Ændret af",
+            "CREATE_DATE": "Oprettelsesdato"
+        },
+        "FACET_FIELDS": {
+            "CREATOR": "Oprettet af",
+            "MODIFIER": "Ændret af",
+            "LOCATION": "Placering",
+            "CATEGORIES": "Kategorier"
+        },
+        "CATEGORIES": {
+            "DATE": "Date",
+            "DATE_TABS": {
+                "CREATED": "Created",
+                "MODIFIED": "Modified"
+            },
+            "EFFECTIVITY_FROM": "Gældende periode fra",
+            "EFFECTIVITY_TO": "Gældende periode til",
+            "LOGIC": "Logik",
+            "PROPERTIES": "Properties"
+        },
+        "SEARCH_HEADER": {
+            "TITLE": "Filter",
+            "TYPE": "Type",
+            "FILTER_BY": "Sorter efter {{ category }}",
+            "CLEAR": "Ryd",
+            "APPLY": "Anvend",
+            "FILTERS": {
+                "NAME": {
+                    "TITLE": "Navn",
+                    "PLACEHOLDER": "Angiv navnet"
+                },
+                "TYPE": {
+                    "TITLE": "Kontrollér type",
+                    "FOLDER": "Mappe",
+                    "DOCUMENT": "Dokument"
+                },
+                "SIZE": {
+                    "TITLE": "Indholdsstørrelse (interval)",
+                    "SMALL": "Lille",
+                    "MEDIUM": "Medium",
+                    "LARGE": "Stor",
+                    "HUGE": "Meget stor"
+                },
+                "DATE": {
+                    "TITLE": "Oprettelsesdato (interval)"
+                }
+            }
+        }
+    },
+    "CORE": {
+        "METADATA": {
+            "ACTIONS": {
+                "SAVE": "Gem ændringerne",
+                "CANCEL": "Kassér ændringerne"
+            }
+        }
+    },
+    "ADF_VIEWER": {
+        "ACTIONS": {
+            "INFO": "Vis detaljer",
+            "PREVIEW": "Vis forpremiere"
+        }
+    },
+    "FILE_UPLOAD": {
+        "ERRORS": {
+            "409": "Dette navn bruges allerede, prøv et andet navn [409]"
+        }
+    },
+    "ADF_VERSION_LIST": {
+        "ACTIONS": {
+            "UPLOAD": {
+                "TOOLTIP": "Upload ny version"
+            }
+        }
+    },
+    "CUSTOM_NAME_COLUMN": {
+        "ACCESSIBILITY": {
+            "FILE_LINK_ARIA_LABEL": "Vis {{ name }}",
+            "FOLDER_LINK_ARIA_LABEL": "Åbn mappen {{ name }}"
+        }
+    },
+    "ADF-DATATABLE": {
+        "FILE_TYPE": {
+            "BOOKS-24PX": "filbibliotek",
+            "BASELINE-LOCK-24PX": "låst fil"
+        }
+    },
+    "KNOWLEDGE_RETRIEVAL": {
+        "SEARCH": {
+            "RESULTS_PAGE": {
+                "QUERY_INPUT_PLACEHOLDER": "Would you like to ask anything else?",
+                "REFERENCED_DOCUMENTS_HEADER": "Referenced documents",
+                "REGENERATION_BUTTON_LABEL": "Regenerate",
+                "COPY_BUTTON_LABEL": "Copy",
+                "COPY_MESSAGE": "Copied response to clipboard"
+            },
+            "AGENTS_BUTTON": {
+                "LABEL": "Ask Discovery",
+                "TITLE": "Knowledge Retrieval"
+            },
+            "SEARCH_INPUT": {
+                "ASK_BUTTON_LABEL": "Ask",
+                "DEFAULT_PLACEHOLDER": "Please ask your question with as much detail as possible...",
+                "HIDE_INPUT": "Hide input",
+                "HIDE_ANSWER": "Hide answer"
+            },
+            "ERRORS": {
+                "AGENTS_FETCHING": "Error while fetching agents.",
+                "HX_INSIGHT_URL_FETCHING": "Error while fetching HX Insight URL.",
+                "LOADING_ERROR": "Hmm... something seems to have gone wrong.",
+                "PAGE_NOT_AVAILABLE_ERROR": "Page is not available for these conditions."
+            },
+            "DISCARD_CHANGES": {
+                "WARNING": "Warning!",
+                "ASK_AI": "Ask AI",
+                "DO_NOT_SHOW_MESSAGE": "Don't show this message again",
+                "DISCARD_CONVERSATION": "Discard Conversation",
+                "CONVERSATION_DISCARDED": "This conversation will be discarded",
+                "LOSE_RESPONSE": "By asking another question you will lose your previous response"
+            }
+        }
     }
-  },
-  "CORE": {
-    "METADATA": {
-      "ACTIONS": {
-        "SAVE": "Gem ændringerne",
-        "CANCEL": "Kassér ændringerne"
-      }
-    }
-  },
-  "ADF_VIEWER": {
-    "ACTIONS": {
-      "INFO": "Vis detaljer",
-      "PREVIEW": "Vis forpremiere"
-    }
-  },
-  "FILE_UPLOAD": {
-    "ERRORS": {
-      "409": "Dette navn bruges allerede, prøv et andet navn [409]"
-    }
-  },
-  "ADF_VERSION_LIST": {
-    "ACTIONS": {
-      "UPLOAD": {
-        "TOOLTIP": "Upload ny version"
-      }
-    }
-  },
-  "CUSTOM_NAME_COLUMN": {
-    "ACCESSIBILITY": {
-      "FILE_LINK_ARIA_LABEL": "Vis {{ name }}",
-      "FOLDER_LINK_ARIA_LABEL": "Åbn mappen {{ name }}"
-    }
-  },
-  "ADF-DATATABLE": {
-    "FILE_TYPE": {
-      "BOOKS-24PX": "filbibliotek",
-      "BASELINE-LOCK-24PX": "låst fil"
-    }
-  }
 }
-

@@ -139,6 +139,9 @@
     },
     "ERRORS": {
       "DELETE_RULE_SET_LINK_FAILED": "Erro ao tentar excluir um link de um conjunto de regras"
+    },
+    "AUTOCOMPLETE": {
+      "NO_OPTIONS_FOUND": "No options found"
     }
   }
 }
