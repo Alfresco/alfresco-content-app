@@ -12,8 +12,7 @@
           "VENDOR": "Vendor",
           "LICENSE": "License",
           "RUNTIME": "Runtime",
-          "DESCRIPTION": "Description",
-          "TEST_KEY": "Test Key"
+          "DESCRIPTION": "Description"
         },
         "LICENSE": {
           "TITLE": "License",
