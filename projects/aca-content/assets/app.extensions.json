@@ -643,7 +643,8 @@
             "rules": {
               "visible": [
                 "app.selection.folder",
-                "!app.navigation.isTrashcan",
+                "!app.navigation.isTrashcan"
+              ]
             }
           },
           {
