@@ -633,6 +633,20 @@
             }
           },
           {
+            "id": "app.context.menu.folder-info",
+            "title": "APP.ACTIONS.FOLDER_INFO",
+            "order": 800,
+            "icon": "info",
+            "actions": {
+              "click": "FOLDER_INFORMATION"
+            },
+            "rules": {
+              "visible": [
+                "app.selection.folder",
+                "!app.navigation.isTrashcan",
+            }
+          },
+          {
             "id": "app.create.separator.3",
             "type": "separator",
             "order": 900
@@ -886,7 +900,10 @@
           "click": "FOLDER_INFORMATION"
         },
         "rules": {
-          "visible": "app.selection.folder"
+          "visible": [
+            "app.selection.folder",
+            "!app.navigation.isTrashcan"
+          ]
         }
       },
       {
