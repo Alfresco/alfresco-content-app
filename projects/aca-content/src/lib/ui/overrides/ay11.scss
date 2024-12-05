@@ -44,7 +44,7 @@
   }
 
   .mat-mdc-form-field-focus-overlay {
-    background-color: transparent;
+    --mat-form-field-state-layer-color: transparent;
   }
 
   .mdc-menu-surface.mat-mdc-autocomplete-panel:is(div),
