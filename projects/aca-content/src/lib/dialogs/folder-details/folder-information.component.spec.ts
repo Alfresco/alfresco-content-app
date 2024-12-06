@@ -47,7 +47,7 @@ describe('FolderInformationComponent', () => {
     modifiedAt: new Date(2024, 2, 2, 22, 22)
   };
 
-  const getValueFromElement = (id: string) => fixture.debugElement.query(By.css(`[data-automation-id="${id}"]`)).nativeElement.textContent;
+  const getValueFromElement = (id: string): string => fixture.debugElement.query(By.css(`[data-automation-id="${id}"]`)).nativeElement.textContent;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [FolderInformationComponent, LibTestingModule],
