@@ -35,6 +35,15 @@ import { EMPTY, timer } from 'rxjs';
 
 const MEMORY_UNIT_LIST = ['bytes', 'KB', 'MB', 'GB', 'TB'];
 
+interface FolderDetails {
+  name: string;
+  size: string;
+  location: string;
+  created: Date;
+  modified: Date;
+  icon: string;
+}
+
 @Component({
   selector: 'app-folder-info',
   standalone: true,
@@ -52,20 +61,15 @@ export class FolderInformationComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
   data: Node = inject(DIALOG_COMPONENT_DATA);
-  name: string;
-  size: string;
-  location: string;
-  created: Date;
-  modified: Date;
-  icon: string;
+  folderDetails: FolderDetails;
 
   ngOnInit() {
-    this.name = this.data.name;
-    this.location = this.data.path.name;
-    this.created = this.data.createdAt;
-    this.modified = this.data.modifiedAt;
-    this.icon = this.contentService.getNodeIcon(this.data);
-    this.size = this.translateService.instant('APP.FOLDER_INFO.CALCULATING');
+    this.folderDetails.name = this.data.name;
+    this.folderDetails.location = this.data.path.name;
+    this.folderDetails.created = this.data.createdAt;
+    this.folderDetails.modified = this.data.modifiedAt;
+    this.folderDetails.icon = this.contentService.getNodeIcon(this.data);
+    this.folderDetails.size = this.translateService.instant('APP.FOLDER_INFO.CALCULATING');
 
     this.nodesService
       .initiateFolderSizeCalculation(this.data.id)
@@ -74,7 +78,7 @@ export class FolderInformationComponent implements OnInit {
         this.nodesService
           .getFolderSizeInfo(this.data.id, jobIdEntry.entry.jobId)
           .pipe(
-            expand((result: any) =>
+            expand((result: SizeDetailsEntry) =>
               result.entry.status === 'IN_PROGRESS'
                 ? timer(5000).pipe(concatMap(() => this.nodesService.getFolderSizeInfo(this.data.id, jobIdEntry.entry.jobId)))
                 : EMPTY
@@ -96,7 +100,7 @@ export class FolderInformationComponent implements OnInit {
               unit: MEMORY_UNIT_LIST[unitIndex],
               count: folderInfo.entry.numberOfFiles
             };
-            this.size = this.translateService.instant(
+            this.folderDetails.size = this.translateService.instant(
               isMoreThanBytes ? 'APP.FOLDER_INFO.CALCULATED_SIZE_LARGE' : 'APP.FOLDER_INFO.CALCULATED_SIZE_NORMAL',
               params
             );
