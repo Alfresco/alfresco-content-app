@@ -76,7 +76,6 @@ describe('RuleSetPickerSmartComponent', () => {
     folderRuleSetsService = TestBed.inject(FolderRuleSetsService);
     fixture = TestBed.createComponent(RuleSetPickerSmartComponent);
     component = fixture.componentInstance;
-    component['folderRuleSetsService'] = folderRuleSetsService;
 
     loadRuleSetsSpy = spyOn(folderRuleSetsService, 'loadRuleSets').and.callThrough();
     callApiSpy = spyOn<any>(folderRuleSetsService, 'callApi');
