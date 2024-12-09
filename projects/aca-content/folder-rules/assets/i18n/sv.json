@@ -139,6 +139,9 @@
     },
     "ERRORS": {
       "DELETE_RULE_SET_LINK_FAILED": "Det gick inte att ta bort en länk från en regeluppsättning"
+    },
+    "AUTOCOMPLETE": {
+      "NO_OPTIONS_FOUND": "No options found"
     }
   }
 }
