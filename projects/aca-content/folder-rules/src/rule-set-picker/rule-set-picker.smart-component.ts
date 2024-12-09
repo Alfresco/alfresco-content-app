@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, DestroyRef, inject, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { FolderRuleSetsService } from '../services/folder-rule-sets.service';
 import { Node } from '@alfresco/js-api';
@@ -75,19 +75,18 @@ export class RuleSetPickerSmartComponent implements OnInit {
   private selectedNodeId = '';
   private folderLoading$ = new BehaviorSubject<boolean>(true);
 
+  public readonly data: RuleSetPickerOptions = inject(MAT_DIALOG_DATA);
+  private readonly folderRuleSetsService = inject(FolderRuleSetsService);
+  private readonly dialogRef = inject(MatDialogRef<RuleSetPickerSmartComponent>);
+  private readonly notificationService = inject(NotificationService);
+  private readonly destroyRef = inject(DestroyRef);
+
   mainRuleSet$ = this.folderRuleSetsService.mainRuleSet$;
   rulesLoading$ = combineLatest(this.folderRuleSetsService.isLoading$, this.folderLoading$).pipe(
     map(([rulesLoading, folderLoading]) => rulesLoading || folderLoading)
   );
 
-  private readonly destroyRef = inject(DestroyRef);
-
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: RuleSetPickerOptions,
-    private folderRuleSetsService: FolderRuleSetsService,
-    private dialogRef: MatDialogRef<RuleSetPickerSmartComponent>,
-    private notificationService: NotificationService
-  ) {
+  constructor() {
     this.nodeId = this.data?.nodeId ?? '-root-';
     this.defaultNodeId = this.data?.defaultNodeId ?? '-root-';
     this.existingRuleSet = this.data?.existingRuleSet ?? null;
