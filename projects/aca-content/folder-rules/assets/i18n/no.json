@@ -1,0 +1,147 @@
+{
+  "ACA_FOLDER_RULES": {
+    "ACTIONS": {
+      "MANAGE_RULES": "Manage Rules"
+    },
+    "EDIT_RULE_DIALOG": {
+      "CANCEL": "Cancel",
+      "CREATE": "Create",
+      "CREATE_TITLE": "Create a rule",
+      "UPDATE": "Update",
+      "UPDATE_TITLE": "Edit a rule"
+    },
+    "RULE_DETAILS": {
+      "LABEL": {
+        "NAME": "Name",
+        "DESCRIPTION": "Description",
+        "WHEN": "When",
+        "PERFORM_ACTIONS": "Perform actions",
+        "OPTIONS": "Other options"
+      },
+      "PLACEHOLDER": {
+        "NAME": "Enter rule name",
+        "DESCRIPTION": "Enter rule description",
+        "NO_DESCRIPTION": "No description",
+        "VALUE": "Value",
+        "CHOOSE_FOLDER": "Choose destination folder"
+      },
+      "ERROR": {
+        "REQUIRED": "This field is required",
+        "RULE_COMPOSITE_CONDITION_INVALID": "One or more condition groups is empty",
+        "INSUFFICIENT_TRIGGERS_SELECTED": "At least one trigger is required"
+      },
+      "TRIGGERS": {
+        "INBOUND": "Items are created or enter this folder",
+        "UPDATE": "Items are updated",
+        "OUTBOUND": "Items are deleted or leave this folder"
+      },
+      "OPTIONS": {
+        "IS_INHERITABLE": "Rule applies to subfolders",
+        "IS_ASYNCHRONOUS": "Run rule in the background",
+        "DISABLE_RULE": "Disable rule",
+        "ERROR_SCRIPT": "If errors occur run script",
+        "NO_SCRIPT": "None"
+      },
+      "COMPARATORS": {
+        "EQUALS": "(=) Equals",
+        "CONTAINS": "Contains",
+        "STARTS_WITH": "Starts with",
+        "ENDS_WITH": "Ends with",
+        "GREATER_THAN": "(>) Greater than",
+        "LESS_THAN": "(<) Less than",
+        "GREATER_THAN_OR_EQUAL": "(>=) Greater than or equal",
+        "LESS_THAN_OR_EQUAL": "(<=) Less than or equal",
+        "ON": "(=) On",
+        "AFTER": "(>) After",
+        "BEFORE": "(<) Before",
+        "ON_OR_AFTER": "(>=) On or after",
+        "ON_OR_BEFORE": "(<=) On or before",
+        "INSTANCE_OF": "(=) Is"
+      },
+      "FIELDS": {
+        "NAME": "Name",
+        "SIZE": "Size",
+        "MIMETYPE": "Mimetype",
+        "ENCODING": "Encoding",
+        "HAS_CATEGORY": "Has category",
+        "HAS_TAG": "Has tag",
+        "HAS_ASPECT": "Has aspect"
+      },
+      "LOGIC_OPERATORS": {
+        "IF": "If",
+        "NOT_IF": "NOT If",
+        "AND": "And",
+        "OR": "Or"
+      },
+      "CONDITION_BUTTONS": {
+        "ADD_CONDITION": "Add condition",
+        "ADD_GROUP": "Add condition group",
+        "REMOVE": "Remove"
+      },
+      "NO_CONDITIONS": "No conditions",
+      "NO_CONDITIONS_IN_GROUP": "No conditions in the group",
+      "ACTION_BUTTONS": {
+        "ADD_ACTION": "Add action",
+        "REMOVE": "Remove"
+      },
+      "ACTION_SELECT_PLACEHOLDER": "Select an action"
+    },
+    "MANAGE_RULES": {
+      "TOOLBAR": {
+        "BREADCRUMB": {
+          "RULES": "rules"
+        },
+        "ACTIONS": {
+          "CREATE_RULE": "Create rule",
+          "LINK_RULES": "Link rules",
+          "EDIT_RULE": "Edit",
+          "SEE_IN_FOLDER": "See in folder",
+          "INHERIT_RULES": "Inherit rules"
+        }
+      },
+      "EMPTY_RULES_LIST": {
+        "TITLE": "The list is empty",
+        "SUBTITLE": "There are no rules defined for this folder yet."
+      }
+    },
+    "CONFIRMATION_DIALOG": {
+      "DELETE_RULE": {
+        "TITLE": "Delete rule",
+        "MESSAGE": "Are you sure you want to delete this rule?"
+      },
+      "DELETE_RULE_SET_LINK": {
+        "TITLE": "Delete rule set link",
+        "MESSAGE": "Are you sure you want to delete the link to this rule set?"
+      }
+    },
+    "RULE_LIST": {
+      "OWNED_RULES": "Rules from current folder",
+      "LINKED_RULES": "Rules from linked folder",
+      "INHERITED_RULES": "Inherited rules",
+      "LOAD_MORE_RULE_SETS": "Load rules from other folders",
+      "LOAD_MORE_RULES": "Load more rules",
+      "LOADING_RULES": "Loading rules",
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Inherited rules will be run first",
+      "ALL_LINKED_RULES_ARE_DISABLED": "All rules linked from this rule set are disabled"
+    },
+    "LINK_RULES_DIALOG": {
+      "TITLE": "Select a folder to link rules from",
+      "CANCEL": "Cancel",
+      "SUBMIT": "Select folder",
+      "EMPTY_RULES_LIST": {
+        "TITLE": "No owned rules",
+        "SUBTITLE": "The selected folder doesn't have any rules of its own."
+      },
+      "LIST_OF_RULES_TO_LINK": "List of rules that will be linked",
+      "ERRORS": {
+        "REQUEST_FAILED": "Error while trying to create a link to a rule set"
+      }
+    },
+    "ERRORS": {
+      "DELETE_RULE_SET_LINK_FAILED": "Error while trying to delete a link from a rule set"
+    },
+    "AUTOCOMPLETE": {
+      "NO_OPTIONS_FOUND": "No options found"
+    }
+  }
+}

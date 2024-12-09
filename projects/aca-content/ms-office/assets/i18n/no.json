@@ -1,0 +1,10 @@
+{
+  "AOS": {
+    "ACTION_TITLE": "Edit in Microsoft Office™",
+    "ERRORS": {
+      "UNSUPPORTED_PLATFORM": "Only supported for Windows and MacOS platforms",
+      "ALREADY_LOCKED": "Document '{{ nodeId }}' is locked by '{{ lockOwner }}'",
+      "MISSING_PROTOCOL_HANDLER": "No protocol handler found for '{{ nodeName }}'"
+    }
+  }
+}

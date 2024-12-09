@@ -139,6 +139,9 @@
     },
     "ERRORS": {
       "DELETE_RULE_SET_LINK_FAILED": "Vyskytla se chyba při pokusu o smazání odkazu z nastaveného pravidla"
+    },
+    "AUTOCOMPLETE": {
+      "NO_OPTIONS_FOUND": "No options found"
     }
   }
 }

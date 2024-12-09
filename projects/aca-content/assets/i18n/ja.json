@@ -1,600 +1,686 @@
 {
-  "APP": {
-    "COPYRIGHT": "© 2005-2024 Hyland Software, Inc. and its affiliates. All rights reserved.",
-    "TITLE": "Workspace",
-    "ABOUT": {
-      "VERSION": "バージョン:",
-      "PLUGINS": {
-        "TITLE": "拡張機能",
-        "ID": "ID",
-        "NAME": "名前",
-        "VERSION": "バージョン",
-        "VENDOR": "ベンダー",
-        "LICENSE": "ライセンス",
-        "RUNTIME": "ランタイム",
-        "DESCRIPTION": "説明"
-      },
-      "LICENSE": {
-        "TITLE": "ライセンス",
-        "PROPERTY": "プロパティ",
-        "VALUE": "値"
-      },
-      "STATUS": {
-        "TITLE": "ステータス",
-        "PROPERTY": "プロパティ",
-        "VALUE": "値"
-      },
-      "MODULES": {
-        "TITLE": "Alfresco プラットフォームのモジュール",
-        "ID": "ID",
-        "NAME": "名前",
-        "VERSION": "バージョン"
-      },
-      "PACKAGES": {
-        "TITLE": "パッケージ",
-        "NAME": "名前",
-        "VERSION": "バージョン"
-      }
+    "APP": {
+        "COPYRIGHT": "© 2005-2024 Hyland Software, Inc. and its affiliates. All rights reserved.",
+        "TITLE": "Workspace",
+        "ABOUT": {
+            "VERSION": "バージョン:",
+            "PLUGINS": {
+                "TITLE": "拡張機能",
+                "ID": "ID",
+                "NAME": "名前",
+                "VERSION": "バージョン",
+                "VENDOR": "ベンダー",
+                "LICENSE": "ライセンス",
+                "RUNTIME": "ランタイム",
+                "DESCRIPTION": "説明"
+            },
+            "LICENSE": {
+                "TITLE": "ライセンス",
+                "PROPERTY": "プロパティ",
+                "VALUE": "値"
+            },
+            "STATUS": {
+                "TITLE": "ステータス",
+                "PROPERTY": "プロパティ",
+                "VALUE": "値"
+            },
+            "MODULES": {
+                "TITLE": "Alfresco プラットフォームのモジュール",
+                "ID": "ID",
+                "NAME": "名前",
+                "VERSION": "バージョン"
+            },
+            "PACKAGES": {
+                "TITLE": "パッケージ",
+                "NAME": "名前",
+                "VERSION": "バージョン"
+            }
+        },
+        "LANGUAGE": "言語",
+        "SIGN_IN": "サインイン",
+        "SIGN_OUT": "サインアウト",
+        "EDIT_PROFILE": {
+            "MY_PROFILE": "あなたのプロフィール",
+            "GENERAL": "全般",
+            "EDIT": "編集",
+            "CANCEL": "キャンセル",
+            "SAVE": "保存",
+            "FIRST_NAME": "名",
+            "LAST_NAME": "姓",
+            "JOB_TITLE": "役職",
+            "LOCATION": "場所",
+            "TELEPHONE": "電話",
+            "MOBILE": "携帯",
+            "LOGIN": "ログイン",
+            "USERNAME": "ユーザー名",
+            "EMAIL": "E メール",
+            "PASSWORD": "パスワード",
+            "OLD_PASSWORD": "古いパスワード",
+            "FORGOT_PASSWORD": "パスワードを忘れた場合",
+            "NEW_PASSWORD": "新しいパスワード",
+            "VERIFY_PASSWORD": "新しいパスワードの再入力",
+            "COMPANY_DETAILS": "会社情報",
+            "NAME": "名前",
+            "ADDRESS": "住所",
+            "POSTCODE": "郵便番号",
+            "INVALID_INPUT": "無効な入力"
+        },
+        "LOCKED_BY": "ロックしているユーザー: ",
+        "PREVIEW": {
+            "TITLE": "プレビュー"
+        },
+        "DETAILS": {
+            "TITLE": "詳細"
+        },
+        "NEW_MENU": {
+            "MENU_ITEMS": {
+                "CREATE_FOLDER": "フォルダの作成",
+                "UPLOAD_FILE": "ファイルのアップロード",
+                "UPLOAD_FOLDER": "フォルダのアップロード",
+                "CREATE_LIBRARY": "ライブラリの作成",
+                "FILE_TEMPLATE": "テンプレートからファイルを作成",
+                "FOLDER_TEMPLATE": "テンプレートからフォルダを作成"
+            },
+            "TOOLTIPS": {
+                "CREATE_FOLDER": "新しいフォルダを作成します",
+                "CREATE_FOLDER_NOT_ALLOWED": "現在のアイテムを表示している間はフォルダを作成できません",
+                "CREATE_FILE_NOT_ALLOWED": "現在のアイテムを表示している間はファイルを作成できません",
+                "UPLOAD_FILES": "アップロードするファイルを選択します",
+                "UPLOAD_FILES_NOT_ALLOWED": "現在のアイテムを表示している間はファイルをアップロードできません",
+                "UPLOAD_FOLDERS": "アップロードするフォルダを選択します",
+                "UPLOAD_FOLDERS_NOT_ALLOWED": "現在のアイテムを表示している間はフォルダをアップロードできません",
+                "CREATE_LIBRARY": "新しいファイルライブラリを作成します"
+            }
+        },
+        "HEADER": {
+            "BUTTONS": {
+                "CREATE": "作成",
+                "CREATE_TOOLTIP": "コンテンツの作成",
+                "UPLOAD": "アップロード",
+                "UPLOAD_TOOLTIP": "コンテンツのアップロード"
+            },
+            "SELECTED": "選択された ({{ count }})"
+        },
+        "BROWSE": {
+            "FILE": {
+                "SIDENAV_LINK": {
+                    "LABEL": "ファイル",
+                    "TOOLTIP": "ファイル"
+                }
+            },
+            "PERSONAL": {
+                "TITLE": "個人用ファイル",
+                "SIDENAV_LINK": {
+                    "LABEL": "個人用ファイル",
+                    "TOOLTIP": "自分の個人用ファイルを表示します"
+                },
+                "PERMISSIONS": {
+                    "TITLE": "権限"
+                }
+            },
+            "LIBRARIES": {
+                "TITLE": "ファイルライブラリ",
+                "DESCRIPTION": "ファイルライブラリにアクセスします",
+                "SIDENAV_LINK": {
+                    "LABEL": "ファイルライブラリ",
+                    "TOOLTIP": "ファイルライブラリ"
+                },
+                "EMPTY_STATE": {
+                    "FILE_LIBRARIES": {
+                        "TITLE": "あなたはまだファイルライブラリのメンバーではありません",
+                        "TEXT": "ファイルをアップロード、表示、共有するライブラリに参加してください"
+                    },
+                    "FAVORITE_LIBRARIES": {
+                        "TITLE": "お気に入りのライブラリはありません",
+                        "TEXT": "後で簡単に見つけられるようにライブラリをお気に入りに追加します。"
+                    }
+                },
+                "MENU": {
+                    "MY_LIBRARIES": {
+                        "TITLE": "あなたのライブラリ",
+                        "SIDENAV_LINK": {
+                            "LABEL": "あなたのライブラリ",
+                            "TOOLTIP": "ライブラリにアクセス"
+                        }
+                    },
+                    "FAVORITE_LIBRARIES": {
+                        "TITLE": "お気に入りのライブラリ",
+                        "SIDENAV_LINK": {
+                            "LABEL": "お気に入りのライブラリ",
+                            "TOOLTIP": "お気に入りのライブラリにアクセス"
+                        }
+                    }
+                }
+            },
+            "SHARED": {
+                "TITLE": "共有ファイル",
+                "SIDENAV_LINK": {
+                    "LABEL": "共有",
+                    "TOOLTIP": "共有されているファイルを表示します"
+                },
+                "EMPTY_STATE": {
+                    "TITLE": "共有しているファイルまたはフォルダはありません",
+                    "TEXT": "Share オプションを使って共有しているアイテムがここに表示されます。"
+                }
+            },
+            "RECENT": {
+                "TITLE": "最近使ったファイル",
+                "SIDENAV_LINK": {
+                    "LABEL": "最近使ったファイル",
+                    "TOOLTIP": "最近編集したファイルを表示します"
+                },
+                "EMPTY_STATE": {
+                    "TITLE": "最近使ったファイルはありません",
+                    "TEXT": "過去 30 日間にアップロードまたは編集したアイテムがここに表示されます。"
+                }
+            },
+            "FAVORITES": {
+                "TITLE": "お気に入り",
+                "SIDENAV_LINK": {
+                    "LABEL": "お気に入り",
+                    "TOOLTIP": "お気に入りのファイルやフォルダを表示します"
+                },
+                "EMPTY_STATE": {
+                    "TITLE": "お気に入りのファイルまたはフォルダはありません",
+                    "TEXT": "後で簡単に見つけたいお気に入りのアイテム。"
+                }
+            },
+            "TRASHCAN": {
+                "TITLE": "ごみ箱",
+                "SIDENAV_LINK": {
+                    "LABEL": "ごみ箱",
+                    "TOOLTIP": "ごみ箱にある削除済みのファイルを表示します"
+                },
+                "EMPTY_STATE": {
+                    "TITLE": "ごみ箱は空です",
+                    "FIRST_TEXT": "削除するアイテムはごみ箱に移動されます。",
+                    "SECOND_TEXT": "ごみ箱を空にするとアイテムが完全に削除されます。"
+                }
+            },
+            "ABOUT": {
+                "TITLE": "バージョン情報"
+            },
+            "SEARCH": {
+                "DEFAULT_SEARCH": "デフォルト",
+                "DUBLIN_CORE": "Dublin core",
+                "EFFECTIVITY": "有効性",
+                "TITLE": "検索結果",
+                "FILTER_SET": "フィルタセット：",
+                "ADVANCED_FILTERS": "高度なフィルタ：",
+                "RESET": "リセット",
+                "RESET_ACTION": "検索フィルタのリセット",
+                "SAVE_SEARCH": {
+                    "ACTION_BUTTON": "Save Search",
+                    "SAVE_CHANGES": "Save changes",
+                    "SAVE_AS_NEW": "Save as new",
+                    "MODAL_HEADER": "Save this search",
+                    "NAME_LABEL": "Name",
+                    "NAME_REQUIRED_ERROR": "This field is required",
+                    "DESCRIPTION_LABEL": "Description",
+                    "SAVE_SUCCESS": "Search Saved",
+                    "SAVE_ERROR": "Error occurred. Search could not be saved.",
+                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "Saved Search with '{{ name }}' name already exists.",
+                    "NAVBAR": {
+                        "TITLE": "Saved Searches ({{ number }})",
+                        "MANAGE_BUTTON": "Manage searches"
+                    },
+                    "EDIT_DIALOG": {
+                        "CONTEXT_OPTION": "Edit Search",
+                        "TITLE": "Edit Saved Search",
+                        "SUCCESS_MESSAGE": "Saved Search edited successfully",
+                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be edited."
+                    },
+                    "DELETE_DIALOG": {
+                        "CONTEXT_OPTION": "Delete Search",
+                        "TITLE": "Delete Saved Search",
+                        "CONTENT": "Are you sure you want to delete this search",
+                        "SUCCESS_MESSAGE": "Saved Search deleted successfully",
+                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be deleted."
+                    },
+                    "LIST": {
+                        "TITLE": "Saved Searches",
+                        "NAME": "Name",
+                        "DESCRIPTION": "Description",
+                        "EMPTY_LIST": "No saved searches",
+                        "COPY_TO_CLIPBOARD": "Copy to clipboard",
+                        "COPY_TO_CLIPBOARD_SUCCESS": "Search copied to clipboard",
+                        "EXECUTE_SEARCH": "Execute Search"
+                    }
+                },
+                "FOUND_RESULTS": "{{ number }} 件見つかりました",
+                "FOUND_ONE_RESULT": "{{ number }} 件見つかりました",
+                "CUSTOM_ROW": {
+                    "MODIFIED": "変更日",
+                    "BY_USER": "変更者: {{ user }}",
+                    "LOCATION": "場所",
+                    "SIZE": "サイズ"
+                },
+                "UNKNOWN_LOCATION": "不明",
+                "NO_RESULTS": "検索結果は 0 件です",
+                "EMPTY_SEARCH": "検索語句が必要",
+                "NO_FILTER_RESULTS": "フィルタによる検索結果は 0 件です",
+                "ERRORS": {
+                    "500": "検索クエリの処理中にエラーが発生しました [500]",
+                    "GENERIC": "検索クエリの処理中にエラーが発生しました"
+                }
+            },
+            "SEARCH_LIBRARIES": {
+                "FOUND_RESULTS": "検索結果: {{ number }} 件",
+                "FOUND_ONE_RESULT": "検索結果: {{ number }} 件"
+            }
+        },
+        "ACTIONS": {
+            "VIEW": "表示",
+            "EDIT": "編集",
+            "DOWNLOAD": "ダウンロード",
+            "COPY": "コピー",
+            "MOVE": "移動",
+            "DELETE": "削除",
+            "DELETE_PERMANENT": "完全に削除する",
+            "MORE": "その他の処理",
+            "UNDO": "元に戻す",
+            "PERMISSIONS": "権限",
+            "RESTORE": "復元",
+            "FAVORITE": "お気に入り",
+            "ADD_FAVORITE": "お気に入りに追加",
+            "REMOVE_FAVORITE": "お気に入りの削除",
+            "UNSHARE": "共有の解除",
+            "DETAILS": "詳細の表示",
+            "VERSIONS": "バージョンの管理",
+            "UPLOAD_VERSION": "新しいバージョンのアップロード",
+            "TOGGLE-SIDENAV": "サイドナビゲーションバーの切り替え",
+            "SHARE": "共有",
+            "SHARE_EDIT": "共有リンクの設定",
+            "PRINT": "印刷",
+            "FULLSCREEN": "全画面表示モードをアクティブにする",
+            "JOIN": "参加",
+            "CANCEL_JOIN": "参加リクエストのキャンセル",
+            "LEAVE": "ライブラリから脱退",
+            "EDIT_OFFLINE": "オフライン編集",
+            "EDIT_OFFLINE_CANCEL": "編集のキャンセル",
+            "CHANGE_ASPECT": "アスペクトを編集",
+            "ADD_ASPECTS": "Add Aspects"
+        },
+        "DIALOGS": {
+            "CONFIRM_PURGE": {
+                "TITLE": "ごみ箱から削除しますか?",
+                "MESSAGE": "この操作を行うと、選択したアイテムが完全に削除されます。",
+                "YES_LABEL": "削除",
+                "NO_LABEL": "残す"
+            },
+            "CONFIRM_LEAVE": {
+                "TITLE": "このライブラリから脱退しますか?",
+                "MESSAGE": "脱退すると、アクセス権が削除されます。",
+                "YES_LABEL": "OK",
+                "NO_LABEL": "キャンセル"
+            },
+            "MOBILE_APP": {
+                "MOBILE_APP_BUTTON_LABEL": "アプリで開く",
+                "DOWNLOAD_APP_BUTTON_LABEL": "アプリがない場合は、今すぐダウンロードしてください。",
+                "OPEN_ALFRESCO_MOBILE_APP": "Alfresco Mobileアプリケーションを使用して開きますか？"
+            }
+        },
+        "DOCUMENT_LIST": {
+            "COLUMNS": {
+                "ID": "ID",
+                "NAME": "名前",
+                "DESCRIPTION": "説明",
+                "SIZE": "サイズ",
+                "MODIFIED_ON": "変更日",
+                "MODIFIED_BY": "変更者",
+                "VISIBILITY": "公開レベル",
+                "TITLE": "タイトル",
+                "LOCATION": "場所",
+                "SHARED_BY": "共有者",
+                "DELETED_ON": "削除済み",
+                "DELETED_BY": "削除者",
+                "ROLE": "あなたの役割",
+                "TAGS": "タグ"
+            }
+        },
+        "MESSAGES": {
+            "ERRORS": {
+                "CANNOT_NAVIGATE_LOCATION": "この場所は開けません",
+                "MISSING_CONTENT": "このアイテムは削除されたか、このアイテムを表示する権限がありません。",
+                "GENERIC": "処理が失敗しました。もう一度操作をやり直すか、IT 担当者に連絡してください。",
+                "CONFLICT": "この名前は既に使用されています。別の名前を使用してください。",
+                "NODE_MOVE": "移動できません。同じ名前のファイルが既に存在します。",
+                "EXISTENT_FOLDER": "この名前のフォルダは既に存在します。別の名前を使用してください。",
+                "NODE_DELETION": "{{ name }} を削除できませんでした",
+                "NODE_DELETION_PLURAL": "{{ number }} 件のアイテムを削除できませんでした",
+                "NODE_RESTORE": "{{ name }} を復元できませんでした",
+                "NODE_RESTORE_PLURAL": "{{ number }} 件のアイテムを復元できませんでした",
+                "PERMISSION": "この操作を行うための権限がありません",
+                "LOCK_NODE": "{{ fileName }} ファイルのロック中に問題が発生しました",
+                "UNLOCK_NODE": "{{ fileName }} ファイルのロック解除中に問題が発生しました",
+                "TRASH": {
+                    "NODES_PURGE": {
+                        "PLURAL": "{{ number }} 件のアイテムを削除できませんでした",
+                        "SINGULAR": "{{ name }} を削除できませんでした"
+                    },
+                    "NODES_RESTORE": {
+                        "PARTIAL_PLURAL": "{{ number }} 件のアイテムが復元されませんでした。復元先の場所に問題があります。",
+                        "NODE_EXISTS": "復元できません。{{ name }} は既に存在します。",
+                        "LOCATION_MISSING": "{{ name }} を復元できません。元の場所が削除されています。",
+                        "GENERIC": "{{ name }} の復元中に問題が発生しました"
+                    }
+                },
+                "DELETE_LIBRARY_FAILED": "このライブラリは削除できません",
+                "LEAVE_LIBRARY_FAILED": "このライブラリから脱退できません"
+            },
+            "UPLOAD": {
+                "ERROR": {
+                    "GENERIC": "アップロードできませんでした。問題が解決しない場合は、IT 担当者に連絡してください。",
+                    "CONFLICT": "新しいバージョンはアップロードされていません。同じ名前のファイルが既に存在します",
+                    "500": "内部サーバーエラーが発生しました。もう一度操作をやり直すか、IT 担当者に連絡してください。 [500]",
+                    "504": "サーバーがタイムアウトになりました。もう一度操作をやり直すか、IT 担当者に連絡してください。[504]",
+                    "403": "この場所にアップロードするための権限がありません [403]",
+                    "404": "アップロード場所は削除されました [404]"
+                }
+            },
+            "INFO": {
+                "TRASH": {
+                    "NODES_PURGE": {
+                        "PLURAL": "{{ number }} 件のアイテムを削除しました",
+                        "SINGULAR": "''{{ name }}'' アイテムを削除しました",
+                        "PARTIAL_SINGULAR": "{{ name }} を削除しましたが、{{ failed }} 件は削除できませんでした",
+                        "PARTIAL_PLURAL": "{{ number }} 件のアイテムを削除しましたが、{{ failed }} 件は削除できませんでした"
+                    },
+                    "NODES_RESTORE": {
+                        "PLURAL": "正常に復元されました",
+                        "SINGULAR": "{{ name }} を復元しました"
+                    }
+                },
+                "NODE_DELETION": {
+                    "SINGULAR": "''{{ name }}'' アイテムを削除しました",
+                    "PLURAL": "{{ number }} 件のアイテムを削除しました",
+                    "PARTIAL_SINGULAR": "{{ success }} 件のアイテムを削除しましたが、{{ failed }} 件は削除できませんでした",
+                    "PARTIAL_PLURAL": "{{ success }} 件のアイテムを削除しましたが、{{ failed }} 件は削除できませんでした"
+                },
+                "NODE_COPY": {
+                    "SINGULAR": "{{ success }} 件のアイテムをコピーしました",
+                    "PLURAL": "{{ success }} 件のアイテムをコピーしました",
+                    "PARTIAL_SINGULAR": "{{ success }} 件のアイテムをコピーしましたが、{{ failed }} 件はコピーできませんでした。",
+                    "PARTIAL_PLURAL": "{{ success }} 件のアイテムをコピーしましたが、{{ failed }} 件はコピーできませんでした。",
+                    "FAIL_SINGULAR": "{{ failed }} 件のアイテムをコピーできませんでした。",
+                    "FAIL_PLURAL": "{{ failed }} 件のアイテムをコピーできませんでした。"
+                },
+                "NODE_MOVE": {
+                    "SINGULAR": "{{ success }} 件のアイテムを移動しました。",
+                    "PLURAL": "{{ success }} 件のアイテムを移動しました。",
+                    "PARTIAL": {
+                        "SINGULAR": "一部のアイテム ({{ partially }} 件) を移動しました。",
+                        "PLURAL": "一部のアイテム ({{ partially }} 件) を移動しました。",
+                        "FAIL": "{{ failed }} 件を移動できませんでした。"
+                    }
+                },
+                "LIBRARY_DELETED": "ライブラリが削除されました",
+                "LEFT_LIBRARY": "このライブラリからは脱退しています"
+            }
+        },
+        "CONTENT_METADATA": {
+            "EXIF_GROUP_TITLE": "画像の Exif",
+            "GROUP_IPTC_CORE_CONTACT_INFO": "IPTC 連絡先",
+            "GROUP_IPTC_CORE_IMAGE_INFO": "IPTC 画像",
+            "GROUP_IPTC_CORE_CONTENT_INFO": "IPTC コンテンツ",
+            "GROUP_IPTC_CORE_STATUS_INFO": "IPTC ステータス",
+            "GROUP_IPTC_EXT_DESCRIPTION": "IPTC 画像説明",
+            "GROUP_IPTC_EXT_AO_DETAIL": "IPTC アートワークまたはオブジェクトの詳細",
+            "GROUP_IPTC_EXT_MODEL_INFO": "IPTC モデル情報",
+            "GROUP_IPTC_EXT_ADMIN_INFO": "IPTC 管理者情報",
+            "GROUP_IPTC_EXT_RIGHTS_INFO": "IPTC 権利情報",
+            "GROUP_IPTC_EXT_OTHER": "IPTC その他",
+            "EFFECTIVITY_GROUP_TITLE": "有効性"
+        },
+        "INFO_DRAWER": {
+            "TITLE": "詳細",
+            "REDUCE_PANEL": "Reduce panel",
+            "DATA_LOADING": "データの読み込み中",
+            "ICON": "Node Icon",
+            "TABS": {
+                "PROPERTIES": "プロパティ",
+                "LIBRARY_PROPERTIES": "バージョン情報",
+                "VERSIONS": "バージョン",
+                "COMMENTS": "コメント",
+                "PERMISSIONS": "権限",
+                "EXPAND": "展開"
+            }
+        },
+        "TOOLTIPS": {
+            "COLLAPSE_NAVIGATION": "ナビゲーションメニューを折りたたむ",
+            "OPTIONS_SETTINGS": "オプションと設定",
+            "MY_PROFILE": "あなたのプロフィール",
+            "EXPAND_NAVIGATION": "ナビゲーションメニューを展開します"
+        }
     },
-    "LANGUAGE": "言語",
-    "SIGN_IN": "サインイン",
-    "SIGN_OUT": "サインアウト",
-    "EDIT_PROFILE": {
-      "MY_PROFILE": "あなたのプロフィール",
-      "GENERAL": "全般",
-      "EDIT": "編集",
-      "CANCEL": "キャンセル",
-      "SAVE": "保存",
-      "FIRST_NAME": "名",
-      "LAST_NAME": "姓",
-      "JOB_TITLE": "役職",
-      "LOCATION": "場所",
-      "TELEPHONE": "電話",
-      "MOBILE": "携帯",
-      "LOGIN": "ログイン",
-      "USERNAME": "ユーザー名",
-      "EMAIL": "E メール",
-      "PASSWORD": "パスワード",
-      "OLD_PASSWORD": "古いパスワード",
-      "FORGOT_PASSWORD": "パスワードを忘れた場合",
-      "NEW_PASSWORD": "新しいパスワード",
-      "VERIFY_PASSWORD": "新しいパスワードの再入力",
-      "COMPANY_DETAILS": "会社情報",
-      "NAME": "名前",
-      "ADDRESS": "住所",
-      "POSTCODE": "郵便番号",
-      "INVALID_INPUT": "無効な入力"
+    "NODE_SELECTOR": {
+        "COPY_ITEM": "'{{ name }}' のコピー先...",
+        "COPY_ITEMS": "{{ number }} 件のアイテムのコピー先...",
+        "MOVE_ITEM": "'{{ name }}' の移動先...",
+        "MOVE_ITEMS": "{{ number }} 件のアイテムの移動先...",
+        "SEARCH": "検索",
+        "NEXT": "次へ",
+        "SELECT_FILE_TEMPLATE_TITLE": "文書テンプレートを選択してください",
+        "SELECT_FOLDER_TEMPLATE_TITLE": "フォルダテンプレートを選択してください"
     },
-    "LOCKED_BY": "ロックしているユーザー: ",
-    "PREVIEW": {
-      "TITLE": "プレビュー"
-    },
-    "DETAILS": {
-      "TITLE": "詳細"
-    },
-    "NEW_MENU": {
-      "MENU_ITEMS": {
-        "CREATE_FOLDER": "フォルダの作成",
-        "UPLOAD_FILE": "ファイルのアップロード",
-        "UPLOAD_FOLDER": "フォルダのアップロード",
-        "CREATE_LIBRARY": "ライブラリの作成",
-        "FILE_TEMPLATE": "テンプレートからファイルを作成",
-        "FOLDER_TEMPLATE": "テンプレートからフォルダを作成"
-      },
-      "TOOLTIPS": {
-        "CREATE_FOLDER": "新しいフォルダを作成します",
-        "CREATE_FOLDER_NOT_ALLOWED": "現在のアイテムを表示している間はフォルダを作成できません",
-        "CREATE_FILE_NOT_ALLOWED": "現在のアイテムを表示している間はファイルを作成できません",
-        "UPLOAD_FILES": "アップロードするファイルを選択します",
-        "UPLOAD_FILES_NOT_ALLOWED": "現在のアイテムを表示している間はファイルをアップロードできません",
-        "UPLOAD_FOLDERS": "アップロードするフォルダを選択します",
-        "UPLOAD_FOLDERS_NOT_ALLOWED": "現在のアイテムを表示している間はフォルダをアップロードできません",
-        "CREATE_LIBRARY": "新しいファイルライブラリを作成します"
-      }
-    },
-    "HEADER": {
-      "BUTTONS": {
+    "NODE_FROM_TEMPLATE": {
+        "CANCEL": "キャンセル",
         "CREATE": "作成",
-        "CREATE_TOOLTIP": "コンテンツの作成",
-        "UPLOAD": "アップロード",
-        "UPLOAD_TOOLTIP": "コンテンツのアップロード"
-      },
-      "SELECTED": "選択された ({{ count }})"
-    },
-    "BROWSE": {
-      "FILE": {
-        "SIDENAV_LINK": {
-          "LABEL": "ファイル",
-          "TOOLTIP": "ファイル"
-        }
-      },
-      "PERSONAL": {
-        "TITLE": "個人用ファイル",
-        "SIDENAV_LINK": {
-          "LABEL": "個人用ファイル",
-          "TOOLTIP": "自分の個人用ファイルを表示します"
-        },
-        "PERMISSIONS": {
-          "TITLE": "権限"
-        }
-      },
-      "LIBRARIES": {
-        "TITLE": "ファイルライブラリ",
-        "DESCRIPTION": "ファイルライブラリにアクセスします",
-        "SIDENAV_LINK": {
-          "LABEL": "ファイルライブラリ",
-          "TOOLTIP": "ファイルライブラリ"
-        },
-        "EMPTY_STATE": {
-          "FILE_LIBRARIES": {
-            "TITLE": "あなたはまだファイルライブラリのメンバーではありません",
-            "TEXT": "ファイルをアップロード、表示、共有するライブラリに参加してください"
-          },
-          "FAVORITE_LIBRARIES": {
-            "TITLE": "お気に入りのライブラリはありません",
-            "TEXT": "後で簡単に見つけられるようにライブラリをお気に入りに追加します。"
-          }
-        },
-        "MENU": {
-          "MY_LIBRARIES": {
-            "TITLE": "あなたのライブラリ",
-            "SIDENAV_LINK": {
-              "LABEL": "あなたのライブラリ",
-              "TOOLTIP": "ライブラリにアクセス"
+        "FOLDER_DIALOG_TITLE": "<span class=\"bold\">'{{ template }}'</span> から新規フォルダを作成します",
+        "FILE_DIALOG_TITLE": "<span class=\"bold\">'{{ template }}'</span> から新規文書を作成します",
+        "FORM": {
+            "PLACEHOLDER": {
+                "NAME": "名前",
+                "TITLE": "タイトル",
+                "DESCRIPTION": "説明"
+            },
+            "ERRORS": {
+                "DESCRIPTION_TOO_LONG": "説明は 512 文字以内で入力してください",
+                "TITLE_TOO_LONG": "タイトルは 256 文字以内で入力してください",
+                "REQUIRED": "名前は必須です",
+                "SPECIAL_CHARACTERS": "名前に次の文字を含めることはできません。 * \" < > \\ / ? : |",
+                "ENDING_DOT": "名前の末尾にピリオド (.) を付けることはできません。",
+                "ONLY_SPACES": "名前にスペースだけを含めることはできません"
             }
-          },
-          "FAVORITE_LIBRARIES": {
-            "TITLE": "お気に入りのライブラリ",
-            "SIDENAV_LINK": {
-              "LABEL": "お気に入りのライブラリ",
-              "TOOLTIP": "お気に入りのライブラリにアクセス"
-            }
-          }
         }
-      },
-      "SHARED": {
-        "TITLE": "共有ファイル",
-        "SIDENAV_LINK": {
-          "LABEL": "共有",
-          "TOOLTIP": "共有されているファイルを表示します"
-        },
-        "EMPTY_STATE": {
-          "TITLE": "共有しているファイルまたはフォルダはありません",
-          "TEXT": "Share オプションを使って共有しているアイテムがここに表示されます。"
-        }
-      },
-      "RECENT": {
-        "TITLE": "最近使ったファイル",
-        "SIDENAV_LINK": {
-          "LABEL": "最近使ったファイル",
-          "TOOLTIP": "最近編集したファイルを表示します"
-        },
-        "EMPTY_STATE": {
-          "TITLE": "最近使ったファイルはありません",
-          "TEXT": "過去 30 日間にアップロードまたは編集したアイテムがここに表示されます。"
-        }
-      },
-      "FAVORITES": {
-        "TITLE": "お気に入り",
-        "SIDENAV_LINK": {
-          "LABEL": "お気に入り",
-          "TOOLTIP": "お気に入りのファイルやフォルダを表示します"
-        },
-        "EMPTY_STATE": {
-          "TITLE": "お気に入りのファイルまたはフォルダはありません",
-          "TEXT": "後で簡単に見つけたいお気に入りのアイテム。"
-        }
-      },
-      "TRASHCAN": {
-        "TITLE": "ごみ箱",
-        "SIDENAV_LINK": {
-          "LABEL": "ごみ箱",
-          "TOOLTIP": "ごみ箱にある削除済みのファイルを表示します"
-        },
-        "EMPTY_STATE": {
-          "TITLE": "ごみ箱は空です",
-          "FIRST_TEXT": "削除するアイテムはごみ箱に移動されます。",
-          "SECOND_TEXT": "ごみ箱を空にするとアイテムが完全に削除されます。"
-        }
-      },
-      "ABOUT": {
-        "TITLE": "バージョン情報"
-      },
-      "SEARCH": {
-        "DEFAULT_SEARCH": "デフォルト",
-        "DUBLIN_CORE": "Dublin core",
-        "EFFECTIVITY": "有効性",
-        "TITLE": "検索結果",
-        "FILTER_SET": "フィルタセット：",
-        "ADVANCED_FILTERS": "高度なフィルタ：",
-        "RESET": "リセット",
-        "RESET_ACTION": "検索フィルタのリセット",
-        "FOUND_RESULTS": "{{ number }} 件見つかりました",
-        "FOUND_ONE_RESULT": "{{ number }} 件見つかりました",
-        "CUSTOM_ROW": {
-          "MODIFIED": "変更日",
-          "BY_USER": "変更者: {{ user }}",
-          "LOCATION": "場所",
-          "SIZE": "サイズ"
-        },
-        "UNKNOWN_LOCATION": "不明",
-        "NO_RESULTS": "検索結果は 0 件です",
-        "EMPTY_SEARCH": "検索語句が必要",
-        "NO_FILTER_RESULTS": "フィルタによる検索結果は 0 件です",
-        "ERRORS": {
-          "500": "検索クエリの処理中にエラーが発生しました [500]",
-          "GENERIC": "検索クエリの処理中にエラーが発生しました"
-        }
-      },
-      "SEARCH_LIBRARIES": {
-        "FOUND_RESULTS": "検索結果: {{ number }} 件",
-        "FOUND_ONE_RESULT": "検索結果: {{ number }} 件"
-      }
     },
-    "ACTIONS": {
-      "VIEW": "表示",
-      "EDIT": "編集",
-      "DOWNLOAD": "ダウンロード",
-      "COPY": "コピー",
-      "MOVE": "移動",
-      "DELETE": "削除",
-      "DELETE_PERMANENT": "完全に削除する",
-      "MORE": "その他の処理",
-      "UNDO": "元に戻す",
-      "PERMISSIONS": "権限",
-      "RESTORE": "復元",
-      "FAVORITE": "お気に入り",
-      "ADD_FAVORITE": "お気に入りに追加",
-      "REMOVE_FAVORITE": "お気に入りの削除",
-      "UNSHARE": "共有の解除",
-      "DETAILS": "詳細の表示",
-      "VERSIONS": "バージョンの管理",
-      "UPLOAD_VERSION": "新しいバージョンのアップロード",
-      "TOGGLE-SIDENAV": "サイドナビゲーションバーの切り替え",
-      "SHARE": "共有",
-      "SHARE_EDIT": "共有リンクの設定",
-      "PRINT": "印刷",
-      "FULLSCREEN": "全画面表示モードをアクティブにする",
-      "JOIN": "参加",
-      "CANCEL_JOIN": "参加リクエストのキャンセル",
-      "LEAVE": "ライブラリから脱退",
-      "EDIT_OFFLINE": "オフライン編集",
-      "EDIT_OFFLINE_CANCEL": "編集のキャンセル",
-      "CHANGE_ASPECT": "アスペクトを編集"
+    "SHARED_LINK": {
+        "UNSHARE_PERMISSION_ERROR": "このファイルの共有を解除する権限がありません。"
     },
-    "DIALOGS": {
-      "CONFIRM_PURGE": {
-        "TITLE": "ごみ箱から削除しますか?",
-        "MESSAGE": "この操作を行うと、選択したアイテムが完全に削除されます。",
-        "YES_LABEL": "削除",
-        "NO_LABEL": "残す"
-      },
-      "CONFIRM_LEAVE": {
-        "TITLE": "このライブラリから脱退しますか?",
-        "MESSAGE": "脱退すると、アクセス権が削除されます。",
-        "YES_LABEL": "OK",
-        "NO_LABEL": "キャンセル"
-      },
-      "MOBILE_APP": {
-        "MOBILE_APP_BUTTON_LABEL": "アプリで開く",
-        "DOWNLOAD_APP_BUTTON_LABEL": "アプリがない場合は、今すぐダウンロードしてください。",
-        "OPEN_ALFRESCO_MOBILE_APP": "Alfresco Mobileアプリケーションを使用して開きますか？"
-      }
-    },
-    "DOCUMENT_LIST": {
-      "COLUMNS": {
-        "ID": "ID",
-        "NAME": "名前",
-        "DESCRIPTION": "説明",
-        "SIZE": "サイズ",
-        "MODIFIED_ON": "変更日",
-        "MODIFIED_BY": "変更者",
-        "VISIBILITY": "公開レベル",
-        "TITLE": "タイトル",
-        "LOCATION": "場所",
-        "SHARED_BY": "共有者",
-        "DELETED_ON": "削除済み",
-        "DELETED_BY": "削除者",
-        "ROLE": "あなたの役割",
-        "TAGS": "タグ"
-      }
-    },
-    "MESSAGES": {
-      "ERRORS": {
-        "CANNOT_NAVIGATE_LOCATION": "この場所は開けません",
-        "MISSING_CONTENT": "このアイテムは削除されたか、このアイテムを表示する権限がありません。",
-        "GENERIC": "処理が失敗しました。もう一度操作をやり直すか、IT 担当者に連絡してください。",
-        "CONFLICT": "この名前は既に使用されています。別の名前を使用してください。",
-        "NODE_MOVE": "移動できません。同じ名前のファイルが既に存在します。",
-        "EXISTENT_FOLDER": "この名前のフォルダは既に存在します。別の名前を使用してください。",
-        "NODE_DELETION": "{{ name }} を削除できませんでした",
-        "NODE_DELETION_PLURAL": "{{ number }} 件のアイテムを削除できませんでした",
-        "NODE_RESTORE": "{{ name }} を復元できませんでした",
-        "NODE_RESTORE_PLURAL": "{{ number }} 件のアイテムを復元できませんでした",
-        "PERMISSION": "この操作を行うための権限がありません",
-        "LOCK_NODE": "{{ fileName }} ファイルのロック中に問題が発生しました",
-        "UNLOCK_NODE": "{{ fileName }} ファイルのロック解除中に問題が発生しました",
-        "TRASH": {
-          "NODES_PURGE": {
-            "PLURAL": "{{ number }} 件のアイテムを削除できませんでした",
-            "SINGULAR": "{{ name }} を削除できませんでした"
-          },
-          "NODES_RESTORE": {
-            "PARTIAL_PLURAL": "{{ number }} 件のアイテムが復元されませんでした。復元先の場所に問題があります。",
-            "NODE_EXISTS": "復元できません。{{ name }} は既に存在します。",
-            "LOCATION_MISSING": "{{ name }} を復元できません。元の場所が削除されています。",
-            "GENERIC": "{{ name }} の復元中に問題が発生しました"
-          }
+    "VERSION": {
+        "DIALOG": {
+            "TITLE": "新しいバージョンのアップロード",
+            "CANCEL": "キャンセル",
+            "UPLOAD": "アップロード"
         },
-        "DELETE_LIBRARY_FAILED": "このライブラリは削除できません",
-        "LEAVE_LIBRARY_FAILED": "このライブラリから脱退できません"
-      },
-      "UPLOAD": {
+        "SELECTION": {
+            "EMPTY": "バージョンを表示する文書を選択してください。",
+            "NO_PERMISSION": "このコンテンツのバージョンを管理するための権限がありません。"
+        },
         "ERROR": {
-          "GENERIC": "アップロードできませんでした。問題が解決しない場合は、IT 担当者に連絡してください。",
-          "CONFLICT": "新しいバージョンはアップロードされていません。同じ名前のファイルが既に存在します",
-          "500": "内部サーバーエラーが発生しました。もう一度操作をやり直すか、IT 担当者に連絡してください。 [500]",
-          "504": "サーバーがタイムアウトになりました。もう一度操作をやり直すか、IT 担当者に連絡してください。[504]",
-          "403": "この場所にアップロードするための権限がありません [403]",
-          "404": "アップロード場所は削除されました [404]"
+            "GENERIC": "ファイルのバージョン作成中にエラーが発生しました"
         }
-      },
-      "INFO": {
-        "TRASH": {
-          "NODES_PURGE": {
-            "PLURAL": "{{ number }} 件のアイテムを削除しました",
-            "SINGULAR": "''{{ name }}'' アイテムを削除しました",
-            "PARTIAL_SINGULAR": "{{ name }} を削除しましたが、{{ failed }} 件は削除できませんでした",
-            "PARTIAL_PLURAL": "{{ number }} 件のアイテムを削除しましたが、{{ failed }} 件は削除できませんでした"
-          },
-          "NODES_RESTORE": {
-            "PLURAL": "正常に復元されました",
-            "SINGULAR": "{{ name }} を復元しました"
-          }
+    },
+    "LIBRARY": {
+        "DIALOG": {
+            "CREATE_TITLE": "ライブラリの作成",
+            "CREATE": "作成",
+            "UPDATE": "更新",
+            "EDIT": "編集",
+            "CANCEL": "キャンセル",
+            "FORM": {
+                "DESCRIPTION": "説明",
+                "SITE_ID": "ライブラリ ID",
+                "NAME": "名前",
+                "VISIBILITY": "公開レベル"
+            }
         },
-        "NODE_DELETION": {
-          "SINGULAR": "''{{ name }}'' アイテムを削除しました",
-          "PLURAL": "{{ number }} 件のアイテムを削除しました",
-          "PARTIAL_SINGULAR": "{{ success }} 件のアイテムを削除しましたが、{{ failed }} 件は削除できませんでした",
-          "PARTIAL_PLURAL": "{{ success }} 件のアイテムを削除しましたが、{{ failed }} 件は削除できませんでした"
+        "VISIBILITY": {
+            "PRIVATE": "非公開",
+            "PUBLIC": "公開",
+            "MODERATED": "条件付き公開"
         },
-        "NODE_COPY": {
-          "SINGULAR": "{{ success }} 件のアイテムをコピーしました",
-          "PLURAL": "{{ success }} 件のアイテムをコピーしました",
-          "PARTIAL_SINGULAR": "{{ success }} 件のアイテムをコピーしましたが、{{ failed }} 件はコピーできませんでした。",
-          "PARTIAL_PLURAL": "{{ success }} 件のアイテムをコピーしましたが、{{ failed }} 件はコピーできませんでした。",
-          "FAIL_SINGULAR": "{{ failed }} 件のアイテムをコピーできませんでした。",
-          "FAIL_PLURAL": "{{ failed }} 件のアイテムをコピーできませんでした。"
+        "HINTS": {
+            "SITE_TITLE_EXISTS": "ライブラリ名は既に使用されています"
         },
-        "NODE_MOVE": {
-          "SINGULAR": "{{ success }} 件のアイテムを移動しました。",
-          "PLURAL": "{{ success }} 件のアイテムを移動しました。",
-          "PARTIAL": {
-            "SINGULAR": "一部のアイテム ({{ partially }} 件) を移動しました。",
-            "PLURAL": "一部のアイテム ({{ partially }} 件) を移動しました。",
-            "FAIL": "{{ failed }} 件を移動できませんでした。"
-          }
+        "ERRORS": {
+            "GENERIC": "問題の発生",
+            "EXISTENT_SITE": "このライブラリ ID は使用できません。別のライブラリ ID を使用してください。",
+            "CONFLICT": "このライブラリ ID は既に使われています。ごみ箱をチェックしてください。",
+            "ID_TOO_LONG": "URL 名は 72 文字以内で入力してください",
+            "DESCRIPTION_TOO_LONG": "説明は 512 文字以内で入力してください",
+            "TITLE_TOO_LONG_OR_MISSING": "Use 256 characters or less for title",
+            "ILLEGAL_CHARACTERS": "英数字だけを使用してください",
+            "ONLY_SPACES": "ライブラリ名にスペースだけを含めることはできません",
+            "LIBRARY_UPDATE_ERROR": "ライブラリのプロパティの更新中にエラーが発生しました"
         },
-        "LIBRARY_DELETED": "ライブラリが削除されました",
-        "LEFT_LIBRARY": "このライブラリからは脱退しています"
-      }
-    },
-    "CONTENT_METADATA": {
-      "EXIF_GROUP_TITLE": "画像の Exif",
-      "GROUP_IPTC_CORE_CONTACT_INFO": "IPTC 連絡先",
-      "GROUP_IPTC_CORE_IMAGE_INFO": "IPTC 画像",
-      "GROUP_IPTC_CORE_CONTENT_INFO": "IPTC コンテンツ",
-      "GROUP_IPTC_CORE_STATUS_INFO": "IPTC ステータス",
-      "GROUP_IPTC_EXT_DESCRIPTION": "IPTC 画像説明",
-      "GROUP_IPTC_EXT_AO_DETAIL": "IPTC アートワークまたはオブジェクトの詳細",
-      "GROUP_IPTC_EXT_MODEL_INFO": "IPTC モデル情報",
-      "GROUP_IPTC_EXT_ADMIN_INFO": "IPTC 管理者情報",
-      "GROUP_IPTC_EXT_RIGHTS_INFO": "IPTC 権利情報",
-      "GROUP_IPTC_EXT_OTHER": "IPTC その他",
-      "EFFECTIVITY_GROUP_TITLE": "有効性"
-    },
-    "INFO_DRAWER": {
-      "TITLE": "詳細",
-      "DATA_LOADING": "データの読み込み中",
-      "TABS": {
-        "PROPERTIES": "プロパティ",
-        "LIBRARY_PROPERTIES": "バージョン情報",
-        "VERSIONS": "バージョン",
-        "COMMENTS": "コメント",
-        "PERMISSIONS": "権限",
-        "EXPAND": "展開"
-      }
-    },
-    "TOOLTIPS": {
-      "COLLAPSE_NAVIGATION": "ナビゲーションメニューを折りたたむ",
-      "OPTIONS_SETTINGS": "オプションと設定",
-      "MY_PROFILE": "あなたのプロフィール",
-      "EXPAND_NAVIGATION": "ナビゲーションメニューを展開します"
-    }
-  },
-  "NODE_SELECTOR": {
-    "COPY_ITEM": "'{{ name }}' のコピー先...",
-    "COPY_ITEMS": "{{ number }} 件のアイテムのコピー先...",
-    "MOVE_ITEM": "'{{ name }}' の移動先...",
-    "MOVE_ITEMS": "{{ number }} 件のアイテムの移動先...",
-    "SEARCH": "検索",
-    "NEXT": "次へ",
-    "SELECT_FILE_TEMPLATE_TITLE": "文書テンプレートを選択してください",
-    "SELECT_FOLDER_TEMPLATE_TITLE": "フォルダテンプレートを選択してください"
-  },
-  "NODE_FROM_TEMPLATE": {
-    "CANCEL": "キャンセル",
-    "CREATE": "作成",
-    "FOLDER_DIALOG_TITLE": "<span class=\"bold\">'{{ template }}'</span> から新規フォルダを作成します",
-    "FILE_DIALOG_TITLE": "<span class=\"bold\">'{{ template }}'</span> から新規文書を作成します",
-    "FORM": {
-      "PLACEHOLDER": {
-        "NAME": "名前",
-        "TITLE": "タイトル",
-        "DESCRIPTION": "説明"
-      },
-      "ERRORS": {
-        "DESCRIPTION_TOO_LONG": "説明は 512 文字以内で入力してください",
-        "TITLE_TOO_LONG": "タイトルは 256 文字以内で入力してください",
-        "REQUIRED": "名前は必須です",
-        "SPECIAL_CHARACTERS": "名前に次の文字を含めることはできません。 * \" < > \\ / ? : |",
-        "ENDING_DOT": "名前の末尾にピリオド (.) を付けることはできません。",
-        "ONLY_SPACES": "名前にスペースだけを含めることはできません"
-      }
-    }
-  },
-  "SHARED_LINK": {
-    "UNSHARE_PERMISSION_ERROR": "このファイルの共有を解除する権限がありません。"
-  },
-  "VERSION": {
-    "DIALOG": {
-      "TITLE": "新しいバージョンのアップロード",
-      "CANCEL": "キャンセル",
-      "UPLOAD": "アップロード"
-    },
-    "SELECTION": {
-      "EMPTY": "バージョンを表示する文書を選択してください。",
-      "NO_PERMISSION": "このコンテンツのバージョンを管理するための権限がありません。"
-    },
-    "ERROR": {
-      "GENERIC": "ファイルのバージョン作成中にエラーが発生しました"
-    }
-  },
-  "LIBRARY": {
-    "DIALOG": {
-      "CREATE_TITLE": "ライブラリの作成",
-      "CREATE": "作成",
-      "UPDATE": "更新",
-      "EDIT": "編集",
-      "CANCEL": "キャンセル",
-      "FORM": {
-        "DESCRIPTION": "説明",
-        "SITE_ID": "ライブラリ ID",
-        "NAME": "名前",
-        "VISIBILITY": "公開レベル"
-      }
-    },
-    "VISIBILITY": {
-      "PRIVATE": "非公開",
-      "PUBLIC": "公開",
-      "MODERATED": "条件付き公開"
-    },
-    "HINTS": {
-      "SITE_TITLE_EXISTS": "ライブラリ名は既に使用されています"
-    },
-    "ERRORS": {
-      "GENERIC": "問題の発生",
-      "EXISTENT_SITE": "このライブラリ ID は使用できません。別のライブラリ ID を使用してください。",
-      "CONFLICT": "このライブラリ ID は既に使われています。ごみ箱をチェックしてください。",
-      "ID_TOO_LONG": "URL 名は 72 文字以内で入力してください",
-      "DESCRIPTION_TOO_LONG": "説明は 512 文字以内で入力してください",
-      "TITLE_TOO_LONG": "タイトルは 256 文字以内で入力してください",
-      "ILLEGAL_CHARACTERS": "英数字だけを使用してください",
-      "ONLY_SPACES": "ライブラリ名にスペースだけを含めることはできません",
-      "LIBRARY_UPDATE_ERROR": "ライブラリのプロパティの更新中にエラーが発生しました"
-    },
-    "SUCCESS": {
-      "LIBRARY_UPDATED": "ライブラリのプロパティが更新されました"
-    }
-  },
-  "SEARCH": {
-    "INPUT": {
-      "PLACEHOLDER": "検索",
-      "FILES": "ファイル",
-      "FOLDERS": "フォルダ",
-      "LIBRARIES": "ライブラリ",
-      "HINT": "検索する語句は、2 文字以上の英数字で入力してください。"
-    },
-    "SORT": {
-      "SORTING_OPTION": "並べ替え",
-      "ASCENDING": "昇順",
-      "DESCENDING": "降順",
-      "RELEVANCE": "関連性",
-      "FILENAME": "ファイル名",
-      "TITLE": "タイトル",
-      "MODIFIED_DATE": "変更日",
-      "SIZE": "サイズ",
-      "TYPE": "タイプ",
-      "MODIFIER": "変更者",
-      "CREATE_DATE": "作成日"
-    },
-    "FACET_FIELDS": {
-      "CREATOR": "作成者",
-      "MODIFIER": "変更者",
-      "LOCATION": "場所",
-      "CATEGORIES": "カテゴリ"
-    },
-    "CATEGORIES": {
-      "EFFECTIVITY_FROM": "有効性の開始",
-      "EFFECTIVITY_TO": "有効性の終了",
-      "LOGIC": "ロジック"
-    },
-    "SEARCH_HEADER": {
-      "TITLE": "フィルタ",
-      "TYPE": "タイプ",
-      "FILTER_BY": "{{ category }} でフィルタ",
-      "CLEAR": "消去",
-      "APPLY": "適用",
-      "FILTERS": {
-        "NAME": {
-          "TITLE": "名前",
-          "PLACEHOLDER": "名前を入力してください"
-        },
-        "TYPE": {
-          "TITLE": "タイプを選択してください",
-          "FOLDER": "フォルダ",
-          "DOCUMENT": "文書"
-        },
-        "SIZE": {
-          "TITLE": "コンテンツのサイズ (範囲)",
-          "SMALL": "小",
-          "MEDIUM": "中",
-          "LARGE": "大",
-          "HUGE": "特大"
-        },
-        "DATE": {
-          "TITLE": "作成日 (範囲)"
+        "SUCCESS": {
+            "LIBRARY_UPDATED": "ライブラリのプロパティが更新されました"
         }
-      }
+    },
+    "SEARCH": {
+        "BULK_ACTIONS_DROPDOWN": {
+            "TITLE": "Bulk Actions ({{ count }} Items)",
+            "BULK_NOT_AVAILABLE": "Bulk Actions (Not Available)",
+            "BULK_NOT_AVAILABLE_TOOLTIP": "Bulk Actions cannot be used without search results"
+        },
+        "INPUT": {
+            "PLACEHOLDER": "検索",
+            "FILES": "ファイル",
+            "FOLDERS": "フォルダ",
+            "LIBRARIES": "ライブラリ",
+            "HINT": "検索する語句は、2 文字以上の英数字で入力してください。"
+        },
+        "SORT": {
+            "SORTING_OPTION": "並べ替え",
+            "ASCENDING": "昇順",
+            "DESCENDING": "降順",
+            "RELEVANCE": "関連性",
+            "FILENAME": "ファイル名",
+            "TITLE": "タイトル",
+            "MODIFIED_DATE": "変更日",
+            "SIZE": "サイズ",
+            "TYPE": "タイプ",
+            "MODIFIER": "変更者",
+            "CREATE_DATE": "作成日"
+        },
+        "FACET_FIELDS": {
+            "CREATOR": "作成者",
+            "MODIFIER": "変更者",
+            "LOCATION": "場所",
+            "CATEGORIES": "カテゴリ"
+        },
+        "CATEGORIES": {
+            "DATE": "Date",
+            "DATE_TABS": {
+                "CREATED": "Created",
+                "MODIFIED": "Modified"
+            },
+            "EFFECTIVITY_FROM": "有効性の開始",
+            "EFFECTIVITY_TO": "有効性の終了",
+            "LOGIC": "ロジック",
+            "PROPERTIES": "Properties"
+        },
+        "SEARCH_HEADER": {
+            "TITLE": "フィルタ",
+            "TYPE": "タイプ",
+            "FILTER_BY": "{{ category }} でフィルタ",
+            "CLEAR": "消去",
+            "APPLY": "適用",
+            "FILTERS": {
+                "NAME": {
+                    "TITLE": "名前",
+                    "PLACEHOLDER": "名前を入力してください"
+                },
+                "TYPE": {
+                    "TITLE": "タイプを選択してください",
+                    "FOLDER": "フォルダ",
+                    "DOCUMENT": "文書"
+                },
+                "SIZE": {
+                    "TITLE": "コンテンツのサイズ (範囲)",
+                    "SMALL": "小",
+                    "MEDIUM": "中",
+                    "LARGE": "大",
+                    "HUGE": "特大"
+                },
+                "DATE": {
+                    "TITLE": "作成日 (範囲)"
+                }
+            }
+        }
+    },
+    "CORE": {
+        "METADATA": {
+            "ACTIONS": {
+                "SAVE": "変更を保存する",
+                "CANCEL": "変更を破棄する"
+            }
+        }
+    },
+    "ADF_VIEWER": {
+        "ACTIONS": {
+            "INFO": "詳細の表示",
+            "PREVIEW": "プレビューを表示"
+        }
+    },
+    "FILE_UPLOAD": {
+        "ERRORS": {
+            "409": "この名前は既に使用されています。別の名前を使用してください [409]"
+        }
+    },
+    "ADF_VERSION_LIST": {
+        "ACTIONS": {
+            "UPLOAD": {
+                "TOOLTIP": "新しいバージョンをアップロードします"
+            }
+        }
+    },
+    "CUSTOM_NAME_COLUMN": {
+        "ACCESSIBILITY": {
+            "FILE_LINK_ARIA_LABEL": "{{ name }} を表示",
+            "FOLDER_LINK_ARIA_LABEL": "{{ name }} フォルダを開く"
+        }
+    },
+    "ADF-DATATABLE": {
+        "FILE_TYPE": {
+            "BOOKS-24PX": "ファイルライブラリ",
+            "BASELINE-LOCK-24PX": "ロックされているファイル"
+        }
+    },
+    "KNOWLEDGE_RETRIEVAL": {
+        "SEARCH": {
+            "RESULTS_PAGE": {
+                "QUERY_INPUT_PLACEHOLDER": "Would you like to ask anything else?",
+                "REFERENCED_DOCUMENTS_HEADER": "Referenced documents",
+                "REGENERATION_BUTTON_LABEL": "Regenerate",
+                "COPY_BUTTON_LABEL": "Copy",
+                "COPY_MESSAGE": "Copied response to clipboard"
+            },
+            "AGENTS_BUTTON": {
+                "LABEL": "Ask Discovery",
+                "TITLE": "Knowledge Retrieval"
+            },
+            "SEARCH_INPUT": {
+                "ASK_BUTTON_LABEL": "Ask",
+                "DEFAULT_PLACEHOLDER": "Please ask your question with as much detail as possible...",
+                "HIDE_INPUT": "Hide input",
+                "HIDE_ANSWER": "Hide answer"
+            },
+            "ERRORS": {
+                "AGENTS_FETCHING": "Error while fetching agents.",
+                "HX_INSIGHT_URL_FETCHING": "Error while fetching HX Insight URL.",
+                "LOADING_ERROR": "Hmm... something seems to have gone wrong.",
+                "PAGE_NOT_AVAILABLE_ERROR": "Page is not available for these conditions."
+            },
+            "DISCARD_CHANGES": {
+                "WARNING": "Warning!",
+                "ASK_AI": "Ask AI",
+                "DO_NOT_SHOW_MESSAGE": "Don't show this message again",
+                "DISCARD_CONVERSATION": "Discard Conversation",
+                "CONVERSATION_DISCARDED": "This conversation will be discarded",
+                "LOSE_RESPONSE": "By asking another question you will lose your previous response"
+            }
+        }
     }
-  },
-  "CORE": {
-    "METADATA": {
-      "ACTIONS": {
-        "SAVE": "変更を保存する",
-        "CANCEL": "変更を破棄する"
-      }
-    }
-  },
-  "ADF_VIEWER": {
-    "ACTIONS": {
-      "INFO": "詳細の表示",
-      "PREVIEW": "プレビューを表示"
-    }
-  },
-  "FILE_UPLOAD": {
-    "ERRORS": {
-      "409": "この名前は既に使用されています。別の名前を使用してください [409]"
-    }
-  },
-  "ADF_VERSION_LIST": {
-    "ACTIONS": {
-      "UPLOAD": {
-        "TOOLTIP": "新しいバージョンをアップロードします"
-      }
-    }
-  },
-  "CUSTOM_NAME_COLUMN": {
-    "ACCESSIBILITY": {
-      "FILE_LINK_ARIA_LABEL": "{{ name }} を表示",
-      "FOLDER_LINK_ARIA_LABEL": "{{ name }} フォルダを開く"
-    }
-  },
-  "ADF-DATATABLE": {
-    "FILE_TYPE": {
-      "BOOKS-24PX": "ファイルライブラリ",
-      "BASELINE-LOCK-24PX": "ロックされているファイル"
-    }
-  }
 }
-

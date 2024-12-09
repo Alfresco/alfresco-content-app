@@ -1,600 +1,686 @@
 {
-  "APP": {
-    "COPYRIGHT": "2005-2024 Hyland Software, Inc. a její přidružené společnosti. Všechna práva vyhrazena.",
-    "TITLE": "Workspace",
-    "ABOUT": {
-      "VERSION": "Verze:",
-      "PLUGINS": {
-        "TITLE": "Rozšíření",
-        "ID": "ID",
-        "NAME": "Název",
-        "VERSION": "Verze",
-        "VENDOR": "Dodavatel",
-        "LICENSE": "Licence",
-        "RUNTIME": "Délka",
-        "DESCRIPTION": "Popis"
-      },
-      "LICENSE": {
-        "TITLE": "Licence",
-        "PROPERTY": "Vlastnost",
-        "VALUE": "Hodnota"
-      },
-      "STATUS": {
-        "TITLE": "Stav",
-        "PROPERTY": "Vlastnost",
-        "VALUE": "Hodnota"
-      },
-      "MODULES": {
-        "TITLE": "Moduly platformy Alfresco",
-        "ID": "ID",
-        "NAME": "Název",
-        "VERSION": "Verze"
-      },
-      "PACKAGES": {
-        "TITLE": "Balíčky",
-        "NAME": "Název",
-        "VERSION": "Verze"
-      }
+    "APP": {
+        "COPYRIGHT": "2005-2024 Hyland Software, Inc. a její přidružené společnosti. Všechna práva vyhrazena.",
+        "TITLE": "Workspace",
+        "ABOUT": {
+            "VERSION": "Verze:",
+            "PLUGINS": {
+                "TITLE": "Rozšíření",
+                "ID": "ID",
+                "NAME": "Název",
+                "VERSION": "Verze",
+                "VENDOR": "Dodavatel",
+                "LICENSE": "Licence",
+                "RUNTIME": "Délka",
+                "DESCRIPTION": "Popis"
+            },
+            "LICENSE": {
+                "TITLE": "Licence",
+                "PROPERTY": "Vlastnost",
+                "VALUE": "Hodnota"
+            },
+            "STATUS": {
+                "TITLE": "Stav",
+                "PROPERTY": "Vlastnost",
+                "VALUE": "Hodnota"
+            },
+            "MODULES": {
+                "TITLE": "Moduly platformy Alfresco",
+                "ID": "ID",
+                "NAME": "Název",
+                "VERSION": "Verze"
+            },
+            "PACKAGES": {
+                "TITLE": "Balíčky",
+                "NAME": "Název",
+                "VERSION": "Verze"
+            }
+        },
+        "LANGUAGE": "Jazyk",
+        "SIGN_IN": "Přihlásit se",
+        "SIGN_OUT": "Odhlásit se",
+        "EDIT_PROFILE": {
+            "MY_PROFILE": "Můj profil",
+            "GENERAL": "Obecné",
+            "EDIT": "Upravit",
+            "CANCEL": "Zrušit",
+            "SAVE": "Uložit",
+            "FIRST_NAME": "Jméno",
+            "LAST_NAME": "Příjmení",
+            "JOB_TITLE": "Název funkce",
+            "LOCATION": "Umístění",
+            "TELEPHONE": "Telefon",
+            "MOBILE": "Mobil",
+            "LOGIN": "Přihlášení",
+            "USERNAME": "Uživatelské jméno",
+            "EMAIL": "E-mail",
+            "PASSWORD": "Heslo",
+            "OLD_PASSWORD": "Staré heslo",
+            "FORGOT_PASSWORD": "Zapomenuté heslo",
+            "NEW_PASSWORD": "Nové heslo",
+            "VERIFY_PASSWORD": "Ověření hesla",
+            "COMPANY_DETAILS": "Podrobnosti o společnosti",
+            "NAME": "Název",
+            "ADDRESS": "Adresa",
+            "POSTCODE": "Postcode",
+            "INVALID_INPUT": "Invalid Input"
+        },
+        "LOCKED_BY": "Uzamknul(a): ",
+        "PREVIEW": {
+            "TITLE": "Náhled"
+        },
+        "DETAILS": {
+            "TITLE": "Podrobnosti"
+        },
+        "NEW_MENU": {
+            "MENU_ITEMS": {
+                "CREATE_FOLDER": "Vytvořit složku",
+                "UPLOAD_FILE": "Odeslat soubor",
+                "UPLOAD_FOLDER": "Odeslat složku",
+                "CREATE_LIBRARY": "Vytvořit knihovnu",
+                "FILE_TEMPLATE": "Vytvořit soubor ze šablony",
+                "FOLDER_TEMPLATE": "Vytvořit složku ze šablony"
+            },
+            "TOOLTIPS": {
+                "CREATE_FOLDER": "Vytvořit novou složku",
+                "CREATE_FOLDER_NOT_ALLOWED": "Během prohlížení současných položek není vytvoření složky možné",
+                "CREATE_FILE_NOT_ALLOWED": "Soubory nelze vytvářet během prohlížení aktuálních položek.",
+                "UPLOAD_FILES": "Vyberte soubory, které chcete odeslat",
+                "UPLOAD_FILES_NOT_ALLOWED": "Během prohlížení současných položek není odeslání souborů možné",
+                "UPLOAD_FOLDERS": "Vyberte složky, které chcete odeslat",
+                "UPLOAD_FOLDERS_NOT_ALLOWED": "Během prohlížení současných položek není odeslání složky možné",
+                "CREATE_LIBRARY": "Vytvořit novou knihovnu souborů"
+            }
+        },
+        "HEADER": {
+            "BUTTONS": {
+                "CREATE": "Vytvořit",
+                "CREATE_TOOLTIP": "Vytvořit obsah",
+                "UPLOAD": "Odeslat",
+                "UPLOAD_TOOLTIP": "Odeslat obsah"
+            },
+            "SELECTED": "Vybrané ({{ count }})"
+        },
+        "BROWSE": {
+            "FILE": {
+                "SIDENAV_LINK": {
+                    "LABEL": "Soubory",
+                    "TOOLTIP": "Soubory"
+                }
+            },
+            "PERSONAL": {
+                "TITLE": "Osobní soubory",
+                "SIDENAV_LINK": {
+                    "LABEL": "Osobní soubory",
+                    "TOOLTIP": "Zobrazit osobní soubory"
+                },
+                "PERMISSIONS": {
+                    "TITLE": "Oprávnění"
+                }
+            },
+            "LIBRARIES": {
+                "TITLE": "Knihovny souborů",
+                "DESCRIPTION": "Přejít na knihovny souborů",
+                "SIDENAV_LINK": {
+                    "LABEL": "Knihovny souborů",
+                    "TOOLTIP": "Knihovny souborů"
+                },
+                "EMPTY_STATE": {
+                    "FILE_LIBRARIES": {
+                        "TITLE": "Zatím nejste členem žádné knihovny souborů",
+                        "TEXT": "Připojení do knihovny souborů vám umožní odesílat, prohlížet a sdílet soubory."
+                    },
+                    "FAVORITE_LIBRARIES": {
+                        "TITLE": "Žádné oblíbené knihovny souborů",
+                        "TEXT": "Pro snadnější dostupnost můžete označit vybrané knihovny za oblíbené."
+                    }
+                },
+                "MENU": {
+                    "MY_LIBRARIES": {
+                        "TITLE": "Moje knihovny",
+                        "SIDENAV_LINK": {
+                            "LABEL": "Moje knihovny",
+                            "TOOLTIP": "Přejít do mých knihoven"
+                        }
+                    },
+                    "FAVORITE_LIBRARIES": {
+                        "TITLE": "Oblíbené knihovny",
+                        "SIDENAV_LINK": {
+                            "LABEL": "Oblíbené knihovny",
+                            "TOOLTIP": "Přejít do oblíbených knihoven"
+                        }
+                    }
+                }
+            },
+            "SHARED": {
+                "TITLE": "Sdílené soubory",
+                "SIDENAV_LINK": {
+                    "LABEL": "Sdílené",
+                    "TOOLTIP": "Zobrazit sdílené soubory"
+                },
+                "EMPTY_STATE": {
+                    "TITLE": "Žádné sdílené soubory ani složky",
+                    "TEXT": "Zde najdete všechny položky sdílené pomocí funkce Sdílet."
+                }
+            },
+            "RECENT": {
+                "TITLE": "Nedávné soubory",
+                "SIDENAV_LINK": {
+                    "LABEL": "Nedávné soubory",
+                    "TOOLTIP": "Zobrazit naposledy upravené soubory"
+                },
+                "EMPTY_STATE": {
+                    "TITLE": "Žádné nedávné soubory",
+                    "TEXT": "Zde najdete položky odeslané nebo upravené za posledních 30 dní."
+                }
+            },
+            "FAVORITES": {
+                "TITLE": "Oblíbené",
+                "SIDENAV_LINK": {
+                    "LABEL": "Oblíbené",
+                    "TOOLTIP": "Zobrazit oblíbené soubory a složky"
+                },
+                "EMPTY_STATE": {
+                    "TITLE": "Žádné oblíbené soubory a složky",
+                    "TEXT": "Pro snadnější dostupnost můžete označit vybrané položky za oblíbené."
+                }
+            },
+            "TRASHCAN": {
+                "TITLE": "Koš",
+                "SIDENAV_LINK": {
+                    "LABEL": "Koš",
+                    "TOOLTIP": "Zobrazit odstraněné soubory v koši"
+                },
+                "EMPTY_STATE": {
+                    "TITLE": "Koš je prázdný",
+                    "FIRST_TEXT": "Odstraněné položky se přesunou do koše.",
+                    "SECOND_TEXT": "Vysypáním koše můžete položky trvale odstranit."
+                }
+            },
+            "ABOUT": {
+                "TITLE": "O aplikaci"
+            },
+            "SEARCH": {
+                "DEFAULT_SEARCH": "Výchozí",
+                "DUBLIN_CORE": "Dublin Core",
+                "EFFECTIVITY": "Účinnost",
+                "TITLE": "Výsledky hledání",
+                "FILTER_SET": "Sada filtrů:",
+                "ADVANCED_FILTERS": "Pokročilé filtry:",
+                "RESET": "Reset",
+                "RESET_ACTION": "Reset search filters",
+                "SAVE_SEARCH": {
+                    "ACTION_BUTTON": "Save Search",
+                    "SAVE_CHANGES": "Save changes",
+                    "SAVE_AS_NEW": "Save as new",
+                    "MODAL_HEADER": "Save this search",
+                    "NAME_LABEL": "Name",
+                    "NAME_REQUIRED_ERROR": "This field is required",
+                    "DESCRIPTION_LABEL": "Description",
+                    "SAVE_SUCCESS": "Search Saved",
+                    "SAVE_ERROR": "Error occurred. Search could not be saved.",
+                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "Saved Search with '{{ name }}' name already exists.",
+                    "NAVBAR": {
+                        "TITLE": "Saved Searches ({{ number }})",
+                        "MANAGE_BUTTON": "Manage searches"
+                    },
+                    "EDIT_DIALOG": {
+                        "CONTEXT_OPTION": "Edit Search",
+                        "TITLE": "Edit Saved Search",
+                        "SUCCESS_MESSAGE": "Saved Search edited successfully",
+                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be edited."
+                    },
+                    "DELETE_DIALOG": {
+                        "CONTEXT_OPTION": "Delete Search",
+                        "TITLE": "Delete Saved Search",
+                        "CONTENT": "Are you sure you want to delete this search",
+                        "SUCCESS_MESSAGE": "Saved Search deleted successfully",
+                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be deleted."
+                    },
+                    "LIST": {
+                        "TITLE": "Saved Searches",
+                        "NAME": "Name",
+                        "DESCRIPTION": "Description",
+                        "EMPTY_LIST": "No saved searches",
+                        "COPY_TO_CLIPBOARD": "Copy to clipboard",
+                        "COPY_TO_CLIPBOARD_SUCCESS": "Search copied to clipboard",
+                        "EXECUTE_SEARCH": "Execute Search"
+                    }
+                },
+                "FOUND_RESULTS": "Nalezené výsledky: {{ number }}",
+                "FOUND_ONE_RESULT": "Nalezené výsledky: {{ number }}",
+                "CUSTOM_ROW": {
+                    "MODIFIED": "Změněno",
+                    "BY_USER": "od {{ user }}",
+                    "LOCATION": "Umístění",
+                    "SIZE": "Velikost"
+                },
+                "UNKNOWN_LOCATION": "Neznámé",
+                "NO_RESULTS": "Parametrům hledání odpovídá 0 výsledků",
+                "EMPTY_SEARCH": "Požadován hledaný výraz",
+                "NO_FILTER_RESULTS": "K vašemu filtru je 0 výsledků",
+                "ERRORS": {
+                    "500": "Při pokusu o zpracování dotazu hledání došlo k chybě [500]",
+                    "GENERIC": "Při pokusu o zpracování dotazu hledání došlo k chybě"
+                }
+            },
+            "SEARCH_LIBRARIES": {
+                "FOUND_RESULTS": "Výsledky: {{ number }}",
+                "FOUND_ONE_RESULT": "Výsledky: {{ number }}"
+            }
+        },
+        "ACTIONS": {
+            "VIEW": "Zobrazit",
+            "EDIT": "Upravit",
+            "DOWNLOAD": "Stáhnout",
+            "COPY": "Kopírovat",
+            "MOVE": "Přesunout",
+            "DELETE": "Odstranit",
+            "DELETE_PERMANENT": "Trvale odstranit",
+            "MORE": "Další akce",
+            "UNDO": "Zpět",
+            "PERMISSIONS": "Oprávnění",
+            "RESTORE": "Obnovit",
+            "FAVORITE": "Oblíbené",
+            "ADD_FAVORITE": "Přidat oblíbené",
+            "REMOVE_FAVORITE": "Odebrat oblíbené",
+            "UNSHARE": "Zrušit sdílení",
+            "DETAILS": "Zobrazit podrobnosti",
+            "VERSIONS": "Spravovat verze",
+            "UPLOAD_VERSION": "Odeslat novou verzi",
+            "TOGGLE-SIDENAV": "Přepnout boční navigační panel",
+            "SHARE": "Sdílet",
+            "SHARE_EDIT": "Nastavení sdíleného odkazu",
+            "PRINT": "Tisk",
+            "FULLSCREEN": "Aktivovat režim celé obrazovky",
+            "JOIN": "Připojit se",
+            "CANCEL_JOIN": "Zrušit žádost o připojení",
+            "LEAVE": "Opustit knihovnu",
+            "EDIT_OFFLINE": "Upravit offline",
+            "EDIT_OFFLINE_CANCEL": "Zrušit úpravu",
+            "CHANGE_ASPECT": "Upravit aspekty",
+            "ADD_ASPECTS": "Add Aspects"
+        },
+        "DIALOGS": {
+            "CONFIRM_PURGE": {
+                "TITLE": "Odstranit z koše?",
+                "MESSAGE": "Dojde k trvalému odstranění vybraných položek.",
+                "YES_LABEL": "Odstranit",
+                "NO_LABEL": "Ponechat"
+            },
+            "CONFIRM_LEAVE": {
+                "TITLE": "Opustit tuto knihovnu?",
+                "MESSAGE": "Po opuštění ztratíte přístupová práva.",
+                "YES_LABEL": "OK",
+                "NO_LABEL": "Zrušit"
+            },
+            "MOBILE_APP": {
+                "MOBILE_APP_BUTTON_LABEL": "Open in App",
+                "DOWNLOAD_APP_BUTTON_LABEL": "Nemáte aplikaci? Stáhněte si ji nyní.",
+                "OPEN_ALFRESCO_MOBILE_APP": "Otevřít za pomoci aplikace Alfresco Mobile?"
+            }
+        },
+        "DOCUMENT_LIST": {
+            "COLUMNS": {
+                "ID": "ID",
+                "NAME": "Název",
+                "DESCRIPTION": "Popis",
+                "SIZE": "Velikost",
+                "MODIFIED_ON": "Změněno",
+                "MODIFIED_BY": "Změnil(a)",
+                "VISIBILITY": "Viditelnost",
+                "TITLE": "Označení",
+                "LOCATION": "Umístění",
+                "SHARED_BY": "Sdílel(a)",
+                "DELETED_ON": "Odstraněno",
+                "DELETED_BY": "Odstranil(a)",
+                "ROLE": "Moje role",
+                "TAGS": "Tag"
+            }
+        },
+        "MESSAGES": {
+            "ERRORS": {
+                "CANNOT_NAVIGATE_LOCATION": "Toto umístění nelze otevřít",
+                "MISSING_CONTENT": "Tato položka již neexistuje nebo nemáte dostatečná oprávnění pro její zobrazení.",
+                "GENERIC": "Akce se nezdařila. Zkuste to znovu nebo se obraťte na oddělení IT.",
+                "CONFLICT": "Tento název se již používá. Zvolte jiný.",
+                "NODE_MOVE": "Přesunutí se nezdařilo, protože soubor se stejným názvem již existuje.",
+                "EXISTENT_FOLDER": "Složka s tímto názvem již existuje. Zadejte jiný název.",
+                "NODE_DELETION": "„{{ name }}“ nebylo možné odstranit",
+                "NODE_DELETION_PLURAL": "Některé položky ({{ number }}) nebylo možné odstranit",
+                "NODE_RESTORE": "„{{ name }}“ nebylo možné obnovit",
+                "NODE_RESTORE_PLURAL": "Některé položky ({{ number }}) nebylo možné obnovit",
+                "PERMISSION": "Nemáte dostatečná přístupová oprávnění",
+                "LOCK_NODE": "Při pokusu o uzamknutí souboru {{ fileName }} došlo k chybě",
+                "UNLOCK_NODE": "Při pokusu o odemknutí souboru {{ fileName }} došlo k chybě",
+                "TRASH": {
+                    "NODES_PURGE": {
+                        "PLURAL": "Některé položky ({{ number }}) nebylo možné odstranit",
+                        "SINGULAR": "„{{ name }}“ nebylo možné odstranit"
+                    },
+                    "NODES_RESTORE": {
+                        "PARTIAL_PLURAL": "Některé položky ({{ number }}) nebylo možné obnovit, protože došlo k potížím s umístěním obnovených položek",
+                        "NODE_EXISTS": "„{{ name }}“ nebylo možné obnovit, protože tato položka již existuje",
+                        "LOCATION_MISSING": "„{{ name }}“ nebylo možné obnovit, protože původní umístění již neexistuje",
+                        "GENERIC": "Při pokusu o obnovení položky {{ name }} došlo k potížím"
+                    }
+                },
+                "DELETE_LIBRARY_FAILED": "Knihovnu nebylo možné odstranit",
+                "LEAVE_LIBRARY_FAILED": "Tuto knihovnu nelze opustit"
+            },
+            "UPLOAD": {
+                "ERROR": {
+                    "GENERIC": "Odeslání se nezdařilo. Pokud problém přetrvá, obraťte se na oddělení IT.",
+                    "CONFLICT": "Novou verzi nebylo možné odeslat, protože již existuje jiný soubor se stejným názvem",
+                    "500": "Interní chyba serveru. Pokus opakujte nebo se obraťte na podporu IT [500]",
+                    "504": "Vypršel časový limit serveru. Pokus opakujte nebo se obraťte na podporu IT [504]",
+                    "403": "Nedostatečná oprávnění pro odeslání do tohoto umístění [403]",
+                    "404": "Umístění pro odesílání položek již neexistuje [404]"
+                }
+            },
+            "INFO": {
+                "TRASH": {
+                    "NODES_PURGE": {
+                        "PLURAL": "Položky ({{ number }}) byly odstraněny",
+                        "SINGULAR": "„{{ name }}“ se podařilo úspěšně odstranit",
+                        "PARTIAL_SINGULAR": "Odstraněno: {{ name }}. Chyba při odstraňování: {{ failed }}.",
+                        "PARTIAL_PLURAL": "Odstraněné položky: {{ number }}. Některé položky ({{ failed }}) se nepodařilo odstranit."
+                    },
+                    "NODES_RESTORE": {
+                        "PLURAL": "Obnovení proběhlo úspěšně",
+                        "SINGULAR": "„{{ name }}“ se podařilo úspěšně obnovit"
+                    }
+                },
+                "NODE_DELETION": {
+                    "SINGULAR": "„{{ name }}“ se podařilo úspěšně odstranit",
+                    "PLURAL": "Odstraněno: {{ number }}",
+                    "PARTIAL_SINGULAR": "Odstraněné položky: {{ success }}. Některé položky ({{ failed }}) se nepodařilo odstranit.",
+                    "PARTIAL_PLURAL": "Odstraněné položky: {{ success }}. Některé položky ({{ failed }}) se nepodařilo odstranit."
+                },
+                "NODE_COPY": {
+                    "SINGULAR": "Zkopírované položky: {{ success }}",
+                    "PLURAL": "Zkopírované položky: {{ success }}",
+                    "PARTIAL_SINGULAR": "Zkopírované položky: {{ success }}. Některé položky ({{ failed }}) se nepodařilo zkopírovat.",
+                    "PARTIAL_PLURAL": "Zkopírované položky: {{ success }}. Některé položky ({{ failed }}) se nepodařilo zkopírovat.",
+                    "FAIL_SINGULAR": "Některé položky ({{ failed }}) nebylo možné zkopírovat.",
+                    "FAIL_PLURAL": "Některé položky ({{ failed }}) nebylo možné zkopírovat."
+                },
+                "NODE_MOVE": {
+                    "SINGULAR": "Přesunuté položky: {{ success }}",
+                    "PLURAL": "Přesunuté položky: {{ success }}",
+                    "PARTIAL": {
+                        "SINGULAR": "Částečně přesunuté položky: {{ partially }}",
+                        "PLURAL": "Částečně přesunuté položky: {{ partially }}",
+                        "FAIL": "Některé položky ({{ failed }}) nebylo možné přesunout."
+                    }
+                },
+                "LIBRARY_DELETED": "Knihovna odstraněna",
+                "LEFT_LIBRARY": "Opustili jste knihovnu"
+            }
+        },
+        "CONTENT_METADATA": {
+            "EXIF_GROUP_TITLE": "Obraz EXIF",
+            "GROUP_IPTC_CORE_CONTACT_INFO": "IPTC kontakt",
+            "GROUP_IPTC_CORE_IMAGE_INFO": "IPTC obrázek",
+            "GROUP_IPTC_CORE_CONTENT_INFO": "IPTC obsah",
+            "GROUP_IPTC_CORE_STATUS_INFO": "IPTC stav",
+            "GROUP_IPTC_EXT_DESCRIPTION": "Popis IPTC obrázku",
+            "GROUP_IPTC_EXT_AO_DETAIL": "IPTC artwork nebo podrobnosti o objektu",
+            "GROUP_IPTC_EXT_MODEL_INFO": "Informace o IPTC modelu",
+            "GROUP_IPTC_EXT_ADMIN_INFO": "Informace o IPTC správci",
+            "GROUP_IPTC_EXT_RIGHTS_INFO": "Informace o IPTC právech",
+            "GROUP_IPTC_EXT_OTHER": "Jiné IPTC",
+            "EFFECTIVITY_GROUP_TITLE": "Účinnost"
+        },
+        "INFO_DRAWER": {
+            "TITLE": "Podrobnosti",
+            "REDUCE_PANEL": "Reduce panel",
+            "DATA_LOADING": "Data is loading",
+            "ICON": "Node Icon",
+            "TABS": {
+                "PROPERTIES": "Vlastnosti",
+                "LIBRARY_PROPERTIES": "O aplikaci",
+                "VERSIONS": "Verze",
+                "COMMENTS": "Poznámky",
+                "PERMISSIONS": "Oprávnění",
+                "EXPAND": "Rozbalit"
+            }
+        },
+        "TOOLTIPS": {
+            "COLLAPSE_NAVIGATION": "Sbalit navigační nabídku",
+            "OPTIONS_SETTINGS": "Možnosti a nastavení",
+            "MY_PROFILE": "Můj profil",
+            "EXPAND_NAVIGATION": "Rozbalit navigační nabídku"
+        }
     },
-    "LANGUAGE": "Jazyk",
-    "SIGN_IN": "Přihlásit se",
-    "SIGN_OUT": "Odhlásit se",
-    "EDIT_PROFILE": {
-      "MY_PROFILE": "Můj profil",
-      "GENERAL": "Obecné",
-      "EDIT": "Upravit",
-      "CANCEL": "Zrušit",
-      "SAVE": "Uložit",
-      "FIRST_NAME": "Jméno",
-      "LAST_NAME": "Příjmení",
-      "JOB_TITLE": "Název funkce",
-      "LOCATION": "Umístění",
-      "TELEPHONE": "Telefon",
-      "MOBILE": "Mobil",
-      "LOGIN": "Přihlášení",
-      "USERNAME": "Uživatelské jméno",
-      "EMAIL": "E-mail",
-      "PASSWORD": "Heslo",
-      "OLD_PASSWORD": "Staré heslo",
-      "FORGOT_PASSWORD": "Zapomenuté heslo",
-      "NEW_PASSWORD": "Nové heslo",
-      "VERIFY_PASSWORD": "Ověření hesla",
-      "COMPANY_DETAILS": "Podrobnosti o společnosti",
-      "NAME": "Název",
-      "ADDRESS": "Adresa",
-      "POSTCODE": "Postcode",
-      "INVALID_INPUT": "Invalid Input"
+    "NODE_SELECTOR": {
+        "COPY_ITEM": "Zkopírovat položku '{{ name }}' do...",
+        "COPY_ITEMS": "Zkopírovat položky ({{ number }}) do...",
+        "MOVE_ITEM": "Přesunout položku '{{ name }}' do...",
+        "MOVE_ITEMS": "Přesunout položky ({{ number }}) do...",
+        "SEARCH": "Hledat",
+        "NEXT": "Další",
+        "SELECT_FILE_TEMPLATE_TITLE": "Výběr šablony dokumentu",
+        "SELECT_FOLDER_TEMPLATE_TITLE": "Výběr šablony složky"
     },
-    "LOCKED_BY": "Uzamknul(a): ",
-    "PREVIEW": {
-      "TITLE": "Náhled"
-    },
-    "DETAILS": {
-      "TITLE": "Podrobnosti"
-    },
-    "NEW_MENU": {
-      "MENU_ITEMS": {
-        "CREATE_FOLDER": "Vytvořit složku",
-        "UPLOAD_FILE": "Odeslat soubor",
-        "UPLOAD_FOLDER": "Odeslat složku",
-        "CREATE_LIBRARY": "Vytvořit knihovnu",
-        "FILE_TEMPLATE": "Vytvořit soubor ze šablony",
-        "FOLDER_TEMPLATE": "Vytvořit složku ze šablony"
-      },
-      "TOOLTIPS": {
-        "CREATE_FOLDER": "Vytvořit novou složku",
-        "CREATE_FOLDER_NOT_ALLOWED": "Během prohlížení současných položek není vytvoření složky možné",
-        "CREATE_FILE_NOT_ALLOWED": "Soubory nelze vytvářet během prohlížení aktuálních položek.",
-        "UPLOAD_FILES": "Vyberte soubory, které chcete odeslat",
-        "UPLOAD_FILES_NOT_ALLOWED": "Během prohlížení současných položek není odeslání souborů možné",
-        "UPLOAD_FOLDERS": "Vyberte složky, které chcete odeslat",
-        "UPLOAD_FOLDERS_NOT_ALLOWED": "Během prohlížení současných položek není odeslání složky možné",
-        "CREATE_LIBRARY": "Vytvořit novou knihovnu souborů"
-      }
-    },
-    "HEADER": {
-      "BUTTONS": {
+    "NODE_FROM_TEMPLATE": {
+        "CANCEL": "Zrušit",
         "CREATE": "Vytvořit",
-        "CREATE_TOOLTIP": "Vytvořit obsah",
-        "UPLOAD": "Odeslat",
-        "UPLOAD_TOOLTIP": "Odeslat obsah"
-      },
-      "SELECTED": "Vybrané ({{ count }})"
-    },
-    "BROWSE": {
-      "FILE": {
-        "SIDENAV_LINK": {
-          "LABEL": "Soubory",
-          "TOOLTIP": "Soubory"
-        }
-      },
-      "PERSONAL": {
-        "TITLE": "Osobní soubory",
-        "SIDENAV_LINK": {
-          "LABEL": "Osobní soubory",
-          "TOOLTIP": "Zobrazit osobní soubory"
-        },
-        "PERMISSIONS": {
-          "TITLE": "Oprávnění"
-        }
-      },
-      "LIBRARIES": {
-        "TITLE": "Knihovny souborů",
-        "DESCRIPTION": "Přejít na knihovny souborů",
-        "SIDENAV_LINK": {
-          "LABEL": "Knihovny souborů",
-          "TOOLTIP": "Knihovny souborů"
-        },
-        "EMPTY_STATE": {
-          "FILE_LIBRARIES": {
-            "TITLE": "Zatím nejste členem žádné knihovny souborů",
-            "TEXT": "Připojení do knihovny souborů vám umožní odesílat, prohlížet a sdílet soubory."
-          },
-          "FAVORITE_LIBRARIES": {
-            "TITLE": "Žádné oblíbené knihovny souborů",
-            "TEXT": "Pro snadnější dostupnost můžete označit vybrané knihovny za oblíbené."
-          }
-        },
-        "MENU": {
-          "MY_LIBRARIES": {
-            "TITLE": "Moje knihovny",
-            "SIDENAV_LINK": {
-              "LABEL": "Moje knihovny",
-              "TOOLTIP": "Přejít do mých knihoven"
+        "FOLDER_DIALOG_TITLE": "Vytvořit novou složku ze šablony <span class=\"bold\">'{{ template }}'</span>",
+        "FILE_DIALOG_TITLE": "Vytvořit nový dokument ze šablony <span class=\"bold\">'{{ template }}'</span>",
+        "FORM": {
+            "PLACEHOLDER": {
+                "NAME": "Název",
+                "TITLE": "Označení",
+                "DESCRIPTION": "Popis"
+            },
+            "ERRORS": {
+                "DESCRIPTION_TOO_LONG": "Popis může obsahovat maximálně 512 znaků",
+                "TITLE_TOO_LONG": "Označení může obsahovat maximálně 256 znaků",
+                "REQUIRED": "Název je povinný",
+                "SPECIAL_CHARACTERS": "Název nemůže obsahovat tyto znaky: * \" < > \\ / ? : |",
+                "ENDING_DOT": "Název nemůže končit tečkou.",
+                "ONLY_SPACES": "Název nemůže obsahovat pouze mezery."
             }
-          },
-          "FAVORITE_LIBRARIES": {
-            "TITLE": "Oblíbené knihovny",
-            "SIDENAV_LINK": {
-              "LABEL": "Oblíbené knihovny",
-              "TOOLTIP": "Přejít do oblíbených knihoven"
-            }
-          }
         }
-      },
-      "SHARED": {
-        "TITLE": "Sdílené soubory",
-        "SIDENAV_LINK": {
-          "LABEL": "Sdílené",
-          "TOOLTIP": "Zobrazit sdílené soubory"
-        },
-        "EMPTY_STATE": {
-          "TITLE": "Žádné sdílené soubory ani složky",
-          "TEXT": "Zde najdete všechny položky sdílené pomocí funkce Sdílet."
-        }
-      },
-      "RECENT": {
-        "TITLE": "Nedávné soubory",
-        "SIDENAV_LINK": {
-          "LABEL": "Nedávné soubory",
-          "TOOLTIP": "Zobrazit naposledy upravené soubory"
-        },
-        "EMPTY_STATE": {
-          "TITLE": "Žádné nedávné soubory",
-          "TEXT": "Zde najdete položky odeslané nebo upravené za posledních 30 dní."
-        }
-      },
-      "FAVORITES": {
-        "TITLE": "Oblíbené",
-        "SIDENAV_LINK": {
-          "LABEL": "Oblíbené",
-          "TOOLTIP": "Zobrazit oblíbené soubory a složky"
-        },
-        "EMPTY_STATE": {
-          "TITLE": "Žádné oblíbené soubory a složky",
-          "TEXT": "Pro snadnější dostupnost můžete označit vybrané položky za oblíbené."
-        }
-      },
-      "TRASHCAN": {
-        "TITLE": "Koš",
-        "SIDENAV_LINK": {
-          "LABEL": "Koš",
-          "TOOLTIP": "Zobrazit odstraněné soubory v koši"
-        },
-        "EMPTY_STATE": {
-          "TITLE": "Koš je prázdný",
-          "FIRST_TEXT": "Odstraněné položky se přesunou do koše.",
-          "SECOND_TEXT": "Vysypáním koše můžete položky trvale odstranit."
-        }
-      },
-      "ABOUT": {
-        "TITLE": "O aplikaci"
-      },
-      "SEARCH": {
-        "DEFAULT_SEARCH": "Výchozí",
-        "DUBLIN_CORE": "Dublin Core",
-        "EFFECTIVITY": "Účinnost",
-        "TITLE": "Výsledky hledání",
-        "FILTER_SET": "Sada filtrů:",
-        "ADVANCED_FILTERS": "Pokročilé filtry:",
-        "RESET": "Reset",
-        "RESET_ACTION": "Reset search filters",
-        "FOUND_RESULTS": "Nalezené výsledky: {{ number }}",
-        "FOUND_ONE_RESULT": "Nalezené výsledky: {{ number }}",
-        "CUSTOM_ROW": {
-          "MODIFIED": "Změněno",
-          "BY_USER": "od {{ user }}",
-          "LOCATION": "Umístění",
-          "SIZE": "Velikost"
-        },
-        "UNKNOWN_LOCATION": "Neznámé",
-        "NO_RESULTS": "Parametrům hledání odpovídá 0 výsledků",
-        "EMPTY_SEARCH": "Požadován hledaný výraz",
-        "NO_FILTER_RESULTS": "K vašemu filtru je 0 výsledků",
-        "ERRORS": {
-          "500": "Při pokusu o zpracování dotazu hledání došlo k chybě [500]",
-          "GENERIC": "Při pokusu o zpracování dotazu hledání došlo k chybě"
-        }
-      },
-      "SEARCH_LIBRARIES": {
-        "FOUND_RESULTS": "Výsledky: {{ number }}",
-        "FOUND_ONE_RESULT": "Výsledky: {{ number }}"
-      }
     },
-    "ACTIONS": {
-      "VIEW": "Zobrazit",
-      "EDIT": "Upravit",
-      "DOWNLOAD": "Stáhnout",
-      "COPY": "Kopírovat",
-      "MOVE": "Přesunout",
-      "DELETE": "Odstranit",
-      "DELETE_PERMANENT": "Trvale odstranit",
-      "MORE": "Další akce",
-      "UNDO": "Zpět",
-      "PERMISSIONS": "Oprávnění",
-      "RESTORE": "Obnovit",
-      "FAVORITE": "Oblíbené",
-      "ADD_FAVORITE": "Přidat oblíbené",
-      "REMOVE_FAVORITE": "Odebrat oblíbené",
-      "UNSHARE": "Zrušit sdílení",
-      "DETAILS": "Zobrazit podrobnosti",
-      "VERSIONS": "Spravovat verze",
-      "UPLOAD_VERSION": "Odeslat novou verzi",
-      "TOGGLE-SIDENAV": "Přepnout boční navigační panel",
-      "SHARE": "Sdílet",
-      "SHARE_EDIT": "Nastavení sdíleného odkazu",
-      "PRINT": "Tisk",
-      "FULLSCREEN": "Aktivovat režim celé obrazovky",
-      "JOIN": "Připojit se",
-      "CANCEL_JOIN": "Zrušit žádost o připojení",
-      "LEAVE": "Opustit knihovnu",
-      "EDIT_OFFLINE": "Upravit offline",
-      "EDIT_OFFLINE_CANCEL": "Zrušit úpravu",
-      "CHANGE_ASPECT": "Upravit aspekty"
+    "SHARED_LINK": {
+        "UNSHARE_PERMISSION_ERROR": "Nemáte potřebná oprávnění pro zrušení sdílení tohoto souboru"
     },
-    "DIALOGS": {
-      "CONFIRM_PURGE": {
-        "TITLE": "Odstranit z koše?",
-        "MESSAGE": "Dojde k trvalému odstranění vybraných položek.",
-        "YES_LABEL": "Odstranit",
-        "NO_LABEL": "Ponechat"
-      },
-      "CONFIRM_LEAVE": {
-        "TITLE": "Opustit tuto knihovnu?",
-        "MESSAGE": "Po opuštění ztratíte přístupová práva.",
-        "YES_LABEL": "OK",
-        "NO_LABEL": "Zrušit"
-      },
-      "MOBILE_APP": {
-        "MOBILE_APP_BUTTON_LABEL": "Open in App",
-        "DOWNLOAD_APP_BUTTON_LABEL": "Nemáte aplikaci? Stáhněte si ji nyní.",
-        "OPEN_ALFRESCO_MOBILE_APP": "Otevřít za pomoci aplikace Alfresco Mobile?"
-      }
-    },
-    "DOCUMENT_LIST": {
-      "COLUMNS": {
-        "ID": "ID",
-        "NAME": "Název",
-        "DESCRIPTION": "Popis",
-        "SIZE": "Velikost",
-        "MODIFIED_ON": "Změněno",
-        "MODIFIED_BY": "Změnil(a)",
-        "VISIBILITY": "Viditelnost",
-        "TITLE": "Označení",
-        "LOCATION": "Umístění",
-        "SHARED_BY": "Sdílel(a)",
-        "DELETED_ON": "Odstraněno",
-        "DELETED_BY": "Odstranil(a)",
-        "ROLE": "Moje role",
-        "TAGS": "Tag"
-      }
-    },
-    "MESSAGES": {
-      "ERRORS": {
-        "CANNOT_NAVIGATE_LOCATION": "Toto umístění nelze otevřít",
-        "MISSING_CONTENT": "Tato položka již neexistuje nebo nemáte dostatečná oprávnění pro její zobrazení.",
-        "GENERIC": "Akce se nezdařila. Zkuste to znovu nebo se obraťte na oddělení IT.",
-        "CONFLICT": "Tento název se již používá. Zvolte jiný.",
-        "NODE_MOVE": "Přesunutí se nezdařilo, protože soubor se stejným názvem již existuje.",
-        "EXISTENT_FOLDER": "Složka s tímto názvem již existuje. Zadejte jiný název.",
-        "NODE_DELETION": "„{{ name }}“ nebylo možné odstranit",
-        "NODE_DELETION_PLURAL": "Některé položky ({{ number }}) nebylo možné odstranit",
-        "NODE_RESTORE": "„{{ name }}“ nebylo možné obnovit",
-        "NODE_RESTORE_PLURAL": "Některé položky ({{ number }}) nebylo možné obnovit",
-        "PERMISSION": "Nemáte dostatečná přístupová oprávnění",
-        "LOCK_NODE": "Při pokusu o uzamknutí souboru {{ fileName }} došlo k chybě",
-        "UNLOCK_NODE": "Při pokusu o odemknutí souboru {{ fileName }} došlo k chybě",
-        "TRASH": {
-          "NODES_PURGE": {
-            "PLURAL": "Některé položky ({{ number }}) nebylo možné odstranit",
-            "SINGULAR": "„{{ name }}“ nebylo možné odstranit"
-          },
-          "NODES_RESTORE": {
-            "PARTIAL_PLURAL": "Některé položky ({{ number }}) nebylo možné obnovit, protože došlo k potížím s umístěním obnovených položek",
-            "NODE_EXISTS": "„{{ name }}“ nebylo možné obnovit, protože tato položka již existuje",
-            "LOCATION_MISSING": "„{{ name }}“ nebylo možné obnovit, protože původní umístění již neexistuje",
-            "GENERIC": "Při pokusu o obnovení položky {{ name }} došlo k potížím"
-          }
+    "VERSION": {
+        "DIALOG": {
+            "TITLE": "Odeslat novou verzi",
+            "CANCEL": "Zrušit",
+            "UPLOAD": "Odeslat"
         },
-        "DELETE_LIBRARY_FAILED": "Knihovnu nebylo možné odstranit",
-        "LEAVE_LIBRARY_FAILED": "Tuto knihovnu nelze opustit"
-      },
-      "UPLOAD": {
+        "SELECTION": {
+            "EMPTY": "Zvolte dokument, u kterého chcete vidět jeho verze.",
+            "NO_PERMISSION": "Nemáte potřebná oprávnění pro správu verzí tohoto obsahu."
+        },
         "ERROR": {
-          "GENERIC": "Odeslání se nezdařilo. Pokud problém přetrvá, obraťte se na oddělení IT.",
-          "CONFLICT": "Novou verzi nebylo možné odeslat, protože již existuje jiný soubor se stejným názvem",
-          "500": "Interní chyba serveru. Pokus opakujte nebo se obraťte na podporu IT [500]",
-          "504": "Vypršel časový limit serveru. Pokus opakujte nebo se obraťte na podporu IT [504]",
-          "403": "Nedostatečná oprávnění pro odeslání do tohoto umístění [403]",
-          "404": "Umístění pro odesílání položek již neexistuje [404]"
+            "GENERIC": "Při pokusu o vytvoření nové verze souboru došlo k chybě"
         }
-      },
-      "INFO": {
-        "TRASH": {
-          "NODES_PURGE": {
-            "PLURAL": "Položky ({{ number }}) byly odstraněny",
-            "SINGULAR": "„{{ name }}“ se podařilo úspěšně odstranit",
-            "PARTIAL_SINGULAR": "Odstraněno: {{ name }}. Chyba při odstraňování: {{ failed }}.",
-            "PARTIAL_PLURAL": "Odstraněné položky: {{ number }}. Některé položky ({{ failed }}) se nepodařilo odstranit."
-          },
-          "NODES_RESTORE": {
-            "PLURAL": "Obnovení proběhlo úspěšně",
-            "SINGULAR": "„{{ name }}“ se podařilo úspěšně obnovit"
-          }
+    },
+    "LIBRARY": {
+        "DIALOG": {
+            "CREATE_TITLE": "Vytvořit knihovnu",
+            "CREATE": "Vytvořit",
+            "UPDATE": "Aktualizovat",
+            "EDIT": "Upravit",
+            "CANCEL": "Zrušit",
+            "FORM": {
+                "DESCRIPTION": "Popis",
+                "SITE_ID": "ID knihovny",
+                "NAME": "Název",
+                "VISIBILITY": "Viditelnost"
+            }
         },
-        "NODE_DELETION": {
-          "SINGULAR": "„{{ name }}“ se podařilo úspěšně odstranit",
-          "PLURAL": "Odstraněno: {{ number }}",
-          "PARTIAL_SINGULAR": "Odstraněné položky: {{ success }}. Některé položky ({{ failed }}) se nepodařilo odstranit.",
-          "PARTIAL_PLURAL": "Odstraněné položky: {{ success }}. Některé položky ({{ failed }}) se nepodařilo odstranit."
+        "VISIBILITY": {
+            "PRIVATE": "Soukromé",
+            "PUBLIC": "Veřejné",
+            "MODERATED": "Moderováno"
         },
-        "NODE_COPY": {
-          "SINGULAR": "Zkopírované položky: {{ success }}",
-          "PLURAL": "Zkopírované položky: {{ success }}",
-          "PARTIAL_SINGULAR": "Zkopírované položky: {{ success }}. Některé položky ({{ failed }}) se nepodařilo zkopírovat.",
-          "PARTIAL_PLURAL": "Zkopírované položky: {{ success }}. Některé položky ({{ failed }}) se nepodařilo zkopírovat.",
-          "FAIL_SINGULAR": "Některé položky ({{ failed }}) nebylo možné zkopírovat.",
-          "FAIL_PLURAL": "Některé položky ({{ failed }}) nebylo možné zkopírovat."
+        "HINTS": {
+            "SITE_TITLE_EXISTS": "Název knihovny se již používá"
         },
-        "NODE_MOVE": {
-          "SINGULAR": "Přesunuté položky: {{ success }}",
-          "PLURAL": "Přesunuté položky: {{ success }}",
-          "PARTIAL": {
-            "SINGULAR": "Částečně přesunuté položky: {{ partially }}",
-            "PLURAL": "Částečně přesunuté položky: {{ partially }}",
-            "FAIL": "Některé položky ({{ failed }}) nebylo možné přesunout."
-          }
+        "ERRORS": {
+            "GENERIC": "Vyskytl se problém",
+            "EXISTENT_SITE": "Toto ID knihovny není dostupné. Použijte jiné ID.",
+            "CONFLICT": "ID knihovny se již používá. Prohlédněte si obsah koše.",
+            "ID_TOO_LONG": "Název URL může obsahovat maximálně 72 znaků",
+            "DESCRIPTION_TOO_LONG": "Popis může obsahovat maximálně 512 znaků",
+            "TITLE_TOO_LONG_OR_MISSING": "Use 256 characters or less for title",
+            "ILLEGAL_CHARACTERS": "Používejte pouze písmena a čísla",
+            "ONLY_SPACES": "Název knihovny nemůže obsahovat pouze mezery",
+            "LIBRARY_UPDATE_ERROR": "Při pokusu upravit vlastnosti knihovny došlo k chybě"
         },
-        "LIBRARY_DELETED": "Knihovna odstraněna",
-        "LEFT_LIBRARY": "Opustili jste knihovnu"
-      }
-    },
-    "CONTENT_METADATA": {
-      "EXIF_GROUP_TITLE": "Obraz EXIF",
-      "GROUP_IPTC_CORE_CONTACT_INFO": "IPTC kontakt",
-      "GROUP_IPTC_CORE_IMAGE_INFO": "IPTC obrázek",
-      "GROUP_IPTC_CORE_CONTENT_INFO": "IPTC obsah",
-      "GROUP_IPTC_CORE_STATUS_INFO": "IPTC stav",
-      "GROUP_IPTC_EXT_DESCRIPTION": "Popis IPTC obrázku",
-      "GROUP_IPTC_EXT_AO_DETAIL": "IPTC artwork nebo podrobnosti o objektu",
-      "GROUP_IPTC_EXT_MODEL_INFO": "Informace o IPTC modelu",
-      "GROUP_IPTC_EXT_ADMIN_INFO": "Informace o IPTC správci",
-      "GROUP_IPTC_EXT_RIGHTS_INFO": "Informace o IPTC právech",
-      "GROUP_IPTC_EXT_OTHER": "Jiné IPTC",
-      "EFFECTIVITY_GROUP_TITLE": "Účinnost"
-    },
-    "INFO_DRAWER": {
-      "TITLE": "Podrobnosti",
-      "DATA_LOADING": "Data is loading",
-      "TABS": {
-        "PROPERTIES": "Vlastnosti",
-        "LIBRARY_PROPERTIES": "O aplikaci",
-        "VERSIONS": "Verze",
-        "COMMENTS": "Poznámky",
-        "PERMISSIONS": "Oprávnění",
-        "EXPAND": "Rozbalit"
-      }
-    },
-    "TOOLTIPS": {
-      "COLLAPSE_NAVIGATION": "Sbalit navigační nabídku",
-      "OPTIONS_SETTINGS": "Možnosti a nastavení",
-      "MY_PROFILE": "Můj profil",
-      "EXPAND_NAVIGATION": "Rozbalit navigační nabídku"
-    }
-  },
-  "NODE_SELECTOR": {
-    "COPY_ITEM": "Zkopírovat položku '{{ name }}' do...",
-    "COPY_ITEMS": "Zkopírovat položky ({{ number }}) do...",
-    "MOVE_ITEM": "Přesunout položku '{{ name }}' do...",
-    "MOVE_ITEMS": "Přesunout položky ({{ number }}) do...",
-    "SEARCH": "Hledat",
-    "NEXT": "Další",
-    "SELECT_FILE_TEMPLATE_TITLE": "Výběr šablony dokumentu",
-    "SELECT_FOLDER_TEMPLATE_TITLE": "Výběr šablony složky"
-  },
-  "NODE_FROM_TEMPLATE": {
-    "CANCEL": "Zrušit",
-    "CREATE": "Vytvořit",
-    "FOLDER_DIALOG_TITLE": "Vytvořit novou složku ze šablony <span class=\"bold\">'{{ template }}'</span>",
-    "FILE_DIALOG_TITLE": "Vytvořit nový dokument ze šablony <span class=\"bold\">'{{ template }}'</span>",
-    "FORM": {
-      "PLACEHOLDER": {
-        "NAME": "Název",
-        "TITLE": "Označení",
-        "DESCRIPTION": "Popis"
-      },
-      "ERRORS": {
-        "DESCRIPTION_TOO_LONG": "Popis může obsahovat maximálně 512 znaků",
-        "TITLE_TOO_LONG": "Označení může obsahovat maximálně 256 znaků",
-        "REQUIRED": "Název je povinný",
-        "SPECIAL_CHARACTERS": "Název nemůže obsahovat tyto znaky: * \" < > \\ / ? : |",
-        "ENDING_DOT": "Název nemůže končit tečkou.",
-        "ONLY_SPACES": "Název nemůže obsahovat pouze mezery."
-      }
-    }
-  },
-  "SHARED_LINK": {
-    "UNSHARE_PERMISSION_ERROR": "Nemáte potřebná oprávnění pro zrušení sdílení tohoto souboru"
-  },
-  "VERSION": {
-    "DIALOG": {
-      "TITLE": "Odeslat novou verzi",
-      "CANCEL": "Zrušit",
-      "UPLOAD": "Odeslat"
-    },
-    "SELECTION": {
-      "EMPTY": "Zvolte dokument, u kterého chcete vidět jeho verze.",
-      "NO_PERMISSION": "Nemáte potřebná oprávnění pro správu verzí tohoto obsahu."
-    },
-    "ERROR": {
-      "GENERIC": "Při pokusu o vytvoření nové verze souboru došlo k chybě"
-    }
-  },
-  "LIBRARY": {
-    "DIALOG": {
-      "CREATE_TITLE": "Vytvořit knihovnu",
-      "CREATE": "Vytvořit",
-      "UPDATE": "Aktualizovat",
-      "EDIT": "Upravit",
-      "CANCEL": "Zrušit",
-      "FORM": {
-        "DESCRIPTION": "Popis",
-        "SITE_ID": "ID knihovny",
-        "NAME": "Název",
-        "VISIBILITY": "Viditelnost"
-      }
-    },
-    "VISIBILITY": {
-      "PRIVATE": "Soukromé",
-      "PUBLIC": "Veřejné",
-      "MODERATED": "Moderováno"
-    },
-    "HINTS": {
-      "SITE_TITLE_EXISTS": "Název knihovny se již používá"
-    },
-    "ERRORS": {
-      "GENERIC": "Vyskytl se problém",
-      "EXISTENT_SITE": "Toto ID knihovny není dostupné. Použijte jiné ID.",
-      "CONFLICT": "ID knihovny se již používá. Prohlédněte si obsah koše.",
-      "ID_TOO_LONG": "Název URL může obsahovat maximálně 72 znaků",
-      "DESCRIPTION_TOO_LONG": "Popis může obsahovat maximálně 512 znaků",
-      "TITLE_TOO_LONG": "Označení může obsahovat maximálně 256 znaků",
-      "ILLEGAL_CHARACTERS": "Používejte pouze písmena a čísla",
-      "ONLY_SPACES": "Název knihovny nemůže obsahovat pouze mezery",
-      "LIBRARY_UPDATE_ERROR": "Při pokusu upravit vlastnosti knihovny došlo k chybě"
-    },
-    "SUCCESS": {
-      "LIBRARY_UPDATED": "Vlastnosti knihovny byly upraveny"
-    }
-  },
-  "SEARCH": {
-    "INPUT": {
-      "PLACEHOLDER": "Hledat",
-      "FILES": "Soubory",
-      "FOLDERS": "Složky",
-      "LIBRARIES": "Knihovny",
-      "HINT": "Hledaný výraz musí obsahovat kombinaci alespoň 2 písmen a číslic."
-    },
-    "SORT": {
-      "SORTING_OPTION": "Řadit podle",
-      "ASCENDING": "Vzestupně",
-      "DESCENDING": "Sestupně",
-      "RELEVANCE": "Relevance",
-      "FILENAME": "Název souboru",
-      "TITLE": "Označení",
-      "MODIFIED_DATE": "Datum úpravy",
-      "SIZE": "Velikost",
-      "TYPE": "Typ",
-      "MODIFIER": "Upravující",
-      "CREATE_DATE": "Datum vytvoření"
-    },
-    "FACET_FIELDS": {
-      "CREATOR": "Autor",
-      "MODIFIER": "Upravující",
-      "LOCATION": "Umístění",
-      "CATEGORIES": "Kategorie"
-    },
-    "CATEGORIES": {
-      "EFFECTIVITY_FROM": "Platnost od",
-      "EFFECTIVITY_TO": "Platnost do",
-      "LOGIC": "Logika"
-    },
-    "SEARCH_HEADER": {
-      "TITLE": "Filtr",
-      "TYPE": "Typ",
-      "FILTER_BY": "Filtrovat podle {{ category }}",
-      "CLEAR": "Vymazat",
-      "APPLY": "Použít",
-      "FILTERS": {
-        "NAME": {
-          "TITLE": "Název",
-          "PLACEHOLDER": "Zadejte název"
-        },
-        "TYPE": {
-          "TITLE": "Zkontrolujte typ",
-          "FOLDER": "Složka",
-          "DOCUMENT": "Dokument"
-        },
-        "SIZE": {
-          "TITLE": "Velikost obsahu (rozmezí)",
-          "SMALL": "Malá",
-          "MEDIUM": "Střední",
-          "LARGE": "Velká",
-          "HUGE": "Obrovská"
-        },
-        "DATE": {
-          "TITLE": "Datum vytvoření (rozmezí)"
+        "SUCCESS": {
+            "LIBRARY_UPDATED": "Vlastnosti knihovny byly upraveny"
         }
-      }
+    },
+    "SEARCH": {
+        "BULK_ACTIONS_DROPDOWN": {
+            "TITLE": "Bulk Actions ({{ count }} Items)",
+            "BULK_NOT_AVAILABLE": "Bulk Actions (Not Available)",
+            "BULK_NOT_AVAILABLE_TOOLTIP": "Bulk Actions cannot be used without search results"
+        },
+        "INPUT": {
+            "PLACEHOLDER": "Hledat",
+            "FILES": "Soubory",
+            "FOLDERS": "Složky",
+            "LIBRARIES": "Knihovny",
+            "HINT": "Hledaný výraz musí obsahovat kombinaci alespoň 2 písmen a číslic."
+        },
+        "SORT": {
+            "SORTING_OPTION": "Řadit podle",
+            "ASCENDING": "Vzestupně",
+            "DESCENDING": "Sestupně",
+            "RELEVANCE": "Relevance",
+            "FILENAME": "Název souboru",
+            "TITLE": "Označení",
+            "MODIFIED_DATE": "Datum úpravy",
+            "SIZE": "Velikost",
+            "TYPE": "Typ",
+            "MODIFIER": "Upravující",
+            "CREATE_DATE": "Datum vytvoření"
+        },
+        "FACET_FIELDS": {
+            "CREATOR": "Autor",
+            "MODIFIER": "Upravující",
+            "LOCATION": "Umístění",
+            "CATEGORIES": "Kategorie"
+        },
+        "CATEGORIES": {
+            "DATE": "Date",
+            "DATE_TABS": {
+                "CREATED": "Created",
+                "MODIFIED": "Modified"
+            },
+            "EFFECTIVITY_FROM": "Platnost od",
+            "EFFECTIVITY_TO": "Platnost do",
+            "LOGIC": "Logika",
+            "PROPERTIES": "Properties"
+        },
+        "SEARCH_HEADER": {
+            "TITLE": "Filtr",
+            "TYPE": "Typ",
+            "FILTER_BY": "Filtrovat podle {{ category }}",
+            "CLEAR": "Vymazat",
+            "APPLY": "Použít",
+            "FILTERS": {
+                "NAME": {
+                    "TITLE": "Název",
+                    "PLACEHOLDER": "Zadejte název"
+                },
+                "TYPE": {
+                    "TITLE": "Zkontrolujte typ",
+                    "FOLDER": "Složka",
+                    "DOCUMENT": "Dokument"
+                },
+                "SIZE": {
+                    "TITLE": "Velikost obsahu (rozmezí)",
+                    "SMALL": "Malá",
+                    "MEDIUM": "Střední",
+                    "LARGE": "Velká",
+                    "HUGE": "Obrovská"
+                },
+                "DATE": {
+                    "TITLE": "Datum vytvoření (rozmezí)"
+                }
+            }
+        }
+    },
+    "CORE": {
+        "METADATA": {
+            "ACTIONS": {
+                "SAVE": "Uložit změny",
+                "CANCEL": "Zrušit změny"
+            }
+        }
+    },
+    "ADF_VIEWER": {
+        "ACTIONS": {
+            "INFO": "Zobrazit podrobnosti",
+            "PREVIEW": "Zobrazit náhled"
+        }
+    },
+    "FILE_UPLOAD": {
+        "ERRORS": {
+            "409": "Název se již používá. Zadejte jiný. [409]"
+        }
+    },
+    "ADF_VERSION_LIST": {
+        "ACTIONS": {
+            "UPLOAD": {
+                "TOOLTIP": "Odeslat novou verzi"
+            }
+        }
+    },
+    "CUSTOM_NAME_COLUMN": {
+        "ACCESSIBILITY": {
+            "FILE_LINK_ARIA_LABEL": "Zobrazit {{ name }}",
+            "FOLDER_LINK_ARIA_LABEL": "Otevřít složku {{ name }}"
+        }
+    },
+    "ADF-DATATABLE": {
+        "FILE_TYPE": {
+            "BOOKS-24PX": "knihovnu souborů",
+            "BASELINE-LOCK-24PX": "uzamčený soubor"
+        }
+    },
+    "KNOWLEDGE_RETRIEVAL": {
+        "SEARCH": {
+            "RESULTS_PAGE": {
+                "QUERY_INPUT_PLACEHOLDER": "Would you like to ask anything else?",
+                "REFERENCED_DOCUMENTS_HEADER": "Referenced documents",
+                "REGENERATION_BUTTON_LABEL": "Regenerate",
+                "COPY_BUTTON_LABEL": "Copy",
+                "COPY_MESSAGE": "Copied response to clipboard"
+            },
+            "AGENTS_BUTTON": {
+                "LABEL": "Ask Discovery",
+                "TITLE": "Knowledge Retrieval"
+            },
+            "SEARCH_INPUT": {
+                "ASK_BUTTON_LABEL": "Ask",
+                "DEFAULT_PLACEHOLDER": "Please ask your question with as much detail as possible...",
+                "HIDE_INPUT": "Hide input",
+                "HIDE_ANSWER": "Hide answer"
+            },
+            "ERRORS": {
+                "AGENTS_FETCHING": "Error while fetching agents.",
+                "HX_INSIGHT_URL_FETCHING": "Error while fetching HX Insight URL.",
+                "LOADING_ERROR": "Hmm... something seems to have gone wrong.",
+                "PAGE_NOT_AVAILABLE_ERROR": "Page is not available for these conditions."
+            },
+            "DISCARD_CHANGES": {
+                "WARNING": "Warning!",
+                "ASK_AI": "Ask AI",
+                "DO_NOT_SHOW_MESSAGE": "Don't show this message again",
+                "DISCARD_CONVERSATION": "Discard Conversation",
+                "CONVERSATION_DISCARDED": "This conversation will be discarded",
+                "LOSE_RESPONSE": "By asking another question you will lose your previous response"
+            }
+        }
     }
-  },
-  "CORE": {
-    "METADATA": {
-      "ACTIONS": {
-        "SAVE": "Uložit změny",
-        "CANCEL": "Zrušit změny"
-      }
-    }
-  },
-  "ADF_VIEWER": {
-    "ACTIONS": {
-      "INFO": "Zobrazit podrobnosti",
-      "PREVIEW": "Zobrazit náhled"
-    }
-  },
-  "FILE_UPLOAD": {
-    "ERRORS": {
-      "409": "Název se již používá. Zadejte jiný. [409]"
-    }
-  },
-  "ADF_VERSION_LIST": {
-    "ACTIONS": {
-      "UPLOAD": {
-        "TOOLTIP": "Odeslat novou verzi"
-      }
-    }
-  },
-  "CUSTOM_NAME_COLUMN": {
-    "ACCESSIBILITY": {
-      "FILE_LINK_ARIA_LABEL": "Zobrazit {{ name }}",
-      "FOLDER_LINK_ARIA_LABEL": "Otevřít složku {{ name }}"
-    }
-  },
-  "ADF-DATATABLE": {
-    "FILE_TYPE": {
-      "BOOKS-24PX": "knihovnu souborů",
-      "BASELINE-LOCK-24PX": "uzamčený soubor"
-    }
-  }
 }
-
