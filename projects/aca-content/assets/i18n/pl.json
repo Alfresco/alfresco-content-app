@@ -1,600 +1,686 @@
 {
-  "APP": {
-    "COPYRIGHT": "© 2005-2024 Hyland Software, Inc. i jej podmioty stowarzyszone. Wszelkie prawa zastrzeżone.",
-    "TITLE": "Workspace",
-    "ABOUT": {
-      "VERSION": "Wersja:",
-      "PLUGINS": {
-        "TITLE": "Rozszerzenia",
-        "ID": "Identyfikator",
-        "NAME": "Nazwa",
-        "VERSION": "Wersja",
-        "VENDOR": "Sprzedawca",
-        "LICENSE": "Licencja",
-        "RUNTIME": "Środowisko uruchomieniowe",
-        "DESCRIPTION": "Opis"
-      },
-      "LICENSE": {
-        "TITLE": "Licencja",
-        "PROPERTY": "Właściwość",
-        "VALUE": "Wartość"
-      },
-      "STATUS": {
-        "TITLE": "Status",
-        "PROPERTY": "Właściwość",
-        "VALUE": "Wartość"
-      },
-      "MODULES": {
-        "TITLE": "Moduły platformy Alfresco",
-        "ID": "Identyfikator",
-        "NAME": "Nazwa",
-        "VERSION": "Wersja"
-      },
-      "PACKAGES": {
-        "TITLE": "Pakiety",
-        "NAME": "Nazwa",
-        "VERSION": "Wersja"
-      }
+    "APP": {
+        "COPYRIGHT": "© 2005-2024 Hyland Software, Inc. i jej podmioty stowarzyszone. Wszelkie prawa zastrzeżone.",
+        "TITLE": "Workspace",
+        "ABOUT": {
+            "VERSION": "Wersja:",
+            "PLUGINS": {
+                "TITLE": "Rozszerzenia",
+                "ID": "Identyfikator",
+                "NAME": "Nazwa",
+                "VERSION": "Wersja",
+                "VENDOR": "Sprzedawca",
+                "LICENSE": "Licencja",
+                "RUNTIME": "Środowisko uruchomieniowe",
+                "DESCRIPTION": "Opis"
+            },
+            "LICENSE": {
+                "TITLE": "Licencja",
+                "PROPERTY": "Właściwość",
+                "VALUE": "Wartość"
+            },
+            "STATUS": {
+                "TITLE": "Status",
+                "PROPERTY": "Właściwość",
+                "VALUE": "Wartość"
+            },
+            "MODULES": {
+                "TITLE": "Moduły platformy Alfresco",
+                "ID": "Identyfikator",
+                "NAME": "Nazwa",
+                "VERSION": "Wersja"
+            },
+            "PACKAGES": {
+                "TITLE": "Pakiety",
+                "NAME": "Nazwa",
+                "VERSION": "Wersja"
+            }
+        },
+        "LANGUAGE": "Język",
+        "SIGN_IN": "Zaloguj się",
+        "SIGN_OUT": "Wyloguj się",
+        "EDIT_PROFILE": {
+            "MY_PROFILE": "Mój profil",
+            "GENERAL": "Ogólne",
+            "EDIT": "Edytuj",
+            "CANCEL": "Anuluj",
+            "SAVE": "Zapisz",
+            "FIRST_NAME": "Imię",
+            "LAST_NAME": "Nazwisko",
+            "JOB_TITLE": "Tytuł zadania",
+            "LOCATION": "Lokalizacja",
+            "TELEPHONE": "Telefon",
+            "MOBILE": "Telefon komórkowy",
+            "LOGIN": "Zaloguj",
+            "USERNAME": "Nazwa użytkownika",
+            "EMAIL": "E-mail",
+            "PASSWORD": "Hasło",
+            "OLD_PASSWORD": "Stare hasło",
+            "FORGOT_PASSWORD": "Zapomniałeś(-aś) hasła",
+            "NEW_PASSWORD": "Nowe hasło",
+            "VERIFY_PASSWORD": "Potwierdź hasło",
+            "COMPANY_DETAILS": "Dane firmy",
+            "NAME": "Nazwa",
+            "ADDRESS": "Adres",
+            "POSTCODE": "Kod pocztowy",
+            "INVALID_INPUT": "Nieprawidłowe dane wejściowe"
+        },
+        "LOCKED_BY": "Zablokowane przez: ",
+        "PREVIEW": {
+            "TITLE": "Podgląd"
+        },
+        "DETAILS": {
+            "TITLE": "Szczegóły"
+        },
+        "NEW_MENU": {
+            "MENU_ITEMS": {
+                "CREATE_FOLDER": "Utwórz Folder",
+                "UPLOAD_FILE": "Prześlij plik",
+                "UPLOAD_FOLDER": "Prześlij folder",
+                "CREATE_LIBRARY": "Utwórz bibliotekę",
+                "FILE_TEMPLATE": "Stwórz plik w oparciu o szablon",
+                "FOLDER_TEMPLATE": "Stwórz folder w oparciu o szablon"
+            },
+            "TOOLTIPS": {
+                "CREATE_FOLDER": "Utwórz nowy folder",
+                "CREATE_FOLDER_NOT_ALLOWED": "Nie można tworzyć folderów podczas przeglądania bieżących elementów",
+                "CREATE_FILE_NOT_ALLOWED": "Pliki nie mogą zostać utworzone podczas oglądania aktualnych elementów.",
+                "UPLOAD_FILES": "Wybierz pliki do przesłania",
+                "UPLOAD_FILES_NOT_ALLOWED": "Nie można przesyłać plików podczas przeglądania bieżących elementów",
+                "UPLOAD_FOLDERS": "Wybierz foldery do przesłania",
+                "UPLOAD_FOLDERS_NOT_ALLOWED": "Nie można przesyłać folderów podczas przeglądania bieżących elementów",
+                "CREATE_LIBRARY": "Utwórz nową bibliotekę plików"
+            }
+        },
+        "HEADER": {
+            "BUTTONS": {
+                "CREATE": "Utwórz",
+                "CREATE_TOOLTIP": "Utwórz zawartość",
+                "UPLOAD": "Prześlij",
+                "UPLOAD_TOOLTIP": "Prześlij zawartość"
+            },
+            "SELECTED": "Wybrano ({{ count }})"
+        },
+        "BROWSE": {
+            "FILE": {
+                "SIDENAV_LINK": {
+                    "LABEL": "Pliki",
+                    "TOOLTIP": "Pliki"
+                }
+            },
+            "PERSONAL": {
+                "TITLE": "Pliki osobiste",
+                "SIDENAV_LINK": {
+                    "LABEL": "Pliki osobiste",
+                    "TOOLTIP": "Wyświetl pliki osobiste"
+                },
+                "PERMISSIONS": {
+                    "TITLE": "Uprawnienia"
+                }
+            },
+            "LIBRARIES": {
+                "TITLE": "Biblioteki plików",
+                "DESCRIPTION": "Uzyskaj dostęp do bibliotek plików",
+                "SIDENAV_LINK": {
+                    "LABEL": "Biblioteki plików",
+                    "TOOLTIP": "Biblioteki plików"
+                },
+                "EMPTY_STATE": {
+                    "FILE_LIBRARIES": {
+                        "TITLE": "Nie jesteś jeszcze członkiem żadnej biblioteki plików",
+                        "TEXT": "Dołącz do bibliotek, aby przesyłać, wyświetlać i udostępniać pliki."
+                    },
+                    "FAVORITE_LIBRARIES": {
+                        "TITLE": "Brak ulubionych bibliotek",
+                        "TEXT": "Dodaj do ulubionych bibliotekę, którą później chcesz łatwo znaleźć."
+                    }
+                },
+                "MENU": {
+                    "MY_LIBRARIES": {
+                        "TITLE": "Moje biblioteki",
+                        "SIDENAV_LINK": {
+                            "LABEL": "Moje biblioteki",
+                            "TOOLTIP": "Uzyskaj dostęp do moich bibliotek"
+                        }
+                    },
+                    "FAVORITE_LIBRARIES": {
+                        "TITLE": "Ulubione biblioteki",
+                        "SIDENAV_LINK": {
+                            "LABEL": "Ulubione biblioteki",
+                            "TOOLTIP": "Uzyskaj dostęp do moich ulubionych bibliotek"
+                        }
+                    }
+                }
+            },
+            "SHARED": {
+                "TITLE": "Udostępnione pliki",
+                "SIDENAV_LINK": {
+                    "LABEL": "Udostępnione",
+                    "TOOLTIP": "Wyświetl pliki, które zostały udostępnione"
+                },
+                "EMPTY_STATE": {
+                    "TITLE": "Brak udostępnionych plików lub folderów",
+                    "TEXT": "W tym miejscu znajdują się elementy, które udostępniasz za pomocą opcji Udostępnij."
+                }
+            },
+            "RECENT": {
+                "TITLE": "Bieżące pliki",
+                "SIDENAV_LINK": {
+                    "LABEL": "Bieżące pliki",
+                    "TOOLTIP": "Ostatnio edytowane pliki"
+                },
+                "EMPTY_STATE": {
+                    "TITLE": "Brak bieżących plików",
+                    "TEXT": "W tym miejscu widoczne są elementy przesłane lub edytowane przez Ciebie w ciągu ostatnich 30 dni."
+                }
+            },
+            "FAVORITES": {
+                "TITLE": "Ulubione",
+                "SIDENAV_LINK": {
+                    "LABEL": "Ulubione",
+                    "TOOLTIP": "Wyświetl ulubione pliki i foldery"
+                },
+                "EMPTY_STATE": {
+                    "TITLE": "Brak ulubionych plików lub folderów",
+                    "TEXT": "Ulubione elementy, które chcesz później łatwo znaleźć."
+                }
+            },
+            "TRASHCAN": {
+                "TITLE": "Kosz",
+                "SIDENAV_LINK": {
+                    "LABEL": "Kosz",
+                    "TOOLTIP": "Wyświetl usunięte pliki w koszu"
+                },
+                "EMPTY_STATE": {
+                    "TITLE": "Kosz jest pusty",
+                    "FIRST_TEXT": "Usuwane elementy są przesyłane do kosza.",
+                    "SECOND_TEXT": "Aby trwale usunąć elementy, opróżnij kosz."
+                }
+            },
+            "ABOUT": {
+                "TITLE": "Informacje"
+            },
+            "SEARCH": {
+                "DEFAULT_SEARCH": "Domyślne",
+                "DUBLIN_CORE": "Dublin Core",
+                "EFFECTIVITY": "Obowiązywanie",
+                "TITLE": "Wyniki wyszukiwania",
+                "FILTER_SET": "Zestaw filtrów:",
+                "ADVANCED_FILTERS": "Zaawansowane filtry:",
+                "RESET": "Resetuj",
+                "RESET_ACTION": "Resetuj filtry wyszukiwania",
+                "SAVE_SEARCH": {
+                    "ACTION_BUTTON": "Save Search",
+                    "SAVE_CHANGES": "Save changes",
+                    "SAVE_AS_NEW": "Save as new",
+                    "MODAL_HEADER": "Save this search",
+                    "NAME_LABEL": "Name",
+                    "NAME_REQUIRED_ERROR": "This field is required",
+                    "DESCRIPTION_LABEL": "Description",
+                    "SAVE_SUCCESS": "Search Saved",
+                    "SAVE_ERROR": "Error occurred. Search could not be saved.",
+                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "Saved Search with '{{ name }}' name already exists.",
+                    "NAVBAR": {
+                        "TITLE": "Saved Searches ({{ number }})",
+                        "MANAGE_BUTTON": "Manage searches"
+                    },
+                    "EDIT_DIALOG": {
+                        "CONTEXT_OPTION": "Edit Search",
+                        "TITLE": "Edit Saved Search",
+                        "SUCCESS_MESSAGE": "Saved Search edited successfully",
+                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be edited."
+                    },
+                    "DELETE_DIALOG": {
+                        "CONTEXT_OPTION": "Delete Search",
+                        "TITLE": "Delete Saved Search",
+                        "CONTENT": "Are you sure you want to delete this search",
+                        "SUCCESS_MESSAGE": "Saved Search deleted successfully",
+                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be deleted."
+                    },
+                    "LIST": {
+                        "TITLE": "Saved Searches",
+                        "NAME": "Name",
+                        "DESCRIPTION": "Description",
+                        "EMPTY_LIST": "No saved searches",
+                        "COPY_TO_CLIPBOARD": "Copy to clipboard",
+                        "COPY_TO_CLIPBOARD_SUCCESS": "Search copied to clipboard",
+                        "EXECUTE_SEARCH": "Execute Search"
+                    }
+                },
+                "FOUND_RESULTS": "Znaleziono wyników: {{ number }}",
+                "FOUND_ONE_RESULT": "Znaleziono wyników: {{ number }}",
+                "CUSTOM_ROW": {
+                    "MODIFIED": "Zmodyfikowane",
+                    "BY_USER": "przez: {{ user }}",
+                    "LOCATION": "Lokalizacja",
+                    "SIZE": "Rozmiar"
+                },
+                "UNKNOWN_LOCATION": "Nieznane",
+                "NO_RESULTS": "Wyszukiwanie nie zwróciło żadnych wyników",
+                "EMPTY_SEARCH": "Wymagana fraza wyszukiwania",
+                "NO_FILTER_RESULTS": "Filtr nie zwróciło żadnych wyników",
+                "ERRORS": {
+                    "500": "Podczas przetwarzania zapytania wyszukiwania wystąpił błąd [500]",
+                    "GENERIC": "Podczas przetwarzania zapytania wyszukiwania wystąpił błąd"
+                }
+            },
+            "SEARCH_LIBRARIES": {
+                "FOUND_RESULTS": "Wyniki: {{ number }}",
+                "FOUND_ONE_RESULT": "Wynik: {{ number }}"
+            }
+        },
+        "ACTIONS": {
+            "VIEW": "Widok",
+            "EDIT": "Edytuj",
+            "DOWNLOAD": "Pobierz",
+            "COPY": "Kopiuj",
+            "MOVE": "Przenieś",
+            "DELETE": "Usuń",
+            "DELETE_PERMANENT": "Usuń trwale",
+            "MORE": "Więcej czynności",
+            "UNDO": "Cofnij",
+            "PERMISSIONS": "Uprawnienia",
+            "RESTORE": "Przywróć",
+            "FAVORITE": "Ulubione",
+            "ADD_FAVORITE": "Dodaj do ulubionych",
+            "REMOVE_FAVORITE": "Usuń z ulubionych",
+            "UNSHARE": "Cofnij udostępnianie",
+            "DETAILS": "Wyświetl szczegóły",
+            "VERSIONS": "Zarządzaj wersjami",
+            "UPLOAD_VERSION": "Prześlij nową wersję",
+            "TOGGLE-SIDENAV": "Przełącz boczny pasek nawigacji",
+            "SHARE": "Udostępnij",
+            "SHARE_EDIT": "Udostępnione ustawienia łącza",
+            "PRINT": "Drukuj",
+            "FULLSCREEN": "Uaktywnij tryb pełnoekranowy",
+            "JOIN": "Dołącz",
+            "CANCEL_JOIN": "Anuluj żądanie dołączenia",
+            "LEAVE": "Opuść bibliotekę",
+            "EDIT_OFFLINE": "Edytuj w trybie offline",
+            "EDIT_OFFLINE_CANCEL": "Anuluj edytowanie",
+            "CHANGE_ASPECT": "Edytuj aspekty",
+            "ADD_ASPECTS": "Add Aspects"
+        },
+        "DIALOGS": {
+            "CONFIRM_PURGE": {
+                "TITLE": "Usunąć z kosza?",
+                "MESSAGE": "Spowoduje to trwałe usunięcie wybranych elementów.",
+                "YES_LABEL": "Usuń",
+                "NO_LABEL": "Zachowaj"
+            },
+            "CONFIRM_LEAVE": {
+                "TITLE": "Opuścić tę bibliotekę?",
+                "MESSAGE": "Opuszczenie spowoduje usunięcie dostępu.",
+                "YES_LABEL": "OK",
+                "NO_LABEL": "Anuluj"
+            },
+            "MOBILE_APP": {
+                "MOBILE_APP_BUTTON_LABEL": "Otwórz w aplikacji",
+                "DOWNLOAD_APP_BUTTON_LABEL": "Nie masz aplikacji? Pobierz teraz.",
+                "OPEN_ALFRESCO_MOBILE_APP": "Otworzyć za pomocą aplikacji Alfresco Mobile?"
+            }
+        },
+        "DOCUMENT_LIST": {
+            "COLUMNS": {
+                "ID": "Identyfikator",
+                "NAME": "Nazwa",
+                "DESCRIPTION": "Opis",
+                "SIZE": "Rozmiar",
+                "MODIFIED_ON": "Zmodyfikowane",
+                "MODIFIED_BY": "Zmodyfikowane przez",
+                "VISIBILITY": "Widoczność",
+                "TITLE": "Tytuł",
+                "LOCATION": "Lokalizacja",
+                "SHARED_BY": "Udostępnione przez",
+                "DELETED_ON": "Usunięte",
+                "DELETED_BY": "Usunięte przez",
+                "ROLE": "Moja rola",
+                "TAGS": "Znaczniki"
+            }
+        },
+        "MESSAGES": {
+            "ERRORS": {
+                "CANNOT_NAVIGATE_LOCATION": "Nie można otworzyć tej lokalizacji",
+                "MISSING_CONTENT": "Ten element już nie istnieje lub nie masz uprawnień, by go wyświetlić.",
+                "GENERIC": "Wykonanie czynności nie powiodło się. Spróbuj ponownie lub skontaktuj się z zespołem IT.",
+                "CONFLICT": "Ta nazwa jest już używana. Spróbuj użyć innej nazwy.",
+                "NODE_MOVE": "Przeniesienie zakończone niepowodzeniem, plik o tej samej nazwie już istnieje.",
+                "EXISTENT_FOLDER": "Istnieje już folder o tej nazwie. Spróbuj użyć innej nazwy.",
+                "NODE_DELETION": "Nie można usunąć elementu {{ name }}.",
+                "NODE_DELETION_PLURAL": "Nie można usunąć następującej liczby elementów: {{ number }}.",
+                "NODE_RESTORE": "Nie można przywrócić elementu {{ name }}",
+                "NODE_RESTORE_PLURAL": "Nie można przywrócić następującej liczby elementów: {{ number }}",
+                "PERMISSION": "Nie masz dostępu umożliwiającego wykonanie tej czynności",
+                "LOCK_NODE": "Podczas blokowania pliku {{ fileName }} wystąpił problem",
+                "UNLOCK_NODE": "Podczas odblokowywania pliku {{ fileName }} wystąpił problem",
+                "TRASH": {
+                    "NODES_PURGE": {
+                        "PLURAL": "Nie można usunąć następującej liczby elementów: {{ number }}.",
+                        "SINGULAR": "Nie można usunąć elementu {{ name }}."
+                    },
+                    "NODES_RESTORE": {
+                        "PARTIAL_PLURAL": "Liczba elementów, które nie zostały przywrócone z powodu problemów z lokalizacją przywracania: {{ number }}.",
+                        "NODE_EXISTS": "Nie można przywrócić elementu {{ name }}, ponieważ już istnieje",
+                        "LOCATION_MISSING": "Nie można przywrócić elementu {{ name }}, ponieważ jego pierwotna lokalizacja już nie istnieje.",
+                        "GENERIC": "Podczas przywracania elementu {{ name }} wystąpił problem"
+                    }
+                },
+                "DELETE_LIBRARY_FAILED": "Nie można usunąć biblioteki",
+                "LEAVE_LIBRARY_FAILED": "Nie można opuścić tej biblioteki"
+            },
+            "UPLOAD": {
+                "ERROR": {
+                    "GENERIC": "Przesyłanie nie powiodło się. Skontaktuj się z działem IT, jeśli problem nie ustąpi",
+                    "CONFLICT": "Nie przesłano nowej wersji, inny plik o tej samej nazwie już istnieje",
+                    "500": "Błąd wewnętrzny serwera, spróbuj ponownie lub skontaktuj się z działem IT [500]",
+                    "504": "Upłynął limit czasu serwera, spróbuj ponownie lub skontaktuj się z działem IT [504]",
+                    "403": "Niewystarczające uprawnienia, aby przesłać w tej lokalizacji [403]",
+                    "404": "Lokalizacja przesyłania już nie istnieje [404]"
+                }
+            },
+            "INFO": {
+                "TRASH": {
+                    "NODES_PURGE": {
+                        "PLURAL": "Usunięto elementów: {{ number }}",
+                        "SINGULAR": "Usunięto: {{ name }}",
+                        "PARTIAL_SINGULAR": "Usunięto: {{ name }}, nie można usunąć: {{ failed }}",
+                        "PARTIAL_PLURAL": "Usunięto elementy: {{ number }}, nie można usunąć: {{ failed }}"
+                    },
+                    "NODES_RESTORE": {
+                        "PLURAL": "Przywracanie zostało zakończone pomyślnie.",
+                        "SINGULAR": "Przywrócono: {{ name }}"
+                    }
+                },
+                "NODE_DELETION": {
+                    "SINGULAR": "Usunięto: {{ name }}",
+                    "PLURAL": "Usunięto elementów: {{ number }}",
+                    "PARTIAL_SINGULAR": "Usunięto element {{ success }}, nie można usunąć: {{ failed }}",
+                    "PARTIAL_PLURAL": "Usunięto elementy: {{ success }}, nie można usunąć: {{ failed }}"
+                },
+                "NODE_COPY": {
+                    "SINGULAR": "Skopiowano element: {{ success }}",
+                    "PLURAL": "Skopiowano elementy: {{ success }}",
+                    "PARTIAL_SINGULAR": "Skopiowano element {{ success }}, nie można skopiować: {{ failed }}",
+                    "PARTIAL_PLURAL": "Skopiowano elementy: {{ success }}, nie można skopiować: {{ failed }}.",
+                    "FAIL_SINGULAR": "Nie można skopiować elementu: {{ failed }}.",
+                    "FAIL_PLURAL": "Nie można skopiować elementów: {{ failed }}."
+                },
+                "NODE_MOVE": {
+                    "SINGULAR": "Przeniesiono element: {{ success }}.",
+                    "PLURAL": "Przeniesiono elementy: {{ success }}.",
+                    "PARTIAL": {
+                        "SINGULAR": "Przeniesiono częściowo element: {{ partially }}.",
+                        "PLURAL": "Przeniesiono częściowo elementy: {{ partially }}.",
+                        "FAIL": "Nie można przenieść: {{ failed }}."
+                    }
+                },
+                "LIBRARY_DELETED": "Usunięto bibliotekę",
+                "LEFT_LIBRARY": "Opuszczasz bibliotekę"
+            }
+        },
+        "CONTENT_METADATA": {
+            "EXIF_GROUP_TITLE": "Obraz EXIF",
+            "GROUP_IPTC_CORE_CONTACT_INFO": "Kontakt IPTC",
+            "GROUP_IPTC_CORE_IMAGE_INFO": "Obraz IPTC",
+            "GROUP_IPTC_CORE_CONTENT_INFO": "Zawartość IPTC",
+            "GROUP_IPTC_CORE_STATUS_INFO": "Status IPTC",
+            "GROUP_IPTC_EXT_DESCRIPTION": "Opis obrazu IPTC",
+            "GROUP_IPTC_EXT_AO_DETAIL": "Grafika lub szczegóły obiektu IPTC",
+            "GROUP_IPTC_EXT_MODEL_INFO": "Informacje o modelu IPTC",
+            "GROUP_IPTC_EXT_ADMIN_INFO": "Informacje o administratorze IPTC",
+            "GROUP_IPTC_EXT_RIGHTS_INFO": "Informacje o prawach IPTC",
+            "GROUP_IPTC_EXT_OTHER": "Inne IPTC",
+            "EFFECTIVITY_GROUP_TITLE": "Obowiązywanie"
+        },
+        "INFO_DRAWER": {
+            "TITLE": "Szczegóły",
+            "REDUCE_PANEL": "Reduce panel",
+            "DATA_LOADING": "Dane są wczytywane",
+            "ICON": "Node Icon",
+            "TABS": {
+                "PROPERTIES": "Właściwości",
+                "LIBRARY_PROPERTIES": "Informacje",
+                "VERSIONS": "Wersje",
+                "COMMENTS": "Komentarze",
+                "PERMISSIONS": "Uprawnienia",
+                "EXPAND": "Rozwiń"
+            }
+        },
+        "TOOLTIPS": {
+            "COLLAPSE_NAVIGATION": "Zwiń menu nawigacji",
+            "OPTIONS_SETTINGS": "Opcje i ustawienia",
+            "MY_PROFILE": "Mój profil",
+            "EXPAND_NAVIGATION": "Rozwiń menu nawigacji"
+        }
     },
-    "LANGUAGE": "Język",
-    "SIGN_IN": "Zaloguj się",
-    "SIGN_OUT": "Wyloguj się",
-    "EDIT_PROFILE": {
-      "MY_PROFILE": "Mój profil",
-      "GENERAL": "Ogólne",
-      "EDIT": "Edytuj",
-      "CANCEL": "Anuluj",
-      "SAVE": "Zapisz",
-      "FIRST_NAME": "Imię",
-      "LAST_NAME": "Nazwisko",
-      "JOB_TITLE": "Tytuł zadania",
-      "LOCATION": "Lokalizacja",
-      "TELEPHONE": "Telefon",
-      "MOBILE": "Telefon komórkowy",
-      "LOGIN": "Zaloguj",
-      "USERNAME": "Nazwa użytkownika",
-      "EMAIL": "E-mail",
-      "PASSWORD": "Hasło",
-      "OLD_PASSWORD": "Stare hasło",
-      "FORGOT_PASSWORD": "Zapomniałeś(-aś) hasła",
-      "NEW_PASSWORD": "Nowe hasło",
-      "VERIFY_PASSWORD": "Potwierdź hasło",
-      "COMPANY_DETAILS": "Dane firmy",
-      "NAME": "Nazwa",
-      "ADDRESS": "Adres",
-      "POSTCODE": "Kod pocztowy",
-      "INVALID_INPUT": "Nieprawidłowe dane wejściowe"
+    "NODE_SELECTOR": {
+        "COPY_ITEM": "Kopiuj '{{ name }}' do...",
+        "COPY_ITEMS": "Kopiowanie {{ number }} elementów do...",
+        "MOVE_ITEM": "Przenieś '{{ name }}' do...",
+        "MOVE_ITEMS": "Przenoszenie {{ number }} elementów do...",
+        "SEARCH": "Szukaj",
+        "NEXT": "Następny",
+        "SELECT_FILE_TEMPLATE_TITLE": "Wybierz szablon dokumentu",
+        "SELECT_FOLDER_TEMPLATE_TITLE": "Wybierz szablon folderu"
     },
-    "LOCKED_BY": "Zablokowane przez: ",
-    "PREVIEW": {
-      "TITLE": "Podgląd"
-    },
-    "DETAILS": {
-      "TITLE": "Szczegóły"
-    },
-    "NEW_MENU": {
-      "MENU_ITEMS": {
-        "CREATE_FOLDER": "Utwórz Folder",
-        "UPLOAD_FILE": "Prześlij plik",
-        "UPLOAD_FOLDER": "Prześlij folder",
-        "CREATE_LIBRARY": "Utwórz bibliotekę",
-        "FILE_TEMPLATE": "Stwórz plik w oparciu o szablon",
-        "FOLDER_TEMPLATE": "Stwórz folder w oparciu o szablon"
-      },
-      "TOOLTIPS": {
-        "CREATE_FOLDER": "Utwórz nowy folder",
-        "CREATE_FOLDER_NOT_ALLOWED": "Nie można tworzyć folderów podczas przeglądania bieżących elementów",
-        "CREATE_FILE_NOT_ALLOWED": "Pliki nie mogą zostać utworzone podczas oglądania aktualnych elementów.",
-        "UPLOAD_FILES": "Wybierz pliki do przesłania",
-        "UPLOAD_FILES_NOT_ALLOWED": "Nie można przesyłać plików podczas przeglądania bieżących elementów",
-        "UPLOAD_FOLDERS": "Wybierz foldery do przesłania",
-        "UPLOAD_FOLDERS_NOT_ALLOWED": "Nie można przesyłać folderów podczas przeglądania bieżących elementów",
-        "CREATE_LIBRARY": "Utwórz nową bibliotekę plików"
-      }
-    },
-    "HEADER": {
-      "BUTTONS": {
+    "NODE_FROM_TEMPLATE": {
+        "CANCEL": "Anuluj",
         "CREATE": "Utwórz",
-        "CREATE_TOOLTIP": "Utwórz zawartość",
-        "UPLOAD": "Prześlij",
-        "UPLOAD_TOOLTIP": "Prześlij zawartość"
-      },
-      "SELECTED": "Wybrano ({{ count }})"
-    },
-    "BROWSE": {
-      "FILE": {
-        "SIDENAV_LINK": {
-          "LABEL": "Pliki",
-          "TOOLTIP": "Pliki"
-        }
-      },
-      "PERSONAL": {
-        "TITLE": "Pliki osobiste",
-        "SIDENAV_LINK": {
-          "LABEL": "Pliki osobiste",
-          "TOOLTIP": "Wyświetl pliki osobiste"
-        },
-        "PERMISSIONS": {
-          "TITLE": "Uprawnienia"
-        }
-      },
-      "LIBRARIES": {
-        "TITLE": "Biblioteki plików",
-        "DESCRIPTION": "Uzyskaj dostęp do bibliotek plików",
-        "SIDENAV_LINK": {
-          "LABEL": "Biblioteki plików",
-          "TOOLTIP": "Biblioteki plików"
-        },
-        "EMPTY_STATE": {
-          "FILE_LIBRARIES": {
-            "TITLE": "Nie jesteś jeszcze członkiem żadnej biblioteki plików",
-            "TEXT": "Dołącz do bibliotek, aby przesyłać, wyświetlać i udostępniać pliki."
-          },
-          "FAVORITE_LIBRARIES": {
-            "TITLE": "Brak ulubionych bibliotek",
-            "TEXT": "Dodaj do ulubionych bibliotekę, którą później chcesz łatwo znaleźć."
-          }
-        },
-        "MENU": {
-          "MY_LIBRARIES": {
-            "TITLE": "Moje biblioteki",
-            "SIDENAV_LINK": {
-              "LABEL": "Moje biblioteki",
-              "TOOLTIP": "Uzyskaj dostęp do moich bibliotek"
+        "FOLDER_DIALOG_TITLE": "Utwórz nowy folder w oparciu o <span class=\"bold\">'{{ template }}'</span>",
+        "FILE_DIALOG_TITLE": "Utwórz nowy dokument w oparciu o <span class=\"bold\">'{{ template }}'</span>",
+        "FORM": {
+            "PLACEHOLDER": {
+                "NAME": "Nazwa",
+                "TITLE": "Tytuł",
+                "DESCRIPTION": "Opis"
+            },
+            "ERRORS": {
+                "DESCRIPTION_TOO_LONG": "W opisie można użyć maksymalnie 512 znaków",
+                "TITLE_TOO_LONG": "W tytule można użyć maksymalnie 256 znaków",
+                "REQUIRED": "Nazwa jest wymagana",
+                "SPECIAL_CHARACTERS": "Nazwa nie może zawierać następujących znaków: * \" < > \\ / ? : |",
+                "ENDING_DOT": "Nazwa nie może kończyć się kropką (.)",
+                "ONLY_SPACES": "Nazwa nie może zawierać spacji"
             }
-          },
-          "FAVORITE_LIBRARIES": {
-            "TITLE": "Ulubione biblioteki",
-            "SIDENAV_LINK": {
-              "LABEL": "Ulubione biblioteki",
-              "TOOLTIP": "Uzyskaj dostęp do moich ulubionych bibliotek"
-            }
-          }
         }
-      },
-      "SHARED": {
-        "TITLE": "Udostępnione pliki",
-        "SIDENAV_LINK": {
-          "LABEL": "Udostępnione",
-          "TOOLTIP": "Wyświetl pliki, które zostały udostępnione"
-        },
-        "EMPTY_STATE": {
-          "TITLE": "Brak udostępnionych plików lub folderów",
-          "TEXT": "W tym miejscu znajdują się elementy, które udostępniasz za pomocą opcji Udostępnij."
-        }
-      },
-      "RECENT": {
-        "TITLE": "Bieżące pliki",
-        "SIDENAV_LINK": {
-          "LABEL": "Bieżące pliki",
-          "TOOLTIP": "Ostatnio edytowane pliki"
-        },
-        "EMPTY_STATE": {
-          "TITLE": "Brak bieżących plików",
-          "TEXT": "W tym miejscu widoczne są elementy przesłane lub edytowane przez Ciebie w ciągu ostatnich 30 dni."
-        }
-      },
-      "FAVORITES": {
-        "TITLE": "Ulubione",
-        "SIDENAV_LINK": {
-          "LABEL": "Ulubione",
-          "TOOLTIP": "Wyświetl ulubione pliki i foldery"
-        },
-        "EMPTY_STATE": {
-          "TITLE": "Brak ulubionych plików lub folderów",
-          "TEXT": "Ulubione elementy, które chcesz później łatwo znaleźć."
-        }
-      },
-      "TRASHCAN": {
-        "TITLE": "Kosz",
-        "SIDENAV_LINK": {
-          "LABEL": "Kosz",
-          "TOOLTIP": "Wyświetl usunięte pliki w koszu"
-        },
-        "EMPTY_STATE": {
-          "TITLE": "Kosz jest pusty",
-          "FIRST_TEXT": "Usuwane elementy są przesyłane do kosza.",
-          "SECOND_TEXT": "Aby trwale usunąć elementy, opróżnij kosz."
-        }
-      },
-      "ABOUT": {
-        "TITLE": "Informacje"
-      },
-      "SEARCH": {
-        "DEFAULT_SEARCH": "Domyślne",
-        "DUBLIN_CORE": "Dublin Core",
-        "EFFECTIVITY": "Obowiązywanie",
-        "TITLE": "Wyniki wyszukiwania",
-        "FILTER_SET": "Zestaw filtrów:",
-        "ADVANCED_FILTERS": "Zaawansowane filtry:",
-        "RESET": "Resetuj",
-        "RESET_ACTION": "Resetuj filtry wyszukiwania",
-        "FOUND_RESULTS": "Znaleziono wyników: {{ number }}",
-        "FOUND_ONE_RESULT": "Znaleziono wyników: {{ number }}",
-        "CUSTOM_ROW": {
-          "MODIFIED": "Zmodyfikowane",
-          "BY_USER": "przez: {{ user }}",
-          "LOCATION": "Lokalizacja",
-          "SIZE": "Rozmiar"
-        },
-        "UNKNOWN_LOCATION": "Nieznane",
-        "NO_RESULTS": "Wyszukiwanie nie zwróciło żadnych wyników",
-        "EMPTY_SEARCH": "Wymagana fraza wyszukiwania",
-        "NO_FILTER_RESULTS": "Filtr nie zwróciło żadnych wyników",
-        "ERRORS": {
-          "500": "Podczas przetwarzania zapytania wyszukiwania wystąpił błąd [500]",
-          "GENERIC": "Podczas przetwarzania zapytania wyszukiwania wystąpił błąd"
-        }
-      },
-      "SEARCH_LIBRARIES": {
-        "FOUND_RESULTS": "Wyniki: {{ number }}",
-        "FOUND_ONE_RESULT": "Wynik: {{ number }}"
-      }
     },
-    "ACTIONS": {
-      "VIEW": "Widok",
-      "EDIT": "Edytuj",
-      "DOWNLOAD": "Pobierz",
-      "COPY": "Kopiuj",
-      "MOVE": "Przenieś",
-      "DELETE": "Usuń",
-      "DELETE_PERMANENT": "Usuń trwale",
-      "MORE": "Więcej czynności",
-      "UNDO": "Cofnij",
-      "PERMISSIONS": "Uprawnienia",
-      "RESTORE": "Przywróć",
-      "FAVORITE": "Ulubione",
-      "ADD_FAVORITE": "Dodaj do ulubionych",
-      "REMOVE_FAVORITE": "Usuń z ulubionych",
-      "UNSHARE": "Cofnij udostępnianie",
-      "DETAILS": "Wyświetl szczegóły",
-      "VERSIONS": "Zarządzaj wersjami",
-      "UPLOAD_VERSION": "Prześlij nową wersję",
-      "TOGGLE-SIDENAV": "Przełącz boczny pasek nawigacji",
-      "SHARE": "Udostępnij",
-      "SHARE_EDIT": "Udostępnione ustawienia łącza",
-      "PRINT": "Drukuj",
-      "FULLSCREEN": "Uaktywnij tryb pełnoekranowy",
-      "JOIN": "Dołącz",
-      "CANCEL_JOIN": "Anuluj żądanie dołączenia",
-      "LEAVE": "Opuść bibliotekę",
-      "EDIT_OFFLINE": "Edytuj w trybie offline",
-      "EDIT_OFFLINE_CANCEL": "Anuluj edytowanie",
-      "CHANGE_ASPECT": "Edytuj aspekty"
+    "SHARED_LINK": {
+        "UNSHARE_PERMISSION_ERROR": "Nie masz uprawnień, aby cofnąć udostępnianie tego pliku"
     },
-    "DIALOGS": {
-      "CONFIRM_PURGE": {
-        "TITLE": "Usunąć z kosza?",
-        "MESSAGE": "Spowoduje to trwałe usunięcie wybranych elementów.",
-        "YES_LABEL": "Usuń",
-        "NO_LABEL": "Zachowaj"
-      },
-      "CONFIRM_LEAVE": {
-        "TITLE": "Opuścić tę bibliotekę?",
-        "MESSAGE": "Opuszczenie spowoduje usunięcie dostępu.",
-        "YES_LABEL": "OK",
-        "NO_LABEL": "Anuluj"
-      },
-      "MOBILE_APP": {
-        "MOBILE_APP_BUTTON_LABEL": "Otwórz w aplikacji",
-        "DOWNLOAD_APP_BUTTON_LABEL": "Nie masz aplikacji? Pobierz teraz.",
-        "OPEN_ALFRESCO_MOBILE_APP": "Otworzyć za pomocą aplikacji Alfresco Mobile?"
-      }
-    },
-    "DOCUMENT_LIST": {
-      "COLUMNS": {
-        "ID": "Identyfikator",
-        "NAME": "Nazwa",
-        "DESCRIPTION": "Opis",
-        "SIZE": "Rozmiar",
-        "MODIFIED_ON": "Zmodyfikowane",
-        "MODIFIED_BY": "Zmodyfikowane przez",
-        "VISIBILITY": "Widoczność",
-        "TITLE": "Tytuł",
-        "LOCATION": "Lokalizacja",
-        "SHARED_BY": "Udostępnione przez",
-        "DELETED_ON": "Usunięte",
-        "DELETED_BY": "Usunięte przez",
-        "ROLE": "Moja rola",
-        "TAGS": "Znaczniki"
-      }
-    },
-    "MESSAGES": {
-      "ERRORS": {
-        "CANNOT_NAVIGATE_LOCATION": "Nie można otworzyć tej lokalizacji",
-        "MISSING_CONTENT": "Ten element już nie istnieje lub nie masz uprawnień, by go wyświetlić.",
-        "GENERIC": "Wykonanie czynności nie powiodło się. Spróbuj ponownie lub skontaktuj się z zespołem IT.",
-        "CONFLICT": "Ta nazwa jest już używana. Spróbuj użyć innej nazwy.",
-        "NODE_MOVE": "Przeniesienie zakończone niepowodzeniem, plik o tej samej nazwie już istnieje.",
-        "EXISTENT_FOLDER": "Istnieje już folder o tej nazwie. Spróbuj użyć innej nazwy.",
-        "NODE_DELETION": "Nie można usunąć elementu {{ name }}.",
-        "NODE_DELETION_PLURAL": "Nie można usunąć następującej liczby elementów: {{ number }}.",
-        "NODE_RESTORE": "Nie można przywrócić elementu {{ name }}",
-        "NODE_RESTORE_PLURAL": "Nie można przywrócić następującej liczby elementów: {{ number }}",
-        "PERMISSION": "Nie masz dostępu umożliwiającego wykonanie tej czynności",
-        "LOCK_NODE": "Podczas blokowania pliku {{ fileName }} wystąpił problem",
-        "UNLOCK_NODE": "Podczas odblokowywania pliku {{ fileName }} wystąpił problem",
-        "TRASH": {
-          "NODES_PURGE": {
-            "PLURAL": "Nie można usunąć następującej liczby elementów: {{ number }}.",
-            "SINGULAR": "Nie można usunąć elementu {{ name }}."
-          },
-          "NODES_RESTORE": {
-            "PARTIAL_PLURAL": "Liczba elementów, które nie zostały przywrócone z powodu problemów z lokalizacją przywracania: {{ number }}.",
-            "NODE_EXISTS": "Nie można przywrócić elementu {{ name }}, ponieważ już istnieje",
-            "LOCATION_MISSING": "Nie można przywrócić elementu {{ name }}, ponieważ jego pierwotna lokalizacja już nie istnieje.",
-            "GENERIC": "Podczas przywracania elementu {{ name }} wystąpił problem"
-          }
+    "VERSION": {
+        "DIALOG": {
+            "TITLE": "Prześlij nową wersję",
+            "CANCEL": "Anuluj",
+            "UPLOAD": "Prześlij"
         },
-        "DELETE_LIBRARY_FAILED": "Nie można usunąć biblioteki",
-        "LEAVE_LIBRARY_FAILED": "Nie można opuścić tej biblioteki"
-      },
-      "UPLOAD": {
+        "SELECTION": {
+            "EMPTY": "Wybierz dokument, aby zobaczyć jego wersje.",
+            "NO_PERMISSION": "Nie masz uprawnień do zarządzania wersjami tej zawartości."
+        },
         "ERROR": {
-          "GENERIC": "Przesyłanie nie powiodło się. Skontaktuj się z działem IT, jeśli problem nie ustąpi",
-          "CONFLICT": "Nie przesłano nowej wersji, inny plik o tej samej nazwie już istnieje",
-          "500": "Błąd wewnętrzny serwera, spróbuj ponownie lub skontaktuj się z działem IT [500]",
-          "504": "Upłynął limit czasu serwera, spróbuj ponownie lub skontaktuj się z działem IT [504]",
-          "403": "Niewystarczające uprawnienia, aby przesłać w tej lokalizacji [403]",
-          "404": "Lokalizacja przesyłania już nie istnieje [404]"
+            "GENERIC": "Podczas kontroli wersji pliku wystąpił błąd"
         }
-      },
-      "INFO": {
-        "TRASH": {
-          "NODES_PURGE": {
-            "PLURAL": "Usunięto elementów: {{ number }}",
-            "SINGULAR": "Usunięto: {{ name }}",
-            "PARTIAL_SINGULAR": "Usunięto: {{ name }}, nie można usunąć: {{ failed }}",
-            "PARTIAL_PLURAL": "Usunięto elementy: {{ number }}, nie można usunąć: {{ failed }}"
-          },
-          "NODES_RESTORE": {
-            "PLURAL": "Przywracanie zostało zakończone pomyślnie.",
-            "SINGULAR": "Przywrócono: {{ name }}"
-          }
+    },
+    "LIBRARY": {
+        "DIALOG": {
+            "CREATE_TITLE": "Utwórz bibliotekę",
+            "CREATE": "Utwórz",
+            "UPDATE": "Aktualizuj",
+            "EDIT": "Edytuj",
+            "CANCEL": "Anuluj",
+            "FORM": {
+                "DESCRIPTION": "Opis",
+                "SITE_ID": "Identyfikator biblioteki",
+                "NAME": "Nazwa",
+                "VISIBILITY": "Widoczność"
+            }
         },
-        "NODE_DELETION": {
-          "SINGULAR": "Usunięto: {{ name }}",
-          "PLURAL": "Usunięto elementów: {{ number }}",
-          "PARTIAL_SINGULAR": "Usunięto element {{ success }}, nie można usunąć: {{ failed }}",
-          "PARTIAL_PLURAL": "Usunięto elementy: {{ success }}, nie można usunąć: {{ failed }}"
+        "VISIBILITY": {
+            "PRIVATE": "Prywatne",
+            "PUBLIC": "Publiczne",
+            "MODERATED": "Moderowane"
         },
-        "NODE_COPY": {
-          "SINGULAR": "Skopiowano element: {{ success }}",
-          "PLURAL": "Skopiowano elementy: {{ success }}",
-          "PARTIAL_SINGULAR": "Skopiowano element {{ success }}, nie można skopiować: {{ failed }}",
-          "PARTIAL_PLURAL": "Skopiowano elementy: {{ success }}, nie można skopiować: {{ failed }}.",
-          "FAIL_SINGULAR": "Nie można skopiować elementu: {{ failed }}.",
-          "FAIL_PLURAL": "Nie można skopiować elementów: {{ failed }}."
+        "HINTS": {
+            "SITE_TITLE_EXISTS": "Nazwa biblioteki jest już w użyciu"
         },
-        "NODE_MOVE": {
-          "SINGULAR": "Przeniesiono element: {{ success }}.",
-          "PLURAL": "Przeniesiono elementy: {{ success }}.",
-          "PARTIAL": {
-            "SINGULAR": "Przeniesiono częściowo element: {{ partially }}.",
-            "PLURAL": "Przeniesiono częściowo elementy: {{ partially }}.",
-            "FAIL": "Nie można przenieść: {{ failed }}."
-          }
+        "ERRORS": {
+            "GENERIC": "Wystąpił problem",
+            "EXISTENT_SITE": "Wprowadzony identyfikator biblioteki jest niedostępny. Wprowadź inny.",
+            "CONFLICT": "Identyfikator tej biblioteki jest już w użyciu. Sprawdź w koszu.",
+            "ID_TOO_LONG": "W adresie URL można użyć maksymalnie 72 znaków",
+            "DESCRIPTION_TOO_LONG": "W opisie można użyć maksymalnie 512 znaków",
+            "TITLE_TOO_LONG_OR_MISSING": "Use 256 characters or less for title",
+            "ILLEGAL_CHARACTERS": "Użyj tylko cyfr i liter",
+            "ONLY_SPACES": "Nazwa biblioteki nie może zawierać wyłącznie spacji",
+            "LIBRARY_UPDATE_ERROR": "Podczas aktualizowania właściwości biblioteki wystąpił błąd"
         },
-        "LIBRARY_DELETED": "Usunięto bibliotekę",
-        "LEFT_LIBRARY": "Opuszczasz bibliotekę"
-      }
-    },
-    "CONTENT_METADATA": {
-      "EXIF_GROUP_TITLE": "Obraz EXIF",
-      "GROUP_IPTC_CORE_CONTACT_INFO": "Kontakt IPTC",
-      "GROUP_IPTC_CORE_IMAGE_INFO": "Obraz IPTC",
-      "GROUP_IPTC_CORE_CONTENT_INFO": "Zawartość IPTC",
-      "GROUP_IPTC_CORE_STATUS_INFO": "Status IPTC",
-      "GROUP_IPTC_EXT_DESCRIPTION": "Opis obrazu IPTC",
-      "GROUP_IPTC_EXT_AO_DETAIL": "Grafika lub szczegóły obiektu IPTC",
-      "GROUP_IPTC_EXT_MODEL_INFO": "Informacje o modelu IPTC",
-      "GROUP_IPTC_EXT_ADMIN_INFO": "Informacje o administratorze IPTC",
-      "GROUP_IPTC_EXT_RIGHTS_INFO": "Informacje o prawach IPTC",
-      "GROUP_IPTC_EXT_OTHER": "Inne IPTC",
-      "EFFECTIVITY_GROUP_TITLE": "Obowiązywanie"
-    },
-    "INFO_DRAWER": {
-      "TITLE": "Szczegóły",
-      "DATA_LOADING": "Dane są wczytywane",
-      "TABS": {
-        "PROPERTIES": "Właściwości",
-        "LIBRARY_PROPERTIES": "Informacje",
-        "VERSIONS": "Wersje",
-        "COMMENTS": "Komentarze",
-        "PERMISSIONS": "Uprawnienia",
-        "EXPAND": "Rozwiń"
-      }
-    },
-    "TOOLTIPS": {
-      "COLLAPSE_NAVIGATION": "Zwiń menu nawigacji",
-      "OPTIONS_SETTINGS": "Opcje i ustawienia",
-      "MY_PROFILE": "Mój profil",
-      "EXPAND_NAVIGATION": "Rozwiń menu nawigacji"
-    }
-  },
-  "NODE_SELECTOR": {
-    "COPY_ITEM": "Kopiuj '{{ name }}' do...",
-    "COPY_ITEMS": "Kopiowanie {{ number }} elementów do...",
-    "MOVE_ITEM": "Przenieś '{{ name }}' do...",
-    "MOVE_ITEMS": "Przenoszenie {{ number }} elementów do...",
-    "SEARCH": "Szukaj",
-    "NEXT": "Następny",
-    "SELECT_FILE_TEMPLATE_TITLE": "Wybierz szablon dokumentu",
-    "SELECT_FOLDER_TEMPLATE_TITLE": "Wybierz szablon folderu"
-  },
-  "NODE_FROM_TEMPLATE": {
-    "CANCEL": "Anuluj",
-    "CREATE": "Utwórz",
-    "FOLDER_DIALOG_TITLE": "Utwórz nowy folder w oparciu o <span class=\"bold\">'{{ template }}'</span>",
-    "FILE_DIALOG_TITLE": "Utwórz nowy dokument w oparciu o <span class=\"bold\">'{{ template }}'</span>",
-    "FORM": {
-      "PLACEHOLDER": {
-        "NAME": "Nazwa",
-        "TITLE": "Tytuł",
-        "DESCRIPTION": "Opis"
-      },
-      "ERRORS": {
-        "DESCRIPTION_TOO_LONG": "W opisie można użyć maksymalnie 512 znaków",
-        "TITLE_TOO_LONG": "W tytule można użyć maksymalnie 256 znaków",
-        "REQUIRED": "Nazwa jest wymagana",
-        "SPECIAL_CHARACTERS": "Nazwa nie może zawierać następujących znaków: * \" < > \\ / ? : |",
-        "ENDING_DOT": "Nazwa nie może kończyć się kropką (.)",
-        "ONLY_SPACES": "Nazwa nie może zawierać spacji"
-      }
-    }
-  },
-  "SHARED_LINK": {
-    "UNSHARE_PERMISSION_ERROR": "Nie masz uprawnień, aby cofnąć udostępnianie tego pliku"
-  },
-  "VERSION": {
-    "DIALOG": {
-      "TITLE": "Prześlij nową wersję",
-      "CANCEL": "Anuluj",
-      "UPLOAD": "Prześlij"
-    },
-    "SELECTION": {
-      "EMPTY": "Wybierz dokument, aby zobaczyć jego wersje.",
-      "NO_PERMISSION": "Nie masz uprawnień do zarządzania wersjami tej zawartości."
-    },
-    "ERROR": {
-      "GENERIC": "Podczas kontroli wersji pliku wystąpił błąd"
-    }
-  },
-  "LIBRARY": {
-    "DIALOG": {
-      "CREATE_TITLE": "Utwórz bibliotekę",
-      "CREATE": "Utwórz",
-      "UPDATE": "Aktualizuj",
-      "EDIT": "Edytuj",
-      "CANCEL": "Anuluj",
-      "FORM": {
-        "DESCRIPTION": "Opis",
-        "SITE_ID": "Identyfikator biblioteki",
-        "NAME": "Nazwa",
-        "VISIBILITY": "Widoczność"
-      }
-    },
-    "VISIBILITY": {
-      "PRIVATE": "Prywatne",
-      "PUBLIC": "Publiczne",
-      "MODERATED": "Moderowane"
-    },
-    "HINTS": {
-      "SITE_TITLE_EXISTS": "Nazwa biblioteki jest już w użyciu"
-    },
-    "ERRORS": {
-      "GENERIC": "Wystąpił problem",
-      "EXISTENT_SITE": "Wprowadzony identyfikator biblioteki jest niedostępny. Wprowadź inny.",
-      "CONFLICT": "Identyfikator tej biblioteki jest już w użyciu. Sprawdź w koszu.",
-      "ID_TOO_LONG": "W adresie URL można użyć maksymalnie 72 znaków",
-      "DESCRIPTION_TOO_LONG": "W opisie można użyć maksymalnie 512 znaków",
-      "TITLE_TOO_LONG": "W tytule można użyć maksymalnie 256 znaków",
-      "ILLEGAL_CHARACTERS": "Użyj tylko cyfr i liter",
-      "ONLY_SPACES": "Nazwa biblioteki nie może zawierać wyłącznie spacji",
-      "LIBRARY_UPDATE_ERROR": "Podczas aktualizowania właściwości biblioteki wystąpił błąd"
-    },
-    "SUCCESS": {
-      "LIBRARY_UPDATED": "Zaktualizowano właściwości biblioteki"
-    }
-  },
-  "SEARCH": {
-    "INPUT": {
-      "PLACEHOLDER": "Szukaj",
-      "FILES": "Pliki",
-      "FOLDERS": "Foldery",
-      "LIBRARIES": "Biblioteki",
-      "HINT": "Tekst do wyszukiwania musi mieć co najmniej 2 znaki alfanumeryczne."
-    },
-    "SORT": {
-      "SORTING_OPTION": "Sortuj wg",
-      "ASCENDING": "Rosnąco",
-      "DESCENDING": "Malejąco",
-      "RELEVANCE": "Znaczenie",
-      "FILENAME": "Nazwa pliku",
-      "TITLE": "Tytuł",
-      "MODIFIED_DATE": "Data modyfikacji",
-      "SIZE": "Rozmiar",
-      "TYPE": "Typ",
-      "MODIFIER": "Modyfikator",
-      "CREATE_DATE": "Data utworzenia"
-    },
-    "FACET_FIELDS": {
-      "CREATOR": "Twórca",
-      "MODIFIER": "Modyfikator",
-      "LOCATION": "Lokalizacja",
-      "CATEGORIES": "Kategorie"
-    },
-    "CATEGORIES": {
-      "EFFECTIVITY_FROM": "Data początku obowiązywania",
-      "EFFECTIVITY_TO": "Data końca obowiązywania",
-      "LOGIC": "Logika"
-    },
-    "SEARCH_HEADER": {
-      "TITLE": "Filtr",
-      "TYPE": "Typ",
-      "FILTER_BY": "Filtruj wg {{ category }}",
-      "CLEAR": "Wyczyść",
-      "APPLY": "Zastosuj",
-      "FILTERS": {
-        "NAME": {
-          "TITLE": "Nazwa",
-          "PLACEHOLDER": "Wprowadź nazwę"
-        },
-        "TYPE": {
-          "TITLE": "Zaznacz typ",
-          "FOLDER": "Folder",
-          "DOCUMENT": "Dokument"
-        },
-        "SIZE": {
-          "TITLE": "Rozmiar zawartości (zakres)",
-          "SMALL": "Mały",
-          "MEDIUM": "Średni",
-          "LARGE": "Duży",
-          "HUGE": "Ogromny"
-        },
-        "DATE": {
-          "TITLE": "Data utworzenia (zakres)"
+        "SUCCESS": {
+            "LIBRARY_UPDATED": "Zaktualizowano właściwości biblioteki"
         }
-      }
+    },
+    "SEARCH": {
+        "BULK_ACTIONS_DROPDOWN": {
+            "TITLE": "Bulk Actions ({{ count }} Items)",
+            "BULK_NOT_AVAILABLE": "Bulk Actions (Not Available)",
+            "BULK_NOT_AVAILABLE_TOOLTIP": "Bulk Actions cannot be used without search results"
+        },
+        "INPUT": {
+            "PLACEHOLDER": "Szukaj",
+            "FILES": "Pliki",
+            "FOLDERS": "Foldery",
+            "LIBRARIES": "Biblioteki",
+            "HINT": "Tekst do wyszukiwania musi mieć co najmniej 2 znaki alfanumeryczne."
+        },
+        "SORT": {
+            "SORTING_OPTION": "Sortuj wg",
+            "ASCENDING": "Rosnąco",
+            "DESCENDING": "Malejąco",
+            "RELEVANCE": "Znaczenie",
+            "FILENAME": "Nazwa pliku",
+            "TITLE": "Tytuł",
+            "MODIFIED_DATE": "Data modyfikacji",
+            "SIZE": "Rozmiar",
+            "TYPE": "Typ",
+            "MODIFIER": "Modyfikator",
+            "CREATE_DATE": "Data utworzenia"
+        },
+        "FACET_FIELDS": {
+            "CREATOR": "Twórca",
+            "MODIFIER": "Modyfikator",
+            "LOCATION": "Lokalizacja",
+            "CATEGORIES": "Kategorie"
+        },
+        "CATEGORIES": {
+            "DATE": "Date",
+            "DATE_TABS": {
+                "CREATED": "Created",
+                "MODIFIED": "Modified"
+            },
+            "EFFECTIVITY_FROM": "Data początku obowiązywania",
+            "EFFECTIVITY_TO": "Data końca obowiązywania",
+            "LOGIC": "Logika",
+            "PROPERTIES": "Properties"
+        },
+        "SEARCH_HEADER": {
+            "TITLE": "Filtr",
+            "TYPE": "Typ",
+            "FILTER_BY": "Filtruj wg {{ category }}",
+            "CLEAR": "Wyczyść",
+            "APPLY": "Zastosuj",
+            "FILTERS": {
+                "NAME": {
+                    "TITLE": "Nazwa",
+                    "PLACEHOLDER": "Wprowadź nazwę"
+                },
+                "TYPE": {
+                    "TITLE": "Zaznacz typ",
+                    "FOLDER": "Folder",
+                    "DOCUMENT": "Dokument"
+                },
+                "SIZE": {
+                    "TITLE": "Rozmiar zawartości (zakres)",
+                    "SMALL": "Mały",
+                    "MEDIUM": "Średni",
+                    "LARGE": "Duży",
+                    "HUGE": "Ogromny"
+                },
+                "DATE": {
+                    "TITLE": "Data utworzenia (zakres)"
+                }
+            }
+        }
+    },
+    "CORE": {
+        "METADATA": {
+            "ACTIONS": {
+                "SAVE": "Zapisz zmiany",
+                "CANCEL": "Odrzuć zmiany"
+            }
+        }
+    },
+    "ADF_VIEWER": {
+        "ACTIONS": {
+            "INFO": "Wyświetl szczegóły",
+            "PREVIEW": "Pokaż podgląd"
+        }
+    },
+    "FILE_UPLOAD": {
+        "ERRORS": {
+            "409": "Ta nazwa jest już używana. Spróbuj użyć innej nazwy. [409]"
+        }
+    },
+    "ADF_VERSION_LIST": {
+        "ACTIONS": {
+            "UPLOAD": {
+                "TOOLTIP": "Prześlij nową wersję"
+            }
+        }
+    },
+    "CUSTOM_NAME_COLUMN": {
+        "ACCESSIBILITY": {
+            "FILE_LINK_ARIA_LABEL": "Wyświetl {{ name }}",
+            "FOLDER_LINK_ARIA_LABEL": "Otwórz folder {{ name }}"
+        }
+    },
+    "ADF-DATATABLE": {
+        "FILE_TYPE": {
+            "BOOKS-24PX": "bibliotekę plików",
+            "BASELINE-LOCK-24PX": "zablokowany plik"
+        }
+    },
+    "KNOWLEDGE_RETRIEVAL": {
+        "SEARCH": {
+            "RESULTS_PAGE": {
+                "QUERY_INPUT_PLACEHOLDER": "Would you like to ask anything else?",
+                "REFERENCED_DOCUMENTS_HEADER": "Referenced documents",
+                "REGENERATION_BUTTON_LABEL": "Regenerate",
+                "COPY_BUTTON_LABEL": "Copy",
+                "COPY_MESSAGE": "Copied response to clipboard"
+            },
+            "AGENTS_BUTTON": {
+                "LABEL": "Ask Discovery",
+                "TITLE": "Knowledge Retrieval"
+            },
+            "SEARCH_INPUT": {
+                "ASK_BUTTON_LABEL": "Ask",
+                "DEFAULT_PLACEHOLDER": "Please ask your question with as much detail as possible...",
+                "HIDE_INPUT": "Hide input",
+                "HIDE_ANSWER": "Hide answer"
+            },
+            "ERRORS": {
+                "AGENTS_FETCHING": "Error while fetching agents.",
+                "HX_INSIGHT_URL_FETCHING": "Error while fetching HX Insight URL.",
+                "LOADING_ERROR": "Hmm... something seems to have gone wrong.",
+                "PAGE_NOT_AVAILABLE_ERROR": "Page is not available for these conditions."
+            },
+            "DISCARD_CHANGES": {
+                "WARNING": "Warning!",
+                "ASK_AI": "Ask AI",
+                "DO_NOT_SHOW_MESSAGE": "Don't show this message again",
+                "DISCARD_CONVERSATION": "Discard Conversation",
+                "CONVERSATION_DISCARDED": "This conversation will be discarded",
+                "LOSE_RESPONSE": "By asking another question you will lose your previous response"
+            }
+        }
     }
-  },
-  "CORE": {
-    "METADATA": {
-      "ACTIONS": {
-        "SAVE": "Zapisz zmiany",
-        "CANCEL": "Odrzuć zmiany"
-      }
-    }
-  },
-  "ADF_VIEWER": {
-    "ACTIONS": {
-      "INFO": "Wyświetl szczegóły",
-      "PREVIEW": "Pokaż podgląd"
-    }
-  },
-  "FILE_UPLOAD": {
-    "ERRORS": {
-      "409": "Ta nazwa jest już używana. Spróbuj użyć innej nazwy. [409]"
-    }
-  },
-  "ADF_VERSION_LIST": {
-    "ACTIONS": {
-      "UPLOAD": {
-        "TOOLTIP": "Prześlij nową wersję"
-      }
-    }
-  },
-  "CUSTOM_NAME_COLUMN": {
-    "ACCESSIBILITY": {
-      "FILE_LINK_ARIA_LABEL": "Wyświetl {{ name }}",
-      "FOLDER_LINK_ARIA_LABEL": "Otwórz folder {{ name }}"
-    }
-  },
-  "ADF-DATATABLE": {
-    "FILE_TYPE": {
-      "BOOKS-24PX": "bibliotekę plików",
-      "BASELINE-LOCK-24PX": "zablokowany plik"
-    }
-  }
 }
-
