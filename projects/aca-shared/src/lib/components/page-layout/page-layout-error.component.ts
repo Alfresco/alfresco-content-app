@@ -22,13 +22,13 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 
 // @deprecated Use `.aca-page-layout-error` selectors instead
 @Component({
   standalone: true,
   selector: 'aca-page-layout-error',
-  template: `<ng-content></ng-content>`,
+  template: `<ng-content />`,
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'aca-page-layout-error' }
