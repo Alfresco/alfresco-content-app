@@ -76,7 +76,7 @@ export class RuleSetPickerSmartComponent implements OnInit {
   private folderLoading$ = new BehaviorSubject<boolean>(true);
 
   public readonly data: RuleSetPickerOptions = inject(MAT_DIALOG_DATA);
-  private readonly folderRuleSetsService = inject(FolderRuleSetsService);
+  public readonly folderRuleSetsService = inject(FolderRuleSetsService);
   private readonly dialogRef = inject(MatDialogRef<RuleSetPickerSmartComponent>);
   private readonly notificationService = inject(NotificationService);
   private readonly destroyRef = inject(DestroyRef);
