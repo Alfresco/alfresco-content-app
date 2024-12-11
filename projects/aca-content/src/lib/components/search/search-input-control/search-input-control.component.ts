@@ -22,25 +22,28 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation, ViewChild, ElementRef, OnInit, inject, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TranslateModule, MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule, FormsModule],
+  imports: [CommonModule, TranslateModule, MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule],
   selector: 'app-search-input-control',
   templateUrl: './search-input-control.component.html',
   styleUrls: ['./search-input-control.component.scss'],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-search-control' }
 })
-export class SearchInputControlComponent {
+export class SearchInputControlComponent implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
+
   /** Type of the input field to render, e.g. "search" or "text" (default). */
   @Input()
   inputType = 'text';
@@ -63,14 +66,27 @@ export class SearchInputControlComponent {
   @ViewChild('searchInput', { static: true })
   searchInput: ElementRef;
 
-  searchTerm = '';
+  searchFieldFormControl = new FormControl('');
 
-  searchSubmit(event: any) {
-    this.submit.emit(event);
+  get searchTerm(): string {
+    return this.searchFieldFormControl.value.replace('text:', 'TEXT:');
   }
 
-  inputChange(event: any) {
-    this.searchChange.emit(event);
+  set searchTerm(value: string) {
+    this.searchFieldFormControl.setValue(value);
+  }
+
+  ngOnInit() {
+    this.searchFieldFormControl.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((searchTermValue) => {
+      this.searchFieldFormControl.markAsTouched();
+      this.searchChange.emit(searchTermValue);
+    });
+  }
+
+  searchSubmit() {
+    if (!this.searchFieldFormControl.errors) {
+      this.submit.emit(this.searchTerm);
+    }
   }
 
   clear() {
