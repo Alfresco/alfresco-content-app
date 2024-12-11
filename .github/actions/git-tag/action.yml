@@ -21,7 +21,7 @@ runs:
     - name: publish tag
       shell: bash
       run: |
-        if [[  "${{ inputs.branch_name }}" == "master" ]]; then
+        if [[  "${{ inputs.branch_name }}" == "master" ]] || [[ "${{ inputs.branch_name }}" == release/* ]]; then
           VERSION=$(jq -cr '.version' < package.json)
           echo "git tag -a ${VERSION} -m ${VERSION}"
 
