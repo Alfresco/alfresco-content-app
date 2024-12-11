@@ -633,6 +633,21 @@
             }
           },
           {
+            "id": "app.context.menu.folder-info",
+            "title": "APP.ACTIONS.FOLDER_INFO",
+            "order": 800,
+            "icon": "info",
+            "actions": {
+              "click": "FOLDER_INFORMATION"
+            },
+            "rules": {
+              "visible": [
+                "app.selection.folder",
+                "!app.navigation.isTrashcan"
+              ]
+            }
+          },
+          {
             "id": "app.create.separator.3",
             "type": "separator",
             "order": 900
@@ -875,6 +890,21 @@
         },
         "rules": {
           "visible": "app.selection.canDelete"
+        }
+      },
+      {
+        "id": "app.context.menu.folder-info",
+        "title": "APP.ACTIONS.FOLDER_INFO",
+        "order": 1200,
+        "icon": "info",
+        "actions": {
+          "click": "FOLDER_INFORMATION"
+        },
+        "rules": {
+          "visible": [
+            "app.selection.folder",
+            "!app.navigation.isTrashcan"
+          ]
         }
       },
       {
