@@ -59,6 +59,7 @@ export class AppService implements ShellAppService {
 
   private pageHeading = new BehaviorSubject('');
   /** @deprecated page title is updated automatically */
+  // @ts-expect-error Altough the same type, ts finds some issues
   pageHeading$ = this.pageHeading.asObservable();
 
   appNavNarMode$: Subject<'collapsed' | 'expanded'> = new BehaviorSubject('expanded');
