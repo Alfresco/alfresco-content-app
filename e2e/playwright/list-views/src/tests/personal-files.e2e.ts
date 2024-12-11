@@ -55,7 +55,7 @@ test.describe('Personal Files', () => {
 
     test('[C217142] has the correct columns', async ({ personalFiles }) => {
       const expectedColumns = ['Name', 'Size', 'Modified', 'Modified by', 'Tags'];
-      const actualColumns = await personalFiles.dataTable.getColumnHeaders();
+      const actualColumns = Utils.trimArrayElements(await personalFiles.dataTable.getColumnHeaders());
       expect(actualColumns).toEqual(expectedColumns);
     });
 

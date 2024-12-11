@@ -171,7 +171,7 @@ test.describe('Search Results - General', () => {
     await searchPage.searchWithin(site1.name, 'libraries');
 
     const expectedColumns = ['Name', 'Description', 'My Role', 'Visibility'];
-    const actualColumns = await searchPage.dataTable.getColumnHeaders();
+    const actualColumns = Utils.trimArrayElements(await searchPage.dataTable.getColumnHeaders());
 
     expect(actualColumns).toEqual(expectedColumns);
   });

@@ -95,7 +95,7 @@ test.describe('File Libraries', () => {
 
     test('[C217095] has the correct columns', async ({ myLibrariesPage }) => {
       const expectedColumns = ['Name', 'Description', 'My Role', 'Visibility'];
-      const actualColumns = await myLibrariesPage.dataTable.getColumnHeaders();
+      const actualColumns = Utils.trimArrayElements(await myLibrariesPage.dataTable.getColumnHeaders());
       expect(actualColumns).toEqual(expectedColumns);
     });
 
@@ -142,7 +142,7 @@ test.describe('File Libraries', () => {
 
     test('[C289893] has the correct columns', async ({ favoritesLibrariesPage }) => {
       const expectedColumns = ['Name', 'Description', 'My Role', 'Visibility'];
-      const actualColumns = await favoritesLibrariesPage.dataTable.getColumnHeaders();
+      const actualColumns = Utils.trimArrayElements(await favoritesLibrariesPage.dataTable.getColumnHeaders());
 
       expect(actualColumns).toEqual(expectedColumns);
     });

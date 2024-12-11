@@ -77,7 +77,7 @@ test.describe('Recent Files', () => {
 
   test('[C213168] has the correct columns', async ({ recentFilesPage }) => {
     const expectedColumns = ['Name', 'Location', 'Size', 'Modified', 'Tags'];
-    const actualColumns = await recentFilesPage.dataTable.getColumnHeaders();
+    const actualColumns = Utils.trimArrayElements(await recentFilesPage.dataTable.getColumnHeaders());
 
     expect(actualColumns).toEqual(expectedColumns);
   });

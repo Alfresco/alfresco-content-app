@@ -169,4 +169,14 @@ export class Utils {
       return Object.keys(entries).some((entry) => entry.includes(name));
     });
   }
+
+  /**
+   * Method used trim all elements of an array from all spaces characters
+   *
+   * @param arr array needed to be trimmed
+   *
+   */
+  static trimArrayElements(arr: string[]): string[] {
+    return arr.map((element) => element.trim());
+  }
 }

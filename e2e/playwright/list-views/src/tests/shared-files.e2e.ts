@@ -86,7 +86,7 @@ test.describe('Shared Files', () => {
 
   test('[C213113] has the correct columns', async ({ sharedPage }) => {
     const expectedColumns = ['Name', 'Location', 'Size', 'Modified', 'Modified by', 'Shared by', 'Tags'];
-    const actualColumns = await sharedPage.dataTable.getColumnHeaders();
+    const actualColumns = Utils.trimArrayElements(await sharedPage.dataTable.getColumnHeaders());
     expect(actualColumns).toEqual(expectedColumns);
   });
 

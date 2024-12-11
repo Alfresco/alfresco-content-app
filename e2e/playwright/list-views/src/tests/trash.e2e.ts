@@ -79,7 +79,7 @@ test.describe('Trash', () => {
 
     test('[C280494] has the correct columns', async ({ trashPage }) => {
       const expectedColumns = ['Name', 'Location', 'Size', 'Deleted'];
-      const actualColumns = await trashPage.dataTable.getColumnHeaders();
+      const actualColumns = Utils.trimArrayElements(await trashPage.dataTable.getColumnHeaders());
 
       expect(actualColumns).toEqual(expectedColumns);
     });
