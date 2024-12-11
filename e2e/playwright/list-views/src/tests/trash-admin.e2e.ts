@@ -54,7 +54,7 @@ test.describe('Trash admin', () => {
     test('[C213217] has the correct columns', async ({ trashPage }) => {
       await trashPage.navigate();
       const expectedColumns = ['Name', 'Location', 'Size', 'Deleted', 'Deleted by'];
-      const actualColumns = await trashPage.dataTable.getColumnHeaders();
+      const actualColumns = Utils.trimArrayElements(await trashPage.dataTable.getColumnHeaders());
 
       expect(actualColumns).toEqual(expectedColumns);
     });

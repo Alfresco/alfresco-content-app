@@ -92,7 +92,7 @@ test.describe('Favorites Files', () => {
 
     test('[C280482] has the correct columns', async ({ favoritePage }) => {
       const expectedColumns = ['Name', 'Location', 'Size', 'Modified', 'Modified by', 'Tags'];
-      const actualColumns = await favoritePage.dataTable.getColumnHeaders();
+      const actualColumns = Utils.trimArrayElements(await favoritePage.dataTable.getColumnHeaders());
       expect(actualColumns).toEqual(expectedColumns);
     });
 

@@ -23,11 +23,12 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi } from '@alfresco/aca-playwright-shared';
+import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi, FileActionsApi } from '@alfresco/aca-playwright-shared';
 
 test.describe('Search results - files and folders', () => {
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
+  let fileActionsApi: FileActionsApi;
 
   const random = Utils.random();
   const username = `user-${random}`;
@@ -39,6 +40,7 @@ test.describe('Search results - files and folders', () => {
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
+      fileActionsApi = await FileActionsApi.initialize(username, username);
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
     }
@@ -66,6 +68,7 @@ test.describe('Search results - files and folders', () => {
     const fileDescription = 'file description';
 
     await nodesApi.createFile(file, '-my-', fileTitle, fileDescription);
+    await fileActionsApi.waitForNodes(file, { expect: 1 });
     await searchPage.searchWithin(file, 'files');
     await searchPage.dataTable.clickItemLocation(file);
     expect((await personalFiles.breadcrumb.items.textContent()).trim()).toEqual('Personal Files');
