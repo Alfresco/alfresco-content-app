@@ -141,7 +141,7 @@
       "DELETE_RULE_SET_LINK_FAILED": "Fehler beim Versuch, einen Link aus einem Regelsatz zu löschen, ist aufgetreten"
     },
     "AUTOCOMPLETE": {
-      "NO_OPTIONS_FOUND": "No options found"
+      "NO_OPTIONS_FOUND": "Keine Optionen gefunden"
     }
   }
 }
