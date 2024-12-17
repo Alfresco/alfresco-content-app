@@ -163,14 +163,14 @@ export class NodeEffects {
         map((action) => {
           this.store.dispatch(new ShowLoaderAction(true));
           if (action?.payload?.length > 0) {
-            this.contentService.deleteNodes(action.payload);
+            this.contentService.deleteNodes(action.payload, action.allowUndo);
           } else {
             this.store
               .select(getAppSelection)
               .pipe(take(1))
               .subscribe((selection) => {
                 if (selection && selection.count > 0) {
-                  this.contentService.deleteNodes(selection.nodes);
+                  this.contentService.deleteNodes(selection.nodes, action.allowUndo);
                 }
               });
           }
