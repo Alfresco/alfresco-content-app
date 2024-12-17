@@ -218,9 +218,9 @@ describe('NodeEffects', () => {
       const node: any = {};
       store.dispatch(new DeleteNodesAction([node]));
 
-      expect(store.dispatch).toHaveBeenCalledWith(new DeleteNodesAction([node]));
+      expect(store.dispatch).toHaveBeenCalledWith(new DeleteNodesAction([node], true));
       expect(store.dispatch).toHaveBeenCalledWith(new ShowLoaderAction(true));
-      expect(contentService.deleteNodes).toHaveBeenCalledWith([node]);
+      expect(contentService.deleteNodes).toHaveBeenCalledWith([node], true);
     });
 
     it('should delete nodes from the active selection', fakeAsync(() => {
@@ -233,9 +233,9 @@ describe('NodeEffects', () => {
 
       store.dispatch(new DeleteNodesAction(null));
 
-      expect(store.dispatch).toHaveBeenCalledWith(new DeleteNodesAction(null));
+      expect(store.dispatch).toHaveBeenCalledWith(new DeleteNodesAction(null, true));
       expect(store.dispatch).toHaveBeenCalledWith(new ShowLoaderAction(true));
-      expect(contentService.deleteNodes).toHaveBeenCalledWith([node]);
+      expect(contentService.deleteNodes).toHaveBeenCalledWith([node], true);
     }));
 
     it('should do nothing if invoking delete with no data', () => {
