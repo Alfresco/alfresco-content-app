@@ -27,16 +27,17 @@ import { FolderInformationComponent } from './folder-information.component';
 import { DIALOG_COMPONENT_DATA, RedirectAuthService } from '@alfresco/adf-core';
 import { ContentService, NodesApiService } from '@alfresco/adf-content-services';
 import { By } from '@angular/platform-browser';
-import { EMPTY, of, Subject } from 'rxjs';
+import { EMPTY, Observable, of, Subject } from 'rxjs';
 import { LibTestingModule } from '@alfresco/aca-shared';
+import { JobIdBodyEntry, SizeDetails, SizeDetailsEntry, Node } from '@alfresco/js-api';
 
 describe('FolderInformationComponent', () => {
   let fixture: ComponentFixture<FolderInformationComponent>;
   let nodeService: NodesApiService;
-  let initiateFolderSizeCalculationSpy: jasmine.Spy;
-  let getFolderSizeInfoSpy: jasmine.Spy;
-  const mockSub = new Subject<{ entry: { jobId: string } }>();
+  let initiateFolderSizeCalculationSpy: jasmine.Spy<(nodeId: string) => Observable<JobIdBodyEntry>>;
+  let getFolderSizeInfoSpy: jasmine.Spy<(nodeId: string, jobId: string) => Observable<SizeDetailsEntry>>;
 
+  const mockSub = new Subject<JobIdBodyEntry>();
   const dialogData = {
     name: 'mock-folder',
     id: 'mock-folder-id',
@@ -45,9 +46,20 @@ describe('FolderInformationComponent', () => {
     },
     createdAt: new Date(2024, 1, 1, 11, 11),
     modifiedAt: new Date(2024, 2, 2, 22, 22)
+  } as Node;
+  const mockSizeDetailsEntry: SizeDetailsEntry = {
+    entry: {
+      id: 'mock-id',
+      sizeInBytes: '1',
+      calculatedAt: 'mock-date',
+      numberOfFiles: 1,
+      status: SizeDetails.StatusEnum.COMPLETE,
+      jobId: 'mock-job-id'
+    }
   };
 
   const getValueFromElement = (id: string): string => fixture.debugElement.query(By.css(`[data-automation-id="${id}"]`)).nativeElement.textContent;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [FolderInformationComponent, LibTestingModule],
@@ -86,7 +98,8 @@ describe('FolderInformationComponent', () => {
   });
 
   it('should make repeated calls to get folder size info, if the response returned from the API is IN_PROGRESS', fakeAsync(() => {
-    getFolderSizeInfoSpy.and.returnValue(of({ entry: { status: 'IN_PROGRESS' } }));
+    mockSizeDetailsEntry.entry.status = SizeDetails.StatusEnum.IN_PROGRESS;
+    getFolderSizeInfoSpy.and.returnValue(of(mockSizeDetailsEntry));
     fixture.detectChanges();
     expect(getFolderSizeInfoSpy).not.toHaveBeenCalled();
     mockSub.next({ entry: { jobId: 'mock-job-id' } });
@@ -95,7 +108,7 @@ describe('FolderInformationComponent', () => {
     expect(getFolderSizeInfoSpy).toHaveBeenCalledTimes(2);
     tick(5000);
     expect(getFolderSizeInfoSpy).toHaveBeenCalledTimes(3);
-    getFolderSizeInfoSpy.and.returnValue(of({ entry: { status: 'COMPLETE' } }));
+    mockSizeDetailsEntry.entry.status = SizeDetails.StatusEnum.COMPLETE;
     tick(5000);
     expect(getFolderSizeInfoSpy).toHaveBeenCalledTimes(4);
     tick(5000);
