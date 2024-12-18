@@ -43,31 +43,29 @@ describe('SearchInputControlComponent', () => {
   });
 
   it('should emit submit event on searchSubmit', () => {
-    const keyboardEvent = { target: { value: 'a' } };
+    component.searchTerm = 'mock-search-term';
 
-    let eventArgs = null;
-    component.submit.subscribe((args) => (eventArgs = args));
+    let submittedSearchTerm = '';
+    component.submit.subscribe((searchTerm) => (submittedSearchTerm = searchTerm));
 
-    component.searchSubmit(keyboardEvent);
-    expect(eventArgs).toBe(keyboardEvent);
+    component.searchSubmit();
+    expect(submittedSearchTerm).toBe('mock-search-term');
   });
 
   it('should emit searchChange event on inputChange', () => {
-    const searchTerm = 'b';
+    let emittedSearchTerm = '';
+    component.searchChange.subscribe((searchTerm) => (emittedSearchTerm = searchTerm));
+    component.searchTerm = 'mock-search-term';
 
-    let eventArgs = null;
-    component.searchChange.subscribe((args) => (eventArgs = args));
-
-    component.inputChange(searchTerm);
-    expect(eventArgs).toBe(searchTerm);
+    expect(emittedSearchTerm).toBe('mock-search-term');
   });
 
   it('should emit searchChange event on clear', () => {
-    let eventArgs = null;
-    component.searchChange.subscribe((args) => (eventArgs = args));
+    let emittedSearchTerm: string = null;
+    component.searchChange.subscribe((searchTerm) => (emittedSearchTerm = searchTerm));
 
     component.clear();
-    expect(eventArgs).toBe('');
+    expect(emittedSearchTerm).toBe('');
   });
 
   it('should clear searchTerm', () => {
