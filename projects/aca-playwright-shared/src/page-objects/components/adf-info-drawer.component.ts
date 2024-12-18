@@ -73,7 +73,7 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   public tagsInput = this.tagsCreator.locator('input');
   public createTagButton = this.tagsCreator.locator('[role="button"]');
   public tagsChips = this.tagsCreator.locator('mat-chip');
-  public tagsChipsXButton = this.tagsChips.locator('button');
+  public tagsChipsXButton = this.tagsChips.locator('.adf-dynamic-chip-list-delete-icon');
   public tagsAccordionCancelButton = this.getChild('[data-automation-id="reset-tags-metadata"]');
   public tagsAccordionConfirmButton = this.getChild('[data-automation-id="save-tags-metadata"]');
   public categoriesAccordionCancelButton = this.getChild('[data-automation-id="reset-metadata"]');
