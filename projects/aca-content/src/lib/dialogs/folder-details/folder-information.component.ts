@@ -23,19 +23,19 @@
  */
 
 import { Component, DestroyRef, inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { CommonModule, NgIf } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { DIALOG_COMPONENT_DATA, LocalizedDatePipe, TimeAgoPipe } from '@alfresco/adf-core';
-import { JobIdBodyEntry, Node, SizeDetailsEntry } from '@alfresco/js-api';
+import { JobIdBodyEntry, Node, SizeDetails } from '@alfresco/js-api';
 import { MatDividerModule } from '@angular/material/divider';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ContentService, NodesApiService } from '@alfresco/adf-content-services';
-import { concatMap, expand, first } from 'rxjs/operators';
+import { concatMap, expand, first, switchMap } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { EMPTY, timer } from 'rxjs';
 
 const MEMORY_UNIT_LIST = ['bytes', 'KB', 'MB', 'GB', 'TB'];
 
-interface FolderDetails {
+class FolderDetails {
   name: string;
   size: string;
   location: string;
@@ -47,7 +47,7 @@ interface FolderDetails {
 @Component({
   selector: 'app-folder-info',
   standalone: true,
-  imports: [CommonModule, MatDividerModule, TimeAgoPipe, NgIf, TranslateModule, LocalizedDatePipe, LocalizedDatePipe],
+  imports: [CommonModule, MatDividerModule, TimeAgoPipe, TranslateModule, LocalizedDatePipe, NgOptimizedImage],
   templateUrl: './folder-information.component.html',
   styleUrls: ['./folder-information.component.scss'],
   encapsulation: ViewEncapsulation.None,
@@ -61,7 +61,7 @@ export class FolderInformationComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
   data: Node = inject(DIALOG_COMPONENT_DATA);
-  folderDetails: FolderDetails;
+  folderDetails: FolderDetails = new FolderDetails();
 
   ngOnInit() {
     this.folderDetails.name = this.data.name;
@@ -73,38 +73,38 @@ export class FolderInformationComponent implements OnInit {
 
     this.nodesService
       .initiateFolderSizeCalculation(this.data.id)
-      .pipe(first())
-      .subscribe((jobIdEntry: JobIdBodyEntry) => {
-        this.nodesService
-          .getFolderSizeInfo(this.data.id, jobIdEntry.entry.jobId)
-          .pipe(
-            expand((result: SizeDetailsEntry) =>
-              result.entry.status === 'IN_PROGRESS'
+      .pipe(
+        first(),
+        switchMap((jobIdEntry: JobIdBodyEntry) => {
+          return this.nodesService.getFolderSizeInfo(this.data.id, jobIdEntry.entry.jobId).pipe(
+            expand((result) =>
+              result.entry.status === SizeDetails.StatusEnum.IN_PROGRESS
                 ? timer(5000).pipe(concatMap(() => this.nodesService.getFolderSizeInfo(this.data.id, jobIdEntry.entry.jobId)))
                 : EMPTY
             ),
             takeUntilDestroyed(this.destroyRef)
-          )
-          .subscribe((folderInfo: SizeDetailsEntry) => {
-            let size = parseFloat(folderInfo.entry.sizeInBytes);
-            let unitIndex = 0;
-            let isMoreThanBytes = false;
-            while (size > 1000) {
-              isMoreThanBytes = true;
-              size = size / 1000;
-              unitIndex++;
-            }
-            const params = {
-              sizeInBytes: parseFloat(folderInfo.entry.sizeInBytes).toLocaleString('en'),
-              sizeInLargeUnit: size.toFixed(2),
-              unit: MEMORY_UNIT_LIST[unitIndex],
-              count: folderInfo.entry.numberOfFiles
-            };
-            this.folderDetails.size = this.translateService.instant(
-              isMoreThanBytes ? 'APP.FOLDER_INFO.CALCULATED_SIZE_LARGE' : 'APP.FOLDER_INFO.CALCULATED_SIZE_NORMAL',
-              params
-            );
-          });
+          );
+        })
+      )
+      .subscribe((folderInfo) => {
+        let size = parseFloat(folderInfo.entry.sizeInBytes);
+        let unitIndex = 0;
+        let isMoreThanBytes = false;
+        while (size > 1000) {
+          isMoreThanBytes = true;
+          size = size / 1000;
+          unitIndex++;
+        }
+        const params = {
+          sizeInBytes: parseFloat(folderInfo.entry.sizeInBytes).toLocaleString('en'),
+          sizeInLargeUnit: size.toFixed(2),
+          unit: MEMORY_UNIT_LIST[unitIndex],
+          count: folderInfo.entry.numberOfFiles
+        };
+        this.folderDetails.size = this.translateService.instant(
+          isMoreThanBytes ? 'APP.FOLDER_INFO.CALCULATED_SIZE_LARGE' : 'APP.FOLDER_INFO.CALCULATED_SIZE_NORMAL',
+          params
+        );
       });
   }
 }

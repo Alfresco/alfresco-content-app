@@ -1,12 +1,10 @@
 .app-folder-info {
-  .aca-folder-info {
-    &-container {
-      display: flex;
-      flex-direction: column;
-      border: 1px solid var(--theme-border-color);
-      border-radius: 12px;
-    }
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--theme-border-color);
+  border-radius: 12px;
 
+  .aca-folder-info {
     &-header {
       display: flex;
       flex-direction: row;

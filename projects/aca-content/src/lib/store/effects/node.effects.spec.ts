@@ -34,6 +34,7 @@ import {
   DeleteNodesAction,
   EditFolderAction,
   ExpandInfoDrawerAction,
+  FolderInformationAction,
   FullscreenViewerAction,
   ManageAspectsAction,
   ManagePermissionsAction,
@@ -59,6 +60,7 @@ import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NodeEntry, UserInfo } from '@alfresco/js-api';
 
 describe('NodeEffects', () => {
   let store: Store<any>;
@@ -563,5 +565,41 @@ describe('NodeEffects', () => {
       store.dispatch(new ExpandInfoDrawerAction(node));
       expect(store.dispatch).toHaveBeenCalledWith(new NavigateUrlAction('personal-files/details/node-id?location=test-page'));
     });
+  });
+
+  describe('folderInformation$', () => {
+    it('should call folder information dialog', () => {
+      const node: any = { entry: { isFile: true } };
+      spyOn(contentService, 'showFolderInformation').and.stub();
+
+      store.dispatch(new FolderInformationAction(node));
+
+      expect(contentService.showFolderInformation).toHaveBeenCalled();
+    });
+
+    it('should call folder information dialog from the active folder selection', fakeAsync(() => {
+      spyOn(contentService, 'showFolderInformation').and.stub();
+
+      const node: NodeEntry = {
+        entry: {
+          id: 'folder-node-id',
+          name: 'mock-folder-name',
+          nodeType: 'fake-node-type',
+          isFolder: true,
+          isFile: false,
+          modifiedAt: new Date(),
+          modifiedByUser: new UserInfo(),
+          createdAt: new Date(),
+          createdByUser: new UserInfo()
+        }
+      };
+      store.dispatch(new SetSelectedNodesAction([node]));
+
+      tick(100);
+
+      store.dispatch(new FolderInformationAction(null));
+
+      expect(contentService.showFolderInformation).toHaveBeenCalledWith(node);
+    }));
   });
 });
