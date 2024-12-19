@@ -22,13 +22,13 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, ChangeDetectionStrategy, Input, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
 
 // @deprecated Use `.aca-page-layout-content` CSS selector instead
 @Component({
   standalone: true,
   selector: 'aca-page-layout-content',
-  template: `<ng-content></ng-content>`,
+  template: `<ng-content />`,
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'aca-page-layout-content' }
