@@ -60,7 +60,7 @@ export class SetSelectedNodesAction implements Action {
 export class DeleteNodesAction implements Action {
   readonly type = NodeActionTypes.Delete;
 
-  constructor(public payload: NodeEntry[] = []) {}
+  constructor(public payload: NodeEntry[] = [], public allowUndo = true) {}
 }
 
 export class UndoDeleteNodesAction implements Action {

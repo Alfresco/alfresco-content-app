@@ -660,7 +660,7 @@ export class ContentManagementService {
       );
   }
 
-  deleteNodes(items: NodeEntry[]): void {
+  deleteNodes(items: NodeEntry[], allowUndo = true): void {
     const batch: Observable<DeletedNodeInfo>[] = [];
 
     items.forEach((node) => {
@@ -671,7 +671,7 @@ export class ContentManagementService {
       const status = this.processStatus(data);
       const message = this.getDeleteMessage(status);
 
-      if (message && status.someSucceeded) {
+      if (message && status.someSucceeded && allowUndo) {
         message.userAction = new SnackbarUserAction('APP.ACTIONS.UNDO', new UndoDeleteNodesAction([...status.success]));
       }
 
