@@ -13,7 +13,7 @@ runs:
     - name: Get docker image tag name
       shell: bash
       run: |
-        if [[ "${{ inputs.branch_name }}" == "master" ]]; then
+        if [[ "${{ inputs.branch_name }}" == "master" ]] || [[ "${{ inputs.branch_name }}" == release/* ]]; then
           TAG_VERSION="$(jq -cr '.version' < package.json)"
         else
           TAG_VERSION="${{ inputs.branch_name }}-${{ github.run_id }}"
