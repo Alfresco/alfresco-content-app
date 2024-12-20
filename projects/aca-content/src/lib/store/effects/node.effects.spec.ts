@@ -569,12 +569,24 @@ describe('NodeEffects', () => {
 
   describe('folderInformation$', () => {
     it('should call folder information dialog', () => {
-      const node: any = { entry: { isFile: true } };
+      const node: NodeEntry = {
+        entry: {
+          id: 'folder-node-id',
+          name: 'mock-folder-name',
+          nodeType: 'fake-node-type',
+          isFolder: true,
+          isFile: false,
+          modifiedAt: new Date(),
+          modifiedByUser: new UserInfo(),
+          createdAt: new Date(),
+          createdByUser: new UserInfo()
+        }
+      };
       spyOn(contentService, 'showFolderInformation').and.stub();
 
       store.dispatch(new FolderInformationAction(node));
 
-      expect(contentService.showFolderInformation).toHaveBeenCalled();
+      expect(contentService.showFolderInformation).toHaveBeenCalledWith(node);
     });
 
     it('should call folder information dialog from the active folder selection', fakeAsync(() => {
