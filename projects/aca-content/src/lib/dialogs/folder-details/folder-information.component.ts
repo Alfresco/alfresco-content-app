@@ -25,13 +25,13 @@
 import { Component, DestroyRef, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { DIALOG_COMPONENT_DATA, LocalizedDatePipe, TimeAgoPipe } from '@alfresco/adf-core';
-import { JobIdBodyEntry, Node, SizeDetails } from '@alfresco/js-api';
+import { Node, SizeDetails } from '@alfresco/js-api';
 import { MatDividerModule } from '@angular/material/divider';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ContentService, NodesApiService } from '@alfresco/adf-content-services';
-import { concatMap, expand, first, switchMap } from 'rxjs/operators';
+import { catchError, concatMap, expand, first, switchMap } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { EMPTY, timer } from 'rxjs';
+import { EMPTY, of, timer } from 'rxjs';
 
 const MEMORY_UNIT_LIST = ['bytes', 'KB', 'MB', 'GB', 'TB'];
 
@@ -61,7 +61,7 @@ export class FolderInformationComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
   data: Node = inject(DIALOG_COMPONENT_DATA);
-  folderDetails: FolderDetails = new FolderDetails();
+  folderDetails = new FolderDetails();
 
   ngOnInit() {
     this.folderDetails.name = this.data.name;
@@ -75,36 +75,48 @@ export class FolderInformationComponent implements OnInit {
       .initiateFolderSizeCalculation(this.data.id)
       .pipe(
         first(),
-        switchMap((jobIdEntry: JobIdBodyEntry) => {
+        switchMap((jobIdEntry) => {
           return this.nodesService.getFolderSizeInfo(this.data.id, jobIdEntry.entry.jobId).pipe(
             expand((result) =>
               result.entry.status === SizeDetails.StatusEnum.IN_PROGRESS
                 ? timer(5000).pipe(concatMap(() => this.nodesService.getFolderSizeInfo(this.data.id, jobIdEntry.entry.jobId)))
                 : EMPTY
             ),
-            takeUntilDestroyed(this.destroyRef)
+            catchError(() => {
+              this.folderDetails.size = this.translateService.instant('APP.FOLDER_INFO.ERROR');
+              return of(null);
+            })
           );
+        }),
+        takeUntilDestroyed(this.destroyRef),
+        catchError(() => {
+          this.folderDetails.size = this.translateService.instant('APP.FOLDER_INFO.ERROR');
+          return of(null);
         })
       )
       .subscribe((folderInfo) => {
-        let size = parseFloat(folderInfo.entry.sizeInBytes);
-        let unitIndex = 0;
-        let isMoreThanBytes = false;
-        while (size > 1000) {
-          isMoreThanBytes = true;
-          size = size / 1000;
-          unitIndex++;
+        if (folderInfo?.entry?.status === SizeDetails.StatusEnum.COMPLETE) {
+          let size = parseFloat(folderInfo.entry.sizeInBytes);
+          let unitIndex = 0;
+          let isMoreThanBytes = false;
+          while (size > 1000) {
+            isMoreThanBytes = true;
+            size = size / 1000;
+            unitIndex++;
+          }
+          const params = {
+            sizeInBytes: parseFloat(folderInfo.entry.sizeInBytes).toLocaleString('en'),
+            sizeInLargeUnit: size.toFixed(2),
+            unit: MEMORY_UNIT_LIST[unitIndex],
+            count: folderInfo.entry.numberOfFiles
+          };
+          this.folderDetails.size = this.translateService.instant(
+            isMoreThanBytes ? 'APP.FOLDER_INFO.CALCULATED_SIZE_LARGE' : 'APP.FOLDER_INFO.CALCULATED_SIZE_NORMAL',
+            params
+          );
+        } else {
+          this.folderDetails.size = this.translateService.instant('APP.FOLDER_INFO.ERROR');
         }
-        const params = {
-          sizeInBytes: parseFloat(folderInfo.entry.sizeInBytes).toLocaleString('en'),
-          sizeInLargeUnit: size.toFixed(2),
-          unit: MEMORY_UNIT_LIST[unitIndex],
-          count: folderInfo.entry.numberOfFiles
-        };
-        this.folderDetails.size = this.translateService.instant(
-          isMoreThanBytes ? 'APP.FOLDER_INFO.CALCULATED_SIZE_LARGE' : 'APP.FOLDER_INFO.CALCULATED_SIZE_NORMAL',
-          params
-        );
       });
   }
 }

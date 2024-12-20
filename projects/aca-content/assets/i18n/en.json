@@ -463,7 +463,8 @@
           "LOCATION": "Location",
           "CREATED": "Created",
           "MODIFIED": "Modified",
-          "DONE": "Done"
+          "DONE": "Done",
+          "ERROR": "Something went wrong, please close this dialog and try again"
         }
     },
     "NODE_SELECTOR": {
