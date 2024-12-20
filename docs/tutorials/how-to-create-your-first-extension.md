@@ -82,7 +82,7 @@ It's now time for the configuration of the brand new extension. For this purpose
 
 To create the proper configuration, create the folder below in the described path.
 
-    projextensionsects/my-extension/assets
+    extensions/my-extension/assets
 
 Once done, create the descriptor file `extensions/my-extension/assets/my-extension.json` file with the following content.
 Please keep in mind that:
