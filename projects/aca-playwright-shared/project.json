@@ -19,23 +19,6 @@
       "defaultConfiguration": "production",
       "outputs": ["{workspaceRoot}/dist/@alfresco/aca-playwright-shared"]
     },
-    "test": {
-      "executor": "@angular-devkit/build-angular:karma",
-      "options": {
-        "codeCoverage": true,
-        "main": "projects/aca-playwright-shared/test.ts",
-        "tsConfig": "projects/aca-playwright-shared/tsconfig.spec.json",
-        "karmaConfig": "projects/aca-playwright-shared/karma.conf.js",
-        "stylePreprocessorOptions": {
-          "includePaths": ["node_modules"]
-        }
-      },
-      "configurations": {
-        "adfprod": {
-          "tsConfig": "projects/aca-playwright-shared/tsconfig.spec.adf.json"
-        }
-      }
-    },
     "lint": {
       "executor": "@angular-eslint/builder:lint"
     }
