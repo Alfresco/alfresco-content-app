@@ -1,7 +1,6 @@
 {
   "name": "@alfresco/aca-shared",
   "version": "0.0.1",
-  "commit": "",
   "license": "LGPL-3.0",
   "scripts": {},
   "peerDependencies": {

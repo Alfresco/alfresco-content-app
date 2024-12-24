@@ -1,7 +1,6 @@
 {
-  "name": "@alfresco/aca-akash",
+  "name": "@alfresco/aca-playwright-shared",
   "version": "0.0.1",
-  "commit": "",
   "license": "LGPL-3.0",
   "scripts": {},
   "peerDependencies": {
@@ -10,19 +9,7 @@
     "@alfresco/adf-extensions": "7.0.0-alpha.7-12408701331",
     "@alfresco/eslint-plugin-eslint-angular": "7.0.0-alpha.7-12408701331",
     "@alfresco/js-api": "8.0.0-alpha.7-12408701331",
-    "@angular/animations": ">=15.2",
-    "@angular/common": ">=15.2",
-    "@angular/compiler": ">=15.2",
-    "@angular/core": ">=15.2",
-    "@angular/forms": ">=15.2",
-    "@angular/material": ">=15.2",
-    "@ngrx/effects": ">=15.2.0",
-    "@ngrx/router-store": ">=15.2",
-    "@ngrx/store": ">=15.2",
-    "@ngx-translate/core": ">=14.0.0",
-    "rxjs": ">=6.6.6",
-    "tslib": ">=2.0.0",
-    "zone.js": ">=0.11.8"
+    "tslib": ">=2.0.0"
   },
   "repository": {
     "type": "git",
