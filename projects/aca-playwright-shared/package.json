@@ -7,11 +7,11 @@
     "access": "public"
   },
   "peerDependencies": {
-    "@alfresco/adf-content-services": "7.0.0-alpha.7-12408701331",
-    "@alfresco/adf-core": "7.0.0-alpha.7-12408701331",
-    "@alfresco/adf-extensions": "7.0.0-alpha.7-12408701331",
-    "@alfresco/eslint-plugin-eslint-angular": "7.0.0-alpha.7-12408701331",
-    "@alfresco/js-api": "8.0.0-alpha.7-12408701331",
+    "@alfresco/adf-core": ">=7.0.0-alpha.7-0",
+    "@alfresco/adf-content-services": ">=7.0.0-alpha.7-0",
+    "@alfresco/adf-extensions": ">=7.0.0-alpha.7-0",
+    "@alfresco/eslint-plugin-eslint-angular": ">=7.0.0-alpha.7-0",
+    "@alfresco/js-api": ">=8.0.0-alpha.7-0",
     "tslib": ">=2.0.0"
   },
   "repository": {
