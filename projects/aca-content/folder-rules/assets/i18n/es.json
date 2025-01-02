@@ -141,7 +141,7 @@
       "DELETE_RULE_SET_LINK_FAILED": "Se produjo un error al intentar eliminar un enlace de un conjunto de reglas"
     },
     "AUTOCOMPLETE": {
-      "NO_OPTIONS_FOUND": "No options found"
+      "NO_OPTIONS_FOUND": "No se han encontrado opciones"
     }
   }
 }

@@ -68,10 +68,10 @@
         "HAS_ASPECT": "Con aspetto"
       },
       "LOGIC_OPERATORS": {
-        "IF": "If",
-        "NOT_IF": "NOT If",
-        "AND": "And",
-        "OR": "Or"
+        "IF": "Se",
+        "NOT_IF": "NON Se",
+        "AND": "E",
+        "OR": "O"
       },
       "CONDITION_BUTTONS": {
         "ADD_CONDITION": "Aggiungi condizione",
@@ -141,7 +141,7 @@
       "DELETE_RULE_SET_LINK_FAILED": "Errore durante il tentativo di eliminare un collegamento da un set di regole"
     },
     "AUTOCOMPLETE": {
-      "NO_OPTIONS_FOUND": "No options found"
+      "NO_OPTIONS_FOUND": "Nessuna opzione trovata"
     }
   }
 }

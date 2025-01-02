@@ -210,41 +210,41 @@
                 "RESET": "Nulstil",
                 "RESET_ACTION": "Nulstil søgefiltre",
                 "SAVE_SEARCH": {
-                    "ACTION_BUTTON": "Save Search",
-                    "SAVE_CHANGES": "Save changes",
-                    "SAVE_AS_NEW": "Save as new",
-                    "MODAL_HEADER": "Save this search",
-                    "NAME_LABEL": "Name",
-                    "NAME_REQUIRED_ERROR": "This field is required",
-                    "DESCRIPTION_LABEL": "Description",
-                    "SAVE_SUCCESS": "Search Saved",
-                    "SAVE_ERROR": "Error occurred. Search could not be saved.",
-                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "Saved Search with '{{ name }}' name already exists.",
+                    "ACTION_BUTTON": "Gem søgning",
+                    "SAVE_CHANGES": "Gem ændringer",
+                    "SAVE_AS_NEW": "Gem som ny",
+                    "MODAL_HEADER": "Gem denne søgning",
+                    "NAME_LABEL": "Navn",
+                    "NAME_REQUIRED_ERROR": "Dette felt er påkrævet",
+                    "DESCRIPTION_LABEL": "Beskrivelse",
+                    "SAVE_SUCCESS": "Søgning gemt",
+                    "SAVE_ERROR": "Der er opstået en fejl. Søgningen kunne ikke gemmes.",
+                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "En gemt søgning med navnet '{{ name }}' findes allerede.",
                     "NAVBAR": {
-                        "TITLE": "Saved Searches ({{ number }})",
-                        "MANAGE_BUTTON": "Manage searches"
+                        "TITLE": "Gemte søgninger ({{ number }})",
+                        "MANAGE_BUTTON": "Administrer søgninger"
                     },
                     "EDIT_DIALOG": {
-                        "CONTEXT_OPTION": "Edit Search",
-                        "TITLE": "Edit Saved Search",
-                        "SUCCESS_MESSAGE": "Saved Search edited successfully",
-                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be edited."
+                        "CONTEXT_OPTION": "Rediger søgning",
+                        "TITLE": "Rediger gemt søgning",
+                        "SUCCESS_MESSAGE": "Gemt søgning redigeret korrekt",
+                        "ERROR_MESSAGE": "Der er opstået en fejl. Den gemte søgning kunne ikke redigeres."
                     },
                     "DELETE_DIALOG": {
-                        "CONTEXT_OPTION": "Delete Search",
-                        "TITLE": "Delete Saved Search",
-                        "CONTENT": "Are you sure you want to delete this search",
-                        "SUCCESS_MESSAGE": "Saved Search deleted successfully",
-                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be deleted."
+                        "CONTEXT_OPTION": "Slet søgning",
+                        "TITLE": "Slet gemt søgning",
+                        "CONTENT": "Er du sikker på, at du vil slette denne søgning?",
+                        "SUCCESS_MESSAGE": "Gemt søgning slettet korrekt",
+                        "ERROR_MESSAGE": "Der er opstået en fejl. Den gemte søgning kunne ikke slettes."
                     },
                     "LIST": {
-                        "TITLE": "Saved Searches",
-                        "NAME": "Name",
-                        "DESCRIPTION": "Description",
-                        "EMPTY_LIST": "No saved searches",
-                        "COPY_TO_CLIPBOARD": "Copy to clipboard",
-                        "COPY_TO_CLIPBOARD_SUCCESS": "Search copied to clipboard",
-                        "EXECUTE_SEARCH": "Execute Search"
+                        "TITLE": "Gemte søgninger",
+                        "NAME": "Navn",
+                        "DESCRIPTION": "Beskrivelse",
+                        "EMPTY_LIST": "Ingen gemte søgninger",
+                        "COPY_TO_CLIPBOARD": "Kopiér til udklipsholder",
+                        "COPY_TO_CLIPBOARD_SUCCESS": "Søgning kopieret til udklipsholder",
+                        "EXECUTE_SEARCH": "Foretag søgning"
                     }
                 },
                 "FOUND_RESULTS": "{{ number }} resultater fundet",
@@ -299,7 +299,7 @@
             "EDIT_OFFLINE": "Rediger offline",
             "EDIT_OFFLINE_CANCEL": "Annuller redigering",
             "CHANGE_ASPECT": "Rediger udseende",
-            "ADD_ASPECTS": "Add Aspects"
+            "ADD_ASPECTS": "Tilføj aspekter"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -335,7 +335,7 @@
                 "DELETED_ON": "Slettet",
                 "DELETED_BY": "Slettet af",
                 "ROLE": "Min rolle",
-                "TAGS": "Tags"
+                "TAGS": "Mærker"
             }
         },
         "MESSAGES": {
@@ -434,9 +434,9 @@
         },
         "INFO_DRAWER": {
             "TITLE": "Detaljer",
-            "REDUCE_PANEL": "Reduce panel",
+            "REDUCE_PANEL": "Reducér panel",
             "DATA_LOADING": "Data indlæses",
-            "ICON": "Node Icon",
+            "ICON": "Nodeikon",
             "TABS": {
                 "PROPERTIES": "Egenskaber",
                 "LIBRARY_PROPERTIES": "Om",
@@ -529,7 +529,7 @@
             "CONFLICT": "Dette biblioteks-id er allerede i brug. Se eventuelt papirkurven.",
             "ID_TOO_LONG": "URL-navnet må ikke være på mere end 72 tegn",
             "DESCRIPTION_TOO_LONG": "Beskrivelsen må ikke være på mere end 512 tegn",
-            "TITLE_TOO_LONG_OR_MISSING": "Use 256 characters or less for title",
+            "TITLE_TOO_LONG_OR_MISSING": "Brug 256 tegn eller mindre til titel",
             "ILLEGAL_CHARACTERS": "Brug kun tal og bogstaver",
             "ONLY_SPACES": "Biblioteksnavnet skal indeholde andet end mellemrum",
             "LIBRARY_UPDATE_ERROR": "Der opstod fejl under opdatering af egenskaberne for biblioteket"
@@ -540,9 +540,9 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
-            "TITLE": "Bulk Actions ({{ count }} Items)",
-            "BULK_NOT_AVAILABLE": "Bulk Actions (Not Available)",
-            "BULK_NOT_AVAILABLE_TOOLTIP": "Bulk Actions cannot be used without search results"
+            "TITLE": "Gruppehandlinger ({{ count }} dele)",
+            "BULK_NOT_AVAILABLE": "Gruppehandlinger (ikke tilgængelig)",
+            "BULK_NOT_AVAILABLE_TOOLTIP": "Gruppehandlinger kan ikke anvendes uden søgeresultater"
         },
         "INPUT": {
             "PLACEHOLDER": "Søg",
@@ -571,15 +571,15 @@
             "CATEGORIES": "Kategorier"
         },
         "CATEGORIES": {
-            "DATE": "Date",
+            "DATE": "Dato",
             "DATE_TABS": {
-                "CREATED": "Created",
-                "MODIFIED": "Modified"
+                "CREATED": "Oprettet",
+                "MODIFIED": "Modificeret"
             },
             "EFFECTIVITY_FROM": "Gældende periode fra",
             "EFFECTIVITY_TO": "Gældende periode til",
             "LOGIC": "Logik",
-            "PROPERTIES": "Properties"
+            "PROPERTIES": "Egenskaber"
         },
         "SEARCH_HEADER": {
             "TITLE": "Filter",
@@ -600,7 +600,7 @@
                 "SIZE": {
                     "TITLE": "Indholdsstørrelse (interval)",
                     "SMALL": "Lille",
-                    "MEDIUM": "Medium",
+                    "MEDIUM": "Mellem",
                     "LARGE": "Stor",
                     "HUGE": "Meget stor"
                 },
@@ -651,35 +651,35 @@
     "KNOWLEDGE_RETRIEVAL": {
         "SEARCH": {
             "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "Would you like to ask anything else?",
-                "REFERENCED_DOCUMENTS_HEADER": "Referenced documents",
-                "REGENERATION_BUTTON_LABEL": "Regenerate",
-                "COPY_BUTTON_LABEL": "Copy",
-                "COPY_MESSAGE": "Copied response to clipboard"
+                "QUERY_INPUT_PLACEHOLDER": "Er der andet, du vil spørge om?",
+                "REFERENCED_DOCUMENTS_HEADER": "Referencedokumenter",
+                "REGENERATION_BUTTON_LABEL": "Regenerér",
+                "COPY_BUTTON_LABEL": "Kopiér",
+                "COPY_MESSAGE": "Svar kopieret til udklipsholder"
             },
             "AGENTS_BUTTON": {
-                "LABEL": "Ask Discovery",
-                "TITLE": "Knowledge Retrieval"
+                "LABEL": "Spørg Discovery",
+                "TITLE": "Videnssøgning"
             },
             "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "Ask",
-                "DEFAULT_PLACEHOLDER": "Please ask your question with as much detail as possible...",
-                "HIDE_INPUT": "Hide input",
-                "HIDE_ANSWER": "Hide answer"
+                "ASK_BUTTON_LABEL": "Spørg",
+                "DEFAULT_PLACEHOLDER": "Stil dit spørgsmål så detaljeret som muligt...",
+                "HIDE_INPUT": "Gem indtastning",
+                "HIDE_ANSWER": "Gem svar"
             },
             "ERRORS": {
-                "AGENTS_FETCHING": "Error while fetching agents.",
-                "HX_INSIGHT_URL_FETCHING": "Error while fetching HX Insight URL.",
-                "LOADING_ERROR": "Hmm... something seems to have gone wrong.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Page is not available for these conditions."
+                "AGENTS_FETCHING": "Fejl ved hentning af agenter.",
+                "HX_INSIGHT_URL_FETCHING": "Fejl ved hentning af HX Insight URL.",
+                "LOADING_ERROR": "Hmm... noget lader til at være gået galt.",
+                "PAGE_NOT_AVAILABLE_ERROR": "Siden er ikke tilgængelig i denne sammenhæng."
             },
             "DISCARD_CHANGES": {
-                "WARNING": "Warning!",
-                "ASK_AI": "Ask AI",
-                "DO_NOT_SHOW_MESSAGE": "Don't show this message again",
-                "DISCARD_CONVERSATION": "Discard Conversation",
-                "CONVERSATION_DISCARDED": "This conversation will be discarded",
-                "LOSE_RESPONSE": "By asking another question you will lose your previous response"
+                "WARNING": "Advarsel!",
+                "ASK_AI": "Spørg AI",
+                "DO_NOT_SHOW_MESSAGE": "Vis ikke denne besked igen",
+                "DISCARD_CONVERSATION": "Afbryd samtale",
+                "CONVERSATION_DISCARDED": "Denne samtale afbrydes",
+                "LOSE_RESPONSE": "Ved at stille et nyt spørgsmål, mister du det sidste svar"
             }
         }
     }

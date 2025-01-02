@@ -210,41 +210,41 @@
                 "RESET": "Resetuj",
                 "RESET_ACTION": "Resetuj filtry wyszukiwania",
                 "SAVE_SEARCH": {
-                    "ACTION_BUTTON": "Save Search",
-                    "SAVE_CHANGES": "Save changes",
-                    "SAVE_AS_NEW": "Save as new",
-                    "MODAL_HEADER": "Save this search",
-                    "NAME_LABEL": "Name",
-                    "NAME_REQUIRED_ERROR": "This field is required",
-                    "DESCRIPTION_LABEL": "Description",
-                    "SAVE_SUCCESS": "Search Saved",
-                    "SAVE_ERROR": "Error occurred. Search could not be saved.",
-                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "Saved Search with '{{ name }}' name already exists.",
+                    "ACTION_BUTTON": "Zapisz wyszukiwanie",
+                    "SAVE_CHANGES": "Zapisz zmiany",
+                    "SAVE_AS_NEW": "Zapisz jako nowy",
+                    "MODAL_HEADER": "Zapisz to wyszukiwanie",
+                    "NAME_LABEL": "Imię i nazwisko",
+                    "NAME_REQUIRED_ERROR": "To pole jest wymagane",
+                    "DESCRIPTION_LABEL": "Opis",
+                    "SAVE_SUCCESS": "Wyszukiwanie zostało zapisane",
+                    "SAVE_ERROR": "Wystąpił błąd. Nie udało się zapisać wyszukiwania.",
+                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "Zapisane wyszukiwanie o nazwie „{{ name }}” już istnieje.",
                     "NAVBAR": {
-                        "TITLE": "Saved Searches ({{ number }})",
-                        "MANAGE_BUTTON": "Manage searches"
+                        "TITLE": "Zapisane wyszukiwania ({{ number }})",
+                        "MANAGE_BUTTON": "Zarządzaj wyszukiwaniami"
                     },
                     "EDIT_DIALOG": {
-                        "CONTEXT_OPTION": "Edit Search",
-                        "TITLE": "Edit Saved Search",
-                        "SUCCESS_MESSAGE": "Saved Search edited successfully",
-                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be edited."
+                        "CONTEXT_OPTION": "Edytuj wyszukiwanie",
+                        "TITLE": "Edytuj zapisane wyszukiwanie",
+                        "SUCCESS_MESSAGE": "Edytowano zapisane wyszukiwanie",
+                        "ERROR_MESSAGE": "Wystąpił błąd. Nie udało się edytować zapisanego wyszukiwania."
                     },
                     "DELETE_DIALOG": {
-                        "CONTEXT_OPTION": "Delete Search",
-                        "TITLE": "Delete Saved Search",
-                        "CONTENT": "Are you sure you want to delete this search",
-                        "SUCCESS_MESSAGE": "Saved Search deleted successfully",
-                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be deleted."
+                        "CONTEXT_OPTION": "Usuń wyszukiwanie",
+                        "TITLE": "Usuń zapisane wyszukiwanie",
+                        "CONTENT": "Czy na pewno chcesz usunąć to wyszukiwanie?",
+                        "SUCCESS_MESSAGE": "Usunięto zapisane wyszukiwanie",
+                        "ERROR_MESSAGE": "Wystąpił błąd. Nie udało się usunąć zapisanego wyszukiwania."
                     },
                     "LIST": {
-                        "TITLE": "Saved Searches",
-                        "NAME": "Name",
-                        "DESCRIPTION": "Description",
-                        "EMPTY_LIST": "No saved searches",
-                        "COPY_TO_CLIPBOARD": "Copy to clipboard",
-                        "COPY_TO_CLIPBOARD_SUCCESS": "Search copied to clipboard",
-                        "EXECUTE_SEARCH": "Execute Search"
+                        "TITLE": "Zapisane wyszukiwania",
+                        "NAME": "Imię i nazwisko",
+                        "DESCRIPTION": "Opis",
+                        "EMPTY_LIST": "Niezapisane wyszukiwania",
+                        "COPY_TO_CLIPBOARD": "Kopiuj do schowka",
+                        "COPY_TO_CLIPBOARD_SUCCESS": "Wyszukiwanie zostało skopiowane do schowka",
+                        "EXECUTE_SEARCH": "Wykonaj wyszukiwanie"
                     }
                 },
                 "FOUND_RESULTS": "Znaleziono wyników: {{ number }}",
@@ -299,7 +299,7 @@
             "EDIT_OFFLINE": "Edytuj w trybie offline",
             "EDIT_OFFLINE_CANCEL": "Anuluj edytowanie",
             "CHANGE_ASPECT": "Edytuj aspekty",
-            "ADD_ASPECTS": "Add Aspects"
+            "ADD_ASPECTS": "Dodaj aspekty"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -434,9 +434,9 @@
         },
         "INFO_DRAWER": {
             "TITLE": "Szczegóły",
-            "REDUCE_PANEL": "Reduce panel",
+            "REDUCE_PANEL": "Zmniejsz panel",
             "DATA_LOADING": "Dane są wczytywane",
-            "ICON": "Node Icon",
+            "ICON": "Ikona węzła",
             "TABS": {
                 "PROPERTIES": "Właściwości",
                 "LIBRARY_PROPERTIES": "Informacje",
@@ -529,7 +529,7 @@
             "CONFLICT": "Identyfikator tej biblioteki jest już w użyciu. Sprawdź w koszu.",
             "ID_TOO_LONG": "W adresie URL można użyć maksymalnie 72 znaków",
             "DESCRIPTION_TOO_LONG": "W opisie można użyć maksymalnie 512 znaków",
-            "TITLE_TOO_LONG_OR_MISSING": "Use 256 characters or less for title",
+            "TITLE_TOO_LONG_OR_MISSING": "Tytuł może zawierać maksymalnie 256 znaków",
             "ILLEGAL_CHARACTERS": "Użyj tylko cyfr i liter",
             "ONLY_SPACES": "Nazwa biblioteki nie może zawierać wyłącznie spacji",
             "LIBRARY_UPDATE_ERROR": "Podczas aktualizowania właściwości biblioteki wystąpił błąd"
@@ -540,9 +540,9 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
-            "TITLE": "Bulk Actions ({{ count }} Items)",
-            "BULK_NOT_AVAILABLE": "Bulk Actions (Not Available)",
-            "BULK_NOT_AVAILABLE_TOOLTIP": "Bulk Actions cannot be used without search results"
+            "TITLE": "Czynności zbiorcze (liczba elementów: {{ count }})",
+            "BULK_NOT_AVAILABLE": "Czynności zbiorcze (niedostępne)",
+            "BULK_NOT_AVAILABLE_TOOLTIP": "Nie można użyć czynności zbiorczych bez wyników wyszukiwania"
         },
         "INPUT": {
             "PLACEHOLDER": "Szukaj",
@@ -571,15 +571,15 @@
             "CATEGORIES": "Kategorie"
         },
         "CATEGORIES": {
-            "DATE": "Date",
+            "DATE": "Data",
             "DATE_TABS": {
-                "CREATED": "Created",
-                "MODIFIED": "Modified"
+                "CREATED": "Utworzono",
+                "MODIFIED": "Zmodyfikowano"
             },
             "EFFECTIVITY_FROM": "Data początku obowiązywania",
             "EFFECTIVITY_TO": "Data końca obowiązywania",
             "LOGIC": "Logika",
-            "PROPERTIES": "Properties"
+            "PROPERTIES": "Właściwości"
         },
         "SEARCH_HEADER": {
             "TITLE": "Filtr",
@@ -651,35 +651,35 @@
     "KNOWLEDGE_RETRIEVAL": {
         "SEARCH": {
             "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "Would you like to ask anything else?",
-                "REFERENCED_DOCUMENTS_HEADER": "Referenced documents",
-                "REGENERATION_BUTTON_LABEL": "Regenerate",
-                "COPY_BUTTON_LABEL": "Copy",
-                "COPY_MESSAGE": "Copied response to clipboard"
+                "QUERY_INPUT_PLACEHOLDER": "Czy masz inne pytania?",
+                "REFERENCED_DOCUMENTS_HEADER": "Dokumenty referencyjne",
+                "REGENERATION_BUTTON_LABEL": "Regeneruj",
+                "COPY_BUTTON_LABEL": "Kopiuj",
+                "COPY_MESSAGE": "Odpowiedź została skopiowana do schowka"
             },
             "AGENTS_BUTTON": {
-                "LABEL": "Ask Discovery",
-                "TITLE": "Knowledge Retrieval"
+                "LABEL": "Spytaj Discovery",
+                "TITLE": "Wyszukiwanie wiedzy"
             },
             "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "Ask",
-                "DEFAULT_PLACEHOLDER": "Please ask your question with as much detail as possible...",
-                "HIDE_INPUT": "Hide input",
-                "HIDE_ANSWER": "Hide answer"
+                "ASK_BUTTON_LABEL": "Zapytaj",
+                "DEFAULT_PLACEHOLDER": "Zadaj pytanie, podając jak najwięcej szczegółów...",
+                "HIDE_INPUT": "Ukryj dane wejściowe",
+                "HIDE_ANSWER": "Ukryj odpowiedź"
             },
             "ERRORS": {
-                "AGENTS_FETCHING": "Error while fetching agents.",
-                "HX_INSIGHT_URL_FETCHING": "Error while fetching HX Insight URL.",
-                "LOADING_ERROR": "Hmm... something seems to have gone wrong.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Page is not available for these conditions."
+                "AGENTS_FETCHING": "Błąd podczas pobierania agentów.",
+                "HX_INSIGHT_URL_FETCHING": "Błąd podczas pobierania HX Insight URL.",
+                "LOADING_ERROR": "Hmm... chyba coś poszło nie tak.",
+                "PAGE_NOT_AVAILABLE_ERROR": "Strona jest niedostępna dla podanych warunków."
             },
             "DISCARD_CHANGES": {
-                "WARNING": "Warning!",
-                "ASK_AI": "Ask AI",
-                "DO_NOT_SHOW_MESSAGE": "Don't show this message again",
-                "DISCARD_CONVERSATION": "Discard Conversation",
-                "CONVERSATION_DISCARDED": "This conversation will be discarded",
-                "LOSE_RESPONSE": "By asking another question you will lose your previous response"
+                "WARNING": "Ostrzeżenie!",
+                "ASK_AI": "Zapytaj sztuczną inteligencję",
+                "DO_NOT_SHOW_MESSAGE": "Nie pokazuj ponownie tego komunikatu",
+                "DISCARD_CONVERSATION": "Usuń konwersację",
+                "CONVERSATION_DISCARDED": "Ta konwersacja zostanie usunięta",
+                "LOSE_RESPONSE": "Zadanie kolejnego pytania spowoduje utratę poprzedniej odpowiedzi"
             }
         }
     }

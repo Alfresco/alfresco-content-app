@@ -141,7 +141,7 @@
       "DELETE_RULE_SET_LINK_FAILED": "Fout bij het verwijderen van een koppeling uit een regelset"
     },
     "AUTOCOMPLETE": {
-      "NO_OPTIONS_FOUND": "No options found"
+      "NO_OPTIONS_FOUND": "Geen opties gevonden"
     }
   }
 }

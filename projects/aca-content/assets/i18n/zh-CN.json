@@ -1,7 +1,7 @@
 {
     "APP": {
         "COPYRIGHT": "© 2005-2024 Hyland Software, Inc. 及其附属公司。保留所有权利。",
-        "TITLE": "Workspace",
+        "TITLE": "工作区",
         "ABOUT": {
             "VERSION": "版本：",
             "PLUGINS": {
@@ -210,41 +210,41 @@
                 "RESET": "重置",
                 "RESET_ACTION": "重置搜索筛选器",
                 "SAVE_SEARCH": {
-                    "ACTION_BUTTON": "Save Search",
-                    "SAVE_CHANGES": "Save changes",
-                    "SAVE_AS_NEW": "Save as new",
-                    "MODAL_HEADER": "Save this search",
-                    "NAME_LABEL": "Name",
-                    "NAME_REQUIRED_ERROR": "This field is required",
-                    "DESCRIPTION_LABEL": "Description",
-                    "SAVE_SUCCESS": "Search Saved",
-                    "SAVE_ERROR": "Error occurred. Search could not be saved.",
-                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "Saved Search with '{{ name }}' name already exists.",
+                    "ACTION_BUTTON": "保存搜索",
+                    "SAVE_CHANGES": "保存更改",
+                    "SAVE_AS_NEW": "保存为新内容",
+                    "MODAL_HEADER": "保存此搜索",
+                    "NAME_LABEL": "名称",
+                    "NAME_REQUIRED_ERROR": "此字段为必填",
+                    "DESCRIPTION_LABEL": "说明",
+                    "SAVE_SUCCESS": "搜索已保存",
+                    "SAVE_ERROR": "发生了错误。无法保存搜索。",
+                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "名为“{{ name }}”的已保存搜索已存在。",
                     "NAVBAR": {
-                        "TITLE": "Saved Searches ({{ number }})",
-                        "MANAGE_BUTTON": "Manage searches"
+                        "TITLE": "已保存搜索 ({{ number }})",
+                        "MANAGE_BUTTON": "管理搜索"
                     },
                     "EDIT_DIALOG": {
-                        "CONTEXT_OPTION": "Edit Search",
-                        "TITLE": "Edit Saved Search",
-                        "SUCCESS_MESSAGE": "Saved Search edited successfully",
-                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be edited."
+                        "CONTEXT_OPTION": "编辑搜索",
+                        "TITLE": "编辑已保存搜索",
+                        "SUCCESS_MESSAGE": "已成功编辑已保存搜索",
+                        "ERROR_MESSAGE": "发生了错误。无法编辑已保存搜索。"
                     },
                     "DELETE_DIALOG": {
-                        "CONTEXT_OPTION": "Delete Search",
-                        "TITLE": "Delete Saved Search",
-                        "CONTENT": "Are you sure you want to delete this search",
-                        "SUCCESS_MESSAGE": "Saved Search deleted successfully",
-                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be deleted."
+                        "CONTEXT_OPTION": "删除搜索",
+                        "TITLE": "删除已保存搜索",
+                        "CONTENT": "是否确定要删除该搜索",
+                        "SUCCESS_MESSAGE": "已成功删除已保存搜索",
+                        "ERROR_MESSAGE": "发生了错误。无法删除已保存搜索。"
                     },
                     "LIST": {
-                        "TITLE": "Saved Searches",
-                        "NAME": "Name",
-                        "DESCRIPTION": "Description",
-                        "EMPTY_LIST": "No saved searches",
-                        "COPY_TO_CLIPBOARD": "Copy to clipboard",
-                        "COPY_TO_CLIPBOARD_SUCCESS": "Search copied to clipboard",
-                        "EXECUTE_SEARCH": "Execute Search"
+                        "TITLE": "已保存搜索",
+                        "NAME": "名称",
+                        "DESCRIPTION": "说明",
+                        "EMPTY_LIST": "没有已保存搜索",
+                        "COPY_TO_CLIPBOARD": "复制到剪贴板",
+                        "COPY_TO_CLIPBOARD_SUCCESS": "搜索已复制到剪贴板。",
+                        "EXECUTE_SEARCH": "执行搜索"
                     }
                 },
                 "FOUND_RESULTS": "找到 {{ number }} 个结果",
@@ -299,7 +299,7 @@
             "EDIT_OFFLINE": "离线编辑",
             "EDIT_OFFLINE_CANCEL": "取消编辑",
             "CHANGE_ASPECT": "编辑纵横比",
-            "ADD_ASPECTS": "Add Aspects"
+            "ADD_ASPECTS": "添加新的方面"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -434,9 +434,9 @@
         },
         "INFO_DRAWER": {
             "TITLE": "详细信息",
-            "REDUCE_PANEL": "Reduce panel",
+            "REDUCE_PANEL": "精简面板",
             "DATA_LOADING": "数据正在加载",
-            "ICON": "Node Icon",
+            "ICON": "节点图标",
             "TABS": {
                 "PROPERTIES": "属性",
                 "LIBRARY_PROPERTIES": "关于",
@@ -529,7 +529,7 @@
             "CONFLICT": "此库 ID 已被使用。请检查垃圾桶。",
             "ID_TOO_LONG": "对 URL 名称使用 72 个字符或更少字符",
             "DESCRIPTION_TOO_LONG": "对描述使用 512 个字符或更少字符",
-            "TITLE_TOO_LONG_OR_MISSING": "Use 256 characters or less for title",
+            "TITLE_TOO_LONG_OR_MISSING": "标题长度不超过 256 个字符",
             "ILLEGAL_CHARACTERS": "仅使用数字和字母",
             "ONLY_SPACES": "文档库名称不能只包含空格",
             "LIBRARY_UPDATE_ERROR": "更新库属性时发生错误"
@@ -540,9 +540,9 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
-            "TITLE": "Bulk Actions ({{ count }} Items)",
-            "BULK_NOT_AVAILABLE": "Bulk Actions (Not Available)",
-            "BULK_NOT_AVAILABLE_TOOLTIP": "Bulk Actions cannot be used without search results"
+            "TITLE": "批量操作（{{ count }} 个项目）",
+            "BULK_NOT_AVAILABLE": "批量操作（不可用）",
+            "BULK_NOT_AVAILABLE_TOOLTIP": "没有搜索结果，无法使用批量操作"
         },
         "INPUT": {
             "PLACEHOLDER": "搜索",
@@ -571,15 +571,15 @@
             "CATEGORIES": "类别"
         },
         "CATEGORIES": {
-            "DATE": "Date",
+            "DATE": "日期",
             "DATE_TABS": {
-                "CREATED": "Created",
-                "MODIFIED": "Modified"
+                "CREATED": "已创建",
+                "MODIFIED": "更改过的"
             },
             "EFFECTIVITY_FROM": "有效开始",
             "EFFECTIVITY_TO": "有效结束",
             "LOGIC": "登录",
-            "PROPERTIES": "Properties"
+            "PROPERTIES": "属性"
         },
         "SEARCH_HEADER": {
             "TITLE": "筛选",
@@ -651,35 +651,35 @@
     "KNOWLEDGE_RETRIEVAL": {
         "SEARCH": {
             "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "Would you like to ask anything else?",
-                "REFERENCED_DOCUMENTS_HEADER": "Referenced documents",
-                "REGENERATION_BUTTON_LABEL": "Regenerate",
-                "COPY_BUTTON_LABEL": "Copy",
-                "COPY_MESSAGE": "Copied response to clipboard"
+                "QUERY_INPUT_PLACEHOLDER": "你想要询问其他问题吗？",
+                "REFERENCED_DOCUMENTS_HEADER": "引用的文档",
+                "REGENERATION_BUTTON_LABEL": "重新生成",
+                "COPY_BUTTON_LABEL": "复制",
+                "COPY_MESSAGE": "已将响应复制到剪贴板"
             },
             "AGENTS_BUTTON": {
-                "LABEL": "Ask Discovery",
-                "TITLE": "Knowledge Retrieval"
+                "LABEL": "询问发现",
+                "TITLE": "知识检索"
             },
             "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "Ask",
-                "DEFAULT_PLACEHOLDER": "Please ask your question with as much detail as possible...",
-                "HIDE_INPUT": "Hide input",
-                "HIDE_ANSWER": "Hide answer"
+                "ASK_BUTTON_LABEL": "询问",
+                "DEFAULT_PLACEHOLDER": "请提出您的问题，并提供尽量多的细节...",
+                "HIDE_INPUT": "隐藏输入",
+                "HIDE_ANSWER": "隐藏回答"
             },
             "ERRORS": {
-                "AGENTS_FETCHING": "Error while fetching agents.",
-                "HX_INSIGHT_URL_FETCHING": "Error while fetching HX Insight URL.",
-                "LOADING_ERROR": "Hmm... something seems to have gone wrong.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Page is not available for these conditions."
+                "AGENTS_FETCHING": "获取代理时出错",
+                "HX_INSIGHT_URL_FETCHING": "获取 HX Insight URL 时出错。",
+                "LOADING_ERROR": "嗯... 好像发生了错误。",
+                "PAGE_NOT_AVAILABLE_ERROR": "页面不可用于这些条件。"
             },
             "DISCARD_CHANGES": {
-                "WARNING": "Warning!",
-                "ASK_AI": "Ask AI",
-                "DO_NOT_SHOW_MESSAGE": "Don't show this message again",
-                "DISCARD_CONVERSATION": "Discard Conversation",
-                "CONVERSATION_DISCARDED": "This conversation will be discarded",
-                "LOSE_RESPONSE": "By asking another question you will lose your previous response"
+                "WARNING": "警告！",
+                "ASK_AI": "询问 AI",
+                "DO_NOT_SHOW_MESSAGE": "不再显示此消息",
+                "DISCARD_CONVERSATION": "废弃对话",
+                "CONVERSATION_DISCARDED": "此对话将被废弃",
+                "LOSE_RESPONSE": "如果提出其他问题，你将丢失上个问题的回答"
             }
         }
     }

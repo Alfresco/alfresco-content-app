@@ -202,7 +202,7 @@
             },
             "SEARCH": {
                 "DEFAULT_SEARCH": "تفاصيل",
-                "DUBLIN_CORE": "Dublin core",
+                "DUBLIN_CORE": "Dublin Core",
                 "EFFECTIVITY": "السريان",
                 "TITLE": "نتائج البحث",
                 "FILTER_SET": "مجموعة الفلاتر:",
@@ -210,41 +210,41 @@
                 "RESET": "إعادة تعيين",
                 "RESET_ACTION": "إعادة تعيين عوامل تصفية البحث",
                 "SAVE_SEARCH": {
-                    "ACTION_BUTTON": "Save Search",
-                    "SAVE_CHANGES": "Save changes",
-                    "SAVE_AS_NEW": "Save as new",
-                    "MODAL_HEADER": "Save this search",
-                    "NAME_LABEL": "Name",
-                    "NAME_REQUIRED_ERROR": "This field is required",
-                    "DESCRIPTION_LABEL": "Description",
-                    "SAVE_SUCCESS": "Search Saved",
-                    "SAVE_ERROR": "Error occurred. Search could not be saved.",
-                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "Saved Search with '{{ name }}' name already exists.",
+                    "ACTION_BUTTON": "حفظ البحث",
+                    "SAVE_CHANGES": "حفظ التغييرات",
+                    "SAVE_AS_NEW": "حفظ كجديد",
+                    "MODAL_HEADER": "حفظ هذا البحث",
+                    "NAME_LABEL": "الاسم",
+                    "NAME_REQUIRED_ERROR": "هذا الحقل مطلوب",
+                    "DESCRIPTION_LABEL": "الوصف",
+                    "SAVE_SUCCESS": "تم حفظ البحث",
+                    "SAVE_ERROR": "حدث خطأ. تعذَّر حفظ البحث.",
+                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "يوجد بالفعل بحث محفوظ باسم '{{ name }}'.",
                     "NAVBAR": {
-                        "TITLE": "Saved Searches ({{ number }})",
-                        "MANAGE_BUTTON": "Manage searches"
+                        "TITLE": "عمليات البحث المحفوظة ({{ number }})",
+                        "MANAGE_BUTTON": "إدارة عمليات البحث"
                     },
                     "EDIT_DIALOG": {
-                        "CONTEXT_OPTION": "Edit Search",
-                        "TITLE": "Edit Saved Search",
-                        "SUCCESS_MESSAGE": "Saved Search edited successfully",
-                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be edited."
+                        "CONTEXT_OPTION": "تعديل البحث",
+                        "TITLE": "تعديل البحث المحفوظ",
+                        "SUCCESS_MESSAGE": "تم تعديل البحث المحفوظ بنجاح",
+                        "ERROR_MESSAGE": "حدث خطأ. تعذَّر تعديل البحث المحفوظ."
                     },
                     "DELETE_DIALOG": {
-                        "CONTEXT_OPTION": "Delete Search",
-                        "TITLE": "Delete Saved Search",
-                        "CONTENT": "Are you sure you want to delete this search",
-                        "SUCCESS_MESSAGE": "Saved Search deleted successfully",
-                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be deleted."
+                        "CONTEXT_OPTION": "حذف البحث",
+                        "TITLE": "حذف البحث المحفوظ",
+                        "CONTENT": "هل تريد بالفعل حذف هذا البحث",
+                        "SUCCESS_MESSAGE": "تم حذف البحث المحفوظ بنجاح",
+                        "ERROR_MESSAGE": "حدث خطأ. تعذَّر حذف البحث المحفوظ."
                     },
                     "LIST": {
-                        "TITLE": "Saved Searches",
-                        "NAME": "Name",
-                        "DESCRIPTION": "Description",
-                        "EMPTY_LIST": "No saved searches",
-                        "COPY_TO_CLIPBOARD": "Copy to clipboard",
-                        "COPY_TO_CLIPBOARD_SUCCESS": "Search copied to clipboard",
-                        "EXECUTE_SEARCH": "Execute Search"
+                        "TITLE": "عمليات البحث المحفوظة",
+                        "NAME": "الاسم",
+                        "DESCRIPTION": "الوصف",
+                        "EMPTY_LIST": "لا توجد عمليات بحث محفوظة",
+                        "COPY_TO_CLIPBOARD": "نسخ إلى الحافظة",
+                        "COPY_TO_CLIPBOARD_SUCCESS": "تم نسخ البحث إلى الحافظة",
+                        "EXECUTE_SEARCH": "تنفيذ البحث"
                     }
                 },
                 "FOUND_RESULTS": "تم العثور على {{ number }} نتائج",
@@ -299,7 +299,7 @@
             "EDIT_OFFLINE": "تحرير دون اتصال بالإنترنت",
             "EDIT_OFFLINE_CANCEL": "إلغاء التحرير",
             "CHANGE_ASPECT": "تحرير الجوانب",
-            "ADD_ASPECTS": "Add Aspects"
+            "ADD_ASPECTS": "إضافة جوانب"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -434,9 +434,9 @@
         },
         "INFO_DRAWER": {
             "TITLE": "التفاصيل",
-            "REDUCE_PANEL": "Reduce panel",
+            "REDUCE_PANEL": "تصغير حجم اللوحة",
             "DATA_LOADING": "يتم تحميل البيانات",
-            "ICON": "Node Icon",
+            "ICON": "أيقونة العقدة",
             "TABS": {
                 "PROPERTIES": "الخصائص",
                 "LIBRARY_PROPERTIES": "حول",
@@ -529,7 +529,7 @@
             "CONFLICT": "معرف المكتبة هذا قيد الاستخدام بالفعل. تحقق من سلة المحذوفات.",
             "ID_TOO_LONG": "استخدم 72 حرفًا أو أقل لاسم URL",
             "DESCRIPTION_TOO_LONG": "استخدم 512 حرفًا أو أقل للوصف",
-            "TITLE_TOO_LONG_OR_MISSING": "Use 256 characters or less for title",
+            "TITLE_TOO_LONG_OR_MISSING": "استخدم 256 حرفًا أو أقل في العنوان",
             "ILLEGAL_CHARACTERS": "استخدم الأرقام والحروف فقط",
             "ONLY_SPACES": "لا يمكن أن يحتوي اسم المكتبة على أية مسافات",
             "LIBRARY_UPDATE_ERROR": "حدث خطأ أثناء تحديث خصائص المكتبة"
@@ -540,9 +540,9 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
-            "TITLE": "Bulk Actions ({{ count }} Items)",
-            "BULK_NOT_AVAILABLE": "Bulk Actions (Not Available)",
-            "BULK_NOT_AVAILABLE_TOOLTIP": "Bulk Actions cannot be used without search results"
+            "TITLE": "الإجراءات المجمعة ({{ count }} من العناصر)",
+            "BULK_NOT_AVAILABLE": "الإجراءات المجمعة (غير متاحة)",
+            "BULK_NOT_AVAILABLE_TOOLTIP": "لا يمكن استخدام الإجراءات المجمعة بدون نتائج البحث"
         },
         "INPUT": {
             "PLACEHOLDER": "بحث",
@@ -571,15 +571,15 @@
             "CATEGORIES": "فئات"
         },
         "CATEGORIES": {
-            "DATE": "Date",
+            "DATE": "التاريخ",
             "DATE_TABS": {
-                "CREATED": "Created",
-                "MODIFIED": "Modified"
+                "CREATED": "تم الإنشاء",
+                "MODIFIED": "تم التعديل"
             },
             "EFFECTIVITY_FROM": "فعالية من",
             "EFFECTIVITY_TO": "فعالية ل",
             "LOGIC": "منطق",
-            "PROPERTIES": "Properties"
+            "PROPERTIES": "الخصائص"
         },
         "SEARCH_HEADER": {
             "TITLE": "عامل التصفية",
@@ -651,35 +651,35 @@
     "KNOWLEDGE_RETRIEVAL": {
         "SEARCH": {
             "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "Would you like to ask anything else?",
-                "REFERENCED_DOCUMENTS_HEADER": "Referenced documents",
-                "REGENERATION_BUTTON_LABEL": "Regenerate",
-                "COPY_BUTTON_LABEL": "Copy",
-                "COPY_MESSAGE": "Copied response to clipboard"
+                "QUERY_INPUT_PLACEHOLDER": "هل تودّ طرح أي استفسار آخر؟",
+                "REFERENCED_DOCUMENTS_HEADER": "المستندات المرجعية",
+                "REGENERATION_BUTTON_LABEL": "إعادة إنشاء",
+                "COPY_BUTTON_LABEL": "نسخ",
+                "COPY_MESSAGE": "تم نسخ الرد إلى الحافظة"
             },
             "AGENTS_BUTTON": {
-                "LABEL": "Ask Discovery",
-                "TITLE": "Knowledge Retrieval"
+                "LABEL": "اسأل Discovery",
+                "TITLE": "استخلاص المعلومات ذات الصلة"
             },
             "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "Ask",
-                "DEFAULT_PLACEHOLDER": "Please ask your question with as much detail as possible...",
-                "HIDE_INPUT": "Hide input",
-                "HIDE_ANSWER": "Hide answer"
+                "ASK_BUTTON_LABEL": "اطرح سؤالاً",
+                "DEFAULT_PLACEHOLDER": "يُرجى طرح سؤالك مع ذكر أكبر قدر ممكن من التفاصيل...",
+                "HIDE_INPUT": "إخفاء المدخلات",
+                "HIDE_ANSWER": "إخفاء الإجابة"
             },
             "ERRORS": {
-                "AGENTS_FETCHING": "Error while fetching agents.",
-                "HX_INSIGHT_URL_FETCHING": "Error while fetching HX Insight URL.",
-                "LOADING_ERROR": "Hmm... something seems to have gone wrong.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Page is not available for these conditions."
+                "AGENTS_FETCHING": "حدث خطأ أثناء جلب الوكلاء.",
+                "HX_INSIGHT_URL_FETCHING": "خطأ أثناء جلب رابط HX Insight.",
+                "LOADING_ERROR": "معذرة، يبدو أن هناك خطأ ما.",
+                "PAGE_NOT_AVAILABLE_ERROR": "الصفحة غير متاحة لهذه الشروط."
             },
             "DISCARD_CHANGES": {
-                "WARNING": "Warning!",
-                "ASK_AI": "Ask AI",
-                "DO_NOT_SHOW_MESSAGE": "Don't show this message again",
-                "DISCARD_CONVERSATION": "Discard Conversation",
-                "CONVERSATION_DISCARDED": "This conversation will be discarded",
-                "LOSE_RESPONSE": "By asking another question you will lose your previous response"
+                "WARNING": "تحذير!",
+                "ASK_AI": "اسأل الذكاء الاصطناعي",
+                "DO_NOT_SHOW_MESSAGE": "عدم إظهار هذه الرسالة مرة أخرى",
+                "DISCARD_CONVERSATION": "تجاهل المحادثة",
+                "CONVERSATION_DISCARDED": "سيتم تجاهل هذه المحادثة",
+                "LOSE_RESPONSE": "ستفقد الرد السابق بمجرد طرح سؤال آخر"
             }
         }
     }

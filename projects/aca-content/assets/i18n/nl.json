@@ -67,7 +67,7 @@
         },
         "LOCKED_BY": "Vergrendeld door: ",
         "PREVIEW": {
-            "TITLE": "Preview"
+            "TITLE": "Voorvertoning"
         },
         "DETAILS": {
             "TITLE": "Gegevens"
@@ -210,41 +210,41 @@
                 "RESET": "Opnieuw instellen",
                 "RESET_ACTION": "Zoekfilters opnieuw instellen",
                 "SAVE_SEARCH": {
-                    "ACTION_BUTTON": "Save Search",
-                    "SAVE_CHANGES": "Save changes",
-                    "SAVE_AS_NEW": "Save as new",
-                    "MODAL_HEADER": "Save this search",
-                    "NAME_LABEL": "Name",
-                    "NAME_REQUIRED_ERROR": "This field is required",
-                    "DESCRIPTION_LABEL": "Description",
-                    "SAVE_SUCCESS": "Search Saved",
-                    "SAVE_ERROR": "Error occurred. Search could not be saved.",
-                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "Saved Search with '{{ name }}' name already exists.",
+                    "ACTION_BUTTON": "Zoekresultaten opslaan",
+                    "SAVE_CHANGES": "Wijzigingen opslaan",
+                    "SAVE_AS_NEW": "Opslaan als nieuw:",
+                    "MODAL_HEADER": "Dit zoekresultaat opslaan",
+                    "NAME_LABEL": "Naam",
+                    "NAME_REQUIRED_ERROR": "Wachtwoord vereist",
+                    "DESCRIPTION_LABEL": "Beschrijving",
+                    "SAVE_SUCCESS": "Zoekresultaten opgeslagen",
+                    "SAVE_ERROR": " Fout opgetreden. Zoekresultaten kon niet worden opgeslagen.",
+                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "Opgeslagen zoekresultaten met '{{ name }}' naam bestaat al.",
                     "NAVBAR": {
-                        "TITLE": "Saved Searches ({{ number }})",
-                        "MANAGE_BUTTON": "Manage searches"
+                        "TITLE": "Opgeslagen zoekresultaten ({{ number }})",
+                        "MANAGE_BUTTON": "Zoekresultaten beheren"
                     },
                     "EDIT_DIALOG": {
-                        "CONTEXT_OPTION": "Edit Search",
-                        "TITLE": "Edit Saved Search",
-                        "SUCCESS_MESSAGE": "Saved Search edited successfully",
-                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be edited."
+                        "CONTEXT_OPTION": "Zoekresultaten bewerken",
+                        "TITLE": "Opgeslagen zoekresultaten bewerken",
+                        "SUCCESS_MESSAGE": "Opgeslagen zoekresultaten succesvol bewerkt",
+                        "ERROR_MESSAGE": "Fout opgetreden. Zoekresultaten konden niet worden bewerkt."
                     },
                     "DELETE_DIALOG": {
-                        "CONTEXT_OPTION": "Delete Search",
-                        "TITLE": "Delete Saved Search",
-                        "CONTENT": "Are you sure you want to delete this search",
-                        "SUCCESS_MESSAGE": "Saved Search deleted successfully",
-                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be deleted."
+                        "CONTEXT_OPTION": "Zoekresultaten wissen",
+                        "TITLE": "Opgeslagen zoekresultaten wissen",
+                        "CONTENT": "Weet u zeker dat u dit zoekresultaat wilt verwijderen?",
+                        "SUCCESS_MESSAGE": "Opgeslagen zoekresultaten succesvol gewist",
+                        "ERROR_MESSAGE": "Fout opgetreden. Opgeslagen zoekresultaten konden niet worden gewist."
                     },
                     "LIST": {
-                        "TITLE": "Saved Searches",
-                        "NAME": "Name",
-                        "DESCRIPTION": "Description",
-                        "EMPTY_LIST": "No saved searches",
-                        "COPY_TO_CLIPBOARD": "Copy to clipboard",
-                        "COPY_TO_CLIPBOARD_SUCCESS": "Search copied to clipboard",
-                        "EXECUTE_SEARCH": "Execute Search"
+                        "TITLE": "Opgeslagen zoekresultaten",
+                        "NAME": "Naam",
+                        "DESCRIPTION": "Beschrijving",
+                        "EMPTY_LIST": "Geen opgeslagen zoekresultaten",
+                        "COPY_TO_CLIPBOARD": "Kopiëren naar klembord",
+                        "COPY_TO_CLIPBOARD_SUCCESS": "Zoekresultaten gekopieerd naar klembord",
+                        "EXECUTE_SEARCH": "Zoekopdracht uitvoeren"
                     }
                 },
                 "FOUND_RESULTS": "{{ number }} resultaten gevonden",
@@ -299,7 +299,7 @@
             "EDIT_OFFLINE": "Offline bewerken",
             "EDIT_OFFLINE_CANCEL": "Bewerken annuleren",
             "CHANGE_ASPECT": "Aspecten bewerken",
-            "ADD_ASPECTS": "Add Aspects"
+            "ADD_ASPECTS": "Aspecten toevoegen"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -434,7 +434,7 @@
         },
         "INFO_DRAWER": {
             "TITLE": "Gegevens",
-            "REDUCE_PANEL": "Reduce panel",
+            "REDUCE_PANEL": "Scherm verkleinen",
             "DATA_LOADING": "Data worden geladen",
             "ICON": "Node Icon",
             "TABS": {
@@ -529,7 +529,7 @@
             "CONFLICT": "Deze bibliotheek-id wordt al gebruikt. Controleer de prullenbak.",
             "ID_TOO_LONG": "Gebruik 72 tekens of minder voor de URL-naam",
             "DESCRIPTION_TOO_LONG": "Gebruik 512 tekens of minder voor de beschrijving",
-            "TITLE_TOO_LONG_OR_MISSING": "Use 256 characters or less for title",
+            "TITLE_TOO_LONG_OR_MISSING": "Gebruik 256 karakters of minder voor titel",
             "ILLEGAL_CHARACTERS": "Gebruik alleen cijfers en letters",
             "ONLY_SPACES": "Bibliotheeknaam mag niet alleen uit spaties bestaan",
             "LIBRARY_UPDATE_ERROR": "Er is een fout opgetreden bij het bijwerken van de bibliotheekeigenschappen"
@@ -540,9 +540,9 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
-            "TITLE": "Bulk Actions ({{ count }} Items)",
-            "BULK_NOT_AVAILABLE": "Bulk Actions (Not Available)",
-            "BULK_NOT_AVAILABLE_TOOLTIP": "Bulk Actions cannot be used without search results"
+            "TITLE": "Bulkacties ({{ count }} items)",
+            "BULK_NOT_AVAILABLE": "Bulkacties (niet beschikbaar)",
+            "BULK_NOT_AVAILABLE_TOOLTIP": "Bulkacties kunnen niet gebruikt worden zonder zoekresultaten"
         },
         "INPUT": {
             "PLACEHOLDER": "Zoeken",
@@ -571,15 +571,15 @@
             "CATEGORIES": "Categorieën"
         },
         "CATEGORIES": {
-            "DATE": "Date",
+            "DATE": "Datum",
             "DATE_TABS": {
-                "CREATED": "Created",
-                "MODIFIED": "Modified"
+                "CREATED": "Aangemaakt",
+                "MODIFIED": "Gewijzigd"
             },
             "EFFECTIVITY_FROM": "Effectiviteit vanaf",
             "EFFECTIVITY_TO": "Effectiviteit tot",
             "LOGIC": "Logica",
-            "PROPERTIES": "Properties"
+            "PROPERTIES": "Eigenschappen"
         },
         "SEARCH_HEADER": {
             "TITLE": "Filteren",
@@ -651,35 +651,35 @@
     "KNOWLEDGE_RETRIEVAL": {
         "SEARCH": {
             "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "Would you like to ask anything else?",
-                "REFERENCED_DOCUMENTS_HEADER": "Referenced documents",
-                "REGENERATION_BUTTON_LABEL": "Regenerate",
-                "COPY_BUTTON_LABEL": "Copy",
-                "COPY_MESSAGE": "Copied response to clipboard"
+                "QUERY_INPUT_PLACEHOLDER": "Wilt u nog iets anders vragen?",
+                "REFERENCED_DOCUMENTS_HEADER": "Referentiedocumenten",
+                "REGENERATION_BUTTON_LABEL": "Regenereren",
+                "COPY_BUTTON_LABEL": "Kopiëren",
+                "COPY_MESSAGE": "Antwoord gekopieerd naar klembord"
             },
             "AGENTS_BUTTON": {
-                "LABEL": "Ask Discovery",
-                "TITLE": "Knowledge Retrieval"
+                "LABEL": "Vraag Discovery",
+                "TITLE": "Ophalen kennis"
             },
             "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "Ask",
-                "DEFAULT_PLACEHOLDER": "Please ask your question with as much detail as possible...",
-                "HIDE_INPUT": "Hide input",
-                "HIDE_ANSWER": "Hide answer"
+                "ASK_BUTTON_LABEL": "Vragen",
+                "DEFAULT_PLACEHOLDER": "Stel uw vraag zo gedetailleerd mogelijk...",
+                "HIDE_INPUT": "Invoer verbergen",
+                "HIDE_ANSWER": "Antwoord verbergen"
             },
             "ERRORS": {
-                "AGENTS_FETCHING": "Error while fetching agents.",
-                "HX_INSIGHT_URL_FETCHING": "Error while fetching HX Insight URL.",
-                "LOADING_ERROR": "Hmm... something seems to have gone wrong.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Page is not available for these conditions."
+                "AGENTS_FETCHING": "Fout bij het ophalen van agenten.",
+                "HX_INSIGHT_URL_FETCHING": "Fout bij het ophalen van HX Insight URL.",
+                "LOADING_ERROR": "Hmm... er lijkt iets te zijn misgegaan.",
+                "PAGE_NOT_AVAILABLE_ERROR": "Pagina is niet beschikbaar voor deze voorwaarden."
             },
             "DISCARD_CHANGES": {
-                "WARNING": "Warning!",
-                "ASK_AI": "Ask AI",
-                "DO_NOT_SHOW_MESSAGE": "Don't show this message again",
-                "DISCARD_CONVERSATION": "Discard Conversation",
-                "CONVERSATION_DISCARDED": "This conversation will be discarded",
-                "LOSE_RESPONSE": "By asking another question you will lose your previous response"
+                "WARNING": "Waarschuwing!",
+                "ASK_AI": "Vraag AI",
+                "DO_NOT_SHOW_MESSAGE": "Laat dit bericht niet meer zien",
+                "DISCARD_CONVERSATION": "Gesprek verwijderen",
+                "CONVERSATION_DISCARDED": "Dit gesprek wordt verwijderd",
+                "LOSE_RESPONSE": "Door een andere vraag te stellen gaat uw vorige antwoord verloren"
             }
         }
     }

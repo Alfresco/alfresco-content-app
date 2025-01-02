@@ -1,10 +1,10 @@
 {
   "AOS": {
-    "ACTION_TITLE": "Edit in Microsoft Office™",
+    "ACTION_TITLE": "Rediger i Microsoft Office™",
     "ERRORS": {
-      "UNSUPPORTED_PLATFORM": "Only supported for Windows and MacOS platforms",
-      "ALREADY_LOCKED": "Document '{{ nodeId }}' is locked by '{{ lockOwner }}'",
-      "MISSING_PROTOCOL_HANDLER": "No protocol handler found for '{{ nodeName }}'"
+      "UNSUPPORTED_PLATFORM": "Støttes kun for Windows- og MacOS-plattformer",
+      "ALREADY_LOCKED": "Dokumentet '{{ nodeId }}' er låst av '{{ lockOwner }}'",
+      "MISSING_PROTOCOL_HANDLER": "Ingen protokollbehandler funnet for '{{ nodeName }}'"
     }
   }
 }

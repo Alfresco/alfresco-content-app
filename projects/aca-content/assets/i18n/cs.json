@@ -1,7 +1,7 @@
 {
     "APP": {
         "COPYRIGHT": "2005-2024 Hyland Software, Inc. a její přidružené společnosti. Všechna práva vyhrazena.",
-        "TITLE": "Workspace",
+        "TITLE": "Pracovní prostor",
         "ABOUT": {
             "VERSION": "Verze:",
             "PLUGINS": {
@@ -62,8 +62,8 @@
             "COMPANY_DETAILS": "Podrobnosti o společnosti",
             "NAME": "Název",
             "ADDRESS": "Adresa",
-            "POSTCODE": "Postcode",
-            "INVALID_INPUT": "Invalid Input"
+            "POSTCODE": "PSČ",
+            "INVALID_INPUT": "Neplatný vstup"
         },
         "LOCKED_BY": "Uzamknul(a): ",
         "PREVIEW": {
@@ -207,44 +207,44 @@
                 "TITLE": "Výsledky hledání",
                 "FILTER_SET": "Sada filtrů:",
                 "ADVANCED_FILTERS": "Pokročilé filtry:",
-                "RESET": "Reset",
-                "RESET_ACTION": "Reset search filters",
+                "RESET": "Resetovat",
+                "RESET_ACTION": "Resetovat filtry vyhledávání",
                 "SAVE_SEARCH": {
-                    "ACTION_BUTTON": "Save Search",
-                    "SAVE_CHANGES": "Save changes",
-                    "SAVE_AS_NEW": "Save as new",
-                    "MODAL_HEADER": "Save this search",
-                    "NAME_LABEL": "Name",
-                    "NAME_REQUIRED_ERROR": "This field is required",
-                    "DESCRIPTION_LABEL": "Description",
-                    "SAVE_SUCCESS": "Search Saved",
-                    "SAVE_ERROR": "Error occurred. Search could not be saved.",
-                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "Saved Search with '{{ name }}' name already exists.",
+                    "ACTION_BUTTON": "Uložit vyhledávání",
+                    "SAVE_CHANGES": "Uložit změny",
+                    "SAVE_AS_NEW": "Uložit jako nové",
+                    "MODAL_HEADER": "Uložit toto vyhledávání",
+                    "NAME_LABEL": "Název",
+                    "NAME_REQUIRED_ERROR": "Toto pole je vyžadováno",
+                    "DESCRIPTION_LABEL": "Popis",
+                    "SAVE_SUCCESS": "Vyhledávání bylo uloženo",
+                    "SAVE_ERROR": "Došlo k chybě. Vyhledávání nelze uložit.",
+                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "Uložené vyhledávání s názvem „{{ name }}“ již existuje.",
                     "NAVBAR": {
-                        "TITLE": "Saved Searches ({{ number }})",
-                        "MANAGE_BUTTON": "Manage searches"
+                        "TITLE": "Uložená vyhledávání ({{ number }})",
+                        "MANAGE_BUTTON": "Správa vyhledávání"
                     },
                     "EDIT_DIALOG": {
-                        "CONTEXT_OPTION": "Edit Search",
-                        "TITLE": "Edit Saved Search",
-                        "SUCCESS_MESSAGE": "Saved Search edited successfully",
-                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be edited."
+                        "CONTEXT_OPTION": "Upravit vyhledávání",
+                        "TITLE": "Upravit uložené vyhledávání",
+                        "SUCCESS_MESSAGE": "Uložené vyhledávání bylo úspěšně upraveno",
+                        "ERROR_MESSAGE": "Došlo k chybě. Uložené vyhledávání nelze upravit."
                     },
                     "DELETE_DIALOG": {
-                        "CONTEXT_OPTION": "Delete Search",
-                        "TITLE": "Delete Saved Search",
-                        "CONTENT": "Are you sure you want to delete this search",
-                        "SUCCESS_MESSAGE": "Saved Search deleted successfully",
-                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be deleted."
+                        "CONTEXT_OPTION": "Odstranit vyhledávání",
+                        "TITLE": "Odstranit uložené vyhledávání",
+                        "CONTENT": "Opravdu chcete odstranit toto vyhledávání",
+                        "SUCCESS_MESSAGE": "Uložené vyhledávání bylo úspěšně odstraněno",
+                        "ERROR_MESSAGE": "Došlo k chybě. Uložené vyhledávání nelze odstranit."
                     },
                     "LIST": {
-                        "TITLE": "Saved Searches",
-                        "NAME": "Name",
-                        "DESCRIPTION": "Description",
-                        "EMPTY_LIST": "No saved searches",
-                        "COPY_TO_CLIPBOARD": "Copy to clipboard",
-                        "COPY_TO_CLIPBOARD_SUCCESS": "Search copied to clipboard",
-                        "EXECUTE_SEARCH": "Execute Search"
+                        "TITLE": "Uložená vyhledávání",
+                        "NAME": "Název",
+                        "DESCRIPTION": "Popis",
+                        "EMPTY_LIST": "Žádná uložená vyhledávání",
+                        "COPY_TO_CLIPBOARD": "Kopírovat do schránky",
+                        "COPY_TO_CLIPBOARD_SUCCESS": "Vyhledávání bylo zkopírováno do schránky",
+                        "EXECUTE_SEARCH": "Provést vyhledávání"
                     }
                 },
                 "FOUND_RESULTS": "Nalezené výsledky: {{ number }}",
@@ -299,7 +299,7 @@
             "EDIT_OFFLINE": "Upravit offline",
             "EDIT_OFFLINE_CANCEL": "Zrušit úpravu",
             "CHANGE_ASPECT": "Upravit aspekty",
-            "ADD_ASPECTS": "Add Aspects"
+            "ADD_ASPECTS": "Přidat aspekty"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -315,7 +315,7 @@
                 "NO_LABEL": "Zrušit"
             },
             "MOBILE_APP": {
-                "MOBILE_APP_BUTTON_LABEL": "Open in App",
+                "MOBILE_APP_BUTTON_LABEL": "Otevřít v aplikaci",
                 "DOWNLOAD_APP_BUTTON_LABEL": "Nemáte aplikaci? Stáhněte si ji nyní.",
                 "OPEN_ALFRESCO_MOBILE_APP": "Otevřít za pomoci aplikace Alfresco Mobile?"
             }
@@ -434,9 +434,9 @@
         },
         "INFO_DRAWER": {
             "TITLE": "Podrobnosti",
-            "REDUCE_PANEL": "Reduce panel",
-            "DATA_LOADING": "Data is loading",
-            "ICON": "Node Icon",
+            "REDUCE_PANEL": "Zmenšit panel",
+            "DATA_LOADING": "Načítání dat",
+            "ICON": "Ikona uzlu",
             "TABS": {
                 "PROPERTIES": "Vlastnosti",
                 "LIBRARY_PROPERTIES": "O aplikaci",
@@ -529,7 +529,7 @@
             "CONFLICT": "ID knihovny se již používá. Prohlédněte si obsah koše.",
             "ID_TOO_LONG": "Název URL může obsahovat maximálně 72 znaků",
             "DESCRIPTION_TOO_LONG": "Popis může obsahovat maximálně 512 znaků",
-            "TITLE_TOO_LONG_OR_MISSING": "Use 256 characters or less for title",
+            "TITLE_TOO_LONG_OR_MISSING": "Název může mít maximálně 256 znaků",
             "ILLEGAL_CHARACTERS": "Používejte pouze písmena a čísla",
             "ONLY_SPACES": "Název knihovny nemůže obsahovat pouze mezery",
             "LIBRARY_UPDATE_ERROR": "Při pokusu upravit vlastnosti knihovny došlo k chybě"
@@ -540,9 +540,9 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
-            "TITLE": "Bulk Actions ({{ count }} Items)",
-            "BULK_NOT_AVAILABLE": "Bulk Actions (Not Available)",
-            "BULK_NOT_AVAILABLE_TOOLTIP": "Bulk Actions cannot be used without search results"
+            "TITLE": "Hromadné akce (počet položek: {{ count }})",
+            "BULK_NOT_AVAILABLE": "Hromadné akce (nedostupné)",
+            "BULK_NOT_AVAILABLE_TOOLTIP": "Hromadné akce nelze použít bez výsledků vyhledávání"
         },
         "INPUT": {
             "PLACEHOLDER": "Hledat",
@@ -571,15 +571,15 @@
             "CATEGORIES": "Kategorie"
         },
         "CATEGORIES": {
-            "DATE": "Date",
+            "DATE": "Datum",
             "DATE_TABS": {
-                "CREATED": "Created",
-                "MODIFIED": "Modified"
+                "CREATED": "Vytvořeno",
+                "MODIFIED": "Upraveno"
             },
             "EFFECTIVITY_FROM": "Platnost od",
             "EFFECTIVITY_TO": "Platnost do",
             "LOGIC": "Logika",
-            "PROPERTIES": "Properties"
+            "PROPERTIES": "Vlastnosti"
         },
         "SEARCH_HEADER": {
             "TITLE": "Filtr",
@@ -651,35 +651,35 @@
     "KNOWLEDGE_RETRIEVAL": {
         "SEARCH": {
             "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "Would you like to ask anything else?",
-                "REFERENCED_DOCUMENTS_HEADER": "Referenced documents",
-                "REGENERATION_BUTTON_LABEL": "Regenerate",
-                "COPY_BUTTON_LABEL": "Copy",
-                "COPY_MESSAGE": "Copied response to clipboard"
+                "QUERY_INPUT_PLACEHOLDER": "Zajímá vás ještě něco?",
+                "REFERENCED_DOCUMENTS_HEADER": "Odkazované dokumenty",
+                "REGENERATION_BUTTON_LABEL": "Regenerovat",
+                "COPY_BUTTON_LABEL": "Kopírovat",
+                "COPY_MESSAGE": "Kopírovat odezvu do schránky"
             },
             "AGENTS_BUTTON": {
-                "LABEL": "Ask Discovery",
-                "TITLE": "Knowledge Retrieval"
+                "LABEL": "Zjistit v aplikaci Discovery",
+                "TITLE": "Získání znalostí"
             },
             "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "Ask",
-                "DEFAULT_PLACEHOLDER": "Please ask your question with as much detail as possible...",
-                "HIDE_INPUT": "Hide input",
-                "HIDE_ANSWER": "Hide answer"
+                "ASK_BUTTON_LABEL": "Položit dotaz",
+                "DEFAULT_PLACEHOLDER": "Položte svůj dotaz co nejpodrobněji...",
+                "HIDE_INPUT": "Skrýt vstup",
+                "HIDE_ANSWER": "Skrýt odpověď"
             },
             "ERRORS": {
-                "AGENTS_FETCHING": "Error while fetching agents.",
-                "HX_INSIGHT_URL_FETCHING": "Error while fetching HX Insight URL.",
-                "LOADING_ERROR": "Hmm... something seems to have gone wrong.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Page is not available for these conditions."
+                "AGENTS_FETCHING": "Chyba při získávání agentů.",
+                "HX_INSIGHT_URL_FETCHING": "Chyba při získávání URL adresy HX Insight.",
+                "LOADING_ERROR": "Hmm... zřejmě se něco nepovedlo.",
+                "PAGE_NOT_AVAILABLE_ERROR": "Stránka není pro tyto podmínky dostupná."
             },
             "DISCARD_CHANGES": {
-                "WARNING": "Warning!",
-                "ASK_AI": "Ask AI",
-                "DO_NOT_SHOW_MESSAGE": "Don't show this message again",
-                "DISCARD_CONVERSATION": "Discard Conversation",
-                "CONVERSATION_DISCARDED": "This conversation will be discarded",
-                "LOSE_RESPONSE": "By asking another question you will lose your previous response"
+                "WARNING": "Výstraha!",
+                "ASK_AI": "Položit dotaz AI",
+                "DO_NOT_SHOW_MESSAGE": "Tuto zprávu již nezobrazovat",
+                "DISCARD_CONVERSATION": "Zahodit konverzaci",
+                "CONVERSATION_DISCARDED": "Tato konverzace bude zahozena",
+                "LOSE_RESPONSE": "Položením další otázky přijdete o předchozí odpověď"
             }
         }
     }

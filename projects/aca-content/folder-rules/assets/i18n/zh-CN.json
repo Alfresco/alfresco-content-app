@@ -141,7 +141,7 @@
       "DELETE_RULE_SET_LINK_FAILED": "删除规则集链接时出错"
     },
     "AUTOCOMPLETE": {
-      "NO_OPTIONS_FOUND": "No options found"
+      "NO_OPTIONS_FOUND": "未找到选项"
     }
   }
 }

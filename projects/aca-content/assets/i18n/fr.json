@@ -115,7 +115,7 @@
                     "TOOLTIP": "Afficher vos Fichiers personnels"
                 },
                 "PERMISSIONS": {
-                    "TITLE": "Permissions"
+                    "TITLE": "Autorisations"
                 }
             },
             "LIBRARIES": {
@@ -210,41 +210,41 @@
                 "RESET": "Réinitialiser",
                 "RESET_ACTION": "Réinitialiser les filtres de recherche",
                 "SAVE_SEARCH": {
-                    "ACTION_BUTTON": "Save Search",
-                    "SAVE_CHANGES": "Save changes",
-                    "SAVE_AS_NEW": "Save as new",
-                    "MODAL_HEADER": "Save this search",
-                    "NAME_LABEL": "Name",
-                    "NAME_REQUIRED_ERROR": "This field is required",
+                    "ACTION_BUTTON": "Enregistrer la recherche",
+                    "SAVE_CHANGES": "Enregistrer les modifications",
+                    "SAVE_AS_NEW": "Enregistrer comme nouveau",
+                    "MODAL_HEADER": "Enregistrer cette recherche",
+                    "NAME_LABEL": "Nom",
+                    "NAME_REQUIRED_ERROR": "Ce champ est obligatoire",
                     "DESCRIPTION_LABEL": "Description",
-                    "SAVE_SUCCESS": "Search Saved",
-                    "SAVE_ERROR": "Error occurred. Search could not be saved.",
-                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "Saved Search with '{{ name }}' name already exists.",
+                    "SAVE_SUCCESS": "Recherche enregistrée",
+                    "SAVE_ERROR": "Une erreur est survenue. La recherche n’a pas pu être enregistrée.",
+                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "Une recherche enregistrée portant le nom '{{ name }}' existe déjà.",
                     "NAVBAR": {
-                        "TITLE": "Saved Searches ({{ number }})",
-                        "MANAGE_BUTTON": "Manage searches"
+                        "TITLE": "Recherches enregistrées ({{ number }})",
+                        "MANAGE_BUTTON": "Gérer les recherches"
                     },
                     "EDIT_DIALOG": {
-                        "CONTEXT_OPTION": "Edit Search",
-                        "TITLE": "Edit Saved Search",
-                        "SUCCESS_MESSAGE": "Saved Search edited successfully",
-                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be edited."
+                        "CONTEXT_OPTION": "Modifier la recherche",
+                        "TITLE": "Modifier la recherche enregistrée",
+                        "SUCCESS_MESSAGE": "La recherche enregistrée a été modifiée avec succès",
+                        "ERROR_MESSAGE": "Une erreur est survenue. La recherche enregistrée n’a pas pu être modifiée."
                     },
                     "DELETE_DIALOG": {
-                        "CONTEXT_OPTION": "Delete Search",
-                        "TITLE": "Delete Saved Search",
-                        "CONTENT": "Are you sure you want to delete this search",
-                        "SUCCESS_MESSAGE": "Saved Search deleted successfully",
-                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be deleted."
+                        "CONTEXT_OPTION": "Supprimer la recherche",
+                        "TITLE": "Supprimer la recherche enregistrée",
+                        "CONTENT": "Voulez-vous vraiment supprimer cette recherche ?",
+                        "SUCCESS_MESSAGE": "La recherche enregistrée a été supprimée avec succès",
+                        "ERROR_MESSAGE": "Une erreur est survenue. La recherche enregistrée n’a pas pu être supprimée."
                     },
                     "LIST": {
-                        "TITLE": "Saved Searches",
-                        "NAME": "Name",
+                        "TITLE": "Recherches enregistrées",
+                        "NAME": "Nom",
                         "DESCRIPTION": "Description",
-                        "EMPTY_LIST": "No saved searches",
-                        "COPY_TO_CLIPBOARD": "Copy to clipboard",
-                        "COPY_TO_CLIPBOARD_SUCCESS": "Search copied to clipboard",
-                        "EXECUTE_SEARCH": "Execute Search"
+                        "EMPTY_LIST": "Aucune recherche enregistrée",
+                        "COPY_TO_CLIPBOARD": "Copier dans le presse-papiers",
+                        "COPY_TO_CLIPBOARD_SUCCESS": "Recherche copiée dans le presse-papiers",
+                        "EXECUTE_SEARCH": "Exécuter la recherche"
                     }
                 },
                 "FOUND_RESULTS": "{{ number }} résultats trouvés",
@@ -279,7 +279,7 @@
             "DELETE_PERMANENT": "Supprimer définitivement",
             "MORE": "Plus d'actions",
             "UNDO": "Annuler",
-            "PERMISSIONS": "Permissions",
+            "PERMISSIONS": "Autorisations",
             "RESTORE": "Restaurer",
             "FAVORITE": "Favori",
             "ADD_FAVORITE": "Ajouter le favori",
@@ -299,7 +299,7 @@
             "EDIT_OFFLINE": "Editer hors-ligne",
             "EDIT_OFFLINE_CANCEL": "Annuler l'édition",
             "CHANGE_ASPECT": "Modifier les aspects",
-            "ADD_ASPECTS": "Add Aspects"
+            "ADD_ASPECTS": "Ajouter des aspects"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -335,7 +335,7 @@
                 "DELETED_ON": "Supprimé",
                 "DELETED_BY": "Supprimé par",
                 "ROLE": "Mon rôle",
-                "TAGS": "Tags"
+                "TAGS": "Balises"
             }
         },
         "MESSAGES": {
@@ -434,15 +434,15 @@
         },
         "INFO_DRAWER": {
             "TITLE": "Détails",
-            "REDUCE_PANEL": "Reduce panel",
+            "REDUCE_PANEL": "Réduire le panneau",
             "DATA_LOADING": "Données en cours de chargement",
-            "ICON": "Node Icon",
+            "ICON": "Icône de nœud",
             "TABS": {
                 "PROPERTIES": "Propriétés",
                 "LIBRARY_PROPERTIES": "A propos de",
                 "VERSIONS": "Versions",
                 "COMMENTS": "Commentaires",
-                "PERMISSIONS": "Permissions",
+                "PERMISSIONS": "Autorisations",
                 "EXPAND": "Développer"
             }
         },
@@ -529,7 +529,7 @@
             "CONFLICT": "Cet ID de Bibliothèque est déjà utilisé. Vérifiez la corbeille.",
             "ID_TOO_LONG": "L'URL doit contenir 72 caractères maximum",
             "DESCRIPTION_TOO_LONG": "La description doit contenir 512 caractères maximum",
-            "TITLE_TOO_LONG_OR_MISSING": "Use 256 characters or less for title",
+            "TITLE_TOO_LONG_OR_MISSING": "Utilisez 256 caractères maximum pour le titre",
             "ILLEGAL_CHARACTERS": "Utilisez uniquement des chiffres et des lettres",
             "ONLY_SPACES": "Un nom de bibliothèque ne peut pas contenir uniquement des espaces",
             "LIBRARY_UPDATE_ERROR": "Une erreur est survenue pendant la mise à jour des propriétés de la bibliothèque"
@@ -540,9 +540,9 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
-            "TITLE": "Bulk Actions ({{ count }} Items)",
-            "BULK_NOT_AVAILABLE": "Bulk Actions (Not Available)",
-            "BULK_NOT_AVAILABLE_TOOLTIP": "Bulk Actions cannot be used without search results"
+            "TITLE": "Actions en bloc ({{ count }} éléments)",
+            "BULK_NOT_AVAILABLE": "Actions en bloc (non disponible)",
+            "BULK_NOT_AVAILABLE_TOOLTIP": "Les actions en bloc ne peuvent pas être utilisées sans résultats de recherche"
         },
         "INPUT": {
             "PLACEHOLDER": "Rechercher",
@@ -573,13 +573,13 @@
         "CATEGORIES": {
             "DATE": "Date",
             "DATE_TABS": {
-                "CREATED": "Created",
-                "MODIFIED": "Modified"
+                "CREATED": "Créé",
+                "MODIFIED": "Modifié"
             },
             "EFFECTIVITY_FROM": "Date de début d'effectivité",
             "EFFECTIVITY_TO": "Date de fin d'effectivité",
             "LOGIC": "Connexion",
-            "PROPERTIES": "Properties"
+            "PROPERTIES": "Propriétés"
         },
         "SEARCH_HEADER": {
             "TITLE": "Filtre",
@@ -651,35 +651,35 @@
     "KNOWLEDGE_RETRIEVAL": {
         "SEARCH": {
             "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "Would you like to ask anything else?",
-                "REFERENCED_DOCUMENTS_HEADER": "Referenced documents",
-                "REGENERATION_BUTTON_LABEL": "Regenerate",
-                "COPY_BUTTON_LABEL": "Copy",
-                "COPY_MESSAGE": "Copied response to clipboard"
+                "QUERY_INPUT_PLACEHOLDER": "Avez-vous d’autres questions ?",
+                "REFERENCED_DOCUMENTS_HEADER": "Documents mentionnés",
+                "REGENERATION_BUTTON_LABEL": "Regénérer",
+                "COPY_BUTTON_LABEL": "Copier",
+                "COPY_MESSAGE": "Réponse copiée dans le presse-papiers"
             },
             "AGENTS_BUTTON": {
-                "LABEL": "Ask Discovery",
-                "TITLE": "Knowledge Retrieval"
+                "LABEL": "Demandez à Discovery",
+                "TITLE": "Récupération de connaissances"
             },
             "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "Ask",
-                "DEFAULT_PLACEHOLDER": "Please ask your question with as much detail as possible...",
-                "HIDE_INPUT": "Hide input",
-                "HIDE_ANSWER": "Hide answer"
+                "ASK_BUTTON_LABEL": "Poser une question",
+                "DEFAULT_PLACEHOLDER": "Veuillez poser votre question avec le plus de détails possible...",
+                "HIDE_INPUT": "Masquer l'entrée",
+                "HIDE_ANSWER": "Masquer la réponse"
             },
             "ERRORS": {
-                "AGENTS_FETCHING": "Error while fetching agents.",
-                "HX_INSIGHT_URL_FETCHING": "Error while fetching HX Insight URL.",
-                "LOADING_ERROR": "Hmm... something seems to have gone wrong.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Page is not available for these conditions."
+                "AGENTS_FETCHING": "Erreur lors de la récupération des agents",
+                "HX_INSIGHT_URL_FETCHING": "Erreur lors de la récupération de l’URL HX Insight.",
+                "LOADING_ERROR": "Il semblerait qu’une erreur soit survenue.",
+                "PAGE_NOT_AVAILABLE_ERROR": "La page n’est pas disponible pour ces conditions."
             },
             "DISCARD_CHANGES": {
-                "WARNING": "Warning!",
-                "ASK_AI": "Ask AI",
-                "DO_NOT_SHOW_MESSAGE": "Don't show this message again",
-                "DISCARD_CONVERSATION": "Discard Conversation",
-                "CONVERSATION_DISCARDED": "This conversation will be discarded",
-                "LOSE_RESPONSE": "By asking another question you will lose your previous response"
+                "WARNING": "Avertissement !",
+                "ASK_AI": "Poser une question à l’IA",
+                "DO_NOT_SHOW_MESSAGE": "Ne plus afficher ce message",
+                "DISCARD_CONVERSATION": "Supprimer la conversation",
+                "CONVERSATION_DISCARDED": "Cette conversation sera supprimée",
+                "LOSE_RESPONSE": "En posant une autre question, vous perdrez votre réponse précédente"
             }
         }
     }

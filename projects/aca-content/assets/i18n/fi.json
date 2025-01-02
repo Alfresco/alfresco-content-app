@@ -210,41 +210,41 @@
                 "RESET": "Nollaa",
                 "RESET_ACTION": "Nollaa hakusuodattimet",
                 "SAVE_SEARCH": {
-                    "ACTION_BUTTON": "Save Search",
-                    "SAVE_CHANGES": "Save changes",
-                    "SAVE_AS_NEW": "Save as new",
-                    "MODAL_HEADER": "Save this search",
-                    "NAME_LABEL": "Name",
-                    "NAME_REQUIRED_ERROR": "This field is required",
-                    "DESCRIPTION_LABEL": "Description",
-                    "SAVE_SUCCESS": "Search Saved",
-                    "SAVE_ERROR": "Error occurred. Search could not be saved.",
-                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "Saved Search with '{{ name }}' name already exists.",
+                    "ACTION_BUTTON": "Tallenna haku",
+                    "SAVE_CHANGES": "Tallenna muutokset",
+                    "SAVE_AS_NEW": "Tallenna uutena",
+                    "MODAL_HEADER": "Tallenna tämä haku",
+                    "NAME_LABEL": "Nimi",
+                    "NAME_REQUIRED_ERROR": "Tämä kenttä on pakollinen",
+                    "DESCRIPTION_LABEL": "Kuvaus",
+                    "SAVE_SUCCESS": "Haku tallennettu",
+                    "SAVE_ERROR": "Virhe. Hakua ei voitu tallentaa.",
+                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "Tallennettu haku nimellä '{{ name }}' on jo olemassa.",
                     "NAVBAR": {
-                        "TITLE": "Saved Searches ({{ number }})",
-                        "MANAGE_BUTTON": "Manage searches"
+                        "TITLE": "Tallennettuja hakuja ({{ number }})",
+                        "MANAGE_BUTTON": "Hallitse hakuja"
                     },
                     "EDIT_DIALOG": {
-                        "CONTEXT_OPTION": "Edit Search",
-                        "TITLE": "Edit Saved Search",
-                        "SUCCESS_MESSAGE": "Saved Search edited successfully",
-                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be edited."
+                        "CONTEXT_OPTION": "Muokkaa hakua",
+                        "TITLE": "Muokkaa tallennettua hakua",
+                        "SUCCESS_MESSAGE": "Tallennetun haun muokkaus onnistui",
+                        "ERROR_MESSAGE": "Virhe. Tallennettua hakua ei voitu muokata."
                     },
                     "DELETE_DIALOG": {
-                        "CONTEXT_OPTION": "Delete Search",
-                        "TITLE": "Delete Saved Search",
-                        "CONTENT": "Are you sure you want to delete this search",
-                        "SUCCESS_MESSAGE": "Saved Search deleted successfully",
-                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be deleted."
+                        "CONTEXT_OPTION": "Poista haku",
+                        "TITLE": "Poista tallennettu haku",
+                        "CONTENT": "Haluatko varmasti poistaa tämän haun?",
+                        "SUCCESS_MESSAGE": "Tallennetun haun poistaminen onnistui",
+                        "ERROR_MESSAGE": "Virhe. Tallennettua hakua ei voitu poistaa."
                     },
                     "LIST": {
-                        "TITLE": "Saved Searches",
-                        "NAME": "Name",
-                        "DESCRIPTION": "Description",
-                        "EMPTY_LIST": "No saved searches",
-                        "COPY_TO_CLIPBOARD": "Copy to clipboard",
-                        "COPY_TO_CLIPBOARD_SUCCESS": "Search copied to clipboard",
-                        "EXECUTE_SEARCH": "Execute Search"
+                        "TITLE": "Tallennetut haut",
+                        "NAME": "Nimi",
+                        "DESCRIPTION": "Kuvaus",
+                        "EMPTY_LIST": "Ei tallennettuja hakuja",
+                        "COPY_TO_CLIPBOARD": "Kopioi leikepöydälle",
+                        "COPY_TO_CLIPBOARD_SUCCESS": "Haku kopioitu leikepöydälle",
+                        "EXECUTE_SEARCH": "Suorita haku"
                     }
                 },
                 "FOUND_RESULTS": "Löytyi {{ number }} tulosta",
@@ -299,7 +299,7 @@
             "EDIT_OFFLINE": "Muokkaa offline-tilassa",
             "EDIT_OFFLINE_CANCEL": "Peruuta muokkaus",
             "CHANGE_ASPECT": "Muokkaa ominaisuusjoukkoja",
-            "ADD_ASPECTS": "Add Aspects"
+            "ADD_ASPECTS": "Lisää näkymiä"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -434,9 +434,9 @@
         },
         "INFO_DRAWER": {
             "TITLE": "Tiedot",
-            "REDUCE_PANEL": "Reduce panel",
+            "REDUCE_PANEL": "Pienennä paneelia",
             "DATA_LOADING": "Tietoja ladataan",
-            "ICON": "Node Icon",
+            "ICON": "Solmukuvake",
             "TABS": {
                 "PROPERTIES": "Ominaisuudet",
                 "LIBRARY_PROPERTIES": "Tietoja",
@@ -529,7 +529,7 @@
             "CONFLICT": "Kirjastotunnus on jo käytössä. Tarkista roskakori.",
             "ID_TOO_LONG": "URL-osoitteessa voi olla enintään 72 merkkiä",
             "DESCRIPTION_TOO_LONG": "Kuvauksessa voi olla enintään 512 merkkiä",
-            "TITLE_TOO_LONG_OR_MISSING": "Use 256 characters or less for title",
+            "TITLE_TOO_LONG_OR_MISSING": "Otsikko saa sisältää enintään 256 merkkiä",
             "ILLEGAL_CHARACTERS": "Käytä vain kirjaimia ja numeroita",
             "ONLY_SPACES": "Kirjaston nimi ei voi sisältää pelkkiä välilyöntejä",
             "LIBRARY_UPDATE_ERROR": "Kirjaston ominaisuuksien päivittämisessä tapahtui virhe"
@@ -540,9 +540,9 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
-            "TITLE": "Bulk Actions ({{ count }} Items)",
-            "BULK_NOT_AVAILABLE": "Bulk Actions (Not Available)",
-            "BULK_NOT_AVAILABLE_TOOLTIP": "Bulk Actions cannot be used without search results"
+            "TITLE": "Joukkotoiminnot ({{ count }} kohdetta)",
+            "BULK_NOT_AVAILABLE": "Joukkotoiminnot (ei käytettävissä)",
+            "BULK_NOT_AVAILABLE_TOOLTIP": "Joukkotoimintoja ei voida käyttää ilman hakutuloksia"
         },
         "INPUT": {
             "PLACEHOLDER": "Hae",
@@ -571,15 +571,15 @@
             "CATEGORIES": "Luokat"
         },
         "CATEGORIES": {
-            "DATE": "Date",
+            "DATE": "Päivämäärä",
             "DATE_TABS": {
-                "CREATED": "Created",
-                "MODIFIED": "Modified"
+                "CREATED": "Luotu",
+                "MODIFIED": "Muokattu"
             },
             "EFFECTIVITY_FROM": "Voimassaolon alku",
             "EFFECTIVITY_TO": "Voimassaolon loppu",
             "LOGIC": "Logiikka",
-            "PROPERTIES": "Properties"
+            "PROPERTIES": "Ominaisuudet"
         },
         "SEARCH_HEADER": {
             "TITLE": "Suodatin",
@@ -651,35 +651,35 @@
     "KNOWLEDGE_RETRIEVAL": {
         "SEARCH": {
             "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "Would you like to ask anything else?",
-                "REFERENCED_DOCUMENTS_HEADER": "Referenced documents",
-                "REGENERATION_BUTTON_LABEL": "Regenerate",
-                "COPY_BUTTON_LABEL": "Copy",
-                "COPY_MESSAGE": "Copied response to clipboard"
+                "QUERY_INPUT_PLACEHOLDER": "Onko sinulla muuta kysyttävää?",
+                "REFERENCED_DOCUMENTS_HEADER": "Viitatut asiakirjat",
+                "REGENERATION_BUTTON_LABEL": "Luo uudelleen",
+                "COPY_BUTTON_LABEL": "Kopioi",
+                "COPY_MESSAGE": "Vastaus kopioitu leikepöydälle"
             },
             "AGENTS_BUTTON": {
-                "LABEL": "Ask Discovery",
-                "TITLE": "Knowledge Retrieval"
+                "LABEL": "Kysy Discoveryltä",
+                "TITLE": "Hae tietoa"
             },
             "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "Ask",
-                "DEFAULT_PLACEHOLDER": "Please ask your question with as much detail as possible...",
-                "HIDE_INPUT": "Hide input",
-                "HIDE_ANSWER": "Hide answer"
+                "ASK_BUTTON_LABEL": "Kysy",
+                "DEFAULT_PLACEHOLDER": "Esitä kysymyksesi niin yksityiskohtaisesti kuin mahdollista...",
+                "HIDE_INPUT": "Piilota syöte",
+                "HIDE_ANSWER": "Piilota vastaus"
             },
             "ERRORS": {
-                "AGENTS_FETCHING": "Error while fetching agents.",
-                "HX_INSIGHT_URL_FETCHING": "Error while fetching HX Insight URL.",
-                "LOADING_ERROR": "Hmm... something seems to have gone wrong.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Page is not available for these conditions."
+                "AGENTS_FETCHING": "Virhe agenttien hakemisessa",
+                "HX_INSIGHT_URL_FETCHING": "Virhe HX Insight URL -osoitteen hakemisessa",
+                "LOADING_ERROR": "Hmm... jotakin näyttäisi menneen pieleen.",
+                "PAGE_NOT_AVAILABLE_ERROR": "Sivu ei ole saatavilla näillä ehdoilla."
             },
             "DISCARD_CHANGES": {
-                "WARNING": "Warning!",
-                "ASK_AI": "Ask AI",
-                "DO_NOT_SHOW_MESSAGE": "Don't show this message again",
-                "DISCARD_CONVERSATION": "Discard Conversation",
-                "CONVERSATION_DISCARDED": "This conversation will be discarded",
-                "LOSE_RESPONSE": "By asking another question you will lose your previous response"
+                "WARNING": "Varoitus!",
+                "ASK_AI": "Kysy tekoälyltä",
+                "DO_NOT_SHOW_MESSAGE": "Älä näytä tätä viestiä enää",
+                "DISCARD_CONVERSATION": "Hävitä keskustelu",
+                "CONVERSATION_DISCARDED": "Tämä keskustelu hävitetään",
+                "LOSE_RESPONSE": "Jos esität toisen kysymyksen, menetät vastauksen aiempaan kysymykseesi"
             }
         }
     }

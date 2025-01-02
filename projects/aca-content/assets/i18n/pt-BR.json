@@ -51,7 +51,7 @@
             "LOCATION": "Localização",
             "TELEPHONE": "Telefone",
             "MOBILE": "Celular",
-            "LOGIN": "Login",
+            "LOGIN": "Logon",
             "USERNAME": "Nome de usuário",
             "EMAIL": "E-mail",
             "PASSWORD": "Senha",
@@ -202,7 +202,7 @@
             },
             "SEARCH": {
                 "DEFAULT_SEARCH": "Padrão",
-                "DUBLIN_CORE": "Dublin core",
+                "DUBLIN_CORE": "Núcleo Dublin",
                 "EFFECTIVITY": "Efetividade",
                 "TITLE": "Resultados da pesquisa",
                 "FILTER_SET": "Conjunto de filtros:",
@@ -210,41 +210,41 @@
                 "RESET": "Redefinir",
                 "RESET_ACTION": "Redefinir filtros de pesquisa",
                 "SAVE_SEARCH": {
-                    "ACTION_BUTTON": "Save Search",
-                    "SAVE_CHANGES": "Save changes",
-                    "SAVE_AS_NEW": "Save as new",
-                    "MODAL_HEADER": "Save this search",
-                    "NAME_LABEL": "Name",
-                    "NAME_REQUIRED_ERROR": "This field is required",
-                    "DESCRIPTION_LABEL": "Description",
-                    "SAVE_SUCCESS": "Search Saved",
-                    "SAVE_ERROR": "Error occurred. Search could not be saved.",
-                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "Saved Search with '{{ name }}' name already exists.",
+                    "ACTION_BUTTON": "Salvar pesquisa",
+                    "SAVE_CHANGES": "Salvar alterações",
+                    "SAVE_AS_NEW": "Salvar como",
+                    "MODAL_HEADER": "Salvar esta pesquisa",
+                    "NAME_LABEL": "Nome",
+                    "NAME_REQUIRED_ERROR": "Este campo é obrigatório",
+                    "DESCRIPTION_LABEL": "Descrição",
+                    "SAVE_SUCCESS": "Pesquisa salva",
+                    "SAVE_ERROR": "Ocorreu um erro. Não foi possível salvar a pesquisa.",
+                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "A pesquisa salva com o nome '{{ name }}' já existe.",
                     "NAVBAR": {
-                        "TITLE": "Saved Searches ({{ number }})",
-                        "MANAGE_BUTTON": "Manage searches"
+                        "TITLE": "Pesquisas salvas ({{ number }})",
+                        "MANAGE_BUTTON": "Gerenciar pesquisas"
                     },
                     "EDIT_DIALOG": {
-                        "CONTEXT_OPTION": "Edit Search",
-                        "TITLE": "Edit Saved Search",
-                        "SUCCESS_MESSAGE": "Saved Search edited successfully",
-                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be edited."
+                        "CONTEXT_OPTION": "Editar pesquisa",
+                        "TITLE": "Editar pesquisa salva",
+                        "SUCCESS_MESSAGE": "Pesquisa salva editada com sucesso",
+                        "ERROR_MESSAGE": "Ocorreu um erro. Não foi possível editar a pesquisa salva."
                     },
                     "DELETE_DIALOG": {
-                        "CONTEXT_OPTION": "Delete Search",
-                        "TITLE": "Delete Saved Search",
-                        "CONTENT": "Are you sure you want to delete this search",
-                        "SUCCESS_MESSAGE": "Saved Search deleted successfully",
-                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be deleted."
+                        "CONTEXT_OPTION": "Excluir pesquisa",
+                        "TITLE": "Excluir pesquisa salva",
+                        "CONTENT": "Tem certeza de que deseja excluir essa pesquisa",
+                        "SUCCESS_MESSAGE": "Pesquisa salva excluída com êxito",
+                        "ERROR_MESSAGE": "Ocorreu um erro. A pesquisa salva não pôde ser excluída."
                     },
                     "LIST": {
-                        "TITLE": "Saved Searches",
-                        "NAME": "Name",
-                        "DESCRIPTION": "Description",
-                        "EMPTY_LIST": "No saved searches",
-                        "COPY_TO_CLIPBOARD": "Copy to clipboard",
-                        "COPY_TO_CLIPBOARD_SUCCESS": "Search copied to clipboard",
-                        "EXECUTE_SEARCH": "Execute Search"
+                        "TITLE": "Pesquisas salvas",
+                        "NAME": "Nome",
+                        "DESCRIPTION": "Descrição",
+                        "EMPTY_LIST": "Nenhuma pesquisa salva",
+                        "COPY_TO_CLIPBOARD": "Copiar para a área de transferência",
+                        "COPY_TO_CLIPBOARD_SUCCESS": "Pesquisa copiada para a área de transferência",
+                        "EXECUTE_SEARCH": "Executar pesquisa"
                     }
                 },
                 "FOUND_RESULTS": "{{ number }} resultados encontrados",
@@ -299,7 +299,7 @@
             "EDIT_OFFLINE": "Editar offline",
             "EDIT_OFFLINE_CANCEL": "Cancelar a edição",
             "CHANGE_ASPECT": "Editar aspectos",
-            "ADD_ASPECTS": "Add Aspects"
+            "ADD_ASPECTS": "Adicionar aspectos"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -434,9 +434,9 @@
         },
         "INFO_DRAWER": {
             "TITLE": "Detalhes",
-            "REDUCE_PANEL": "Reduce panel",
+            "REDUCE_PANEL": "Painel Reduzir",
             "DATA_LOADING": "Os dados estão sendo carregados",
-            "ICON": "Node Icon",
+            "ICON": "Ícone de nó",
             "TABS": {
                 "PROPERTIES": "Propriedades",
                 "LIBRARY_PROPERTIES": "Sobre",
@@ -529,7 +529,7 @@
             "CONFLICT": "Este ID de Biblioteca já foi usado. Verifique a lixeira.",
             "ID_TOO_LONG": "Use 72 caracteres ou menos para o nome da URL",
             "DESCRIPTION_TOO_LONG": "Use 512 caracteres ou menos para a descrição",
-            "TITLE_TOO_LONG_OR_MISSING": "Use 256 characters or less for title",
+            "TITLE_TOO_LONG_OR_MISSING": "Use 256 caracteres ou menos para o título",
             "ILLEGAL_CHARACTERS": "Use somente números e letras",
             "ONLY_SPACES": "O nome da biblioteca não pode conter somente espaços",
             "LIBRARY_UPDATE_ERROR": "Houve um erro ao atualizar as propriedades da biblioteca"
@@ -540,9 +540,9 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
-            "TITLE": "Bulk Actions ({{ count }} Items)",
-            "BULK_NOT_AVAILABLE": "Bulk Actions (Not Available)",
-            "BULK_NOT_AVAILABLE_TOOLTIP": "Bulk Actions cannot be used without search results"
+            "TITLE": "Ações em massa ({{ count }} itens)",
+            "BULK_NOT_AVAILABLE": "Ações em massa (não disponíveis)",
+            "BULK_NOT_AVAILABLE_TOOLTIP": "As ações em massa não podem ser usadas sem resultados de pesquis"
         },
         "INPUT": {
             "PLACEHOLDER": "Pesquisar",
@@ -571,15 +571,15 @@
             "CATEGORIES": "Categorias"
         },
         "CATEGORIES": {
-            "DATE": "Date",
+            "DATE": "Data",
             "DATE_TABS": {
-                "CREATED": "Created",
-                "MODIFIED": "Modified"
+                "CREATED": "Criado",
+                "MODIFIED": "Modificado"
             },
             "EFFECTIVITY_FROM": "Eficácia de",
             "EFFECTIVITY_TO": "Eficácia para",
             "LOGIC": "Lógica",
-            "PROPERTIES": "Properties"
+            "PROPERTIES": "Propriedades"
         },
         "SEARCH_HEADER": {
             "TITLE": "Filtro",
@@ -651,35 +651,35 @@
     "KNOWLEDGE_RETRIEVAL": {
         "SEARCH": {
             "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "Would you like to ask anything else?",
-                "REFERENCED_DOCUMENTS_HEADER": "Referenced documents",
-                "REGENERATION_BUTTON_LABEL": "Regenerate",
-                "COPY_BUTTON_LABEL": "Copy",
-                "COPY_MESSAGE": "Copied response to clipboard"
+                "QUERY_INPUT_PLACEHOLDER": "Você gostaria de perguntar mais alguma coisa?",
+                "REFERENCED_DOCUMENTS_HEADER": "Documentos referenciados",
+                "REGENERATION_BUTTON_LABEL": "Regenerar",
+                "COPY_BUTTON_LABEL": "Copiar",
+                "COPY_MESSAGE": "Resposta copiada para a área de transferência"
             },
             "AGENTS_BUTTON": {
-                "LABEL": "Ask Discovery",
-                "TITLE": "Knowledge Retrieval"
+                "LABEL": "Pergunte ao Discovery",
+                "TITLE": "Recuperação de conhecimento"
             },
             "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "Ask",
-                "DEFAULT_PLACEHOLDER": "Please ask your question with as much detail as possible...",
-                "HIDE_INPUT": "Hide input",
-                "HIDE_ANSWER": "Hide answer"
+                "ASK_BUTTON_LABEL": "Perguntar",
+                "DEFAULT_PLACEHOLDER": "Faça sua pergunta com o máximo de detalhes possível...",
+                "HIDE_INPUT": "Ocultar entrada",
+                "HIDE_ANSWER": "Ocultar resposta"
             },
             "ERRORS": {
-                "AGENTS_FETCHING": "Error while fetching agents.",
-                "HX_INSIGHT_URL_FETCHING": "Error while fetching HX Insight URL.",
-                "LOADING_ERROR": "Hmm... something seems to have gone wrong.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Page is not available for these conditions."
+                "AGENTS_FETCHING": "Erro ao buscar agentes.",
+                "HX_INSIGHT_URL_FETCHING": "Erro ao buscar a URL do HX Insight.",
+                "LOADING_ERROR": "Hmm... parece que algo deu errado.",
+                "PAGE_NOT_AVAILABLE_ERROR": "A página não está disponível para essas condições."
             },
             "DISCARD_CHANGES": {
-                "WARNING": "Warning!",
-                "ASK_AI": "Ask AI",
-                "DO_NOT_SHOW_MESSAGE": "Don't show this message again",
-                "DISCARD_CONVERSATION": "Discard Conversation",
-                "CONVERSATION_DISCARDED": "This conversation will be discarded",
-                "LOSE_RESPONSE": "By asking another question you will lose your previous response"
+                "WARNING": "Aviso!",
+                "ASK_AI": "Pergunte à IA",
+                "DO_NOT_SHOW_MESSAGE": "Não mostre essa mensagem novamente",
+                "DISCARD_CONVERSATION": "Descartar conversa",
+                "CONVERSATION_DISCARDED": "Esta conversa será descartada",
+                "LOSE_RESPONSE": "Ao fazer outra pergunta, você perderá sua resposta anterior"
             }
         }
     }
