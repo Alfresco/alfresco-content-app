@@ -17,9 +17,7 @@
         }
       },
       "defaultConfiguration": "production",
-      "outputs": [
-        "{workspaceRoot}/dist/@alfresco/aca-playwright-shared"
-      ]
+      "outputs": ["{workspaceRoot}/dist/@alfresco/aca-playwright-shared"]
     },
     "lint": {
       "executor": "@angular-eslint/builder:lint"
