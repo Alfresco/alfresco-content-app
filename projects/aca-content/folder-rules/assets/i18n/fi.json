@@ -141,7 +141,7 @@
       "DELETE_RULE_SET_LINK_FAILED": "Virhe yritettäessä poistaa linkki sääntöjoukosta"
     },
     "AUTOCOMPLETE": {
-      "NO_OPTIONS_FOUND": "No options found"
+      "NO_OPTIONS_FOUND": "Vaihtoehtoja ei löytynyt"
     }
   }
 }

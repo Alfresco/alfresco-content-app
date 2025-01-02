@@ -210,41 +210,41 @@
                 "RESET": "Reiniciar",
                 "RESET_ACTION": "Restablecer los filtros de la búsqueda",
                 "SAVE_SEARCH": {
-                    "ACTION_BUTTON": "Save Search",
-                    "SAVE_CHANGES": "Save changes",
-                    "SAVE_AS_NEW": "Save as new",
-                    "MODAL_HEADER": "Save this search",
-                    "NAME_LABEL": "Name",
-                    "NAME_REQUIRED_ERROR": "This field is required",
-                    "DESCRIPTION_LABEL": "Description",
-                    "SAVE_SUCCESS": "Search Saved",
-                    "SAVE_ERROR": "Error occurred. Search could not be saved.",
-                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "Saved Search with '{{ name }}' name already exists.",
+                    "ACTION_BUTTON": "Guardar búsqueda",
+                    "SAVE_CHANGES": "Guardar cambios",
+                    "SAVE_AS_NEW": "Guardar como nuevo",
+                    "MODAL_HEADER": "Guardar esta búsqueda",
+                    "NAME_LABEL": "Nombre",
+                    "NAME_REQUIRED_ERROR": "Este campo es obligatorio",
+                    "DESCRIPTION_LABEL": "Descripción",
+                    "SAVE_SUCCESS": "Búsqueda guardada",
+                    "SAVE_ERROR": "Se ha producido un error. La búsqueda no se ha podido guardar.",
+                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "La búsqueda guardada con el nombre '{{ name }}' ya existe.",
                     "NAVBAR": {
-                        "TITLE": "Saved Searches ({{ number }})",
-                        "MANAGE_BUTTON": "Manage searches"
+                        "TITLE": "Búsquedas guardadas ({{ number }})",
+                        "MANAGE_BUTTON": "Administrar búsquedas"
                     },
                     "EDIT_DIALOG": {
-                        "CONTEXT_OPTION": "Edit Search",
-                        "TITLE": "Edit Saved Search",
-                        "SUCCESS_MESSAGE": "Saved Search edited successfully",
-                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be edited."
+                        "CONTEXT_OPTION": "Editar búsqueda",
+                        "TITLE": "Editar búsqueda guardada",
+                        "SUCCESS_MESSAGE": "La búsqueda guardada se ha editado correctamente",
+                        "ERROR_MESSAGE": "Se ha producido un error. La búsqueda guardada no se ha podido editar."
                     },
                     "DELETE_DIALOG": {
-                        "CONTEXT_OPTION": "Delete Search",
-                        "TITLE": "Delete Saved Search",
-                        "CONTENT": "Are you sure you want to delete this search",
-                        "SUCCESS_MESSAGE": "Saved Search deleted successfully",
-                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be deleted."
+                        "CONTEXT_OPTION": "Eliminar búsqueda",
+                        "TITLE": "Eliminar búsqueda guardada",
+                        "CONTENT": "¿Está seguro de que desea eliminar esta búsqueda?",
+                        "SUCCESS_MESSAGE": "La búsqueda guardada se ha eliminado correctamente",
+                        "ERROR_MESSAGE": "Se ha producido un error. La búsqueda guardada no se ha podido eliminar."
                     },
                     "LIST": {
-                        "TITLE": "Saved Searches",
-                        "NAME": "Name",
-                        "DESCRIPTION": "Description",
-                        "EMPTY_LIST": "No saved searches",
-                        "COPY_TO_CLIPBOARD": "Copy to clipboard",
-                        "COPY_TO_CLIPBOARD_SUCCESS": "Search copied to clipboard",
-                        "EXECUTE_SEARCH": "Execute Search"
+                        "TITLE": "Búsquedas guardadas",
+                        "NAME": "Nombre",
+                        "DESCRIPTION": "Descripción",
+                        "EMPTY_LIST": "No hay búsquedas guardadas",
+                        "COPY_TO_CLIPBOARD": "Copiar al portapapeles",
+                        "COPY_TO_CLIPBOARD_SUCCESS": "La búsqueda se ha copiado al portapapeles",
+                        "EXECUTE_SEARCH": "Ejecutar búsqueda"
                     }
                 },
                 "FOUND_RESULTS": "{{ number }} resultados encontrados",
@@ -299,7 +299,7 @@
             "EDIT_OFFLINE": "Editar fuera de línea",
             "EDIT_OFFLINE_CANCEL": "Cancelar edición",
             "CHANGE_ASPECT": "Editar aspectos",
-            "ADD_ASPECTS": "Add Aspects"
+            "ADD_ASPECTS": "Añadir aspectos"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -434,9 +434,9 @@
         },
         "INFO_DRAWER": {
             "TITLE": "Detalles",
-            "REDUCE_PANEL": "Reduce panel",
+            "REDUCE_PANEL": "Reducir panel",
             "DATA_LOADING": "Los datos se están cargando",
-            "ICON": "Node Icon",
+            "ICON": "Icono de nodo",
             "TABS": {
                 "PROPERTIES": "Propiedades",
                 "LIBRARY_PROPERTIES": "Acerca de",
@@ -529,7 +529,7 @@
             "CONFLICT": "Esta ID de biblioteca ya está utilizada. Compruebe la papelera.",
             "ID_TOO_LONG": "Utilizar como máximo 72 caracteres para el nombre de la URL",
             "DESCRIPTION_TOO_LONG": "Utilizar como máximo 512 caracteres para la descripción",
-            "TITLE_TOO_LONG_OR_MISSING": "Use 256 characters or less for title",
+            "TITLE_TOO_LONG_OR_MISSING": "Utilice para el título 256 caracteres o menos",
             "ILLEGAL_CHARACTERS": "Utilizar solo números y letras",
             "ONLY_SPACES": "El nombre de biblioteca no puede tener solo espacios",
             "LIBRARY_UPDATE_ERROR": "Error al actualizar las propiedades de la biblioteca"
@@ -540,9 +540,9 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
-            "TITLE": "Bulk Actions ({{ count }} Items)",
-            "BULK_NOT_AVAILABLE": "Bulk Actions (Not Available)",
-            "BULK_NOT_AVAILABLE_TOOLTIP": "Bulk Actions cannot be used without search results"
+            "TITLE": "Acciones masivas ({{ count }} elementos)",
+            "BULK_NOT_AVAILABLE": "Acciones masivas (no disponible)",
+            "BULK_NOT_AVAILABLE_TOOLTIP": "Las acciones masivas no pueden utilizarse sin resultados de búsqueda"
         },
         "INPUT": {
             "PLACEHOLDER": "Buscar",
@@ -571,15 +571,15 @@
             "CATEGORIES": "Categorías"
         },
         "CATEGORIES": {
-            "DATE": "Date",
+            "DATE": "Fecha",
             "DATE_TABS": {
-                "CREATED": "Created",
-                "MODIFIED": "Modified"
+                "CREATED": "Creado",
+                "MODIFIED": "Modificado"
             },
             "EFFECTIVITY_FROM": "Válido desde",
             "EFFECTIVITY_TO": "Válido hasta",
             "LOGIC": "Lógica",
-            "PROPERTIES": "Properties"
+            "PROPERTIES": "Propiedades"
         },
         "SEARCH_HEADER": {
             "TITLE": "Filtro",
@@ -651,35 +651,35 @@
     "KNOWLEDGE_RETRIEVAL": {
         "SEARCH": {
             "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "Would you like to ask anything else?",
-                "REFERENCED_DOCUMENTS_HEADER": "Referenced documents",
-                "REGENERATION_BUTTON_LABEL": "Regenerate",
-                "COPY_BUTTON_LABEL": "Copy",
-                "COPY_MESSAGE": "Copied response to clipboard"
+                "QUERY_INPUT_PLACEHOLDER": "¿Tiene alguna otra pregunta?",
+                "REFERENCED_DOCUMENTS_HEADER": "Documentos de referencia",
+                "REGENERATION_BUTTON_LABEL": "Regenerar",
+                "COPY_BUTTON_LABEL": "Copiar",
+                "COPY_MESSAGE": "Respuesta copiada al portapapeles"
             },
             "AGENTS_BUTTON": {
-                "LABEL": "Ask Discovery",
-                "TITLE": "Knowledge Retrieval"
+                "LABEL": "Preguntar a Discovery",
+                "TITLE": "Recuperación de conocimiento"
             },
             "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "Ask",
-                "DEFAULT_PLACEHOLDER": "Please ask your question with as much detail as possible...",
-                "HIDE_INPUT": "Hide input",
-                "HIDE_ANSWER": "Hide answer"
+                "ASK_BUTTON_LABEL": "Preguntar",
+                "DEFAULT_PLACEHOLDER": "Formule su pregunta con el mayor detalle posible...",
+                "HIDE_INPUT": "Ocultar entrada",
+                "HIDE_ANSWER": "Ocultar respuesta"
             },
             "ERRORS": {
-                "AGENTS_FETCHING": "Error while fetching agents.",
-                "HX_INSIGHT_URL_FETCHING": "Error while fetching HX Insight URL.",
-                "LOADING_ERROR": "Hmm... something seems to have gone wrong.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Page is not available for these conditions."
+                "AGENTS_FETCHING": "Error al buscar agentes.",
+                "HX_INSIGHT_URL_FETCHING": "Error al buscar URL de HX Insight.",
+                "LOADING_ERROR": "Hmm... parece que algo salió mal.",
+                "PAGE_NOT_AVAILABLE_ERROR": "La página no está disponible para estas condiciones."
             },
             "DISCARD_CHANGES": {
-                "WARNING": "Warning!",
-                "ASK_AI": "Ask AI",
-                "DO_NOT_SHOW_MESSAGE": "Don't show this message again",
-                "DISCARD_CONVERSATION": "Discard Conversation",
-                "CONVERSATION_DISCARDED": "This conversation will be discarded",
-                "LOSE_RESPONSE": "By asking another question you will lose your previous response"
+                "WARNING": "¡Advertencia!",
+                "ASK_AI": "Preguntar a IA",
+                "DO_NOT_SHOW_MESSAGE": "No volver a mostrar este mensaje",
+                "DISCARD_CONVERSATION": "Descartar conversación",
+                "CONVERSATION_DISCARDED": "Esta conversación se descartará",
+                "LOSE_RESPONSE": "Al hacer otra pregunta, perderá la respuesta anterior"
             }
         }
     }

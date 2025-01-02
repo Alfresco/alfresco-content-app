@@ -1,147 +1,147 @@
 {
   "ACA_FOLDER_RULES": {
     "ACTIONS": {
-      "MANAGE_RULES": "Manage Rules"
+      "MANAGE_RULES": "Administrer regler"
     },
     "EDIT_RULE_DIALOG": {
-      "CANCEL": "Cancel",
-      "CREATE": "Create",
-      "CREATE_TITLE": "Create a rule",
-      "UPDATE": "Update",
-      "UPDATE_TITLE": "Edit a rule"
+      "CANCEL": "Avbryt",
+      "CREATE": "Opprett",
+      "CREATE_TITLE": "Opprett en regel",
+      "UPDATE": "Oppdater",
+      "UPDATE_TITLE": "Rediger en regel"
     },
     "RULE_DETAILS": {
       "LABEL": {
-        "NAME": "Name",
-        "DESCRIPTION": "Description",
-        "WHEN": "When",
-        "PERFORM_ACTIONS": "Perform actions",
-        "OPTIONS": "Other options"
+        "NAME": "Navn",
+        "DESCRIPTION": "Beskrivelse",
+        "WHEN": "Når",
+        "PERFORM_ACTIONS": "Utfør handlinger",
+        "OPTIONS": "Andre valg"
       },
       "PLACEHOLDER": {
-        "NAME": "Enter rule name",
-        "DESCRIPTION": "Enter rule description",
-        "NO_DESCRIPTION": "No description",
-        "VALUE": "Value",
-        "CHOOSE_FOLDER": "Choose destination folder"
+        "NAME": "Angi regelnavn",
+        "DESCRIPTION": "Legg til regelbeskrivelse",
+        "NO_DESCRIPTION": "Ingen beskrivelse",
+        "VALUE": "Verdi",
+        "CHOOSE_FOLDER": "Velg målmappe"
       },
       "ERROR": {
-        "REQUIRED": "This field is required",
-        "RULE_COMPOSITE_CONDITION_INVALID": "One or more condition groups is empty",
-        "INSUFFICIENT_TRIGGERS_SELECTED": "At least one trigger is required"
+        "REQUIRED": "Dette feltet er obligatorisk",
+        "RULE_COMPOSITE_CONDITION_INVALID": "En eller flere betingelsesgrupper er tomme",
+        "INSUFFICIENT_TRIGGERS_SELECTED": "Minst én trigger er nødvendig"
       },
       "TRIGGERS": {
-        "INBOUND": "Items are created or enter this folder",
-        "UPDATE": "Items are updated",
-        "OUTBOUND": "Items are deleted or leave this folder"
+        "INBOUND": "Elementene er opprettet eller inn i denne mappen",
+        "UPDATE": "Elementene er oppdatert",
+        "OUTBOUND": "Elementer er slettet eller forlater denne mappen"
       },
       "OPTIONS": {
-        "IS_INHERITABLE": "Rule applies to subfolders",
-        "IS_ASYNCHRONOUS": "Run rule in the background",
-        "DISABLE_RULE": "Disable rule",
-        "ERROR_SCRIPT": "If errors occur run script",
-        "NO_SCRIPT": "None"
+        "IS_INHERITABLE": "Regelen gjelder for undermapper",
+        "IS_ASYNCHRONOUS": "Kjør regel i bakgrunnen",
+        "DISABLE_RULE": "Deaktiver regel",
+        "ERROR_SCRIPT": "Hvis feil forekommer, kjør skript",
+        "NO_SCRIPT": "Ingen"
       },
       "COMPARATORS": {
-        "EQUALS": "(=) Equals",
-        "CONTAINS": "Contains",
-        "STARTS_WITH": "Starts with",
-        "ENDS_WITH": "Ends with",
-        "GREATER_THAN": "(>) Greater than",
-        "LESS_THAN": "(<) Less than",
-        "GREATER_THAN_OR_EQUAL": "(>=) Greater than or equal",
-        "LESS_THAN_OR_EQUAL": "(<=) Less than or equal",
-        "ON": "(=) On",
-        "AFTER": "(>) After",
-        "BEFORE": "(<) Before",
-        "ON_OR_AFTER": "(>=) On or after",
-        "ON_OR_BEFORE": "(<=) On or before",
-        "INSTANCE_OF": "(=) Is"
+        "EQUALS": "(=) Lik",
+        "CONTAINS": "Inneholder",
+        "STARTS_WITH": "Starter med",
+        "ENDS_WITH": "Slutter med",
+        "GREATER_THAN": "(>) Større enn",
+        "LESS_THAN": "(<) Mindre enn",
+        "GREATER_THAN_OR_EQUAL": "(>=) Større enn eller lik",
+        "LESS_THAN_OR_EQUAL": "(<=) Mindre enn eller lik",
+        "ON": "(=) På",
+        "AFTER": "(>) Etter",
+        "BEFORE": "(<) Før",
+        "ON_OR_AFTER": "(>=) På eller etter",
+        "ON_OR_BEFORE": "(<=) På eller før",
+        "INSTANCE_OF": "(=) Er"
       },
       "FIELDS": {
-        "NAME": "Name",
-        "SIZE": "Size",
+        "NAME": "Navn",
+        "SIZE": "Størrelse",
         "MIMETYPE": "Mimetype",
-        "ENCODING": "Encoding",
-        "HAS_CATEGORY": "Has category",
-        "HAS_TAG": "Has tag",
-        "HAS_ASPECT": "Has aspect"
+        "ENCODING": "Koding",
+        "HAS_CATEGORY": "Har kategori",
+        "HAS_TAG": "Har tagg",
+        "HAS_ASPECT": "Har aspekt"
       },
       "LOGIC_OPERATORS": {
-        "IF": "If",
-        "NOT_IF": "NOT If",
-        "AND": "And",
-        "OR": "Or"
+        "IF": "Hvis",
+        "NOT_IF": "IKKE hvis",
+        "AND": "Og",
+        "OR": "Eller"
       },
       "CONDITION_BUTTONS": {
-        "ADD_CONDITION": "Add condition",
-        "ADD_GROUP": "Add condition group",
-        "REMOVE": "Remove"
+        "ADD_CONDITION": "Legg til betingelse",
+        "ADD_GROUP": "Legg til betingelsesgruppe",
+        "REMOVE": "Fjern"
       },
-      "NO_CONDITIONS": "No conditions",
-      "NO_CONDITIONS_IN_GROUP": "No conditions in the group",
+      "NO_CONDITIONS": "Ingen betingelser",
+      "NO_CONDITIONS_IN_GROUP": "Ingen betingelser i gruppen",
       "ACTION_BUTTONS": {
-        "ADD_ACTION": "Add action",
-        "REMOVE": "Remove"
+        "ADD_ACTION": "Legg til handling",
+        "REMOVE": "Fjern"
       },
-      "ACTION_SELECT_PLACEHOLDER": "Select an action"
+      "ACTION_SELECT_PLACEHOLDER": "Velg en handling"
     },
     "MANAGE_RULES": {
       "TOOLBAR": {
         "BREADCRUMB": {
-          "RULES": "rules"
+          "RULES": "regler"
         },
         "ACTIONS": {
-          "CREATE_RULE": "Create rule",
-          "LINK_RULES": "Link rules",
-          "EDIT_RULE": "Edit",
-          "SEE_IN_FOLDER": "See in folder",
-          "INHERIT_RULES": "Inherit rules"
+          "CREATE_RULE": "Opprett regel",
+          "LINK_RULES": "Link regler",
+          "EDIT_RULE": "Rediger",
+          "SEE_IN_FOLDER": "Se i mappen",
+          "INHERIT_RULES": "Arve regler"
         }
       },
       "EMPTY_RULES_LIST": {
-        "TITLE": "The list is empty",
-        "SUBTITLE": "There are no rules defined for this folder yet."
+        "TITLE": "Listen er tom",
+        "SUBTITLE": "Det er ikke definert noen regler for denne mappen ennå."
       }
     },
     "CONFIRMATION_DIALOG": {
       "DELETE_RULE": {
-        "TITLE": "Delete rule",
-        "MESSAGE": "Are you sure you want to delete this rule?"
+        "TITLE": "Slett regel",
+        "MESSAGE": "Er du sikker på at du vil slette denne regelen?"
       },
       "DELETE_RULE_SET_LINK": {
-        "TITLE": "Delete rule set link",
-        "MESSAGE": "Are you sure you want to delete the link to this rule set?"
+        "TITLE": "Lenke for sletting av regelsett",
+        "MESSAGE": "Er du sikker på at du vil slette koblingen til dette regelsettet?"
       }
     },
     "RULE_LIST": {
-      "OWNED_RULES": "Rules from current folder",
-      "LINKED_RULES": "Rules from linked folder",
-      "INHERITED_RULES": "Inherited rules",
-      "LOAD_MORE_RULE_SETS": "Load rules from other folders",
-      "LOAD_MORE_RULES": "Load more rules",
-      "LOADING_RULES": "Loading rules",
-      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Inherited rules will be run first",
-      "ALL_LINKED_RULES_ARE_DISABLED": "All rules linked from this rule set are disabled"
+      "OWNED_RULES": "Regler fra gjeldende mappe",
+      "LINKED_RULES": "Regler fra koblede mapper",
+      "INHERITED_RULES": "Arvede regler",
+      "LOAD_MORE_RULE_SETS": "Last regler fra andre mapper",
+      "LOAD_MORE_RULES": "Last flere regler",
+      "LOADING_RULES": "Laster regler",
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Arvede regler vil bli kjørt først",
+      "ALL_LINKED_RULES_ARE_DISABLED": "Alle regler som er koblet fra dette regelsettet, er deaktivert"
     },
     "LINK_RULES_DIALOG": {
-      "TITLE": "Select a folder to link rules from",
-      "CANCEL": "Cancel",
-      "SUBMIT": "Select folder",
+      "TITLE": "Velg en mappe du vil koble til regler fra",
+      "CANCEL": "Avbryt",
+      "SUBMIT": "Velg mappe",
       "EMPTY_RULES_LIST": {
-        "TITLE": "No owned rules",
-        "SUBTITLE": "The selected folder doesn't have any rules of its own."
+        "TITLE": "Ingen egne regler",
+        "SUBTITLE": "Den valgte mappen har ikke noen egne regler."
       },
-      "LIST_OF_RULES_TO_LINK": "List of rules that will be linked",
+      "LIST_OF_RULES_TO_LINK": "Liste over regler som vil bli knyttet til",
       "ERRORS": {
-        "REQUEST_FAILED": "Error while trying to create a link to a rule set"
+        "REQUEST_FAILED": "Feil ved forsøk på å opprette en kobling til en regelmal"
       }
     },
     "ERRORS": {
-      "DELETE_RULE_SET_LINK_FAILED": "Error while trying to delete a link from a rule set"
+      "DELETE_RULE_SET_LINK_FAILED": "Feil ved forsøk på å slette en kobling fra en regelmal"
     },
     "AUTOCOMPLETE": {
-      "NO_OPTIONS_FOUND": "No options found"
+      "NO_OPTIONS_FOUND": "Ingen alternativer funnet"
     }
   }
 }

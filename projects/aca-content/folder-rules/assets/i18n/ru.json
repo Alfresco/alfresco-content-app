@@ -141,7 +141,7 @@
       "DELETE_RULE_SET_LINK_FAILED": "Ошибка при попытке удалить ссылку из набора правил"
     },
     "AUTOCOMPLETE": {
-      "NO_OPTIONS_FOUND": "No options found"
+      "NO_OPTIONS_FOUND": "Варианты не найдены"
     }
   }
 }

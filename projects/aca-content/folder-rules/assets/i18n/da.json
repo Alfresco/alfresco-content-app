@@ -141,7 +141,7 @@
       "DELETE_RULE_SET_LINK_FAILED": "Fejl, mens du prøvede at slette en forbindelse fra et regelsæt"
     },
     "AUTOCOMPLETE": {
-      "NO_OPTIONS_FOUND": "No options found"
+      "NO_OPTIONS_FOUND": "Ingen muligheder fundet"
     }
   }
 }

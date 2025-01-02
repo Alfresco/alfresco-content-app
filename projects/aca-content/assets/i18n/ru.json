@@ -210,41 +210,41 @@
                 "RESET": "Сброс",
                 "RESET_ACTION": "Сбросить фильтры поиска",
                 "SAVE_SEARCH": {
-                    "ACTION_BUTTON": "Save Search",
-                    "SAVE_CHANGES": "Save changes",
-                    "SAVE_AS_NEW": "Save as new",
-                    "MODAL_HEADER": "Save this search",
-                    "NAME_LABEL": "Name",
-                    "NAME_REQUIRED_ERROR": "This field is required",
-                    "DESCRIPTION_LABEL": "Description",
-                    "SAVE_SUCCESS": "Search Saved",
-                    "SAVE_ERROR": "Error occurred. Search could not be saved.",
-                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "Saved Search with '{{ name }}' name already exists.",
+                    "ACTION_BUTTON": "Сохранить результаты поиска",
+                    "SAVE_CHANGES": "Сохранить изменения",
+                    "SAVE_AS_NEW": "Сохранить как новый документ",
+                    "MODAL_HEADER": "Сохранить результаты этого поиска",
+                    "NAME_LABEL": "Имя",
+                    "NAME_REQUIRED_ERROR": "Поле обязательно для заполнения",
+                    "DESCRIPTION_LABEL": "Описание",
+                    "SAVE_SUCCESS": "Результаты поиска сохранены",
+                    "SAVE_ERROR": "Возникла ошибка. Не удалось сохранить результаты поиска.",
+                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "Сохраненные результаты поиска с именем «{{ name }}» уже существуют.",
                     "NAVBAR": {
-                        "TITLE": "Saved Searches ({{ number }})",
-                        "MANAGE_BUTTON": "Manage searches"
+                        "TITLE": "Сохраненные результаты поиска ({{ number }})",
+                        "MANAGE_BUTTON": "Управление результатами поиска"
                     },
                     "EDIT_DIALOG": {
-                        "CONTEXT_OPTION": "Edit Search",
-                        "TITLE": "Edit Saved Search",
-                        "SUCCESS_MESSAGE": "Saved Search edited successfully",
-                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be edited."
+                        "CONTEXT_OPTION": "Изменить результаты поиска",
+                        "TITLE": "Изменить сохраненные результаты поиска",
+                        "SUCCESS_MESSAGE": "Сохраненные результаты поиска изменены",
+                        "ERROR_MESSAGE": "Возникла ошибка. Не удалось изменить результаты поиска."
                     },
                     "DELETE_DIALOG": {
-                        "CONTEXT_OPTION": "Delete Search",
-                        "TITLE": "Delete Saved Search",
-                        "CONTENT": "Are you sure you want to delete this search",
-                        "SUCCESS_MESSAGE": "Saved Search deleted successfully",
-                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be deleted."
+                        "CONTEXT_OPTION": "Удалить результаты поиска",
+                        "TITLE": "Удалить сохраненные результаты поиска",
+                        "CONTENT": "Вы хотите удалить эти результаты поиска?",
+                        "SUCCESS_MESSAGE": "Сохраненные результаты поиска удалены",
+                        "ERROR_MESSAGE": "Возникла ошибка. Не удалось удалить результаты поиска."
                     },
                     "LIST": {
-                        "TITLE": "Saved Searches",
-                        "NAME": "Name",
-                        "DESCRIPTION": "Description",
-                        "EMPTY_LIST": "No saved searches",
-                        "COPY_TO_CLIPBOARD": "Copy to clipboard",
-                        "COPY_TO_CLIPBOARD_SUCCESS": "Search copied to clipboard",
-                        "EXECUTE_SEARCH": "Execute Search"
+                        "TITLE": "Сохраненные результаты поиска",
+                        "NAME": "Имя",
+                        "DESCRIPTION": "Описание",
+                        "EMPTY_LIST": "Нет сохраненных результатов поиска",
+                        "COPY_TO_CLIPBOARD": "Копировать в буфер обмена",
+                        "COPY_TO_CLIPBOARD_SUCCESS": "Результаты поиска скопированы в буфер обмена",
+                        "EXECUTE_SEARCH": "Выполнить поиск"
                     }
                 },
                 "FOUND_RESULTS": "Найдено результатов: {{ number }}",
@@ -299,7 +299,7 @@
             "EDIT_OFFLINE": "Редактировать в автономном режиме",
             "EDIT_OFFLINE_CANCEL": "Отменить редактирование",
             "CHANGE_ASPECT": "Редактировать аспекты",
-            "ADD_ASPECTS": "Add Aspects"
+            "ADD_ASPECTS": "Добавить аспекты"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -311,7 +311,7 @@
             "CONFIRM_LEAVE": {
                 "TITLE": "Покинуть эту библиотеку?",
                 "MESSAGE": "Покинув библиотеку, вы потеряете к ней доступ.",
-                "YES_LABEL": "OK",
+                "YES_LABEL": "ОК",
                 "NO_LABEL": "Отмена"
             },
             "MOBILE_APP": {
@@ -434,9 +434,9 @@
         },
         "INFO_DRAWER": {
             "TITLE": "Сведения",
-            "REDUCE_PANEL": "Reduce panel",
+            "REDUCE_PANEL": "Уменьшить панель",
             "DATA_LOADING": "Загрузка данных",
-            "ICON": "Node Icon",
+            "ICON": "Значок узла",
             "TABS": {
                 "PROPERTIES": "Свойства",
                 "LIBRARY_PROPERTIES": "О программе",
@@ -529,7 +529,7 @@
             "CONFLICT": "Этот идентификатор библиотеки уже используется. Проверьте корзину.",
             "ID_TOO_LONG": "Имя URL должно содержать не более 72 символов",
             "DESCRIPTION_TOO_LONG": "Описание должно содержать не более 512 символов",
-            "TITLE_TOO_LONG_OR_MISSING": "Use 256 characters or less for title",
+            "TITLE_TOO_LONG_OR_MISSING": "Для заголовка используйте не более 256 символов",
             "ILLEGAL_CHARACTERS": "Используйте только буквы и цифры",
             "ONLY_SPACES": "Имя библиотеки не может состоять только из пробелов",
             "LIBRARY_UPDATE_ERROR": "Произошла ошибка при обновлении свойств библиотеки"
@@ -540,9 +540,9 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
-            "TITLE": "Bulk Actions ({{ count }} Items)",
-            "BULK_NOT_AVAILABLE": "Bulk Actions (Not Available)",
-            "BULK_NOT_AVAILABLE_TOOLTIP": "Bulk Actions cannot be used without search results"
+            "TITLE": "Массовые операции (объектов: {{ count }})",
+            "BULK_NOT_AVAILABLE": "Массовые операции (недоступно)",
+            "BULK_NOT_AVAILABLE_TOOLTIP": "Массовые операции невозможно использовать без результатов поиска"
         },
         "INPUT": {
             "PLACEHOLDER": "Поиск",
@@ -571,15 +571,15 @@
             "CATEGORIES": "Категории"
         },
         "CATEGORIES": {
-            "DATE": "Date",
+            "DATE": "Дата",
             "DATE_TABS": {
-                "CREATED": "Created",
-                "MODIFIED": "Modified"
+                "CREATED": "Создано",
+                "MODIFIED": "Изменено"
             },
             "EFFECTIVITY_FROM": "Действует с",
             "EFFECTIVITY_TO": "Действует до",
             "LOGIC": "Логика",
-            "PROPERTIES": "Properties"
+            "PROPERTIES": "Свойства"
         },
         "SEARCH_HEADER": {
             "TITLE": "Фильтр",
@@ -651,35 +651,35 @@
     "KNOWLEDGE_RETRIEVAL": {
         "SEARCH": {
             "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "Would you like to ask anything else?",
-                "REFERENCED_DOCUMENTS_HEADER": "Referenced documents",
-                "REGENERATION_BUTTON_LABEL": "Regenerate",
-                "COPY_BUTTON_LABEL": "Copy",
-                "COPY_MESSAGE": "Copied response to clipboard"
+                "QUERY_INPUT_PLACEHOLDER": "Вы хотите узнать что-нибудь еще?",
+                "REFERENCED_DOCUMENTS_HEADER": "Справочные документы",
+                "REGENERATION_BUTTON_LABEL": "Восстановить",
+                "COPY_BUTTON_LABEL": "Копировать",
+                "COPY_MESSAGE": "Скопировать ответ в буфер обмена"
             },
             "AGENTS_BUTTON": {
-                "LABEL": "Ask Discovery",
-                "TITLE": "Knowledge Retrieval"
+                "LABEL": "Спросить Discovery",
+                "TITLE": "Поиск информации"
             },
             "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "Ask",
-                "DEFAULT_PLACEHOLDER": "Please ask your question with as much detail as possible...",
-                "HIDE_INPUT": "Hide input",
-                "HIDE_ANSWER": "Hide answer"
+                "ASK_BUTTON_LABEL": "Спросить",
+                "DEFAULT_PLACEHOLDER": "Пожалуйста, сформулируйте вопрос как можно подробнее.",
+                "HIDE_INPUT": "Скрыть вводимые данные",
+                "HIDE_ANSWER": "Скрыть ответ"
             },
             "ERRORS": {
-                "AGENTS_FETCHING": "Error while fetching agents.",
-                "HX_INSIGHT_URL_FETCHING": "Error while fetching HX Insight URL.",
-                "LOADING_ERROR": "Hmm... something seems to have gone wrong.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Page is not available for these conditions."
+                "AGENTS_FETCHING": "Возникла ошибка при поиске агентов.",
+                "HX_INSIGHT_URL_FETCHING": "Возникла ошибка при поиске ссылки на HX Insight.",
+                "LOADING_ERROR": "Хм... похоже, что-то пошло не так.",
+                "PAGE_NOT_AVAILABLE_ERROR": "Для этих условий страница недоступна."
             },
             "DISCARD_CHANGES": {
-                "WARNING": "Warning!",
-                "ASK_AI": "Ask AI",
-                "DO_NOT_SHOW_MESSAGE": "Don't show this message again",
-                "DISCARD_CONVERSATION": "Discard Conversation",
-                "CONVERSATION_DISCARDED": "This conversation will be discarded",
-                "LOSE_RESPONSE": "By asking another question you will lose your previous response"
+                "WARNING": "Внимание!",
+                "ASK_AI": "Спросить ИИ",
+                "DO_NOT_SHOW_MESSAGE": "Больше не показывать это сообщение",
+                "DISCARD_CONVERSATION": "Отказаться от разговора",
+                "CONVERSATION_DISCARDED": "Этот разговор будет отменен",
+                "LOSE_RESPONSE": "Если вы зададите новый вопрос, предыдущий ответ будет потерян"
             }
         }
     }

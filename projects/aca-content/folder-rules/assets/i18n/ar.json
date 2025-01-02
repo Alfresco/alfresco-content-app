@@ -141,7 +141,7 @@
       "DELETE_RULE_SET_LINK_FAILED": "خطأ أثناء محاولة حذف ارتباط من مجموعة القواعد"
     },
     "AUTOCOMPLETE": {
-      "NO_OPTIONS_FOUND": "No options found"
+      "NO_OPTIONS_FOUND": "لم يتم العثور على خيارات"
     }
   }
 }

@@ -1,6 +1,6 @@
 {
     "APP": {
-        "COPYRIGHT": "© 2005-2024 Hyland Software, Inc. and its affiliates. All rights reserved.",
+        "COPYRIGHT": "© 2005-2024 Hyland Software, Inc. および関連会社。無断転載禁止",
         "TITLE": "Workspace",
         "ABOUT": {
             "VERSION": "バージョン:",
@@ -202,7 +202,7 @@
             },
             "SEARCH": {
                 "DEFAULT_SEARCH": "デフォルト",
-                "DUBLIN_CORE": "Dublin core",
+                "DUBLIN_CORE": "ダブリンコア",
                 "EFFECTIVITY": "有効性",
                 "TITLE": "検索結果",
                 "FILTER_SET": "フィルタセット：",
@@ -210,41 +210,41 @@
                 "RESET": "リセット",
                 "RESET_ACTION": "検索フィルタのリセット",
                 "SAVE_SEARCH": {
-                    "ACTION_BUTTON": "Save Search",
-                    "SAVE_CHANGES": "Save changes",
-                    "SAVE_AS_NEW": "Save as new",
-                    "MODAL_HEADER": "Save this search",
-                    "NAME_LABEL": "Name",
-                    "NAME_REQUIRED_ERROR": "This field is required",
-                    "DESCRIPTION_LABEL": "Description",
-                    "SAVE_SUCCESS": "Search Saved",
-                    "SAVE_ERROR": "Error occurred. Search could not be saved.",
-                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "Saved Search with '{{ name }}' name already exists.",
+                    "ACTION_BUTTON": "検索を保存",
+                    "SAVE_CHANGES": "変更を保存",
+                    "SAVE_AS_NEW": "新規保存",
+                    "MODAL_HEADER": "この検索を保存",
+                    "NAME_LABEL": "名前",
+                    "NAME_REQUIRED_ERROR": "このフィールドは必須です",
+                    "DESCRIPTION_LABEL": "内容",
+                    "SAVE_SUCCESS": "検索が保存されました",
+                    "SAVE_ERROR": "エラーが発生しました。検索は保存できませんでした。",
+                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "保存した検索名 '{{ name }}' は既に存在します。",
                     "NAVBAR": {
-                        "TITLE": "Saved Searches ({{ number }})",
-                        "MANAGE_BUTTON": "Manage searches"
+                        "TITLE": "保存した検索 ({{ number }})",
+                        "MANAGE_BUTTON": "検索を管理"
                     },
                     "EDIT_DIALOG": {
-                        "CONTEXT_OPTION": "Edit Search",
-                        "TITLE": "Edit Saved Search",
-                        "SUCCESS_MESSAGE": "Saved Search edited successfully",
-                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be edited."
+                        "CONTEXT_OPTION": "検索を編集",
+                        "TITLE": "保存した検索を編集",
+                        "SUCCESS_MESSAGE": "保存した検索は正常に編集されました",
+                        "ERROR_MESSAGE": "エラーが発生しました。保存した検索は編集できませんでした。"
                     },
                     "DELETE_DIALOG": {
-                        "CONTEXT_OPTION": "Delete Search",
-                        "TITLE": "Delete Saved Search",
-                        "CONTENT": "Are you sure you want to delete this search",
-                        "SUCCESS_MESSAGE": "Saved Search deleted successfully",
-                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be deleted."
+                        "CONTEXT_OPTION": "検索を削除",
+                        "TITLE": "保存した検索を削除",
+                        "CONTENT": "この検索を削除しますか?",
+                        "SUCCESS_MESSAGE": "保存した検索は正常に削除されました",
+                        "ERROR_MESSAGE": "エラーが発生しました。保存した検索は削除できませんでした。"
                     },
                     "LIST": {
-                        "TITLE": "Saved Searches",
-                        "NAME": "Name",
-                        "DESCRIPTION": "Description",
-                        "EMPTY_LIST": "No saved searches",
-                        "COPY_TO_CLIPBOARD": "Copy to clipboard",
-                        "COPY_TO_CLIPBOARD_SUCCESS": "Search copied to clipboard",
-                        "EXECUTE_SEARCH": "Execute Search"
+                        "TITLE": "保存した検索",
+                        "NAME": "名前",
+                        "DESCRIPTION": "内容",
+                        "EMPTY_LIST": "保存した検索はありません",
+                        "COPY_TO_CLIPBOARD": "クリップボードにコピー",
+                        "COPY_TO_CLIPBOARD_SUCCESS": "検索はクリップボードにコピー済み",
+                        "EXECUTE_SEARCH": "検索を実行"
                     }
                 },
                 "FOUND_RESULTS": "{{ number }} 件見つかりました",
@@ -299,7 +299,7 @@
             "EDIT_OFFLINE": "オフライン編集",
             "EDIT_OFFLINE_CANCEL": "編集のキャンセル",
             "CHANGE_ASPECT": "アスペクトを編集",
-            "ADD_ASPECTS": "Add Aspects"
+            "ADD_ASPECTS": "アスペクトを追加"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -434,9 +434,9 @@
         },
         "INFO_DRAWER": {
             "TITLE": "詳細",
-            "REDUCE_PANEL": "Reduce panel",
+            "REDUCE_PANEL": "パネルの低減",
             "DATA_LOADING": "データの読み込み中",
-            "ICON": "Node Icon",
+            "ICON": "ノードアイコン",
             "TABS": {
                 "PROPERTIES": "プロパティ",
                 "LIBRARY_PROPERTIES": "バージョン情報",
@@ -529,7 +529,7 @@
             "CONFLICT": "このライブラリ ID は既に使われています。ごみ箱をチェックしてください。",
             "ID_TOO_LONG": "URL 名は 72 文字以内で入力してください",
             "DESCRIPTION_TOO_LONG": "説明は 512 文字以内で入力してください",
-            "TITLE_TOO_LONG_OR_MISSING": "Use 256 characters or less for title",
+            "TITLE_TOO_LONG_OR_MISSING": "タイトルは256文字またはそれ以下を使用",
             "ILLEGAL_CHARACTERS": "英数字だけを使用してください",
             "ONLY_SPACES": "ライブラリ名にスペースだけを含めることはできません",
             "LIBRARY_UPDATE_ERROR": "ライブラリのプロパティの更新中にエラーが発生しました"
@@ -540,9 +540,9 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
-            "TITLE": "Bulk Actions ({{ count }} Items)",
-            "BULK_NOT_AVAILABLE": "Bulk Actions (Not Available)",
-            "BULK_NOT_AVAILABLE_TOOLTIP": "Bulk Actions cannot be used without search results"
+            "TITLE": "バルクアクション ({{ count }} 項目)",
+            "BULK_NOT_AVAILABLE": "バルクアクション (利用不可)",
+            "BULK_NOT_AVAILABLE_TOOLTIP": "バルクアクションは検索結果なしでは使用できません"
         },
         "INPUT": {
             "PLACEHOLDER": "検索",
@@ -571,15 +571,15 @@
             "CATEGORIES": "カテゴリ"
         },
         "CATEGORIES": {
-            "DATE": "Date",
+            "DATE": "日付",
             "DATE_TABS": {
-                "CREATED": "Created",
-                "MODIFIED": "Modified"
+                "CREATED": "作成日",
+                "MODIFIED": "修正日"
             },
             "EFFECTIVITY_FROM": "有効性の開始",
             "EFFECTIVITY_TO": "有効性の終了",
             "LOGIC": "ロジック",
-            "PROPERTIES": "Properties"
+            "PROPERTIES": "プロパティ"
         },
         "SEARCH_HEADER": {
             "TITLE": "フィルタ",
@@ -651,35 +651,35 @@
     "KNOWLEDGE_RETRIEVAL": {
         "SEARCH": {
             "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "Would you like to ask anything else?",
-                "REFERENCED_DOCUMENTS_HEADER": "Referenced documents",
-                "REGENERATION_BUTTON_LABEL": "Regenerate",
-                "COPY_BUTTON_LABEL": "Copy",
-                "COPY_MESSAGE": "Copied response to clipboard"
+                "QUERY_INPUT_PLACEHOLDER": "ほかに何か質問はありますか？",
+                "REFERENCED_DOCUMENTS_HEADER": "参照文書",
+                "REGENERATION_BUTTON_LABEL": "再生成",
+                "COPY_BUTTON_LABEL": "コピー",
+                "COPY_MESSAGE": "回答をクリップボードにコピー済み"
             },
             "AGENTS_BUTTON": {
-                "LABEL": "Ask Discovery",
-                "TITLE": "Knowledge Retrieval"
+                "LABEL": "デモディスカバリ",
+                "TITLE": "知識検索"
             },
             "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "Ask",
-                "DEFAULT_PLACEHOLDER": "Please ask your question with as much detail as possible...",
-                "HIDE_INPUT": "Hide input",
-                "HIDE_ANSWER": "Hide answer"
+                "ASK_BUTTON_LABEL": "質問する",
+                "DEFAULT_PLACEHOLDER": "ご質問の内容は、できるだけ詳細にお願いします...",
+                "HIDE_INPUT": "入力を非表示にする",
+                "HIDE_ANSWER": "答えを非表示にする"
             },
             "ERRORS": {
-                "AGENTS_FETCHING": "Error while fetching agents.",
-                "HX_INSIGHT_URL_FETCHING": "Error while fetching HX Insight URL.",
-                "LOADING_ERROR": "Hmm... something seems to have gone wrong.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Page is not available for these conditions."
+                "AGENTS_FETCHING": "エージェント取得中にエラーが発生しました。",
+                "HX_INSIGHT_URL_FETCHING": "HX Insight URL取得中にエラーが発生しました。",
+                "LOADING_ERROR": "どうやら、何か問題が起こったようです。",
+                "PAGE_NOT_AVAILABLE_ERROR": "これらの条件ではページは利用できません。"
             },
             "DISCARD_CHANGES": {
-                "WARNING": "Warning!",
-                "ASK_AI": "Ask AI",
-                "DO_NOT_SHOW_MESSAGE": "Don't show this message again",
-                "DISCARD_CONVERSATION": "Discard Conversation",
-                "CONVERSATION_DISCARDED": "This conversation will be discarded",
-                "LOSE_RESPONSE": "By asking another question you will lose your previous response"
+                "WARNING": "警告!",
+                "ASK_AI": "AIに質問する",
+                "DO_NOT_SHOW_MESSAGE": "今後このメッセージを表示しない",
+                "DISCARD_CONVERSATION": "会話を破棄する",
+                "CONVERSATION_DISCARDED": "この会話は破棄されます",
+                "LOSE_RESPONSE": "別の質問をすると、以前の回答は失われます"
             }
         }
     }

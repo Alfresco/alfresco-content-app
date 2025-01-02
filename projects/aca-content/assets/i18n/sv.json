@@ -210,41 +210,41 @@
                 "RESET": "Återställ",
                 "RESET_ACTION": "Återställ sökfilter",
                 "SAVE_SEARCH": {
-                    "ACTION_BUTTON": "Save Search",
-                    "SAVE_CHANGES": "Save changes",
-                    "SAVE_AS_NEW": "Save as new",
-                    "MODAL_HEADER": "Save this search",
-                    "NAME_LABEL": "Name",
-                    "NAME_REQUIRED_ERROR": "This field is required",
-                    "DESCRIPTION_LABEL": "Description",
-                    "SAVE_SUCCESS": "Search Saved",
-                    "SAVE_ERROR": "Error occurred. Search could not be saved.",
-                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "Saved Search with '{{ name }}' name already exists.",
+                    "ACTION_BUTTON": "Spara sökning",
+                    "SAVE_CHANGES": "Spara ändringar",
+                    "SAVE_AS_NEW": "Spara som ny",
+                    "MODAL_HEADER": "Spara denna sökning",
+                    "NAME_LABEL": "Namn",
+                    "NAME_REQUIRED_ERROR": "Fältet är obligatoriskt",
+                    "DESCRIPTION_LABEL": "Beskrivning",
+                    "SAVE_SUCCESS": "Sökning sparad",
+                    "SAVE_ERROR": "Ett fel uppstod. Sökningen kunde inte sparas.",
+                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "Det finns redan en sparad sökning med namnet '{{ name }}'.",
                     "NAVBAR": {
-                        "TITLE": "Saved Searches ({{ number }})",
-                        "MANAGE_BUTTON": "Manage searches"
+                        "TITLE": "Sparade sökningar ({{ number }})",
+                        "MANAGE_BUTTON": "Hantera sökningar"
                     },
                     "EDIT_DIALOG": {
-                        "CONTEXT_OPTION": "Edit Search",
-                        "TITLE": "Edit Saved Search",
-                        "SUCCESS_MESSAGE": "Saved Search edited successfully",
-                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be edited."
+                        "CONTEXT_OPTION": "Redigera sökning",
+                        "TITLE": "Redigera sparad sökning",
+                        "SUCCESS_MESSAGE": "Sparad sökning har redigerats",
+                        "ERROR_MESSAGE": "Ett fel uppstod. Den sparade sökningen kunde inte redigeras."
                     },
                     "DELETE_DIALOG": {
-                        "CONTEXT_OPTION": "Delete Search",
-                        "TITLE": "Delete Saved Search",
-                        "CONTENT": "Are you sure you want to delete this search",
-                        "SUCCESS_MESSAGE": "Saved Search deleted successfully",
-                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be deleted."
+                        "CONTEXT_OPTION": "Radera sökning",
+                        "TITLE": "Radera sparad sökning",
+                        "CONTENT": "Är du säker på att du vill radera den här sökningen",
+                        "SUCCESS_MESSAGE": "Sparad sökning har raderats",
+                        "ERROR_MESSAGE": "Ett fel uppstod. Den sparade sökningen kunde inte raderas."
                     },
                     "LIST": {
-                        "TITLE": "Saved Searches",
-                        "NAME": "Name",
-                        "DESCRIPTION": "Description",
-                        "EMPTY_LIST": "No saved searches",
-                        "COPY_TO_CLIPBOARD": "Copy to clipboard",
-                        "COPY_TO_CLIPBOARD_SUCCESS": "Search copied to clipboard",
-                        "EXECUTE_SEARCH": "Execute Search"
+                        "TITLE": "Sparade sökningar",
+                        "NAME": "Namn",
+                        "DESCRIPTION": "Beskrivning",
+                        "EMPTY_LIST": "Inga sparade sökningar",
+                        "COPY_TO_CLIPBOARD": "Kopiera till urklipp",
+                        "COPY_TO_CLIPBOARD_SUCCESS": "Sökning kopierad till urklipp",
+                        "EXECUTE_SEARCH": "Utför sökning"
                     }
                 },
                 "FOUND_RESULTS": "{{ number }} resultat hittades",
@@ -299,7 +299,7 @@
             "EDIT_OFFLINE": "Redigera offline",
             "EDIT_OFFLINE_CANCEL": "Avbryt redigering",
             "CHANGE_ASPECT": "Redigera aspekter",
-            "ADD_ASPECTS": "Add Aspects"
+            "ADD_ASPECTS": "Lägg till aspekter"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -434,9 +434,9 @@
         },
         "INFO_DRAWER": {
             "TITLE": "Detaljer",
-            "REDUCE_PANEL": "Reduce panel",
+            "REDUCE_PANEL": "Förminska panel",
             "DATA_LOADING": "Data läses in",
-            "ICON": "Node Icon",
+            "ICON": "Nodikon",
             "TABS": {
                 "PROPERTIES": "Egenskaper",
                 "LIBRARY_PROPERTIES": "Om",
@@ -529,7 +529,7 @@
             "CONFLICT": "Detta Biblioteks-ID används redan. Kontrollera papperskorgen",
             "ID_TOO_LONG": "Använd 72 tecken eller färre för URL-namnet",
             "DESCRIPTION_TOO_LONG": "Använd 512 tecken eller färre till beskrivningen",
-            "TITLE_TOO_LONG_OR_MISSING": "Use 256 characters or less for title",
+            "TITLE_TOO_LONG_OR_MISSING": "Använd 256 tecken eller färre i rubriken",
             "ILLEGAL_CHARACTERS": "Använd bara siffror och bokstäver",
             "ONLY_SPACES": "Biblioteksnamnet kan inte innehålla enbart mellanrum",
             "LIBRARY_UPDATE_ERROR": "Det uppstod ett fel när biblioteksegenskaperna uppdaterades"
@@ -540,9 +540,9 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
-            "TITLE": "Bulk Actions ({{ count }} Items)",
-            "BULK_NOT_AVAILABLE": "Bulk Actions (Not Available)",
-            "BULK_NOT_AVAILABLE_TOOLTIP": "Bulk Actions cannot be used without search results"
+            "TITLE": "Gruppåtgärder ({{ count }} objekt)",
+            "BULK_NOT_AVAILABLE": "Gruppåtgärder (inte tillgängligt)",
+            "BULK_NOT_AVAILABLE_TOOLTIP": "Gruppåtgärder kan inte användas utan sökresultat"
         },
         "INPUT": {
             "PLACEHOLDER": "Sök",
@@ -571,15 +571,15 @@
             "CATEGORIES": "Kategorier"
         },
         "CATEGORIES": {
-            "DATE": "Date",
+            "DATE": "Datum",
             "DATE_TABS": {
-                "CREATED": "Created",
-                "MODIFIED": "Modified"
+                "CREATED": "Skapad",
+                "MODIFIED": "Ändrad"
             },
             "EFFECTIVITY_FROM": "Giltighet från",
             "EFFECTIVITY_TO": "Giltighet till",
             "LOGIC": "Logik",
-            "PROPERTIES": "Properties"
+            "PROPERTIES": "Egenskaper"
         },
         "SEARCH_HEADER": {
             "TITLE": "Filter",
@@ -651,35 +651,35 @@
     "KNOWLEDGE_RETRIEVAL": {
         "SEARCH": {
             "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "Would you like to ask anything else?",
-                "REFERENCED_DOCUMENTS_HEADER": "Referenced documents",
-                "REGENERATION_BUTTON_LABEL": "Regenerate",
-                "COPY_BUTTON_LABEL": "Copy",
-                "COPY_MESSAGE": "Copied response to clipboard"
+                "QUERY_INPUT_PLACEHOLDER": "Vill du fråga något mer?",
+                "REFERENCED_DOCUMENTS_HEADER": "Referensdokument",
+                "REGENERATION_BUTTON_LABEL": "Generera på nytt",
+                "COPY_BUTTON_LABEL": "Kopiera",
+                "COPY_MESSAGE": "Svar kopierat till urklipp"
             },
             "AGENTS_BUTTON": {
-                "LABEL": "Ask Discovery",
-                "TITLE": "Knowledge Retrieval"
+                "LABEL": "Fråga Discovery",
+                "TITLE": "Hämta kunskap"
             },
             "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "Ask",
-                "DEFAULT_PLACEHOLDER": "Please ask your question with as much detail as possible...",
-                "HIDE_INPUT": "Hide input",
-                "HIDE_ANSWER": "Hide answer"
+                "ASK_BUTTON_LABEL": "Fråga",
+                "DEFAULT_PLACEHOLDER": "Ställ så detaljerade frågor som möjligt...",
+                "HIDE_INPUT": "Dölj inmatning",
+                "HIDE_ANSWER": "Dölj svar"
             },
             "ERRORS": {
-                "AGENTS_FETCHING": "Error while fetching agents.",
-                "HX_INSIGHT_URL_FETCHING": "Error while fetching HX Insight URL.",
-                "LOADING_ERROR": "Hmm... something seems to have gone wrong.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Page is not available for these conditions."
+                "AGENTS_FETCHING": "Det gick inte att hämta agenter.",
+                "HX_INSIGHT_URL_FETCHING": "Det gick inte att hämta HX Insight-URL.",
+                "LOADING_ERROR": "Hmm... något verkar ha gått fel.",
+                "PAGE_NOT_AVAILABLE_ERROR": "Sidan är inte tillgänglig för dessa villkor."
             },
             "DISCARD_CHANGES": {
-                "WARNING": "Warning!",
-                "ASK_AI": "Ask AI",
-                "DO_NOT_SHOW_MESSAGE": "Don't show this message again",
-                "DISCARD_CONVERSATION": "Discard Conversation",
-                "CONVERSATION_DISCARDED": "This conversation will be discarded",
-                "LOSE_RESPONSE": "By asking another question you will lose your previous response"
+                "WARNING": "Varning!",
+                "ASK_AI": "Fråga AI",
+                "DO_NOT_SHOW_MESSAGE": "Visa inte detta meddelande igen",
+                "DISCARD_CONVERSATION": "Ta bort konversation",
+                "CONVERSATION_DISCARDED": "Denna konversation tas bort",
+                "LOSE_RESPONSE": "När du ställer en ny fråga går dina tidigare svar förlorade"
             }
         }
     }

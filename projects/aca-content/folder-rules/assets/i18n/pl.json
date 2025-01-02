@@ -141,7 +141,7 @@
       "DELETE_RULE_SET_LINK_FAILED": "Błąd podczas próby usunięcia łącza ze zbioru reguł"
     },
     "AUTOCOMPLETE": {
-      "NO_OPTIONS_FOUND": "No options found"
+      "NO_OPTIONS_FOUND": "Nie znaleziono żadnych opcji"
     }
   }
 }
