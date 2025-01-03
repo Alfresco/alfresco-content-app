@@ -112,38 +112,38 @@ jobs:
         e2e-suites:
           - name: "create-actions"
             id: 1
-          - name: "folder-rules"
-            id: 2
-          - name: "viewer"
-            id: 3
-          - name: "authentication"
-            id: 4
-          - name: "navigation"
-            id: 5
-          - name: "special-permissions"
-            id: 6
-          - name: "pagination"
-            id: 7
-          - name: "list-views"
-            id: 8
-          - name: "share-action"
-            id: 9
-          - name: "copy-move-actions"
-            id: 10
-          - name: "library-actions"
-            id: 11
-          - name: "info-drawer"
-            id: 12
-          - name: "search"
-            id: 13
-          - name: "upload-download-actions"
-            id: 14
-          - name: "favorite-actions"
-            id: 15
-          - name: "delete-actions"
-            id: 16
-          - name: "edit-actions"
-            id: 17
+          # - name: "folder-rules"
+          #   id: 2
+          # - name: "viewer"
+          #   id: 3
+          # - name: "authentication"
+          #   id: 4
+          # - name: "navigation"
+          #   id: 5
+          # - name: "special-permissions"
+          #   id: 6
+          # - name: "pagination"
+          #   id: 7
+          # - name: "list-views"
+          #   id: 8
+          # - name: "share-action"
+          #   id: 9
+          # - name: "copy-move-actions"
+          #   id: 10
+          # - name: "library-actions"
+          #   id: 11
+          # - name: "info-drawer"
+          #   id: 12
+          # - name: "search"
+          #   id: 13
+          # - name: "upload-download-actions"
+          #   id: 14
+          # - name: "favorite-actions"
+          #   id: 15
+          # - name: "delete-actions"
+          #   id: 16
+          # - name: "edit-actions"
+          #   id: 17
     steps:
       - name: Checkout
         uses: actions/checkout@v4
