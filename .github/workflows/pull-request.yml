@@ -102,10 +102,6 @@ jobs:
         if: ${{ github.event_name != 'pull_request' }}
         run: npx nx run-many --target=test --browsers=ChromeHeadless --watch=false $TEST_OPTS
 
-  deploy-local-acs:
-    uses: ./.github/workflows/deploy-local-acs.yml
-    secrets: inherit
-
   e2es-playwright:
     needs: [lint, build, unit-tests, deploy-local-acs]
     name: 'E2E Playwright - ${{ matrix.e2e-suites.name }}'
@@ -168,6 +164,9 @@ jobs:
         with:
           path: ./dist/content-ce
           key: cache-dist-${{ github.run_id }}
+
+      - name: Deploy local ACS
+        uses: ./.github/actions/deploy-local-acs
 
       - name: Before e2e
         uses: ./.github/actions/before-e2e
