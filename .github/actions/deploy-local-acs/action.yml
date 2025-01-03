@@ -90,6 +90,7 @@ runs:
 
     # Name and value to be fetched by automation??
     - name: Helm install
+      shell: bash
       run: >-
         helm dep build acs-deployment/helm/alfresco-content-services &&
         helm install acs acs-deployment/helm/alfresco-content-services
@@ -100,16 +101,18 @@ runs:
         --values test/enterprise-integration-test-values.yaml
 
     - name: Watch Helm deployment
-        run: |
-          kubectl get pods --watch &
-          KWPID=$!
-          kubectl wait --timeout=7m --all=true --for=condition=Available deploy && kill $KWPID
-          echo -n "Waiting for ESC Reindexing job to complete... "
-          kubectl wait --timeout=5m --for=condition=complete job/acs-alfresco-search-enterprise-reindexing
-          echo "Completed."
+      shell: bash
+      run: |
+        kubectl get pods --watch &
+        KWPID=$!
+        kubectl wait --timeout=7m --all=true --for=condition=Available deploy && kill $KWPID
+        echo -n "Waiting for ESC Reindexing job to complete... "
+        kubectl wait --timeout=5m --for=condition=complete job/acs-alfresco-search-enterprise-reindexing
+        echo "Completed."
 
     - name: Spit cluster status after install
       if: always()
+      shell: bash
       run: |
         helm ls --all-namespaces --all
         helm status acs --show-resources
