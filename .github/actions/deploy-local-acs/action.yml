@@ -17,8 +17,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
-
     - uses: azure/setup-helm@fe7b79cd5ee1e45176fcad797de68ecaf3ca4814
       with:
         version: "3.14.3"
