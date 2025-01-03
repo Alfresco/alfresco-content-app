@@ -82,11 +82,11 @@ runs:
         helm repo add elastic https://helm.elastic.co/
 
     - name: Checkout acs-deployment sources
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-        with:
-          repository: Alfresco/acs-deployment
-          ref: ${{ env.ACS_DEPLOYMENT_VERSION  }}
-          path: acs-deployment
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      with:
+        repository: Alfresco/acs-deployment
+        ref: 8.6.1
+        path: acs-deployment
 
     # Name and value to be fetched by automation??
     - name: Helm install
