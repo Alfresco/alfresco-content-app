@@ -43,11 +43,13 @@ runs:
         metrics: "true"
 
     - name: Set nginx ingress config
+      shell: bash
       run: >-
         kubectl -n ingress-nginx patch cm ingress-nginx-controller
         -p '{"data": {"allow-snippet-annotations":"true"}}'
 
     - name: Create registries auth secret
+      shell: bash
       run: >-
         kubectl create secret generic regcred
         --from-file=.dockerconfigjson=$HOME/.docker/config.json
@@ -74,6 +76,7 @@ runs:
     #     fi
 
     - name: Add dependency chart repos
+      shell: bash
       run: |
         helm repo add self https://alfresco.github.io/alfresco-helm-charts/
         helm repo add elastic https://helm.elastic.co/
