@@ -102,8 +102,12 @@ jobs:
         if: ${{ github.event_name != 'pull_request' }}
         run: npx nx run-many --target=test --browsers=ChromeHeadless --watch=false $TEST_OPTS
 
+  deploy-local-acs:
+    uses: ./.github/workflows/deploy-local-acs.yml
+    secrets: inherit
+
   e2es-playwright:
-    needs: [lint, build, unit-tests]
+    needs: [lint, build, unit-tests, deploy-local-acs]
     name: 'E2E Playwright - ${{ matrix.e2e-suites.name }}'
     runs-on: ubuntu-latest
     strategy:
@@ -180,7 +184,7 @@ jobs:
 
   finalize:
     if: ${{ always() }}
-    needs: [lint, build, unit-tests, e2es-playwright]
+    needs: [lint, build, unit-tests, deploy-local-acs , e2es-playwright]
     name: 'Finalize'
     runs-on: ubuntu-latest
     steps:

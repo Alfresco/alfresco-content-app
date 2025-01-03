@@ -1,0 +1,168 @@
+name: Deploy local ACS for E2E testing
+on:
+  workflow_call:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  # I think it's not required as we need just an automation to get latest ACS
+  # build_vars:
+  #   runs-on: ubuntu-latest
+  #   if: >-
+  #     github.event_name == 'push'
+  #     || (
+  #       && github.actor != 'dependabot[bot]'
+  #     )
+  #   outputs:
+  #     ver_json: ${{ steps.app_versions.outputs.json }}
+  #   steps:
+  #     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+  #       with:
+  #         fetch-depth: 0
+  #     - name: Get charts
+  #       id: getcharts
+  #       uses: ./.github/actions/charts-as-json
+  #       with:
+  #         charts-root: helm
+  #     - name: Select ACS enterprise versions excluding any deprecated versions
+  #       id: app_versions
+  #       env:
+  #         JSON: ${{ toJSON(fromJSON(steps.getcharts.outputs.all)) }}
+  #         JQ_FILTER: >-
+  #           [inputs | .charts[] | {name: .name, values: .values[]}
+  #           | del(. | select(.values=="community_values.yaml"))
+  #           | del(. | select(.values=="7.2.N_values.yaml"))
+  #           | select(.name=="alfresco-content-services")]
+  #       run: |
+  #         echo "${JSON}" | jq -nc '${{ env.JQ_FILTER }}'
+  #         VERS=$(echo "${JSON}" | jq -nc '${{ env.JQ_FILTER }}')
+  #         echo "json=$VERS" >> $GITHUB_OUTPUT
+  helm_integration:
+    runs-on: alfrescoPub-ubuntu2204-16G-4CPU
+    timeout-minutes: 12
+    name: Deploy env (name to be updated)
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+
+      - uses: azure/setup-helm@fe7b79cd5ee1e45176fcad797de68ecaf3ca4814
+        with:
+          version: "3.14.3"
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567  # v3.3.0
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Login to Quay.io
+        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567  # v3.3.0
+        with:
+          registry: quay.io
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_PASSWORD }}
+
+      - name: Setup cluster
+        uses: Alfresco/alfresco-build-tools/.github/actions/setup-kind@v8.4.0
+        with:
+          ingress-nginx-ref: controller-v1.8.2
+          metrics: "true"
+
+      - name: Set nginx ingress config
+        run: >-
+          kubectl -n ingress-nginx patch cm ingress-nginx-controller
+          -p '{"data": {"allow-snippet-annotations":"true"}}'
+
+      - name: Create registries auth secret
+        run: >-
+          kubectl create secret generic regcred
+          --from-file=.dockerconfigjson=$HOME/.docker/config.json
+          --type=kubernetes.io/dockerconfigjson
+
+      # to be skipped imo
+      # - name: Check if cgroup v2 workaround is needed
+      #   if: startsWith(matrix.values, '7.')
+      #   env:
+      #     VALUES_FILE: ${{ matrix.values }}
+      #   id: cgroupv2-workaround-extra-values
+      #   run: |
+      #     if [ ${VALUES_FILE:2:1} -le 2 ]; then
+      #       echo "Enabling cgroupv v2 workaround"
+      #       echo "helm_install_params=--values test/cgroup-v2-workaround-values.yaml" >> "$GITHUB_OUTPUT"
+      #     fi
+
+      # - name: Check if we want additional helm customizations
+      #   id: configurable-extra-values
+      #   run: |
+      #     if [ "${{ matrix.values }}" = "pre-release_values.yaml" ] || [ "${{ matrix.values }}" = "values.yaml" ]; then
+      #       echo "Enabling clustered tests with 2 replicas"
+      #       echo "helm_install_params=--set alfresco-repository.replicaCount=2" >> "$GITHUB_OUTPUT"
+      #     fi
+
+      - name: Add dependency chart repos
+        run: |
+          helm repo add self https://alfresco.github.io/alfresco-helm-charts/
+          helm repo add elastic https://helm.elastic.co/
+
+      # Name and value to be fetched by automation??
+      - name: Helm install
+        run: >-
+          helm dep build ./helm/alfresco-content-services &&
+          helm install acs ./helm/alfresco-content-services
+          --set global.search.sharedSecret="$(openssl rand -hex 24)"
+          --set global.known_urls=http://localhost
+          --set global.alfrescoRegistryPullSecrets=regcred
+          --values helm/${{ matrix.name }}/${{ matrix.values }}
+          --values test/enterprise-integration-test-values.yaml
+
+      # what about values here??
+      - name: Watch Helm deployment
+        env:
+          VALUES_FILE: ${{ matrix.values }}
+        run: |
+          kubectl get pods --watch &
+          KWPID=$!
+          kubectl wait --timeout=7m --all=true --for=condition=Available deploy && kill $KWPID
+          if [ "${VALUES_FILE:0:2}" != "7." ] ; then echo -n "Waiting for ESC Reindexing job to complete... "
+            kubectl wait --timeout=5m --for=condition=complete job/acs-alfresco-search-enterprise-reindexing
+            echo "Completed."
+          fi
+
+      - name: Spit cluster status after install
+        if: always()
+        run: |
+          helm ls --all-namespaces --all
+          helm status acs --show-resources
+          kubectl describe pod
+
+      - name: Run Newman tests
+        uses: nick-fields/retry@7152eba30c6575329ac0576536151aca5a72780e # v3.0.0
+        id: newman
+        with:
+          timeout_minutes: 1
+          retry_wait_seconds: 20
+          max_attempts: 5
+          command: >-
+            docker run --network=host
+            -v $(pwd)/test/postman:/etc/postman
+            -t postman/newman run /etc/postman/helm/acs-test-helm-collection.json
+            --global-var protocol=http --global-var url=localhost
+
+      - name: Spit cluster status after newman tests
+        if: always() && steps.newman.outcome != 'skipped'
+        run: |
+          kubectl get all --all-namespaces
+          kubectl describe pod
+          kubectl events --for deployment/acs-alfresco-repository
+
+      - name: Run helm test
+        id: helm_test
+        run: helm test acs
+
+      - name: Spit cluster status after helm test
+        if: always() && steps.helm_test.outcome != 'skipped'
+        run: |
+          kubectl logs -l app.kubernetes.io/component=dtas --tail=-1
+          kubectl get all --all-namespaces
+          kubectl describe pod
+          kubectl events --for deployment/acs-alfresco-repository
