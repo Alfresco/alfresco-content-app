@@ -114,3 +114,4 @@ runs:
         helm ls --all-namespaces --all
         helm status acs --show-resources
         kubectl describe pod
+        curl -vL http://localhost
