@@ -97,8 +97,7 @@ runs:
         --set global.search.sharedSecret="$(openssl rand -hex 24)"
         --set global.known_urls=http://localhost
         --set global.alfrescoRegistryPullSecrets=regcred
-        --values helm/${{ matrix.name }}/${{ matrix.values }}
-        --values test/enterprise-integration-test-values.yaml
+        --values acs-deployment/test/enterprise-integration-test-values.yaml
 
     - name: Watch Helm deployment
       shell: bash
