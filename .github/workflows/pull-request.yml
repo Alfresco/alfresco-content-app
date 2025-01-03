@@ -103,7 +103,7 @@ jobs:
         run: npx nx run-many --target=test --browsers=ChromeHeadless --watch=false $TEST_OPTS
 
   e2es-playwright:
-    needs: [lint, build, unit-tests, deploy-local-acs]
+    needs: [lint, build, unit-tests]
     name: 'E2E Playwright - ${{ matrix.e2e-suites.name }}'
     runs-on: ubuntu-latest
     strategy:
@@ -183,7 +183,7 @@ jobs:
 
   finalize:
     if: ${{ always() }}
-    needs: [lint, build, unit-tests, deploy-local-acs , e2es-playwright]
+    needs: [lint, build, unit-tests, e2es-playwright]
     name: 'Finalize'
     runs-on: ubuntu-latest
     steps:
