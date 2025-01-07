@@ -10,6 +10,7 @@
   --mdc-filled-text-field-container-color: transparent;
   --mdc-text-button-label-text-color: inherit;
   --mat-toolbar-container-text-color: inherit;
+  --mat-form-field-container-height: unset;
 }
 
 mat-toolbar {
@@ -287,10 +288,6 @@ mat-snack-bar-container {
   display: none;
 }
 
-#{$mat-form-field-infix} {
-  min-height: unset;
-}
-
 #{$mat-tab-labels} {
   border-bottom: 1px solid var(--adf-theme-foreground-text-color-014);
 }
@@ -350,4 +347,8 @@ adf-dynamic-component {
   .adf-unsaved-changes-dialog-actions-discard-changes-button:is(button) {
     background-color: var(--theme-blue-button-color);
   }
+}
+
+#{$mat-form-field-infix} {
+  min-height: unset;
 }
