@@ -12,6 +12,13 @@
       column-gap: 10px;
       padding: 20px;
 
+      .aca-folder-icon {
+        display: flex;
+        flex-direction: column;
+        vertical-align: middle;
+        color: #d9e021;
+      }
+
       .aca-folder-title {
         flex: 1;
         font-weight: bold;
