@@ -114,6 +114,7 @@
 
     .aca-rule-details__form__row #{$mat-form-field-flex} #{$mat-form-field-infix} {
       padding-bottom: 0.375em;
+      padding-top: 24px;
     }
 
     .aca-rule-details__form__row aca-rule-action #{$mat-form-field-flex} #{$mat-form-field-infix} {
