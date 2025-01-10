@@ -1,0 +1,18 @@
+share:
+  enabled: false
+postgresql-sync:
+  enabled: false
+alfresco-sync-service:
+  enabled: false
+alfresco-digital-workspace:
+  enabled: false
+alfresco-control-center:
+  enabled: false
+alfresco-ai-transformer:
+  enabled: false
+elasticsearch-audit:
+  enabled: false
+alfresco-audit-storage:
+  enabled: false
+kibana-audit:
+  enabled: false

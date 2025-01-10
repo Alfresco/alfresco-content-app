@@ -1,4 +1,5 @@
-name: Deploy local ACS for E2E testing
+name: deploy-local-acs
+description: Deploy local ACS for E2E testing
 
 inputs:
   docker_username:
@@ -53,26 +54,6 @@ runs:
         --from-file=.dockerconfigjson=$HOME/.docker/config.json
         --type=kubernetes.io/dockerconfigjson
 
-    # to be skipped imo
-    # - name: Check if cgroup v2 workaround is needed
-    #   if: startsWith(matrix.values, '7.')
-    #   env:
-    #     VALUES_FILE: ${{ matrix.values }}
-    #   id: cgroupv2-workaround-extra-values
-    #   run: |
-    #     if [ ${VALUES_FILE:2:1} -le 2 ]; then
-    #       echo "Enabling cgroupv v2 workaround"
-    #       echo "helm_install_params=--values test/cgroup-v2-workaround-values.yaml" >> "$GITHUB_OUTPUT"
-    #     fi
-
-    # - name: Check if we want additional helm customizations
-    #   id: configurable-extra-values
-    #   run: |
-    #     if [ "${{ matrix.values }}" = "pre-release_values.yaml" ] || [ "${{ matrix.values }}" = "values.yaml" ]; then
-    #       echo "Enabling clustered tests with 2 replicas"
-    #       echo "helm_install_params=--set alfresco-repository.replicaCount=2" >> "$GITHUB_OUTPUT"
-    #     fi
-
     - name: Add dependency chart repos
       shell: bash
       run: |
@@ -86,7 +67,6 @@ runs:
         ref: v8.6.1
         path: acs-deployment
 
-    # Name and value to be fetched by automation??
     - name: Helm install
       shell: bash
       run: >-
@@ -96,6 +76,7 @@ runs:
         --set global.known_urls=http://localhost
         --set global.alfrescoRegistryPullSecrets=regcred
         --values acs-deployment/test/enterprise-integration-test-values.yaml
+        --values .github/acs-deployment-values-override.yaml
 
     - name: Watch Helm deployment
       shell: bash
