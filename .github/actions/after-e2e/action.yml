@@ -7,3 +7,9 @@ runs:
     - name: Remove storage file
       shell: bash
       run: rm -f ./storage-state/AdminUserState.json
+
+    - name: Debug Ingress Controller Logs
+      shell: bash
+      if: always()
+      run: |
+        kubectl logs -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx
