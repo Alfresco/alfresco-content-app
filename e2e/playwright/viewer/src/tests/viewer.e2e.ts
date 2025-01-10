@@ -60,7 +60,13 @@ test.describe('viewer file', () => {
     const randomFolderName = `viewer-${Utils.random()}`;
     const apiClientFactory = new ApiClientFactory();
     await apiClientFactory.setUpAcaBackend('admin');
-    await apiClientFactory.createUser({ username });
+    try {
+      await apiClientFactory.createUser({ username });
+    } catch (exception) {
+      if (JSON.parse(exception.message).error.statusCode !== 409) {
+        throw new Error(`----- beforeAll failed : ${exception}`);
+      }
+    }
     nodesApi = await NodesApi.initialize(username, username);
     const fileActionApi = await FileActionsApi.initialize(username, username);
     trashcanApi = await TrashcanApi.initialize(username, username);
@@ -77,13 +83,41 @@ test.describe('viewer file', () => {
     await shareActions.shareFileById(fileDocxId);
     await favoritesActions.addFavoriteById('file', fileDocxId);
 
-    await siteActionsAdmin.createSite(siteAdmin, Site.VisibilityEnum.PRIVATE);
-    docLibId = await siteActionsAdmin.getDocLibId(siteAdmin);
-    fileAdminId = (await fileActionApiAdmin.uploadFile(TEST_FILES.DOCX.path, fileAdmin, docLibId)).entry.id;
+    try {
+      await siteActionsAdmin.createSite(siteAdmin, Site.VisibilityEnum.PRIVATE);
+    } catch (exception) {
+      if (JSON.parse(exception.message).error.statusCode !== 409) {
+        throw new Error(`----- beforeAll failed : ${exception}`);
+      }
+    }
 
-    await siteActionsUser.createSite(siteUser, Site.VisibilityEnum.PUBLIC);
+    docLibId = await siteActionsAdmin.getDocLibId(siteAdmin);
+
+    try {
+      fileAdminId = (await fileActionApiAdmin.uploadFile(TEST_FILES.DOCX.path, fileAdmin, docLibId)).entry.id;
+    } catch (exception) {
+      if (JSON.parse(exception.message).error.statusCode !== 409) {
+        throw new Error(`----- beforeAll failed : ${exception}`);
+      }
+    }
+
+    try {
+      await siteActionsUser.createSite(siteUser, Site.VisibilityEnum.PUBLIC);
+    } catch (exception) {
+      if (JSON.parse(exception.message).error.statusCode !== 409) {
+        throw new Error(`----- beforeAll failed : ${exception}`);
+      }
+    }
+
     docLibSiteUserId = await siteActionsUser.getDocLibId(siteUser);
-    await fileActionApi.uploadFile(TEST_FILES.DOCX.path, fileInSite, docLibSiteUserId);
+
+    try {
+      await fileActionApi.uploadFile(TEST_FILES.DOCX.path, fileInSite, docLibSiteUserId);
+    } catch (exception) {
+      if (JSON.parse(exception.message).error.statusCode !== 409) {
+        throw new Error(`----- beforeAll failed : ${exception}`);
+      }
+    }
 
     await Promise.all([
       favoritesActions.isFavoriteWithRetry(username, fileDocxId, { expect: true }),
