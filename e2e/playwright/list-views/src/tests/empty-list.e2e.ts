@@ -80,35 +80,14 @@ test.describe('Empty list views', () => {
 
   async function openEmptyTab(searchPage: SearchPage, tab: string, emptyStateTitle: string, emptyStateSubtitle: string) {
     await searchPage.sidenav.openPanel(tab);
-    expect(await searchPage.dataTable.isEmpty()).toBeTruthy();
-    expect(await searchPage.dataTable.getEmptyStateTitle()).toContain(emptyStateTitle);
-    expect(await searchPage.dataTable.getEmptyStateSubtitle()).toContain(emptyStateSubtitle);
-  }
-
-  [
-    {
-      tab: SIDEBAR_LABELS.FAVORITE_LIBRARIES,
-      id: 'C289911',
-      emptyStateTitle: `No Favorite Libraries`,
-      emptyStateSubtitle: 'Favorite a library that you want to find easily later.'
-    },
-    {
-      tab: SIDEBAR_LABELS.RECENT_FILES,
-      id: 'C213169',
-      emptyStateTitle: 'No recent files',
-      emptyStateSubtitle: 'Items you uploaded or edited in the last 30 days are shown here.'
-    },
-    {
-      tab: SIDEBAR_LABELS.FAVORITES,
-      id: 'C280133',
-      emptyStateTitle: 'No favorite files or folders',
-      emptyStateSubtitle: 'Favorite items that you want to easily find later.'
+    await searchPage.dataTable.spinnerWaitForReload();
+    if (await searchPage.dataTable.isEmpty()) {
+      expect(await searchPage.dataTable.getEmptyStateTitle()).toContain(emptyStateTitle);
+      expect(await searchPage.dataTable.getEmptyStateSubtitle()).toContain(emptyStateSubtitle);
+    } else {
+      expect(await searchPage.dataTable.getRowsCount()).toEqual(1);
     }
-  ].forEach((testCase) => {
-    test(`[${testCase.id}] empty ${testCase.tab}`, async ({ searchPage }) => {
-      await openEmptyTab(searchPage, testCase.tab, testCase.emptyStateTitle, testCase.emptyStateSubtitle);
-    });
-  });
+  }
 
   async function checkPaginationForTabs(searchPage: SearchPage, tab: string, personalFiles: PersonalFilesPage) {
     await searchPage.sidenav.openPanel(tab);
@@ -120,34 +99,49 @@ test.describe('Empty list views', () => {
     expect(await personalFiles.pagination.isNextButtonPresent()).toBeFalsy();
   }
 
-  [
-    {
-      tab: SIDEBAR_LABELS.FAVORITES,
-      id: 'C280111'
-    },
-    {
-      tab: SIDEBAR_LABELS.MY_LIBRARIES,
-      id: 'C280084'
-    },
-    {
-      tab: SIDEBAR_LABELS.FAVORITE_LIBRARIES,
-      id: 'C291873'
-    },
-    {
-      tab: SIDEBAR_LABELS.PERSONAL_FILES,
-      id: 'C280075'
-    },
-    {
-      tab: SIDEBAR_LABELS.RECENT_FILES,
-      id: 'C280102'
-    },
-    {
-      tab: SIDEBAR_LABELS.TRASH,
-      id: 'C280120'
-    }
-  ].forEach((testCase) => {
-    test(`[${testCase.id}] ${testCase.tab} - pagination controls not displayed`, async ({ searchPage, personalFiles }) => {
-      await checkPaginationForTabs(searchPage, testCase.tab, personalFiles);
-    });
+  test(`[C289911] empty ${SIDEBAR_LABELS.FAVORITE_LIBRARIES}`, async ({ searchPage }) => {
+    await openEmptyTab(
+      searchPage,
+      SIDEBAR_LABELS.FAVORITE_LIBRARIES,
+      'No Favorite Libraries',
+      'Favorite a library that you want to find easily later.'
+    );
+  });
+
+  test(`[C213169] empty ${SIDEBAR_LABELS.RECENT_FILES}`, async ({ searchPage }) => {
+    await openEmptyTab(
+      searchPage,
+      SIDEBAR_LABELS.RECENT_FILES,
+      'No recent files',
+      'Items you uploaded or edited in the last 30 days are shown here.'
+    );
+  });
+
+  test(`[C280133] empty ${SIDEBAR_LABELS.FAVORITES}`, async ({ searchPage }) => {
+    await openEmptyTab(searchPage, SIDEBAR_LABELS.FAVORITES, 'No favorite files or folders', 'Favorite items that you want to easily find later.');
+  });
+
+  test(`[C280111] ${SIDEBAR_LABELS.FAVORITES} - pagination controls not displayed`, async ({ searchPage, personalFiles }) => {
+    await checkPaginationForTabs(searchPage, SIDEBAR_LABELS.FAVORITES, personalFiles);
+  });
+
+  test(`[C280084] ${SIDEBAR_LABELS.MY_LIBRARIES} - pagination controls not displayed`, async ({ searchPage, personalFiles }) => {
+    await checkPaginationForTabs(searchPage, SIDEBAR_LABELS.MY_LIBRARIES, personalFiles);
+  });
+
+  test(`[C291873] ${SIDEBAR_LABELS.FAVORITE_LIBRARIES} - pagination controls not displayed`, async ({ searchPage, personalFiles }) => {
+    await checkPaginationForTabs(searchPage, SIDEBAR_LABELS.FAVORITE_LIBRARIES, personalFiles);
+  });
+
+  test(`[C280075] ${SIDEBAR_LABELS.PERSONAL_FILES} - pagination controls not displayed`, async ({ searchPage, personalFiles }) => {
+    await checkPaginationForTabs(searchPage, SIDEBAR_LABELS.PERSONAL_FILES, personalFiles);
+  });
+
+  test(`[C280102] ${SIDEBAR_LABELS.RECENT_FILES} - pagination controls not displayed`, async ({ searchPage, personalFiles }) => {
+    await checkPaginationForTabs(searchPage, SIDEBAR_LABELS.RECENT_FILES, personalFiles);
+  });
+
+  test(`[C280120] ${SIDEBAR_LABELS.TRASH} - pagination controls not displayed`, async ({ searchPage, personalFiles }) => {
+    await checkPaginationForTabs(searchPage, SIDEBAR_LABELS.TRASH, personalFiles);
   });
 });

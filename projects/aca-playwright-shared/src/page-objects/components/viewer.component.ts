@@ -94,6 +94,7 @@ export class ViewerComponent extends BaseComponent {
 
   async getFileTitle(): Promise<string> {
     await this.fileTitleButtonLocator.waitFor({ state: 'visible', timeout: timeouts.normal });
+    await this.waitForViewerLoaderToFinish();
     return this.fileTitleButtonLocator.textContent();
   }
 
