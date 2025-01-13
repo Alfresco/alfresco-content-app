@@ -74,7 +74,7 @@ test.describe('Edit offline - on Personal Files', () => {
     await personalFiles.dataTable.selectItems(file1);
     await personalFiles.acaHeader.clickMoreActions();
     await personalFiles.matMenu.clickMenuItem('Edit Offline');
-    const [download] = await Promise.all([personalFiles.page.waitForEvent('download')]);
+    const [download] = await Promise.all([personalFiles.page.waitForEvent('download', { timeout: 5000 })]);
     expect(download.suggestedFilename()).toBe(file1);
   });
 

@@ -107,7 +107,7 @@ test.describe('Search sorting', () => {
     expectedFirstFile: string,
     expectedSecondFile: string
   ) {
-    await searchPage.searchWithin(`search-sort *${random}`, 'files');
+    await searchPage.searchWithin(`*${random}*`, 'files');
     await searchPage.searchSortingPicker.sortBy(sortBy, sortOrder);
     expect(await searchPage.dataTable.getNthRow(0).textContent()).toContain(expectedFirstFile);
     expect(await searchPage.dataTable.getNthRow(1).textContent()).toContain(expectedSecondFile);
