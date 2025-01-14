@@ -27,7 +27,7 @@ import { ActivatedRoute, NavigationStart } from '@angular/router';
 import { ContentApiService, PageComponent, PageLayoutComponent, ToolbarComponent } from '@alfresco/aca-shared';
 import { NavigateToFolder, NavigateToPreviousPage, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { merge, Subject } from 'rxjs';
-import { BreadcrumbComponent, ContentService, PermissionListComponent } from '@alfresco/adf-content-services';
+import { BreadcrumbComponent, ContentService, NodesApiService, PermissionListComponent } from '@alfresco/adf-content-services';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -40,6 +40,7 @@ import { NodeEntry, PathElement } from '@alfresco/js-api';
 import { first, takeUntil } from 'rxjs/operators';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { FileSizePipe, InfoDrawerButtonsDirective } from '@alfresco/adf-core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -74,7 +75,12 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
 
   private readonly onDestroy$: Subject<void> = new Subject<void>();
 
-  constructor(private route: ActivatedRoute, private contentApi: ContentApiService, private contentService: ContentService) {
+  constructor(
+    private route: ActivatedRoute,
+    private contentApi: ContentApiService,
+    private contentService: ContentService,
+    private nodesApiService: NodesApiService
+  ) {
     super();
   }
 
@@ -84,6 +90,7 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
     const { route } = this;
     const { data } = route.snapshot;
     this.title = data.title;
+    this.nodesApiService.nodeUpdated.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((node) => (this.node = { ...node }));
     this.route.params.subscribe((params) => {
       this.isLoading = true;
       this.setActiveTab(params.activeTab);
