@@ -5,16 +5,13 @@ inputs:
   options:
     description: 'Options'
     required: true
-    type: string
   test-runner:
     description: 'Test runner'
     required: false
-    type: string
     default: 'Playwright'
   artifact-name:
     description: Name of the artifact cache
     required: true
-    type: string
 
 runs:
   using: "composite"
