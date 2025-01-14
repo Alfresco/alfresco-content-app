@@ -105,7 +105,7 @@ jobs:
   e2es-playwright:
     needs: [lint, build, unit-tests]
     name: 'E2E Playwright - ${{ matrix.e2e-suites.name }}'
-    runs-on: alfrescoPub-ubuntu2204-16G-4CPU
+    runs-on: ubuntu-24.04
     env:
       NODE_OPTIONS: --dns-result-order=ipv4first
     strategy:
