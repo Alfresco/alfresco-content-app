@@ -189,7 +189,7 @@ jobs:
           test-runner: playwright
 
       - name: Debug Ingress Controller Logs
-        shell: bash
+        if: always()
         run: |
             kubectl logs -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx --tail=-1
 
