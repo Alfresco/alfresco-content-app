@@ -71,7 +71,7 @@
     "@angular-eslint/eslint-plugin-template": "^16.0.2",
     "@angular-eslint/schematics": "^16.3.0",
     "@angular-eslint/template-parser": "^16.3.1",
-    "@angular/cli": "16.2.9",
+    "@angular/cli": "16.2.16",
     "@angular/compiler-cli": "16.2.9",
     "@angular/language-service": "16.2.9",
     "@cspell/eslint-plugin": "^8.14.1",
