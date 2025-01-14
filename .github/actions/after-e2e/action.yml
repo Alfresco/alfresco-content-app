@@ -12,4 +12,4 @@ runs:
       shell: bash
       if: always()
       run: |
-        kubectl logs -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx
+        kubectl logs -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx --tail=-1
