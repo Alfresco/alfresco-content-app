@@ -16,3 +16,6 @@ alfresco-audit-storage:
   enabled: false
 kibana-audit:
   enabled: false
+alfresco-repository:
+  image:
+    tag: 25.1.0-A.7
