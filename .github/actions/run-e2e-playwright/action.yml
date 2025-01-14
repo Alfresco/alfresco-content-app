@@ -25,6 +25,12 @@ runs:
       run: |
         npm start > /dev/null &\
 
+        echo -n "Waiting for the application to be ready..."
+        while ! curl -sf ${PLAYWRIGHT_E2E_HOST} > /dev/null; do
+          echo -n "."
+          sleep 1
+        done
+        echo "\nApplication is ready"
+
         echo "Running playwright tests with options ${{ inputs.options }}"
-        sleep 90
         npx nx run ${{ inputs.options }}-e2e:e2e
