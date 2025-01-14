@@ -178,15 +178,20 @@ jobs:
       - name: Before e2e
         uses: ./.github/actions/before-e2e
 
-      - name: before playwright
+      - name: Before playwright
         shell: bash
         run: npx playwright install chromium
+
       - uses: ./.github/actions/run-e2e-playwright
         with:
           options: "${{ matrix.e2e-suites.name }}"
           artifact-name: ${{ matrix.e2e-suites.name }}
           test-runner: playwright
-      - uses: ./.github/actions/after-e2e
+
+      - name: Debug Ingress Controller Logs
+        shell: bash
+        run: |
+            kubectl logs -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx --tail=-1
 
   finalize:
     if: ${{ always() }}
