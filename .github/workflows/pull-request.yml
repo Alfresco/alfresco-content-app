@@ -12,14 +12,14 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  BASE_URL: ${{ secrets.BASE_URL_LOCAL }}
-  ADMIN_EMAIL: ${{ secrets.TEMP_ADMIN_USERNAME }}
-  ADMIN_PASSWORD: ${{ secrets.TEMP_ADMIN_PASSWORD }}
-  HR_USER: ${{ secrets.TEMP_ADMIN_USERNAME }}
-  HR_USER_PASSWORD: ${{ secrets.TEMP_ADMIN_PASSWORD }}
+  BASE_URL: http://localhost
+  ADMIN_EMAIL: admin
+  ADMIN_PASSWORD: admin
+  HR_USER: admin
+  HR_USER_PASSWORD: admin
   SCREENSHOT_USERNAME: ${{ secrets.SCREENSHOT_USERNAME }}
   SCREENSHOT_PASSWORD: ${{ secrets.SCREENSHOT_PASSWORD}}
-  PLAYWRIGHT_E2E_HOST: ${{ secrets.PLAYWRIGHT_E2E_HOST_LOCAL }}
+  PLAYWRIGHT_E2E_HOST: http://localhost:4200
   GH_BUILD_NUMBER: ${{ github.run_id }}
   REPORT_PORTAL_URL: ${{ secrets.REPORT_PORTAL_URL }}
   REPORT_PORTAL_TOKEN: ${{ secrets.REPORT_PORTAL_TOKEN }}
