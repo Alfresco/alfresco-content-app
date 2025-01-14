@@ -84,8 +84,6 @@ runs:
         kubectl get pods --watch &
         KWPID=$!
         kubectl wait --timeout=7m --all=true --for=condition=Available deploy && kill $KWPID
-        echo -n "Waiting for ESC Reindexing job to complete... "
-        kubectl wait --timeout=5m --for=condition=complete job/acs-alfresco-search-enterprise-reindexing
         echo "Completed."
 
     - name: Spit cluster status after install
@@ -95,4 +93,3 @@ runs:
         helm ls --all-namespaces --all
         helm status acs --show-resources
         kubectl describe pod
-        curl -vL http://localhost
