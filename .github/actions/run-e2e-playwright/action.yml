@@ -5,16 +5,13 @@ inputs:
   options:
     description: 'Options'
     required: true
-    type: string
   test-runner:
     description: 'Test runner'
     required: false
-    type: string
     default: 'Playwright'
   artifact-name:
     description: Name of the artifact cache
     required: true
-    type: string
 
 runs:
   using: "composite"
@@ -25,7 +22,12 @@ runs:
       run: |
         npm start > /dev/null &\
 
-        echo "Running playwright tests with options ${{ inputs.options }}"
-        sleep 90
-        npx nx run ${{ inputs.options }}-e2e:e2e
+        printf "Waiting for the application to be ready..."
+        while ! curl -sf ${PLAYWRIGHT_E2E_HOST} > /dev/null; do
+          printf "."
+          sleep 1
+        done
+        printf "\nApplication is ready.\n"
 
+        echo "Running playwright tests with options ${{ inputs.options }}"
+        npx nx run ${{ inputs.options }}-e2e:e2e

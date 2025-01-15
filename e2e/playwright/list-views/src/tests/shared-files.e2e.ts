@@ -44,7 +44,15 @@ test.describe('Shared Files', () => {
     test.setTimeout(timeouts.extendedTest);
     const apiClientFactory = new ApiClientFactory();
     await apiClientFactory.setUpAcaBackend('admin');
-    await apiClientFactory.createUser({ username });
+
+    try {
+      await apiClientFactory.createUser({ username });
+    } catch (exception) {
+      if (JSON.parse(exception.message).error.statusCode !== 409) {
+        throw new Error(`----- beforeAll failed : ${exception}`);
+      }
+    }
+
     siteActionsAdmin = await SitesApi.initialize('admin');
     const nodesApiAdmin = await NodesApi.initialize('admin');
     const shareActionsAdmin = await SharedLinksApi.initialize('admin');

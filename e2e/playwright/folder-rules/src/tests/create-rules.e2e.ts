@@ -131,24 +131,23 @@ test.describe('Folder Rules Actions', () => {
 
   test('[XAT-888] Create a rule with multiple actions', async ({ personalFiles, nodesPage }) => {
     const checkInValue = 'check In Value';
-    const actionValue = ' A site which contains sfdc content [sfdc:site] ';
-    const autoDeclareOptionsValue = 'For all major and minor versions [ALL]';
+    const actionValue = 'Site Container [st:siteContainer]';
+    const specialiseTypeValue = 'Action Base Type [act:actionbase]';
     const simpleWorkFlow = 'accept reject';
 
     await personalFiles.navigate({ remoteUrl: `#/nodes/${randomFolderName1Id}/rules` });
     await nodesPage.toolbar.clickCreateRuleButton();
     await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
 
-    await nodesPage.actionsDropdown.selectAction(ActionType.HideRecord, 0);
-    await nodesPage.actionsDropdown.selectAction(ActionType.IncrementCounter, 1);
-    await nodesPage.actionsDropdown.selectAction(ActionType.CheckIn, 2);
-    await nodesPage.actionsDropdown.insertCheckInActionValues(checkInValue, 2);
-    await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 3);
-    await nodesPage.actionsDropdown.insertAddAspectActionValues(actionValue, 3);
-    await nodesPage.actionsDropdown.selectAction(ActionType.AutoDeclareOptions, 4);
-    await nodesPage.actionsDropdown.insertAutoDeclareOptionsActionValues(autoDeclareOptionsValue, 4);
-    await nodesPage.actionsDropdown.selectAction(ActionType.SimpleWorkflow, 5);
-    await nodesPage.actionsDropdown.insertSimpleWorkflowActionValues(simpleWorkFlow, 5);
+    await nodesPage.actionsDropdown.selectAction(ActionType.IncrementCounter, 0);
+    await nodesPage.actionsDropdown.selectAction(ActionType.CheckIn, 1);
+    await nodesPage.actionsDropdown.insertCheckInActionValues(checkInValue, 1);
+    await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 2);
+    await nodesPage.actionsDropdown.insertAddAspectActionValues(actionValue, 2);
+    await nodesPage.actionsDropdown.selectAction(ActionType.SpecialiseType, 3);
+    await nodesPage.actionsDropdown.insertSpecialiseTypeActionValues(specialiseTypeValue, 3);
+    await nodesPage.actionsDropdown.selectAction(ActionType.SimpleWorkflow, 4);
+    await nodesPage.actionsDropdown.insertSimpleWorkflowActionValues(simpleWorkFlow, 4);
 
     await nodesPage.manageRulesDialog.createRuleButton.click();
 
@@ -185,18 +184,18 @@ test.describe('Folder Rules Actions', () => {
     await nodesPage.toolbar.clickCreateRuleButton();
     await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
     await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 0);
-    await nodesPage.actionsDropdown.insertAddAspectActionValues('Controls', 0);
+    await nodesPage.actionsDropdown.insertAddAspectActionValues('Classifiable', 0);
     await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 1);
-    await nodesPage.actionsDropdown.insertAddAspectActionValues('CMM', 1);
+    await nodesPage.actionsDropdown.insertAddAspectActionValues('Countable', 1);
     await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 2);
-    await nodesPage.actionsDropdown.insertAddAspectActionValues('folder', 2);
+    await nodesPage.actionsDropdown.insertAddAspectActionValues('Incomplete', 2);
     await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 3);
-    await nodesPage.actionsDropdown.insertAddAspectActionValues('site which', 3);
+    await nodesPage.actionsDropdown.insertAddAspectActionValues('Site container', 3);
     await nodesPage.manageRulesDialog.createRuleButton.click();
     await nodesPage.manageRulesDialog.createRuleButton.waitFor({ state: 'hidden' });
     await nodesPage.manageRules.getGroupsList(randomRuleName).click();
 
-    await nodesPage.manageRules.checkAspects(['sc:controlsAreClearance', 'sfdc:objectModel', 'sfdc:folder', 'sfdc:site']);
+    await nodesPage.manageRules.checkAspects(['cm:generalclassifiable', 'cm:countable', 'sys:incomplete', 'st:siteContainer']);
   });
 
   test('[XAT-891] Prevent rule creation after clicking on cancel during selecting destination folder', async ({ nodesPage, personalFiles }) => {
@@ -204,7 +203,7 @@ test.describe('Folder Rules Actions', () => {
     await nodesPage.toolbar.clickCreateRuleButton();
     await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
     await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 0);
-    await nodesPage.actionsDropdown.insertAddAspectActionValues('Controls', 0);
+    await nodesPage.actionsDropdown.insertAddAspectActionValues('Classifiable', 0);
     await expect(nodesPage.manageRulesDialog.createRuleButton).toBeEnabled();
     await nodesPage.actionsDropdown.selectAction(ActionType.Copy, 1);
     await nodesPage.manageRulesDialog.destinationFolderButton.click();
@@ -217,7 +216,7 @@ test.describe('Folder Rules Actions', () => {
     await nodesPage.toolbar.clickCreateRuleButton();
     await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
     await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 0);
-    await nodesPage.actionsDropdown.insertAddAspectActionValues('Controls', 0);
+    await nodesPage.actionsDropdown.insertAddAspectActionValues('Classifiable', 0);
     await expect(nodesPage.manageRulesDialog.createRuleButton).toBeEnabled();
     await nodesPage.actionsDropdown.selectAction(ActionType.Copy, 1);
     await expect(nodesPage.manageRulesDialog.createRuleButton).toBeDisabled();
@@ -228,7 +227,7 @@ test.describe('Folder Rules Actions', () => {
     await nodesPage.toolbar.clickCreateRuleButton();
     await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
     await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 0);
-    await nodesPage.actionsDropdown.insertAddAspectActionValues('Controls', 0);
+    await nodesPage.actionsDropdown.insertAddAspectActionValues('Classifiable', 0);
     await expect(nodesPage.manageRulesDialog.createRuleButton).toBeEnabled();
     await nodesPage.actionsDropdown.insertAddAspectActionValues('None', 0);
     await expect(nodesPage.manageRulesDialog.createRuleButton).toBeDisabled();
@@ -239,7 +238,7 @@ test.describe('Folder Rules Actions', () => {
     await nodesPage.toolbar.clickCreateRuleButton();
     await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
     await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 0);
-    await nodesPage.actionsDropdown.insertAddAspectActionValues('Controls', 0);
+    await nodesPage.actionsDropdown.insertAddAspectActionValues('Classifiable', 0);
     await expect(nodesPage.manageRulesDialog.createRuleButton).toBeEnabled();
     await nodesPage.actionsDropdown.selectAction(ActionType.CheckIn, 1);
     await expect(nodesPage.manageRulesDialog.createRuleButton).toBeEnabled();

@@ -181,7 +181,7 @@ test.describe('viewer action file', () => {
 
   test('[C297586] [C307004] Upload new version action - major', async ({ personalFiles, nodesApiAction }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(filePersonalFiles);
-    await personalFiles.viewer.waitForViewerToOpen();
+    await personalFiles.viewer.waitForViewerToOpen('wait for viewer content');
 
     await Utils.uploadFileNewVersion(personalFiles, docxFile2);
 
@@ -191,7 +191,9 @@ test.describe('viewer action file', () => {
     await personalFiles.uploadNewVersionDialog.uploadButton.waitFor({ state: 'detached' });
     await expect(personalFiles.uploadNewVersionDialog.cancelButton).toHaveCount(0);
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not open').toBe(true);
-    expect(await personalFiles.viewer.fileTitleButtonLocator.innerText()).toContain(docxFile2);
+    await Utils.waitForApiResponse(personalFiles, 'content', 200);
+
+    expect(await personalFiles.viewer.getFileTitle()).toContain(docxFile2);
     expect(await nodesApiAction.getNodeProperty(filePersonalFilesId, 'cm:versionType'), 'File has incorrect version type').toEqual('MAJOR');
     expect(await nodesApiAction.getNodeProperty(filePersonalFilesId, 'cm:versionLabel'), 'File has incorrect version label').toEqual('2.0');
   });
@@ -207,7 +209,8 @@ test.describe('viewer action file', () => {
     await expect(personalFiles.uploadNewVersionDialog.cancelButton).toHaveCount(0);
 
     await personalFiles.viewer.waitForViewerToOpen();
-    expect(await personalFiles.viewer.fileTitleButtonLocator.innerText()).toContain(docxFile);
+    await Utils.waitForApiResponse(personalFiles, 'content', 200);
+    expect(await personalFiles.viewer.getFileTitle()).toContain(docxFile);
 
     await personalFiles.acaHeader.clickViewerMoreActions();
     await expect(personalFiles.matMenu.getMenuItemFromHeaderMenu('Cancel Editing'), `'Cancel Editing' button shouldn't be shown`).toBeHidden();

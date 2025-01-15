@@ -147,19 +147,19 @@ export class RulesApi {
         {
           actionDefinitionId: 'add-features',
           params: {
-            'aspect-name': 'sc:controlsAreClearance'
+            'aspect-name': 'cm:auditable'
           }
         },
         {
           actionDefinitionId: 'add-features',
           params: {
-            'aspect-name': 'sfdc:objectModel'
+            'aspect-name': 'app:configurable'
           }
         },
         {
           actionDefinitionId: 'add-features',
           params: {
-            'aspect-name': 'sfdc:folder'
+            'aspect-name': 'exif:exif'
           }
         }
       ]
@@ -224,10 +224,6 @@ export class ActionTypes {
     actionDefinitionId: 'specialise-type',
     params: { 'type-name': 'sys:base' }
   });
-  static readonly RECORDABLEVERSION = new ActionTypes('RECORDABLEVERSION', {
-    actionDefinitionId: 'recordable-version-config',
-    params: { version: 'ALL' }
-  });
   static readonly SETPROPERTYVALUE = new ActionTypes('SETPROPERTYVALUE', {
     actionDefinitionId: 'set-property-value',
     params: { property: 'dl:ganttPercentComplete', value: 'test' }
@@ -235,7 +231,6 @@ export class ActionTypes {
   static readonly actions = [
     ActionTypes.ADDFEATURES.value,
     ActionTypes.CHECKIN.value,
-    ActionTypes.RECORDABLEVERSION.value,
     ActionTypes.SPECIALISETYPE.value,
     ActionTypes.SETPROPERTYVALUE.value
   ];

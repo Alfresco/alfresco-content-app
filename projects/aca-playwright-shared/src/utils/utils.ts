@@ -179,4 +179,19 @@ export class Utils {
   static trimArrayElements(arr: string[]): string[] {
     return arr.map((element) => element.trim());
   }
+
+  /**
+   * Waits for a specific API response.
+   *
+   * @param page - The Playwright page object.
+   * @param urlSubstring - The substring to look for in the URL.
+   * @param statusCode - The expected status code of the response.
+   */
+  static async waitForApiResponse(
+    contentPage: LoginPage | MyLibrariesPage | PersonalFilesPage | FavoritesLibrariesPage | SearchPage | SharedPage | TrashPage,
+    urlSubstring: string,
+    statusCode: number
+  ) {
+    await contentPage.page.waitForResponse((response) => response.url().includes(urlSubstring) && response.status() === statusCode);
+  }
 }

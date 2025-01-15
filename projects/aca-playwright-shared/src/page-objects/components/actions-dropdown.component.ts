@@ -60,6 +60,7 @@ export class ActionsDropdownComponent extends BaseComponent {
   private actionAspectNameLocator = '[data-automation-id="header-aspect-name"] .adf-property-field';
   private actionCheckInInputLocator = '[data-automation-id="header-description"] input';
   private actionAutoDeclareLocator = '[data-automation-id="header-version"] mat-select';
+  private actionSpecialiseTypeLocator = '[data-automation-id="header-type-name"] mat-select';
   private actionSimpleWorkflowStepInputLocator = '[data-automation-id="header-approve-step"] input';
   private actionSimpleWorkflowApproveFolderLocator = `[data-automation-id="header-approve-folder"] mat-icon`;
   private actionSimpleWorkflowActionChoiceLocator = '[data-automation-id="content-node-selector-actions-choose"]';
@@ -96,6 +97,10 @@ export class ActionsDropdownComponent extends BaseComponent {
 
   async insertAutoDeclareOptionsActionValues(autoDeclareOptionsValue: string, index: number): Promise<void> {
     await this.dropdownSelection(autoDeclareOptionsValue, this.actionAutoDeclareLocator, index);
+  }
+
+  async insertSpecialiseTypeActionValues(specialiseTypeValue: string, index: number): Promise<void> {
+    await this.dropdownSelection(specialiseTypeValue, this.actionSpecialiseTypeLocator, index);
   }
 
   async insertSimpleWorkflowActionValues(stepValue: string, index: number): Promise<void> {

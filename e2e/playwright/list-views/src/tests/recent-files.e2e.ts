@@ -45,7 +45,14 @@ test.describe('Recent Files', () => {
     test.setTimeout(timeouts.extendedTest);
     const apiClientFactory = new ApiClientFactory();
     await apiClientFactory.setUpAcaBackend('admin');
-    await apiClientFactory.createUser({ username });
+
+    try {
+      await apiClientFactory.createUser({ username });
+    } catch (exception) {
+      if (JSON.parse(exception.message).error.statusCode !== 409) {
+        throw new Error(`----- beforeAll failed : ${exception}`);
+      }
+    }
     nodeActionsUser = await NodesApi.initialize(username, username);
     siteActionsUser = await SitesApi.initialize(username, username);
     trashcanApi = await TrashcanApi.initialize(username, username);
