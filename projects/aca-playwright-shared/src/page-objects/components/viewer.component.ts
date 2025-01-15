@@ -61,7 +61,7 @@ export class ViewerComponent extends BaseComponent {
   async waitForViewerToOpen(waitForViewerContent?: 'wait for viewer content'): Promise<void> {
     await this.viewerLocator.waitFor({ state: 'visible', timeout: timeouts.medium });
     if (waitForViewerContent) {
-      await this.spinnerWaitForReload();
+      await this.waitForViewerLoaderToFinish();
     }
   }
 
@@ -94,6 +94,7 @@ export class ViewerComponent extends BaseComponent {
 
   async getFileTitle(): Promise<string> {
     await this.fileTitleButtonLocator.waitFor({ state: 'visible', timeout: timeouts.normal });
+    await this.waitForViewerLoaderToFinish();
     return this.fileTitleButtonLocator.textContent();
   }
 

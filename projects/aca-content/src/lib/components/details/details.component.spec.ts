@@ -31,10 +31,10 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { DefaultProjectorFn, MemoizedSelector, Store } from '@ngrx/store';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { AppStore, isInfoDrawerOpened, NavigateToFolder, NavigateToPreviousPage, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
-import { NodeEntry, PathElement } from '@alfresco/js-api';
+import { Node, NodeEntry, PathElement } from '@alfresco/js-api';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthenticationService, CORE_PIPES, PageTitleService } from '@alfresco/adf-core';
-import { BreadcrumbComponent, ContentService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
+import { BreadcrumbComponent, ContentService, NodesApiService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { By } from '@angular/platform-browser';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -44,6 +44,7 @@ describe('DetailsComponent', () => {
   let fixture: ComponentFixture<DetailsComponent>;
   let contentApiService: ContentApiService;
   let contentService: ContentService;
+  let nodesApiService: NodesApiService;
   let store: Store;
   let node: NodeEntry;
 
@@ -61,6 +62,8 @@ describe('DetailsComponent', () => {
 
   const mockAspectActionsSubject$ = new BehaviorSubject(mockAspectActions);
   extensionsServiceMock.getAllowedSidebarActions.and.returnValue(mockAspectActionsSubject$.asObservable());
+
+  const getBreadcrumb = (): BreadcrumbComponent => fixture.debugElement.query(By.directive(BreadcrumbComponent)).componentInstance;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -97,6 +100,7 @@ describe('DetailsComponent', () => {
     component = fixture.componentInstance;
     contentApiService = TestBed.inject(ContentApiService);
     contentService = TestBed.inject(ContentService);
+    nodesApiService = TestBed.inject(NodesApiService);
     store = TestBed.inject(Store);
     storeMock.dispatch.calls.reset();
 
@@ -137,14 +141,27 @@ describe('DetailsComponent', () => {
   });
 
   it('should dispatch navigation to a given folder', () => {
-    const breadcrumbComponent: BreadcrumbComponent = fixture.debugElement.query(By.directive(BreadcrumbComponent)).componentInstance;
     const pathElement: PathElement = {
       id: 'fake-id'
     };
-    breadcrumbComponent.navigate.emit(pathElement);
+    getBreadcrumb().navigate.emit(pathElement);
     fixture.detectChanges();
 
     expect(store.dispatch).toHaveBeenCalledWith(new NavigateToFolder({ entry: pathElement } as NodeEntry));
+  });
+
+  it('should pass different node as folderNode to breadcrumb when nodeUpdated from nodesApiService is triggered', () => {
+    fixture.detectChanges();
+    const breadcrumbComponent = getBreadcrumb();
+    const updatedNode = {
+      name: 'other node'
+    } as Node;
+
+    nodesApiService.nodeUpdated.next(updatedNode);
+    fixture.detectChanges();
+    expect(breadcrumbComponent.folderNode).toEqual(updatedNode);
+    expect(breadcrumbComponent.folderNode).not.toBe(updatedNode);
+    expect(updatedNode).not.toEqual(node.entry);
   });
 
   it('should dispatch node selection', () => {

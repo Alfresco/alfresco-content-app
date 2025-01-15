@@ -43,7 +43,14 @@ test.describe('Special permissions', () => {
   test.beforeAll(async () => {
     const apiClientFactory = new ApiClientFactory();
     await apiClientFactory.setUpAcaBackend('admin');
-    await apiClientFactory.createUser({ username });
+
+    try {
+      await apiClientFactory.createUser({ username });
+    } catch (exception) {
+      if (JSON.parse(exception.message).error.statusCode !== 409) {
+        throw new Error(`----- beforeAll failed : ${exception}`);
+      }
+    }
   });
 
   test.describe('file not displayed if user no longer has permissions on it', () => {

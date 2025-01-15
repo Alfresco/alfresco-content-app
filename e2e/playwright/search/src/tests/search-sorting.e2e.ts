@@ -107,61 +107,38 @@ test.describe('Search sorting', () => {
     expectedFirstFile: string,
     expectedSecondFile: string
   ) {
-    await searchPage.searchWithin(`search-sort *${random}`, 'files');
-
+    await searchPage.searchWithin(`*${random}*`, 'files');
     await searchPage.searchSortingPicker.sortBy(sortBy, sortOrder);
-
     expect(await searchPage.dataTable.getNthRow(0).textContent()).toContain(expectedFirstFile);
     expect(await searchPage.dataTable.getNthRow(1).textContent()).toContain(expectedSecondFile);
   }
 
-  [
-    {
-      column: 'Name',
-      id: 'C277728',
-      firstFile: fileJpg.name,
-      secondFile: filePdf.name
-    },
-    {
-      column: 'Type',
-      id: 'C277740',
-      firstFile: filePdf.name,
-      secondFile: fileJpg.name
-    },
-    {
-      column: 'Size',
-      id: 'C277738',
-      firstFile: filePdf.name,
-      secondFile: fileJpg.name
-    },
-    {
-      column: 'Created date',
-      id: 'C277734',
-      firstFile: fileJpg.name,
-      secondFile: filePdf.name
-    },
-    {
-      column: 'Modified date',
-      id: 'C277736',
-      firstFile: fileJpg.name,
-      secondFile: filePdf.name
-    },
-    {
-      column: 'Relevance',
-      id: 'C277727',
-      firstFile: fileJpg.name,
-      secondFile: filePdf.name
-    },
-    {
-      column: 'Modifier',
-      id: 'C277732',
-      firstFile: fileJpg.name,
-      secondFile: filePdf.name
-    }
-  ].forEach((testCase) => {
-    test(`[${testCase.id}] Sort by ${testCase.column}`, async ({ searchPage }) => {
-      await testSearchSorting(searchPage, testCase.column as SortByType, 'asc', testCase.firstFile, testCase.secondFile);
-    });
+  test(`[C277728] Sort by Name`, async ({ searchPage }) => {
+    await testSearchSorting(searchPage, 'Name' as SortByType, 'asc', fileJpg.name, filePdf.name);
+  });
+
+  test(`[C277740] Sort by Type`, async ({ searchPage }) => {
+    await testSearchSorting(searchPage, 'Type' as SortByType, 'asc', filePdf.name, fileJpg.name);
+  });
+
+  test(`[C277738] Sort by Size`, async ({ searchPage }) => {
+    await testSearchSorting(searchPage, 'Size' as SortByType, 'asc', filePdf.name, fileJpg.name);
+  });
+
+  test(`[C277734] Sort by Created date`, async ({ searchPage }) => {
+    await testSearchSorting(searchPage, 'Created date' as SortByType, 'asc', fileJpg.name, filePdf.name);
+  });
+
+  test(`[C277736] Sort by Modified date`, async ({ searchPage }) => {
+    await testSearchSorting(searchPage, 'Modified date' as SortByType, 'asc', fileJpg.name, filePdf.name);
+  });
+
+  test(`[C277727] Sort by Relevance`, async ({ searchPage }) => {
+    await testSearchSorting(searchPage, 'Relevance' as SortByType, 'asc', fileJpg.name, filePdf.name);
+  });
+
+  test(`[C277732] Sort by Modifier`, async ({ searchPage }) => {
+    await testSearchSorting(searchPage, 'Modifier' as SortByType, 'asc', fileJpg.name, filePdf.name);
   });
 
   test('[C277722] Sorting options are displayed', async ({ searchPage }) => {
