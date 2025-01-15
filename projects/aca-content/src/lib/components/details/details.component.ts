@@ -76,10 +76,10 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   private readonly onDestroy$: Subject<void> = new Subject<void>();
 
   constructor(
-    private route: ActivatedRoute,
-    private contentApi: ContentApiService,
-    private contentService: ContentService,
-    private nodesApiService: NodesApiService
+    private readonly route: ActivatedRoute,
+    private readonly contentApi: ContentApiService,
+    private readonly contentService: ContentService,
+    private readonly nodesApiService: NodesApiService
   ) {
     super();
   }
