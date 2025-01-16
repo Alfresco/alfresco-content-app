@@ -48,7 +48,7 @@ export class SaveSearchSidenavComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
   ngOnInit() {
-    this.savedSearchesService.innit();
+    this.savedSearchesService.init();
     this.savedSearchesService.savedSearches$
       .asObservable()
       .pipe(takeUntilDestroyed(this.destroyRef))
