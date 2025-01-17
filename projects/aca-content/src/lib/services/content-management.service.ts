@@ -54,7 +54,7 @@ import {
   NodesApiService,
   ShareDialogComponent
 } from '@alfresco/adf-content-services';
-import { NotificationService, TranslationService, ConfirmDialogComponent } from '@alfresco/adf-core';
+import { NotificationService, TranslationService, ConfirmDialogComponent, DialogComponent, DialogSize } from '@alfresco/adf-core';
 import { DeletedNodesPaging, Node, NodeEntry, PathInfo, SiteBodyCreate, SiteEntry } from '@alfresco/js-api';
 import { inject, Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -63,6 +63,7 @@ import { forkJoin, Observable, of, zip } from 'rxjs';
 import { catchError, map, mergeMap, take, tap } from 'rxjs/operators';
 import { NodeActionsService } from './node-actions.service';
 import { Router } from '@angular/router';
+import { FolderInformationComponent } from '../dialogs/folder-details/folder-information.component';
 
 interface RestoredNode {
   status: number;
@@ -1088,5 +1089,20 @@ export class ContentManagementService {
     if (focusedElementSelector) {
       document.querySelector<HTMLElement>(focusedElementSelector)?.focus();
     }
+  }
+
+  showFolderInformation(node: NodeEntry) {
+    this.dialogRef.open(DialogComponent, {
+      data: {
+        title: 'APP.FOLDER_INFO.TITLE',
+        confirmButtonTitle: 'APP.FOLDER_INFO.DONE',
+        isCancelButtonHidden: true,
+        isCloseButtonHidden: false,
+        dialogSize: DialogSize.Large,
+        contentComponent: FolderInformationComponent,
+        componentData: node.entry
+      },
+      width: '700px'
+    });
   }
 }
