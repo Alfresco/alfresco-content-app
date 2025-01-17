@@ -31,3 +31,11 @@ runs:
 
         echo "Running playwright tests with options ${{ inputs.options }}"
         npx nx run ${{ inputs.options }}-e2e:e2e
+
+    - name: Upload E2Es results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: |
+          test-results/
