@@ -54,7 +54,7 @@ export class SearchResultsRowComponent implements OnInit {
 
   private node: NodeEntry;
 
-  @Input()
+  @Input({ required: true })
   context: any;
 
   name$ = new BehaviorSubject<string>('');

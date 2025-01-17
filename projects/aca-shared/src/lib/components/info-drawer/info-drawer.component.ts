@@ -49,7 +49,7 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
   @Input()
   nodeId: string;
 
-  @Input()
+  @Input({ required: true })
   node: NodeEntry;
 
   isLoading = false;

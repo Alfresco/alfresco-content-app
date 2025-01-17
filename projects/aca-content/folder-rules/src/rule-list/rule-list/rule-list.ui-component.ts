@@ -57,9 +57,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   host: { class: 'aca-rule-list' }
 })
 export class RuleListUiComponent implements OnInit {
-  @Input()
+  @Input({ required: true })
   mainRuleSet$: Observable<RuleSet>;
-  @Input()
+  @Input({ required: true })
   folderId: string;
   @Input()
   inheritedRuleSets: RuleSet[] = [];

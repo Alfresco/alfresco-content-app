@@ -37,7 +37,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   encapsulation: ViewEncapsulation.None
 })
 export class ToolbarComponent {
-  @Input() items: ContentActionRef[];
+  @Input({ required: true }) items: ContentActionRef[];
 
   trackByActionId(_: number, action: ContentActionRef) {
     return action.id;
