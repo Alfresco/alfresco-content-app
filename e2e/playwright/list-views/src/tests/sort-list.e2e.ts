@@ -167,7 +167,7 @@ test.describe('Remember sorting', () => {
   });
 
   test('[C261147] Sort order is retained when user changes the page from pagination', async ({ personalFiles }) => {
-    const lastFileInArray = testData.user1.files.jpg.slice(-2).pop();
+    const lastFileInArray = testData.user1.files.jpg.slice(-2)[0];
     const firstFileInArray = testData.user1.files.pdf[0];
 
     await personalFiles.pagination.clickOnNextPage();
