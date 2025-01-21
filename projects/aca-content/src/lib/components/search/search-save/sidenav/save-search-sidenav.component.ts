@@ -24,11 +24,12 @@
 
 import { Component, DestroyRef, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { SavedSearch, SavedSearchesService } from '@alfresco/adf-content-services';
-import { CoreModule, TranslationService } from '@alfresco/adf-core';
+import { CoreModule, TranslationService, UserPreferencesService, UserPreferenceValues } from '@alfresco/adf-core';
 import { NavBarLinkRef } from '@alfresco/adf-extensions';
 import { ExpandMenuComponent } from '../../../sidenav/components/expand-menu.component';
 import { AppService } from '@alfresco/aca-shared';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'aca-save-search-sidenav',
@@ -41,10 +42,12 @@ export class SaveSearchSidenavComponent implements OnInit {
   savedSearchesService = inject(SavedSearchesService);
   appService = inject(AppService);
   translationService = inject(TranslationService);
+  userPreferenceService = inject(UserPreferencesService);
   item: NavBarLinkRef;
 
   private readonly manageSearchesId = 'manage-saved-searches';
   private readonly destroyRef = inject(DestroyRef);
+  private savedSearchCount = 0;
 
   ngOnInit() {
     this.savedSearchesService.init();
@@ -53,6 +56,13 @@ export class SaveSearchSidenavComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((savedSearches) => {
         this.item = this.createNavBarLinkRef(savedSearches);
+        this.savedSearchCount = savedSearches.length;
+      });
+    this.userPreferenceService
+      .select(UserPreferenceValues.Locale)
+      .pipe(takeUntilDestroyed(this.destroyRef), delay(10))
+      .subscribe(() => {
+        this.item.title = this.translationService.instant('APP.BROWSE.SEARCH.SAVE_SEARCH.NAVBAR.TITLE', { number: this.savedSearchCount });
       });
   }
 
