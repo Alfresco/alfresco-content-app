@@ -461,7 +461,7 @@ export const canToggleSharedLink = (context: RuleContext): boolean =>
  * @param context Rule execution context
  */
 export const canShowInfoDrawer = (context: RuleContext): boolean =>
-  [hasSelection(context), navigation.isNotLibraries(context), navigation.isNotTrashcan(context)].every(Boolean);
+  [hasSelection(context), navigation.isNotLibraries(context), navigation.isNotTrashcan(context), navigation.isNotDetails(context)].every(Boolean);
 
 /**
  * Checks if user can manage file versions for the selected node.

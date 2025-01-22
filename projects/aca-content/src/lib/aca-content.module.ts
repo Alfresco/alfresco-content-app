@@ -223,6 +223,7 @@ export class ContentServiceExtensionModule {
       'app.navigation.isSharedPreview': rules.isSharedPreview,
       'app.navigation.isFavoritesPreview': rules.isFavoritesPreview,
       'app.navigation.isSharedFileViewer': rules.isSharedFileViewer,
+      'app.navigation.isNotDetails': rules.isNotDetails,
 
       'repository.isQuickShareEnabled': rules.hasQuickShareEnabled,
       'user.isAdmin': rules.isAdmin,
