@@ -26,7 +26,6 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ContentApiService, PageComponent, PageLayoutComponent, ToolbarComponent } from '@alfresco/aca-shared';
 import { NavigateToFolder, NavigateToPreviousPage, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
-import { Subject } from 'rxjs';
 import { BreadcrumbComponent, ContentService, NodesApiService, PermissionListComponent } from '@alfresco/adf-content-services';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -72,8 +71,6 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   aspectActions: Array<ContentActionRef> = [];
   nodeIcon: string;
   canManagePermissions = true;
-
-  private readonly onDestroy$: Subject<void> = new Subject<void>();
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -139,8 +136,6 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   }
 
   ngOnDestroy(): void {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
     this.store.dispatch(new SetSelectedNodesAction([]));
     super.ngOnDestroy();
   }
