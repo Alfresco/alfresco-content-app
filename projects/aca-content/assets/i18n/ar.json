@@ -299,7 +299,8 @@
             "EDIT_OFFLINE": "تحرير دون اتصال بالإنترنت",
             "EDIT_OFFLINE_CANCEL": "إلغاء التحرير",
             "CHANGE_ASPECT": "تحرير الجوانب",
-            "ADD_ASPECTS": "إضافة جوانب"
+            "ADD_ASPECTS": "إضافة جوانب",
+            "FOLDER_INFO": "Folder Information"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -451,6 +452,19 @@
             "OPTIONS_SETTINGS": "الخيارات والإعدادات",
             "MY_PROFILE": "ملف التعريف الخاص بي",
             "EXPAND_NAVIGATION": "قم بتوسيع قائمة التنقل"
+        },
+        "FOLDER_INFO": {
+            "ICON": "Folder Icon",
+            "TITLE": "Folder Information",
+            "SIZE": "Size",
+            "CALCULATING": "Calculating...",
+            "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} on disk) for {{count}} files",
+            "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes for {{count}} files",
+            "LOCATION": "Location",
+            "CREATED": "Created",
+            "MODIFIED": "Modified",
+            "DONE": "Done",
+            "ERROR": "Something went wrong, please close this dialog and try again"
         }
     },
     "NODE_SELECTOR": {

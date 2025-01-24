@@ -299,7 +299,8 @@
             "EDIT_OFFLINE": "离线编辑",
             "EDIT_OFFLINE_CANCEL": "取消编辑",
             "CHANGE_ASPECT": "编辑纵横比",
-            "ADD_ASPECTS": "添加新的方面"
+            "ADD_ASPECTS": "添加新的方面",
+            "FOLDER_INFO": "Folder Information"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -451,6 +452,19 @@
             "OPTIONS_SETTINGS": "选项和设置",
             "MY_PROFILE": "我的个人档案",
             "EXPAND_NAVIGATION": "展开导航菜单"
+        },
+        "FOLDER_INFO": {
+            "ICON": "Folder Icon",
+            "TITLE": "Folder Information",
+            "SIZE": "Size",
+            "CALCULATING": "Calculating...",
+            "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} on disk) for {{count}} files",
+            "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes for {{count}} files",
+            "LOCATION": "Location",
+            "CREATED": "Created",
+            "MODIFIED": "Modified",
+            "DONE": "Done",
+            "ERROR": "Something went wrong, please close this dialog and try again"
         }
     },
     "NODE_SELECTOR": {
