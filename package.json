@@ -76,7 +76,7 @@
     "@angular/language-service": "16.2.9",
     "@cspell/eslint-plugin": "^8.14.1",
     "@nx/angular": "17.0.2",
-    "@nx/eslint-plugin": "17.0.2",
+    "@nx/eslint-plugin": "20.3.3",
     "@nx/workspace": "17.0.2",
     "@playwright/test": "^1.47.2",
     "@reportportal/agent-js-playwright": "^5.1.9",
