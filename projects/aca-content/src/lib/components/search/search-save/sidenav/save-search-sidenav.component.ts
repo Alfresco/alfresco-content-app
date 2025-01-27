@@ -62,7 +62,9 @@ export class SaveSearchSidenavComponent implements OnInit {
       .select(UserPreferenceValues.Locale)
       .pipe(takeUntilDestroyed(this.destroyRef), delay(10))
       .subscribe(() => {
-        this.item.title = this.translationService.instant('APP.BROWSE.SEARCH.SAVE_SEARCH.NAVBAR.TITLE', { number: this.savedSearchCount });
+        if (this.item) {
+          this.item.title = this.translationService.instant('APP.BROWSE.SEARCH.SAVE_SEARCH.NAVBAR.TITLE', { number: this.savedSearchCount });
+        }
       });
   }
 
