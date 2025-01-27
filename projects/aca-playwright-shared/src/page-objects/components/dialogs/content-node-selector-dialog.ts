@@ -69,7 +69,7 @@ export class ContentNodeSelectorDialog extends BaseComponent {
       await row.click();
       await expect(this.selectedRow).toBeVisible();
     }).toPass({
-      intervals: [2_000, 2_000, 2_000, 2_000, 2_000, 2_000, 2_000],
+      intervals: [2_000],
       timeout: 20_000
     });
   }
