@@ -42,11 +42,12 @@ export class SaveSearchSidenavComponent implements OnInit {
   savedSearchesService = inject(SavedSearchesService);
   appService = inject(AppService);
   translationService = inject(TranslationService);
-  userPreferenceService = inject(UserPreferencesService);
   item: NavBarLinkRef;
 
   private readonly manageSearchesId = 'manage-saved-searches';
   private readonly destroyRef = inject(DestroyRef);
+  private readonly userPreferenceService = inject(UserPreferencesService);
+
   private savedSearchCount = 0;
 
   ngOnInit() {
