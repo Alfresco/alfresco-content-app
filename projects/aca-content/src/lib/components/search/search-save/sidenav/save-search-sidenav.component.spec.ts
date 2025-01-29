@@ -86,7 +86,7 @@ describe('SaveSearchSidenavComponent', () => {
     savedSearchesService.savedSearches$.next([{ name: '1', order: 0, encodedUrl: 'abc' }]);
     component.ngOnInit();
     fixture.detectChanges();
-    tick();
+    tick(100);
     expect(component.item.children[0]).toEqual({
       icon: '',
       title: '1',
