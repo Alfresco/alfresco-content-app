@@ -82,7 +82,7 @@ test.describe('Copy actions', () => {
     }
   };
 
-  test('[C217135] Copy a file', async ({ personalFiles }) => {
+  test('[C217135] Copy a file @smoke', async ({ personalFiles }) => {
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
     await copyContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();

@@ -145,7 +145,7 @@ test.describe('Share a file', () => {
         expect(await personalFiles.shareDialog.isCloseEnabled()).toBe(true);
       });
 
-      test('[C286329] Share a file', async ({ personalFiles, nodesApiAction }) => {
+      test('[C286329] Share a file @smoke', async ({ personalFiles, nodesApiAction }) => {
         await personalFiles.dataTable.performActionFromExpandableMenu(file3, 'Share');
 
         const url = await personalFiles.shareDialog.getLinkUrl();

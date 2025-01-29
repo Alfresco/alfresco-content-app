@@ -60,7 +60,7 @@ test.describe('Download from Personal Files', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
-  test('Download a file', async ({ personalFiles }) => {
+  test('Download a file @smoke', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(parent);
     await personalFiles.dataTable.selectItems(childFile);
     const [download] = await Promise.all([personalFiles.page.waitForEvent('download'), personalFiles.acaHeader.downloadButton.click()]);

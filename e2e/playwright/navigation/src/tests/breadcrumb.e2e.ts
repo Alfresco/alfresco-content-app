@@ -94,7 +94,7 @@ test.describe('viewer action file', () => {
     await expect(personalFiles.breadcrumb.currentItem).toHaveText('Personal Files');
   });
 
-  test('[C260965] Personal Files breadcrumb for a folder hierarchy', async ({ personalFiles }) => {
+  test('[C260965] Personal Files breadcrumb for a folder hierarchy @smoke', async ({ personalFiles }) => {
     await personalFiles.navigate({ remoteUrl: `#/personal-files/${subFolder2Id}` });
     const expectedBreadcrumb = ['Personal Files', parent, subFolder1, subFolder2];
     expect(await personalFiles.breadcrumb.getAllItems()).toEqual(expectedBreadcrumb);

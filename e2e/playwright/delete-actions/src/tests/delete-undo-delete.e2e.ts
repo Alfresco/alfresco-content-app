@@ -116,7 +116,7 @@ test.describe('Delete and undo delete', () => {
       await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
     });
 
-    test('[C217125] delete a file and check notification', async ({ personalFiles, trashPage }) => {
+    test('[C217125] delete a file and check notification @smoke', async ({ personalFiles, trashPage }) => {
       let items = await personalFiles.dataTable.getRowsCount();
       await personalFiles.dataTable.selectItems(file1);
       await personalFiles.acaHeader.clickMoreActions();

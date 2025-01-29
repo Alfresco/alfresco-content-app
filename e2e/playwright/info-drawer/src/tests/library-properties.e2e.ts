@@ -67,7 +67,7 @@ test.describe('Library properties', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(undefined, undefined, 'afterAll failed', sitesApi, [site.id, siteForUpdate.id, siteDup]);
   });
 
-  test('[C289336] Info drawer opens for a library', async ({ myLibrariesPage }) => {
+  test('[C289336] Info drawer opens for a library @smoke', async ({ myLibrariesPage }) => {
     await expect(myLibrariesPage.dataTable.getRowByName(site.name)).toBeVisible();
     await myLibrariesPage.dataTable.getRowByName(site.name).click();
     await myLibrariesPage.acaHeader.viewDetails.click();
