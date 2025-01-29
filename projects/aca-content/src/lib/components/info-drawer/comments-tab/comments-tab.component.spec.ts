@@ -114,29 +114,27 @@ describe('CommentsTabComponent', () => {
     });
   });
 
-  describe('ExternalNodePermissionCommentsTabService', () => {
-    it('should return false if node permissions are correct and external service is not allowing it', async () => {
-      canAddComment = false;
-      component.node = {
-        id: 'test-node-id',
-        isFile: true,
-        isFolder: false
-      } as Node;
-      fixture.detectChanges();
-      await fixture.whenStable();
-      expect(component.canUpdateNode).toBe(false);
-    });
+  it('should return false if node permissions are correct and external service is not allowing it', async () => {
+    canAddComment = false;
+    component.node = {
+      id: 'test-node-id',
+      isFile: true,
+      isFolder: false
+    } as Node;
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(component.canUpdateNode).toBe(false);
+  });
 
-    it('should return true if node permissions are correct and external service is allowing it', async () => {
-      canAddComment = true;
-      component.node = {
-        id: 'test-node-id',
-        isFile: true,
-        isFolder: false
-      } as Node;
-      fixture.detectChanges();
-      await fixture.whenStable();
-      expect(component.canUpdateNode).toBe(true);
-    });
+  it('should return true if node permissions are correct and external service is allowing it', async () => {
+    canAddComment = true;
+    component.node = {
+      id: 'test-node-id',
+      isFile: true,
+      isFolder: false
+    } as Node;
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(component.canUpdateNode).toBe(true);
   });
 });
