@@ -27,11 +27,14 @@ import { SaveSearchSidenavComponent } from './save-search-sidenav.component';
 import { SavedSearchesService } from '@alfresco/adf-content-services';
 import { AppTestingModule } from '../../../../testing/app-testing.module';
 import { of, ReplaySubject } from 'rxjs';
+import { TranslationService, UserPreferencesService, UserPreferenceValues } from '@alfresco/adf-core';
 
 describe('SaveSearchSidenavComponent', () => {
   let fixture: ComponentFixture<SaveSearchSidenavComponent>;
   let component: SaveSearchSidenavComponent;
   let savedSearchesService: SavedSearchesService;
+  let userPreferenceService: UserPreferencesService;
+  let translateService: TranslationService;
 
   beforeEach(() => {
     const mockService = {
@@ -52,6 +55,8 @@ describe('SaveSearchSidenavComponent', () => {
     fixture = TestBed.createComponent(SaveSearchSidenavComponent);
     component = fixture.componentInstance;
     savedSearchesService = TestBed.inject(SavedSearchesService);
+    userPreferenceService = TestBed.inject(UserPreferencesService);
+    translateService = TestBed.inject(TranslationService);
   });
 
   it('should set navbar object if no search is saved', async () => {
@@ -81,7 +86,7 @@ describe('SaveSearchSidenavComponent', () => {
     savedSearchesService.savedSearches$.next([{ name: '1', order: 0, encodedUrl: 'abc' }]);
     component.ngOnInit();
     fixture.detectChanges();
-    tick();
+    tick(100);
     expect(component.item.children[0]).toEqual({
       icon: '',
       title: '1',
@@ -90,5 +95,18 @@ describe('SaveSearchSidenavComponent', () => {
       url: 'search?q=abc',
       id: 'search1'
     });
+  }));
+
+  it('should translate sidenav title when language is changed', fakeAsync(() => {
+    fixture.detectChanges();
+    savedSearchesService.savedSearches$.next([{ name: '1', order: 0, encodedUrl: 'abc' }]);
+    tick(100);
+    spyOn(translateService, 'instant');
+    savedSearchesService.savedSearches$.next([]);
+    expect(translateService.instant).toHaveBeenCalledTimes(1);
+    userPreferenceService.set(UserPreferenceValues.Locale, 'ar');
+    fixture.detectChanges();
+    tick(100);
+    expect(translateService.instant).toHaveBeenCalledTimes(2);
   }));
 });
