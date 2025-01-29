@@ -47,8 +47,8 @@ export class CommentsTabComponent implements OnInit {
   canUpdateNode = false;
 
   constructor(
-    private permission: NodePermissionService,
-    @Optional() private externalPermissionNodeService: ExternalNodePermissionCommentsTabService
+    private readonly permission: NodePermissionService,
+    @Optional() private readonly externalPermissionNodeService: ExternalNodePermissionCommentsTabService
   ) {}
 
   ngOnInit(): void {
