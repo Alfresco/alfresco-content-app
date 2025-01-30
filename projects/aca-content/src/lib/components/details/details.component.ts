@@ -23,10 +23,9 @@
  */
 
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, NavigationStart } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ContentApiService, PageComponent, PageLayoutComponent, ToolbarComponent } from '@alfresco/aca-shared';
 import { NavigateToFolder, NavigateToPreviousPage, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
-import { merge, Subject } from 'rxjs';
 import { BreadcrumbComponent, ContentService, NodesApiService, PermissionListComponent } from '@alfresco/adf-content-services';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -37,7 +36,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MetadataTabComponent } from '../info-drawer/metadata-tab/metadata-tab.component';
 import { CommentsTabComponent } from '../info-drawer/comments-tab/comments-tab.component';
 import { NodeEntry, PathElement } from '@alfresco/js-api';
-import { first, takeUntil } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { FileSizePipe, InfoDrawerButtonsDirective } from '@alfresco/adf-core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -72,8 +71,6 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   aspectActions: Array<ContentActionRef> = [];
   nodeIcon: string;
   canManagePermissions = true;
-
-  private readonly onDestroy$: Subject<void> = new Subject<void>();
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -110,20 +107,6 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
       .subscribe((aspectActions) => {
         this.aspectActions = aspectActions;
       });
-    this.infoDrawerOpened$
-      .pipe(
-        first((opened) => !opened),
-        takeUntil(
-          merge(
-            this.onDestroy$,
-            this.router.events.pipe(
-              first((event) => event instanceof NavigationStart),
-              takeUntil(this.onDestroy$)
-            )
-          )
-        )
-      )
-      .subscribe(() => this.goBack());
   }
 
   setActiveTab(tabName: string) {
@@ -153,8 +136,6 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   }
 
   ngOnDestroy(): void {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
     this.store.dispatch(new SetSelectedNodesAction([]));
     super.ngOnDestroy();
   }

@@ -116,6 +116,12 @@ export function isDetails(context: RuleContext): boolean {
 }
 
 /**
+ * Checks if the activated route is not **Details**.
+ * JSON ref: `app.navigation.isNotDetails`
+ */
+export const isNotDetails = (context: RuleContext): boolean => !isDetails(context);
+
+/**
  * Checks if the activated route is neither **Libraries** nor **Library Search Results**.
  * JSON ref: `app.navigation.isNotLibraries`
  */

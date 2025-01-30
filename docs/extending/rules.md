@@ -248,7 +248,7 @@ for example mixing `core.every` and `core.not`.
 `!app.navigation.isTrashcan` is the opposite of the `app.navigation.isTrashcan`.
 
 | Version | Key                               | Description                                                      |
-| ------- | --------------------------------- | ---------------------------------------------------------------- |
+|---------|-----------------------------------|------------------------------------------------------------------|
 | 1.7.0   | app.navigation.folder.canCreate   | User can create content in the currently opened folder.          |
 | 1.7.0   | app.navigation.folder.canUpload   | User can upload content to the currently opened folder.          |
 | 1.7.0   | app.navigation.isTrashcan         | User is using the **Trashcan** page.                             |
@@ -269,6 +269,7 @@ for example mixing `core.every` and `core.not`.
 | 1.7.0   | app.navigation.isPreview          | Current page is **Preview**.                                     |
 | 1.7.0   | app.navigation.isPersonalFiles    | Current page is **Personal Files**.                              |
 | 1.7.0   | app.navigation.isLibraryFiles     | Current page is **Library Files**.                               |
+| 5.3.0   | app.navigation.isNotDetails       | Current page is not **Details**.                                 |
 
 **Tip:** See the [Registration](./registration) section for more details
 on how to register your own entries to be re-used at runtime.
