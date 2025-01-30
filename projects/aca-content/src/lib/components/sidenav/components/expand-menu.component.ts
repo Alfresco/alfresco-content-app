@@ -51,7 +51,7 @@ import { ExpansionPanelDirective } from '../directives/expansion-panel.directive
   host: { class: 'app-expand-menu' }
 })
 export class ExpandMenuComponent implements OnInit {
-  @Input()
+  @Input({ required: true })
   item: NavBarLinkRef;
 
   @Output()

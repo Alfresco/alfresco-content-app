@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ViewEncapsulation, OnInit, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { NavBarLinkRef } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
@@ -43,7 +43,7 @@ import { MenuPanelDirective } from '../directives/menu-panel.directive';
   encapsulation: ViewEncapsulation.None
 })
 export class ButtonMenuComponent implements OnInit {
-  @Input()
+  @Input({ required: true })
   item: NavBarLinkRef;
 
   constructor(private cd: ChangeDetectorRef, private overlayContainer: OverlayContainer) {

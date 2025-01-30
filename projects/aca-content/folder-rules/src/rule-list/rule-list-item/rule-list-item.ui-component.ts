@@ -37,7 +37,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
   host: { class: 'aca-rule-list-item' }
 })
 export class RuleListItemUiComponent {
-  @Input()
+  @Input({ required: true })
   rule: Rule;
   @Input()
   @HostBinding('class.aca-selected')

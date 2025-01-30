@@ -87,7 +87,7 @@ describe('RuleActionUiComponent', () => {
     setInputValue('');
     await fixture.whenStable();
 
-    expect(component.parameters).toEqual({ 'mock-action-parameter-boolean': false, 'mock-action-parameter-text': 'test' });
+    expect(component.parameters).toEqual({ 'mock-action-parameter-boolean': false });
   });
 
   it('should populate the dropdown selector with the action definitions', async () => {

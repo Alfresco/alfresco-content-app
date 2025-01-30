@@ -22,24 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ContentActionRef } from '@alfresco/adf-extensions';
-import { ToolbarActionComponent } from './toolbar-action/toolbar-action.component';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { Node } from '@alfresco/js-api';
 
-@Component({
-  selector: 'aca-toolbar',
-  standalone: true,
-  imports: [CommonModule, ToolbarActionComponent, MatToolbarModule],
-  templateUrl: './toolbar.component.html',
-  styleUrls: ['./toolbar.component.scss'],
-  encapsulation: ViewEncapsulation.None
-})
-export class ToolbarComponent {
-  @Input({ required: true }) items: ContentActionRef[];
-
-  trackByActionId(_: number, action: ContentActionRef) {
-    return action.id;
-  }
+export abstract class ExternalNodePermissionCommentsTabService {
+  abstract canAddComments(node: Node): boolean;
 }

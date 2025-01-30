@@ -53,10 +53,10 @@ import { AppHookService, AppSettingsService, ContentApiService } from '@alfresco
 import { Store } from '@ngrx/store';
 import { ContentManagementService } from './content-management.service';
 import { NodeActionsService } from './node-actions.service';
-import { NotificationService, TranslationService } from '@alfresco/adf-core';
+import { DialogComponent, DialogSize, NotificationService, TranslationService } from '@alfresco/adf-core';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarModule, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
-import { Node, NodeEntry, VersionPaging } from '@alfresco/js-api';
+import { Node, NodeEntry, UserInfo, VersionPaging } from '@alfresco/js-api';
 import {
   DocumentListService,
   FileModel,
@@ -67,6 +67,7 @@ import {
   NodesApiService,
   ViewVersion
 } from '@alfresco/adf-content-services';
+import { FolderInformationComponent } from '../dialogs/folder-details/folder-information.component';
 
 describe('ContentManagementService', () => {
   let dialog: MatDialog;
@@ -1846,5 +1847,39 @@ describe('ContentManagementService', () => {
       expect(showInfoSpy).toHaveBeenCalledWith('APP.MESSAGES.INFO.LIBRARY_DELETED');
       expect(store.dispatch).toHaveBeenCalledWith(new NavigateRouteAction(['/libraries']));
     }));
+  });
+
+  describe('folderInformationDialog', () => {
+    it('should open folder information dialog', () => {
+      spyOn(dialog, 'open');
+
+      const fakeNode: NodeEntry = {
+        entry: {
+          id: 'folder-node-id',
+          name: 'mock-folder-name',
+          nodeType: 'fake-node-type',
+          isFolder: true,
+          isFile: false,
+          modifiedAt: new Date(),
+          modifiedByUser: new UserInfo(),
+          createdAt: new Date(),
+          createdByUser: new UserInfo()
+        }
+      };
+
+      contentManagementService.showFolderInformation(fakeNode);
+      expect(dialog.open).toHaveBeenCalledWith(DialogComponent, {
+        data: {
+          title: 'APP.FOLDER_INFO.TITLE',
+          confirmButtonTitle: 'APP.FOLDER_INFO.DONE',
+          isCancelButtonHidden: true,
+          isCloseButtonHidden: false,
+          dialogSize: DialogSize.Large,
+          contentComponent: FolderInformationComponent,
+          componentData: fakeNode.entry
+        },
+        width: '700px'
+      });
+    });
   });
 });

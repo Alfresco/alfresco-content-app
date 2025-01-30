@@ -29,17 +29,22 @@ import { NodePermissionService } from '@alfresco/aca-shared';
 import { Node } from '@alfresco/js-api';
 import { of } from 'rxjs';
 import { AuthenticationService } from '@alfresco/adf-core';
+import { ExternalNodePermissionCommentsTabService } from '@alfresco/aca-content';
 
 describe('CommentsTabComponent', () => {
   let component: CommentsTabComponent;
   let fixture: ComponentFixture<CommentsTabComponent>;
   let nodePermissionService: NodePermissionService;
   let checked: string[];
+  let canAddComment = true;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, CommentsTabComponent],
-      providers: [{ provide: AuthenticationService, useValue: { onLogout: of({}) } }]
+      providers: [
+        { provide: ExternalNodePermissionCommentsTabService, useValue: { canAddComments: () => canAddComment } },
+        { provide: AuthenticationService, useValue: { onLogout: of({}) } }
+      ]
     });
 
     nodePermissionService = TestBed.inject(NodePermissionService);
@@ -48,6 +53,7 @@ describe('CommentsTabComponent', () => {
     component = fixture.componentInstance;
 
     checked = null;
+    canAddComment = true;
     spyOn(nodePermissionService, 'check').and.callFake((_source, permissions) => {
       checked = permissions;
       return true;
@@ -106,5 +112,29 @@ describe('CommentsTabComponent', () => {
       expect(component.canUpdateNode).toBe(true);
       expect(checked).toContain('update');
     });
+  });
+
+  it('should return false if node permissions are correct and external service is not allowing it', async () => {
+    canAddComment = false;
+    component.node = {
+      id: 'test-node-id',
+      isFile: true,
+      isFolder: false
+    } as Node;
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(component.canUpdateNode).toBe(false);
+  });
+
+  it('should return true if node permissions are correct and external service is allowing it', async () => {
+    canAddComment = true;
+    component.node = {
+      id: 'test-node-id',
+      isFile: true,
+      isFolder: false
+    } as Node;
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(component.canUpdateNode).toBe(true);
   });
 });

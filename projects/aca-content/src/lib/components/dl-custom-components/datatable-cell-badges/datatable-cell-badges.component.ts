@@ -41,7 +41,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   standalone: true
 })
 export class DatatableCellBadgesComponent implements OnInit {
-  @Input() node: NodeEntry;
+  @Input({ required: true }) node: NodeEntry;
 
   badges: Badge[];
 
