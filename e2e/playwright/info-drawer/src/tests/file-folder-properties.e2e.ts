@@ -179,6 +179,12 @@ test.describe('Info Drawer - File Folder Properties', () => {
   test('[XAT-17240] Remove a tag from a node', async ({ personalFiles }) => {
     await fileActionsApi.waitForNodes(Folder17240, { expect: 1 });
     await tagsApi.assignTagToNode(Folder17240Id, tagBody);
+    await expect(async () => {
+      expect((await tagsApi.listTagsForNode(Folder17240Id)).list.entries.length).toEqual(1);
+    }).toPass({
+      intervals: [1_000],
+      timeout: 10_000
+    });
     await personalFiles.navigate();
     await Utils.reloadPageIfRowNotVisible(personalFiles, Folder17240);
     await expect(personalFiles.dataTable.getRowByName(Folder17240)).toBeVisible();
