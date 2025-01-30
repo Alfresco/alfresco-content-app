@@ -9,6 +9,10 @@ inputs:
     description: 'Test runner'
     required: false
     default: 'Playwright'
+  test-smoke:
+    description: 'Test smoke'
+    required: false
+    default: ''
   artifact-name:
     description: Name of the artifact cache
     required: true
@@ -30,4 +34,4 @@ runs:
         printf "\nApplication is ready.\n"
 
         echo "Running playwright tests with options ${{ inputs.options }}"
-        npx nx run ${{ inputs.options }}-e2e:e2e
+        npx nx run ${{ inputs.options }}-e2e:e2e --grep ${{ inputs.test-smoke }} 
