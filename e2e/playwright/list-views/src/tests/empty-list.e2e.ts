@@ -38,7 +38,7 @@ test.describe('Empty list views', () => {
     await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
   });
 
-  test('[C217099] empty My Libraries', async ({ myLibrariesPage }) => {
+  test('[C217099] empty My Libraries @smoke', async ({ myLibrariesPage }) => {
     await myLibrariesPage.navigate();
     expect(await myLibrariesPage.dataTable.isEmpty(), 'list is not empty').toBe(true);
     expect(await myLibrariesPage.dataTable.getEmptyStateTitle()).toContain(`You aren't a member of any File Libraries yet`);

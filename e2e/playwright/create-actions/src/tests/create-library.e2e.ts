@@ -115,7 +115,7 @@ test.describe('Create Libraries ', () => {
       libraryBreadcrumb = myLibrariesPage.breadcrumb;
     });
 
-    test('[C280025] Create a public library', async ({ myLibrariesPage }) => {
+    test('[C280025] Create a public library @smoke', async ({ myLibrariesPage }) => {
       await libraryDialog.getLabelText(libraryNameLabel).fill(randomLibraryName);
       await expect(libraryDialog.getLabelText(libraryNameLabel)).toHaveValue(randomLibraryName);
       await expect(libraryDialog.getLabelText(libraryIdLabel)).toHaveValue(randomLibraryName);

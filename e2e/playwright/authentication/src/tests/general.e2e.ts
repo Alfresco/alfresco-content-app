@@ -43,7 +43,7 @@ test.describe('Create folders', () => {
     await apiClientFactory.loginUser(sessionTestUser);
   });
 
-  test('[C286473] should close opened dialogs on session expire', async ({ loginPage, personalFiles }) => {
+  test('[C286473] should close opened dialogs on session expire @smoke', async ({ loginPage, personalFiles }) => {
     await loginPage.navigate();
     await loginPage.loginUser({ username: sessionTestUser.username, password: sessionTestUser.password });
     const folderDialog = personalFiles.folderDialog;

@@ -61,7 +61,7 @@ test.describe('Search Highlighting', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
-  test('[XAT-17119] Matching phrases should be highlighted in the file name for search results', async ({ searchPage }) => {
+  test('[XAT-17119] Matching phrases should be highlighted in the file name for search results @smoke', async ({ searchPage }) => {
     await searchPage.searchWithin(fileNameHighlight, 'files');
     expect(await searchPage.dataTable.hasHighlightedText('name')).toBeTruthy();
   });
