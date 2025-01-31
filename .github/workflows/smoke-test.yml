@@ -62,7 +62,7 @@ jobs:
           key: cache-dist-${{ github.run_id }}
 
   e2es-playwright:
-    needs: [lint, build, unit-tests]
+    needs: [ build, unit-tests]
     name: 'E2E Playwright - ${{ matrix.e2e-suites.name }}'
     runs-on: ubuntu-24.04
     env:
