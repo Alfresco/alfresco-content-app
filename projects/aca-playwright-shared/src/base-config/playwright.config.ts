@@ -30,7 +30,6 @@ require('@alfresco/adf-cli/tooling').dotenvConfig();
 const { env } = process;
 
 export const getGlobalConfig: PlaywrightTestConfig = {
-  grep: /@smoke/,
   timeout: timeouts.globalTest,
   globalTimeout: timeouts.globalSpec,
   expect: {
