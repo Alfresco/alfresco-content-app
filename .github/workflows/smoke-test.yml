@@ -19,10 +19,10 @@ concurrency:
 
 env:
   BASE_URL: https://acadev.envalfresco.com
-  ADMIN_EMAIL: admin
-  ADMIN_PASSWORD: admin
-  HR_USER: admin
-  HR_USER_PASSWORD: admin
+  ADMIN_EMAIL: ${{ secrets.PIPELINE_ADMIN_USERNAME }}
+  ADMIN_PASSWORD: ${{ secrets.PIPELINE_ADMIN_PASSWORD }}
+  HR_USER: ${{ secrets.HR_USER }}
+  HR_USER_PASSWORD: ${{ secrets.HR_USER_PASSWORD }}
   SCREENSHOT_USERNAME: ${{ secrets.SCREENSHOT_USERNAME }}
   SCREENSHOT_PASSWORD: ${{ secrets.SCREENSHOT_PASSWORD}}
   PLAYWRIGHT_E2E_HOST: https://acadev.envalfresco.com/aca/#/personal-files
