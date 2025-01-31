@@ -33,7 +33,6 @@ env:
   RETRY_COUNT: 2
 
 jobs:
-
   build:
     name: 'build'
     runs-on: ubuntu-latest
