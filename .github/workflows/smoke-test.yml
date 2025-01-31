@@ -130,11 +130,6 @@ jobs:
           artifact-name: ${{ matrix.e2e-suites.name }}
           test-runner: playwright
 
-      - name: Debug Ingress Controller Logs
-        if: always()
-        run: |
-            kubectl logs -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx --tail=-1
-
   finalize:
     if: ${{ always() }}
     needs: [ build, e2es-playwright]
