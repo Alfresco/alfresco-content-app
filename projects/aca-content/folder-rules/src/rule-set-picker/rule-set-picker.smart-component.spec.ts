@@ -76,9 +76,8 @@ describe('RuleSetPickerSmartComponent', () => {
     folderRuleSetsService = TestBed.inject(FolderRuleSetsService);
     fixture = TestBed.createComponent(RuleSetPickerSmartComponent);
     component = fixture.componentInstance;
-    component['folderRuleSetsService'] = folderRuleSetsService;
 
-    loadRuleSetsSpy = spyOn(folderRuleSetsService, 'loadRuleSets').and.callThrough();
+    loadRuleSetsSpy = spyOn(component.folderRuleSetsService, 'loadRuleSets').and.callThrough();
     callApiSpy = spyOn<any>(folderRuleSetsService, 'callApi');
     callApiSpy
       .withArgs(`/nodes/${dialogOptions.nodeId}/rule-sets?include=isLinkedTo,owningFolder,linkedToBy&skipCount=0&maxItems=100`, 'GET')
