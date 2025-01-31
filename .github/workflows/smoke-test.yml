@@ -1,6 +1,3 @@
-
-
-
 name: "Smoke Test"
 
 on:
@@ -15,10 +12,6 @@ on:
         required: false
         type: boolean
         default: true
-  push:
-    branches:
-      - master
-      - develop
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
