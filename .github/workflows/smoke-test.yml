@@ -6,9 +6,8 @@ name: "Smoke Test"
 on:
   push:
     branches:
-      - develop
+      - master
       - acs-9201-create-smoke-test-suite
-
   workflow_dispatch:
     inputs:
       dry-run-release:
@@ -56,6 +55,7 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
+
       - uses: ./.github/actions/before-install
       - run: npm ci
       - run: npx nx build aca-playwright-shared
@@ -130,10 +130,11 @@ jobs:
         shell: bash
         run: npx playwright install chromium
 
-      - uses: ./.github/actions/run-e2e-playwright
+      - name: Run playwright tests
+        uses: ./.github/actions/run-e2e-playwright
         with:
           options: "${{ matrix.e2e-suites.name }}"
-          test-smoke: "@smoke"
+          test-smoke: true
           artifact-name: ${{ matrix.e2e-suites.name }}
           test-runner: playwright
 

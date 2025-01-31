@@ -12,7 +12,7 @@ inputs:
   test-smoke:
     description: 'Test smoke'
     required: false
-    default: ''
+    default: false
   artifact-name:
     description: Name of the artifact cache
     required: true
@@ -33,5 +33,10 @@ runs:
         done
         printf "\nApplication is ready.\n"
 
-        echo "Running playwright tests with options ${{ inputs.options }}"
-        npx nx run ${{ inputs.options }}-e2e:e2e --grep ${{ inputs.test-smoke }} 
+        if [ "${{ inputs.test-smoke }}" == "true" ]; then
+          echo "Running smoke tests with options ${{ inputs.options }}"
+          npx nx run ${{ inputs.options }}-e2e:e2e --grep @smoke
+        else
+          echo "Running all tests with options ${{ inputs.options }}"
+          npx nx run ${{ inputs.options }}-e2e:e2e
+        fi
