@@ -300,7 +300,7 @@
             "EDIT_OFFLINE_CANCEL": "Peruuta muokkaus",
             "CHANGE_ASPECT": "Muokkaa ominaisuusjoukkoja",
             "ADD_ASPECTS": "Lisää näkymiä",
-            "FOLDER_INFO": "Folder Information"
+            "FOLDER_INFO": "Kansion Tiedot"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -454,17 +454,17 @@
             "EXPAND_NAVIGATION": "Laajenna siirtymisvalikko"
         },
         "FOLDER_INFO": {
-            "ICON": "Folder Icon",
-            "TITLE": "Folder Information",
-            "SIZE": "Size",
-            "CALCULATING": "Calculating...",
-            "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} on disk) for {{count}} files",
-            "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes for {{count}} files",
-            "LOCATION": "Location",
-            "CREATED": "Created",
-            "MODIFIED": "Modified",
-            "DONE": "Done",
-            "ERROR": "Something went wrong, please close this dialog and try again"
+            "ICON": "Kansion Kuvake",
+            "TITLE": "Kansion Tiedot",
+            "SIZE": "Koko",
+            "CALCULATING": "Lasketaan...",
+            "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} tavuja ({{sizeInLargeUnit}} {{unit}} levyllä) {{count}}-tiedostoille {{count}}",
+            "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} tavua {{count}}-tiedostoille {{count}}",
+            "LOCATION": "Sijainti",
+            "CREATED": "Luotu",
+            "MODIFIED": "Muokattu",
+            "DONE": "Valmis",
+            "ERROR": "Jokin meni pieleen, sulje tämä valintaikkuna ja yritä uudestaan"
         }
     },
     "NODE_SELECTOR": {

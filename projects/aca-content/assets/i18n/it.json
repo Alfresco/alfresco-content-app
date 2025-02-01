@@ -300,7 +300,7 @@
             "EDIT_OFFLINE_CANCEL": "Annulla modifica",
             "CHANGE_ASPECT": "Modifica aspetti",
             "ADD_ASPECTS": "Aggiungi aspetti",
-            "FOLDER_INFO": "Folder Information"
+            "FOLDER_INFO": "Informazioni Cartella"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -454,17 +454,17 @@
             "EXPAND_NAVIGATION": "Espande il menu di navigazione"
         },
         "FOLDER_INFO": {
-            "ICON": "Folder Icon",
-            "TITLE": "Folder Information",
-            "SIZE": "Size",
-            "CALCULATING": "Calculating...",
-            "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} on disk) for {{count}} files",
-            "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes for {{count}} files",
-            "LOCATION": "Location",
-            "CREATED": "Created",
-            "MODIFIED": "Modified",
-            "DONE": "Done",
-            "ERROR": "Something went wrong, please close this dialog and try again"
+            "ICON": "Icona Cartella",
+            "TITLE": "Informazioni Cartella",
+            "SIZE": "Dimensione",
+            "CALCULATING": "Calcolo...",
+            "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} sul disco) per i file {{count}}",
+            "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes per i file {{count}}",
+            "LOCATION": "Località",
+            "CREATED": "Creato",
+            "MODIFIED": "Modificato",
+            "DONE": "Fatto",
+            "ERROR": "Qualcosa è andato storto, chiudere questa finestra di dialogo e riprovare"
         }
     },
     "NODE_SELECTOR": {
