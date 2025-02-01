@@ -300,7 +300,7 @@
             "EDIT_OFFLINE_CANCEL": "Avbryt redigering",
             "CHANGE_ASPECT": "Redigera aspekter",
             "ADD_ASPECTS": "Lägg till aspekter",
-            "FOLDER_INFO": "Folder Information"
+            "FOLDER_INFO": "Mapp Information"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -454,17 +454,17 @@
             "EXPAND_NAVIGATION": "Expandera navigeringsmenyn"
         },
         "FOLDER_INFO": {
-            "ICON": "Folder Icon",
-            "TITLE": "Folder Information",
-            "SIZE": "Size",
-            "CALCULATING": "Calculating...",
-            "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} on disk) for {{count}} files",
-            "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes for {{count}} files",
-            "LOCATION": "Location",
-            "CREATED": "Created",
-            "MODIFIED": "Modified",
-            "DONE": "Done",
-            "ERROR": "Something went wrong, please close this dialog and try again"
+            "ICON": "Mapp-ikon",
+            "TITLE": "Mapp Information",
+            "SIZE": "Storlek",
+            "CALCULATING": "Beräknar...",
+            "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} på disk) för {{count}} filer",
+            "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes för {{count}} filer",
+            "LOCATION": "Plats",
+            "CREATED": "Skapad",
+            "MODIFIED": "Ändrad",
+            "DONE": "Klar",
+            "ERROR": "Något gick fel, stäng denna dialogruta och försök igen"
         }
     },
     "NODE_SELECTOR": {

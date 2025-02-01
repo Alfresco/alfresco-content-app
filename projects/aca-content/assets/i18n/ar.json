@@ -300,7 +300,7 @@
             "EDIT_OFFLINE_CANCEL": "إلغاء التحرير",
             "CHANGE_ASPECT": "تحرير الجوانب",
             "ADD_ASPECTS": "إضافة جوانب",
-            "FOLDER_INFO": "Folder Information"
+            "FOLDER_INFO": "معلومات المجلد"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -454,17 +454,17 @@
             "EXPAND_NAVIGATION": "قم بتوسيع قائمة التنقل"
         },
         "FOLDER_INFO": {
-            "ICON": "Folder Icon",
-            "TITLE": "Folder Information",
-            "SIZE": "Size",
-            "CALCULATING": "Calculating...",
-            "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} on disk) for {{count}} files",
-            "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes for {{count}} files",
-            "LOCATION": "Location",
-            "CREATED": "Created",
-            "MODIFIED": "Modified",
-            "DONE": "Done",
-            "ERROR": "Something went wrong, please close this dialog and try again"
+            "ICON": "أيقونة المجلد",
+            "TITLE": "معلومات المجلد",
+            "SIZE": "الحجم",
+            "CALCULATING": "حساب...",
+            "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} بايت ({{sizeInLargeUnit}} {{unit}} على القرص) ل {{count}} الملفات",
+            "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} بايت للملفات {{count}} بايت لـ {{count}} الملفات",
+            "LOCATION": "مكان",
+            "CREATED": "تم الإنشاء",
+            "MODIFIED": "تم التعديل",
+            "DONE": "تم",
+            "ERROR": "حدث خطأ ما، يرجى إغلاق مربع الحوار هذا والمحاولة مرة أخرى"
         }
     },
     "NODE_SELECTOR": {

@@ -300,7 +300,7 @@
             "EDIT_OFFLINE_CANCEL": "Annuller redigering",
             "CHANGE_ASPECT": "Rediger udseende",
             "ADD_ASPECTS": "Tilføj aspekter",
-            "FOLDER_INFO": "Folder Information"
+            "FOLDER_INFO": "Mappe Information"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -454,17 +454,17 @@
             "EXPAND_NAVIGATION": "Udvid navigationsmenu"
         },
         "FOLDER_INFO": {
-            "ICON": "Folder Icon",
-            "TITLE": "Folder Information",
-            "SIZE": "Size",
-            "CALCULATING": "Calculating...",
-            "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} on disk) for {{count}} files",
-            "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes for {{count}} files",
-            "LOCATION": "Location",
-            "CREATED": "Created",
-            "MODIFIED": "Modified",
-            "DONE": "Done",
-            "ERROR": "Something went wrong, please close this dialog and try again"
+            "ICON": "Mappe-ikon",
+            "TITLE": "Mappe Information",
+            "SIZE": "Størrelse",
+            "CALCULATING": "Beregner...",
+            "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} på disk) for {{count}} filer",
+            "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes for {{count}} filer",
+            "LOCATION": "Placering",
+            "CREATED": "Oprettet",
+            "MODIFIED": "Modificeret",
+            "DONE": "Færdig",
+            "ERROR": "Noget gik galt, luk venligst denne dialog og prøv igen"
         }
     },
     "NODE_SELECTOR": {

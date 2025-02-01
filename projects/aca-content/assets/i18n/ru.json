@@ -300,7 +300,7 @@
             "EDIT_OFFLINE_CANCEL": "Отменить редактирование",
             "CHANGE_ASPECT": "Редактировать аспекты",
             "ADD_ASPECTS": "Добавить аспекты",
-            "FOLDER_INFO": "Folder Information"
+            "FOLDER_INFO": "Информация о папке"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -454,17 +454,17 @@
             "EXPAND_NAVIGATION": "Развернуть меню навигации"
         },
         "FOLDER_INFO": {
-            "ICON": "Folder Icon",
-            "TITLE": "Folder Information",
-            "SIZE": "Size",
-            "CALCULATING": "Calculating...",
-            "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} on disk) for {{count}} files",
-            "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes for {{count}} files",
-            "LOCATION": "Location",
-            "CREATED": "Created",
-            "MODIFIED": "Modified",
-            "DONE": "Done",
-            "ERROR": "Something went wrong, please close this dialog and try again"
+            "ICON": "Иконка папки",
+            "TITLE": "Информация о папке",
+            "SIZE": "Размер",
+            "CALCULATING": "Вычисление...",
+            "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} байт ({{sizeInLargeUnit}} {{unit}} на диске) для файлов {{count}}",
+            "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} байт для {{count}} файлов",
+            "LOCATION": "Местоположение",
+            "CREATED": "Создано",
+            "MODIFIED": "Изменено",
+            "DONE": "Готово",
+            "ERROR": "Что-то пошло не так. Закройте этот диалог и повторите попытку"
         }
     },
     "NODE_SELECTOR": {
