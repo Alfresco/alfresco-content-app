@@ -70,30 +70,8 @@ jobs:
       fail-fast: false
       matrix:
         e2e-suites:
-          - name: "create-actions"
+          - name: "smoke-test"
             id: 1
-          - name: "viewer"
-            id: 3
-          - name: "authentication"
-            id: 4
-          - name: "navigation"
-            id: 5
-          - name: "list-views"
-            id: 6
-          - name: "share-action"
-            id: 7
-          - name: "copy-move-actions"
-            id: 8
-          - name: "library-actions"
-            id: 9
-          - name: "info-drawer"
-            id: 10
-          - name: "search"
-            id: 11
-          - name: "upload-download-actions"
-            id: 12
-          - name: "delete-actions"
-            id: 13
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -126,7 +104,6 @@ jobs:
         uses: ./.github/actions/run-e2e-playwright
         with:
           options: "${{ matrix.e2e-suites.name }}"
-          test-smoke: true
           artifact-name: ${{ matrix.e2e-suites.name }}
           test-runner: playwright
 
