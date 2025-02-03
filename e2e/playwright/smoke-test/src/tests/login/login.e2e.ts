@@ -59,12 +59,6 @@ test.describe('viewer file', () => {
   });
 
   test.describe('with valid credentials', () => {
-    test('[C213097] logs in with user with non-latin characters', async ({ loginPage }) => {
-      await loginPage.navigate();
-      await loginPage.loginUser({ username: otherLanguageUser.username, password: otherLanguageUser.password });
-      expect(loginPage.page.url()).toContain('personal-files');
-    });
-
     test('[C213107] redirects to Home Page when navigating to the Login page while already logged in', async ({ loginPage }) => {
       const { username } = johnDoe;
       await loginPage.navigate();

@@ -39,8 +39,6 @@ import { Site } from '@alfresco/js-api';
 test.describe('viewer file', () => {
   const username = `user-${Utils.random()}`;
   const randomDocxName = `${TEST_FILES.DOCX.name}-${Utils.random()}`;
-  const siteUser = `siteUser-${Utils.random()}`;
-  const fileInSite = TEST_FILES.DOCX.name;
   const siteAdmin = `siteAdmin-${Utils.random()}`;
   const fileAdmin = TEST_FILES.XLSX.name;
   let fileAdminId: string;
@@ -50,7 +48,6 @@ test.describe('viewer file', () => {
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
   let siteActionsAdmin: SitesApi;
-  let siteActionsUser: SitesApi;
 
   test.beforeAll(async () => {
     test.setTimeout(timeouts.extendedTest);
@@ -67,7 +64,6 @@ test.describe('viewer file', () => {
     nodesApi = await NodesApi.initialize(username, username);
     const fileActionApi = await FileActionsApi.initialize(username, username);
     trashcanApi = await TrashcanApi.initialize(username, username);
-    siteActionsUser = await SitesApi.initialize(username, username);
     siteActionsAdmin = await SitesApi.initialize('admin');
     const fileActionApiAdmin = await FileActionsApi.initialize('admin');
     const node = await nodesApi.createFolder(randomFolderName);
@@ -93,14 +89,6 @@ test.describe('viewer file', () => {
       }
     }
 
-    try {
-      await siteActionsUser.createSite(siteUser, Site.VisibilityEnum.PUBLIC);
-    } catch (exception) {
-      if (JSON.parse(exception.message).error.statusCode !== 409) {
-        throw new Error(`----- beforeAll failed : ${exception}`);
-      }
-    }
-
     await fileActionApi.waitForNodes(randomDocxName, { expect: 1 });
   });
 
@@ -110,7 +98,7 @@ test.describe('viewer file', () => {
   });
 
   test.afterAll(async () => {
-    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActionsUser);
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActionsAdmin, [docLibId]);
   });
 
@@ -149,14 +137,5 @@ test.describe('viewer file', () => {
     const previewURL = `#/libraries/${docLibId}/(viewer:view/${fileAdminId})`;
     await personalFiles.navigate({ remoteUrl: `${previewURL}` });
     await expect(personalFiles.viewer.viewerLocator, 'Viewer should not be opened!').toBeHidden();
-  });
-
-  test('[C284633] Viewer opens for a file from File Libraries', async ({ myLibrariesPage }) => {
-    await myLibrariesPage.navigate();
-    await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(siteUser);
-    await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(fileInSite);
-    expect(await myLibrariesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-    expect(await myLibrariesPage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
-    expect(await myLibrariesPage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
   });
 });

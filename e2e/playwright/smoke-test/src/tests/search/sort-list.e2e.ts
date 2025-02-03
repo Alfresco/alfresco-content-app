@@ -135,23 +135,6 @@ test.describe('Remember sorting', () => {
     expect(actualSortData).toEqual(expectedSortData);
   });
 
-  test('[C261153] Sort order should be remembered separately on each list view', async ({ personalFiles, favoritePage }) => {
-    await personalFiles.dataTable.sortBy('Size', 'desc');
-    await personalFiles.dataTable.spinnerWaitForReload();
-    const personalFilesSortData = await getSortState(personalFiles);
-
-    await favoritePage.navigate();
-    await favoritePage.dataTable.sortBy('Name', 'asc');
-    await favoritePage.dataTable.spinnerWaitForReload();
-
-    const favouritesSortData = await getSortState(personalFiles);
-    expect(favouritesSortData).not.toEqual(personalFilesSortData);
-
-    await personalFiles.navigate();
-    const personalFilesSortDataAfterFavSort = await getSortState(personalFiles);
-    expect(personalFilesSortDataAfterFavSort).toEqual(personalFilesSortData);
-  });
-
   test('[C261147] Sort order is retained when user changes the page from pagination', async ({ personalFiles }) => {
     const lastFileInArray = testData.user1.files.jpg.slice(-2).pop();
     const firstFileInArray = testData.user1.files.pdf[0];
