@@ -70,7 +70,7 @@ export class ManageRules extends BaseComponent {
       await this.ruleToggle.click();
       await expect(this.ruleToggleFalse).toBeVisible();
     }).toPass({
-      intervals: [2_000, 2_000, 2_000, 2_000, 2_000, 2_000, 2_000],
+      intervals: [2_000],
       timeout: 20_000
     });
   }

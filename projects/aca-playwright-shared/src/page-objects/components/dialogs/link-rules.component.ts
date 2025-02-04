@@ -54,7 +54,7 @@ export class LinkRulesDialog extends BaseComponent {
       await row.click();
       await expect(this.selectFolderButton).toBeEnabled();
     }).toPass({
-      intervals: [2_000, 2_000, 2_000, 2_000, 2_000, 2_000, 2_000],
+      intervals: [2_000],
       timeout: 20_000
     });
   }

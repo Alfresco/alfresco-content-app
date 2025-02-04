@@ -200,7 +200,7 @@ test.describe('viewer action file', () => {
 
   test('[MNT-21058] Upload new version action when node is locked', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(fileForUploadNewVersion2);
-    await personalFiles.viewer.waitForViewerToOpen();
+    await personalFiles.viewer.waitForViewerToOpen('wait for viewer content');
 
     await Utils.uploadFileNewVersion(personalFiles, docxFile);
 
