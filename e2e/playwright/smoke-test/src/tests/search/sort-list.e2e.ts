@@ -108,7 +108,7 @@ test.describe('Remember sorting', () => {
     await nodeActionUser1.deleteCurrentUserNodes();
   });
 
-  test('[C261136] Sort order is retained when navigating to another part of the app @smoke', async ({ personalFiles, favoritePage }) => {
+  test('[C261136] Sort order is retained when navigating to another part of the app', async ({ personalFiles, favoritePage }) => {
     await personalFiles.dataTable.sortBy('Name', 'desc');
     await personalFiles.dataTable.spinnerWaitForReload();
 

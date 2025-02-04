@@ -222,7 +222,7 @@ test.describe('Library actions ', () => {
       expect(await libraryMenu.isMenuItemVisible(favoriteButton)).toBe(true);
     });
 
-    test('[C289988] Delete a library from My Libraries @smoke', async ({ trashPage }) => {
+    test('[C289988] Delete a library from My Libraries', async ({ trashPage }) => {
       const trashTable = trashPage.dataTable;
       await expect(libraryTable.getRowByName(user2Library5Delete)).toBeVisible();
       await libraryTable.getRowByName(user2Library5Delete).click();
@@ -335,7 +335,7 @@ test.describe('Library actions ', () => {
       }
     });
 
-    test('[C306959] Join a public library from Search Results @smoke', async ({ searchPage }) => {
+    test('[C306959] Join a public library from Search Results', async ({ searchPage }) => {
       await searchPage.searchWithin(adminLibrary2, 'libraries');
       await searchPage.reload({ waitUntil: loadString });
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminLibrary2, notMemberString)).toBeVisible();

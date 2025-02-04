@@ -137,7 +137,7 @@ test.describe('viewer file', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActionsAdmin, [docLibId]);
   });
 
-  test('[C279269] Viewer opens on double clicking on a file from Personal Files @smoke', async ({ personalFiles }) => {
+  test('[C279269] Viewer opens on double clicking on a file from Personal Files', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
   });

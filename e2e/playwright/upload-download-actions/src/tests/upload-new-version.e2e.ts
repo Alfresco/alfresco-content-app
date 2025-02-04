@@ -110,7 +110,7 @@ test.describe('Upload new version', () => {
       await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
     });
 
-    test('[C307005] file is updated after uploading a new version - minor @smoke', async ({ searchPage }) => {
+    test('[C307005] file is updated after uploading a new version - minor', async ({ searchPage }) => {
       await searchPage.searchWithin(fileSearch2, 'files');
       await uploadNewVersion(searchPage, fileSearch2, fileToUpload2.path);
 

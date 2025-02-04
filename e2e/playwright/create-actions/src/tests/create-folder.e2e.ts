@@ -145,7 +145,7 @@ test.describe('Create folders', () => {
       folderTable = personalFiles.dataTable;
     });
 
-    test('[C216341] Create a folder with name only @smoke', async () => {
+    test('[C216341] Create a folder with name only', async () => {
       await folderDialog.createNewFolderDialog(randomFolderName);
 
       await expect(folderTable.getRowByName(randomFolderName)).toBeVisible();

@@ -120,7 +120,7 @@ test.describe('Favorites Files', () => {
       expect(await favoritePage.breadcrumb.getAllItems()).toEqual(['Personal Files']);
     });
 
-    test('[C280484] Location column redirect - file in folder @smoke', async ({ favoritePage }) => {
+    test('[C280484] Location column redirect - file in folder', async ({ favoritePage }) => {
       await favoritePage.dataTable.clickItemLocation(fileName2);
       await favoritePage.dataTable.spinnerWaitForReload();
       expect(await favoritePage.breadcrumb.getAllItems()).toEqual(['Personal Files', parentFolder]);

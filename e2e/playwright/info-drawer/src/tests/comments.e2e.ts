@@ -55,7 +55,7 @@ test.describe('Info Drawer - Comments', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
-  test('[C299173] from Personal Files - Comments tab default fields @smoke', async ({ personalFiles }) => {
+  test('[C299173] from Personal Files - Comments tab default fields', async ({ personalFiles }) => {
     const personalFolderName = `personalFolder-e2e-${Utils.random()}`;
     await nodesApi.createFolder(personalFolderName);
     await fileActionsApi.waitForNodes(personalFolderName, { expect: 1 });

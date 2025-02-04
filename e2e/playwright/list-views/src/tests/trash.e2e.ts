@@ -93,7 +93,7 @@ test.describe('Trash', () => {
       expect(await trashPage.dataTable.getItemLocationText(fileDeleted)).toEqual('');
     });
 
-    test('[C217144] Location column redirect - file in user Home @smoke', async ({ trashPage }) => {
+    test('[C217144] Location column redirect - file in user Home', async ({ trashPage }) => {
       await trashPage.dataTable.clickItemLocation(fileUser);
       await trashPage.dataTable.spinnerWaitForReload();
       expect(await trashPage.breadcrumb.getAllItems()).toEqual(['Personal Files']);

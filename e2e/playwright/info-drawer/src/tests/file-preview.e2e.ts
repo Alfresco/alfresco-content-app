@@ -65,7 +65,7 @@ test.describe('File preview', () => {
     expect(await specificText).toContain(text);
   }
 
-  test('[C595967] Should preview document from the info drawer @smoke', async ({ personalFiles }) => {
+  test('[C595967] Should preview document from the info drawer', async ({ personalFiles }) => {
     const fileName = `file1-${timestamp}.pdf`;
     await fileActionsApi.uploadFileWithRename(TEST_FILES.PDF.path, fileName, '-my-');
     await fileActionsApi.waitForNodes(fileName, { expect: 1 });

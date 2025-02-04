@@ -63,7 +63,7 @@ test.describe('Generic errors', () => {
     await trashcanApi.emptyTrashcan();
   });
 
-  test('[C217313] File / folder not found @smoke', async ({ personalFiles }) => {
+  test('[C217313] File / folder not found', async ({ personalFiles }) => {
     await actionUser.deleteNodeById(file1Id, false);
     await personalFiles.navigate({ remoteUrl: `#/personal-files/${file1Id}` });
 
@@ -73,7 +73,7 @@ test.describe('Generic errors', () => {
     );
   });
 
-  test('[C217314] Permission denied @smoke', async ({ personalFiles, loginPage }) => {
+  test('[C217314] Permission denied', async ({ personalFiles, loginPage }) => {
     await loginPage.logoutUser();
     await loginPage.loginUser(
       { username: username2, password: username2 },

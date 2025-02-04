@@ -129,7 +129,7 @@ test.describe('Move actions', () => {
     expect(await personalFiles.dataTable.isItemPresent(expectedNameForCopiedFile)).toBeFalsy();
   });
 
-  test('[C217320] Move locked file @smoke', async ({ personalFiles }) => {
+  test('[C217320] Move locked file', async ({ personalFiles }) => {
     const lockType = 'ALLOW_OWNER_CHANGES';
     await nodesApi.lockNodes([sourceFileId], lockType);
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
