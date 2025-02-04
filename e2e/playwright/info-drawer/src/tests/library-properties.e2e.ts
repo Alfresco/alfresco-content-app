@@ -1,5 +1,5 @@
 /*!
- * Copyright © 2005-2024 Hyland Software, Inc. and its affiliates. All rights reserved.
+ * Copyright © 2005-2025 Hyland Software, Inc. and its affiliates. All rights reserved.
  *
  * Alfresco Example Content Application
  *
@@ -25,22 +25,35 @@
 import { expect } from '@playwright/test';
 import { ApiClientFactory, Utils, test, SitesApi, QueriesApi, SITE_VISIBILITY, SITE_ROLES } from '@alfresco/aca-playwright-shared';
 
+async function expectSiteToBeDefined(siteName: string, queriesApi: QueriesApi) {
+  await expect(async () => {
+    expect(await queriesApi.waitForSites(siteName, { expect: 1 })).toEqual(1);
+  }).toPass({
+    intervals: [1_000],
+    timeout: 10_000
+  });
+}
+
 test.describe('Library properties', () => {
   let sitesApi: SitesApi;
+  let queriesApi: QueriesApi;
 
   const username = `user1-${Utils.random()}`;
+
   const site = {
     name: `site1-${Utils.random()}`,
     id: `site-id-${Utils.random()}`,
     visibility: SITE_VISIBILITY.MODERATED,
     description: 'my site description'
   };
+
   const siteForUpdate = {
     name: `site2-${Utils.random()}`,
     id: `site-id-${Utils.random()}`,
     visibility: SITE_VISIBILITY.MODERATED,
     description: 'my initial description'
   };
+
   const siteDup = `site3-${Utils.random()}`;
 
   test.beforeAll(async () => {
@@ -50,6 +63,7 @@ test.describe('Library properties', () => {
       await apiClientFactory.createUser({ username });
 
       sitesApi = await SitesApi.initialize(username, username);
+      queriesApi = await QueriesApi.initialize(username, username);
       await sitesApi.createSite(site.name, site.visibility, site.description, site.id);
       await sitesApi.createSite(siteForUpdate.name, siteForUpdate.visibility, siteForUpdate.description, siteForUpdate.id);
       await sitesApi.createSite(siteDup);
@@ -68,6 +82,7 @@ test.describe('Library properties', () => {
   });
 
   test('[C289336] Info drawer opens for a library', async ({ myLibrariesPage }) => {
+    await expectSiteToBeDefined(site.name, queriesApi);
     await expect(myLibrariesPage.dataTable.getRowByName(site.name)).toBeVisible();
     await myLibrariesPage.dataTable.getRowByName(site.name).click();
     await myLibrariesPage.acaHeader.viewDetails.click();
@@ -88,6 +103,7 @@ test.describe('Library properties', () => {
   });
 
   test('[C289338] Editable properties', async ({ myLibrariesPage }) => {
+    await expectSiteToBeDefined(site.name, queriesApi);
     await myLibrariesPage.dataTable.getRowByName(site.name).click();
     await myLibrariesPage.acaHeader.viewDetails.click();
     await expect(myLibrariesPage.libraryDetails.infoDrawerPanel).toBeVisible();
@@ -110,6 +126,7 @@ test.describe('Library properties', () => {
       visibility: SITE_VISIBILITY.PRIVATE,
       description: 'new description'
     };
+    await expectSiteToBeDefined(siteForUpdate.name, queriesApi);
 
     await myLibrariesPage.dataTable.getRowByName(siteForUpdate.name).click();
     await myLibrariesPage.acaHeader.viewDetails.click();
@@ -133,6 +150,7 @@ test.describe('Library properties', () => {
   });
 
   test('[C289340] Cancel editing a site', async ({ myLibrariesPage }) => {
+    await expectSiteToBeDefined(site.name, queriesApi);
     const newName = `new-name-${Utils.random}`;
     const newDesc = `new desc ${Utils.random}`;
 
@@ -155,9 +173,8 @@ test.describe('Library properties', () => {
   });
 
   test('[C289341] Warning appears when editing the name of the library by entering an existing name', async ({ myLibrariesPage }) => {
-    const queriesApi = await QueriesApi.initialize(username, username);
+    await expectSiteToBeDefined(siteDup, queriesApi);
 
-    await queriesApi.waitForSites(site.name, { expect: 1 });
     await myLibrariesPage.dataTable.getRowByName(siteDup).click();
     await myLibrariesPage.acaHeader.viewDetails.click();
     await expect(myLibrariesPage.libraryDetails.infoDrawerPanel).toBeVisible();
@@ -170,6 +187,8 @@ test.describe('Library properties', () => {
   });
 
   test('[C289342] Site name too long', async ({ myLibrariesPage }) => {
+    await expectSiteToBeDefined(site.name, queriesApi);
+
     await myLibrariesPage.dataTable.getRowByName(site.name).click();
     await myLibrariesPage.acaHeader.viewDetails.click();
     await expect(myLibrariesPage.libraryDetails.infoDrawerPanel).toBeVisible();
@@ -182,6 +201,8 @@ test.describe('Library properties', () => {
   });
 
   test('[C289343] Site description too long', async ({ myLibrariesPage }) => {
+    await expectSiteToBeDefined(site.name, queriesApi);
+
     await Utils.reloadPageIfRowNotVisible(myLibrariesPage, site.name);
     await myLibrariesPage.dataTable.getRowByName(site.name).click();
     await myLibrariesPage.acaHeader.viewDetails.click();

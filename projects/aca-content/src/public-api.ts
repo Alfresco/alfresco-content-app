@@ -1,5 +1,5 @@
 /*!
- * Copyright © 2005-2024 Hyland Software, Inc. and its affiliates. All rights reserved.
+ * Copyright © 2005-2025 Hyland Software, Inc. and its affiliates. All rights reserved.
  *
  * Alfresco Example Content Application
  *
@@ -31,4 +31,5 @@ export * from './lib/aca-content.routes';
 export * from './lib/extensions/core.extensions.module';
 export * from './lib/store/initial-state';
 export * from './lib/services/content-url.service';
+export * from './lib/components/info-drawer/comments-tab/external-node-permission-comments-tab.service';
 export * from './lib/utils/aca-search-utils';
