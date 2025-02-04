@@ -1,5 +1,5 @@
 /*!
- * Copyright © 2005-2024 Hyland Software, Inc. and its affiliates. All rights reserved.
+ * Copyright © 2005-2025 Hyland Software, Inc. and its affiliates. All rights reserved.
  *
  * Alfresco Example Content Application
  *
@@ -120,9 +120,9 @@ test.describe('Search - Filters - General', () => {
     const propertiesFilterTextCleared = await searchPage.searchFilters.propertiesFilter.textContent();
     const logicFilterTextCleared = await searchPage.searchFilters.logicFilter.textContent();
 
-    await expect(propertiesFilterTextBefore).toEqual(propertiesFilterTextCleared);
-    await expect(logicFilterTextBefore).toEqual(logicFilterTextCleared);
-    await expect(propertiesFilterTextCleared).not.toEqual(propertiesFilterTextAfter);
-    await expect(logicFilterTextCleared).not.toEqual(logicFilterTextAfter);
+    expect(propertiesFilterTextBefore).toEqual(propertiesFilterTextCleared);
+    expect(logicFilterTextBefore).toEqual(logicFilterTextCleared);
+    expect(propertiesFilterTextCleared).not.toEqual(propertiesFilterTextAfter);
+    expect(logicFilterTextCleared).not.toEqual(logicFilterTextAfter);
   });
 });
