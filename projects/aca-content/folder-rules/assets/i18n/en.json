@@ -5,10 +5,12 @@
     },
     "EDIT_RULE_DIALOG": {
       "CANCEL": "Cancel",
+      "CLOSE": "Close",
       "CREATE": "Create",
       "CREATE_TITLE": "Create a rule",
       "UPDATE": "Update",
-      "UPDATE_TITLE": "Edit a rule"
+      "UPDATE_TITLE": "Edit a rule",
+      "OPEN_ACTION_MENU": "Open action menu"
     },
     "RULE_DETAILS": {
       "LABEL": {
