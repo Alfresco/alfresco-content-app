@@ -73,8 +73,10 @@ test.describe('Edit offline - on Personal Files', () => {
   test('[XAT-5304] File is locked and downloaded when clicking Edit offline', async ({ personalFiles }) => {
     await personalFiles.dataTable.selectItems(file1);
     await personalFiles.acaHeader.clickMoreActions();
-    await personalFiles.matMenu.clickMenuItem('Edit Offline');
-    const [download] = await Promise.all([personalFiles.page.waitForEvent('download', { timeout: 5000 })]);
+    const [download] = await Promise.all([
+      personalFiles.page.waitForEvent('download', { timeout: 5000 }),
+      personalFiles.matMenu.clickMenuItem('Edit Offline')
+    ]);
     expect(download.suggestedFilename()).toBe(file1);
   });
 
