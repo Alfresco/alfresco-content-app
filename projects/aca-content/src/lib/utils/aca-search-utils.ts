@@ -22,8 +22,6 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Buffer } from 'buffer';
-
 /**
  * Checks if string is an AND or OR operator
  *
@@ -136,7 +134,7 @@ export function extractSearchedWordFromEncodedQuery(encodedQuery: string): strin
  */
 export function extractFiltersFromEncodedQuery(encodedQuery: string): any {
   if (encodedQuery) {
-    const decodedQuery = Buffer.from(encodedQuery, 'base64').toString('utf-8');
+    const decodedQuery = decodeURIComponent(encodeURIComponent(atob(encodedQuery)));
     return JSON.parse(decodedQuery);
   }
   return null;
