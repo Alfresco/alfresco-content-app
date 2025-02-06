@@ -595,9 +595,6 @@
             "LOGIC": "Logika",
             "PROPERTIES": "Właściwości"
         },
-        "CLOSE": {
-            "ARIA_LABEL": "Close search"
-        },
         "SEARCH_HEADER": {
             "TITLE": "Filtr",
             "TYPE": "Typ",
