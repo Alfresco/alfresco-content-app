@@ -1,4 +1,4 @@
-<div class="app-search-container" role="button"
+<button class="app-search-container"
   [matMenuTriggerFor]="searchOptionsMenu"
   (menuOpened)="onMenuOpened()"
   (menuClosed)="syncInputValues()"
@@ -25,7 +25,7 @@
       </button>
     </div>
   </mat-form-field>
-</div>
+</button>
 
 <mat-menu #searchOptionsMenu="matMenu" [overlapTrigger]="true" class="app-search-options-menu">
   <div (keydown.tab)="$event.stopPropagation()" (keydown.shift.tab)="$event.stopPropagation()" tabindex=0>

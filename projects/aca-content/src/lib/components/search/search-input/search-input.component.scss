@@ -8,6 +8,9 @@ $search-border-radius: 4px;
   width: 100%;
   max-width: $search-width;
   height: $search-height;
+  border: none;
+  background: none;
+  padding: 0;
 
   &:focus-within {
     label {
