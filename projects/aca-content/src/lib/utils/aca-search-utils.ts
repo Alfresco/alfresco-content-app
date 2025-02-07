@@ -22,8 +22,6 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Buffer } from 'buffer';
-
 /**
  * Checks if string is an AND or OR operator
  *
@@ -100,7 +98,7 @@ export function formatSearchTerm(userInput: string, fields = ['cm:name']): strin
  */
 export function extractUserQueryFromEncodedQuery(encodedQuery: string): string {
   if (encodedQuery) {
-    const decodedQuery: { [key: string]: any } = JSON.parse(Buffer.from(encodedQuery, 'base64').toString('utf-8'));
+    const decodedQuery: { [key: string]: any } = JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(encodedQuery), (c) => c.charCodeAt(0))));
     return decodedQuery.userQuery;
   }
   return '';
@@ -136,7 +134,7 @@ export function extractSearchedWordFromEncodedQuery(encodedQuery: string): strin
  */
 export function extractFiltersFromEncodedQuery(encodedQuery: string): any {
   if (encodedQuery) {
-    const decodedQuery = Buffer.from(encodedQuery, 'base64').toString('utf-8');
+    const decodedQuery = new TextDecoder().decode(Uint8Array.from(atob(encodedQuery), (c) => c.charCodeAt(0)));
     return JSON.parse(decodedQuery);
   }
   return null;
