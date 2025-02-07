@@ -98,7 +98,7 @@ export function formatSearchTerm(userInput: string, fields = ['cm:name']): strin
  */
 export function extractUserQueryFromEncodedQuery(encodedQuery: string): string {
   if (encodedQuery) {
-    const decodedQuery: { [key: string]: any } = JSON.parse(decodeURIComponent(encodeURIComponent(atob(encodedQuery))));
+    const decodedQuery: { [key: string]: any } = JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(encodedQuery), (c) => c.charCodeAt(0))));
     return decodedQuery.userQuery;
   }
   return '';
@@ -134,7 +134,7 @@ export function extractSearchedWordFromEncodedQuery(encodedQuery: string): strin
  */
 export function extractFiltersFromEncodedQuery(encodedQuery: string): any {
   if (encodedQuery) {
-    const decodedQuery = decodeURIComponent(encodeURIComponent(atob(encodedQuery)));
+    const decodedQuery = new TextDecoder().decode(Uint8Array.from(atob(encodedQuery), (c) => c.charCodeAt(0)));
     return JSON.parse(decodedQuery);
   }
   return null;
