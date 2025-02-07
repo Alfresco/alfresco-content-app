@@ -9,6 +9,7 @@
   <button
     mat-icon-button
     data-automation-id="rule-action-list-action-menu"
+    [attr.aria-label]="'ACA_FOLDER_RULES.EDIT_RULE_DIALOG.OPEN_ACTION_MENU' | translate"
     *ngIf="!readOnly" [matMenuTriggerFor]="menu">
     <mat-icon>more_vert</mat-icon>
   </button>
