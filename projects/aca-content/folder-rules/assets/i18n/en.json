@@ -1,7 +1,8 @@
 {
   "ACA_FOLDER_RULES": {
     "ACTIONS": {
-      "MANAGE_RULES": "Manage Rules"
+      "MANAGE_RULES": "Manage Rules",
+      "GO_BACK": "Go back"
     },
     "EDIT_RULE_DIALOG": {
       "CANCEL": "Cancel",
