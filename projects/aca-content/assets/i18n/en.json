@@ -578,6 +578,9 @@
             "MODIFIER": "Modifier",
             "CREATE_DATE": "Created date"
         },
+        "CLOSE_BUTTON": {
+          "ARIA_LABEL": "Close search"
+        },
         "FACET_FIELDS": {
             "CREATOR": "Creator",
             "MODIFIER": "Modifier",
