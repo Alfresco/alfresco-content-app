@@ -31,10 +31,10 @@
   "private": true,
   "dependencies": {
     "@alfresco/adf-content-services": "7.0.0-alpha.8-13199421341",
-    "@alfresco/adf-core": "7.0.0-alpha.8-13199421341",
-    "@alfresco/adf-extensions": "7.0.0-alpha.8-13199421341",
+    "@alfresco/adf-core": "^7.0.0-alpha.8-13259148711",
+    "@alfresco/adf-extensions": "^7.0.0-alpha.8-13259148711",
     "@alfresco/eslint-plugin-eslint-angular": "7.0.0-alpha.8-13199421341",
-    "@alfresco/js-api": "8.0.0-alpha.8-13199421341",
+    "@alfresco/js-api": "^8.0.0-alpha.8-13259148711",
     "@angular/animations": "16.2.9",
     "@angular/cdk": "16.2.9",
     "@angular/common": "16.2.9",
