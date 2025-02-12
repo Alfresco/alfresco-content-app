@@ -86,6 +86,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   ],
   templateUrl: './files.component.html',
   encapsulation: ViewEncapsulation.None,
+  styleUrl: './files.component.scss',
   selector: 'aca-files'
 })
 export class FilesComponent extends PageComponent implements OnInit, OnDestroy {

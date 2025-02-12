@@ -40,7 +40,7 @@
     }
   }
 
-  &__section {
+  .aca-sidenav__section {
     overflow-y: auto;
 
     .aca-expansion-panel {
@@ -126,9 +126,10 @@
       width: 100%;
     }
 
-    &__actions {
+    .aca-sidenav__section__actions {
       &__item:has(span) {
         padding: 0;
+        height: 100%;
 
         span {
           pointer-events: auto;

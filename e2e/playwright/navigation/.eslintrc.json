@@ -10,7 +10,7 @@
       ],
       "parserOptions": {
         "project": [
-          "e2e/playwright/authentication/tsconfig.e2e.json"
+          "e2e/playwright/navigation/tsconfig.e2e.json"
         ],
         "createDefaultProgram": true
       },
