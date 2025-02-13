@@ -22,24 +22,24 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { ContentActionRef } from '@alfresco/adf-extensions';
+import { AfterViewInit, Component, inject, Input, OnInit, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
+import { ContentActionRef, DynamicExtensionComponent } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatMenu, MatMenuItem, MatMenuModule } from '@angular/material/menu';
 import { ToolbarMenuItemComponent, UserProfileService } from '@alfresco/aca-shared';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TranslateModule, MatButtonModule, MatMenuModule, ToolbarMenuItemComponent],
+  imports: [CommonModule, TranslateModule, MatButtonModule, MatMenuModule, ToolbarMenuItemComponent, DynamicExtensionComponent],
   selector: 'aca-user-menu',
   templateUrl: './user-menu.component.html',
   styleUrls: ['./user-menu.component.scss'],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'aca-user-menu' }
 })
-export class UserMenuComponent implements OnInit {
+export class UserMenuComponent implements OnInit, AfterViewInit {
   private userProfileService = inject(UserProfileService);
 
   user$ = this.userProfileService.userProfile$;
@@ -50,9 +50,28 @@ export class UserMenuComponent implements OnInit {
   @Input()
   data: { items: any[] };
 
+  @ViewChild(MatMenu)
+  menu: MatMenu;
+
+  @ViewChildren(ToolbarMenuItemComponent)
+  toolbarMenuItems: QueryList<ToolbarMenuItemComponent>;
+
   ngOnInit() {
     if (this.data?.items) {
       this.data.items.sort((a, b) => a.order - b.order);
     }
+  }
+
+  ngAfterViewInit() {
+    const menuItems: MatMenuItem[] = [];
+    this.toolbarMenuItems.forEach((toolbarMenuItem: ToolbarMenuItemComponent) => {
+      if (toolbarMenuItem.menuItem !== undefined) {
+        menuItems.push(toolbarMenuItem.menuItem);
+      }
+    });
+    const menuItemsQueryList: QueryList<MatMenuItem> = new QueryList<MatMenuItem>();
+    menuItemsQueryList.reset(menuItems);
+    this.menu._allItems = menuItemsQueryList;
+    this.menu.ngAfterContentInit();
   }
 }

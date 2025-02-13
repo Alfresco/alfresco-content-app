@@ -22,10 +22,10 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, inject } from '@angular/core';
+import { Component, ViewEncapsulation, inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatMenuItem, MatMenuModule } from '@angular/material/menu';
 import { TranslateModule } from '@ngx-translate/core';
 import { UserProfileService } from '@alfresco/aca-shared';
 
@@ -39,6 +39,9 @@ import { UserProfileService } from '@alfresco/aca-shared';
 })
 export class UserInfoComponent {
   private userProfileService = inject(UserProfileService);
+
+  @ViewChild(MatMenuItem)
+  menuItem: MatMenuItem;
 
   user$ = this.userProfileService.userProfile$;
 }

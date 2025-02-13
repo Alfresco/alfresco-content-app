@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, Input, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ContentActionRef, DynamicExtensionComponent } from '@alfresco/adf-extensions';
 import { AppExtensionService } from '../../../services/app.extension.service';
 import { MatMenuItem, MatMenuModule } from '@angular/material/menu';
@@ -40,7 +40,7 @@ import { IconComponent } from '@alfresco/adf-core';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-toolbar-menu-item' }
 })
-export class ToolbarMenuItemComponent {
+export class ToolbarMenuItemComponent implements AfterViewInit {
   @Input()
   actionRef: ContentActionRef;
   @Input()
@@ -48,6 +48,9 @@ export class ToolbarMenuItemComponent {
 
   @ViewChild(MatMenuItem)
   menuItem: MatMenuItem;
+
+  @ViewChild(DynamicExtensionComponent)
+  dynamicComponent: DynamicExtensionComponent;
 
   constructor(private extensions: AppExtensionService) {}
 
@@ -61,6 +64,12 @@ export class ToolbarMenuItemComponent {
             }
           : undefined
       );
+    }
+  }
+
+  ngAfterViewInit() {
+    if (this.dynamicComponent?.menuItem) {
+      this.menuItem = this.dynamicComponent.menuItem;
     }
   }
 

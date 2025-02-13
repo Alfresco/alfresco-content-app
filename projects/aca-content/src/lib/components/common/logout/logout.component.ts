@@ -22,12 +22,12 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatMenuItem, MatMenuModule } from '@angular/material/menu';
 import { LogoutDirective } from '@alfresco/adf-core';
 
 @Component({
@@ -44,6 +44,9 @@ import { LogoutDirective } from '@alfresco/adf-core';
 })
 export class LogoutComponent {
   constructor(private store: Store) {}
+
+  @ViewChild(MatMenuItem)
+  menuItem: MatMenuItem;
 
   onLogoutEvent() {
     this.store.dispatch(new SetSelectedNodesAction([]));
