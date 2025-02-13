@@ -145,15 +145,11 @@ mat-slide-toggle {
     --mdc-dialog-supporting-text-color: var(--theme-primary-text);
   }
 
-  #{$mat-dialog-surface} {
-    padding: 24px;
+  #{$mat-button} {
+    width: auto;
 
-    #{$mat-button} {
-      width: auto;
-
-      #{$mat-button-label} {
-        padding: 0 16px;
-      }
+    #{$mat-button-label} {
+      padding: 0 16px;
     }
   }
 }
