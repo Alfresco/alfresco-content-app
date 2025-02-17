@@ -63,9 +63,7 @@ export class UserMenuComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    const menuItems: MatMenuItem[] = this.toolbarMenuItems
-      .map((toolbarMenuItem: ToolbarMenuItemComponent) => toolbarMenuItem.menuItem)
-      .filter((menuItem: MatMenuItem) => menuItem !== undefined);
+    const menuItems = this.toolbarMenuItems.map((toolbarMenuItem) => toolbarMenuItem.menuItem).filter((menuItem) => menuItem !== undefined);
 
     const menuItemsQueryList = new QueryList<MatMenuItem>();
     menuItemsQueryList.reset(menuItems);
