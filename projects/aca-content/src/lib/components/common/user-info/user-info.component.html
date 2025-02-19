@@ -1,4 +1,4 @@
-<div mat-menu-item class="aca-user-info" [routerLink]="['/profile']" title="{{ 'APP.TOOLTIPS.MY_PROFILE' | translate }}">
+<button mat-menu-item class="aca-user-info" [routerLink]="['/profile']" title="{{ 'APP.TOOLTIPS.MY_PROFILE' | translate }}">
   <ng-container *ngIf="user$ | async as user">
     <div class="aca-user-info-content">
       <button class="aca-user-info-button">
@@ -10,4 +10,4 @@
       </div>
     </div>
   </ng-container>
-</div>
+</button>

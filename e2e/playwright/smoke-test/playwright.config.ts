@@ -22,26 +22,21 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, inject, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { MatMenuItem, MatMenuModule } from '@angular/material/menu';
-import { TranslateModule } from '@ngx-translate/core';
-import { UserProfileService } from '@alfresco/aca-shared';
+import { PlaywrightTestConfig } from '@playwright/test';
+import { CustomConfig, getGlobalConfig, getExcludedTestsRegExpArray } from '@alfresco/aca-playwright-shared';
+import EXCLUDED_JSON from './exclude.tests.json';
 
-@Component({
-  standalone: true,
-  imports: [CommonModule, RouterModule, MatMenuModule, TranslateModule],
-  selector: 'app-user-info',
-  templateUrl: './user-info.component.html',
-  styleUrls: ['./user-info.component.scss'],
-  encapsulation: ViewEncapsulation.None
-})
-export class UserInfoComponent {
-  private userProfileService = inject(UserProfileService);
+const config: PlaywrightTestConfig<CustomConfig> = {
+  ...getGlobalConfig,
 
-  @ViewChild(MatMenuItem)
-  menuItem: MatMenuItem;
+  grepInvert: getExcludedTestsRegExpArray(EXCLUDED_JSON, 'Smoke-test'),
+  projects: [
+    {
+      name: 'Smoke-test',
+      testDir: './src/tests',
+      use: {}
+    }
+  ]
+};
 
-  user$ = this.userProfileService.userProfile$;
-}
+export default config;

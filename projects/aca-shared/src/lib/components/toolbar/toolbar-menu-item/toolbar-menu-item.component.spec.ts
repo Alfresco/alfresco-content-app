@@ -27,11 +27,14 @@ import { ToolbarMenuItemComponent } from './toolbar-menu-item.component';
 import { AppExtensionService } from '../../../services/app.extension.service';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { ContentActionRef, ContentActionType } from '@alfresco/adf-extensions';
+import { ContentActionRef, ContentActionType, DynamicExtensionComponent } from '@alfresco/adf-extensions';
 import { LibTestingModule } from '@alfresco/aca-shared';
+import { MatMenuItem } from '@angular/material/menu';
+import { UnitTestingUtils } from '@alfresco/adf-core';
 
 describe('ToolbarMenuItemComponent', () => {
   let fixture: ComponentFixture<ToolbarMenuItemComponent>;
+  let testingUtils: UnitTestingUtils;
   let component: ToolbarMenuItemComponent;
   let appExtensionService: AppExtensionService;
 
@@ -51,6 +54,7 @@ describe('ToolbarMenuItemComponent', () => {
     });
 
     fixture = TestBed.createComponent(ToolbarMenuItemComponent);
+    testingUtils = new UnitTestingUtils(fixture.debugElement);
     component = fixture.componentInstance;
     appExtensionService = TestBed.inject(AppExtensionService);
   });
@@ -109,5 +113,18 @@ describe('ToolbarMenuItemComponent', () => {
     };
 
     expect(component.trackByActionId(0, contentActionRef)).toBe('action1');
+  });
+
+  it('should assign menuItem from dynamic component', () => {
+    component.actionRef = {
+      id: 'action1',
+      type: ContentActionType.custom
+    };
+    fixture.detectChanges();
+
+    const innerElement = testingUtils.getByDirective(DynamicExtensionComponent);
+    innerElement.componentInstance.menuItem = new MatMenuItem(null, null, null, null, null);
+    component.ngAfterViewInit();
+    expect(component.menuItem).toBeInstanceOf(MatMenuItem);
   });
 });
