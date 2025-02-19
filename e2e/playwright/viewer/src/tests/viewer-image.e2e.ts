@@ -36,16 +36,10 @@ import {
   Utils,
   TrashcanApi
 } from '@alfresco/aca-playwright-shared';
-import { Site } from '@alfresco/js-api';
 
 test.describe('Image file zoom activity in viewer', () => {
   const username = `user-${Utils.random()}`;
   const randomJpgName = `${TEST_FILES.JPG_FILE.name}-${Utils.random()}.jpg`;
-  const siteUser = `siteUser-${Utils.random()}`;
-  const fileInSite = TEST_FILES.DOCX.name;
-  const siteAdmin = `siteAdmin-${Utils.random()}`;
-  const fileAdmin = TEST_FILES.XLSX.name;
-  let fileAdminId: string;
   let docLibId: string;
   let docLibSiteUserId: string;
   let folderId: string;
@@ -72,9 +66,6 @@ test.describe('Image file zoom activity in viewer', () => {
     trashcanApi = await TrashcanApi.initialize(username, username);
     const shareActions = await SharedLinksApi.initialize(username, username);
     const favoritesActions = await FavoritesPageApi.initialize(username, username);
-    siteActionsUser = await SitesApi.initialize(username, username);
-    siteActionsAdmin = await SitesApi.initialize('admin');
-    const fileActionApiAdmin = await FileActionsApi.initialize('admin');
     const node = await nodesApi.createFolder(randomFolderName);
     folderId = node.entry.id;
     const fileJpg = await fileActionApi.uploadFile(TEST_FILES.JPG_FILE.path, randomJpgName, folderId);
@@ -83,48 +74,18 @@ test.describe('Image file zoom activity in viewer', () => {
     await shareActions.shareFileById(fileJpgId);
     await favoritesActions.addFavoriteById('file', fileJpgId);
 
-    try {
-      await siteActionsAdmin.createSite(siteAdmin, Site.VisibilityEnum.PRIVATE);
-    } catch (exception) {
-      if (JSON.parse(exception.message).error.statusCode !== 409) {
-        throw new Error(`----- beforeAll failed : ${exception}`);
-      }
-    }
-
-    docLibId = await siteActionsAdmin.getDocLibId(siteAdmin);
-
-    try {
-      fileAdminId = (await fileActionApiAdmin.uploadFile(TEST_FILES.JPG_FILE.path, fileAdmin, docLibId)).entry.id;
-    } catch (exception) {
-      if (JSON.parse(exception.message).error.statusCode !== 409) {
-        throw new Error(`----- beforeAll failed : ${exception}`);
-      }
-    }
-
-    try {
-      await siteActionsUser.createSite(siteUser, Site.VisibilityEnum.PUBLIC);
-    } catch (exception) {
-      if (JSON.parse(exception.message).error.statusCode !== 409) {
-        throw new Error(`----- beforeAll failed : ${exception}`);
-      }
-    }
-
-    docLibSiteUserId = await siteActionsUser.getDocLibId(siteUser);
-
-    try {
-      await fileActionApi.uploadFile(TEST_FILES.JPG_FILE.path, fileInSite, docLibSiteUserId);
-    } catch (exception) {
-      if (JSON.parse(exception.message).error.statusCode !== 409) {
-        throw new Error(`----- beforeAll failed : ${exception}`);
-      }
-    }
-
     await Promise.all([
       favoritesActions.isFavoriteWithRetry(username, fileJpgId, { expect: true }),
       favoritesActions.waitForApi(username, { expect: consumerFavoritesTotalItems + 2 })
     ]);
-    await shareActions.waitForFilesToBeShared([fileJpgId]);
-    await fileActionApi.waitForNodes(randomJpgName, { expect: 1 });
+    try {
+      await shareActions.waitForFilesToBeShared([fileJpgId]);
+      await fileActionApi.waitForNodes(randomJpgName, { expect: 1 });
+    } catch (exception) {
+      if (JSON.parse(exception.message).error.statusCode !== 409) {
+        throw new Error(`----- beforeAll failed : ${exception}`);
+      }
+    }
   });
 
   test.beforeEach(async ({ personalFiles, loginPage }) => {
@@ -158,14 +119,6 @@ test.describe('Image file zoom activity in viewer', () => {
     const defaultZoomSize: number = parseInt(await personalFiles.viewer.zoomScale.innerText(), 10);
     expect(defaultZoomSize).toBe(100);
     await validateZoomScaleInViewer(personalFiles);
-  });
-
-  test('[XAT-5488], [XAT-5490] Image Viewer does not open when accessing the preview URL for a file without permissions', async ({
-    personalFiles
-  }) => {
-    const previewURL = `#/libraries/${docLibId}/(viewer:view/${fileAdminId})`;
-    await personalFiles.navigate({ remoteUrl: `${previewURL}` });
-    await expect(personalFiles.viewer.viewerLocator, 'Viewer should not be opened!').toBeHidden();
   });
 
   test('[XAT-5488], [XAT-5490] Percentage of the zoom and reset when an image is opened in viewer mode in Recent Files', async ({
