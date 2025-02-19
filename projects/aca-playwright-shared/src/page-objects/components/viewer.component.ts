@@ -46,6 +46,10 @@ export class ViewerComponent extends BaseComponent {
   public viewerPage = this.getChild('[data-automation-id="adf-page-selector"]');
   public viewerMedia = this.getChild('adf-media-player');
   public viewerSpinner = this.getChild('.adf-viewer-render__loading-screen');
+  public zoomInButton = this.getChild('#viewer-zoom-in-button');
+  public zoomOutButton = this.getChild('#viewer-zoom-out-button');
+  public zoomScale = this.getChild('[data-automation-id="adf-page-scale"]');
+  public zoomResetButton = this.getChild('#viewer-reset-button');
 
   toolbar = new AcaHeader(this.page);
 
