@@ -137,7 +137,9 @@ test.describe('Image file zoom activity in viewer', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActionsAdmin, [docLibId]);
   });
 
-  async function validateZoomScaleInViewer(pageToValidate: any, defaultZoomSize: number): Promise<void> {
+  async function validateZoomScaleInViewer(pageToValidate: any): Promise<void> {
+    const defaultZoomSize: number = parseInt(await pageToValidate.viewer.zoomScale.innerText(), 10);
+    expect(defaultZoomSize).toBe(100);
     await pageToValidate.viewer.zoomInButton.click();
     expect(parseInt(await pageToValidate.viewer.zoomScale.innerText(), 10)).toBeGreaterThan(defaultZoomSize);
     await pageToValidate.viewer.zoomResetButton.click();
@@ -155,7 +157,7 @@ test.describe('Image file zoom activity in viewer', () => {
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     const defaultZoomSize: number = parseInt(await personalFiles.viewer.zoomScale.innerText(), 10);
     expect(defaultZoomSize).toBe(100);
-    await validateZoomScaleInViewer(personalFiles, defaultZoomSize);
+    await validateZoomScaleInViewer(personalFiles);
   });
 
   test('[XAT-5488], [XAT-5490] Image Viewer does not open when accessing the preview URL for a file without permissions', async ({
@@ -176,9 +178,7 @@ test.describe('Image file zoom activity in viewer', () => {
     await recentFilesPage.reload();
     await recentFilesPage.dataTable.performClickFolderOrFileToOpen(randomJpgName);
     expect(await recentFilesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-    const defaultZoomSize: number = parseInt(await recentFilesPage.viewer.zoomScale.innerText(), 10);
-    expect(defaultZoomSize).toBe(100);
-    await validateZoomScaleInViewer(recentFilesPage, defaultZoomSize);
+    await validateZoomScaleInViewer(recentFilesPage);
   });
 
   test('[XAT-5488], [XAT-5490] Percentage of the zoom and reset when an image is opened in viewer mode in Shared Files', async ({ sharedPage }) => {
@@ -186,7 +186,7 @@ test.describe('Image file zoom activity in viewer', () => {
     expect(await sharedPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     const defaultZoomSize: number = parseInt(await sharedPage.viewer.zoomScale.innerText(), 10);
     expect(defaultZoomSize).toBe(100);
-    await validateZoomScaleInViewer(sharedPage, defaultZoomSize);
+    await validateZoomScaleInViewer(sharedPage);
   });
 
   test('[XAT-5488], [XAT-5490] Percentage of the zoom and reset when an image is opened in viewer mode in Favorite Files', async ({
@@ -196,7 +196,7 @@ test.describe('Image file zoom activity in viewer', () => {
     expect(await favoriteLibrariesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     const defaultZoomSize: number = parseInt(await favoriteLibrariesPage.viewer.zoomScale.innerText(), 10);
     expect(defaultZoomSize).toBe(100);
-    await validateZoomScaleInViewer(favoriteLibrariesPage, defaultZoomSize);
+    await validateZoomScaleInViewer(favoriteLibrariesPage);
   });
 
   test('[XAT-5488], [XAT-5490] Percentage of the zoom and reset when an image is opened in viewer mode in Libraries Files', async ({
@@ -206,6 +206,6 @@ test.describe('Image file zoom activity in viewer', () => {
     expect(await myLibrariesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     const defaultZoomSize: number = parseInt(await myLibrariesPage.viewer.zoomScale.innerText(), 10);
     expect(defaultZoomSize).toBe(100);
-    await validateZoomScaleInViewer(myLibrariesPage, defaultZoomSize);
+    await validateZoomScaleInViewer(myLibrariesPage);
   });
 });
