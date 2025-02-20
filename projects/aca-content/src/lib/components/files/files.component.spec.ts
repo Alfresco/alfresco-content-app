@@ -29,15 +29,15 @@ import { DocumentListService, FilterSearch, UploadService } from '@alfresco/adf-
 import { NodeActionsService } from '../../services/node-actions.service';
 import { FilesComponent } from './files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { AppExtensionService, ContentApiService, DocumentBasePageService } from '@alfresco/aca-shared';
+import { AppExtensionService, ContentApiService, DocumentBasePageService, initialState } from '@alfresco/aca-shared';
 import { of, Subject, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { NodeEntry, NodePaging, Node, PathElement } from '@alfresco/js-api';
-import { DocumentListPresetRef, SelectionState } from '@alfresco/adf-extensions';
+import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { testHeader } from '../../testing/document-base-page-utils';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { getAppSelection, getCurrentFolder } from '@alfresco/aca-shared/store';
+import { getCurrentFolder } from '@alfresco/aca-shared/store';
 
 describe('FilesComponent', () => {
   let node;
@@ -86,7 +86,7 @@ describe('FilesComponent', () => {
           }
         },
         AppExtensionService,
-        provideMockStore()
+        provideMockStore({ initialState })
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -122,10 +122,6 @@ describe('FilesComponent', () => {
     });
 
     it('should be a valid current page', fakeAsync(() => {
-      store.overrideSelector(getAppSelection, {
-        count: 0,
-        first: null
-      } as SelectionState);
       spyContent.and.returnValue(throwError(null));
 
       component.ngOnInit();
