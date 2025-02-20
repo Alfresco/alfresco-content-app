@@ -29,13 +29,15 @@ import { DocumentListService, FilterSearch, UploadService } from '@alfresco/adf-
 import { NodeActionsService } from '../../services/node-actions.service';
 import { FilesComponent } from './files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
+import { AppExtensionService, ContentApiService, DocumentBasePageService, initialState } from '@alfresco/aca-shared';
 import { of, Subject, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { NodeEntry, NodePaging, Node, PathElement } from '@alfresco/js-api';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { testHeader } from '../../testing/document-base-page-utils';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { getCurrentFolder } from '@alfresco/aca-shared/store';
 
 describe('FilesComponent', () => {
   let node;
@@ -44,6 +46,7 @@ describe('FilesComponent', () => {
   let uploadService: UploadService;
   let extensions: AppExtensionService;
   let nodeActionsService: NodeActionsService;
+  let store: MockStore;
   let contentApi: ContentApiService;
   let route: ActivatedRoute;
   let router: any = {
@@ -82,7 +85,8 @@ describe('FilesComponent', () => {
             queryParamMap: of({})
           }
         },
-        AppExtensionService
+        AppExtensionService,
+        provideMockStore({ initialState })
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -102,6 +106,7 @@ describe('FilesComponent', () => {
     nodeActionsService = TestBed.inject(NodeActionsService);
     contentApi = TestBed.inject(ContentApiService);
     extensions = TestBed.inject(AppExtensionService);
+    store = TestBed.inject(MockStore);
     spyContent = spyOn(contentApi, 'getNode');
   });
 
@@ -472,6 +477,47 @@ describe('FilesComponent', () => {
       component.navigateTo(fakeFileNode);
 
       expect(resetNewFolderPaginationSpy).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Document list', () => {
+    let documentBasePageService: DocumentBasePageService;
+
+    beforeEach(() => {
+      documentBasePageService = TestBed.inject(DocumentBasePageService);
+    });
+
+    it('should have assigned displayDragAndDropHint to false if currentFolder is selected and uploading is not allowable', () => {
+      store.overrideSelector(getCurrentFolder, node);
+      spyOn(documentBasePageService, 'canUploadContent').and.returnValue(false);
+      fixture.detectChanges();
+
+      expect(component.documentList.displayDragAndDropHint).toBeFalse();
+    });
+
+    it('should have assigned displayDragAndDropHint to true if currentFolder is selected and uploading is allowable', () => {
+      store.overrideSelector(getCurrentFolder, node);
+      spyOn(documentBasePageService, 'canUploadContent').and.returnValue(true);
+      fixture.detectChanges();
+
+      expect(component.documentList.displayDragAndDropHint).toBeTrue();
+      expect(documentBasePageService.canUploadContent).toHaveBeenCalledWith(node);
+    });
+
+    it('should have assigned displayDragAndDropHint to falsy if currentFolder is not selected and uploading is not allowable', () => {
+      store.overrideSelector(getCurrentFolder, undefined);
+      spyOn(documentBasePageService, 'canUploadContent').and.returnValue(false);
+      fixture.detectChanges();
+
+      expect(component.documentList.displayDragAndDropHint).toBeFalsy();
+    });
+
+    it('should have assigned displayDragAndDropHint to falsy if currentFolder is not selected and uploading is allowable', () => {
+      store.overrideSelector(getCurrentFolder, undefined);
+      spyOn(documentBasePageService, 'canUploadContent').and.returnValue(true);
+      fixture.detectChanges();
+
+      expect(component.documentList.displayDragAndDropHint).toBeFalsy();
     });
   });
 
