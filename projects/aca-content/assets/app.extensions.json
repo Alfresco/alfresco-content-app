@@ -495,7 +495,7 @@
         "order": 700,
         "component": "app.toolbar.toggleInfoDrawer",
         "rules": {
-          "visible": "canShowInfoDrawer"
+          "visible": ["canShowInfoDrawer", "app.navigation.isNotDetails"]
         }
       },
       {
@@ -1084,7 +1084,7 @@
           "order": 500,
           "component": "app.toolbar.toggleInfoDrawer",
           "rules": {
-            "visible": "canShowInfoDrawer"
+            "visible": ["canShowInfoDrawer", "app.navigation.isNotDetails"]
           }
         },
         {
