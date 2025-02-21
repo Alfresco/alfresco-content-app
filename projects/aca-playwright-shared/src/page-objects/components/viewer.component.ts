@@ -50,6 +50,8 @@ export class ViewerComponent extends BaseComponent {
   public zoomOutButton = this.getChild('#viewer-zoom-out-button');
   public zoomScale = this.getChild('[data-automation-id="adf-page-scale"]');
   public zoomResetButton = this.getChild('#viewer-reset-button');
+  public fitPageButton = this.getChild('#viewer-scale-page-button');
+  public displayedPageNumber = this.getChild('#page-selector');
 
   toolbar = new AcaHeader(this.page);
 
@@ -94,6 +96,23 @@ export class ViewerComponent extends BaseComponent {
   async isFileTitleDisplayed(): Promise<boolean> {
     await this.fileTitleButtonLocator.waitFor({ state: 'visible', timeout: timeouts.normal });
     return this.fileTitleButtonLocator.isVisible();
+  }
+
+  async waitForZoomPercentageToDisplay(): Promise<void> {
+    await this.zoomScale.waitFor({ state: 'visible', timeout: timeouts.normal });
+    const startTime = Date.now();
+    const timeout = timeouts.normal;
+
+    while (Date.now() - startTime <= timeout) {
+      const textContent = await this.zoomScale.innerText();
+      if (textContent.trim() !== '') {
+        break;
+      }
+      if (Date.now() - startTime > timeout) {
+        throw new Error(`Timeout: Text did not show up within ${timeouts} ms`);
+      }
+      await this.page.waitForTimeout(500); // Wait for 500ms before checking again
+    }
   }
 
   async getFileTitle(): Promise<string> {
