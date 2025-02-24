@@ -196,7 +196,6 @@ export class ContentServiceExtensionModule {
       'app.navigation.isSearchResults': rules.isSearchResults,
       'app.navigation.isPreview': rules.isPreview,
       'app.navigation.isDetails': rules.isDetails,
-      'app.navigation.isNotDetails': rules.isNotDetails,
 
       'app.canShowLogout': rules.canShowLogout,
       'app.isContentServiceEnabled': rules.isContentServiceEnabled,

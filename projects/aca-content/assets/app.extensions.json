@@ -490,7 +490,7 @@
             "app.selection.notEmpty",
             "!app.navigation.isLibraries",
             "!app.navigation.isTrashcan",
-            "app.navigation.isNotDetails"
+            "!app.navigation.isDetails"
           ]
         }
       },
@@ -1247,7 +1247,7 @@
               "app.selection.notEmpty",
               "!app.navigation.isLibraries",
               "!app.navigation.isTrashcan",
-              "app.navigation.isNotDetails"
+              "!app.navigation.isDetails"
             ]
           }
         },
