@@ -43,12 +43,6 @@ export function isFavorites(context: RuleContext): boolean {
 }
 
 /**
- * Checks if the activated route is not **Favorites**.
- * JSON ref: `app.navigation.isNotFavorites`
- */
-export const isNotFavorites = (context: RuleContext): boolean => !isFavorites(context);
-
-/**
  * Checks if a **Shared Files** route is activated.
  * JSON ref: `app.navigation.isSharedFiles`
  */
@@ -56,12 +50,6 @@ export function isSharedFiles(context: RuleContext): boolean {
   const { url } = context.navigation;
   return url?.startsWith('/shared') && !isPreview(context);
 }
-
-/**
- * Checks if the activated route is not **Shared Files**.
- * JSON ref: `app.navigation.isNotSharedFiles`
- */
-export const isNotSharedFiles = (context: RuleContext): boolean => !isSharedFiles(context);
 
 /**
  * Checks if a **Trashcan** route is activated.
@@ -73,27 +61,12 @@ export function isTrashcan(context: RuleContext): boolean {
 }
 
 /**
- * Checks if the activated route is not **Trashcan**.
- * JSON ref: `app.navigation.isNotTrashcan`
- */
-export const isNotTrashcan = (context: RuleContext): boolean => !isTrashcan(context);
-
-/**
  * Checks if a **Personal Files** route is activated.
  * JSON ref: `app.navigation.isPersonalFiles`
  */
 export function isPersonalFiles(context: RuleContext): boolean {
   const { url } = context.navigation;
   return url?.startsWith('/personal-files');
-}
-
-/**
- * Checks if a **Library Files** route is activated.
- * JSON ref: `app.navigation.isLibraryFiles`
- */
-export function isLibraryFiles(context: RuleContext): boolean {
-  const { url } = context.navigation;
-  return url?.startsWith('/libraries');
 }
 
 /**
@@ -116,18 +89,6 @@ export function isDetails(context: RuleContext): boolean {
 }
 
 /**
- * Checks if the activated route is not **Details**.
- * JSON ref: `app.navigation.isNotDetails`
- */
-export const isNotDetails = (context: RuleContext): boolean => !isDetails(context);
-
-/**
- * Checks if the activated route is neither **Libraries** nor **Library Search Results**.
- * JSON ref: `app.navigation.isNotLibraries`
- */
-export const isNotLibraries = (context: RuleContext): boolean => !isLibraries(context);
-
-/**
  * Checks if a **Recent Files** route is activated.
  * JSON ref: `app.navigation.isRecentFiles`
  */
@@ -135,12 +96,6 @@ export function isRecentFiles(context: RuleContext): boolean {
   const { url } = context.navigation;
   return url?.startsWith('/recent-files');
 }
-
-/**
- * Checks if the activated route is not **Recent Files**.
- * JSON ref: `app.navigation.isNotRecentFiles`
- */
-export const isNotRecentFiles = (context: RuleContext): boolean => !isRecentFiles(context);
 
 /**
  * Checks if a **Search Results** route is activated.
@@ -152,37 +107,4 @@ export function isSearchResults(
 ): boolean {
   const { url } = context.navigation;
   return url?.startsWith('/search');
-}
-
-/**
- * Checks if the activated route is not **Search Results**.
- * JSON ref: `app.navigation.isNotSearchResults`
- */
-export const isNotSearchResults = (context: RuleContext): boolean => !isSearchResults(context);
-
-/**
- * Checks if a **Shared Preview** route is activated.
- * JSON ref: `app.navigation.isSharedPreview`
- */
-export function isSharedPreview(context: RuleContext): boolean {
-  const { url } = context.navigation;
-  return url?.startsWith('/shared/preview/') || (url?.startsWith('/shared') && url?.includes('viewer:view'));
-}
-
-/**
- * Checks if a **Favorites Preview** route is activated.
- * JSON ref: `app.navigation.isFavoritesPreview`
- */
-export function isFavoritesPreview(context: RuleContext): boolean {
-  const { url } = context.navigation;
-  return url?.startsWith('/favorites/preview/') || (url?.startsWith('/favorites') && url?.includes('viewer:view'));
-}
-
-/**
- * Checks if a **Shared File Preview** route is activated.
- * JSON ref: `app.navigation.isFavoritesPreview`
- */
-export function isSharedFileViewer(context: RuleContext): boolean {
-  const { url } = context.navigation;
-  return url?.startsWith('/preview/s/');
 }

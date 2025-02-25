@@ -23,9 +23,10 @@
  */
 
 import * as app from './app.rules';
+import { getFileExtension } from './app.rules';
 import { TestRuleContext } from './test-rule-context';
 import { NodeEntry, RepositoryInfo, StatusInfo } from '@alfresco/js-api';
-import { getFileExtension } from './app.rules';
+import { ProfileState } from '@alfresco/adf-extensions';
 import { AppConfigService } from '@alfresco/adf-core';
 
 describe('app.evaluators', () => {
@@ -102,20 +103,6 @@ describe('app.evaluators', () => {
       context = {} as any;
 
       expect(app.isWriteLocked(context)).toBe(false);
-    });
-  });
-
-  describe('canShowExpand', () => {
-    it('should return false when isLibraries returns true', () => {
-      context.navigation.url = '/libraries';
-
-      expect(app.canShowExpand(context)).toBe(false);
-    });
-
-    it('should return false when isDetails returns true', () => {
-      context.navigation.url = '/details';
-
-      expect(app.canShowExpand(context)).toBe(false);
     });
   });
 
@@ -455,34 +442,6 @@ describe('app.evaluators', () => {
     });
   });
 
-  describe('canManagePermissions', () => {
-    it('should return false if user cannot update the selected node', () => {
-      context.permissions.check = spyOn(context.permissions, 'check').and.returnValue(false);
-
-      expect(app.canManagePermissions(context)).toBe(false);
-    });
-
-    it('should return false if the context is trashcan', () => {
-      context.navigation = { url: '/trashcan' };
-
-      expect(app.canManagePermissions(context)).toBe(false);
-    });
-
-    it('should return false if many nodes are selected', () => {
-      context.selection.count = 2;
-      expect(app.canManagePermissions(context)).toBe(false);
-    });
-
-    it('should return false if the selected node is a smart folder', () => {
-      context.selection.first = { entry: { aspectNames: ['smf:customConfigSmartFolder'], isFolder: true } } as NodeEntry;
-      expect(app.canManagePermissions(context)).toBe(false);
-    });
-
-    it('should return true if user can update the selected node and it is not a trashcan nor smart folder nor multiselect', () => {
-      expect(app.canManagePermissions(context)).toBe(true);
-    });
-  });
-
   describe('areTagsEnabled', () => {
     it('should call context.appConfig.get with correct parameters', () => {
       context.appConfig = { get: jasmine.createSpy() } as any;
@@ -688,34 +647,6 @@ describe('app.evaluators', () => {
           }
         } as any)
       ).toBeFalse();
-    });
-  });
-
-  describe('canCopyNode', () => {
-    it('should return false when nothing is selected', () => {
-      context.selection.isEmpty = true;
-      expect(app.canCopyNode(context)).toBeFalse();
-    });
-
-    it('should return false when selection exists and user is in trashcan', () => {
-      context.selection.isEmpty = false;
-      context.navigation.url = '/trashcan/test';
-      expect(app.canCopyNode(context)).toBeFalse();
-    });
-
-    it('should return false when selection exists and user is in library', () => {
-      context.selection.isEmpty = false;
-      context.navigation.url = '/test/libraries';
-      expect(app.canCopyNode(context)).toBeFalse();
-
-      context.navigation.url = '/search-libraries/test';
-      expect(app.canCopyNode(context)).toBeFalse();
-    });
-
-    it('should return true when selection exists and user is outside library and trashcan', () => {
-      context.selection.isEmpty = false;
-      context.navigation.url = '/personal-files';
-      expect(app.canCopyNode(context)).toBeTrue();
     });
   });
 
@@ -966,35 +897,6 @@ describe('app.evaluators', () => {
     });
   });
 
-  describe('canUnshareNodes', () => {
-    it('should return false when selection is empty', () => {
-      context.selection.isEmpty = true;
-      expect(app.canUnshareNodes(context)).toBeFalse();
-    });
-
-    it('should return false when permission check fails', () => {
-      context.selection.isEmpty = false;
-      context.selection.nodes = [{} as any];
-      context.permissions = { check: () => false };
-      expect(app.canUnshareNodes(context)).toBeFalse();
-    });
-
-    it('should return true when permission requirements are met', () => {
-      context.selection.isEmpty = false;
-      context.selection.nodes = [{} as any];
-      context.permissions = { check: () => true };
-      expect(app.canUnshareNodes(context)).toBeTrue();
-    });
-
-    it('should verify if user have delete permission on selected node', () => {
-      context.selection.isEmpty = false;
-      context.selection.nodes = [{ allowableOperationsOnTarget: ['delete'] } as any];
-      spyOn(context.permissions, 'check');
-      app.canUnshareNodes(context);
-      expect(context.permissions.check).toHaveBeenCalledWith(context.selection.nodes, ['delete'], { target: 'allowableOperationsOnTarget' });
-    });
-  });
-
   describe('hasSelection', () => {
     it('should return false when nothing is selected', () => {
       context.selection.isEmpty = true;
@@ -1043,70 +945,6 @@ describe('app.evaluators', () => {
     });
 
     it('should verify is user has create permission on current folder', () => {
-      context.appConfig = { get: () => true } as any;
-      context.navigation.url = '/personal-files/test';
-      context.navigation.currentFolder = { allowableOperations: ['create'] } as any;
-      spyOn(context.permissions, 'check');
-      app.canCreateFolder(context);
-      expect(context.permissions.check).toHaveBeenCalledWith(context.navigation.currentFolder, ['create']);
-    });
-  });
-
-  describe('canCreateLibrary', () => {
-    it('should return false when content service is disabled', () => {
-      context.appConfig = { get: () => false } as any;
-      expect(app.canCreateLibrary(context)).toBeFalse();
-    });
-
-    it('should return false when user is outside libraries', () => {
-      context.appConfig = { get: () => true } as any;
-      context.navigation.url = '/favorite/test';
-      expect(app.canCreateLibrary(context)).toBeFalse();
-    });
-
-    it('should return true when content service is enabled and user is in libraries', () => {
-      context.appConfig = { get: () => true } as any;
-      context.navigation.url = '/test/libraries';
-      expect(app.canCreateLibrary(context)).toBeTrue();
-    });
-  });
-
-  describe('canUpload', () => {
-    it('should return false when content service is disabled', () => {
-      context.appConfig = { get: () => false } as any;
-      expect(app.canUpload(context)).toBeFalse();
-    });
-
-    it('should return false when user is outside personal files or libraries', () => {
-      context.appConfig = { get: () => true } as any;
-      context.navigation.url = '/favorite/test';
-      expect(app.canUpload(context)).toBeFalse();
-    });
-
-    it('should return false when current folder does not exist', () => {
-      context.appConfig = { get: () => true } as any;
-      context.navigation.url = '/personal-files/test';
-      context.navigation.currentFolder = null;
-      expect(app.canUpload(context)).toBeFalse();
-    });
-
-    it('should return false when permission check fails', () => {
-      context.appConfig = { get: () => true } as any;
-      context.navigation.url = '/personal-files/test';
-      context.navigation.currentFolder = {} as any;
-      context.permissions = { check: () => false };
-      expect(app.canUpload(context)).toBeFalse();
-    });
-
-    it('should return true when permission requirements are met', () => {
-      context.appConfig = { get: () => true } as any;
-      context.navigation.url = '/personal-files/test';
-      context.navigation.currentFolder = {} as any;
-      context.permissions = { check: () => true };
-      expect(app.canUpload(context)).toBeTrue();
-    });
-
-    it('should verify if user has create permission on current folder', () => {
       context.appConfig = { get: () => true } as any;
       context.navigation.url = '/personal-files/test';
       context.navigation.currentFolder = { allowableOperations: ['create'] } as any;
@@ -1173,18 +1011,6 @@ describe('app.evaluators', () => {
     it('should return true when library has a role', () => {
       context.selection.library = { entry: { role: 'test' } } as any;
       expect(app.hasLibraryRole(context)).toBeTrue();
-    });
-  });
-
-  describe('hasNoLibraryRole', () => {
-    it('should return false when library has a role', () => {
-      context.selection.library = { entry: { role: 'test' } } as any;
-      expect(app.hasNoLibraryRole(context)).toBeFalse();
-    });
-
-    it('should return true when library has no role', () => {
-      context.selection.library = { entry: { role: '' } } as any;
-      expect(app.hasNoLibraryRole(context)).toBeTrue();
     });
   });
 
@@ -1322,58 +1148,35 @@ describe('app.evaluators', () => {
     });
   });
 
-  describe('isTrashcanItemSelected', () => {
-    it('should return false when user is not in trashcan', () => {
-      context.navigation.url = '/personal-files/test';
-      expect(app.isTrashcanItemSelected(context)).toBeFalse();
+  describe('canToggleFileLock', () => {
+    beforeEach(() => {
+      context.profile = {} as ProfileState;
     });
 
-    it('should return false when nothing is selected', () => {
-      context.navigation.url = '/trashcan/test';
-      context.selection.isEmpty = true;
-      expect(app.isTrashcanItemSelected(context)).toBeFalse();
+    it('should return false when permission requirements are not met, regardless of file lock', () => {
+      context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK', 'cm:lockOwner': { id: 'test' } } } } as NodeEntry;
+      context.permissions = { check: () => false };
+      expect(app.canToggleFileLock(context)).toBeFalse();
     });
 
-    it('should return true when user is in trashcan and node is selected', () => {
-      context.navigation.url = '/trashcan/test';
-      context.selection.isEmpty = false;
-      expect(app.isTrashcanItemSelected(context)).toBeTrue();
-    });
-  });
-
-  describe('canViewFile', () => {
-    it('should return false when user is in trashcan', () => {
-      context.navigation.url = '/trashcan/test';
-      expect(app.canViewFile(context)).toBeFalse();
+    it('should return true when file has no lock and permission requirements are met', () => {
+      context.selection.file = { entry: { properties: {} } } as NodeEntry;
+      context.permissions = { check: () => true };
+      expect(app.canToggleFileLock(context)).toBeTrue();
     });
 
-    it('should return false when nothing is selected', () => {
-      context.navigation.url = '/personal-files/test';
-      context.selection.file = null;
-      expect(app.canViewFile(context)).toBeFalse();
+    it('should return true when file is locked and permission requirements are met', () => {
+      context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK', 'cm:lockOwner': { id: 'test' } } } } as NodeEntry;
+      context.profile.id = 'test1';
+      context.permissions = { check: () => true };
+      expect(app.canToggleFileLock(context)).toBeTrue();
     });
 
-    it('should return true when user is not in trashcan and file is selected', () => {
-      context.navigation.url = '/personal-files/test';
-      context.selection.file = {} as any;
-      expect(app.canViewFile(context)).toBeTrue();
-    });
-  });
-
-  describe('canLeaveLibrary', () => {
-    it('should return false when no library is selected', () => {
-      context.selection.library = null;
-      expect(app.canLeaveLibrary(context)).toBeFalse();
-    });
-
-    it('should return false when user does not have library role', () => {
-      context.selection.library = { entry: { role: null } } as any;
-      expect(app.canLeaveLibrary(context)).toBeFalse();
-    });
-
-    it('should return true when user has a library role', () => {
-      context.selection.library = { entry: { role: 'test' } } as any;
-      expect(app.canLeaveLibrary(context)).toBeTrue();
+    it('should return true when file is locked and user is the owner of the lock', () => {
+      context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK', 'cm:lockOwner': { id: 'test1' } } } } as NodeEntry;
+      context.profile.id = 'test1';
+      context.permissions = { check: () => false };
+      expect(app.canToggleFileLock(context)).toBeTrue();
     });
   });
 
@@ -1403,136 +1206,6 @@ describe('app.evaluators', () => {
       context.selection.file = { entry: { properties: {} } } as any;
       context.repository.status.isQuickShareEnabled = true;
       expect(app.canToggleSharedLink(context)).toBeTrue();
-    });
-  });
-
-  describe('canShowInfoDrawer', () => {
-    it('should return false when nothing is selected', () => {
-      context.selection.isEmpty = true;
-      expect(app.canShowInfoDrawer(context)).toBeFalse();
-    });
-
-    it('should return false when user is in libraries or trashcan or details', () => {
-      context.selection.isEmpty = false;
-      context.navigation.url = '/trashcan/test';
-      expect(app.canShowInfoDrawer(context)).toBeFalse();
-
-      context.navigation.url = '/test/libraries';
-      expect(app.canShowInfoDrawer(context)).toBeFalse();
-
-      context.navigation.url = '/test/details';
-      expect(app.canShowInfoDrawer(context)).toBeFalse();
-    });
-
-    it('should return true when selection exists and user is not in trashcan, libraries or details', () => {
-      context.navigation.url = '/personal-files/test';
-      context.selection.isEmpty = false;
-      expect(app.canShowInfoDrawer(context)).toBeTrue();
-    });
-  });
-
-  describe('canManageFileVersions', () => {
-    it('should return false when no file is selected', () => {
-      context.selection.file = null;
-      expect(app.canManageFileVersions(context)).toBeFalse();
-    });
-
-    it('should return false when user is in trashcan', () => {
-      context.selection.file = {} as any;
-      context.navigation.url = '/trashcan/test';
-      expect(app.canManageFileVersions(context)).toBeFalse();
-    });
-
-    it('should return false when locked file is selected', () => {
-      context.selection.file = {} as any;
-      context.selection.nodes = [{ entry: { isFile: true, isLocked: true } } as any];
-      context.navigation.url = '/personal-files/test';
-      expect(app.canManageFileVersions(context)).toBeFalse();
-    });
-
-    it('should return true when non-locked file is selected', () => {
-      context.selection.file = {} as any;
-      context.selection.nodes = [{ entry: { isFile: true, isLocked: false } } as any];
-      context.navigation.url = '/personal-files/test';
-      expect(app.canManageFileVersions(context)).toBeTrue();
-    });
-  });
-
-  describe('canToggleEditOffline', () => {
-    beforeEach(() => {
-      context.profile = {} as any;
-    });
-
-    it('should return false when no file is selected', () => {
-      context.selection.file = null;
-      expect(app.canToggleEditOffline(context)).toBeFalse();
-    });
-
-    it('should return false when user is in trashcan', () => {
-      context.selection.file = {} as any;
-      context.navigation.url = '/trashcan/test';
-      expect(app.canToggleEditOffline(context)).toBeFalse();
-    });
-
-    it('should return false when user cannot lock or unlock files', () => {
-      context.navigation.url = '/personal-files/test';
-      context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK', 'cm:lockOwner': { id: 'test' } } } } as any;
-      context.profile.id = 'test1';
-      context.permissions = { check: () => false };
-      expect(app.canToggleEditOffline(context)).toBeFalse();
-    });
-
-    it('should return true when user can lock file', () => {
-      context.navigation.url = '/personal-files/test';
-      context.selection.file = {} as any;
-      context.permissions = { check: () => true };
-      expect(app.canToggleEditOffline(context)).toBeTrue();
-    });
-
-    it('should return true when user can unlock file', () => {
-      context.navigation.url = '/personal-files/test';
-      context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK', 'cm:lockOwner': { id: 'test1' } } } } as any;
-      context.profile.id = 'test1';
-      expect(app.canToggleEditOffline(context)).toBeTrue();
-    });
-  });
-
-  describe('canInfoPreview', () => {
-    it('should return false when user is not is search results page', () => {
-      context.navigation.url = '/trashcan/test';
-      expect(app.canInfoPreview(context)).toBeFalse();
-    });
-
-    it('should return false when multiple nodes are selected', () => {
-      context.navigation.url = '/search/test';
-      context.selection.isEmpty = false;
-      context.selection.count = 5;
-      expect(app.canInfoPreview(context)).toBeFalse();
-    });
-
-    it('should return false when folder is selected', () => {
-      context.navigation.url = '/search/test';
-      context.selection.isEmpty = false;
-      context.selection.count = 1;
-      context.selection.folder = {} as any;
-      expect(app.canInfoPreview(context)).toBeFalse();
-    });
-
-    it('should return false when user is in preview', () => {
-      context.navigation.url = '/preview/test';
-      context.selection.isEmpty = false;
-      context.selection.count = 1;
-      context.selection.folder = null;
-      expect(app.canInfoPreview(context)).toBeFalse();
-    });
-
-    it('should return true when user is in search results page and single file is selected', () => {
-      context.navigation.url = '/search/test';
-      context.selection.isEmpty = false;
-      context.selection.count = 1;
-      context.selection.folder = null;
-      context.selection.file = {} as any;
-      expect(app.canInfoPreview(context)).toBeTrue();
     });
   });
 
