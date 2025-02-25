@@ -93,7 +93,9 @@ test.describe('Special permissions', () => {
       await siteApiAdmin.deleteSites([sitePrivate]);
     });
 
-    test('[C213173] on Recent Files', async ({ recentFilesPage }) => {
+    test('[XAT-4445] Recent Files - File recently edited that the user no longer has permission to view is not displayed in the list', async ({
+      recentFilesPage
+    }) => {
       await recentFilesPage.navigate();
       expect(await recentFilesPage.dataTable.getRowsCount(), 'Incorrect number of items').toBeGreaterThanOrEqual(1);
       await siteApiAdmin.deleteSiteMember(sitePrivate, username);
@@ -101,7 +103,7 @@ test.describe('Special permissions', () => {
       expect(await recentFilesPage.dataTable.isItemPresent(fileName), 'Items are still displayed').toBe(false);
     });
 
-    test('[C213227] on Favorites', async ({ favoritePage }) => {
+    test('[XAT-4455] Favorites - File is not displayed if the user no longer has permissions on it', async ({ favoritePage }) => {
       await favoritePage.navigate();
       expect(await favoritePage.dataTable.getRowsCount(), 'Incorrect number of items').toBe(1);
       await siteApiAdmin.deleteSiteMember(sitePrivate, username);
@@ -109,7 +111,7 @@ test.describe('Special permissions', () => {
       expect(await favoritePage.dataTable.isEmpty(), 'Items are still displayed').toBe(true);
     });
 
-    test('[C213116] on Shared Files', async ({ sharedPage }) => {
+    test(`[XAT-4433] Shared file that the user doesn't have permission to view is not displayed in the list`, async ({ sharedPage }) => {
       await sharedPage.navigate();
       await expect(sharedPage.dataTable.getRowByName(sitePrivate)).toBeVisible();
       await siteApiAdmin.deleteSiteMember(sitePrivate, username);
@@ -173,24 +175,33 @@ test.describe('Special permissions', () => {
       await adminSiteApiActions.deleteSites([sitePrivate]);
     });
 
-    test('[C213178] on Recent Files', async ({ recentFilesPage }) => {
+    test(`[XAT-4452] Recent Files - Location column is empty if the user doesn't have permissions on the file's parent folder`, async ({
+      recentFilesPage
+    }) => {
       await recentFilesPage.navigate();
       expect(await recentFilesPage.dataTable.isItemPresent(fileName)).toBe(true);
       expect(await recentFilesPage.dataTable.getItemLocationText(fileName)).toEqual('Unknown');
     });
 
-    test('[C213672] on Favorites', async ({ favoritePage }) => {
+    test(`[XAT-4464] Favorites - Location column is empty if the user doesn't have permissions on the file's parent folder`, async ({
+      favoritePage
+    }) => {
       await favoritePage.navigate();
       expect(await favoritePage.dataTable.getRowsCount(), 'Incorrect number of items').toBe(1);
       expect(await favoritePage.dataTable.getItemLocationText(fileName)).toEqual('Unknown');
     });
 
-    test(`[C213668] on Shared Files`, async ({ sharedPage }) => {
+    test(`[XAT-4441] Shared Files - Location column is empty if the user doesn't have permissions on the file's parent folder`, async ({
+      sharedPage
+    }) => {
       await sharedPage.navigate();
       expect(await sharedPage.dataTable.getItemLocationText(fileName)).toEqual('Unknown');
     });
 
-    test('[C306868] on Search results', async ({ personalFiles, searchPage }) => {
+    test(`[XAT-5612] Search Page - Location column is empty if the user doesn't have permissions on the file's parent folder`, async ({
+      personalFiles,
+      searchPage
+    }) => {
       await personalFiles.acaHeader.searchButton.click();
       await searchPage.clickSearchButton();
       await searchPage.searchOverlay.checkFilesAndFolders();
