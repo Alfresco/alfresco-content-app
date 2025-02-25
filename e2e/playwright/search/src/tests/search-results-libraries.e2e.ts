@@ -32,7 +32,8 @@ import {
   SitesApi,
   FileActionsApi,
   SITE_VISIBILITY,
-  SITE_ROLES
+  SITE_ROLES,
+  SIDEBAR_LABELS
 } from '@alfresco/aca-playwright-shared';
 
 test.describe('Search Results - General', () => {
@@ -215,5 +216,14 @@ test.describe('Search Results - General', () => {
     await searchPage.searchWithin(siteRussian.name, 'libraries');
 
     expect(await searchPage.dataTable.isItemPresent(siteRussian.name)).toBeTruthy();
+  });
+
+  test('[C290020] Empty Search results - Libraries', async ({ searchPage }) => {
+    await searchPage.sidenav.openPanel(SIDEBAR_LABELS.MY_LIBRARIES);
+    /* cspell:disable-next-line */
+    await searchPage.searchWithin('qwertyuiop', 'files');
+
+    expect(await searchPage.dataTable.isEmpty()).toBeTruthy();
+    expect(await searchPage.dataTable.emptySearchText.textContent()).toContain('Your search returned 0 results');
   });
 });

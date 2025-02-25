@@ -59,7 +59,7 @@ test.describe('viewer file', () => {
   });
 
   test.describe('general tests', () => {
-    test('[C213089] login page layout', async ({ loginPage }) => {
+    test('[XAT-4366] login page layout', async ({ loginPage }) => {
       await loginPage.navigate();
       await expect(loginPage.username, 'username input is not enabled').toBeEnabled();
       await expect(loginPage.password, 'password input is not enabled').toBeEnabled();
@@ -72,14 +72,14 @@ test.describe('viewer file', () => {
   });
 
   test.describe('with invalid credentials', () => {
-    test('[C213106] unauthenticated user is redirected to Login page', async ({ personalFiles }) => {
+    test('[XAT-4378] unauthenticated user is redirected to Login page', async ({ personalFiles }) => {
       await personalFiles.navigate();
       expect(personalFiles.page.url()).toContain('login');
     });
   });
 
   test.describe('with valid credentials', () => {
-    test('[C213097] logs in with user with non-latin characters', async ({ loginPage }) => {
+    test('[XAT-4370] Login with a user that contains non-Latin characters in username or password', async ({ loginPage }) => {
       await loginPage.navigate();
       await loginPage.loginUser({ username: otherLanguageUser.username, password: otherLanguageUser.password });
       expect(loginPage.page.url()).toContain('personal-files');
@@ -95,7 +95,7 @@ test.describe('viewer file', () => {
       expect(loginPage.page.url()).toContain('personal-files');
     });
 
-    test('[C213104] user is able to login after changing his password', async ({ loginPage }) => {
+    test('[XAT-4372] Login with a user that has changed its password', async ({ loginPage }) => {
       await apiClientFactory.changePassword(testUser2.username, newPassword);
       await loginPage.navigate();
       await loginPage.loginUser({ username: testUser2.username, password: newPassword });

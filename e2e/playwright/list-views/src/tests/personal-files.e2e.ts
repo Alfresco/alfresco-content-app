@@ -53,18 +53,18 @@ test.describe('Personal Files', () => {
       await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
     });
 
-    test('[C217142] has the correct columns', async ({ personalFiles }) => {
+    test('[XAT-4414] Personal Files list displays correct columns', async ({ personalFiles }) => {
       const expectedColumns = ['Name', 'Size', 'Modified', 'Modified by', 'Tags'];
       const actualColumns = Utils.trimArrayElements(await personalFiles.dataTable.getColumnHeaders());
       expect(actualColumns).toEqual(expectedColumns);
     });
 
-    test('[C217143] has default sorted column', async ({ personalFiles }) => {
+    test('[XAT-4415] Personal Files - Default sort order', async ({ personalFiles }) => {
       await Utils.reloadPageIfDatatableEmpty(personalFiles);
       expect(await personalFiles.dataTable.getSortedColumnHeaderText()).toBe('Name');
     });
 
-    test('[C213245] redirects to Personal Files on clicking the link from sidebar', async ({ personalFiles }) => {
+    test('[XAT-4411] User is redirected to Home page on selecting <Personal Files> from any folder location', async ({ personalFiles }) => {
       await personalFiles.dataTable.performClickFolderOrFileToOpen(userFolder);
       await personalFiles.sidenav.openPanel(SIDEBAR_LABELS.PERSONAL_FILES);
       await personalFiles.dataTable.spinnerWaitForReload();
@@ -72,7 +72,7 @@ test.describe('Personal Files', () => {
       expect(await personalFiles.sidenav.isActive(SIDEBAR_LABELS.PERSONAL_FILES), 'My Libraries link not active').toBe(true);
     });
 
-    test('[C213246] page loads correctly after browser refresh', async ({ personalFiles }) => {
+    test('[XAT-4412] Personal Files - List reloads on browser Refresh', async ({ personalFiles }) => {
       await personalFiles.reload();
       expect(personalFiles.page.url()).toContain(APP_ROUTES.PERSONAL_FILES);
     });
