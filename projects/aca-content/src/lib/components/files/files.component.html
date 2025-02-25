@@ -16,7 +16,7 @@
   </div>
 
   <div class="aca-page-layout-error">
-    <aca-generic-error />
+    <aca-generic-error [text]="errorTranslationKey"/>
   </div>
 
   <div class="aca-page-layout-content">
@@ -47,7 +47,7 @@
           (name-click)="handleNodeClick($event)"
           (selectedItemsCountChanged)="onSelectedItemsCountChanged($event)"
           (filterSelection)="onFilterSelected($event)"
-          (error)="onError()"
+          (error)="onError($event)"
         >
           <data-columns>
             <ng-container *ngFor="let column of columns; trackBy: trackByColumnId">
