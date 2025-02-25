@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { expect, Locator } from '@playwright/test';
+import { expect } from '@playwright/test';
 import {
   ApiClientFactory,
   FavoritesPageApi,
@@ -34,7 +34,12 @@ import {
   TEST_FILES,
   timeouts,
   Utils,
-  TrashcanApi
+  TrashcanApi,
+  PersonalFilesPage,
+  MyLibrariesPage,
+  RecentFilesPage,
+  FavoritesLibrariesPage,
+  SharedPage
 } from '@alfresco/aca-playwright-shared';
 
 test.describe('Zoom activity on different files in viewer', () => {
@@ -72,10 +77,8 @@ test.describe('Zoom activity on different files in viewer', () => {
     folderId = node.entry.id;
 
     await fileActionApi.uploadFile(TEST_FILES.JPG_FILE.path, randomJpgName, folderId);
-    const filePng = await fileActionApi.uploadFile(TEST_FILES.PNG_FILE.path, randomPngName, folderId);
-    const filePngId = filePng.entry.id;
-    const filePdf = await fileActionApi.uploadFile(TEST_FILES.PDF.path, randomPdfName, folderId);
-    const filePdfId = filePdf.entry.id;
+    const filePngId = (await fileActionApi.uploadFile(TEST_FILES.PNG_FILE.path, randomPngName, folderId)).entry.id;
+    const filePdfId = (await fileActionApi.uploadFile(TEST_FILES.PDF.path, randomPdfName, folderId)).entry.id;
     await fileActionApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
 
     const consumerFavoritesTotalItems = await favoritesActions.getFavoritesTotalItems(username);
@@ -106,65 +109,113 @@ test.describe('Zoom activity on different files in viewer', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActionsAdmin, [docLibId]);
   });
 
-  async function validateZoomScaleInViewer(pageToValidate: any, zoomToDefaultButton: Locator): Promise<void> {
+  async function validateZoomScaleInViewer(
+    pageToValidate: PersonalFilesPage | RecentFilesPage | SharedPage | FavoritesLibrariesPage | MyLibrariesPage
+  ): Promise<void> {
     const defaultZoomSize: number = parseInt(await pageToValidate.viewer.zoomScale.innerText(), 10);
     expect(defaultZoomSize).toBe(100);
     await pageToValidate.viewer.zoomInButton.click();
     expect(parseInt(await pageToValidate.viewer.zoomScale.innerText(), 10)).toBeGreaterThan(defaultZoomSize);
-    await zoomToDefaultButton.click();
+    await pageToValidate.viewer.zoomOutButton.click();
     expect(parseInt(await pageToValidate.viewer.zoomScale.innerText(), 10)).toEqual(defaultZoomSize);
     await pageToValidate.viewer.zoomOutButton.click();
     expect(parseInt(await pageToValidate.viewer.zoomScale.innerText(), 10)).toBeLessThan(defaultZoomSize);
-    await zoomToDefaultButton.click();
+    await pageToValidate.viewer.zoomInButton.click();
     expect(parseInt(await pageToValidate.viewer.zoomScale.innerText(), 10)).toEqual(defaultZoomSize);
   }
 
-  test('[XAT-17613], [XAT-17619] Percentage of the zoom and reset when a jpg file is opened in viewer mode in Personal Files', async ({
-    personalFiles
-  }) => {
+  async function validateZoomResetButtonActivity(pageToValidate: PersonalFilesPage | RecentFilesPage | SharedPage): Promise<void> {
+    await pageToValidate.viewer.zoomInButton.click();
+    await pageToValidate.viewer.zoomResetButton.click();
+    expect(parseInt(await pageToValidate.viewer.zoomScale.innerText(), 10)).toEqual(100);
+    await pageToValidate.viewer.zoomInButton.click();
+    await pageToValidate.viewer.zoomResetButton.click();
+    expect(parseInt(await pageToValidate.viewer.zoomScale.innerText(), 10)).toEqual(100);
+  }
+
+  async function validateFitToPageButtonActivity(pageToValidate: FavoritesLibrariesPage | MyLibrariesPage): Promise<void> {
+    await pageToValidate.viewer.zoomInButton.click();
+    await pageToValidate.viewer.fitToPageButton.click();
+    expect(parseInt(await pageToValidate.viewer.zoomScale.innerText(), 10)).toEqual(100);
+    await pageToValidate.viewer.zoomInButton.click();
+    await pageToValidate.viewer.fitToPageButton.click();
+    expect(parseInt(await pageToValidate.viewer.zoomScale.innerText(), 10)).toEqual(100);
+  }
+
+  test('[XAT-17637] Percentage of the zoom of a jpg image is opened in viewer mode in Personal Files', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomJpgName);
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-    const defaultZoomSize: number = parseInt(await personalFiles.viewer.zoomScale.innerText(), 10);
-    expect(defaultZoomSize).toBe(100);
-    await validateZoomScaleInViewer(personalFiles, personalFiles.viewer.zoomResetButton);
+    await validateZoomScaleInViewer(personalFiles);
   });
 
-  test('[XAT-17614], [XAT-17620] Percentage of the zoom and reset when a jpg file is opened in viewer mode in Recent Files', async ({
+  test('[XAT-17650] Percentage of the zoom and reset when a jpg file is opened in viewer mode in Recent Files', async ({
     personalFiles,
     recentFilesPage
   }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomJpgName);
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     await recentFilesPage.navigate();
-    await recentFilesPage.reload();
     await recentFilesPage.dataTable.performClickFolderOrFileToOpen(randomJpgName);
     expect(await recentFilesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-    await validateZoomScaleInViewer(recentFilesPage, recentFilesPage.viewer.zoomResetButton);
+    await validateZoomScaleInViewer(recentFilesPage);
   });
 
-  test('[XAT-17615], [XAT-17621] Percentage of the zoom and reset when a png file is opened in viewer mode in Shared Files', async ({
-    sharedPage
-  }) => {
+  test('[XAT-17638] Percentage of the zoom of a png image is opened in viewer mode in Shared Files', async ({ sharedPage }) => {
     await sharedPage.dataTable.performClickFolderOrFileToOpen(randomPngName);
     expect(await sharedPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-    await validateZoomScaleInViewer(sharedPage, sharedPage.viewer.zoomResetButton);
+    await validateZoomScaleInViewer(sharedPage);
   });
 
-  test('[XAT-17616], [XAT-17622] Percentage of the zoom and reset when a pdf file is opened in viewer mode in Favorite Files', async ({
+  test('[XAT-17639] Percentage of the zoom and reset when a pdf file is opened in viewer mode in Favorite Files', async ({
     favoriteLibrariesPage
   }) => {
     await favoriteLibrariesPage.dataTable.performClickFolderOrFileToOpen(randomPdfName);
     expect(await favoriteLibrariesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-    await validateZoomScaleInViewer(favoriteLibrariesPage, favoriteLibrariesPage.viewer.fitPageButton);
+    await favoriteLibrariesPage.viewer.waitForZoomPercentageToDisplay();
+    await validateZoomScaleInViewer(favoriteLibrariesPage);
   });
 
-  test('[XAT-17617], [XAT-17623] Percentage of the zoom and reset when a document is opened in viewer mode in Libraries Files', async ({
-    myLibrariesPage
-  }) => {
+  test('[XAT-17640] Percentage of the zoom and reset when a document is opened in viewer mode in Libraries Files', async ({ myLibrariesPage }) => {
     await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
     await myLibrariesPage.viewer.waitForViewerLoaderToFinish();
     expect(await myLibrariesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     await myLibrariesPage.viewer.waitForZoomPercentageToDisplay();
-    await validateZoomScaleInViewer(myLibrariesPage, myLibrariesPage.viewer.fitPageButton);
+    await validateZoomScaleInViewer(myLibrariesPage);
+  });
+
+  test('[XAT-17641] User can restore the default state of jpg image in viewer mode in Personal Files', async ({ personalFiles }) => {
+    await personalFiles.dataTable.performClickFolderOrFileToOpen(randomJpgName);
+    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    await validateZoomResetButtonActivity(personalFiles);
+  });
+
+  test('[XAT-17651] User can restore the default state of jpg image in viewer mode in Recent Files', async ({ personalFiles, recentFilesPage }) => {
+    await personalFiles.dataTable.performClickFolderOrFileToOpen(randomJpgName);
+    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    await recentFilesPage.navigate();
+    await recentFilesPage.dataTable.performClickFolderOrFileToOpen(randomJpgName);
+    expect(await recentFilesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    await validateZoomResetButtonActivity(recentFilesPage);
+  });
+
+  test('[XAT-17642] User can restore the default state of png image in viewer mode in Shared Files', async ({ sharedPage }) => {
+    await sharedPage.dataTable.performClickFolderOrFileToOpen(randomPngName);
+    expect(await sharedPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    await validateZoomResetButtonActivity(sharedPage);
+  });
+
+  test('[XAT-17643] User can restore the default state of pdf file in viewer mode in Favorites Files', async ({ favoriteLibrariesPage }) => {
+    await favoriteLibrariesPage.dataTable.performClickFolderOrFileToOpen(randomPdfName);
+    expect(await favoriteLibrariesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    await favoriteLibrariesPage.viewer.waitForZoomPercentageToDisplay();
+    await validateFitToPageButtonActivity(favoriteLibrariesPage);
+  });
+
+  test('[XAT-17644] User can restore the default state of a doc file in viewer mode in Libraries Files', async ({ myLibrariesPage }) => {
+    await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
+    await myLibrariesPage.viewer.waitForViewerLoaderToFinish();
+    expect(await myLibrariesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    await myLibrariesPage.viewer.waitForZoomPercentageToDisplay();
+    await validateFitToPageButtonActivity(myLibrariesPage);
   });
 });
