@@ -58,7 +58,7 @@ test.describe('Upload files', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
-  test('Upload a file', async ({ personalFiles }) => {
+  test('[XAT-5279] Upload a file / multiple files', async ({ personalFiles }) => {
     const uploadedFiles = await personalFiles.dataTable.isItemPresent(TEST_FILES.JPG_FILE.name);
     expect(uploadedFiles, 'Uploaded file was not present in data table').toBe(true);
   });
@@ -76,7 +76,7 @@ test.describe('Upload files', () => {
     await expect(personalFiles.uploadDialog.uploadDialog, 'Upload Dialog was not maximized').toBeVisible();
   });
 
-  test('[T14752053] Upload history is expunged on browser login/logout', async ({ personalFiles, loginPage }) => {
+  test('[XAT-5278] Upload history is expunged on browser refresh / close tab / close browser / log out', async ({ personalFiles, loginPage }) => {
     await loginPage.logoutUser();
     await expect(loginPage.username, 'User name was not visible').toBeVisible();
     await loginPage.loginUser({ username, password: username });
