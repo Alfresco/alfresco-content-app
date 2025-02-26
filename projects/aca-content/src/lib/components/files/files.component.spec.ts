@@ -29,7 +29,7 @@ import { DocumentListService, FilterSearch, UploadService } from '@alfresco/adf-
 import { NodeActionsService } from '../../services/node-actions.service';
 import { FilesComponent } from './files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { AppExtensionService, ContentApiService, DocumentBasePageService, initialState } from '@alfresco/aca-shared';
+import { AppExtensionService, ContentApiService, DocumentBasePageService, GenericErrorComponent, initialState } from '@alfresco/aca-shared';
 import { of, Subject, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { NodeEntry, NodePaging, Node, PathElement } from '@alfresco/js-api';
@@ -38,6 +38,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { testHeader } from '../../testing/document-base-page-utils';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { getCurrentFolder } from '@alfresco/aca-shared/store';
+import { UnitTestingUtils } from '@alfresco/adf-core';
+import { HttpErrorResponse } from '@angular/common/http';
 
 describe('FilesComponent', () => {
   let node;
@@ -57,6 +59,7 @@ describe('FilesComponent', () => {
 
   let spyContent = null;
   let loadFolderByNodeIdSpy: jasmine.Spy;
+  let unitTestingUtils: UnitTestingUtils;
 
   function verifyEmptyFilterTemplate() {
     const template = fixture.debugElement.query(By.css('.empty-search__block')).nativeElement as HTMLElement;
@@ -108,6 +111,7 @@ describe('FilesComponent', () => {
     extensions = TestBed.inject(AppExtensionService);
     store = TestBed.inject(MockStore);
     spyContent = spyOn(contentApi, 'getNode');
+    unitTestingUtils = new UnitTestingUtils(fixture.debugElement);
   });
 
   beforeEach(() => {
@@ -518,6 +522,178 @@ describe('FilesComponent', () => {
       fixture.detectChanges();
 
       expect(component.documentList.displayDragAndDropHint).toBeFalsy();
+    });
+  });
+
+  describe('Generic error', () => {
+    const getGenericErrorText = () => unitTestingUtils.getByDirective(GenericErrorComponent).componentInstance.text;
+
+    beforeEach(() => {
+      router.url = '/libraries';
+    });
+
+    describe('error returned by getNode on contentApi', () => {
+      it('should have set text to library no permission error if user does not have permission and actual url is libraries', () => {
+        spyContent.and.returnValue(
+          throwError(
+            () =>
+              new HttpErrorResponse({
+                status: 403
+              })
+          )
+        );
+        fixture.detectChanges();
+
+        expect(getGenericErrorText()).toBe('APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_NO_PERMISSIONS');
+      });
+
+      it('should have set text to library not found error if library does not exist and actual url is libraries', () => {
+        spyContent.and.returnValue(
+          throwError(
+            () =>
+              new HttpErrorResponse({
+                status: 404
+              })
+          )
+        );
+        fixture.detectChanges();
+
+        expect(getGenericErrorText()).toBe('APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_NOT_FOUND');
+      });
+
+      it('should have set text to generic library loading error if there is different problem with loading of library and actual url is libraries', () => {
+        spyContent.and.returnValue(
+          throwError(
+            () =>
+              new HttpErrorResponse({
+                status: 500
+              })
+          )
+        );
+        fixture.detectChanges();
+
+        expect(getGenericErrorText()).toBe('APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_LOADING_ERROR');
+      });
+
+      it('should have set text to generic error if user does not have permission and actual url is not libraries', () => {
+        router.url = '/personal-files';
+        spyContent.and.returnValue(
+          throwError(
+            () =>
+              new HttpErrorResponse({
+                status: 403
+              })
+          )
+        );
+        fixture.detectChanges();
+
+        expect(getGenericErrorText()).toBe('APP.MESSAGES.ERRORS.MISSING_CONTENT');
+      });
+
+      it('should have set text to generic error if library does not exist and actual url is not libraries', () => {
+        router.url = '/personal-files';
+        spyContent.and.returnValue(
+          throwError(
+            () =>
+              new HttpErrorResponse({
+                status: 404
+              })
+          )
+        );
+        fixture.detectChanges();
+
+        expect(getGenericErrorText()).toBe('APP.MESSAGES.ERRORS.MISSING_CONTENT');
+      });
+
+      it('should have set text to generic error if there is different problem with loading of node and actual url is not libraries', () => {
+        router.url = '/personal-files';
+        spyContent.and.returnValue(
+          throwError(
+            () =>
+              new HttpErrorResponse({
+                status: 500
+              })
+          )
+        );
+        fixture.detectChanges();
+
+        expect(getGenericErrorText()).toBe('APP.MESSAGES.ERRORS.MISSING_CONTENT');
+      });
+    });
+
+    describe('error emitted by error event', () => {
+      beforeEach(() => {
+        fixture.detectChanges();
+      });
+
+      it('should have set text to library no permission error if user does not have permission issue and actual url is libraries', () => {
+        component.documentList.error.emit(
+          new HttpErrorResponse({
+            status: 403
+          })
+        );
+        fixture.detectChanges();
+
+        expect(getGenericErrorText()).toBe('APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_NO_PERMISSIONS');
+      });
+
+      it('should have set text to library not found error if library does not exist issue and actual url is libraries', () => {
+        component.documentList.error.emit(
+          new HttpErrorResponse({
+            status: 404
+          })
+        );
+        fixture.detectChanges();
+
+        expect(getGenericErrorText()).toBe('APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_NOT_FOUND');
+      });
+
+      it('should have set text to generic library loading error if there is different problem with loading of library and actual url is libraries', () => {
+        component.documentList.error.emit(
+          new HttpErrorResponse({
+            status: 500
+          })
+        );
+        fixture.detectChanges();
+
+        expect(getGenericErrorText()).toBe('APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_LOADING_ERROR');
+      });
+
+      it('should have set text to generic error if user does not have permission issue and actual url is not libraries', () => {
+        router.url = '/personal-files';
+        component.documentList.error.emit(
+          new HttpErrorResponse({
+            status: 403
+          })
+        );
+        fixture.detectChanges();
+
+        expect(getGenericErrorText()).toBe('APP.MESSAGES.ERRORS.MISSING_CONTENT');
+      });
+
+      it('should have set text to generic error if library does not exist issue and actual url is not libraries', () => {
+        router.url = '/personal-files';
+        component.documentList.error.emit(
+          new HttpErrorResponse({
+            status: 404
+          })
+        );
+        fixture.detectChanges();
+
+        expect(getGenericErrorText()).toBe('APP.MESSAGES.ERRORS.MISSING_CONTENT');
+      });
+
+      it('should have set text to generic error if there is different problem with loading of node and actual url is not libraries', () => {
+        router.url = '/personal-files';
+        component.documentList.error.emit(
+          new HttpErrorResponse({
+            status: 500
+          })
+        );
+        fixture.detectChanges();
+
+        expect(getGenericErrorText()).toBe('APP.MESSAGES.ERRORS.MISSING_CONTENT');
+      });
     });
   });
 
