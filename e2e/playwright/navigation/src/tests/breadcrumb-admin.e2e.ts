@@ -48,7 +48,7 @@ test.describe('as admin', () => {
     await nodesApi.deleteNodes([userFolderId], true);
   });
 
-  test(`[C260970] Breadcrumb on navigation to a user's home`, async ({ personalFiles }) => {
+  test(`[XAT-4400] Breadcrumb on navigation to a user's home as admin`, async ({ personalFiles }) => {
     await personalFiles.navigate({ remoteUrl: `#/personal-files/${userFolderId}` });
     await personalFiles.breadcrumb.getItemByTitle(userFolder).waitFor({ state: 'attached' });
     expect(await personalFiles.breadcrumb.getAllItems()).toEqual(['Personal Files', userFolder]);

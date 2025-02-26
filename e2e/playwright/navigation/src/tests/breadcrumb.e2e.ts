@@ -88,25 +88,25 @@ test.describe('viewer action file', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActions, [docLibId]);
   });
 
-  test('[C260964] Personal Files breadcrumb main node', async ({ personalFiles }) => {
+  test('[XAT-4387] Personal Files breadcrumb main node', async ({ personalFiles }) => {
     await personalFiles.navigate({ remoteUrl: `#/personal-files/` });
     expect(await personalFiles.breadcrumb.items.count(), 'Breadcrumb has incorrect number of items').toEqual(1);
     await expect(personalFiles.breadcrumb.currentItem).toHaveText('Personal Files');
   });
 
-  test('[C260965] Personal Files breadcrumb for a folder hierarchy', async ({ personalFiles }) => {
+  test('[XAT-4388] Personal Files breadcrumb for a folder hierarchy', async ({ personalFiles }) => {
     await personalFiles.navigate({ remoteUrl: `#/personal-files/${subFolder2Id}` });
     const expectedBreadcrumb = ['Personal Files', parent, subFolder1, subFolder2];
     expect(await personalFiles.breadcrumb.getAllItems()).toEqual(expectedBreadcrumb);
   });
 
-  test('[C260967] File Libraries breadcrumb for a folder hierarchy', async ({ myLibrariesPage }) => {
+  test('[XAT-4391] My Libraries breadcrumb for a folder hierarchy', async ({ myLibrariesPage }) => {
     await myLibrariesPage.navigate({ remoteUrl: `#/libraries/${subFolder2FromSiteId}` });
     const expectedItems = ['My Libraries', siteName, parentFromSite, subFolder1FromSite, subFolder2FromSite];
     expect(await myLibrariesPage.breadcrumb.getAllItems()).toEqual(expectedItems);
   });
 
-  test('[C213235] User can navigate to any location by clicking on a step from the breadcrumb', async ({ personalFiles }) => {
+  test('[XAT-4396] User can navigate to any location by clicking on any step from the breadcrumb', async ({ personalFiles }) => {
     await personalFiles.navigate({ remoteUrl: `#/personal-files/${subFolder2Id}` });
     await personalFiles.breadcrumb.clickItem(subFolder1);
     await personalFiles.dataTable.spinnerWaitForReload();
@@ -114,13 +114,13 @@ test.describe('viewer action file', () => {
     expect(await personalFiles.breadcrumb.getAllItems()).toEqual(expectedBreadcrumb);
   });
 
-  test('[C213237] Tooltip appears on hover on a step in breadcrumb', async ({ personalFiles }) => {
+  test('[XAT-4397] Tooltip appears on hover on a step in breadcrumb', async ({ personalFiles }) => {
     await personalFiles.navigate({ remoteUrl: `#/personal-files/${subFolder2Id}` });
     const item = personalFiles.breadcrumb.items.nth(2);
     await expect(item).toHaveAttribute('title', subFolder1);
   });
 
-  test('[C213238] Breadcrumb updates correctly when folder is renamed', async ({ personalFiles, nodesApiAction }) => {
+  test('[XAT-4398] Breadcrumb updates correctly when folder is renamed', async ({ personalFiles, nodesApiAction }) => {
     await nodesApiAction.renameNode(folder1Id, folder1Renamed);
     await personalFiles.navigate({ remoteUrl: `#/personal-files/${folder1Id}` });
     await personalFiles.page.reload();
@@ -128,7 +128,7 @@ test.describe('viewer action file', () => {
     await expect(personalFiles.breadcrumb.currentItem).toHaveText(folder1Renamed);
   });
 
-  test('[C213240] Browser back navigates to previous location regardless of breadcrumb steps', async ({ personalFiles, trashPage }) => {
+  test('[XAT-4399] Browser back navigates to previous location regardless of breadcrumb steps', async ({ personalFiles, trashPage }) => {
     await personalFiles.navigate({ remoteUrl: `#/personal-files/${subFolder2Id}` });
     await trashPage.navigate();
     await personalFiles.page.goBack();
