@@ -63,13 +63,13 @@ test.describe('Single click on item name', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
-  test('[C284899] Hyperlink does not appear for items in the Trash', async ({ trashPage }) => {
+  test('[XAT-4894] Hyperlink does not appear for items in the Trash', async ({ trashPage }) => {
     await trashPage.navigate();
     await expect(trashPage.dataTable.getCellLinkByName(deletedFile1), 'Link on name is present').toBeHidden();
     await expect(trashPage.dataTable.getCellLinkByName(deletedFolder1), 'Link on name is present').toBeHidden();
   });
 
-  test('[C280034] Navigate inside the folder when clicking the hyperlink on Personal Files', async ({ personalFiles }) => {
+  test('[XAT-4897] Navigate inside the folder when clicking the hyperlink - on Personal Files', async ({ personalFiles }) => {
     await personalFiles.navigate();
     await personalFiles.dataTable.setPaginationTo50();
     await personalFiles.dataTable.getCellLinkByName(folder1).click();
@@ -80,7 +80,7 @@ test.describe('Single click on item name', () => {
     await expect(personalFiles.breadcrumb.currentItem).toHaveText(folder1);
   });
 
-  test('[C284902] Navigate inside the library when clicking the hyperlink on File Libraries', async ({ myLibrariesPage }) => {
+  test('[XAT-4899] Navigate inside the library when clicking the hyperlink', async ({ myLibrariesPage }) => {
     await myLibrariesPage.navigate();
     await myLibrariesPage.dataTable.goThroughPagesLookingForRowWithName(siteName);
     await myLibrariesPage.dataTable.getCellLinkByName(siteName).click();
