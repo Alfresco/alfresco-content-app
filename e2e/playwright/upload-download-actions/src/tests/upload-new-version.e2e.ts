@@ -110,7 +110,7 @@ test.describe('Upload new version', () => {
       await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
     });
 
-    test('[C307005] file is updated after uploading a new version - minor', async ({ searchPage }) => {
+    test('[XAT-5353] file is updated after uploading a new version - minor', async ({ searchPage }) => {
       await searchPage.searchWithin(fileSearch2, 'files');
       await uploadNewVersion(searchPage, fileSearch2, fileToUpload2.path);
 
@@ -122,7 +122,7 @@ test.describe('Upload new version', () => {
       expect(await nodesApi.getNodeProperty(fileSearch2Id, 'cm:versionType'), 'File has incorrect version type').toEqual('MINOR');
     });
 
-    test('[C307006] file is not updated when clicking Cancel', async ({ searchPage }) => {
+    test('[XAT-5354] file is not updated when clicking Cancel', async ({ searchPage }) => {
       await searchPage.searchWithin(fileSearch3, 'files');
       await uploadNewVersion(searchPage, fileSearch3, TEST_FILES.DOCX2.path);
 
@@ -150,7 +150,7 @@ test.describe('Upload new version', () => {
       await personalFiles.dataTable.performClickFolderOrFileToOpen(parentPF);
     });
 
-    test('[C297548] upload new version fails when new file name already exists', async ({ personalFiles }) => {
+    test('[XAT-5327] upload new version fails when new file name already exists', async ({ personalFiles }) => {
       await uploadNewVersion(personalFiles, file1, TEST_FILES.PDF.path);
 
       await expect(personalFiles.uploadNewVersionDialog.title).toHaveText('Upload New Version');
@@ -164,7 +164,7 @@ test.describe('Upload new version', () => {
       expect(await nodesApi.getNodeProperty(file1Id, 'cm:versionType')).toEqual('MAJOR');
     });
 
-    test('[C297549] file is unlocked after uploading a new version', async ({ personalFiles }) => {
+    test('[XAT-5328] file is unlocked after uploading a new version', async ({ personalFiles }) => {
       await uploadNewVersion(personalFiles, fileToUpload1, TEST_FILES.DOCX2.path);
 
       await personalFiles.uploadNewVersionDialog.description.fill('new version description');
@@ -176,7 +176,7 @@ test.describe('Upload new version', () => {
       expect(await nodesApi.getNodeProperty(fileLocked1Id, 'cm:versionLabel'), 'File has incorrect version label').toEqual('1.1');
     });
 
-    test('[C297550] file remains locked after canceling of uploading a new version', async ({ personalFiles }) => {
+    test('[XAT-5329] file remains locked after canceling of uploading a new version', async ({ personalFiles }) => {
       await uploadNewVersion(personalFiles, fileLocked2, TEST_FILES.DOCX2.path);
       await personalFiles.uploadNewVersionDialog.cancelButton.click();
 
