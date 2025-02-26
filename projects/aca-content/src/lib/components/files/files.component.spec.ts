@@ -126,7 +126,7 @@ describe('FilesComponent', () => {
     });
 
     it('should be a valid current page', fakeAsync(() => {
-      spyContent.and.returnValue(throwError(null));
+      spyContent.and.returnValue(throwError(() => new HttpErrorResponse({ status: 404 })));
 
       component.ngOnInit();
       fixture.detectChanges();
