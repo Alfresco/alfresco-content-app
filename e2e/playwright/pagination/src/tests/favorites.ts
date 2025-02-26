@@ -35,7 +35,7 @@ export function favoritesTests(username: string) {
       await favoritePage.waitForPageLoad();
     });
 
-    test('[C280113] Pagination control default values', async ({ favoritePage }) => {
+    test('[XAT-4575] Pagination control default items', async ({ favoritePage }) => {
       expect(await favoritePage.pagination.getRange()).toContain('1-25 of 51');
       expect(await favoritePage.pagination.getMaxItems()).toContain('25');
       expect(await favoritePage.pagination.getCurrentPage()).toContain('Page 1');
@@ -44,7 +44,7 @@ export function favoritesTests(username: string) {
       expect(await favoritePage.pagination.isNextEnabled()).toBe(true);
     });
 
-    test('[C280115] current page menu items', async ({ favoritePage }) => {
+    test('[XAT-4576] Items per page values', async ({ favoritePage }) => {
       await favoritePage.pagination.openMaxItemsMenu();
       expect(await favoritePage.pagination.getItemsCount()).toBe(3);
       await favoritePage.pagination.clickMenuItem('25');
@@ -67,7 +67,7 @@ export function favoritesTests(username: string) {
       await favoritePage.pagination.resetToDefaultPageSize();
     });
 
-    test('[C280116] change the current page from menu', async ({ favoritePage }) => {
+    test('[XAT-4578] Change the current page from the page selector', async ({ favoritePage }) => {
       await favoritePage.pagination.clickOnNextPage();
       expect(await favoritePage.pagination.getRange()).toContain('Showing 26-50 of 51');
       expect(await favoritePage.pagination.getCurrentPage()).toContain('Page 2');
@@ -76,7 +76,7 @@ export function favoritesTests(username: string) {
       await favoritePage.pagination.resetToDefaultPageSize();
     });
 
-    test('[C280119] navigate to next and previous pages', async ({ favoritePage }) => {
+    test('[XAT-4580] Next and Previous buttons navigation', async ({ favoritePage }) => {
       await favoritePage.pagination.openMaxItemsMenu();
       await favoritePage.pagination.clickMenuItem('25');
       expect(await favoritePage.pagination.getMaxItems()).toContain('25');
@@ -88,7 +88,7 @@ export function favoritesTests(username: string) {
       expect(await favoritePage.pagination.getRange()).toContain('Showing 1-25 of 51');
     });
 
-    test('[C280118] Next button is disabled on last page', async ({ favoritePage }) => {
+    test('[XAT-4579] Next button is disabled on last page', async ({ favoritePage }) => {
       await favoritePage.pagination.openMaxItemsMenu();
       await favoritePage.pagination.clickNthItem(3);
       expect(await favoritePage.pagination.getCurrentPage()).toContain('Page 1');

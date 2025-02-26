@@ -35,7 +35,7 @@ export function personalFilesTests(userName: string, parentName: string) {
       await page.waitForTimeout(timeouts.tiny);
     });
 
-    test('[C280077] Pagination control default values', async ({ personalFiles }) => {
+    test('[XAT-4530] Pagination control default items', async ({ personalFiles }) => {
       expect(await personalFiles.pagination.getRange()).toContain('Showing 1-25 of 51');
       expect(await personalFiles.pagination.getMaxItems()).toContain('25');
       expect(await personalFiles.pagination.getCurrentPage()).toContain('Page 1');
@@ -44,7 +44,7 @@ export function personalFilesTests(userName: string, parentName: string) {
       expect(await personalFiles.pagination.isNextEnabled()).toBe(true);
     });
 
-    test('[C280079] current page menu items', async ({ personalFiles }) => {
+    test('[XAT-4531] Items per page values', async ({ personalFiles }) => {
       await personalFiles.pagination.openMaxItemsMenu();
       expect(await personalFiles.pagination.getItemsCount()).toBe(3);
       await personalFiles.pagination.clickMenuItem('25');
@@ -65,7 +65,7 @@ export function personalFilesTests(userName: string, parentName: string) {
       await personalFiles.pagination.resetToDefaultPageSize();
     });
 
-    test('[C280080] change the current page from menu', async ({ personalFiles }) => {
+    test('[XAT-4533] Change the current page from the page selector', async ({ personalFiles }) => {
       await personalFiles.pagination.clickOnNextPage();
       expect(await personalFiles.pagination.getRange()).toContain('Showing 26-50 of 51');
       expect(await personalFiles.pagination.getCurrentPage()).toContain('Page 2');
@@ -74,7 +74,7 @@ export function personalFilesTests(userName: string, parentName: string) {
       await personalFiles.pagination.resetToDefaultPageSize();
     });
 
-    test('[C280083] navigate to next and previous pages', async ({ personalFiles }) => {
+    test('[XAT-4536] Next and Previous buttons navigation', async ({ personalFiles }) => {
       await personalFiles.pagination.openMaxItemsMenu();
       await personalFiles.pagination.clickMenuItem('25');
       expect(await personalFiles.pagination.getMaxItems()).toContain('25');
@@ -86,12 +86,12 @@ export function personalFilesTests(userName: string, parentName: string) {
       expect(await personalFiles.pagination.getRange()).toContain('Showing 1-25 of 51');
     });
 
-    test('[C280081] Previous button is disabled on first page', async ({ personalFiles }) => {
+    test('[XAT-4534] Previous button is disabled on first page', async ({ personalFiles }) => {
       expect(await personalFiles.pagination.getCurrentPage()).toContain('Page 1');
       expect(await personalFiles.pagination.isPreviousEnabled()).toBe(false);
     });
 
-    test('[C280082] Next button is disabled on last page', async ({ personalFiles }) => {
+    test('[XAT-4535] Next button is disabled on last page', async ({ personalFiles }) => {
       await personalFiles.pagination.openMaxItemsMenu();
       await personalFiles.pagination.clickNthItem(3);
       expect(await personalFiles.pagination.getCurrentPage()).toContain('Page 1');
