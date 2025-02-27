@@ -60,6 +60,7 @@ import { DocumentListDirective } from '../../directives/document-list.directive'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   standalone: true,
@@ -95,10 +96,15 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   selectedNode: NodeEntry;
   queryParams = null;
   showLoader$ = this.store.select(showLoaderSelector);
-  private nodePath: PathElement[];
-
   columns: DocumentListPresetRef[] = [];
   isFilterHeaderActive = false;
+
+  private nodePath: PathElement[];
+  private _errorTranslationKey = 'APP.MESSAGES.ERRORS.MISSING_CONTENT';
+
+  get errorTranslationKey(): string {
+    return this._errorTranslationKey;
+  }
 
   constructor(private contentApi: ContentApiService, private nodeActionsService: NodeActionsService, private route: ActivatedRoute) {
     super();
@@ -132,7 +138,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
               });
             }
           },
-          () => (this.isValidPath = false)
+          (error: HttpErrorResponse) => this.onError(error)
         );
     });
 
@@ -394,7 +400,19 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     void this.router.navigate([], { relativeTo: this.route, queryParams: objectFromMap });
   }
 
-  onError() {
+  onError(error: HttpErrorResponse) {
     this.isValidPath = false;
+    if (this.router.url.includes('libraries')) {
+      switch (error.status) {
+        case 403:
+          this._errorTranslationKey = 'APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_NO_PERMISSIONS';
+          break;
+        case 404:
+          this._errorTranslationKey = 'APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_NOT_FOUND';
+          break;
+        default:
+          this._errorTranslationKey = 'APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_LOADING_ERROR';
+      }
+    }
   }
 }
