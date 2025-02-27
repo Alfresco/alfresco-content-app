@@ -116,7 +116,7 @@ test.describe('Delete and undo delete', () => {
       await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
     });
 
-    test('[C217125] delete a file and check notification', async ({ personalFiles, trashPage }) => {
+    test('[XAT-5016] Delete a file and check snackbar notification', async ({ personalFiles, trashPage }) => {
       let items = await personalFiles.dataTable.getRowsCount();
       await personalFiles.dataTable.selectItems(file1);
       await personalFiles.acaHeader.clickMoreActions();
@@ -133,7 +133,7 @@ test.describe('Delete and undo delete', () => {
       expect(await personalFiles.dataTable.isItemPresent(file1)).toBeTruthy();
     });
 
-    test('[C280502] delete multiple files and check notification', async ({ personalFiles, trashPage }) => {
+    test('[XAT-5017] Delete multiple files and check snackbar notification', async ({ personalFiles, trashPage }) => {
       await personalFiles.page.reload({ waitUntil: 'load' });
       let items = await personalFiles.dataTable.getRowsCount();
       await personalFiles.dataTable.selectItems(file2, file3);
@@ -150,7 +150,7 @@ test.describe('Delete and undo delete', () => {
       expect(await personalFiles.dataTable.isItemPresent(file3)).toBeTruthy();
     });
 
-    test('[C217126] delete a folder with content', async ({ personalFiles, trashPage }) => {
+    test('[XAT-5018] Delete a folder with content', async ({ personalFiles, trashPage }) => {
       let items = await personalFiles.dataTable.getRowsCount();
       await personalFiles.dataTable.selectItems(folder1);
       await personalFiles.acaHeader.clickMoreActions();
@@ -164,7 +164,7 @@ test.describe('Delete and undo delete', () => {
       expect(await personalFiles.dataTable.isItemPresent(file1InFolder)).toBeFalsy();
     });
 
-    test('[C217127] delete a folder containing locked files', async ({ personalFiles, trashPage }) => {
+    test(`[XAT-5019] Delete a folder containing files that can't be deleted (e.g. locked files)`, async ({ personalFiles, trashPage }) => {
       await personalFiles.dataTable.selectItems(folder2);
       await personalFiles.acaHeader.clickMoreActions();
       await personalFiles.matMenu.clickMenuItem('Delete');
@@ -176,7 +176,7 @@ test.describe('Delete and undo delete', () => {
       expect(await personalFiles.dataTable.isItemPresent(fileLocked1)).toBeFalsy();
     });
 
-    test('[C217129] notification on multiple items deletion - some items fail to delete', async ({ personalFiles }) => {
+    test('[XAT-5020] Notification on unsuccessful multiple items deletion - some items fail to delete', async ({ personalFiles }) => {
       await personalFiles.dataTable.selectItems(file4, folder3);
       await personalFiles.acaHeader.clickMoreActions();
       await personalFiles.matMenu.clickMenuItem('Delete');
@@ -185,7 +185,7 @@ test.describe('Delete and undo delete', () => {
       expect(action).toContain('Undo');
     });
 
-    test('[C217130] notification on multiple items deletion - all items fail to delete', async ({ personalFiles }) => {
+    test('[XAT-5021] Notification on unsuccessful multiple items deletion - all items fail to delete', async ({ personalFiles }) => {
       await personalFiles.dataTable.selectItems(folder4, folder5);
       await personalFiles.acaHeader.clickMoreActions();
       await personalFiles.matMenu.clickMenuItem('Delete');
@@ -193,7 +193,7 @@ test.describe('Delete and undo delete', () => {
       await expect(personalFiles.snackBar.actionButton).toBeHidden();
     });
 
-    test('[C217132] undo delete of file', async ({ personalFiles }) => {
+    test('[XAT-5022] Undo delete of a single file restores the file', async ({ personalFiles }) => {
       const items = await personalFiles.dataTable.getRowsCount();
 
       await personalFiles.dataTable.selectItems(file5);
@@ -206,7 +206,7 @@ test.describe('Delete and undo delete', () => {
       expect(await personalFiles.pagination.getRange()).toContain(`1-${items} of ${items}`);
     });
 
-    test('[C280503] undo delete of folder with content', async ({ personalFiles }) => {
+    test('[XAT-5024] Undo restores the deleted folder and its content', async ({ personalFiles }) => {
       await personalFiles.dataTable.selectItems(folder6);
       await personalFiles.acaHeader.clickMoreActions();
       await personalFiles.matMenu.clickMenuItem('Delete');
@@ -218,7 +218,7 @@ test.describe('Delete and undo delete', () => {
       expect(await personalFiles.dataTable.isItemPresent(file2InFolder)).toBeTruthy();
     });
 
-    test('[C280504] undo delete of multiple files', async ({ personalFiles }) => {
+    test('[XAT-5023] Undo delete of multiple files restores all of the files', async ({ personalFiles }) => {
       await personalFiles.dataTable.selectItems(file6, file7);
       await personalFiles.acaHeader.clickMoreActions();
       await personalFiles.matMenu.clickMenuItem('Delete');
