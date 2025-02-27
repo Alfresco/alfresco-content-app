@@ -533,7 +533,7 @@ export class AppExtensionService implements RuleContext {
 
   // todo: move to ADF/RuleService
   evaluateRule(ruleId: string | string[], ...args: any[]): boolean {
-    let evaluatorList = [];
+    let evaluatorList: RuleEvaluator[] = [];
     if (Array.isArray(ruleId)) {
       evaluatorList = ruleId.filter((rule) => !!this.getEvaluator(rule)).map((rule) => this.getEvaluator(rule));
     } else {
