@@ -77,7 +77,7 @@ test.describe('Create folders', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
-  test('[C216345] Create new folder dialog check', async () => {
+  test('[XAT-5078] Create new folder dialog UI check', async () => {
     await expect(folderDialog.getLabelText('Name')).toBeVisible();
     await expect(folderDialog.getRequiredMarker('Name')).toBeVisible();
     await expect(folderDialog.folderNameInputLocator).toBeVisible();
@@ -89,7 +89,7 @@ test.describe('Create folders', () => {
     await expect(folderDialog.createButton).toBeDisabled();
   });
 
-  test('[C216346] Create a folder without a name', async () => {
+  test('[XAT-5079] Create a folder without a name - Disabled Create button', async () => {
     await folderDialog.folderNameInputLocator.fill(randomFolderName);
     await expect(folderDialog.folderNameInputLocator).toHaveValue(randomFolderName);
     await expect(folderDialog.createButton).toBeEnabled();
@@ -101,14 +101,14 @@ test.describe('Create folders', () => {
     await expect(folderDialog.createButton).toBeDisabled();
   });
 
-  test('[C216348] Create folder when a name that ends with a dot "."', async () => {
+  test('[XAT-5081] Create folder when a name that ends with a dot "."', async () => {
     await folderDialog.folderNameInputLocator.fill(randomFolderName + '.');
 
     await expect(folderDialog.createButton).toBeDisabled();
     await expect(folderDialog.folderNameInputHint).toContainText(errorStrings.folderNameCantEndWithAPeriod);
   });
 
-  test('[C216347] Create folder with a name containing special characters', async () => {
+  test('[XAT-5080] Create folder with a name containing special characters', async () => {
     const namesWithSpecialChars = ['a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a'];
     for (const folderName of namesWithSpecialChars) {
       await folderDialog.folderNameInputLocator.fill(folderName);
@@ -118,21 +118,21 @@ test.describe('Create folders', () => {
     }
   });
 
-  test('[C280406] Create a folder with a name containing only spaces', async () => {
+  test('[XAT-5082] Create a folder with a name containing only spaces', async () => {
     await folderDialog.folderNameInputLocator.fill(spacesString);
 
     await expect(folderDialog.createButton).toBeDisabled();
     await expect(folderDialog.folderNameInputHint).toContainText(errorStrings.folderNameCantContainOnlySpaces);
   });
 
-  test('[C216349] Cancel folder creation', async ({ personalFiles }) => {
+  test('[XAT-5083] Cancel folder creation', async ({ personalFiles }) => {
     await expect(personalFiles.page.getByRole(dialogString, { name: createNewFolderString })).toBeVisible();
     await folderDialog.folderNameInputLocator.fill(randomFolderName);
     await folderDialog.cancelButton.click();
     await expect(personalFiles.page.getByRole(dialogString, { name: createNewFolderString })).toBeHidden();
   });
 
-  test('[C216350] Duplicate folder name error', async ({ personalFiles }) => {
+  test('[XAT-5084] Duplicate folder name error', async ({ personalFiles }) => {
     const folderSnackBar = personalFiles.snackBar;
 
     await folderDialog.createNewFolderDialog(commonFolderName);
@@ -145,19 +145,19 @@ test.describe('Create folders', () => {
       folderTable = personalFiles.dataTable;
     });
 
-    test('[C216341] Create a folder with name only', async () => {
+    test('[XAT-5077] Create folder when pressing OK - with name and no description', async () => {
       await folderDialog.createNewFolderDialog(randomFolderName);
 
       await expect(folderTable.getRowByName(randomFolderName)).toBeVisible();
     });
 
-    test('[C216340] Create a folder with name, title and description', async () => {
+    test('[XAT-5076] Create folder when pressing OK - with name, title and description', async () => {
       await folderDialog.createNewFolderDialog(randomFolderName, randomFolderTitle, randomFolderDescription);
 
       await expect(folderTable.getCellLinkByName(randomFolderName)).toHaveAttribute('title', randomFolderTitle + `\n` + randomFolderDescription);
     });
 
-    test('[C216351] Folder created after trimmed ending spaces from a folder name', async () => {
+    test('[XAT-5085] Folder created after trimmed ending spaces from a folder name', async () => {
       await folderDialog.createNewFolderDialog(randomFolderName + spacesString);
 
       await expect(folderTable.getRowByName(randomFolderName)).toBeVisible();
