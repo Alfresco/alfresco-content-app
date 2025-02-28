@@ -46,6 +46,11 @@ export class ViewerComponent extends BaseComponent {
   public viewerPage = this.getChild('[data-automation-id="adf-page-selector"]');
   public viewerMedia = this.getChild('adf-media-player');
   public viewerSpinner = this.getChild('.adf-viewer-render__loading-screen');
+  public zoomInButton = this.getChild('#viewer-zoom-in-button');
+  public zoomOutButton = this.getChild('#viewer-zoom-out-button');
+  public zoomScale = this.getChild('[data-automation-id="adf-page-scale"]');
+  public zoomResetButton = this.getChild('#viewer-reset-button');
+  public fitToPageButton = this.getChild('#viewer-scale-page-button');
 
   toolbar = new AcaHeader(this.page);
 
@@ -90,6 +95,24 @@ export class ViewerComponent extends BaseComponent {
   async isFileTitleDisplayed(): Promise<boolean> {
     await this.fileTitleButtonLocator.waitFor({ state: 'visible', timeout: timeouts.normal });
     return this.fileTitleButtonLocator.isVisible();
+  }
+
+  async waitForZoomPercentageToDisplay(): Promise<void> {
+    await this.zoomScale.waitFor({ state: 'visible', timeout: timeouts.normal });
+    const startTime = Date.now();
+    let textContent: string;
+
+    while (Date.now() - startTime <= timeouts.medium) {
+      textContent = await this.zoomScale.innerText();
+      if (textContent.trim() !== '') {
+        break;
+      }
+      await this.page.waitForTimeout(timeouts.tiny);
+    }
+
+    if (textContent.trim() === '') {
+      throw new Error(`Timeout: Text did not show up within ${timeouts.medium} ms`);
+    }
   }
 
   async getFileTitle(): Promise<string> {
