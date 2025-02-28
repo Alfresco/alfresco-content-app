@@ -81,13 +81,13 @@ test.describe('Folders - available actions : ', () => {
       await personalFiles.navigate({ remoteUrl: `#/personal-files/${parentId}` });
     });
 
-    test('Folder not favorite  - [C213123]', async ({ personalFiles }) => {
+    test('[XAT-4637] Actions for a folder, not favorite', async ({ personalFiles }) => {
       await personalFiles.dataTable.getRowByName(testData.folderFile.name).click({ button: 'right' });
       await personalFiles.matMenu.verifyActualMoreActions(testData.folderFile.contextMenu);
       await checkActionsAvailable(personalFiles, testData.folderFile.name, testData.folderFile.toolbarPrimary, testData.folderFile.toolbarMore);
     });
 
-    test('Folder favorite - [C280451]', async ({ personalFiles }) => {
+    test('[XAT-4638] Actions for a folder, favorite', async ({ personalFiles }) => {
       await personalFiles.dataTable.getRowByName(testData.folderFavFile.name).click({ button: 'right' });
       await personalFiles.matMenu.verifyActualMoreActions(testData.folderFavFile.contextMenu);
       await checkActionsAvailable(
@@ -98,7 +98,7 @@ test.describe('Folders - available actions : ', () => {
       );
     });
 
-    test('multiple folders - [C280459]', async ({ personalFiles }) => {
+    test('[XAT-4642] Actions on multiple folders', async ({ personalFiles }) => {
       await personalFiles.dataTable.selectItems(testData.folderFavFile.name, testData.folderFile.name);
       await personalFiles.dataTable.getRowByName(testData.folderFavFile.name).click({ button: 'right' });
       await personalFiles.page.reload({ waitUntil: 'load' });
@@ -106,7 +106,7 @@ test.describe('Folders - available actions : ', () => {
       await checkMultipleSelActionsAvailable(personalFiles, testData.multipleSelFile.toolbarPrimary, testData.multipleSelFile.toolbarMore);
     });
 
-    test('both files and folders - [C280460]', async ({ personalFiles }) => {
+    test('[XAT-4643] Actions on multiple selection - files and folders', async ({ personalFiles }) => {
       await personalFiles.dataTable.selectItems(testData.file.name, testData.folderFile.name);
       await personalFiles.dataTable.getRowByName(testData.folderFile.name).click({ button: 'right' });
       await personalFiles.matMenu.verifyActualMoreActions(testData.multipleSelFile.contextMenu);

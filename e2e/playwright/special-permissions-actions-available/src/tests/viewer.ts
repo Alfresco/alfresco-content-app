@@ -47,7 +47,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         await myLibrariesPage.matMenu.verifyActualMoreActions(expectedToolbarMore);
       }
 
-      test('File Office - [C326622]', async ({ loginPage, myLibrariesPage }) => {
+      test('[XAT-4808] Actions for Consumer on a file Office', async ({ loginPage, myLibrariesPage }) => {
         await checkViewerActions(
           loginPage,
           myLibrariesPage,
@@ -57,7 +57,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File Office, favorite - [C326623]', async ({ loginPage, myLibrariesPage }) => {
+      test('[XAT-4809] Actions for Consumer on a file Office, favorite', async ({ loginPage, myLibrariesPage }) => {
         await checkViewerActions(
           loginPage,
           myLibrariesPage,
@@ -67,11 +67,11 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File simple - [C326624]', async ({ loginPage, myLibrariesPage }) => {
+      test('[XAT-4810] Actions for Consumer on a file, not Office', async ({ loginPage, myLibrariesPage }) => {
         await checkViewerActions(loginPage, myLibrariesPage, testData.file.name, testData.file.viewerToolbarPrimary, testData.file.viewerToolbarMore);
       });
 
-      test('File favorite - [C326625]', async ({ loginPage, myLibrariesPage }) => {
+      test('[XAT-4811] Actions for Consumer on a file, not Office, favorite', async ({ loginPage, myLibrariesPage }) => {
         await checkViewerActions(
           loginPage,
           myLibrariesPage,
@@ -81,7 +81,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File Office, shared - [C326637]', async ({ loginPage, myLibrariesPage }) => {
+      test('[XAT-4814] Actions for Consumer on a file Office, shared', async ({ loginPage, myLibrariesPage }) => {
         await checkViewerActions(
           loginPage,
           myLibrariesPage,
@@ -91,7 +91,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File Office, shared, favorite - [C326638]', async ({ loginPage, myLibrariesPage }) => {
+      test('[XAT-4815] Actions for Consumer on a file Office, shared, favorite', async ({ loginPage, myLibrariesPage }) => {
         await checkViewerActions(
           loginPage,
           myLibrariesPage,
@@ -101,7 +101,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File shared - [C326648]', async ({ loginPage, myLibrariesPage }) => {
+      test('[XAT-4816] Actions for Consumer on a file, not Office, shared', async ({ loginPage, myLibrariesPage }) => {
         await checkViewerActions(
           loginPage,
           myLibrariesPage,
@@ -111,7 +111,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File shared, favorite - [C326649]', async ({ loginPage, myLibrariesPage }) => {
+      test('[XAT-4817] Actions for Consumer on a file, not Office, shared, favorite', async ({ loginPage, myLibrariesPage }) => {
         await checkViewerActions(
           loginPage,
           myLibrariesPage,
@@ -121,7 +121,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File locked - [C326630]', async ({ loginPage, myLibrariesPage }) => {
+      test('[XAT-4812] Actions for Consumer on a file, locked', async ({ loginPage, myLibrariesPage }) => {
         await checkViewerActions(
           loginPage,
           myLibrariesPage,
@@ -131,7 +131,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File favorite, locked - [C326633]', async ({ loginPage, myLibrariesPage }) => {
+      test('[XAT-4813] Actions for Consumer on a file, locked, favorite', async ({ loginPage, myLibrariesPage }) => {
         await checkViewerActions(
           loginPage,
           myLibrariesPage,
@@ -141,7 +141,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File shared, locked - [C326650]', async ({ loginPage, myLibrariesPage }) => {
+      test('[XAT-4818] Actions for Consumer on a file, locked, shared', async ({ loginPage, myLibrariesPage }) => {
         await checkViewerActions(
           loginPage,
           myLibrariesPage,
@@ -151,7 +151,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File shared, favorite, locked - [C326651]', async ({ loginPage, myLibrariesPage }) => {
+      test('[XAT-4819] Actions for Consumer on a file, locked, shared, favorite', async ({ loginPage, myLibrariesPage }) => {
         await checkViewerActions(
           loginPage,
           myLibrariesPage,
@@ -180,7 +180,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         await favoritePage.matMenu.verifyActualMoreActions(expectedToolbarMore);
       }
 
-      test('File Office, favorite - [C326652]', async ({ loginPage, favoritePage }) => {
+      test('[XAT-4820] File Office, favorite - ', async ({ loginPage, favoritePage }) => {
         await checkViewerActions(
           loginPage,
           favoritePage,
@@ -190,7 +190,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File favorite - [C326653]', async ({ loginPage, favoritePage }) => {
+      test('[XAT-4821] Actions for Consumer on a file, not Office, favorite', async ({ loginPage, favoritePage }) => {
         await checkViewerActions(
           loginPage,
           favoritePage,
@@ -200,7 +200,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File Office, shared, favorite - [C326655]', async ({ loginPage, favoritePage }) => {
+      test('[XAT-4823] Actions for Consumer on a file Office, shared, favorite', async ({ loginPage, favoritePage }) => {
         await checkViewerActions(
           loginPage,
           favoritePage,
@@ -210,7 +210,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File shared, favorite - [C326656]', async ({ loginPage, favoritePage }) => {
+      test('[XAT-4824] Actions for Consumer on a file, not Office, shared, favorite', async ({ loginPage, favoritePage }) => {
         await checkViewerActions(
           loginPage,
           favoritePage,
@@ -220,7 +220,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File favorite, locked - [C326654]', async ({ loginPage, favoritePage }) => {
+      test('[XAT-4822] Actions for Consumer on a file, locked, favorite', async ({ loginPage, favoritePage }) => {
         await checkViewerActions(
           loginPage,
           favoritePage,
@@ -230,7 +230,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File shared, favorite, locked - [C326657]', async ({ loginPage, favoritePage }) => {
+      test('[XAT-4825] Actions for Consumer on a file, locked, shared, favorite', async ({ loginPage, favoritePage }) => {
         await checkViewerActions(
           loginPage,
           favoritePage,
@@ -259,7 +259,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         await sharedPage.matMenu.verifyActualMoreActions(expectedToolbarMore);
       }
 
-      test('File Office, shared - [C326658]', async ({ loginPage, sharedPage }) => {
+      test('[XAT-4826] Actions for Consumer on a file Office, shared', async ({ loginPage, sharedPage }) => {
         await checkViewerActions(
           loginPage,
           sharedPage,
@@ -269,7 +269,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File Office, shared, favorite - [C326659]', async ({ loginPage, sharedPage }) => {
+      test('[XAT-4827] Actions for Consumer on a file Office, shared, favorite', async ({ loginPage, sharedPage }) => {
         await checkViewerActions(
           loginPage,
           sharedPage,
@@ -279,7 +279,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File shared - [C326660]', async ({ loginPage, sharedPage }) => {
+      test('[XAT-4828] Actions for Consumer on a file, not Office, shared', async ({ loginPage, sharedPage }) => {
         await checkViewerActions(
           loginPage,
           sharedPage,
@@ -289,7 +289,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File shared, favorite - [C326661]', async ({ loginPage, sharedPage }) => {
+      test('[XAT-4829] Actions for Consumer on a file, not Office, shared, favorite', async ({ loginPage, sharedPage }) => {
         await checkViewerActions(
           loginPage,
           sharedPage,
@@ -299,7 +299,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File shared, locked - [C326662]', async ({ loginPage, sharedPage }) => {
+      test('[XAT-4830] Actions for Consumer on a file, locked, shared', async ({ loginPage, sharedPage }) => {
         await checkViewerActions(
           loginPage,
           sharedPage,
@@ -309,7 +309,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File shared, favorite, locked - [C326663]', async ({ loginPage, sharedPage }) => {
+      test('[XAT-4831] Actions for Consumer on a file, locked, shared, favorite', async ({ loginPage, sharedPage }) => {
         await checkViewerActions(
           loginPage,
           sharedPage,
@@ -338,7 +338,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         await searchPage.matMenu.verifyActualMoreActions(expectedToolbarMore);
       }
 
-      test('File Office - [C326664]', async ({ loginPage, searchPage }) => {
+      test('[XAT-4832] Actions for Consumer on a file Office', async ({ loginPage, searchPage }) => {
         await checkViewerActions(
           loginPage,
           searchPage,
@@ -348,7 +348,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File Office, favorite - [C326665]', async ({ loginPage, searchPage }) => {
+      test('[XAT-4833] Actions for Consumer on a file Office, favorite', async ({ loginPage, searchPage }) => {
         await checkViewerActions(
           loginPage,
           searchPage,
@@ -358,11 +358,11 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File simple - [C326666]', async ({ loginPage, searchPage }) => {
+      test('[XAT-4834] Actions for Consumer on a file, not Office', async ({ loginPage, searchPage }) => {
         await checkViewerActions(loginPage, searchPage, testData.file.name, testData.file.viewerToolbarPrimary, testData.file.viewerToolbarMore);
       });
 
-      test('File favorite - [C326667]', async ({ loginPage, searchPage }) => {
+      test('[XAT-4835] Actions for Consumer on a file, not Office, favorite', async ({ loginPage, searchPage }) => {
         await checkViewerActions(
           loginPage,
           searchPage,
@@ -372,7 +372,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File Office, shared - [C326670]', async ({ loginPage, searchPage }) => {
+      test('[XAT-4838] Actions for Consumer on a file Office, shared', async ({ loginPage, searchPage }) => {
         await checkViewerActions(
           loginPage,
           searchPage,
@@ -382,7 +382,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File Office, shared, favorite - [C326671]', async ({ loginPage, searchPage }) => {
+      test('[XAT-4839] Actions for Consumer on a file Office, shared, favorite', async ({ loginPage, searchPage }) => {
         await checkViewerActions(
           loginPage,
           searchPage,
@@ -392,7 +392,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File shared - [C326672]', async ({ loginPage, searchPage }) => {
+      test('[XAT-4840] Actions for Consumer on a file, not Office, shared', async ({ loginPage, searchPage }) => {
         await checkViewerActions(
           loginPage,
           searchPage,
@@ -402,7 +402,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File shared, favorite - [C326673]', async ({ loginPage, searchPage }) => {
+      test('[XAT-4841] Actions for Consumer on a file, not Office, shared, favorite', async ({ loginPage, searchPage }) => {
         await checkViewerActions(
           loginPage,
           searchPage,
@@ -412,7 +412,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File locked - [C326668]', async ({ loginPage, searchPage }) => {
+      test('[XAT-4836] Actions for Consumer on a file, locked', async ({ loginPage, searchPage }) => {
         await checkViewerActions(
           loginPage,
           searchPage,
@@ -422,7 +422,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File favorite, locked - [C326669]', async ({ loginPage, searchPage }) => {
+      test('[XAT-4837] Actions for Consumer on a file, locked, favorite', async ({ loginPage, searchPage }) => {
         await checkViewerActions(
           loginPage,
           searchPage,
@@ -432,7 +432,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File shared, locked - [C326674]', async ({ loginPage, searchPage }) => {
+      test('[XAT-4842] Actions for Consumer on a file, locked, shared', async ({ loginPage, searchPage }) => {
         await checkViewerActions(
           loginPage,
           searchPage,
@@ -442,7 +442,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
-      test('File shared, favorite, locked - [C326675]', async ({ loginPage, searchPage }) => {
+      test('[XAT-4843] Actions for Consumer on a file, locked, shared, favorite', async ({ loginPage, searchPage }) => {
         await checkViewerActions(
           loginPage,
           searchPage,
