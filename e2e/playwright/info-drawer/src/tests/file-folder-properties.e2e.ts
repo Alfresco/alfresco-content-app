@@ -132,7 +132,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
     await personalFiles.acaHeader.viewDetails.click();
   }
 
-  test('[C299162] View properties - Default tabs', async ({ personalFiles }) => {
+  test('[XAT-5512] View properties - Default tabs', async ({ personalFiles }) => {
     await navigateAndOpenInfoDrawer(personalFiles, FolderC299162);
     expect(await personalFiles.infoDrawer.getHeaderTitle()).toEqual(FolderC299162);
     await expect(personalFiles.infoDrawer.propertiesTab).toBeVisible();
@@ -140,7 +140,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
     expect(await personalFiles.infoDrawer.getTabsCount()).toEqual(2);
   });
 
-  test('[C599174] View properties - Should be able to make the files/folders info drawer expandable as for Sites', async ({ personalFiles }) => {
+  test('[XAT-5514] View properties - Should be able to make the folders info drawer expandable as for Sites', async ({ personalFiles }) => {
     await navigateAndOpenInfoDrawer(personalFiles, FolderC599174);
     await personalFiles.infoDrawer.expandDetailsButton.click();
     await expect(personalFiles.infoDrawer.expandedDetailsPermissionsTab).toBeVisible();
