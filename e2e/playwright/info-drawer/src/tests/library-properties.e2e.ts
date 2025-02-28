@@ -250,7 +250,7 @@ test.describe('Non manager', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(undefined, undefined, 'afterAll failed', sitesApi, [site.id]);
   });
 
-  test('[C289337] Info drawer button is not displayed when user is not the library manager', async ({ loginPage, myLibrariesPage }) => {
+  test('[XAT-5546] View Details button is not displayed when user is not the library manager', async ({ loginPage, myLibrariesPage }) => {
     await loginPage.loginUser({ username: user2, password: user2 }, { withNavigation: true, waitForLoading: true });
     await myLibrariesPage.navigate();
 
@@ -258,7 +258,7 @@ test.describe('Non manager', () => {
     await expect(myLibrariesPage.acaHeader.viewDetails).toBeHidden();
   });
 
-  test('[C289344] Error notification when editing with no rights', async ({ loginPage, myLibrariesPage }) => {
+  test('[XAT-5553] Error notification when editing with no rights', async ({ loginPage, myLibrariesPage }) => {
     await loginPage.loginUser({ username: user3, password: user3 }, { withNavigation: true, waitForLoading: true });
     await myLibrariesPage.navigate();
 
