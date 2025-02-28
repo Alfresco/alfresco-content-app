@@ -331,7 +331,6 @@ export function filesLockedByOtherUser(userManager: string, siteName?: string) {
         );
       });
 
-      // TODO: add 'Move' and 'Delete' when ACA-2319 is fixed
       test('[XAT-4867] Correct actions appear for file opened from Search Results - viewer - locked', async ({ searchPage, myLibrariesPage }) => {
         await searchPage.searchWithin(testData.fileLockedByUser, 'filesAndFolders');
         await checkActionsViewerAvailable(
