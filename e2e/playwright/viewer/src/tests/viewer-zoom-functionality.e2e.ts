@@ -44,7 +44,7 @@ import {
 } from '@alfresco/aca-playwright-shared';
 import { Site } from '@alfresco/js-api';
 
-test.describe('Zoom functionality in viewer', () => {
+test.describe('viewer zoom functionality and reset', () => {
   const username = `user-${Utils.random()}`;
   const randomJpgName = `${TEST_FILES.JPG_FILE.name}-${Utils.random()}.jpg`;
   const randomPngName = `${TEST_FILES.PNG_FILE.name}-${Utils.random()}.png`;
@@ -53,11 +53,9 @@ test.describe('Zoom functionality in viewer', () => {
   const randomLibraryName = `playwright-library3-${Utils.random()}`;
   let docLibId: string;
   let folderId: string;
-  let docLibSiteUserId: string;
-  let siteActionsAdmin: SitesApi;
+  let siteActionsUser: SitesApi;
   let trashcanApi: TrashcanApi;
   let nodesApi: NodesApi;
-  let siteActionsUser: SitesApi;
 
   test.beforeAll(async () => {
     const apiClientFactory = new ApiClientFactory();
@@ -75,21 +73,21 @@ test.describe('Zoom functionality in viewer', () => {
     nodesApi = await NodesApi.initialize(username, username);
     const fileActionApi = await FileActionsApi.initialize(username, username);
     trashcanApi = await TrashcanApi.initialize(username, username);
-    siteActionsAdmin = await SitesApi.initialize(username, username);
+    siteActionsUser = await SitesApi.initialize(username, username);
     const shareActions = await SharedLinksApi.initialize(username, username);
     const favoritesActions = await FavoritesPageApi.initialize(username, username);
     const node = await nodesApi.createFolder(randomFolderName);
     folderId = node.entry.id;
 
     try {
-      await siteActionsAdmin.createSite(randomLibraryName, Site.VisibilityEnum.PRIVATE);
+      await siteActionsUser.createSite(randomLibraryName, Site.VisibilityEnum.PRIVATE);
     } catch (exception) {
       if (JSON.parse(exception.message).error.statusCode !== 409) {
         throw new Error(`----- beforeAll failed : ${exception}`);
       }
     }
 
-    docLibId = await siteActionsAdmin.getDocLibId(randomLibraryName);
+    docLibId = await siteActionsUser.getDocLibId(randomLibraryName);
 
     await fileActionApi.uploadFile(TEST_FILES.JPG_FILE.path, randomJpgName, folderId);
     await fileActionApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, docLibId);
@@ -120,8 +118,7 @@ test.describe('Zoom functionality in viewer', () => {
   });
 
   test.afterAll(async () => {
-    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActionsUser, [docLibSiteUserId]);
-    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActionsAdmin, [docLibId]);
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActionsUser, [docLibId]);
   });
 
   async function validateZoomScaleInViewer(
@@ -195,43 +192,41 @@ test.describe('Zoom functionality in viewer', () => {
     await validateZoomScaleInViewer(myLibrariesPage);
   });
 
-  test.describe("Zoom reset button's activity", () => {
-    test('[XAT-17641] User can restore the default state of jpg image in viewer mode in Personal Files', async ({ personalFiles }) => {
-      await personalFiles.dataTable.performClickFolderOrFileToOpen(randomJpgName);
-      expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-      await validateZoomResetButtonActivity(personalFiles);
-    });
+  test('[XAT-17641] User can restore the default state of jpg image in viewer mode in Personal Files', async ({ personalFiles }) => {
+    await personalFiles.dataTable.performClickFolderOrFileToOpen(randomJpgName);
+    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    await validateZoomResetButtonActivity(personalFiles);
+  });
 
-    test('[XAT-17651] User can restore the default state of jpg image in viewer mode in Recent Files', async ({ recentFilesPage }) => {
-      await recentFilesPage.navigate();
-      await recentFilesPage.dataTable.performClickFolderOrFileToOpen(randomJpgName);
-      expect(await recentFilesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-      await validateZoomResetButtonActivity(recentFilesPage);
-    });
+  test('[XAT-17651] User can restore the default state of jpg image in viewer mode in Recent Files', async ({ recentFilesPage }) => {
+    await recentFilesPage.navigate();
+    await recentFilesPage.dataTable.performClickFolderOrFileToOpen(randomJpgName);
+    expect(await recentFilesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    await validateZoomResetButtonActivity(recentFilesPage);
+  });
 
-    test('[XAT-17642] User can restore the default state of png image in viewer mode in Shared Files', async ({ sharedPage }) => {
-      await sharedPage.navigate();
-      await sharedPage.dataTable.performClickFolderOrFileToOpen(randomPngName);
-      expect(await sharedPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-      await validateZoomResetButtonActivity(sharedPage);
-    });
+  test('[XAT-17642] User can restore the default state of png image in viewer mode in Shared Files', async ({ sharedPage }) => {
+    await sharedPage.navigate();
+    await sharedPage.dataTable.performClickFolderOrFileToOpen(randomPngName);
+    expect(await sharedPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    await validateZoomResetButtonActivity(sharedPage);
+  });
 
-    test('[XAT-17643] User can restore the default state of pdf file in viewer mode in Favorites Files', async ({ favoritePage }) => {
-      await favoritePage.navigate();
-      await favoritePage.dataTable.performClickFolderOrFileToOpen(randomPdfName);
-      expect(await favoritePage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-      await favoritePage.viewer.waitForZoomPercentageToDisplay();
-      await validateFitToPageButtonActivity(favoritePage);
-    });
+  test('[XAT-17643] User can restore the default state of pdf file in viewer mode in Favorites Files', async ({ favoritePage }) => {
+    await favoritePage.navigate();
+    await favoritePage.dataTable.performClickFolderOrFileToOpen(randomPdfName);
+    expect(await favoritePage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    await favoritePage.viewer.waitForZoomPercentageToDisplay();
+    await validateFitToPageButtonActivity(favoritePage);
+  });
 
-    test('[XAT-17644] User can restore the default state of doc file in viewer mode in Libraries Files', async ({ myLibrariesPage }) => {
-      await myLibrariesPage.navigate();
-      await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(randomLibraryName);
-      await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
-      await myLibrariesPage.viewer.waitForViewerLoaderToFinish();
-      expect(await myLibrariesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-      await myLibrariesPage.viewer.waitForZoomPercentageToDisplay();
-      await validateFitToPageButtonActivity(myLibrariesPage);
-    });
+  test('[XAT-17644] User can restore the default state of doc file in viewer mode in Libraries Files', async ({ myLibrariesPage }) => {
+    await myLibrariesPage.navigate();
+    await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(randomLibraryName);
+    await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
+    await myLibrariesPage.viewer.waitForViewerLoaderToFinish();
+    expect(await myLibrariesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    await myLibrariesPage.viewer.waitForZoomPercentageToDisplay();
+    await validateFitToPageButtonActivity(myLibrariesPage);
   });
 });
