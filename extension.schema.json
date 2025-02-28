@@ -168,8 +168,19 @@
               "type": "string"
             },
             "visible": {
-              "description": "Rule to evaluate the visibility state",
-              "type": "string"
+              "description": "Rule/Set of rules to evaluate the visibility state",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "minLength": 1
+                }
+              ]
             }
           }
         }
@@ -250,8 +261,19 @@
           "type": "object",
           "properties": {
             "visible": {
-              "description": "Rule to evaluate the visibility state",
-              "type": "string"
+              "description": "Rule/Set of rules to evaluate the visibility state",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "minLength": 1
+                }
+              ]
             }
           }
         }
@@ -294,8 +316,19 @@
           "type": "object",
           "properties": {
             "visible": {
-              "description": "Rule to evaluate the visibility state",
-              "type": "string"
+              "description": "Rule/Set of rules to evaluate the visibility state",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "minLength": 1
+                }
+              ]
             }
           }
         }
@@ -334,8 +367,19 @@
           "type": "object",
           "properties": {
             "visible": {
-              "description": "Rule to evaluate the visibility state",
-              "type": "string"
+              "description": "Rule/Set of rules to evaluate the visibility state",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "minLength": 1
+                }
+              ]
             }
           }
         }
@@ -649,8 +693,19 @@
               "type": "object",
               "properties": {
                 "visible": {
-                  "description": "Rule to evaluate the visibility state",
-                  "type": "string"
+                  "description": "Rule/Set of rules to evaluate the visibility state",
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "minLength": 1
+                    }
+                  ]
                 }
               }
             }

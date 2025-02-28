@@ -40,6 +40,7 @@ import { map, mergeMap, take } from 'rxjs/operators';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { ContentManagementService } from '../../services/content-management.service';
 import { NotificationService } from '@alfresco/adf-core';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class LibraryEffects {
@@ -118,8 +119,19 @@ export class LibraryEffects {
                   const route = action.route ? action.route : 'libraries';
                   this.store.dispatch(new NavigateRouteAction([route, id]));
                 },
-                () => {
-                  this.notificationService.showError('APP.MESSAGES.ERRORS.MISSING_CONTENT');
+                (error: HttpErrorResponse) => {
+                  let errorTranslationKey: string;
+                  switch (error.status) {
+                    case 403:
+                      errorTranslationKey = 'APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_NO_PERMISSIONS';
+                      break;
+                    case 404:
+                      errorTranslationKey = 'APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_NOT_FOUND';
+                      break;
+                    default:
+                      errorTranslationKey = 'APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_LOADING_ERROR';
+                  }
+                  this.notificationService.showError(errorTranslationKey);
                 }
               );
           }
