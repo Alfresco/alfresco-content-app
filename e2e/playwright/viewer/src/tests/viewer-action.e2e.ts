@@ -81,7 +81,7 @@ test.describe('viewer action file', () => {
     await apiClientFactory.nodes.deleteNode(destinationId, { permanent: true });
   });
 
-  test('[C268129] Download action', async ({ personalFiles }) => {
+  test('[XAT-5417] Viewer - Download action - Personal Files', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
     await personalFiles.viewer.waitForViewerToOpen();
     const downloadPromise = personalFiles.page.waitForEvent('download');
@@ -90,7 +90,7 @@ test.describe('viewer action file', () => {
     expect(download.suggestedFilename()).toBe(randomDocxName);
   });
 
-  test('[C268133] Delete action', async ({ personalFiles, trashPage }) => {
+  test('[XAT-5421] Viewer - Delete action - Personal Files', async ({ personalFiles, trashPage }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxDelete);
     await personalFiles.viewer.waitForViewerToOpen();
 
@@ -105,7 +105,7 @@ test.describe('viewer action file', () => {
     expect(await trashPage.dataTable.isItemPresent(randomDocxDelete), 'Item should be present in Trash').toBe(true);
   });
 
-  test('[C297584] Edit Offline action', async ({ personalFiles }) => {
+  test('[XAT-5423] Viewer - Edit Offline action - Personal Files', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(fileForEditOffline);
     await personalFiles.viewer.waitForViewerToOpen();
     await personalFiles.acaHeader.clickViewerMoreActions();
@@ -120,7 +120,7 @@ test.describe('viewer action file', () => {
     expect(await personalFiles.matMenu.isMenuItemVisible('Cancel Editing'), 'Cancel Editing menu should be visible').toBe(true);
   });
 
-  test('[C297585] Cancel Editing action', async ({ personalFiles }) => {
+  test('[XAT-5424] Viewer - Cancel Editing action - Personal Files', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(fileForCancelEditing);
     await personalFiles.viewer.waitForViewerToOpen();
     await personalFiles.acaHeader.clickViewerMoreActions();
@@ -129,14 +129,14 @@ test.describe('viewer action file', () => {
     expect(await personalFiles.matMenu.isMenuItemVisible('Edit Offline'), 'Edit offline menu should be visible').toBe(true);
   });
 
-  test('[C279282] Full screen action', async ({ personalFiles }) => {
+  test('[XAT-5415] Full screen action', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
     await personalFiles.viewer.waitForViewerToOpen();
     await personalFiles.acaHeader.fullScreenButton.click();
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is closed after pressing Full screen').toBe(true);
   });
 
-  test('[C286314] Pressing ESC in the viewer closes only the action dialog', async ({ personalFiles }) => {
+  test('[XAT-5416] Pressing ESC in the viewer closes only the action dialog', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
     await personalFiles.viewer.waitForViewerToOpen();
     await personalFiles.acaHeader.clickViewerMoreActions();
@@ -147,7 +147,7 @@ test.describe('viewer action file', () => {
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer should be opened').toBe(true);
   });
 
-  test('[C286379] Favorite action from Shared Files', async ({ sharedPage, favoritePage }) => {
+  test('[XAT-5442] Favorite action from Shared Files', async ({ sharedPage, favoritePage }) => {
     await sharedPage.navigate({ waitUntil: 'domcontentloaded' });
     await sharedPage.dataTable.performClickFolderOrFileToOpen(randomDocxNameShare);
     expect(await sharedPage.viewer.isViewerOpened(), 'Viewer should be opened').toBe(true);
@@ -166,7 +166,7 @@ test.describe('viewer action file', () => {
     expect(await favoritePage.dataTable.isItemPresent(randomDocxNameShare), 'Item is not present in Favorites list').toBe(true);
   });
 
-  test('[C286395] Share action from Favorites', async ({ favoritePage }) => {
+  test('[XAT-5462] Share action from Favorites', async ({ favoritePage }) => {
     await favoritePage.navigate({ waitUntil: 'domcontentloaded' });
     await favoritePage.dataTable.performClickFolderOrFileToOpen(randomDocxNameFavorite);
     expect(await favoritePage.viewer.isViewerOpened(), 'Viewer should be opened').toBe(true);
@@ -179,7 +179,7 @@ test.describe('viewer action file', () => {
     await expect(favoritePage.viewerDialog.shareDialogTitle, 'Share dialog should be open').toBeHidden();
   });
 
-  test('[C297586] [C307004] Upload new version action - major', async ({ personalFiles, nodesApiAction }) => {
+  test('[XAT-5465] Upload new version action - major', async ({ personalFiles, nodesApiAction }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(filePersonalFiles);
     await personalFiles.viewer.waitForViewerToOpen('wait for viewer content');
 
@@ -217,7 +217,7 @@ test.describe('viewer action file', () => {
     await expect(personalFiles.matMenu.getMenuItemFromHeaderMenu('Edit Offline'), `'Edit Offline' should be shown`).toBeVisible();
   });
 
-  test('[C286384] Copy action from Recent Files', async ({ recentFilesPage, personalFiles }) => {
+  test('[XAT-5448] Copy action from Recent Files', async ({ recentFilesPage, personalFiles }) => {
     await recentFilesPage.navigate();
     await recentFilesPage.dataTable.performClickFolderOrFileToOpen(docxRecentFiles);
     expect(await recentFilesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);

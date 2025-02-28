@@ -52,7 +52,7 @@ test.describe('viewer file', () => {
     await apiClientFactory.nodes.deleteNode(folderId, { permanent: true });
   });
 
-  test('[C268958] Password dialog appears when opening a protected file', async ({ personalFiles }) => {
+  test('[XAT-5467] Password dialog appears when opening a protected file', async ({ personalFiles }) => {
     expect(await personalFiles.passwordDialog.isDialogOpen(), 'Password dialog not open').toBe(true);
     expect(await personalFiles.passwordDialog.isPasswordInputDisplayed(), 'Password input not displayed').toBe(true);
     await expect(personalFiles.passwordDialog.submitButton, 'Submit button not disabled').toBeVisible();
@@ -60,7 +60,7 @@ test.describe('viewer file', () => {
     await expect(personalFiles.viewer.pdfViewerContentPages, 'Viewer did not close').toBeHidden();
   });
 
-  test('[C268959] File content is displayed when entering the correct password', async ({ personalFiles }) => {
+  test('[XAT-5468] File content is displayed when entering the correct password', async ({ personalFiles }) => {
     await personalFiles.passwordDialog.enterPassword(TEST_FILES.PDF_PROTECTED.password);
     await expect(personalFiles.passwordDialog.submitButton, 'Submit button not enabled').toBeVisible();
 
@@ -70,7 +70,7 @@ test.describe('viewer file', () => {
     expect(await personalFiles.viewer.isPdfViewerContentDisplayed(), 'file content not displayed').toBe(true);
   });
 
-  test('[C268960] Error appears when entering an incorrect password', async ({ personalFiles }) => {
+  test('[XAT-5469] Error appears when entering an incorrect password', async ({ personalFiles }) => {
     await personalFiles.passwordDialog.enterPassword('incorrect');
     await expect(personalFiles.passwordDialog.submitButton, 'Submit button not enabled').toBeVisible();
     await personalFiles.passwordDialog.submitButton.click();
@@ -79,7 +79,7 @@ test.describe('viewer file', () => {
     expect(await personalFiles.viewer.isPdfViewerContentDisplayed(), 'file content is displayed').toBe(false);
   });
 
-  test('[C268961] Refresh the page while Password dialog is open', async ({ personalFiles }) => {
+  test('[XAT-5470] Refresh the page while Password dialog is open', async ({ personalFiles }) => {
     await personalFiles.passwordDialog.enterPassword(TEST_FILES.PDF_PROTECTED.password);
     await personalFiles.reload({ waitUntil: 'domcontentloaded' });
     await personalFiles.viewer.waitForViewerToOpen();
