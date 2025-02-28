@@ -12,6 +12,11 @@ $search-border-radius: 4px;
   background: none;
   padding: 0;
 
+  &:focus-visible {
+    outline: 2px solid var(--theme-blue-button-color);
+    border-radius: 4px;
+  }
+
   &:focus-within {
     label {
       display: none;
