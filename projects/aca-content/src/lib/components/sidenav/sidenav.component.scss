@@ -82,11 +82,20 @@
         user-select: none;
 
         .aca-action-button__label {
-          color: var(--theme-action-button-text-color);
+          color: var(--theme-text-light-color);
         }
 
         &:hover .aca-action-button__label {
-          color: var(--theme-sidenav-active-text-color);
+          color: var(--theme-sidenav-hovered-text-color);
+        }
+
+        .aca-action-button--active {
+          color: var(--adf-sidenav-active-text-color);
+          background: var(--theme-selected-background-color);
+
+          .aca-action-button__label {
+            color: var(--adf-sidenav-active-text-color);
+          }
         }
       }
 
@@ -113,11 +122,6 @@
       #{$mat-button-label} {
         overflow: hidden;
         text-overflow: ellipsis;
-      }
-
-      &--active {
-        color: var(--theme-sidenav-active-text-color);
-        background: var(--theme-selected-background-color);
       }
     }
 
