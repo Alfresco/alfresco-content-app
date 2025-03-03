@@ -87,7 +87,7 @@ test.describe('Upload files', () => {
     personalFiles,
     myLibrariesPage
   }) => {
-    await myLibrariesPage.navigate({ waitUntil: 'domcontentloaded' });
+    await myLibrariesPage.navigate();
     await expect(personalFiles.uploadDialog.uploadDialog, 'Upload Dialog was not visible').toBeVisible();
   });
 });
