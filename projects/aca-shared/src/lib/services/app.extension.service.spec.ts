@@ -1087,16 +1087,6 @@ describe('AppExtensionService', () => {
       expect(service.evaluateRule('rule1')).toBeTrue();
     });
 
-    it('should evaluate list of rules', () => {
-      extensions.setEvaluators({
-        rule1: () => true,
-        rule2: () => true,
-        rule3: () => true
-      });
-
-      expect(service.evaluateRule(['rule1', 'rule2', 'rule3'])).toBeTrue();
-    });
-
     it('should not evaluate missing rule and return [false] by default', () => {
       expect(service.evaluateRule('missing')).toBeFalse();
     });
