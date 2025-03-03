@@ -77,7 +77,7 @@ export class AcaFolderRulesModule {
     translation.addTranslationFolder('folder-rules', 'assets/folder-rules');
 
     extensions.setEvaluators({
-      'rules.isFolderRulesEnabled': rules.isFolderRulesEnabled
+      'rules.canManageFolderRules': rules.canManageFolderRules
     });
   }
 }
