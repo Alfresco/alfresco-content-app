@@ -45,9 +45,13 @@ test.describe('Upload files', () => {
   test.beforeEach(async ({ loginPage, personalFiles }) => {
     await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
     await personalFiles.dataTable.performClickFolderOrFileToOpen(folder1);
-    await personalFiles.acaHeader.uploadButton.click();
-    await personalFiles.acaHeader.uploadFileButton.click();
-    await personalFiles.acaHeader.uploadInput.setInputFiles(TEST_FILES.JPG_FILE.path);
+
+    const [fileChooserWindow] = await Promise.all([
+      personalFiles.acaHeader.page.waitForEvent('filechooser'),
+      await personalFiles.acaHeader.uploadButton.click(),
+      await personalFiles.acaHeader.uploadFileButton.click()
+    ]);
+    await fileChooserWindow.setFiles(TEST_FILES.JPG_FILE.path);
   });
 
   test.afterAll(async () => {
@@ -56,32 +60,34 @@ test.describe('Upload files', () => {
 
   test('Upload a file', async ({ personalFiles }) => {
     const uploadedFiles = await personalFiles.dataTable.isItemPresent(TEST_FILES.JPG_FILE.name);
-    expect(uploadedFiles).toBe(true);
+    expect(uploadedFiles, 'Uploaded file was not present in data table').toBe(true);
   });
 
   test('[T14752064] Close the upload dialog', async ({ personalFiles }) => {
+    await expect(personalFiles.uploadDialog.closeButton, 'Close button was not visible').toBeVisible();
     await personalFiles.uploadDialog.closeButton.click();
-    await personalFiles.uploadDialog.uploadDialog.isHidden();
+    await expect(personalFiles.uploadDialog.uploadDialog, 'Upload Dialog was visible').toBeHidden();
   });
 
   test('[T14752051] Minimize / maximize the upload dialog', async ({ personalFiles }) => {
     await personalFiles.uploadDialog.minimizeButton.click();
-    await personalFiles.uploadDialog.uploadDialogMinimized.isVisible();
+    await expect(personalFiles.uploadDialog.uploadDialogMinimized, 'Upload Dialog was not minimized').toBeVisible();
     await personalFiles.uploadDialog.minimizeButton.click();
-    await personalFiles.uploadDialog.uploadDialog.isVisible();
+    await expect(personalFiles.uploadDialog.uploadDialog, 'Upload Dialog was not maximized').toBeVisible();
   });
 
   test('[T14752053] Upload history is expunged on browser login/logout', async ({ personalFiles, loginPage }) => {
     await loginPage.logoutUser();
+    await expect(loginPage.username, 'User name was not visible').toBeVisible();
     await loginPage.loginUser({ username, password: username });
-    await personalFiles.uploadDialog.uploadDialog.isHidden();
+    await expect(personalFiles.acaHeader.uploadButton, 'Upload button in Personal Files was not visible').toBeVisible();
   });
 
   test('[T14752052] Upload dialog remains fixed in the browser when user performs other actions in parallel', async ({
     personalFiles,
     myLibrariesPage
   }) => {
-    await myLibrariesPage.navigate();
-    await personalFiles.uploadDialog.uploadDialog.isVisible();
+    await myLibrariesPage.navigate({ waitUntil: 'domcontentloaded' });
+    await expect(personalFiles.uploadDialog.uploadDialog, 'Upload Dialog was not visible').toBeVisible();
   });
 });
