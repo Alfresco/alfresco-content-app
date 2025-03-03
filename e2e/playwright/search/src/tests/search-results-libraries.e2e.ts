@@ -140,7 +140,7 @@ test.describe('Search Results - General', () => {
     }
   });
 
-  test('[C290012] Search library - full name match', async ({ searchPage }) => {
+  test('[XAT-5594] Search library - full name match', async ({ searchPage }) => {
     await searchPage.searchWithin(site1.name, 'libraries');
 
     expect(await searchPage.dataTable.isItemPresent(site1.name)).toBeTruthy();
@@ -149,7 +149,7 @@ test.describe('Search Results - General', () => {
     expect(await searchPage.dataTable.isItemPresent(site4.name)).toBeFalsy();
   });
 
-  test('[C290013] Search library - partial name match', async ({ searchPage }) => {
+  test('[XAT-5595] Search library - partial name match', async ({ searchPage }) => {
     await fileActionsApi.waitForNodes(site3.id, { expect: 1 });
     await searchPage.searchWithin(`lib-${random}`, 'libraries');
 
@@ -159,7 +159,7 @@ test.describe('Search Results - General', () => {
     expect(await searchPage.dataTable.isItemPresent(site4.name)).toBeFalsy();
   });
 
-  test('[C290014] Search library - description match', async ({ searchPage }) => {
+  test('[XAT-5596] Search library - description match', async ({ searchPage }) => {
     await searchPage.searchWithin(site4.description, 'libraries');
 
     expect(await searchPage.dataTable.isItemPresent(site1.name)).toBeFalsy();
@@ -168,7 +168,7 @@ test.describe('Search Results - General', () => {
     expect(await searchPage.dataTable.isItemPresent(site4.name)).toBeTruthy();
   });
 
-  test('[C290016] Results page columns', async ({ searchPage }) => {
+  test('[XAT-5598] Libraries Results page columns', async ({ searchPage }) => {
     await searchPage.searchWithin(site1.name, 'libraries');
 
     const expectedColumns = ['Name', 'Description', 'My Role', 'Visibility'];
@@ -177,7 +177,7 @@ test.describe('Search Results - General', () => {
     expect(actualColumns).toEqual(expectedColumns);
   });
 
-  test('[C290017] Library visibility is correctly displayed', async ({ searchPage }) => {
+  test('[XAT-5599] Library visibility is correctly displayed', async ({ searchPage }) => {
     await searchPage.searchWithin(`user-site-${random}`, 'libraries');
 
     const expectedSitesVisibility = {
@@ -191,7 +191,7 @@ test.describe('Search Results - General', () => {
     expect(expectedSitesVisibility).toEqual(actualSitesVisibility);
   });
 
-  test('[C290018] User role is correctly displayed', async ({ searchPage }) => {
+  test('[XAT-5600] User role is correctly displayed', async ({ searchPage }) => {
     await searchPage.searchWithin(`admin-${random}-site`, 'libraries');
 
     const expectedSitesRoles = {
@@ -206,19 +206,19 @@ test.describe('Search Results - General', () => {
     expect(expectedSitesRoles).toEqual(actualSitesRole);
   });
 
-  test('[C290019] Private sites are not displayed when user is not a member', async ({ searchPage }) => {
+  test('[XAT-5601] Private sites are not displayed when user is not a member', async ({ searchPage }) => {
     await searchPage.searchWithin(`admin-${random}-site`, 'libraries');
 
     expect(await searchPage.dataTable.isItemPresent(adminPrivate)).toBeFalsy();
   });
 
-  test('[C290028] Search libraries with special characters', async ({ searchPage }) => {
+  test('[XAT-5602] Search libraries with special characters', async ({ searchPage }) => {
     await searchPage.searchWithin(siteRussian.name, 'libraries');
 
     expect(await searchPage.dataTable.isItemPresent(siteRussian.name)).toBeTruthy();
   });
 
-  test('[C290020] Empty Search results - Libraries', async ({ searchPage }) => {
+  test('[XAT-5591] Empty Search results - Libraries', async ({ searchPage }) => {
     await searchPage.sidenav.openPanel(SIDEBAR_LABELS.MY_LIBRARIES);
     /* cspell:disable-next-line */
     await searchPage.searchWithin('qwertyuiop', 'files');

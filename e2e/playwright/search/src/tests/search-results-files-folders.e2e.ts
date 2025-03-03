@@ -54,7 +54,7 @@ test.describe('Search results - files and folders', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
-  test('[C290029] Search file with special characters', async ({ searchPage }) => {
+  test('[XAT-5610] Search files / folders with special characters', async ({ searchPage }) => {
     const fileRussian = `любимый-сайт-${random}`;
 
     await nodesApi.createFile(fileRussian);
@@ -62,7 +62,7 @@ test.describe('Search results - files and folders', () => {
     await expect(searchPage.dataTable.getRowByName(fileRussian)).toBeVisible();
   });
 
-  test('[C279177] Location column redirect - file in user Home', async ({ searchPage, personalFiles }) => {
+  test('[XAT-5611] Clicking on the location link redirects to parent folder', async ({ searchPage, personalFiles }) => {
     const file = `test-file-${random}.txt`;
     const fileTitle = 'file title';
     const fileDescription = 'file description';

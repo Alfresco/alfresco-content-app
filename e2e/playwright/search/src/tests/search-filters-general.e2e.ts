@@ -43,7 +43,7 @@ test.describe('Search - Filters - General', () => {
     }
   });
 
-  test('[C704281] [C704282] Menu cards have proper titles', async ({ searchPage }) => {
+  test('[XAT-5575] Search Filters Menu cards have proper titles', async ({ searchPage }) => {
     async function checkMenuCardTitle(page: SearchPage, filterLocator: Locator, expectText: string): Promise<void> {
       await filterLocator.click();
       await expect(page.searchFilters.menuCardTitle).toContainText(expectText);
@@ -84,7 +84,7 @@ test.describe('Search - Filters - General', () => {
     }
   });
 
-  test('[C704283] Facets filters can be cleared', async ({ searchPage }) => {
+  test('[XAT-5577] Menu cards filters can be cleared with "Clear" button', async ({ searchPage }) => {
     const filterTextBefore = await searchPage.searchFilters.propertiesFilter.textContent();
     await searchPage.searchFilters.propertiesFilter.click();
     await searchPage.searchFiltersProperties.fileSizeInput.fill('1000');
@@ -101,7 +101,7 @@ test.describe('Search - Filters - General', () => {
     expect(filterTextAfter).not.toEqual(filterTextCleared);
   });
 
-  test('[C699499] All filters can be reset with reset button', async ({ searchPage }) => {
+  test('[XAT-5574] All Search filters can be reset with reset button', async ({ searchPage }) => {
     const propertiesFilterTextBefore = await searchPage.searchFilters.propertiesFilter.textContent();
     await searchPage.searchFilters.propertiesFilter.click();
     await searchPage.searchFiltersProperties.fileSizeInput.fill('1000');
