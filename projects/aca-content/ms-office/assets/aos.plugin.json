@@ -29,9 +29,7 @@
               "click": "aos.openWith.office"
             },
             "rules": {
-              "visible": [
-                "aos.canOpenWithOffice"
-              ]
+              "visible": "aos.canOpenWithOffice"
             }
           }
         ]
@@ -47,9 +45,7 @@
           "click": "aos.openWith.office"
         },
         "rules": {
-          "visible": [
-            "aos.canOpenWithOffice"
-          ]
+          "visible": "aos.canOpenWithOffice"
         }
       }
     ],
@@ -67,9 +63,7 @@
                   "click": "aos.openWith.office"
                 },
                 "rules": {
-                  "visible": [
-                    "aos.canOpenWithOffice"
-                  ]
+                  "visible": "aos.canOpenWithOffice"
                 }
             }
           ]
