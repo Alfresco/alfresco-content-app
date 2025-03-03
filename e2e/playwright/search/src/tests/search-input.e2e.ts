@@ -42,14 +42,14 @@ test.describe('Search - Input', () => {
     await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
   });
 
-  test('[C289847] Search icon is displayed in toolbar and clicking on it displays search input container', async ({ searchPage }) => {
+  test('[XAT-5563] Search icon is displayed in toolbar and clicking on it displays search input container', async ({ searchPage }) => {
     await searchPage.acaHeader.searchButton.click();
     await searchPage.clickSearchButton();
 
     await expect(searchPage.searchOverlay.searchInputControl).toBeVisible();
   });
 
-  test('[C289848] Search options are displayed when clicking in the search input', async ({ searchPage }) => {
+  test('[XAT-5564] Search options are displayed when clicking in the search input', async ({ searchPage }) => {
     await searchPage.acaHeader.searchButton.click();
     await searchPage.clickSearchButton();
 
@@ -62,7 +62,7 @@ test.describe('Search - Input', () => {
     await expect(searchPage.searchOverlay.searchLibrariesOption).not.toBeChecked();
   });
 
-  test('[C289849] Search options are correctly enabled / disabled', async ({ searchPage }) => {
+  test('[XAT-5565] Search options are correctly enabled / disabled', async ({ searchPage }) => {
     await searchPage.acaHeader.searchButton.click();
     await searchPage.clickSearchButton();
 

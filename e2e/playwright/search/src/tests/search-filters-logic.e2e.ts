@@ -75,7 +75,7 @@ test.describe('Search - Filters - Logic', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
-  test('[C699500] Filter with Match All', async ({ searchPage }) => {
+  test('[XAT-5584] should able to filter search result with logic filter with Match All', async ({ searchPage }) => {
     await searchPage.searchFilters.logicFilter.click();
     await searchPage.searchFiltersLogic.matchAllInput.fill(
       `${logicFile1NameSplit[0]} ${logicFile1NameSplit[1]} ${logicFile1TitleSplit[1]} ${logicFile1DescriptionSplit[1]}`
@@ -87,7 +87,7 @@ test.describe('Search - Filters - Logic', () => {
     await expect(searchPage.dataTable.getRowByName(logicFile2.name)).toBeHidden();
   });
 
-  test('[C699501] Filter with Match Any', async ({ searchPage }) => {
+  test('[XAT-5585] should able to filter search result with logic filter with Match Any', async ({ searchPage }) => {
     await searchPage.searchFilters.logicFilter.click();
     await searchPage.searchFiltersLogic.matchAnyInput.fill(
       `${logicFile1NameSplit[2]}-${logicFile1NameSplit[3]} ${logicFile1TitleSplit[0]} ${logicFile1DescriptionSplit[0]}`
@@ -100,7 +100,7 @@ test.describe('Search - Filters - Logic', () => {
     await expect(searchPage.dataTable.getRowByName(logicFile2.name)).toBeVisible();
   });
 
-  test('[C699502] Filter with Exclude', async ({ searchPage }) => {
+  test('[XAT-5586] should able to filter search result with logic filter with Exclude', async ({ searchPage }) => {
     await searchPage.searchFilters.logicFilter.click();
     await searchPage.searchFiltersLogic.matchAnyInput.fill(
       `${logicFile1NameSplit[0]}-${logicFile1NameSplit[1]} ${logicFile1TitleSplit[0]} ${logicFile1DescriptionSplit[0]}`
@@ -114,7 +114,7 @@ test.describe('Search - Filters - Logic', () => {
     await expect(searchPage.dataTable.getRowByName(logicFile2.name)).toBeVisible();
   });
 
-  test('[C699503] Filter with Exact phrase', async ({ searchPage }) => {
+  test('[XAT-5587] should able to filter search result with logic filter with Exact Phrase', async ({ searchPage }) => {
     await searchPage.searchFilters.logicFilter.click();
     await searchPage.searchFiltersLogic.matchExactInput.fill(logicFile1.name);
     await searchPage.searchFilters.menuCardApply.click();
@@ -143,7 +143,7 @@ test.describe('Search - Filters - Logic', () => {
     await expect(searchPage.dataTable.getRowByName(logicFile1.name)).toBeVisible();
   });
 
-  test('[C699504] Filter with all options', async ({ searchPage }) => {
+  test('[XAT-5588] should able to filter search result with logic filter with combination of 4 option available', async ({ searchPage }) => {
     const logicFile2NameSplit = logicFile2.name.split('-');
 
     await searchPage.searchFilters.logicFilter.click();

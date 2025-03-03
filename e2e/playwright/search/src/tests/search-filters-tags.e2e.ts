@@ -74,7 +74,7 @@ test.describe('Search - Filters - Tags', () => {
     await tagsApiAdmin.deleteTags([`${(tagEntries as TagPaging).list.entries[1].entry.id}`]);
   });
 
-  test('[C698515] Filter with Tags', async ({ searchPage }) => {
+  test('[XAT-5581] user able to search with tags facet', async ({ searchPage }) => {
     await searchPage.searchWithin(random, 'files');
     await searchPage.searchFiltersTags.filterByTag(searchPage, `${(tagEntries as TagPaging).list.entries[0].entry.tag}`);
 
