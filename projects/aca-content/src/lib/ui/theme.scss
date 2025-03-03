@@ -301,7 +301,7 @@ mat-snack-bar-container {
 }
 
 #{$mat-tab-label}:not(#{$mat-tab-disabled})#{$mat-tab-label-active} #{$mat-tab-label-text} {
-  color: var(--theme-sidenav-active-text-color);
+  color: var(--theme-tab-active-text-color);
 }
 
 adf-dynamic-component {
