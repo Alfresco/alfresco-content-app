@@ -43,30 +43,6 @@
   .aca-sidenav__section {
     overflow-y: auto;
 
-    .aca-action-button {
-      cursor: pointer;
-      color: var(--theme-action-button-text-color);
-      height: 32px;
-      padding: 0 24px;
-      border-radius: 0;
-      line-height: 32px;
-      justify-content: start;
-
-      &--active {
-        color: var(--adf-sidenav-active-text-color);
-        background: var(--theme-selected-background-color);
-
-        .aca-action-button__label {
-          color: var(--adf-sidenav-active-text-color);
-        }
-      }
-
-      #{$mat-button-label} {
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-    }
-
     .aca-expansion-panel {
       width: 100%;
       background-color: unset;
@@ -112,6 +88,15 @@
         &:hover .aca-action-button__label {
           color: var(--theme-sidenav-hovered-text-color);
         }
+
+        .aca-action-button--active {
+          color: var(--adf-sidenav-active-text-color);
+          background: var(--theme-selected-background-color);
+
+          .aca-action-button__label {
+            color: var(--adf-sidenav-active-text-color);
+          }
+        }
       }
 
       &-body {
@@ -122,6 +107,21 @@
           line-height: 32px;
           align-items: center;
         }
+      }
+    }
+
+    .aca-action-button {
+      cursor: pointer;
+      color: var(--theme-action-button-text-color);
+      height: 32px;
+      padding: 0 24px;
+      border-radius: 0;
+      line-height: 32px;
+      justify-content: start;
+
+      #{$mat-button-label} {
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
 
