@@ -1,14 +1,17 @@
 {
   "ACA_FOLDER_RULES": {
     "ACTIONS": {
-      "MANAGE_RULES": "ルールの管理"
+      "MANAGE_RULES": "ルールの管理",
+      "GO_BACK": "戻る"
     },
     "EDIT_RULE_DIALOG": {
       "CANCEL": "キャンセル",
+      "CLOSE": "閉じる",
       "CREATE": "作成",
       "CREATE_TITLE": "ルールの作成",
       "UPDATE": "更新",
-      "UPDATE_TITLE": "ルールの編集"
+      "UPDATE_TITLE": "ルールの編集",
+      "OPEN_ACTION_MENU": "アクションメニューを開く"
     },
     "RULE_DETAILS": {
       "LABEL": {
@@ -121,6 +124,7 @@
       "LOAD_MORE_RULE_SETS": "他のフォルダからユールを読み込む",
       "LOAD_MORE_RULES": "さらにルールを読み込む",
       "LOADING_RULES": "ルールの読み込み中",
+      "TOGGLE_RULE_STATE": "切替ルール有効状態",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "継承されたルールが最初に実行されます",
       "ALL_LINKED_RULES_ARE_DISABLED": "このルールセットからリンクされているすべてのルールは無効です"
     },

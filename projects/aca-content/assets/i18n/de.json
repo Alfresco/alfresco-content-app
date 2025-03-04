@@ -150,6 +150,11 @@
                             "TOOLTIP": "Auf meine als Favoriten markierten Bibliotheken zugreifen"
                         }
                     }
+                },
+                "ERRORS": {
+                    "LIBRARY_NOT_FOUND": "Diese Bibliothek ist nicht länger vorhanden.",
+                    "LIBRARY_NO_PERMISSIONS": "Sie haben keine Berechtigung, diese Bibliothek anzuzeigen.",
+                    "LIBRARY_LOADING_ERROR": "Beim Laden dieser Bibliothek ist ein Fehler aufgetreten."
                 }
             },
             "SHARED": {
@@ -577,6 +582,9 @@
             "TYPE": "Typ",
             "MODIFIER": "Bearbeiter",
             "CREATE_DATE": "Datum der Erstellung"
+        },
+        "CLOSE_BUTTON": {
+            "ARIA_LABEL": "Suche schließen"
         },
         "FACET_FIELDS": {
             "CREATOR": "Ersteller",

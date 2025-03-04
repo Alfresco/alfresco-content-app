@@ -150,6 +150,11 @@
                             "TOOLTIP": "Доступ к моим избранным библиотекам"
                         }
                     }
+                },
+                "ERRORS": {
+                    "LIBRARY_NOT_FOUND": "This library no longer exists.",
+                    "LIBRARY_NO_PERMISSIONS": "You do not have permission to view this library.",
+                    "LIBRARY_LOADING_ERROR": "There was some problem during loading this library."
                 }
             },
             "SHARED": {
@@ -300,7 +305,7 @@
             "EDIT_OFFLINE_CANCEL": "Отменить редактирование",
             "CHANGE_ASPECT": "Редактировать аспекты",
             "ADD_ASPECTS": "Добавить аспекты",
-            "FOLDER_INFO": "Folder Information"
+            "FOLDER_INFO": "Информация о папке"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -454,17 +459,17 @@
             "EXPAND_NAVIGATION": "Развернуть меню навигации"
         },
         "FOLDER_INFO": {
-            "ICON": "Folder Icon",
-            "TITLE": "Folder Information",
-            "SIZE": "Size",
-            "CALCULATING": "Calculating...",
-            "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} on disk) for {{count}} files",
-            "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes for {{count}} files",
-            "LOCATION": "Location",
-            "CREATED": "Created",
-            "MODIFIED": "Modified",
-            "DONE": "Done",
-            "ERROR": "Something went wrong, please close this dialog and try again"
+            "ICON": "Иконка папки",
+            "TITLE": "Информация о папке",
+            "SIZE": "Размер",
+            "CALCULATING": "Вычисление...",
+            "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} байт ({{sizeInLargeUnit}} {{unit}} на диске) для файлов {{count}}",
+            "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} байт для {{count}} файлов",
+            "LOCATION": "Местоположение",
+            "CREATED": "Создано",
+            "MODIFIED": "Изменено",
+            "DONE": "Готово",
+            "ERROR": "Что-то пошло не так. Закройте этот диалог и повторите попытку"
         }
     },
     "NODE_SELECTOR": {
@@ -577,6 +582,9 @@
             "TYPE": "Тип",
             "MODIFIER": "Редактор",
             "CREATE_DATE": "Дата создания"
+        },
+        "CLOSE_BUTTON": {
+            "ARIA_LABEL": "Закрыть поиск"
         },
         "FACET_FIELDS": {
             "CREATOR": "Создатель",

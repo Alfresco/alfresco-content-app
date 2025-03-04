@@ -150,6 +150,11 @@
                             "TOOLTIP": "Toegang krijgen tot mijn favoriete bibliotheken"
                         }
                     }
+                },
+                "ERRORS": {
+                    "LIBRARY_NOT_FOUND": "This library no longer exists.",
+                    "LIBRARY_NO_PERMISSIONS": "You do not have permission to view this library.",
+                    "LIBRARY_LOADING_ERROR": "There was some problem during loading this library."
                 }
             },
             "SHARED": {
@@ -454,17 +459,17 @@
             "EXPAND_NAVIGATION": "Navigatiemenu uitvouwen"
         },
         "FOLDER_INFO": {
-            "ICON": "Folder Icon",
+            "ICON": "Mappictogram",
             "TITLE": "Folder Information",
-            "SIZE": "Size",
-            "CALCULATING": "Calculating...",
-            "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} on disk) for {{count}} files",
-            "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes for {{count}} files",
-            "LOCATION": "Location",
-            "CREATED": "Created",
-            "MODIFIED": "Modified",
-            "DONE": "Done",
-            "ERROR": "Something went wrong, please close this dialog and try again"
+            "SIZE": "Grootte",
+            "CALCULATING": "Wordt berekend...",
+            "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} op schijf) voor {{count}} bestanden",
+            "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes voor {{count}} bestanden",
+            "LOCATION": "Locatie",
+            "CREATED": "Aangemaakt",
+            "MODIFIED": "Gewijzigd",
+            "DONE": "Klaar",
+            "ERROR": "Er is iets fout gegaan. Sluit dit dialoogvenster en probeer het opnieuw"
         }
     },
     "NODE_SELECTOR": {
@@ -577,6 +582,9 @@
             "TYPE": "Type",
             "MODIFIER": "Gewijzigd door",
             "CREATE_DATE": "Datum gemaakt"
+        },
+        "CLOSE_BUTTON": {
+            "ARIA_LABEL": "Zoekopdracht sluiten"
         },
         "FACET_FIELDS": {
             "CREATOR": "Maker",
