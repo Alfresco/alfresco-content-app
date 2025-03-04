@@ -1,14 +1,17 @@
 {
   "ACA_FOLDER_RULES": {
     "ACTIONS": {
-      "MANAGE_RULES": "Hallitse sääntöjä"
+      "MANAGE_RULES": "Hallitse sääntöjä",
+      "GO_BACK": "Palaa takaisin"
     },
     "EDIT_RULE_DIALOG": {
       "CANCEL": "Peruuta",
+      "CLOSE": "Sulje",
       "CREATE": "Luo",
       "CREATE_TITLE": "Luo sääntö",
       "UPDATE": "Päivitä",
-      "UPDATE_TITLE": "Muokkaa sääntöä"
+      "UPDATE_TITLE": "Muokkaa sääntöä",
+      "OPEN_ACTION_MENU": "Avaa toimintovalikko"
     },
     "RULE_DETAILS": {
       "LABEL": {
@@ -121,6 +124,7 @@
       "LOAD_MORE_RULE_SETS": "Lataa sääntöjä muista kansioista",
       "LOAD_MORE_RULES": "Lataa lisää sääntöjä",
       "LOADING_RULES": "Sääntöjä ladataan",
+      "TOGGLE_RULE_STATE": "Muuta käytössä olevan säännön tila",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "Perityt säännöt suoritetaan ensin",
       "ALL_LINKED_RULES_ARE_DISABLED": "Kaikki tästä sääntöjoukosta linkitetyt säännöt on poistettu käytöstä"
     },

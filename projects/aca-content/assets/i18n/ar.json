@@ -1,7 +1,7 @@
 {
     "APP": {
-        "COPYRIGHT": "© 2005-2025 Hyland Software, Inc. والشركات التابعة لها. كل الحقوق محفوظة.",
-        "TITLE": "Workspace",
+        "COPYRIGHT": "© 2005-2025 Hyland Software, Inc. والشركات التابعة لها. جميع الحقوق محفوظة.",
+        "TITLE": "مساحة العمل",
         "ABOUT": {
             "VERSION": "الإصدار:",
             "PLUGINS": {
@@ -150,6 +150,11 @@
                             "TOOLTIP": "الوصول إلى مكتباتي المفضلة"
                         }
                     }
+                },
+                "ERRORS": {
+                    "LIBRARY_NOT_FOUND": "This library no longer exists.",
+                    "LIBRARY_NO_PERMISSIONS": "You do not have permission to view this library.",
+                    "LIBRARY_LOADING_ERROR": "There was some problem during loading this library."
                 }
             },
             "SHARED": {
@@ -300,7 +305,7 @@
             "EDIT_OFFLINE_CANCEL": "إلغاء التحرير",
             "CHANGE_ASPECT": "تحرير الجوانب",
             "ADD_ASPECTS": "إضافة جوانب",
-            "FOLDER_INFO": "Folder Information"
+            "FOLDER_INFO": "معلومات المجلد"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -454,17 +459,17 @@
             "EXPAND_NAVIGATION": "قم بتوسيع قائمة التنقل"
         },
         "FOLDER_INFO": {
-            "ICON": "Folder Icon",
-            "TITLE": "Folder Information",
-            "SIZE": "Size",
-            "CALCULATING": "Calculating...",
-            "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} on disk) for {{count}} files",
-            "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes for {{count}} files",
-            "LOCATION": "Location",
-            "CREATED": "Created",
-            "MODIFIED": "Modified",
-            "DONE": "Done",
-            "ERROR": "Something went wrong, please close this dialog and try again"
+            "ICON": "أيقونة المجلد",
+            "TITLE": "معلومات المجلد",
+            "SIZE": "الحجم",
+            "CALCULATING": "حساب...",
+            "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} بايت ({{sizeInLargeUnit}} {{unit}} على القرص) ل {{count}} الملفات",
+            "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} بايت  لـ {{count}} الملفات",
+            "LOCATION": "مكان",
+            "CREATED": "تم الإنشاء",
+            "MODIFIED": "تم التعديل",
+            "DONE": "تم",
+            "ERROR": "حدث خطأ ما، يرجى إغلاق مربع الحوار هذا والمحاولة مرة أخرى"
         }
     },
     "NODE_SELECTOR": {
@@ -543,7 +548,7 @@
             "CONFLICT": "معرف المكتبة هذا قيد الاستخدام بالفعل. تحقق من سلة المحذوفات.",
             "ID_TOO_LONG": "استخدم 72 حرفًا أو أقل لاسم URL",
             "DESCRIPTION_TOO_LONG": "استخدم 512 حرفًا أو أقل للوصف",
-            "TITLE_TOO_LONG_OR_MISSING": "استخدم 256 حرفًا أو أقل في العنوان",
+            "TITLE_TOO_LONG_OR_MISSING": "استخدم 256 حرفًا أو أقل للعنوان",
             "ILLEGAL_CHARACTERS": "استخدم الأرقام والحروف فقط",
             "ONLY_SPACES": "لا يمكن أن يحتوي اسم المكتبة على أية مسافات",
             "LIBRARY_UPDATE_ERROR": "حدث خطأ أثناء تحديث خصائص المكتبة"
@@ -577,6 +582,9 @@
             "TYPE": "النوع",
             "MODIFIER": "المعدل",
             "CREATE_DATE": "تاريخ الإنشاء"
+        },
+        "CLOSE_BUTTON": {
+            "ARIA_LABEL": "إغلاق البحث"
         },
         "FACET_FIELDS": {
             "CREATOR": "المنشئ",
@@ -673,7 +681,7 @@
             },
             "AGENTS_BUTTON": {
                 "LABEL": "اسأل Discovery",
-                "TITLE": "استخلاص المعلومات ذات الصلة"
+                "TITLE": "استرداد المعلومات ذات الصلة"
             },
             "SEARCH_INPUT": {
                 "ASK_BUTTON_LABEL": "اطرح سؤالاً",

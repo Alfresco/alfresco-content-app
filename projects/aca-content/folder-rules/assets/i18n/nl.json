@@ -1,14 +1,17 @@
 {
   "ACA_FOLDER_RULES": {
     "ACTIONS": {
-      "MANAGE_RULES": "Regels beheren"
+      "MANAGE_RULES": "Regels beheren",
+      "GO_BACK": "Teruggaan"
     },
     "EDIT_RULE_DIALOG": {
       "CANCEL": "Annuleren",
+      "CLOSE": "Sluiten",
       "CREATE": "Maken",
       "CREATE_TITLE": "Een regel maken",
       "UPDATE": "Bijwerken",
-      "UPDATE_TITLE": "Een regel bewerken"
+      "UPDATE_TITLE": "Een regel bewerken",
+      "OPEN_ACTION_MENU": "Actiemenu openen"
     },
     "RULE_DETAILS": {
       "LABEL": {
@@ -121,6 +124,7 @@
       "LOAD_MORE_RULE_SETS": "Regels laden uit andere mappen",
       "LOAD_MORE_RULES": "Meer regels laden",
       "LOADING_RULES": "Regels worden geladen",
+      "TOGGLE_RULE_STATE": "Toestand schakelregel geactiveerd",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "Overgenomen regels worden als eerste uitgevoerd",
       "ALL_LINKED_RULES_ARE_DISABLED": "Alle regels die vanuit deze regelset zijn gekoppeld worden uitgeschakeld"
     },
