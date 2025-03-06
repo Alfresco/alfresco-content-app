@@ -18,4 +18,9 @@ kibana-audit:
   enabled: false
 alfresco-repository:
   image:
-    tag: 25.1.0-A.7
+    tag: 25.1.0-A.16
+global:
+  imagePullSecrets:
+    - name: regcred
+  alfrescoRegistryPullSecrets: regcred
+  known_urls: http://localhost
