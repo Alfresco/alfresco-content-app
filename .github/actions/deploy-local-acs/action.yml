@@ -39,7 +39,6 @@ runs:
       uses: Alfresco/alfresco-build-tools/.github/actions/setup-kind@v8.4.0
       with:
         ingress-nginx-ref: controller-v1.8.2
-        metrics: "true"
 
     - name: Set nginx ingress config
       shell: bash
@@ -78,20 +77,5 @@ runs:
         --values acs-deployment/test/enterprise-integration-test-values.yaml
         --values .github/acs-deployment-values-override.yaml
 
-    - name: Watch Helm deployment
-      shell: bash
-      run: |
-        kubectl get pods --watch &
-        KWPID=$!
-        kubectl wait --timeout=7m --all=true --for=condition=Available deploy && kill $KWPID
-        echo -n "Waiting for ESC Reindexing job to complete... "
-        kubectl wait --timeout=5m --for=condition=complete job/acs-alfresco-search-enterprise-reindexing
-        echo "Completed."
-
-    - name: Spit cluster status after install
-      if: always()
-      shell: bash
-      run: |
-        helm ls --all-namespaces --all
-        helm status acs --show-resources
-        kubectl describe pod
+    - name: Wait for pods to be ready
+      uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-wait@v8.15.0
