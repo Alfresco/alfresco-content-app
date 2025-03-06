@@ -1,14 +1,17 @@
 {
   "ACA_FOLDER_RULES": {
     "ACTIONS": {
-      "MANAGE_RULES": "Zarządzaj regułami"
+      "MANAGE_RULES": "Zarządzaj regułami",
+      "GO_BACK": "Cofnij"
     },
     "EDIT_RULE_DIALOG": {
       "CANCEL": "Anuluj",
+      "CLOSE": "Zamknij",
       "CREATE": "Utwórz",
       "CREATE_TITLE": "Utwórz regułę",
       "UPDATE": "Aktualizuj",
-      "UPDATE_TITLE": "Edytuj regułę"
+      "UPDATE_TITLE": "Edytuj regułę",
+      "OPEN_ACTION_MENU": "Otwórz menu działania"
     },
     "RULE_DETAILS": {
       "LABEL": {
@@ -121,6 +124,7 @@
       "LOAD_MORE_RULE_SETS": "Wczytaj reguły z innych folderów",
       "LOAD_MORE_RULES": "Wczytaj więcej reguł",
       "LOADING_RULES": "Wczytywanie reguł",
+      "TOGGLE_RULE_STATE": "Przełącz status włączonej reguły",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "Odziedziczone reguły zostaną wykonane najpierw",
       "ALL_LINKED_RULES_ARE_DISABLED": "Wszystkie reguły z łączem z tego zbioru reguł są wyłączone"
     },

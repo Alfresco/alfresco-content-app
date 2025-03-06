@@ -15,9 +15,7 @@
             "id": "app.toolbar.rules.separator",
             "type": "separator",
             "rules": {
-              "visible": [
-                "app.selection.folder"
-              ]
+              "visible": "app.selection.folder"
             }
           },
           {
@@ -26,9 +24,7 @@
             "description": "ACA_FOLDER_RULES.MENU.CREATE_RULES_DESC",
             "icon": "add",
             "rules": {
-              "visible": [
-                "rules.canCreateFolderRule"
-              ]
+              "visible": "rules.canCreateFolderRule"
             }
           },
           {
@@ -37,9 +33,7 @@
             "description": "ACA_FOLDER_RULES.MENU.LINK_RULES_DESC",
             "icon": "link",
             "rules": {
-              "visible": [
-                "rules.canLinkFolderRule"
-              ]
+              "visible": "rules.canLinkFolderRule"
             }
           }
         ]
@@ -51,9 +45,7 @@
         "id": "app.toolbar.rules.separator",
         "type": "separator",
         "rules": {
-          "visible": [
-            "app.selection.folder"
-          ]
+          "visible": "app.selection.folder"
         }
       },
       {
@@ -62,9 +54,7 @@
         "description": "ACA_FOLDER_RULES.MENU.CREATE_RULES_DESC",
         "icon": "add",
         "rules": {
-          "visible": [
-            "rules.canCreateFolderRule"
-          ]
+          "visible": "rules.canCreateFolderRule"
         }
       },
       {
@@ -73,9 +63,7 @@
         "description": "ACA_FOLDER_RULES.MENU.LINK_RULES_DESC",
         "icon": "link",
         "rules": {
-          "visible": [
-            "rules.canLinkFolderRule"
-          ]
+          "visible": "rules.canLinkFolderRule"
         }
       }
     ]

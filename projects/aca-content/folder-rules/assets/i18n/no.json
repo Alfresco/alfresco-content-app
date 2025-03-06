@@ -1,14 +1,17 @@
 {
   "ACA_FOLDER_RULES": {
     "ACTIONS": {
-      "MANAGE_RULES": "Administrer regler"
+      "MANAGE_RULES": "Administrer regler",
+      "GO_BACK": "Gå tilbake"
     },
     "EDIT_RULE_DIALOG": {
       "CANCEL": "Avbryt",
+      "CLOSE": "Lukk",
       "CREATE": "Opprett",
       "CREATE_TITLE": "Opprett en regel",
       "UPDATE": "Oppdater",
-      "UPDATE_TITLE": "Rediger en regel"
+      "UPDATE_TITLE": "Rediger en regel",
+      "OPEN_ACTION_MENU": "Åpne aktivitetsmeny"
     },
     "RULE_DETAILS": {
       "LABEL": {
@@ -121,6 +124,7 @@
       "LOAD_MORE_RULE_SETS": "Last regler fra andre mapper",
       "LOAD_MORE_RULES": "Last flere regler",
       "LOADING_RULES": "Laster regler",
+      "TOGGLE_RULE_STATE": "Veksle regelaktivert status",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "Arvede regler vil bli kjørt først",
       "ALL_LINKED_RULES_ARE_DISABLED": "Alle regler som er koblet fra dette regelsettet, er deaktivert"
     },

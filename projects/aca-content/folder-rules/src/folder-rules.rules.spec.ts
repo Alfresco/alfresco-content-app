@@ -22,7 +22,9 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { isFolderRulesEnabled } from './folder-rules.rules';
+import { AcaRuleContext } from '@alfresco/aca-shared/rules';
+import { canManageFolderRules, isFolderRulesEnabled } from './folder-rules.rules';
+import { NodeEntry } from '@alfresco/js-api';
 
 describe('Folder Rules Visibility Rules', () => {
   describe('isFolderRulesEnabled', () => {
@@ -46,6 +48,46 @@ describe('Folder Rules Visibility Rules', () => {
 
       const result = isFolderRulesEnabled(context);
       expect(result).toEqual(false);
+    });
+  });
+
+  describe('canManageFolderRules', () => {
+    let context: AcaRuleContext;
+
+    beforeEach(() => {
+      context = {
+        appConfig: {
+          get: () => true
+        },
+        selection: {
+          folder: {} as any
+        },
+        navigation: {
+          url: '/personal-files'
+        },
+        permissions: {
+          check: () => true
+        }
+      } as any;
+    });
+
+    it('should allow creating a rule for the selected folder', () => {
+      const result = canManageFolderRules(context);
+      expect(result).toEqual(true);
+    });
+
+    it('should not allow creating a rule if no folder selected', () => {
+      context.selection.folder = null;
+
+      const result = canManageFolderRules(context);
+      expect(result).toEqual(false);
+    });
+
+    it('should not allow creating a rule if the selected node is a smart folder', () => {
+      context.selection.first = { entry: { aspectNames: ['smf:customConfigSmartFolder'], isFolder: true } } as NodeEntry;
+      const result = canManageFolderRules(context);
+
+      expect(result).toBe(false);
     });
   });
 });

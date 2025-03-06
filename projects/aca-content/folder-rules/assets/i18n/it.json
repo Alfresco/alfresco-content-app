@@ -1,14 +1,17 @@
 {
   "ACA_FOLDER_RULES": {
     "ACTIONS": {
-      "MANAGE_RULES": "Gestisci regole"
+      "MANAGE_RULES": "Gestisci regole",
+      "GO_BACK": "Torna indietro"
     },
     "EDIT_RULE_DIALOG": {
       "CANCEL": "Annulla",
+      "CLOSE": "Chiudi",
       "CREATE": "Crea",
       "CREATE_TITLE": "Crea una regola",
       "UPDATE": "Aggiorna",
-      "UPDATE_TITLE": "Modifica una regola"
+      "UPDATE_TITLE": "Modifica una regola",
+      "OPEN_ACTION_MENU": "Apri menu delle azioni"
     },
     "RULE_DETAILS": {
       "LABEL": {
@@ -121,6 +124,7 @@
       "LOAD_MORE_RULE_SETS": "Carica regole da altre cartelle",
       "LOAD_MORE_RULES": "Carica altre regole",
       "LOADING_RULES": "Caricamento delle regole in corso",
+      "TOGGLE_RULE_STATE": "Attiva/Disattiva stato attivato da regola",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "Le regole ereditate verranno eseguite per prime",
       "ALL_LINKED_RULES_ARE_DISABLED": "Tutte le regole collegate a questo set di regole verranno disabilitate"
     },

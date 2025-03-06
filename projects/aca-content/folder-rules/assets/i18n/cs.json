@@ -1,14 +1,17 @@
 {
   "ACA_FOLDER_RULES": {
     "ACTIONS": {
-      "MANAGE_RULES": "Správa pravidel"
+      "MANAGE_RULES": "Správa pravidel",
+      "GO_BACK": "Přejít zpět"
     },
     "EDIT_RULE_DIALOG": {
       "CANCEL": "Zrušit",
+      "CLOSE": "Zavřít",
       "CREATE": "Vytvořit",
       "CREATE_TITLE": "Vytvořit pravidlo",
       "UPDATE": "Aktualizovat",
-      "UPDATE_TITLE": "Upravit pravidlo"
+      "UPDATE_TITLE": "Upravit pravidlo",
+      "OPEN_ACTION_MENU": "Otevřít nabídku akcí"
     },
     "RULE_DETAILS": {
       "LABEL": {
@@ -121,6 +124,7 @@
       "LOAD_MORE_RULE_SETS": "Načíst pravidla z jiných složek",
       "LOAD_MORE_RULES": "Načíst více pravidel",
       "LOADING_RULES": "Načítání pravidel",
+      "TOGGLE_RULE_STATE": "Přepnout stav povolení pravidla",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "Jako první budou spuštěna zděděná pravidla",
       "ALL_LINKED_RULES_ARE_DISABLED": "Všechna pravidla, na která byl vytvořen odkaz z tohoto souboru pravidel, jsou zakázaná"
     },

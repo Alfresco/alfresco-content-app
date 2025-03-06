@@ -1,14 +1,17 @@
 {
   "ACA_FOLDER_RULES": {
     "ACTIONS": {
-      "MANAGE_RULES": "Hantera regler"
+      "MANAGE_RULES": "Hantera regler",
+      "GO_BACK": "Gå tillbaka"
     },
     "EDIT_RULE_DIALOG": {
       "CANCEL": "Avbryt",
+      "CLOSE": "Stäng",
       "CREATE": "Skapa",
       "CREATE_TITLE": "Skapa en regel",
       "UPDATE": "Uppdatera",
-      "UPDATE_TITLE": "Redigera en regel"
+      "UPDATE_TITLE": "Redigera en regel",
+      "OPEN_ACTION_MENU": "Öppna åtgärdsmenyn"
     },
     "RULE_DETAILS": {
       "LABEL": {
@@ -121,6 +124,7 @@
       "LOAD_MORE_RULE_SETS": "Läs in regler från andra mappar",
       "LOAD_MORE_RULES": "Ladda fler regler",
       "LOADING_RULES": "Laddar regler",
+      "TOGGLE_RULE_STATE": "Växla status för aktiverad regel",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "Ärvda regler körs först",
       "ALL_LINKED_RULES_ARE_DISABLED": "Alla regler som är länkade från den här regeluppsättningen är inaktiverade"
     },

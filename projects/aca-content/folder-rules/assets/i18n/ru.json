@@ -1,14 +1,17 @@
 {
   "ACA_FOLDER_RULES": {
     "ACTIONS": {
-      "MANAGE_RULES": "Управление правилами"
+      "MANAGE_RULES": "Управление правилами",
+      "GO_BACK": "Назад"
     },
     "EDIT_RULE_DIALOG": {
       "CANCEL": "Отмена",
+      "CLOSE": "Закрыть",
       "CREATE": "Создать",
       "CREATE_TITLE": "Создать правило",
       "UPDATE": "Обновить",
-      "UPDATE_TITLE": "Редактировать правило"
+      "UPDATE_TITLE": "Редактировать правило",
+      "OPEN_ACTION_MENU": "Открыть меню действий"
     },
     "RULE_DETAILS": {
       "LABEL": {
@@ -121,6 +124,7 @@
       "LOAD_MORE_RULE_SETS": "Загрузить правила из других папок",
       "LOAD_MORE_RULES": "Загрузить другие правила",
       "LOADING_RULES": "Загрузка правил",
+      "TOGGLE_RULE_STATE": "Переключить состояние включенного правила",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "Унаследованные правила будут выполняться в первую очередь",
       "ALL_LINKED_RULES_ARE_DISABLED": "Все правила, привязанные из этого набора правил, отключены"
     },

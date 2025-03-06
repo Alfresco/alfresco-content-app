@@ -150,6 +150,11 @@
                             "TOOLTIP": "Accéder à mes bibliothèques favorites"
                         }
                     }
+                },
+                "ERRORS": {
+                    "LIBRARY_NOT_FOUND": "This library no longer exists.",
+                    "LIBRARY_NO_PERMISSIONS": "You do not have permission to view this library.",
+                    "LIBRARY_LOADING_ERROR": "There was some problem during loading this library."
                 }
             },
             "SHARED": {
@@ -300,7 +305,7 @@
             "EDIT_OFFLINE_CANCEL": "Annuler l'édition",
             "CHANGE_ASPECT": "Modifier les aspects",
             "ADD_ASPECTS": "Ajouter des aspects",
-            "FOLDER_INFO": "Folder Information"
+            "FOLDER_INFO": "Informations sur le dossier"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -454,17 +459,17 @@
             "EXPAND_NAVIGATION": "Agrandir le menu de navigation"
         },
         "FOLDER_INFO": {
-            "ICON": "Folder Icon",
-            "TITLE": "Folder Information",
-            "SIZE": "Size",
-            "CALCULATING": "Calculating...",
-            "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} on disk) for {{count}} files",
-            "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes for {{count}} files",
-            "LOCATION": "Location",
-            "CREATED": "Created",
-            "MODIFIED": "Modified",
-            "DONE": "Done",
-            "ERROR": "Something went wrong, please close this dialog and try again"
+            "ICON": "Icône de dossier",
+            "TITLE": "Informations sur le dossier",
+            "SIZE": "Taille",
+            "CALCULATING": "Calcul en cours…",
+            "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} octets ({{sizeInLargeUnit}} {{unit}} sur le disque) pour {{count}} fichiers",
+            "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} octets pour {{count}} fichiers",
+            "LOCATION": "Emplacement",
+            "CREATED": "Créé",
+            "MODIFIED": "Modifié",
+            "DONE": "Terminé",
+            "ERROR": "Une erreur s’est produite, veuillez fermer cette boîte de dialogue et réessayer ultérieurement"
         }
     },
     "NODE_SELECTOR": {
@@ -577,6 +582,9 @@
             "TYPE": "Type",
             "MODIFIER": "Modificateur",
             "CREATE_DATE": "Date de création"
+        },
+        "CLOSE_BUTTON": {
+            "ARIA_LABEL": "Fermer la recherche"
         },
         "FACET_FIELDS": {
             "CREATOR": "Créateur",

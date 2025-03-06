@@ -150,6 +150,11 @@
                             "TOOLTIP": "访问我的收藏库"
                         }
                     }
+                },
+                "ERRORS": {
+                    "LIBRARY_NOT_FOUND": "This library no longer exists.",
+                    "LIBRARY_NO_PERMISSIONS": "You do not have permission to view this library.",
+                    "LIBRARY_LOADING_ERROR": "There was some problem during loading this library."
                 }
             },
             "SHARED": {
@@ -300,7 +305,7 @@
             "EDIT_OFFLINE_CANCEL": "取消编辑",
             "CHANGE_ASPECT": "编辑纵横比",
             "ADD_ASPECTS": "添加新的方面",
-            "FOLDER_INFO": "Folder Information"
+            "FOLDER_INFO": "文件夹信息"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -454,17 +459,17 @@
             "EXPAND_NAVIGATION": "展开导航菜单"
         },
         "FOLDER_INFO": {
-            "ICON": "Folder Icon",
-            "TITLE": "Folder Information",
-            "SIZE": "Size",
-            "CALCULATING": "Calculating...",
-            "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} on disk) for {{count}} files",
-            "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes for {{count}} files",
-            "LOCATION": "Location",
-            "CREATED": "Created",
-            "MODIFIED": "Modified",
-            "DONE": "Done",
-            "ERROR": "Something went wrong, please close this dialog and try again"
+            "ICON": "文件夹图标",
+            "TITLE": "文件夹信息",
+            "SIZE": "大小",
+            "CALCULATING": "正在计算…",
+            "CALCULATED_SIZE_LARGE": "{{count}} 文件为 {{sizeInBytes}} 字节（磁盘中为 {{sizeInLargeUnit}} {{unit}})",
+            "CALCULATED_SIZE_NORMAL": "{{count}} 文件为 {{sizeInBytes}} 字节",
+            "LOCATION": "位置",
+            "CREATED": "已创建",
+            "MODIFIED": "更改过的",
+            "DONE": "完成",
+            "ERROR": "出现错误，请关闭此对话框并重试"
         }
     },
     "NODE_SELECTOR": {
@@ -577,6 +582,9 @@
             "TYPE": "类型",
             "MODIFIER": "修改者",
             "CREATE_DATE": "创建日期"
+        },
+        "CLOSE_BUTTON": {
+            "ARIA_LABEL": "关闭搜索"
         },
         "FACET_FIELDS": {
             "CREATOR": "创建者",

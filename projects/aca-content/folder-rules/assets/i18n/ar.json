@@ -1,21 +1,24 @@
 {
   "ACA_FOLDER_RULES": {
     "ACTIONS": {
-      "MANAGE_RULES": "إدارة القواعد"
+      "MANAGE_RULES": "إدارة القواعد",
+      "GO_BACK": "الرجوع"
     },
     "EDIT_RULE_DIALOG": {
       "CANCEL": "إلغاء",
+      "CLOSE": "إغلاق",
       "CREATE": "إنشاء",
       "CREATE_TITLE": "إنشاء قاعدة",
       "UPDATE": "تحديث",
-      "UPDATE_TITLE": "تحرير قاعدة"
+      "UPDATE_TITLE": "تحرير قاعدة",
+      "OPEN_ACTION_MENU": "فتح قائمة الإجراءات"
     },
     "RULE_DETAILS": {
       "LABEL": {
         "NAME": "الاسم",
         "DESCRIPTION": "الوصف",
         "WHEN": "متي",
-        "PERFORM_ACTIONS": "نفذ الإجراءات",
+        "PERFORM_ACTIONS": "تنفيذ الإجراءات",
         "OPTIONS": "خيارات أخرى"
       },
       "PLACEHOLDER": {
@@ -31,7 +34,7 @@
         "INSUFFICIENT_TRIGGERS_SELECTED": "مطلوب مشغل واحد على الأقل"
       },
       "TRIGGERS": {
-        "INBOUND": "يتم إنشاء العناصر أو الدخول إلى هذا المجلد",
+        "INBOUND": "يتم إنشاء العناصر أو إدخالها إلى هذا المجلد",
         "UPDATE": "تم تحديث العناصر",
         "OUTBOUND": "تم حذف العناصر أو ترك هذا المجلد"
       },
@@ -40,7 +43,7 @@
         "IS_ASYNCHRONOUS": "تشغيل القاعدة في الخلفية",
         "DISABLE_RULE": "تعطيل القاعدة",
         "ERROR_SCRIPT": "في حالة حدوث أخطاء قم بتشغيل البرنامج النصي",
-        "NO_SCRIPT": "بلا"
+        "NO_SCRIPT": "لا يوجد"
       },
       "COMPARATORS": {
         "EQUALS": "(=) يساوي",
@@ -96,7 +99,7 @@
           "LINK_RULES": "قواعد الارتباط",
           "EDIT_RULE": "تحرير",
           "SEE_IN_FOLDER": "انظر في المجلد",
-          "INHERIT_RULES": "ترث القواعد"
+          "INHERIT_RULES": "توريث القواعد"
         }
       },
       "EMPTY_RULES_LIST": {
@@ -121,6 +124,7 @@
       "LOAD_MORE_RULE_SETS": "قواعد التحميل من المجلدات الأخرى",
       "LOAD_MORE_RULES": "تحميل المزيد من القواعد",
       "LOADING_RULES": "قواعد التحميل",
+      "TOGGLE_RULE_STATE": "تبادل حالة تفعيل القاعدة",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "سيتم تشغيل القواعد الموروثة أولاً",
       "ALL_LINKED_RULES_ARE_DISABLED": "تم تعطيل جميع القواعد المرتبطة من مجموعة القواعد هذه"
     },
