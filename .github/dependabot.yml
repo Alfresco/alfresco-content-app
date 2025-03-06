@@ -61,3 +61,12 @@ updates:
       github-actions:
         patterns:
           - "*"
+
+  - package-ecosystem: "github-actions"
+    directory: "/.github/actions/deploy-local-acs"
+    schedule:
+      interval: "monthly"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
