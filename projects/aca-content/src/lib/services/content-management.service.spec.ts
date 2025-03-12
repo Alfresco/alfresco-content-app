@@ -1882,4 +1882,80 @@ describe('ContentManagementService', () => {
       });
     });
   });
+
+  describe('addFavorite and removeFavorite', () => {
+    const fakeNode1: NodeEntry = {
+      entry: {
+        id: 'folder-node1-id',
+        name: 'mock-folder1-name',
+        isFolder: true,
+        isFile: false,
+        isFavorite: false
+      } as Node
+    };
+
+    const fakeNode2: NodeEntry = {
+      entry: {
+        id: 'folder-node2-id',
+        name: 'mock-folder2-name',
+        isFolder: true,
+        isFile: false,
+        isFavorite: false
+      } as Node
+    };
+
+    it('should call proper content api and display proper snackbar message if one node is provided for addFavorite', () => {
+      spyOn(contentApi, 'addFavorite').and.returnValue(of({ entry: { targetGuid: '', target: '' } }));
+      spyOn(store, 'dispatch');
+
+      contentManagementService.addFavorite([fakeNode1]);
+
+      expect(contentApi.addFavorite).toHaveBeenCalledWith([fakeNode1]);
+      expect(store.dispatch).toHaveBeenCalledWith(new SnackbarInfoAction('APP.MESSAGES.INFO.FAVORITE_NODE_ADDED', { name: 'mock-folder1-name' }));
+    });
+
+    it('should call proper content api and display proper snackbar message if more than one node is provided for addFavorite', () => {
+      spyOn(contentApi, 'addFavorite').and.returnValue(of({ entry: { targetGuid: '', target: '' } }));
+      spyOn(store, 'dispatch');
+
+      contentManagementService.addFavorite([fakeNode1, fakeNode2]);
+
+      expect(contentApi.addFavorite).toHaveBeenCalledWith([fakeNode1, fakeNode2]);
+      expect(store.dispatch).toHaveBeenCalledWith(new SnackbarInfoAction('APP.MESSAGES.INFO.FAVORITE_NODES_ADDED', { number: 2 }));
+    });
+
+    it('should call proper content api and display proper snackbar message if one node is provided for removeFavorite', () => {
+      spyOn(contentApi, 'removeFavorite').and.returnValue(of({}));
+      spyOn(store, 'dispatch');
+
+      contentManagementService.removeFavorite([fakeNode1]);
+
+      expect(contentApi.removeFavorite).toHaveBeenCalledWith([fakeNode1]);
+      expect(store.dispatch).toHaveBeenCalledWith(new SnackbarInfoAction('APP.MESSAGES.INFO.FAVORITE_NODE_REMOVED', { name: 'mock-folder1-name' }));
+    });
+
+    it('should call proper content api and display proper snackbar message if more than one node is provided for removeFavorite', () => {
+      spyOn(contentApi, 'removeFavorite').and.returnValue(of({}));
+      spyOn(store, 'dispatch');
+
+      contentManagementService.removeFavorite([fakeNode1, fakeNode2]);
+
+      expect(contentApi.removeFavorite).toHaveBeenCalledWith([fakeNode1, fakeNode2]);
+      expect(store.dispatch).toHaveBeenCalledWith(new SnackbarInfoAction('APP.MESSAGES.INFO.FAVORITE_NODES_REMOVED', { number: 2 }));
+    });
+
+    it('should display snackbar error message when removeFavorite api fails', () => {
+      spyOn(contentApi, 'removeFavorite').and.returnValue(
+        throwError(() => new Error(JSON.stringify({ error: { statusCode: 404, briefSummary: ' relationship id of folder-node2-id' } })))
+      );
+      spyOn(store, 'dispatch');
+
+      contentManagementService.removeFavorite([fakeNode1, fakeNode2]);
+
+      expect(contentApi.removeFavorite).toHaveBeenCalledWith([fakeNode1, fakeNode2]);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new SnackbarErrorAction('APP.MESSAGES.INFO.FAVORITE_NODE_NOT_FOUND', { name: 'mock-folder2-name' })
+      );
+    });
+  });
 });
