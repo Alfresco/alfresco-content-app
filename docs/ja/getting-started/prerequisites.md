@@ -13,5 +13,5 @@ nav: ja
 
 **注:** ソースコードからローカルにビルドするには、[Node.js](https://nodejs.org/ja/) (LTS) もインストールする必要があります。
 
-アプリケーションは最新の [REST API](https://docs.alfresco.com/5.2/pra/1/topics/pra-welcome.html) を使用して開発されているため、
+アプリケーションは最新の [REST API](https://api-explorer.alfresco.com/api-explorer/) を使用して開発されているため、
 Alfresco Content プラットフォームの最新バージョンが必要です。

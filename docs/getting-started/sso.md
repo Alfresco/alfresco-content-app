@@ -7,7 +7,7 @@ Title: Single Sign-On
 Besides Basic Authentication, you can use Content Application with:
 
 - [Keycloak](https://www.keycloak.org/)
-- [Identity Service](https://docs.alfresco.com/identity1.0/concepts/identity-overview.html)
+- [Identity Service](https://support.hyland.com/r/Alfresco/Alfresco-Process-Services/24.3/Alfresco-Process-Services/Configure/Authentication/Identity-Service)
 - Kerberos
 
 The application contains reasonable defaults for Single Sign-On (aka SSO) setup.

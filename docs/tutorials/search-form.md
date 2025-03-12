@@ -26,7 +26,7 @@ In this tutorial, we are going to implement the following features:
 
 In order to learn more about :
 -The search UI configuration possibilities refer to the [ADF Search configuration documentation](https://github.com/Alfresco/alfresco-ng2-components/blob/develop/docs/user-guide/search-configuration-guide.md)
--The search Query configuration possibilities refer to the [Full text search reference documentation](https://docs.alfresco.com/search-services/latest/using/)
+-The search Query configuration possibilities refer to the [Full text search reference documentation](https://support.hyland.com/r/Alfresco/Alfresco-Search-Services/2.0/Alfresco-Search-Services/Using/Full-text-search-reference)
 
 ### Add a new search form
 
