@@ -29,7 +29,7 @@ import { FavoritePaging, NodePaging, SharedLinkPaging } from '@alfresco/js-api';
 import { ViewerService } from './viewer.service';
 import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 const list = {
   list: {
@@ -69,8 +69,14 @@ describe('ViewerService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), HttpClientModule],
-      providers: [{ provide: TranslationService, useClass: TranslationMock }, ViewerService, UserPreferencesService, ContentApiService]
+      imports: [TranslateModule.forRoot()],
+      providers: [
+        { provide: TranslationService, useClass: TranslationMock },
+        ViewerService,
+        UserPreferencesService,
+        ContentApiService,
+        provideHttpClient(withInterceptorsFromDi())
+      ]
     });
 
     preferences = TestBed.inject(UserPreferencesService);
