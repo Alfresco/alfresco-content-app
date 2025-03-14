@@ -26,7 +26,8 @@ import { AppConfigService } from '@alfresco/adf-core';
 import { TestBed } from '@angular/core/testing';
 import { PluginEnabledGuard } from './plugin-enabled.guard';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('PluginEnabledGuard', () => {
   let getSpy: jasmine.Spy<(key: string, defaultValue?: boolean) => boolean>;
@@ -34,7 +35,8 @@ describe('PluginEnabledGuard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule]
+      imports: [],
+      providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
     });
     getSpy = spyOn(TestBed.inject(AppConfigService), 'get');
     route = new ActivatedRouteSnapshot();
