@@ -1,0 +1,40 @@
+---
+Title: Changelog for alfresco-content-app v6.0.0
+---
+
+# Changelog
+
+- [0e7610919](git@github.com:Alfresco/alfresco-content-app/commit/0e7610919) [ACS-9371] Migrate docs from docs.alfresco to support.hyland (#4446)
+- [2a509abeb](git@github.com:Alfresco/alfresco-content-app/commit/2a509abeb) [ACS-9364] Update upload.e2e.ts tests to have proper expects (#4427)
+- [5bc0214e0](git@github.com:Alfresco/alfresco-content-app/commit/5bc0214e0) Bump tests environment to latest chart/tag (#4440)
+- [651212da6](git@github.com:Alfresco/alfresco-content-app/commit/651212da6) Use kubectl-wait action (#4437)
+- [c8850bcd1](git@github.com:Alfresco/alfresco-content-app/commit/c8850bcd1) Update angular/cli (#4433)
+- [2e6229b77](git@github.com:Alfresco/alfresco-content-app/commit/2e6229b77) [ACS-9346] Use visibility rules as array (#4430)
+- [2efea8c6d](git@github.com:Alfresco/alfresco-content-app/commit/2efea8c6d) Rollback visibility rules cleanup (#4426)
+- [4e37f194a](git@github.com:Alfresco/alfresco-content-app/commit/4e37f194a) [ACS-9225] serious a11y testing side bar elements must meet minimum color contrast ratio thresholds (#4425)
+- [9724f4625](git@github.com:Alfresco/alfresco-content-app/commit/9724f4625) [ACA-4735] Fix search input focus styles (#4418)
+- [03b5ac83c](git@github.com:Alfresco/alfresco-content-app/commit/03b5ac83c) [ACS-9291] [ACA] [E2E] Automate XAT-5488, XAT-5490 (#4405)
+- [b3e2af7f0](git@github.com:Alfresco/alfresco-content-app/commit/b3e2af7f0) [ACS-9369] Updated rule-migration-guide.md to include missed rule (#4420)
+- [4e33f1126](git@github.com:Alfresco/alfresco-content-app/commit/4e33f1126) [ACS-9369] Resolved issues where visibility rules with a single element array would log errors (#4416)
+- [34c52ac42](git@github.com:Alfresco/alfresco-content-app/commit/34c52ac42) [MNT-24892] Upgrade Node to 20 (#4415)
+- [0696ce82b](git@github.com:Alfresco/alfresco-content-app/commit/0696ce82b) [ACS-9344] change permissions error message for opening records management library (#4414)
+- [f1c4dcf45](git@github.com:Alfresco/alfresco-content-app/commit/f1c4dcf45) [ACS-8694] Cleanup of visibility rules for extensions in ACA (#4140)
+- [4751dcd12](git@github.com:Alfresco/alfresco-content-app/commit/4751dcd12) [ACS-9158] Remove &#39;View Details&#39; button from node Details page (#4351)
+- [c79904979](git@github.com:Alfresco/alfresco-content-app/commit/c79904979) [ACS-8782] list of frozen files under a hold (#4406)
+- [a99ca755e](git@github.com:Alfresco/alfresco-content-app/commit/a99ca755e) ACS-9201 create smoke test suite (#4361)
+- [261cdaebe](git@github.com:Alfresco/alfresco-content-app/commit/261cdaebe) [ACS-9266] Make notification and user menu accessible with keyboard (#4394)
+- [a70378bff](git@github.com:Alfresco/alfresco-content-app/commit/a70378bff) [ACS-6849][ACA] Upgrade to Angular 17 (#4275)
+- [b01381864](git@github.com:Alfresco/alfresco-content-app/commit/b01381864) [ACS-9187] [E2E] Fix XAT-5304 - file downloading is flaky (#4375)
+- [2093a7acc](git@github.com:Alfresco/alfresco-content-app/commit/2093a7acc) [ACS-9229] a11y testing: Search Page / Elements must only use supported ARIA attributes (#4383)
+- [5bd835716](git@github.com:Alfresco/alfresco-content-app/commit/5bd835716) AAE-30880 Remove usage of commonjs buffer package (#4379)
+- [6a5e89499](git@github.com:Alfresco/alfresco-content-app/commit/6a5e89499) [ACS-9235] a11y testing: Breadcrumbs / Back Arrow / Buttons must have discernible text (#4384)
+- [0446ef609](git@github.com:Alfresco/alfresco-content-app/commit/0446ef609) [ACS-9236] a11y testing: Create Rule - Buttons must have discernible text (#4381)
+- [85e0b4335](git@github.com:Alfresco/alfresco-content-app/commit/85e0b4335) [ACS-9228] a11y testing: Search Page / Buttons must have discernible text (#4376)
+- [e0fa9d6d5](git@github.com:Alfresco/alfresco-content-app/commit/e0fa9d6d5) [ACS-9213] Update license visible on login page from SSO (#4373)
+- [09636b377](git@github.com:Alfresco/alfresco-content-app/commit/09636b377) [ACS-9211] Update license headers (#4372)
+- [f01d6e161](git@github.com:Alfresco/alfresco-content-app/commit/f01d6e161) [ACS-9154] Fix unstable tests in ACA after migration to local ACS (#4341)
+- [75f25e974](git@github.com:Alfresco/alfresco-content-app/commit/75f25e974) [ACS-9083][ADW] Comment creation is available after document is retained (declared as record) (#4359)
+- [02caa7acb](git@github.com:Alfresco/alfresco-content-app/commit/02caa7acb) [ACS-9119] Saved Search navbar title now gets translated (#4356)
+- [3bfeca3b8](git@github.com:Alfresco/alfresco-content-app/commit/3bfeca3b8) [ACS-9166] Migrate Saved Searches to preferences API from config file (#4358)
+- [0286d08b6](git@github.com:Alfresco/alfresco-content-app/commit/0286d08b6) Post release version bump (#4357)
+
