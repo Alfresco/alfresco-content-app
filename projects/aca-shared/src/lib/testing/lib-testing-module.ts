@@ -27,7 +27,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoaderService, TranslationMock, TranslationService } from '@alfresco/adf-core';
 import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -93,10 +93,10 @@ export class DocumentBasePageServiceMock extends DocumentBasePageService {
 }
 
 @NgModule({
-  exports: [TranslateModule],
   imports: [
     NoopAnimationsModule,
     CommonModule,
+    HttpClientModule,
     RouterTestingModule,
     MatIconTestingModule,
     StoreModule,
@@ -119,10 +119,10 @@ export class DocumentBasePageServiceMock extends DocumentBasePageService {
       }
     })
   ],
+  exports: [TranslateModule],
   providers: [
     { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
-    { provide: TranslationService, useClass: TranslationMock },
-    provideHttpClient(withInterceptorsFromDi())
+    { provide: TranslationService, useClass: TranslationMock }
   ]
 })
 export class LibTestingModule {}

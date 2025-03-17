@@ -26,15 +26,15 @@ import { AppService } from './app.service';
 import { TestBed } from '@angular/core/testing';
 import {
   AuthenticationService,
-  NotificationService,
   PageTitleService,
-  StorageService,
   TranslationMock,
   TranslationService,
-  UserPreferencesService
+  UserPreferencesService,
+  NotificationService,
+  StorageService
 } from '@alfresco/adf-core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import {
   AlfrescoApiService,
   AlfrescoApiServiceMock,
@@ -73,7 +73,7 @@ describe('AppService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, TranslateModule.forRoot(), RouterTestingModule.withRoutes([]), MatDialogModule, MatSnackBarModule],
+      imports: [CommonModule, HttpClientModule, TranslateModule.forRoot(), RouterTestingModule.withRoutes([]), MatDialogModule, MatSnackBarModule],
       providers: [
         SearchQueryBuilderService,
         provideMockStore({}),
@@ -121,8 +121,7 @@ describe('AppService', () => {
             setStoragePrefix: () => null,
             getPropertyKey: (property: string) => `prefix__${property}`
           }
-        },
-        provideHttpClient(withInterceptorsFromDi())
+        }
       ]
     });
 
