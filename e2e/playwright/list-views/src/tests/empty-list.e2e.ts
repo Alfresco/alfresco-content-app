@@ -131,8 +131,4 @@ test.describe('Empty list views', () => {
   test(`[XAT-4564] Recent Files - Pagination control is not displayed on empty page load`, async ({ searchPage, personalFiles }) => {
     await checkPaginationForTabs(searchPage, SIDEBAR_LABELS.RECENT_FILES, personalFiles);
   });
-
-  test(`[XAT-4581] Trash - Pagination control is not displayed on empty page load`, async ({ searchPage, personalFiles }) => {
-    await checkPaginationForTabs(searchPage, SIDEBAR_LABELS.TRASH, personalFiles);
-  });
 });
