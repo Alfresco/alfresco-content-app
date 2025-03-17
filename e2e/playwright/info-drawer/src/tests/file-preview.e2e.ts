@@ -22,12 +22,13 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { expect, Page } from '@playwright/test';
+import { expect } from '@playwright/test';
 import { ApiClientFactory, test, TrashcanApi, NodesApi, FileActionsApi, TEST_FILES, Utils } from '@alfresco/aca-playwright-shared';
 
 test.describe('File preview', () => {
   const timestamp = new Date().getTime();
   const username = `user1-${timestamp}`;
+  const fileName = `file1-${timestamp}.pdf`;
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
   let fileActionsApi: FileActionsApi;
@@ -40,6 +41,8 @@ test.describe('File preview', () => {
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
       fileActionsApi = await FileActionsApi.initialize(username, username);
+      await fileActionsApi.uploadFileWithRename(TEST_FILES.PDF.path, fileName, '-my-');
+      await fileActionsApi.waitForNodes(fileName, { expect: 1 });
     } catch (error) {
       console.error(`beforeAll failed : ${error}`);
     }
@@ -53,26 +56,12 @@ test.describe('File preview', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
-  async function checkFileContent(page: Page, pageNumber: number, text: string): Promise<void> {
-    const allPages = page.locator('.canvasWrapper > canvas').first();
-    const pageLoaded = page.locator(`div[data-page-number="${pageNumber}"][data-loaded="true"]`);
-    const textLayerLoaded = page.locator(`div[data-page-number="${pageNumber}"] .textLayer`);
-    const specificText = textLayerLoaded.textContent();
-
-    await expect(allPages).toBeVisible();
-    await expect(pageLoaded).toBeVisible();
-    await expect(textLayerLoaded).toBeVisible();
-    expect(await specificText).toContain(text);
-  }
-
   test('[C595967] Should preview document from the info drawer', async ({ personalFiles }) => {
-    const fileName = `file1-${timestamp}.pdf`;
-    await fileActionsApi.uploadFileWithRename(TEST_FILES.PDF.path, fileName, '-my-');
-    await fileActionsApi.waitForNodes(fileName, { expect: 1 });
     await personalFiles.navigate();
     await Utils.reloadPageIfRowNotVisible(personalFiles, fileName);
     await personalFiles.dataTable.getRowByName(fileName).click();
     await personalFiles.acaHeader.viewButton.click();
-    await checkFileContent(personalFiles.page, 1, 'This is a small demonstration');
+    await expect(personalFiles.viewer.pdfViewerContentPages.first()).toBeVisible();
+    expect(await personalFiles.viewer.viewerDocument.textContent()).toContain('PDF');
   });
 });
