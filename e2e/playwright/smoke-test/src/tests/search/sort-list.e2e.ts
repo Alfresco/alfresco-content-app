@@ -108,7 +108,7 @@ test.describe('Remember sorting', () => {
     await nodeActionUser1.deleteCurrentUserNodes();
   });
 
-  test('[C261136] Sort order is retained when navigating to another part of the app', async ({ personalFiles, favoritePage }) => {
+  test('[XAT-4519] Sort order is retained when navigating to another part of the app', async ({ personalFiles, favoritePage }) => {
     await personalFiles.dataTable.sortBy('Name', 'desc');
     await personalFiles.dataTable.spinnerWaitForReload();
 
@@ -122,7 +122,7 @@ test.describe('Remember sorting', () => {
     expect(actualSortData).toEqual(expectedSortData);
   });
 
-  test('[C589205] Size sort order is retained after viewing a file and closing the viewer', async ({ personalFiles }) => {
+  test('[XAT-4526] Size sort order is retained after viewing a file and closing the viewer', async ({ personalFiles }) => {
     await personalFiles.dataTable.sortBy('Size', 'desc');
     await personalFiles.dataTable.spinnerWaitForReload();
     const expectedSortData = await getSortState(personalFiles);
@@ -135,7 +135,7 @@ test.describe('Remember sorting', () => {
     expect(actualSortData).toEqual(expectedSortData);
   });
 
-  test('[C261147] Sort order is retained when user changes the page from pagination', async ({ personalFiles }) => {
+  test('[XAT-4523] Sort order is retained when user changes the page from pagination', async ({ personalFiles }) => {
     const lastFileInArray = testData.user1.files.jpg.slice(-2).pop();
     const firstFileInArray = testData.user1.files.pdf[0];
 
@@ -170,7 +170,7 @@ test.describe('Remember sorting', () => {
       folderIds[folderToMove] = (await nodeActionUser1.createFolder(folderToMove)).entry.id;
     });
 
-    test('[C261138] Sort order is retained when creating a new folder', async ({ personalFiles }) => {
+    test('[XAT-4521] Sort order is retained when creating a new folder', async ({ personalFiles }) => {
       await personalFiles.dataTable.sortBy('Name', 'desc');
       await personalFiles.dataTable.spinnerWaitForReload();
 
@@ -188,7 +188,7 @@ test.describe('Remember sorting', () => {
       expect(actualSortData).toEqual(expectedSortData);
     });
 
-    test('[C261139] Sort order is retained when moving a file', async ({ personalFiles }) => {
+    test('[XAT-4522] Sort order is retained when moving a file', async ({ personalFiles }) => {
       const expectedSortData = {
         sortingColumn: await personalFiles.dataTable.getSortedColumnHeaderText(),
         sortingOrder: await personalFiles.dataTable.getSortingOrder(),

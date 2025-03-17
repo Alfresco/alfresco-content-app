@@ -102,14 +102,14 @@ test.describe('viewer file', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActionsAdmin, [docLibId]);
   });
 
-  test('[C279270] Viewer opens when clicking the View action for a file', async ({ personalFiles }) => {
+  test('[XAT-5472] Viewer opens when clicking the View action for a file', async ({ personalFiles }) => {
     await personalFiles.dataTable.getRowByName(randomDocxName).click();
     await personalFiles.acaHeader.viewButton.click();
     await personalFiles.dataTable.spinnerWaitForReload();
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
   });
 
-  test('[C279283] The viewer general elements are displayed', async ({ personalFiles }) => {
+  test('[XAT-5473] The viewer general elements are displayed', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
     expect(await personalFiles.viewer.isViewerOpened()).toBe(true);
     await personalFiles.dataTable.spinnerWaitForReload();
@@ -117,7 +117,7 @@ test.describe('viewer file', () => {
     expect(await personalFiles.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
   });
 
-  test('[C279271] Close the viewer', async ({ personalFiles }) => {
+  test('[XAT-5474] Close the viewer', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     expect(await personalFiles.viewer.getCloseButtonTooltip()).toEqual('Close');
@@ -125,7 +125,7 @@ test.describe('viewer file', () => {
     await expect(personalFiles.dataTable.getCellLinkByName(randomDocxName), 'Viewer did not close').toBeVisible();
   });
 
-  test('[C279285] Viewer opens when accessing the preview URL for a file', async ({ personalFiles }) => {
+  test('[XAT-5476] Viewer opens when accessing the preview URL for a file', async ({ personalFiles }) => {
     const previewURL = `#/personal-files/${folderId}/(viewer:view/${fileDocxId})`;
     await personalFiles.navigate({ remoteUrl: previewURL });
     await personalFiles.dataTable.spinnerWaitForReload();
@@ -133,7 +133,7 @@ test.describe('viewer file', () => {
     await expect(personalFiles.viewer.fileTitleButtonLocator).toHaveText(randomDocxName);
   });
 
-  test('[C279287] Viewer does not open when accessing the preview URL for a file without permissions', async ({ personalFiles }) => {
+  test('[XAT-5477] Viewer does not open when accessing the preview URL for a file without permissions', async ({ personalFiles }) => {
     const previewURL = `#/libraries/${docLibId}/(viewer:view/${fileAdminId})`;
     await personalFiles.navigate({ remoteUrl: `${previewURL}` });
     await expect(personalFiles.viewer.viewerLocator, 'Viewer should not be opened!').toBeHidden();

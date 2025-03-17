@@ -52,7 +52,7 @@ test.describe('viewer file', () => {
   });
 
   test.describe('with invalid credentials', () => {
-    test('[C213106] unauthenticated user is redirected to Login page', async ({ personalFiles }) => {
+    test('[XAT-4378] Unauthenticated user is redirected to Login page', async ({ personalFiles }) => {
       await personalFiles.navigate();
       expect(personalFiles.page.url()).toContain('login');
     });
