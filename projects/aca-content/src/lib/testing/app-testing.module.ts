@@ -25,25 +25,25 @@
 import { NgModule } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthenticationService, PageTitleService, TranslationMock, TranslationService } from '@alfresco/adf-core';
+import { TranslationService, TranslationMock, AuthenticationService, PageTitleService } from '@alfresco/adf-core';
 import { AlfrescoApiService, AlfrescoApiServiceMock, DiscoveryApiService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { RepositoryInfo, VersionInfo } from '@alfresco/js-api';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { appReducer } from '../store/reducers/app.reducer';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EffectsModule } from '@ngrx/effects';
 import { INITIAL_STATE } from '../store/initial-state';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { ContentManagementService } from '../services/content-management.service';
 import { DocumentBasePageService } from '@alfresco/aca-shared';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
-  exports: [RouterTestingModule, TranslateModule],
   imports: [
     NoopAnimationsModule,
+    HttpClientModule,
     RouterTestingModule,
     TranslateModule.forRoot(),
     StoreModule.forRoot(
@@ -60,6 +60,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatSnackBarModule,
     MatDialogModule
   ],
+  exports: [RouterTestingModule, TranslateModule],
   providers: [
     SearchQueryBuilderService,
     { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
@@ -95,8 +96,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     {
       provide: PageTitleService,
       useValue: {}
-    },
-    provideHttpClient(withInterceptorsFromDi())
+    }
   ]
 })
 export class AppTestingModule {}
