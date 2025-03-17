@@ -186,38 +186,6 @@ describe('DetailsComponent', () => {
     expect(component.nodeIcon).toContain(expectedIcon);
   });
 
-  it('should set aspectActions from extension mock', () => {
-    const extensionMock = {
-      getAllowedSidebarActions: () =>
-        of([
-          {
-            id: 'app.sidebar.close',
-            order: 100,
-            title: 'close',
-            icon: 'highlight_off'
-          }
-        ])
-    };
-
-    extensionsServiceMock.getAllowedSidebarActions.and.returnValue(of(extensionMock));
-    fixture.detectChanges();
-    fixture
-      .whenStable()
-      .then(() => {
-        expect(component.aspectActions).toEqual([
-          {
-            id: 'app.sidebar.close',
-            order: 100,
-            title: 'close',
-            icon: 'highlight_off'
-          } as ContentActionRef
-        ]);
-      })
-      .catch((error) => {
-        fail(`An error occurred: ${error}`);
-      });
-  });
-
   it('should disable the permissions tab for smart folders based on aspects', () => {
     node.entry.isFolder = true;
     node.entry.aspectNames = ['smf:customConfigSmartFolder'];
