@@ -76,7 +76,7 @@ test.describe('Search Results - General', () => {
     expect(await searchPage.dataTable.isItemPresent(site)).toBeFalsy();
   });
 
-  test('[XAT-5604] Files and folders are returned when both Files and Folders options are checked', async ({ searchPage }) => {
+  test('[XAT-5605] Files and folders are returned when both Files and Folders options are checked', async ({ searchPage }) => {
     await searchPage.searchWithin(`*${random}`, 'filesAndFolders');
 
     expect(await searchPage.dataTable.isItemPresent(file)).toBeTruthy();

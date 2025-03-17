@@ -81,7 +81,7 @@ test.describe('Library properties', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(undefined, undefined, 'afterAll failed', sitesApi, [site.id, siteForUpdate.id, siteDup]);
   });
 
-  test('[C289336] Info drawer opens for a library', async ({ myLibrariesPage }) => {
+  test('[XAT-5545] Info drawer opens for a library', async ({ myLibrariesPage }) => {
     await expectSiteToBeDefined(site.name, queriesApi);
     await expect(myLibrariesPage.dataTable.getRowByName(site.name)).toBeVisible();
     await myLibrariesPage.dataTable.getRowByName(site.name).click();
@@ -102,7 +102,7 @@ test.describe('Library properties', () => {
     await expect(myLibrariesPage.libraryDetails.editButton).toBeVisible();
   });
 
-  test('[C289338] Editable properties', async ({ myLibrariesPage }) => {
+  test('[XAT-5547] Editable properties', async ({ myLibrariesPage }) => {
     await expectSiteToBeDefined(site.name, queriesApi);
     await myLibrariesPage.dataTable.getRowByName(site.name).click();
     await myLibrariesPage.acaHeader.viewDetails.click();
@@ -120,7 +120,7 @@ test.describe('Library properties', () => {
     await expect(myLibrariesPage.libraryDetails.updateButton).toBeDisabled();
   });
 
-  test('[C289339] Edit site details', async ({ myLibrariesPage }) => {
+  test('[XAT-5548] Edit site details', async ({ myLibrariesPage }) => {
     const siteUpdated = {
       name: `site-for-rename-${Utils.random()}`,
       visibility: SITE_VISIBILITY.PRIVATE,
@@ -149,7 +149,7 @@ test.describe('Library properties', () => {
     expect((await sitesApi.getSite(siteForUpdate.id)).entry.visibility).toEqual(siteUpdated.visibility);
   });
 
-  test('[C289340] Cancel editing a site', async ({ myLibrariesPage }) => {
+  test('[XAT-5549] Cancel editing a site', async ({ myLibrariesPage }) => {
     await expectSiteToBeDefined(site.name, queriesApi);
     const newName = `new-name-${Utils.random}`;
     const newDesc = `new desc ${Utils.random}`;
@@ -172,7 +172,7 @@ test.describe('Library properties', () => {
     await expect(myLibrariesPage.libraryDetails.infoDrawerPanel).toBeVisible();
   });
 
-  test('[C289341] Warning appears when editing the name of the library by entering an existing name', async ({ myLibrariesPage }) => {
+  test('[XAT-5550] Warning appears when editing the name of the library by entering an existing name', async ({ myLibrariesPage }) => {
     await expectSiteToBeDefined(siteDup, queriesApi);
 
     await myLibrariesPage.dataTable.getRowByName(siteDup).click();
@@ -186,7 +186,7 @@ test.describe('Library properties', () => {
     await expect(myLibrariesPage.libraryDetails.hintMessage).toHaveText('Library name already in use');
   });
 
-  test('[C289342] Site name too long', async ({ myLibrariesPage }) => {
+  test('[XAT-5551] Site name too long', async ({ myLibrariesPage }) => {
     await expectSiteToBeDefined(site.name, queriesApi);
 
     await myLibrariesPage.dataTable.getRowByName(site.name).click();
@@ -200,7 +200,7 @@ test.describe('Library properties', () => {
     await expect(myLibrariesPage.libraryDetails.updateButton).toBeDisabled();
   });
 
-  test('[C289343] Site description too long', async ({ myLibrariesPage }) => {
+  test('[XAT-5552] Site description too long', async ({ myLibrariesPage }) => {
     await expectSiteToBeDefined(site.name, queriesApi);
 
     await Utils.reloadPageIfRowNotVisible(myLibrariesPage, site.name);
