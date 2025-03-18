@@ -91,14 +91,14 @@ test.describe('viewer file', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActionsAdmin, [docLibId]);
   });
 
-  test('[C279270] Open viewer with click action', async ({ personalFiles }) => {
+  test('[XAT-17736] Open viewer with click action', async ({ personalFiles }) => {
     await personalFiles.dataTable.getRowByName(randomDocxName).click();
     await personalFiles.acaHeader.viewButton.click();
     await personalFiles.dataTable.spinnerWaitForReload();
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
   });
 
-  test('[C279271] check for viewer to close', async ({ personalFiles }) => {
+  test('[XAT-17737] Check action for viewer to close', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     expect(await personalFiles.viewer.getCloseButtonTooltip()).toEqual('Close');
@@ -106,7 +106,7 @@ test.describe('viewer file', () => {
     await expect(personalFiles.dataTable.getCellLinkByName(randomDocxName), 'Viewer did not close').toBeVisible();
   });
 
-  test('[C279285] Viewer with preview URL', async ({ personalFiles }) => {
+  test('[XAT-17738] Viewer with preview URL', async ({ personalFiles }) => {
     const previewURL = `#/personal-files/${folderId}/(viewer:view/${fileDocxId})`;
     await personalFiles.navigate({ remoteUrl: previewURL });
     await personalFiles.dataTable.spinnerWaitForReload();
