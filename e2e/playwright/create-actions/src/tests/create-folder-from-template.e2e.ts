@@ -294,7 +294,7 @@ test.describe('Create folder from template', () => {
       });
 
       test('[C325145] Folder name ending with a dot', async () => {
-        await createFolderFromTemplateDialog.getDialogLabel(nameLabel).fill(dotString);
+        await createFolderFromTemplateDialog.getDialogLabel(nameLabel).fill(templateFolder1 + dotString);
         await createFolderFromTemplateDialog.page.keyboard.press(tabKeyString);
         await expect(createFolderFromTemplateDialog.getDialogLabel(nameLabel)).toHaveValue(templateFolder1 + dotString);
         expect
