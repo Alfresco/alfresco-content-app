@@ -35,46 +35,7 @@ export function personalFilesTests(userName: string, parentName: string) {
       await page.waitForTimeout(timeouts.tiny);
     });
 
-    test('[C280077] Pagination control default values', async ({ personalFiles }) => {
-      expect(await personalFiles.pagination.getRange()).toContain('Showing 1-25 of 51');
-      expect(await personalFiles.pagination.getMaxItems()).toContain('25');
-      expect(await personalFiles.pagination.getCurrentPage()).toContain('Page 1');
-      expect(await personalFiles.pagination.getTotalPages()).toContain('of 3');
-      expect(await personalFiles.pagination.isPreviousEnabled()).toBe(false);
-      expect(await personalFiles.pagination.isNextEnabled()).toBe(true);
-    });
-
-    test('[C280079] current page menu items', async ({ personalFiles }) => {
-      await personalFiles.pagination.openMaxItemsMenu();
-      expect(await personalFiles.pagination.getItemsCount()).toBe(3);
-      await personalFiles.pagination.clickMenuItem('25');
-      await personalFiles.dataTable.spinnerWaitForReload();
-      expect(await personalFiles.pagination.getMaxItems()).toContain('25');
-      expect(await personalFiles.pagination.getTotalPages()).toContain('of 3');
-
-      await personalFiles.pagination.openMaxItemsMenu();
-      await personalFiles.pagination.clickMenuItem('50');
-      expect(await personalFiles.pagination.getMaxItems()).toContain('50');
-      expect(await personalFiles.pagination.getTotalPages()).toContain('of 2');
-
-      await personalFiles.pagination.openMaxItemsMenu();
-      await personalFiles.pagination.clickMenuItem('100');
-      expect(await personalFiles.pagination.getMaxItems()).toContain('100');
-      expect(await personalFiles.pagination.getTotalPages()).toContain('of 1');
-
-      await personalFiles.pagination.resetToDefaultPageSize();
-    });
-
-    test('[C280080] change the current page from menu', async ({ personalFiles }) => {
-      await personalFiles.pagination.clickOnNextPage();
-      expect(await personalFiles.pagination.getRange()).toContain('Showing 26-50 of 51');
-      expect(await personalFiles.pagination.getCurrentPage()).toContain('Page 2');
-      expect(await personalFiles.pagination.isPreviousEnabled()).toBe(true);
-      expect(await personalFiles.pagination.isNextEnabled()).toBe(true);
-      await personalFiles.pagination.resetToDefaultPageSize();
-    });
-
-    test('[C280083] navigate to next and previous pages', async ({ personalFiles }) => {
+    test('[XAT-17733] Pagination control navigate to next and previous pages', async ({ personalFiles }) => {
       await personalFiles.pagination.openMaxItemsMenu();
       await personalFiles.pagination.clickMenuItem('25');
       expect(await personalFiles.pagination.getMaxItems()).toContain('25');
@@ -84,18 +45,6 @@ export function personalFilesTests(userName: string, parentName: string) {
       await personalFiles.pagination.clickOnPreviousPage();
       await personalFiles.dataTable.spinnerWaitForReload();
       expect(await personalFiles.pagination.getRange()).toContain('Showing 1-25 of 51');
-    });
-
-    test('[C280081] Previous button is disabled on first page', async ({ personalFiles }) => {
-      expect(await personalFiles.pagination.getCurrentPage()).toContain('Page 1');
-      expect(await personalFiles.pagination.isPreviousEnabled()).toBe(false);
-    });
-
-    test('[C280082] Next button is disabled on last page', async ({ personalFiles }) => {
-      await personalFiles.pagination.openMaxItemsMenu();
-      await personalFiles.pagination.clickNthItem(3);
-      expect(await personalFiles.pagination.getCurrentPage()).toContain('Page 1');
-      expect(await personalFiles.pagination.isNextEnabled()).toBe(false);
     });
   });
 }

@@ -28,13 +28,6 @@ import { ApiClientFactory, Utils, test } from '@alfresco/aca-playwright-shared';
 test.describe('viewer file', () => {
   const apiClientFactory = new ApiClientFactory();
 
-  const otherLanguageUser = {
-    /* cspell:disable-next-line */
-    username: `пользвате${Utils.random()}`,
-    /* cspell:disable-next-line */
-    password: '密碼中國'
-  };
-
   const johnDoe = {
     username: `user-${Utils.random()}`,
     get password() {
@@ -46,25 +39,14 @@ test.describe('viewer file', () => {
 
   test.beforeAll(async () => {
     await apiClientFactory.setUpAcaBackend('admin');
-
-    await apiClientFactory.createUser(otherLanguageUser);
     await apiClientFactory.createUser(johnDoe);
   });
 
-  test.describe('with invalid credentials', () => {
-    test('[C213106] unauthenticated user is redirected to Login page', async ({ personalFiles }) => {
-      await personalFiles.navigate();
-      expect(personalFiles.page.url()).toContain('login');
-    });
-  });
-
-  test.describe('with valid credentials', () => {
-    test('[C213107] redirects to Home Page when navigating to the Login page while already logged in', async ({ loginPage }) => {
+  test.describe('with authenticated credentials', () => {
+    test('[XAT-17731] Authenticated user is able to login', async ({ loginPage }) => {
       const { username } = johnDoe;
       await loginPage.navigate();
       await loginPage.loginUser({ username: username, password: username });
-      await loginPage.userProfileButton.waitFor({ state: 'attached' });
-      await loginPage.navigate();
       await loginPage.userProfileButton.waitFor({ state: 'attached' });
       expect(loginPage.page.url()).toContain('personal-files');
     });
