@@ -27,7 +27,7 @@ import { BaseComponent } from '../base.component';
 import { timeouts } from '../../../utils';
 
 export class CreateFromTemplateDialogComponent extends BaseComponent {
-  private static rootElement = 'app-create-from-template-dialog';
+  private static rootElement = 'mat-dialog-container';
 
   constructor(page: Page) {
     super(page, CreateFromTemplateDialogComponent.rootElement);
