@@ -103,6 +103,11 @@ export class ContentManagementService {
           return newNode;
         });
 
+        if (nodes.length > 1) {
+          this.store.dispatch(new SnackbarInfoAction('APP.MESSAGES.INFO.FAVORITE_NODES_ADDED', { number: nodes.length }));
+        } else {
+          this.store.dispatch(new SnackbarInfoAction('APP.MESSAGES.INFO.FAVORITE_NODE_ADDED', { name: nodes[0].entry.name }));
+        }
         this.store.dispatch(new SetSelectedNodesAction(favoriteNodes));
       });
     }
@@ -110,14 +115,28 @@ export class ContentManagementService {
 
   removeFavorite(nodes: Array<NodeEntry>) {
     if (nodes && nodes.length > 0) {
-      this.contentApi.removeFavorite(nodes).subscribe(() => {
-        const favoriteNodes = nodes.map((node) => {
-          const newNode = JSON.parse(JSON.stringify(node));
-          newNode.entry.isFavorite = false;
-          return newNode;
-        });
+      this.contentApi.removeFavorite(nodes).subscribe({
+        next: () => {
+          const favoriteNodes = nodes.map((node) => {
+            const newNode = JSON.parse(JSON.stringify(node));
+            newNode.entry.isFavorite = false;
+            return newNode;
+          });
 
-        this.store.dispatch(new SetSelectedNodesAction(favoriteNodes));
+          if (nodes.length > 1) {
+            this.store.dispatch(new SnackbarInfoAction('APP.MESSAGES.INFO.FAVORITE_NODES_REMOVED', { number: nodes.length }));
+          } else {
+            this.store.dispatch(new SnackbarInfoAction('APP.MESSAGES.INFO.FAVORITE_NODE_REMOVED', { name: nodes[0].entry.name }));
+          }
+          this.store.dispatch(new SetSelectedNodesAction(favoriteNodes));
+        },
+        error: (error) => {
+          if (JSON.parse(error.message).error.statusCode === 404) {
+            const nodeId = JSON.parse(error.message).error.briefSummary.split('relationship id of ')[1];
+            const nodeName = nodes.find((node) => node.entry.id === nodeId)?.entry.name;
+            this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.INFO.FAVORITE_NODE_NOT_FOUND', { name: nodeName }));
+          }
+        }
       });
     }
   }
