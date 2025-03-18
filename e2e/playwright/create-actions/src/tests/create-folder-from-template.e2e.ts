@@ -52,7 +52,7 @@ test.describe('Create folder from template', () => {
   let folderLink: string;
   const selectDialogTitle = 'Select a folder template';
   const dialogBreadcrumb = 'Space Templates';
-  const nameLabel = 'Name *';
+  const nameLabel = 'Name';
   const titleLabel = 'Title';
   const descriptionLabel = 'Description';
   const emptyString = '';

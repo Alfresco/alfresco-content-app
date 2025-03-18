@@ -51,7 +51,7 @@ test.describe('Create file from template', () => {
   let fileLink: string;
   const selectDialogTitle = 'Select a document template';
   const dialogBreadcrumb = 'Node Templates';
-  const nameLabel = 'Name *';
+  const nameLabel = 'Name';
   const titleLabel = 'Title';
   const descriptionLabel = 'Description';
   const emptyString = '';
