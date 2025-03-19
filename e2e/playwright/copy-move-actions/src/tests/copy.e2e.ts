@@ -82,7 +82,7 @@ test.describe('Copy actions', () => {
     }
   };
 
-  test('[C217135] Copy a file', async ({ personalFiles }) => {
+  test('[XAT-4941] Copy a file', async ({ personalFiles }) => {
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
     await copyContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
@@ -91,7 +91,7 @@ test.describe('Copy actions', () => {
     expect(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
   });
 
-  test('[C291888] Copy a folder with content', async ({ personalFiles }) => {
+  test('[XAT-4942] Copy a folder with content', async ({ personalFiles }) => {
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
     await copyContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
@@ -103,7 +103,7 @@ test.describe('Copy actions', () => {
     expect(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolder)).toBeTruthy();
   });
 
-  test('[C291889] Copy multiple items', async ({ personalFiles }) => {
+  test('[XAT-4943] Copy multiple items', async ({ personalFiles }) => {
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
     await copyContentInPersonalFiles(personalFiles, [sourceFolder, sourceFile], destinationFolder);
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
@@ -115,7 +115,7 @@ test.describe('Copy actions', () => {
     expect(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
   });
 
-  test('[C217137] Copy a file with a name that already exists on the destination', async ({ personalFiles }) => {
+  test('[XAT-4944] Copy a file with a name that already exists on the destination', async ({ personalFiles }) => {
     await nodesApi.createFile(sourceFile, destinationFolderId);
     const expectedNameForCopiedFile = sourceFile.replace('.', '-1.');
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
@@ -127,7 +127,7 @@ test.describe('Copy actions', () => {
     expect(await personalFiles.dataTable.isItemPresent(expectedNameForCopiedFile)).toBeTruthy();
   });
 
-  test('[C217138] Copy a folder with a name that already exists on the destination', async ({ personalFiles }) => {
+  test('[XAT-4945] Copy a folder with a name that already exists on the destination', async ({ personalFiles }) => {
     const existingFolderId = (await nodesApi.createFolder(sourceFolder, destinationFolderId)).entry.id;
     await nodesApi.createFile(sourceFileInsideFolder, existingFolderId);
     const expectedNameForCopiedFile = sourceFileInsideFolder.replace('.', '-1.');
@@ -143,7 +143,7 @@ test.describe('Copy actions', () => {
     expect(await personalFiles.dataTable.isItemPresent(expectedNameForCopiedFile)).toBeTruthy();
   });
 
-  test('[C217139] Copy locked file', async ({ personalFiles }) => {
+  test('[XAT-4947] Copy locked file', async ({ personalFiles }) => {
     const lockType = 'ALLOW_OWNER_CHANGES';
     await nodesApi.lockNodes([sourceFileId], lockType);
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
@@ -154,7 +154,7 @@ test.describe('Copy actions', () => {
     expect(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
   });
 
-  test('[C217140] Copy folder that contains locked file', async ({ personalFiles }) => {
+  test('[XAT-4948] Copy folder that contains locked file', async ({ personalFiles }) => {
     const lockType = 'ALLOW_OWNER_CHANGES';
     await nodesApi.lockNodes([sourceFileInsideFolderId], lockType);
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
@@ -168,7 +168,7 @@ test.describe('Copy actions', () => {
     expect(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolder)).toBeTruthy();
   });
 
-  test('[C217171] Undo copy of files', async ({ personalFiles }) => {
+  test('[XAT-4949] Undo copy of files', async ({ personalFiles }) => {
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
     await copyContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     await personalFiles.snackBar.actionButton.click();
@@ -178,7 +178,7 @@ test.describe('Copy actions', () => {
     expect(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeFalsy();
   });
 
-  test('[C217172] Undo copy of folders', async ({ personalFiles }) => {
+  test('[XAT-4950] Undo copy of folders', async ({ personalFiles }) => {
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
     await copyContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
     await personalFiles.snackBar.actionButton.click();
@@ -188,7 +188,7 @@ test.describe('Copy actions', () => {
     expect(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeFalsy();
   });
 
-  test('[C217173] Undo copy of a file when a file with same name already exists on the destination', async ({ personalFiles }) => {
+  test('[XAT-4951] Undo copy of a file when a file with same name already exists on the destination', async ({ personalFiles }) => {
     await nodesApi.createFile(sourceFile, destinationFolderId);
     const expectedNameForCopiedFile = sourceFile.replace('.', '-1.');
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
@@ -201,7 +201,7 @@ test.describe('Copy actions', () => {
     expect(await personalFiles.dataTable.isItemPresent(expectedNameForCopiedFile)).toBeFalsy();
   });
 
-  test('[C217174] Undo copy of a folder when a folder with same name already exists on the destination', async ({ personalFiles }) => {
+  test('[XAT-4952] Undo copy of a folder when a folder with same name already exists on the destination', async ({ personalFiles }) => {
     const existingFolderId = (await nodesApi.createFolder(sourceFolder, destinationFolderId)).entry.id;
     await nodesApi.createFile(sourceFileInsideFolder, existingFolderId);
     const expectedNameForCopiedFile = sourceFileInsideFolder.replace('.', '-1.');

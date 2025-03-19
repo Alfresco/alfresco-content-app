@@ -79,7 +79,7 @@ test.describe('Delete and undo delete', () => {
       await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
     });
 
-    test('[C217091] delete a file', async ({ trashPage }) => {
+    test('[XAT-5103] Permanently Delete a file', async ({ trashPage }) => {
       await trashPage.dataTable.selectItems(file1);
       await trashPage.acaHeader.permanentlyDeleteButton.click();
       await trashPage.deleteDialog.deleteButton.click();
@@ -88,7 +88,7 @@ test.describe('Delete and undo delete', () => {
       expect(await trashPage.dataTable.isItemPresent(file1)).toBeFalsy();
     });
 
-    test('[C280416] delete a folder', async ({ trashPage }) => {
+    test('[XAT-5104] Permanently delete a folder', async ({ trashPage }) => {
       await trashPage.dataTable.selectItems(folder1);
       await trashPage.acaHeader.permanentlyDeleteButton.click();
       await trashPage.deleteDialog.deleteButton.click();
@@ -97,7 +97,7 @@ test.describe('Delete and undo delete', () => {
       expect(await trashPage.dataTable.isItemPresent(folder1)).toBeFalsy();
     });
 
-    test('[C290103] delete a library', async ({ trashPage }) => {
+    test('[XAT-5108] Permanently delete a library', async ({ trashPage }) => {
       await trashPage.dataTable.selectItems(site);
       await trashPage.acaHeader.permanentlyDeleteButton.click();
       await trashPage.deleteDialog.deleteButton.click();
@@ -106,7 +106,7 @@ test.describe('Delete and undo delete', () => {
       expect(await trashPage.dataTable.isItemPresent(site)).toBeFalsy();
     });
 
-    test('[C280417] delete multiple items', async ({ trashPage }) => {
+    test('[XAT-5105] Permanently delete multiple items', async ({ trashPage }) => {
       await trashPage.dataTable.selectItems(file2, folder2);
       await trashPage.acaHeader.permanentlyDeleteButton.click();
       await trashPage.deleteDialog.deleteButton.click();
@@ -116,7 +116,7 @@ test.describe('Delete and undo delete', () => {
       expect(await trashPage.dataTable.isItemPresent(folder2)).toBeFalsy();
     });
 
-    test('[C269113] Confirmation dialog UI', async ({ trashPage }) => {
+    test('[XAT-5106] Permanently delete - Confirmation dialog UI', async ({ trashPage }) => {
       await trashPage.dataTable.selectItems(file3);
       await trashPage.acaHeader.permanentlyDeleteButton.click();
       await trashPage.deleteDialog.waitForDialog();
@@ -128,7 +128,7 @@ test.describe('Delete and undo delete', () => {
       expect(await trashPage.deleteDialog.isKeepEnabled()).toBeTruthy();
     });
 
-    test('[C269115] Keep action cancels the deletion', async ({ trashPage }) => {
+    test('[XAT-5107] ""Keep"" action cancels the deletion', async ({ trashPage }) => {
       await trashPage.dataTable.selectItems(file3);
       await trashPage.acaHeader.permanentlyDeleteButton.click();
       await trashPage.deleteDialog.waitForDialog();

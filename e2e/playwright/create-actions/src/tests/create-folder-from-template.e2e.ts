@@ -165,7 +165,7 @@ test.describe('Create folder from template', () => {
     });
 
     test.describe('Select Template dialog', () => {
-      test('[C325147] Select template - dialog UI - with existing templates', async () => {
+      test('[XAT-5252] Select template - dialog UI - with existing templates', async () => {
         await expect.soft(selectFolderTemplateDialog.getDialogTitle(selectDialogTitle)).toBeVisible();
         await expect.soft(selectFolderTemplateDialog.getBreadcrumb(dialogBreadcrumb)).toBeVisible();
         await expect.soft(dataTable.getRowByName(templateFolder1)).not.toBeEmpty();
@@ -176,12 +176,12 @@ test.describe('Create folder from template', () => {
         await expect(selectFolderTemplateDialog.actionButton).toBeDisabled();
       });
 
-      test(`[C325148] Templates don't appear if user doesn't have permissions to see them`, async () => {
+      test(`[XAT-5253] Templates don't appear if user doesn't have permissions to see them`, async () => {
         await expect(selectFolderTemplateDialog.getDialogTitle(selectDialogTitle)).toBeVisible();
         await expect(dataTable.getRowByName(restrictedTemplateFolder)).toBeHidden();
       });
 
-      test(`[C325149] Navigate through the templates list with folder hierarchy`, async () => {
+      test(`[XAT-5254] Navigate through the templates list with folder hierarchy`, async () => {
         await expect(selectFolderTemplateDialog.getBreadcrumb(dialogBreadcrumb)).toBeVisible();
         await expect(dataTable.getRowByName(templateFolder1)).toBeVisible();
 
@@ -199,7 +199,7 @@ test.describe('Create folder from template', () => {
         await expect(selectFolderTemplateDialog.getOptionLocator(dialogBreadcrumb)).toBeVisible();
       });
 
-      test(`[C325150] Templates list doesn't allow multiple selection`, async () => {
+      test(`[XAT-5255] Templates list doesn't allow multiple selection`, async () => {
         await expect(dataTable.getSelectedRow).toHaveCount(0);
 
         await dataTable.getRowByName(templateFolder1).click({ modifiers: [commandKey] });
@@ -212,19 +212,19 @@ test.describe('Create folder from template', () => {
         await expect(dataTable.getSelectedRow).toContainText(templateFolder2);
       });
 
-      test('[C325153] Links to folders are not displayed', async () => {
+      test('[XAT-5257] Links to folders are not displayed', async () => {
         await expect(dataTable.getRowByName(templateFolder1)).toBeVisible();
         await expect(dataTable.getRowByName(folderLink)).toBeHidden();
       });
 
-      test('[C325151] Cancel the Select template dialog', async () => {
+      test('[XAT-5258] Cancel the Select template dialog', async () => {
         await expect(selectFolderTemplateDialog.getDialogTitle(selectDialogTitle)).toBeVisible();
 
         await selectFolderTemplateDialog.cancelButton.click();
         await expect(selectFolderTemplateDialog.getDialogTitle(selectDialogTitle)).toBeHidden();
       });
 
-      test('[C325139] Next button is disabled when selecting a file', async () => {
+      test('[XAT-5256] Select Template - Next button is disabled when selecting a file', async () => {
         await expect(dataTable.getRowByName(fileInRootFolder)).toBeVisible();
         await expect(selectFolderTemplateDialog.actionButton).toBeDisabled();
 
@@ -252,7 +252,7 @@ test.describe('Create folder from template', () => {
         }
       });
 
-      test('[C325142] Create folder from template - dialog UI', async () => {
+      test('[XAT-5259] Create folder from template - dialog UI', async () => {
         await expect.soft(createFolderFromTemplateDialog.getDialogTitle(createDialogTitle)).toBeVisible();
         await expect.soft(createFolderFromTemplateDialog.getDialogLabel(nameLabel)).toBeVisible();
         await expect.soft(createFolderFromTemplateDialog.getDialogLabel(nameLabel)).toHaveValue(templateFolder1);
@@ -264,7 +264,7 @@ test.describe('Create folder from template', () => {
         await expect(createFolderFromTemplateDialog.createButton).toBeEnabled();
       });
 
-      test('[C325143] Folder name is required', async () => {
+      test('[XAT-5260] Folder name is required', async () => {
         await expect(createFolderFromTemplateDialog.getDialogLabel(nameLabel)).toHaveValue(templateFolder1);
 
         await createFolderFromTemplateDialog.getDialogLabel(nameLabel).clear();
@@ -276,7 +276,7 @@ test.describe('Create folder from template', () => {
         await expect(createFolderFromTemplateDialog.createButton).toBeDisabled();
       });
 
-      test('[C325144] Special characters in folder name', async () => {
+      test('[XAT-5261] Special characters in folder name', async () => {
         const nameWithSpecialChars = ['a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a'];
 
         for (const specialFolderName of nameWithSpecialChars) {
@@ -293,7 +293,7 @@ test.describe('Create folder from template', () => {
         }
       });
 
-      test('[C325145] Folder name ending with a dot', async () => {
+      test('[XAT-5262] Folder name ending with a dot', async () => {
         await createFolderFromTemplateDialog.getDialogLabel(nameLabel).fill(templateFolder1 + dotString);
         await createFolderFromTemplateDialog.page.keyboard.press(tabKeyString);
         await expect(createFolderFromTemplateDialog.getDialogLabel(nameLabel)).toHaveValue(templateFolder1 + dotString);
@@ -303,7 +303,7 @@ test.describe('Create folder from template', () => {
         await expect(createFolderFromTemplateDialog.createButton).toBeDisabled();
       });
 
-      test('[C325146] Folder name containing only spaces', async () => {
+      test('[XAT-5263] Folder name containing only spaces', async () => {
         await createFolderFromTemplateDialog.getDialogLabel(nameLabel).clear();
         await createFolderFromTemplateDialog.getDialogLabel(nameLabel).fill(spaceString);
         await createFolderFromTemplateDialog.page.keyboard.press(tabKeyString);
@@ -317,7 +317,7 @@ test.describe('Create folder from template', () => {
         await expect(createFolderFromTemplateDialog.createButton).toBeDisabled();
       });
 
-      test('[C325141] Title too long', async () => {
+      test('[XAT-5265] Folder title too long', async () => {
         await createFolderFromTemplateDialog.getDialogLabel(titleLabel).fill(Utils.string257Long);
         await createFolderFromTemplateDialog.page.keyboard.press(tabKeyString);
         await expect(createFolderFromTemplateDialog.getDialogLabel(titleLabel)).toHaveValue(Utils.string257Long);
@@ -327,7 +327,7 @@ test.describe('Create folder from template', () => {
         await expect(createFolderFromTemplateDialog.createButton).toBeDisabled();
       });
 
-      test('[C325140] Description too long', async () => {
+      test('[XAT-5264] Folder description too long', async () => {
         await createFolderFromTemplateDialog.getDialogLabel(descriptionLabel).fill(Utils.string513Long);
         await createFolderFromTemplateDialog.page.keyboard.press(tabKeyString);
         await expect(createFolderFromTemplateDialog.getDialogLabel(descriptionLabel)).toHaveValue(Utils.string513Long);
@@ -340,7 +340,7 @@ test.describe('Create folder from template', () => {
         await expect(createFolderFromTemplateDialog.createButton).toBeDisabled();
       });
 
-      test('[C325156] Create a folder with a duplicate name', async ({ personalFiles }) => {
+      test('[XAT-5268] Create a folder with a duplicate name', async ({ personalFiles }) => {
         const snackBar = personalFiles.snackBar;
 
         await createFolderFromTemplateDialog.createFromTemplateAction(commonFolderName);
@@ -348,7 +348,7 @@ test.describe('Create folder from template', () => {
         await expect(createFolderFromTemplateDialog.getDialogTitle(createDialogTitle)).toBeVisible();
       });
 
-      test('[C325155] Cancel folder creation', async () => {
+      test('[XAT-5269] Cancel folder creation', async () => {
         await expect(createFolderFromTemplateDialog.getDialogTitle(createDialogTitle)).toBeVisible();
         await createFolderFromTemplateDialog.cancelButton.click();
         await expect(createFolderFromTemplateDialog.getDialogTitle(createDialogTitle)).toBeHidden();
@@ -369,7 +369,7 @@ test.describe('Create folder from template', () => {
         }
       });
 
-      test('[C325157] Create a folder from a template - with a new Name', async () => {
+      test('[XAT-5266] Create a folder from a template - with a new Name', async () => {
         await createFolderFromTemplateDialog.createFromTemplateAction(randomFolderName);
         await dataTable.goThroughPagesLookingForRowWithName(randomFolderName);
         await expect(dataTable.getRowByName(randomFolderName)).toBeVisible();
@@ -379,13 +379,13 @@ test.describe('Create folder from template', () => {
         await expect(dataTable.getRowByName(fileInFolder1)).toBeVisible();
       });
 
-      test('[C325154] Create a folder from a template - with a Name, Title and Description', async () => {
+      test('[XAT-5267] Create a folder from a template - with a Name, Title and Description', async () => {
         await createFolderFromTemplateDialog.createFromTemplateAction(randomFolderName, randomFolderTitle, randomFolderDescription);
         await dataTable.goThroughPagesLookingForRowWithName(randomFolderName);
         await expect(dataTable.getCellLinkByName(randomFolderName)).toHaveAttribute(titleLabel, randomFolderTitle + `\n` + randomFolderDescription);
       });
 
-      test('[C325158] Trim spaces from folder Name', async () => {
+      test('[XAT-5270] Trim spaces from folder Name', async () => {
         await createFolderFromTemplateDialog.createFromTemplateAction('   ' + randomFolderName + '   ');
         await dataTable.goThroughPagesLookingForRowWithName(randomFolderName);
         await expect(dataTable.getRowByName(randomFolderName)).toBeVisible();
@@ -393,7 +393,7 @@ test.describe('Create folder from template', () => {
     });
   });
 
-  test.describe('Folder created from template on Personal Files Libraries', () => {
+  test.describe('Folder created from template on Libraries', () => {
     const randomLibraryName = `playwright-library-c1-${Utils.random()}`;
     let sitesApi: SitesApi;
 
@@ -404,7 +404,7 @@ test.describe('Create folder from template', () => {
         const libraryGuId = await sitesApi.getDocLibId(randomLibraryName);
         await nodesApi.createFolder(commonFolderName, libraryGuId);
       } catch (error) {
-        console.error(`Folder created from template on Personal Files Libraries, beforeAll failed : ${error}`);
+        console.error(`Folder created from template on Libraries, beforeAll failed : ${error}`);
       }
     });
 
@@ -438,7 +438,7 @@ test.describe('Create folder from template', () => {
       }
     });
 
-    test('[C325161] Create a folder from a template from library - with Name, Title and Description', async () => {
+    test('[XAT-5271] Create a folder from a template from library - with Name, Title and Description', async () => {
       await createFolderFromTemplateDialog.createFromTemplateAction(randomFolderName, randomFolderTitle, randomFolderDescription);
       await expect
         .soft(dataTable.getCellLinkByName(randomFolderName))
@@ -449,14 +449,14 @@ test.describe('Create folder from template', () => {
       await expect(dataTable.getRowByName(fileInFolder1)).toBeVisible();
     });
 
-    test('[C325162] Cancel folder creation in a library', async () => {
+    test('[XAT-5272] Cancel folder creation in a library', async () => {
       await expect(createFolderFromTemplateDialog.getDialogTitle(createDialogTitle)).toBeVisible();
       await createFolderFromTemplateDialog.cancelButton.click();
       await expect(createFolderFromTemplateDialog.getDialogTitle(createDialogTitle)).toBeHidden();
       await expect(dataTable.getRowByName(randomFolderName)).toBeHidden();
     });
 
-    test('[C325163] Create a folder with a duplicate name in a library', async ({ myLibrariesPage }) => {
+    test('[XAT-5273] Create a folder with a duplicate name in a library', async ({ myLibrariesPage }) => {
       const snackBar = myLibrariesPage.snackBar;
 
       await createFolderFromTemplateDialog.createFromTemplateAction(commonFolderName);

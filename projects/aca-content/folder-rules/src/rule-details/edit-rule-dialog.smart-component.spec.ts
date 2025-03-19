@@ -87,6 +87,11 @@ describe('EditRuleDialogSmartComponent', () => {
 
       expect(titleElement.innerText.trim()).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.CREATE');
     });
+
+    it('should set correct title and submitLabel for create mode', () => {
+      expect(fixture.componentInstance.title).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.CREATE_TITLE');
+      expect(fixture.componentInstance.submitLabel).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.CREATE');
+    });
   });
 
   describe('With dialog options passed', () => {
@@ -112,6 +117,11 @@ describe('EditRuleDialogSmartComponent', () => {
       const titleElement = fixture.debugElement.query(By.css('[data-automation-id="edit-rule-dialog-submit"]')).nativeElement as HTMLButtonElement;
 
       expect(titleElement.innerText.trim()).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.UPDATE');
+    });
+
+    it('should set correct title and submitLabel for update mode', () => {
+      expect(fixture.componentInstance.title).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.UPDATE_TITLE');
+      expect(fixture.componentInstance.submitLabel).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.UPDATE');
     });
   });
 });

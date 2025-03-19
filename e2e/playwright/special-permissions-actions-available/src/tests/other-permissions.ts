@@ -57,7 +57,7 @@ export function collaboratorTests(userCollaborator: string, siteName: string) {
       await Utils.tryLoginUser(loginPage, userCollaborator, userCollaborator, 'beforeEach failed');
     });
 
-    test('on File Libraries - [C297647]', async ({ myLibrariesPage }) => {
+    test('[XAT-4844] Toolbar - Actions appear correctly for a file - Collaborator - My Libraries', async ({ myLibrariesPage }) => {
       await myLibrariesPage.navigate();
       await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(siteName);
       await checkActionsAvailable(
@@ -68,7 +68,7 @@ export function collaboratorTests(userCollaborator: string, siteName: string) {
       );
     });
 
-    test('on Shared Files - [C297651]', async ({ sharedPage, myLibrariesPage }) => {
+    test('[XAT-4845] Toolbar - Actions appear correctly for a file - Collaborator - Shared', async ({ sharedPage, myLibrariesPage }) => {
       await sharedPage.navigate();
       await checkActionsAvailable(
         myLibrariesPage,
@@ -78,7 +78,7 @@ export function collaboratorTests(userCollaborator: string, siteName: string) {
       );
     });
 
-    test('on Favorites - [C297652]', async ({ favoritePage, myLibrariesPage }) => {
+    test('[XAT-4846] Toolbar - Actions appear correctly for a file - Collaborator - Favorites', async ({ favoritePage, myLibrariesPage }) => {
       await favoritePage.navigate();
       await checkActionsAvailable(
         myLibrariesPage,
@@ -88,7 +88,7 @@ export function collaboratorTests(userCollaborator: string, siteName: string) {
       );
     });
 
-    test('on Search Results - [C297653]', async ({ searchPage, myLibrariesPage }) => {
+    test('[XAT-4847] Toolbar - Actions appear correctly for a file - Collaborator - Search Results', async ({ searchPage, myLibrariesPage }) => {
       await searchPage.searchWithin(testData.fileSharedFav.name, 'filesAndFolders');
       await checkActionsAvailable(
         myLibrariesPage,
@@ -99,7 +99,7 @@ export function collaboratorTests(userCollaborator: string, siteName: string) {
     });
 
     test.describe('available actions in the viewer : ', () => {
-      test('file opened from File Libraries - [C297654]', async ({ myLibrariesPage }) => {
+      test('[XAT-4848] Correct actions appear for file in viewer - Collaborator - My Libraries', async ({ myLibrariesPage }) => {
         await myLibrariesPage.navigate();
         await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(siteName);
         await checkActionsViewerAvailable(
@@ -110,7 +110,7 @@ export function collaboratorTests(userCollaborator: string, siteName: string) {
         );
       });
 
-      test('file opened from Shared Files - [C297655]', async ({ sharedPage, myLibrariesPage }) => {
+      test('[XAT-4849] Correct actions appear for file in viewer - Collaborator - Shared', async ({ sharedPage, myLibrariesPage }) => {
         await sharedPage.navigate();
         await checkActionsViewerAvailable(
           myLibrariesPage,
@@ -120,7 +120,7 @@ export function collaboratorTests(userCollaborator: string, siteName: string) {
         );
       });
 
-      test('file opened from Favorites - [C297656]', async ({ favoritePage, myLibrariesPage }) => {
+      test('[XAT-4850] Correct actions appear for file in viewer - Collaborator - Favorites', async ({ favoritePage, myLibrariesPage }) => {
         await favoritePage.navigate();
         await checkActionsViewerAvailable(
           myLibrariesPage,
@@ -130,7 +130,7 @@ export function collaboratorTests(userCollaborator: string, siteName: string) {
         );
       });
 
-      test('file opened from Search Results - [C306992]', async ({ searchPage, myLibrariesPage }) => {
+      test('[XAT-4851] Correct actions appear for file in viewer - Collaborator - Search', async ({ searchPage, myLibrariesPage }) => {
         await searchPage.searchWithin(testData.fileDocxSharedFav.name, 'filesAndFolders');
         await checkActionsViewerAvailable(
           myLibrariesPage,
@@ -151,7 +151,7 @@ export function filesLockedByCurrentUser(userDemoted: string, siteName?: string)
     });
 
     test.describe('available actions in the file select : ', () => {
-      test('on File Libraries - [C297657]', async ({ myLibrariesPage }) => {
+      test('[XAT-4852] Toolbar - Correct actions appear for file - on File Libraries - Locked File', async ({ myLibrariesPage }) => {
         await myLibrariesPage.navigate();
         await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(siteName);
         await checkActionsAvailable(
@@ -162,7 +162,7 @@ export function filesLockedByCurrentUser(userDemoted: string, siteName?: string)
         );
       });
 
-      test('on Shared Files - [C297658]', async ({ sharedPage, myLibrariesPage }) => {
+      test('[XAT-4853] Toolbar - Correct actions appear for file - on Shared Files - Locked File', async ({ sharedPage, myLibrariesPage }) => {
         await sharedPage.navigate();
         await checkActionsAvailable(
           myLibrariesPage,
@@ -172,7 +172,7 @@ export function filesLockedByCurrentUser(userDemoted: string, siteName?: string)
         );
       });
 
-      test('on Favorites - [C297659]', async ({ favoritePage, myLibrariesPage }) => {
+      test('[XAT-4854] Toolbar - Correct actions appear for file - on Favorites - Locked File', async ({ favoritePage, myLibrariesPage }) => {
         await favoritePage.navigate();
         await checkActionsAvailable(
           myLibrariesPage,
@@ -182,7 +182,7 @@ export function filesLockedByCurrentUser(userDemoted: string, siteName?: string)
         );
       });
 
-      test('on Search Results - [C297660]', async ({ searchPage, myLibrariesPage }) => {
+      test('[XAT-4855] Toolbar - Correct actions appear for file - on Search Results - Locked File', async ({ searchPage, myLibrariesPage }) => {
         await searchPage.searchWithin(testData.fileLockedByUser, 'filesAndFolders');
         await checkActionsAvailable(
           myLibrariesPage,
@@ -194,7 +194,7 @@ export function filesLockedByCurrentUser(userDemoted: string, siteName?: string)
     });
 
     test.describe('available actions in the viewer : ', () => {
-      test('file opened from File Libraries - [C297661]', async ({ myLibrariesPage }) => {
+      test('[XAT-4856] Correct actions appear for file opened from File Libraries - Locked File', async ({ myLibrariesPage }) => {
         await myLibrariesPage.navigate();
         await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(siteName);
         await checkActionsViewerAvailable(
@@ -205,7 +205,7 @@ export function filesLockedByCurrentUser(userDemoted: string, siteName?: string)
         );
       });
 
-      test('file opened from Shared Files - [C297662]', async ({ sharedPage, myLibrariesPage }) => {
+      test('[XAT-4857] Correct actions appear for file opened from Shared Files - Locked File', async ({ sharedPage, myLibrariesPage }) => {
         await sharedPage.navigate();
         await checkActionsViewerAvailable(
           myLibrariesPage,
@@ -215,7 +215,7 @@ export function filesLockedByCurrentUser(userDemoted: string, siteName?: string)
         );
       });
 
-      test('file opened from Favorites - [C297663]', async ({ favoritePage, myLibrariesPage }) => {
+      test('[XAT-4858] Correct actions appear for file opened from Favorites - Locked File', async ({ favoritePage, myLibrariesPage }) => {
         await favoritePage.navigate();
         await checkActionsViewerAvailable(
           myLibrariesPage,
@@ -225,7 +225,7 @@ export function filesLockedByCurrentUser(userDemoted: string, siteName?: string)
         );
       });
 
-      test('file opened from Search Results - [C306993]', async ({ searchPage, myLibrariesPage }) => {
+      test('[XAT-4859] Correct actions appear for file opened from Search Results - Locked File', async ({ searchPage, myLibrariesPage }) => {
         await searchPage.searchWithin(testData.fileLockedByUser, 'filesAndFolders');
         await checkActionsViewerAvailable(
           myLibrariesPage,
@@ -244,7 +244,7 @@ export function filesLockedByOtherUser(userManager: string, siteName?: string) {
       await Utils.tryLoginUser(loginPage, userManager, userManager, 'beforeEach failed');
     });
 
-    test('on File Libraries - [C297664]', async ({ myLibrariesPage }) => {
+    test('[XAT-4860] Toolbar - Correct actions appear for file - on File Libraries - Locked File - Other User', async ({ myLibrariesPage }) => {
       await myLibrariesPage.navigate();
       await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(siteName);
       await checkActionsAvailable(
@@ -255,7 +255,10 @@ export function filesLockedByOtherUser(userManager: string, siteName?: string) {
       );
     });
 
-    test('on Shared Files - [C297665]', async ({ sharedPage, myLibrariesPage }) => {
+    test('[XAT-4861] Toolbar - Correct actions appear for file - on Shared Files - Locked File - Other User', async ({
+      sharedPage,
+      myLibrariesPage
+    }) => {
       const expectedToolbarMore = [
         'Cancel Editing',
         'Upload New Version',
@@ -270,7 +273,10 @@ export function filesLockedByOtherUser(userManager: string, siteName?: string) {
       await checkActionsAvailable(myLibrariesPage, testData.fileLockedByUser, testData.collaboratorToolbarPrimary, expectedToolbarMore);
     });
 
-    test('on Favorites - [C297666]', async ({ favoritePage, myLibrariesPage }) => {
+    test('[XAT-4862] Toolbar - Correct actions appear for file - on Favorites - Locked File - Other User', async ({
+      favoritePage,
+      myLibrariesPage
+    }) => {
       await favoritePage.navigate();
       await checkActionsAvailable(
         myLibrariesPage,
@@ -280,7 +286,10 @@ export function filesLockedByOtherUser(userManager: string, siteName?: string) {
       );
     });
 
-    test('on Search Results - [C297667]', async ({ searchPage, myLibrariesPage }) => {
+    test('[XAT-4863] Toolbar - Correct actions appear for file - on Search Results - Locked File - Other User', async ({
+      searchPage,
+      myLibrariesPage
+    }) => {
       await searchPage.searchWithin(testData.fileLockedByUser, 'filesAndFolders');
       await checkActionsAvailable(
         myLibrariesPage,
@@ -291,7 +300,7 @@ export function filesLockedByOtherUser(userManager: string, siteName?: string) {
     });
 
     test.describe('available actions in the viewer : ', () => {
-      test('file opened from File Libraries - [C297671]', async ({ myLibrariesPage }) => {
+      test('[XAT-4864] Correct actions appear for file opened from File Libraries - viewer - locked', async ({ myLibrariesPage }) => {
         await myLibrariesPage.navigate();
         await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(siteName);
         await checkActionsViewerAvailable(
@@ -302,7 +311,7 @@ export function filesLockedByOtherUser(userManager: string, siteName?: string) {
         );
       });
 
-      test('file opened from Shared Files - [C297672]', async ({ sharedPage, myLibrariesPage }) => {
+      test('[XAT-4865] Correct actions appear for file opened from Shared Files - viewer - locked', async ({ sharedPage, myLibrariesPage }) => {
         await sharedPage.navigate();
         await checkActionsViewerAvailable(
           myLibrariesPage,
@@ -312,7 +321,7 @@ export function filesLockedByOtherUser(userManager: string, siteName?: string) {
         );
       });
 
-      test('file opened from Favorites - [C297673]', async ({ favoritePage, myLibrariesPage }) => {
+      test('[XAT-4866] Correct actions appear for file opened from Favorites - viewer - locked', async ({ favoritePage, myLibrariesPage }) => {
         await favoritePage.navigate();
         await checkActionsViewerAvailable(
           myLibrariesPage,
@@ -322,8 +331,7 @@ export function filesLockedByOtherUser(userManager: string, siteName?: string) {
         );
       });
 
-      // TODO: add 'Move' and 'Delete' when ACA-2319 is fixed
-      test('file opened from Search Results - [C306994]', async ({ searchPage, myLibrariesPage }) => {
+      test('[XAT-4867] Correct actions appear for file opened from Search Results - viewer - locked', async ({ searchPage, myLibrariesPage }) => {
         await searchPage.searchWithin(testData.fileLockedByUser, 'filesAndFolders');
         await checkActionsViewerAvailable(
           myLibrariesPage,

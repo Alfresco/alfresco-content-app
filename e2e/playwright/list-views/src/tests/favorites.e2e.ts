@@ -90,21 +90,21 @@ test.describe('Favorites Files', () => {
       await favoritePage.navigate();
     });
 
-    test('[C280482] has the correct columns', async ({ favoritePage }) => {
+    test('[XAT-4454] Favorites list has the correct columns', async ({ favoritePage }) => {
       const expectedColumns = ['Name', 'Location', 'Size', 'Modified', 'Modified by', 'Tags'];
       const actualColumns = Utils.trimArrayElements(await favoritePage.dataTable.getColumnHeaders());
       expect(actualColumns).toEqual(expectedColumns);
     });
 
-    test(`[C213228] deleted favorite file does not appear`, async ({ favoritePage }) => {
+    test(`[XAT-4456] Deleted favorite files and folders do not appear in the list`, async ({ favoritePage }) => {
       expect(await favoritePage.dataTable.isItemPresent(fileName3), `${fileName3} is displayed`).not.toBe(true);
     });
 
-    test(`[C213229] file is displayed after it is restored from Trashcan`, async ({ favoritePage }) => {
+    test(`[XAT-4457] Favorite files and folders restored from trashcan are displayed in the list`, async ({ favoritePage }) => {
       expect(await favoritePage.dataTable.isItemPresent(fileName4), `${fileName4} not displayed`).toBe(true);
     });
 
-    test('[C213231] Location column displays the parent folder of the files', async ({ favoritePage }) => {
+    test('[XAT-4459] Location column displays the parent folder of the file as link', async ({ favoritePage }) => {
       expect(await favoritePage.dataTable.getItemLocationText(fileName2)).toEqual(parentFolder);
       expect(await favoritePage.dataTable.getItemLocationText(favFolderName)).toEqual('Personal Files');
       expect(await favoritePage.dataTable.getItemLocationTooltip(fileName2)).toEqual(`Personal Files/${parentFolder}`);
@@ -114,25 +114,25 @@ test.describe('Favorites Files', () => {
       expect(await favoritePage.dataTable.getItemLocationTooltip(fileName1)).toContain(`${siteName}`);
     });
 
-    test('[C213650] Location column redirect - item in user Home', async ({ favoritePage }) => {
+    test(`[XAT-4460] Clicking on the location link redirects to parent folder - item in User's Home`, async ({ favoritePage }) => {
       await favoritePage.dataTable.clickItemLocation(favFolderName);
       await favoritePage.dataTable.spinnerWaitForReload();
       expect(await favoritePage.breadcrumb.getAllItems()).toEqual(['Personal Files']);
     });
 
-    test('[C280484] Location column redirect - file in folder', async ({ favoritePage }) => {
+    test('[XAT-4461] Clicking on the location link redirects to parent folder - item in a folder', async ({ favoritePage }) => {
       await favoritePage.dataTable.clickItemLocation(fileName2);
       await favoritePage.dataTable.spinnerWaitForReload();
       expect(await favoritePage.breadcrumb.getAllItems()).toEqual(['Personal Files', parentFolder]);
     });
 
-    test('[C280485] Location column redirect - file in site', async ({ favoritePage }) => {
+    test('[XAT-4462] Clicking on the location link redirects to parent folder - item in a site', async ({ favoritePage }) => {
       await favoritePage.dataTable.clickItemLocation(fileName1);
       await favoritePage.dataTable.spinnerWaitForReload();
       expect(await favoritePage.breadcrumb.getAllItems()).toEqual(['My Libraries', siteName]);
     });
 
-    test('[C213230] Navigate into folder from Favorites', async ({ favoritePage }) => {
+    test('[XAT-4458] Navigate into a folder from Favorites', async ({ favoritePage }) => {
       await favoritePage.dataTable.performClickFolderOrFileToOpen(favFolderName);
       await favoritePage.dataTable.spinnerWaitForReload();
       await expect(favoritePage.breadcrumb.currentItem).toHaveText(favFolderName);

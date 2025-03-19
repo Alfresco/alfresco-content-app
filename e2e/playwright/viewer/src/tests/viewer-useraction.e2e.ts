@@ -62,7 +62,7 @@ test.describe('from File Libraries', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', sitesApi, [siteName]);
   });
 
-  test('[C286371] Move action from File Libraries', async ({ myLibrariesPage, personalFiles }) => {
+  test('[XAT-5429] Move action from File Libraries', async ({ myLibrariesPage, personalFiles }) => {
     await myLibrariesPage.navigate();
     await myLibrariesPage.dataTable.getCellLinkByName(siteName).click();
     await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(xlsxLibraries);

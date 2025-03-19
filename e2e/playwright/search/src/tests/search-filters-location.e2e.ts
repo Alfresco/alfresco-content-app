@@ -67,7 +67,7 @@ test.describe('Search - Filters - Location', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteAdminApi, [siteId]);
   });
 
-  test('[C279231] Filter by location - files', async ({ searchPage }) => {
+  test('[XAT-5603] Only files are returned when Files option is the only one checked', async ({ searchPage }) => {
     await searchPage.searchWithin(random, 'files');
 
     await expect(searchPage.dataTable.getRowByName(fileJpg)).toBeVisible();
@@ -79,7 +79,7 @@ test.describe('Search - Filters - Location', () => {
     await expect(searchPage.dataTable.getRowByName(filePdf)).toBeHidden();
   });
 
-  test('[C279231] Filter by location - folders', async ({ searchPage }) => {
+  test('[XAT-5604] Only folders are returned when Folders option is the only one checked', async ({ searchPage }) => {
     await searchPage.searchWithin(random, 'folders');
 
     await expect(searchPage.dataTable.getRowByName(userFolder)).toBeVisible();

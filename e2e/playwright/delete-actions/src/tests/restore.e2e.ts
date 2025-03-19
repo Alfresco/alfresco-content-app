@@ -91,25 +91,25 @@ test.describe('Restore from Trash', () => {
       expect(await trashPage.dataTable.isItemPresent(nodeName)).toBeFalsy();
     }
 
-    test('[C217177] restore file', async ({ trashPage, personalFiles }) => {
+    test('[XAT-5109] Restore file', async ({ trashPage, personalFiles }) => {
       await restoreNode(trashPage, file1);
       await personalFiles.navigate();
       expect(await personalFiles.dataTable.isItemPresent(file1)).toBeTruthy();
     });
 
-    test('[C280438] restore folder', async ({ trashPage, personalFiles }) => {
+    test('[XAT-5110] Restore folder', async ({ trashPage, personalFiles }) => {
       await restoreNode(trashPage, folder1);
       await personalFiles.navigate();
       expect(await personalFiles.dataTable.isItemPresent(folder1)).toBeTruthy();
     });
 
-    test('[C290104] restore library', async ({ trashPage, myLibrariesPage }) => {
+    test('[XAT-5117] Restore library', async ({ trashPage, myLibrariesPage }) => {
       await restoreNode(trashPage, site1);
       await myLibrariesPage.navigate();
       expect(await myLibrariesPage.dataTable.isItemPresent(site1)).toBeTruthy();
     });
 
-    test('[C217182] restore multiple items', async ({ trashPage, personalFiles }) => {
+    test('[XAT-5111] Restore multiple items', async ({ trashPage, personalFiles }) => {
       await trashPage.dataTable.selectItems(file2, folder2);
       await trashPage.acaHeader.restoreButton.click();
       await trashPage.snackBar.verifySnackBarActionText(`Restore successful`);
@@ -122,7 +122,7 @@ test.describe('Restore from Trash', () => {
       expect(await personalFiles.dataTable.isItemPresent(folder2)).toBeTruthy();
     });
 
-    test('[C217181] View from notification', async ({ trashPage, personalFiles }) => {
+    test('[XAT-5112] Restore file - View from notification', async ({ trashPage, personalFiles }) => {
       await trashPage.dataTable.selectItems(file3);
       await trashPage.acaHeader.restoreButton.click();
       await trashPage.snackBar.clickSnackBarAction();
@@ -162,13 +162,13 @@ test.describe('Restore from Trash', () => {
       await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
     });
 
-    test('[C217178] Restore a file when another file with same name exists on the restore location', async ({ trashPage }) => {
+    test('[XAT-5113] Restore an item when another one with same name already exists on the restore location', async ({ trashPage }) => {
       await trashPage.dataTable.selectItems(file1);
       await trashPage.acaHeader.restoreButton.click();
       await trashPage.snackBar.verifySnackBarActionText(`Can't restore, ${file1} already exists`);
     });
 
-    test('[C217179] Restore a file when original location no longer exists', async ({ trashPage }) => {
+    test('[XAT-5114] Restore a file when original location no longer exists', async ({ trashPage }) => {
       await trashPage.dataTable.selectItems(file2);
       await trashPage.acaHeader.restoreButton.click();
       await trashPage.snackBar.verifySnackBarActionText(`Can't restore ${file2}, the original location no longer exists`);
@@ -222,13 +222,13 @@ test.describe('Restore from Trash', () => {
       await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
     });
 
-    test('[C217183] one failure', async ({ trashPage }) => {
+    test('[XAT-5115] Notification on partial success - one failure', async ({ trashPage }) => {
       await trashPage.dataTable.selectItems(file1, file2);
       await trashPage.acaHeader.restoreButton.click();
       await trashPage.snackBar.verifySnackBarActionText(`Can't restore ${file1}, the original location no longer exists`);
     });
 
-    test('[C217184] multiple failures', async ({ trashPage }) => {
+    test('[XAT-5116] Notification on partial success - multiple failures', async ({ trashPage }) => {
       await trashPage.dataTable.selectItems(file3, file4, file5);
       await trashPage.acaHeader.restoreButton.click();
       await trashPage.snackBar.verifySnackBarActionText('2 items not restored because of issues with the restore location');

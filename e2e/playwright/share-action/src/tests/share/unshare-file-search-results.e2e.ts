@@ -113,7 +113,7 @@ test.describe('Unshare a file from Search Results', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', sitesApi, [docLibId]);
   });
 
-  test('[C306995] Unshare dialog UI', async ({ personalFiles, searchPage }) => {
+  test('[XAT-5197] Unshare dialog UI', async ({ personalFiles, searchPage }) => {
     await personalFiles.acaHeader.searchButton.click();
     await searchPage.clickSearchButton();
     await searchPage.searchOverlay.checkFilesAndFolders();
@@ -134,7 +134,7 @@ test.describe('Unshare a file from Search Results', () => {
     await expect(personalFiles.confirmDialog.cancelButton).toBeEnabled();
   });
 
-  test('[C306996] Unshare a file', async ({ personalFiles, searchPage, nodesApiAction, page }) => {
+  test('[XAT-5198] Unshare a file', async ({ personalFiles, searchPage, nodesApiAction, page }) => {
     await personalFiles.acaHeader.searchButton.click();
     await searchPage.clickSearchButton();
     await searchPage.searchOverlay.checkFilesAndFolders();
@@ -153,7 +153,7 @@ test.describe('Unshare a file from Search Results', () => {
     expect(await nodesApiAction.isFileShared(file2Id)).toBe(false);
   });
 
-  test('[C306997] Cancel the Unshare action', async ({ personalFiles, searchPage }) => {
+  test('[XAT-5199] Cancel the Unshare action', async ({ personalFiles, searchPage }) => {
     await personalFiles.acaHeader.searchButton.click();
     await searchPage.clickSearchButton();
     await searchPage.searchOverlay.checkFilesAndFolders();
@@ -171,7 +171,7 @@ test.describe('Unshare a file from Search Results', () => {
     expect(urlBefore).toEqual(urlAfter);
   });
 
-  test('[C306999] Unshare a file from the context menu', async ({ personalFiles, searchPage, nodesApiAction, page }) => {
+  test('[XAT-5200] Unshare a file from the context menu', async ({ personalFiles, searchPage, nodesApiAction, page }) => {
     await personalFiles.acaHeader.searchButton.click();
     await searchPage.clickSearchButton();
     await searchPage.searchOverlay.checkFilesAndFolders();
@@ -190,7 +190,7 @@ test.describe('Unshare a file from Search Results', () => {
     expect(await nodesApiAction.isFileShared(file4Id)).toBe(false);
   });
 
-  test('[C306998] Consumer - on Search Results - file shared by other user', async ({ personalFiles, searchPage, nodesApiAction }) => {
+  test('[XAT-5227] Unshare a file as consumer - file shared by other user - Search Page', async ({ personalFiles, searchPage, nodesApiAction }) => {
     await personalFiles.acaHeader.searchButton.click();
     await searchPage.clickSearchButton();
     await searchPage.searchOverlay.checkFilesAndFolders();
@@ -205,7 +205,12 @@ test.describe('Unshare a file from Search Results', () => {
     expect(await nodesApiAction.isFileShared(fileSite2Id)).toBe(true);
   });
 
-  test('[C307000] Consumer - on Search Results - file shared by the user', async ({ personalFiles, searchPage, nodesApiAction, page }) => {
+  test('[XAT-5228] Unshare a file as consumer - file shared by the user - Search Page', async ({
+    personalFiles,
+    searchPage,
+    nodesApiAction,
+    page
+  }) => {
     await personalFiles.acaHeader.searchButton.click();
     await searchPage.clickSearchButton();
     await searchPage.searchOverlay.checkFilesAndFolders();

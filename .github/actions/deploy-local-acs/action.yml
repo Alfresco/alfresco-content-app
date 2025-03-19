@@ -18,7 +18,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: azure/setup-helm@fe7b79cd5ee1e45176fcad797de68ecaf3ca4814
+    - uses: azure/setup-helm@b9e51907a09c216f16ebe8536097933489208112
       with:
         version: "3.14.3"
 
@@ -36,7 +36,7 @@ runs:
         password: ${{ inputs.quay_password }}
 
     - name: Setup cluster
-      uses: Alfresco/alfresco-build-tools/.github/actions/setup-kind@v8.4.0
+      uses: Alfresco/alfresco-build-tools/.github/actions/setup-kind@v8.16.0
       with:
         ingress-nginx-ref: controller-v1.8.2
 
@@ -76,4 +76,4 @@ runs:
         --values .github/acs-deployment-values-override.yaml
 
     - name: Wait for pods to be ready
-      uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-wait@v8.15.0
+      uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-wait@v8.16.0

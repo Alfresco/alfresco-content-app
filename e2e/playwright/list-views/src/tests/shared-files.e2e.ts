@@ -92,38 +92,38 @@ test.describe('Shared Files', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActionsAdmin, [siteName]);
   });
 
-  test('[C213113] has the correct columns', async ({ sharedPage }) => {
+  test('[XAT-4430] Shared files list view has the correct columns', async ({ sharedPage }) => {
     const expectedColumns = ['Name', 'Location', 'Size', 'Modified', 'Modified by', 'Shared by', 'Tags'];
     const actualColumns = Utils.trimArrayElements(await sharedPage.dataTable.getColumnHeaders());
     expect(actualColumns).toEqual(expectedColumns);
   });
 
-  test('[C213115] default sorting column', async ({ sharedPage }) => {
+  test('[XAT-4432] Default sort order is by Modified date, showing most recently edited files first', async ({ sharedPage }) => {
     expect(await sharedPage.dataTable.getSortedColumnHeaderText()).toBe('Modified');
     expect(await sharedPage.dataTable.getSortingOrder()).toBe('desc');
   });
 
-  test(`[C213117] file not displayed if it's been deleted`, async ({ sharedPage }) => {
+  test(`[XAT-4434] File that was quick shared and deleted afterwards is not displayed in the list`, async ({ sharedPage }) => {
     expect(await sharedPage.dataTable.isItemPresent(file2User), `${file2User} is displayed`).toBe(false);
   });
 
-  test('[C213118] unshared file is not displayed', async ({ sharedPage }) => {
+  test('[XAT-4435] File that was quick shared and then unshared is not displayed in the list', async ({ sharedPage }) => {
     expect(await sharedPage.dataTable.isItemPresent(file3User), `${file3User} is displayed`).toBe(false);
   });
 
-  test('[C213666] Location column redirect - file in user Home', async ({ sharedPage }) => {
+  test(`[XAT-4437] Clicking on the location link redirects to parent folder - item in User's Home`, async ({ sharedPage }) => {
     await sharedPage.dataTable.clickItemLocation(file4User);
     await sharedPage.dataTable.spinnerWaitForReload();
     expect(await sharedPage.breadcrumb.getAllItems()).toEqual(['Personal Files']);
   });
 
-  test('[C280490] Location column redirect - file in folder', async ({ sharedPage }) => {
+  test('[XAT-4438] Clicking on the location link redirects to parent folder - item in a folder', async ({ sharedPage }) => {
     await sharedPage.dataTable.clickItemLocation(file1User);
     await sharedPage.dataTable.spinnerWaitForReload();
     expect(await sharedPage.breadcrumb.getAllItems()).toEqual(['Personal Files', folderUser]);
   });
 
-  test('[C280491] Location column redirect - file in site', async ({ sharedPage }) => {
+  test('[XAT-4439] Clicking on the location link redirects to parent folder - item in a site', async ({ sharedPage }) => {
     await sharedPage.dataTable.clickItemLocation(fileAdmin);
     await sharedPage.dataTable.spinnerWaitForReload();
     expect(await sharedPage.breadcrumb.getAllItems()).toEqual(['My Libraries', siteName]);

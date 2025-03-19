@@ -37,7 +37,7 @@ test.describe('viewer file', () => {
     await apiClientFactory.createUser(testUser);
   });
 
-  test('[C213145] redirects to Login page when pressing browser Back after logout', async ({ loginPage }) => {
+  test('[XAT-4382] User is not signed back in when pressing browser Back button after sign out', async ({ loginPage }) => {
     await loginPage.navigate();
     await loginPage.loginUser({ username: testUser.username, password: testUser.password });
     await loginPage.logoutUser();

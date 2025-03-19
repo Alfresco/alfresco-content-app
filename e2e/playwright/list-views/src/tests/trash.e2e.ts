@@ -77,35 +77,35 @@ test.describe('Trash', () => {
       await trashPage.navigate();
     });
 
-    test('[C280494] has the correct columns', async ({ trashPage }) => {
+    test('[XAT-4466] Trash list has correct columns - non admin', async ({ trashPage }) => {
       const expectedColumns = ['Name', 'Location', 'Size', 'Deleted'];
       const actualColumns = Utils.trimArrayElements(await trashPage.dataTable.getColumnHeaders());
 
       expect(actualColumns).toEqual(expectedColumns);
     });
 
-    test('[C213219] default sorting column', async ({ trashPage }) => {
+    test(`[XAT-4469] Default sort order is on 'Deleted' column with most recent first`, async ({ trashPage }) => {
       expect(await trashPage.dataTable.getSortedColumnHeaderText()).toBe('Deleted');
       expect(await trashPage.dataTable.getSortingOrder()).toBe('desc');
     });
 
-    test('[C280500] Location column is empty if parent folder no longer exists', async ({ trashPage }) => {
+    test('[XAT-4475] Location column is empty if parent folder no longer exists', async ({ trashPage }) => {
       expect(await trashPage.dataTable.getItemLocationText(fileDeleted)).toEqual('');
     });
 
-    test('[C217144] Location column redirect - file in user Home', async ({ trashPage }) => {
+    test(`[XAT-4470] Clicking on the location link redirects to parent folder - item in User's Home`, async ({ trashPage }) => {
       await trashPage.dataTable.clickItemLocation(fileUser);
       await trashPage.dataTable.spinnerWaitForReload();
       expect(await trashPage.breadcrumb.getAllItems()).toEqual(['Personal Files']);
     });
 
-    test('[C280496] Location column redirect - file in folder', async ({ trashPage }) => {
+    test('[XAT-4471] Clicking on the location link redirects to parent folder - item in a folder', async ({ trashPage }) => {
       await trashPage.dataTable.clickItemLocation(fileInFolder);
       await trashPage.dataTable.spinnerWaitForReload();
       expect(await trashPage.breadcrumb.getAllItems()).toEqual(['Personal Files', folderNotDeleted]);
     });
 
-    test('[C280497] Location column redirect - file in site', async ({ trashPage }) => {
+    test('[XAT-4472] Clicking on the location link redirects to parent folder - item in a site', async ({ trashPage }) => {
       await trashPage.dataTable.clickItemLocation(fileSite);
       await trashPage.dataTable.spinnerWaitForReload();
       expect(await trashPage.breadcrumb.getAllItems()).toEqual(['My Libraries', siteName]);

@@ -53,7 +53,7 @@ test.describe('Info Drawer - General', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
-  test('[C268999] Info drawer closes on page refresh', async ({ personalFiles }) => {
+  test('[XAT-5511] Info drawer closes on page refresh', async ({ personalFiles }) => {
     const parentFolder = `parent-general-${Utils.random()}`;
     const file1 = `file1-${Utils.random()}.txt`;
     const folder1 = `folder1-${Utils.random()}`;

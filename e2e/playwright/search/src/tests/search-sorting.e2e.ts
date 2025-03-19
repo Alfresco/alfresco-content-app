@@ -113,35 +113,35 @@ test.describe('Search sorting', () => {
     expect(await searchPage.dataTable.getNthRow(1).textContent()).toContain(expectedSecondFile);
   }
 
-  test(`[C277728] Sort by Name`, async ({ searchPage }) => {
+  test(`[XAT-5568] Sort by Name`, async ({ searchPage }) => {
     await testSearchSorting(searchPage, 'Name' as SortByType, 'asc', fileJpg.name, filePdf.name);
   });
 
-  test(`[C277740] Sort by Type`, async ({ searchPage }) => {
+  test(`[XAT-5573] Sort by Type`, async ({ searchPage }) => {
     await testSearchSorting(searchPage, 'Type' as SortByType, 'asc', filePdf.name, fileJpg.name);
   });
 
-  test(`[C277738] Sort by Size`, async ({ searchPage }) => {
+  test(`[XAT-5572] Sort by Size`, async ({ searchPage }) => {
     await testSearchSorting(searchPage, 'Size' as SortByType, 'asc', filePdf.name, fileJpg.name);
   });
 
-  test(`[C277734] Sort by Created date`, async ({ searchPage }) => {
+  test(`[XAT-5570] Sort by Created date`, async ({ searchPage }) => {
     await testSearchSorting(searchPage, 'Created date' as SortByType, 'asc', fileJpg.name, filePdf.name);
   });
 
-  test(`[C277736] Sort by Modified date`, async ({ searchPage }) => {
+  test(`[XAT-5571] Sort by Modified date`, async ({ searchPage }) => {
     await testSearchSorting(searchPage, 'Modified date' as SortByType, 'asc', fileJpg.name, filePdf.name);
   });
 
-  test(`[C277727] Sort by Relevance`, async ({ searchPage }) => {
+  test(`[XAT-5567] Sort by Relevance`, async ({ searchPage }) => {
     await testSearchSorting(searchPage, 'Relevance' as SortByType, 'asc', fileJpg.name, filePdf.name);
   });
 
-  test(`[C277732] Sort by Modifier`, async ({ searchPage }) => {
+  test(`[XAT-5569] Sort by Modifier`, async ({ searchPage }) => {
     await testSearchSorting(searchPage, 'Modifier' as SortByType, 'asc', fileJpg.name, filePdf.name);
   });
 
-  test('[C277722] Sorting options are displayed', async ({ searchPage }) => {
+  test('[XAT-5566] Sorting options are displayed', async ({ searchPage }) => {
     await searchPage.searchWithin(`search-sort *${random}`, 'files');
     await searchPage.searchSortingPicker.actionMenu.click();
 

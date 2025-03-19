@@ -57,7 +57,7 @@ test.describe('Search - Filters - Properties', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
-  test('[C699046-1] Filter by size - At least 1000KB', async ({ searchPage }) => {
+  test('[XAT-5578] Should able to filter search result with File size under properties Facet - At least 1000KB', async ({ searchPage }) => {
     await searchPage.searchWithin(randomId, 'files');
     await searchPage.searchFiltersProperties.setPropertiesParameters(searchPage, undefined, undefined, '1000');
 
@@ -66,7 +66,7 @@ test.describe('Search - Filters - Properties', () => {
     await expect(searchPage.dataTable.getRowByName(fileNameJpgMb)).toBeVisible();
   });
 
-  test('[C699046-2] Filter by size - At most 1MB', async ({ searchPage }) => {
+  test('[XAT-17696] Should able to filter search result with File size under properties Facet - At most 1MB', async ({ searchPage }) => {
     await searchPage.searchWithin(randomId, 'files');
     await searchPage.searchFiltersProperties.setPropertiesParameters(searchPage, 'At Most', 'MB', '1');
 
@@ -75,7 +75,7 @@ test.describe('Search - Filters - Properties', () => {
     await expect(searchPage.dataTable.getRowByName(fileNameJpgMb)).toBeHidden();
   });
 
-  test('[C699046-3] Filter by size - Exactly', async ({ searchPage }) => {
+  test('[XAT-17697] Should able to filter search result with File size under properties Facet - Exactly', async ({ searchPage }) => {
     await searchPage.searchWithin(randomId, 'files');
     await searchPage.searchFiltersProperties.setPropertiesParameters(searchPage, 'Exactly', undefined, '2.96');
 
@@ -84,7 +84,7 @@ test.describe('Search - Filters - Properties', () => {
     await expect(searchPage.dataTable.getRowByName(fileNameJpgMb)).toBeHidden();
   });
 
-  test('[C699047] Filter by type', async ({ searchPage }) => {
+  test('[XAT-5579] Should able to filter search result with File Type under properties Facet', async ({ searchPage }) => {
     await searchPage.searchWithin(randomId, 'files');
     await searchPage.searchFiltersProperties.setPropertiesParameters(searchPage, undefined, undefined, undefined, 'pdf');
 

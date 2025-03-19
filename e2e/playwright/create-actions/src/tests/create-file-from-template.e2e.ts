@@ -138,7 +138,7 @@ test.describe('Create file from template', () => {
     });
 
     test.describe('Select Template dialog', () => {
-      test('[C325043] Select template - dialog UI - with existing templates', async () => {
+      test('[XAT-5229] Select template - dialog UI - when no templates exist in the repo', async () => {
         await expect.soft(selectFileTemplateDialog.getDialogTitle(selectDialogTitle)).toBeVisible();
         await expect.soft(selectFileTemplateDialog.getBreadcrumb(dialogBreadcrumb)).toBeVisible();
         await expect.soft(dataTable.getRowByName(templatesFolder1)).not.toBeEmpty();
@@ -149,13 +149,13 @@ test.describe('Create file from template', () => {
         await expect(selectFileTemplateDialog.actionButton).toBeDisabled();
       });
 
-      test(`[C325044] Templates don't appear if user doesn't have permissions to see them`, async () => {
+      test(`[XAT-5231] Templates don't appear if user doesn't have permissions to see them`, async () => {
         await expect(selectFileTemplateDialog.getDialogTitle(selectDialogTitle)).toBeVisible();
         await expect(dataTable.getRowByName(restrictedTemplateFolder)).toBeHidden();
         await expect(dataTable.getRowByName(templateInRestrictedFolder)).toBeHidden();
       });
 
-      test(`[C325045] Navigate through the templates list with folder hierarchy`, async () => {
+      test(`[XAT-5232] Navigate through the templates list with folder hierarchy`, async () => {
         await expect(selectFileTemplateDialog.getBreadcrumb(dialogBreadcrumb)).toBeVisible();
         await expect(dataTable.getRowByName(templatesFolder1)).toBeVisible();
         await expect(dataTable.getRowByName(templatesFolder2)).toBeVisible();
@@ -175,7 +175,7 @@ test.describe('Create file from template', () => {
         await expect(selectFileTemplateDialog.getOptionLocator(dialogBreadcrumb)).toBeVisible();
       });
 
-      test(`[C325047] Templates list doesn't allow multiple selection`, async () => {
+      test(`[XAT-5233] Templates list doesn't allow multiple selection`, async () => {
         await expect(dataTable.getSelectedRow).toHaveCount(0);
 
         await dataTable.getRowByName(template1InRoot).click({ modifiers: [commandKey] });
@@ -188,20 +188,20 @@ test.describe('Create file from template', () => {
         await expect(dataTable.getSelectedRow).toContainText(template2InRoot);
       });
 
-      test('[C325050] Links to files are not displayed', async () => {
+      test('[XAT-5235] Links to files are not displayed', async () => {
         await expect(dataTable.getRowByName(template1InRoot)).toBeVisible();
         await expect(dataTable.getRowByName(template2InRoot)).toBeVisible();
         await expect(dataTable.getRowByName(fileLink)).toBeHidden();
       });
 
-      test('[C325048] Cancel the Select template dialog', async () => {
+      test('[XAT-5236] Cancel the Select template dialog', async () => {
         await expect(selectFileTemplateDialog.getDialogTitle(selectDialogTitle)).toBeVisible();
 
         await selectFileTemplateDialog.cancelButton.click();
         await expect(selectFileTemplateDialog.getDialogTitle(selectDialogTitle)).toBeHidden();
       });
 
-      test('[C216339] Next button is disabled when selecting a folder', async () => {
+      test('[XAT-5234] Select Template - Next button is disabled when selecting a folder', async () => {
         await expect(dataTable.getRowByName(templatesFolder1)).toBeVisible();
         await expect(selectFileTemplateDialog.actionButton).toBeDisabled();
 
@@ -225,7 +225,7 @@ test.describe('Create file from template', () => {
         }
       });
 
-      test('[C325020] Create file from template - dialog UI', async () => {
+      test('[XAT-5237] Create file from template - dialog UI', async () => {
         await expect.soft(createFileFromTemplateDialog.getDialogTitle(createDialogTitle)).toBeVisible();
         await expect.soft(createFileFromTemplateDialog.getDialogLabel(nameLabel)).toBeVisible();
         await expect.soft(createFileFromTemplateDialog.getDialogLabel(nameLabel)).toHaveValue(template1InRoot);
@@ -237,7 +237,7 @@ test.describe('Create file from template', () => {
         await expect(createFileFromTemplateDialog.createButton).toBeEnabled();
       });
 
-      test('[C325031] File name is required', async () => {
+      test('[XAT-5238] File name is required', async () => {
         await expect(createFileFromTemplateDialog.getDialogLabel(nameLabel)).toHaveValue(template1InRoot);
 
         await createFileFromTemplateDialog.getDialogLabel(nameLabel).clear();
@@ -249,7 +249,7 @@ test.describe('Create file from template', () => {
         await expect(createFileFromTemplateDialog.createButton).toBeDisabled();
       });
 
-      test('[C325032] Special characters in file name', async () => {
+      test('[XAT-5239] Special characters in file name', async () => {
         const nameWithSpecialChars = ['a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a'];
 
         for (const specialFileName of nameWithSpecialChars) {
@@ -266,7 +266,7 @@ test.describe('Create file from template', () => {
         }
       });
 
-      test('[C325033] File name ending with a dot', async () => {
+      test('[XAT-5240] File name ending with a dot', async () => {
         await createFileFromTemplateDialog.getDialogLabel(nameLabel).fill(template1InRoot + dotString);
         await createFileFromTemplateDialog.page.keyboard.press(tabKeyString);
         await expect(createFileFromTemplateDialog.getDialogLabel(nameLabel)).toHaveValue(template1InRoot + dotString);
@@ -276,7 +276,7 @@ test.describe('Create file from template', () => {
         await expect(createFileFromTemplateDialog.createButton).toBeDisabled();
       });
 
-      test('[C325034] File name containing only spaces', async () => {
+      test('[XAT-5241] File name containing only spaces', async () => {
         await createFileFromTemplateDialog.getDialogLabel(nameLabel).clear();
         await createFileFromTemplateDialog.getDialogLabel(nameLabel).fill(spaceString);
         await createFileFromTemplateDialog.page.keyboard.press(tabKeyString);
@@ -290,7 +290,7 @@ test.describe('Create file from template', () => {
         await expect(createFileFromTemplateDialog.createButton).toBeDisabled();
       });
 
-      test('[C290146] File title too long', async () => {
+      test('[XAT-5243] File title too long', async () => {
         await createFileFromTemplateDialog.getDialogLabel(titleLabel).fill(Utils.string257Long);
         await createFileFromTemplateDialog.page.keyboard.press(tabKeyString);
         await expect(createFileFromTemplateDialog.getDialogLabel(titleLabel)).toHaveValue(Utils.string257Long);
@@ -300,7 +300,7 @@ test.describe('Create file from template', () => {
         await expect(createFileFromTemplateDialog.createButton).toBeDisabled();
       });
 
-      test('[C290142] Description too long', async () => {
+      test('[XAT-5242] Description too long', async () => {
         await createFileFromTemplateDialog.getDialogLabel(descriptionLabel).fill(Utils.string513Long);
         await createFileFromTemplateDialog.page.keyboard.press(tabKeyString);
         await expect(createFileFromTemplateDialog.getDialogLabel(descriptionLabel)).toHaveValue(Utils.string513Long);
@@ -313,7 +313,7 @@ test.describe('Create file from template', () => {
         await expect(createFileFromTemplateDialog.createButton).toBeDisabled();
       });
 
-      test('[C325028] Create a file with a duplicate name', async ({ personalFiles }) => {
+      test('[XAT-5246] Create a file with a duplicate name', async ({ personalFiles }) => {
         const snackBar = personalFiles.snackBar;
 
         await createFileFromTemplateDialog.createFromTemplateAction(commonFileName);
@@ -321,7 +321,7 @@ test.describe('Create file from template', () => {
         await expect(createFileFromTemplateDialog.getDialogTitle(createDialogTitle)).toBeVisible();
       });
 
-      test('[C325027] Cancel file creation', async () => {
+      test('[XAT-5247] Cancel file creation', async () => {
         await expect(createFileFromTemplateDialog.getDialogTitle(createDialogTitle)).toBeVisible();
         await createFileFromTemplateDialog.cancelButton.click();
         await expect(createFileFromTemplateDialog.getDialogTitle(createDialogTitle)).toBeHidden();
@@ -342,19 +342,19 @@ test.describe('Create file from template', () => {
         }
       });
 
-      test('[C325030] Create a file from a template - with a new Name', async () => {
+      test('[XAT-5244] Create a file from a template - with a new Name', async () => {
         await createFileFromTemplateDialog.createFromTemplateAction(randomFileName);
         await dataTable.goThroughPagesLookingForRowWithName(randomFileName);
         await expect(dataTable.getRowByName(randomFileName)).toBeVisible();
       });
 
-      test('[C325026] Create a file from a template - with a Name, Title and Description', async () => {
+      test('[XAT-5245] Create a file from a template - with a Name, Title and Description', async () => {
         await createFileFromTemplateDialog.createFromTemplateAction(randomFileName, randomFileTitle, randomFileDescription);
         await dataTable.goThroughPagesLookingForRowWithName(randomFileName);
         await expect(dataTable.getCellLinkByName(randomFileName)).toHaveAttribute(titleLabel, randomFileTitle + `\n` + randomFileDescription);
       });
 
-      test('[C325042] Trim spaces from file Name', async () => {
+      test('[XAT-5248] Trim spaces from file Name', async () => {
         await createFileFromTemplateDialog.createFromTemplateAction('   ' + randomFileName + '   ');
         await dataTable.goThroughPagesLookingForRowWithName(randomFileName);
         await expect(dataTable.getRowByName(randomFileName)).toBeVisible();
@@ -362,7 +362,7 @@ test.describe('Create file from template', () => {
     });
   });
 
-  test.describe('File created from template on Personal Files Libraries', () => {
+  test.describe('File created from template on Libraries', () => {
     const randomLibraryName = `playwright-library-c2-${Utils.random()}`;
     let sitesApi: SitesApi;
 
@@ -390,7 +390,7 @@ test.describe('Create file from template', () => {
         await dataTable.getRowByName(template1InRoot).click();
         await selectFileTemplateDialog.actionButton.click();
       } catch (error) {
-        console.error(`File created from template on Personal Files Libraries, beforeEach failed: ${error}`);
+        console.error(`File created from template on Libraries, beforeEach failed: ${error}`);
       }
     });
 
@@ -398,19 +398,19 @@ test.describe('Create file from template', () => {
       await sitesApi.deleteSites([randomLibraryName]);
     });
 
-    test('[C325023] Create a file from a template from library - with Name, Title and Description', async () => {
+    test('[XAT-5249] Create a file from a template from library - with Name, Title and Description', async () => {
       await createFileFromTemplateDialog.createFromTemplateAction(randomFileName, randomFileTitle, randomFileDescription);
       await expect(dataTable.getCellLinkByName(randomFileName)).toHaveAttribute(titleLabel, randomFileTitle + `\n` + randomFileDescription);
     });
 
-    test('[C325024] Cancel file creation in a library', async () => {
+    test('[XAT-5250] Cancel file creation in a library', async () => {
       await expect(createFileFromTemplateDialog.getDialogTitle(createDialogTitle)).toBeVisible();
       await createFileFromTemplateDialog.cancelButton.click();
       await expect(createFileFromTemplateDialog.getDialogTitle(createDialogTitle)).toBeHidden();
       await expect(dataTable.getRowByName(randomFileName)).toBeHidden();
     });
 
-    test('[C325025] Create a file with a duplicate name in a library', async ({ myLibrariesPage }) => {
+    test('[XAT-5251] Create a file with a duplicate name in a library', async ({ myLibrariesPage }) => {
       const snackBar = myLibrariesPage.snackBar;
 
       await createFileFromTemplateDialog.createFromTemplateAction(commonFileName);

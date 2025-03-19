@@ -75,7 +75,7 @@ test.describe('Share a file', () => {
       await apiClientFactory.nodes.deleteNodes([file6Id]);
     });
 
-    test('[C286326] A non-logged user can download the shared file from the viewer', async ({ personalFiles, page }) => {
+    test('[XAT-5148] A non-logged user can download the shared file from the viewer', async ({ personalFiles, page }) => {
       await page.goto(file6SharedLink);
       await personalFiles.viewer.waitForViewerToOpen();
 
@@ -131,7 +131,7 @@ test.describe('Share a file', () => {
         await nodesApi.deleteNodes([file3Id, file4Id, file5Id, file6Id, file7Id, file8Id, file9Id]);
       });
 
-      test('[C286327] Share dialog default values', async ({ personalFiles }) => {
+      test('[XAT-5149] Share dialog default values', async ({ personalFiles }) => {
         await personalFiles.dataTable.performActionFromExpandableMenu(file3, 'Share');
         const labels = await personalFiles.shareDialog.getLabels();
         expect(await personalFiles.shareDialog.getDialogTitle()).toEqual(`Share ${file3}`);
@@ -145,7 +145,7 @@ test.describe('Share a file', () => {
         expect(await personalFiles.shareDialog.isCloseEnabled()).toBe(true);
       });
 
-      test('[C286329] Share a file', async ({ personalFiles, nodesApiAction }) => {
+      test('[XAT-5151] Share a file', async ({ personalFiles, nodesApiAction }) => {
         await personalFiles.dataTable.performActionFromExpandableMenu(file3, 'Share');
 
         const url = await personalFiles.shareDialog.getLinkUrl();
@@ -155,7 +155,7 @@ test.describe('Share a file', () => {
         expect(url).toContain(sharedId);
       });
 
-      test('[C286330] Copy shared file URL', async ({ personalFiles, page }) => {
+      test('[XAT-5152] Copy shared file URL', async ({ personalFiles, page }) => {
         await personalFiles.dataTable.performActionFromExpandableMenu(file4, 'Share');
 
         const url = await personalFiles.shareDialog.getLinkUrl();
@@ -176,7 +176,7 @@ test.describe('Share a file', () => {
         expect(download.suggestedFilename()).toBe(file4);
       });
 
-      test('[C286332] Share a file with expiration date', async ({ personalFiles, nodesApiAction, page }) => {
+      test('[XAT-5153] Share a file with expiration date', async ({ personalFiles, nodesApiAction, page }) => {
         await personalFiles.dataTable.performActionFromExpandableMenu(file5, 'Share');
 
         await personalFiles.shareDialog.expireToggle.click();
@@ -194,7 +194,7 @@ test.describe('Share a file', () => {
         expect(Utils.formatDate(expireDateProperty)).toEqual(Utils.formatDate(inputDate));
       });
 
-      test('[C286337] Expire date is displayed correctly', async ({ personalFiles, nodesApiAction }) => {
+      test('[XAT-5154] Expire date is displayed correctly', async ({ personalFiles, nodesApiAction }) => {
         await personalFiles.dataTable.performActionFromExpandableMenu(file6, 'Share');
         const expireProperty = await nodesApiAction.getNodeProperty(file6Id, 'qshare:expiryDate');
 
@@ -203,7 +203,7 @@ test.describe('Share a file', () => {
         expect(Utils.formatDate(await personalFiles.shareDialog.getExpireDate())).toEqual(Utils.formatDate(expiryDate));
       });
 
-      test('[C286333] Disable the share link expiration', async ({ personalFiles, nodesApiAction, page }) => {
+      test('[XAT-5155] Disable the share link expiration', async ({ personalFiles, nodesApiAction, page }) => {
         await personalFiles.dataTable.performActionFromExpandableMenu(file7, 'Share');
 
         expect(await personalFiles.shareDialog.isExpireToggleEnabled()).toBe(true);
@@ -217,7 +217,7 @@ test.describe('Share a file', () => {
         expect(await nodesApiAction.getNodeProperty(file7Id, 'qshare:expiryDate')).toBe('');
       });
 
-      test('[C286335] Shared file URL is not changed when Share dialog is closed and opened again', async ({ personalFiles }) => {
+      test('[XAT-5156] Shared file URL is not changed when Share dialog is closed and opened again', async ({ personalFiles }) => {
         await personalFiles.dataTable.performActionFromExpandableMenu(file8, 'Share');
 
         const url1 = await personalFiles.shareDialog.getLinkUrl();
@@ -230,7 +230,7 @@ test.describe('Share a file', () => {
         expect(url1).toEqual(url2);
       });
 
-      test('[C286345] Share a file from the context menu', async ({ personalFiles, nodesApiAction }) => {
+      test('[XAT-5157] Share a file from the context menu', async ({ personalFiles, nodesApiAction }) => {
         await personalFiles.dataTable.performActionFromExpandableMenu(file9, 'Share');
 
         const url = await personalFiles.shareDialog.getLinkUrl();
