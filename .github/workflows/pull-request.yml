@@ -146,6 +146,8 @@ jobs:
             id: 16
           - name: "edit-actions"
             id: 17
+          - name: "smoke-test"
+            id: 18
     steps:
       - name: Checkout
         uses: actions/checkout@v4
