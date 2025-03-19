@@ -438,6 +438,18 @@ export const isTrashcanItemSelected = (context: RuleContext): boolean => [naviga
 export const canViewFile = (context: RuleContext): boolean => [hasFileSelected(context), navigation.isNotTrashcan(context)].every(Boolean);
 
 /**
+ * Checks if user can print the file.
+ * JSON ref: `canPrintFile`
+ *
+ * @param context Rule execution context
+ */
+export const canPrintFile = (context: RuleContext): boolean => {
+  const nodeEntry = context.selection.file.entry;
+  const mediaMimeTypes = ['video/mp4', 'video/webm', 'video/ogg', 'audio/mpeg', 'audio/mp3', 'audio/ogg', 'audio/wav'];
+  return !mediaMimeTypes.includes(nodeEntry.content.mimeType);
+};
+
+/**
  * Checks if user can **Leave** selected library.
  * JSON ref: `canLeaveLibrary`
  *

@@ -168,6 +168,7 @@ export class ContentServiceExtensionModule {
       canEditFolder: rules.canEditFolder,
       isTrashcanItemSelected: rules.isTrashcanItemSelected,
       canViewFile: rules.canViewFile,
+      canPrintFile: rules.canPrintFile,
       canLeaveLibrary: rules.canLeaveLibrary,
       canToggleSharedLink: rules.canToggleSharedLink,
       canShowInfoDrawer: rules.canShowInfoDrawer,
