@@ -35,9 +35,9 @@ export class CreateFromTemplateDialogComponent extends BaseComponent {
 
   cancelButton = this.getChild('[data-automation-id="create-from-template-dialog-cancel-button"]');
   createButton = this.getChild('[data-automation-id="create-from-template-dialog-create-button"]');
-  getDialogTitle = (text: string) => this.getChild('.mat-mdc-dialog-title', { hasText: text });
-  getDialogLabel = (text: string) => this.getChild('.mdc-floating-label', { hasText: text });
-  getErrorByText = (text: string): Locator => this.page.locator('mat-error', { hasText: text });
+  getDialogTitle = (text: string) => this.getChild('[data-automation-id="create-from-template-title"]', { hasText: text });
+  getDialogLabel = (text: string) => this.getChild('label', { hasText: text });
+  getErrorByText = (text: string): Locator => this.page.locator('[data-automation-id="create-from-template-field-error"]', { hasText: text });
 
   async isErrorMessageDisplayed(errorText: string): Promise<boolean> {
     await this.getErrorByText(errorText).waitFor({ state: 'visible', timeout: timeouts.large });
