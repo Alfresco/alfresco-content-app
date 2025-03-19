@@ -90,4 +90,6 @@ test.describe('Upload files', () => {
     await myLibrariesPage.navigate();
     await expect(personalFiles.uploadDialog.uploadDialog, 'Upload Dialog was not visible').toBeVisible();
   });
+
+  test('sample test', async () => {});
 });
