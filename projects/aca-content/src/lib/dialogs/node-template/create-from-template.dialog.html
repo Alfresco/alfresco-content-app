@@ -35,7 +35,7 @@
         formControlName="description"
       ></textarea>
 
-      <mat-error *ngIf="form.controls['description'].hasError('maxlength') data-automation-id="create-from-template-field-error"">
+      <mat-error *ngIf="form.controls['description'].hasError('maxlength')" data-automation-id="create-from-template-field-error">
         {{ 'NODE_FROM_TEMPLATE.FORM.ERRORS.DESCRIPTION_TOO_LONG' | translate }}
       </mat-error>
     </mat-form-field>
