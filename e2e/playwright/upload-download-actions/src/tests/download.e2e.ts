@@ -60,14 +60,14 @@ test.describe('Download from Personal Files', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
-  test('Download a file', async ({ personalFiles }) => {
+  test('[XAT-4911] Download a file', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(parent);
     await personalFiles.dataTable.selectItems(childFile);
     const [download] = await Promise.all([personalFiles.page.waitForEvent('download'), personalFiles.acaHeader.downloadButton.click()]);
     expect(download.suggestedFilename()).toBe(childFile);
   });
 
-  test('Download a folder', async ({ personalFiles }) => {
+  test('[XAT-4912] Download a folder', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(parent);
     await personalFiles.dataTable.selectItems(childFolder);
     const [download] = await Promise.all([personalFiles.page.waitForEvent('download'), personalFiles.acaHeader.downloadButton.click()]);
@@ -75,7 +75,7 @@ test.describe('Download from Personal Files', () => {
     expect(await Utils.verifyZipFileContent(filePath, [childFolder])).toBe(true);
   });
 
-  test('Download multiple items', async ({ personalFiles }) => {
+  test('[XAT-4913] Download a multiple selection of files / folders', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(parent);
     await personalFiles.dataTable.selectItems(childFile, childFolder);
     const [download] = await Promise.all([personalFiles.page.waitForEvent('download'), personalFiles.acaHeader.downloadButton.click()]);

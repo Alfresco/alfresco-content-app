@@ -74,7 +74,7 @@ test.describe('Move actions', () => {
     await personalFilesPage.spinner.waitForReload();
   };
 
-  test('[C217316] Move a file', async ({ personalFiles }) => {
+  test('[XAT-4996] Move a file', async ({ personalFiles }) => {
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
     await moveContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     const msg = await personalFiles.snackBar.message.innerText();
@@ -85,7 +85,7 @@ test.describe('Move actions', () => {
     expect(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
   });
 
-  test('[C291958] Move multiple items', async ({ personalFiles }) => {
+  test('[XAT-4998] Move multiple items', async ({ personalFiles }) => {
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
     await moveContentInPersonalFiles(personalFiles, [sourceFolder, sourceFile], destinationFolder);
     const msg = await personalFiles.snackBar.message.innerText();
@@ -98,7 +98,7 @@ test.describe('Move actions', () => {
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
   });
 
-  test('[C217318] Move a file with a name that already exists on the destination', async ({ personalFiles }) => {
+  test('[XAT-4999] Move a file with a name that already exists on the destination', async ({ personalFiles }) => {
     await nodesApi.createFile(sourceFile, destinationFolderId);
     const expectedNameForCopiedFile = sourceFile.replace('.', '-1.');
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
@@ -112,7 +112,7 @@ test.describe('Move actions', () => {
     expect(await personalFiles.dataTable.isItemPresent(expectedNameForCopiedFile)).toBeFalsy();
   });
 
-  test('[C217319] Move a folder with a name that already exists on the destination', async ({ personalFiles }) => {
+  test('[XAT-5000] Move a folder with a name that already exists on the destination', async ({ personalFiles }) => {
     const existingFolderId = (await nodesApi.createFolder(sourceFolder, destinationFolderId)).entry.id;
     await nodesApi.createFile(sourceFileInsideFolder, existingFolderId);
     const expectedNameForCopiedFile = sourceFileInsideFolder.replace('.', '-1.');
@@ -129,7 +129,7 @@ test.describe('Move actions', () => {
     expect(await personalFiles.dataTable.isItemPresent(expectedNameForCopiedFile)).toBeFalsy();
   });
 
-  test('[C217320] Move locked file', async ({ personalFiles }) => {
+  test('[XAT-4989] Move locked file', async ({ personalFiles }) => {
     const lockType = 'ALLOW_OWNER_CHANGES';
     await nodesApi.lockNodes([sourceFileId], lockType);
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
@@ -142,7 +142,7 @@ test.describe('Move actions', () => {
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
   });
 
-  test('[C217324] Undo move files', async ({ personalFiles, trashPage }) => {
+  test('[XAT-4992] Undo move files', async ({ personalFiles, trashPage }) => {
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
     await moveContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     await personalFiles.snackBar.actionButton.click();
@@ -154,7 +154,7 @@ test.describe('Move actions', () => {
     expect(await trashPage.dataTable.isItemPresent(sourceFile)).toBeFalsy();
   });
 
-  test('[C217325] Undo move of folders', async ({ personalFiles, trashPage }) => {
+  test('[XAT-4993] Undo move folder', async ({ personalFiles, trashPage }) => {
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
     await moveContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
     await personalFiles.snackBar.actionButton.click();
@@ -185,12 +185,12 @@ test.describe('Move actions', () => {
 
   [
     {
-      id: 'C217317',
+      id: 'XAT-4997',
       testTitle: `Move a folder with content`,
       lockedFile: false
     },
     {
-      id: 'C217321',
+      id: 'XAT-4990',
       testTitle: 'Move folder that contains locked file',
       lockedFile: true
     }

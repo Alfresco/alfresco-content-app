@@ -51,7 +51,7 @@ test.describe('Trash admin', () => {
   });
 
   test.describe('as admin', () => {
-    test('[C213217] has the correct columns', async ({ trashPage }) => {
+    test('[XAT-4465] Trash list has correct columns - admin', async ({ trashPage }) => {
       await trashPage.navigate();
       const expectedColumns = ['Name', 'Location', 'Size', 'Deleted', 'Deleted by'];
       const actualColumns = Utils.trimArrayElements(await trashPage.dataTable.getColumnHeaders());

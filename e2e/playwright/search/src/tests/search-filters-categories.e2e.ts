@@ -71,7 +71,7 @@ test.describe('Search - Filters - Categories', () => {
     await categoriesApi.deleteCategory(categoryId);
   });
 
-  test('[C699498] Filter by categories', async ({ searchPage }) => {
+  test('[XAT-5580] Should able to filter search result with category', async ({ searchPage }) => {
     await searchPage.searchWithin(randomId, 'files');
     await searchPage.searchFilters.categoriesFilter.click();
     await searchPage.searchFiltersCategories.addOptionInput.fill(newSubcategories[0].name);

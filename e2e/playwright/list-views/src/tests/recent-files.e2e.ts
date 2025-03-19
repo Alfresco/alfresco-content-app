@@ -82,35 +82,35 @@ test.describe('Recent Files', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodeActionsUser, trashcanApi, 'afterAll failed', siteActionsUser, [siteName]);
   });
 
-  test('[C213168] has the correct columns', async ({ recentFilesPage }) => {
+  test('[XAT-4442] Recent Files list has the correct columns', async ({ recentFilesPage }) => {
     const expectedColumns = ['Name', 'Location', 'Size', 'Modified', 'Tags'];
     const actualColumns = Utils.trimArrayElements(await recentFilesPage.dataTable.getColumnHeaders());
 
     expect(actualColumns).toEqual(expectedColumns);
   });
 
-  test('[C213171] default sorting column', async ({ recentFilesPage }) => {
+  test('[XAT-4444] Default sort order is by Modified, showing most recently edited files first', async ({ recentFilesPage }) => {
     expect(await recentFilesPage.dataTable.getSortedColumnHeaderText()).toBe('Modified');
     expect(await recentFilesPage.dataTable.getSortingOrder()).toBe('desc');
   });
 
-  test(`[C213174] file not displayed if it's been deleted`, async ({ recentFilesPage }) => {
+  test(`[XAT-4446] File recently edited that is deleted afterwards is not displayed in the list`, async ({ recentFilesPage }) => {
     expect(await recentFilesPage.dataTable.isItemPresent(fileName3), `${fileName3} is displayed`).not.toBe(true);
   });
 
-  test('[C213176] Location column redirect - file in user Home', async ({ recentFilesPage }) => {
+  test(`[XAT-4448] Clicking on the location link redirects to parent folder - item in User's Home`, async ({ recentFilesPage }) => {
     await recentFilesPage.dataTable.clickItemLocation(fileName2);
     await recentFilesPage.dataTable.spinnerWaitForReload();
     expect(await recentFilesPage.breadcrumb.getAllItems()).toEqual(['Personal Files']);
   });
 
-  test('[C280486] Location column redirect - file in folder', async ({ recentFilesPage }) => {
+  test('[XAT-4449] Clicking on the location link redirects to parent folder - item in a folder', async ({ recentFilesPage }) => {
     await recentFilesPage.dataTable.clickItemLocation(fileName1);
     await recentFilesPage.dataTable.spinnerWaitForReload();
     expect(await recentFilesPage.breadcrumb.getAllItems()).toEqual(['Personal Files', folderName]);
   });
 
-  test('[C280487] Location column redirect - file in site', async ({ recentFilesPage }) => {
+  test('[XAT-4450] Clicking on the location link redirects to parent folder - item in a site', async ({ recentFilesPage }) => {
     await recentFilesPage.dataTable.clickItemLocation(fileSite);
     await recentFilesPage.dataTable.spinnerWaitForReload();
     expect(await recentFilesPage.breadcrumb.getAllItems()).toEqual(['My Libraries', siteName, folderSite]);

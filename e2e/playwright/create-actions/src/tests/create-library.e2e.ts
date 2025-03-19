@@ -94,7 +94,7 @@ test.describe('Create Libraries ', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', sitesApi, createdLibrariesIds);
   });
 
-  test('[C280024] Create Library dialog UI', async () => {
+  test('[XAT-5118] Create Library dialog UI check', async () => {
     await expect(libraryDialog.getDialogTitle(libraryDialogTitle)).toBeVisible();
     await expect(libraryDialog.getLabelText(libraryNameLabel)).toBeVisible();
     await expect(libraryDialog.getRequiredMarker(libraryNameLabel)).toBeVisible();
@@ -115,7 +115,7 @@ test.describe('Create Libraries ', () => {
       libraryBreadcrumb = myLibrariesPage.breadcrumb;
     });
 
-    test('[C280025] Create a public library', async ({ myLibrariesPage }) => {
+    test('[XAT-5119] Create a public library', async ({ myLibrariesPage }) => {
       await libraryDialog.getLabelText(libraryNameLabel).fill(randomLibraryName);
       await expect(libraryDialog.getLabelText(libraryNameLabel)).toHaveValue(randomLibraryName);
       await expect(libraryDialog.getLabelText(libraryIdLabel)).toHaveValue(randomLibraryName);
@@ -128,7 +128,7 @@ test.describe('Create Libraries ', () => {
       createdLibrariesIds.push(randomLibraryName);
     });
 
-    test('[C289880] Create a moderated library', async ({ myLibrariesPage }) => {
+    test('[XAT-5120] Create a moderated library', async ({ myLibrariesPage }) => {
       await libraryDialog.createLibraryWithNameAndId(randomLibraryName, randomLibraryId, null, moderatedVisibility);
       await expect(libraryBreadcrumb.getItemByTitle(randomLibraryName)).toBeVisible();
 
@@ -139,7 +139,7 @@ test.describe('Create Libraries ', () => {
       createdLibrariesIds.push(randomLibraryId);
     });
 
-    test('[C289881] Create a private library', async ({ myLibrariesPage }) => {
+    test('[XAT-5121] Create a private library', async ({ myLibrariesPage }) => {
       await libraryDialog.createLibraryWithNameAndId(randomLibraryName, randomLibraryId, null, privateVisibility);
       await expect(libraryBreadcrumb.getItemByTitle(randomLibraryName)).toBeVisible();
 
@@ -149,7 +149,7 @@ test.describe('Create Libraries ', () => {
       createdLibrariesIds.push(randomLibraryId);
     });
 
-    test('[C289882] Create a library with a given ID and description', async ({ myLibrariesPage }) => {
+    test('[XAT-5122] Create a library with a given ID and description', async ({ myLibrariesPage }) => {
       const libraryViewDetails = myLibrariesPage.acaHeader.viewDetails;
       const libraryDetails = myLibrariesPage.libraryDetails;
 
@@ -169,7 +169,7 @@ test.describe('Create Libraries ', () => {
       createdLibrariesIds.push(randomLibraryId);
     });
 
-    test('[C280029] Cancel button', async () => {
+    test('[XAT-5126] Create Library - Cancel button', async () => {
       await expect(libraryDialog.getDialogTitle(libraryDialogTitle)).toBeVisible();
       await libraryDialog.getLabelText(libraryNameLabel).fill(randomLibraryName);
       await libraryDialog.cancelButton.click();
@@ -178,7 +178,7 @@ test.describe('Create Libraries ', () => {
       await expect(libraryTable.getRowByName(randomLibraryName)).toHaveCount(0);
     });
 
-    test('[C280030] Create 2 libraries with same name but different IDs', async ({ myLibrariesPage }) => {
+    test('[XAT-5127] Create multiple sites with same name but different IDs', async ({ myLibrariesPage }) => {
       const libraryName = commonLibraryName + ' (' + commonLibraryName + ')';
       const libraryName2 = commonLibraryName + ' (' + randomLibraryId + ')';
 
@@ -193,7 +193,7 @@ test.describe('Create Libraries ', () => {
     });
   });
 
-  test('[C280026] Library ID cannot contain special characters', async () => {
+  test('[XAT-5123] Library ID cannot contain special characters', async () => {
     const idsWithSpecialChars = [
       'a!a',
       'a@a',
@@ -226,7 +226,7 @@ test.describe('Create Libraries ', () => {
     }
   });
 
-  test('[C280027] Duplicate library ID', async () => {
+  test('[XAT-5124] Duplicate library ID', async () => {
     await libraryDialog.getLabelText(libraryNameLabel).fill(randomLibraryName);
     await libraryDialog.getLabelText(libraryIdLabel).clear();
     await libraryDialog.getLabelText(libraryIdLabel).fill(commonLibraryName);
@@ -237,7 +237,7 @@ test.describe('Create Libraries ', () => {
     expect(await libraryDialog.isErrorMessageDisplayed(libraryErrors.libraryIdIsNotAvailable), errorMessageNotPresent).toBe(true);
   });
 
-  test('[C280028] Create library using the ID of a library from the Trashcan', async () => {
+  test('[XAT-5125] Create library using the ID of a library from the Trashcan', async () => {
     await libraryDialog.getLabelText(libraryNameLabel).fill(randomLibraryName);
     await libraryDialog.getLabelText(libraryIdLabel).clear();
     await libraryDialog.getLabelText(libraryIdLabel).fill(commonTrashLibraryName);

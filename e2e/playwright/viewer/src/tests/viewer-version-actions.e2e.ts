@@ -101,16 +101,18 @@ test.describe('Version actions', () => {
       await viewFirstFileVersion(personalFiles);
     });
 
-    test('[C586766] Should be possible to view a previous document version', async ({ personalFiles }) => {
+    test('[XAT-5496] Should be possible to view a previous document version - Personal Files', async ({ personalFiles }) => {
       expect(personalFiles.page.url()).toContain('1.0');
     });
 
-    test('[C586767] Previous document version title should be the same in Preview mode as the Uploaded File', async ({ personalFiles }) => {
+    test('[XAT-5497] Previous document version title should be the same in Preview mode as in Version Manager - Personal Files', async ({
+      personalFiles
+    }) => {
       await personalFiles.viewer.waitForViewerToOpen('wait for viewer content');
       expect(await personalFiles.viewer.getFileTitle()).toContain(filenameBeforeUpdate);
     });
 
-    test('[C586768] Should be possible to download a previous document version', async ({ personalFiles }) => {
+    test('[XAT-5498] Should be possible to download a previous document version - Personal Files', async ({ personalFiles }) => {
       const [download] = await Promise.all([personalFiles.page.waitForEvent('download'), await personalFiles.viewer.downloadButton.click()]);
       expect(download.suggestedFilename()).toBe(filenameBeforeUpdate);
     });
@@ -123,16 +125,18 @@ test.describe('Version actions', () => {
       await viewFirstFileVersion(recentFilesPage);
     });
 
-    test('[C586769] Should be possible to view a previous document version', async ({ recentFilesPage }) => {
+    test('[XAT-5499] Should be possible to view a previous document version - Recent Files', async ({ recentFilesPage }) => {
       expect(recentFilesPage.page.url()).toContain('1.0');
     });
 
-    test('[C586770] Previous document version title should be the same in Preview mode as the Uploaded File', async ({ recentFilesPage }) => {
+    test('[XAT-5500] Previous document version title should be the same in Preview mode as in Version Manager - Recent Files', async ({
+      recentFilesPage
+    }) => {
       await recentFilesPage.viewer.waitForViewerToOpen('wait for viewer content');
       expect(await recentFilesPage.viewer.getFileTitle()).toContain(filenameBeforeUpdate);
     });
 
-    test('[C586771] Should be possible to download a previous document version', async ({ recentFilesPage }) => {
+    test('[XAT-5501] Should be possible to download a previous document version - Recent Files', async ({ recentFilesPage }) => {
       const [download] = await Promise.all([recentFilesPage.page.waitForEvent('download'), await recentFilesPage.viewer.downloadButton.click()]);
       expect(download.suggestedFilename()).toBe(filenameBeforeUpdate);
     });
@@ -145,16 +149,18 @@ test.describe('Version actions', () => {
       await viewFirstFileVersion(favoritePage);
     });
 
-    test('[C586772] Should be possible to view a previous document version', async ({ favoritePage }) => {
+    test('[XAT-5502] Should be possible to view a previous document version - Favorites', async ({ favoritePage }) => {
       expect(favoritePage.page.url()).toContain('1.0');
     });
 
-    test('[C586773] Previous document version title should be the same in Preview mode as the Uploaded File', async ({ favoritePage }) => {
+    test('[XAT-5503] Previous document version title should be the same in Preview mode as in Version Manager - Favorites', async ({
+      favoritePage
+    }) => {
       await favoritePage.viewer.waitForViewerToOpen('wait for viewer content');
       expect(await favoritePage.viewer.getFileTitle()).toContain(filenameBeforeUpdate);
     });
 
-    test('[C586774] Should be possible to download a previous document version', async ({ favoritePage }) => {
+    test('[XAT-5504] Should be possible to download a previous document version - Favorites', async ({ favoritePage }) => {
       const [download] = await Promise.all([favoritePage.page.waitForEvent('download'), await favoritePage.viewer.downloadButton.click()]);
       expect(download.suggestedFilename()).toBe(filenameBeforeUpdate);
     });
@@ -167,16 +173,18 @@ test.describe('Version actions', () => {
       await viewFirstFileVersion(sharedPage);
     });
 
-    test('[C586776] Should be possible to view a previous document version', async ({ sharedPage }) => {
+    test('[XAT-5505] Should be possible to view a previous document version - Shared Files', async ({ sharedPage }) => {
       expect(sharedPage.page.url()).toContain('1.0');
     });
 
-    test('[C586777] Previous document version title should be the same in Preview mode as the Uploaded File', async ({ sharedPage }) => {
+    test('[XAT-5506] Previous document version title should be the same in Preview mode as in Version Manager - Shared Files', async ({
+      sharedPage
+    }) => {
       await sharedPage.viewer.waitForViewerToOpen('wait for viewer content');
       expect(await sharedPage.viewer.getFileTitle()).toContain(filenameBeforeUpdate);
     });
 
-    test('[C586778] Should be possible to download a previous document version', async ({ sharedPage }) => {
+    test('[XAT-5507] Should be possible to download a previous document version - Shared Files', async ({ sharedPage }) => {
       const [download] = await Promise.all([sharedPage.page.waitForEvent('download'), await sharedPage.viewer.downloadButton.click()]);
       expect(download.suggestedFilename()).toBe(filenameBeforeUpdate);
     });
@@ -191,16 +199,18 @@ test.describe('Version actions', () => {
       await viewFirstFileVersion(searchPage);
     });
 
-    test('[C586779] Should be possible to view a previous document version', async ({ searchPage }) => {
+    test('[XAT-5508] Should be possible to view a previous document version - Search Results', async ({ searchPage }) => {
       expect(searchPage.page.url()).toContain('1.0');
     });
 
-    test('[C586780] Previous document version title should be the same in Preview mode as the Uploaded File', async ({ searchPage }) => {
+    test('[XAT-5509] Previous document version title should be the same in Preview mode as in Version Manager - Search Results', async ({
+      searchPage
+    }) => {
       await searchPage.viewer.waitForViewerToOpen('wait for viewer content');
       expect(await searchPage.viewer.getFileTitle()).toContain(filenameBeforeUpdate);
     });
 
-    test('[C586781] Should be possible to download a previous document version', async ({ searchPage }) => {
+    test('[XAT-5510] Should be possible to download a previous document version - Search Results', async ({ searchPage }) => {
       const [download] = await Promise.all([searchPage.page.waitForEvent('download'), await searchPage.viewer.downloadButton.click()]);
       expect(download.suggestedFilename()).toBe(filenameBeforeUpdate);
     });

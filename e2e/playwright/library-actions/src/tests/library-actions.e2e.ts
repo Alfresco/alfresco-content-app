@@ -175,7 +175,7 @@ test.describe('Library actions ', () => {
       }
     });
 
-    test('[C290106] Leave a library from My Libraries', async () => {
+    test('[XAT-5132] Leave a library - from My Libraries', async () => {
       await expect(libraryTable.getCellByColumnNameAndRowItem(user1Library1, managerRole)).toBeVisible();
       await libraryTable.performActionFromExpandableMenu(user1Library1, leaveLibraryButton);
       await expect.soft(confirmDialog.getDialogTitle('Leave this library?')).toBeVisible();
@@ -187,14 +187,14 @@ test.describe('Library actions ', () => {
       await expect(libraryTable.getRowByName(user1Library1)).toBeHidden();
     });
 
-    test('[C290111] Cancel Leave Library', async () => {
+    test('[XAT-5136] Cancel Leave Library', async () => {
       await expect(libraryTable.getCellByColumnNameAndRowItem(user1Library5, managerRole)).toBeVisible();
       await libraryTable.performActionFromExpandableMenu(user1Library5, leaveLibraryButton);
       await confirmDialog.cancelButton.click();
       await expect(libraryTable.getCellByColumnNameAndRowItem(user1Library5, managerRole)).toBeVisible();
     });
 
-    test('[C290107] Leave a library - failure notification', async () => {
+    test('[XAT-5137] Leave a library - failure notification', async () => {
       await expect(libraryTable.getCellByColumnNameAndRowItem(user2Library1, managerRole)).toBeVisible();
       await libraryTable.performActionFromExpandableMenu(user2Library1, leaveLibraryButton);
       await confirmDialog.okButton.click();
@@ -202,7 +202,7 @@ test.describe('Library actions ', () => {
       await expect(libraryTable.getCellByColumnNameAndRowItem(user2Library1, managerRole)).toBeVisible();
     });
 
-    test('[C289974] Mark library as favorite from My Libraries', async () => {
+    test('[XAT-5140] Mark a library as favorite - from My Libraries', async () => {
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminLibrary3, contributorRole)).toBeVisible();
       await libraryTable.getCellByColumnNameAndRowItem(adminLibrary3, contributorRole).click();
       await myLibrariesHeader.clickMoreActions();
@@ -211,7 +211,7 @@ test.describe('Library actions ', () => {
       expect(await libraryMenu.isMenuItemVisible(removeFavoriteButton)).toBe(true);
     });
 
-    test('[C289975] Remove library from favorites from My Libraries', async ({ myLibrariesPage }) => {
+    test('[XAT-5142] Remove a library from favorites - from My Libraries', async ({ myLibrariesPage }) => {
       await expect(libraryTable.getRowByName(user2Library2)).toBeVisible();
       await libraryTable.getRowByName(user2Library2).click();
       await myLibrariesPage.page.waitForTimeout(1000);
@@ -222,7 +222,7 @@ test.describe('Library actions ', () => {
       expect(await libraryMenu.isMenuItemVisible(favoriteButton)).toBe(true);
     });
 
-    test('[C289988] Delete a library from My Libraries', async ({ trashPage }) => {
+    test('[XAT-5145] Delete a library - from My Libraries', async ({ trashPage }) => {
       const trashTable = trashPage.dataTable;
       await expect(libraryTable.getRowByName(user2Library5Delete)).toBeVisible();
       await libraryTable.getRowByName(user2Library5Delete).click();
@@ -250,7 +250,7 @@ test.describe('Library actions ', () => {
       }
     });
 
-    test('[C290105] Join a public library from Favorite Libraries', async ({ favoriteLibrariesPage }) => {
+    test('[XAT-5128] Join a public library - from Favorite Libraries', async ({ favoriteLibrariesPage }) => {
       await favoritesApi.addFavoriteById(siteString, adminLibrary1);
       await favoriteLibrariesPage.navigate();
       await libraryTable.performActionFromExpandableMenu(adminLibrary1, joinButton);
@@ -258,7 +258,7 @@ test.describe('Library actions ', () => {
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminLibrary1, consumerRole)).toBeVisible();
     });
 
-    test('[C290109] Join a moderated library from Favorite Libraries', async ({ favoriteLibrariesPage }) => {
+    test('[XAT-5130] Join a moderated library - from Favorite Libraries', async ({ favoriteLibrariesPage }) => {
       await favoritesApi.addFavoriteById(siteString, adminModerateLibrary1);
       await favoriteLibrariesPage.navigate();
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminModerateLibrary1, notMemberString)).toBeVisible();
@@ -270,7 +270,7 @@ test.describe('Library actions ', () => {
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminModerateLibrary1, consumerRole)).toBeVisible();
     });
 
-    test('[C290110] Leave a library from Favorite Libraries', async ({ favoriteLibrariesPage }) => {
+    test('[XAT-5133] Leave a library - from Favorite Libraries', async ({ favoriteLibrariesPage }) => {
       const confirmDialog = favoriteLibrariesPage.confirmDialogComponent;
       await favoritesApi.addFavoriteById(siteString, user1Library2);
       await favoriteLibrariesPage.navigate();
@@ -281,7 +281,7 @@ test.describe('Library actions ', () => {
       await expect(libraryTable.getCellByColumnNameAndRowItem(user1Library2, notMemberString)).toBeVisible();
     });
 
-    test('[C290108] Cancel join from Favorite Libraries', async ({ favoriteLibrariesPage }) => {
+    test('[XAT-5138] Cancel join - from Favorite Libraries', async ({ favoriteLibrariesPage }) => {
       await user2SitesApi.createSiteMembershipRequestForPerson(username2, adminModerateLibrary3);
       await favoritesApi.addFavoriteById(siteString, adminModerateLibrary3);
       await favoriteLibrariesPage.navigate();
@@ -293,7 +293,7 @@ test.describe('Library actions ', () => {
       expect(hasJoinRequest).toBe(false);
     });
 
-    test('[C289976] Remove library from favorites from Favorite Libraries', async ({ favoriteLibrariesPage }) => {
+    test('[XAT-5143] Remove a library from favorites - from Favorite Libraries', async ({ favoriteLibrariesPage }) => {
       const myLibrariesHeader = favoriteLibrariesPage.acaHeader;
       const libraryMenu = favoriteLibrariesPage.matMenu;
 
@@ -305,7 +305,7 @@ test.describe('Library actions ', () => {
       await expect(libraryTable.getRowByName(user2Library3)).toBeHidden();
     });
 
-    test('[C289991] Delete a library from Favorite Libraries', async ({ favoriteLibrariesPage, trashPage }) => {
+    test('[XAT-5146] Delete a library - from Favorite Libraries', async ({ favoriteLibrariesPage, trashPage }) => {
       const myLibrariesHeader = favoriteLibrariesPage.acaHeader;
       const libraryMenu = favoriteLibrariesPage.matMenu;
       const trashTable = trashPage.dataTable;
@@ -335,7 +335,7 @@ test.describe('Library actions ', () => {
       }
     });
 
-    test('[C306959] Join a public library from Search Results', async ({ searchPage }) => {
+    test('[XAT-5129] Join a public library - from Search Results', async ({ searchPage }) => {
       await searchPage.searchWithin(adminLibrary2, 'libraries');
       await searchPage.reload({ waitUntil: loadString });
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminLibrary2, notMemberString)).toBeVisible();
@@ -344,7 +344,7 @@ test.describe('Library actions ', () => {
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminLibrary2, consumerRole)).toBeVisible();
     });
 
-    test('[C306960] Join a moderated library from Search Results', async ({ myLibrariesPage, searchPage }) => {
+    test('[XAT-5131] Join a moderated library - from Search Results', async ({ myLibrariesPage, searchPage }) => {
       await searchPage.searchWithin(adminModerateLibrary2, 'libraries');
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminModerateLibrary2, notMemberString)).toBeVisible();
       await libraryTable.performActionFromExpandableMenu(adminModerateLibrary2, joinButton);
@@ -355,7 +355,7 @@ test.describe('Library actions ', () => {
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminModerateLibrary2, consumerRole)).toBeVisible();
     });
 
-    test('[C306961] Leave a library from Search Results', async ({ searchPage }) => {
+    test('[XAT-5134] Leave a library - from Search Results', async ({ searchPage }) => {
       const confirmDialog = searchPage.confirmDialogComponent;
       await searchPage.searchWithin(user1Library3, 'libraries');
 
@@ -366,7 +366,7 @@ test.describe('Library actions ', () => {
       await expect(libraryTable.getCellByColumnNameAndRowItem(user1Library3, notMemberString)).toBeVisible();
     });
 
-    test('[C306962] Cancel join from Search Results', async ({ searchPage }) => {
+    test('[XAT-5139] Cancel join - from Search Results', async ({ searchPage }) => {
       await user2SitesApi.createSiteMembershipRequestForPerson(username2, adminModerateLibrary4);
       await searchPage.searchWithin(adminModerateLibrary4, 'libraries');
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminModerateLibrary4, notMemberString)).toBeVisible();
@@ -376,7 +376,7 @@ test.describe('Library actions ', () => {
       expect(hasJoinRequest).toBe(false);
     });
 
-    test('[C306963] Mark library as favorite from Search Results', async ({ myLibrariesPage, searchPage }) => {
+    test('[XAT-5141] Mark a library as favorite - from Search Results', async ({ myLibrariesPage, searchPage }) => {
       const myLibrariesHeader = myLibrariesPage.acaHeader;
       const libraryMenu = myLibrariesPage.matMenu;
 
@@ -393,7 +393,7 @@ test.describe('Library actions ', () => {
       expect(await libraryMenu.isMenuItemVisible(removeFavoriteButton)).toBe(true);
     });
 
-    test('[C306964] Remove library from favorites from Search Results', async ({ searchPage }) => {
+    test('[XAT-5144] Remove a library from favorites - from Search Results', async ({ searchPage }) => {
       const searchHeader = searchPage.acaHeader;
       const libraryMenu = searchPage.matMenu;
 
@@ -411,7 +411,7 @@ test.describe('Library actions ', () => {
       expect(await libraryMenu.isMenuItemVisible(favoriteButton)).toBe(true);
     });
 
-    test('[C306965] Delete a library from Search Results', async ({ searchPage, trashPage }) => {
+    test('[XAT-5147] Delete a library - from Search Results', async ({ searchPage, trashPage }) => {
       const searchHeader = searchPage.acaHeader;
       const libraryMenu = searchPage.matMenu;
       const trashTable = trashPage.dataTable;

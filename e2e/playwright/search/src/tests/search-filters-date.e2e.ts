@@ -58,7 +58,7 @@ test.describe('Search - Filters - Date', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
-  test('[C699048-1] [C699049-1] Filter by date - Changing tabs', async ({ searchPage }) => {
+  test('[XAT-17698] Filter by date - Changing tabs', async ({ searchPage }) => {
     await searchPage.acaHeader.searchButton.click();
     await searchPage.searchFilters.dateFilter.click();
     await searchPage.searchFiltersDate.betweenButton.click();
@@ -74,7 +74,7 @@ test.describe('Search - Filters - Date', () => {
     expect(await searchPage.searchFiltersDate.isSearchTabSelected()).toBe('true');
   });
 
-  test('[C699048-2] Filter by date - Created anytime', async ({ searchPage }) => {
+  test('[XAT-5582] Should able to filter search result with Created date under Date Facet - Created anytime', async ({ searchPage }) => {
     await searchPage.searchFiltersDate.filterFilesByDate({
       searchPage,
       filterType: 'anytime',
@@ -85,7 +85,7 @@ test.describe('Search - Filters - Date', () => {
     });
   });
 
-  test('[C699049-2] Filter by date - Modified anytime', async ({ searchPage }) => {
+  test('[XAT-5583] Should able to filter search result with Modified date under Date Facet - Modified anytime', async ({ searchPage }) => {
     await searchPage.searchFiltersDate.filterFilesByDate({
       searchPage,
       filterType: 'anytime',
@@ -96,7 +96,7 @@ test.describe('Search - Filters - Date', () => {
     });
   });
 
-  test('[C699048-3] Filter by date - Created in the last', async ({ searchPage }) => {
+  test('[XAT-17699] Should able to filter search result with Created date under Date Facet - Created in the last', async ({ searchPage }) => {
     await searchPage.searchFiltersDate.filterFilesByDate({
       searchPage,
       filterType: 'inTheLast',
@@ -108,7 +108,7 @@ test.describe('Search - Filters - Date', () => {
     });
   });
 
-  test('[C699049-3] Filter by date - Modified in the last', async ({ searchPage }) => {
+  test('[XAT-17701] Should able to filter search result with Modified date under Date Facet - Modified in the last', async ({ searchPage }) => {
     await searchPage.searchFiltersDate.filterFilesByDate({
       searchPage,
       filterType: 'inTheLast',
@@ -120,7 +120,7 @@ test.describe('Search - Filters - Date', () => {
     });
   });
 
-  test('[C699048-4] Filter by date - Created between', async ({ searchPage }) => {
+  test('[XAT-17700] Should able to filter search result with Created date under Date Facet - Created between', async ({ searchPage }) => {
     await searchPage.searchFiltersDate.filterFilesByDate({
       searchPage,
       filterType: 'between',
@@ -134,7 +134,7 @@ test.describe('Search - Filters - Date', () => {
     });
   });
 
-  test('[C699049-4] Filter by date - Modified between', async ({ searchPage }) => {
+  test('[XAT-17702] Should able to filter search result with Modified date under Date Facet - Modified between', async ({ searchPage }) => {
     await searchPage.searchFiltersDate.filterFilesByDate({
       searchPage,
       filterType: 'between',

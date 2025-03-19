@@ -93,13 +93,13 @@ test.describe('File Libraries', () => {
       await myLibrariesPage.navigate();
     });
 
-    test('[C217095] has the correct columns', async ({ myLibrariesPage }) => {
+    test('[XAT-4416] My Libraries list has the correct columns', async ({ myLibrariesPage }) => {
       const expectedColumns = ['Name', 'Description', 'My Role', 'Visibility'];
       const actualColumns = Utils.trimArrayElements(await myLibrariesPage.dataTable.getColumnHeaders());
       expect(actualColumns).toEqual(expectedColumns);
     });
 
-    test('[C289905] Library visibility is correctly displayed', async ({ myLibrariesPage }) => {
+    test('[XAT-4418] My Libraries - Library visibility is correctly displayed', async ({ myLibrariesPage }) => {
       const expectedSitesVisibility = {
         [userSitePrivate]: Site.VisibilityEnum.PRIVATE,
         [userSiteModerated]: Site.VisibilityEnum.MODERATED,
@@ -111,7 +111,7 @@ test.describe('File Libraries', () => {
       }
     });
 
-    test('[C289903] User role is correctly displayed', async ({ myLibrariesPage }) => {
+    test('[XAT-4419] My Libraries - User role is correctly displayed', async ({ myLibrariesPage }) => {
       const expectedSitesRoles = {
         [adminSite1]: Site.RoleEnum.SiteConsumer,
         [adminSite2]: Site.RoleEnum.SiteContributor,
@@ -125,7 +125,7 @@ test.describe('File Libraries', () => {
       }
     });
 
-    test('[C217098] Site ID is displayed when two sites have the same name', async ({ myLibrariesPage }) => {
+    test('[XAT-4420] My Libraries - Site ID is displayed when two sites have the same name', async ({ myLibrariesPage }) => {
       const expectedSites = [`${siteName} (${siteId1})`, `${siteName} (${siteId2})`];
       const actualSite1 = await myLibrariesPage.dataTable.getRowAllInnerTexts(siteId1);
       expect(actualSite1).toContain(expectedSites[0]);
@@ -140,14 +140,14 @@ test.describe('File Libraries', () => {
       await favoritesLibrariesPage.navigate();
     });
 
-    test('[C289893] has the correct columns', async ({ favoritesLibrariesPage }) => {
+    test('[XAT-4423] Favorite Libraries list has the correct columns', async ({ favoritesLibrariesPage }) => {
       const expectedColumns = ['Name', 'Description', 'My Role', 'Visibility'];
       const actualColumns = Utils.trimArrayElements(await favoritesLibrariesPage.dataTable.getColumnHeaders());
 
       expect(actualColumns).toEqual(expectedColumns);
     });
 
-    test('[C289897] User can see only his favorite sites', async ({ favoritesLibrariesPage }) => {
+    test('[XAT-4424] User can see only his favorite sites', async ({ favoritesLibrariesPage }) => {
       expect(await favoritesLibrariesPage.dataTable.isItemPresent(adminSite5), `${adminSite5} should not appear`).toBe(false);
     });
   });

@@ -38,46 +38,6 @@ test.describe('Empty list views', () => {
     await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
   });
 
-  test('[C217099] empty My Libraries', async ({ myLibrariesPage }) => {
-    await myLibrariesPage.navigate();
-    expect(await myLibrariesPage.dataTable.isEmpty(), 'list is not empty').toBe(true);
-    expect(await myLibrariesPage.dataTable.getEmptyStateTitle()).toContain(`You aren't a member of any File Libraries yet`);
-    expect(await myLibrariesPage.dataTable.getEmptyStateSubtitle()).toContain('Join libraries to upload, view, and share files.');
-  });
-
-  test('[C280134] [C280120] Empty Trash - pagination controls not displayed', async ({ trashPage }) => {
-    await trashPage.navigate();
-    expect(await trashPage.dataTable.isEmpty(), 'list is not empty').toBe(true);
-    expect(await trashPage.dataTable.getEmptyStateTitle()).toContain('Trash is empty');
-    expect(await trashPage.dataTable.getEmptyListText()).toContain('Items you delete are moved to the Trash.');
-    expect(await trashPage.dataTable.getEmptyListText()).toContain('Empty Trash to permanently delete items.');
-    expect(await trashPage.pagination.isRangePresent(), 'Range is present').toBe(false);
-    expect(await trashPage.pagination.isMaxItemsPresent(), 'Max items is present').toBe(false);
-  });
-
-  test('[C290123] [C290031] Empty Search results - pagination controls not displayed', async ({ personalFiles, searchPage }) => {
-    await personalFiles.acaHeader.searchButton.click();
-    await searchPage.clickSearchButton();
-    await searchPage.searchOverlay.checkFilesAndFolders();
-    await searchPage.searchOverlay.searchFor('InvalidText');
-    await searchPage.reload({ waitUntil: 'domcontentloaded' });
-    await searchPage.dataTable.spinnerWaitForReload();
-
-    expect(await personalFiles.pagination.isRangePresent(), 'Range is present').toBe(false);
-    expect(await personalFiles.pagination.isMaxItemsPresent(), 'Max items is present').toBe(false);
-    expect(await personalFiles.dataTable.isEmpty(), 'list is not empty').toBe(true);
-    expect(await personalFiles.dataTable.emptySearchText.innerText()).toContain('Your search returned 0 results');
-  });
-
-  test('[C290020] Empty Search results - Libraries', async ({ searchPage }) => {
-    await searchPage.sidenav.openPanel(SIDEBAR_LABELS.MY_LIBRARIES);
-    /* cspell:disable-next-line */
-    await searchPage.searchWithin('qwertyuiop', 'files');
-
-    expect(await searchPage.dataTable.isEmpty()).toBeTruthy();
-    expect(await searchPage.dataTable.emptySearchText.textContent()).toContain('Your search returned 0 results');
-  });
-
   async function openEmptyTab(searchPage: SearchPage, tab: string, emptyStateTitle: string, emptyStateSubtitle: string) {
     await searchPage.sidenav.openPanel(tab);
     await searchPage.dataTable.spinnerWaitForReload();
@@ -99,7 +59,14 @@ test.describe('Empty list views', () => {
     expect(await personalFiles.pagination.isNextButtonPresent()).toBeFalsy();
   }
 
-  test(`[C289911] empty ${SIDEBAR_LABELS.FAVORITE_LIBRARIES}`, async ({ searchPage }) => {
+  test('[XAT-4402] Empty My Libraries', async ({ myLibrariesPage }) => {
+    await myLibrariesPage.navigate();
+    expect(await myLibrariesPage.dataTable.isEmpty(), 'list is not empty').toBe(true);
+    expect(await myLibrariesPage.dataTable.getEmptyStateTitle()).toContain(`You aren't a member of any File Libraries yet`);
+    expect(await myLibrariesPage.dataTable.getEmptyStateSubtitle()).toContain('Join libraries to upload, view, and share files.');
+  });
+
+  test(`[XAT-4403] Empty Favorite Libraries`, async ({ searchPage }) => {
     await openEmptyTab(
       searchPage,
       SIDEBAR_LABELS.FAVORITE_LIBRARIES,
@@ -108,7 +75,7 @@ test.describe('Empty list views', () => {
     );
   });
 
-  test(`[C213169] empty ${SIDEBAR_LABELS.RECENT_FILES}`, async ({ searchPage }) => {
+  test(`[XAT-4405] Empty Recent Files`, async ({ searchPage }) => {
     await openEmptyTab(
       searchPage,
       SIDEBAR_LABELS.RECENT_FILES,
@@ -117,31 +84,51 @@ test.describe('Empty list views', () => {
     );
   });
 
-  test(`[C280133] empty ${SIDEBAR_LABELS.FAVORITES}`, async ({ searchPage }) => {
+  test(`[XAT-4406] Empty Favorites`, async ({ searchPage }) => {
     await openEmptyTab(searchPage, SIDEBAR_LABELS.FAVORITES, 'No favorite files or folders', 'Favorite items that you want to easily find later.');
   });
 
-  test(`[C280111] ${SIDEBAR_LABELS.FAVORITES} - pagination controls not displayed`, async ({ searchPage, personalFiles }) => {
+  test('[XAT-4581] Trash - Pagination control is not displayed on empty page load', async ({ trashPage }) => {
+    await trashPage.navigate();
+    expect(await trashPage.dataTable.isEmpty(), 'list is not empty').toBe(true);
+    expect(await trashPage.dataTable.getEmptyStateTitle()).toContain('Trash is empty');
+    expect(await trashPage.dataTable.getEmptyListText()).toContain('Items you delete are moved to the Trash.');
+    expect(await trashPage.dataTable.getEmptyListText()).toContain('Empty Trash to permanently delete items.');
+    expect(await trashPage.pagination.isRangePresent(), 'Range is present').toBe(false);
+    expect(await trashPage.pagination.isMaxItemsPresent(), 'Max items is present').toBe(false);
+  });
+
+  test('[XAT-4590] Search Page - Pagination control is not displayed on empty page load', async ({ personalFiles, searchPage }) => {
+    await personalFiles.acaHeader.searchButton.click();
+    await searchPage.clickSearchButton();
+    await searchPage.searchOverlay.checkFilesAndFolders();
+    await searchPage.searchOverlay.searchFor('InvalidText');
+    await searchPage.reload({ waitUntil: 'domcontentloaded' });
+    await searchPage.dataTable.spinnerWaitForReload();
+
+    expect(await personalFiles.pagination.isRangePresent(), 'Range is present').toBe(false);
+    expect(await personalFiles.pagination.isMaxItemsPresent(), 'Max items is present').toBe(false);
+    expect(await personalFiles.dataTable.isEmpty(), 'list is not empty').toBe(true);
+    expect(await personalFiles.dataTable.emptySearchText.innerText()).toContain('Your search returned 0 results');
+  });
+
+  test(`[XAT-4573] Favorites - Pagination control is not displayed on empty page load`, async ({ searchPage, personalFiles }) => {
     await checkPaginationForTabs(searchPage, SIDEBAR_LABELS.FAVORITES, personalFiles);
   });
 
-  test(`[C280084] ${SIDEBAR_LABELS.MY_LIBRARIES} - pagination controls not displayed`, async ({ searchPage, personalFiles }) => {
+  test(`[XAT-4537] My Libraries - Pagination control is not displayed on empty page load`, async ({ searchPage, personalFiles }) => {
     await checkPaginationForTabs(searchPage, SIDEBAR_LABELS.MY_LIBRARIES, personalFiles);
   });
 
-  test(`[C291873] ${SIDEBAR_LABELS.FAVORITE_LIBRARIES} - pagination controls not displayed`, async ({ searchPage, personalFiles }) => {
+  test(`[XAT-4546] Favorite Libraries - Pagination control is not displayed on empty page load`, async ({ searchPage, personalFiles }) => {
     await checkPaginationForTabs(searchPage, SIDEBAR_LABELS.FAVORITE_LIBRARIES, personalFiles);
   });
 
-  test(`[C280075] ${SIDEBAR_LABELS.PERSONAL_FILES} - pagination controls not displayed`, async ({ searchPage, personalFiles }) => {
+  test(`[XAT-4528] Personal Files - Pagination control is not displayed on empty page load`, async ({ searchPage, personalFiles }) => {
     await checkPaginationForTabs(searchPage, SIDEBAR_LABELS.PERSONAL_FILES, personalFiles);
   });
 
-  test(`[C280102] ${SIDEBAR_LABELS.RECENT_FILES} - pagination controls not displayed`, async ({ searchPage, personalFiles }) => {
+  test(`[XAT-4564] Recent Files - Pagination control is not displayed on empty page load`, async ({ searchPage, personalFiles }) => {
     await checkPaginationForTabs(searchPage, SIDEBAR_LABELS.RECENT_FILES, personalFiles);
-  });
-
-  test(`[C280120] ${SIDEBAR_LABELS.TRASH} - pagination controls not displayed`, async ({ searchPage, personalFiles }) => {
-    await checkPaginationForTabs(searchPage, SIDEBAR_LABELS.TRASH, personalFiles);
   });
 });

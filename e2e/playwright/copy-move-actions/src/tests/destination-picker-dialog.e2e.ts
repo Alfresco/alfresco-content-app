@@ -79,21 +79,21 @@ test.describe('Copy Move actions', () => {
     await myLibrariesPage.contentNodeSelector.selectDestination(destinationFolder);
   };
 
-  test('[C263876] Consumer user cannot select the folder as destination', async ({ loginPage, myLibrariesPage }) => {
+  test('[XAT-4922] Consumer user cannot select the folder as destination', async ({ loginPage, myLibrariesPage }) => {
     await loginPage.loginUser({ username: consumerUser, password: consumerUser }, { withNavigation: true, waitForLoading: true });
     await myLibrariesPage.navigate();
     await copyContentInMyLibraries(myLibrariesPage);
     await expect(myLibrariesPage.contentNodeSelector.actionButton).toBeDisabled();
   });
 
-  test('[C263877] Contributor user can select the folder as destination', async ({ loginPage, myLibrariesPage }) => {
+  test('[XAT-4923] Contributor user can select the folder as destination', async ({ loginPage, myLibrariesPage }) => {
     await loginPage.loginUser({ username: contributorUser, password: contributorUser }, { withNavigation: true, waitForLoading: true });
     await myLibrariesPage.navigate();
     await copyContentInMyLibraries(myLibrariesPage);
     await expect(myLibrariesPage.contentNodeSelector.actionButton).toBeEnabled();
   });
 
-  test('[C263878] Collaborator user can select the folder as destination', async ({ loginPage, myLibrariesPage }) => {
+  test('[XAT-4924] Collaborator user can select the folder as destination', async ({ loginPage, myLibrariesPage }) => {
     await loginPage.loginUser({ username: collaboratorUser, password: collaboratorUser }, { withNavigation: true, waitForLoading: true });
     await myLibrariesPage.navigate();
     await copyContentInMyLibraries(myLibrariesPage);
