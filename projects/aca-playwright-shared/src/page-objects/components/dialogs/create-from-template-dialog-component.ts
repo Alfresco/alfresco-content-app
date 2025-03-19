@@ -27,7 +27,7 @@ import { BaseComponent } from '../base.component';
 import { timeouts } from '../../../utils';
 
 export class CreateFromTemplateDialogComponent extends BaseComponent {
-  private static rootElement = 'app-create-from-template-dialog';
+  private static rootElement = 'mat-dialog-container';
 
   constructor(page: Page) {
     super(page, CreateFromTemplateDialogComponent.rootElement);
@@ -35,9 +35,9 @@ export class CreateFromTemplateDialogComponent extends BaseComponent {
 
   cancelButton = this.getChild('[data-automation-id="create-from-template-dialog-cancel-button"]');
   createButton = this.getChild('[data-automation-id="create-from-template-dialog-create-button"]');
-  getDialogTitle = (text: string) => this.getChild('.mat-dialog-title', { hasText: text });
+  getDialogTitle = (text: string) => this.getChild('[data-automation-id="create-from-template-title"]', { hasText: text });
   getDialogLabel = (text: string) => this.getChild('label', { hasText: text });
-  getErrorByText = (text: string): Locator => this.page.locator('mat-error', { hasText: text });
+  getErrorByText = (text: string): Locator => this.page.locator('[data-automation-id="create-from-template-field-error"]', { hasText: text });
 
   async isErrorMessageDisplayed(errorText: string): Promise<boolean> {
     await this.getErrorByText(errorText).waitFor({ state: 'visible', timeout: timeouts.large });
@@ -48,7 +48,7 @@ export class CreateFromTemplateDialogComponent extends BaseComponent {
    * This method is used when we want to fill in Create new folder/document/file from template dialog and choose Create button
    */
   async createFromTemplateAction(nameInput: string, titleInput?: string, descriptionInput?: string): Promise<void> {
-    await this.getDialogLabel('Name *').fill(nameInput);
+    await this.getDialogLabel('Name').fill(nameInput);
     if (titleInput) {
       await this.getDialogLabel('Title').fill(titleInput);
     }

@@ -51,7 +51,7 @@ test.describe('Create file from template', () => {
   let fileLink: string;
   const selectDialogTitle = 'Select a document template';
   const dialogBreadcrumb = 'Node Templates';
-  const nameLabel = 'Name *';
+  const nameLabel = 'Name';
   const titleLabel = 'Title';
   const descriptionLabel = 'Description';
   const emptyString = '';
@@ -267,7 +267,7 @@ test.describe('Create file from template', () => {
       });
 
       test('[XAT-5240] File name ending with a dot', async () => {
-        await createFileFromTemplateDialog.getDialogLabel(nameLabel).fill(dotString);
+        await createFileFromTemplateDialog.getDialogLabel(nameLabel).fill(template1InRoot + dotString);
         await createFileFromTemplateDialog.page.keyboard.press(tabKeyString);
         await expect(createFileFromTemplateDialog.getDialogLabel(nameLabel)).toHaveValue(template1InRoot + dotString);
         expect

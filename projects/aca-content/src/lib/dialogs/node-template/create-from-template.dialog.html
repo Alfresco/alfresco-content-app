@@ -1,4 +1,4 @@
-<h2 mat-dialog-title [innerHTML]="title" class="app-create-from-template-title"></h2>
+<h2 mat-dialog-title [innerHTML]="title" class="app-create-from-template-title" data-automation-id="create-from-template-title"></h2>
 <div mat-dialog-content class="app-create-from-template-content">
   <form [formGroup]="form" novalidate>
     <mat-form-field class="app-create-from-template-field">
@@ -10,7 +10,7 @@
         required
       />
 
-      <mat-error *ngIf="form.controls['name'].errors?.message">
+      <mat-error *ngIf="form.controls['name'].errors?.message" data-automation-id="create-from-template-field-error">
         {{ form.controls['name'].errors?.message | translate }}
       </mat-error>
     </mat-form-field>
@@ -22,7 +22,7 @@
         formControlName="title"
       />
 
-      <mat-error *ngIf="form.controls['title'].hasError('maxlength')">
+      <mat-error *ngIf="form.controls['title'].hasError('maxlength')" data-automation-id="create-from-template-field-error">
         {{ 'NODE_FROM_TEMPLATE.FORM.ERRORS.TITLE_TOO_LONG' | translate }}
       </mat-error>
     </mat-form-field>
@@ -35,7 +35,7 @@
         formControlName="description"
       ></textarea>
 
-      <mat-error *ngIf="form.controls['description'].hasError('maxlength')">
+      <mat-error *ngIf="form.controls['description'].hasError('maxlength')" data-automation-id="create-from-template-field-error">
         {{ 'NODE_FROM_TEMPLATE.FORM.ERRORS.DESCRIPTION_TOO_LONG' | translate }}
       </mat-error>
     </mat-form-field>

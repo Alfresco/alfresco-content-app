@@ -52,7 +52,7 @@ test.describe('Create folder from template', () => {
   let folderLink: string;
   const selectDialogTitle = 'Select a folder template';
   const dialogBreadcrumb = 'Space Templates';
-  const nameLabel = 'Name *';
+  const nameLabel = 'Name';
   const titleLabel = 'Title';
   const descriptionLabel = 'Description';
   const emptyString = '';
@@ -294,7 +294,7 @@ test.describe('Create folder from template', () => {
       });
 
       test('[XAT-5262] Folder name ending with a dot', async () => {
-        await createFolderFromTemplateDialog.getDialogLabel(nameLabel).fill(dotString);
+        await createFolderFromTemplateDialog.getDialogLabel(nameLabel).fill(templateFolder1 + dotString);
         await createFolderFromTemplateDialog.page.keyboard.press(tabKeyString);
         await expect(createFolderFromTemplateDialog.getDialogLabel(nameLabel)).toHaveValue(templateFolder1 + dotString);
         expect
