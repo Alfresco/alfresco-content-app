@@ -29,7 +29,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { ContentApiService } from '@alfresco/aca-shared';
+import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
 import { NavigateToFolder, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { Node, NodeEntry, PathElement } from '@alfresco/js-api';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -54,14 +54,7 @@ describe('DetailsComponent', () => {
     select: () => mockStream
   };
 
-  const extensionsServiceMock = {
-    getAllowedSidebarActions: jasmine.createSpy('getAllowedSidebarActions')
-  };
-
-  const mockAspectActions: ContentActionRef[] = [];
-
-  const mockAspectActionsSubject$ = new BehaviorSubject(mockAspectActions);
-  extensionsServiceMock.getAllowedSidebarActions.and.returnValue(mockAspectActionsSubject$.asObservable());
+  const mockAspectActionsSubject$ = new BehaviorSubject<Array<ContentActionRef>>([]);
 
   const getBreadcrumb = (): BreadcrumbComponent => fixture.debugElement.query(By.directive(BreadcrumbComponent)).componentInstance;
 
@@ -96,6 +89,9 @@ describe('DetailsComponent', () => {
       schemas: [NO_ERRORS_SCHEMA]
     });
 
+    const appExtensionService = TestBed.inject(AppExtensionService);
+    spyOn(appExtensionService, 'getAllowedSidebarActions').and.returnValue(mockAspectActionsSubject$.asObservable());
+
     fixture = TestBed.createComponent(DetailsComponent);
     component = fixture.componentInstance;
     contentApiService = TestBed.inject(ContentApiService);
@@ -125,137 +121,133 @@ describe('DetailsComponent', () => {
     fixture.destroy();
   });
 
-  it('should get node id from router', () => {
-    fixture.detectChanges();
-    expect(component.nodeId).toBe('someId');
-  });
-
-  it('should set active tab from router', () => {
-    fixture.detectChanges();
-    expect(component.activeTab).toBe(2);
-  });
-
-  it('should get node info after setting node from router', () => {
-    fixture.detectChanges();
-    expect(contentApiService.getNode).toHaveBeenCalled();
-  });
-
-  it('should dispatch navigation to a given folder', () => {
-    const pathElement: PathElement = {
-      id: 'fake-id'
-    };
-    getBreadcrumb().navigate.emit(pathElement);
-    fixture.detectChanges();
-
-    expect(store.dispatch).toHaveBeenCalledWith(new NavigateToFolder({ entry: pathElement } as NodeEntry));
-  });
-
-  it('should pass different node as folderNode to breadcrumb when nodeUpdated from nodesApiService is triggered', () => {
-    fixture.detectChanges();
-    const breadcrumbComponent = getBreadcrumb();
-    const updatedNode = {
-      name: 'other node'
-    } as Node;
-
-    nodesApiService.nodeUpdated.next(updatedNode);
-    fixture.detectChanges();
-    expect(breadcrumbComponent.folderNode).toEqual(updatedNode);
-    expect(breadcrumbComponent.folderNode).not.toBe(updatedNode);
-    expect(updatedNode).not.toEqual(node.entry);
-  });
-
-  it('should dispatch node selection', () => {
-    fixture.detectChanges();
-    expect(store.dispatch).toHaveBeenCalledWith(new SetSelectedNodesAction([node]));
-  });
-
-  it('should set aspectActions from extensions', async () => {
-    extensionsServiceMock.getAllowedSidebarActions.and.returnValue(of(mockAspectActions));
-    fixture.detectChanges();
-    await fixture.whenStable().then(() => {
-      expect(component.aspectActions).toEqual(mockAspectActions);
-    });
-  });
-
-  it('should return the icon when getNodeIcon is called', () => {
-    const expectedIcon = 'assets/images/ft_ic_folder';
-    spyOn(contentService, 'getNodeIcon').and.returnValue(expectedIcon);
-    fixture.detectChanges();
-    component.ngOnInit();
-    expect(contentService.getNodeIcon).toHaveBeenCalled();
-    expect(component.nodeIcon).toContain(expectedIcon);
-  });
-
   it('should set aspectActions from extension mock', () => {
-    const extensionMock = {
-      getAllowedSidebarActions: () =>
-        of([
-          {
-            id: 'app.sidebar.close',
-            order: 100,
-            title: 'close',
-            icon: 'highlight_off'
-          }
-        ])
-    };
+    const extensionMock = [
+      {
+        id: 'app.sidebar.close',
+        order: 100,
+        title: 'close',
+        icon: 'highlight_off'
+      } as ContentActionRef
+    ];
 
-    extensionsServiceMock.getAllowedSidebarActions.and.returnValue(of(extensionMock));
+    mockAspectActionsSubject$.next(extensionMock);
+
     fixture.detectChanges();
-    fixture
-      .whenStable()
-      .then(() => {
-        expect(component.aspectActions).toEqual([
-          {
-            id: 'app.sidebar.close',
-            order: 100,
-            title: 'close',
-            icon: 'highlight_off'
-          } as ContentActionRef
-        ]);
-      })
-      .catch((error) => {
-        fail(`An error occurred: ${error}`);
+    expect(component.aspectActions).toEqual([
+      {
+        id: 'app.sidebar.close',
+        order: 100,
+        title: 'close',
+        icon: 'highlight_off'
+      } as ContentActionRef
+    ]);
+  });
+
+  describe('', () => {
+    beforeEach(() => {
+      mockAspectActionsSubject$.next([]);
+    });
+
+    it('should get node id from router', () => {
+      fixture.detectChanges();
+      expect(component.nodeId).toBe('someId');
+    });
+
+    it('should set active tab from router', () => {
+      fixture.detectChanges();
+      expect(component.activeTab).toBe(2);
+    });
+
+    it('should get node info after setting node from router', () => {
+      fixture.detectChanges();
+      expect(contentApiService.getNode).toHaveBeenCalled();
+    });
+
+    it('should dispatch navigation to a given folder', () => {
+      const pathElement: PathElement = {
+        id: 'fake-id'
+      };
+      getBreadcrumb().navigate.emit(pathElement);
+      fixture.detectChanges();
+
+      expect(store.dispatch).toHaveBeenCalledWith(new NavigateToFolder({ entry: pathElement } as NodeEntry));
+    });
+
+    it('should pass different node as folderNode to breadcrumb when nodeUpdated from nodesApiService is triggered', () => {
+      fixture.detectChanges();
+      const breadcrumbComponent = getBreadcrumb();
+      const updatedNode = {
+        name: 'other node'
+      } as Node;
+
+      nodesApiService.nodeUpdated.next(updatedNode);
+      fixture.detectChanges();
+      expect(breadcrumbComponent.folderNode).toEqual(updatedNode);
+      expect(breadcrumbComponent.folderNode).not.toBe(updatedNode);
+      expect(updatedNode).not.toEqual(node.entry);
+    });
+
+    it('should dispatch node selection', () => {
+      fixture.detectChanges();
+      expect(store.dispatch).toHaveBeenCalledWith(new SetSelectedNodesAction([node]));
+    });
+
+    it('should set aspectActions from extensions', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable().then(() => {
+        expect(component.aspectActions).toEqual([]);
       });
-  });
+    });
 
-  it('should disable the permissions tab for smart folders based on aspects', () => {
-    node.entry.isFolder = true;
-    node.entry.aspectNames = ['smf:customConfigSmartFolder'];
-    fixture.detectChanges();
-    component.ngOnInit();
-    expect(component.canManagePermissions).toBeFalse();
-    expect(component.activeTab).not.toBe(2);
-  });
+    it('should return the icon when getNodeIcon is called', () => {
+      const expectedIcon = 'assets/images/ft_ic_folder';
+      spyOn(contentService, 'getNodeIcon').and.returnValue(expectedIcon);
+      fixture.detectChanges();
+      component.ngOnInit();
+      expect(contentService.getNodeIcon).toHaveBeenCalled();
+      expect(component.nodeIcon).toContain(expectedIcon);
+    });
 
-  it('should enable the permissions tab for regular folders based on aspects', () => {
-    node.entry.isFolder = true;
-    node.entry.aspectNames = [];
-    fixture.detectChanges();
-    component.ngOnInit();
+    it('should disable the permissions tab for smart folders based on aspects', () => {
+      node.entry.isFolder = true;
+      node.entry.aspectNames = ['smf:customConfigSmartFolder'];
+      fixture.detectChanges();
+      component.ngOnInit();
+      expect(component.canManagePermissions).toBeFalse();
+      expect(component.activeTab).not.toBe(2);
+    });
 
-    expect(component.canManagePermissions).toBeTrue();
-  });
+    it('should enable the permissions tab for regular folders based on aspects', () => {
+      node.entry.isFolder = true;
+      node.entry.aspectNames = [];
+      fixture.detectChanges();
+      component.ngOnInit();
 
-  it('should change active tab based on canManagePermissions and tabName', () => {
-    component.nodeId = 'someNodeId';
-    component.activeTab = 0;
+      expect(component.canManagePermissions).toBeTrue();
+    });
 
-    node.entry.isFolder = true;
-    node.entry.aspectNames = [];
+    it('should change active tab based on canManagePermissions and tabName', () => {
+      component.nodeId = 'someNodeId';
+      component.activeTab = 0;
 
-    fixture.detectChanges();
-    component.ngOnInit();
+      node.entry.isFolder = true;
+      node.entry.aspectNames = [];
 
-    component.setActiveTab('permissions');
-    expect(component.activeTab).toBe(2);
+      fixture.detectChanges();
+      component.ngOnInit();
 
-    node.entry.isFolder = true;
-    node.entry.aspectNames = ['smf:customConfigSmartFolder'];
+      component.setActiveTab('permissions');
+      expect(component.activeTab).toBe(2);
 
-    fixture.detectChanges();
-    component.ngOnInit();
+      node.entry.isFolder = true;
+      node.entry.aspectNames = ['smf:customConfigSmartFolder'];
 
-    component.setActiveTab('permissions');
-    expect(component.activeTab).not.toBe(2);
+      fixture.detectChanges();
+      component.ngOnInit();
+
+      component.setActiveTab('permissions');
+      expect(component.activeTab).not.toBe(2);
+    });
   });
 });
