@@ -130,7 +130,6 @@ describe('DetailsComponent', () => {
         icon: 'highlight_off'
       } as ContentActionRef
     ];
-
     mockAspectActionsSubject$.next(extensionMock);
 
     fixture.detectChanges();
