@@ -1070,7 +1070,8 @@
             "click": "PRINT_FILE"
           },
           "rules": {
-            "visible": "canViewFile"
+            "visible": "canViewFile",
+            "enabled": "canPrintFile"
           }
         },
         {
