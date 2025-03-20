@@ -1362,12 +1362,12 @@ describe('app.evaluators', () => {
 
   describe('canPrintFile', () => {
     it('should return false for media files', () => {
-      context.selection.file = { entry: { content: { mimeType: 'video/ogg' } } } as any;
+      context.selection.file = { entry: { content: { mimeType: 'video/ogg' } } } as NodeEntry;
       expect(app.canPrintFile(context)).toBeFalse();
     });
 
     it('should return true for non-media files', () => {
-      context.selection.file = { entry: { content: { mimeType: 'application/pdf' } } } as any;
+      context.selection.file = { entry: { content: { mimeType: 'application/pdf' } } } as NodeEntry;
       expect(app.canPrintFile(context)).toBeTrue();
     });
   });

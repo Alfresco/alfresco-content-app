@@ -197,45 +197,46 @@ The button will be visible only when the linked rule evaluates to `true`.
 
 ## Application Evaluators
 
-| Ver.  | Key                                 | Description                                                              |
-| ----- | ----------------------------------- | ------------------------------------------------------------------------ |
-| 1.7.0 | app.selection.canDelete             | User has permission to delete selected node(s).                          |
-| 1.7.0 | app.selection.canDownload           | User can download selected node(s).                                      |
-| 1.7.0 | app.selection.notEmpty              | At least one node is selected.                                           |
-| 1.7.0 | app.selection.canUnshare            | User is able to remove selected node(s) from public sharing.             |
-| 1.7.0 | app.selection.canAddFavorite        | User can add selected node(s) to favorites.                              |
-| 1.7.0 | app.selection.canRemoveFavorite     | User can remove selected node(s) from favorites.                         |
-| 1.7.0 | app.selection.first.canUpdate       | User has permission to update selected node(s).                          |
-| 1.7.0 | app.selection.file                  | A single File node is selected.                                          |
-| 1.7.0 | app.selection.file.canShare         | User is able to share the selected file.                                 |
-| 1.7.0 | app.selection.file.isShared         | A shared node is selected.                                               |
-| 1.7.0 | app.selection.file.isLocked         | File is locked for editing.                                              |
-| 1.7.0 | app.selection.file.isLockOwner      | File is locked and current user is the lock owner.                       |
-| 1.7.0 | app.selection.file.canUploadVersion | User can update file version.                                            |
-| 1.7.0 | app.selection.library               | A single Library node is selected.                                       |
-| 1.7.0 | app.selection.isPrivateLibrary      | A private Library node is selected.                                      |
-| 1.7.0 | app.selection.hasLibraryRole        | The selected Library node has a role property.                           |
-| 1.7.0 | app.selection.hasNoLibraryRole      | The selected Library node has no role property.                          |
-| 1.7.0 | app.selection.folder                | A single Folder node is selected.                                        |
-| 1.7.0 | app.selection.folder.canUpdate      | User has permissions to update the selected folder.                      |
-| 1.7.0 | app.selection.folder.canUpdate      | User has permissions to update the selected folder.                      |
-| 1.7.0 | app.selection.file.canLock          | User has permissions to lock file.                                       |
-| 1.7.0 | app.selection.file.canUnlock        | User has permissions to unlock file.                                     |
-| 1.7.0 | repository.isQuickShareEnabled      | Whether the quick share repository option is enabled or not.             |
-| 1.8.0 | canCopyNode                         | Checks if user can copy selected node.                                   |
-| 1.8.0 | canToggleJoinLibrary                | Checks if user can perform "Join" or "Cancel Join Request" on a library. |
-| 1.8.0 | canEditFolder                       | Checks if user can edit the selected folder.                             |
-| 1.8.0 | isTrashcanItemSelected              | Checks if user has trashcan item selected.                               |
-| 1.8.0 | canViewFile                         | Checks if user can view the file.                                        |
-| 1.8.0 | canLeaveLibrary                     | Checks if user can **Leave** selected library.                           |
-| 1.8.0 | canToggleSharedLink                 | Checks if user can toggle shared link mode.                              |
-| 1.8.0 | canShowInfoDrawer                   | Checks if user can show **Info Drawer** for the selected node.           |
-| 1.8.0 | canManageFileVersions               | Checks if user can manage file versions for the selected node.           |
-| 1.8.0 | canManagePermissions                | Checks if user can manage permissions for the selected node.             |
-| 1.8.0 | canToggleEditOffline                | Checks if user can toggle **Edit Offline** mode for selected node.       |
-| 1.8.0 | user.isAdmin                        | Checks if user is admin.                                                 |
-| 1.9.0 | app.canShowLogout                   | Whether logout action should be present or not.                          |
-| 1.12.0 | app.isLibraryManager               | Checks if user is library manager.                                       |
+| Ver.   | Key                                 | Description                                                                                       |
+|--------|-------------------------------------|---------------------------------------------------------------------------------------------------|
+| 1.7.0  | app.selection.canDelete             | User has permission to delete selected node(s).                                                   |
+| 1.7.0  | app.selection.canDownload           | User can download selected node(s).                                                               |
+| 1.7.0  | app.selection.notEmpty              | At least one node is selected.                                                                    |
+| 1.7.0  | app.selection.canUnshare            | User is able to remove selected node(s) from public sharing.                                      |
+| 1.7.0  | app.selection.canAddFavorite        | User can add selected node(s) to favorites.                                                       |
+| 1.7.0  | app.selection.canRemoveFavorite     | User can remove selected node(s) from favorites.                                                  |
+| 1.7.0  | app.selection.first.canUpdate       | User has permission to update selected node(s).                                                   |
+| 1.7.0  | app.selection.file                  | A single File node is selected.                                                                   |
+| 1.7.0  | app.selection.file.canShare         | User is able to share the selected file.                                                          |
+| 1.7.0  | app.selection.file.isShared         | A shared node is selected.                                                                        |
+| 1.7.0  | app.selection.file.isLocked         | File is locked for editing.                                                                       |
+| 1.7.0  | app.selection.file.isLockOwner      | File is locked and current user is the lock owner.                                                |
+| 1.7.0  | app.selection.file.canUploadVersion | User can update file version.                                                                     |
+| 1.7.0  | app.selection.library               | A single Library node is selected.                                                                |
+| 1.7.0  | app.selection.isPrivateLibrary      | A private Library node is selected.                                                               |
+| 1.7.0  | app.selection.hasLibraryRole        | The selected Library node has a role property.                                                    |
+| 1.7.0  | app.selection.hasNoLibraryRole      | The selected Library node has no role property.                                                   |
+| 1.7.0  | app.selection.folder                | A single Folder node is selected.                                                                 |
+| 1.7.0  | app.selection.folder.canUpdate      | User has permissions to update the selected folder.                                               |
+| 1.7.0  | app.selection.folder.canUpdate      | User has permissions to update the selected folder.                                               |
+| 1.7.0  | app.selection.file.canLock          | User has permissions to lock file.                                                                |
+| 1.7.0  | app.selection.file.canUnlock        | User has permissions to unlock file.                                                              |
+| 1.7.0  | repository.isQuickShareEnabled      | Whether the quick share repository option is enabled or not.                                      |
+| 1.8.0  | canCopyNode                         | Checks if user can copy selected node.                                                            |
+| 1.8.0  | canToggleJoinLibrary                | Checks if user can perform "Join" or "Cancel Join Request" on a library.                          |
+| 1.8.0  | canEditFolder                       | Checks if user can edit the selected folder.                                                      |
+| 1.8.0  | isTrashcanItemSelected              | Checks if user has trashcan item selected.                                                        |
+| 1.8.0  | canViewFile                         | Checks if user can view the file.                                                                 |
+| 1.8.0  | canLeaveLibrary                     | Checks if user can **Leave** selected library.                                                    |
+| 1.8.0  | canToggleSharedLink                 | Checks if user can toggle shared link mode.                                                       |
+| 1.8.0  | canShowInfoDrawer                   | Checks if user can show **Info Drawer** for the selected node.                                    |
+| 1.8.0  | canManageFileVersions               | Checks if user can manage file versions for the selected node.                                    |
+| 1.8.0  | canManagePermissions                | Checks if user can manage permissions for the selected node.                                      |
+| 1.8.0  | canToggleEditOffline                | Checks if user can toggle **Edit Offline** mode for selected node.                                |
+| 1.8.0  | user.isAdmin                        | Checks if user is admin.                                                                          |
+| 1.9.0  | app.canShowLogout                   | Whether logout action should be present or not.                                                   |
+| 1.12.0 | app.isLibraryManager                | Checks if user is library manager.                                                                |
+| 6.1.0  | canPrintFile                        | Checks if current file can be printed or not (media files such as audio/video cannot be printed). |
 
 ## Navigation Evaluators
 
