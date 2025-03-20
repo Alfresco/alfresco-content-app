@@ -40,7 +40,7 @@ import { ContentActionRef } from '@alfresco/adf-extensions';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { Location } from '@angular/common';
 
-fdescribe('DetailsComponent', () => {
+describe('DetailsComponent', () => {
   let component: DetailsComponent;
   let fixture: ComponentFixture<DetailsComponent>;
   let contentApiService: ContentApiService;
