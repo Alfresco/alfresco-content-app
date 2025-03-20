@@ -132,6 +132,7 @@ describe('DetailsComponent', () => {
     ];
 
     mockAspectActionsSubject$.next(extensionMock);
+
     fixture.detectChanges();
     expect(component.aspectActions).toEqual([
       {
