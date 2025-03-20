@@ -40,7 +40,7 @@ import { ContentActionRef } from '@alfresco/adf-extensions';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { Location } from '@angular/common';
 
-describe('DetailsComponent', () => {
+fdescribe('DetailsComponent', () => {
   let component: DetailsComponent;
   let fixture: ComponentFixture<DetailsComponent>;
   let contentApiService: ContentApiService;
@@ -189,6 +189,38 @@ describe('DetailsComponent', () => {
     component.ngOnInit();
     expect(contentService.getNodeIcon).toHaveBeenCalled();
     expect(component.nodeIcon).toContain(expectedIcon);
+  });
+
+  it('should set aspectActions from extension mock', () => {
+    const extensionMock = {
+      getAllowedSidebarActions: () =>
+        of([
+          {
+            id: 'app.sidebar.close',
+            order: 100,
+            title: 'close',
+            icon: 'highlight_off'
+          }
+        ])
+    };
+
+    extensionsServiceMock.getAllowedSidebarActions.and.returnValue(of(extensionMock));
+    fixture.detectChanges();
+    fixture
+      .whenStable()
+      .then(() => {
+        expect(component.aspectActions).toEqual([
+          {
+            id: 'app.sidebar.close',
+            order: 100,
+            title: 'close',
+            icon: 'highlight_off'
+          } as ContentActionRef
+        ]);
+      })
+      .catch((error) => {
+        fail(`An error occurred: ${error}`);
+      });
   });
 
   it('should disable the permissions tab for smart folders based on aspects', () => {
