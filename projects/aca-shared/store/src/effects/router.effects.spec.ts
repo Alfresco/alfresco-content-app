@@ -27,14 +27,21 @@ import { EffectsModule } from '@ngrx/effects';
 import { Store, StoreModule } from '@ngrx/store';
 import { CoreTestingModule, SnackbarContentComponent } from '@alfresco/adf-core';
 import { RouterEffects } from './router.effects';
-import { NavigateRouteAction, NavigateToFolder, NavigateToParentFolder, NavigateToPreviousPage, NavigateUrlAction } from '@alfresco/aca-shared/store';
+import {
+  AppStore,
+  NavigateRouteAction,
+  NavigateToFolder,
+  NavigateToParentFolder,
+  NavigateToPreviousPage,
+  NavigateUrlAction
+} from '@alfresco/aca-shared/store';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Node } from '@alfresco/js-api';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 describe('NodeEffects', () => {
-  let store: Store<any>;
+  let store: Store<AppStore>;
   let router: Router;
 
   beforeEach(() => {

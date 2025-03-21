@@ -29,9 +29,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CoreTestingModule, SnackbarContentComponent } from '@alfresco/adf-core';
 import { SnackbarEffects } from './snackbar.effects';
 import { SnackbarErrorAction, SnackbarInfoAction, SnackbarWarningAction } from '../actions/snackbar.actions';
+import { AppStore } from '@alfresco/aca-shared/store';
 
 describe('NodeEffects', () => {
-  let store: Store<any>;
+  let store: Store<AppStore>;
   let matSnackBar: MatSnackBar;
 
   beforeEach(() => {
