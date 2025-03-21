@@ -1424,19 +1424,16 @@ describe('app.evaluators', () => {
       expect(app.canShowInfoDrawer(context)).toBeFalse();
     });
 
-    it('should return false when user is in libraries or trashcan or details', () => {
+    it('should return false when user is in libraries or trashcan', () => {
       context.selection.isEmpty = false;
       context.navigation.url = '/trashcan/test';
       expect(app.canShowInfoDrawer(context)).toBeFalse();
 
       context.navigation.url = '/test/libraries';
       expect(app.canShowInfoDrawer(context)).toBeFalse();
-
-      context.navigation.url = '/test/details';
-      expect(app.canShowInfoDrawer(context)).toBeFalse();
     });
 
-    it('should return true when selection exists and user is not in trashcan, libraries or details', () => {
+    it('should return true when selection exists and user is not in trashcan, libraries', () => {
       context.navigation.url = '/personal-files/test';
       context.selection.isEmpty = false;
       expect(app.canShowInfoDrawer(context)).toBeTrue();
