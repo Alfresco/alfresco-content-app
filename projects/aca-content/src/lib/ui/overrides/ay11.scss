@@ -117,11 +117,14 @@
   }
 
   .mat-mdc-slide-toggle .mdc-form-field {
-    .mdc-switch .mdc-switch__handle {
-      width: 15px;
-      height: 15px;
-      transform: translate(20%, 50%);
-      background-color: #484a4d;
+    button.mdc-switch.mdc-switch--selected,
+    button.mdc-switch.mdc-switch--unselected {
+      .mdc-switch__handle {
+        width: 15px;
+        height: 15px;
+        transform: translate(20%, 50%);
+        background-color: #484a4d;
+      }
     }
 
     .mdc-switch .mdc-switch__track {
