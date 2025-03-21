@@ -26,6 +26,12 @@
         "main": "projects/aca-shared/test.ts",
         "tsConfig": "projects/aca-shared/tsconfig.spec.json",
         "karmaConfig": "projects/aca-shared/karma.conf.js",
+        "codeCoverageExclude": [
+          "projects/aca-shared/store/src/actions/**",
+          "projects/aca-shared/store/src/models/**",
+          "projects/aca-shared/store/src/selectors/**",
+          "projects/aca-shared/store/src/states/**"
+        ],
         "stylePreprocessorOptions": {
           "includePaths": ["node_modules"]
         }
