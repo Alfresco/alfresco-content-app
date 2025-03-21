@@ -22,13 +22,13 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ViewerEffects } from './viewer.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
-import { ViewFileAction, ViewNodeAction, SetSelectedNodesAction, SetCurrentFolderAction } from '@alfresco/aca-shared/store';
+import { SetCurrentFolderAction, SetSelectedNodesAction, ViewFileAction, ViewNodeAction } from '@alfresco/aca-shared/store';
 import { MatDialogModule } from '@angular/material/dialog';
 
 describe('ViewerEffects', () => {

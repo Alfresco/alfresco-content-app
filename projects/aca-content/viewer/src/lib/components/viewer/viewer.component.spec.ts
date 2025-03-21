@@ -22,20 +22,20 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Router, ActivatedRoute } from '@angular/router';
-import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { AuthenticationService } from '@alfresco/adf-core';
-import { UploadService, NodesApiService, DiscoveryApiService, DocumentListService } from '@alfresco/adf-content-services';
+import { DiscoveryApiService, DocumentListService, NodesApiService, UploadService } from '@alfresco/adf-content-services';
 import { ClosePreviewAction, RefreshPreviewAction, ViewNodeAction } from '@alfresco/aca-shared/store';
 import { AcaViewerComponent } from './viewer.component';
 import { of } from 'rxjs';
 import {
-  ContentApiService,
   AppHookService,
-  DocumentBasePageService,
-  LibTestingModule,
+  ContentApiService,
   discoveryApiServiceMockValue,
-  DocumentBasePageServiceMock
+  DocumentBasePageService,
+  DocumentBasePageServiceMock,
+  LibTestingModule
 } from '@alfresco/aca-shared';
 import { Store } from '@ngrx/store';
 import { Node } from '@alfresco/js-api';
@@ -69,7 +69,7 @@ describe('AcaViewerComponent', () => {
     TestBed.configureTestingModule({
       imports: [LibTestingModule, AcaViewerComponent],
       providers: [
-        { provide: DocumentBasePageService, useValue: DocumentBasePageServiceMock },
+        { provide: DocumentBasePageService, useClass: DocumentBasePageServiceMock },
         { provide: DiscoveryApiService, useValue: discoveryApiServiceMockValue },
         { provide: AuthenticationService, useValue: {} }
       ]

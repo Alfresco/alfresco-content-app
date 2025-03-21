@@ -11,7 +11,7 @@ body {
 
   font-size: 14px;
   font-family: 'Open Sans', serif;
-  color: mat.get-color-from-palette($foreground, text, 0.87);
+  color: mat.m2-get-color-from-palette($foreground, text, 0.87);
   margin: 0;
 
   & > main {

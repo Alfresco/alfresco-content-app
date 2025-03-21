@@ -4,3 +4,4 @@ src/assets/i18n
 docs/**/*.md
 
 /.nx/cache
+/.nx/workspace-data
