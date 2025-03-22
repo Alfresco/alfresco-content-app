@@ -421,7 +421,12 @@
                     }
                 },
                 "LIBRARY_DELETED": "Biblioteket er blevet slettet",
-                "LEFT_LIBRARY": "Du er ikke længere tilmeldt biblioteket"
+                "LEFT_LIBRARY": "Du er ikke længere tilmeldt biblioteket",
+                "FAVORITE_NODE_ADDED": "Added {{ name }} to favorites",
+                "FAVORITE_NODES_ADDED": "Added {{ number }} items to favorites",
+                "FAVORITE_NODE_REMOVED": "Removed {{ name }} from favorites",
+                "FAVORITE_NODES_REMOVED": "Removed {{ number }} items from favorites",
+                "FAVORITE_NODE_NOT_FOUND": "{{ name }} is not favorite"
             }
         },
         "CONTENT_METADATA": {
