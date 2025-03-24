@@ -43,6 +43,7 @@ import { ModalAiService } from '../../../../services/modal-ai.service';
 import { ViewNodeAction } from '@alfresco/aca-shared/store';
 import { ViewerService } from '@alfresco/aca-content/viewer';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MarkdownComponent } from 'ngx-markdown';
 
 @Component({
   standalone: true,
@@ -60,7 +61,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     EmptyContentComponent,
     MatCardModule,
     AvatarComponent,
-    MatTooltipModule
+    MatTooltipModule,
+    MarkdownComponent
   ],
   selector: 'aca-search-ai-results',
   templateUrl: './search-ai-results.component.html',

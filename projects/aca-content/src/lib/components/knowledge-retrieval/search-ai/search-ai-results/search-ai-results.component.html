@@ -23,8 +23,10 @@
             *ngIf="!hasAnsweringError">
             <div
               class="aca-search-ai-response-container-body-response"
-              data-automation-id="aca-search-ai-results-response">
-              {{ queryAnswer?.answer }}
+              data-automation-id="aca-search-ai-results-response"
+              markdown
+              [data]="queryAnswer?.answer"
+              mermaid>
             </div>
             <button
               class="aca-search-ai-response-container-body-response-action aca-search-ai-response-container-body-response-action-regeneration"
