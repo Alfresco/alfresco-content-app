@@ -37,7 +37,7 @@ import {
   SearchPage
 } from '@alfresco/aca-playwright-shared';
 
-test.describe('Create file from template', () => {
+test.describe('Actions - Folder Information', () => {
   const username = `user-e2e-${Utils.random()}`;
   const emptyFolder = `folder17722-${Utils.random()}`;
   const folder1File = `folder17715-${Utils.random()}`;
