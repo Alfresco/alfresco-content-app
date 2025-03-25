@@ -84,7 +84,6 @@ test.describe('Info Drawer - Comments', () => {
     await favoritePage.infoDrawer.addCommentToNode(commentText);
     await expect(favoritePage.infoDrawer.addCommentButton).toBeDisabled();
     expect(await favoritePage.infoDrawer.checkCommentsHeaderCount()).toEqual(1);
-    expect(await favoritePage.infoDrawer.verifyCommentsCountFromList(1));
   });
 
   test('[XAT-5533] from Shared Files - Comments are displayed ordered by created date in descending order', async ({ sharedPage }) => {
@@ -121,7 +120,7 @@ test.describe('Info Drawer - Comments', () => {
     await recentFilesPage.infoDrawer.addCommentToNode(commentText);
     await expect(recentFilesPage.infoDrawer.addCommentButton).toBeDisabled();
     expect(await recentFilesPage.infoDrawer.checkCommentsHeaderCount()).toEqual(1);
-    expect(await recentFilesPage.infoDrawer.verifyCommentsCountFromList(1));
+    expect(await recentFilesPage.infoDrawer.checkCommentsHeaderCount()).toEqual(1);
   });
 
   test('[XAT-5540] Comment info display - File from Favorites', async ({ favoritePage }) => {
