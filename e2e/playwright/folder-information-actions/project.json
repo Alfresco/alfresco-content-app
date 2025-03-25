@@ -1,0 +1,31 @@
+{
+  "name": "folder-information-actions-e2e",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "e2e/playwright/folder-information-actions",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["npx playwright test --config=e2e/playwright/folder-information-actions/playwright.config.ts"]
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "content-ce:serve:production"
+        },
+        "ui": {
+          "args": ["--ui"]
+        },
+        "debug": {
+          "args": ["--debug"]
+        },
+        "headed": {
+          "args": ["--headed"]
+        }
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint"
+    }
+  }
+}
