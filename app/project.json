@@ -89,10 +89,17 @@
         "styles": [
           "node_modules/cropperjs/dist/cropper.min.css",
           "node_modules/pdfjs-dist/web/pdf_viewer.css",
+          "node_modules/katex/dist/katex.min.css",
           "projects/aca-content/src/lib/ui/application.scss",
           "app/src/styles.scss"
         ],
-        "scripts": ["node_modules/pdfjs-dist/build/pdf.js", "node_modules/pdfjs-dist/web/pdf_viewer.js", "node_modules/mermaid/dist/mermaid.min.js"],
+        "scripts": [
+          "node_modules/pdfjs-dist/build/pdf.js",
+          "node_modules/pdfjs-dist/web/pdf_viewer.js",
+          "node_modules/mermaid/dist/mermaid.min.js",
+          "node_modules/katex/dist/katex.min.js",
+          "node_modules/katex/dist/contrib/auto-render.min.js"
+        ],
         "vendorChunk": true,
         "extractLicenses": false,
         "buildOptimizer": false,

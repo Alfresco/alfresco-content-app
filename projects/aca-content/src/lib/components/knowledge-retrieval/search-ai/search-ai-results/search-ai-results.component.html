@@ -25,9 +25,10 @@
               class="aca-search-ai-response-container-body-response"
               data-automation-id="aca-search-ai-results-response"
               markdown
-              [data]="queryAnswer?.answer"
-              (ready)="addTooltips()"
-              mermaid>
+              [data]="displayedAnswer"
+              (ready)="addMermaidSourceTooltips()"
+              mermaid
+              katex>
             </div>
             <button
               class="aca-search-ai-response-container-body-response-action aca-search-ai-response-container-body-response-action-regeneration"

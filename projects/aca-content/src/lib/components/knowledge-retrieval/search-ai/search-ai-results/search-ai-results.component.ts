@@ -69,6 +69,7 @@ import { MarkdownComponent } from 'ngx-markdown';
 })
 export class SearchAiResultsComponent extends PageComponent implements OnInit {
   private static readonly MERMAID_BLOCK_REGEX = /```mermaid([\s\S]*?)```/g;
+  private static readonly LATEX_BLOCK_REGEX = /```latex([\s\S]*?)```/g;
 
   private _agentId: string;
   private _hasAnsweringError = false;
@@ -79,7 +80,8 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
   private openedViewer = false;
   private _selectedNodesState: SelectionState;
   private _searchQuery = '';
-  private _queryAnswer: AiAnswer;
+  private queryAnswer: AiAnswer;
+  private _displayedAnswer: string;
 
   get agentId(): string {
     return this._agentId;
@@ -105,12 +107,12 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
     return this._nodes;
   }
 
-  get queryAnswer(): AiAnswer {
-    return this._queryAnswer;
-  }
-
   get searchQuery(): string {
     return this._searchQuery;
+  }
+
+  get displayedAnswer(): string {
+    return this._displayedAnswer;
   }
 
   constructor(
@@ -186,8 +188,8 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
           if (!response.entry?.answer) {
             return throwError((e) => e);
           }
-          response.entry.answer = this.preprocessMarkdownFormat(response.entry.answer);
-          this._queryAnswer = response.entry;
+          this.queryAnswer = response.entry;
+          this._displayedAnswer = this.preprocessMarkdownFormat(response.entry.answer);
           return forkJoin(this.queryAnswer.references.map((reference) => this.nodesApiService.getNode(reference.referenceId)));
         }),
         retryWhen((errors: Observable<Error>) => this.aiSearchRetryWhen(errors)),
@@ -216,12 +218,19 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
     );
   }
 
-  addTooltips(): void {
-    const matches = [...this.queryAnswer.answer.matchAll(SearchAiResultsComponent.MERMAID_BLOCK_REGEX)];
-    const mermaidBlocks = matches.map((match) => match[0].trim());
-    const mermaidElements = this.elementRef.nativeElement.querySelectorAll('.mermaid');
-    for (let i = 0; i < mermaidBlocks.length; i++) {
+  addMermaidSourceTooltips(): void {
+    const mermaidBlocks = [...this.queryAnswer.answer.matchAll(SearchAiResultsComponent.MERMAID_BLOCK_REGEX)].map((match) => match[0].trim());
+    const latexBlocks = [...this.queryAnswer.answer.matchAll(SearchAiResultsComponent.LATEX_BLOCK_REGEX)].map((match) => match[0].trim());
+    const mermaidClassName = 'mermaid';
+    const elements: HTMLDivElement[] = this.elementRef.nativeElement.querySelectorAll(`.${mermaidClassName}, .katex`);
+    const mermaidElements: HTMLDivElement[] = [];
+    const katexElements: HTMLSpanElement[] = [];
+    elements.forEach((element) => (element.classList.contains(mermaidClassName) ? mermaidElements : katexElements).push(element));
+    for (let i = 0; i < mermaidElements.length; i++) {
       mermaidElements[i].title = mermaidBlocks[i];
+    }
+    for (let i = 0; i < katexElements.length; i++) {
+      katexElements[i].title = latexBlocks[i];
     }
   }
 
@@ -244,10 +253,18 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
     );
   }
 
-  private preprocessMarkdownFormat(input: string): string {
-    return input.replace(SearchAiResultsComponent.MERMAID_BLOCK_REGEX, (_mermaidBlockRegex, blockContent: string) => {
+  private preprocessMarkdownFormat(answer: string): string {
+    return this.transformLatex(this.transformMermaid(answer));
+  }
+
+  private transformMermaid(answer: string): string {
+    return answer.replace(SearchAiResultsComponent.MERMAID_BLOCK_REGEX, (_mermaidBlockRegex, blockContent: string) => {
       const transformedBlockContent = blockContent.replace(/(\w+)\[?label="([^"]+)"] ?/g, (_, node: string, label: string) => `${node}[${label}]`);
       return `\`\`\`mermaid\n${transformedBlockContent}\n\`\`\``;
     });
+  }
+
+  private transformLatex(answer: string): string {
+    return answer.replace(SearchAiResultsComponent.LATEX_BLOCK_REGEX, (_, latexContent: string) => `$$${latexContent.trim()}$$`);
   }
 }
