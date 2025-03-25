@@ -26,7 +26,7 @@ import { Page } from '@playwright/test';
 import { BaseComponent } from '../base.component';
 
 export class FolderInformationDialogComponent extends BaseComponent {
-  private static rootElement = '[data-automation-id="adf-dialog-container"]';
+  private static readonly rootElement = '[data-automation-id="adf-dialog-container"]';
 
   constructor(page: Page) {
     super(page, FolderInformationDialogComponent.rootElement);
