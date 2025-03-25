@@ -44,7 +44,7 @@ export const getGlobalConfig: PlaywrightTestConfig = {
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!env.CI,
   /* Retry on CI only */
-  retries: env.CI ? 2 : 0,
+  retries: env.PLAYWRIGHT_RETRIES ? parseInt(env.PLAYWRIGHT_RETRIES, 10) : env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
   workers: 3,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */

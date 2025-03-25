@@ -22,18 +22,28 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './adf-folder-dialog.component';
-export * from './adf-library-dialog.component';
-export * from './password-overlay-dialog.component';
-export * from './viewer-overlay-dialog.component';
-export * from './content-node-selector-dialog';
-export * from './create-from-template-dialog-component';
-export * from './adf-confirm-dialog.component';
-export * from './share-dialog.component';
-export * from './upload-new-version-dialog.component';
-export * from './manage-versions-dialog.component';
-export * from './upload-dialog.component';
-export * from './delete-trash-dialog.component';
-export * from './link-rules.component';
-export * from './edit-dialog.component';
-export * from './folder-information-dialog.component';
+import { Page } from '@playwright/test';
+import { BaseComponent } from '../base.component';
+
+export class FolderInformationDialogComponent extends BaseComponent {
+  private static rootElement = '[data-automation-id="adf-dialog-container"]';
+
+  constructor(page: Page) {
+    super(page, FolderInformationDialogComponent.rootElement);
+  }
+
+  folderName = this.getChild('.aca-folder-info-header');
+  doneButton = this.getChild('[data-automation-id="adf-dialog-actions-confirm"]');
+  folderSize = this.getChild('[data-automation-id="folder-info-size"]');
+  folderLocation = this.getChild('[data-automation-id="folder-info-location"]');
+  folderCreationDate = this.getChild('[data-automation-id="folder-info-creation-date"]');
+  folderModifiedDate = this.getChild('[data-automation-id="folder-info-modify-date"]');
+
+  async getFolderSizeNumber(): Promise<number> {
+    const textContent = await this.folderSize.textContent();
+    if (!textContent) {
+      throw new Error('Folder size text content is null or undefined');
+    }
+    return parseInt(textContent.split(' ')[0].replace(/,/g, ''), 10);
+  }
+}

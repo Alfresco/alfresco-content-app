@@ -36,7 +36,8 @@ import {
   Breadcrumb,
   SidenavComponent,
   CreateFromTemplateDialogComponent,
-  AdfConfirmDialogComponent
+  AdfConfirmDialogComponent,
+  FolderInformationDialogComponent
 } from '../components';
 
 export class MyLibrariesPage extends BasePage {
@@ -58,6 +59,7 @@ export class MyLibrariesPage extends BasePage {
   public contentNodeSelector = new ContentNodeSelectorDialog(this.page);
   public createFromTemplateDialogComponent = new CreateFromTemplateDialogComponent(this.page);
   public confirmDialogComponent = new AdfConfirmDialogComponent(this.page);
+  public folderInformationDialog = new FolderInformationDialogComponent(this.page);
 
   async selectCreateLibrary(): Promise<void> {
     await this.acaHeader.createButton.click();
