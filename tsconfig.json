@@ -19,7 +19,7 @@
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "typeRoots": ["node_modules/@types"],
-    "lib": ["es2019", "dom"],
+    "lib": ["es2020", "dom"],
     "paths": {
       "@alfresco/aca-content": ["projects/aca-content/src/public-api.ts"],
       "@alfresco/aca-content/about": ["projects/aca-content/about/src/public-api.ts"],

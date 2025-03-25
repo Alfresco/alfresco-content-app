@@ -22,11 +22,11 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PageComponent, PageLayoutComponent, ToolbarActionComponent, ToolbarComponent } from '@alfresco/aca-shared';
+import { PageComponent, PageLayoutComponent } from '@alfresco/aca-shared';
 import { concatMap, delay, filter, finalize, retryWhen, skipWhile, switchMap } from 'rxjs/operators';
-import { AvatarComponent, ClipboardService, EmptyContentComponent, ThumbnailService, ToolbarModule, UnsavedChangesGuard } from '@alfresco/adf-core';
+import { ClipboardService, EmptyContentComponent, ThumbnailService, ToolbarModule, UnsavedChangesGuard } from '@alfresco/adf-core';
 import { AiAnswer, Node } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
 import { SearchAiInputContainerComponent } from '../search-ai-input-container/search-ai-input-container.component';
@@ -50,9 +50,7 @@ import { MarkdownComponent } from 'ngx-markdown';
   imports: [
     CommonModule,
     PageLayoutComponent,
-    ToolbarActionComponent,
     ToolbarModule,
-    ToolbarComponent,
     SearchAiInputContainerComponent,
     TranslateModule,
     MatIconModule,
@@ -60,7 +58,6 @@ import { MarkdownComponent } from 'ngx-markdown';
     MatListModule,
     EmptyContentComponent,
     MatCardModule,
-    AvatarComponent,
     MatTooltipModule,
     MarkdownComponent
   ],
@@ -71,6 +68,8 @@ import { MarkdownComponent } from 'ngx-markdown';
   host: { class: 'aca-search-ai-results' }
 })
 export class SearchAiResultsComponent extends PageComponent implements OnInit {
+  private static readonly MERMAID_BLOCK_REGEX = /```mermaid([\s\S]*?)```/g;
+
   private _agentId: string;
   private _hasAnsweringError = false;
   private _hasError = false;
@@ -115,14 +114,15 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
   }
 
   constructor(
-    private route: ActivatedRoute,
-    private clipboardService: ClipboardService,
-    private thumbnailService: ThumbnailService,
-    private nodesApiService: NodesApiService,
-    private translateService: TranslateService,
-    private unsavedChangesGuard: UnsavedChangesGuard,
-    private modalAiService: ModalAiService,
-    private viewerService: ViewerService
+    private readonly route: ActivatedRoute,
+    private readonly clipboardService: ClipboardService,
+    private readonly thumbnailService: ThumbnailService,
+    private readonly nodesApiService: NodesApiService,
+    private readonly translateService: TranslateService,
+    private readonly unsavedChangesGuard: UnsavedChangesGuard,
+    private readonly modalAiService: ModalAiService,
+    private readonly viewerService: ViewerService,
+    private readonly elementRef: ElementRef
   ) {
     super();
   }
@@ -186,6 +186,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
           if (!response.entry?.answer) {
             return throwError((e) => e);
           }
+          response.entry.answer = this.preprocessMarkdownFormat(response.entry.answer);
           this._queryAnswer = response.entry;
           return forkJoin(this.queryAnswer.references.map((reference) => this.nodesApiService.getNode(reference.referenceId)));
         }),
@@ -215,6 +216,15 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
     );
   }
 
+  addTooltips(): void {
+    const matches = [...this.queryAnswer.answer.matchAll(SearchAiResultsComponent.MERMAID_BLOCK_REGEX)];
+    const mermaidBlocks = matches.map((match) => match[0].trim());
+    const mermaidElements = this.elementRef.nativeElement.querySelectorAll('.mermaid');
+    for (let i = 0; i < mermaidBlocks.length; i++) {
+      mermaidElements[i].title = mermaidBlocks[i];
+    }
+  }
+
   private aiSearchRetryWhen(errors: Observable<Error>): Observable<Error> {
     this._hasAnsweringError = false;
     const delayBetweenRetries = 3000;
@@ -232,5 +242,12 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
         return of(null);
       })
     );
+  }
+
+  private preprocessMarkdownFormat(input: string): string {
+    return input.replace(SearchAiResultsComponent.MERMAID_BLOCK_REGEX, (_mermaidBlockRegex, blockContent: string) => {
+      const transformedBlockContent = blockContent.replace(/(\w+)\[?label="([^"]+)"] ?/g, (_, node: string, label: string) => `${node}[${label}]`);
+      return `\`\`\`mermaid\n${transformedBlockContent}\n\`\`\``;
+    });
   }
 }

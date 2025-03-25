@@ -26,6 +26,7 @@
               data-automation-id="aca-search-ai-results-response"
               markdown
               [data]="queryAnswer?.answer"
+              (ready)="addTooltips()"
               mermaid>
             </div>
             <button
