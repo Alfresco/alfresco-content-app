@@ -151,38 +151,45 @@ test.describe('Actions - Folder Information', () => {
 
   test('[XAT-17722] Folder information Empty folder size and number of documents as 0', async ({ personalFiles }) => {
     await personalFiles.navigate();
+    await personalFiles.page.reload({ waitUntil: 'load' });
     await checkFolderInformation(personalFiles, emptyFolder, '0 bytes for 0 files', `/Company Home/User Homes/${username}`, 'isEmpty');
   });
 
   test('[XAT-17715] Folder information correct folder size and number of documents - single file', async ({ personalFiles }) => {
     await personalFiles.navigate();
+    await personalFiles.page.reload({ waitUntil: 'load' });
     await checkFolderInformation(personalFiles, folder1File, 'for 1 files', `/Company Home/User Homes/${username}`);
   });
 
   test('[XAT-17752] Folder information correct folder size and number of documents - multiple files', async ({ personalFiles }) => {
     await personalFiles.navigate();
+    await personalFiles.page.reload({ waitUntil: 'load' });
     await checkFolderInformation(personalFiles, folderXFiles, 'for 3 files', `/Company Home/User Homes/${username}`);
   });
 
   test('[XAT-17753] Folder information correct folder size and number of documents - folder and files', async ({ personalFiles }) => {
     await personalFiles.navigate();
+    await personalFiles.page.reload({ waitUntil: 'load' });
     await checkFolderInformation(personalFiles, folderXFilesAndFolders, 'for 5 files', `/Company Home/User Homes/${username}`);
   });
 
   test('[XAT-17758] Folder information correct folder size and number of documents - from libraries', async ({ myLibrariesPage }) => {
     await myLibrariesPage.navigate();
+    await myLibrariesPage.page.reload({ waitUntil: 'load' });
     await myLibrariesPage.dataTable.getRowByName(libraryForFolder).dblclick();
     await checkFolderInformation(myLibrariesPage, folderInLibrary, 'for 1 files', `/Company Home/Sites/${libraryForFolder}/documentLibrary`);
   });
 
   test('[XAT-17759] Folder information correct folder size and number of documents - from search', async ({ personalFiles, searchPage }) => {
     await personalFiles.navigate();
+    await personalFiles.page.reload({ waitUntil: 'load' });
     await searchPage.searchWithin(folderForSearch, 'folders');
     await checkFolderInformation(searchPage, folderForSearch, 'for 2 files', `/Company Home/User Homes/${username}`);
   });
 
   test('[XAT-17766] Folder information correct folder size and number of documents - nested folders', async ({ personalFiles }) => {
     await personalFiles.navigate();
+    await personalFiles.page.reload({ waitUntil: 'load' });
     await personalFiles.dataTable.getRowByName(folderNested1).dblclick();
     await personalFiles.dataTable.getRowByName(folderNested2).dblclick();
     await checkFolderInformation(
