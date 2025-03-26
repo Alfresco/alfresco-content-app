@@ -23,7 +23,7 @@
  */
 
 import { BaseComponent } from './base.component';
-import { Page, expect } from '@playwright/test';
+import { Page } from '@playwright/test';
 
 export class AdfInfoDrawerComponent extends BaseComponent {
   private static rootElement = 'adf-info-drawer';
@@ -89,9 +89,8 @@ export class AdfInfoDrawerComponent extends BaseComponent {
     return parseInt(commentsCountString, 10);
   }
 
-  async verifyCommentsCountFromList(expectedNumber: number): Promise<void> {
-    const commentsCountFromList = await this.commentsList.count();
-    expect(commentsCountFromList).toEqual(expectedNumber);
+  async getCommentsCountFromList(): Promise<number> {
+    return this.commentsList.count();
   }
 
   async waitForComments(): Promise<void> {
