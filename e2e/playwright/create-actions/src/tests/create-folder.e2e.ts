@@ -48,6 +48,7 @@ test.describe('Create folders', () => {
   const createNewFolderString = 'Create new folder';
   const spacesString = '   ';
   const commonFolderName = `create-folder-${Utils.random()}`;
+  const newFolderName = `new-folder-${Utils.random()}`;
   const username = `user-${Utils.random()}`;
 
   test.beforeAll(async () => {
@@ -161,6 +162,14 @@ test.describe('Create folders', () => {
       await folderDialog.createNewFolderDialog(randomFolderName + spacesString);
 
       await expect(folderTable.getRowByName(randomFolderName)).toBeVisible();
+    });
+
+    test('[XAT-17591] Duplicate folder name - can create folder with a new name', async ({ personalFiles }) => {
+      const folderSnackBar = personalFiles.snackBar;
+      await folderDialog.createNewFolderDialog(commonFolderName);
+      await expect(folderSnackBar.getByMessageLocator(errorStrings.thereIsAlreadyAFolderWithThisName)).toBeVisible();
+      await folderDialog.createNewFolderDialog(newFolderName);
+      await expect(folderTable.getRowByName(newFolderName)).toBeVisible();
     });
   });
 });
