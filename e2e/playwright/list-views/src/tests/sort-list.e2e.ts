@@ -112,6 +112,7 @@ test.describe('Remember sorting', () => {
     );
     await personalFiles.dataTable.sortBy('Name', 'asc');
     await personalFiles.dataTable.spinnerWaitForReload();
+    await personalFiles.page.waitForTimeout(1000);
     initialSortState = await getSortState(personalFiles);
   });
 
@@ -137,16 +138,21 @@ test.describe('Remember sorting', () => {
   });
 
   test('[XAT-4526] Size sort order is retained after viewing a file and closing the viewer', async ({ personalFiles }) => {
-    await personalFiles.dataTable.sortBy('Size', 'desc');
-    await personalFiles.dataTable.spinnerWaitForReload();
-    const expectedSortData = await getSortState(personalFiles);
-
-    await personalFiles.dataTable.performClickFolderOrFileToOpen(expectedSortData.firstElement);
+    await personalFiles.dataTable.performClickFolderOrFileToOpen(initialSortState.firstElement);
     await personalFiles.viewer.closeButtonLocator.click();
     await personalFiles.waitForPageLoad();
+    const firstExpectedSortState = await getSortState(personalFiles);
+    expect(firstExpectedSortState).toEqual(initialSortState);
 
+    await personalFiles.dataTable.sortBy('Size', 'desc');
+    await personalFiles.dataTable.spinnerWaitForReload();
+    await personalFiles.page.waitForTimeout(1000);
+    const secondExpectedSortData = await getSortState(personalFiles);
+    await personalFiles.dataTable.performClickFolderOrFileToOpen(secondExpectedSortData.firstElement);
+    await personalFiles.viewer.closeButtonLocator.click();
+    await personalFiles.waitForPageLoad();
     const actualSortData = await getSortState(personalFiles);
-    expect(actualSortData).toEqual(expectedSortData);
+    expect(actualSortData).toEqual(secondExpectedSortData);
   });
 
   test('[XAT-4525] Sort order should be remembered separately on each list view', async ({ personalFiles, favoritePage }) => {
