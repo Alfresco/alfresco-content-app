@@ -114,7 +114,7 @@ export class FolderInformationComponent implements OnInit {
             isMoreThanBytes ? 'APP.FOLDER_INFO.CALCULATED_SIZE_LARGE' : 'APP.FOLDER_INFO.CALCULATED_SIZE_NORMAL',
             params
           );
-        } else {
+        } else if (folderInfo?.entry?.status !== SizeDetails.StatusEnum.IN_PROGRESS) {
           this.folderDetails.size = this.translateService.instant('APP.FOLDER_INFO.ERROR');
         }
       });
