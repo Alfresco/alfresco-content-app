@@ -198,7 +198,7 @@ test.describe('viewer action file', () => {
     expect(await nodesApiAction.getNodeProperty(filePersonalFilesId, 'cm:versionLabel'), 'File has incorrect version label').toEqual('2.0');
   });
 
-  test('[MNT-21058] Upload new version action when node is locked', async ({ personalFiles }) => {
+  test('[XAT-17781] Upload new version action when node is locked', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(fileForUploadNewVersion2);
     await personalFiles.viewer.waitForViewerToOpen('wait for viewer content');
 

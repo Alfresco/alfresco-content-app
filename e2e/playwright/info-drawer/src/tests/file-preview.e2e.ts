@@ -56,7 +56,7 @@ test.describe('File preview', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
-  test('[C595967] Should preview document from the info drawer', async ({ personalFiles }) => {
+  test('[XAT-17780] Can open viewer while the info drawer is opened', async ({ personalFiles }) => {
     await personalFiles.navigate();
     await Utils.reloadPageIfRowNotVisible(personalFiles, fileName);
     await personalFiles.dataTable.getRowByName(fileName).click();

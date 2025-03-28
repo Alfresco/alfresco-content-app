@@ -85,7 +85,7 @@ test.describe('viewer file', () => {
       expect(loginPage.page.url()).toContain('personal-files');
     });
 
-    test('[C213107] redirects to Home Page when navigating to the Login page while already logged in', async ({ loginPage }) => {
+    test('[XAT-17774] Redirects to Home Page when navigating to the Login page while already logged in', async ({ loginPage }) => {
       const { username } = johnDoe;
       await loginPage.navigate();
       await loginPage.loginUser({ username: username, password: username });
