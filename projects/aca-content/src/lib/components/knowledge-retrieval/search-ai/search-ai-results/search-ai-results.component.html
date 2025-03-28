@@ -21,15 +21,13 @@
           <div
             class="aca-search-ai-response-container-body"
             *ngIf="!hasAnsweringError">
-            <div
+            <markdown
               class="aca-search-ai-response-container-body-response"
               data-automation-id="aca-search-ai-results-response"
-              markdown
               [data]="displayedAnswer"
               (ready)="addMermaidSourceTooltips()"
               mermaid
-              katex>
-            </div>
+              katex />
             <button
               class="aca-search-ai-response-container-body-response-action aca-search-ai-response-container-body-response-action-regeneration"
               mat-icon-button
