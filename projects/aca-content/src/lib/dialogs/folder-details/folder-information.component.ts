@@ -79,7 +79,7 @@ export class FolderInformationComponent implements OnInit {
           return this.nodesService.getFolderSizeInfo(this.data.id, jobIdEntry.entry.jobId).pipe(
             expand((result) =>
               result.entry.status === SizeDetails.StatusEnum.IN_PROGRESS
-                ? timer(5000).pipe(concatMap(() => this.nodesService.getFolderSizeInfo(this.data.id, jobIdEntry.entry.jobId)))
+                ? timer(1000).pipe(concatMap(() => this.nodesService.getFolderSizeInfo(this.data.id, jobIdEntry.entry.jobId)))
                 : EMPTY
             ),
             catchError(() => {
