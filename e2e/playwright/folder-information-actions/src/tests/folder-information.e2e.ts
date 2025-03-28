@@ -133,6 +133,14 @@ test.describe('Actions - Folder Information', () => {
     await page.dataTable.selectItems(folderName);
     await page.acaHeader.clickMoreActions();
     await page.matMenu.clickMenuItem('Folder Information');
+    await page.page.waitForResponse(async (response) => {
+      const isSizeDetailsAPI = response.url().includes('/size-details/');
+      let isApiCompleted: boolean;
+      if (isSizeDetailsAPI) {
+        isApiCompleted = JSON.parse(await response.text()).entry.status === 'COMPLETED';
+      }
+      return isSizeDetailsAPI && response.status() === 200 && response.request().method() === 'GET' && isApiCompleted;
+    });
     await expect(async () => {
       expect(await page.folderInformationDialog.folderSize.textContent()).toContain(expectedSize);
     }).toPass({
