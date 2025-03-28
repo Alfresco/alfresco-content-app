@@ -104,14 +104,14 @@ describe('FolderInformationComponent', () => {
     expect(getFolderSizeInfoSpy).not.toHaveBeenCalled();
     mockSub.next({ entry: { jobId: 'mock-job-id' } });
     expect(getFolderSizeInfoSpy).toHaveBeenCalledTimes(1);
-    tick(5000);
+    tick(1000);
     expect(getFolderSizeInfoSpy).toHaveBeenCalledTimes(2);
-    tick(5000);
+    tick(1000);
     expect(getFolderSizeInfoSpy).toHaveBeenCalledTimes(3);
     mockSizeDetailsEntry.entry.status = SizeDetails.StatusEnum.COMPLETE;
-    tick(5000);
+    tick(1000);
     expect(getFolderSizeInfoSpy).toHaveBeenCalledTimes(4);
-    tick(5000);
+    tick(1000);
     expect(getFolderSizeInfoSpy).not.toHaveBeenCalledTimes(5);
   }));
 });
