@@ -34,7 +34,9 @@ const config: PlaywrightTestConfig<CustomConfig> = {
     {
       name: 'Folder Information Actions',
       testDir: './src/tests',
-      use: {}
+      use: {
+        serviceWorkers: 'block'
+      }
     }
   ]
 };
