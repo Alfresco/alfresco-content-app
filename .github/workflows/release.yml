@@ -95,7 +95,7 @@ jobs:
   publish-docker-registry:
     if: |
       always() &&
-      (${{ inputs.publish-to-quay == 'true' }} && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'skipped'))
+      (${{ inputs.publish-to-quay == 'true' }} && (${{ needs.unit-tests.result == 'success' }} || ${{ needs.unit-tests.result == 'skipped' }}))
     needs: [lint, unit-tests]
     name: "Publish to Quay"
     runs-on: ubuntu-latest
@@ -130,7 +130,7 @@ jobs:
   publish-to-dockerhub:
     if: |
       always() &&
-      (${{ inputs.publish-to-docker == 'true' }} && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'skipped'))
+      (${{ inputs.publish-to-docker == 'true' }} && (${{ needs.unit-tests.result == 'success' }} || ${{ needs.unit-tests.result == 'skipped' }}))
     needs: [lint, unit-tests]
     name: "Publish to Dockerhub"
     runs-on: ubuntu-latest
@@ -165,7 +165,7 @@ jobs:
   publish-git-tag:
     if: |
       always() &&
-      (${{ inputs.publish-git-tag == 'true' }} && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'skipped'))
+      (${{ inputs.publish-git-tag == 'true' }} && (${{ needs.unit-tests.result == 'success' }} || ${{ needs.unit-tests.result == 'skipped' }}))
     needs: [lint, unit-tests]
     name: "Publish Git Tag"
     runs-on: ubuntu-latest
@@ -197,7 +197,7 @@ jobs:
   publish-libs:
     if: |
       always() &&
-      (${{ inputs.publish-to-npm == 'true' }} && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'skipped'))
+      (${{ inputs.publish-to-npm == 'true' }} && ( ${{ needs.unit-tests.result == 'success' }} || ${{ needs.unit-tests.result == 'skipped' }}))
     needs: [lint, unit-tests]
     name: "Publish libs to NPM and GitHub registry"
     runs-on: ubuntu-latest
