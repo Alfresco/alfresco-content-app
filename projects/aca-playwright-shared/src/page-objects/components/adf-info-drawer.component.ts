@@ -79,7 +79,7 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   public categoriesAccordionCancelButton = this.getChild('[data-automation-id="reset-metadata"]');
   public categoriesAccordionConfirmButton = this.getChild('[data-automation-id="save-categories-metadata"]');
   public categoriesInput = this.categoriesManagement.locator('input');
-  public categoriesListItems = this.categoriesManagement.locator('mat-list-item');
+  public categoriesListItems = this.categoriesManagement.locator('.adf-category');
   public categoriesItemRemoveButton = this.categoriesManagement.locator('[data-automation-id="categories-remove-category-button"]');
   public categoriesCreatedList = this.getChild('.adf-metadata-categories');
 
