@@ -48,7 +48,6 @@ env:
 
 jobs:
   lint:
-    if: github.event_name == 'workflow_dispatch'
     name: 'lint'
     runs-on: ubuntu-latest
     steps:
@@ -62,12 +61,13 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
+      - run: echo "Quay ${{ inputs.publish-to-quay }} Docker ${{ inputs.publish-to-docker }} NPM ${{ inputs.publish-to-npm }} Git Tag ${{ inputs.publish-git-tag }}"
       - run: npm ci
       - run: npm run affected:lint -- --base=origin/develop
       - run: npm run stylelint
 
   unit-tests:
-    if: github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'test'
     needs: [lint]
     name: "Unit tests: ${{ matrix.unit-tests.name }}"
     runs-on: ubuntu-latest
