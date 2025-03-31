@@ -93,13 +93,17 @@ jobs:
       - run: npm run affected:test -- --browsers=ChromeHeadless --watch=false $TEST_OPTS --base=origin/develop
 
   publish-docker-registry:
-    if: |
-      always() &&
-      (${{ inputs.publish-to-quay == 'true' }} && (${{ needs.unit-tests.result == 'success' }} || ${{ needs.unit-tests.result == 'skipped' }}))
+    if: ${{ always() }}
     needs: [lint, unit-tests]
     name: "Publish to Quay"
     runs-on: ubuntu-latest
     steps:
+      - name: Check previous jobs status
+        if: |
+            (${{ inputs.publish-to-quay == 'false' }} ||
+            ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')}})
+        run: exit 1
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -128,13 +132,17 @@ jobs:
           dry-run: ${{ inputs.dry-run-release }}
 
   publish-to-dockerhub:
-    if: |
-      always() &&
-      (${{ inputs.publish-to-docker == 'true' }} && (${{ needs.unit-tests.result == 'success' }} || ${{ needs.unit-tests.result == 'skipped' }}))
+    if: ${{ always() }}
     needs: [lint, unit-tests]
     name: "Publish to Dockerhub"
     runs-on: ubuntu-latest
     steps:
+      - name: Check previous jobs status
+        if: |
+            (${{ inputs.publish-to-docker == 'false' }} ||
+            ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')}})
+        run: exit 1
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -163,13 +171,17 @@ jobs:
           dry-run: ${{ inputs.dry-run-release }}
 
   publish-git-tag:
-    if: |
-      always() &&
-      (${{ inputs.publish-git-tag == 'true' }} && (${{ needs.unit-tests.result == 'success' }} || ${{ needs.unit-tests.result == 'skipped' }}))
+    if: ${{ always() }}
     needs: [lint, unit-tests]
     name: "Publish Git Tag"
     runs-on: ubuntu-latest
     steps:
+      - name: Check previous jobs status
+        if: |
+            (${{ inputs.publish-git-tag == 'false' }} ||
+            ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')}})
+        run: exit 1
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -195,15 +207,19 @@ jobs:
           dry-run: ${{ inputs.dry-run-release }}
 
   publish-libs:
-    if: |
-      always() &&
-      (${{ inputs.publish-to-npm == 'true' }} && ( ${{ needs.unit-tests.result == 'success' }} || ${{ needs.unit-tests.result == 'skipped' }}))
+    if: ${{ always() }}
     needs: [lint, unit-tests]
     name: "Publish libs to NPM and GitHub registry"
     runs-on: ubuntu-latest
     permissions:
       packages: write
     steps:
+      - name: Check previous jobs status
+        if: |
+            (${{ inputs.publish-to-npm == 'false' }} ||
+            ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')}})
+        run: exit 1
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
