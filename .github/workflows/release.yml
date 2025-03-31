@@ -1,10 +1,36 @@
-name: "Release"
+name: Release workflow
+run-name: Release workflow triggered from ${{ github.ref_name }} branch
 
 on:
   workflow_dispatch:
     inputs:
+      publish-to-docker:
+        description: 'Publish to Docker'
+        required: false
+        type: boolean
+        default: true
+      publish-to-quay:
+        description: 'Publish to Quay'
+        required: false
+        type: boolean
+        default: true
+      publish-to-npm:
+        description: 'Publish NPM libraries'
+        required: false
+        type: boolean
+        default: true
+      publish-git-tag:
+        description: 'Publish Git Tag'
+        required: false
+        type: boolean
+        default: true
+      npm-tag:
+        description: 'NPM tag that libraries will be published with'
+        required: false
+        type: string
+        default: ''
       dry-run-release:
-        description: 'enable dry-run'
+        description: 'Enable dry-run'
         required: false
         type: boolean
         default: true
@@ -12,6 +38,7 @@ on:
     branches:
       - master
       - develop
+      - release/**
 
 env:
   BASE_URL: ${{ secrets.PIPELINE_ENV_URL }}
@@ -20,7 +47,56 @@ env:
   PLAYWRIGHT_E2E_HOST: ${{ secrets.PLAYWRIGHT_E2E_HOST }}
 
 jobs:
+  lint:
+    if: github.event_name == 'workflow_dispatch'
+    name: 'lint'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run affected:lint -- --base=origin/develop
+      - run: npm run stylelint
+
+  unit-tests:
+    if: github.event_name == 'workflow_dispatch'
+    needs: [lint]
+    name: "Unit tests: ${{ matrix.unit-tests.name }}"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        unit-tests:
+          - name: "aca-content"
+          - name: "aca-shared"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - uses: ./.github/actions/before-install
+      - run: npm ci
+      - run: npm run affected:test -- --browsers=ChromeHeadless --watch=false $TEST_OPTS --base=origin/develop
+
   publish-docker-registry:
+    if: |
+      always() &&
+      (${{ inputs.publish-to-quay == 'true' }} && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'skipped'))
+    needs: [lint, unit-tests]
     name: "Publish to Quay"
     runs-on: ubuntu-latest
     steps:
@@ -34,6 +110,8 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
       - uses: ./.github/actions/setup
+        with:
+          npm_tag: ${{ inputs.npm-tag }}
 
       - name: Get Tag
         uses: ./.github/actions/get-image-tag
@@ -50,6 +128,10 @@ jobs:
           dry-run: ${{ inputs.dry-run-release }}
 
   publish-to-dockerhub:
+    if: |
+      always() &&
+      (${{ inputs.publish-to-docker == 'true' }} && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'skipped'))
+    needs: [lint, unit-tests]
     name: "Publish to Dockerhub"
     runs-on: ubuntu-latest
     steps:
@@ -63,6 +145,8 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
       - uses: ./.github/actions/setup
+        with:
+          npm_tag: ${{ inputs.npm-tag }}
 
       - name: Get Tag
         uses: ./.github/actions/get-image-tag
@@ -79,6 +163,10 @@ jobs:
           dry-run: ${{ inputs.dry-run-release }}
 
   publish-git-tag:
+    if: |
+      always() &&
+      (${{ inputs.publish-git-tag == 'true' }} && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'skipped'))
+    needs: [lint, unit-tests]
     name: "Publish Git Tag"
     runs-on: ubuntu-latest
     steps:
@@ -92,6 +180,8 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
       - uses: ./.github/actions/setup
+        with:
+          npm_tag: ${{ inputs.npm-tag }}
       - uses: Alfresco/alfresco-build-tools/.github/actions/configure-git-author@v8.16.0
         with:
           username: ${{ vars.BOT_GITHUB_USERNAME }}
@@ -105,6 +195,10 @@ jobs:
           dry-run: ${{ inputs.dry-run-release }}
 
   publish-libs:
+    if: |
+      always() &&
+      (${{ inputs.publish-to-npm == 'true' }} && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'skipped'))
+    needs: [lint, unit-tests]
     name: "Publish libs to NPM and GitHub registry"
     runs-on: ubuntu-latest
     permissions:
@@ -122,6 +216,8 @@ jobs:
           cache: 'npm'
 
       - uses: ./.github/actions/setup
+        with:
+          npm_tag: ${{ inputs.npm-tag }}
 
       - name: publish
         uses: ./.github/actions/publish-libs
