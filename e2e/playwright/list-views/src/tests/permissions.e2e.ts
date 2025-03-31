@@ -119,7 +119,7 @@ test.describe('Special permissions', () => {
       await expect(sharedPage.dataTable.getRowByName(sitePrivate)).toHaveCount(0);
     });
 
-    test('[C290122] on Search Results', async ({ personalFiles, searchPage }) => {
+    test('[XAT-17775] Search - File is not displayed if the user no longer has permissions on it', async ({ personalFiles, searchPage }) => {
       await personalFiles.acaHeader.searchButton.click();
       await searchPage.clickSearchButton();
       await searchPage.searchOverlay.checkFilesAndFolders();

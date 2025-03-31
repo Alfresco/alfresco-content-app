@@ -196,7 +196,7 @@ test.describe('Upload new version', () => {
       await personalFiles.dataTable.performClickFolderOrFileToOpen(parentUnsupported);
     });
 
-    test('[C587084] Should display unknown format the preview for an unsupported file', async ({ personalFiles }) => {
+    test('[XAT-17776] Should display the unknown format preview for an unsupported file in the viewer', async ({ personalFiles }) => {
       await uploadNewVersion(personalFiles, TEST_FILES.JPG_FILE.name, TEST_FILES.FILE_UNSUPPORTED.path);
       await personalFiles.uploadNewVersionDialog.uploadButton.click();
       await previewUnsupportedFile(personalFiles, TEST_FILES.FILE_UNSUPPORTED.name);

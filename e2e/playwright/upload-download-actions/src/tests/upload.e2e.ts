@@ -63,13 +63,13 @@ test.describe('Upload files', () => {
     expect(uploadedFiles, 'Uploaded file was not present in data table').toBe(true);
   });
 
-  test('[T14752064] Close the upload dialog', async ({ personalFiles }) => {
+  test('[XAT-17778] The upload dialog can be closed', async ({ personalFiles }) => {
     await expect(personalFiles.uploadDialog.closeButton, 'Close button was not visible').toBeVisible();
     await personalFiles.uploadDialog.closeButton.click();
     await expect(personalFiles.uploadDialog.uploadDialog, 'Upload Dialog was visible').toBeHidden();
   });
 
-  test('[T14752051] Minimize / maximize the upload dialog', async ({ personalFiles }) => {
+  test('[XAT-17779] The upload dialog can be minimized and maximized', async ({ personalFiles }) => {
     await personalFiles.uploadDialog.minimizeButton.click();
     await expect(personalFiles.uploadDialog.uploadDialogMinimized, 'Upload Dialog was not minimized').toBeVisible();
     await personalFiles.uploadDialog.minimizeButton.click();
@@ -83,7 +83,7 @@ test.describe('Upload files', () => {
     await expect(personalFiles.acaHeader.uploadButton, 'Upload button in Personal Files was not visible').toBeVisible();
   });
 
-  test('[T14752052] Upload dialog remains fixed in the browser when user performs other actions in parallel', async ({
+  test('[XAT-17777] Upload dialog remains fixed in the browser when user performs other actions in parallel', async ({
     personalFiles,
     myLibrariesPage
   }) => {
