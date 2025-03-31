@@ -219,7 +219,7 @@ jobs:
             (${{ inputs.publish-to-npm == 'false' }} ||
             ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')}})
         run: |
-          echo "${{ inputs.publish-to-npm == 'false' }} result * ${{ needs.*.result}} result rest ${{ needs.lint.result }} ${{ needs.unit-tests.result }}"
+          echo "${{ inputs.publish-to-npm }} result ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')}} cond 1 ${{ contains(needs.*.result, 'failure')}} cond 2 ${{ contains(needs.*.result, 'cancelled') }}"
           exit 1
 
       - name: Checkout
