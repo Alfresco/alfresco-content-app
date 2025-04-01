@@ -126,6 +126,7 @@
   },
   "search-headers": {
     "filterWithContains": true,
+    "include": ["path", "allowableOperations", "properties"],
     "app:fields": [
       "cm:name",
       "cm:title",
