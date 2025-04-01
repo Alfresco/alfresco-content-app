@@ -116,20 +116,6 @@ test.describe('Actions - Folder Information', () => {
   });
 
   test.beforeEach(async ({ loginPage }) => {
-    loginPage.page.on('request', (request) => {
-      if (request.url().includes('size-details')) {
-        // eslint-disable-next-line no-console
-        console.log(request.url());
-      }
-    });
-    loginPage.page.on('response', async (response) => {
-      if (response.url().includes('size-details')) {
-        // eslint-disable-next-line no-console
-        console.log('From service worker -> ' + response.fromServiceWorker());
-        // eslint-disable-next-line no-console
-        console.log(await response.text());
-      }
-    });
     await Utils.tryLoginUser(loginPage, username, username, 'Main beforeEach failed');
   });
 
@@ -147,14 +133,6 @@ test.describe('Actions - Folder Information', () => {
     await page.dataTable.selectItems(folderName);
     await page.acaHeader.clickMoreActions();
     await page.matMenu.clickMenuItem('Folder Information');
-    await page.page.waitForResponse(async (response) => {
-      const isSizeDetailsAPI = response.url().includes('/size-details/');
-      let isApiCompleted: boolean;
-      if (isSizeDetailsAPI) {
-        isApiCompleted = JSON.parse(await response.text()).entry.status === 'COMPLETED';
-      }
-      return isSizeDetailsAPI && response.status() === 200 && response.request().method() === 'GET' && isApiCompleted;
-    });
     await expect(async () => {
       expect(await page.folderInformationDialog.folderSize.textContent()).toContain(expectedSize);
     }).toPass({
@@ -171,20 +149,17 @@ test.describe('Actions - Folder Information', () => {
     await page.folderInformationDialog.folderName.waitFor({ state: 'hidden' });
   }
 
-  // eslint-disable-next-line playwright/no-focused-test
-  test.only('[XAT-17722] Folder information Empty folder size and number of documents as 0', async ({ personalFiles }) => {
+  test('[XAT-17722] Folder information Empty folder size and number of documents as 0', async ({ personalFiles }) => {
     await personalFiles.navigate();
     await checkFolderInformation(personalFiles, emptyFolder, '0 bytes for 0 files', `/Company Home/User Homes/${username}`, 'isEmpty');
   });
 
-  // eslint-disable-next-line playwright/no-focused-test
-  test.only('[XAT-17715] Folder information correct folder size and number of documents - single file', async ({ personalFiles }) => {
+  test('[XAT-17715] Folder information correct folder size and number of documents - single file', async ({ personalFiles }) => {
     await personalFiles.navigate();
     await checkFolderInformation(personalFiles, folder1File, 'for 1 files', `/Company Home/User Homes/${username}`);
   });
 
-  // eslint-disable-next-line playwright/no-focused-test
-  test.only('[XAT-17752] Folder information correct folder size and number of documents - multiple files', async ({ personalFiles }) => {
+  test('[XAT-17752] Folder information correct folder size and number of documents - multiple files', async ({ personalFiles }) => {
     await personalFiles.navigate();
     await checkFolderInformation(personalFiles, folderXFiles, 'for 3 files', `/Company Home/User Homes/${username}`);
   });
