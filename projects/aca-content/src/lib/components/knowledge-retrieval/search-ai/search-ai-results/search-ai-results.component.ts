@@ -26,7 +26,7 @@ import { Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core'
 import { ActivatedRoute } from '@angular/router';
 import { PageComponent, PageLayoutComponent } from '@alfresco/aca-shared';
 import { concatMap, delay, filter, finalize, retryWhen, skipWhile, switchMap } from 'rxjs/operators';
-import { ClipboardService, EmptyContentComponent, ThumbnailService, ToolbarModule, UnsavedChangesGuard } from '@alfresco/adf-core';
+import { ClipboardService, EmptyContentComponent, ThumbnailService, UnsavedChangesGuard } from '@alfresco/adf-core';
 import { AiAnswer, Node } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
 import { SearchAiInputContainerComponent } from '../search-ai-input-container/search-ai-input-container.component';
@@ -50,7 +50,6 @@ import { MarkdownComponent } from 'ngx-markdown';
   imports: [
     CommonModule,
     PageLayoutComponent,
-    ToolbarModule,
     SearchAiInputContainerComponent,
     TranslateModule,
     MatIconModule,
@@ -218,19 +217,16 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
     );
   }
 
-  addMermaidSourceTooltips(): void {
-    const mermaidBlocks = [...this.queryAnswer.answer.matchAll(SearchAiResultsComponent.MERMAID_BLOCK_REGEX)].map((match) => match[0].trim());
-    const latexBlocks = [...this.queryAnswer.answer.matchAll(SearchAiResultsComponent.LATEX_BLOCK_REGEX)].map((match) => match[0].trim());
-    const mermaidClassName = 'mermaid';
-    const elements: HTMLDivElement[] = this.elementRef.nativeElement.querySelectorAll(`.${mermaidClassName}, .katex`);
-    const mermaidElements: HTMLDivElement[] = [];
-    const katexElements: HTMLSpanElement[] = [];
-    elements.forEach((element) => (element.classList.contains(mermaidClassName) ? mermaidElements : katexElements).push(element));
-    for (let i = 0; i < mermaidElements.length; i++) {
-      mermaidElements[i].title = mermaidBlocks[i];
-    }
-    for (let i = 0; i < katexElements.length; i++) {
-      katexElements[i].title = latexBlocks[i];
+  addSourceCodeTooltips(): void {
+    this.setTooltip(SearchAiResultsComponent.MERMAID_BLOCK_REGEX, '.mermaid');
+    this.setTooltip(SearchAiResultsComponent.LATEX_BLOCK_REGEX, '.katex');
+  }
+
+  private setTooltip(codeBlockRegexp: RegExp, targetElementsSelector: string): void {
+    const codeBlocks = [...this.queryAnswer.answer.matchAll(codeBlockRegexp)].map((match) => match[0].trim());
+    const elements: HTMLElement[] = this.elementRef.nativeElement.querySelectorAll(targetElementsSelector);
+    for (let i = 0; i < elements.length; i++) {
+      elements[i].title = codeBlocks[i];
     }
   }
 
