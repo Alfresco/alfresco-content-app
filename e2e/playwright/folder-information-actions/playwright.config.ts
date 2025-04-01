@@ -29,6 +29,7 @@ import EXCLUDED_JSON from './exclude.tests.json';
 const config: PlaywrightTestConfig<CustomConfig> = {
   ...getGlobalConfig,
 
+  forbidOnly: false,
   grepInvert: getExcludedTestsRegExpArray(EXCLUDED_JSON, 'Folder Information Actions'),
   projects: [
     {

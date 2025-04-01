@@ -178,13 +178,13 @@ test.describe('Actions - Folder Information', () => {
   });
 
   // eslint-disable-next-line playwright/no-focused-test
-  test('[XAT-17715] Folder information correct folder size and number of documents - single file', async ({ personalFiles }) => {
+  test.only('[XAT-17715] Folder information correct folder size and number of documents - single file', async ({ personalFiles }) => {
     await personalFiles.navigate();
     await checkFolderInformation(personalFiles, folder1File, 'for 1 files', `/Company Home/User Homes/${username}`);
   });
 
   // eslint-disable-next-line playwright/no-focused-test
-  test('[XAT-17752] Folder information correct folder size and number of documents - multiple files', async ({ personalFiles }) => {
+  test.only('[XAT-17752] Folder information correct folder size and number of documents - multiple files', async ({ personalFiles }) => {
     await personalFiles.navigate();
     await checkFolderInformation(personalFiles, folderXFiles, 'for 3 files', `/Company Home/User Homes/${username}`);
   });
