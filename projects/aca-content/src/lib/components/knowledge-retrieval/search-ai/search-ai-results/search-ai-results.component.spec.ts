@@ -35,15 +35,15 @@ import { AgentService, NodesApiService, SearchAiService } from '@alfresco/adf-co
 import { By } from '@angular/platform-browser';
 import { ModalAiService } from '../../../../services/modal-ai.service';
 import { delay } from 'rxjs/operators';
-import { AiAnswer, AiAnswerEntry, QuestionModel } from '@alfresco/js-api/typings';
+import { AiAnswerEntry, QuestionModel } from '@alfresco/js-api/typings';
 import { SearchAiInputComponent } from '../search-ai-input/search-ai-input.component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { getAppSelection, getCurrentFolder, ViewNodeAction } from '@alfresco/aca-shared/store';
 import { ViewerService } from '@alfresco/aca-content/viewer';
 import { DebugElement } from '@angular/core';
+import { MarkdownModule } from 'ngx-markdown';
 
 const questionMock: QuestionModel = { question: 'test', questionId: 'testId', restrictionQuery: { nodesIds: [] } };
-const aiAnswerMock: AiAnswer = { answer: 'Some answer', questionId: 'some id', references: [] };
 const getAiAnswerEntry = (noAnswer?: boolean): AiAnswerEntry => {
   return { entry: { answer: noAnswer ? '' : 'Some answer', questionId: 'some id', references: [] } };
 };
@@ -68,7 +68,7 @@ describe('SearchAiResultsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, SearchAiResultsComponent, MatSnackBarModule, MatDialogModule, MatIconTestingModule],
+      imports: [AppTestingModule, SearchAiResultsComponent, MatSnackBarModule, MatDialogModule, MatIconTestingModule, MarkdownModule.forRoot()],
       providers: [
         {
           provide: NodesApiService,
@@ -161,7 +161,7 @@ describe('SearchAiResultsComponent', () => {
 
       tick(30000);
 
-      expect(component.queryAnswer).toBeUndefined();
+      expect(component.displayedAnswer).toBeUndefined();
       expect(component.hasAnsweringError).toBeTrue();
       expect(component.loading).toBeFalse();
     }));
@@ -173,7 +173,7 @@ describe('SearchAiResultsComponent', () => {
 
       tick(3000);
 
-      expect(component.queryAnswer).toEqual({ answer: 'Some answer', questionId: 'some id', references: [] });
+      expect(component.displayedAnswer).toEqual('Some answer');
       expect(component.hasAnsweringError).toBeFalse();
     }));
 
@@ -184,7 +184,7 @@ describe('SearchAiResultsComponent', () => {
 
       tick(50000);
 
-      expect(component.queryAnswer).toEqual({ answer: 'Some answer', questionId: 'some id', references: [] });
+      expect(component.displayedAnswer).toEqual('Some answer');
       expect(component.hasAnsweringError).toBeFalse();
     }));
 
@@ -195,7 +195,7 @@ describe('SearchAiResultsComponent', () => {
 
       tick(30000);
 
-      expect(component.queryAnswer).toBeUndefined();
+      expect(component.displayedAnswer).toBeUndefined();
       expect(component.hasAnsweringError).toBeTrue();
       expect(component.loading).toBeFalse();
     }));
@@ -207,7 +207,7 @@ describe('SearchAiResultsComponent', () => {
 
       tick(30000);
 
-      expect(component.queryAnswer).toBeUndefined();
+      expect(component.displayedAnswer).toBeUndefined();
       expect(component.hasAnsweringError).toBeTrue();
       expect(component.loading).toBeFalse();
     }));
@@ -219,7 +219,7 @@ describe('SearchAiResultsComponent', () => {
 
       tick(30000);
 
-      expect(component.queryAnswer).toEqual({ answer: 'Some answer', questionId: 'some id', references: [] });
+      expect(component.displayedAnswer).toEqual('Some answer');
       expect(component.hasAnsweringError).toBeFalse();
     }));
 
@@ -332,7 +332,7 @@ describe('SearchAiResultsComponent', () => {
 
       fixture.debugElement.query(By.css(`[data-automation-id="aca-search-ai-results-regeneration-button"]`)).nativeElement.click();
       expect(modalAiSpy).toHaveBeenCalledWith(jasmine.any(Function));
-      expect(component.queryAnswer).toEqual(aiAnswerMock);
+      expect(component.displayedAnswer).toEqual('Some answer');
     });
   });
 

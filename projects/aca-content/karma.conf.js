@@ -11,5 +11,11 @@ module.exports = function (config) {
       ...baseConfig.coverageReporter,
       dir: join(__dirname, '../../coverage/aca-content'),
     },
+    files: [
+      '../../node_modules/katex/dist/katex.min.js',
+      '../../node_modules/katex/dist/contrib/auto-render.min.js',
+      '../../node_modules/katex/dist/katex.min.css',
+      '../../node_modules/mermaid/dist/mermaid.min.js'
+    ]
   });
 };
