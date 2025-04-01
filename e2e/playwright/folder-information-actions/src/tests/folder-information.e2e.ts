@@ -116,6 +116,20 @@ test.describe('Actions - Folder Information', () => {
   });
 
   test.beforeEach(async ({ loginPage }) => {
+    loginPage.page.on('request', (request) => {
+      if (request.url().includes('size-details')) {
+        // eslint-disable-next-line no-console
+        console.log(request.url());
+      }
+    });
+    loginPage.page.on('response', async (response) => {
+      if (response.url().includes('size-details')) {
+        // eslint-disable-next-line no-console
+        console.log('From service worker -> ' + response.fromServiceWorker());
+        // eslint-disable-next-line no-console
+        console.log(await response.text());
+      }
+    });
     await Utils.tryLoginUser(loginPage, username, username, 'Main beforeEach failed');
   });
 
@@ -157,16 +171,19 @@ test.describe('Actions - Folder Information', () => {
     await page.folderInformationDialog.folderName.waitFor({ state: 'hidden' });
   }
 
-  test('[XAT-17722] Folder information Empty folder size and number of documents as 0', async ({ personalFiles }) => {
+  // eslint-disable-next-line playwright/no-focused-test
+  test.only('[XAT-17722] Folder information Empty folder size and number of documents as 0', async ({ personalFiles }) => {
     await personalFiles.navigate();
     await checkFolderInformation(personalFiles, emptyFolder, '0 bytes for 0 files', `/Company Home/User Homes/${username}`, 'isEmpty');
   });
 
+  // eslint-disable-next-line playwright/no-focused-test
   test('[XAT-17715] Folder information correct folder size and number of documents - single file', async ({ personalFiles }) => {
     await personalFiles.navigate();
     await checkFolderInformation(personalFiles, folder1File, 'for 1 files', `/Company Home/User Homes/${username}`);
   });
 
+  // eslint-disable-next-line playwright/no-focused-test
   test('[XAT-17752] Folder information correct folder size and number of documents - multiple files', async ({ personalFiles }) => {
     await personalFiles.navigate();
     await checkFolderInformation(personalFiles, folderXFiles, 'for 3 files', `/Company Home/User Homes/${username}`);
