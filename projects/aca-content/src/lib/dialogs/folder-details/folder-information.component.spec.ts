@@ -89,13 +89,15 @@ describe('FolderInformationComponent', () => {
     expect(initiateFolderSizeCalculationSpy).toHaveBeenCalledWith('mock-folder-id');
   });
 
-  it('should fetch folder size only when the initial folder size calculation request is completed', () => {
+  it('should fetch folder size only when the initial folder size calculation request is completed and one second has passed', fakeAsync(() => {
     fixture.detectChanges();
     expect(initiateFolderSizeCalculationSpy).toHaveBeenCalledWith('mock-folder-id');
     expect(getFolderSizeInfoSpy).not.toHaveBeenCalled();
     mockSub.next({ entry: { jobId: 'mock-job-id' } });
+    expect(getFolderSizeInfoSpy).not.toHaveBeenCalled();
+    tick(1000);
     expect(getFolderSizeInfoSpy).toHaveBeenCalled();
-  });
+  }));
 
   it('should make repeated calls to get folder size info, if the response returned from the API is IN_PROGRESS', fakeAsync(() => {
     mockSizeDetailsEntry.entry.status = SizeDetails.StatusEnum.IN_PROGRESS;
@@ -103,6 +105,7 @@ describe('FolderInformationComponent', () => {
     fixture.detectChanges();
     expect(getFolderSizeInfoSpy).not.toHaveBeenCalled();
     mockSub.next({ entry: { jobId: 'mock-job-id' } });
+    tick(1000);
     expect(getFolderSizeInfoSpy).toHaveBeenCalledTimes(1);
     tick(5000);
     expect(getFolderSizeInfoSpy).toHaveBeenCalledTimes(2);

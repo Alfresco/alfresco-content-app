@@ -29,7 +29,7 @@ import { Node, SizeDetails } from '@alfresco/js-api';
 import { MatDividerModule } from '@angular/material/divider';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ContentService, NodesApiService } from '@alfresco/adf-content-services';
-import { catchError, concatMap, expand, first, switchMap } from 'rxjs/operators';
+import { catchError, concatMap, delay, expand, first, switchMap } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { EMPTY, of, timer } from 'rxjs';
 
@@ -75,6 +75,7 @@ export class FolderInformationComponent implements OnInit {
       .initiateFolderSizeCalculation(this.data.id)
       .pipe(
         first(),
+        delay(1000),
         switchMap((jobIdEntry) => {
           return this.nodesService.getFolderSizeInfo(this.data.id, jobIdEntry.entry.jobId).pipe(
             expand((result) =>
@@ -114,7 +115,7 @@ export class FolderInformationComponent implements OnInit {
             isMoreThanBytes ? 'APP.FOLDER_INFO.CALCULATED_SIZE_LARGE' : 'APP.FOLDER_INFO.CALCULATED_SIZE_NORMAL',
             params
           );
-        } else {
+        } else if (folderInfo?.entry?.status !== SizeDetails.StatusEnum.IN_PROGRESS) {
           this.folderDetails.size = this.translateService.instant('APP.FOLDER_INFO.ERROR');
         }
       });
