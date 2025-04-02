@@ -117,14 +117,16 @@ describe('FolderInformationComponent', () => {
     expect(getFolderSizeInfoSpy).not.toHaveBeenCalledTimes(5);
   }));
 
-  it('should display error message if folder size info is deceived, and response returned from API is neither COMPLETE, nor IN_PROGRESS', fakeAsync(() => {
+  it('should not make new API request, and display error message if response returned from API is neither COMPLETE, nor IN_PROGRESS', fakeAsync(() => {
     mockSizeDetailsEntry.entry.status = SizeDetails.StatusEnum.NOT_INITIATED;
     getFolderSizeInfoSpy.and.returnValue(of(mockSizeDetailsEntry));
     fixture.detectChanges();
     mockSub.next({ entry: { jobId: 'mock-job-id' } });
     tick(1000);
-    expect(getFolderSizeInfoSpy).toHaveBeenCalledTimes(1);
     fixture.detectChanges();
+    expect(getFolderSizeInfoSpy).toHaveBeenCalledTimes(1);
     expect(unitTestingUtils.getInnerTextByDataAutomationId('folder-info-size')).toBe('APP.FOLDER_INFO.ERROR');
+    tick(5000);
+    expect(getFolderSizeInfoSpy).not.toHaveBeenCalledTimes(2);
   }));
 });
