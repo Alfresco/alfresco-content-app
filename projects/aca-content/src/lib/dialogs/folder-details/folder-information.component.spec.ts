@@ -24,9 +24,8 @@
 
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FolderInformationComponent } from './folder-information.component';
-import { DIALOG_COMPONENT_DATA, RedirectAuthService } from '@alfresco/adf-core';
+import { DIALOG_COMPONENT_DATA, RedirectAuthService, UnitTestingUtils } from '@alfresco/adf-core';
 import { ContentService, NodesApiService } from '@alfresco/adf-content-services';
-import { By } from '@angular/platform-browser';
 import { EMPTY, Observable, of, Subject } from 'rxjs';
 import { LibTestingModule } from '@alfresco/aca-shared';
 import { JobIdBodyEntry, SizeDetails, SizeDetailsEntry, Node } from '@alfresco/js-api';
@@ -34,6 +33,7 @@ import { JobIdBodyEntry, SizeDetails, SizeDetailsEntry, Node } from '@alfresco/j
 describe('FolderInformationComponent', () => {
   let fixture: ComponentFixture<FolderInformationComponent>;
   let nodeService: NodesApiService;
+  let unitTestingUtils: UnitTestingUtils;
   let initiateFolderSizeCalculationSpy: jasmine.Spy<(nodeId: string) => Observable<JobIdBodyEntry>>;
   let getFolderSizeInfoSpy: jasmine.Spy<(nodeId: string, jobId: string) => Observable<SizeDetailsEntry>>;
 
@@ -58,8 +58,6 @@ describe('FolderInformationComponent', () => {
     }
   };
 
-  const getValueFromElement = (id: string): string => fixture.debugElement.query(By.css(`[data-automation-id="${id}"]`)).nativeElement.textContent;
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [FolderInformationComponent, LibTestingModule],
@@ -70,6 +68,7 @@ describe('FolderInformationComponent', () => {
     });
     fixture = TestBed.createComponent(FolderInformationComponent);
     nodeService = TestBed.inject(NodesApiService);
+    unitTestingUtils = new UnitTestingUtils(fixture.debugElement);
     spyOn(TestBed.inject(ContentService), 'getNodeIcon').and.returnValue('./assets/images/ft_ic_folder.svg');
     initiateFolderSizeCalculationSpy = spyOn(nodeService, 'initiateFolderSizeCalculation').and.returnValue(mockSub.asObservable());
     getFolderSizeInfoSpy = spyOn(nodeService, 'getFolderSizeInfo').and.returnValue(EMPTY);
@@ -77,11 +76,11 @@ describe('FolderInformationComponent', () => {
 
   it('should render all information in init', () => {
     fixture.detectChanges();
-    expect(getValueFromElement('folder-info-name')).toBe('mock-folder');
-    expect(getValueFromElement('folder-info-size')).toBe('APP.FOLDER_INFO.CALCULATING');
-    expect(getValueFromElement('folder-info-location')).toBe('mock-folder-path');
-    expect(getValueFromElement('folder-info-creation-date')).toBe('01/02/2024 11:11');
-    expect(getValueFromElement('folder-info-modify-date')).toBe('02/03/2024 22:22');
+    expect(unitTestingUtils.getInnerTextByDataAutomationId('folder-info-name')).toBe('mock-folder');
+    expect(unitTestingUtils.getInnerTextByDataAutomationId('folder-info-size')).toBe('APP.FOLDER_INFO.CALCULATING');
+    expect(unitTestingUtils.getInnerTextByDataAutomationId('folder-info-location')).toBe('mock-folder-path');
+    expect(unitTestingUtils.getInnerTextByDataAutomationId('folder-info-creation-date')).toBe('01/02/2024 11:11');
+    expect(unitTestingUtils.getInnerTextByDataAutomationId('folder-info-modify-date')).toBe('02/03/2024 22:22');
   });
 
   it('should make API call on init to start folder size calculation', () => {
@@ -116,5 +115,16 @@ describe('FolderInformationComponent', () => {
     expect(getFolderSizeInfoSpy).toHaveBeenCalledTimes(4);
     tick(5000);
     expect(getFolderSizeInfoSpy).not.toHaveBeenCalledTimes(5);
+  }));
+
+  it('should display error message if folder size info is deceived, and response returned from API is neither COMPLETE, nor IN_PROGRESS', fakeAsync(() => {
+    mockSizeDetailsEntry.entry.status = SizeDetails.StatusEnum.NOT_INITIATED;
+    getFolderSizeInfoSpy.and.returnValue(of(mockSizeDetailsEntry));
+    fixture.detectChanges();
+    mockSub.next({ entry: { jobId: 'mock-job-id' } });
+    tick(1000);
+    expect(getFolderSizeInfoSpy).toHaveBeenCalledTimes(1);
+    fixture.detectChanges();
+    expect(unitTestingUtils.getInnerTextByDataAutomationId('folder-info-size')).toBe('APP.FOLDER_INFO.ERROR');
   }));
 });
