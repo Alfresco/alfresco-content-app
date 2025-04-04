@@ -341,6 +341,12 @@ describe('SearchAiResultsComponent', () => {
   describe('Markdown', () => {
     const getMarkdown = (): MarkdownComponent => unitTestingUtils.getByDirective(MarkdownComponent)?.componentInstance;
 
+    const removeTabs = (answer: string): string =>
+      answer
+        .split('\n')
+        .map((line) => line.trim())
+        .join('\n');
+
     let queryParams: Params;
     let getAnswerSpyAnd: jasmine.SpyAnd<(questionId: string) => Observable<AiAnswerEntry>>;
     let answerEntry: AiAnswerEntry;
@@ -412,6 +418,27 @@ describe('SearchAiResultsComponent', () => {
       tick(3000);
       fixture.detectChanges();
       expect(getMarkdown().data).toEqual(answer);
+    }));
+
+    it('should have assigned correct data when answer contains mermaids', fakeAsync(() => {
+      answerEntry.entry.answer =
+        'First example:\\n\\n```mermaid\\ngraph LR\\n    animal --> dog\\n    animal --> cat\\n```\\n\\n' +
+        'Second example:\\n\\n```mermaid\\ngraph LR\\n    animal[label="Animal"] --> dog[label="Dog"]\\n    animal[label="Animal"] --> cat[label="Cat"]\\n```\\n\\n';
+      getAnswerSpyAnd.returnValues(
+        throwError(() => 'error'),
+        of(answerEntry)
+      );
+      mockQueryParams.next(queryParams);
+
+      tick(3000);
+      fixture.detectChanges();
+      expect(removeTabs(getMarkdown().data)).toEqual(
+        removeTabs(`First example:\\n\\n\`\`\`mermaid
+      \\ngraph LR\\n    animal --> dog\\n    animal --> cat\\n
+      \`\`\`\\n\\nSecond example:\\n\\n\`\`\`mermaid
+      \\ngraph LR\\n    animal[Animal] --> dog[Dog]\\n    animal[Animal] --> cat[Cat]\\n
+      \`\`\`\\n\\n`)
+      );
     }));
 
     it('should have assigned correct data when answer contains latex', fakeAsync(() => {
