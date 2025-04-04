@@ -255,7 +255,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
 
   private transformMermaid(answer: string): string {
     return answer.replace(SearchAiResultsComponent.MERMAID_BLOCK_REGEX, (_mermaidBlockRegex, blockContent: string) => {
-      const transformedBlockContent = blockContent.replace(/(\w+)\[label="([^"]+)"] ?/g, (_, node: string, label: string) => `${node}[${label}]`);
+      const transformedBlockContent = blockContent.replace(/(\w+)\[label="([^"]*)"] ?/g, (_, node: string, label: string) => `${node}[${label}]`);
       return `\`\`\`mermaid\n${transformedBlockContent}\n\`\`\``;
     });
   }
