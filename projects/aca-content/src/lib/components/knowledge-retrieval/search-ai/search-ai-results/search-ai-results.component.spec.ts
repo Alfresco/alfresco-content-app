@@ -435,9 +435,9 @@ describe('SearchAiResultsComponent', () => {
       expect(removeTabs(getMarkdown().data)).toEqual(
         removeTabs(`First example:\\n\\n\`\`\`mermaid
       \\ngraph LR\\n    animal --> dog\\n    animal --> cat\\n
-        \`\`\`\\n\\nSecond example:\\n\\n\`\`\`mermaid
-      \\ngraph LR\\n    animal[Animal]--> dog[Dog]\\n    animal[Animal]--> cat[Cat]\\n
-        \`\`\`\\n\\n`)
+      \`\`\`\\n\\nSecond example:\\n\\n\`\`\`mermaid
+      \\ngraph LR\\n    animal[Animal] --> dog[Dog]\\n    animal[Animal] --> cat[Cat]\\n
+      \`\`\`\\n\\n`)
       );
     }));
 
