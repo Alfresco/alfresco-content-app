@@ -341,7 +341,11 @@ describe('SearchAiResultsComponent', () => {
   describe('Markdown', () => {
     const getMarkdown = (): MarkdownComponent => unitTestingUtils.getByDirective(MarkdownComponent)?.componentInstance;
 
-    const removeTabs = (answer: string): string => answer.replace(/^[ \t]+|[ \t]+$/gm, '');
+    const removeTabs = (answer: string): string =>
+      answer
+        .split('\n')
+        .map((line) => line.trim())
+        .join('\n');
 
     let queryParams: Params;
     let getAnswerSpyAnd: jasmine.SpyAnd<(questionId: string) => Observable<AiAnswerEntry>>;
