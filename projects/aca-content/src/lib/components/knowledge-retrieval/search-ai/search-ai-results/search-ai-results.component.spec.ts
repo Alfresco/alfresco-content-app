@@ -345,6 +345,7 @@ describe('SearchAiResultsComponent', () => {
 
     let queryParams: Params;
     let getAnswerSpyAnd: jasmine.SpyAnd<(questionId: string) => Observable<AiAnswerEntry>>;
+    let answerEntry: AiAnswerEntry;
 
     beforeEach(() => {
       spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
@@ -353,12 +354,13 @@ describe('SearchAiResultsComponent', () => {
         agentId: 'agentId1'
       };
       getAnswerSpyAnd = spyOn(searchAiService, 'getAnswer').and;
+      answerEntry = getAiAnswerEntry();
     });
 
     it('should be rendered when answer is loaded successfully', fakeAsync(() => {
       getAnswerSpyAnd.returnValues(
         throwError(() => 'error'),
-        of(getAiAnswerEntry())
+        of(answerEntry)
       );
       mockQueryParams.next(queryParams);
 
@@ -379,7 +381,7 @@ describe('SearchAiResultsComponent', () => {
     it('should have assigned mermaid to true', fakeAsync(() => {
       getAnswerSpyAnd.returnValues(
         throwError(() => 'error'),
-        of(getAiAnswerEntry())
+        of(answerEntry)
       );
       mockQueryParams.next(queryParams);
 
@@ -391,7 +393,7 @@ describe('SearchAiResultsComponent', () => {
     it('should have assigned katex to true', fakeAsync(() => {
       getAnswerSpyAnd.returnValues(
         throwError(() => 'error'),
-        of(getAiAnswerEntry())
+        of(answerEntry)
       );
       mockQueryParams.next(queryParams);
 
@@ -402,7 +404,6 @@ describe('SearchAiResultsComponent', () => {
 
     it('should have assigned correct data', fakeAsync(() => {
       const answer = '#### Some title\n\nSome description';
-      const answerEntry = getAiAnswerEntry();
       answerEntry.entry.answer = answer;
       getAnswerSpyAnd.returnValues(
         throwError(() => 'error'),
@@ -416,7 +417,6 @@ describe('SearchAiResultsComponent', () => {
     }));
 
     it('should have assigned correct data when answer contains mermaids', fakeAsync(() => {
-      const answerEntry = getAiAnswerEntry();
       answerEntry.entry.answer =
         'First example:\\n\\n```mermaid\\ngraph LR\\n    animal --> dog\\n    animal --> cat\\n```\\n\\n' +
         'Second example:\\n\\n```mermaid\\ngraph LR\\n    animal[label="Animal"] --> dog[label="Dog"]\\n    animal[label="Animal"] --> cat[label="Cat"]\\n```\\n\\n';
@@ -438,7 +438,6 @@ describe('SearchAiResultsComponent', () => {
     }));
 
     it('should have assigned correct data when answer contains latex', fakeAsync(() => {
-      const answerEntry = getAiAnswerEntry();
       answerEntry.entry.answer = '\n\n### Mathematical Formula\n\n```latex\nf(x) = Vint_{-\\infty}^{\\infty} \\hat{f}(lxi) e^{2 (pi i Ixi x} dx\n```';
       getAnswerSpyAnd.returnValues(
         throwError(() => 'error'),
@@ -449,6 +448,46 @@ describe('SearchAiResultsComponent', () => {
       tick(3000);
       fixture.detectChanges();
       expect(getMarkdown().data).toEqual('\n\n### Mathematical Formula\n\n$$f(x) = Vint_{-\\infty}^{\\infty} \\hat{f}(lxi) e^{2 (pi i Ixi x} dx$$');
+    }));
+
+    it('should set source code tooltip for mermaid when answer contains mermaid', fakeAsync(() => {
+      answerEntry.entry.answer =
+        'First example:\\n\\n```mermaid\\ngraph LR\\n    animal --> dog\\n    animal --> cat\\n```\\n\\n' +
+        'Second example:\\n\\n```mermaid\\ngraph LR\\n    animal[label="Animal"] --> dog[label="Dog"]\\n    animal[label="Animal"] --> cat[label="Cat"]\\n```\\n\\n';
+      getAnswerSpyAnd.returnValues(
+        throwError(() => 'error'),
+        of(answerEntry)
+      );
+      mockQueryParams.next(queryParams);
+      tick(3000);
+      fixture.detectChanges();
+      const elements = [document.createElement('div'), document.createElement('div')];
+      spyOn(fixture.nativeElement, 'querySelectorAll').withArgs('.mermaid').and.returnValue(elements).and.returnValue([]);
+
+      getMarkdown().ready.emit();
+      expect(elements[0].title).toBe('```mermaid\\ngraph LR\\n    animal --> dog\\n    animal --> cat\\n```');
+      expect(elements[1].title).toBe(
+        '```mermaid\\ngraph LR\\n    animal[label="Animal"] --> dog[label="Dog"]\\n    animal[label="Animal"] --> cat[label="Cat"]\\n```'
+      );
+    }));
+
+    it('should set source code tooltip for mermaid when answer contains latex', fakeAsync(() => {
+      answerEntry.entry.answer =
+        '\n\n### Mathematical Formula 1\n\n```latex\nf(x) = Vint_{-\\infty}^{\\infty} \\hat{f}(lxi) e^{2 (pi i Ixi x} dx\n```' +
+        '\n\n### Mathematical Formula 2\n\n```latex\nf(x) = Vint_{-\\infty}^{\\infty} \\hat{f}(lxi) e^{5 (pi i Ixi x} dx\n```';
+      getAnswerSpyAnd.returnValues(
+        throwError(() => 'error'),
+        of(answerEntry)
+      );
+      mockQueryParams.next(queryParams);
+      tick(3000);
+      fixture.detectChanges();
+      const elements = [document.createElement('div'), document.createElement('div')];
+      spyOn(fixture.nativeElement, 'querySelectorAll').withArgs('.katex').and.returnValue(elements).and.returnValue([]);
+
+      getMarkdown().ready.emit();
+      expect(elements[0].title).toBe('```latex\nf(x) = Vint_{-\\infty}^{\\infty} \\hat{f}(lxi) e^{2 (pi i Ixi x} dx\n```');
+      expect(elements[1].title).toBe('```latex\nf(x) = Vint_{-\\infty}^{\\infty} \\hat{f}(lxi) e^{5 (pi i Ixi x} dx\n```');
     }));
   });
 
