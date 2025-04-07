@@ -79,6 +79,7 @@ import { SearchResultsRowComponent } from './components/search/search-results-ro
 import { BulkActionsDropdownComponent } from './components/bulk-actions-dropdown/bulk-actions-dropdown.component';
 import { AgentsButtonComponent } from './components/knowledge-retrieval/search-ai/agents-button/agents-button.component';
 import { SaveSearchSidenavComponent } from './components/search/search-save/sidenav/save-search-sidenav.component';
+import { MarkdownModule } from 'ngx-markdown';
 
 @NgModule({
   imports: [
@@ -100,7 +101,8 @@ import { SaveSearchSidenavComponent } from './components/search/search-save/side
     AcaFolderRulesModule,
     CreateFromTemplateDialogComponent,
     OpenInAppComponent,
-    UploadFilesDialogComponent
+    UploadFilesDialogComponent,
+    MarkdownModule.forRoot()
   ],
   providers: [
     { provide: ContentVersionService, useClass: ContentUrlService },

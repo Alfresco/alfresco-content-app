@@ -25,9 +25,9 @@
 import { TestBed, ComponentFixture, tick, fakeAsync } from '@angular/core/testing';
 import { SearchAiResultsComponent } from './search-ai-results.component';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { of, Subject, throwError } from 'rxjs';
+import { Observable, of, Subject, throwError } from 'rxjs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { EmptyContentComponent, UnsavedChangesGuard, UserPreferencesService } from '@alfresco/adf-core';
+import { EmptyContentComponent, UnitTestingUtils, UnsavedChangesGuard, UserPreferencesService } from '@alfresco/adf-core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AppTestingModule } from '../../../../testing/app-testing.module';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
@@ -35,15 +35,15 @@ import { AgentService, NodesApiService, SearchAiService } from '@alfresco/adf-co
 import { By } from '@angular/platform-browser';
 import { ModalAiService } from '../../../../services/modal-ai.service';
 import { delay } from 'rxjs/operators';
-import { AiAnswer, AiAnswerEntry, QuestionModel } from '@alfresco/js-api/typings';
+import { AiAnswerEntry, QuestionModel } from '@alfresco/js-api/typings';
 import { SearchAiInputComponent } from '../search-ai-input/search-ai-input.component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { getAppSelection, getCurrentFolder, ViewNodeAction } from '@alfresco/aca-shared/store';
 import { ViewerService } from '@alfresco/aca-content/viewer';
 import { DebugElement } from '@angular/core';
+import { MarkdownComponent, MarkdownModule } from 'ngx-markdown';
 
 const questionMock: QuestionModel = { question: 'test', questionId: 'testId', restrictionQuery: { nodesIds: [] } };
-const aiAnswerMock: AiAnswer = { answer: 'Some answer', questionId: 'some id', references: [] };
 const getAiAnswerEntry = (noAnswer?: boolean): AiAnswerEntry => {
   return { entry: { answer: noAnswer ? '' : 'Some answer', questionId: 'some id', references: [] } };
 };
@@ -59,6 +59,7 @@ describe('SearchAiResultsComponent', () => {
   let store: MockStore;
   let viewerService: ViewerService;
   let unsavedChangesGuard: UnsavedChangesGuard;
+  let unitTestingUtils: UnitTestingUtils;
 
   afterEach(() => {
     store.resetSelectors();
@@ -68,7 +69,7 @@ describe('SearchAiResultsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, SearchAiResultsComponent, MatSnackBarModule, MatDialogModule, MatIconTestingModule],
+      imports: [AppTestingModule, SearchAiResultsComponent, MatSnackBarModule, MatDialogModule, MatIconTestingModule, MarkdownModule.forRoot()],
       providers: [
         {
           provide: NodesApiService,
@@ -112,6 +113,7 @@ describe('SearchAiResultsComponent', () => {
     spyOn(searchAiService, 'ask').and.returnValue(of(questionMock));
     spyOn(TestBed.inject(AgentService), 'getAgents').and.returnValue(of([]));
     component = fixture.componentInstance;
+    unitTestingUtils = new UnitTestingUtils(fixture.debugElement);
     component.ngOnInit();
   });
 
@@ -161,7 +163,7 @@ describe('SearchAiResultsComponent', () => {
 
       tick(30000);
 
-      expect(component.queryAnswer).toBeUndefined();
+      expect(component.displayedAnswer).toBeUndefined();
       expect(component.hasAnsweringError).toBeTrue();
       expect(component.loading).toBeFalse();
     }));
@@ -173,7 +175,7 @@ describe('SearchAiResultsComponent', () => {
 
       tick(3000);
 
-      expect(component.queryAnswer).toEqual({ answer: 'Some answer', questionId: 'some id', references: [] });
+      expect(component.displayedAnswer).toEqual('Some answer');
       expect(component.hasAnsweringError).toBeFalse();
     }));
 
@@ -184,7 +186,7 @@ describe('SearchAiResultsComponent', () => {
 
       tick(50000);
 
-      expect(component.queryAnswer).toEqual({ answer: 'Some answer', questionId: 'some id', references: [] });
+      expect(component.displayedAnswer).toEqual('Some answer');
       expect(component.hasAnsweringError).toBeFalse();
     }));
 
@@ -195,7 +197,7 @@ describe('SearchAiResultsComponent', () => {
 
       tick(30000);
 
-      expect(component.queryAnswer).toBeUndefined();
+      expect(component.displayedAnswer).toBeUndefined();
       expect(component.hasAnsweringError).toBeTrue();
       expect(component.loading).toBeFalse();
     }));
@@ -207,7 +209,7 @@ describe('SearchAiResultsComponent', () => {
 
       tick(30000);
 
-      expect(component.queryAnswer).toBeUndefined();
+      expect(component.displayedAnswer).toBeUndefined();
       expect(component.hasAnsweringError).toBeTrue();
       expect(component.loading).toBeFalse();
     }));
@@ -219,7 +221,7 @@ describe('SearchAiResultsComponent', () => {
 
       tick(30000);
 
-      expect(component.queryAnswer).toEqual({ answer: 'Some answer', questionId: 'some id', references: [] });
+      expect(component.displayedAnswer).toEqual('Some answer');
       expect(component.hasAnsweringError).toBeFalse();
     }));
 
@@ -332,8 +334,165 @@ describe('SearchAiResultsComponent', () => {
 
       fixture.debugElement.query(By.css(`[data-automation-id="aca-search-ai-results-regeneration-button"]`)).nativeElement.click();
       expect(modalAiSpy).toHaveBeenCalledWith(jasmine.any(Function));
-      expect(component.queryAnswer).toEqual(aiAnswerMock);
+      expect(component.displayedAnswer).toEqual('Some answer');
     });
+  });
+
+  describe('Markdown', () => {
+    const getMarkdown = (): MarkdownComponent => unitTestingUtils.getByDirective(MarkdownComponent)?.componentInstance;
+
+    const removeTabs = (answer: string): string =>
+      answer
+        .split('\n')
+        .map((line) => line.trim())
+        .join('\n');
+
+    let queryParams: Params;
+    let getAnswerSpyAnd: jasmine.SpyAnd<(questionId: string) => Observable<AiAnswerEntry>>;
+    let answerEntry: AiAnswerEntry;
+
+    beforeEach(() => {
+      spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
+      queryParams = {
+        query: 'test',
+        agentId: 'agentId1'
+      };
+      getAnswerSpyAnd = spyOn(searchAiService, 'getAnswer').and;
+      answerEntry = getAiAnswerEntry();
+    });
+
+    it('should be rendered when answer is loaded successfully', fakeAsync(() => {
+      getAnswerSpyAnd.returnValues(
+        throwError(() => 'error'),
+        of(answerEntry)
+      );
+      mockQueryParams.next(queryParams);
+
+      tick(3000);
+      fixture.detectChanges();
+      expect(getMarkdown()).toBeTruthy();
+    }));
+
+    it('should not be rendered when answer loading is failed', fakeAsync(() => {
+      getAnswerSpyAnd.returnValue(throwError(() => 'error').pipe(delay(100)));
+      mockQueryParams.next(queryParams);
+
+      tick(30000);
+      fixture.detectChanges();
+      expect(getMarkdown()).toBeUndefined();
+    }));
+
+    it('should have assigned mermaid to true', fakeAsync(() => {
+      getAnswerSpyAnd.returnValues(
+        throwError(() => 'error'),
+        of(answerEntry)
+      );
+      mockQueryParams.next(queryParams);
+
+      tick(3000);
+      fixture.detectChanges();
+      expect(getMarkdown().mermaid).toBeTrue();
+    }));
+
+    it('should have assigned katex to true', fakeAsync(() => {
+      getAnswerSpyAnd.returnValues(
+        throwError(() => 'error'),
+        of(answerEntry)
+      );
+      mockQueryParams.next(queryParams);
+
+      tick(3000);
+      fixture.detectChanges();
+      expect(getMarkdown().katex).toBeTrue();
+    }));
+
+    it('should have assigned correct data', fakeAsync(() => {
+      const answer = '#### Some title\n\nSome description';
+      answerEntry.entry.answer = answer;
+      getAnswerSpyAnd.returnValues(
+        throwError(() => 'error'),
+        of(answerEntry)
+      );
+      mockQueryParams.next(queryParams);
+
+      tick(3000);
+      fixture.detectChanges();
+      expect(getMarkdown().data).toEqual(answer);
+    }));
+
+    it('should have assigned correct data when answer contains mermaids', fakeAsync(() => {
+      answerEntry.entry.answer =
+        'First example:\\n\\n```mermaid\\ngraph LR\\n    animal --> dog\\n    animal --> cat\\n```\\n\\n' +
+        'Second example:\\n\\n```mermaid\\ngraph LR\\n    animal[label="Animal"] --> dog[label="Dog"]\\n    animal[label="Animal"] --> cat[label="Cat"]\\n```\\n\\n';
+      getAnswerSpyAnd.returnValues(
+        throwError(() => 'error'),
+        of(answerEntry)
+      );
+      mockQueryParams.next(queryParams);
+
+      tick(3000);
+      fixture.detectChanges();
+      expect(removeTabs(getMarkdown().data)).toEqual(
+        removeTabs(`First example:\\n\\n\`\`\`mermaid
+      \\ngraph LR\\n    animal --> dog\\n    animal --> cat\\n
+      \`\`\`\\n\\nSecond example:\\n\\n\`\`\`mermaid
+      \\ngraph LR\\n    animal[Animal] --> dog[Dog]\\n    animal[Animal] --> cat[Cat]\\n
+      \`\`\`\\n\\n`)
+      );
+    }));
+
+    it('should have assigned correct data when answer contains latex', fakeAsync(() => {
+      answerEntry.entry.answer = '\n\n### Mathematical Formula\n\n```latex\nf(x) = Vint_{-\\infty}^{\\infty} \\hat{f}(lxi) e^{2 (pi i Ixi x} dx\n```';
+      getAnswerSpyAnd.returnValues(
+        throwError(() => 'error'),
+        of(answerEntry)
+      );
+      mockQueryParams.next(queryParams);
+
+      tick(3000);
+      fixture.detectChanges();
+      expect(getMarkdown().data).toEqual('\n\n### Mathematical Formula\n\n$$f(x) = Vint_{-\\infty}^{\\infty} \\hat{f}(lxi) e^{2 (pi i Ixi x} dx$$');
+    }));
+
+    it('should set source code tooltip for mermaid when answer contains mermaid', fakeAsync(() => {
+      answerEntry.entry.answer =
+        'First example:\\n\\n```mermaid\\ngraph LR\\n    animal --> dog\\n    animal --> cat\\n```\\n\\n' +
+        'Second example:\\n\\n```mermaid\\ngraph LR\\n    animal[label="Animal"] --> dog[label="Dog"]\\n    animal[label="Animal"] --> cat[label="Cat"]\\n```\\n\\n';
+      getAnswerSpyAnd.returnValues(
+        throwError(() => 'error'),
+        of(answerEntry)
+      );
+      mockQueryParams.next(queryParams);
+      tick(3000);
+      fixture.detectChanges();
+      const elements = [document.createElement('div'), document.createElement('div')];
+      spyOn(fixture.nativeElement, 'querySelectorAll').withArgs('.mermaid').and.returnValue(elements).and.returnValue([]);
+
+      getMarkdown().ready.emit();
+      expect(elements[0].title).toBe('```mermaid\\ngraph LR\\n    animal --> dog\\n    animal --> cat\\n```');
+      expect(elements[1].title).toBe(
+        '```mermaid\\ngraph LR\\n    animal[label="Animal"] --> dog[label="Dog"]\\n    animal[label="Animal"] --> cat[label="Cat"]\\n```'
+      );
+    }));
+
+    it('should set source code tooltip for mermaid when answer contains latex', fakeAsync(() => {
+      answerEntry.entry.answer =
+        '\n\n### Mathematical Formula 1\n\n```latex\nf(x) = Vint_{-\\infty}^{\\infty} \\hat{f}(lxi) e^{2 (pi i Ixi x} dx\n```' +
+        '\n\n### Mathematical Formula 2\n\n```latex\nf(x) = Vint_{-\\infty}^{\\infty} \\hat{f}(lxi) e^{5 (pi i Ixi x} dx\n```';
+      getAnswerSpyAnd.returnValues(
+        throwError(() => 'error'),
+        of(answerEntry)
+      );
+      mockQueryParams.next(queryParams);
+      tick(3000);
+      fixture.detectChanges();
+      const elements = [document.createElement('div'), document.createElement('div')];
+      spyOn(fixture.nativeElement, 'querySelectorAll').withArgs('.katex').and.returnValue(elements).and.returnValue([]);
+
+      getMarkdown().ready.emit();
+      expect(elements[0].title).toBe('```latex\nf(x) = Vint_{-\\infty}^{\\infty} \\hat{f}(lxi) e^{2 (pi i Ixi x} dx\n```');
+      expect(elements[1].title).toBe('```latex\nf(x) = Vint_{-\\infty}^{\\infty} \\hat{f}(lxi) e^{5 (pi i Ixi x} dx\n```');
+    }));
   });
 
   describe('References', () => {

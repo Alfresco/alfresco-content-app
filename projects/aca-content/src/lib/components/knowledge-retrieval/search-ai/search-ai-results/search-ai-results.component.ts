@@ -22,11 +22,11 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PageComponent, PageLayoutComponent, ToolbarActionComponent, ToolbarComponent } from '@alfresco/aca-shared';
+import { PageComponent, PageLayoutComponent } from '@alfresco/aca-shared';
 import { concatMap, delay, filter, finalize, retryWhen, skipWhile, switchMap } from 'rxjs/operators';
-import { AvatarComponent, ClipboardService, EmptyContentComponent, ThumbnailService, ToolbarModule, UnsavedChangesGuard } from '@alfresco/adf-core';
+import { ClipboardService, EmptyContentComponent, ThumbnailService, UnsavedChangesGuard } from '@alfresco/adf-core';
 import { AiAnswer, Node } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
 import { SearchAiInputContainerComponent } from '../search-ai-input-container/search-ai-input-container.component';
@@ -43,15 +43,13 @@ import { ModalAiService } from '../../../../services/modal-ai.service';
 import { ViewNodeAction } from '@alfresco/aca-shared/store';
 import { ViewerService } from '@alfresco/aca-content/viewer';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MarkdownComponent } from 'ngx-markdown';
 
 @Component({
   standalone: true,
   imports: [
     CommonModule,
     PageLayoutComponent,
-    ToolbarActionComponent,
-    ToolbarModule,
-    ToolbarComponent,
     SearchAiInputContainerComponent,
     TranslateModule,
     MatIconModule,
@@ -59,8 +57,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     MatListModule,
     EmptyContentComponent,
     MatCardModule,
-    AvatarComponent,
-    MatTooltipModule
+    MatTooltipModule,
+    MarkdownComponent
   ],
   selector: 'aca-search-ai-results',
   templateUrl: './search-ai-results.component.html',
@@ -69,6 +67,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   host: { class: 'aca-search-ai-results' }
 })
 export class SearchAiResultsComponent extends PageComponent implements OnInit {
+  private static readonly MERMAID_BLOCK_REGEX = /```mermaid([\s\S]*?)```/g;
+  private static readonly LATEX_BLOCK_REGEX = /```latex([\s\S]*?)```/g;
+
   private _agentId: string;
   private _hasAnsweringError = false;
   private _hasError = false;
@@ -78,7 +79,8 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
   private openedViewer = false;
   private _selectedNodesState: SelectionState;
   private _searchQuery = '';
-  private _queryAnswer: AiAnswer;
+  private queryAnswer: AiAnswer;
+  private _displayedAnswer: string;
 
   get agentId(): string {
     return this._agentId;
@@ -104,23 +106,24 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
     return this._nodes;
   }
 
-  get queryAnswer(): AiAnswer {
-    return this._queryAnswer;
-  }
-
   get searchQuery(): string {
     return this._searchQuery;
   }
 
+  get displayedAnswer(): string {
+    return this._displayedAnswer;
+  }
+
   constructor(
-    private route: ActivatedRoute,
-    private clipboardService: ClipboardService,
-    private thumbnailService: ThumbnailService,
-    private nodesApiService: NodesApiService,
-    private translateService: TranslateService,
-    private unsavedChangesGuard: UnsavedChangesGuard,
-    private modalAiService: ModalAiService,
-    private viewerService: ViewerService
+    private readonly route: ActivatedRoute,
+    private readonly clipboardService: ClipboardService,
+    private readonly thumbnailService: ThumbnailService,
+    private readonly nodesApiService: NodesApiService,
+    private readonly translateService: TranslateService,
+    private readonly unsavedChangesGuard: UnsavedChangesGuard,
+    private readonly modalAiService: ModalAiService,
+    private readonly viewerService: ViewerService,
+    private readonly elementRef: ElementRef
   ) {
     super();
   }
@@ -184,7 +187,8 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
           if (!response.entry?.answer) {
             return throwError((e) => e);
           }
-          this._queryAnswer = response.entry;
+          this.queryAnswer = response.entry;
+          this._displayedAnswer = this.preprocessMarkdownFormat(response.entry.answer);
           return forkJoin(this.queryAnswer.references.map((reference) => this.nodesApiService.getNode(reference.referenceId)));
         }),
         retryWhen((errors: Observable<Error>) => this.aiSearchRetryWhen(errors)),
@@ -213,6 +217,19 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
     );
   }
 
+  addSourceCodeTooltips(): void {
+    this.setTooltip(SearchAiResultsComponent.MERMAID_BLOCK_REGEX, '.mermaid');
+    this.setTooltip(SearchAiResultsComponent.LATEX_BLOCK_REGEX, '.katex');
+  }
+
+  private setTooltip(codeBlockRegexp: RegExp, targetElementsSelector: string): void {
+    const codeBlocks = [...this.queryAnswer.answer.matchAll(codeBlockRegexp)].map((match) => match[0].trim());
+    const elements: HTMLElement[] = this.elementRef.nativeElement.querySelectorAll(targetElementsSelector);
+    for (let i = 0; i < elements.length; i++) {
+      elements[i].title = codeBlocks[i];
+    }
+  }
+
   private aiSearchRetryWhen(errors: Observable<Error>): Observable<Error> {
     this._hasAnsweringError = false;
     const delayBetweenRetries = 3000;
@@ -230,5 +247,30 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
         return of(null);
       })
     );
+  }
+
+  private preprocessMarkdownFormat(answer: string): string {
+    return this.transformLatex(this.transformMermaid(answer));
+  }
+
+  private transformMermaid(answer: string): string {
+    return answer.replace(SearchAiResultsComponent.MERMAID_BLOCK_REGEX, (_mermaidBlockRegex, blockContent: string) => {
+      const transformedLines = blockContent.split('\n').map((line) => {
+        const label = 'label="';
+        while (line.includes(label)) {
+          const labelIndex = line.indexOf(label);
+          const start = labelIndex + label.length;
+          const end = line.indexOf('"', start);
+          line = line.slice(0, labelIndex) + line.slice(start, end) + line.slice(end + 1);
+        }
+        return line;
+      });
+
+      return `\`\`\`mermaid\n${transformedLines.join('\n')}\n\`\`\``;
+    });
+  }
+
+  private transformLatex(answer: string): string {
+    return answer.replace(SearchAiResultsComponent.LATEX_BLOCK_REGEX, (_, latexContent: string) => `$$${latexContent.trim()}$$`);
   }
 }
