@@ -33,7 +33,7 @@ import { Router } from '@angular/router';
 export class RouterExtensionService {
   defaults = {
     layout: 'app.layout.main',
-    auth: ['app.auth']
+    auth: ['app.auth', 'app.extensions.dataLoaderGuard']
   };
 
   constructor(private router: Router, protected extensions: ExtensionService) {}
