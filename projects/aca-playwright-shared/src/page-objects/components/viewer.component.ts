@@ -64,10 +64,10 @@ export class ViewerComponent extends BaseComponent {
   }
 
   async waitForViewerToOpen(waitForViewerContent?: 'wait for viewer content'): Promise<void> {
-    await this.viewerLocator.waitFor({ state: 'visible', timeout: timeouts.medium });
     if (waitForViewerContent) {
       await this.waitForViewerLoaderToFinish();
     }
+    await this.viewerLocator.waitFor({ state: 'visible', timeout: timeouts.medium });
   }
 
   async isViewerOpened(): Promise<boolean> {
