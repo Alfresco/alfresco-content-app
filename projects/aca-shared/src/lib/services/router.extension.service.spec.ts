@@ -41,6 +41,7 @@ describe('RouterExtensionService', () => {
   let guard1;
   let guard2;
   let guard3;
+  let guard4;
 
   beforeEach(() => {
     component1 = { name: 'component-1' };
@@ -50,6 +51,7 @@ describe('RouterExtensionService', () => {
     guard1 = { name: 'guard1' };
     guard2 = { name: 'guard2' };
     guard3 = { name: 'guard3' };
+    guard4 = { name: 'guard4' };
 
     TestBed.configureTestingModule({
       imports: [LibTestingModule],
@@ -62,6 +64,7 @@ describe('RouterExtensionService', () => {
             getAuthGuards: (authKeys) => {
               const authMapping = {
                 'app.auth': guard1,
+                'app.extensions.dataLoaderGuard': guard4,
                 'ext.auth1': guard2,
                 'ext.auth2': guard3
               };
@@ -135,18 +138,18 @@ describe('RouterExtensionService', () => {
       expect(service.getApplicationRoutes()[0].component).toBe(component1);
     });
 
-    it('should calculate the "canActivateChild" and "canActivate" to default auth guard, if no "auth" defined for the route', () => {
+    it('should calculate the "canActivateChild" and "canActivate" to default guards, if no "auth" defined for the route', () => {
       extensionService.routes = [getDummyRoute({ auth: undefined })];
 
-      expect(service.getApplicationRoutes()[0].canActivateChild).toEqual([guard1]);
-      expect(service.getApplicationRoutes()[0].canActivate).toEqual([guard1]);
+      expect(service.getApplicationRoutes()[0].canActivateChild).toEqual([guard1, guard4]);
+      expect(service.getApplicationRoutes()[0].canActivate).toEqual([guard1, guard4]);
     });
 
-    it('should calculate the "canActivateChild" and "canActivate" to default auth guard, if "auth" is defined as [] for the route', () => {
+    it('should calculate the "canActivateChild" and "canActivate" to default guards, if "auth" is defined as [] for the route', () => {
       extensionService.routes = [getDummyRoute({ auth: [] })];
 
-      expect(service.getApplicationRoutes()[0].canActivateChild).toEqual([guard1]);
-      expect(service.getApplicationRoutes()[0].canActivate).toEqual([guard1]);
+      expect(service.getApplicationRoutes()[0].canActivateChild).toEqual([guard1, guard4]);
+      expect(service.getApplicationRoutes()[0].canActivate).toEqual([guard1, guard4]);
     });
 
     it('should calculate the "canActivateChild" and "canActivate" to the registered guard(s) matching the "auth" value of the route', () => {
