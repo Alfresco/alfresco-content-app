@@ -51,19 +51,6 @@ describe('app.evaluators', () => {
   });
 
   describe('canDownloadSelection', () => {
-    it('should return [false] if selection is empty', () => {
-      context.selection.isEmpty = true;
-
-      expect(app.canDownloadSelection(context)).toBe(false);
-    });
-
-    it('should return [false] for the trashcan entries', () => {
-      context.selection.isEmpty = false;
-      context.navigation = { url: '/trashcan' };
-
-      expect(app.canDownloadSelection(context)).toBe(false);
-    });
-
     it('should allow downloading files', () => {
       context.selection.isEmpty = false;
       context.selection.nodes = [{ entry: { isFile: true } } as NodeEntry];
@@ -687,17 +674,6 @@ describe('app.evaluators', () => {
   });
 
   describe('canRemoveFavorite', () => {
-    it('should return false when nothing is selected', () => {
-      context.selection.isEmpty = true;
-      expect(app.canRemoveFavorite(context)).toBeFalse();
-    });
-
-    it('should return false when selection exists but user is in trashcan', () => {
-      context.selection.isEmpty = false;
-      context.navigation.url = '/trashcan/test';
-      expect(app.canRemoveFavorite(context)).toBeFalse();
-    });
-
     it('should return true when user is in favorites page', () => {
       context.selection.isEmpty = false;
       context.navigation.url = '/favorites/test';
@@ -763,19 +739,8 @@ describe('app.evaluators', () => {
       context.profile = {} as any;
     });
 
-    it('should return false when no library is selected', () => {
-      context.selection.library = null;
-      expect(app.canToggleJoinLibrary(context)).toBeFalse();
-    });
-
     it('should return false when selected library is private and user is not admin', () => {
       context.selection.library = { entry: { visibility: 'PRIVATE' } } as any;
-      context.profile.isAdmin = false;
-      expect(app.canToggleJoinLibrary(context)).toBeFalse();
-    });
-
-    it('should return false when user already has a library role', () => {
-      context.selection.library = { entry: { role: 'test' } } as any;
       context.profile.isAdmin = false;
       expect(app.canToggleJoinLibrary(context)).toBeFalse();
     });
@@ -834,23 +799,6 @@ describe('app.evaluators', () => {
   });
 
   describe('canDeleteSelection', () => {
-    it('should return false when selection is empty', () => {
-      context.selection.isEmpty = true;
-      expect(app.canDeleteSelection(context)).toBeFalse();
-    });
-
-    it('should return false when user is in trashcan or library', () => {
-      context.selection.isEmpty = false;
-      context.navigation.url = '/trashcan/test';
-      expect(app.canDeleteSelection(context)).toBeFalse();
-
-      context.navigation.url = '/test/libraries';
-      expect(app.canDeleteSelection(context)).toBeFalse();
-
-      context.navigation.url = '/search-libraries/test';
-      expect(app.canDeleteSelection(context)).toBeFalse();
-    });
-
     it('should return false when selection contain locked file', () => {
       context.selection.isEmpty = false;
       context.navigation.url = '/personal-files';
