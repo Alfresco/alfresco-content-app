@@ -564,6 +564,7 @@
             "component": "app.toolbar.toggleFavorite",
             "rules": {
               "visible": [
+                "app.selection.notEmpty",
                 "canToggleFavorite"
               ]
             }
@@ -935,6 +936,7 @@
         "component": "app.toolbar.toggleFavorite",
         "rules": {
           "visible": [
+            "app.selection.notEmpty",
             "canToggleFavorite"
           ]
         }
@@ -1333,6 +1335,7 @@
               "component": "app.toolbar.toggleFavorite",
               "rules": {
                 "visible": [
+                  "app.selection.notEmpty",
                   "canToggleFavorite"
                 ]
               }
