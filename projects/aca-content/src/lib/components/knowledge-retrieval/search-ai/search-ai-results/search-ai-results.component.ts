@@ -43,7 +43,8 @@ import { ModalAiService } from '../../../../services/modal-ai.service';
 import { ViewNodeAction } from '@alfresco/aca-shared/store';
 import { ViewerService } from '@alfresco/aca-content/viewer';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MarkdownComponent } from 'ngx-markdown';
+import { MarkdownModule, MARKED_OPTIONS, provideMarkdown } from 'ngx-markdown';
+import { searchAiMarkedOptions } from './search-ai-marked-options';
 
 @Component({
   standalone: true,
@@ -58,7 +59,15 @@ import { MarkdownComponent } from 'ngx-markdown';
     EmptyContentComponent,
     MatCardModule,
     MatTooltipModule,
-    MarkdownComponent
+    MarkdownModule
+  ],
+  providers: [
+    provideMarkdown({
+      markedOptions: {
+        provide: MARKED_OPTIONS,
+        useValue: searchAiMarkedOptions
+      }
+    })
   ],
   selector: 'aca-search-ai-results',
   templateUrl: './search-ai-results.component.html',
