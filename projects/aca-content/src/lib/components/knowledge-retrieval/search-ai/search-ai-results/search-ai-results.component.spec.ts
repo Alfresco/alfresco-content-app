@@ -41,7 +41,8 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { getAppSelection, getCurrentFolder, ViewNodeAction } from '@alfresco/aca-shared/store';
 import { ViewerService } from '@alfresco/aca-content/viewer';
 import { DebugElement } from '@angular/core';
-import { MarkdownComponent, MarkdownModule } from 'ngx-markdown';
+import { MarkdownComponent, MarkdownModule, MARKED_OPTIONS } from 'ngx-markdown';
+import { searchAiMarkedOptions } from './search-ai-marked-options';
 
 const questionMock: QuestionModel = { question: 'test', questionId: 'testId', restrictionQuery: { nodesIds: [] } };
 const getAiAnswerEntry = (noAnswer?: boolean): AiAnswerEntry => {
@@ -359,6 +360,10 @@ describe('SearchAiResultsComponent', () => {
       };
       getAnswerSpyAnd = spyOn(searchAiService, 'getAnswer').and;
       answerEntry = getAiAnswerEntry();
+    });
+
+    it('should have correct marked options', () => {
+      expect(fixture.debugElement.injector.get(MARKED_OPTIONS)).toBe(searchAiMarkedOptions);
     });
 
     it('should be rendered when answer is loaded successfully', fakeAsync(() => {
