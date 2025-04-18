@@ -421,7 +421,12 @@
                     }
                 },
                 "LIBRARY_DELETED": "库已删除",
-                "LEFT_LIBRARY": "您已离开该库"
+                "LEFT_LIBRARY": "您已离开该库",
+                "FAVORITE_NODE_ADDED": "Added {{ name }} to favorites",
+                "FAVORITE_NODES_ADDED": "Added {{ number }} items to favorites",
+                "FAVORITE_NODE_REMOVED": "Removed {{ name }} from favorites",
+                "FAVORITE_NODES_REMOVED": "Removed {{ number }} items from favorites",
+                "FAVORITE_NODE_NOT_FOUND": "{{ name }} is not favorite"
             }
         },
         "CONTENT_METADATA": {
