@@ -421,7 +421,12 @@
                     }
                 },
                 "LIBRARY_DELETED": "Bibliothek gelöscht",
-                "LEFT_LIBRARY": "Sie haben die Bibliothek verlassen"
+                "LEFT_LIBRARY": "Sie haben die Bibliothek verlassen",
+                "FAVORITE_NODE_ADDED": "{{ name }} zu Favoriten hinzugefügt",
+                "FAVORITE_NODES_ADDED": "{{ number }} Elemente zu Favoriten hinzugefügt",
+                "FAVORITE_NODE_REMOVED": "{{ name }} Aus Favoriten entfernt",
+                "FAVORITE_NODES_REMOVED": "{{ number }} Elemente aus Favoriten entfernt",
+                "FAVORITE_NODE_NOT_FOUND": "{{ name }} ist kein Favorit"
             }
         },
         "CONTENT_METADATA": {
