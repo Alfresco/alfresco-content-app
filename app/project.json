@@ -41,7 +41,7 @@
             "output": "/assets"
           },
           {
-            "glob": "pdf.worker.min.js",
+            "glob": "pdf.worker.min.mjs",
             "input": "node_modules/pdfjs-dist/build",
             "output": "/"
           },
@@ -95,8 +95,6 @@
           "app/src/styles.scss"
         ],
         "scripts": [
-          "node_modules/pdfjs-dist/build/pdf.js",
-          "node_modules/pdfjs-dist/web/pdf_viewer.js",
           "node_modules/mermaid/dist/mermaid.min.js",
           "node_modules/katex/dist/katex.min.js",
           "node_modules/katex/dist/contrib/auto-render.min.js",
