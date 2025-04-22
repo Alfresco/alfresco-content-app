@@ -61,6 +61,7 @@ test.describe('File preview', () => {
     await Utils.reloadPageIfRowNotVisible(personalFiles, fileName);
     await personalFiles.dataTable.getRowByName(fileName).click();
     await personalFiles.acaHeader.viewButton.click();
+    await personalFiles.viewer.waitForViewerLoaderToFinish();
     await expect(personalFiles.viewer.pdfViewerContentPages.first()).toBeVisible();
     expect(await personalFiles.viewer.viewerDocument.textContent()).toContain('PDF');
   });
