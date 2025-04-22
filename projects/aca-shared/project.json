@@ -38,7 +38,10 @@
       },
       "configurations": {
         "adfprod": {
-          "tsConfig": "projects/aca-shared/tsconfig.spec.adf.json"
+          "tsConfig": "projects/aca-shared/tsconfig.spec.adf.json",
+          "stylePreprocessorOptions": {
+            "includePaths": ["projects/aca-content/src/lib/ui", "node_modules", "../alfresco-ng2-components/lib/core/src/lib"]
+          }
         }
       }
     },

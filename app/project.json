@@ -95,6 +95,7 @@
           "app/src/styles.scss"
         ],
         "scripts": [
+          "node_modules/pdfjs-dist/web/pdf_viewer.mjs",
           "node_modules/mermaid/dist/mermaid.min.js",
           "node_modules/katex/dist/katex.min.js",
           "node_modules/katex/dist/contrib/auto-render.min.js",
@@ -192,7 +193,10 @@
               "replace": "app/src/environments/environment.ts",
               "with": "app/src/environments/environment.prod.ts"
             }
-          ]
+          ],
+          "stylePreprocessorOptions": {
+            "includePaths": ["projects/aca-content/src/lib/ui", "node_modules", "../alfresco-ng2-components/lib/core/src/lib"]
+          }
         }
       },
       "defaultConfiguration": "",
