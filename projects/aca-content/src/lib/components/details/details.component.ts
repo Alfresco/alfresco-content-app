@@ -24,10 +24,10 @@
 
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ContentApiService, PageComponent, PageLayoutComponent, ToolbarComponent } from '@alfresco/aca-shared';
+import { AppHookService, ContentApiService, PageComponent, PageLayoutComponent, ToolbarComponent } from '@alfresco/aca-shared';
 import { NavigateToFolder, NavigateToPreviousPage, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { BreadcrumbComponent, ContentService, NodesApiService, PermissionListComponent } from '@alfresco/adf-content-services';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -76,7 +76,9 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
     private readonly route: ActivatedRoute,
     private readonly contentApi: ContentApiService,
     private readonly contentService: ContentService,
-    private readonly nodesApiService: NodesApiService
+    private readonly nodesApiService: NodesApiService,
+    private readonly appHookService: AppHookService,
+    private readonly location: Location
   ) {
     super();
   }
@@ -88,6 +90,7 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
     const { data } = route.snapshot;
     this.title = data.title;
     this.nodesApiService.nodeUpdated.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((node) => (this.node = { ...node }));
+    this.appHookService.nodesDeleted.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.location.back());
     this.route.params.subscribe((params) => {
       this.isLoading = true;
       this.setActiveTab(params.activeTab);

@@ -29,7 +29,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { ContentApiService } from '@alfresco/aca-shared';
+import { AppHookService, ContentApiService } from '@alfresco/aca-shared';
 import { NavigateToFolder, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { Node, NodeEntry, PathElement } from '@alfresco/js-api';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -38,6 +38,7 @@ import { BreadcrumbComponent, ContentService, NodesApiService, SearchQueryBuilde
 import { By } from '@angular/platform-browser';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { Location } from '@angular/common';
 
 describe('DetailsComponent', () => {
   let component: DetailsComponent;
@@ -45,6 +46,8 @@ describe('DetailsComponent', () => {
   let contentApiService: ContentApiService;
   let contentService: ContentService;
   let nodesApiService: NodesApiService;
+  let appHookService: AppHookService;
+  let location: Location;
   let store: Store;
   let node: NodeEntry;
 
@@ -101,6 +104,8 @@ describe('DetailsComponent', () => {
     contentApiService = TestBed.inject(ContentApiService);
     contentService = TestBed.inject(ContentService);
     nodesApiService = TestBed.inject(NodesApiService);
+    appHookService = TestBed.inject(AppHookService);
+    location = TestBed.inject(Location);
     store = TestBed.inject(Store);
     storeMock.dispatch.calls.reset();
 
@@ -257,5 +262,13 @@ describe('DetailsComponent', () => {
 
     component.setActiveTab('permissions');
     expect(component.activeTab).not.toBe(2);
+  });
+
+  it('should navigate back when nodesDeleted event is triggered', () => {
+    const locationSpy = spyOn(location, 'back');
+    fixture.detectChanges();
+    appHookService.nodesDeleted.next();
+
+    expect(locationSpy).toHaveBeenCalled();
   });
 });
