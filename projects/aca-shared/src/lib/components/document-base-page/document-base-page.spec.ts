@@ -41,6 +41,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'aca-test',
   template: '',
+  // eslint-disable-next-line
   standalone: false
 })
 class TestComponent extends PageComponent {

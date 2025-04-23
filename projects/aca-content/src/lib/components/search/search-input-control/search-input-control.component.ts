@@ -22,18 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Component,
-  DestroyRef,
-  ElementRef,
-  EventEmitter,
-  inject,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-  ViewEncapsulation
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation, ViewChild, ElementRef, OnInit, inject, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
