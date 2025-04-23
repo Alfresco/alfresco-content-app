@@ -43,12 +43,7 @@ import {
   PaginationDirective,
   ToolbarComponent
 } from '@alfresco/aca-shared';
-import {
-  isAdmin,
-  SetCurrentFolderAction,
-  showLoaderSelector,
-  UploadFileVersionAction
-} from '@alfresco/aca-shared/store';
+import { isAdmin, SetCurrentFolderAction, showLoaderSelector, UploadFileVersionAction } from '@alfresco/aca-shared/store';
 import { debounceTime } from 'rxjs/operators';
 import {
   BreadcrumbComponent,
@@ -63,9 +58,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import {
-  SearchAiInputContainerComponent
-} from '../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
+import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpErrorResponse } from '@angular/common/http';
 

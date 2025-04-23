@@ -23,14 +23,7 @@
  */
 
 import { Component, forwardRef, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
-import {
-  ControlValueAccessor,
-  FormArray,
-  FormControl,
-  NG_VALUE_ACCESSOR,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
+import { ControlValueAccessor, FormArray, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActionDefinitionTransformed, RuleAction } from '../../model/rule-action.model';
 import { Subscription } from 'rxjs';
 import { ruleActionValidator } from '../validators/rule-actions.validator';

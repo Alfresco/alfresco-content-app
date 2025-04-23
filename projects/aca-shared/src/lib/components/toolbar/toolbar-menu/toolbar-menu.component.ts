@@ -22,17 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  AfterViewInit,
-  Component,
-  HostListener,
-  Input,
-  OnInit,
-  QueryList,
-  ViewChild,
-  ViewChildren,
-  ViewEncapsulation
-} from '@angular/core';
+import { Component, Input, ViewEncapsulation, HostListener, ViewChild, ViewChildren, QueryList, AfterViewInit, OnInit } from '@angular/core';
 import { ContentActionRef, DynamicExtensionComponent } from '@alfresco/adf-extensions';
 import { MatMenu, MatMenuItem, MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { ThemePalette } from '@angular/material/core';

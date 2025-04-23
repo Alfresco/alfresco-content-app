@@ -22,25 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Component,
-  DestroyRef,
-  forwardRef,
-  inject,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-  ViewEncapsulation
-} from '@angular/core';
-import {
-  ControlValueAccessor,
-  FormControl,
-  FormGroup,
-  NG_VALUE_ACCESSOR,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
+import { Component, DestroyRef, forwardRef, inject, Input, OnChanges, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActionDefinitionTransformed, RuleAction } from '../../model/rule-action.model';
 import {
   CardViewBoolItemModel,

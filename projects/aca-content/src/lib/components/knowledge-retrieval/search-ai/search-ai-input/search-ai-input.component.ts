@@ -33,13 +33,7 @@ import { A11yModule } from '@angular/cdk/a11y';
 import { AvatarComponent, IconComponent, NotificationService, UserPreferencesService } from '@alfresco/adf-core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import {
-  AiSearchByTermPayload,
-  AppStore,
-  getAppSelection,
-  SearchByTermAiAction,
-  ToggleAISearchInput
-} from '@alfresco/aca-shared/store';
+import { AiSearchByTermPayload, AppStore, getAppSelection, SearchByTermAiAction, ToggleAISearchInput } from '@alfresco/aca-shared/store';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { MatSelectModule } from '@angular/material/select';
 import { AgentService, SearchAiService } from '@alfresco/adf-content-services';

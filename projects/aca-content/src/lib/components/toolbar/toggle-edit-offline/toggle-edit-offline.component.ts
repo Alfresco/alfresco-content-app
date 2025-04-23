@@ -22,14 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  AppStore,
-  DownloadNodesAction,
-  EditOfflineAction,
-  getAppSelection,
-  SetSelectedNodesAction
-} from '@alfresco/aca-shared/store';
-import { Node, NodeEntry, NodesApi, SharedLinkEntry } from '@alfresco/js-api';
+import { AppStore, DownloadNodesAction, EditOfflineAction, SetSelectedNodesAction, getAppSelection } from '@alfresco/aca-shared/store';
+import { NodeEntry, SharedLinkEntry, Node, NodesApi } from '@alfresco/js-api';
 import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppExtensionService, isLocked } from '@alfresco/aca-shared';

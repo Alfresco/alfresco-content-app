@@ -32,8 +32,7 @@ import { ExternalNodePermissionCommentsTabService } from './external-node-permis
 @Component({
   imports: [MatCardModule, NodeCommentsModule],
   selector: 'app-comments-tab',
-  template: `
-    <mat-card class="adf-comments-tab-container" appearance="raised"
+  template: `<mat-card class="adf-comments-tab-container" appearance="raised"
     ><adf-node-comments [readOnly]="!canUpdateNode" [nodeId]="node?.id"
   /></mat-card>`,
   styles: ['app-comments-tab mat-card { padding: 16px }'],

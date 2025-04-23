@@ -39,7 +39,7 @@ export class CoreExtensionsModule {
       ngModule: CoreExtensionsModule,
       providers: [
         provideAppInitializer(() => {
-          const initializerFn = (setupExtensions)(inject(AppExtensionService));
+          const initializerFn = setupExtensions(inject(AppExtensionService));
           return initializerFn();
         })
       ]

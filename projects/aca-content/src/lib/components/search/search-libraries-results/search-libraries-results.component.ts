@@ -41,12 +41,7 @@ import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-ext
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { SearchInputComponent } from '../search-input/search-input.component';
-import {
-  CustomEmptyContentTemplateDirective,
-  DataColumnComponent,
-  DataColumnListComponent,
-  PaginationComponent
-} from '@alfresco/adf-core';
+import { CustomEmptyContentTemplateDirective, DataColumnComponent, DataColumnListComponent, PaginationComponent } from '@alfresco/adf-core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { DocumentListDirective } from '../../../directives/document-list.directive';
 import { DocumentListComponent } from '@alfresco/adf-content-services';

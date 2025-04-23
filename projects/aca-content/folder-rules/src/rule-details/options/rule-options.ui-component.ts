@@ -22,16 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Component,
-  forwardRef,
-  HostBinding,
-  Input,
-  OnChanges,
-  OnDestroy,
-  SimpleChanges,
-  ViewEncapsulation
-} from '@angular/core';
+import { Component, forwardRef, HostBinding, Input, OnChanges, OnDestroy, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { RuleOptions } from '../../model/rule.model';

@@ -22,16 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  AfterContentInit,
-  Component,
-  DestroyRef,
-  EventEmitter,
-  inject,
-  Input,
-  Output,
-  ViewEncapsulation
-} from '@angular/core';
+import { AfterContentInit, Component, DestroyRef, EventEmitter, inject, Input, Output, ViewEncapsulation } from '@angular/core';
 import {
   AppConfigService,
   DataCellEvent,

@@ -22,17 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Component,
-  DestroyRef,
-  HostListener,
-  inject,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  ViewEncapsulation
-} from '@angular/core';
+import { Component, DestroyRef, HostListener, inject, Input, OnChanges, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Node, NodeEntry, SiteEntry } from '@alfresco/js-api';
 import { ContentActionRef, DynamicTabComponent, SidebarTabRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';

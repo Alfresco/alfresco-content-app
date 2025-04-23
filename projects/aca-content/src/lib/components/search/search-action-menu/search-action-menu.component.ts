@@ -23,9 +23,7 @@
  */
 
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
-import {
-  SearchSortingDefinition
-} from '@alfresco/adf-content-services/lib/search/models/search-sorting-definition.interface';
+import { SearchSortingDefinition } from '@alfresco/adf-content-services/lib/search/models/search-sorting-definition.interface';
 import { Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';

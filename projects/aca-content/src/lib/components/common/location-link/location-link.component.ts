@@ -22,17 +22,9 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostListener,
-  inject,
-  Input,
-  OnInit,
-  ViewEncapsulation
-} from '@angular/core';
-import { NodeEntry, PathInfo } from '@alfresco/js-api';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Component, Input, ChangeDetectionStrategy, OnInit, ViewEncapsulation, HostListener, inject } from '@angular/core';
+import { PathInfo, NodeEntry } from '@alfresco/js-api';
+import { Observable, BehaviorSubject, of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { NavigateToParentFolder } from '@alfresco/aca-shared/store';
 import { ContentApiService } from '@alfresco/aca-shared';
