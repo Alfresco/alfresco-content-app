@@ -4,7 +4,9 @@
 @import './custom-theme';
 @import './variables/variables';
 @include custom-theme($custom-theme);
+/* stylelint-disable-next-line */
 @include mat.elevation-classes();
+/* stylelint-disable-next-line */
 @include mat.app-background();
 
 :root {
