@@ -27,7 +27,7 @@ import { AbstractControl, ControlValueAccessor, FormControl, FormGroup, NG_VALUE
 import { RuleSimpleCondition } from '../../model/rule-simple-condition.model';
 import { comparatorHiddenForConditionFieldType, RuleConditionField, ruleConditionFields } from './rule-condition-fields';
 import { RuleConditionComparator, ruleConditionComparators } from './rule-condition-comparators';
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -50,7 +50,6 @@ interface AutoCompleteOption {
 const AUTOCOMPLETE_OPTIONS_DEBOUNCE_TIME = 500;
 
 @Component({
-  standalone: true,
   imports: [
     CommonModule,
     TranslateModule,
@@ -59,7 +58,6 @@ const AUTOCOMPLETE_OPTIONS_DEBOUNCE_TIME = 500;
     MatSelectModule,
     MatInputModule,
     MatAutocompleteModule,
-    AsyncPipe,
     MatOptionModule,
     MatProgressSpinnerModule
   ],

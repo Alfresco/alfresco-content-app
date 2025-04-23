@@ -22,10 +22,17 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { Node } from '@alfresco/js-api';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, UntypedFormControl, ValidationErrors, ReactiveFormsModule } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+  ValidationErrors,
+  Validators
+} from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppStore, CreateFromTemplate } from '@alfresco/aca-shared/store';
 import { TranslationService } from '@alfresco/adf-core';
@@ -36,7 +43,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, TranslateModule, MatDialogModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
   templateUrl: './create-from-template.dialog.html',
   styleUrls: ['./create-from-template.dialog.scss'],

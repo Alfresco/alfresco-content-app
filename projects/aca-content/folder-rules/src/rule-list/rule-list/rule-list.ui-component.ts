@@ -39,7 +39,6 @@ import { Observable } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  standalone: true,
   imports: [
     CommonModule,
     TranslateModule,

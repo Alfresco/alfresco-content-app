@@ -30,10 +30,10 @@ import { NodeCommentsModule } from '@alfresco/adf-content-services';
 import { ExternalNodePermissionCommentsTabService } from './external-node-permission-comments-tab.service';
 
 @Component({
-  standalone: true,
   imports: [MatCardModule, NodeCommentsModule],
   selector: 'app-comments-tab',
-  template: `<mat-card class="adf-comments-tab-container" appearance="raised"
+  template: `
+    <mat-card class="adf-comments-tab-container" appearance="raised"
     ><adf-node-comments [readOnly]="!canUpdateNode" [nodeId]="node?.id"
   /></mat-card>`,
   styles: ['app-comments-tab mat-card { padding: 16px }'],

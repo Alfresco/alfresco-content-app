@@ -40,7 +40,6 @@ export enum ToolbarButtonType {
 }
 
 @Component({
-  standalone: true,
   imports: [CommonModule, TranslateModule, MatButtonModule, IconModule, ToolbarMenuItemComponent],
   selector: 'app-toolbar-button',
   templateUrl: './toolbar-button.component.html',

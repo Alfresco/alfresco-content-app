@@ -22,7 +22,15 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  Input,
+  OnInit,
+  ViewEncapsulation
+} from '@angular/core';
 import { NodeEntry, SearchEntryHighlight } from '@alfresco/js-api';
 import { NavigateToFolder, ViewNodeAction } from '@alfresco/aca-shared/store';
 import { Store } from '@ngrx/store';
@@ -33,11 +41,12 @@ import { AppSettingsService, AutoDownloadService } from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
 import { LocationLinkComponent } from '../../common/location-link/location-link.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { DatatableCellBadgesComponent } from '../../dl-custom-components/datatable-cell-badges/datatable-cell-badges.component';
+import {
+  DatatableCellBadgesComponent
+} from '../../dl-custom-components/datatable-cell-badges/datatable-cell-badges.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, LocationLinkComponent, MatDialogModule, DatatableCellBadgesComponent],
   selector: 'aca-search-results-row',
   templateUrl: './search-results-row.component.html',

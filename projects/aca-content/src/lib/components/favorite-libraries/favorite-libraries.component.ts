@@ -23,7 +23,7 @@
  */
 
 import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { SiteEntry, FavoritePaging, Pagination } from '@alfresco/js-api';
+import { FavoritePaging, Pagination, SiteEntry } from '@alfresco/js-api';
 import {
   AppHookService,
   ContentApiService,
@@ -49,7 +49,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 
 @Component({
-  standalone: true,
   imports: [
     CommonModule,
     DocumentListDirective,

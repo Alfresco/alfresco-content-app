@@ -23,7 +23,7 @@
  */
 
 import { Component, DestroyRef, inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { DIALOG_COMPONENT_DATA, IconComponent, LocalizedDatePipe, TimeAgoPipe } from '@alfresco/adf-core';
 import { Node, SizeDetails } from '@alfresco/js-api';
 import { MatDividerModule } from '@angular/material/divider';
@@ -47,8 +47,7 @@ class FolderDetails {
 
 @Component({
   selector: 'app-folder-info',
-  standalone: true,
-  imports: [CommonModule, MatDividerModule, TimeAgoPipe, TranslateModule, LocalizedDatePipe, NgOptimizedImage, IconComponent],
+  imports: [CommonModule, MatDividerModule, TimeAgoPipe, TranslateModule, LocalizedDatePipe, IconComponent],
   templateUrl: './folder-information.component.html',
   styleUrls: ['./folder-information.component.scss'],
   encapsulation: ViewEncapsulation.None,

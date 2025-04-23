@@ -25,12 +25,23 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PageComponent } from './document-base-page.component';
 import { AppState, SetSelectedNodesAction, ViewNodeAction } from '@alfresco/aca-shared/store';
-import { AppExtensionService, LibTestingModule, discoveryApiServiceMockValue, DocumentBasePageServiceMock } from '@alfresco/aca-shared';
+import {
+  AppExtensionService,
+  discoveryApiServiceMockValue,
+  DocumentBasePageServiceMock,
+  LibTestingModule
+} from '@alfresco/aca-shared';
 import { NodeEntry, NodePaging } from '@alfresco/js-api';
 import { DocumentBasePageService } from './document-base-page.service';
 import { Store } from '@ngrx/store';
 import { Component } from '@angular/core';
-import { DiscoveryApiService, DocumentListComponent, DocumentListService, SearchAiInputState, SearchAiService } from '@alfresco/adf-content-services';
+import {
+  DiscoveryApiService,
+  DocumentListComponent,
+  DocumentListService,
+  SearchAiInputState,
+  SearchAiService
+} from '@alfresco/adf-content-services';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AuthModule, UserPreferencesService } from '@alfresco/adf-core';
 import { of, Subscription } from 'rxjs';
@@ -40,7 +51,8 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'aca-test',
-  template: ''
+  template: '',
+  standalone: false
 })
 class TestComponent extends PageComponent {
   node: any;

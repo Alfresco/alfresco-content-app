@@ -22,7 +22,17 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ViewEncapsulation, HostListener, ViewChild, ViewChildren, QueryList, AfterViewInit, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  HostListener,
+  Input,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+  ViewEncapsulation
+} from '@angular/core';
 import { ContentActionRef, DynamicExtensionComponent } from '@alfresco/adf-extensions';
 import { MatMenu, MatMenuItem, MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { ThemePalette } from '@angular/material/core';
@@ -33,7 +43,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { IconComponent } from '@alfresco/adf-core';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, TranslateModule, MatButtonModule, MatMenuModule, ToolbarMenuItemComponent, IconComponent, DynamicExtensionComponent],
   selector: 'app-toolbar-menu',
   templateUrl: './toolbar-menu.component.html',

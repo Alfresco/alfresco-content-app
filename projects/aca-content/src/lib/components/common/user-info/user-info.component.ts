@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, inject, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatMenuItem, MatMenuModule } from '@angular/material/menu';
@@ -30,7 +30,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { UserProfileService } from '@alfresco/aca-shared';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, RouterModule, MatMenuModule, TranslateModule],
   selector: 'app-user-info',
   templateUrl: './user-info.component.html',

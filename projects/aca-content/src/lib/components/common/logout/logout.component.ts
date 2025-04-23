@@ -31,7 +31,6 @@ import { MatMenuItem, MatMenuModule } from '@angular/material/menu';
 import { LogoutDirective } from '@alfresco/adf-core';
 
 @Component({
-  standalone: true,
   imports: [TranslateModule, MatIconModule, MatMenuModule, LogoutDirective],
   selector: 'aca-logout',
   template: `

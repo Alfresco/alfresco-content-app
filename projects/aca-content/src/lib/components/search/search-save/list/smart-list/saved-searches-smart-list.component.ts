@@ -33,7 +33,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'aca-saved-searches-smart-list',
-  standalone: true,
   imports: [CommonModule, TranslateModule, SavedSearchesListUiComponent, PageLayoutComponent, EmptyContentComponent, MatProgressSpinnerModule],
   templateUrl: './saved-searches-smart-list.component.html',
   styleUrls: ['./saved-searches-smart-list.component.scss'],

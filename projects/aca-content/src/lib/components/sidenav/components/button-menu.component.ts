@@ -35,7 +35,6 @@ import { ActionDirective } from '../directives/action.directive';
 import { MenuPanelDirective } from '../directives/menu-panel.directive';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, TranslateModule, IconModule, MatMenuModule, MatButtonModule, ActiveLinkDirective, ActionDirective, MenuPanelDirective],
   selector: 'app-button-menu',
   templateUrl: './button-menu.component.html',

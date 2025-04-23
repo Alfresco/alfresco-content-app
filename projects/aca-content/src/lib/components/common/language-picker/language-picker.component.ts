@@ -29,7 +29,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  standalone: true,
   imports: [TranslateModule, MatIconModule, MatMenuModule, LanguageMenuModule],
   selector: 'aca-language-picker',
   template: `

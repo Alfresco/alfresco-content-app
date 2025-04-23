@@ -29,7 +29,6 @@ import { take } from 'rxjs/operators';
 import { CoreModule, NotificationService } from '@alfresco/adf-core';
 
 @Component({
-  standalone: true,
   imports: [CoreModule],
   selector: 'aca-saved-search-delete-dialog',
   templateUrl: './saved-search-delete-dialog.component.html',

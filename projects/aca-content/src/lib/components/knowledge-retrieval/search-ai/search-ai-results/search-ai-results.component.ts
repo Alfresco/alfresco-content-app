@@ -47,7 +47,6 @@ import { MarkdownModule, MARKED_OPTIONS, provideMarkdown } from 'ngx-markdown';
 import { searchAiMarkedOptions } from './search-ai-marked-options';
 
 @Component({
-  standalone: true,
   imports: [
     CommonModule,
     PageLayoutComponent,

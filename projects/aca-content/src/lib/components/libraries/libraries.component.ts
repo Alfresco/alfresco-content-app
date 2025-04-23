@@ -42,7 +42,6 @@ import { DocumentListDirective } from '../../directives/document-list.directive'
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  standalone: true,
   imports: [
     CommonModule,
     DocumentListModule,

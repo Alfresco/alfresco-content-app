@@ -37,7 +37,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, TranslateModule, MatIconModule, MatMenuModule, LibraryFavoriteDirective],
   selector: 'app-toggle-favorite-library',
   template: `

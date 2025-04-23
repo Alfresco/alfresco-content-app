@@ -32,7 +32,6 @@ import { MatDividerModule } from '@angular/material/divider';
 import { IconComponent } from '@alfresco/adf-core';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, TranslateModule, MatMenuModule, MatDividerModule, IconComponent, DynamicExtensionComponent],
   selector: 'app-toolbar-menu-item',
   templateUrl: './toolbar-menu-item.component.html',

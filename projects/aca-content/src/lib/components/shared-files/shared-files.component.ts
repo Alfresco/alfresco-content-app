@@ -40,10 +40,11 @@ import { DocumentListModule } from '@alfresco/adf-content-services';
 import { DataTableModule, EmptyContentComponent, PaginationComponent } from '@alfresco/adf-core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
 import { TranslateModule } from '@ngx-translate/core';
-import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
+import {
+  SearchAiInputContainerComponent
+} from '../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
 
 @Component({
-  standalone: true,
   imports: [
     CommonModule,
     DocumentListModule,

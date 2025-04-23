@@ -22,13 +22,17 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppStore, SetSelectedNodesAction, getAppSelection } from '@alfresco/aca-shared/store';
+import { AppStore, getAppSelection, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { AppHookService, UserProfileService } from '@alfresco/aca-shared';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { LibraryMembershipDirective, LibraryMembershipErrorEvent, LibraryMembershipToggleEvent } from '@alfresco/adf-content-services';
+import {
+  LibraryMembershipDirective,
+  LibraryMembershipErrorEvent,
+  LibraryMembershipToggleEvent
+} from '@alfresco/adf-content-services';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
@@ -36,7 +40,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { NotificationService } from '@alfresco/adf-core';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, TranslateModule, MatButtonModule, MatIconModule, LibraryMembershipDirective],
   selector: 'app-toggle-join-library-button',
   template: `

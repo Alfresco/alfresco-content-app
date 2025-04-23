@@ -51,13 +51,18 @@ import { Store } from '@ngrx/store';
 import { from, Observable } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { Actions, ofType } from '@ngrx/effects';
-import { AlfrescoApiService, AlfrescoViewerComponent, DocumentListService, NodesApiService, UploadService } from '@alfresco/adf-content-services';
+import {
+  AlfrescoApiService,
+  AlfrescoViewerComponent,
+  DocumentListService,
+  NodesApiService,
+  UploadService
+} from '@alfresco/adf-content-services';
 import { CommonModule } from '@angular/common';
 import { ViewerService } from '../../services/viewer.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  standalone: true,
   imports: [
     CommonModule,
     InfoDrawerComponent,

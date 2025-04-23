@@ -23,15 +23,14 @@
  */
 
 import { Component } from '@angular/core';
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
-import { Router, NavigationEnd } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { ActiveLinkDirective } from './active-link.directive';
 import { ActionDirective } from './action.directive';
 
 @Component({
-  standalone: true,
   imports: [ActiveLinkDirective, ActionDirective],
   selector: 'app-test-component',
   template: ` <span id="test-element" acaActiveLink="active-link-class" [action]="item"></span> `

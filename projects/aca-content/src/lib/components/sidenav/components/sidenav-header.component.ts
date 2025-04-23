@@ -31,7 +31,6 @@ import { RouterModule } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, TranslateModule, RouterModule, ToolbarComponent],
   selector: 'app-sidenav-header',
   templateUrl: `./sidenav-header.component.html`,

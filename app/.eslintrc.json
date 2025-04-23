@@ -8,7 +8,9 @@
         "project": ["app/tsconfig.app.json", "app/tsconfig.spec.json"],
         "createDefaultProgram": true
       },
-      "rules": {}
+      "rules": {
+        "@angular-eslint/prefer-standalone": "off"
+      }
     }
   ]
 }

@@ -30,7 +30,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, TranslateModule, MatCheckboxModule],
   selector: 'aca-rule-triggers',
   templateUrl: './rule-triggers.ui-component.html',

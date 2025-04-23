@@ -23,7 +23,12 @@
  */
 
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
-import { AutoFocusDirective, forbidOnlySpaces, SavedSearch, SavedSearchesService } from '@alfresco/adf-content-services';
+import {
+  AutoFocusDirective,
+  forbidOnlySpaces,
+  SavedSearch,
+  SavedSearchesService
+} from '@alfresco/adf-content-services';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
 import { CoreModule, NotificationService } from '@alfresco/adf-core';
@@ -32,7 +37,6 @@ import { UniqueSearchNameValidator } from '../unique-search-name-validator';
 import { SavedSearchForm } from '../saved-search-form.interface';
 
 @Component({
-  standalone: true,
   imports: [CoreModule, AutoFocusDirective],
   selector: 'aca-saved-search-edit-dialog',
   templateUrl: './saved-search-edit-dialog.component.html',

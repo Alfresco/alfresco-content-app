@@ -29,7 +29,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, MatSlideToggleModule, TranslateModule],
   selector: 'aca-rule-list-item',
   templateUrl: 'rule-list-item.ui-component.html',

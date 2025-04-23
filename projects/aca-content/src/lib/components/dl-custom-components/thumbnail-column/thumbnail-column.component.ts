@@ -22,13 +22,12 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnChanges, SimpleChanges, ViewEncapsulation, inject } from '@angular/core';
+import { Component, inject, Input, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { TranslationService } from '@alfresco/adf-core';
 import { NgIf } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  standalone: true,
   imports: [NgIf, MatIconModule],
   selector: 'aca-custom-thumbnail-column',
   templateUrl: './thumbnail-column.component.html',

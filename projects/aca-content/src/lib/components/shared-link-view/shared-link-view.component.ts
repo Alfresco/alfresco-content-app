@@ -37,7 +37,6 @@ import { AlfrescoApiService, AlfrescoViewerModule } from '@alfresco/adf-content-
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, ViewerModule, AlfrescoViewerModule, ToolbarComponent],
   selector: 'app-shared-link-view',
   templateUrl: './shared-link-view.component.html',

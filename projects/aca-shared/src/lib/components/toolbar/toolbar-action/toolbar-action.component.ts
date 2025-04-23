@@ -22,7 +22,14 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, ChangeDetectionStrategy, Input, DoCheck, ChangeDetectorRef } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  DoCheck,
+  Input,
+  ViewEncapsulation
+} from '@angular/core';
 import { ContentActionRef, DynamicExtensionComponent } from '@alfresco/adf-extensions';
 import { ToolbarButtonComponent, ToolbarButtonType } from '../toolbar-button/toolbar-button.component';
 import { ThemePalette } from '@angular/material/core';
@@ -30,7 +37,6 @@ import { CommonModule } from '@angular/common';
 import { ToolbarMenuComponent } from '../toolbar-menu/toolbar-menu.component';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, ToolbarButtonComponent, ToolbarMenuComponent, DynamicExtensionComponent],
   selector: 'aca-toolbar-action',
   templateUrl: './toolbar-action.component.html',

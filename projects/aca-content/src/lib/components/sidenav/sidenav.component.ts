@@ -37,7 +37,6 @@ import { NavigationEnd } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, SidenavHeaderComponent, MatListModule, ExpandMenuComponent, DynamicExtensionComponent],
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',

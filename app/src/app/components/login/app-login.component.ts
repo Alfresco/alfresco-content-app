@@ -28,7 +28,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AppSettingsService } from '@alfresco/aca-shared';
 
 @Component({
-  standalone: true,
   imports: [LoginComponent, TranslateModule],
   templateUrl: './app-login.component.html',
   styles: [

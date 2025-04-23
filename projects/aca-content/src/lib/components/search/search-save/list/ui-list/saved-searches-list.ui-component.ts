@@ -22,7 +22,16 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AfterContentInit, Component, DestroyRef, EventEmitter, inject, Input, Output, ViewEncapsulation } from '@angular/core';
+import {
+  AfterContentInit,
+  Component,
+  DestroyRef,
+  EventEmitter,
+  inject,
+  Input,
+  Output,
+  ViewEncapsulation
+} from '@angular/core';
 import {
   AppConfigService,
   DataCellEvent,
@@ -44,7 +53,6 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'aca-saved-searches-ui-list',
-  standalone: true,
   imports: [CommonModule, DATATABLE_DIRECTIVES, TEMPLATE_DIRECTIVES, DataTableComponent],
   templateUrl: './saved-searches-list.ui-component.html',
   styleUrls: ['./saved-searches-list.ui-component.scss'],

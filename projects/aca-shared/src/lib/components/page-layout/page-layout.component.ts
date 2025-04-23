@@ -32,7 +32,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, TranslateModule, MatButtonModule, MatIconModule],
   selector: 'aca-page-layout',
   templateUrl: './page-layout.component.html',

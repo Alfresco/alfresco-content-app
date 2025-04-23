@@ -74,9 +74,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { DocumentListDirective } from '../../../directives/document-list.directive';
 import { ThumbnailColumnComponent } from '../../dl-custom-components/thumbnail-column/thumbnail-column.component';
 import { SearchActionMenuComponent } from '../search-action-menu/search-action-menu.component';
-import { TagsColumnComponent } from '../../dl-custom-components/tags-column/tags-column.component';
 import { MatIconModule } from '@angular/material/icon';
-import { SearchResultsRowComponent } from '../search-results-row/search-results-row.component';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
 import { BulkActionsDropdownComponent } from '../../bulk-actions-dropdown/bulk-actions-dropdown.component';
 import { SearchAiInputContainerComponent } from '../../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
@@ -92,7 +90,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
-  standalone: true,
   imports: [
     CommonModule,
     TranslateModule,
@@ -105,11 +102,9 @@ import { MatMenuModule } from '@angular/material/menu';
     ContextActionsDirective,
     ThumbnailColumnComponent,
     SearchActionMenuComponent,
-    TagsColumnComponent,
     PaginationComponent,
     MatIconModule,
     InfoDrawerComponent,
-    SearchResultsRowComponent,
     PaginationDirective,
     PageLayoutComponent,
     ToolbarComponent,

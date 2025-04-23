@@ -33,7 +33,6 @@ import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'aca-save-search-sidenav',
-  standalone: true,
   imports: [CoreModule, ExpandMenuComponent],
   templateUrl: './save-search-sidenav.component.html',
   encapsulation: ViewEncapsulation.None

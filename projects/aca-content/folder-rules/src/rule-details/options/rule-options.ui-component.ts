@@ -22,7 +22,16 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, forwardRef, HostBinding, Input, OnChanges, OnDestroy, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  forwardRef,
+  HostBinding,
+  Input,
+  OnChanges,
+  OnDestroy,
+  SimpleChanges,
+  ViewEncapsulation
+} from '@angular/core';
 import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { RuleOptions } from '../../model/rule.model';
@@ -33,7 +42,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, TranslateModule, ReactiveFormsModule, MatCheckboxModule, MatFormFieldModule, MatSelectModule],
   selector: 'aca-rule-options',
   templateUrl: 'rule-options.ui-component.html',

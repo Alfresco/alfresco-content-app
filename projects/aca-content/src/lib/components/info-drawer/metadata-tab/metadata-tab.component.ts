@@ -43,7 +43,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ExtensionService } from '@alfresco/adf-extensions';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, ContentMetadataComponent],
   selector: 'app-metadata-tab',
   template: `

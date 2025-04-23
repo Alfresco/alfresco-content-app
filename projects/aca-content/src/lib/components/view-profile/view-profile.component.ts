@@ -38,7 +38,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, TranslateModule, ReactiveFormsModule, MatButtonModule, MatIconModule, MatDividerModule, MatFormFieldModule],
   selector: 'app-view-profile',
   templateUrl: './view-profile.component.html',

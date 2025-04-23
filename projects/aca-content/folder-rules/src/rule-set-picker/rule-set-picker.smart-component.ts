@@ -46,7 +46,6 @@ export interface RuleSetPickerOptions {
 }
 
 @Component({
-  standalone: true,
   imports: [
     CommonModule,
     TranslateModule,
