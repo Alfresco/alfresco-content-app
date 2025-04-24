@@ -1,11 +1,11 @@
-@import '@alfresco/adf-core/lib/styles/mat-selectors';
+@use '../styles/mat-selectors' as ms;
 
 .aca-manage-rules {
-  #{$mat-slide-toggle}:is(mat-slide-toggle) #{$mat-switch}:enabled #{$mat-switch-track}::after {
+  #{ms.$mat-slide-toggle}:is(mat-slide-toggle) #{ms.$mat-switch}:enabled #{ms.$mat-switch-track}::after {
     background: var(--mdc-switch-selected-track-color);
   }
 
-  #{$mat-slide-toggle} #{$mat-switch} #{$mat-switch-handle}::before {
+  #{ms.$mat-slide-toggle} #{ms.$mat-switch} #{ms.$mat-switch-handle}::before {
     background: var(--mdc-switch-selected-pressed-handle-color);
   }
 

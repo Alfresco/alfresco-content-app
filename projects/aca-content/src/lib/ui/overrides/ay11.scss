@@ -1,3 +1,4 @@
+@use '../mixins' as mixins;
 @import '../colors';
 
 /* stylelint-disable selector-class-pattern */
@@ -7,7 +8,7 @@
   .mat-mdc-checkbox,
   .mat-mdc-raised-button {
     &:focus-visible {
-      @include rounded-outline;
+      @include mixins.rounded-outline;
     }
 
     .mat-ripple,
@@ -24,7 +25,7 @@
 
     .mdc-checkbox__native-control:focus-visible {
       & ~ .mat-mdc-checkbox-ripple {
-        @include rounded-outline;
+        @include mixins.rounded-outline;
 
         height: 22px;
         width: 22px;
@@ -58,14 +59,14 @@
 
   .mat-mdc-list-base .mat-mdc-list-option {
     .mdc-list-item__content {
-      @include rounded-border(transparent);
+      @include mixins.rounded-border(transparent);
     }
 
     &:focus-visible {
       background-color: white;
 
       .mdc-list-item__content {
-        @include rounded-border;
+        @include mixins.rounded-border;
       }
     }
   }
@@ -74,12 +75,12 @@
   .app-search-button {
     line-height: 36px;
 
-    @include rounded-border(transparent);
+    @include mixins.rounded-border(transparent);
 
     &:focus-visible {
       outline: none;
 
-      @include rounded-border;
+      @include mixins.rounded-border;
     }
   }
 
@@ -89,10 +90,10 @@
         display: none;
       }
 
-      @include rounded-border(transparent);
+      @include mixins.rounded-border(transparent);
 
       &:focus-visible {
-        @include rounded-border;
+        @include mixins.rounded-border;
 
         background-color: white;
       }
@@ -110,7 +111,7 @@
   .mat-mdc-option {
     &.cdk-keyboard-focused {
       .mat-mdc-option-ripple {
-        @include rounded-outline;
+        @include mixins.rounded-outline;
       }
     }
   }
@@ -190,10 +191,10 @@
     .mat-mdc-button-base.mat-mdc-button {
       outline: none;
 
-      @include rounded-border(transparent);
+      @include mixins.rounded-border(transparent);
 
       &:focus-visible {
-        @include rounded-border;
+        @include mixins.rounded-border;
 
         background-color: white;
       }
@@ -202,7 +203,7 @@
     &.cdk-keyboard-focused:not([aria-disabled='true']) {
       background-color: white;
 
-      @include rounded-border;
+      @include mixins.rounded-border;
     }
   }
 
@@ -234,7 +235,7 @@
 
         &.cdk-keyboard-focused {
           .mat-icon {
-            @include rounded-outline;
+            @include mixins.rounded-outline;
           }
         }
       }

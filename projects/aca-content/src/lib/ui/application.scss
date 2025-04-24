@@ -1,7 +1,7 @@
 /* stylelint-disable scss/no-global-function-names */
 @use '@angular/material' as mat;
-@import 'mixins';
-@import 'theme';
+@import './mixins';
+@import './theme';
 
 $foreground: map-get($custom-theme, foreground);
 

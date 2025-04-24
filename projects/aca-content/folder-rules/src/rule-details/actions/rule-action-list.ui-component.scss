@@ -1,4 +1,4 @@
-@import '@alfresco/adf-core/lib/styles/mat-selectors';
+@use '../../styles/mat-selectors' as ms;
 
 /* stylelint-disable selector-class-pattern */
 .aca-rule-action-list {
@@ -32,7 +32,7 @@
       flex: 1;
     }
 
-    #{$mat-text-field-disabled}#{$mat-text-field-filled} {
+    #{ms.$mat-text-field-disabled}#{ms.$mat-text-field-filled} {
       background: transparent;
     }
 

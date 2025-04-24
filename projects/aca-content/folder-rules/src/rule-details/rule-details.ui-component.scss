@@ -1,4 +1,4 @@
-@import '@alfresco/adf-core/lib/styles/mat-selectors';
+@use '../styles/mat-selectors' as ms;
 
 .aca-rule-details {
   .aca-rule-details__form__triggers {
@@ -88,14 +88,14 @@
     }
 
     &.aca-read-only,
-    #{$mat-form-field-disabled} {
-      #{$mat-notched-outline-leading},
-      #{$mat-notched-outline-trailing},
-      #{$mat-notched-outline-notch} {
+    #{ms.$mat-form-field-disabled} {
+      #{ms.$mat-notched-outline-leading},
+      #{ms.$mat-notched-outline-trailing},
+      #{ms.$mat-notched-outline-notch} {
         border: none;
       }
 
-      #{$mat-line-ripple} {
+      #{ms.$mat-line-ripple} {
         &::before,
         &::after {
           display: none;
@@ -103,21 +103,21 @@
       }
 
       *:disabled,
-      #{$mat-select-disabled} #{$mat-select-value} {
+      #{ms.$mat-select-disabled} #{ms.$mat-select-value} {
         color: inherit;
       }
 
-      #{$mat-select-arrow-wrapper} {
+      #{ms.$mat-select-arrow-wrapper} {
         display: none;
       }
     }
 
-    .aca-rule-details__form__row #{$mat-form-field-flex} #{$mat-form-field-infix} {
+    .aca-rule-details__form__row #{ms.$mat-form-field-flex} #{ms.$mat-form-field-infix} {
       padding-bottom: 0.375em;
       padding-top: 24px;
     }
 
-    .aca-rule-details__form__row aca-rule-action #{$mat-form-field-flex} #{$mat-form-field-infix} {
+    .aca-rule-details__form__row aca-rule-action #{ms.$mat-form-field-flex} #{ms.$mat-form-field-infix} {
       padding-top: 0.1em;
       padding-bottom: 0.1em;
     }

@@ -1,9 +1,9 @@
-@import '@alfresco/adf-core/lib/styles/mat-selectors';
+@use '../styles/mat-selectors' as ms;
 
 .aca-edit-rule-dialog-container {
   --edit-rule-dialog-padding: 8px 20px;
 
-  #{$mat-dialog-surface} {
+  #{ms.$mat-dialog-surface} {
     padding: 0;
   }
 }
