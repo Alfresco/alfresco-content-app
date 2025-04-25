@@ -29,7 +29,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppHookService, ContentApiService } from '@alfresco/aca-shared';
+import { AppExtensionService, AppHookService, ContentApiService } from '@alfresco/aca-shared';
 import { NavigateToFolder, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { Node, NodeEntry, PathElement } from '@alfresco/js-api';
 import { RouterTestingModule } from '@angular/router/testing';
