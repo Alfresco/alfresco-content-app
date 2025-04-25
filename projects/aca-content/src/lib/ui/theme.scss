@@ -1,8 +1,8 @@
 @use '@angular/material' as mat;
+@use './mat-selectors' as ms;
 @import '@alfresco/adf-core/theming';
-@import '@alfresco/adf-core/lib/styles/mat-selectors';
-@import 'custom-theme';
-@import 'variables/variables';
+@import './custom-theme';
+@import './variables/variables';
 @include custom-theme($custom-theme);
 @include mat.core;
 
@@ -21,29 +21,29 @@ mat-toolbar {
   color: var(--theme-secondary-text);
 }
 
-#{$mat-text-field-filled}:not(#{$mat-text-field-disabled}) {
+#{ms.$mat-text-field-filled}:not(#{ms.$mat-text-field-disabled}) {
   padding: 0;
 }
 
-#{$mat-form-field-error-wrapper}:is(div) {
+#{ms.$mat-form-field-error-wrapper}:is(div) {
   padding: 0;
   font-size: 10px;
 
-  #{$mat-form-field-error} {
+  #{ms.$mat-form-field-error} {
     position: relative;
     top: -3px;
   }
 }
 
-#{$mat-checkbox} {
-  #{$mat-checkbox-box}:has(div) {
+#{ms.$mat-checkbox} {
+  #{ms.$mat-checkbox-box}:has(div) {
     padding-right: 2px;
   }
 
-  #{$mdc-form-field} {
+  #{ms.$mdc-form-field} {
     height: auto;
 
-    #{$mat-checkbox-box} {
+    #{ms.$mat-checkbox-box} {
       padding: 0;
       margin-right: 2px;
 
@@ -53,7 +53,7 @@ mat-toolbar {
         position: relative;
       }
 
-      #{$mat-checkbox-background} {
+      #{ms.$mat-checkbox-background} {
         top: 1px;
         left: 0;
         height: 16px;
@@ -62,62 +62,62 @@ mat-toolbar {
     }
   }
 
-  #{$mat-checkbox-touch-target} {
+  #{ms.$mat-checkbox-touch-target} {
     height: 24px;
     width: 24px;
   }
 
-  #{$mat-checkbox-box}:has(#{$mat-checkbox-native-control}):hover,
-  #{$mat-checkbox-box}:has(#{$mat-checkbox-native-control}) {
-    #{$mat-checkbox-native-control}:enabled ~ #{$mat-checkbox-background}:is(div) {
+  #{ms.$mat-checkbox-box}:has(#{ms.$mat-checkbox-native-control}):hover,
+  #{ms.$mat-checkbox-box}:has(#{ms.$mat-checkbox-native-control}) {
+    #{ms.$mat-checkbox-native-control}:enabled ~ #{ms.$mat-checkbox-background}:is(div) {
       border-color: var(--theme-blue-checkbox-color);
       background-color: var(--theme-blue-checkbox-color);
     }
   }
 }
 
-#{$mat-switch}:is(button)#{$mat-switch-selected}#{$mat-switch-checked} #{$mat-switch-handle-track} #{$mat-switch-handle}::after {
+#{ms.$mat-switch}:is(button)#{ms.$mat-switch-selected}#{ms.$mat-switch-checked} #{ms.$mat-switch-handle-track} #{ms.$mat-switch-handle}::after {
   background-color: transparent;
 }
 
-#{$mat-slide-toggle}:is(mat-slide-toggle) #{$mat-switch}:enabled #{$mat-switch-track}::after {
+#{ms.$mat-slide-toggle}:is(mat-slide-toggle) #{ms.$mat-switch}:enabled #{ms.$mat-switch-track}::after {
   background-color: var(--theme-blue-button-color);
 }
 
 mat-slide-toggle {
-  #{$mat-switch-icons} {
+  #{ms.$mat-switch-icons} {
     display: none;
   }
 
-  #{$mat-switch-unselected}#{$mat-switch}:enabled #{$mat-switch-track}::before,
-  #{$mat-switch-unselected}#{$mat-switch}:enabled:active #{$mat-switch-track}::before,
-  #{$mat-switch-unselected}#{$mat-switch}:enabled:focus:not(:active) #{$mat-switch-track}::before,
-  #{$mat-switch-unselected}#{$mat-switch}:enabled:hover:not(:focus:active) #{$mat-switch-track}::before {
+  #{ms.$mat-switch-unselected}#{ms.$mat-switch}:enabled #{ms.$mat-switch-track}::before,
+  #{ms.$mat-switch-unselected}#{ms.$mat-switch}:enabled:active #{ms.$mat-switch-track}::before,
+  #{ms.$mat-switch-unselected}#{ms.$mat-switch}:enabled:focus:not(:active) #{ms.$mat-switch-track}::before,
+  #{ms.$mat-switch-unselected}#{ms.$mat-switch}:enabled:hover:not(:focus:active) #{ms.$mat-switch-track}::before {
     background: var(--adf-theme-foreground-disabled-text-color);
   }
 }
 
-#{$mat-list-item-primary-text} {
+#{ms.$mat-list-item-primary-text} {
   color: var(--adf-theme-foreground-text-color-087);
 }
 
-#{$mat-chip}#{$mat-evolution-chip}#{$mat-standard-chip} {
+#{ms.$mat-chip}#{ms.$mat-evolution-chip}#{ms.$mat-standard-chip} {
   height: auto;
 
-  #{$mat-evolution-chip-text-label} {
+  #{ms.$mat-evolution-chip-text-label} {
     white-space: normal;
     display: flex;
   }
 
-  #{$mat-evolution-chip-action}#{$mat-chip-action} {
-    #{$mat-evolution-chip-graphic}#{$mat-chip-graphic} {
+  #{ms.$mat-evolution-chip-action}#{ms.$mat-chip-action} {
+    #{ms.$mat-evolution-chip-graphic}#{ms.$mat-chip-graphic} {
       padding: 0;
     }
   }
 }
 
-#{$mdc-dialog} {
-  #{$mat-dialog-title} {
+#{ms.$mdc-dialog} {
+  #{ms.$mat-dialog-title} {
     margin-bottom: 20px;
     padding: 0;
 
@@ -126,43 +126,43 @@ mat-slide-toggle {
     }
   }
 
-  #{$mat-dialog-actions} {
+  #{ms.$mat-dialog-actions} {
     padding: 8px 0;
   }
 
-  #{$mat-slide-toggle} #{$mdc-form-field} {
+  #{ms.$mat-slide-toggle} #{ms.$mdc-form-field} {
     width: 36px;
   }
 
-  #{$mat-data-table-row}:last-child #{$mat-data-table-cell} {
+  #{ms.$mat-data-table-row}:last-child #{ms.$mat-data-table-cell} {
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   }
 
-  #{$mat-dialog-content} {
+  #{ms.$mat-dialog-content} {
     padding: 16px 0;
     color: var(--adf-theme-foreground-text-color-087);
 
     --mdc-dialog-supporting-text-color: var(--theme-primary-text);
   }
 
-  #{$mat-dialog-surface} {
+  #{ms.$mat-dialog-surface} {
     padding: 24px;
 
-    #{$mat-button} {
+    #{ms.$mat-button} {
       width: auto;
 
-      #{$mat-button-label} {
+      #{ms.$mat-button-label} {
         padding: 0 16px;
       }
     }
   }
 }
 
-#{$mat-floating-label},
-#{$mat-tab-list} #{$mat-tab-labels} #{$mat-tab-label},
-#{$mat-checkbox} label,
-mat-toolbar#{$mat-toolbar}#{$mat-toolbar-multiple-row},
-mat-toolbar#{$mat-toolbar}#{$mat-toolbar-single-row} {
+#{ms.$mat-floating-label},
+#{ms.$mat-tab-list} #{ms.$mat-tab-labels} #{ms.$mat-tab-label},
+#{ms.$mat-checkbox} label,
+mat-toolbar#{ms.$mat-toolbar}#{ms.$mat-toolbar-multiple-row},
+mat-toolbar#{ms.$mat-toolbar}#{ms.$mat-toolbar-single-row} {
   color: var(--theme-secondary-text);
   opacity: 1;
 }
@@ -186,7 +186,7 @@ mat-toolbar#{$mat-toolbar}#{$mat-toolbar-single-row} {
 
 .adf-datatable-row {
   .adf-datatable-checkbox {
-    #{$mat-checkbox} label {
+    #{ms.$mat-checkbox} label {
       display: none;
     }
   }
@@ -222,7 +222,7 @@ mat-toolbar#{$mat-toolbar}#{$mat-toolbar-single-row} {
 }
 
 .adf-property-field {
-  .adf-textitem-edit-icon#{$mat-icon} {
+  .adf-textitem-edit-icon#{ms.$mat-icon} {
     color: var(--theme-secondary-text);
   }
 }
@@ -236,13 +236,13 @@ mat-toolbar#{$mat-toolbar}#{$mat-toolbar-single-row} {
 }
 
 .aca-details-tabs {
-  #{$mat-tab-label-text} {
+  #{ms.$mat-tab-label-text} {
     line-height: 19px;
   }
 }
 
 mat-snack-bar-container {
-  #{$mat-button}#{$mat-unthemed} {
+  #{ms.$mat-button}#{ms.$mat-unthemed} {
     --mdc-text-button-label-text-color: #fff;
   }
 }
@@ -267,8 +267,8 @@ mat-snack-bar-container {
   --mdc-snackbar-container-color: var(--theme-warn-color);
 }
 
-#{$mat-calendar} {
-  #{$mat-calendar-period-button}:is(button) {
+#{ms.$mat-calendar} {
+  #{ms.$mat-calendar-period-button}:is(button) {
     width: unset;
     height: unset;
     padding: 0 16px;
@@ -276,54 +276,54 @@ mat-snack-bar-container {
   }
 }
 
-#{$mat-radio-button} #{$mat-radio}:is(div) {
+#{ms.$mat-radio-button} #{ms.$mat-radio}:is(div) {
   padding: 0 5px 0 0;
 }
 
-#{$mdc-form-field} > label:is(label) {
+#{ms.$mdc-form-field} > label:is(label) {
   padding-left: 3px;
 }
 
-#{$mat-tab-ripple} {
+#{ms.$mat-tab-ripple} {
   display: none;
 }
 
-#{$mat-tab-labels} {
+#{ms.$mat-tab-labels} {
   border-bottom: 1px solid var(--adf-theme-foreground-text-color-014);
 }
 
-#{$mat-tab-list} {
-  #{$mat-tab-labels} {
-    #{$mat-tab-label-active} {
+#{ms.$mat-tab-list} {
+  #{ms.$mat-tab-labels} {
+    #{ms.$mat-tab-label-active} {
       color: var($selected-text-color);
     }
   }
 }
 
-#{$mat-tab-label}:not(#{$mat-tab-disabled})#{$mat-tab-label-active} #{$mat-tab-label-text} {
+#{ms.$mat-tab-label}:not(#{ms.$mat-tab-disabled})#{ms.$mat-tab-label-active} #{ms.$mat-tab-label-text} {
   color: var(--theme-tab-active-text-color);
 }
 
 adf-dynamic-component {
-  mat-icon#{$mat-icon}#{$mat-submenu-icon} {
+  mat-icon#{ms.$mat-icon}#{ms.$mat-submenu-icon} {
     color: var(--theme-text-color);
   }
 }
 
-#{$mat-menu-item} #{$mat-icon} {
-  &#{$mat-icon-no-color},
-  &#{$mat-mdc-submenu-icon} {
+#{ms.$mat-menu-item} #{ms.$mat-icon} {
+  &#{ms.$mat-icon-no-color},
+  &#{ms.$mat-mdc-submenu-icon} {
     color: var(--theme-text-color);
   }
 }
 
-#{$mat-notched-outline-trailing},
-#{$mat-notched-outline-notch},
-#{$mat-notched-outline-leading} {
+#{ms.$mat-notched-outline-trailing},
+#{ms.$mat-notched-outline-notch},
+#{ms.$mat-notched-outline-leading} {
   border-color: var(--adf-theme-foreground-text-color-014);
 }
 
-#{$mat-menu-surface}#{$mat-autocomplete-panel}:is(div) {
+#{ms.$mat-menu-surface}#{ms.$mat-autocomplete-panel}:is(div) {
   padding: 0;
 
   span {
@@ -331,14 +331,14 @@ adf-dynamic-component {
   }
 }
 
-#{$mat-list-item}#{$mat-list-item-disabled} {
-  #{$mat-list-item-primary-text}:is(div) {
+#{ms.$mat-list-item}#{ms.$mat-list-item-disabled} {
+  #{ms.$mat-list-item-primary-text}:is(div) {
     color: unset;
   }
 }
 
-#{$mat-tab-group}#{$mat-tab-group-stretch} > #{$mat-tab-header} {
-  #{$mat-tab-label}:is(div) {
+#{ms.$mat-tab-group}#{ms.$mat-tab-group-stretch} > #{ms.$mat-tab-header} {
+  #{ms.$mat-tab-label}:is(div) {
     min-width: 160px;
   }
 }
@@ -349,6 +349,6 @@ adf-dynamic-component {
   }
 }
 
-#{$mat-form-field-infix} {
+#{ms.$mat-form-field-infix} {
   min-height: unset;
 }

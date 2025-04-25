@@ -1,4 +1,4 @@
-@import '@alfresco/adf-core/lib/styles/mat-selectors';
+@use '../../../../ui/mat-selectors' as ms;
 
 .aca-search-ai-results {
   aca-page-layout {
@@ -118,7 +118,7 @@
                 margin-right: 2px;
               }
 
-              #{$mat-button-touch-target} {
+              #{ms.$mat-button-touch-target} {
                 width: 24px;
               }
             }

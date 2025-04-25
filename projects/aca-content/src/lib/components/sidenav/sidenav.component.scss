@@ -1,4 +1,4 @@
-@import '@alfresco/adf-core/lib/styles/mat-selectors';
+@use '../../ui/mat-selectors' as mat;
 
 .aca-sidenav {
   display: flex;
@@ -119,7 +119,7 @@
       line-height: 32px;
       justify-content: start;
 
-      #{$mat-button-label} {
+      #{mat.$mat-button-label} {
         overflow: hidden;
         text-overflow: ellipsis;
       }

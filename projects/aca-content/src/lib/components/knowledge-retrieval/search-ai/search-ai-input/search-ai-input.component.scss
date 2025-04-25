@@ -1,4 +1,4 @@
-@import '@alfresco/adf-core/lib/styles/mat-selectors';
+@use '../../../../ui/mat-selectors' as ms;
 
 aca-search-ai-input {
   width: 100%;
@@ -59,7 +59,7 @@ aca-search-ai-input {
     font-size: 15px;
     margin-right: 26px;
 
-    #{$mat-select-trigger} {
+    #{ms.$mat-select-trigger} {
       height: auto;
       margin-top: 4px;
     }
@@ -92,7 +92,7 @@ aca-search-ai-input {
   }
 }
 
-.aca-search-ai-input-agent-select-options.aca-search-ai-input-agent-select-agents#{$mat-select-panel} {
+.aca-search-ai-input-agent-select-options.aca-search-ai-input-agent-select-agents#{ms.$mat-select-panel} {
   margin-top: 9px;
 
   .aca-search-ai-input-agent-select-options-option {

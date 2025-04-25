@@ -1,7 +1,7 @@
-@import '@alfresco/adf-core/lib/styles/mat-selectors';
+@use '../../../styles/mat-selectors' as ms;
 
 aca-toolbar-action {
-  #{$mat-mdc-button}#{$mat-button-base}#{$mat-outlined-button}#{$mat-unthemed} {
+  #{ms.$mat-mdc-button}#{ms.$mat-button-base}#{ms.$mat-outlined-button}#{ms.$mat-unthemed} {
     --mdc-outlined-button-label-text-color: var(--theme-secondary-text);
   }
 }

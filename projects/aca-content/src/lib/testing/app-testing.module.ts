@@ -39,6 +39,7 @@ import { ContentManagementService } from '../services/content-management.service
 import { DocumentBasePageService } from '@alfresco/aca-shared';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 @NgModule({
   imports: [
@@ -58,7 +59,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     ),
     EffectsModule.forRoot([]),
     MatSnackBarModule,
-    MatDialogModule
+    MatDialogModule,
+    MatIconTestingModule
   ],
   exports: [RouterTestingModule, TranslateModule],
   providers: [

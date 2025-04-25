@@ -1,4 +1,4 @@
-@import '@alfresco/adf-core/lib/styles/mat-selectors';
+@use '../../styles/mat-selectors' as ms;
 
 aca-open-in-app {
   .aca-open-in-app {
@@ -57,7 +57,7 @@ aca-open-in-app {
       }
     }
 
-    #{$mat-button} {
+    #{ms.$mat-button} {
       --mat-mdc-button-persistent-ripple-color: unset;
       --mat-mdc-button-ripple-color: unset;
     }

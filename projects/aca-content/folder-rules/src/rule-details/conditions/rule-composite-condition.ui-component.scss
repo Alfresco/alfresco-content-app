@@ -1,4 +1,4 @@
-@import '@alfresco/adf-core/lib/styles/mat-selectors';
+@use '../../styles/mat-selectors' as ms;
 
 .aca-rule-composite-condition {
   display: block;
@@ -22,8 +22,8 @@
       display: flex;
       gap: 8px;
 
-      #{$mat-form-field} {
-        #{$mat-form-field-infix} {
+      #{ms.$mat-form-field} {
+        #{ms.$mat-form-field-infix} {
           padding-bottom: 4px;
         }
       }
@@ -38,10 +38,10 @@
         flex: 1;
       }
 
-      .aca-rule-composite-condition__boolean-mode-control #{$mat-form-field-wrapper} {
+      .aca-rule-composite-condition__boolean-mode-control #{ms.$mat-form-field-wrapper} {
         background-color: unset;
 
-        #{$mat-select-disabled} {
+        #{ms.$mat-select-disabled} {
           color: var(--adf-theme-foreground-text-color);
         }
       }
