@@ -198,7 +198,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
           }
           this.queryAnswer = response.entry;
           this._displayedAnswer = this.preprocessMarkdownFormat(response.entry.answer);
-          return forkJoin(this.queryAnswer.references.map((reference) => this.nodesApiService.getNode(reference.referenceId)));
+          return forkJoin(this.queryAnswer.objectReferences.map((reference) => this.nodesApiService.getNode(reference.objectId)));
         }),
         retryWhen((errors: Observable<Error>) => this.aiSearchRetryWhen(errors)),
         finalize(() => (this._loading = false)),
