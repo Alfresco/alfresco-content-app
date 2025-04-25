@@ -46,7 +46,14 @@ import { searchAiMarkedOptions } from './search-ai-marked-options';
 
 const questionMock: QuestionModel = { question: 'test', questionId: 'testId', restrictionQuery: { nodesIds: [] } };
 const getAiAnswerEntry = (noAnswer?: boolean): AiAnswerEntry => {
-  return { entry: { answer: noAnswer ? '' : 'Some answer', questionId: 'some id', references: [] } };
+  return {
+    entry: {
+      answer: noAnswer ? '' : 'Some answer',
+      question: 'some question',
+      objectReferences: [],
+      complete: true
+    }
+  };
 };
 
 describe('SearchAiResultsComponent', () => {
@@ -512,7 +519,12 @@ describe('SearchAiResultsComponent', () => {
       spyOn(userPreferencesService, 'set');
       spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
       const answer = getAiAnswerEntry();
-      answer.entry.references = [{ referenceId: nodeId, referenceText: 'some text' }];
+      answer.entry.objectReferences = [
+        {
+          objectId: nodeId,
+          references: []
+        }
+      ];
       spyOn(searchAiService, 'getAnswer').and.returnValues(throwError('error'), of(answer));
       mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
 
