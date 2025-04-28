@@ -31,120 +31,147 @@ test.describe('Search - Filters - Date', () => {
 
   const randomId = Utils.random();
   const username = `user-${randomId}`;
-  const fileNamePdfKb = `${randomId}-fileNamePdf.pdf`;
-  const fileNameJpgMb = `${randomId}-fileNameJpg.jpg`;
-  const currentAndPreviousDay = Utils.getCurrentAndPreviousDay();
 
   test.beforeEach(async ({ loginPage }) => {
     await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
   });
 
-  test.beforeAll(async () => {
-    try {
-      const apiClientFactory = new ApiClientFactory();
-      await apiClientFactory.setUpAcaBackend('admin');
-      await apiClientFactory.createUser({ username });
-      trashcanApi = await TrashcanApi.initialize(username, username);
-      nodesApi = await NodesApi.initialize(username, username);
-      const fileActionsApi = await FileActionsApi.initialize(username, username);
-      await fileActionsApi.uploadFileWithRename(TEST_FILES.PDF.path, fileNamePdfKb, '-my-');
-      await fileActionsApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, fileNameJpgMb, '-my-');
-    } catch (error) {
-      console.error(`beforeAll failed: ${error}`);
-    }
-  });
+  test.describe('Search - Filters - Date - General', () => {
+    const fileNamePdfKb = `${randomId}-fileNamePdf.pdf`;
+    const fileNameJpgMb = `${randomId}-fileNameJpg.jpg`;
 
-  test.afterAll(async () => {
-    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
-  });
+    test.beforeAll(async () => {
+      try {
+        const apiClientFactory = new ApiClientFactory();
+        await apiClientFactory.setUpAcaBackend('admin');
+        await apiClientFactory.createUser({ username });
+        trashcanApi = await TrashcanApi.initialize(username, username);
+        nodesApi = await NodesApi.initialize(username, username);
+        const fileActionsApi = await FileActionsApi.initialize(username, username);
+        await fileActionsApi.uploadFileWithRename(TEST_FILES.PDF.path, fileNamePdfKb, '-my-');
+        await fileActionsApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, fileNameJpgMb, '-my-');
+      } catch (error) {
+        console.error(`beforeAll failed: ${error}`);
+      }
+    });
 
-  test('[XAT-17698] Filter by date - Changing tabs', async ({ searchPage }) => {
-    await searchPage.acaHeader.searchButton.click();
-    await searchPage.searchFilters.dateFilter.click();
-    await searchPage.searchFiltersDate.betweenButton.click();
-    await expect(searchPage.searchFiltersDate.betweenRadioButton).toBeChecked();
-    expect(await searchPage.searchFiltersDate.isModifiedTabSelected()).toBe('false');
-    await searchPage.searchFiltersDate.openCreatedModifiedTab(searchPage, 'Modified');
+    test.afterAll(async () => {
+      await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
+    });
 
-    await expect(searchPage.searchFiltersDate.anytimeRadioButton).toBeChecked();
-    expect(await searchPage.searchFiltersDate.isModifiedTabSelected()).toBe('true');
-    await searchPage.searchFiltersDate.openCreatedModifiedTab(searchPage, 'Created');
+    test('[XAT-17698] Filter by date - Changing tabs', async ({ searchPage }) => {
+      await searchPage.acaHeader.searchButton.click();
+      await searchPage.searchFilters.dateFilter.click();
+      await searchPage.searchFiltersDate.betweenButton.click();
+      await expect(searchPage.searchFiltersDate.betweenRadioButton).toBeChecked();
+      expect(await searchPage.searchFiltersDate.isModifiedTabSelected()).toBe('false');
+      await searchPage.searchFiltersDate.openCreatedModifiedTab(searchPage, 'Modified');
 
-    await expect(searchPage.searchFiltersDate.betweenRadioButton).toBeChecked();
-    expect(await searchPage.searchFiltersDate.isSearchTabSelected()).toBe('true');
-  });
+      await expect(searchPage.searchFiltersDate.anytimeRadioButton).toBeChecked();
+      expect(await searchPage.searchFiltersDate.isModifiedTabSelected()).toBe('true');
+      await searchPage.searchFiltersDate.openCreatedModifiedTab(searchPage, 'Created');
 
-  test('[XAT-5582] Should able to filter search result with Created date under Date Facet - Created anytime', async ({ searchPage }) => {
-    await searchPage.searchFiltersDate.filterFilesByDate({
-      searchPage,
-      filterType: 'anytime',
-      dateFilterTab: 'Created',
-      searchPhrase: randomId,
-      searchType: 'files',
-      expectSearchResults: 2
+      await expect(searchPage.searchFiltersDate.betweenRadioButton).toBeChecked();
+      expect(await searchPage.searchFiltersDate.isSearchTabSelected()).toBe('true');
+    });
+
+    test('[XAT-5582] Should able to filter search result with Created date under Date Facet - Created anytime', async ({ searchPage }) => {
+      await searchPage.searchFiltersDate.filterFilesByDate({
+        searchPage,
+        filterType: 'anytime',
+        dateFilterTab: 'Created',
+        searchPhrase: randomId,
+        searchType: 'files',
+        expectSearchResults: 2
+      });
+    });
+
+    test('[XAT-5583] Should able to filter search result with Modified date under Date Facet - Modified anytime', async ({ searchPage }) => {
+      await searchPage.searchFiltersDate.filterFilesByDate({
+        searchPage,
+        filterType: 'anytime',
+        dateFilterTab: 'Modified',
+        searchPhrase: randomId,
+        searchType: 'files',
+        expectSearchResults: 2
+      });
+    });
+
+    test('[XAT-17699] Should able to filter search result with Created date under Date Facet - Created in the last', async ({ searchPage }) => {
+      await searchPage.searchFiltersDate.filterFilesByDate({
+        searchPage,
+        filterType: 'inTheLast',
+        dateFilterTab: 'Created',
+        searchPhrase: randomId,
+        searchType: 'files',
+        expectSearchResults: 2,
+        inTheLastInputValue: '1'
+      });
+    });
+
+    test('[XAT-17701] Should able to filter search result with Modified date under Date Facet - Modified in the last', async ({ searchPage }) => {
+      await searchPage.searchFiltersDate.filterFilesByDate({
+        searchPage,
+        filterType: 'inTheLast',
+        dateFilterTab: 'Modified',
+        searchPhrase: randomId,
+        searchType: 'files',
+        expectSearchResults: 2,
+        inTheLastInputValue: '1'
+      });
     });
   });
 
-  test('[XAT-5583] Should able to filter search result with Modified date under Date Facet - Modified anytime', async ({ searchPage }) => {
-    await searchPage.searchFiltersDate.filterFilesByDate({
-      searchPage,
-      filterType: 'anytime',
-      dateFilterTab: 'Modified',
-      searchPhrase: randomId,
-      searchType: 'files',
-      expectSearchResults: 2
-    });
-  });
+  test.describe('Search - Filters - Date - Modified/Created', () => {
+    const currentAndPreviousDay = Utils.getCurrentAndPreviousDay();
+    const searchPhrase = `Project Contract`;
+    const fileNamePng = `${randomId}-${searchPhrase}.png`;
+    const dateForSearch = '01-Jan-21';
 
-  test('[XAT-17699] Should able to filter search result with Created date under Date Facet - Created in the last', async ({ searchPage }) => {
-    await searchPage.searchFiltersDate.filterFilesByDate({
-      searchPage,
-      filterType: 'inTheLast',
-      dateFilterTab: 'Created',
-      searchPhrase: randomId,
-      searchType: 'files',
-      expectSearchResults: 2,
-      inTheLastInputValue: '1'
+    test.beforeAll(async () => {
+      try {
+        const apiClientFactory = new ApiClientFactory();
+        await apiClientFactory.setUpAcaBackend('admin');
+        await apiClientFactory.createUser({ username });
+        trashcanApi = await TrashcanApi.initialize(username, username);
+        nodesApi = await NodesApi.initialize(username, username);
+        const fileActionsApi = await FileActionsApi.initialize(username, username);
+        await fileActionsApi.uploadFileWithRename(TEST_FILES.PNG_FILE.path, fileNamePng, '-my-');
+      } catch (error) {
+        console.error(`beforeAll failed: ${error}`);
+      }
     });
-  });
 
-  test('[XAT-17701] Should able to filter search result with Modified date under Date Facet - Modified in the last', async ({ searchPage }) => {
-    await searchPage.searchFiltersDate.filterFilesByDate({
-      searchPage,
-      filterType: 'inTheLast',
-      dateFilterTab: 'Modified',
-      searchPhrase: randomId,
-      searchType: 'files',
-      expectSearchResults: 2,
-      inTheLastInputValue: '1'
+    test.afterAll(async () => {
+      await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
     });
-  });
 
-  test('[XAT-17700] Should able to filter search result with Created date under Date Facet - Created between', async ({ searchPage }) => {
-    await searchPage.searchFiltersDate.filterFilesByDate({
-      searchPage,
-      filterType: 'between',
-      dateFilterTab: 'Created',
-      searchPhrase: randomId,
-      searchType: 'files',
-      expectSearchResults: 2,
-      inTheLastInputValue: '1',
-      startDay: currentAndPreviousDay.previousDate,
-      endDay: currentAndPreviousDay.currentDate
+    test('[XAT-17700] Should able to filter search result with Created date under Date Facet - Created between', async ({ searchPage }) => {
+      await searchPage.searchFiltersDate.filterFilesByDate({
+        searchPage,
+        filterType: 'between',
+        dateFilterTab: 'Created',
+        searchPhrase: searchPhrase,
+        searchType: 'files',
+        expectSearchResults: 1,
+        inTheLastInputValue: '1',
+        startDay: dateForSearch,
+        endDay: currentAndPreviousDay.currentDate
+      });
     });
-  });
 
-  test('[XAT-17702] Should able to filter search result with Modified date under Date Facet - Modified between', async ({ searchPage }) => {
-    await searchPage.searchFiltersDate.filterFilesByDate({
-      searchPage,
-      filterType: 'between',
-      dateFilterTab: 'Modified',
-      searchPhrase: randomId,
-      searchType: 'files',
-      expectSearchResults: 2,
-      inTheLastInputValue: '1',
-      startDay: currentAndPreviousDay.previousDate,
-      endDay: currentAndPreviousDay.currentDate
+    test('[XAT-17702] Should able to filter search result with Modified date under Date Facet - Modified between', async ({ searchPage }) => {
+      await searchPage.searchFiltersDate.filterFilesByDate({
+        searchPage,
+        filterType: 'between',
+        dateFilterTab: 'Modified',
+        searchPhrase: searchPhrase,
+        searchType: 'files',
+        expectSearchResults: 1,
+        inTheLastInputValue: '1',
+        startDay: dateForSearch,
+        endDay: currentAndPreviousDay.currentDate
+      });
     });
   });
 });
