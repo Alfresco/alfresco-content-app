@@ -5,6 +5,7 @@
     "styleIncludePaths": ["projects/aca-content/src/lib/ui"],
     "entryFile": "src/public-api.ts"
   },
+  "allowedNonPeerDependencies": ["ngx-markdown"],
   "assets": [
     {
       "glob": "**/*",
