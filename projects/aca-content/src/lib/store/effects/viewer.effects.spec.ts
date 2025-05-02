@@ -58,6 +58,7 @@ describe('ViewerEffects', () => {
       tick(100);
       expect(router.navigateByUrl).toHaveBeenCalledWith('/folder1/preview/someId');
     }));
+
     it('should preview file from payload', fakeAsync(() => {
       const node: any = { entry: { isFile: true, id: 'someId' } };
       store.dispatch(new ViewFileAction(node));
