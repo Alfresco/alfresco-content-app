@@ -36,7 +36,10 @@ export class RouterExtensionService {
     auth: ['app.auth', 'app.extensions.dataLoaderGuard']
   };
 
-  constructor(private router: Router, protected extensions: ExtensionService) {}
+  constructor(
+    private readonly router: Router,
+    protected readonly extensions: ExtensionService
+  ) {}
 
   mapExtensionRoutes() {
     const routesWithoutParent = [];

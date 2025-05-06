@@ -276,8 +276,8 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
             ...cardViewPropertiesModel,
             value:
               constraintsForDropdownBox && this.readOnly && this.paramsToFormatDisplayedValue.includes(paramDef.name)
-                ? constraintsForDropdownBox.constraints.find((constraint) => constraint.key === this.parameters[paramDef.name])?.label ?? ''
-                : this.parameters[paramDef.name] ?? ''
+                ? (constraintsForDropdownBox.constraints.find((constraint) => constraint.key === this.parameters[paramDef.name])?.label ?? '')
+                : (this.parameters[paramDef.name] ?? '')
           });
       }
     });

@@ -43,19 +43,29 @@ export interface ViewNodeExtras {
 export class ViewFileAction implements Action {
   readonly type = ViewerActionTypes.ViewFile;
 
-  constructor(public payload?: NodeEntry, public parentId?: string) {}
+  constructor(
+    public payload?: NodeEntry,
+    public parentId?: string
+  ) {}
 }
 
 export class ViewNodeAction implements Action {
   readonly type = ViewerActionTypes.ViewNode;
 
-  constructor(public nodeId: string, public viewNodeExtras?: ViewNodeExtras) {}
+  constructor(
+    public nodeId: string,
+    public viewNodeExtras?: ViewNodeExtras
+  ) {}
 }
 
 export class ViewNodeVersionAction implements Action {
   readonly type = ViewerActionTypes.ViewNodeVersion;
 
-  constructor(public nodeId: string, public versionId: string, public viewNodeExtras?: ViewNodeExtras) {}
+  constructor(
+    public nodeId: string,
+    public versionId: string,
+    public viewNodeExtras?: ViewNodeExtras
+  ) {}
 }
 
 export class FullscreenViewerAction implements Action {
@@ -77,5 +87,8 @@ export class RefreshPreviewAction implements Action {
 export class PluginPreviewAction implements Action {
   readonly type = ViewerActionTypes.PluginPreview;
 
-  constructor(public pluginRoute: string, public nodeId: string) {}
+  constructor(
+    public pluginRoute: string,
+    public nodeId: string
+  ) {}
 }

@@ -119,7 +119,10 @@ export class ContentApiService {
     this._versionsApi = this._versionsApi ?? new VersionsApi(this.api.getInstance());
     return this._versionsApi;
   }
-  constructor(private api: AlfrescoApiService, private preferences: UserPreferencesService) {}
+  constructor(
+    private readonly api: AlfrescoApiService,
+    private readonly preferences: UserPreferencesService
+  ) {}
 
   /**
    * Moves a node to the trashcan.

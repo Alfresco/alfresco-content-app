@@ -124,7 +124,11 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges {
 
   private readonly destroyRef = inject(DestroyRef);
 
-  constructor(private alfrescoApiService: AlfrescoApiService, protected store: Store<AppStore>, private actions$: Actions) {}
+  constructor(
+    private readonly alfrescoApiService: AlfrescoApiService,
+    protected readonly store: Store<AppStore>,
+    private readonly actions$: Actions
+  ) {}
 
   toggleEdit() {
     if (this.form.enabled) {

@@ -38,7 +38,10 @@ export interface SnackbarAction extends Action {
 }
 
 export class SnackbarUserAction {
-  constructor(public title: string, public action: Action) {}
+  constructor(
+    public title: string,
+    public action: Action
+  ) {}
 }
 
 export class SnackbarInfoAction implements SnackbarAction {
@@ -46,7 +49,10 @@ export class SnackbarInfoAction implements SnackbarAction {
 
   userAction?: SnackbarUserAction;
 
-  constructor(public payload: string, public params?: any) {}
+  constructor(
+    public payload: string,
+    public params?: any
+  ) {}
 }
 
 export class SnackbarWarningAction implements SnackbarAction {
@@ -54,7 +60,10 @@ export class SnackbarWarningAction implements SnackbarAction {
 
   userAction?: SnackbarUserAction;
 
-  constructor(public payload: string, public params?: any) {}
+  constructor(
+    public payload: string,
+    public params?: any
+  ) {}
 }
 
 export class SnackbarErrorAction implements SnackbarAction {
@@ -62,5 +71,8 @@ export class SnackbarErrorAction implements SnackbarAction {
 
   userAction?: SnackbarUserAction;
 
-  constructor(public payload: string, public params?: any) {}
+  constructor(
+    public payload: string,
+    public params?: any
+  ) {}
 }

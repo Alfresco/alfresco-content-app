@@ -106,7 +106,11 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     return this._errorTranslationKey;
   }
 
-  constructor(private contentApi: ContentApiService, private nodeActionsService: NodeActionsService, private route: ActivatedRoute) {
+  constructor(
+    private readonly contentApi: ContentApiService,
+    private readonly nodeActionsService: NodeActionsService,
+    private readonly route: ActivatedRoute
+  ) {
     super();
   }
 

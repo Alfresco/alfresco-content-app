@@ -234,7 +234,10 @@ export class ActionTypes {
     ActionTypes.SPECIALISETYPE.value,
     ActionTypes.SETPROPERTYVALUE.value
   ];
-  constructor(public key: string, public value: RuleAction) {}
+  constructor(
+    public key: string,
+    public value: RuleAction
+  ) {}
 }
 
 export class ConditionsTypes {
@@ -283,5 +286,8 @@ export class ConditionsTypes {
     ]
   });
   static readonly conditions = [ConditionsTypes.MIMETYPE.value, ConditionsTypes.CMNAME.value, ConditionsTypes.SIZE.value, ConditionsTypes.TAG.value];
-  constructor(public key: string, public value: AcaFolderRulesModule) {}
+  constructor(
+    public key: string,
+    public value: AcaFolderRulesModule
+  ) {}
 }

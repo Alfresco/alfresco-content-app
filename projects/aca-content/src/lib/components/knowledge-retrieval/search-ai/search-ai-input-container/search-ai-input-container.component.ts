@@ -53,7 +53,11 @@ export class SearchAiInputContainerComponent implements OnInit {
   inputState$: Observable<SearchAiInputState>;
   isKnowledgeRetrievalPage = false;
 
-  constructor(private searchAiService: SearchAiService, private searchNavigationService: SearchAiNavigationService, private router: Router) {}
+  constructor(
+    private readonly searchAiService: SearchAiService,
+    private searchNavigationService: SearchAiNavigationService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.isKnowledgeRetrievalPage = this.router.url.startsWith('/knowledge-retrieval');

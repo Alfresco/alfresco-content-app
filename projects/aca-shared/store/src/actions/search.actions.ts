@@ -36,5 +36,8 @@ export class SearchAction implements Action {
 
 export class SearchByTermAction implements Action {
   readonly type = SearchActionTypes.SearchByTerm;
-  constructor(public payload: string, public searchOptions?: SearchOptionModel[]) {}
+  constructor(
+    public payload: string,
+    public searchOptions?: SearchOptionModel[]
+  ) {}
 }
