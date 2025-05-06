@@ -41,13 +41,17 @@ export class NavigationHistoryService {
   }
 
   shouldReturnLastSelection(url: string): boolean {
-    return this.history.length > 2 && this.history[1].startsWith(url) && this.history[0] === this.history[2];
+    return (
+      this.history.length > 2 &&
+      this.history[this.history.length - 2].startsWith(url) &&
+      [...this.history]
+        .reverse()
+        .slice(1)
+        .find((oldUrl) => !oldUrl.startsWith(url)) === this.history[this.history.length - 1]
+    );
   }
 
-  setHistory(event: NavigationEnd, maxHistoryLength: number) {
+  setHistory(event: NavigationEnd): void {
     this.history.push(event.urlAfterRedirects);
-    if (maxHistoryLength > 0 && this.history.length > maxHistoryLength) {
-      this.history.shift();
-    }
   }
 }

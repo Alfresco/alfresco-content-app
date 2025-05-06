@@ -78,7 +78,7 @@ export class SidenavComponent implements OnInit {
       .listenToRouteChanges()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((event: NavigationEnd) => {
-        this.navigationHistoryService.setHistory(event, 3);
+        this.navigationHistoryService.setHistory(event);
       });
   }
 
