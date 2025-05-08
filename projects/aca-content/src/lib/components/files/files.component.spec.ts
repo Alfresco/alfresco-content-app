@@ -491,6 +491,10 @@ describe('FilesComponent', () => {
       documentBasePageService = TestBed.inject(DocumentBasePageService);
     });
 
+    afterEach(() => {
+      store.resetSelectors();
+    });
+
     it('should have assigned displayDragAndDropHint to false if currentFolder is selected and uploading is not allowable', () => {
       store.overrideSelector(getCurrentFolder, node);
       spyOn(documentBasePageService, 'canUploadContent').and.returnValue(false);
