@@ -108,6 +108,6 @@ describe('SidenavComponent', () => {
     component.ngOnInit();
     routerEvents$.next(mockNavigationEnd);
 
-    expect(navigationHistoryService.setHistory).toHaveBeenCalledWith(mockNavigationEnd, 3);
+    expect(navigationHistoryService.setHistory).toHaveBeenCalledWith(mockNavigationEnd);
   });
 });

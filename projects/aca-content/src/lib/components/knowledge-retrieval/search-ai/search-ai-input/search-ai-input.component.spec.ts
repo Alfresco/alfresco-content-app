@@ -465,6 +465,13 @@ describe('SearchAiInputComponent', () => {
         submittingTrigger();
         expect(modalAiSpy).toHaveBeenCalledWith(jasmine.any(Function));
       });
+
+      it('should call reset on queryControl', () => {
+        spyOn(component.queryControl, 'reset');
+        submittingTrigger();
+
+        expect(component.queryControl.reset).toHaveBeenCalled();
+      });
     });
   }
 });
