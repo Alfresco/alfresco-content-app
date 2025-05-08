@@ -46,38 +46,11 @@ describe('NavigationHistoryService', () => {
   });
 
   it('should store route changes in history', () => {
-    service.listenToRouteChanges().subscribe((event) => service.setHistory(event, 3));
+    service.listenToRouteChanges().subscribe((event) => service.setHistory(event));
     triggerNavigationEnd(1, '/page1');
     triggerNavigationEnd(2, '/page2');
 
     expect(service.history).toEqual(['/initial', '/page1', '/page2']);
-  });
-
-  it('should not exceed the max history length', () => {
-    service.listenToRouteChanges().subscribe((event) => service.setHistory(event, 6));
-
-    triggerNavigationEnd(1, '/page1');
-    triggerNavigationEnd(2, '/page2');
-    triggerNavigationEnd(3, '/page3');
-    triggerNavigationEnd(4, '/page4');
-    triggerNavigationEnd(5, '/page5');
-    triggerNavigationEnd(6, '/page6');
-
-    expect(service.history).toEqual(['/page1', '/page2', '/page3', '/page4', '/page5', '/page6']);
-  });
-
-  it('should store different route changes in history', () => {
-    service.listenToRouteChanges().subscribe((event) => service.setHistory(event, 4));
-    triggerNavigationEnd(1, '/page1');
-    triggerNavigationEnd(2, '/page2');
-    triggerNavigationEnd(3, '/page1');
-    triggerNavigationEnd(4, '/page2');
-    triggerNavigationEnd(5, '/page4');
-    triggerNavigationEnd(6, '/page2');
-    triggerNavigationEnd(7, '/page1');
-    triggerNavigationEnd(8, '/page2');
-
-    expect(service.history).toEqual(['/page4', '/page2', '/page1', '/page2']);
   });
 
   it('should return true for a valid last selection', () => {
@@ -92,13 +65,31 @@ describe('NavigationHistoryService', () => {
     expect(service.shouldReturnLastSelection('/page2')).toBeFalse();
   });
 
+  it('should return true for a valid last selection when before first relevant url and before last url there are multiple urls', () => {
+    service.history = ['/page1', '/page2', '/page3', '/page4', '/page4', '/page3'];
+
+    expect(service.shouldReturnLastSelection('/page4')).toBeTrue();
+  });
+
+  it('should return false for an invalid last selection when before first relevant url and before last url there are multiple urls', () => {
+    service.history = ['/page1', '/page2', '/page3', '/page4', '/page4', '/page3'];
+
+    expect(service.shouldReturnLastSelection('/page5')).toBeFalse();
+  });
+
+  it('should return false for an invalid last url when before first relevant url and before last url there are multiple urls', () => {
+    service.history = ['/page1', '/page2', '/page3', '/page4', '/page4', '/page5'];
+
+    expect(service.shouldReturnLastSelection('/page4')).toBeFalse();
+  });
+
   it('should initialize history with the current route', () => {
-    service.listenToRouteChanges().subscribe((event) => service.setHistory(event, 3));
+    service.listenToRouteChanges().subscribe((event) => service.setHistory(event));
     expect(service.history).toEqual(['/initial']);
   });
 
   it('should only store NavigationEnd events in history', () => {
-    service.listenToRouteChanges().subscribe((event) => service.setHistory(event, 3));
+    service.listenToRouteChanges().subscribe((event) => service.setHistory(event));
     routerEvents$.next(new NavigationStart(1, '/page-start'));
     routerEvents$.next(new NavigationEnd(1, '/page1', '/page1'));
 

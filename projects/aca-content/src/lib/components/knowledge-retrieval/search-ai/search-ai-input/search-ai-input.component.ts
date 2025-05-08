@@ -163,7 +163,7 @@ export class SearchAiInputComponent implements OnInit {
     this.modalAiService.openUnsavedChangesModal(() => this.search());
   }
 
-  search() {
+  private search(): void {
     const error = this.searchAiService.checkSearchAvailability(this.selectedNodesState);
     if (error) {
       this.notificationService.showError(error);
@@ -175,6 +175,7 @@ export class SearchAiInputComponent implements OnInit {
       this.userPreferencesService.set(this.storedNodesKey, JSON.stringify(this.selectedNodesState));
       this.store.dispatch(new SearchByTermAiAction(payload));
       this.store.dispatch(new ToggleAISearchInput(this.agentControl.value.id, this.queryControl.value));
+      this.queryControl.reset();
     }
   }
 }
