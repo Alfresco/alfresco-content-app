@@ -28,7 +28,7 @@ import { UploadService, NodesApiService } from '@alfresco/adf-content-services';
 import { ClosePreviewAction } from '@alfresco/aca-shared/store';
 import { PreviewComponent } from './preview.component';
 import { of, throwError } from 'rxjs';
-import { ContentApiService, AppHookService } from '@alfresco/aca-shared';
+import { ContentApiService, AppHookService, DocumentBasePageService, DocumentBasePageServiceMock } from '@alfresco/aca-shared';
 import { Store } from '@ngrx/store';
 import { Node } from '@alfresco/js-api';
 import { AcaViewerModule } from '../../viewer.module';
@@ -49,7 +49,13 @@ describe('PreviewComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, AcaViewerModule]
+      imports: [AppTestingModule, AcaViewerModule],
+      providers: [
+        {
+          provide: DocumentBasePageService,
+          useClass: DocumentBasePageServiceMock
+        }
+      ]
     });
 
     fixture = TestBed.createComponent(PreviewComponent);
