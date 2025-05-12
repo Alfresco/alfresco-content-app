@@ -24,22 +24,15 @@
 
 import { Router, ActivatedRoute } from '@angular/router';
 import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
-import { AuthenticationService } from '@alfresco/adf-core';
-import { UploadService, NodesApiService, DiscoveryApiService } from '@alfresco/adf-content-services';
+import { UploadService, NodesApiService } from '@alfresco/adf-content-services';
 import { ClosePreviewAction } from '@alfresco/aca-shared/store';
 import { PreviewComponent } from './preview.component';
 import { of, throwError } from 'rxjs';
-import {
-  ContentApiService,
-  AppHookService,
-  DocumentBasePageService,
-  LibTestingModule,
-  discoveryApiServiceMockValue,
-  DocumentBasePageServiceMock
-} from '@alfresco/aca-shared';
+import { ContentApiService, AppHookService, DocumentBasePageService, DocumentBasePageServiceMock } from '@alfresco/aca-shared';
 import { Store } from '@ngrx/store';
 import { Node } from '@alfresco/js-api';
 import { AcaViewerModule } from '../../viewer.module';
+import { AppTestingModule } from '../../../../../src/lib/testing/app-testing.module';
 
 const clickEvent = new MouseEvent('click');
 
@@ -56,11 +49,12 @@ describe('PreviewComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [LibTestingModule, AcaViewerModule],
+      imports: [AppTestingModule, AcaViewerModule],
       providers: [
-        { provide: DocumentBasePageService, useValue: DocumentBasePageServiceMock },
-        { provide: DiscoveryApiService, useValue: discoveryApiServiceMockValue },
-        { provide: AuthenticationService, useValue: {} }
+        {
+          provide: DocumentBasePageService,
+          useClass: DocumentBasePageServiceMock
+        }
       ]
     });
 
