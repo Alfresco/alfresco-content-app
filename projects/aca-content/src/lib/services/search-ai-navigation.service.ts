@@ -32,7 +32,10 @@ export class SearchAiNavigationService {
 
   private previousRoute = '';
 
-  constructor(private router: Router, private searchAiService: SearchAiService) {}
+  constructor(
+    private router: Router,
+    private searchAiService: SearchAiService
+  ) {}
 
   navigateToPreviousRouteOrCloseInput(): void {
     if (this.router.url.includes(this.knowledgeRetrievalRoute)) {

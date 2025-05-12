@@ -53,7 +53,12 @@ export class ActiveLinkDirective implements OnInit, AfterContentInit {
 
   private readonly destroyRef = inject(DestroyRef);
 
-  constructor(private router: Router, private element: ElementRef, private renderer: Renderer2, @Optional() private action?: ActionDirective) {}
+  constructor(
+    private router: Router,
+    private element: ElementRef,
+    private renderer: Renderer2,
+    @Optional() private action?: ActionDirective
+  ) {}
 
   ngOnInit() {
     this.router.events

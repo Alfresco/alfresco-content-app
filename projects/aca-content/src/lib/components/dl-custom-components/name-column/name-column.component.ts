@@ -60,7 +60,12 @@ export class CustomNameColumnComponent extends NameColumnComponent implements On
 
   private readonly destroy = inject(DestroyRef);
 
-  constructor(element: ElementRef, private cd: ChangeDetectorRef, private actions$: Actions, private nodesService: NodesApiService) {
+  constructor(
+    element: ElementRef,
+    private readonly cd: ChangeDetectorRef,
+    private readonly actions$: Actions,
+    private readonly nodesService: NodesApiService
+  ) {
     super(element, nodesService);
   }
 

@@ -55,7 +55,10 @@ export class ToggleFavoriteComponent implements OnInit {
   selection$: Observable<SelectionState>;
   private reloadOnRoutes: string[] = [];
 
-  constructor(private store: Store<AppStore>, private router: Router) {
+  constructor(
+    private store: Store<AppStore>,
+    private router: Router
+  ) {
     this.selection$ = this.store.select(getAppSelection);
   }
 

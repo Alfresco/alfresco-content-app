@@ -41,7 +41,11 @@ import { CustomContextMenuComponent } from './custom-context-menu.component';
 export class ContextMenuService {
   private direction: Directionality;
 
-  constructor(private injector: Injector, private overlay: Overlay, private userPreferenceService: UserPreferencesService) {
+  constructor(
+    private readonly injector: Injector,
+    private readonly overlay: Overlay,
+    private readonly userPreferenceService: UserPreferencesService
+  ) {
     this.userPreferenceService.select('textOrientation').subscribe((textOrientation) => {
       this.direction = textOrientation;
     });

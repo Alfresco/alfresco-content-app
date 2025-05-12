@@ -35,5 +35,8 @@ export class ContextMenu implements Action {
 export class CustomContextMenu implements Action {
   readonly type = ContextMenuActionTypes.CustomContextMenu;
 
-  constructor(public event: MouseEvent, public payload: ContentActionRef[] = []) {}
+  constructor(
+    public readonly event: MouseEvent,
+    public readonly payload: ContentActionRef[] = []
+  ) {}
 }

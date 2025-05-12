@@ -46,7 +46,10 @@ export class ButtonMenuComponent implements OnInit {
   @Input({ required: true })
   item: NavBarLinkRef;
 
-  constructor(private cd: ChangeDetectorRef, private overlayContainer: OverlayContainer) {
+  constructor(
+    private readonly cd: ChangeDetectorRef,
+    private readonly overlayContainer: OverlayContainer
+  ) {
     this.overlayContainer.getContainerElement().classList.add('aca-menu-panel');
   }
 

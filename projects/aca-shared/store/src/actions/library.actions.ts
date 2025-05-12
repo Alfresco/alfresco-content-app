@@ -47,7 +47,10 @@ export class CreateLibraryAction implements Action {
 export class NavigateLibraryAction implements Action {
   readonly type = LibraryActionTypes.Navigate;
 
-  constructor(public payload?: string, public route?: string) {}
+  constructor(
+    public payload?: string,
+    public route?: string
+  ) {}
 }
 
 export class UpdateLibraryAction implements Action {
@@ -59,5 +62,8 @@ export class UpdateLibraryAction implements Action {
 export class LeaveLibraryAction implements Action {
   readonly type = LibraryActionTypes.Leave;
 
-  constructor(public payload?: string, public configuration?: ModalConfiguration) {}
+  constructor(
+    public payload?: string,
+    public configuration?: ModalConfiguration
+  ) {}
 }

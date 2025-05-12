@@ -52,7 +52,10 @@ export class ActionDirective {
     this.actionClicked.next(this.action);
   }
 
-  constructor(private router: Router, private store: Store<AppStore>) {}
+  constructor(
+    private router: Router,
+    private store: Store<AppStore>
+  ) {}
   private getNavigationCommands(url: string): any[] {
     const urlTree = this.router.parseUrl(url);
     const urlSegmentGroup = urlTree.root.children[PRIMARY_OUTLET];

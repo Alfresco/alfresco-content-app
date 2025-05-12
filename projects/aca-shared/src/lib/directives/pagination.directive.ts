@@ -33,7 +33,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class PaginationDirective implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
-  constructor(private pagination: PaginationComponent, private preferences: UserPreferencesService, private config: AppConfigService) {}
+  constructor(
+    private readonly pagination: PaginationComponent,
+    private readonly preferences: UserPreferencesService,
+    private readonly config: AppConfigService
+  ) {}
 
   ngOnInit() {
     this.pagination.supportedPageSizes = this.config.get('pagination.supportedPageSizes');
