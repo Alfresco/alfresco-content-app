@@ -55,7 +55,11 @@ export class ExpansionPanelDirective implements OnInit {
 
   private readonly destroyRef = inject(DestroyRef);
 
-  constructor(private store: Store<any>, private router: Router, private expansionPanel: MatExpansionPanel) {}
+  constructor(
+    private store: Store<any>,
+    private router: Router,
+    private expansionPanel: MatExpansionPanel
+  ) {}
 
   hasActiveLinks() {
     if (this.acaExpansionPanel?.children) {

@@ -33,7 +33,11 @@ import { AlfrescoApiService, ContentVersionService } from '@alfresco/adf-content
 
 @Injectable({ providedIn: 'root' })
 export class ContentUrlService extends ContentVersionService {
-  constructor(private store: Store<AppStore>, private contentApiService: ContentApiService, alfrescoApiService: AlfrescoApiService) {
+  constructor(
+    private store: Store<AppStore>,
+    private contentApiService: ContentApiService,
+    alfrescoApiService: AlfrescoApiService
+  ) {
     super(alfrescoApiService);
   }
 

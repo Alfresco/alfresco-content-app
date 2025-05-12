@@ -42,7 +42,10 @@ export class ViewerService {
     this._customNodesOrder = customNodesOrder;
   }
 
-  constructor(private preferences: UserPreferencesService, private contentApi: ContentApiService) {}
+  constructor(
+    private preferences: UserPreferencesService,
+    private contentApi: ContentApiService
+  ) {}
 
   recentFileFilters = [
     'TYPE:"content"',

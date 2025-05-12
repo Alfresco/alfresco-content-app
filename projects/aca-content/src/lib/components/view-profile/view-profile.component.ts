@@ -62,7 +62,11 @@ export class ViewProfileComponent implements OnInit {
   contactSectionButtonsToggle = true;
   appNavNarMode$: Observable<'collapsed' | 'expanded'>;
 
-  constructor(private router: Router, apiService: AlfrescoApiService, private appService: AppService) {
+  constructor(
+    private router: Router,
+    apiService: AlfrescoApiService,
+    private appService: AppService
+  ) {
     this.peopleApi = new PeopleApi(apiService.getInstance());
     this.appNavNarMode$ = appService.appNavNarMode$.pipe(takeUntilDestroyed());
   }

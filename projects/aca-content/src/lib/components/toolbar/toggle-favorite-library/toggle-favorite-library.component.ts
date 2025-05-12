@@ -60,7 +60,11 @@ export class ToggleFavoriteLibraryComponent implements OnInit {
 
   private readonly destroyRef = inject(DestroyRef);
 
-  constructor(private store: Store<AppStore>, private appHookService: AppHookService, private router: Router) {}
+  constructor(
+    private store: Store<AppStore>,
+    private appHookService: AppHookService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     const isFavoriteLibraries = this.router.url.startsWith('/favorite/libraries');

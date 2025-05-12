@@ -54,7 +54,10 @@ export class MenuPanelDirective implements OnInit {
 
   private readonly destroyRef = inject(DestroyRef);
 
-  constructor(private store: Store<any>, private router: Router) {}
+  constructor(
+    private store: Store<any>,
+    private router: Router
+  ) {}
 
   hasActiveLinks() {
     if (this.acaMenuPanel?.children) {

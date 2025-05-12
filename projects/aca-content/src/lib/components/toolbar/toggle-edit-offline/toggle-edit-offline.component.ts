@@ -55,7 +55,11 @@ export class ToggleEditOfflineComponent implements OnInit {
   nodeTitle = '';
   isNodeLocked = false;
 
-  constructor(private store: Store<AppStore>, private alfrescoApiService: AlfrescoApiService, private extensions: AppExtensionService) {
+  constructor(
+    private store: Store<AppStore>,
+    private alfrescoApiService: AlfrescoApiService,
+    private extensions: AppExtensionService
+  ) {
     this.nodesApi = new NodesApi(this.alfrescoApiService.getInstance());
   }
 
