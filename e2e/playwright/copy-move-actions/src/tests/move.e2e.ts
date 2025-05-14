@@ -183,20 +183,11 @@ test.describe('Move actions', () => {
     expect(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolder)).toBeTruthy();
   }
 
-  [
-    {
-      id: 'XAT-4997',
-      testTitle: `Move a folder with content`,
-      lockedFile: false
-    },
-    {
-      id: 'XAT-4990',
-      testTitle: 'Move folder that contains locked file',
-      lockedFile: true
-    }
-  ].forEach((testCase) => {
-    test(`[${testCase.id}] ${testCase.testTitle}`, async ({ personalFiles }) => {
-      await moveFolderWithContent(personalFiles, testCase.lockedFile);
-    });
+  test('[XAT-4997] Move a folder with content', async ({ personalFiles }) => {
+    await moveFolderWithContent(personalFiles, false);
+  });
+
+  test('[XAT-4990] Move folder that contains locked file', async ({ personalFiles }) => {
+    await moveFolderWithContent(personalFiles, true);
   });
 });

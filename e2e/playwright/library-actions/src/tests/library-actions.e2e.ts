@@ -208,7 +208,7 @@ test.describe('Library actions ', () => {
       await myLibrariesHeader.clickMoreActions();
       await libraryMenu.clickMenuItem(favoriteButton);
       await myLibrariesHeader.clickMoreActions();
-      expect(await libraryMenu.isMenuItemVisible(removeFavoriteButton)).toBe(true);
+      expect(await libraryMenu.isMenuItemVisible(removeFavoriteButton)).toBeTruthy();
     });
 
     test('[XAT-5142] Remove a library from favorites - from My Libraries', async ({ myLibrariesPage }) => {
@@ -216,10 +216,10 @@ test.describe('Library actions ', () => {
       await libraryTable.getRowByName(user2Library2).click();
       await myLibrariesPage.page.waitForTimeout(1000);
       await myLibrariesHeader.clickMoreActions();
-      expect(await libraryMenu.isMenuItemVisible(removeFavoriteButton)).toBe(true);
+      expect(await libraryMenu.isMenuItemVisible(removeFavoriteButton)).toBeTruthy();
       await libraryMenu.clickMenuItem(removeFavoriteButton);
       await myLibrariesHeader.clickMoreActions();
-      expect(await libraryMenu.isMenuItemVisible(favoriteButton)).toBe(true);
+      expect(await libraryMenu.isMenuItemVisible(favoriteButton)).toBeTruthy();
     });
 
     test('[XAT-5145] Delete a library - from My Libraries', async ({ trashPage }) => {
@@ -290,7 +290,7 @@ test.describe('Library actions ', () => {
       await libraryTable.performActionFromExpandableMenu(adminModerateLibrary3, cancelJoinRequestButton);
       await expect.soft(snackBar.getByMessageLocator(cancelJoinRequestMessage)).toBeVisible();
       const hasJoinRequest = await user2SitesApi.hasMembershipRequest(username2, adminModerateLibrary3);
-      expect(hasJoinRequest).toBe(false);
+      expect(hasJoinRequest).toBeFalsy();
     });
 
     test('[XAT-5143] Remove a library from favorites - from Favorite Libraries', async ({ favoriteLibrariesPage }) => {
@@ -373,7 +373,7 @@ test.describe('Library actions ', () => {
       await libraryTable.performActionFromExpandableMenu(adminModerateLibrary4, cancelJoinRequestButton);
       await expect.soft(snackBar.getByMessageLocator(cancelJoinRequestMessage)).toBeVisible();
       const hasJoinRequest = await user2SitesApi.hasMembershipRequest(username2, adminModerateLibrary4);
-      expect(hasJoinRequest).toBe(false);
+      expect(hasJoinRequest).toBeFalsy();
     });
 
     test('[XAT-5141] Mark a library as favorite - from Search Results', async ({ myLibrariesPage, searchPage }) => {
@@ -390,7 +390,7 @@ test.describe('Library actions ', () => {
       await myLibrariesHeader.clickMoreActions();
       await libraryMenu.clickMenuItem(favoriteButton);
       await myLibrariesHeader.clickMoreActions();
-      expect(await libraryMenu.isMenuItemVisible(removeFavoriteButton)).toBe(true);
+      expect(await libraryMenu.isMenuItemVisible(removeFavoriteButton)).toBeTruthy();
     });
 
     test('[XAT-5144] Remove a library from favorites - from Search Results', async ({ searchPage }) => {
@@ -408,7 +408,7 @@ test.describe('Library actions ', () => {
       await searchHeader.clickMoreActions();
       await libraryMenu.clickMenuItem(removeFavoriteButton);
       await searchHeader.clickMoreActions();
-      expect(await libraryMenu.isMenuItemVisible(favoriteButton)).toBe(true);
+      expect(await libraryMenu.isMenuItemVisible(favoriteButton)).toBeTruthy();
     });
 
     test('[XAT-5147] Delete a library - from Search Results', async ({ searchPage, trashPage }) => {

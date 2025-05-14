@@ -139,27 +139,27 @@ test.describe('viewer file', () => {
 
   test('[XAT-5471] Viewer opens on double clicking on a file from Personal Files', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
-    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBeTruthy();
   });
 
   test('[XAT-5472] Viewer opens when clicking the View action for a file', async ({ personalFiles }) => {
     await personalFiles.dataTable.getRowByName(randomDocxName).click();
     await personalFiles.acaHeader.viewButton.click();
     await personalFiles.dataTable.spinnerWaitForReload();
-    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBeTruthy();
   });
 
   test('[XAT-5473] The viewer general elements are displayed correctly', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
-    expect(await personalFiles.viewer.isViewerOpened()).toBe(true);
+    expect(await personalFiles.viewer.isViewerOpened()).toBeTruthy();
     await personalFiles.dataTable.spinnerWaitForReload();
-    expect(await personalFiles.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
-    expect(await personalFiles.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
+    expect(await personalFiles.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBeTruthy();
+    expect(await personalFiles.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBeTruthy();
   });
 
   test('[XAT-5474] Close the viewer', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
-    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBeTruthy();
     expect(await personalFiles.viewer.getCloseButtonTooltip()).toEqual('Close');
     await personalFiles.viewer.closeButtonLocator.click();
     await expect(personalFiles.dataTable.getCellLinkByName(randomDocxName), 'Viewer did not close').toBeVisible();
@@ -171,9 +171,9 @@ test.describe('viewer file', () => {
     await recentFilesPage.navigate();
     await recentFilesPage.reload();
     await recentFilesPage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
-    expect(await recentFilesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-    expect(await recentFilesPage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
-    expect(await recentFilesPage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
+    expect(await recentFilesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBeTruthy();
+    expect(await recentFilesPage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBeTruthy();
+    expect(await recentFilesPage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBeTruthy();
   });
 
   test('[XAT-5482] Viewer opens for a file from Search Results', async ({ personalFiles, searchPage }) => {
@@ -183,16 +183,16 @@ test.describe('viewer file', () => {
     await searchPage.searchOverlay.searchFor(randomDocxName);
     await searchPage.dataTable.goThroughPagesLookingForRowWithName(randomDocxName);
     await searchPage.searchInput.performDoubleClickFolderOrFileToOpen(randomDocxName);
-    expect(await searchPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-    expect(await searchPage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
-    expect(await searchPage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
+    expect(await searchPage.viewer.isViewerOpened(), 'Viewer is not opened').toBeTruthy();
+    expect(await searchPage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBeTruthy();
+    expect(await searchPage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBeTruthy();
   });
 
   test('[XAT-5476] Viewer opens when accessing the preview URL for a file', async ({ personalFiles }) => {
     const previewURL = `#/personal-files/${folderId}/(viewer:view/${fileDocxId})`;
     await personalFiles.navigate({ remoteUrl: previewURL });
     await personalFiles.dataTable.spinnerWaitForReload();
-    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBeTruthy();
     await expect(personalFiles.viewer.fileTitleButtonLocator).toHaveText(randomDocxName);
   });
 
@@ -201,18 +201,18 @@ test.describe('viewer file', () => {
     await sharedPage.reload({ waitUntil: 'domcontentloaded' });
     await sharedPage.dataTable.goThroughPagesLookingForRowWithName(randomDocxName);
     await sharedPage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
-    expect(await sharedPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-    expect(await sharedPage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
-    expect(await sharedPage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
+    expect(await sharedPage.viewer.isViewerOpened(), 'Viewer is not opened').toBeTruthy();
+    expect(await sharedPage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBeTruthy();
+    expect(await sharedPage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBeTruthy();
   });
 
   test('[XAT-5481] Viewer opens for a file from Favorites', async ({ favoritePage }) => {
     await favoritePage.navigate({ waitUntil: 'domcontentloaded' });
     await favoritePage.dataTable.goThroughPagesLookingForRowWithName(randomDocxName);
     await favoritePage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
-    expect(await favoritePage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-    expect(await favoritePage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
-    expect(await favoritePage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
+    expect(await favoritePage.viewer.isViewerOpened(), 'Viewer is not opened').toBeTruthy();
+    expect(await favoritePage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBeTruthy();
+    expect(await favoritePage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBeTruthy();
   });
 
   test('[XAT-5477] Viewer does not open when accessing the preview URL for a file without permissions', async ({ personalFiles }) => {
@@ -225,8 +225,8 @@ test.describe('viewer file', () => {
     await myLibrariesPage.navigate();
     await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(siteUser);
     await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(fileInSite);
-    expect(await myLibrariesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-    expect(await myLibrariesPage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
-    expect(await myLibrariesPage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
+    expect(await myLibrariesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBeTruthy();
+    expect(await myLibrariesPage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBeTruthy();
+    expect(await myLibrariesPage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBeTruthy();
   });
 });

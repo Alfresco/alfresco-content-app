@@ -60,7 +60,7 @@ test.describe('Upload files', () => {
 
   test('[XAT-5279] Upload a file / multiple files', async ({ personalFiles }) => {
     const uploadedFiles = await personalFiles.dataTable.isItemPresent(TEST_FILES.JPG_FILE.name);
-    expect(uploadedFiles, 'Uploaded file was not present in data table').toBe(true);
+    expect(uploadedFiles, 'Uploaded file was not present in data table').toBeTruthy();
   });
 
   test('[XAT-17778] The upload dialog can be closed', async ({ personalFiles }) => {

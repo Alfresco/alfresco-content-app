@@ -91,7 +91,7 @@ test.describe('viewer file types', () => {
     fileType: 'viewerImage' | 'viewerDocument' | 'viewerMedia' = 'viewerImage'
   ) {
     await page.dataTable.performClickFolderOrFileToOpen(fileName);
-    expect(await page.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    expect(await page.viewer.isViewerOpened(), 'Viewer is not opened').toBeTruthy();
     await page.viewer.waitForViewerLoaderToFinish();
 
     const viewerElements = {
@@ -146,7 +146,7 @@ test.describe('viewer file types', () => {
 
   test('[XAT-5485] User can select a document page through the thumbnail pane', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomPdfName);
-    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBeTruthy();
     await personalFiles.viewer.documentThumbnailButton.click();
     await expect(personalFiles.viewer.thumbnailsPages.first()).toBeVisible();
     await personalFiles.viewer.checkViewerActivePage(1);
@@ -156,7 +156,7 @@ test.describe('viewer file types', () => {
 
   test('[XAT-5486] User can close the thumbnail pane', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomPdfName);
-    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBeTruthy();
     await personalFiles.viewer.documentThumbnailButton.click();
     await expect(personalFiles.viewer.thumbnailsPages.first()).toBeVisible();
     await personalFiles.viewer.thumbnailsCloseButton.click();

@@ -245,7 +245,7 @@ test.describe('Create file from template', () => {
         await expect(createFileFromTemplateDialog.getDialogLabel(nameLabel)).toHaveValue(emptyString);
         expect
           .soft(await createFileFromTemplateDialog.isErrorMessageDisplayed(errorStrings.nameIsRequiredError), errorStrings.errorMessageNotPresent)
-          .toBe(true);
+          .toBeTruthy();
         await expect(createFileFromTemplateDialog.createButton).toBeDisabled();
       });
 
@@ -261,7 +261,7 @@ test.describe('Create file from template', () => {
               await createFileFromTemplateDialog.isErrorMessageDisplayed(errorStrings.nameWithSpecialCharactersError),
               errorStrings.errorMessageNotPresent
             )
-            .toBe(true);
+            .toBeTruthy();
           await expect(createFileFromTemplateDialog.createButton).toBeDisabled();
         }
       });
@@ -272,7 +272,7 @@ test.describe('Create file from template', () => {
         await expect(createFileFromTemplateDialog.getDialogLabel(nameLabel)).toHaveValue(template1InRoot + dotString);
         expect
           .soft(await createFileFromTemplateDialog.isErrorMessageDisplayed(errorStrings.nameEndWithDotError), errorStrings.errorMessageNotPresent)
-          .toBe(true);
+          .toBeTruthy();
         await expect(createFileFromTemplateDialog.createButton).toBeDisabled();
       });
 
@@ -286,7 +286,7 @@ test.describe('Create file from template', () => {
             await createFileFromTemplateDialog.isErrorMessageDisplayed(errorStrings.nameContainOnlySpacesError),
             errorStrings.errorMessageNotPresent
           )
-          .toBe(true);
+          .toBeTruthy();
         await expect(createFileFromTemplateDialog.createButton).toBeDisabled();
       });
 
@@ -296,7 +296,7 @@ test.describe('Create file from template', () => {
         await expect(createFileFromTemplateDialog.getDialogLabel(titleLabel)).toHaveValue(Utils.string257Long);
         expect
           .soft(await createFileFromTemplateDialog.isErrorMessageDisplayed(errorStrings.titleLengthLimitError), errorStrings.errorMessageNotPresent)
-          .toBe(true);
+          .toBeTruthy();
         await expect(createFileFromTemplateDialog.createButton).toBeDisabled();
       });
 
@@ -309,7 +309,7 @@ test.describe('Create file from template', () => {
             await createFileFromTemplateDialog.isErrorMessageDisplayed(errorStrings.descriptionLengthLimitError),
             errorStrings.errorMessageNotPresent
           )
-          .toBe(true);
+          .toBeTruthy();
         await expect(createFileFromTemplateDialog.createButton).toBeDisabled();
       });
 

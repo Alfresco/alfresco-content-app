@@ -95,12 +95,12 @@ test.describe('viewer file', () => {
     await personalFiles.dataTable.getRowByName(randomDocxName).click();
     await personalFiles.acaHeader.viewButton.click();
     await personalFiles.dataTable.spinnerWaitForReload();
-    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBeTruthy();
   });
 
   test('[XAT-17737] Check action for viewer to close', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
-    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBeTruthy();
     expect(await personalFiles.viewer.getCloseButtonTooltip()).toEqual('Close');
     await personalFiles.viewer.closeButtonLocator.click();
     await expect(personalFiles.dataTable.getCellLinkByName(randomDocxName), 'Viewer did not close').toBeVisible();
@@ -110,7 +110,7 @@ test.describe('viewer file', () => {
     const previewURL = `#/personal-files/${folderId}/(viewer:view/${fileDocxId})`;
     await personalFiles.navigate({ remoteUrl: previewURL });
     await personalFiles.dataTable.spinnerWaitForReload();
-    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBeTruthy();
     await expect(personalFiles.viewer.fileTitleButtonLocator).toHaveText(randomDocxName);
   });
 });

@@ -102,7 +102,7 @@ test.describe('viewer action file', () => {
     await personalFiles.dataTable.getCellLinkByName(randomDocxName).waitFor({ state: 'attached' });
     await expect(personalFiles.dataTable.getCellLinkByName(randomDocxDelete), 'file should not visible').toBeHidden();
     await trashPage.navigate({ waitUntil: 'domcontentloaded' });
-    expect(await trashPage.dataTable.isItemPresent(randomDocxDelete), 'Item should be present in Trash').toBe(true);
+    expect(await trashPage.dataTable.isItemPresent(randomDocxDelete), 'Item should be present in Trash').toBeTruthy();
   });
 
   test('[XAT-5423] Viewer - Edit Offline action - Personal Files', async ({ personalFiles }) => {
@@ -115,9 +115,9 @@ test.describe('viewer action file', () => {
     await personalFiles.acaHeader.downloadButtonViewer.click();
     const download = await downloadPromise;
     expect(download.suggestedFilename(), 'File should found in download location').toBe(fileForEditOffline);
-    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is closed after pressing Full screen').toBe(true);
+    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is closed after pressing Full screen').toBeTruthy();
     await personalFiles.acaHeader.clickViewerMoreActions();
-    expect(await personalFiles.matMenu.isMenuItemVisible('Cancel Editing'), 'Cancel Editing menu should be visible').toBe(true);
+    expect(await personalFiles.matMenu.isMenuItemVisible('Cancel Editing'), 'Cancel Editing menu should be visible').toBeTruthy();
   });
 
   test('[XAT-5424] Viewer - Cancel Editing action - Personal Files', async ({ personalFiles }) => {
@@ -126,14 +126,14 @@ test.describe('viewer action file', () => {
     await personalFiles.acaHeader.clickViewerMoreActions();
     await personalFiles.matMenu.clickMenuItem('Cancel Editing');
     await personalFiles.acaHeader.clickViewerMoreActions();
-    expect(await personalFiles.matMenu.isMenuItemVisible('Edit Offline'), 'Edit offline menu should be visible').toBe(true);
+    expect(await personalFiles.matMenu.isMenuItemVisible('Edit Offline'), 'Edit offline menu should be visible').toBeTruthy();
   });
 
   test('[XAT-5415] Full screen action', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
     await personalFiles.viewer.waitForViewerToOpen();
     await personalFiles.acaHeader.fullScreenButton.click();
-    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is closed after pressing Full screen').toBe(true);
+    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is closed after pressing Full screen').toBeTruthy();
   });
 
   test('[XAT-5416] Pressing ESC in the viewer closes only the action dialog', async ({ personalFiles }) => {
@@ -141,16 +141,16 @@ test.describe('viewer action file', () => {
     await personalFiles.viewer.waitForViewerToOpen();
     await personalFiles.acaHeader.clickViewerMoreActions();
     await personalFiles.viewerDialog.clickActionsCopy();
-    expect(await personalFiles.viewerDialog.isCopyDialogOpen(), 'Dialog is not open').toBe(true);
+    expect(await personalFiles.viewerDialog.isCopyDialogOpen(), 'Dialog is not open').toBeTruthy();
     await personalFiles.page.keyboard.press('Escape');
-    expect(await personalFiles.viewerDialog.isCopyDialogClose(), 'Dialog is not open').toBe(false);
-    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer should be opened').toBe(true);
+    expect(await personalFiles.viewerDialog.isCopyDialogClose(), 'Dialog is not open').toBeFalsy();
+    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer should be opened').toBeTruthy();
   });
 
   test('[XAT-5442] Favorite action from Shared Files', async ({ sharedPage, favoritePage }) => {
     await sharedPage.navigate({ waitUntil: 'domcontentloaded' });
     await sharedPage.dataTable.performClickFolderOrFileToOpen(randomDocxNameShare);
-    expect(await sharedPage.viewer.isViewerOpened(), 'Viewer should be opened').toBe(true);
+    expect(await sharedPage.viewer.isViewerOpened(), 'Viewer should be opened').toBeTruthy();
 
     await sharedPage.acaHeader.clickViewerMoreActions();
 
@@ -163,13 +163,13 @@ test.describe('viewer action file', () => {
     await expect(sharedPage.viewerDialog.removeFavoriteMenuButton, 'Item should be remove favorite').toBeVisible();
     await sharedPage.page.keyboard.press('Escape');
     await favoritePage.navigate({ waitUntil: 'domcontentloaded' });
-    expect(await favoritePage.dataTable.isItemPresent(randomDocxNameShare), 'Item is not present in Favorites list').toBe(true);
+    expect(await favoritePage.dataTable.isItemPresent(randomDocxNameShare), 'Item is not present in Favorites list').toBeTruthy();
   });
 
   test('[XAT-5462] Share action from Favorites', async ({ favoritePage }) => {
     await favoritePage.navigate({ waitUntil: 'domcontentloaded' });
     await favoritePage.dataTable.performClickFolderOrFileToOpen(randomDocxNameFavorite);
-    expect(await favoritePage.viewer.isViewerOpened(), 'Viewer should be opened').toBe(true);
+    expect(await favoritePage.viewer.isViewerOpened(), 'Viewer should be opened').toBeTruthy();
     await favoritePage.viewer.shareButton.waitFor({ state: 'attached', timeout: timeouts.normal });
     await favoritePage.viewer.shareButton.click();
     await favoritePage.viewerDialog.shareDialogTitle.waitFor({ state: 'attached', timeout: timeouts.normal });
@@ -190,7 +190,7 @@ test.describe('viewer action file', () => {
     await personalFiles.uploadNewVersionDialog.uploadButton.click();
     await personalFiles.uploadNewVersionDialog.uploadButton.waitFor({ state: 'detached' });
     await expect(personalFiles.uploadNewVersionDialog.cancelButton).toHaveCount(0);
-    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not open').toBe(true);
+    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not open').toBeTruthy();
     await Utils.waitForApiResponse(personalFiles, 'content', 200);
 
     expect(await personalFiles.viewer.getFileTitle()).toContain(docxFile2);
@@ -220,7 +220,7 @@ test.describe('viewer action file', () => {
   test('[XAT-5448] Copy action from Recent Files', async ({ recentFilesPage, personalFiles }) => {
     await recentFilesPage.navigate();
     await recentFilesPage.dataTable.performClickFolderOrFileToOpen(docxRecentFiles);
-    expect(await recentFilesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    expect(await recentFilesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBeTruthy();
 
     await recentFilesPage.acaHeader.clickViewerMoreActions();
     await recentFilesPage.matMenu.clickMenuItem('Copy');
@@ -231,6 +231,6 @@ test.describe('viewer action file', () => {
     expect(await recentFilesPage.snackBar.message.innerText()).toContain('Copied 1 item');
     await recentFilesPage.viewer.closeButtonLocator.click();
     await personalFiles.navigate({ remoteUrl: `#/personal-files/${destinationId}` });
-    expect(await personalFiles.dataTable.isItemPresent(docxRecentFiles), 'Item is not present in destination').toBe(true);
+    expect(await personalFiles.dataTable.isItemPresent(docxRecentFiles), 'Item is not present in destination').toBeTruthy();
   });
 });

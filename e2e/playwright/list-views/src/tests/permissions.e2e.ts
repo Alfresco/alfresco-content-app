@@ -100,7 +100,7 @@ test.describe('Special permissions', () => {
       expect(await recentFilesPage.dataTable.getRowsCount(), 'Incorrect number of items').toBeGreaterThanOrEqual(1);
       await siteApiAdmin.deleteSiteMember(sitePrivate, username);
       await recentFilesPage.reload();
-      expect(await recentFilesPage.dataTable.isItemPresent(fileName), 'Items are still displayed').toBe(false);
+      expect(await recentFilesPage.dataTable.isItemPresent(fileName), 'Items are still displayed').toBeFalsy();
     });
 
     test('[XAT-4455] Favorites - File is not displayed if the user no longer has permissions on it', async ({ favoritePage }) => {
@@ -108,7 +108,7 @@ test.describe('Special permissions', () => {
       expect(await favoritePage.dataTable.getRowsCount(), 'Incorrect number of items').toBe(1);
       await siteApiAdmin.deleteSiteMember(sitePrivate, username);
       await favoritePage.reload();
-      expect(await favoritePage.dataTable.isEmpty(), 'Items are still displayed').toBe(true);
+      expect(await favoritePage.dataTable.isEmpty(), 'Items are still displayed').toBeTruthy();
     });
 
     test(`[XAT-4433] Shared file that the user doesn't have permission to view is not displayed in the list`, async ({ sharedPage }) => {
@@ -179,7 +179,7 @@ test.describe('Special permissions', () => {
       recentFilesPage
     }) => {
       await recentFilesPage.navigate();
-      expect(await recentFilesPage.dataTable.isItemPresent(fileName)).toBe(true);
+      expect(await recentFilesPage.dataTable.isItemPresent(fileName)).toBeTruthy();
       expect(await recentFilesPage.dataTable.getItemLocationText(fileName)).toEqual('Unknown');
     });
 

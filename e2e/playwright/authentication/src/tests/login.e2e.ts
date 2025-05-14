@@ -65,9 +65,9 @@ test.describe('viewer file', () => {
       await expect(loginPage.password, 'password input is not enabled').toBeEnabled();
       await expect(loginPage.submitButton, 'SIGN IN button is enabled').toBeDisabled();
       await loginPage.password.fill('text');
-      expect(await loginPage.isPasswordDisplayed(), 'Password is not hidden by default').toBe(false);
+      expect(await loginPage.isPasswordDisplayed(), 'Password is not hidden by default').toBeFalsy();
       await loginPage.passwordVisibility.click();
-      expect(await loginPage.isPasswordDisplayed(), 'Password is not visible on show password').toBe(true);
+      expect(await loginPage.isPasswordDisplayed(), 'Password is not visible on show password').toBeTruthy();
     });
   });
 

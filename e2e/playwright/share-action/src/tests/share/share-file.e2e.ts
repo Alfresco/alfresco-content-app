@@ -138,11 +138,11 @@ test.describe('Share a file', () => {
         expect(labels[0].trim()).toBe(`Share ${file3}`);
         expect(await personalFiles.shareDialog.getInfoText()).toEqual('Share Link');
         expect(await personalFiles.shareDialog.getLinkUrl()).toContain(shareLinkPreUrl);
-        expect(await personalFiles.shareDialog.isUrlReadOnly()).toBe(true);
-        expect(await personalFiles.shareDialog.isShareToggleChecked()).toBe(true);
+        expect(await personalFiles.shareDialog.isUrlReadOnly()).toBeTruthy();
+        expect(await personalFiles.shareDialog.isShareToggleChecked()).toBeTruthy();
         expect(labels[1].trim()).toBe('Link Expiry Date');
-        expect(await personalFiles.shareDialog.isExpireToggleEnabled()).toBe(false);
-        expect(await personalFiles.shareDialog.isCloseEnabled()).toBe(true);
+        expect(await personalFiles.shareDialog.isExpireToggleEnabled()).toBeFalsy();
+        expect(await personalFiles.shareDialog.isCloseEnabled()).toBeTruthy();
       });
 
       test('[XAT-5151] Share a file', async ({ personalFiles, nodesApiAction }) => {
@@ -180,10 +180,10 @@ test.describe('Share a file', () => {
         await personalFiles.dataTable.performActionFromExpandableMenu(file5, 'Share');
 
         await personalFiles.shareDialog.expireToggle.click();
-        expect(await personalFiles.shareDialog.isExpireToggleEnabled()).toBe(true);
+        expect(await personalFiles.shareDialog.isExpireToggleEnabled()).toBeTruthy();
 
         await personalFiles.shareDialog.datetimePickerButton.click();
-        expect(await personalFiles.shareDialog.dateTimePicker.isCalendarOpen()).toBe(true);
+        expect(await personalFiles.shareDialog.dateTimePicker.isCalendarOpen()).toBeTruthy();
 
         await personalFiles.shareDialog.dateTimePicker.pickDateTime();
 
@@ -199,18 +199,18 @@ test.describe('Share a file', () => {
         const expireProperty = await nodesApiAction.getNodeProperty(file6Id, 'qshare:expiryDate');
 
         expect(expireProperty).toEqual(expiryDate);
-        expect(await personalFiles.shareDialog.isExpireToggleEnabled()).toBe(true);
+        expect(await personalFiles.shareDialog.isExpireToggleEnabled()).toBeTruthy();
         expect(Utils.formatDate(await personalFiles.shareDialog.getExpireDate())).toEqual(Utils.formatDate(expiryDate));
       });
 
       test('[XAT-5155] Disable the share link expiration', async ({ personalFiles, nodesApiAction, page }) => {
         await personalFiles.dataTable.performActionFromExpandableMenu(file7, 'Share');
 
-        expect(await personalFiles.shareDialog.isExpireToggleEnabled()).toBe(true);
+        expect(await personalFiles.shareDialog.isExpireToggleEnabled()).toBeTruthy();
         expect(await personalFiles.shareDialog.getExpireDate()).not.toBe('');
 
         await personalFiles.shareDialog.expireToggle.click();
-        expect(await personalFiles.shareDialog.isExpireToggleEnabled()).toBe(false);
+        expect(await personalFiles.shareDialog.isExpireToggleEnabled()).toBeFalsy();
 
         await page.waitForTimeout(timeouts.tiny);
         await personalFiles.shareDialog.clickClose();
@@ -237,7 +237,7 @@ test.describe('Share a file', () => {
         await personalFiles.shareDialog.clickClose();
 
         const sharedId = await nodesApiAction.getNodeProperty(file9Id, 'qshare:sharedId');
-        expect(await nodesApiAction.isFileShared(file9Id)).toBe(true);
+        expect(await nodesApiAction.isFileShared(file9Id)).toBeTruthy();
         expect(url).toContain(sharedId);
       });
     });

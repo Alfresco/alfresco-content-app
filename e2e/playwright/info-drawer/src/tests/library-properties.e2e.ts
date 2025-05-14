@@ -142,7 +142,7 @@ test.describe('Library properties', () => {
 
     await myLibrariesPage.libraryDetails.updateButton.click();
     await expect(myLibrariesPage.snackBar.message).toHaveText('Library properties updated');
-    expect(await myLibrariesPage.dataTable.isItemPresent(siteUpdated.name)).toBe(true);
+    expect(await myLibrariesPage.dataTable.isItemPresent(siteUpdated.name)).toBeTruthy();
     await expect(myLibrariesPage.libraryDetails.infoDrawerPanel).toBeHidden();
     expect((await sitesApi.getSite(siteForUpdate.id)).entry.title).toEqual(siteUpdated.name);
     expect((await sitesApi.getSite(siteForUpdate.id)).entry.description).toEqual(siteUpdated.description);
@@ -167,8 +167,8 @@ test.describe('Library properties', () => {
     await expect(myLibrariesPage.libraryDetails.updateButton).toBeEnabled();
 
     await myLibrariesPage.libraryDetails.cancelButton.click();
-    expect(await myLibrariesPage.dataTable.isItemPresent(newName)).toBe(false);
-    expect(await myLibrariesPage.dataTable.isItemPresent(site.name)).toBe(true);
+    expect(await myLibrariesPage.dataTable.isItemPresent(newName)).toBeFalsy();
+    expect(await myLibrariesPage.dataTable.isItemPresent(site.name)).toBeTruthy();
     await expect(myLibrariesPage.libraryDetails.infoDrawerPanel).toBeVisible();
   });
 

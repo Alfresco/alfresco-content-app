@@ -129,7 +129,7 @@ test.describe('Upload new version', () => {
       await searchPage.uploadNewVersionDialog.description.fill('new version description');
       await searchPage.uploadNewVersionDialog.cancelButton.click();
 
-      expect(await searchPage.dataTable.isItemPresent(fileSearch3)).toBe(true);
+      expect(await searchPage.dataTable.isItemPresent(fileSearch3)).toBeTruthy();
       expect(await nodesApi.getNodeProperty(fileSearch3Id, 'cm:versionLabel'), 'File has incorrect version label').toEqual('1.0');
       expect(await nodesApi.getNodeProperty(fileSearch3Id, 'cm:versionType'), 'File has incorrect version type').toEqual('MAJOR');
     });
@@ -159,7 +159,7 @@ test.describe('Upload new version', () => {
 
       const message = await personalFiles.snackBar.message.innerText();
       expect(message).toContain('New version not uploaded, another file with the same name already exists');
-      expect(await personalFiles.dataTable.isItemPresent(file1)).toBe(true);
+      expect(await personalFiles.dataTable.isItemPresent(file1)).toBeTruthy();
       expect(await nodesApi.getNodeProperty(file1Id, 'cm:versionLabel')).toEqual('1.0');
       expect(await nodesApi.getNodeProperty(file1Id, 'cm:versionType')).toEqual('MAJOR');
     });
@@ -170,7 +170,7 @@ test.describe('Upload new version', () => {
       await personalFiles.uploadNewVersionDialog.description.fill('new version description');
       await personalFiles.uploadNewVersionDialog.uploadButton.click();
 
-      expect(await personalFiles.dataTable.isItemPresent(fileToUpload1), 'File was not updated').toBe(true);
+      expect(await personalFiles.dataTable.isItemPresent(fileToUpload1), 'File was not updated').toBeTruthy();
       expect(await nodesApi.getNodeProperty(fileLocked1Id, 'cm:lockType'), `${fileLocked1} is still locked`).not.toEqual('WRITE_LOCK');
       expect(await nodesApi.getNodeProperty(fileLocked1Id, 'cm:versionType'), 'File has incorrect version type').toEqual('MINOR');
       expect(await nodesApi.getNodeProperty(fileLocked1Id, 'cm:versionLabel'), 'File has incorrect version label').toEqual('1.1');
@@ -180,7 +180,7 @@ test.describe('Upload new version', () => {
       await uploadNewVersion(personalFiles, fileLocked2, TEST_FILES.DOCX2.path);
       await personalFiles.uploadNewVersionDialog.cancelButton.click();
 
-      expect(await personalFiles.dataTable.isItemPresent(fileLocked2), 'File not displayed').toBe(true);
+      expect(await personalFiles.dataTable.isItemPresent(fileLocked2), 'File not displayed').toBeTruthy();
       expect(await nodesApi.getNodeProperty(fileLocked2Id, 'cm:lockType'), `${fileLocked2} was unlocked`).toEqual('WRITE_LOCK');
     });
   });

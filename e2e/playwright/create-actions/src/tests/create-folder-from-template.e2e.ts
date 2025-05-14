@@ -272,7 +272,7 @@ test.describe('Create folder from template', () => {
         await expect(createFolderFromTemplateDialog.getDialogLabel(nameLabel)).toHaveValue(emptyString);
         expect
           .soft(await createFolderFromTemplateDialog.isErrorMessageDisplayed(errorStrings.nameIsRequiredError), errorStrings.errorMessageNotPresent)
-          .toBe(true);
+          .toBeTruthy();
         await expect(createFolderFromTemplateDialog.createButton).toBeDisabled();
       });
 
@@ -288,7 +288,7 @@ test.describe('Create folder from template', () => {
               await createFolderFromTemplateDialog.isErrorMessageDisplayed(errorStrings.nameWithSpecialCharactersError),
               errorStrings.errorMessageNotPresent
             )
-            .toBe(true);
+            .toBeTruthy();
           await expect(createFolderFromTemplateDialog.createButton).toBeDisabled();
         }
       });
@@ -299,7 +299,7 @@ test.describe('Create folder from template', () => {
         await expect(createFolderFromTemplateDialog.getDialogLabel(nameLabel)).toHaveValue(templateFolder1 + dotString);
         expect
           .soft(await createFolderFromTemplateDialog.isErrorMessageDisplayed(errorStrings.nameEndWithDotError), errorStrings.errorMessageNotPresent)
-          .toBe(true);
+          .toBeTruthy();
         await expect(createFolderFromTemplateDialog.createButton).toBeDisabled();
       });
 
@@ -313,7 +313,7 @@ test.describe('Create folder from template', () => {
             await createFolderFromTemplateDialog.isErrorMessageDisplayed(errorStrings.nameContainOnlySpacesError),
             errorStrings.errorMessageNotPresent
           )
-          .toBe(true);
+          .toBeTruthy();
         await expect(createFolderFromTemplateDialog.createButton).toBeDisabled();
       });
 
@@ -323,7 +323,7 @@ test.describe('Create folder from template', () => {
         await expect(createFolderFromTemplateDialog.getDialogLabel(titleLabel)).toHaveValue(Utils.string257Long);
         expect
           .soft(await createFolderFromTemplateDialog.isErrorMessageDisplayed(errorStrings.titleLengthLimitError), errorStrings.errorMessageNotPresent)
-          .toBe(true);
+          .toBeTruthy();
         await expect(createFolderFromTemplateDialog.createButton).toBeDisabled();
       });
 
@@ -336,7 +336,7 @@ test.describe('Create folder from template', () => {
             await createFolderFromTemplateDialog.isErrorMessageDisplayed(errorStrings.descriptionLengthLimitError),
             errorStrings.errorMessageNotPresent
           )
-          .toBe(true);
+          .toBeTruthy();
         await expect(createFolderFromTemplateDialog.createButton).toBeDisabled();
       });
 

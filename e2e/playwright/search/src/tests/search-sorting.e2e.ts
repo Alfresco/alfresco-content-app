@@ -145,7 +145,7 @@ test.describe('Search sorting', () => {
     await searchPage.searchWithin(`search-sort *${random}`, 'files');
     await searchPage.searchSortingPicker.actionMenu.click();
 
-    expect(await searchPage.searchSortingPicker.isSortOrderButtonDisplayed()).toBe(true);
+    expect(await searchPage.searchSortingPicker.isSortOrderButtonDisplayed()).toBeTruthy();
 
     await searchPage.searchSortingPicker.clickSortByDropdown();
 

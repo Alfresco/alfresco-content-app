@@ -123,7 +123,7 @@ test.describe('Unshare a file from Search Results', () => {
     await personalFiles.acaHeader.shareButton.click();
     await personalFiles.viewerDialog.shareDialogTitle.waitFor({ state: 'attached', timeout: timeouts.normal });
 
-    expect(await personalFiles.shareDialog.isShareToggleChecked()).toBe(true);
+    expect(await personalFiles.shareDialog.isShareToggleChecked()).toBeTruthy();
     await personalFiles.shareDialog.shareToggle.click();
 
     await expect(personalFiles.confirmDialog.getDialogTitle('Remove this shared link')).toBeVisible();
@@ -150,7 +150,7 @@ test.describe('Unshare a file from Search Results', () => {
     await page.goto(url);
     await personalFiles.viewer.waitForViewerToOpen();
     await expect(personalFiles.viewer.fileTitleButtonLocator).not.toHaveText(file2);
-    expect(await nodesApiAction.isFileShared(file2Id)).toBe(false);
+    expect(await nodesApiAction.isFileShared(file2Id)).toBeFalsy();
   });
 
   test('[XAT-5199] Cancel the Unshare action', async ({ personalFiles, searchPage }) => {
@@ -165,7 +165,7 @@ test.describe('Unshare a file from Search Results', () => {
     const urlBefore = await personalFiles.shareDialog.getLinkUrl();
     await personalFiles.shareDialog.shareToggle.click();
     await personalFiles.confirmDialog.cancelButton.click();
-    expect(await personalFiles.shareDialog.isShareToggleChecked()).toBe(true);
+    expect(await personalFiles.shareDialog.isShareToggleChecked()).toBeTruthy();
 
     const urlAfter = await personalFiles.shareDialog.getLinkUrl();
     expect(urlBefore).toEqual(urlAfter);
@@ -187,7 +187,7 @@ test.describe('Unshare a file from Search Results', () => {
     await page.goto(url);
     await personalFiles.viewer.waitForViewerToOpen();
     expect(personalFiles.viewer.fileTitleButtonLocator.textContent()).not.toEqual(file4);
-    expect(await nodesApiAction.isFileShared(file4Id)).toBe(false);
+    expect(await nodesApiAction.isFileShared(file4Id)).toBeFalsy();
   });
 
   test('[XAT-5227] Unshare a file as consumer - file shared by other user - Search Page', async ({ personalFiles, searchPage, nodesApiAction }) => {
@@ -199,10 +199,10 @@ test.describe('Unshare a file from Search Results', () => {
     await personalFiles.dataTable.selectItems(fileSite1);
     await personalFiles.acaHeader.shareButton.click();
 
-    expect(await personalFiles.shareDialog.isShareToggleChecked()).toBe(true);
+    expect(await personalFiles.shareDialog.isShareToggleChecked()).toBeTruthy();
     await personalFiles.shareDialog.shareToggle.click();
     await personalFiles.confirmDialog.okButton.click();
-    expect(await nodesApiAction.isFileShared(fileSite2Id)).toBe(true);
+    expect(await nodesApiAction.isFileShared(fileSite2Id)).toBeTruthy();
   });
 
   test('[XAT-5228] Unshare a file as consumer - file shared by the user - Search Page', async ({
@@ -218,11 +218,11 @@ test.describe('Unshare a file from Search Results', () => {
 
     await personalFiles.dataTable.selectItems(fileSite2);
     await personalFiles.acaHeader.shareButton.click();
-    expect(await personalFiles.shareDialog.isShareToggleChecked()).toBe(true);
+    expect(await personalFiles.shareDialog.isShareToggleChecked()).toBeTruthy();
 
     await personalFiles.shareDialog.shareToggle.click();
     await personalFiles.confirmDialog.okButton.click();
     await page.waitForTimeout(timeouts.tiny);
-    expect(await nodesApiAction.isFileShared(fileSite2Id)).toBe(false);
+    expect(await nodesApiAction.isFileShared(fileSite2Id)).toBeFalsy();
   });
 });

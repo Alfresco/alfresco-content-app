@@ -61,7 +61,7 @@ test.describe('Empty list views', () => {
 
   test('[XAT-4402] Empty My Libraries', async ({ myLibrariesPage }) => {
     await myLibrariesPage.navigate();
-    expect(await myLibrariesPage.dataTable.isEmpty(), 'list is not empty').toBe(true);
+    expect(await myLibrariesPage.dataTable.isEmpty(), 'list is not empty').toBeTruthy();
     expect(await myLibrariesPage.dataTable.getEmptyStateTitle()).toContain(`You aren't a member of any File Libraries yet`);
     expect(await myLibrariesPage.dataTable.getEmptyStateSubtitle()).toContain('Join libraries to upload, view, and share files.');
   });
@@ -90,12 +90,12 @@ test.describe('Empty list views', () => {
 
   test('[XAT-4581] Trash - Pagination control is not displayed on empty page load', async ({ trashPage }) => {
     await trashPage.navigate();
-    expect(await trashPage.dataTable.isEmpty(), 'list is not empty').toBe(true);
+    expect(await trashPage.dataTable.isEmpty(), 'list is not empty').toBeTruthy();
     expect(await trashPage.dataTable.getEmptyStateTitle()).toContain('Trash is empty');
     expect(await trashPage.dataTable.getEmptyListText()).toContain('Items you delete are moved to the Trash.');
     expect(await trashPage.dataTable.getEmptyListText()).toContain('Empty Trash to permanently delete items.');
-    expect(await trashPage.pagination.isRangePresent(), 'Range is present').toBe(false);
-    expect(await trashPage.pagination.isMaxItemsPresent(), 'Max items is present').toBe(false);
+    expect(await trashPage.pagination.isRangePresent(), 'Range is present').toBeFalsy();
+    expect(await trashPage.pagination.isMaxItemsPresent(), 'Max items is present').toBeFalsy();
   });
 
   test('[XAT-4590] Search Page - Pagination control is not displayed on empty page load', async ({ personalFiles, searchPage }) => {
@@ -106,9 +106,9 @@ test.describe('Empty list views', () => {
     await searchPage.reload({ waitUntil: 'domcontentloaded' });
     await searchPage.dataTable.spinnerWaitForReload();
 
-    expect(await personalFiles.pagination.isRangePresent(), 'Range is present').toBe(false);
-    expect(await personalFiles.pagination.isMaxItemsPresent(), 'Max items is present').toBe(false);
-    expect(await personalFiles.dataTable.isEmpty(), 'list is not empty').toBe(true);
+    expect(await personalFiles.pagination.isRangePresent(), 'Range is present').toBeFalsy();
+    expect(await personalFiles.pagination.isMaxItemsPresent(), 'Max items is present').toBeFalsy();
+    expect(await personalFiles.dataTable.isEmpty(), 'list is not empty').toBeTruthy();
     expect(await personalFiles.dataTable.emptySearchText.innerText()).toContain('Your search returned 0 results');
   });
 

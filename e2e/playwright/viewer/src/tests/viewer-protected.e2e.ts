@@ -53,10 +53,10 @@ test.describe('viewer file', () => {
   });
 
   test('[XAT-5467] Password dialog appears when opening a protected file', async ({ personalFiles }) => {
-    expect(await personalFiles.passwordDialog.isDialogOpen(), 'Password dialog not open').toBe(true);
-    expect(await personalFiles.passwordDialog.isPasswordInputDisplayed(), 'Password input not displayed').toBe(true);
+    expect(await personalFiles.passwordDialog.isDialogOpen(), 'Password dialog not open').toBeTruthy();
+    expect(await personalFiles.passwordDialog.isPasswordInputDisplayed(), 'Password input not displayed').toBeTruthy();
     await expect(personalFiles.passwordDialog.submitButton, 'Submit button not disabled').toBeVisible();
-    expect(await personalFiles.passwordDialog.isCloseVisible(), 'Close button not enabled').toBe(true);
+    expect(await personalFiles.passwordDialog.isCloseVisible(), 'Close button not enabled').toBeTruthy();
     await expect(personalFiles.viewer.pdfViewerContentPages, 'Viewer did not close').toBeHidden();
   });
 
@@ -67,7 +67,7 @@ test.describe('viewer file', () => {
     await personalFiles.passwordDialog.submitButton.click();
     await personalFiles.passwordDialog.waitForDialogToClose();
 
-    expect(await personalFiles.viewer.isPdfViewerContentDisplayed(), 'file content not displayed').toBe(true);
+    expect(await personalFiles.viewer.isPdfViewerContentDisplayed(), 'file content not displayed').toBeTruthy();
   });
 
   test('[XAT-5469] Error appears when entering an incorrect password', async ({ personalFiles }) => {
@@ -76,7 +76,7 @@ test.describe('viewer file', () => {
     await personalFiles.passwordDialog.submitButton.click();
 
     expect(await personalFiles.passwordDialog.getErrorMessage()).toBe('Password is wrong');
-    expect(await personalFiles.viewer.isPdfViewerContentDisplayed(), 'file content is displayed').toBe(false);
+    expect(await personalFiles.viewer.isPdfViewerContentDisplayed(), 'file content is displayed').toBeFalsy();
   });
 
   test('[XAT-5470] Refresh the page while Password dialog is open', async ({ personalFiles }) => {
@@ -84,7 +84,7 @@ test.describe('viewer file', () => {
     await personalFiles.reload({ waitUntil: 'domcontentloaded' });
     await personalFiles.viewer.waitForViewerToOpen();
 
-    expect(await personalFiles.viewer.isPdfViewerContentDisplayed(), 'file content is displayed').toBe(false);
-    expect(await personalFiles.passwordDialog.isDialogOpen(), 'Password dialog not open').toBe(true);
+    expect(await personalFiles.viewer.isPdfViewerContentDisplayed(), 'file content is displayed').toBeFalsy();
+    expect(await personalFiles.passwordDialog.isDialogOpen(), 'Password dialog not open').toBeTruthy();
   });
 });

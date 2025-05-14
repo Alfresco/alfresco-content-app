@@ -69,7 +69,7 @@ test.describe('Personal Files', () => {
       await personalFiles.sidenav.openPanel(SIDEBAR_LABELS.PERSONAL_FILES);
       await personalFiles.dataTable.spinnerWaitForReload();
       expect(personalFiles.page.url()).toContain(APP_ROUTES.PERSONAL_FILES);
-      expect(await personalFiles.sidenav.isActive(SIDEBAR_LABELS.PERSONAL_FILES), 'My Libraries link not active').toBe(true);
+      expect(await personalFiles.sidenav.isActive(SIDEBAR_LABELS.PERSONAL_FILES), 'My Libraries link not active').toBeTruthy();
     });
 
     test('[XAT-4412] Personal Files - List reloads on browser Refresh', async ({ personalFiles }) => {

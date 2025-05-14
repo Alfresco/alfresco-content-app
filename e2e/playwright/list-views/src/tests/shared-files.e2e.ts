@@ -104,11 +104,11 @@ test.describe('Shared Files', () => {
   });
 
   test(`[XAT-4434] File that was quick shared and deleted afterwards is not displayed in the list`, async ({ sharedPage }) => {
-    expect(await sharedPage.dataTable.isItemPresent(file2User), `${file2User} is displayed`).toBe(false);
+    expect(await sharedPage.dataTable.isItemPresent(file2User), `${file2User} is displayed`).toBeFalsy();
   });
 
   test('[XAT-4435] File that was quick shared and then unshared is not displayed in the list', async ({ sharedPage }) => {
-    expect(await sharedPage.dataTable.isItemPresent(file3User), `${file3User} is displayed`).toBe(false);
+    expect(await sharedPage.dataTable.isItemPresent(file3User), `${file3User} is displayed`).toBeFalsy();
   });
 
   test(`[XAT-4437] Clicking on the location link redirects to parent folder - item in User's Home`, async ({ sharedPage }) => {

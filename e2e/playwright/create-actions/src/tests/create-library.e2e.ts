@@ -221,7 +221,7 @@ test.describe('Create Libraries ', () => {
       await libraryDialog.getLabelText(libraryIdLabel).fill(specialLibraryId);
       await libraryDialog.page.keyboard.press(tabKeyString);
       await expect(libraryDialog.getLabelText(libraryIdLabel)).toHaveValue(specialLibraryId);
-      expect(await libraryDialog.isErrorMessageDisplayed(libraryErrors.useNumbersAndLettersOnly), errorMessageNotPresent).toBe(true);
+      expect(await libraryDialog.isErrorMessageDisplayed(libraryErrors.useNumbersAndLettersOnly), errorMessageNotPresent).toBeTruthy();
       await expect(libraryDialog.createButton).toBeDisabled();
     }
   });
@@ -234,7 +234,7 @@ test.describe('Create Libraries ', () => {
     await expect(libraryDialog.getLabelText(libraryIdLabel)).toHaveValue(commonLibraryName);
 
     await expect(libraryDialog.createButton).toBeDisabled();
-    expect(await libraryDialog.isErrorMessageDisplayed(libraryErrors.libraryIdIsNotAvailable), errorMessageNotPresent).toBe(true);
+    expect(await libraryDialog.isErrorMessageDisplayed(libraryErrors.libraryIdIsNotAvailable), errorMessageNotPresent).toBeTruthy();
   });
 
   test('[XAT-5125] Create library using the ID of a library from the Trashcan', async () => {
@@ -246,6 +246,6 @@ test.describe('Create Libraries ', () => {
     await expect(libraryDialog.createButton).toBeEnabled();
     await libraryDialog.createButton.click();
     await expect(libraryDialog.createButton).toBeDisabled();
-    expect(await libraryDialog.isErrorMessageDisplayed(libraryErrors.libraryIdIsAlreadyUsed), errorMessageNotPresent).toBe(true);
+    expect(await libraryDialog.isErrorMessageDisplayed(libraryErrors.libraryIdIsAlreadyUsed), errorMessageNotPresent).toBeTruthy();
   });
 });

@@ -72,7 +72,7 @@ test.describe('Download from Personal Files', () => {
     await personalFiles.dataTable.selectItems(childFolder);
     const [download] = await Promise.all([personalFiles.page.waitForEvent('download'), personalFiles.acaHeader.downloadButton.click()]);
     const filePath = await download.path();
-    expect(await Utils.verifyZipFileContent(filePath, [childFolder])).toBe(true);
+    expect(await Utils.verifyZipFileContent(filePath, [childFolder])).toBeTruthy();
   });
 
   test('[XAT-4913] Download a multiple selection of files / folders', async ({ personalFiles }) => {
@@ -80,6 +80,6 @@ test.describe('Download from Personal Files', () => {
     await personalFiles.dataTable.selectItems(childFile, childFolder);
     const [download] = await Promise.all([personalFiles.page.waitForEvent('download'), personalFiles.acaHeader.downloadButton.click()]);
     const filePath = await download.path();
-    expect(await Utils.verifyZipFileContent(filePath, [childFile, childFolder])).toBe(true);
+    expect(await Utils.verifyZipFileContent(filePath, [childFile, childFolder])).toBeTruthy();
   });
 });

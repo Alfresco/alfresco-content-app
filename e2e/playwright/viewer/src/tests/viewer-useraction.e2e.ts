@@ -66,11 +66,11 @@ test.describe('from File Libraries', () => {
     await myLibrariesPage.navigate();
     await myLibrariesPage.dataTable.getCellLinkByName(siteName).click();
     await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(xlsxLibraries);
-    expect(await myLibrariesPage.viewer.isViewerOpened(), 'Viewer should be opened').toBe(true);
+    expect(await myLibrariesPage.viewer.isViewerOpened(), 'Viewer should be opened').toBeTruthy();
 
     await myLibrariesPage.acaHeader.clickViewerMoreActions();
     await myLibrariesPage.matMenu.clickMenuItem('Move');
-    expect(await myLibrariesPage.viewerDialog.isCopyDialogOpen(), 'Dialog is not open').toBe(true);
+    expect(await myLibrariesPage.viewerDialog.isCopyDialogOpen(), 'Dialog is not open').toBeTruthy();
 
     await myLibrariesPage.copyMoveDialog.selectLocation('Personal Files');
     await myLibrariesPage.copyMoveDialog.selectDestination(destination);
@@ -81,6 +81,6 @@ test.describe('from File Libraries', () => {
     await myLibrariesPage.dataTable.getRowByName(xlsxLibraries).waitFor({ state: 'detached' });
     await expect(myLibrariesPage.dataTable.getRowByName(xlsxLibraries), 'Item was not moved').toBeHidden();
     await personalFiles.navigate({ remoteUrl: `#/personal-files/${destinationId}` });
-    expect(await personalFiles.dataTable.isItemPresent(xlsxLibraries), 'Item is not present in destination').toBe(true);
+    expect(await personalFiles.dataTable.isItemPresent(xlsxLibraries), 'Item is not present in destination').toBeTruthy();
   });
 });

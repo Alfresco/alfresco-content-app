@@ -148,7 +148,7 @@ test.describe('File Libraries', () => {
     });
 
     test('[XAT-4424] User can see only his favorite sites', async ({ favoritesLibrariesPage }) => {
-      expect(await favoritesLibrariesPage.dataTable.isItemPresent(adminSite5), `${adminSite5} should not appear`).toBe(false);
+      expect(await favoritesLibrariesPage.dataTable.isItemPresent(adminSite5), `${adminSite5} should not appear`).toBeFalsy();
     });
   });
 });

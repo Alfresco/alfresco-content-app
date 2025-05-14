@@ -97,11 +97,11 @@ test.describe('Favorites Files', () => {
     });
 
     test(`[XAT-4456] Deleted favorite files and folders do not appear in the list`, async ({ favoritePage }) => {
-      expect(await favoritePage.dataTable.isItemPresent(fileName3), `${fileName3} is displayed`).not.toBe(true);
+      expect(await favoritePage.dataTable.isItemPresent(fileName3), `${fileName3} is displayed`).not.toBeTruthy();
     });
 
     test(`[XAT-4457] Favorite files and folders restored from trashcan are displayed in the list`, async ({ favoritePage }) => {
-      expect(await favoritePage.dataTable.isItemPresent(fileName4), `${fileName4} not displayed`).toBe(true);
+      expect(await favoritePage.dataTable.isItemPresent(fileName4), `${fileName4} not displayed`).toBeTruthy();
     });
 
     test('[XAT-4459] Location column displays the parent folder of the file as link', async ({ favoritePage }) => {

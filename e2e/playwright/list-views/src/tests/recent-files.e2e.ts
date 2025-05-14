@@ -95,7 +95,7 @@ test.describe('Recent Files', () => {
   });
 
   test(`[XAT-4446] File recently edited that is deleted afterwards is not displayed in the list`, async ({ recentFilesPage }) => {
-    expect(await recentFilesPage.dataTable.isItemPresent(fileName3), `${fileName3} is displayed`).not.toBe(true);
+    expect(await recentFilesPage.dataTable.isItemPresent(fileName3), `${fileName3} is displayed`).not.toBeTruthy();
   });
 
   test(`[XAT-4448] Clicking on the location link redirects to parent folder - item in User's Home`, async ({ recentFilesPage }) => {

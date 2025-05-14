@@ -81,7 +81,7 @@ test.describe('Edit offline - on Personal Files', () => {
   });
 
   test('XAT-5305] Lock information is displayed', async ({ personalFiles }) => {
-    expect(await personalFiles.dataTable.isItemPresent(fileLocked2)).toBe(true);
+    expect(await personalFiles.dataTable.isItemPresent(fileLocked2)).toBeTruthy();
     expect(await personalFiles.dataTable.getLockOwner(fileLocked2)).toContain(username);
   });
 
