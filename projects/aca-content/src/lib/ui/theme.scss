@@ -11,6 +11,10 @@
   --mdc-text-button-label-text-color: inherit;
   --mat-toolbar-container-text-color: inherit;
   --mat-form-field-container-height: unset;
+  --mdc-checkbox-selected-icon-color: var(--theme-blue-checkbox-color);
+  --mdc-checkbox-selected-hover-icon-color: var(--theme-blue-checkbox-color);
+  --mdc-checkbox-selected-focus-icon-color: var(--theme-blue-checkbox-color);
+  --mat-dialog-container-max-width: 100%;
 }
 
 mat-toolbar {
@@ -65,14 +69,6 @@ mat-toolbar {
   #{ms.$mat-checkbox-touch-target} {
     height: 24px;
     width: 24px;
-  }
-
-  #{ms.$mat-checkbox-box}:has(#{ms.$mat-checkbox-native-control}):hover,
-  #{ms.$mat-checkbox-box}:has(#{ms.$mat-checkbox-native-control}) {
-    #{ms.$mat-checkbox-native-control}:enabled ~ #{ms.$mat-checkbox-background}:is(div) {
-      border-color: var(--theme-blue-checkbox-color);
-      background-color: var(--theme-blue-checkbox-color);
-    }
   }
 }
 
@@ -351,4 +347,11 @@ adf-dynamic-component {
 
 #{ms.$mat-form-field-infix} {
   min-height: unset;
+}
+
+#{ms.$mat-mdc-submenu-icon} {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
 }

@@ -71,7 +71,7 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   public tagsAccordionPenButton = this.tagsAccordion.locator('[data-automation-id="showing-tag-input-button"]');
   public categoriesAccordionPenButton = this.categoriesAccordion.locator('[data-automation-id="meta-data-categories-edit"]');
   public tagsInput = this.tagsCreator.locator('input');
-  public createTagButton = this.tagsCreator.locator('[role="button"]');
+  public createTagButton = this.tagsCreator.locator('.adf-create-tag-label');
   public tagsChips = this.tagsCreator.locator('mat-chip');
   public tagsChipsXButton = this.tagsChips.locator('.adf-dynamic-chip-list-delete-icon');
   public tagsAccordionCancelButton = this.getChild('[data-automation-id="reset-tags-metadata"]');
@@ -79,7 +79,7 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   public categoriesAccordionCancelButton = this.getChild('[data-automation-id="reset-metadata"]');
   public categoriesAccordionConfirmButton = this.getChild('[data-automation-id="save-categories-metadata"]');
   public categoriesInput = this.categoriesManagement.locator('input');
-  public categoriesListItems = this.categoriesManagement.locator('mat-list-item');
+  public categoriesListItems = this.categoriesManagement.locator('.adf-category');
   public categoriesItemRemoveButton = this.categoriesManagement.locator('[data-automation-id="categories-remove-category-button"]');
   public categoriesCreatedList = this.getChild('.adf-metadata-categories');
 
