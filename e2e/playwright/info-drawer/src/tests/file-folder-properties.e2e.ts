@@ -251,6 +251,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
   test('[XAT-17244] Cancel adding a category to a node', async ({ personalFiles }) => {
     await navigateAndOpenInfoDrawer(personalFiles, Folder17244);
     await personalFiles.infoDrawer.categoriesAccordionPenButton.click();
+    await personalFiles.infoDrawer.categoriesInput.click();
     await personalFiles.infoDrawer.categoriesInput.fill('*');
     await personalFiles.infoDrawer.categoriesListItems.first().click();
     await personalFiles.infoDrawer.categoriesAccordionCancelButton.click();
