@@ -24,7 +24,7 @@
 
 import { expect } from '@playwright/test';
 import { ApiClientFactory, Utils, test, NodesApi, TrashcanApi, TagsApi, FileActionsApi } from '@alfresco/aca-playwright-shared';
-import { TagEntry, TagPaging } from '@alfresco/js-api';
+import { TagPaging } from '@alfresco/js-api';
 
 test.describe('Search - Filters - Tags', () => {
   let nodesApi: NodesApi;
@@ -33,7 +33,7 @@ test.describe('Search - Filters - Tags', () => {
   let fileActionsApi: FileActionsApi;
   let file1Id: string;
   let file2Id: string;
-  let tagEntries: TagEntry[];
+  let tagPaging: TagPaging;
 
   const random = Utils.random();
   const username = `user1-${random}`;
@@ -60,7 +60,7 @@ test.describe('Search - Filters - Tags', () => {
       file2Id = node2.entry.id;
       await fileActionsApi.waitForNodes(file1, { expect: 1 });
       await fileActionsApi.waitForNodes(file2, { expect: 1 });
-      tagEntries = await tagsApiAdmin.createTags(tags);
+      tagPaging = (await tagsApiAdmin.createTags(tags)) as TagPaging;
       await tagsApiAdmin.assignTagToNode(file1Id, tags[0]);
       await tagsApiAdmin.assignTagToNode(file2Id, tags[1]);
     } catch (error) {
@@ -70,18 +70,18 @@ test.describe('Search - Filters - Tags', () => {
 
   test.afterAll(async () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
-    await tagsApiAdmin.deleteTags([`${(tagEntries as TagPaging).list.entries[0].entry.id}`]);
-    await tagsApiAdmin.deleteTags([`${(tagEntries as TagPaging).list.entries[1].entry.id}`]);
+    await tagsApiAdmin.deleteTags([`${tagPaging.list.entries[0].entry.id}`]);
+    await tagsApiAdmin.deleteTags([`${tagPaging.list.entries[1].entry.id}`]);
   });
 
   test('[XAT-5581] user able to search with tags facet', async ({ searchPage }) => {
     await searchPage.searchWithin(random, 'files');
-    await searchPage.searchFiltersTags.filterByTag(searchPage, `${(tagEntries as TagPaging).list.entries[0].entry.tag}`);
+    await searchPage.searchFiltersTags.filterByTag(searchPage, `${tagPaging.list.entries[0].entry.tag}`);
 
     await expect(searchPage.dataTable.getRowByName(file1)).toBeVisible();
     await expect(searchPage.dataTable.getRowByName(file2)).toBeHidden();
 
-    await searchPage.searchFiltersTags.filterByTag(searchPage, `${(tagEntries as TagPaging).list.entries[1].entry.tag}`);
+    await searchPage.searchFiltersTags.filterByTag(searchPage, `${tagPaging.list.entries[1].entry.tag}`);
 
     await expect(searchPage.dataTable.getRowByName(file1)).toBeVisible();
     await expect(searchPage.dataTable.getRowByName(file2)).toBeVisible();

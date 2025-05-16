@@ -38,7 +38,7 @@ export class TagsApi {
     return classObj;
   }
 
-  async createTags(tags: TagBody[]): Promise<TagEntry[]> {
+  async createTags(tags: TagBody[]): Promise<TagEntry | TagPaging> {
     try {
       return this.apiService.tagsApi.createTags(tags);
     } catch (error) {
