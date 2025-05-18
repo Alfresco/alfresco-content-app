@@ -79,7 +79,7 @@
     "@angular/cli": "18.2.15",
     "@angular/compiler-cli": "18.2.9",
     "@angular/language-service": "18.2.9",
-    "@cspell/eslint-plugin": "^8.14.1",
+    "@cspell/eslint-plugin": "^9.0.1",
     "@nx/angular": "19.8.9",
     "@nx/eslint-plugin": "19.8.9",
     "@nx/workspace": "19.8.9",
