@@ -152,9 +152,9 @@
                     }
                 },
                 "ERRORS": {
-                    "LIBRARY_NOT_FOUND": "This library no longer exists.",
-                    "LIBRARY_NO_PERMISSIONS": "You do not have permission to view this library.",
-                    "LIBRARY_LOADING_ERROR": "There was some problem during loading this library."
+                    "LIBRARY_NOT_FOUND": "Detta bibliotek finns inte längre.",
+                    "LIBRARY_NO_PERMISSIONS": "Du har inte behörighet att visa detta bibliotek.",
+                    "LIBRARY_LOADING_ERROR": "Ett problem uppstod när detta bibliotek skulle läsas in."
                 }
             },
             "SHARED": {
@@ -422,11 +422,11 @@
                 },
                 "LIBRARY_DELETED": "Bibliotek raderat",
                 "LEFT_LIBRARY": "Du har lämnat biblioteket",
-                "FAVORITE_NODE_ADDED": "Added {{ name }} to favorites",
-                "FAVORITE_NODES_ADDED": "Added {{ number }} items to favorites",
-                "FAVORITE_NODE_REMOVED": "Removed {{ name }} from favorites",
-                "FAVORITE_NODES_REMOVED": "Removed {{ number }} items from favorites",
-                "FAVORITE_NODE_NOT_FOUND": "{{ name }} is not favorite"
+                "FAVORITE_NODE_ADDED": "Har lagt till {{ name }} till favoriter",
+                "FAVORITE_NODES_ADDED": "Har lagt till {{ number }} objekt till favoriter",
+                "FAVORITE_NODE_REMOVED": "Har tagit bort {{ name }} från favoriter",
+                "FAVORITE_NODES_REMOVED": "Har tagit bort {{ number }} objekt från favoriter",
+                "FAVORITE_NODE_NOT_FOUND": "{{ name }} är ingen favorit"
             }
         },
         "CONTENT_METADATA": {

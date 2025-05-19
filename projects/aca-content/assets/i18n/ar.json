@@ -152,9 +152,9 @@
                     }
                 },
                 "ERRORS": {
-                    "LIBRARY_NOT_FOUND": "This library no longer exists.",
-                    "LIBRARY_NO_PERMISSIONS": "You do not have permission to view this library.",
-                    "LIBRARY_LOADING_ERROR": "There was some problem during loading this library."
+                    "LIBRARY_NOT_FOUND": "هذه المكتبة لم تعد موجودة.",
+                    "LIBRARY_NO_PERMISSIONS": "ليس لديك الإذن لعرض هذه المكتبة.",
+                    "LIBRARY_LOADING_ERROR": "حدثت بعض المشاكل أثناء تحميل هذه المكتبة."
                 }
             },
             "SHARED": {
@@ -422,11 +422,11 @@
                 },
                 "LIBRARY_DELETED": "تم حذف المكتبة",
                 "LEFT_LIBRARY": "لقد غادرت المكتبة",
-                "FAVORITE_NODE_ADDED": "Added {{ name }} to favorites",
-                "FAVORITE_NODES_ADDED": "Added {{ number }} items to favorites",
-                "FAVORITE_NODE_REMOVED": "Removed {{ name }} from favorites",
-                "FAVORITE_NODES_REMOVED": "Removed {{ number }} items from favorites",
-                "FAVORITE_NODE_NOT_FOUND": "{{ name }} is not favorite"
+                "FAVORITE_NODE_ADDED": "تمت الإضافة {{ name }} إلى المفضلة",
+                "FAVORITE_NODES_ADDED": "تمت إضافة {{ number }} العناصر إلى المفضلة",
+                "FAVORITE_NODE_REMOVED": "تمت الإزالة {{ name }} من المفضلة",
+                "FAVORITE_NODES_REMOVED": "امت إزالة {{ number }} عناصر من المفضلة",
+                "FAVORITE_NODE_NOT_FOUND": "{{ name }} ليست مفضلة"
             }
         },
         "CONTENT_METADATA": {

@@ -152,9 +152,9 @@
                     }
                 },
                 "ERRORS": {
-                    "LIBRARY_NOT_FOUND": "This library no longer exists.",
-                    "LIBRARY_NO_PERMISSIONS": "You do not have permission to view this library.",
-                    "LIBRARY_LOADING_ERROR": "There was some problem during loading this library."
+                    "LIBRARY_NOT_FOUND": "此收藏库不再存在。",
+                    "LIBRARY_NO_PERMISSIONS": "您无权查看此收藏库。",
+                    "LIBRARY_LOADING_ERROR": "加载此收藏库时出现了问题。"
                 }
             },
             "SHARED": {
@@ -422,11 +422,11 @@
                 },
                 "LIBRARY_DELETED": "库已删除",
                 "LEFT_LIBRARY": "您已离开该库",
-                "FAVORITE_NODE_ADDED": "Added {{ name }} to favorites",
-                "FAVORITE_NODES_ADDED": "Added {{ number }} items to favorites",
-                "FAVORITE_NODE_REMOVED": "Removed {{ name }} from favorites",
-                "FAVORITE_NODES_REMOVED": "Removed {{ number }} items from favorites",
-                "FAVORITE_NODE_NOT_FOUND": "{{ name }} is not favorite"
+                "FAVORITE_NODE_ADDED": "已将 {{ name }} 添加至收藏夹",
+                "FAVORITE_NODES_ADDED": "已将 {{ number }} 个项目添加至收藏夹",
+                "FAVORITE_NODE_REMOVED": "已从收藏夹中移除 {{ name }}",
+                "FAVORITE_NODES_REMOVED": "已从收藏夹中移除 {{ number }} 个项目",
+                "FAVORITE_NODE_NOT_FOUND": "{{ name }} 未收藏"
             }
         },
         "CONTENT_METADATA": {
