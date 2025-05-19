@@ -152,9 +152,9 @@
                     }
                 },
                 "ERRORS": {
-                    "LIBRARY_NOT_FOUND": "This library no longer exists.",
-                    "LIBRARY_NO_PERMISSIONS": "You do not have permission to view this library.",
-                    "LIBRARY_LOADING_ERROR": "There was some problem during loading this library."
+                    "LIBRARY_NOT_FOUND": "Tätä kirjastoa ei ole enää olemassa",
+                    "LIBRARY_NO_PERMISSIONS": "Sinulla ei ole oikeutta tarkastella tätä kirjastoa.",
+                    "LIBRARY_LOADING_ERROR": "Tämän kirjaston lataamisessa ilmeni ongelma."
                 }
             },
             "SHARED": {
@@ -422,11 +422,11 @@
                 },
                 "LIBRARY_DELETED": "Kirjasto poistettiin",
                 "LEFT_LIBRARY": "Olet poistunut kirjastosta",
-                "FAVORITE_NODE_ADDED": "Added {{ name }} to favorites",
-                "FAVORITE_NODES_ADDED": "Added {{ number }} items to favorites",
-                "FAVORITE_NODE_REMOVED": "Removed {{ name }} from favorites",
-                "FAVORITE_NODES_REMOVED": "Removed {{ number }} items from favorites",
-                "FAVORITE_NODE_NOT_FOUND": "{{ name }} is not favorite"
+                "FAVORITE_NODE_ADDED": "{{ name }} lisätty suosikkeihin",
+                "FAVORITE_NODES_ADDED": "{{ number }} kohdetta lisätty suosikkeihin",
+                "FAVORITE_NODE_REMOVED": "{{ name }} poistettu suosikeista",
+                "FAVORITE_NODES_REMOVED": "{{ number }} kohdetta poistettu suosikeista",
+                "FAVORITE_NODE_NOT_FOUND": "{{ name }} ei ole suosikeissa"
             }
         },
         "CONTENT_METADATA": {

@@ -152,9 +152,9 @@
                     }
                 },
                 "ERRORS": {
-                    "LIBRARY_NOT_FOUND": "This library no longer exists.",
-                    "LIBRARY_NO_PERMISSIONS": "You do not have permission to view this library.",
-                    "LIBRARY_LOADING_ERROR": "There was some problem during loading this library."
+                    "LIBRARY_NOT_FOUND": "Tato knihovna již neexistuje.",
+                    "LIBRARY_NO_PERMISSIONS": "K zobrazení této knihovny nemáte oprávnění.",
+                    "LIBRARY_LOADING_ERROR": "Při načítání této knihovny došlo k problému."
                 }
             },
             "SHARED": {
@@ -422,11 +422,11 @@
                 },
                 "LIBRARY_DELETED": "Knihovna odstraněna",
                 "LEFT_LIBRARY": "Opustili jste knihovnu",
-                "FAVORITE_NODE_ADDED": "Added {{ name }} to favorites",
-                "FAVORITE_NODES_ADDED": "Added {{ number }} items to favorites",
-                "FAVORITE_NODE_REMOVED": "Removed {{ name }} from favorites",
-                "FAVORITE_NODES_REMOVED": "Removed {{ number }} items from favorites",
-                "FAVORITE_NODE_NOT_FOUND": "{{ name }} is not favorite"
+                "FAVORITE_NODE_ADDED": "Došlo k přidání {{ name }} do oblíbených",
+                "FAVORITE_NODES_ADDED": "Došlo k přidání následujícího počtu položek do oblíbených: {{ number }}",
+                "FAVORITE_NODE_REMOVED": "Došlo k odebrání {{ name }} z oblíbených",
+                "FAVORITE_NODES_REMOVED": "Došlo k odebrání následujícího počtu položek z oblíbených: {{ number }}",
+                "FAVORITE_NODE_NOT_FOUND": "{{ name }} nepatří mezi oblíbené"
             }
         },
         "CONTENT_METADATA": {

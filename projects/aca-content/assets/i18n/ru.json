@@ -152,9 +152,9 @@
                     }
                 },
                 "ERRORS": {
-                    "LIBRARY_NOT_FOUND": "This library no longer exists.",
-                    "LIBRARY_NO_PERMISSIONS": "You do not have permission to view this library.",
-                    "LIBRARY_LOADING_ERROR": "There was some problem during loading this library."
+                    "LIBRARY_NOT_FOUND": "Данная библиотека не существует.",
+                    "LIBRARY_NO_PERMISSIONS": "Нет прав для просмотра данной библиотеки.",
+                    "LIBRARY_LOADING_ERROR": "Ошибка загрузки библиотеки."
                 }
             },
             "SHARED": {
@@ -422,11 +422,11 @@
                 },
                 "LIBRARY_DELETED": "Библиотека удалена",
                 "LEFT_LIBRARY": "Вы уже покинули библиотеку",
-                "FAVORITE_NODE_ADDED": "Added {{ name }} to favorites",
-                "FAVORITE_NODES_ADDED": "Added {{ number }} items to favorites",
-                "FAVORITE_NODE_REMOVED": "Removed {{ name }} from favorites",
-                "FAVORITE_NODES_REMOVED": "Removed {{ number }} items from favorites",
-                "FAVORITE_NODE_NOT_FOUND": "{{ name }} is not favorite"
+                "FAVORITE_NODE_ADDED": "Добавлено в избранное: {{ name }}",
+                "FAVORITE_NODES_ADDED": "Добавлено элементов в избранное: {{ number }}",
+                "FAVORITE_NODE_REMOVED": "Удалено из избранного: {{ name }}",
+                "FAVORITE_NODES_REMOVED": "Удалено элементов из избранного: {{ number }}",
+                "FAVORITE_NODE_NOT_FOUND": "{{ name }} не находится в избранном"
             }
         },
         "CONTENT_METADATA": {

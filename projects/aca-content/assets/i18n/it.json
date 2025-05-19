@@ -152,9 +152,9 @@
                     }
                 },
                 "ERRORS": {
-                    "LIBRARY_NOT_FOUND": "This library no longer exists.",
-                    "LIBRARY_NO_PERMISSIONS": "You do not have permission to view this library.",
-                    "LIBRARY_LOADING_ERROR": "There was some problem during loading this library."
+                    "LIBRARY_NOT_FOUND": "Questa libreria non esiste più.",
+                    "LIBRARY_NO_PERMISSIONS": "L'utente non dispone dell'autorizzazione per visualizzare questa libreria.",
+                    "LIBRARY_LOADING_ERROR": "Ci sono stati dei problemi nel caricamento di questa libreria."
                 }
             },
             "SHARED": {
@@ -422,11 +422,11 @@
                 },
                 "LIBRARY_DELETED": "Libreria eliminata",
                 "LEFT_LIBRARY": "Sei uscito dalla libreria",
-                "FAVORITE_NODE_ADDED": "Added {{ name }} to favorites",
-                "FAVORITE_NODES_ADDED": "Added {{ number }} items to favorites",
-                "FAVORITE_NODE_REMOVED": "Removed {{ name }} from favorites",
-                "FAVORITE_NODES_REMOVED": "Removed {{ number }} items from favorites",
-                "FAVORITE_NODE_NOT_FOUND": "{{ name }} is not favorite"
+                "FAVORITE_NODE_ADDED": "{{ name }} Aggiunto",
+                "FAVORITE_NODES_ADDED": "{{ number }} elementi aggiunti ai preferiti",
+                "FAVORITE_NODE_REMOVED": "{{ name }} rimosso dai preferiti",
+                "FAVORITE_NODES_REMOVED": "{{ number }} elementi rimossi dai preferiti",
+                "FAVORITE_NODE_NOT_FOUND": "{{ name }} non è tra i preferiti"
             }
         },
         "CONTENT_METADATA": {

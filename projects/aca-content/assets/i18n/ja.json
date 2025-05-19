@@ -152,9 +152,9 @@
                     }
                 },
                 "ERRORS": {
-                    "LIBRARY_NOT_FOUND": "This library no longer exists.",
-                    "LIBRARY_NO_PERMISSIONS": "You do not have permission to view this library.",
-                    "LIBRARY_LOADING_ERROR": "There was some problem during loading this library."
+                    "LIBRARY_NOT_FOUND": "このライブラリはもはや存在しません。",
+                    "LIBRARY_NO_PERMISSIONS": "このライブラリを閲覧する権限がありません。",
+                    "LIBRARY_LOADING_ERROR": "このライブラリのロード中に何らかの問題が発生しました。"
                 }
             },
             "SHARED": {
@@ -422,11 +422,11 @@
                 },
                 "LIBRARY_DELETED": "ライブラリが削除されました",
                 "LEFT_LIBRARY": "このライブラリからは脱退しています",
-                "FAVORITE_NODE_ADDED": "Added {{ name }} to favorites",
-                "FAVORITE_NODES_ADDED": "Added {{ number }} items to favorites",
-                "FAVORITE_NODE_REMOVED": "Removed {{ name }} from favorites",
-                "FAVORITE_NODES_REMOVED": "Removed {{ number }} items from favorites",
-                "FAVORITE_NODE_NOT_FOUND": "{{ name }} is not favorite"
+                "FAVORITE_NODE_ADDED": "{{ name }} がお気に入りに追加されました",
+                "FAVORITE_NODES_ADDED": "{{ number }} 件のアイテムがお気に入りに追加されました",
+                "FAVORITE_NODE_REMOVED": "{{ name }} がお気に入りから削除されました",
+                "FAVORITE_NODES_REMOVED": "{{ number }} 件のアイテムがお気に入りから削除されました",
+                "FAVORITE_NODE_NOT_FOUND": "{{ name }} はお気に入りではありません"
             }
         },
         "CONTENT_METADATA": {
