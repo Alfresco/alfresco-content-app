@@ -23,10 +23,11 @@
  */
 
 import { MarkedOptions, MarkedRenderer } from 'ngx-markdown';
+import { Tokens } from 'marked/lib/marked';
 
 const renderer = new MarkedRenderer();
-renderer.link = (href: string, title: string, text: string): string =>
-  `<a href="${href}" target="_blank" rel="noopener noreferrer" title="${title || ''}">${text}</a>`;
+renderer.link = ({ href, title, tokens }: Tokens.Link): any =>
+  `<a href="${href}" target="_blank" rel="noopener noreferrer" title="${title || ''}">${tokens.join(' ')}</a>`;
 export const searchAiMarkedOptions: MarkedOptions = {
   renderer
 };
