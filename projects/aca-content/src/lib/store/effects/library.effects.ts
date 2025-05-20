@@ -120,18 +120,16 @@ export class LibraryEffects {
                   this.store.dispatch(new NavigateRouteAction([route, id]));
                 },
                 (error: HttpErrorResponse) => {
-                  let errorTranslationKey: string;
                   switch (error.status) {
                     case 403:
-                      errorTranslationKey = 'APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_NO_PERMISSIONS';
+                      this.notificationService.showWarning('APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_NO_PERMISSIONS');
                       break;
                     case 404:
-                      errorTranslationKey = 'APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_NOT_FOUND';
+                      this.notificationService.showError('APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_NOT_FOUND');
                       break;
                     default:
-                      errorTranslationKey = 'APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_LOADING_ERROR';
+                      this.notificationService.showError('APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_LOADING_ERROR');
                   }
-                  this.notificationService.showError(errorTranslationKey);
                 }
               );
           }

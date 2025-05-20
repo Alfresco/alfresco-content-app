@@ -34,12 +34,10 @@ import { MatInputModule } from '@angular/material/input';
 import { A11yModule } from '@angular/cdk/a11y';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
-import { CoreModule } from '@alfresco/adf-core';
+import { CoreModule, NotificationService } from '@alfresco/adf-core';
 import { AutoFocusDirective, forbidOnlySpaces, SavedSearchesService } from '@alfresco/adf-content-services';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
-import { AppStore, SnackbarErrorAction, SnackbarInfoAction } from '@alfresco/aca-shared/store';
 import { UniqueSearchNameValidator } from './unique-search-name-validator';
 import { SavedSearchForm } from './saved-search-form.interface';
 
@@ -72,7 +70,7 @@ export class SaveSearchDialogComponent {
 
   constructor(
     private readonly dialog: MatDialogRef<SaveSearchDialogComponent>,
-    private readonly store: Store<AppStore>,
+    private readonly notificationService: NotificationService,
     private readonly savedSearchesService: SavedSearchesService,
     private readonly uniqueSearchNameValidator: UniqueSearchNameValidator,
     @Inject(MAT_DIALOG_DATA) private readonly data: { searchUrl: string }
@@ -100,11 +98,11 @@ export class SaveSearchDialogComponent {
       .subscribe({
         next: () => {
           this.dialog.close();
-          this.store.dispatch(new SnackbarInfoAction('APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_SUCCESS'));
+          this.notificationService.showInfo('APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_SUCCESS');
           this.disableSubmitButton = false;
         },
         error: () => {
-          this.store.dispatch(new SnackbarErrorAction('APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_ERROR'));
+          this.notificationService.showError('APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_ERROR');
           this.disableSubmitButton = false;
         }
       });

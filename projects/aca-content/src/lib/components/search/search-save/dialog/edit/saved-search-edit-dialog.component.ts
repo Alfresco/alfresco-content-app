@@ -26,9 +26,7 @@ import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { AutoFocusDirective, forbidOnlySpaces, SavedSearch, SavedSearchesService } from '@alfresco/adf-content-services';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
-import { AppStore, SnackbarErrorAction, SnackbarInfoAction } from '@alfresco/aca-shared/store';
-import { Store } from '@ngrx/store';
-import { CoreModule } from '@alfresco/adf-core';
+import { CoreModule, NotificationService } from '@alfresco/adf-core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UniqueSearchNameValidator } from '../unique-search-name-validator';
 import { SavedSearchForm } from '../saved-search-form.interface';
@@ -48,7 +46,7 @@ export class SavedSearchEditDialogComponent {
 
   constructor(
     private readonly dialog: MatDialogRef<SavedSearchEditDialogComponent>,
-    private readonly store: Store<AppStore>,
+    private readonly notificationService: NotificationService,
     private readonly savedSearchesService: SavedSearchesService,
     private readonly uniqueSearchNameValidator: UniqueSearchNameValidator,
     @Inject(MAT_DIALOG_DATA) private readonly data: SavedSearch
@@ -92,7 +90,7 @@ export class SavedSearchEditDialogComponent {
           this.isLoading = false;
         },
         error: () => {
-          this.store.dispatch(new SnackbarErrorAction('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.ERROR_MESSAGE'));
+          this.notificationService.showError('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.ERROR_MESSAGE');
           this.isLoading = false;
         }
       });
@@ -100,6 +98,6 @@ export class SavedSearchEditDialogComponent {
 
   private onEditSuccess(): void {
     this.dialog.close();
-    this.store.dispatch(new SnackbarInfoAction('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.SUCCESS_MESSAGE'));
+    this.notificationService.showInfo('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.SUCCESS_MESSAGE');
   }
 }

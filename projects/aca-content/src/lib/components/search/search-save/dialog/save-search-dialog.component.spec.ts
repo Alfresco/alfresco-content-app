@@ -24,19 +24,18 @@
 
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { SaveSearchDialogComponent } from './save-search-dialog.component';
 import { ContentTestingModule, SavedSearchesService } from '@alfresco/adf-content-services';
 import { provideMockStore } from '@ngrx/store/testing';
 import { AppTestingModule } from '../../../../testing/app-testing.module';
-import { Store } from '@ngrx/store';
-import { SnackbarErrorAction, SnackbarInfoAction } from '@alfresco/aca-shared/store';
+import { NotificationService } from '@alfresco/adf-core';
 
 describe('SaveSearchDialogComponent', () => {
   let fixture: ComponentFixture<SaveSearchDialogComponent>;
   let component: SaveSearchDialogComponent;
+  let notificationService: NotificationService;
   let savedSearchesService: SavedSearchesService;
-  let store: Store;
   let submitButton: HTMLButtonElement;
 
   const dialogRef = {
@@ -49,15 +48,15 @@ describe('SaveSearchDialogComponent', () => {
       providers: [
         { provide: MatDialogRef, useValue: dialogRef },
         provideMockStore(),
-        { provide: SavedSearchesService, useValue: { saveSearch: () => of(), getSavedSearches: () => of([]) } },
+        { provide: SavedSearchesService, useValue: { saveSearch: () => of({}), getSavedSearches: () => of([]) } },
         { provide: MAT_DIALOG_DATA, useValue: { searchUrl: 'abcdef' } }
       ]
     });
     dialogRef.close.calls.reset();
     fixture = TestBed.createComponent(SaveSearchDialogComponent);
     component = fixture.componentInstance;
+    notificationService = TestBed.inject(NotificationService);
     savedSearchesService = TestBed.inject(SavedSearchesService);
-    store = TestBed.inject(Store);
 
     submitButton = fixture.nativeElement.querySelector('#aca-save-search-dialog-save-button');
   });
@@ -75,22 +74,22 @@ describe('SaveSearchDialogComponent', () => {
     expect(savedSearchesService.saveSearch).not.toHaveBeenCalled();
   });
 
-  it('should save search, show snackbar message and close modal if form is valid', fakeAsync(() => () => {
+  it('should save search, show snackbar message and close modal if form is valid', fakeAsync(() => {
     spyOn(savedSearchesService, 'saveSearch').and.callThrough();
+    spyOn(notificationService, 'showInfo');
     setFormValuesAndSubmit();
-    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarInfoAction('APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_SUCCESS'));
+    expect(notificationService.showInfo).toHaveBeenCalledWith('APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_SUCCESS');
     expect(dialogRef.close).toHaveBeenCalled();
   }));
 
-  it('should show snackbar error if there is save error', fakeAsync(() => () => {
-    spyOn(savedSearchesService, 'saveSearch').and.throwError('');
+  it('should show snackbar error if there is save error', fakeAsync(() => {
+    spyOn(savedSearchesService, 'saveSearch').and.returnValue(throwError(() => new Error('Error')));
+    spyOn(notificationService, 'showError');
     setFormValuesAndSubmit();
-    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_ERROR'));
-    expect(dialogRef.close).not.toHaveBeenCalled();
+    expect(notificationService.showError).toHaveBeenCalledWith('APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_ERROR');
   }));
 
   function setFormValuesAndSubmit() {
-    spyOn(store, 'dispatch');
     component.form.controls['name'].setValue('ABCDEF');
     component.form.controls['description'].setValue('TEST');
     submitButton.click();

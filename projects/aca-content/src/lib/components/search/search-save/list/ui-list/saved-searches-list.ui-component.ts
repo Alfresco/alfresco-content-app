@@ -29,6 +29,7 @@ import {
   DATATABLE_DIRECTIVES,
   DataTableComponent,
   DataTableSchema,
+  NotificationService,
   ShowHeaderMode,
   TEMPLATE_DIRECTIVES
 } from '@alfresco/adf-core';
@@ -39,8 +40,6 @@ import { SavedSearchesListUiService } from '../saved-searches-list-ui.service';
 import { savedSearchesListSchema } from '../smart-list/saved-searches-list-schema';
 import { SavedSearch } from '@alfresco/adf-content-services';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { Store } from '@ngrx/store';
-import { SnackbarInfoAction } from '@alfresco/aca-shared/store';
 import { Router } from '@angular/router';
 
 @Component({
@@ -61,6 +60,7 @@ export class SavedSearchesListUiComponent extends DataTableSchema implements Aft
 
   readonly ShowHeaderMode = ShowHeaderMode;
 
+  private readonly notificationService = inject(NotificationService);
   private readonly savedSearchesListUiService = inject(SavedSearchesListUiService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly contextMenuAction$ = new Subject<any>();
@@ -94,7 +94,6 @@ export class SavedSearchesListUiComponent extends DataTableSchema implements Aft
   constructor(
     protected appConfig: AppConfigService,
     private readonly clipboard: Clipboard,
-    private readonly store: Store,
     private readonly router: Router
   ) {
     super(appConfig, '', savedSearchesListSchema);
@@ -140,7 +139,7 @@ export class SavedSearchesListUiComponent extends DataTableSchema implements Aft
 
   copyToClipboard(savedSearch: SavedSearch): void {
     this.clipboard.copy(this.getFullUrl(savedSearch.encodedUrl));
-    this.store.dispatch(new SnackbarInfoAction('APP.BROWSE.SEARCH.SAVE_SEARCH.LIST.COPY_TO_CLIPBOARD_SUCCESS'));
+    this.notificationService.showInfo('APP.BROWSE.SEARCH.SAVE_SEARCH.LIST.COPY_TO_CLIPBOARD_SUCCESS');
   }
 
   executeSearch(savedSearch: SavedSearch): void {

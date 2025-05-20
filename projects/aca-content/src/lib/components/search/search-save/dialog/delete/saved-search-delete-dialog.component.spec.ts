@@ -24,18 +24,16 @@
 
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { SavedSearchDeleteDialogComponent } from './saved-search-delete-dialog.component';
 import { ContentTestingModule, SavedSearch, SavedSearchesService } from '@alfresco/adf-content-services';
-import { provideMockStore } from '@ngrx/store/testing';
-import { Store } from '@ngrx/store';
-import { SnackbarErrorAction, SnackbarInfoAction } from '@alfresco/aca-shared/store';
+import { NotificationService } from '@alfresco/adf-core';
 import { AppTestingModule } from '../../../../../testing/app-testing.module';
 
 describe('SaveSearchDeleteDialogComponent', () => {
   let fixture: ComponentFixture<SavedSearchDeleteDialogComponent>;
+  let notificationService: NotificationService;
   let savedSearchesService: SavedSearchesService;
-  let store: Store;
   let submitButton: HTMLButtonElement;
   let cancelButton: HTMLButtonElement;
 
@@ -54,15 +52,14 @@ describe('SaveSearchDeleteDialogComponent', () => {
       imports: [ContentTestingModule, AppTestingModule],
       providers: [
         { provide: MatDialogRef, useValue: dialogRef },
-        provideMockStore(),
-        { provide: SavedSearchesService, useValue: { deleteSavedSearch: () => of() } },
+        { provide: SavedSearchesService, useValue: { deleteSavedSearch: () => of({}) } },
         { provide: MAT_DIALOG_DATA, useValue: savedSearchToDelete }
       ]
     });
     dialogRef.close.calls.reset();
     fixture = TestBed.createComponent(SavedSearchDeleteDialogComponent);
     savedSearchesService = TestBed.inject(SavedSearchesService);
-    store = TestBed.inject(Store);
+    notificationService = TestBed.inject(NotificationService);
 
     submitButton = fixture.nativeElement.querySelector('#aca-save-search-delete-dialog-submit-button');
     cancelButton = fixture.nativeElement.querySelector('#aca-save-search-delete-dialog-cancel-button');
@@ -79,17 +76,19 @@ describe('SaveSearchDeleteDialogComponent', () => {
     expect(dialogRef.close).toHaveBeenCalled();
   });
 
-  it('should delete search, show snackbar message and close modal if submit button clicked', fakeAsync(() => () => {
+  it('should delete search, show snackbar message and close modal if submit button clicked', fakeAsync(() => {
     spyOn(savedSearchesService, 'deleteSavedSearch').and.callThrough();
+    spyOn(notificationService, 'showInfo');
     clickSubmitButton();
-    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarInfoAction('APP.BROWSE.SEARCH.SAVE_SEARCH.DELETE_DIALOG.SUCCESS_MESSAGE'));
+    expect(notificationService.showInfo).toHaveBeenCalledWith('APP.BROWSE.SEARCH.SAVE_SEARCH.DELETE_DIALOG.SUCCESS_MESSAGE');
     expect(dialogRef.close).toHaveBeenCalled();
   }));
 
-  it('should show snackbar error if there is delete error', fakeAsync(() => () => {
-    spyOn(savedSearchesService, 'deleteSavedSearch').and.throwError('');
+  it('should show snackbar error if there is delete error', fakeAsync(() => {
+    spyOn(savedSearchesService, 'deleteSavedSearch').and.returnValue(throwError(() => new Error('Error')));
+    spyOn(notificationService, 'showError');
     clickSubmitButton();
-    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.BROWSE.SEARCH.SAVE_SEARCH.DELETE_DIALOG.SUCCESS_MESSAGE'));
+    expect(notificationService.showError).toHaveBeenCalledWith('APP.BROWSE.SEARCH.SAVE_SEARCH.DELETE_DIALOG.ERROR_MESSAGE');
     expect(dialogRef.close).not.toHaveBeenCalled();
   }));
 

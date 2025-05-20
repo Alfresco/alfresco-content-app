@@ -26,7 +26,7 @@ import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testin
 import { SearchResultsComponent } from './search-results.component';
 import { AppConfigService, NotificationService, TranslationService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
-import { NavigateToFolder, SnackbarErrorAction, SnackbarInfoAction } from '@alfresco/aca-shared/store';
+import { NavigateToFolder } from '@alfresco/aca-shared/store';
 import { Pagination, SearchRequest } from '@alfresco/js-api';
 import { SavedSearchesService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -54,6 +54,7 @@ describe('SearchComponent', () => {
   const searchRequest = {} as SearchRequest;
   let params: BehaviorSubject<any>;
   let showErrorSpy: jasmine.Spy;
+  let showInfoSpy: jasmine.Spy;
   let loader: HarnessLoader;
 
   const editSavedSearchesSpy = jasmine.createSpy('editSavedSearch');
@@ -109,6 +110,7 @@ describe('SearchComponent', () => {
 
     const notificationService = TestBed.inject(NotificationService);
     showErrorSpy = spyOn(notificationService, 'showError');
+    showInfoSpy = spyOn(notificationService, 'showInfo');
 
     config.config = {
       search: {}
@@ -133,7 +135,7 @@ describe('SearchComponent', () => {
     spyOn(queryBuilder, 'buildQuery').and.returnValue(searchRequest);
     spyOn(store, 'dispatch').and.stub();
 
-    queryBuilder.execute();
+    void queryBuilder.execute();
     tick();
 
     expect(showErrorSpy).toHaveBeenCalledWith('APP.BROWSE.SEARCH.ERRORS.GENERIC');
@@ -152,7 +154,7 @@ describe('SearchComponent', () => {
     spyOn(queryBuilder, 'buildQuery').and.returnValue(searchRequest);
     spyOn(store, 'dispatch').and.stub();
 
-    queryBuilder.execute();
+    void queryBuilder.execute();
     tick();
 
     expect(showErrorSpy).toHaveBeenCalledWith('Known Error');
@@ -171,7 +173,7 @@ describe('SearchComponent', () => {
     spyOn(queryBuilder, 'buildQuery').and.returnValue(searchRequest);
     spyOn(store, 'dispatch').and.stub();
 
-    queryBuilder.execute();
+    void queryBuilder.execute();
     tick();
 
     expect(showErrorSpy).toHaveBeenCalledWith('Generic Error');
@@ -290,19 +292,17 @@ describe('SearchComponent', () => {
   }));
 
   it('should dispatch success snackbar action when editing saved search is successful', fakeAsync(() => {
-    spyOn(store, 'dispatch').and.stub();
     editSavedSearchesSpy.and.returnValue(of({}));
     component.editSavedSearch({ name: 'test', encodedUrl: 'test', order: 0 });
     tick();
-    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarInfoAction('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.SUCCESS_MESSAGE'));
+    expect(showInfoSpy).toHaveBeenCalledWith('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.SUCCESS_MESSAGE');
   }));
 
   it('should dispatch error snackbar action when editing saved search failed', fakeAsync(() => {
-    spyOn(store, 'dispatch').and.stub();
     editSavedSearchesSpy.and.returnValue(throwError(() => new Error('')));
     component.editSavedSearch({ name: 'test', encodedUrl: 'test', order: 0 });
     tick();
-    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.ERROR_MESSAGE'));
+    expect(showErrorSpy).toHaveBeenCalledWith('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.ERROR_MESSAGE');
   }));
 
   testHeader(SearchResultsComponent, false);

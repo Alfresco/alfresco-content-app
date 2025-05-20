@@ -92,9 +92,7 @@ export const myExtensionLoader = (route: ActivatedRouteSnapshot) => {
             tap((status) => {
                 if (!status) {
                     // If the BE is down, let the user know what to expect
-                    store.dispatch(
-                      new SnackbarErrorAction("Backend error. My Extension's features are disabled.")
-                    );
+                    notificationService.showError("Backend error. My Extension's features are disabled.");
                 }
             })
         );

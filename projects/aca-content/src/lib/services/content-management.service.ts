@@ -104,9 +104,9 @@ export class ContentManagementService {
         });
 
         if (nodes.length > 1) {
-          this.store.dispatch(new SnackbarInfoAction('APP.MESSAGES.INFO.FAVORITE_NODES_ADDED', { number: nodes.length }));
+          this.notificationService.showInfo('APP.MESSAGES.INFO.FAVORITE_NODES_ADDED', null, { number: nodes.length });
         } else {
-          this.store.dispatch(new SnackbarInfoAction('APP.MESSAGES.INFO.FAVORITE_NODE_ADDED', { name: nodes[0].entry.name }));
+          this.notificationService.showInfo('APP.MESSAGES.INFO.FAVORITE_NODE_ADDED', null, { name: nodes[0].entry.name });
         }
         this.store.dispatch(new SetSelectedNodesAction(favoriteNodes));
       });
@@ -124,9 +124,9 @@ export class ContentManagementService {
           });
 
           if (nodes.length > 1) {
-            this.store.dispatch(new SnackbarInfoAction('APP.MESSAGES.INFO.FAVORITE_NODES_REMOVED', { number: nodes.length }));
+            this.notificationService.showInfo('APP.MESSAGES.INFO.FAVORITE_NODES_REMOVED', null, { number: nodes.length });
           } else {
-            this.store.dispatch(new SnackbarInfoAction('APP.MESSAGES.INFO.FAVORITE_NODE_REMOVED', { name: nodes[0].entry.name }));
+            this.notificationService.showInfo('APP.MESSAGES.INFO.FAVORITE_NODE_REMOVED', null, { name: nodes[0].entry.name });
           }
           this.store.dispatch(new SetSelectedNodesAction(favoriteNodes));
         },
@@ -134,7 +134,7 @@ export class ContentManagementService {
           if (JSON.parse(error.message).error.statusCode === 404) {
             const nodeId = JSON.parse(error.message).error.briefSummary.split('relationship id of ')[1];
             const nodeName = nodes.find((node) => node.entry.id === nodeId)?.entry.name;
-            this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.INFO.FAVORITE_NODE_NOT_FOUND', { name: nodeName }));
+            this.notificationService.showError('APP.MESSAGES.ERRORS.FAVORITE_NODE_NOT_FOUND', null, { name: nodeName });
           }
         }
       });
@@ -717,8 +717,7 @@ export class ContentManagementService {
       const processedData = this.processStatus(data);
 
       if (processedData.fail.length) {
-        const message = this.getUndoDeleteMessage(processedData);
-        this.store.dispatch(message);
+        this.showUndoDeleteMessage(processedData);
       }
 
       if (processedData.someSucceeded) {
@@ -746,18 +745,14 @@ export class ContentManagementService {
     );
   }
 
-  private getUndoDeleteMessage(status: DeleteStatus): SnackbarAction {
+  private showUndoDeleteMessage(status: DeleteStatus): void {
     if (status.someFailed && !status.oneFailed) {
-      return new SnackbarErrorAction('APP.MESSAGES.ERRORS.NODE_RESTORE_PLURAL', { number: status.fail.length });
+      this.notificationService.showError('APP.MESSAGES.ERRORS.NODE_RESTORE.PLURAL', null, { number: status.fail.length });
     }
 
     if (status.oneFailed) {
-      return new SnackbarErrorAction('APP.MESSAGES.ERRORS.NODE_RESTORE', {
-        name: status.fail[0].name
-      });
+      this.notificationService.showError('APP.MESSAGES.ERRORS.NODE_RESTORE', null, { name: status.fail[0].name });
     }
-
-    return null;
   }
 
   private restoreNode(node: NodeEntry): Observable<RestoredNode> {

@@ -26,9 +26,7 @@ import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { SavedSearch, SavedSearchesService } from '@alfresco/adf-content-services';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
-import { AppStore, SnackbarErrorAction, SnackbarInfoAction } from '@alfresco/aca-shared/store';
-import { Store } from '@ngrx/store';
-import { CoreModule } from '@alfresco/adf-core';
+import { CoreModule, NotificationService } from '@alfresco/adf-core';
 
 @Component({
   standalone: true,
@@ -44,8 +42,8 @@ export class SavedSearchDeleteDialogComponent {
 
   constructor(
     private readonly dialog: MatDialogRef<SavedSearchDeleteDialogComponent>,
+    private readonly notificationService: NotificationService,
     private readonly savedSearchesService: SavedSearchesService,
-    private readonly store: Store<AppStore>,
     @Inject(MAT_DIALOG_DATA) private readonly data: SavedSearch
   ) {}
 
@@ -60,11 +58,11 @@ export class SavedSearchDeleteDialogComponent {
       .subscribe({
         next: () => {
           this.dialog.close(this.data);
-          this.store.dispatch(new SnackbarInfoAction('APP.BROWSE.SEARCH.SAVE_SEARCH.DELETE_DIALOG.SUCCESS_MESSAGE'));
+          this.notificationService.showInfo('APP.BROWSE.SEARCH.SAVE_SEARCH.DELETE_DIALOG.SUCCESS_MESSAGE');
           this.isLoading = false;
         },
         error: () => {
-          this.store.dispatch(new SnackbarErrorAction('APP.BROWSE.SEARCH.SAVE_SEARCH.DELETE_DIALOG.ERROR_MESSAGE'));
+          this.notificationService.showError('APP.BROWSE.SEARCH.SAVE_SEARCH.DELETE_DIALOG.ERROR_MESSAGE');
           this.isLoading = false;
         }
       });

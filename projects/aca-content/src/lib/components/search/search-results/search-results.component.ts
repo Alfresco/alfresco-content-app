@@ -43,9 +43,7 @@ import {
   SetInfoDrawerPreviewStateAction,
   SetInfoDrawerStateAction,
   SetSearchItemsTotalCountAction,
-  ShowInfoDrawerPreviewAction,
-  SnackbarErrorAction,
-  SnackbarInfoAction
+  ShowInfoDrawerPreviewAction
 } from '@alfresco/aca-shared/store';
 import {
   CustomEmptyContentTemplateDirective,
@@ -240,13 +238,13 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
               loadedFilters++;
               if (filtersToLoad === loadedFilters) {
                 this.loadedFilters$.next();
-                this.queryBuilder.execute(false);
+                void this.queryBuilder.execute(false);
               }
             });
           this.queryBuilder.populateFilters.next(filtersFromEncodedQuery);
         } else {
           this.queryBuilder.populateFilters.next({});
-          this.queryBuilder.execute(false);
+          void this.queryBuilder.execute(false);
         }
         this.queryBuilder.userQuery = extractUserQueryFromEncodedQuery(this.encodedQuery);
       });
@@ -333,10 +331,10 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
       .pipe(take(1))
       .subscribe({
         next: () => {
-          this.store.dispatch(new SnackbarInfoAction('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.SUCCESS_MESSAGE'));
+          this.notificationService.showInfo('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.SUCCESS_MESSAGE');
         },
         error: () => {
-          this.store.dispatch(new SnackbarErrorAction('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.ERROR_MESSAGE'));
+          this.notificationService.showError('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.ERROR_MESSAGE');
         }
       });
   }
