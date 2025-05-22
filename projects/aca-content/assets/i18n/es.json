@@ -153,9 +153,9 @@
                 },
                 "ERRORS": {
                     "LIBRARY_NOT_FOUND": "Esta biblioteca ya no existe.",
-                    "LIBRARY_NO_PERMISSIONS": "No tiene permiso para ver esta biblioteca.",
                     "LIBRARY_LOADING_ERROR": "Ha habido un problema al cargar esta biblioteca."
-                }
+                },
+                "LIBRARY_NO_PERMISSIONS_WARNING": "No tiene permiso para ver esta biblioteca."
             },
             "SHARED": {
                 "TITLE": "Ficheros compartidos",

@@ -252,7 +252,7 @@ mat-snack-bar-container {
 }
 
 .adf-warning-snackbar {
-  --mdc-snackbar-container-color: var(--adf-theme-mat-yellow-color-700);
+  --mdc-snackbar-container-color: var(--theme-warning-snackbar-background);
 }
 
 .adf-info-snackbar {

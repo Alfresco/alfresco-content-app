@@ -548,7 +548,7 @@ describe('FilesComponent', () => {
         );
         fixture.detectChanges();
 
-        expect(getGenericErrorText()).toBe('APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_NO_PERMISSIONS');
+        expect(getGenericErrorText()).toBe('APP.BROWSE.LIBRARIES.LIBRARY_NO_PERMISSIONS_WARNING');
       });
 
       it('should have set text to library not found error if library does not exist and actual url is libraries', () => {
@@ -638,7 +638,7 @@ describe('FilesComponent', () => {
         );
         fixture.detectChanges();
 
-        expect(getGenericErrorText()).toBe('APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_NO_PERMISSIONS');
+        expect(getGenericErrorText()).toBe('APP.BROWSE.LIBRARIES.LIBRARY_NO_PERMISSIONS_WARNING');
       });
 
       it('should have set text to library not found error if library does not exist issue and actual url is libraries', () => {

@@ -153,9 +153,9 @@
                 },
                 "ERRORS": {
                     "LIBRARY_NOT_FOUND": "Diese Bibliothek ist nicht länger vorhanden.",
-                    "LIBRARY_NO_PERMISSIONS": "Sie haben keine Berechtigung, diese Bibliothek anzuzeigen.",
                     "LIBRARY_LOADING_ERROR": "Beim Laden dieser Bibliothek ist ein Fehler aufgetreten."
-                }
+                },
+                "LIBRARY_NO_PERMISSIONS_WARNING": "Sie haben keine Berechtigung, diese Bibliothek anzuzeigen."
             },
             "SHARED": {
                 "TITLE": "Freigegebene Dateien",

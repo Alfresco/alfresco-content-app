@@ -122,7 +122,7 @@ export class LibraryEffects {
                 (error: HttpErrorResponse) => {
                   switch (error.status) {
                     case 403:
-                      this.notificationService.showWarning('APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_NO_PERMISSIONS');
+                      this.notificationService.showWarning('APP.BROWSE.LIBRARIES.LIBRARY_NO_PERMISSIONS_WARNING');
                       break;
                     case 404:
                       this.notificationService.showError('APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_NOT_FOUND');

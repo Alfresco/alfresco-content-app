@@ -153,9 +153,9 @@
                 },
                 "ERRORS": {
                     "LIBRARY_NOT_FOUND": "Ta biblioteka już nie istnieje.",
-                    "LIBRARY_NO_PERMISSIONS": "Nie masz uprawnień do wyświetlenia tej biblioteki.",
                     "LIBRARY_LOADING_ERROR": "Wystąpił problem podczas ładowania tej biblioteki."
-                }
+                },
+                "LIBRARY_NO_PERMISSIONS_WARNING": "Nie masz uprawnień do wyświetlenia tej biblioteki."
             },
             "SHARED": {
                 "TITLE": "Udostępnione pliki",

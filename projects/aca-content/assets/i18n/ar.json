@@ -153,9 +153,9 @@
                 },
                 "ERRORS": {
                     "LIBRARY_NOT_FOUND": "هذه المكتبة لم تعد موجودة.",
-                    "LIBRARY_NO_PERMISSIONS": "ليس لديك الإذن لعرض هذه المكتبة.",
                     "LIBRARY_LOADING_ERROR": "حدثت بعض المشاكل أثناء تحميل هذه المكتبة."
-                }
+                },
+                "LIBRARY_NO_PERMISSIONS_WARNING": "ليس لديك الإذن لعرض هذه المكتبة."
             },
             "SHARED": {
                 "TITLE": "الملفات المشتركة",

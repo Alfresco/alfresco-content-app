@@ -409,7 +409,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     if (this.router.url.includes('libraries')) {
       switch (error.status) {
         case 403:
-          this._errorTranslationKey = 'APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_NO_PERMISSIONS';
+          this._errorTranslationKey = 'APP.BROWSE.LIBRARIES.LIBRARY_NO_PERMISSIONS_WARNING';
           break;
         case 404:
           this._errorTranslationKey = 'APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_NOT_FOUND';

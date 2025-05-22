@@ -153,9 +153,9 @@
                 },
                 "ERRORS": {
                   "LIBRARY_NOT_FOUND": "This library no longer exists.",
-                  "LIBRARY_NO_PERMISSIONS": "You do not have permission to view this library.",
                   "LIBRARY_LOADING_ERROR": "There was some problem during loading this library."
-                }
+                },
+                "LIBRARY_NO_PERMISSIONS_WARNING": "You do not have permission to view this library."
             },
             "SHARED": {
                 "TITLE": "Shared Files",

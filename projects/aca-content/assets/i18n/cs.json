@@ -153,9 +153,9 @@
                 },
                 "ERRORS": {
                     "LIBRARY_NOT_FOUND": "Tato knihovna již neexistuje.",
-                    "LIBRARY_NO_PERMISSIONS": "K zobrazení této knihovny nemáte oprávnění.",
                     "LIBRARY_LOADING_ERROR": "Při načítání této knihovny došlo k problému."
-                }
+                },
+                "LIBRARY_NO_PERMISSIONS_WARNING": "K zobrazení této knihovny nemáte oprávnění."
             },
             "SHARED": {
                 "TITLE": "Sdílené soubory",
