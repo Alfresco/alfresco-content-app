@@ -551,7 +551,7 @@ export class ContentManagementService {
 
     this.notificationService
       .openSnackMessageAction(message, undo, {
-        panelClass: 'info-snackbar'
+        panelClass: 'adf-info-snackbar'
       })
       .onAction()
       .subscribe(() => this.undoCopyNodes(newItems));
@@ -1093,7 +1093,7 @@ export class ContentManagementService {
         messages[successMessage] + beforePartialSuccessMessage + messages[partialSuccessMessage] + beforeFailedMessage + messages[failedMessage],
         undo,
         {
-          panelClass: 'info-snackbar'
+          panelClass: 'adf-info-snackbar'
         }
       )
       .onAction()
