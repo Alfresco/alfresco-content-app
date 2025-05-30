@@ -34,7 +34,7 @@ import { AppSettingsService } from '@alfresco/aca-shared';
   styles: [
     `
       .adf-login {
-        background-color: white;
+        background-color: var(--theme-white-background);
       }
     `
   ],
