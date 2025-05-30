@@ -34,7 +34,7 @@ $theme-dropdown-background-hover: darken($background-color, 10%);
 $grey-divider: rgba(0, 0, 0, 0.22);
 $datetimepicker-font-color: rgba(black, 0.87);
 $datetimepicker-selected-date-background: #2254b2;
-$datetimepicker-cell-background-color: #fff;
+$white-background: #fff;
 $datetimepicker-cell-focus-border-color: #1f74db;
 $sidenav-background-color: $background-color;
 $selected-text-color: #212121;
@@ -92,7 +92,7 @@ $defaults: (
   --theme-about-panel-title-color: mat.m2-get-color-from-palette($foreground, text),
   --theme-datetimepicker-font-color: $datetimepicker-font-color,
   --theme-datetimepicker-selected-date-background: $datetimepicker-selected-date-background,
-  --theme-datetimepicker-cell-background: $datetimepicker-cell-background-color,
+  --theme-white-background: $white-background,
   --theme-datetimepicker-cell-focus-border: $datetimepicker-cell-focus-border-color,
   --theme-sidenav-background-color: $sidenav-background-color,
   --theme-selected-text-color: $selected-text-color,
