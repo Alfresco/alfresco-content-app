@@ -63,7 +63,7 @@
     }
 
     &:focus-visible {
-      background-color: white;
+      background-color: var(--theme-white-background);
 
       .mdc-list-item__content {
         @include mixins.rounded-border;
@@ -95,11 +95,11 @@
       &:focus-visible {
         @include mixins.rounded-border;
 
-        background-color: white;
+        background-color: var(--theme-white-background);
       }
 
       &.cdk-keyboard-focused:not([disabled]) {
-        background-color: white;
+        background-color: var(--theme-white-background);
       }
     }
   }
@@ -199,12 +199,12 @@
       &:focus-visible {
         @include mixins.rounded-border;
 
-        background-color: white;
+        background-color: var(--theme-white-background);
       }
     }
 
     &.cdk-keyboard-focused:not([aria-disabled='true']) {
-      background-color: white;
+      background-color: var(--theme-white-background);
 
       @include mixins.rounded-border;
     }
@@ -215,7 +215,7 @@
 
     .mat-mdc-simple-snack-bar,
     .mat-mdc-snack-bar-action {
-      color: white;
+      color: var(--theme-white-background);
     }
   }
 

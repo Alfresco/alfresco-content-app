@@ -239,16 +239,16 @@ mat-toolbar#{ms.$mat-toolbar}#{ms.$mat-toolbar-single-row} {
 
 mat-snack-bar-container {
   #{ms.$mat-button}#{ms.$mat-unthemed} {
-    --mdc-text-button-label-text-color: #fff;
+    --mdc-text-button-label-text-color: var(--theme-white-background);
   }
 }
 
 .adf-warning-snackbar,
 .adf-info-snackbar,
 .adf-error-snackbar {
-  --mat-mdc-snack-bar-button-color: #fff;
-  --mdc-snackbar-supporting-text-color: #fff;
-  --mdc-text-button-label-text-color: #fff;
+  --mat-mdc-snack-bar-button-color: var(--theme-white-background);
+  --mdc-snackbar-supporting-text-color: var(--theme-white-background);
+  --mdc-text-button-label-text-color: var(--theme-white-background);
 }
 
 .adf-warning-snackbar {
