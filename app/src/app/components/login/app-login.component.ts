@@ -31,6 +31,13 @@ import { AppSettingsService } from '@alfresco/aca-shared';
   standalone: true,
   imports: [LoginComponent, TranslateModule],
   templateUrl: './app-login.component.html',
+  styles: [
+    `
+      .adf-login {
+        background-color: white;
+      }
+    `
+  ],
   encapsulation: ViewEncapsulation.None
 })
 export class AppLoginComponent {
