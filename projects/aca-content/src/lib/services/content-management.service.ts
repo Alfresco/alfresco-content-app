@@ -326,7 +326,8 @@ export class ContentManagementService {
         yesLabel: 'APP.DIALOGS.CONFIRM_LEAVE.YES_LABEL',
         noLabel: 'APP.DIALOGS.CONFIRM_LEAVE.NO_LABEL'
       },
-      minWidth: '250px'
+      minWidth: '250px',
+      restoreFocus: true
     });
 
     dialogRef.afterClosed().subscribe((result) => {

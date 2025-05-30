@@ -53,7 +53,7 @@ import { AppHookService, AppSettingsService, ContentApiService } from '@alfresco
 import { Store } from '@ngrx/store';
 import { ContentManagementService } from './content-management.service';
 import { NodeActionsService } from './node-actions.service';
-import { DialogComponent, DialogSize, NotificationService, TranslationService } from '@alfresco/adf-core';
+import { ConfirmDialogComponent, DialogComponent, DialogSize, NotificationService, TranslationService } from '@alfresco/adf-core';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarModule, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { Node, NodeEntry, UserInfo, VersionPaging } from '@alfresco/js-api';
@@ -1819,6 +1819,16 @@ describe('ContentManagementService', () => {
       spyOn(elementToFocus, 'focus');
       spyOn(document, 'querySelector').withArgs(elementToFocusSelector).and.returnValue(elementToFocus);
       contentManagementService.leaveLibrary('', elementToFocusSelector);
+      expect(dialog.open).toHaveBeenCalledWith(ConfirmDialogComponent, {
+        data: {
+          title: 'APP.DIALOGS.CONFIRM_LEAVE.TITLE',
+          message: 'APP.DIALOGS.CONFIRM_LEAVE.MESSAGE',
+          yesLabel: 'APP.DIALOGS.CONFIRM_LEAVE.YES_LABEL',
+          noLabel: 'APP.DIALOGS.CONFIRM_LEAVE.NO_LABEL'
+        },
+        minWidth: '250px',
+        restoreFocus: true
+      });
       afterClosed$.next();
       expect(elementToFocus.focus).toHaveBeenCalled();
     });
