@@ -19,7 +19,7 @@ runs:
         echo "GIT_HASH=$(git rev-parse HEAD)" >> $GITHUB_ENV
         echo "HEAD_HASH=HEAD" >> $GITHUB_ENV
 
-    - uses: Alfresco/alfresco-build-tools/.github/actions/get-branch-name@v8.19.1
+    - uses: Alfresco/alfresco-build-tools/.github/actions/get-branch-name@v8.22.1
     - name: set TAG_NPM
       shell: bash
       run: |
