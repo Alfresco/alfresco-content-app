@@ -217,7 +217,7 @@ jobs:
           fetch-depth: 2
 
       - name: Extract commit message
-        uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@v8.19.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@v8.22.1
 
       - name: Check ADF link
         shell: bash
