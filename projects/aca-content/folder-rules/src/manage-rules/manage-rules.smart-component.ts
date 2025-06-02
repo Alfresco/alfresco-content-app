@@ -223,7 +223,8 @@ export class ManageRulesSmartComponent implements OnInit {
           title: 'ACA_FOLDER_RULES.CONFIRMATION_DIALOG.DELETE_RULE.TITLE',
           message: 'ACA_FOLDER_RULES.CONFIRMATION_DIALOG.DELETE_RULE.MESSAGE'
         },
-        minWidth: '346px'
+        minWidth: '346px',
+        restoreFocus: true
       })
       .afterClosed()
       .subscribe((result) => {

@@ -210,7 +210,7 @@ describe('ManageRulesSmartComponent', () => {
     expect(ruleDetails).toBeFalsy();
   });
 
-  // TODO: flaky test that needs review
+  // TODO: [ACS-9719] flaky test that needs review
   // eslint-disable-next-line ban/ban
   xit('should call deleteRule() if confirmation dialog returns true', () => {
     const dialog = TestBed.inject(MatDialog);
