@@ -69,7 +69,7 @@ describe('SearchAiMarkedOptions', () => {
         text: 'Example Link',
         type: 'link',
         href: 'https://example.com',
-        title: 'Example',
+        title: '',
         tokens: []
       })
     ).toContain('title=""');
