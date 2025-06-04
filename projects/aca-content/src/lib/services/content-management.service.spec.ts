@@ -1794,7 +1794,7 @@ describe('ContentManagementService', () => {
       tick();
 
       expect(showInfoSpy).toHaveBeenCalledWith('APP.MESSAGES.INFO.LIBRARY_DELETED');
-      expect(store.dispatch).toHaveBeenCalledWith(new NavigateRouteAction(['/libraries']));
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new NavigateRouteAction(['/libraries']) }));
     }));
   });
 

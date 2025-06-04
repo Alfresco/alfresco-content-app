@@ -28,7 +28,7 @@ import { AgentService, ContentTestingModule, SearchAiService } from '@alfresco/a
 import { Subject } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { getAppSelection, SearchAiActionTypes, ToggleAISearchInput } from '@alfresco/aca-shared/store';
+import { getAppSelection, SearchAiActionTypes } from '@alfresco/aca-shared/store';
 import { AvatarComponent, NotificationService } from '@alfresco/adf-core';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { MatMenu, MatMenuPanel, MatMenuTrigger } from '@angular/material/menu';
@@ -398,10 +398,12 @@ describe('AgentsButtonComponent', () => {
         spyOn(store, 'dispatch');
         await selectAgent();
 
-        expect(store.dispatch<ToggleAISearchInput>).toHaveBeenCalledWith({
-          type: SearchAiActionTypes.ToggleAiSearchInput,
-          agentId: '2'
-        });
+        expect(store.dispatch).toHaveBeenCalledWith(
+          jasmine.objectContaining({
+            type: SearchAiActionTypes.ToggleAiSearchInput,
+            agentId: '2'
+          })
+        );
       });
 
       it('should disallow selecting multiple agentsMock', () => {

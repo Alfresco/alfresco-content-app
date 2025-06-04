@@ -425,12 +425,14 @@ describe('SearchAiInputComponent', () => {
         submittingTrigger();
 
         expect(store.dispatch).toHaveBeenCalledWith(
-          new SearchByTermAiAction({
-            searchTerm: query,
-            agentId: component.agentId
+          jasmine.objectContaining({
+            ...new SearchByTermAiAction({
+              searchTerm: query,
+              agentId: component.agentId
+            })
           })
         );
-        expect(store.dispatch).toHaveBeenCalledWith(new ToggleAISearchInput('2', 'some query'));
+        expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new ToggleAISearchInput('2', 'some query') }));
       });
 
       it('should call dispatch on store with correct parameter if selected agent was changed', async () => {
@@ -443,12 +445,14 @@ describe('SearchAiInputComponent', () => {
         submittingTrigger();
 
         expect(store.dispatch).toHaveBeenCalledWith(
-          new SearchByTermAiAction({
-            searchTerm: query,
-            agentId: '1'
+          jasmine.objectContaining({
+            ...new SearchByTermAiAction({
+              searchTerm: query,
+              agentId: '1'
+            })
           })
         );
-        expect(store.dispatch).toHaveBeenCalledWith(new ToggleAISearchInput('1', 'some query'));
+        expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new ToggleAISearchInput('1', 'some query') }));
       });
 
       it('should call open modal if there was a previous search phrase in url', () => {

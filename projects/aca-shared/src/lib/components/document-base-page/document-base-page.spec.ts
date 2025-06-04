@@ -201,7 +201,7 @@ describe('PageComponent', () => {
       } as NodeEntry;
 
       component.showPreview(node);
-      expect(store.dispatch).toHaveBeenCalledWith(new ViewNodeAction(node.entry.id));
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new ViewNodeAction(node.entry.id) }));
     });
 
     it('should call ViewNodeAction on showPreview for `app:filelink` node type', () => {
@@ -218,7 +218,7 @@ describe('PageComponent', () => {
 
       component.showPreview(linkNode);
       const id = linkNode.entry.properties['cm:destination'];
-      expect(store.dispatch).toHaveBeenCalledWith(new ViewNodeAction(id));
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new ViewNodeAction(id) }));
     });
   });
 

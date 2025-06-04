@@ -538,8 +538,10 @@ describe('SearchAiResultsComponent', () => {
     it('should dispatch ViewNodeAction on store when clicked', () => {
       documentElement.click();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new ViewNodeAction(nodeId, {
-          location: url
+        jasmine.objectContaining({
+          ...new ViewNodeAction(nodeId, {
+            location: url
+          })
         })
       );
     });
@@ -551,8 +553,10 @@ describe('SearchAiResultsComponent', () => {
         })
       );
       expect(store.dispatch).toHaveBeenCalledWith(
-        new ViewNodeAction(nodeId, {
-          location: url
+        jasmine.objectContaining({
+          ...new ViewNodeAction(nodeId, {
+            location: url
+          })
         })
       );
     });

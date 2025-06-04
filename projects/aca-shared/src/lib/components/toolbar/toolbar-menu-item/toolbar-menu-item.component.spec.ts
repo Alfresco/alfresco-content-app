@@ -123,8 +123,9 @@ describe('ToolbarMenuItemComponent', () => {
     fixture.detectChanges();
 
     const innerElement = testingUtils.getByDirective(DynamicExtensionComponent);
-    innerElement.componentInstance.menuItem = new MatMenuItem(null, null, null, null, null);
+    const menuItem = {} as MatMenuItem;
+    innerElement.componentInstance.menuItem = menuItem;
     component.ngAfterViewInit();
-    expect(component.menuItem).toBeInstanceOf(MatMenuItem);
+    expect(component.menuItem).toEqual(menuItem);
   });
 });

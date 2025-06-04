@@ -108,11 +108,11 @@ describe('AcaViewerComponent', () => {
 
     component.previousNodeId = 'previous';
     component.onNavigateBefore(clickEvent);
-    expect(store.dispatch).toHaveBeenCalledWith(new ViewNodeAction('previous', { location: fakeLocation }));
+    expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new ViewNodeAction('previous', { location: fakeLocation }) }));
 
     component.nextNodeId = 'next';
     component.onNavigateNext(clickEvent);
-    expect(store.dispatch).toHaveBeenCalledWith(new ViewNodeAction('next', { location: fakeLocation }));
+    expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new ViewNodeAction('next', { location: fakeLocation }) }));
   });
 
   describe('Navigate back to node location', () => {
