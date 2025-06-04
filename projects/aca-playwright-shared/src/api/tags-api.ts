@@ -40,7 +40,7 @@ export class TagsApi {
 
   async createTags(tags: TagBody[]): Promise<TagEntry | TagPaging> {
     try {
-      return this.apiService.tagsApi.createTags(tags);
+      return this.apiService.tagsApi.createTags(tags).then((entry) => entry[0]);
     } catch (error) {
       console.error(error);
       return null;
