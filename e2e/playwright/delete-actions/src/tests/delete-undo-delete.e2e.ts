@@ -143,6 +143,7 @@ test.describe('Delete and undo delete', () => {
       await personalFiles.snackBar.message.waitFor();
       await personalFiles.page.reload({ waitUntil: 'load' });
       await personalFiles.dataTable.selectItems(file2, file3);
+      await personalFiles.page.waitForTimeout(2000);
       await personalFiles.acaHeader.clickMoreActions();
       await personalFiles.matMenu.clickMenuItem('Delete');
       await personalFiles.snackBar.verifySnackBarActionText(`Deleted 2 items`);
