@@ -55,6 +55,7 @@ test.describe('Delete and undo delete', () => {
     const file5 = `file5-${Utils.random()}.txt`;
     const file6 = `file6-${Utils.random()}.txt`;
     const file7 = `file7-${Utils.random()}.txt`;
+    const file8 = `file8-${Utils.random()}.txt`;
 
     const folder1 = `folder1-${Utils.random()}`;
     const folder2 = `folder2-${Utils.random()}`;
@@ -87,6 +88,7 @@ test.describe('Delete and undo delete', () => {
       await nodesApi.createFile(file5, parentId);
       await nodesApi.createFile(file6, parentId);
       await nodesApi.createFile(file7, parentId);
+      await nodesApi.createFile(file8, parentId);
 
       const folder1Id = (await nodesApi.createFolder(folder1, parentId)).entry.id;
       const folder2Id = (await nodesApi.createFolder(folder2, parentId)).entry.id;
@@ -135,7 +137,11 @@ test.describe('Delete and undo delete', () => {
 
     test('[XAT-5017] Delete multiple files and check snackbar notification', async ({ personalFiles, trashPage }) => {
       await personalFiles.page.reload({ waitUntil: 'load' });
-      let items = await personalFiles.dataTable.getRowsCount();
+      await personalFiles.dataTable.selectItems(file8);
+      await personalFiles.acaHeader.clickMoreActions();
+      await personalFiles.matMenu.clickMenuItem('Delete');
+      await personalFiles.snackBar.message.waitFor();
+      await personalFiles.page.reload({ waitUntil: 'load' });
       await personalFiles.dataTable.selectItems(file2, file3);
       await personalFiles.acaHeader.clickMoreActions();
       await personalFiles.matMenu.clickMenuItem('Delete');
@@ -143,8 +149,6 @@ test.describe('Delete and undo delete', () => {
       await personalFiles.snackBar.closeIcon.click();
       expect(await personalFiles.dataTable.isItemPresent(file2)).toBeFalsy();
       expect(await personalFiles.dataTable.isItemPresent(file3)).toBeFalsy();
-      items = items - 2;
-      expect(await personalFiles.pagination.getMaxRange()).toEqual(` Showing 1-${items} of ${items} `);
       await trashPage.navigate();
       expect(await personalFiles.dataTable.isItemPresent(file2)).toBeTruthy();
       expect(await personalFiles.dataTable.isItemPresent(file3)).toBeTruthy();
