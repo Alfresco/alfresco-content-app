@@ -252,7 +252,7 @@ export class DataTableComponent extends BaseComponent {
         const row = this.getRowByName(name);
         await row.hover();
         await row.locator(this.uncheckedCheckbox).click();
-        await row.locator(this.checkedCheckbox).waitFor({ state: 'attached' });
+        await row.locator(this.checkedCheckbox).waitFor({ state: 'visible', timeout: timeouts.large });
       }
     }
   }

@@ -30,7 +30,7 @@ import { timeouts } from '../../utils';
 export class ViewerComponent extends BaseComponent {
   private static rootElement = 'adf-viewer';
 
-  public viewerLocator = this.getChild('.adf-viewer-render-layout-content');
+  public viewerLocator = this.getChild('adf-viewer-render');
   public closeButtonLocator = this.getChild('.adf-viewer-close-button');
   public fileTitleButtonLocator = this.getChild('.adf-viewer__file-title');
   public pdfViewerContentPages = this.getChild('.adf-pdf-viewer__content .page');
