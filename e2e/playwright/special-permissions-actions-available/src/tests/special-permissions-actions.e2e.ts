@@ -160,7 +160,7 @@ test.describe('Special permissions : ', () => {
 
     await managerNodeActions.lockNodes([fileLockedId, fileFavLockedId, fileSharedLockedId, fileSharedFavLockedId]);
 
-    await managerNodeActions.setGranularPermission(fileGranularPermissionId, false, userConsumer, Site.RoleEnum.SiteManager);
+    await managerNodeActions.setGranularPermission(fileGranularPermissionId, userConsumer, Site.RoleEnum.SiteManager, false);
 
     await collaboratorFavoritesActions.isFavoriteWithRetry(userCollaborator, fileSharedFavId, { expect: true });
     await Promise.all([

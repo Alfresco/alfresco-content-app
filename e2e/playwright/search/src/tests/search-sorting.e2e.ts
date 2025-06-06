@@ -82,7 +82,7 @@ test.describe('Search sorting', () => {
 
     parentId = (await nodesApi1.createFolder(parent)).entry.id;
 
-    await nodesApi1.setGranularPermission(parentId, true, user2, 'Collaborator');
+    await nodesApi1.setGranularPermission(parentId, user2, 'Collaborator', true);
 
     await fileActionsApi1.uploadFileWithRename(fileJpg.source, fileJpg.name, parentId);
     await fileActionsApi2.uploadFileWithRename(filePdf.source, filePdf.name, parentId, filePdf.title, filePdf.description);
