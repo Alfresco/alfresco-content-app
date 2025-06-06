@@ -23,7 +23,7 @@
  */
 
 import { ApiClientFactory } from './api-client-factory';
-import { NodeChildAssociationPaging, NodeEntry, NodePaging } from '@alfresco/js-api';
+import { NodeChildAssociationPaging, NodeEntry, NodePaging, NodesIncludeQuery, NodeBodyUpdate } from '@alfresco/js-api';
 import { NodeContentTree, flattenNodeContentTree } from './node-content-tree';
 
 export class NodesApi {
@@ -159,6 +159,15 @@ export class NodesApi {
     }
   }
 
+  async updateNode(nodeId: string, nodeBodyUpdate: NodeBodyUpdate, opts?: NodesIncludeQuery): Promise<NodeEntry | null> {
+    try {
+      return await this.apiService.nodes.updateNode(nodeId, nodeBodyUpdate, opts);
+    } catch (error) {
+      console.error(`${this.constructor.name} ${this.updateNode.name}`, error);
+      return null;
+    }
+  }
+
   /**
    * Delete all nodes of the currently logged in user
    * @param userNodeId The id of User node, all child nodes of "userNodeId" will be gathered as a list and deleted ( e.g.: "-my-" - User Homes folder)
@@ -290,7 +299,7 @@ export class NodesApi {
     });
   }
 
-  async setGranularPermission(nodeId: string, inheritPermissions: boolean = false, username: string, role: string): Promise<NodeEntry | null> {
+  async setGranularPermission(nodeId: string, username: string, role: string, inheritPermissions: boolean = false): Promise<NodeEntry | null> {
     const data = {
       permissions: {
         isInheritanceEnabled: inheritPermissions,
