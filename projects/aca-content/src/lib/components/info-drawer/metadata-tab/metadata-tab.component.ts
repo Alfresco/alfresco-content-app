@@ -40,6 +40,7 @@ import { CommonModule } from '@angular/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ExtensionService } from '@alfresco/adf-extensions';
 
 @Component({
   standalone: true,
@@ -89,7 +90,8 @@ export class MetadataTabComponent implements OnInit {
     private actions$: Actions,
     private tagService: TagService,
     private categoryService: CategoryService,
-    private store: Store<AppStore>
+    private store: Store<AppStore>,
+    private extensionService: ExtensionService
   ) {
     if (this.extensions.contentMetadata) {
       this.appConfig.config['content-metadata'].presets = this.extensions.contentMetadata.presets;
@@ -128,6 +130,12 @@ export class MetadataTabComponent implements OnInit {
   }
 
   private checkIfNodeIsUpdatable(node: Node) {
-    this.readOnly = !(node && !isLocked({ entry: node }) ? this.permission.check(node, ['update']) : false);
+    this.readOnly = !(node &&
+    !isLocked({ entry: node }) &&
+    (this.extensionService.getFeature('sidebar')?.['rules']?.enabled || []).every((rule: string) =>
+      this.extensionService.evaluateRule(rule, this.extensions)
+    )
+      ? this.permission.check(node, ['update'])
+      : false);
   }
 }

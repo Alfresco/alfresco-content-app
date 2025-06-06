@@ -883,6 +883,20 @@
           "description": "Sidebar extensions",
           "type": "object",
           "properties": {
+            "rules": {
+              "description": "Element rules",
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "description": "Rule to evaluate the enabled state",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "minItems": 0
+                }
+              }
+            },
             "toolbar": {
               "description": "Toolbar entries",
               "type": "array",
