@@ -32,7 +32,7 @@ import { By } from '@angular/platform-browser';
 import { AppExtensionService, NodePermissionService } from '@alfresco/aca-shared';
 import { Actions } from '@ngrx/effects';
 import { of, Subject } from 'rxjs';
-import { ContentActionType } from '@alfresco/adf-extensions';
+import { ContentActionType, ExtensionService } from '@alfresco/adf-extensions';
 import { CategoryService, ContentMetadataComponent, ContentMetadataService, TagService } from '@alfresco/adf-content-services';
 import { MatDialogModule } from '@angular/material/dialog';
 
@@ -70,6 +70,7 @@ describe('MetadataTabComponent', () => {
       return permissions.some((permission) => source.allowableOperations.includes(permission));
     });
     spyOn(contentMetadataService, 'getGroupedProperties').and.returnValue(of());
+    extensions = TestBed.inject(AppExtensionService);
   });
 
   afterEach(() => {
@@ -79,7 +80,6 @@ describe('MetadataTabComponent', () => {
   describe('content-metadata configuration', () => {
     beforeEach(() => {
       appConfig = TestBed.inject(AppConfigService);
-      extensions = TestBed.inject(AppExtensionService);
       appConfig.config['content-metadata'] = { presets };
     });
 
@@ -102,9 +102,12 @@ describe('MetadataTabComponent', () => {
   });
 
   describe('readOnly', () => {
+    let extensionService: ExtensionService;
+
     beforeEach(() => {
       fixture = TestBed.createComponent(MetadataTabComponent);
       component = fixture.componentInstance;
+      extensionService = TestBed.inject(ExtensionService);
     });
 
     it('should return false if node is not locked and has update permission', async () => {
@@ -144,6 +147,170 @@ describe('MetadataTabComponent', () => {
       } as Node;
       component.ngOnInit();
       expect(component.readOnly).toBe(true);
+    });
+
+    it('should set readOnly to false if node is defined, is not locked and enabled rule for sidebar returns true, has update permission for node', () => {
+      component.node = {
+        id: 'some id',
+        isLocked: false,
+        allowableOperations: ['update']
+      } as Node;
+      const rule = 'someRule';
+      spyOn(extensionService, 'getFeature').and.returnValue({
+        rules: {
+          enabled: [rule]
+        }
+      });
+      spyOn(extensionService, 'evaluateRule').and.returnValue(true);
+
+      component.ngOnInit();
+      expect(component.readOnly).toBeFalse();
+      expect(extensionService.getFeature).toHaveBeenCalledWith('sidebar');
+      expect(extensionService.evaluateRule).toHaveBeenCalledWith(rule, extensions);
+    });
+
+    it('should set readOnly to false if node is defined, is not locked and there is nothing for sidebar in configuration, has update permission for node', () => {
+      component.node = {
+        id: 'some id',
+        isLocked: false,
+        allowableOperations: ['update']
+      } as Node;
+      spyOn(extensionService, 'getFeature').and.returnValue(undefined);
+      spyOn(extensionService, 'evaluateRule').and.returnValue(true);
+
+      component.ngOnInit();
+      expect(component.readOnly).toBeFalse();
+      expect(extensionService.getFeature).toHaveBeenCalledWith('sidebar');
+      expect(extensionService.evaluateRule).not.toHaveBeenCalled();
+    });
+
+    it('should set readOnly to true if node is undefined and enabled rule for sidebar returns true, has update permission for node', () => {
+      component.node = undefined;
+      spyOn(extensionService, 'getFeature').and.returnValue({
+        rules: {
+          enabled: ['someRule']
+        }
+      });
+      spyOn(extensionService, 'evaluateRule').and.returnValue(true);
+
+      component.ngOnInit();
+      expect(component.readOnly).toBeTrue();
+      expect(extensionService.getFeature).not.toHaveBeenCalled();
+      expect(extensionService.evaluateRule).not.toHaveBeenCalled();
+    });
+
+    it('should set readOnly to true if node is undefined and there is nothing for sidebar in configuration, has update permission for node', () => {
+      component.node = undefined;
+      spyOn(extensionService, 'getFeature').and.returnValue(undefined);
+      spyOn(extensionService, 'evaluateRule').and.returnValue(true);
+
+      component.ngOnInit();
+      expect(component.readOnly).toBeTrue();
+      expect(extensionService.getFeature).not.toHaveBeenCalled();
+      expect(extensionService.evaluateRule).not.toHaveBeenCalled();
+    });
+
+    it('should set readOnly to true if node is defined, is locked and enabled rule for sidebar returns true, has update permission for node', () => {
+      component.node = {
+        id: 'some id',
+        isLocked: true,
+        allowableOperations: ['update']
+      } as Node;
+      spyOn(extensionService, 'getFeature').and.returnValue({
+        rules: {
+          enabled: ['someRule']
+        }
+      });
+      spyOn(extensionService, 'evaluateRule').and.returnValue(true);
+
+      component.ngOnInit();
+      expect(component.readOnly).toBeTrue();
+      expect(extensionService.getFeature).not.toHaveBeenCalled();
+      expect(extensionService.evaluateRule).not.toHaveBeenCalled();
+    });
+
+    it('should set readOnly to true if node is defined, is locked and there is nothing for sidebar in configuration, has update permission for node', () => {
+      component.node = {
+        id: 'some id',
+        isLocked: true,
+        allowableOperations: ['update']
+      } as Node;
+      spyOn(extensionService, 'getFeature').and.returnValue(undefined);
+      spyOn(extensionService, 'evaluateRule').and.returnValue(true);
+
+      component.ngOnInit();
+      expect(component.readOnly).toBeTrue();
+      expect(extensionService.getFeature).not.toHaveBeenCalled();
+      expect(extensionService.evaluateRule).not.toHaveBeenCalled();
+    });
+
+    it('should set readOnly to true if node is defined, is not locked and enabled rule for sidebar returns true, has not update permission for node', () => {
+      component.node = {
+        id: 'some id',
+        isLocked: false,
+        allowableOperations: []
+      } as Node;
+      const rule = 'someRule';
+      spyOn(extensionService, 'getFeature').and.returnValue({
+        rules: {
+          enabled: [rule]
+        }
+      });
+      spyOn(extensionService, 'evaluateRule').and.returnValue(true);
+
+      component.ngOnInit();
+      expect(component.readOnly).toBeTrue();
+      expect(extensionService.getFeature).toHaveBeenCalledWith('sidebar');
+      expect(extensionService.evaluateRule).toHaveBeenCalledWith(rule, extensions);
+    });
+
+    it('should set readOnly to true if node is defined, is not locked and there is nothing for sidebar in configuration, has not update permission for node', () => {
+      component.node = {
+        id: 'some id',
+        isLocked: false,
+        allowableOperations: ['']
+      } as Node;
+      spyOn(extensionService, 'getFeature').and.returnValue(undefined);
+      spyOn(extensionService, 'evaluateRule').and.returnValue(true);
+
+      component.ngOnInit();
+      expect(component.readOnly).toBeTrue();
+      expect(extensionService.getFeature).toHaveBeenCalledWith('sidebar');
+      expect(extensionService.evaluateRule).not.toHaveBeenCalled();
+    });
+
+    it('should set readOnly to true if node is defined, is locked and enabled rule for sidebar returns true, has not update permission for node', () => {
+      component.node = {
+        id: 'some id',
+        isLocked: true,
+        allowableOperations: []
+      } as Node;
+      spyOn(extensionService, 'getFeature').and.returnValue({
+        rules: {
+          enabled: ['someRule']
+        }
+      });
+      spyOn(extensionService, 'evaluateRule').and.returnValue(true);
+
+      component.ngOnInit();
+      expect(component.readOnly).toBeTrue();
+      expect(extensionService.getFeature).not.toHaveBeenCalled();
+      expect(extensionService.evaluateRule).not.toHaveBeenCalled();
+    });
+
+    it('should set readOnly to true if node is defined, is locked and there is nothing for sidebar in configuration, has not update permission for node', () => {
+      component.node = {
+        id: 'some id',
+        isLocked: true,
+        allowableOperations: []
+      } as Node;
+      spyOn(extensionService, 'getFeature').and.returnValue(undefined);
+      spyOn(extensionService, 'evaluateRule').and.returnValue(true);
+
+      component.ngOnInit();
+      expect(component.readOnly).toBeTrue();
+      expect(extensionService.getFeature).not.toHaveBeenCalled();
+      expect(extensionService.evaluateRule).not.toHaveBeenCalled();
     });
 
     describe('set by triggering EditOfflineAction', () => {
