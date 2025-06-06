@@ -25,28 +25,30 @@
 import { LibraryMetadataFormComponent } from './library-metadata-form.component';
 import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
-import { SnackbarAction, SnackbarErrorAction, SnackbarInfoAction, UpdateLibraryAction } from '@alfresco/aca-shared/store';
+import { UpdateLibraryAction } from '@alfresco/aca-shared/store';
+import { AppHookService } from '@alfresco/aca-shared';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { Site, SiteBodyCreate, SitePaging } from '@alfresco/js-api';
-import { Actions } from '@ngrx/effects';
+import { Site, SiteBodyCreate, SiteEntry, SitePaging } from '@alfresco/js-api';
 import { of, Subject } from 'rxjs';
 
 describe('LibraryMetadataFormComponent', () => {
   let fixture: ComponentFixture<LibraryMetadataFormComponent>;
   let component: LibraryMetadataFormComponent;
   let store: Store<any>;
-  let actions$: Subject<SnackbarAction>;
   let siteEntryModel: SiteBodyCreate;
+  let appHookService: AppHookService;
 
   beforeEach(() => {
-    actions$ = new Subject<SnackbarAction>();
     TestBed.configureTestingModule({
       imports: [AppTestingModule, LibraryMetadataFormComponent],
       providers: [
         {
-          provide: Actions,
-          useValue: actions$
+          provide: AppHookService,
+          useValue: {
+            libraryUpdated: new Subject<SiteEntry>(),
+            libraryUpdateFailed: new Subject<void>()
+          }
         },
         {
           provide: Store,
@@ -59,6 +61,7 @@ describe('LibraryMetadataFormComponent', () => {
       schemas: [NO_ERRORS_SCHEMA]
     });
 
+    appHookService = TestBed.inject(AppHookService);
     store = TestBed.inject(Store);
 
     fixture = TestBed.createComponent(LibraryMetadataFormComponent);
@@ -120,22 +123,8 @@ describe('LibraryMetadataFormComponent', () => {
     component.ngOnInit();
     component.form.setValue(entry);
 
-    actions$.next(new SnackbarInfoAction('LIBRARY.SUCCESS.LIBRARY_UPDATED'));
+    appHookService.libraryUpdated.next({ entry: entry } as SiteEntry);
     expect(component.node.entry).toEqual(jasmine.objectContaining(entry));
-  });
-
-  it('should not assign form value to node entry if info snackbar was displayed for different action than updating library', () => {
-    const entry = {
-      id: 'libraryId',
-      title: 'some different title',
-      description: 'some different description',
-      visibility: Site.VisibilityEnum.PUBLIC
-    } as Site;
-    component.ngOnInit();
-    component.form.setValue(entry);
-
-    actions$.next(new SnackbarInfoAction('Some different action'));
-    expect(component.node.entry).not.toEqual(jasmine.objectContaining(entry));
   });
 
   it('should call markAsDirty on form if updating of form is finished with error', () => {
@@ -151,16 +140,8 @@ describe('LibraryMetadataFormComponent', () => {
     component.ngOnInit();
     spyOn(component.form, 'markAsDirty');
 
-    actions$.next(new SnackbarErrorAction('LIBRARY.ERRORS.LIBRARY_UPDATE_ERROR'));
+    appHookService.libraryUpdateFailed.next();
     expect(component.form.markAsDirty).toHaveBeenCalled();
-  });
-
-  it('should not call markAsDirty on form if error snackbar was displayed for different action than updating library', () => {
-    component.ngOnInit();
-    spyOn(component.form, 'markAsDirty');
-
-    actions$.next(new SnackbarErrorAction('Some different action'));
-    expect(component.form.markAsDirty).not.toHaveBeenCalled();
   });
 
   it('should update library node if form is valid', () => {

@@ -27,7 +27,7 @@ import { StoreModule } from '@ngrx/store';
 import { appReducer } from './reducers/app.reducer';
 import { StoreRouterConnectingModule, FullRouterStateSerializer } from '@ngrx/router-store';
 import { EffectsModule } from '@ngrx/effects';
-import { RouterEffects, SnackbarEffects } from '@alfresco/aca-shared/store';
+import { RouterEffects } from '@alfresco/aca-shared/store';
 import {
   AppEffects,
   NodeEffects,
@@ -71,7 +71,6 @@ import { SearchAiEffects } from './effects/search-ai.effects';
       TemplateEffects,
       ContextMenuEffects,
       SearchAiEffects,
-      SnackbarEffects,
       RouterEffects
     ])
   ]

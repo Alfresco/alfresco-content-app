@@ -49,7 +49,6 @@ import {
   SetSelectedNodesAction,
   ShareNodeAction,
   ShowLoaderAction,
-  SnackbarEffects,
   UndoDeleteNodesAction,
   UnlockWriteAction,
   UnshareNodesAction
@@ -71,12 +70,7 @@ describe('NodeEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        AppTestingModule,
-        EffectsModule.forRoot([NodeEffects, ViewerEffects, SnackbarEffects, RouterEffects]),
-        MatDialogModule,
-        MatSnackBarModule
-      ],
+      imports: [AppTestingModule, EffectsModule.forRoot([NodeEffects, ViewerEffects, RouterEffects]), MatDialogModule, MatSnackBarModule],
       providers: [RenditionService, { provide: ActivatedRoute, useValue: { queryParams: of({ location: 'test-page' }) } }]
     });
 

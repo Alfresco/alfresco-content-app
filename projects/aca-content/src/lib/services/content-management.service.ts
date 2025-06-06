@@ -34,12 +34,6 @@ import {
   RefreshPreviewAction,
   SetSelectedNodesAction,
   ShowLoaderAction,
-  SnackbarAction,
-  SnackbarErrorAction,
-  SnackbarInfoAction,
-  SnackbarUserAction,
-  SnackbarWarningAction,
-  UndoDeleteNodesAction,
   UnlockWriteAction,
   ViewNodeVersionAction
 } from '@alfresco/aca-shared/store';
@@ -69,6 +63,13 @@ interface RestoredNode {
   status: number;
   entry: Node;
   statusCode?: number;
+}
+
+interface SnackbarMessageData {
+  key: string;
+  params: any;
+  userActionLabel?: string;
+  type: 'info' | 'warning' | 'error';
 }
 
 @Injectable({
@@ -353,6 +354,7 @@ export class ContentManagementService {
         this.notificationService.showInfo('LIBRARY.SUCCESS.LIBRARY_UPDATED');
       },
       () => {
+        this.appHookService.libraryUpdateFailed.next();
         this.notificationService.showError('LIBRARY.ERRORS.LIBRARY_UPDATE_ERROR');
       }
     );
@@ -690,13 +692,27 @@ export class ContentManagementService {
 
     forkJoin(...batch).subscribe((data: DeletedNodeInfo[]) => {
       const status = this.processStatus(data);
-      const message = this.getDeleteMessage(status);
+      const messageData = this.getDeleteMessageData(status);
 
-      if (message && status.someSucceeded && allowUndo) {
-        message.userAction = new SnackbarUserAction('APP.ACTIONS.UNDO', new UndoDeleteNodesAction([...status.success]));
+      if (messageData && status.someSucceeded) {
+        const translatedMessage = this.translation.instant(messageData.key, messageData.params);
+        const action = messageData.userActionLabel ? this.translation.instant(messageData.userActionLabel) : '';
+
+        const snackBarRef = this.notificationService.openSnackMessageAction(
+          translatedMessage,
+          action,
+          { panelClass: `adf-${messageData.type}-snackbar` },
+          messageData.params
+        );
+
+        if (messageData.userActionLabel && status.someSucceeded && allowUndo) {
+          snackBarRef.onAction().subscribe(() => {
+            this.undoDeleteNodes([...status.success]);
+          });
+        }
+      } else if (messageData) {
+        this.notificationService.showError(this.translation.instant(messageData.key, messageData.params));
       }
-
-      this.store.dispatch(message);
 
       if (status.someSucceeded) {
         this.appHookService.nodesDeleted.next();
@@ -890,27 +906,29 @@ export class ContentManagementService {
   }
 
   private showRestoreNotification(status: DeleteStatus): void {
-    const message = this.getRestoreMessage(status);
+    const messageData = this.getRestoreMessageData(status);
 
-    if (message) {
-      if (status.oneSucceeded && !status.someFailed) {
-        const isSite = this.isSite(status.success[0].entry);
-        const path: PathInfo = status.success[0].entry.path;
-        const parent = path.elements[path.elements.length - 1];
-        const route = isSite ? ['/libraries', parent.id] : ['/personal-files', parent.id];
+    if (messageData) {
+      const translatedMessage = this.translation.instant(messageData.key, messageData.params);
+      const action = messageData.userActionLabel ? this.translation.instant(messageData.userActionLabel) : '';
+      const panelClass = messageData.type === 'error' ? 'adf-error-snackbar' : 'adf-info-snackbar';
 
-        let navigate;
+      const snackBarRef = this.notificationService.openSnackMessageAction(translatedMessage, action, { panelClass }, messageData.params);
 
-        if (this.isLibraryContent(path)) {
-          navigate = new NavigateToParentFolder(status.success[0]);
-        } else {
-          navigate = new NavigateRouteAction(route);
-        }
+      if (messageData.userActionLabel && status.oneSucceeded && !status.someFailed) {
+        snackBarRef.onAction().subscribe(() => {
+          const isSite = this.isSite(status.success[0].entry);
+          const path: PathInfo = status.success[0].entry.path;
+          const parent = path.elements[path.elements.length - 1];
+          const route = isSite ? ['/libraries', parent.id] : ['/personal-files', parent.id];
 
-        message.userAction = new SnackbarUserAction('APP.ACTIONS.VIEW', navigate);
+          if (this.isLibraryContent(path)) {
+            this.store.dispatch(new NavigateToParentFolder(status.success[0]));
+          } else {
+            this.store.dispatch(new NavigateRouteAction(route));
+          }
+        });
       }
-
-      this.store.dispatch(message);
     }
   }
 
@@ -922,39 +940,54 @@ export class ContentManagementService {
     return path && path.elements.length >= 2 && path.elements[1].name === 'Sites';
   }
 
-  private getRestoreMessage(status: DeleteStatus): SnackbarAction {
+  private getRestoreMessageData(status: DeleteStatus): SnackbarMessageData | null {
     if (status.someFailed && !status.oneFailed) {
-      return new SnackbarErrorAction('APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.PARTIAL_PLURAL', {
-        number: status.fail.length
-      });
+      return {
+        key: 'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.PARTIAL_PLURAL',
+        params: { number: status.fail.length },
+        type: 'error'
+      };
     }
 
     if (status.oneFailed && status.fail[0].statusCode) {
       if (status.fail[0].statusCode === 409) {
-        return new SnackbarErrorAction('APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.NODE_EXISTS', {
-          name: status.fail[0].entry.name
-        });
+        return {
+          key: 'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.NODE_EXISTS',
+          params: { name: status.fail[0].entry.name },
+          type: 'error'
+        };
       } else {
-        return new SnackbarErrorAction('APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.GENERIC', {
-          name: status.fail[0].entry.name
-        });
+        return {
+          key: 'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.GENERIC',
+          params: { name: status.fail[0].entry.name },
+          type: 'error'
+        };
       }
     }
 
     if (status.oneFailed && !status.fail[0].statusCode) {
-      return new SnackbarErrorAction('APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.LOCATION_MISSING', {
-        name: status.fail[0].entry.name
-      });
+      return {
+        key: 'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.LOCATION_MISSING',
+        params: { name: status.fail[0].entry.name },
+        type: 'error'
+      };
     }
 
     if (status.allSucceeded && !status.oneSucceeded) {
-      return new SnackbarInfoAction('APP.MESSAGES.INFO.TRASH.NODES_RESTORE.PLURAL');
+      return {
+        key: 'APP.MESSAGES.INFO.TRASH.NODES_RESTORE.PLURAL',
+        params: {},
+        type: 'info'
+      };
     }
 
     if (status.allSucceeded && status.oneSucceeded) {
-      return new SnackbarInfoAction('APP.MESSAGES.INFO.TRASH.NODES_RESTORE.SINGULAR', {
-        name: status.success[0].entry.name
-      });
+      return {
+        key: 'APP.MESSAGES.INFO.TRASH.NODES_RESTORE.SINGULAR',
+        params: { name: status.success[0].entry.name },
+        userActionLabel: 'APP.ACTIONS.VIEW',
+        type: 'info'
+      };
     }
 
     return null;
@@ -992,39 +1025,53 @@ export class ContentManagementService {
     );
   }
 
-  private getDeleteMessage(status: DeleteStatus): SnackbarAction {
+  private getDeleteMessageData(status: DeleteStatus): SnackbarMessageData | null {
     if (status.allFailed && !status.oneFailed) {
-      return new SnackbarErrorAction('APP.MESSAGES.ERRORS.NODE_DELETION_PLURAL', { number: status.fail.length });
+      return {
+        key: 'APP.MESSAGES.ERRORS.NODE_DELETION_PLURAL',
+        params: { number: status.fail.length },
+        type: 'error'
+      };
     }
 
     if (status.allSucceeded && !status.oneSucceeded) {
-      return new SnackbarInfoAction('APP.MESSAGES.INFO.NODE_DELETION.PLURAL', {
-        number: status.success.length
-      });
+      return {
+        key: 'APP.MESSAGES.INFO.NODE_DELETION.PLURAL',
+        params: { number: status.success.length },
+        type: 'info'
+      };
     }
 
     if (status.someFailed && status.someSucceeded && !status.oneSucceeded) {
-      return new SnackbarWarningAction('APP.MESSAGES.INFO.NODE_DELETION.PARTIAL_PLURAL', {
-        success: status.success.length,
-        failed: status.fail.length
-      });
+      return {
+        key: 'APP.MESSAGES.INFO.NODE_DELETION.PARTIAL_PLURAL',
+        params: { success: status.success.length, failed: status.fail.length },
+        type: 'warning'
+      };
     }
 
     if (status.someFailed && status.oneSucceeded) {
-      return new SnackbarWarningAction('APP.MESSAGES.INFO.NODE_DELETION.PARTIAL_SINGULAR', {
-        success: status.success.length,
-        failed: status.fail.length
-      });
+      return {
+        key: 'APP.MESSAGES.INFO.NODE_DELETION.PARTIAL_SINGULAR',
+        params: { success: status.success.length, failed: status.fail.length },
+        type: 'warning'
+      };
     }
 
     if (status.oneFailed && !status.someSucceeded) {
-      return new SnackbarErrorAction('APP.MESSAGES.ERRORS.NODE_DELETION', {
-        name: status.fail[0].name
-      });
+      return {
+        key: 'APP.MESSAGES.ERRORS.NODE_DELETION',
+        params: { name: status.fail[0].name },
+        type: 'error'
+      };
     }
 
     if (status.oneSucceeded && !status.someFailed) {
-      return new SnackbarInfoAction('APP.MESSAGES.INFO.NODE_DELETION.SINGULAR', { name: status.success[0].name });
+      return {
+        key: 'APP.MESSAGES.INFO.NODE_DELETION.SINGULAR',
+        params: { name: status.success[0].name },
+        type: 'info'
+      };
     }
 
     return null;
