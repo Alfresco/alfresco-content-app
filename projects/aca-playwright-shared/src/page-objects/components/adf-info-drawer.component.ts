@@ -82,6 +82,10 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   public categoriesListItems = this.categoriesManagement.locator('.adf-category');
   public categoriesItemRemoveButton = this.categoriesManagement.locator('[data-automation-id="categories-remove-category-button"]');
   public categoriesCreatedList = this.getChild('.adf-metadata-categories');
+  public generalInfoAccordion = this.getChild('[data-automation-id="adf-metadata-group-properties"]');
+  public generalInfoProperties = this.generalInfoAccordion.locator('.adf-property');
+  public exifInfoAccordion = this.getChild('[data-automation-id="adf-metadata-group-APP.CONTENT_METADATA.EXIF_GROUP_TITLE"]');
+  public exifInfoProperties = this.exifInfoAccordion.locator('.adf-property');
 
   async checkCommentsHeaderCount(): Promise<number> {
     const commentsCountTextContent = await this.commentsHeader.textContent();

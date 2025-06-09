@@ -32,7 +32,8 @@ import {
   FileActionsApi,
   TagsApi,
   CategoriesApi,
-  PersonalFilesPage
+  PersonalFilesPage,
+  TEST_FILES
 } from '@alfresco/aca-playwright-shared';
 
 test.describe('Info Drawer - File Folder Properties', () => {
@@ -45,11 +46,16 @@ test.describe('Info Drawer - File Folder Properties', () => {
   let responseTagsId: string;
   let Folder17240Id: string;
   let Folder17242Id: string;
+  let Folder5513Id: string;
+  let Folder5516Id: string;
   const tagsPhraseForDeletion = 'e2e';
   const username = `user-e2e-${Utils.random()}`;
   const manualTagName = `e2e-tag-${Utils.random()}`;
-  const FolderC299162 = `C299162-e2e-${Utils.random()}`;
-  const FolderC599174 = `C599174-e2e-${Utils.random()}`;
+  const Folder5512 = `xat-5512-e2e-${Utils.random()}`;
+  const Folder5513 = `xat-5513-e2e-${Utils.random()}`;
+  const Folder5514 = `xat-5514-e2e-${Utils.random()}`;
+  const Folder5516 = `xat-5516-e2e-${Utils.random()}`;
+  const File5516 = `xat-5516-e2e-${Utils.random()}`;
   const Folder17238 = `xat-17238-e2e-${Utils.random()}`;
   const Folder17239 = `xat-17239-e2e-${Utils.random()}`;
   const Folder17240 = `xat-17240-e2e-${Utils.random()}`;
@@ -99,8 +105,10 @@ test.describe('Info Drawer - File Folder Properties', () => {
         throw new Error('Failed to create category or tag - check API manually');
       }
 
-      await nodesApi.createFolder(FolderC299162);
-      await nodesApi.createFolder(FolderC599174);
+      await nodesApi.createFolder(Folder5512);
+      Folder5513Id = (await nodesApi.createFolder(Folder5513)).entry.id;
+      await nodesApi.createFolder(Folder5514);
+      Folder5516Id = (await nodesApi.createFolder(Folder5516)).entry.id;
       await nodesApi.createFolder(Folder17238);
       await nodesApi.createFolder(Folder17239);
       Folder17240Id = (await nodesApi.createFolder(Folder17240)).entry.id;
@@ -108,6 +116,17 @@ test.describe('Info Drawer - File Folder Properties', () => {
       Folder17242Id = (await nodesApi.createFolder(Folder17242)).entry.id;
       await nodesApi.createFolder(Folder17243);
       await nodesApi.createFolder(Folder17244);
+
+      const Folder5513BodyUpdate = {
+        properties: {
+          'cm:title': '1234',
+          'cm:description': '123',
+          'cm:author': '123'
+        }
+      };
+
+      await nodesApi.updateNode(Folder5513Id, Folder5513BodyUpdate);
+      await fileActionsApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, File5516, Folder5516Id);
     } catch (error) {
       console.error(`beforeAll failed : ${error}`);
     }
@@ -123,31 +142,59 @@ test.describe('Info Drawer - File Folder Properties', () => {
     await tagsApi.deleteTagsByTagName(tagsPhraseForDeletion);
   });
 
-  async function navigateAndOpenInfoDrawer(personalFiles: PersonalFilesPage, folderName: string) {
-    await fileActionsApi.waitForNodes(folderName, { expect: 1 });
-    await personalFiles.navigate();
-    await Utils.reloadPageIfRowNotVisible(personalFiles, folderName);
-    await expect(personalFiles.dataTable.getRowByName(folderName)).toBeVisible();
-    await personalFiles.dataTable.getRowByName(folderName).click();
+  async function navigateAndOpenInfoDrawer(personalFiles: PersonalFilesPage, nodeName: string, subFolderId?: string) {
+    await fileActionsApi.waitForNodes(nodeName, { expect: 1 });
+    if (subFolderId) {
+      await personalFiles.navigate({ remoteUrl: `#/personal-files/${subFolderId}` });
+    } else {
+      await personalFiles.navigate();
+    }
+    await Utils.reloadPageIfRowNotVisible(personalFiles, nodeName);
+    await expect(personalFiles.dataTable.getRowByName(nodeName)).toBeVisible();
+    await personalFiles.dataTable.getRowByName(nodeName).click();
     await personalFiles.acaHeader.viewDetails.click();
   }
 
   test('[XAT-5512] View properties - Default tabs', async ({ personalFiles }) => {
-    await navigateAndOpenInfoDrawer(personalFiles, FolderC299162);
-    expect(await personalFiles.infoDrawer.getHeaderTitle()).toEqual(FolderC299162);
+    await navigateAndOpenInfoDrawer(personalFiles, Folder5512);
+    expect(await personalFiles.infoDrawer.getHeaderTitle()).toEqual(Folder5512);
     await expect(personalFiles.infoDrawer.propertiesTab).toBeVisible();
     await expect(personalFiles.infoDrawer.commentsTab).toBeVisible();
     expect(await personalFiles.infoDrawer.getTabsCount()).toEqual(2);
   });
 
+  test('[XAT-5513] View file properties - General Info fields', async ({ personalFiles }) => {
+    const generalInfoProperties = ['Name', 'Title', 'Creator', 'Created Date', 'Modifier', 'Modified Date', 'Author', 'Description', 'Content Type'];
+    await navigateAndOpenInfoDrawer(personalFiles, Folder5513);
+    await expect(personalFiles.infoDrawer.generalInfoProperties.first()).not.toBeInViewport();
+    await personalFiles.infoDrawer.generalInfoAccordion.click();
+    await expect(personalFiles.infoDrawer.generalInfoProperties.first()).toBeInViewport();
+    const getPropertiesText = (await personalFiles.infoDrawer.generalInfoProperties.allTextContents()).join('');
+    for (const property of generalInfoProperties) {
+      expect(getPropertiesText).toContain(property);
+    }
+  });
+
+  test('[XAT-5516] View image properties', async ({ personalFiles }) => {
+    const imageExifProperties = ['Image Width', 'Image Height'];
+    await navigateAndOpenInfoDrawer(personalFiles, File5516, Folder5516Id);
+    await expect(personalFiles.infoDrawer.exifInfoProperties.first()).not.toBeInViewport();
+    await personalFiles.infoDrawer.exifInfoAccordion.click();
+    await expect(personalFiles.infoDrawer.exifInfoProperties.first()).toBeInViewport();
+    const getPropertiesText = (await personalFiles.infoDrawer.exifInfoProperties.allTextContents()).join('');
+    for (const property of imageExifProperties) {
+      expect(getPropertiesText).toContain(property);
+    }
+  });
+
   test('[XAT-5514] View properties - Should be able to make the folders info drawer expandable as for Sites', async ({ personalFiles }) => {
-    await navigateAndOpenInfoDrawer(personalFiles, FolderC599174);
+    await navigateAndOpenInfoDrawer(personalFiles, Folder5514);
     await personalFiles.infoDrawer.expandDetailsButton.click();
     await expect(personalFiles.infoDrawer.expandedDetailsPermissionsTab).toBeVisible();
 
     await personalFiles.navigate();
-    await expect(personalFiles.dataTable.getRowByName(FolderC599174)).toBeVisible();
-    await personalFiles.dataTable.getRowByName(FolderC599174).click({ button: 'right' });
+    await expect(personalFiles.dataTable.getRowByName(Folder5514)).toBeVisible();
+    await personalFiles.dataTable.getRowByName(Folder5514).click({ button: 'right' });
     await personalFiles.pagination.clickMenuItem('Permissions');
     await expect(personalFiles.infoDrawer.expandedDetailsPermissionsTab).toBeVisible();
   });
