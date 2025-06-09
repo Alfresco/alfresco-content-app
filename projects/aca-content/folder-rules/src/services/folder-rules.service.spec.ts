@@ -23,7 +23,7 @@
  */
 
 import { TestBed } from '@angular/core/testing';
-import { CoreTestingModule } from '@alfresco/adf-core';
+import { CoreTestingModule, NotificationService } from '@alfresco/adf-core';
 import { of } from 'rxjs';
 import { FolderRulesService } from './folder-rules.service';
 import {
@@ -42,6 +42,7 @@ import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-conten
 
 describe('FolderRulesService', () => {
   let folderRulesService: FolderRulesService;
+  let notificationService: NotificationService;
 
   let callApiSpy: jasmine.Spy;
 
@@ -61,6 +62,7 @@ describe('FolderRulesService', () => {
     });
 
     folderRulesService = TestBed.inject<FolderRulesService>(FolderRulesService);
+    notificationService = TestBed.inject<NotificationService>(NotificationService);
 
     callApiSpy = spyOn<any>(folderRulesService, 'callApi');
   });
@@ -146,6 +148,17 @@ describe('FolderRulesService', () => {
 
     const result = await folderRulesService.updateRule(nodeId, ruleId, mockedRule, ruleSetId);
     expect(result).toEqual(mockedRule);
+  });
+
+  it('should display error message and revert enabled state when updating rule fails', async () => {
+    callApiSpy
+      .withArgs(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'PUT', mockedRule)
+      .and.returnValue(Promise.reject(new Error(JSON.stringify({ error: { briefSummary: 'Error updating rule' } }))));
+    spyOn(notificationService, 'showError');
+
+    const result = await folderRulesService.updateRule(nodeId, ruleId, mockedRule, ruleSetId);
+    expect(notificationService.showError).toHaveBeenCalledWith('Error updating rule');
+    expect(result.isEnabled).toBe(false);
   });
 
   it('should send correct GET request and return rule settings', async () => {
