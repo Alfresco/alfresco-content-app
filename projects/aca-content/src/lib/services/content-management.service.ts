@@ -698,7 +698,7 @@ export class ContentManagementService {
 
       if (messageData && status.someSucceeded) {
         const translatedMessage = this.translation.instant(messageData.key, messageData.params);
-        const action = messageData.userActionLabel ? this.translation.instant(messageData.userActionLabel) : '';
+        const action: string | null = allowUndo ? this.translation.instant('APP.ACTIONS.UNDO') : null;
 
         const snackBarRef = this.notificationService.openSnackMessageAction(
           translatedMessage,
@@ -707,7 +707,7 @@ export class ContentManagementService {
           messageData.params
         );
 
-        if (messageData.userActionLabel && status.someSucceeded && allowUndo) {
+        if (action) {
           snackBarRef.onAction().subscribe(() => {
             this.undoDeleteNodes([...status.success]);
           });

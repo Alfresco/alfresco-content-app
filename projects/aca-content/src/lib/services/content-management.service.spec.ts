@@ -816,6 +816,12 @@ describe('ContentManagementService', () => {
   });
 
   describe('Delete action', () => {
+    beforeEach(() => {
+      openSnackMessageActionSpy.and.returnValue({
+        onAction: () => of(null)
+      } as MatSnackBarRef<SimpleSnackBar>);
+    });
+
     it('should raise info message on successful single file deletion', () => {
       spyOn(contentApi, 'deleteNode').and.returnValue(of(null));
       const selection: any[] = [{ entry: { id: '1', name: 'name1' } }];
