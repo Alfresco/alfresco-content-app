@@ -299,7 +299,7 @@ export class NodesApi {
     });
   }
 
-  async setGranularPermission(nodeId: string, username: string, role: string, inheritPermissions: boolean = false): Promise<NodeEntry | null> {
+  async setGranularPermission(nodeId: string, username: string, role: string, inheritPermissions = false): Promise<NodeEntry | null> {
     const data = {
       permissions: {
         isInheritanceEnabled: inheritPermissions,
