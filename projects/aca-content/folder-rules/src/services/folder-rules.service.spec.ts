@@ -61,8 +61,8 @@ describe('FolderRulesService', () => {
       providers: [FolderRulesService, { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }]
     });
 
-    folderRulesService = TestBed.inject<FolderRulesService>(FolderRulesService);
-    notificationService = TestBed.inject<NotificationService>(NotificationService);
+    folderRulesService = TestBed.inject(FolderRulesService);
+    notificationService = TestBed.inject(NotificationService);
 
     callApiSpy = spyOn<any>(folderRulesService, 'callApi');
   });
