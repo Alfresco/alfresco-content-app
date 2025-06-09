@@ -172,6 +172,7 @@ jobs:
           key: cache-dist-${{ github.run_id }}
 
       - name: Deploy local ACS
+        id: deploy-local-acs
         uses: ./.github/actions/deploy-local-acs
         with:
           docker_username: ${{ secrets.DOCKER_USERNAME }}
@@ -193,7 +194,7 @@ jobs:
           test-runner: playwright
 
       - name: Debug Ingress Controller Logs
-        if: always()
+        if: always() && steps.deploy-local-acs.outcome == 'success'
         run: |
             kubectl logs -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx --tail=-1
 
