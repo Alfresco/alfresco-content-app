@@ -92,8 +92,8 @@ export class FolderRulesService {
   deletedRuleId$: Observable<string> = this.deletedRuleIdSource.asObservable();
 
   constructor(
-    private apiService: AlfrescoApiService,
-    private notificationService: NotificationService
+    private readonly apiService: AlfrescoApiService,
+    private readonly notificationService: NotificationService
   ) {}
 
   private callApi(path: string, httpMethod: string, body: object = {}): Promise<any> {
@@ -145,7 +145,7 @@ export class FolderRulesService {
       rule.isEnabled = !rule.isEnabled;
       return rule;
     });
-    return this.formatRule(response.entry ? response.entry : response);
+    return this.formatRule(response.entry ?? response);
   }
 
   deleteRule(nodeId: string, ruleId: string, ruleSetId: string = '-default-') {
