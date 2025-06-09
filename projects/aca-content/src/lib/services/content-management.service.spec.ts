@@ -126,9 +126,11 @@ describe('ContentManagementService', () => {
       store.dispatch(new CopyNodesAction(selection));
       nodeActions.contentCopied.next(createdItems);
       subject.next('OPERATION.SUCCESS.CONTENT.COPY');
+      const snackMessageCall = openSnackMessageActionSpy.calls.argsFor(0);
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(openSnackMessageActionSpy['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.SINGULAR');
+      expect(snackMessageCall[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.SINGULAR');
+      expect(snackMessageCall[2].panelClass).toBe('adf-info-snackbar');
     });
 
     it('notifies successful copy of multiple nodes', () => {
@@ -140,9 +142,11 @@ describe('ContentManagementService', () => {
       store.dispatch(new CopyNodesAction(selection));
       nodeActions.contentCopied.next(createdItems);
       subject.next('OPERATION.SUCCESS.CONTENT.COPY');
+      const snackMessageCall = openSnackMessageActionSpy.calls.argsFor(0);
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(openSnackMessageActionSpy['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.PLURAL');
+      expect(snackMessageCall[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.PLURAL');
+      expect(snackMessageCall[2].panelClass).toBe('adf-info-snackbar');
     });
 
     it('notifies partially copy of one node out of a multiple selection of nodes', () => {
@@ -154,9 +158,11 @@ describe('ContentManagementService', () => {
       store.dispatch(new CopyNodesAction(selection));
       nodeActions.contentCopied.next(createdItems);
       subject.next('OPERATION.SUCCESS.CONTENT.COPY');
+      const snackMessageCall = openSnackMessageActionSpy.calls.argsFor(0);
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(openSnackMessageActionSpy['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.PARTIAL_SINGULAR');
+      expect(snackMessageCall[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.PARTIAL_SINGULAR');
+      expect(snackMessageCall[2].panelClass).toBe('adf-warning-snackbar');
     });
 
     it('notifies partially copy of more nodes out of a multiple selection of nodes', () => {
@@ -172,9 +178,11 @@ describe('ContentManagementService', () => {
       store.dispatch(new CopyNodesAction(selection));
       nodeActions.contentCopied.next(createdItems);
       subject.next('OPERATION.SUCCESS.CONTENT.COPY');
+      const snackMessageCall = openSnackMessageActionSpy.calls.argsFor(0);
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(openSnackMessageActionSpy['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.PARTIAL_PLURAL');
+      expect(snackMessageCall[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.PARTIAL_PLURAL');
+      expect(snackMessageCall[2].panelClass).toBe('adf-warning-snackbar');
     });
 
     it('notifies of failed copy of multiple nodes', () => {
@@ -190,9 +198,11 @@ describe('ContentManagementService', () => {
       store.dispatch(new CopyNodesAction(selection));
       nodeActions.contentCopied.next(createdItems);
       subject.next('OPERATION.SUCCESS.CONTENT.COPY');
+      const snackMessageCall = openSnackMessageActionSpy.calls.argsFor(0);
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(openSnackMessageActionSpy['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.FAIL_PLURAL');
+      expect(snackMessageCall[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.FAIL_PLURAL');
+      expect(snackMessageCall[2].panelClass).toBe('adf-error-snackbar');
     });
 
     it('notifies of failed copy of one node', () => {
@@ -204,9 +214,11 @@ describe('ContentManagementService', () => {
       store.dispatch(new CopyNodesAction(selection));
       nodeActions.contentCopied.next(createdItems);
       subject.next('OPERATION.SUCCESS.CONTENT.COPY');
+      const snackMessageCall = openSnackMessageActionSpy.calls.argsFor(0);
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(openSnackMessageActionSpy['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.FAIL_SINGULAR');
+      expect(snackMessageCall[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.FAIL_SINGULAR');
+      expect(snackMessageCall[2].panelClass).toBe('adf-error-snackbar');
     });
 
     it('notifies error if success message was not emitted', () => {
@@ -215,11 +227,13 @@ describe('ContentManagementService', () => {
       const selection: any[] = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
 
       store.dispatch(new CopyNodesAction(selection));
-      nodeActions.contentCopied.next({} as any);
       subject.next('');
+      nodeActions.contentCopied.next([] as any);
+      const snackMessageCall = openSnackMessageActionSpy.calls.argsFor(0);
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(openSnackMessageActionSpy['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
+      expect(snackMessageCall[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
+      expect(snackMessageCall[2].panelClass).toBe('adf-error-snackbar');
     });
 
     it('notifies permission error on copy of node', () => {
@@ -228,9 +242,11 @@ describe('ContentManagementService', () => {
       const selection: any[] = [{ entry: { id: '1', name: 'name' } }];
       store.dispatch(new CopyNodesAction(selection));
       subject.error(new Error(JSON.stringify({ error: { statusCode: 403 } })));
+      const snackMessageCall = openSnackMessageActionSpy.calls.argsFor(0);
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(openSnackMessageActionSpy['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.PERMISSION');
+      expect(snackMessageCall[0]).toBe('APP.MESSAGES.ERRORS.PERMISSION');
+      expect(snackMessageCall[2].panelClass).toBe('adf-error-snackbar');
     });
 
     it('notifies generic error message on all errors, but 403', () => {
@@ -240,9 +256,11 @@ describe('ContentManagementService', () => {
 
       store.dispatch(new CopyNodesAction(selection));
       subject.error(new Error(JSON.stringify({ error: { statusCode: 404 } })));
+      const snackMessageCall = openSnackMessageActionSpy.calls.argsFor(0);
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(openSnackMessageActionSpy['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
+      expect(snackMessageCall[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
+      expect(snackMessageCall[2].panelClass).toBe('adf-error-snackbar');
     });
   });
 
@@ -400,9 +418,11 @@ describe('ContentManagementService', () => {
       store.dispatch(new MoveNodesAction(selection));
       nodeActions.moveNodes(null).next('OPERATION.SUCCESS.CONTENT.MOVE');
       nodeActions.contentMoved.next(moveResponse);
+      const snackMessageCall = openSnackMessageActionSpy.calls.argsFor(0);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(openSnackMessageActionSpy['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR');
+      expect(snackMessageCall[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR');
+      expect(snackMessageCall[2].panelClass).toBe('adf-info-snackbar');
     });
 
     it('notifies successful move of multiple nodes', () => {
@@ -421,9 +441,11 @@ describe('ContentManagementService', () => {
       store.dispatch(new MoveNodesAction(selection));
       nodeActions.moveNodes(null).next('OPERATION.SUCCESS.CONTENT.MOVE');
       nodeActions.contentMoved.next(moveResponse);
+      const snackMessageCall = openSnackMessageActionSpy.calls.argsFor(0);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(openSnackMessageActionSpy['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.PLURAL');
+      expect(snackMessageCall[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.PLURAL');
+      expect(snackMessageCall[2].panelClass).toBe('adf-info-snackbar');
     });
 
     it('notifies partial move of a node', () => {
@@ -440,9 +462,11 @@ describe('ContentManagementService', () => {
       store.dispatch(new MoveNodesAction(nodes));
       nodeActions.moveNodes(null).next('OPERATION.SUCCESS.CONTENT.MOVE');
       nodeActions.contentMoved.next(moveResponse);
+      const snackMessageCall = openSnackMessageActionSpy.calls.argsFor(0);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(openSnackMessageActionSpy['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.SINGULAR');
+      expect(snackMessageCall[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.SINGULAR');
+      expect(snackMessageCall[2].panelClass).toBe('adf-warning-snackbar');
     });
 
     it('notifies partial move of multiple nodes', () => {
@@ -459,9 +483,11 @@ describe('ContentManagementService', () => {
       store.dispatch(new MoveNodesAction(nodes));
       nodeActions.moveNodes(null).next('OPERATION.SUCCESS.CONTENT.MOVE');
       nodeActions.contentMoved.next(moveResponse);
+      const snackMessageCall = openSnackMessageActionSpy.calls.argsFor(0);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(openSnackMessageActionSpy['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.PLURAL');
+      expect(snackMessageCall[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.PLURAL');
+      expect(snackMessageCall[2].panelClass).toBe('adf-warning-snackbar');
     });
 
     it('notifies successful move and the number of nodes that could not be moved', () => {
@@ -478,9 +504,11 @@ describe('ContentManagementService', () => {
       store.dispatch(new MoveNodesAction(nodes));
       nodeActions.moveNodes(null).next('OPERATION.SUCCESS.CONTENT.MOVE');
       nodeActions.contentMoved.next(moveResponse);
+      const snackMessageCall = openSnackMessageActionSpy.calls.argsFor(0);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(openSnackMessageActionSpy['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.FAIL');
+      expect(snackMessageCall[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.FAIL');
+      expect(snackMessageCall[2].panelClass).toBe('adf-warning-snackbar');
     });
 
     it('notifies successful move and the number of partially moved ones', () => {
@@ -497,11 +525,11 @@ describe('ContentManagementService', () => {
       store.dispatch(new MoveNodesAction(nodes));
       nodeActions.moveNodes(null).next('OPERATION.SUCCESS.CONTENT.MOVE');
       nodeActions.contentMoved.next(moveResponse);
+      const snackMessageCall = openSnackMessageActionSpy.calls.argsFor(0);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(openSnackMessageActionSpy['calls'].argsFor(0)[0]).toBe(
-        'APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.SINGULAR'
-      );
+      expect(snackMessageCall[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.SINGULAR');
+      expect(snackMessageCall[2].panelClass).toBe('adf-warning-snackbar');
     });
 
     it('notifies error if success message was not emitted', () => {
@@ -517,9 +545,11 @@ describe('ContentManagementService', () => {
       store.dispatch(new MoveNodesAction(nodes));
       nodeActions.moveNodes(null).next('');
       nodeActions.contentMoved.next(moveResponse);
+      const snackMessageCall = openSnackMessageActionSpy.calls.argsFor(0);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(openSnackMessageActionSpy['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
+      expect(snackMessageCall[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
+      expect(snackMessageCall[2].panelClass).toBe('adf-error-snackbar');
     });
 
     it('notifies permission error on move of node', () => {
@@ -528,9 +558,11 @@ describe('ContentManagementService', () => {
       const selection: any[] = [{ entry: { id: '1', name: 'name' } }];
       store.dispatch(new MoveNodesAction(selection));
       nodeActions.moveNodes(null).error(new Error(JSON.stringify({ error: { statusCode: 403 } })));
+      const snackMessageCall = openSnackMessageActionSpy.calls.argsFor(0);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(openSnackMessageActionSpy['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.PERMISSION');
+      expect(snackMessageCall[0]).toBe('APP.MESSAGES.ERRORS.PERMISSION');
+      expect(snackMessageCall[2].panelClass).toBe('adf-error-snackbar');
     });
 
     it('notifies generic error message on all errors, but 403', () => {
@@ -539,9 +571,11 @@ describe('ContentManagementService', () => {
       const selection: any[] = [{ entry: { id: '1', name: 'name' } }];
       store.dispatch(new MoveNodesAction(selection));
       nodeActions.moveNodes(null).error(new Error(JSON.stringify({ error: { statusCode: 404 } })));
+      const snackMessageCall = openSnackMessageActionSpy.calls.argsFor(0);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(openSnackMessageActionSpy['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
+      expect(snackMessageCall[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
+      expect(snackMessageCall[2].panelClass).toBe('adf-error-snackbar');
     });
 
     it('notifies conflict error message on 409', () => {
@@ -550,9 +584,11 @@ describe('ContentManagementService', () => {
       const selection: any[] = [{ entry: { id: '1', name: 'name' } }];
       store.dispatch(new MoveNodesAction(selection));
       nodeActions.moveNodes(null).error(new Error(JSON.stringify({ error: { statusCode: 409 } })));
+      const snackMessageCall = openSnackMessageActionSpy.calls.argsFor(0);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(openSnackMessageActionSpy['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.NODE_MOVE');
+      expect(snackMessageCall[0]).toBe('APP.MESSAGES.ERRORS.NODE_MOVE');
+      expect(snackMessageCall[2].panelClass).toBe('adf-error-snackbar');
     });
 
     it('notifies error if move response has only failed items', () => {
@@ -569,9 +605,11 @@ describe('ContentManagementService', () => {
       store.dispatch(new MoveNodesAction(nodes));
       nodeActions.moveNodes(null).next('OPERATION.SUCCESS.CONTENT.MOVE');
       nodeActions.contentMoved.next(moveResponse);
+      const snackMessageCall = openSnackMessageActionSpy.calls.argsFor(0);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(openSnackMessageActionSpy['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
+      expect(snackMessageCall[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
+      expect(snackMessageCall[2].panelClass).toBe('adf-error-snackbar');
     });
   });
 

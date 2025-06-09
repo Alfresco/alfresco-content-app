@@ -551,9 +551,11 @@ export class ContentManagementService {
       failed: failedItems
     });
 
+    const messageType = numberOfCopiedItems === 0 ? 'adf-error-snackbar' : failedItems > 0 ? 'adf-warning-snackbar' : 'adf-info-snackbar';
+
     this.notificationService
       .openSnackMessageAction(message, undo, {
-        panelClass: 'adf-info-snackbar'
+        panelClass: messageType
       })
       .onAction()
       .subscribe(() => this.undoCopyNodes(newItems));
@@ -1134,13 +1136,20 @@ export class ContentManagementService {
       partially: partiallySucceeded
     });
 
+    let notificationType = 'adf-warning-snackbar';
+    if (partiallySucceeded === 0 && succeeded === 0) {
+      notificationType = 'adf-error-snackbar';
+    } else if (failures === 0 && partiallySucceeded === 0) {
+      notificationType = 'adf-info-snackbar';
+    }
+
     // TODO: review in terms of i18n
     this.notificationService
       .openSnackMessageAction(
         messages[successMessage] + beforePartialSuccessMessage + messages[partialSuccessMessage] + beforeFailedMessage + messages[failedMessage],
         undo,
         {
-          panelClass: 'adf-info-snackbar'
+          panelClass: notificationType
         }
       )
       .onAction()
