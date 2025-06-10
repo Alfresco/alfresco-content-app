@@ -1,6 +1,9 @@
 name: "Pull request"
 
 on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [master, develop]
   workflow_dispatch:
     inputs:
       branch:
@@ -10,7 +13,7 @@ on:
       url:
         description: 'Application URL'
         required: true
-        default: 'http://localhost:4200'
+        default: 'https://acadev.envalfresco.com'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
