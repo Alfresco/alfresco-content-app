@@ -24,14 +24,14 @@ concurrency:
 
 
 env:
-  BASE_URL: ${{ github.event.inputs.url }}
+  BASE_URL: ${{ github.event.inputs.url || 'https://acadev.envalfresco.com' }}
   ADMIN_EMAIL: admin
   ADMIN_PASSWORD: admin
   HR_USER: admin
   HR_USER_PASSWORD: admin
   SCREENSHOT_USERNAME: ${{ secrets.SCREENSHOT_USERNAME }}
   SCREENSHOT_PASSWORD: ${{ secrets.SCREENSHOT_PASSWORD}}
-  PLAYWRIGHT_E2E_HOST: ${{ github.event.inputs.url }}
+  PLAYWRIGHT_E2E_HOST: ${{ github.event.inputs.url || 'https://acadev.envalfresco.com' }}
   GH_BUILD_NUMBER: ${{ github.run_id }}
   REPORT_PORTAL_URL: ${{ secrets.REPORT_PORTAL_URL }}
   REPORT_PORTAL_TOKEN: ${{ secrets.REPORT_PORTAL_TOKEN }}
