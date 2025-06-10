@@ -1,4 +1,6 @@
-name: "Pull request"
+name: "Run e2e with Env"
+description: "Run e2e tests with environment variables"
+
 
 on:
   pull_request:
