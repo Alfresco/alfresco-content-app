@@ -3,9 +3,6 @@ description: "Run e2e tests with environment variables"
 
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    branches: [master, develop]
   workflow_dispatch:
     inputs:
       branch:
@@ -16,6 +13,9 @@ on:
         description: 'Application URL'
         required: true
         default: 'https://acadev.envalfresco.com'
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [master, develop]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
