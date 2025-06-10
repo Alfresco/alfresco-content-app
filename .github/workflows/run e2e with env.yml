@@ -1,0 +1,181 @@
+name: "Pull request"
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to test'
+        required: true
+        default: 'develop'
+      url:
+        description: 'Application URL'
+        required: true
+        default: 'http://localhost:4200'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+
+
+env:
+  BASE_URL: ${{ github.event.inputs.url }}
+  ADMIN_EMAIL: admin
+  ADMIN_PASSWORD: admin
+  HR_USER: admin
+  HR_USER_PASSWORD: admin
+  SCREENSHOT_USERNAME: ${{ secrets.SCREENSHOT_USERNAME }}
+  SCREENSHOT_PASSWORD: ${{ secrets.SCREENSHOT_PASSWORD}}
+  PLAYWRIGHT_E2E_HOST: ${{ github.event.inputs.url }}
+  GH_BUILD_NUMBER: ${{ github.run_id }}
+  REPORT_PORTAL_URL: ${{ secrets.REPORT_PORTAL_URL }}
+  REPORT_PORTAL_TOKEN: ${{ secrets.REPORT_PORTAL_TOKEN }}
+  MAXINSTANCES: 2
+  RETRY_COUNT: 2
+
+jobs:
+ 
+  build:
+    name: 'build'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - uses: ./.github/actions/before-install
+      - run: npm ci
+      - run: npx nx build aca-playwright-shared
+      - run: npm run build -- $BUILD_OPTS
+
+      - name: dist cache
+        if: ${{ success() }}
+        uses: actions/cache/save@v4
+        with:
+          path: ./dist/content-ce
+          key: cache-dist-${{ github.run_id }}
+
+
+  e2es-playwright:
+    needs: [build]
+    name: 'E2E Playwright - ${{ matrix.e2e-suites.name }}'
+    runs-on: ubuntu-24.04
+    env:
+      NODE_OPTIONS: --dns-result-order=ipv4first
+    strategy:
+      fail-fast: false
+      matrix:
+        e2e-suites:
+          - name: "create-actions"
+            id: 1
+          - name: "folder-rules"
+            id: 2
+          - name: "viewer"
+            id: 3
+          - name: "authentication"
+            id: 4
+          - name: "navigation"
+            id: 5
+          - name: "special-permissions"
+            id: 6
+          - name: "pagination"
+            id: 7
+          - name: "list-views"
+            id: 8
+          - name: "share-action"
+            id: 9
+          - name: "copy-move-actions"
+            id: 10
+          - name: "library-actions"
+            id: 11
+          - name: "info-drawer"
+            id: 12
+          - name: "search"
+            id: 13
+          - name: "upload-download-actions"
+            id: 14
+          - name: "favorite-actions"
+            id: 15
+          - name: "delete-actions"
+            id: 16
+          - name: "edit-actions"
+            id: 17
+          - name: "smoke-test"
+            id: 18
+          - name: "folder-information-actions"
+            id: 19
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - uses: ./.github/actions/before-install
+      - run: npm ci
+
+      - uses: actions/cache/restore@v4
+        id: cache
+        with:
+          path: ./dist/content-ce
+          key: cache-dist-${{ github.run_id }}
+
+      - name: Before e2e
+        uses: ./.github/actions/before-e2e
+
+      - name: Before playwright
+        shell: bash
+        run: npx playwright install chromium
+
+      - uses: ./.github/actions/run-e2e-playwright
+        with:
+          options: "${{ matrix.e2e-suites.name }}"
+          artifact-name: ${{ matrix.e2e-suites.name }}
+          test-runner: playwright
+
+      - name: Debug Ingress Controller Logs
+        if: always()
+        run: |
+            kubectl logs -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx --tail=-1
+
+  finalize:
+    if: ${{ always() }}
+    needs: [build, e2es-playwright]
+    name: 'Finalize'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check previous jobs status
+        if: >-
+            ${{
+                contains(needs.*.result, 'failure')
+              || contains(needs.*.result, 'cancelled')
+            }}
+        run: exit 1
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Extract commit message
+        uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@v8.22.1
+
+      - name: Check ADF link
+        shell: bash
+        run: |
+          if [[ $COMMIT_MESSAGE == *"[link-adf:"* ]]; then
+            BRANCH=`echo $COMMIT_MESSAGE | grep -o "\[link-adf\:[^]]*\]" | sed -e 's#\[link-adf:##g' | sed -e 's#\]##g'`
+            echo -e "\e[31mPRs are not mergeable with conditional build. This build was run with custom ADF branch: $BRANCH \e[0m"
+            exit 1
+          fi;
