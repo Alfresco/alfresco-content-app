@@ -238,13 +238,13 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
               loadedFilters++;
               if (filtersToLoad === loadedFilters) {
                 this.loadedFilters$.next();
-                void this.queryBuilder.execute(false);
+                this.queryBuilder.execute(false).catch(() => {});
               }
             });
           this.queryBuilder.populateFilters.next(filtersFromEncodedQuery);
         } else {
           this.queryBuilder.populateFilters.next({});
-          void this.queryBuilder.execute(false);
+          this.queryBuilder.execute(false).catch(() => {});
         }
         this.queryBuilder.userQuery = extractUserQueryFromEncodedQuery(this.encodedQuery);
       });

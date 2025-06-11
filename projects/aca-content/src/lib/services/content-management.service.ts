@@ -67,7 +67,7 @@ interface RestoredNode {
 
 interface SnackbarMessageData {
   key: string;
-  params: any;
+  params: { [key: string]: any };
   userActionLabel?: string;
   type: 'info' | 'warning' | 'error';
 }
@@ -551,7 +551,14 @@ export class ContentManagementService {
       failed: failedItems
     });
 
-    const messageType = numberOfCopiedItems === 0 ? 'adf-error-snackbar' : failedItems > 0 ? 'adf-warning-snackbar' : 'adf-info-snackbar';
+    let messageType: string;
+    if (numberOfCopiedItems === 0) {
+      messageType = 'adf-error-snackbar';
+    } else if (failedItems > 0) {
+      messageType = 'adf-warning-snackbar';
+    } else {
+      messageType = 'adf-info-snackbar';
+    }
 
     this.notificationService
       .openSnackMessageAction(message, undo, {
@@ -697,7 +704,7 @@ export class ContentManagementService {
       const messageData = this.getDeleteMessageData(status);
 
       if (messageData && status.someSucceeded) {
-        const translatedMessage = this.translation.instant(messageData.key, messageData.params);
+        const translatedMessage: string = this.translation.instant(messageData.key, messageData.params);
         const action: string | null = allowUndo ? this.translation.instant('APP.ACTIONS.UNDO') : null;
 
         const snackBarRef = this.notificationService.openSnackMessageAction(
@@ -911,8 +918,8 @@ export class ContentManagementService {
     const messageData = this.getRestoreMessageData(status);
 
     if (messageData) {
-      const translatedMessage = this.translation.instant(messageData.key, messageData.params);
-      const action = messageData.userActionLabel ? this.translation.instant(messageData.userActionLabel) : '';
+      const translatedMessage: string = this.translation.instant(messageData.key, messageData.params);
+      const action: string = messageData.userActionLabel ? this.translation.instant(messageData.userActionLabel) : '';
       const panelClass = messageData.type === 'error' ? 'adf-error-snackbar' : 'adf-info-snackbar';
 
       const snackBarRef = this.notificationService.openSnackMessageAction(translatedMessage, action, { panelClass }, messageData.params);
@@ -952,19 +959,14 @@ export class ContentManagementService {
     }
 
     if (status.oneFailed && status.fail[0].statusCode) {
-      if (status.fail[0].statusCode === 409) {
-        return {
-          key: 'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.NODE_EXISTS',
-          params: { name: status.fail[0].entry.name },
-          type: 'error'
-        };
-      } else {
-        return {
-          key: 'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.GENERIC',
-          params: { name: status.fail[0].entry.name },
-          type: 'error'
-        };
-      }
+      return {
+        key:
+          status.fail[0].statusCode === 409
+            ? 'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.NODE_EXISTS'
+            : 'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.GENERIC',
+        params: { name: status.fail[0].entry.name },
+        type: 'error'
+      };
     }
 
     if (status.oneFailed && !status.fail[0].statusCode) {

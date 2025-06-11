@@ -135,7 +135,7 @@ describe('SearchComponent', () => {
     spyOn(queryBuilder, 'buildQuery').and.returnValue(searchRequest);
     spyOn(store, 'dispatch').and.stub();
 
-    void queryBuilder.execute();
+    queryBuilder.execute().catch(() => {});
     tick();
 
     expect(showErrorSpy).toHaveBeenCalledWith('APP.BROWSE.SEARCH.ERRORS.GENERIC');
@@ -154,7 +154,7 @@ describe('SearchComponent', () => {
     spyOn(queryBuilder, 'buildQuery').and.returnValue(searchRequest);
     spyOn(store, 'dispatch').and.stub();
 
-    void queryBuilder.execute();
+    queryBuilder.execute().catch(() => {});
     tick();
 
     expect(showErrorSpy).toHaveBeenCalledWith('Known Error');
@@ -173,7 +173,7 @@ describe('SearchComponent', () => {
     spyOn(queryBuilder, 'buildQuery').and.returnValue(searchRequest);
     spyOn(store, 'dispatch').and.stub();
 
-    void queryBuilder.execute();
+    queryBuilder.execute().catch(() => {});
     tick();
 
     expect(showErrorSpy).toHaveBeenCalledWith('Generic Error');

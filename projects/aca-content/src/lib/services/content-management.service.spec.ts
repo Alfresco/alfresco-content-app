@@ -635,8 +635,8 @@ describe('ContentManagementService', () => {
       spyOn(nodeActions, 'moveNodes').and.returnValue(subject);
 
       openSnackMessageActionSpy.and.returnValue({
-        onAction: () => of(new Subject<void>())
-      } as unknown as MatSnackBarRef<SimpleSnackBar>);
+        onAction: () => of(undefined)
+      } as MatSnackBarRef<SimpleSnackBar>);
     });
 
     afterEach(() => subject.next({} as any));
