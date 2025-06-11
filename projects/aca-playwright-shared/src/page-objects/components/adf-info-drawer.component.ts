@@ -61,6 +61,7 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   public expandDetailsButton = this.getChild(`button[title='Expand panel']`);
   public expandedDetailsTabs = this.page.locator('.aca-details-container .mdc-tab__text-label');
   public expandedDetailsPermissionsTab = this.expandedDetailsTabs.getByText('Permissions');
+  public nameField = this.page.locator('input[placeholder=Name]');
   public idField = this.page.locator(`input[placeholder='Library ID']`);
   public descriptionField = this.page.locator('textarea[placeholder=Description]');
   public visibilityField = this.infoDrawerPanel.getByRole('combobox');
