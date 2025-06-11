@@ -84,8 +84,20 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   public categoriesCreatedList = this.getChild('.adf-metadata-categories');
   public generalInfoAccordion = this.getChild('[data-automation-id="adf-metadata-group-properties"]');
   public generalInfoProperties = this.generalInfoAccordion.locator('.adf-property');
+  public generalInfoEditButton = this.getChild('[data-automation-id="meta-data-general-info-edit"]');
   public exifInfoAccordion = this.getChild('[data-automation-id="adf-metadata-group-APP.CONTENT_METADATA.EXIF_GROUP_TITLE"]');
   public exifInfoProperties = this.exifInfoAccordion.locator('.adf-property');
+  public generalInfoNameField = this.getChild('[data-automation-id="card-textitem-value-properties.cm:name"]');
+  public generalInfoTitleField = this.getChild('[data-automation-id="card-textitem-value-properties.cm:title"]');
+  public generalInfoAuthorField = this.getChild('[data-automation-id="card-textitem-value-properties.cm:author"]');
+  public generalInfoDescriptionField = this.getChild('[data-automation-id="card-textitem-value-properties.cm:description"]');
+  public generalInfoCreatorField = this.getChild('[data-automation-id="card-textitem-value-createdByUser.displayName"]');
+  public generalInfoCreatedDateField = this.getChild('[data-automation-id="header-createdAt"] .adf-property-value');
+  public generalInfoModifiedDateField = this.getChild('[data-automation-id="header-modifiedAt"] .adf-property-value');
+  public generalInfoMimeTypeField = this.getChild('[data-automation-id="card-textitem-value-content.mimeTypeName"]');
+  public generalInfoContentTypeCombobox = this.getChild('[role="combobox"]');
+  public generalInfoNameError = this.getChild('[data-automation-id="card-textitem-error-properties.cm:name"]');
+  public generalInfoSaveButton = this.getChild('[data-automation-id="save-general-info-metadata"]');
 
   async checkCommentsHeaderCount(): Promise<number> {
     const commentsCountTextContent = await this.commentsHeader.textContent();

@@ -33,10 +33,11 @@ import {
   TagsApi,
   CategoriesApi,
   PersonalFilesPage,
-  TEST_FILES
+  TEST_FILES,
+  timeouts
 } from '@alfresco/aca-playwright-shared';
 
-test.describe('Info Drawer - File Folder Properties', () => {
+test.describe('Info Drawer - file folder Properties', () => {
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
   let fileActionsApi: FileActionsApi;
@@ -44,25 +45,31 @@ test.describe('Info Drawer - File Folder Properties', () => {
   let categoriesApi: CategoriesApi;
   let responseCategoryId: string;
   let responseTagsId: string;
-  let Folder17240Id: string;
-  let Folder17242Id: string;
-  let Folder5513Id: string;
-  let Folder5516Id: string;
+  let folder17240Id: string;
+  let folder17242Id: string;
+  let folder5513Id: string;
+  let folder5516Id: string;
+  let propertiesFolderId: string;
   const tagsPhraseForDeletion = 'e2e';
   const username = `user-e2e-${Utils.random()}`;
   const manualTagName = `e2e-tag-${Utils.random()}`;
-  const Folder5512 = `xat-5512-e2e-${Utils.random()}`;
-  const Folder5513 = `xat-5513-e2e-${Utils.random()}`;
-  const Folder5514 = `xat-5514-e2e-${Utils.random()}`;
-  const Folder5516 = `xat-5516-e2e-${Utils.random()}`;
-  const File5516 = `xat-5516-e2e-${Utils.random()}`;
-  const Folder17238 = `xat-17238-e2e-${Utils.random()}`;
-  const Folder17239 = `xat-17239-e2e-${Utils.random()}`;
-  const Folder17240 = `xat-17240-e2e-${Utils.random()}`;
-  const Folder17241 = `xat-17241-e2e-${Utils.random()}`;
-  const Folder17242 = `xat-17242-e2e-${Utils.random()}`;
-  const Folder17243 = `xat-17243-e2e-${Utils.random()}`;
-  const Folder17244 = `xat-17244-e2e-${Utils.random()}`;
+  const folder5512 = `xat-5512-e2e-${Utils.random()}`;
+  const folder5513 = `xat-5513-e2e-${Utils.random()}`;
+  const folder5514 = `xat-5514-e2e-${Utils.random()}`;
+  const folder5516 = `xat-5516-e2e-${Utils.random()}`;
+  const propertiesFolder = `properties-folder-${Utils.random()}`;
+  const file5516 = `xat-5516-e2e-${Utils.random()}`;
+  const folder17238 = `xat-17238-e2e-${Utils.random()}`;
+  const folder17239 = `xat-17239-e2e-${Utils.random()}`;
+  const folder17240 = `xat-17240-e2e-${Utils.random()}`;
+  const folder17241 = `xat-17241-e2e-${Utils.random()}`;
+  const folder17242 = `xat-17242-e2e-${Utils.random()}`;
+  const folder17243 = `xat-17243-e2e-${Utils.random()}`;
+  const folder17244 = `xat-17244-e2e-${Utils.random()}`;
+  const nodePropertiesDocx = `docx-${Utils.random()}`;
+  const nodePropertiesJpg = `jpg-${Utils.random()}`;
+  const nodePropertiesFolder = `folder-${Utils.random()}`;
+  const nodeEditPropertiesFolder = `folder-${Utils.random()}`;
   const tagBody = { tag: `e2e-${Utils.random()}` };
   const categoryName = Utils.random();
   const noCategoriesText = 'There are currently no categories added';
@@ -88,6 +95,35 @@ test.describe('Info Drawer - File Folder Properties', () => {
     }
   }
 
+  async function checkNodeFields(personalFiles: PersonalFilesPage, isFolder?: 'isFolder'): Promise<void> {
+    await personalFiles.infoDrawer.generalInfoEditButton.click();
+    await expect(personalFiles.infoDrawer.generalInfoNameField).toBeEditable();
+    await expect(personalFiles.infoDrawer.generalInfoAuthorField).toBeEditable();
+    await expect(personalFiles.infoDrawer.generalInfoDescriptionField).toBeEditable();
+    await expect(personalFiles.infoDrawer.generalInfoTitleField).toBeEditable();
+    await expect(personalFiles.infoDrawer.generalInfoCreatorField).toBeDisabled();
+    await expect(personalFiles.infoDrawer.generalInfoCreatedDateField).toContainClass('adf-property-readonly-value');
+    await expect(personalFiles.infoDrawer.generalInfoModifiedDateField).toContainClass('adf-property-readonly-value');
+    await expect(personalFiles.infoDrawer.generalInfoContentTypeCombobox).toBeEditable();
+    if (!isFolder) {
+      await expect(personalFiles.infoDrawer.generalInfoMimeTypeField).toBeDisabled();
+    }
+  }
+
+  async function navigateAndOpenInfoDrawer(personalFiles: PersonalFilesPage, nodeName: string, subFolderId?: string) {
+    await fileActionsApi.waitForNodes(nodeName, { expect: 1 });
+    if (subFolderId) {
+      await personalFiles.navigate({ remoteUrl: `#/personal-files/${subFolderId}` });
+    } else {
+      await personalFiles.navigate();
+    }
+    await Utils.reloadPageIfRowNotVisible(personalFiles, nodeName);
+    await expect(personalFiles.dataTable.getRowByName(nodeName)).toBeVisible();
+    await personalFiles.dataTable.getRowByName(nodeName).click();
+    await personalFiles.acaHeader.viewDetails.click();
+    await personalFiles.infoDrawer.propertiesTab.waitFor({ timeout: timeouts.medium });
+  }
+
   test.beforeAll(async () => {
     try {
       const apiClientFactory = new ApiClientFactory();
@@ -105,19 +141,20 @@ test.describe('Info Drawer - File Folder Properties', () => {
         throw new Error('Failed to create category or tag - check API manually');
       }
 
-      await nodesApi.createFolder(Folder5512);
-      Folder5513Id = (await nodesApi.createFolder(Folder5513)).entry.id;
-      await nodesApi.createFolder(Folder5514);
-      Folder5516Id = (await nodesApi.createFolder(Folder5516)).entry.id;
-      await nodesApi.createFolder(Folder17238);
-      await nodesApi.createFolder(Folder17239);
-      Folder17240Id = (await nodesApi.createFolder(Folder17240)).entry.id;
-      await nodesApi.createFolder(Folder17241);
-      Folder17242Id = (await nodesApi.createFolder(Folder17242)).entry.id;
-      await nodesApi.createFolder(Folder17243);
-      await nodesApi.createFolder(Folder17244);
+      await nodesApi.createFolder(folder5512);
+      folder5513Id = (await nodesApi.createFolder(folder5513)).entry.id;
+      await nodesApi.createFolder(folder5514);
+      folder5516Id = (await nodesApi.createFolder(folder5516)).entry.id;
+      await nodesApi.createFolder(folder17238);
+      await nodesApi.createFolder(folder17239);
+      folder17240Id = (await nodesApi.createFolder(folder17240)).entry.id;
+      await nodesApi.createFolder(folder17241);
+      folder17242Id = (await nodesApi.createFolder(folder17242)).entry.id;
+      await nodesApi.createFolder(folder17243);
+      await nodesApi.createFolder(folder17244);
+      propertiesFolderId = (await nodesApi.createFolder(propertiesFolder)).entry.id;
 
-      const Folder5513BodyUpdate = {
+      const folder5513BodyUpdate = {
         properties: {
           'cm:title': '1234',
           'cm:description': '123',
@@ -125,8 +162,12 @@ test.describe('Info Drawer - File Folder Properties', () => {
         }
       };
 
-      await nodesApi.updateNode(Folder5513Id, Folder5513BodyUpdate);
-      await fileActionsApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, File5516, Folder5516Id);
+      await nodesApi.updateNode(folder5513Id, folder5513BodyUpdate);
+      await fileActionsApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, file5516, folder5516Id);
+      await fileActionsApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, nodePropertiesJpg, propertiesFolderId);
+      await fileActionsApi.uploadFileWithRename(TEST_FILES.DOCX.path, nodePropertiesDocx, propertiesFolderId);
+      await nodesApi.createFolder(nodePropertiesFolder, propertiesFolderId);
+      await nodesApi.createFolder(nodeEditPropertiesFolder, propertiesFolderId);
     } catch (error) {
       console.error(`beforeAll failed : ${error}`);
     }
@@ -142,22 +183,9 @@ test.describe('Info Drawer - File Folder Properties', () => {
     await tagsApi.deleteTagsByTagName(tagsPhraseForDeletion);
   });
 
-  async function navigateAndOpenInfoDrawer(personalFiles: PersonalFilesPage, nodeName: string, subFolderId?: string) {
-    await fileActionsApi.waitForNodes(nodeName, { expect: 1 });
-    if (subFolderId) {
-      await personalFiles.navigate({ remoteUrl: `#/personal-files/${subFolderId}` });
-    } else {
-      await personalFiles.navigate();
-    }
-    await Utils.reloadPageIfRowNotVisible(personalFiles, nodeName);
-    await expect(personalFiles.dataTable.getRowByName(nodeName)).toBeVisible();
-    await personalFiles.dataTable.getRowByName(nodeName).click();
-    await personalFiles.acaHeader.viewDetails.click();
-  }
-
   test('[XAT-5512] View properties - Default tabs', async ({ personalFiles }) => {
-    await navigateAndOpenInfoDrawer(personalFiles, Folder5512);
-    expect(await personalFiles.infoDrawer.getHeaderTitle()).toEqual(Folder5512);
+    await navigateAndOpenInfoDrawer(personalFiles, folder5512);
+    expect(await personalFiles.infoDrawer.getHeaderTitle()).toEqual(folder5512);
     await expect(personalFiles.infoDrawer.propertiesTab).toBeVisible();
     await expect(personalFiles.infoDrawer.commentsTab).toBeVisible();
     expect(await personalFiles.infoDrawer.getTabsCount()).toEqual(2);
@@ -165,7 +193,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
 
   test('[XAT-5513] View file properties - General Info fields', async ({ personalFiles }) => {
     const generalInfoProperties = ['Name', 'Title', 'Creator', 'Created Date', 'Modifier', 'Modified Date', 'Author', 'Description', 'Content Type'];
-    await navigateAndOpenInfoDrawer(personalFiles, Folder5513);
+    await navigateAndOpenInfoDrawer(personalFiles, folder5513);
     await expect(personalFiles.infoDrawer.generalInfoProperties.first()).not.toBeInViewport();
     await personalFiles.infoDrawer.generalInfoAccordion.click();
     await expect(personalFiles.infoDrawer.generalInfoProperties.first()).toBeInViewport();
@@ -177,7 +205,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
 
   test('[XAT-5516] View image properties', async ({ personalFiles }) => {
     const imageExifProperties = ['Image Width', 'Image Height'];
-    await navigateAndOpenInfoDrawer(personalFiles, File5516, Folder5516Id);
+    await navigateAndOpenInfoDrawer(personalFiles, file5516, folder5516Id);
     await expect(personalFiles.infoDrawer.exifInfoProperties.first()).not.toBeInViewport();
     await personalFiles.infoDrawer.exifInfoAccordion.click();
     await expect(personalFiles.infoDrawer.exifInfoProperties.first()).toBeInViewport();
@@ -188,19 +216,59 @@ test.describe('Info Drawer - File Folder Properties', () => {
   });
 
   test('[XAT-5514] View properties - Should be able to make the folders info drawer expandable as for Sites', async ({ personalFiles }) => {
-    await navigateAndOpenInfoDrawer(personalFiles, Folder5514);
+    await navigateAndOpenInfoDrawer(personalFiles, folder5514);
     await personalFiles.infoDrawer.expandDetailsButton.click();
     await expect(personalFiles.infoDrawer.expandedDetailsPermissionsTab).toBeVisible();
 
     await personalFiles.navigate();
-    await expect(personalFiles.dataTable.getRowByName(Folder5514)).toBeVisible();
-    await personalFiles.dataTable.getRowByName(Folder5514).click({ button: 'right' });
+    await expect(personalFiles.dataTable.getRowByName(folder5514)).toBeVisible();
+    await personalFiles.dataTable.getRowByName(folder5514).click({ button: 'right' });
     await personalFiles.pagination.clickMenuItem('Permissions');
     await expect(personalFiles.infoDrawer.expandedDetailsPermissionsTab).toBeVisible();
   });
 
+  test('[XAT-5517] Editable / read-only properties for a document', async ({ personalFiles }) => {
+    await navigateAndOpenInfoDrawer(personalFiles, nodePropertiesDocx, propertiesFolderId);
+    await checkNodeFields(personalFiles);
+  });
+
+  test('[XAT-5518] Editable / read-only properties for an image', async ({ personalFiles }) => {
+    await navigateAndOpenInfoDrawer(personalFiles, nodePropertiesJpg, propertiesFolderId);
+    await checkNodeFields(personalFiles);
+  });
+
+  test('[XAT-5519] Editable / read-only properties for a folder', async ({ personalFiles }) => {
+    await navigateAndOpenInfoDrawer(personalFiles, nodePropertiesFolder, propertiesFolderId);
+    await checkNodeFields(personalFiles, 'isFolder');
+  });
+
+  test('[XAT-5520] Special characters in "Name" field', async ({ personalFiles }) => {
+    const specialCharacters = ['"', '*', '\\', '/', '?', ':', '|'];
+    await navigateAndOpenInfoDrawer(personalFiles, nodePropertiesFolder, propertiesFolderId);
+    await personalFiles.infoDrawer.generalInfoEditButton.click();
+    for (const specialCharacter of specialCharacters) {
+      await personalFiles.infoDrawer.generalInfoNameField.fill('Test');
+      await expect(personalFiles.infoDrawer.generalInfoNameError).toBeHidden();
+      await personalFiles.infoDrawer.generalInfoNameField.fill('Test' + specialCharacter);
+      await expect(personalFiles.infoDrawer.generalInfoNameError).toBeVisible();
+    }
+  });
+
+  test('[XAT-5521] Edit file properties with success', async ({ personalFiles }) => {
+    const newFolderName = `Test-${Utils.random()}`;
+    await navigateAndOpenInfoDrawer(personalFiles, nodeEditPropertiesFolder, propertiesFolderId);
+    const nameBefore = await personalFiles.infoDrawer.generalInfoNameField.inputValue();
+    await personalFiles.infoDrawer.generalInfoEditButton.click();
+    await personalFiles.infoDrawer.generalInfoNameField.click();
+    await personalFiles.infoDrawer.generalInfoNameField.fill(newFolderName);
+    await personalFiles.infoDrawer.generalInfoSaveButton.click();
+    await personalFiles.page.reload({ waitUntil: 'load' });
+    await expect(personalFiles.dataTable.getRowByName(newFolderName)).toBeVisible();
+    await expect(personalFiles.dataTable.getRowByName(nameBefore)).toBeHidden();
+  });
+
   test('[XAT-17238] State for no tags and categories - accordion expanded', async ({ personalFiles }) => {
-    await navigateAndOpenInfoDrawer(personalFiles, Folder17238);
+    await navigateAndOpenInfoDrawer(personalFiles, folder17238);
     await personalFiles.infoDrawer.tagsAccordion.click();
     await expect(personalFiles.infoDrawer.tagsAccordion).toContainText(noTagsText);
 
@@ -209,7 +277,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
   });
 
   test('[XAT-17239] Add a new tag to a node', async ({ personalFiles }) => {
-    await navigateAndOpenInfoDrawer(personalFiles, Folder17239);
+    await navigateAndOpenInfoDrawer(personalFiles, folder17239);
     await personalFiles.infoDrawer.tagsAccordionPenButton.click();
     await expect(personalFiles.infoDrawer.tagsAccordionPenButton).toBeHidden();
     await expect(personalFiles.infoDrawer.tagsAccordionCancelButton).toBeEnabled();
@@ -224,18 +292,18 @@ test.describe('Info Drawer - File Folder Properties', () => {
   });
 
   test('[XAT-17240] Remove a tag from a node', async ({ personalFiles }) => {
-    await fileActionsApi.waitForNodes(Folder17240, { expect: 1 });
-    await tagsApi.assignTagToNode(Folder17240Id, tagBody);
+    await fileActionsApi.waitForNodes(folder17240, { expect: 1 });
+    await tagsApi.assignTagToNode(folder17240Id, tagBody);
     await expect(async () => {
-      expect((await tagsApi.listTagsForNode(Folder17240Id)).list.entries.length).toEqual(1);
+      expect((await tagsApi.listTagsForNode(folder17240Id)).list.entries.length).toEqual(1);
     }).toPass({
       intervals: [1_000],
-      timeout: 10_000
+      timeout: timeouts.large
     });
     await personalFiles.navigate();
-    await Utils.reloadPageIfRowNotVisible(personalFiles, Folder17240);
-    await expect(personalFiles.dataTable.getRowByName(Folder17240)).toBeVisible();
-    await personalFiles.dataTable.getRowByName(Folder17240).click();
+    await Utils.reloadPageIfRowNotVisible(personalFiles, folder17240);
+    await expect(personalFiles.dataTable.getRowByName(folder17240)).toBeVisible();
+    await personalFiles.dataTable.getRowByName(folder17240).click();
     await personalFiles.acaHeader.viewDetails.click();
 
     await personalFiles.infoDrawer.tagsAccordion.click();
@@ -248,11 +316,11 @@ test.describe('Info Drawer - File Folder Properties', () => {
   });
 
   test('[XAT-17243] Cancel adding a tag to a node', async ({ personalFiles }) => {
-    await fileActionsApi.waitForNodes(Folder17243, { expect: 1 });
+    await fileActionsApi.waitForNodes(folder17243, { expect: 1 });
     await personalFiles.navigate();
-    await Utils.reloadPageIfRowNotVisible(personalFiles, Folder17243);
-    await expect(personalFiles.dataTable.getRowByName(Folder17243)).toBeVisible();
-    await personalFiles.dataTable.getRowByName(Folder17243).click();
+    await Utils.reloadPageIfRowNotVisible(personalFiles, folder17243);
+    await expect(personalFiles.dataTable.getRowByName(folder17243)).toBeVisible();
+    await personalFiles.dataTable.getRowByName(folder17243).click();
     await personalFiles.acaHeader.viewDetails.click();
 
     await personalFiles.infoDrawer.tagsAccordionPenButton.click();
@@ -263,7 +331,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
   });
 
   test('[XAT-17241] Add a new category to a node', async ({ personalFiles }) => {
-    await navigateAndOpenInfoDrawer(personalFiles, Folder17241);
+    await navigateAndOpenInfoDrawer(personalFiles, folder17241);
     await personalFiles.infoDrawer.categoriesAccordionPenButton.click();
     await expect(personalFiles.infoDrawer.categoriesAccordionPenButton).toBeHidden();
     await expect(personalFiles.infoDrawer.categoriesAccordionCancelButton).toBeEnabled();
@@ -279,12 +347,12 @@ test.describe('Info Drawer - File Folder Properties', () => {
   });
 
   test('[XAT-17242] Remove a category from a node', async ({ personalFiles }) => {
-    await fileActionsApi.waitForNodes(Folder17242, { expect: 1 });
-    await categoriesApi.linkNodeToCategory(Folder17242Id, [{ categoryId: responseCategoryId }]);
+    await fileActionsApi.waitForNodes(folder17242, { expect: 1 });
+    await categoriesApi.linkNodeToCategory(folder17242Id, [{ categoryId: responseCategoryId }]);
     await personalFiles.navigate();
-    await Utils.reloadPageIfRowNotVisible(personalFiles, Folder17242);
-    await expect(personalFiles.dataTable.getRowByName(Folder17242)).toBeVisible();
-    await personalFiles.dataTable.getRowByName(Folder17242).click();
+    await Utils.reloadPageIfRowNotVisible(personalFiles, folder17242);
+    await expect(personalFiles.dataTable.getRowByName(folder17242)).toBeVisible();
+    await personalFiles.dataTable.getRowByName(folder17242).click();
     await personalFiles.acaHeader.viewDetails.click();
 
     await personalFiles.infoDrawer.categoriesAccordion.click();
@@ -296,7 +364,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
   });
 
   test('[XAT-17244] Cancel adding a category to a node', async ({ personalFiles }) => {
-    await navigateAndOpenInfoDrawer(personalFiles, Folder17244);
+    await navigateAndOpenInfoDrawer(personalFiles, folder17244);
     await personalFiles.infoDrawer.categoriesAccordionPenButton.click();
     await personalFiles.infoDrawer.categoriesInput.click();
     await personalFiles.infoDrawer.categoriesInput.fill('*');
