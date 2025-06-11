@@ -33,7 +33,8 @@ import {
   TagsApi,
   CategoriesApi,
   PersonalFilesPage,
-  TEST_FILES
+  TEST_FILES,
+  timeouts
 } from '@alfresco/aca-playwright-shared';
 
 test.describe('Info Drawer - file folder Properties', () => {
@@ -120,7 +121,7 @@ test.describe('Info Drawer - file folder Properties', () => {
     await expect(personalFiles.dataTable.getRowByName(nodeName)).toBeVisible();
     await personalFiles.dataTable.getRowByName(nodeName).click();
     await personalFiles.acaHeader.viewDetails.click();
-    await personalFiles.infoDrawer.propertiesTab.waitFor({ timeout: 10 * 1000 });
+    await personalFiles.infoDrawer.propertiesTab.waitFor({ timeout: timeouts.medium });
   }
 
   test.beforeAll(async () => {
@@ -241,7 +242,7 @@ test.describe('Info Drawer - file folder Properties', () => {
     await checkNodeFields(personalFiles, 'isFolder');
   });
 
-  test('[XAT-5520] Special characters in ""Name"" field', async ({ personalFiles }) => {
+  test('[XAT-5520] Special characters in "Name" field', async ({ personalFiles }) => {
     const specialCharacters = ['"', '*', '\\', '/', '?', ':', '|'];
     await navigateAndOpenInfoDrawer(personalFiles, nodePropertiesFolder, propertiesFolderId);
     await personalFiles.infoDrawer.generalInfoEditButton.click();
@@ -297,7 +298,7 @@ test.describe('Info Drawer - file folder Properties', () => {
       expect((await tagsApi.listTagsForNode(folder17240Id)).list.entries.length).toEqual(1);
     }).toPass({
       intervals: [1_000],
-      timeout: 10_000
+      timeout: timeouts.large
     });
     await personalFiles.navigate();
     await Utils.reloadPageIfRowNotVisible(personalFiles, folder17240);
