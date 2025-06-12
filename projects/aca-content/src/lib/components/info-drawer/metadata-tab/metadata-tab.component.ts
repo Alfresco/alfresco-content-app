@@ -82,16 +82,16 @@ export class MetadataTabComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
   constructor(
-    private permission: NodePermissionService,
-    protected extensions: AppExtensionService,
-    private appConfig: AppConfigService,
-    private notificationService: NotificationService,
-    private contentMetadataService: ContentMetadataService,
-    private actions$: Actions,
-    private tagService: TagService,
-    private categoryService: CategoryService,
-    private store: Store<AppStore>,
-    private extensionService: ExtensionService
+    private readonly permission: NodePermissionService,
+    protected readonly extensions: AppExtensionService,
+    private readonly appConfig: AppConfigService,
+    private readonly notificationService: NotificationService,
+    private readonly contentMetadataService: ContentMetadataService,
+    private readonly actions$: Actions,
+    private readonly tagService: TagService,
+    private readonly categoryService: CategoryService,
+    private readonly store: Store<AppStore>,
+    private readonly extensionService: ExtensionService
   ) {
     if (this.extensions.contentMetadata) {
       this.appConfig.config['content-metadata'].presets = this.extensions.contentMetadata.presets;
@@ -132,7 +132,7 @@ export class MetadataTabComponent implements OnInit {
   private checkIfNodeIsUpdatable(node: Node) {
     this.readOnly = !(node &&
     !isLocked({ entry: node }) &&
-    (this.extensionService.getFeature('sidebar')?.['rules']?.enabled || []).every((rule: string) =>
+    (this.extensionService.getFeature('sidebar')?.['rules']?.enabled ?? []).every((rule: string) =>
       this.extensionService.evaluateRule(rule, this.extensions)
     )
       ? this.permission.check(node, ['update'])
