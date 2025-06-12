@@ -1,0 +1,9 @@
+name: "After e2e"
+description: "Runs cleanup tasks after e2e run"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Remove storage file
+      shell: bash
+      run: rm -f ./storage-state/AdminUserState.json

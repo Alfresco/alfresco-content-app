@@ -20,8 +20,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-
-
 env:
   BASE_URL: ${{ secrets.PIPELINE_ENV_URL }}
   ADMIN_EMAIL: ${{ secrets.PIPELINE_ADMIN_USERNAME }}
@@ -38,7 +36,7 @@ env:
   RETRY_COUNT: 2
 
 jobs:
- 
+
   build:
     name: 'build'
     runs-on: ubuntu-latest
@@ -65,6 +63,30 @@ jobs:
           path: ./dist/content-ce
           key: cache-dist-${{ github.run_id }}
 
+  unit-tests:
+    needs: [lint, build]
+    name: "Unit tests"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - uses: ./.github/actions/before-install
+      - run: npm ci
+
+      - name: Test
+        if: ${{ github.event_name == 'pull_request' }}
+        run: npm run affected:test -- --browsers=ChromeHeadless --watch=false $TEST_OPTS --base=origin/develop
+
+      - name: Test all
+        if: ${{ github.event_name != 'pull_request' }}
+        run: npx nx run-many --target=test --browsers=ChromeHeadless --watch=false $TEST_OPTS
 
   e2es-playwright:
     needs: [build]
@@ -147,11 +169,7 @@ jobs:
           options: "${{ matrix.e2e-suites.name }}"
           artifact-name: ${{ matrix.e2e-suites.name }}
           test-runner: playwright
-
-      - name: Debug Ingress Controller Logs
-        if: always()
-        run: |
-            kubectl logs -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx --tail=-1
+      - uses: ./.github/actions/after-e2e
 
   finalize:
     if: ${{ always() }}
