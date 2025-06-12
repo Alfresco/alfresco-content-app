@@ -63,31 +63,6 @@ jobs:
           path: ./dist/content-ce
           key: cache-dist-${{ github.run_id }}
 
-  unit-tests:
-    needs: [lint, build]
-    name: "Unit tests"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: node
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-      - uses: ./.github/actions/before-install
-      - run: npm ci
-
-      - name: Test
-        if: ${{ github.event_name == 'pull_request' }}
-        run: npm run affected:test -- --browsers=ChromeHeadless --watch=false $TEST_OPTS --base=origin/develop
-
-      - name: Test all
-        if: ${{ github.event_name != 'pull_request' }}
-        run: npx nx run-many --target=test --browsers=ChromeHeadless --watch=false $TEST_OPTS
-
   e2es-playwright:
     needs: [build]
     name: 'E2E Playwright - ${{ matrix.e2e-suites.name }}'
