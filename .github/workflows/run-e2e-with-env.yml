@@ -21,14 +21,14 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  BASE_URL: ${{ secrets.PIPELINE_ENV_URL }}
+  BASE_URL: ${{ inputs.url }}
   ADMIN_EMAIL: ${{ secrets.PIPELINE_ADMIN_USERNAME }}
   ADMIN_PASSWORD: ${{ secrets.PIPELINE_ADMIN_PASSWORD }}
   HR_USER: ${{ secrets.HR_USER }}
   HR_USER_PASSWORD: ${{ secrets.HR_USER_PASSWORD }}
   SCREENSHOT_USERNAME: ${{ secrets.SCREENSHOT_USERNAME }}
   SCREENSHOT_PASSWORD: ${{ secrets.SCREENSHOT_PASSWORD}}
-  PLAYWRIGHT_E2E_HOST: ${{ secrets.PLAYWRIGHT_E2E_HOST }}
+  PLAYWRIGHT_E2E_HOST: ${{ inputs.url }}/aca/#/
   GH_BUILD_NUMBER: ${{ github.run_id }}
   REPORT_PORTAL_URL: ${{ secrets.REPORT_PORTAL_URL }}
   REPORT_PORTAL_TOKEN: ${{ secrets.REPORT_PORTAL_TOKEN }}
