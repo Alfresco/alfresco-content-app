@@ -114,6 +114,7 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   }
 
   async addCommentToNode(commentText: string): Promise<void> {
+    await this.commentInputField.click();
     await this.commentInputField.fill(commentText);
     await this.addCommentButton.click();
   }
