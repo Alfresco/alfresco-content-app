@@ -55,10 +55,11 @@ describe('LibraryEffects', () => {
       spyOn(notificationService, 'showError');
     });
 
-    it('should display library no permission error if user does not have permission', () => {
+    it('should display library no permission warning if user does not have permission', () => {
+      spyOn(notificationService, 'showWarning');
       store.dispatch(new NavigateLibraryAction('libraryId'));
       node$.error(new HttpErrorResponse({ status: 403 }));
-      expect(notificationService.showError).toHaveBeenCalledWith('APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_NO_PERMISSIONS');
+      expect(notificationService.showWarning).toHaveBeenCalledWith('APP.BROWSE.LIBRARIES.LIBRARY_NO_PERMISSIONS_WARNING');
     });
 
     it('should display library not found error if library does not exist', () => {

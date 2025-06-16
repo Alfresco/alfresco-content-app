@@ -51,6 +51,11 @@ export class AppHookService {
   libraryUpdated = new Subject<SiteEntry>();
 
   /**
+   * Gets emitted when library update fails
+   */
+  libraryUpdateFailed = new Subject<void>();
+
+  /**
    * Gets emitted when user join the library
    */
   libraryJoined = new Subject<void>();

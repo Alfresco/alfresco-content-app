@@ -23,12 +23,11 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CoreTestingModule, DataCellEvent, DataTableComponent } from '@alfresco/adf-core';
+import { CoreTestingModule, DataCellEvent, DataTableComponent, NotificationService } from '@alfresco/adf-core';
 import { SavedSearchesListUiComponent } from './saved-searches-list.ui-component';
 import { SavedSearchesListUiService } from '../saved-searches-list-ui.service';
 import { By } from '@angular/platform-browser';
 import { SavedSearch } from '@alfresco/adf-content-services';
-import { provideMockStore } from '@ngrx/store/testing';
 import { Subject } from 'rxjs';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Router } from '@angular/router';
@@ -36,6 +35,7 @@ import { Router } from '@angular/router';
 describe('SavedSearchesListUiComponent ', () => {
   let fixture: ComponentFixture<SavedSearchesListUiComponent>;
   let component: SavedSearchesListUiComponent;
+  let notificationService: NotificationService;
   let savedSearchesListUiService: SavedSearchesListUiService;
   let clipboard: Clipboard;
   let router: Router;
@@ -43,9 +43,10 @@ describe('SavedSearchesListUiComponent ', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CoreTestingModule, SavedSearchesListUiComponent],
-      providers: [SavedSearchesListUiService, provideMockStore()]
+      providers: [SavedSearchesListUiService]
     });
 
+    notificationService = TestBed.inject(NotificationService);
     savedSearchesListUiService = TestBed.inject(SavedSearchesListUiService);
     clipboard = TestBed.inject(Clipboard);
     router = TestBed.inject(Router);
@@ -196,12 +197,17 @@ describe('SavedSearchesListUiComponent ', () => {
         let actionData: any;
 
         beforeEach(() => {
+          spyOn(notificationService, 'showInfo');
           actionData = dataCellEvent.value.actions[0];
           actionData.subject.next(actionData);
         });
 
         it('should call copy to clipboard when selected delete option', () => {
           expect(clipboard.copy).toHaveBeenCalled();
+        });
+
+        it('should show snackbar message when selected delete option', () => {
+          expect(notificationService.showInfo).toHaveBeenCalledWith('APP.BROWSE.SEARCH.SAVE_SEARCH.LIST.COPY_TO_CLIPBOARD_SUCCESS');
         });
       });
 

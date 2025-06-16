@@ -153,9 +153,9 @@
                 },
                 "ERRORS": {
                     "LIBRARY_NOT_FOUND": "Deze bibliotheek bestaat niet meer.",
-                    "LIBRARY_NO_PERMISSIONS": "U hebt geen machtiging om deze bibliotheek te bekijken.",
                     "LIBRARY_LOADING_ERROR": "Er was een probleem bij het laden van deze bibliotheek."
-                }
+                },
+                "LIBRARY_NO_PERMISSIONS_WARNING": "U hebt geen machtiging om deze bibliotheek te bekijken."
             },
             "SHARED": {
                 "TITLE": "Gedeelde bestanden",

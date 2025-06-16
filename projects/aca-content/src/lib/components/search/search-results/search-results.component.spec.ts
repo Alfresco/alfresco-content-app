@@ -26,14 +26,14 @@ import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testin
 import { SearchResultsComponent } from './search-results.component';
 import { AppConfigService, NotificationService, TranslationService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
-import { NavigateToFolder, SnackbarErrorAction, SnackbarInfoAction } from '@alfresco/aca-shared/store';
+import { NavigateToFolder } from '@alfresco/aca-shared/store';
 import { Pagination, SearchRequest } from '@alfresco/js-api';
 import { SavedSearchesService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, of, Subject, throwError } from 'rxjs';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AppService } from '@alfresco/aca-shared';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule, MatSnackBarRef } from '@angular/material/snack-bar';
 import { Buffer } from 'buffer';
 import { testHeader } from '../../../testing/document-base-page-utils';
 import { HarnessLoader } from '@angular/cdk/testing';
@@ -53,7 +53,8 @@ describe('SearchComponent', () => {
   let route: ActivatedRoute;
   const searchRequest = {} as SearchRequest;
   let params: BehaviorSubject<any>;
-  let showErrorSpy: jasmine.Spy;
+  let showErrorSpy: jasmine.Spy<(message: string, action?: string, interpolateArgs?: any, showAction?: boolean) => MatSnackBarRef<any>>;
+  let showInfoSpy: jasmine.Spy<(message: string, action?: string, interpolateArgs?: any, showAction?: boolean) => MatSnackBarRef<any>>;
   let loader: HarnessLoader;
 
   const editSavedSearchesSpy = jasmine.createSpy('editSavedSearch');
@@ -109,6 +110,7 @@ describe('SearchComponent', () => {
 
     const notificationService = TestBed.inject(NotificationService);
     showErrorSpy = spyOn(notificationService, 'showError');
+    showInfoSpy = spyOn(notificationService, 'showInfo');
 
     config.config = {
       search: {}
@@ -290,19 +292,17 @@ describe('SearchComponent', () => {
   }));
 
   it('should dispatch success snackbar action when editing saved search is successful', fakeAsync(() => {
-    spyOn(store, 'dispatch').and.stub();
     editSavedSearchesSpy.and.returnValue(of({}));
     component.editSavedSearch({ name: 'test', encodedUrl: 'test', order: 0 });
     tick();
-    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarInfoAction('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.SUCCESS_MESSAGE'));
+    expect(showInfoSpy).toHaveBeenCalledWith('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.SUCCESS_MESSAGE');
   }));
 
   it('should dispatch error snackbar action when editing saved search failed', fakeAsync(() => {
-    spyOn(store, 'dispatch').and.stub();
     editSavedSearchesSpy.and.returnValue(throwError(() => new Error('')));
     component.editSavedSearch({ name: 'test', encodedUrl: 'test', order: 0 });
     tick();
-    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.ERROR_MESSAGE'));
+    expect(showErrorSpy).toHaveBeenCalledWith('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.ERROR_MESSAGE');
   }));
 
   testHeader(SearchResultsComponent, false);

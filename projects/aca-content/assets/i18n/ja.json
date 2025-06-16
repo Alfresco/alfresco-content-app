@@ -153,9 +153,9 @@
                 },
                 "ERRORS": {
                     "LIBRARY_NOT_FOUND": "このライブラリはもはや存在しません。",
-                    "LIBRARY_NO_PERMISSIONS": "このライブラリを閲覧する権限がありません。",
                     "LIBRARY_LOADING_ERROR": "このライブラリのロード中に何らかの問題が発生しました。"
-                }
+                },
+                "LIBRARY_NO_PERMISSIONS_WARNING": "このライブラリを閲覧する権限がありません。"
             },
             "SHARED": {
                 "TITLE": "共有ファイル",

@@ -36,16 +36,9 @@ import {
 } from '@angular/forms';
 import { QueriesApi, SiteEntry, SitePaging } from '@alfresco/js-api';
 import { Store } from '@ngrx/store';
-import {
-  AppStore,
-  isAdmin,
-  SnackbarAction,
-  SnackbarActionTypes,
-  SnackbarErrorAction,
-  SnackbarInfoAction,
-  UpdateLibraryAction
-} from '@alfresco/aca-shared/store';
-import { debounceTime, filter, mergeMap } from 'rxjs/operators';
+import { AppStore, isAdmin, UpdateLibraryAction } from '@alfresco/aca-shared/store';
+import { AppHookService } from '@alfresco/aca-shared';
+import { debounceTime, mergeMap } from 'rxjs/operators';
 import { AlfrescoApiService } from '@alfresco/adf-content-services';
 import { from, Observable } from 'rxjs';
 import { ErrorStateMatcher, MatOptionModule } from '@angular/material/core';
@@ -57,7 +50,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { A11yModule } from '@angular/cdk/a11y';
 import { MatButtonModule } from '@angular/material/button';
-import { Actions, ofType } from '@ngrx/effects';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 export class InstantErrorStateMatcher implements ErrorStateMatcher {
@@ -127,7 +119,7 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges {
   constructor(
     private readonly alfrescoApiService: AlfrescoApiService,
     protected readonly store: Store<AppStore>,
-    private readonly actions$: Actions
+    private readonly appHookService: AppHookService
   ) {}
 
   toggleEdit() {
@@ -186,10 +178,12 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges {
         this.isAdmin = value;
       });
     this.canUpdateLibrary = this.node?.entry?.role === 'SiteManager' || this.isAdmin;
-    this.handleUpdatingEvent<SnackbarInfoAction>(SnackbarActionTypes.Info, 'LIBRARY.SUCCESS.LIBRARY_UPDATED', () =>
-      Object.assign(this.node.entry, this.form.value)
-    );
-    this.handleUpdatingEvent<SnackbarErrorAction>(SnackbarActionTypes.Error, 'LIBRARY.ERRORS.LIBRARY_UPDATE_ERROR', () => this.form.markAsDirty());
+    this.appHookService.libraryUpdated.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+      Object.assign(this.node.entry, this.form.value);
+    });
+    this.appHookService.libraryUpdateFailed.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+      this.form.markAsDirty();
+    });
   }
 
   ngOnChanges() {
@@ -229,16 +223,6 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges {
         })
         .catch(() => ({ list: { entries: [] } }))
     );
-  }
-
-  private handleUpdatingEvent<T extends SnackbarAction>(actionType: SnackbarActionTypes, payload: string, handle: () => void): void {
-    this.actions$
-      .pipe(
-        ofType<T>(actionType),
-        filter((action) => action.payload === payload),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe(handle);
   }
 
   private validateEmptyName(control: FormControl<string>): ValidationErrors {

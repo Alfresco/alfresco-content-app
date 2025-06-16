@@ -153,9 +153,9 @@
                 },
                 "ERRORS": {
                     "LIBRARY_NOT_FOUND": "Dette bibliotek findes ikke mere.",
-                    "LIBRARY_NO_PERMISSIONS": "Du har ikke tilladelse til at se dette bibliotek.",
                     "LIBRARY_LOADING_ERROR": "Der var problemer under hentning af dette bibliotek."
-                }
+                },
+                "LIBRARY_NO_PERMISSIONS_WARNING": "Du har ikke tilladelse til at se dette bibliotek."
             },
             "SHARED": {
                 "TITLE": "Delte filer",

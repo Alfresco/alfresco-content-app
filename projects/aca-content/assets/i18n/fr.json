@@ -153,9 +153,9 @@
                 },
                 "ERRORS": {
                     "LIBRARY_NOT_FOUND": "Cette bibliothèque n'existe plus.",
-                    "LIBRARY_NO_PERMISSIONS": "Vous n'avez pas la permission de consulter cette bibliothèque.",
                     "LIBRARY_LOADING_ERROR": "Un problème s'est produit pendant le chargement de cette bibliothèque."
-                }
+                },
+                "LIBRARY_NO_PERMISSIONS_WARNING": "Vous n'avez pas la permission de consulter cette bibliothèque."
             },
             "SHARED": {
                 "TITLE": "Fichiers partagés",

@@ -153,9 +153,9 @@
                 },
                 "ERRORS": {
                     "LIBRARY_NOT_FOUND": "Tätä kirjastoa ei ole enää olemassa",
-                    "LIBRARY_NO_PERMISSIONS": "Sinulla ei ole oikeutta tarkastella tätä kirjastoa.",
                     "LIBRARY_LOADING_ERROR": "Tämän kirjaston lataamisessa ilmeni ongelma."
-                }
+                },
+                "LIBRARY_NO_PERMISSIONS_WARNING": "Sinulla ei ole oikeutta tarkastella tätä kirjastoa."
             },
             "SHARED": {
                 "TITLE": "Jaetut tiedostot",

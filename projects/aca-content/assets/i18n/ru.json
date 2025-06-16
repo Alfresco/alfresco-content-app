@@ -153,9 +153,9 @@
                 },
                 "ERRORS": {
                     "LIBRARY_NOT_FOUND": "Данная библиотека не существует.",
-                    "LIBRARY_NO_PERMISSIONS": "Нет прав для просмотра данной библиотеки.",
                     "LIBRARY_LOADING_ERROR": "Ошибка загрузки библиотеки."
-                }
+                },
+                "LIBRARY_NO_PERMISSIONS_WARNING": "Нет прав для просмотра данной библиотеки."
             },
             "SHARED": {
                 "TITLE": "Общие файлы",
