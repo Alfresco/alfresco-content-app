@@ -4,14 +4,9 @@ description: "Run e2e tests with environment variables"
 on:
   workflow_dispatch:
     inputs:
-      branch:
-        description: 'Branch to test'
-        required: true
-        default: 'develop'
       url:
         description: 'Application URL'
         required: true
-        default: 'https://acadev.envalfresco.com'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -142,34 +137,3 @@ jobs:
           artifact-name: ${{ matrix.e2e-suites.name }}
           test-runner: playwright
       - uses: ./.github/actions/after-e2e
-
-  finalize:
-    if: ${{ always() }}
-    needs: [build, e2es-playwright]
-    name: 'Finalize'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check previous jobs status
-        if: >-
-            ${{
-                contains(needs.*.result, 'failure')
-              || contains(needs.*.result, 'cancelled')
-            }}
-        run: exit 1
-
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
-
-      - name: Extract commit message
-        uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@v8.22.1
-
-      - name: Check ADF link
-        shell: bash
-        run: |
-          if [[ $COMMIT_MESSAGE == *"[link-adf:"* ]]; then
-            BRANCH=`echo $COMMIT_MESSAGE | grep -o "\[link-adf\:[^]]*\]" | sed -e 's#\[link-adf:##g' | sed -e 's#\]##g'`
-            echo -e "\e[31mPRs are not mergeable with conditional build. This build was run with custom ADF branch: $BRANCH \e[0m"
-            exit 1
-          fi;
