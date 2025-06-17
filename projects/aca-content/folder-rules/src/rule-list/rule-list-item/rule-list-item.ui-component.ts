@@ -51,7 +51,6 @@ export class RuleListItemUiComponent {
 
   onToggleClick(isEnabled: boolean, event: Event) {
     event.stopPropagation();
-    this.rule.isEnabled = !this.rule.isEnabled;
     this.enabledChanged.emit(isEnabled);
   }
 }
