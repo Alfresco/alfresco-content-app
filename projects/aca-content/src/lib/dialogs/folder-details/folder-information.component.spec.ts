@@ -77,6 +77,7 @@ describe('FolderInformationComponent', () => {
   it('should render all information in init', () => {
     fixture.detectChanges();
     expect(unitTestingUtils.getInnerTextByDataAutomationId('folder-info-name')).toBe('mock-folder');
+    expect(unitTestingUtils.getInnerTextByDataAutomationId('folder-info-number-of-files')).toBe('APP.FOLDER_INFO.CALCULATING');
     expect(unitTestingUtils.getInnerTextByDataAutomationId('folder-info-size')).toBe('APP.FOLDER_INFO.CALCULATING');
     expect(unitTestingUtils.getInnerTextByDataAutomationId('folder-info-location')).toBe('mock-folder-path');
     expect(unitTestingUtils.getInnerTextByDataAutomationId('folder-info-creation-date')).toBe('01/02/2024 11:11');
@@ -115,6 +116,7 @@ describe('FolderInformationComponent', () => {
     expect(getFolderSizeInfoSpy).toHaveBeenCalledTimes(4);
     tick(5000);
     expect(getFolderSizeInfoSpy).not.toHaveBeenCalledTimes(5);
+    expect(fixture.componentInstance.folderDetails.numberOfFiles).toBe(1);
   }));
 
   it('should not make new API request, and display error message if response returned from API is neither COMPLETE, nor IN_PROGRESS', fakeAsync(() => {
@@ -125,6 +127,8 @@ describe('FolderInformationComponent', () => {
     tick(1000);
     fixture.detectChanges();
     expect(getFolderSizeInfoSpy).toHaveBeenCalledTimes(1);
+    fixture.detectChanges();
+    expect(unitTestingUtils.getInnerTextByDataAutomationId('folder-info-number-of-files')).toBe('APP.FOLDER_INFO.ERROR');
     expect(unitTestingUtils.getInnerTextByDataAutomationId('folder-info-size')).toBe('APP.FOLDER_INFO.ERROR');
     tick(5000);
     expect(getFolderSizeInfoSpy).not.toHaveBeenCalledTimes(2);

@@ -42,6 +42,7 @@ class FolderDetails {
   created: Date;
   modified: Date;
   icon: string;
+  numberOfFiles: string | number;
 }
 
 @Component({
@@ -70,6 +71,7 @@ export class FolderInformationComponent implements OnInit {
     this.folderDetails.modified = this.data.modifiedAt;
     this.folderDetails.icon = this.contentService.getNodeIcon(this.data);
     this.folderDetails.size = this.translateService.instant('APP.FOLDER_INFO.CALCULATING');
+    this.folderDetails.numberOfFiles = this.translateService.instant('APP.FOLDER_INFO.CALCULATING');
 
     this.nodesService
       .initiateFolderSizeCalculation(this.data.id)
@@ -91,6 +93,7 @@ export class FolderInformationComponent implements OnInit {
         }),
         takeUntilDestroyed(this.destroyRef),
         catchError(() => {
+          this.folderDetails.numberOfFiles = this.translateService.instant('APP.FOLDER_INFO.ERROR');
           this.folderDetails.size = this.translateService.instant('APP.FOLDER_INFO.ERROR');
           return of(null);
         })
@@ -115,8 +118,10 @@ export class FolderInformationComponent implements OnInit {
             isMoreThanBytes ? 'APP.FOLDER_INFO.CALCULATED_SIZE_LARGE' : 'APP.FOLDER_INFO.CALCULATED_SIZE_NORMAL',
             params
           );
+          this.folderDetails.numberOfFiles = folderInfo.entry.numberOfFiles;
         } else if (folderInfo?.entry?.status !== SizeDetails.StatusEnum.IN_PROGRESS) {
           this.folderDetails.size = this.translateService.instant('APP.FOLDER_INFO.ERROR');
+          this.folderDetails.numberOfFiles = this.translateService.instant('APP.FOLDER_INFO.ERROR');
         }
       });
   }
