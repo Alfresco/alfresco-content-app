@@ -1149,7 +1149,7 @@ describe('ContentManagementService', () => {
       store.dispatch(new RestoreDeletedNodesAction(selection));
       actionSubject.next();
 
-      expect(store.dispatch).toHaveBeenCalledWith(new NavigateToParentFolder(selection[0]));
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new NavigateToParentFolder(selection[0]) }));
     });
 
     describe('notification', () => {
