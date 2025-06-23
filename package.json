@@ -60,7 +60,7 @@
     "mermaid": "^11.5.0",
     "minimatch-browser": "^1.0.0",
     "ngx-markdown": "18.1.0",
-    "pdfjs-dist": "^5.1.91",
+    "pdfjs-dist": "5.1.91",
     "prismjs": "^1.30.0",
     "rxjs": "7.8.2",
     "tslib": "2.8.1",
