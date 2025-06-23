@@ -155,7 +155,7 @@
                     "LIBRARY_NOT_FOUND": "此收藏库不再存在。",
                     "LIBRARY_LOADING_ERROR": "加载此收藏库时出现了问题。"
                 },
-                "LIBRARY_NO_PERMISSIONS_WARNING": "您无权查看此收藏库。"
+                "LIBRARY_NO_PERMISSIONS_WARNING": "You do not have permission to view this library."
             },
             "SHARED": {
                 "TITLE": "共享文件",
