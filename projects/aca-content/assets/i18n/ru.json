@@ -155,7 +155,7 @@
                     "LIBRARY_NOT_FOUND": "Данная библиотека не существует.",
                     "LIBRARY_LOADING_ERROR": "Ошибка загрузки библиотеки."
                 },
-                "LIBRARY_NO_PERMISSIONS_WARNING": "Нет прав для просмотра данной библиотеки."
+                "LIBRARY_NO_PERMISSIONS_WARNING": "You do not have permission to view this library."
             },
             "SHARED": {
                 "TITLE": "Общие файлы",

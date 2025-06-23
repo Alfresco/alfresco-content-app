@@ -155,7 +155,7 @@
                     "LIBRARY_NOT_FOUND": "このライブラリはもはや存在しません。",
                     "LIBRARY_LOADING_ERROR": "このライブラリのロード中に何らかの問題が発生しました。"
                 },
-                "LIBRARY_NO_PERMISSIONS_WARNING": "このライブラリを閲覧する権限がありません。"
+                "LIBRARY_NO_PERMISSIONS_WARNING": "You do not have permission to view this library."
             },
             "SHARED": {
                 "TITLE": "共有ファイル",

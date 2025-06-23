@@ -155,7 +155,7 @@
                     "LIBRARY_NOT_FOUND": "Cette bibliothèque n'existe plus.",
                     "LIBRARY_LOADING_ERROR": "Un problème s'est produit pendant le chargement de cette bibliothèque."
                 },
-                "LIBRARY_NO_PERMISSIONS_WARNING": "Vous n'avez pas la permission de consulter cette bibliothèque."
+                "LIBRARY_NO_PERMISSIONS_WARNING": "You do not have permission to view this library."
             },
             "SHARED": {
                 "TITLE": "Fichiers partagés",

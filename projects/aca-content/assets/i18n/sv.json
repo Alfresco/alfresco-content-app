@@ -155,7 +155,7 @@
                     "LIBRARY_NOT_FOUND": "Detta bibliotek finns inte längre.",
                     "LIBRARY_LOADING_ERROR": "Ett problem uppstod när detta bibliotek skulle läsas in."
                 },
-                "LIBRARY_NO_PERMISSIONS_WARNING": "Du har inte behörighet att visa detta bibliotek."
+                "LIBRARY_NO_PERMISSIONS_WARNING": "You do not have permission to view this library."
             },
             "SHARED": {
                 "TITLE": "Delade filer",
