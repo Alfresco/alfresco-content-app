@@ -23,7 +23,18 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, test, TrashcanApi, FavoritesPageApi, NodesApi, FileActionsApi } from '@alfresco/aca-playwright-shared';
+import {
+  ApiClientFactory,
+  Utils,
+  test,
+  TrashcanApi,
+  FavoritesPageApi,
+  NodesApi,
+  FileActionsApi,
+  SitesApi,
+  MyLibrariesPage
+} from '@alfresco/aca-playwright-shared';
+import { Site } from '@alfresco/js-api';
 
 test.describe('Info Drawer - Comments', () => {
   const apiClientFactory = new ApiClientFactory();
@@ -138,5 +149,79 @@ test.describe('Info Drawer - Comments', () => {
     await expect(favoritePage.infoDrawer.commentTextContent.nth(0)).toHaveText(e2eCommentFirst);
     await expect(favoritePage.infoDrawer.commentTimestamp.nth(0)).toHaveText('less than a minute ago');
     await expect(favoritePage.infoDrawer.commentUsername.nth(0)).toHaveText('Administrator');
+  });
+});
+
+test.describe('Info Drawer - Comments - Sites Privileges', () => {
+  const apiClientFactory = new ApiClientFactory();
+  let nodesApi1: NodesApi;
+  let trashcanApi1: TrashcanApi;
+  let fileActionsApi1: FileActionsApi;
+  let sitesApi1: SitesApi;
+  let siteEntry5522: Site;
+  let siteEntry5523: Site;
+  const siteName5522 = `site-e2e-${Utils.random()}`;
+  const siteName5523 = `site-e2e-${Utils.random()}`;
+  const folderName5522 = `folder-e2e-${Utils.random()}`;
+  const folderName5523 = `folder-e2e-${Utils.random()}`;
+  const username1 = `user-e2e-${Utils.random()}`;
+  const username2 = `user-e2e-${Utils.random()}`;
+
+  async function navigateToFolderAndOpenCommentsTab(page: MyLibrariesPage, siteGuid: string, folderName: string) {
+    await page.navigate({ remoteUrl: `#/libraries/${siteGuid}` });
+    await page.dataTable.getRowByName('documentLibrary').dblclick();
+    await page.dataTable.selectItems(folderName);
+    await page.acaHeader.viewDetails.click();
+    await page.infoDrawer.commentsTab.click();
+  }
+
+  test.beforeAll(async () => {
+    try {
+      await apiClientFactory.setUpAcaBackend('admin');
+      await apiClientFactory.createUser({ username: username1 });
+      await apiClientFactory.createUser({ username: username2 });
+      nodesApi1 = await NodesApi.initialize(username1, username1);
+      trashcanApi1 = await TrashcanApi.initialize(username1, username1);
+      fileActionsApi1 = await FileActionsApi.initialize(username1, username1);
+      sitesApi1 = await SitesApi.initialize(username1, username1);
+
+      siteEntry5522 = (await sitesApi1.createSite(siteName5522, Site.VisibilityEnum.PRIVATE)).entry;
+      await sitesApi1.addSiteMember(siteEntry5522.id, username2, 'SiteConsumer');
+
+      siteEntry5523 = (await sitesApi1.createSite(siteName5523, Site.VisibilityEnum.PRIVATE)).entry;
+      await sitesApi1.addSiteMember(siteEntry5523.id, username2, 'SiteContributor');
+
+      const documentLibraryId1 = await nodesApi1.getNodeIdFromParent('documentLibrary', siteEntry5522.guid);
+      await nodesApi1.createFolder(folderName5522, documentLibraryId1);
+      await fileActionsApi1.waitForNodes(folderName5522, { expect: 1 });
+
+      const documentLibraryId2 = await nodesApi1.getNodeIdFromParent('documentLibrary', siteEntry5523.guid);
+      await nodesApi1.createFolder(folderName5523, documentLibraryId2);
+      await fileActionsApi1.waitForNodes(folderName5523, { expect: 1 });
+    } catch (error) {
+      console.error(`beforeAll failed : ${error}`);
+    }
+  });
+
+  test.beforeEach(async ({ loginPage }) => {
+    await Utils.tryLoginUser(loginPage, username2, username2, 'beforeEach failed for user2');
+  });
+
+  test.afterAll(async () => {
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi1, trashcanApi1, 'afterAll failed for user1');
+  });
+
+  test('[XAT-5522] Comments: Consumer user does not see the multiline field and Add button', async ({ myLibrariesPage }) => {
+    await navigateToFolderAndOpenCommentsTab(myLibrariesPage, siteEntry5522.guid, folderName5522);
+    await expect(myLibrariesPage.infoDrawer.commentsHeader).toBeVisible();
+    await expect(myLibrariesPage.infoDrawer.commentInputField).toBeHidden();
+    await expect(myLibrariesPage.infoDrawer.addCommentButton).toBeHidden();
+  });
+
+  test('[XAT-5523] Contributor can NOT add comments', async ({ myLibrariesPage }) => {
+    await navigateToFolderAndOpenCommentsTab(myLibrariesPage, siteEntry5523.guid, folderName5523);
+    await expect(myLibrariesPage.infoDrawer.commentsHeader).toBeVisible();
+    await expect(myLibrariesPage.infoDrawer.commentInputField).toBeHidden();
+    await expect(myLibrariesPage.infoDrawer.addCommentButton).toBeHidden();
   });
 });
