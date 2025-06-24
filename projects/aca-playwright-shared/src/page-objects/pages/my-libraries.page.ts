@@ -51,6 +51,7 @@ export class MyLibrariesPage extends BasePage {
   public libraryDialog = new AdfLibraryDialogComponent(this.page);
   public dataTable = new DataTableComponent(this.page);
   public libraryDetails = new AdfInfoDrawerComponent(this.page);
+  public infoDrawer = new AdfInfoDrawerComponent(this.page);
   public viewer = new ViewerComponent(this.page);
   public viewerDialog = new ViewerOverlayDialogComponent(this.page);
   public copyMoveDialog = new ContentNodeSelectorDialog(this.page);
