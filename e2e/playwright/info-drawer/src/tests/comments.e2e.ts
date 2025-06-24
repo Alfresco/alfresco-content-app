@@ -218,10 +218,10 @@ test.describe('Info Drawer - Comments - Sites Privileges', () => {
     await expect(myLibrariesPage.infoDrawer.addCommentButton).toBeHidden();
   });
 
-  test('[XAT-5523] Contributor can NOT add comments', async ({ myLibrariesPage }) => {
+  test('[XAT-5523] Contributor can add comments', async ({ myLibrariesPage }) => {
     await navigateToFolderAndOpenCommentsTab(myLibrariesPage, siteEntry5523.guid, folderName5523);
     await expect(myLibrariesPage.infoDrawer.commentsHeader).toBeVisible();
-    await expect(myLibrariesPage.infoDrawer.commentInputField).toBeHidden();
-    await expect(myLibrariesPage.infoDrawer.addCommentButton).toBeHidden();
+    await expect(myLibrariesPage.infoDrawer.commentInputField).toBeVisible();
+    await expect(myLibrariesPage.infoDrawer.addCommentButton).toBeVisible();
   });
 });
