@@ -32,7 +32,8 @@ import {
   NodesApi,
   FileActionsApi,
   SitesApi,
-  MyLibrariesPage
+  MyLibrariesPage,
+  timeouts
 } from '@alfresco/aca-playwright-shared';
 import { Site } from '@alfresco/js-api';
 
@@ -225,6 +226,7 @@ test.describe('Info Drawer - Comments - Sites Privileges', () => {
     await expect(myLibrariesPage.infoDrawer.addCommentButton).toBeVisible();
     await myLibrariesPage.infoDrawer.commentInputField.fill(`e2e-comment-${Utils.random()}`);
     await myLibrariesPage.infoDrawer.addCommentButton.click();
+    await myLibrariesPage.infoDrawer.commentsList.first().waitFor({ timeout: timeouts.medium });
     await expect(myLibrariesPage.infoDrawer.commentsList).toHaveCount(1);
   });
 });
