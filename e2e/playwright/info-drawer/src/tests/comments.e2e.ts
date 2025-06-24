@@ -223,5 +223,8 @@ test.describe('Info Drawer - Comments - Sites Privileges', () => {
     await expect(myLibrariesPage.infoDrawer.commentsHeader).toBeVisible();
     await expect(myLibrariesPage.infoDrawer.commentInputField).toBeVisible();
     await expect(myLibrariesPage.infoDrawer.addCommentButton).toBeVisible();
+    await myLibrariesPage.infoDrawer.commentInputField.fill(`e2e-comment-${Utils.random()}`);
+    await myLibrariesPage.infoDrawer.addCommentButton.click();
+    await expect(myLibrariesPage.infoDrawer.commentsList).toHaveCount(1);
   });
 });
