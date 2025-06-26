@@ -111,8 +111,7 @@ export class FolderInformationComponent implements OnInit {
           const params = {
             sizeInBytes: parseFloat(folderInfo.entry.sizeInBytes).toLocaleString('en'),
             sizeInLargeUnit: size.toFixed(2),
-            unit: MEMORY_UNIT_LIST[unitIndex],
-            count: folderInfo.entry.numberOfFiles
+            unit: MEMORY_UNIT_LIST[unitIndex]
           };
           this.folderDetails.size = this.translateService.instant(
             isMoreThanBytes ? 'APP.FOLDER_INFO.CALCULATED_SIZE_LARGE' : 'APP.FOLDER_INFO.CALCULATED_SIZE_NORMAL',

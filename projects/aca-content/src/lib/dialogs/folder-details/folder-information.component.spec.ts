@@ -37,6 +37,8 @@ describe('FolderInformationComponent', () => {
   let initiateFolderSizeCalculationSpy: jasmine.Spy<(nodeId: string) => Observable<JobIdBodyEntry>>;
   let getFolderSizeInfoSpy: jasmine.Spy<(nodeId: string, jobId: string) => Observable<SizeDetailsEntry>>;
 
+  const getNumberOfFiles = (): string => unitTestingUtils.getInnerTextByDataAutomationId('folder-info-number-of-files');
+
   const mockSub = new Subject<JobIdBodyEntry>();
   const dialogData = {
     name: 'mock-folder',
@@ -77,7 +79,7 @@ describe('FolderInformationComponent', () => {
   it('should render all information in init', () => {
     fixture.detectChanges();
     expect(unitTestingUtils.getInnerTextByDataAutomationId('folder-info-name')).toBe('mock-folder');
-    expect(unitTestingUtils.getInnerTextByDataAutomationId('folder-info-number-of-files')).toBe('APP.FOLDER_INFO.CALCULATING');
+    expect(getNumberOfFiles()).toBe('APP.FOLDER_INFO.CALCULATING');
     expect(unitTestingUtils.getInnerTextByDataAutomationId('folder-info-size')).toBe('APP.FOLDER_INFO.CALCULATING');
     expect(unitTestingUtils.getInnerTextByDataAutomationId('folder-info-location')).toBe('mock-folder-path');
     expect(unitTestingUtils.getInnerTextByDataAutomationId('folder-info-creation-date')).toBe('01/02/2024 11:11');
@@ -128,7 +130,7 @@ describe('FolderInformationComponent', () => {
     fixture.detectChanges();
     expect(getFolderSizeInfoSpy).toHaveBeenCalledTimes(1);
     fixture.detectChanges();
-    expect(unitTestingUtils.getInnerTextByDataAutomationId('folder-info-number-of-files')).toBe('APP.FOLDER_INFO.ERROR');
+    expect(getNumberOfFiles()).toBe('APP.FOLDER_INFO.ERROR');
     expect(unitTestingUtils.getInnerTextByDataAutomationId('folder-info-size')).toBe('APP.FOLDER_INFO.ERROR');
     tick(5000);
     expect(getFolderSizeInfoSpy).not.toHaveBeenCalledTimes(2);
