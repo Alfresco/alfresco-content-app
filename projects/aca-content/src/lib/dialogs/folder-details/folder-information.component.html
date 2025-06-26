@@ -5,6 +5,12 @@
 <mat-divider/>
 <div class="aca-folder-info-body">
   <div class="aca-folder-info-item">
+    <div class="aca-folder-info-item-label">{{ 'APP.FOLDER_INFO.NUMBER_OF_FILES' | translate }}</div>
+    <div class="aca-folder-info-item-value"
+         data-automation-id="folder-info-number-of-files">{{ folderDetails.numberOfFiles }}</div>
+  </div>
+  <mat-divider/>
+  <div class="aca-folder-info-item">
     <div class="aca-folder-info-item-label">{{ 'APP.FOLDER_INFO.SIZE' | translate }}</div>
     <div class="aca-folder-info-item-value"
          data-automation-id="folder-info-size">{{ folderDetails.size }}</div>

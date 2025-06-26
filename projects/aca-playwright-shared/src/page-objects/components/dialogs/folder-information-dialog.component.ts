@@ -34,6 +34,7 @@ export class FolderInformationDialogComponent extends BaseComponent {
 
   folderName = this.getChild('.aca-folder-info-header');
   doneButton = this.getChild('[data-automation-id="adf-dialog-actions-confirm"]');
+  folderNumberOfFiles = this.getChild('[data-automation-id="folder-info-number-of-files"]');
   folderSize = this.getChild('[data-automation-id="folder-info-size"]');
   folderLocation = this.getChild('[data-automation-id="folder-info-location"]');
   folderCreationDate = this.getChild('[data-automation-id="folder-info-creation-date"]');
