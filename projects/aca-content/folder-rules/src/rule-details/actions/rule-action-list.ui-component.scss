@@ -2,6 +2,8 @@
 
 /* stylelint-disable selector-class-pattern */
 .aca-rule-action-list {
+  min-width: 0;
+
   .aca-rule-action-list__item .aca-rule-action .mat-mdc-form-field-flex .mat-mdc-form-field-infix {
     padding-top: 24px;
   }
