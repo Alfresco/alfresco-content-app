@@ -467,6 +467,7 @@
             "ICON": "Mapp-ikon",
             "TITLE": "Mapp Information",
             "SIZE": "Storlek",
+            "NUMBER_OF_FILES": "Number of files",
             "CALCULATING": "Beräknar...",
             "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} på disk) för {{count}} filer",
             "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes för {{count}} filer",

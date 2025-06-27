@@ -467,6 +467,7 @@
             "ICON": "Icône de dossier",
             "TITLE": "Informations sur le dossier",
             "SIZE": "Taille",
+            "NUMBER_OF_FILES": "Number of files",
             "CALCULATING": "Calcul en cours…",
             "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} octets ({{sizeInLargeUnit}} {{unit}} sur le disque) pour {{count}} fichiers",
             "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} octets pour {{count}} fichiers",

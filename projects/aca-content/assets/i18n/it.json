@@ -467,6 +467,7 @@
             "ICON": "Icona Cartella",
             "TITLE": "Informazioni Cartella",
             "SIZE": "Dimensione",
+            "NUMBER_OF_FILES": "Number of files",
             "CALCULATING": "Calcolo...",
             "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} sul disco) per i file {{count}}",
             "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes per i file {{count}}",

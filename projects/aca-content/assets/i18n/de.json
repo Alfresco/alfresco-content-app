@@ -467,6 +467,7 @@
             "ICON": "Ordnersymbol",
             "TITLE": "Ordnerinformationen",
             "SIZE": "Größe",
+            "NUMBER_OF_FILES": "Number of files",
             "CALCULATING": "Berechnen...",
             "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} Bytes ({{sizeInLargeUnit}} {{unit}} auf der Festplatte) für {{count}} Dateien",
             "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} Bytes für {{count}} Dateien",

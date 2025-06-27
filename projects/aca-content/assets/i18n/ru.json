@@ -467,6 +467,7 @@
             "ICON": "Иконка папки",
             "TITLE": "Информация о папке",
             "SIZE": "Размер",
+            "NUMBER_OF_FILES": "Number of files",
             "CALCULATING": "Вычисление...",
             "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} байт ({{sizeInLargeUnit}} {{unit}} на диске) для файлов {{count}}",
             "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} байт для {{count}} файлов",

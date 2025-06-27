@@ -467,6 +467,7 @@
             "ICON": "Mappe-ikon",
             "TITLE": "Mappe Information",
             "SIZE": "Størrelse",
+            "NUMBER_OF_FILES": "Number of files",
             "CALCULATING": "Beregner...",
             "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} på disk) for {{count}} filer",
             "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes for {{count}} filer",

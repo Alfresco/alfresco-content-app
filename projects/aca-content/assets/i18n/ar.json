@@ -467,6 +467,7 @@
             "ICON": "أيقونة المجلد",
             "TITLE": "معلومات المجلد",
             "SIZE": "الحجم",
+            "NUMBER_OF_FILES": "Number of files",
             "CALCULATING": "حساب...",
             "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} بايت ({{sizeInLargeUnit}} {{unit}} على القرص) ل {{count}} الملفات",
             "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} بايت  لـ {{count}} الملفات",

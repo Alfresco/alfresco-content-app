@@ -467,6 +467,7 @@
             "ICON": "文件夹图标",
             "TITLE": "文件夹信息",
             "SIZE": "大小",
+            "NUMBER_OF_FILES": "Number of files",
             "CALCULATING": "正在计算…",
             "CALCULATED_SIZE_LARGE": "{{count}} 文件为 {{sizeInBytes}} 字节（磁盘中为 {{sizeInLargeUnit}} {{unit}})",
             "CALCULATED_SIZE_NORMAL": "{{count}} 文件为 {{sizeInBytes}} 字节",
