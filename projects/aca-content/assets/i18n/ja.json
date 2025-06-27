@@ -467,6 +467,7 @@
             "ICON": "フォルダアイコン",
             "TITLE": "フォルダ情報",
             "SIZE": "サイズ",
+            "NUMBER_OF_FILES": "Number of files",
             "CALCULATING": "計算中...",
             "CALCULATED_SIZE_LARGE": "{{count}} ファイルあたり{{sizeInBytes}} バイト (ディスク上に{{sizeInLargeUnit}} {{unit}})",
             "CALCULATED_SIZE_NORMAL": "{{count}} ファイルあたり{{sizeInBytes}}バイト",

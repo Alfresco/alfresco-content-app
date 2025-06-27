@@ -467,6 +467,7 @@
             "ICON": "Ícone da pasta",
             "TITLE": "Informações da pasta",
             "SIZE": "Tamanho",
+            "NUMBER_OF_FILES": "Number of files",
             "CALCULATING": "Calculando...",
             "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} no disco) para {{count}} arquivos",
             "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes para {{count}} arquivos",

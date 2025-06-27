@@ -467,6 +467,7 @@
             "ICON": "Ikona folderu",
             "TITLE": "Informacja o folderze",
             "SIZE": "Rozmiar",
+            "NUMBER_OF_FILES": "Number of files",
             "CALCULATING": "Obliczanie...",
             "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bajtów ({{sizeInLargeUnit}} {{unit}} na dysku) dla plików {{count}}",
             "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bajtów dla {{count}} plików",

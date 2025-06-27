@@ -467,6 +467,7 @@
             "ICON": "Ikona složky",
             "TITLE": "Informace o složce",
             "SIZE": "Velikost",
+            "NUMBER_OF_FILES": "Number of files",
             "CALCULATING": "Probíhá výpočet…",
             "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytů ({{sizeInLargeUnit}} {{unit}} na disku) pro {{count}} souborů",
             "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytů pro {{count}} souborů",

@@ -467,6 +467,7 @@
             "ICON": "Icono de carpeta",
             "TITLE": "Información de la carpeta",
             "SIZE": "Tamaño",
+            "NUMBER_OF_FILES": "Number of files",
             "CALCULATING": "Calculando...",
             "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} en el disco) para {{count}} archivos",
             "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes para {{count}} archivos",

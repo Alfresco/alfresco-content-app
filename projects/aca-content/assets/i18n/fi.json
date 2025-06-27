@@ -467,6 +467,7 @@
             "ICON": "Kansion Kuvake",
             "TITLE": "Kansion Tiedot",
             "SIZE": "Koko",
+            "NUMBER_OF_FILES": "Number of files",
             "CALCULATING": "Lasketaan...",
             "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} tavuja ({{sizeInLargeUnit}} {{unit}} levyllä) {{count}}-tiedostoille {{count}}",
             "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} tavua {{count}}-tiedostoille {{count}}",
