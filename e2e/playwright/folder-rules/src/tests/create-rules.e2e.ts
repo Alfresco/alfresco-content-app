@@ -195,7 +195,12 @@ test.describe('Folder Rules Actions', () => {
     await nodesPage.manageRulesDialog.createRuleButton.waitFor({ state: 'hidden' });
     await nodesPage.manageRules.getGroupsList(randomRuleName).click();
 
-    await nodesPage.manageRules.checkAspects(['cm:generalclassifiable', 'cm:countable', 'sys:incomplete', 'st:siteContainer']);
+    await nodesPage.manageRules.checkAspects([
+      'Classifiable [cm:generalclassifiable]',
+      'Countable [cm:countable]',
+      'Incomplete [sys:incomplete]',
+      'Site Container [st:siteContainer]'
+    ]);
   });
 
   test('[XAT-891] Prevent rule creation after clicking on cancel during selecting destination folder', async ({ nodesPage, personalFiles }) => {
