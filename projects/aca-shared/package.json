@@ -17,7 +17,7 @@
     "@ngrx/effects": ">=15.2.0",
     "@ngrx/router-store": ">=15.2",
     "@ngrx/store": ">=15.2",
-    "@ngx-translate/core": ">=14.0.0",
+    "@ngx-translate/core": "^16.0.4",
     "rxjs": ">=6.6.6",
     "tslib": ">=2.0.0",
     "zone.js": ">=0.11.8"
