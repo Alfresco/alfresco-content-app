@@ -255,7 +255,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
           }
         //  falls through
         default:
-          if (constraintsForDropdownBox && !this.readOnly) {
+          if (constraintsForDropdownBox) {
             return new CardViewSelectItemModel({
               ...cardViewPropertiesModel,
               value: (this.parameters[paramDef.name] as string) ?? '',

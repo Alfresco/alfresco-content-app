@@ -1,6 +1,6 @@
 <form class="aca-rule-action__form" [formGroup]="form">
 
-  <mat-form-field class="aca-rule-action-full-width" appearance="fill" subscriptSizing="dynamic">
+  <mat-form-field class="aca-rule-action-full-width aca-rule-action-form-field" appearance="fill" subscriptSizing="dynamic">
     <mat-select
       formControlName="actionDefinitionId"
       data-automation-id="rule-action-select"
@@ -17,7 +17,7 @@
     *ngIf="cardViewItems?.length > 0"
     data-automation-id="rule-action-card-view"
     [properties]="cardViewItems"
-    class="aca-rule-action-full-width"
+    class="aca-rule-action-full-width aca-rule-action-card-view"
     [editable]="!readOnly" />
 
 </form>

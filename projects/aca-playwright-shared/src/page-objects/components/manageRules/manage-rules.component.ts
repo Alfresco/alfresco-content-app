@@ -35,7 +35,7 @@ export class ManageRules extends BaseComponent {
   public ruleDetailsDeleteButton = this.getChild('#delete-rule-btn');
   public ruleDetailsEditButton = this.getChild('#edit-rule-btn');
   public ruleDetailsWhenText = this.getChild('[data-automation-id="rule-details-triggers-component"]');
-  public ruleDetailsPerformActionsDiv = this.getChild('adf-card-view-textitem mat-form-field input');
+  public ruleDetailsPerformActionsDiv = this.getChild('adf-card-view-selectitem .adf-property-read-only');
   public rulesEmptyListTitle = this.getChild('.adf-empty-content__title');
   public ruleActions = this.getChild('aca-rule-action');
   public ruleConditionsInGroup = this.getChild('aca-rule-composite-condition aca-rule-simple-condition');
@@ -47,7 +47,7 @@ export class ManageRules extends BaseComponent {
 
   async checkAspects(aspects: string[]): Promise<void> {
     for (let i = 0; i < aspects.length; i++) {
-      const aspectsActions = await this.ruleDetailsPerformActionsDiv.nth(i).inputValue();
+      const aspectsActions = await this.ruleDetailsPerformActionsDiv.nth(i).innerText();
       expect(aspects).toContain(aspectsActions);
     }
   }

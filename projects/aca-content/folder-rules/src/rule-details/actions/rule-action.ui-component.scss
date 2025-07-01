@@ -1,4 +1,6 @@
 .aca-rule-action {
+  max-width: 100%;
+
   &__form {
     display: flex;
     flex-direction: row;
@@ -27,5 +29,14 @@
   &-full-width {
     height: fit-content;
     flex: 1;
+
+    &.aca-rule-action-form-field {
+      min-width: unset;
+    }
+
+    &.aca-rule-action-card-view {
+      overflow: hidden;
+      margin-top: 11px;
+    }
   }
 }
