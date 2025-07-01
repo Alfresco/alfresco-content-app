@@ -41,7 +41,7 @@ export class SnackBarComponent extends BaseComponent {
   }
 
   async getSnackBarMessage(): Promise<string> {
-    return this.message.textContent();
+    return this.message.innerText();
   }
 
   async getSnackBarActionText(): Promise<string> {
