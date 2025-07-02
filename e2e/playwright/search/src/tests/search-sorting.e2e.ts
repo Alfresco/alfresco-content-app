@@ -36,6 +36,7 @@ import {
   SortByType
 } from '@alfresco/aca-playwright-shared';
 
+test.use({ launchOptions: { slowMo: 500 } });
 test.describe('Search sorting', () => {
   const random = Utils.random();
 
@@ -55,6 +56,11 @@ test.describe('Search sorting', () => {
     title: 'search sort title',
     description: 'search-sort-${random}-file',
     source: TEST_FILES.PDF.path
+  };
+
+  const fileJpgBudget = {
+    name: `budget.xls`,
+    source: TEST_FILES.XLSX.path
   };
 
   let nodesApi1: NodesApi;
@@ -86,6 +92,7 @@ test.describe('Search sorting', () => {
 
     await fileActionsApi1.uploadFileWithRename(fileJpg.source, fileJpg.name, parentId);
     await fileActionsApi2.uploadFileWithRename(filePdf.source, filePdf.name, parentId, filePdf.title, filePdf.description);
+    await fileActionsApi1.uploadFileWithRename(fileJpgBudget.source, fileJpgBudget.name, parentId);
 
     await fileActionsApi1.waitForNodes(fileJpg.name, { expect: 1 });
     await fileActionsApi2.waitForNodes(filePdf.name, { expect: 1 });
@@ -105,10 +112,16 @@ test.describe('Search sorting', () => {
     sortBy: SortByType,
     sortOrder: SortByDirection,
     expectedFirstFile: string,
-    expectedSecondFile: string
+    expectedSecondFile: string,
+    searchTerm?: string
   ) {
-    await searchPage.searchWithin(`*${random}*`, 'files');
+    if (searchTerm) {
+      await searchPage.searchWithin(searchTerm, 'files');
+    } else {
+      await searchPage.searchWithin(`*${random}*`, 'files');
+    }
     await searchPage.searchSortingPicker.sortBy(sortBy, sortOrder);
+    await searchPage.dataTable.progressBarWaitForReload();
     expect(await searchPage.dataTable.getNthRow(0).textContent()).toContain(expectedFirstFile);
     expect(await searchPage.dataTable.getNthRow(1).textContent()).toContain(expectedSecondFile);
   }
@@ -130,7 +143,9 @@ test.describe('Search sorting', () => {
   });
 
   test(`[XAT-5571] Sort by Modified date`, async ({ searchPage }) => {
-    await testSearchSorting(searchPage, 'Modified date' as SortByType, 'asc', fileJpg.name, filePdf.name);
+    const budgetFileOld = 'budget.xls ( Web Site Design - Budget )';
+    const budgetFileNew = 'budget.xls';
+    await testSearchSorting(searchPage, 'Modified date' as SortByType, 'asc', budgetFileOld, budgetFileNew, budgetFileNew);
   });
 
   test(`[XAT-5567] Sort by Relevance`, async ({ searchPage }) => {
