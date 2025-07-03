@@ -51,7 +51,6 @@ import { RuleDetailsUiComponent } from '../rule-details/rule-details.ui-componen
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  standalone: true,
   imports: [
     CommonModule,
     TranslateModule,

@@ -24,7 +24,6 @@
 
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
-import { SearchInputControlComponent } from '../../search-input-control/search-input-control.component';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -42,7 +41,6 @@ import { UniqueSearchNameValidator } from './unique-search-name-validator';
 import { SavedSearchForm } from './saved-search-form.interface';
 
 @Component({
-  standalone: true,
   imports: [
     CommonModule,
     TranslateModule,
@@ -54,7 +52,6 @@ import { SavedSearchForm } from './saved-search-form.interface';
     A11yModule,
     MatCheckboxModule,
     FormsModule,
-    SearchInputControlComponent,
     CoreModule,
     AutoFocusDirective
   ],

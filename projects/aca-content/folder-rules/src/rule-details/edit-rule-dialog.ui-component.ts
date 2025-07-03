@@ -42,7 +42,6 @@ export interface EditRuleDialogOptions {
 }
 
 @Component({
-  standalone: true,
   imports: [CommonModule, TranslateModule, MatDialogModule, MatButtonModule, MatIconModule, RuleDetailsUiComponent],
   selector: 'aca-edit-rule-dialog',
   templateUrl: './edit-rule-dialog.ui-component.html',

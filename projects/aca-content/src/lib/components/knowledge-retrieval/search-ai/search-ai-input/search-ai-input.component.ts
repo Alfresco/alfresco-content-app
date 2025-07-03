@@ -54,7 +54,6 @@ const MatTooltipOptions: MatTooltipDefaultOptions = {
 };
 
 @Component({
-  standalone: true,
   imports: [
     CommonModule,
     TranslateModule,

@@ -201,7 +201,7 @@
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
       "options": {
-        "browserTarget": "content-ce:build",
+        "buildTarget": "content-ce:build",
         "port": 4200,
         "disableHostCheck": true,
         "open": true,
@@ -209,16 +209,16 @@
       },
       "configurations": {
         "production": {
-          "browserTarget": "content-ce:build:production"
+          "buildTarget": "content-ce:build:production"
         },
         "e2e": {
-          "browserTarget": "content-ce:build:e2e"
+          "buildTarget": "content-ce:build:e2e"
         },
         "release": {
-          "browserTarget": "content-ce:build:release"
+          "buildTarget": "content-ce:build:release"
         },
         "adf": {
-          "browserTarget": "content-ce:build:adf"
+          "buildTarget": "content-ce:build:adf"
         }
       }
     },

@@ -31,20 +31,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { ActiveLinkDirective } from '../directives/active-link.directive';
 import { ActionDirective } from '../directives/action.directive';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { ExpansionPanelDirective } from '../directives/expansion-panel.directive';
 
 @Component({
-  standalone: true,
-  imports: [
-    CommonModule,
-    TranslateModule,
-    IconModule,
-    MatButtonModule,
-    ActiveLinkDirective,
-    ActionDirective,
-    MatExpansionModule,
-    ExpansionPanelDirective
-  ],
+  imports: [CommonModule, TranslateModule, IconModule, MatButtonModule, ActiveLinkDirective, ActionDirective, MatExpansionModule],
   selector: 'app-expand-menu',
   encapsulation: ViewEncapsulation.None,
   templateUrl: './expand-menu.component.html',

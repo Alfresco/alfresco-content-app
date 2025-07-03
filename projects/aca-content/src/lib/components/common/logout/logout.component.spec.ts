@@ -55,6 +55,6 @@ describe('LogoutComponent', () => {
   it('should reset selected nodes from store', () => {
     component.onLogoutEvent();
 
-    expect(store.dispatch).toHaveBeenCalledWith(new SetSelectedNodesAction([]));
+    expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new SetSelectedNodesAction([]) }));
   });
 });

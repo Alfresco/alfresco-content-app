@@ -28,7 +28,14 @@ describe('SearchAiMarkedOptions', () => {
   let link = '';
 
   beforeEach(() => {
-    link = searchAiMarkedOptions.renderer.link('https://example.com', 'Example', 'Example Link');
+    link = searchAiMarkedOptions.renderer.link({
+      raw: '',
+      text: 'Example Link',
+      type: 'link',
+      href: 'https://example.com',
+      title: 'Example',
+      tokens: []
+    });
   });
 
   it('should return a element', () => {
@@ -56,6 +63,15 @@ describe('SearchAiMarkedOptions', () => {
   });
 
   it('should returned link contain correct title if title is null', () => {
-    expect(searchAiMarkedOptions.renderer.link('https://example.com', null, 'Example Link')).toContain('title=""');
+    expect(
+      searchAiMarkedOptions.renderer.link({
+        raw: '',
+        text: 'Example Link',
+        type: 'link',
+        href: 'https://example.com',
+        title: '',
+        tokens: []
+      })
+    ).toContain('title=""');
   });
 });

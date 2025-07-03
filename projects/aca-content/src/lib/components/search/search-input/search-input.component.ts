@@ -46,7 +46,6 @@ import { extractSearchedWordFromEncodedQuery } from '../../../utils/aca-search-u
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  standalone: true,
   imports: [
     CommonModule,
     TranslateModule,

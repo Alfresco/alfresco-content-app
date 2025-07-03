@@ -43,7 +43,6 @@ import { CategoryService } from '@alfresco/adf-content-services';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  standalone: true,
   imports: [
     CommonModule,
     TranslateModule,

@@ -33,7 +33,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, TranslateModule, RuleListItemUiComponent, MatRippleModule, MatProgressSpinnerModule],
   selector: 'aca-rule-list-grouping',
   templateUrl: 'rule-list-grouping.ui-component.html',

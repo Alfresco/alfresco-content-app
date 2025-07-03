@@ -175,7 +175,7 @@ describe('DetailsComponent', () => {
       getBreadcrumb().navigate.emit(pathElement);
       fixture.detectChanges();
 
-      expect(store.dispatch).toHaveBeenCalledWith(new NavigateToFolder({ entry: pathElement } as NodeEntry));
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new NavigateToFolder({ entry: pathElement } as NodeEntry) }));
     });
 
     it('should pass different node as folderNode to breadcrumb when nodeUpdated from nodesApiService is triggered', () => {
@@ -194,7 +194,7 @@ describe('DetailsComponent', () => {
 
     it('should dispatch node selection', () => {
       fixture.detectChanges();
-      expect(store.dispatch).toHaveBeenCalledWith(new SetSelectedNodesAction([node]));
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new SetSelectedNodesAction([node]) }));
     });
 
     it('should set aspectActions from extensions', async () => {

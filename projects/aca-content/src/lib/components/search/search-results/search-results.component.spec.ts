@@ -190,7 +190,7 @@ describe('SearchComponent', () => {
 
     component.onNodeDoubleClick(node);
 
-    expect(store.dispatch).toHaveBeenCalledWith(new NavigateToFolder(node));
+    expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new NavigateToFolder(node) }));
   });
 
   it('should preview file node on double click', () => {

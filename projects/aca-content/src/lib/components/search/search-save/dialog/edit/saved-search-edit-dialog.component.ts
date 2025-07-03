@@ -32,7 +32,6 @@ import { UniqueSearchNameValidator } from '../unique-search-name-validator';
 import { SavedSearchForm } from '../saved-search-form.interface';
 
 @Component({
-  standalone: true,
   imports: [CoreModule, AutoFocusDirective],
   selector: 'aca-saved-search-edit-dialog',
   templateUrl: './saved-search-edit-dialog.component.html',

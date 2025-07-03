@@ -30,22 +30,11 @@ import { NodeActionTypes } from '@alfresco/aca-shared/store';
 import { isLocked, LockedByComponent } from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { IconComponent } from '@alfresco/adf-core';
-import { DynamicExtensionComponent } from '@alfresco/adf-extensions';
 import { DatatableCellBadgesComponent } from '../datatable-cell-badges/datatable-cell-badges.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  standalone: true,
-  imports: [
-    CommonModule,
-    TranslateModule,
-    LockedByComponent,
-    IconComponent,
-    NodeNameTooltipPipe,
-    DynamicExtensionComponent,
-    DatatableCellBadgesComponent
-  ],
+  imports: [CommonModule, TranslateModule, LockedByComponent, NodeNameTooltipPipe, DatatableCellBadgesComponent],
   selector: 'aca-custom-name-column',
   templateUrl: './name-column.component.html',
   styleUrls: ['./name-column.component.scss'],

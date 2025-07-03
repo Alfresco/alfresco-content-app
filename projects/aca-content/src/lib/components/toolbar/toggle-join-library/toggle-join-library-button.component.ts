@@ -36,7 +36,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { NotificationService } from '@alfresco/adf-core';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, TranslateModule, MatButtonModule, MatIconModule, LibraryMembershipDirective],
   selector: 'app-toggle-join-library-button',
   template: `

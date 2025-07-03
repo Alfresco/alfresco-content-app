@@ -55,8 +55,7 @@ import { BaseContextMenuDirective } from './base-context-menu.directive';
   host: {
     class: 'aca-context-menu-holder'
   },
-  encapsulation: ViewEncapsulation.None,
-  standalone: true
+  encapsulation: ViewEncapsulation.None
 })
 export class CustomContextMenuComponent extends BaseContextMenuDirective implements AfterViewInit {
   constructor(

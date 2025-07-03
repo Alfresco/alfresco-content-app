@@ -36,7 +36,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { RuleSimpleConditionUiComponent } from './rule-simple-condition.ui-component';
 
 @Component({
-  standalone: true,
   imports: [
     CommonModule,
     TranslateModule,

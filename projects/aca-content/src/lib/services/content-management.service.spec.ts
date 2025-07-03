@@ -1149,7 +1149,7 @@ describe('ContentManagementService', () => {
       store.dispatch(new RestoreDeletedNodesAction(selection));
       actionSubject.next();
 
-      expect(store.dispatch).toHaveBeenCalledWith(new NavigateToParentFolder(selection[0]));
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new NavigateToParentFolder(selection[0]) }));
     });
 
     describe('notification', () => {
@@ -1794,7 +1794,7 @@ describe('ContentManagementService', () => {
       tick();
 
       expect(showInfoSpy).toHaveBeenCalledWith('APP.MESSAGES.INFO.LIBRARY_DELETED');
-      expect(store.dispatch).toHaveBeenCalledWith(new NavigateRouteAction(['/libraries']));
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new NavigateRouteAction(['/libraries']) }));
     }));
   });
 

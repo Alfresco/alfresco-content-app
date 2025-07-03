@@ -44,7 +44,6 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'aca-saved-searches-ui-list',
-  standalone: true,
   imports: [CommonModule, DATATABLE_DIRECTIVES, TEMPLATE_DIRECTIVES, DataTableComponent],
   templateUrl: './saved-searches-list.ui-component.html',
   styleUrls: ['./saved-searches-list.ui-component.scss'],

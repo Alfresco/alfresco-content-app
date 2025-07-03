@@ -35,7 +35,6 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, TranslateModule, AboutModule, RouterModule, MatIconModule, MatButtonModule, PageLayoutComponent],
   selector: 'app-about-page',
   templateUrl: './about.component.html',

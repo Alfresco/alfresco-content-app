@@ -126,7 +126,7 @@ test.describe('Search - Filters - Date', () => {
     const currentAndPreviousDay = Utils.getCurrentAndPreviousDay();
     const searchPhrase = `Project Contract`;
     const fileNamePng = `${randomId}-${searchPhrase}.png`;
-    const dateForSearch = '01-Jan-21';
+    const dateForSearch = '01-Jan-11';
 
     test.beforeAll(async () => {
       try {

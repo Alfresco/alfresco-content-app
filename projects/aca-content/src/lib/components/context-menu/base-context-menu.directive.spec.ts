@@ -35,7 +35,6 @@ import { By } from '@angular/platform-browser';
 @Component({
   selector: 'app-test-component',
   template: '<div acaContextMenuOutsideEvent (clickOutside)="onClickOutsideEvent()"></div>',
-  standalone: true,
   imports: [OutsideEventDirective]
 })
 class TestComponent extends BaseContextMenuDirective {}

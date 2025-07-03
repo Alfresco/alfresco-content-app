@@ -37,8 +37,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   styleUrls: ['./datatable-cell-badges.component.scss'],
   host: { class: 'aca-datatable-cell-badges' },
   encapsulation: ViewEncapsulation.None,
-  imports: [CommonModule, TranslateModule, DynamicExtensionComponent, IconComponent],
-  standalone: true
+  imports: [CommonModule, TranslateModule, DynamicExtensionComponent, IconComponent]
 })
 export class DatatableCellBadgesComponent implements OnInit {
   @Input({ required: true }) node: NodeEntry;

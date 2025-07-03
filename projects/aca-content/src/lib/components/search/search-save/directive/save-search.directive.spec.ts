@@ -33,7 +33,6 @@ import { SaveSearchDialogComponent } from '../dialog/save-search-dialog.componen
 @Component({
   selector: 'app-test-component',
   template: '<div acaSaveSearch="searchQuery" acaSaveSearchQuery="encodedQuery"></div>',
-  standalone: true,
   imports: [SaveSearchDirective]
 })
 class TestComponent {

@@ -36,7 +36,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, TranslateModule, RuleActionUiComponent, ReactiveFormsModule, MatButtonModule, MatMenuModule, MatIconModule],
   selector: 'aca-rule-action-list',
   templateUrl: './rule-action-list.ui-component.html',

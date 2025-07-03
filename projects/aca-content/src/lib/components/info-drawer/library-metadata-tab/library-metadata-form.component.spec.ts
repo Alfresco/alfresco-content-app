@@ -152,7 +152,7 @@ describe('LibraryMetadataFormComponent', () => {
 
     component.update();
 
-    expect(store.dispatch).toHaveBeenCalledWith(new UpdateLibraryAction(siteEntryModel));
+    expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new UpdateLibraryAction(siteEntryModel) }));
   });
 
   it('should update library node with trimmed title', () => {
@@ -164,9 +164,11 @@ describe('LibraryMetadataFormComponent', () => {
 
     component.update();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UpdateLibraryAction({
-        ...siteEntryModel,
-        title: siteEntryModel.title.trim()
+      jasmine.objectContaining({
+        ...new UpdateLibraryAction({
+          ...siteEntryModel,
+          title: siteEntryModel.title.trim()
+        })
       })
     );
   });
@@ -189,7 +191,7 @@ describe('LibraryMetadataFormComponent', () => {
 
     component.update();
 
-    expect(store.dispatch).not.toHaveBeenCalledWith(new UpdateLibraryAction(siteEntryModel));
+    expect(store.dispatch).not.toHaveBeenCalledWith(jasmine.objectContaining({ ...new UpdateLibraryAction(siteEntryModel) }));
   });
 
   it('should update library node when the user is an admin but has consumer rights', () => {
@@ -201,7 +203,7 @@ describe('LibraryMetadataFormComponent', () => {
 
     component.update();
 
-    expect(store.dispatch).toHaveBeenCalledWith(new UpdateLibraryAction(siteEntryModel));
+    expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new UpdateLibraryAction(siteEntryModel) }));
   });
 
   it('should not call markAsPristine on form when updating valid form but has not permission to update', () => {
@@ -224,7 +226,7 @@ describe('LibraryMetadataFormComponent', () => {
 
     component.update();
 
-    expect(store.dispatch).not.toHaveBeenCalledWith(new UpdateLibraryAction(siteEntryModel));
+    expect(store.dispatch).not.toHaveBeenCalledWith(jasmine.objectContaining({ ...new UpdateLibraryAction(siteEntryModel) }));
   });
 
   it('should not call markAsPristine on form when updating invalid form and has permission to update', () => {

@@ -32,7 +32,6 @@ import { UploadModule } from '@alfresco/adf-content-services';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, UploadModule],
   selector: 'aca-upload-files-dialog',
   templateUrl: './upload-files-dialog.component.html',

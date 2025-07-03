@@ -37,7 +37,6 @@ import { AppExtensionService } from '@alfresco/aca-shared';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  standalone: true,
   selector: 'aca-bulk-actions-dropdown',
   templateUrl: './bulk-actions-dropdown.component.html',
   styleUrls: ['./bulk-actions-dropdown.component.scss'],

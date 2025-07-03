@@ -39,7 +39,6 @@ import { DataTableModule, EmptyContentComponent, PaginationComponent } from '@al
 import { DocumentListDirective } from '../../directives/document-list.directive';
 
 @Component({
-  standalone: true,
   imports: [
     CommonModule,
     TranslateModule,

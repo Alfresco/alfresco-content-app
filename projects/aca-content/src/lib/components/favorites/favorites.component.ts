@@ -31,7 +31,7 @@ import {
   PaginationDirective,
   ToolbarComponent
 } from '@alfresco/aca-shared';
-import { NodeEntry, Node, PathElement, PathInfo } from '@alfresco/js-api';
+import { Node, NodeEntry, PathElement, PathInfo } from '@alfresco/js-api';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { debounceTime, map } from 'rxjs/operators';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
@@ -49,7 +49,6 @@ import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
 
 @Component({
-  standalone: true,
   imports: [
     CommonModule,
     DocumentListDirective,

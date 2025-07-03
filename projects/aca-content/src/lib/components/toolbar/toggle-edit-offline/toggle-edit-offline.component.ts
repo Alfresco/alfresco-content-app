@@ -35,7 +35,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, TranslateModule, MatMenuModule, MatIconModule],
   selector: 'app-toggle-edit-offline',
   template: `

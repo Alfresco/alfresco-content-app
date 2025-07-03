@@ -38,11 +38,10 @@ import { CommentsTabComponent } from '../info-drawer/comments-tab/comments-tab.c
 import { NodeEntry, PathElement } from '@alfresco/js-api';
 import { first } from 'rxjs/operators';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import { FileSizePipe, InfoDrawerButtonsDirective } from '@alfresco/adf-core';
+import { InfoDrawerButtonsDirective } from '@alfresco/adf-core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  standalone: true,
   imports: [
     CommonModule,
     TranslateModule,
@@ -56,8 +55,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     ToolbarComponent,
     InfoDrawerButtonsDirective,
     PermissionListComponent,
-    BreadcrumbComponent,
-    FileSizePipe
+    BreadcrumbComponent
   ],
   selector: 'app-details-manager',
   templateUrl: './details.component.html',

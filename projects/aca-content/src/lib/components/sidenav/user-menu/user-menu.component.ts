@@ -23,7 +23,7 @@
  */
 
 import { AfterViewInit, Component, inject, Input, OnInit, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
-import { ContentActionRef, DynamicExtensionComponent } from '@alfresco/adf-extensions';
+import { ContentActionRef } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
@@ -31,8 +31,7 @@ import { MatMenu, MatMenuItem, MatMenuModule } from '@angular/material/menu';
 import { ToolbarMenuItemComponent, UserProfileService } from '@alfresco/aca-shared';
 
 @Component({
-  standalone: true,
-  imports: [CommonModule, TranslateModule, MatButtonModule, MatMenuModule, ToolbarMenuItemComponent, DynamicExtensionComponent],
+  imports: [CommonModule, TranslateModule, MatButtonModule, MatMenuModule, ToolbarMenuItemComponent],
   selector: 'aca-user-menu',
   templateUrl: './user-menu.component.html',
   styleUrls: ['./user-menu.component.scss'],

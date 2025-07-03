@@ -25,14 +25,13 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { ToggleInfoDrawerAction, isInfoDrawerOpened } from '@alfresco/aca-shared/store';
+import { isInfoDrawerOpened, ToggleInfoDrawerAction } from '@alfresco/aca-shared/store';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, TranslateModule, MatButtonModule, MatIconModule],
   selector: 'app-toggle-info-drawer',
   template: `

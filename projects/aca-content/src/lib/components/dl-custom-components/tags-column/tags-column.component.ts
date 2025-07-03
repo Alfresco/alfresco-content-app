@@ -26,7 +26,6 @@ import { ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '
 import { TagNodeListComponent } from '@alfresco/adf-content-services';
 
 @Component({
-  standalone: true,
   imports: [TagNodeListComponent],
   selector: 'aca-tags-column',
   template: `<adf-tag-node-list [showDelete]="false" [limitTagsDisplayed]="true" [nodeId]="nodeId" (results)="onTagsLoaded()" />`,

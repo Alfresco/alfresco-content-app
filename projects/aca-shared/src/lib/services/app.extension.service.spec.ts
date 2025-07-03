@@ -25,7 +25,7 @@
 import { TestBed } from '@angular/core/testing';
 import { initialState, LibTestingModule } from '../testing/lib-testing-module';
 import { AppExtensionService } from './app.extension.service';
-import { Action, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { AppStore } from '@alfresco/aca-shared/store';
 import {
   ContentActionType,
@@ -327,11 +327,13 @@ describe('AppExtensionService', () => {
       spyOn(store, 'dispatch').and.stub();
 
       service.runActionById('aca:actions/create-folder');
-      expect(store.dispatch).toHaveBeenCalledWith({
-        type: 'CREATE_FOLDER',
-        payload: 'folder-name',
-        configuration: undefined
-      } as Action);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          type: 'CREATE_FOLDER',
+          payload: 'folder-name',
+          configuration: undefined
+        })
+      );
     });
 
     it('should still invoke store if action is missing', () => {

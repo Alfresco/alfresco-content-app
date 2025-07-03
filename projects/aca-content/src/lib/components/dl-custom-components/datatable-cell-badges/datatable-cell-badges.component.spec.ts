@@ -32,7 +32,7 @@ import { NodeEntry } from '@alfresco/js-api';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { ContentActionType } from '@alfresco/adf-extensions';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 
 const mockNode = {
@@ -59,7 +59,6 @@ describe('DatatableCellBadgesComponent', () => {
       imports: [
         TranslateModule.forRoot(),
         AuthModule.forRoot(),
-        HttpClientModule,
         StoreModule.forRoot(
           { app: (state) => state },
           {
@@ -76,7 +75,7 @@ describe('DatatableCellBadgesComponent', () => {
           }
         )
       ],
-      providers: [Actions]
+      providers: [Actions, provideHttpClient(withInterceptorsFromDi())]
     });
 
     fixture = TestBed.createComponent(DatatableCellBadgesComponent);

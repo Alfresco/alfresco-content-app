@@ -35,7 +35,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, MatMenuModule, MatIconModule, TranslateModule, MatButtonModule],
   selector: 'app-toggle-shared',
   templateUrl: './toggle-shared.component.html',

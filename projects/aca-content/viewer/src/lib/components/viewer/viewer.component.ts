@@ -57,7 +57,6 @@ import { ViewerService } from '../../services/viewer.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  standalone: true,
   imports: [
     CommonModule,
     InfoDrawerComponent,

@@ -28,14 +28,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { SearchAiInputComponent } from '../search-ai-input/search-ai-input.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { SearchAiNavigationService } from '../../../../services/search-ai-navigation.service';
-import { SearchAiService, SearchAiInputState } from '@alfresco/adf-content-services';
+import { SearchAiInputState, SearchAiService } from '@alfresco/adf-content-services';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { Router } from '@angular/router';
 
 @Component({
-  standalone: true,
   imports: [SearchAiInputComponent, MatIconModule, MatDividerModule, MatButtonModule, TranslateModule, AsyncPipe],
   selector: 'aca-search-ai-input-container',
   templateUrl: './search-ai-input-container.component.html',

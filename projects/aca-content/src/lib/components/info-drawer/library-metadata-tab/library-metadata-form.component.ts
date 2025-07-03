@@ -60,7 +60,6 @@ export class InstantErrorStateMatcher implements ErrorStateMatcher {
 }
 
 @Component({
-  standalone: true,
   imports: [
     CommonModule,
     MatCardModule,

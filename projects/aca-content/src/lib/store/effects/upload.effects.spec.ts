@@ -171,7 +171,7 @@ describe('UploadEffects', () => {
       effects.uploadAndUnlock(file);
       uploadService.fileUploadComplete.next(new FileUploadCompleteEvent(file, 100, file.data));
 
-      expect(store.dispatch).toHaveBeenCalledWith(new UnlockWriteAction(file.data));
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new UnlockWriteAction(file.data) }));
     });
 
     it('should dispatch only one unlock action for a locked file', () => {
@@ -197,7 +197,7 @@ describe('UploadEffects', () => {
       uploadService.fileUploadComplete.next(completeEvent);
       uploadService.fileUploadComplete.next(completeEvent);
 
-      expect(store.dispatch).toHaveBeenCalledWith(new UnlockWriteAction(file.data));
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new UnlockWriteAction(file.data) }));
 
       expect(store.dispatch).toHaveBeenCalledTimes(1);
     });

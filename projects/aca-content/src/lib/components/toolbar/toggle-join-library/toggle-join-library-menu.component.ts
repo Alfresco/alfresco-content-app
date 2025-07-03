@@ -31,7 +31,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, TranslateModule, MatIconModule, MatMenuModule, LibraryMembershipDirective],
   selector: 'app-toggle-join-library-menu',
   template: `

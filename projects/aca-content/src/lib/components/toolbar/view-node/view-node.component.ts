@@ -22,13 +22,13 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, Input, inject } from '@angular/core';
+import { Component, inject, Input, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppStore, ViewNodeAction, getAppSelection } from '@alfresco/aca-shared/store';
+import { AppStore, getAppSelection, ViewNodeAction } from '@alfresco/aca-shared/store';
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { SharedLinkEntry } from '@alfresco/js-api';
-import { AutoDownloadService, AppSettingsService } from '@alfresco/aca-shared';
+import { AppSettingsService, AutoDownloadService } from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -37,7 +37,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, TranslateModule, MatButtonModule, MatIconModule, MatMenuModule, MatDialogModule],
   selector: 'app-view-node',
   template: `

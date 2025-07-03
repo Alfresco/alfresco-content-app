@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, OnInit, Input, inject } from '@angular/core';
+import { Component, inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { SelectionState } from '@alfresco/adf-extensions';
@@ -35,7 +35,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, TranslateModule, MatIconModule, MatMenuModule, NodeFavoriteDirective],
   selector: 'app-toggle-favorite',
   template: `

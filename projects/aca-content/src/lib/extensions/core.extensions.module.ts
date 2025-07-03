@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
+import { inject, ModuleWithProviders, NgModule, provideAppInitializer } from '@angular/core';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { AppExtensionService } from '@alfresco/aca-shared';
 
@@ -38,12 +38,10 @@ export class CoreExtensionsModule {
     return {
       ngModule: CoreExtensionsModule,
       providers: [
-        {
-          provide: APP_INITIALIZER,
-          useFactory: setupExtensions,
-          deps: [AppExtensionService],
-          multi: true
-        }
+        provideAppInitializer(() => {
+          const initializerFn = setupExtensions(inject(AppExtensionService));
+          return initializerFn();
+        })
       ]
     };
   }

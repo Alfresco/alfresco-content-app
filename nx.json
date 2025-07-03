@@ -1,8 +1,5 @@
 {
   "defaultBase": "develop",
-  "affected": {
-    "defaultBase": "develop"
-  },
   "namedInputs": {
     "sharedGlobals": [],
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
@@ -39,5 +36,7 @@
       "inputs": ["default", "^production"]
     }
   },
-  "cacheDirectory": "nxcache"
+  "cacheDirectory": "nxcache",
+  "useInferencePlugins": false,
+  "useLegacyCache": true
 }

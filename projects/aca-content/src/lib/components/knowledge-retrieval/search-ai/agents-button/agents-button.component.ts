@@ -39,7 +39,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, MatMenuModule, MatListModule, TranslateModule, AvatarComponent, IconComponent, MatTooltipModule],
   selector: 'aca-agents-button',
   templateUrl: './agents-button.component.html',

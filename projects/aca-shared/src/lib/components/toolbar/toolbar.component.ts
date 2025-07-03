@@ -30,7 +30,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
   selector: 'aca-toolbar',
-  standalone: true,
   imports: [CommonModule, ToolbarActionComponent, MatToolbarModule],
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.scss'],

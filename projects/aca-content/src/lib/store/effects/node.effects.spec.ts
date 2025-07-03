@@ -214,8 +214,8 @@ describe('NodeEffects', () => {
       const node: any = {};
       store.dispatch(new DeleteNodesAction([node]));
 
-      expect(store.dispatch).toHaveBeenCalledWith(new DeleteNodesAction([node], true));
-      expect(store.dispatch).toHaveBeenCalledWith(new ShowLoaderAction(true));
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new DeleteNodesAction([node], true) }));
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new ShowLoaderAction(true) }));
       expect(contentService.deleteNodes).toHaveBeenCalledWith([node], true);
     });
 
@@ -229,8 +229,8 @@ describe('NodeEffects', () => {
 
       store.dispatch(new DeleteNodesAction(null));
 
-      expect(store.dispatch).toHaveBeenCalledWith(new DeleteNodesAction(null, true));
-      expect(store.dispatch).toHaveBeenCalledWith(new ShowLoaderAction(true));
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new DeleteNodesAction(null, true) }));
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new ShowLoaderAction(true) }));
       expect(contentService.deleteNodes).toHaveBeenCalledWith([node], true);
     }));
 
@@ -239,8 +239,8 @@ describe('NodeEffects', () => {
       spyOn(store, 'dispatch').and.callThrough();
       store.dispatch(new DeleteNodesAction(null));
 
-      expect(store.dispatch).toHaveBeenCalledWith(new DeleteNodesAction(null));
-      expect(store.dispatch).toHaveBeenCalledWith(new ShowLoaderAction(true));
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new DeleteNodesAction(null) }));
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new ShowLoaderAction(true) }));
       expect(contentService.deleteNodes).not.toHaveBeenCalled();
     });
   });
@@ -557,7 +557,9 @@ describe('NodeEffects', () => {
       const node: any = { entry: { isFile: true, id: 'node-id' } };
 
       store.dispatch(new ExpandInfoDrawerAction(node));
-      expect(store.dispatch).toHaveBeenCalledWith(new NavigateUrlAction('personal-files/details/node-id?location=test-page'));
+      expect(store.dispatch).toHaveBeenCalledWith(
+        jasmine.objectContaining({ ...new NavigateUrlAction('personal-files/details/node-id?location=test-page') })
+      );
     });
   });
 

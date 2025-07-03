@@ -30,7 +30,6 @@ import { CommonModule } from '@angular/common';
 import { ToolbarMenuComponent } from '../toolbar-menu/toolbar-menu.component';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, ToolbarButtonComponent, ToolbarMenuComponent, DynamicExtensionComponent],
   selector: 'aca-toolbar-action',
   templateUrl: './toolbar-action.component.html',

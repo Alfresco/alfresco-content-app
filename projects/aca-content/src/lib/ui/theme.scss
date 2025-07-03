@@ -4,13 +4,16 @@
 @import './custom-theme';
 @import './variables/variables';
 @include custom-theme($custom-theme);
-@include mat.core;
+/* stylelint-disable-next-line */
+@include mat.elevation-classes();
+/* stylelint-disable-next-line */
+@include mat.app-background();
 
 :root {
   --mdc-filled-text-field-container-color: transparent;
   --mdc-text-button-label-text-color: inherit;
   --mat-toolbar-container-text-color: inherit;
-  --mat-form-field-container-height: unset;
+  --mat-form-field-container-height: 47.5px;
   --mdc-checkbox-selected-icon-color: var(--theme-blue-checkbox-color);
   --mdc-checkbox-selected-hover-icon-color: var(--theme-blue-checkbox-color);
   --mdc-checkbox-selected-focus-icon-color: var(--theme-blue-checkbox-color);

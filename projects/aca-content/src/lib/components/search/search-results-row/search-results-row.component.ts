@@ -37,7 +37,6 @@ import { DatatableCellBadgesComponent } from '../../dl-custom-components/datatab
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, LocationLinkComponent, MatDialogModule, DatatableCellBadgesComponent],
   selector: 'aca-search-results-row',
   templateUrl: './search-results-row.component.html',

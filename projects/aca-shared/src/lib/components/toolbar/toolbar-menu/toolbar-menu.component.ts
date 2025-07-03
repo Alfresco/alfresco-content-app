@@ -33,7 +33,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { IconComponent } from '@alfresco/adf-core';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, TranslateModule, MatButtonModule, MatMenuModule, ToolbarMenuItemComponent, IconComponent, DynamicExtensionComponent],
   selector: 'app-toolbar-menu',
   templateUrl: './toolbar-menu.component.html',

@@ -63,7 +63,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  standalone: true,
   imports: [
     CommonModule,
     TranslateModule,
