@@ -25,6 +25,7 @@
 import { expect } from '@playwright/test';
 import { ApiClientFactory, Utils, test, NodesApi, TrashcanApi, TEST_FILES, FileActionsApi } from '@alfresco/aca-playwright-shared';
 
+test.use({ launchOptions: { slowMo: 500 } });
 test.describe('Search Highlighting', () => {
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
@@ -63,18 +64,21 @@ test.describe('Search Highlighting', () => {
 
   test('[XAT-17119] Matching phrases should be highlighted in the file name for search results', async ({ searchPage }) => {
     await searchPage.searchWithin(fileNameHighlight, 'files');
-    expect(await searchPage.dataTable.hasHighlightedText('name')).toBeTruthy();
+    await searchPage.dataTable.progressBarWaitForReload();
+    expect(await searchPage.dataTable.hasHighlightedText('name')).toBe(true);
   });
 
   test('[XAT-17120] Matching phrases should be highlighted in the file description for search results', async ({ searchPage }) => {
     await searchPage.searchWithin(fileDescription, 'files');
-    expect(await searchPage.dataTable.hasHighlightedText('description')).toBeTruthy();
-    expect(await searchPage.dataTable.hasHighlightedText('name')).toBeFalsy();
+    await searchPage.dataTable.progressBarWaitForReload();
+    expect(await searchPage.dataTable.hasHighlightedText('description')).toBe(true);
+    expect(await searchPage.dataTable.hasHighlightedText('name')).toBe(false);
   });
 
   test('[XAT-17121] Matching phrases should be highlighted in the file content for search results', async ({ searchPage }) => {
     await searchPage.searchWithin(fileContent, 'files');
-    expect(await searchPage.dataTable.hasHighlightedText('content')).toBeTruthy();
-    expect(await searchPage.dataTable.hasHighlightedText('name')).toBeFalsy();
+    await searchPage.dataTable.progressBarWaitForReload();
+    expect(await searchPage.dataTable.hasHighlightedText('content')).toBe(true);
+    expect(await searchPage.dataTable.hasHighlightedText('name')).toBe(false);
   });
 });

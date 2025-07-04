@@ -92,6 +92,7 @@ export class SearchFiltersDate extends BaseComponent {
     const { searchPage, filterType, dateFilterTab, searchPhrase, searchType, expectSearchResults, inTheLastInputValue, startDay, endDay } = params;
 
     await searchPage.searchWithin(searchPhrase, searchType);
+    await searchPage.dataTable.progressBarWaitForReload();
     await searchPage.searchFilters.dateFilter.click();
 
     if (dateFilterTab === 'Modified') {
@@ -116,7 +117,7 @@ export class SearchFiltersDate extends BaseComponent {
     }
 
     await searchPage.searchFilters.menuCardApply.click();
-    await searchPage.dataTable.spinnerWaitForReload();
+    await searchPage.dataTable.progressBarWaitForReload();
     expect(await searchPage.dataTable.getRowsCount()).toEqual(expectSearchResults);
 
     let dateText: string;
