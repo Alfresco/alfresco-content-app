@@ -31,15 +31,24 @@ import { AppExtensionService } from '../../services/app.extension.service';
 import { ContentApiService } from '../../services/content-api.service';
 import { CommonModule } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { InfoDrawerModule } from '@alfresco/adf-core';
-import { TranslateModule } from '@ngx-translate/core';
+import { InfoDrawerComponent as AdfInfoDrawerComponent, InfoDrawerTabComponent } from '@alfresco/adf-core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { A11yModule } from '@angular/cdk/a11y';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
 import { ContentService, NodesApiService } from '@alfresco/adf-content-services';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  imports: [CommonModule, TranslateModule, MatProgressBarModule, InfoDrawerModule, A11yModule, ToolbarComponent, DynamicTabComponent],
+  imports: [
+    CommonModule,
+    TranslatePipe,
+    MatProgressBarModule,
+    AdfInfoDrawerComponent,
+    A11yModule,
+    ToolbarComponent,
+    DynamicTabComponent,
+    InfoDrawerTabComponent
+  ],
   selector: 'aca-info-drawer',
   templateUrl: './info-drawer.component.html',
   encapsulation: ViewEncapsulation.None

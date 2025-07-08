@@ -34,7 +34,7 @@ import { SearchInputControlComponent } from '../search-input-control/search-inpu
 import { SearchNavigationService } from '../search-navigation.service';
 import { SearchLibrariesQueryBuilderService } from '../search-libraries-results/search-libraries-query-builder.service';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -48,7 +48,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   imports: [
     CommonModule,
-    TranslateModule,
+    TranslatePipe,
     MatMenuModule,
     MatButtonModule,
     MatIconModule,

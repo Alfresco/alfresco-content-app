@@ -36,28 +36,36 @@ import {
 } from '@alfresco/aca-shared';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
-import { DocumentListModule } from '@alfresco/adf-content-services';
-import { DataTableModule, EmptyContentComponent, PaginationComponent } from '@alfresco/adf-core';
+import {
+  CustomEmptyContentTemplateDirective,
+  DataColumnComponent,
+  DataColumnListComponent,
+  EmptyContentComponent,
+  PaginationComponent
+} from '@alfresco/adf-core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
+import { DocumentListComponent } from '@alfresco/adf-content-services';
 
 @Component({
   imports: [
     CommonModule,
-    DocumentListModule,
     DocumentListDirective,
     ContextActionsDirective,
-    DataTableModule,
     PaginationComponent,
     InfoDrawerComponent,
     PaginationDirective,
     PageLayoutComponent,
-    TranslateModule,
+    TranslatePipe,
     ToolbarComponent,
     SearchAiInputContainerComponent,
     EmptyContentComponent,
-    DynamicColumnComponent
+    DynamicColumnComponent,
+    DocumentListComponent,
+    CustomEmptyContentTemplateDirective,
+    DataColumnComponent,
+    DataColumnListComponent
   ],
   templateUrl: './shared-files.component.html',
   encapsulation: ViewEncapsulation.None,

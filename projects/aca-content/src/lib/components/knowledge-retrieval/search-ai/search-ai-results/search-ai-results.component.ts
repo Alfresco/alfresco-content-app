@@ -30,7 +30,7 @@ import { ClipboardService, EmptyContentComponent, ThumbnailService, UnsavedChang
 import { AiAnswer, Node } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
 import { SearchAiInputContainerComponent } from '../search-ai-input-container/search-ai-input-container.component';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { NodesApiService } from '@alfresco/adf-content-services';
 import { forkJoin, Observable, of, throwError } from 'rxjs';
 import { SelectionState } from '@alfresco/adf-extensions';
@@ -51,7 +51,7 @@ import { searchAiMarkedOptions } from './search-ai-marked-options';
     CommonModule,
     PageLayoutComponent,
     SearchAiInputContainerComponent,
-    TranslateModule,
+    TranslatePipe,
     MatIconModule,
     MatButtonModule,
     MatListModule,

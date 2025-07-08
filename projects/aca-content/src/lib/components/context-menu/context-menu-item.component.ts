@@ -27,12 +27,12 @@ import { ContentActionRef, DynamicExtensionComponent } from '@alfresco/adf-exten
 import { AppExtensionService } from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { IconComponent } from '@alfresco/adf-core';
 
 @Component({
-  imports: [CommonModule, TranslateModule, MatMenuModule, MatDividerModule, IconComponent, DynamicExtensionComponent],
+  imports: [CommonModule, TranslatePipe, MatMenuModule, MatDividerModule, IconComponent, DynamicExtensionComponent],
   selector: 'app-context-menu-item',
   templateUrl: './context-menu-item.component.html',
   encapsulation: ViewEncapsulation.None,

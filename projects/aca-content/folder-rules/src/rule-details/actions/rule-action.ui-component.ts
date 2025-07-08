@@ -27,8 +27,8 @@ import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, Reacti
 import { ActionDefinitionTransformed, RuleAction } from '../../model/rule-action.model';
 import {
   CardViewBoolItemModel,
+  CardViewComponent,
   CardViewItem,
-  CardViewModule,
   CardViewSelectItemModel,
   CardViewSelectItemOption,
   CardViewTextItemModel,
@@ -50,14 +50,14 @@ import {
   TagService
 } from '@alfresco/adf-content-services';
 import { MatDialog } from '@angular/material/dialog';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  imports: [CommonModule, TranslateModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule, CardViewModule],
+  imports: [CommonModule, TranslatePipe, ReactiveFormsModule, MatFormFieldModule, MatSelectModule, CardViewComponent],
   selector: 'aca-rule-action',
   templateUrl: './rule-action.ui-component.html',
   styleUrls: ['./rule-action.ui-component.scss'],

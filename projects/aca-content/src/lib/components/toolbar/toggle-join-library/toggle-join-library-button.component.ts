@@ -31,12 +31,12 @@ import { Observable } from 'rxjs';
 import { LibraryMembershipDirective, LibraryMembershipErrorEvent, LibraryMembershipToggleEvent } from '@alfresco/adf-content-services';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
 import { NotificationService } from '@alfresco/adf-core';
 
 @Component({
-  imports: [CommonModule, TranslateModule, MatButtonModule, MatIconModule, LibraryMembershipDirective],
+  imports: [CommonModule, TranslatePipe, MatButtonModule, MatIconModule, LibraryMembershipDirective],
   selector: 'app-toggle-join-library-button',
   template: `
     <button

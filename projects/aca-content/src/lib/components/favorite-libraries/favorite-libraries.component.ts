@@ -45,7 +45,7 @@ import {
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
 import { DocumentListDirective } from '../../directives/document-list.directive';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 
 @Component({
@@ -56,7 +56,7 @@ import { DocumentListComponent } from '@alfresco/adf-content-services';
     PaginationComponent,
     InfoDrawerComponent,
     PageLayoutComponent,
-    TranslateModule,
+    TranslatePipe,
     ToolbarComponent,
     EmptyContentComponent,
     DynamicColumnComponent,

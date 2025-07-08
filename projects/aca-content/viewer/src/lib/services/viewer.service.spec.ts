@@ -23,12 +23,11 @@
  */
 
 import { TestBed } from '@angular/core/testing';
-import { TranslationMock, TranslationService, UserPreferencesService } from '@alfresco/adf-core';
+import { NoopTranslateModule, UserPreferencesService } from '@alfresco/adf-core';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { FavoritePaging, NodePaging, SharedLinkPaging } from '@alfresco/js-api';
 import { ViewerService } from './viewer.service';
 import { of } from 'rxjs';
-import { TranslateModule } from '@ngx-translate/core';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 const list = {
@@ -69,14 +68,8 @@ describe('ViewerService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
-      providers: [
-        { provide: TranslationService, useClass: TranslationMock },
-        ViewerService,
-        UserPreferencesService,
-        ContentApiService,
-        provideHttpClient(withInterceptorsFromDi())
-      ]
+      imports: [NoopTranslateModule],
+      providers: [ViewerService, UserPreferencesService, ContentApiService, provideHttpClient(withInterceptorsFromDi())]
     });
 
     preferences = TestBed.inject(UserPreferencesService);

@@ -30,14 +30,14 @@ import { take } from 'rxjs/operators';
 import { SharedLinkEntry } from '@alfresco/js-api';
 import { AppSettingsService, AutoDownloadService } from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
-  imports: [CommonModule, TranslateModule, MatButtonModule, MatIconModule, MatMenuModule, MatDialogModule],
+  imports: [CommonModule, TranslatePipe, MatButtonModule, MatIconModule, MatMenuModule, MatDialogModule],
   selector: 'app-view-node',
   template: `
     <button

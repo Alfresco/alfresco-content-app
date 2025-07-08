@@ -28,7 +28,7 @@ import { DynamicExtensionComponent } from '@alfresco/adf-extensions';
 import { NodeEntry } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -37,7 +37,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   styleUrls: ['./datatable-cell-badges.component.scss'],
   host: { class: 'aca-datatable-cell-badges' },
   encapsulation: ViewEncapsulation.None,
-  imports: [CommonModule, TranslateModule, DynamicExtensionComponent, IconComponent]
+  imports: [CommonModule, TranslatePipe, DynamicExtensionComponent, IconComponent]
 })
 export class DatatableCellBadgesComponent implements OnInit {
   @Input({ required: true }) node: NodeEntry;

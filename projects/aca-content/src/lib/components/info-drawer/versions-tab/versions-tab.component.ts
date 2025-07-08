@@ -24,17 +24,16 @@
 
 import { Component, inject, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular/core';
 import { Node } from '@alfresco/js-api';
-import { CommonModule } from '@angular/common';
-import { VersionManagerModule } from '@alfresco/adf-content-services';
 import { MatIconModule } from '@angular/material/icon';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { AppSettingsService } from '@alfresco/aca-shared';
+import { VersionManagerComponent } from '@alfresco/adf-content-services';
 
 @Component({
-  imports: [CommonModule, VersionManagerModule, MatIconModule, TranslateModule],
+  imports: [MatIconModule, TranslatePipe, VersionManagerComponent],
   selector: 'app-versions-tab',
   template: `
-    <ng-container *ngIf="isFileSelected; else empty">
+    @if (isFileSelected) {
       <adf-version-manager
         [showComments]="settings.uploadAllowComments"
         [allowDownload]="settings.uploadAllowDownload"
@@ -43,14 +42,12 @@ import { AppSettingsService } from '@alfresco/aca-shared';
         [allowVersionDelete]="settings.versionManagerAllowVersionDelete"
         [showActions]="settings.versionManagerShowActions"
       />
-    </ng-container>
-
-    <ng-template #empty>
+    } @else {
       <div class="adf-manage-versions-empty">
         <mat-icon class="adf-manage-versions-empty-icon">face</mat-icon>
         {{ 'VERSION.SELECTION.EMPTY' | translate }}
       </div>
-    </ng-template>
+    }
   `,
   encapsulation: ViewEncapsulation.None
 })

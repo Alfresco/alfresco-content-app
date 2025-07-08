@@ -26,12 +26,12 @@ import { AfterViewInit, Component, inject, Input, OnInit, QueryList, ViewChild, 
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { MatMenu, MatMenuItem, MatMenuModule } from '@angular/material/menu';
 import { ToolbarMenuItemComponent, UserProfileService } from '@alfresco/aca-shared';
 
 @Component({
-  imports: [CommonModule, TranslateModule, MatButtonModule, MatMenuModule, ToolbarMenuItemComponent],
+  imports: [CommonModule, TranslatePipe, MatButtonModule, MatMenuModule, ToolbarMenuItemComponent],
   selector: 'aca-user-menu',
   templateUrl: './user-menu.component.html',
   styleUrls: ['./user-menu.component.scss'],

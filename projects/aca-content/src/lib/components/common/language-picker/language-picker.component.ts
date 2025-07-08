@@ -22,14 +22,14 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LanguageMenuModule } from '@alfresco/adf-core';
+import { LanguageMenuComponent } from '@alfresco/adf-core';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-  imports: [TranslateModule, MatIconModule, MatMenuModule, LanguageMenuModule],
+  imports: [TranslatePipe, MatIconModule, MatMenuModule, LanguageMenuComponent],
   selector: 'aca-language-picker',
   template: `
     <button mat-menu-item [matMenuTriggerFor]="langMenu">

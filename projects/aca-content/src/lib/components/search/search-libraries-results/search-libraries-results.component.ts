@@ -39,7 +39,7 @@ import {
 } from '@alfresco/aca-shared';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { SearchInputComponent } from '../search-input/search-input.component';
 import { CustomEmptyContentTemplateDirective, DataColumnComponent, DataColumnListComponent, PaginationComponent } from '@alfresco/adf-core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -51,7 +51,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   imports: [
     CommonModule,
-    TranslateModule,
+    TranslatePipe,
     SearchInputComponent,
     MatProgressBarModule,
     PaginationComponent,

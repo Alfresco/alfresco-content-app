@@ -30,12 +30,12 @@ import { AppExtensionService, isLocked } from '@alfresco/aca-shared';
 import { NotificationService } from '@alfresco/adf-core';
 import { AlfrescoApiService } from '@alfresco/adf-content-services';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  imports: [CommonModule, TranslateModule, MatMenuModule, MatIconModule],
+  imports: [CommonModule, TranslatePipe, MatMenuModule, MatIconModule],
   selector: 'app-toggle-edit-offline',
   template: `
     <button mat-menu-item [attr.title]="nodeTitle | translate" (click)="onClick()">

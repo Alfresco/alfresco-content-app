@@ -31,11 +31,11 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DocumentListService, NodeFavoriteDirective } from '@alfresco/adf-content-services';
 import { MatIconModule } from '@angular/material/icon';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
-  imports: [CommonModule, TranslateModule, MatIconModule, MatMenuModule, NodeFavoriteDirective],
+  imports: [CommonModule, TranslatePipe, MatIconModule, MatMenuModule, NodeFavoriteDirective],
   selector: 'app-toggle-favorite',
   template: `
     <button mat-menu-item #favorites="adfFavorite" (toggle)="onToggleEvent()" [adf-node-favorite]="(selection$ | async).nodes">

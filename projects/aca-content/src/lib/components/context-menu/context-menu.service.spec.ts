@@ -27,9 +27,8 @@ import { Overlay } from '@angular/cdk/overlay';
 import { Injector } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { AuthModule, CoreModule, UserPreferencesService } from '@alfresco/adf-core';
+import { NoopTranslateModule, UserPreferencesService, NoopAuthModule } from '@alfresco/adf-core';
 import { ContextMenuService } from './context-menu.service';
-import { TranslateModule } from '@ngx-translate/core';
 import { ContextMenuComponent } from './context-menu.component';
 import { ContextmenuOverlayConfig } from './interfaces';
 import { ContentActionRef, ContentActionType } from '@alfresco/adf-extensions';
@@ -63,7 +62,7 @@ describe('ContextMenuService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), CoreModule.forRoot(), ContextMenuComponent, AuthModule.forRoot()],
+      imports: [NoopTranslateModule, ContextMenuComponent, NoopAuthModule],
       providers: [Overlay, { provide: Store, useValue: { select: () => of() } }, UserPreferencesService]
     });
 

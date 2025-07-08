@@ -28,11 +28,11 @@ import { Store } from '@ngrx/store';
 import { isInfoDrawerOpened, ToggleInfoDrawerAction } from '@alfresco/aca-shared/store';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  imports: [CommonModule, TranslateModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, TranslatePipe, MatButtonModule, MatIconModule],
   selector: 'app-toggle-info-drawer',
   template: `
     <button

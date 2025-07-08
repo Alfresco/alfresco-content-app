@@ -25,13 +25,13 @@
 import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuItem, MatMenuModule } from '@angular/material/menu';
 import { LogoutDirective } from '@alfresco/adf-core';
 
 @Component({
-  imports: [TranslateModule, MatIconModule, MatMenuModule, LogoutDirective],
+  imports: [TranslatePipe, MatIconModule, MatMenuModule, LogoutDirective],
   selector: 'aca-logout',
   template: `
     <button mat-menu-item (click)="onLogoutEvent()" adf-logout>

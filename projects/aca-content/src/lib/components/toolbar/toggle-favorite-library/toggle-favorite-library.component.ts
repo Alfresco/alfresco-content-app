@@ -30,14 +30,14 @@ import { SelectionState } from '@alfresco/adf-extensions';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { LibraryFavoriteDirective } from '@alfresco/adf-content-services';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  imports: [CommonModule, TranslateModule, MatIconModule, MatMenuModule, LibraryFavoriteDirective],
+  imports: [CommonModule, TranslatePipe, MatIconModule, MatMenuModule, LibraryFavoriteDirective],
   selector: 'app-toggle-favorite-library',
   template: `
     <button

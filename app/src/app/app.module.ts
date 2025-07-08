@@ -48,7 +48,6 @@ import localePl from '@angular/common/locales/pl';
 import localeFi from '@angular/common/locales/fi';
 import localeDa from '@angular/common/locales/da';
 import localeSv from '@angular/common/locales/sv';
-import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.components';
 import { CONTENT_LAYOUT_ROUTES, ContentServiceExtensionModule, ContentUrlService, CoreExtensionsModule } from '@alfresco/aca-content';
@@ -78,7 +77,6 @@ registerLocaleData(localeSv);
 @NgModule({
   imports: [
     BrowserModule,
-    TranslateModule.forRoot(),
     CoreModule.forRoot(),
     CoreExtensionsModule.forRoot(),
     environment.e2e ? NoopAnimationsModule : BrowserAnimationsModule,

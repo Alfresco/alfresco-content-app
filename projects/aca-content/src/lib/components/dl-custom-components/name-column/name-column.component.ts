@@ -29,12 +29,12 @@ import { filter } from 'rxjs/operators';
 import { NodeActionTypes } from '@alfresco/aca-shared/store';
 import { isLocked, LockedByComponent } from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { DatatableCellBadgesComponent } from '../datatable-cell-badges/datatable-cell-badges.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  imports: [CommonModule, TranslateModule, LockedByComponent, NodeNameTooltipPipe, DatatableCellBadgesComponent],
+  imports: [CommonModule, TranslatePipe, LockedByComponent, NodeNameTooltipPipe, DatatableCellBadgesComponent],
   selector: 'aca-custom-name-column',
   templateUrl: './name-column.component.html',
   styleUrls: ['./name-column.component.scss'],

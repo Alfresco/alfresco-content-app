@@ -28,7 +28,7 @@ import { Rule } from '../../model/rule.model';
 import { RuleGroupingItem } from '../../model/rule-grouping-item.model';
 import { FolderRuleSetsService } from '../../services/folder-rule-sets.service';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { MatRippleModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -41,7 +41,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   imports: [
     CommonModule,
-    TranslateModule,
+    TranslatePipe,
     MatRippleModule,
     MatIconModule,
     MatTooltipModule,

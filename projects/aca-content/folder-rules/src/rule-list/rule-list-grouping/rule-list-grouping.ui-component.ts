@@ -29,11 +29,11 @@ import { RuleSet } from '../../model/rule-set.model';
 import { CommonModule } from '@angular/common';
 import { RuleListItemUiComponent } from '../rule-list-item/rule-list-item.ui-component';
 import { MatRippleModule } from '@angular/material/core';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
-  imports: [CommonModule, TranslateModule, RuleListItemUiComponent, MatRippleModule, MatProgressSpinnerModule],
+  imports: [CommonModule, TranslatePipe, RuleListItemUiComponent, MatRippleModule, MatProgressSpinnerModule],
   selector: 'aca-rule-list-grouping',
   templateUrl: 'rule-list-grouping.ui-component.html',
   styleUrls: ['rule-list-grouping.ui-component.scss'],

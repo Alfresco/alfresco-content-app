@@ -44,7 +44,7 @@ import {
   PaginationComponent
 } from '@alfresco/adf-core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
 
@@ -57,7 +57,7 @@ import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-a
     PaginationDirective,
     InfoDrawerComponent,
     PageLayoutComponent,
-    TranslateModule,
+    TranslatePipe,
     ToolbarComponent,
     SearchAiInputContainerComponent,
     EmptyContentComponent,
