@@ -26,7 +26,7 @@ import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testin
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { of, throwError } from 'rxjs';
 import { SavedSearchEditDialogComponent } from './saved-search-edit-dialog.component';
-import { ContentTestingModule, SavedSearch, SavedSearchesService } from '@alfresco/adf-content-services';
+import { SavedSearch, SavedSearchesService } from '@alfresco/adf-content-services';
 import { provideMockStore } from '@ngrx/store/testing';
 import { NotificationService } from '@alfresco/adf-core';
 import { AppTestingModule } from '../../../../../testing/app-testing.module';
@@ -50,7 +50,7 @@ describe('SaveSearchEditDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ContentTestingModule, AppTestingModule, SavedSearchEditDialogComponent],
+      imports: [AppTestingModule, SavedSearchEditDialogComponent],
       providers: [
         { provide: MatDialogRef, useValue: dialogRef },
         provideMockStore(),

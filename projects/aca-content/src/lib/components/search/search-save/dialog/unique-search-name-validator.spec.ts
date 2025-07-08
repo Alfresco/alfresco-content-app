@@ -24,16 +24,17 @@
 
 import { TestBed } from '@angular/core/testing';
 import { UniqueSearchNameValidator } from './unique-search-name-validator';
-import { ContentTestingModule, SavedSearchesService } from '@alfresco/adf-content-services';
+import { SavedSearchesService } from '@alfresco/adf-content-services';
 import { of } from 'rxjs';
 import { FormControl } from '@angular/forms';
+import { NoopTranslateModule } from '@alfresco/adf-core';
 
 describe('UniqueSearchNameValidator', () => {
   let validator: UniqueSearchNameValidator;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ContentTestingModule]
+      imports: [NoopTranslateModule]
     });
   });
 

@@ -24,11 +24,10 @@
 
 import { ModalAiService } from './modal-ai.service';
 import { TestBed } from '@angular/core/testing';
-import { ContentTestingModule } from '@alfresco/adf-content-services';
 import { MatDialog, MatDialogConfig, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params } from '@angular/router';
 import { of, Subject } from 'rxjs';
-import { StorageService, UnsavedChangesDialogComponent } from '@alfresco/adf-core';
+import { NoopTranslateModule, StorageService, UnsavedChangesDialogComponent } from '@alfresco/adf-core';
 
 describe('ModalAiService', () => {
   const mockQueryParams = new Subject<Params>();
@@ -39,7 +38,7 @@ describe('ModalAiService', () => {
 
   const setupBeforeEach = (query: string, storageGetItem: string) => {
     TestBed.configureTestingModule({
-      imports: [ContentTestingModule, MatDialogModule],
+      imports: [NoopTranslateModule, MatDialogModule],
       providers: [
         {
           provide: StorageService,

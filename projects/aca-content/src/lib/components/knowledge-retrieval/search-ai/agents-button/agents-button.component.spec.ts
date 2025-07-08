@@ -24,12 +24,12 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AgentsButtonComponent } from './agents-button.component';
-import { AgentService, ContentTestingModule, SearchAiService } from '@alfresco/adf-content-services';
+import { AgentService, SearchAiService } from '@alfresco/adf-content-services';
 import { Subject } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { getAppSelection, SearchAiActionTypes } from '@alfresco/aca-shared/store';
-import { AvatarComponent, NotificationService } from '@alfresco/adf-core';
+import { AvatarComponent, NoopTranslateModule, NotificationService } from '@alfresco/adf-core';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { MatMenu, MatMenuPanel, MatMenuTrigger } from '@angular/material/menu';
 import { HarnessLoader } from '@angular/cdk/testing';
@@ -40,6 +40,7 @@ import { MatSelectionList } from '@angular/material/list';
 import { MatSnackBarRef } from '@angular/material/snack-bar';
 import { ChangeDetectorRef } from '@angular/core';
 import { Agent, KnowledgeRetrievalConfigEntry } from '@alfresco/js-api';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('AgentsButtonComponent', () => {
   let component: AgentsButtonComponent;
@@ -174,7 +175,7 @@ describe('AgentsButtonComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AgentsButtonComponent, ContentTestingModule],
+      imports: [NoopTranslateModule, MatIconTestingModule, AgentsButtonComponent],
       providers: [provideMockStore({})]
     });
 

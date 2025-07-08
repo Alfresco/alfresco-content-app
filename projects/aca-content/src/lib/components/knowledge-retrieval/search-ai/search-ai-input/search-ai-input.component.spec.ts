@@ -27,13 +27,20 @@ import { SearchAiInputComponent } from './search-ai-input.component';
 import { MatSelect, MatSelectModule } from '@angular/material/select';
 import { By } from '@angular/platform-browser';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { AgentService, ContentTestingModule, SearchAiService } from '@alfresco/adf-content-services';
+import { AgentService, SearchAiService } from '@alfresco/adf-content-services';
 import { getAppSelection, SearchByTermAiAction, ToggleAISearchInput } from '@alfresco/aca-shared/store';
 import { of, Subject } from 'rxjs';
 import { Agent, NodeEntry } from '@alfresco/js-api';
 import { FormControlDirective } from '@angular/forms';
 import { DebugElement } from '@angular/core';
-import { AvatarComponent, IconComponent, NotificationService, UnsavedChangesDialogComponent, UserPreferencesService } from '@alfresco/adf-core';
+import {
+  AvatarComponent,
+  IconComponent,
+  NoopTranslateModule,
+  NotificationService,
+  UnsavedChangesDialogComponent,
+  UserPreferencesService
+} from '@alfresco/adf-core';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatSelectHarness } from '@angular/material/select/testing';
@@ -46,6 +53,7 @@ import { MatSnackBarRef } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { ModalAiService } from '../../../../services/modal-ai.service';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('SearchAiInputComponent', () => {
   let component: SearchAiInputComponent;
@@ -83,7 +91,7 @@ describe('SearchAiInputComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SearchAiInputComponent, ContentTestingModule, MatSelectModule],
+      imports: [NoopTranslateModule, MatIconTestingModule, SearchAiInputComponent, MatSelectModule],
       providers: [
         provideMockStore(),
         {
