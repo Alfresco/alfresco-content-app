@@ -23,7 +23,6 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CoreTestingModule } from '@alfresco/adf-core';
 import { RuleDetailsUiComponent } from './rule-details.ui-component';
 import { Rule } from '../model/rule.model';
 import { By } from '@angular/platform-browser';
@@ -31,6 +30,7 @@ import { RuleTriggersUiComponent } from './triggers/rule-triggers.ui-component';
 import { RuleOptionsUiComponent } from './options/rule-options.ui-component';
 import { RuleActionListUiComponent } from './actions/rule-action-list.ui-component';
 import { AlfrescoApiService, AlfrescoApiServiceMock, CategoryService } from '@alfresco/adf-content-services';
+import { NoopTranslateModule } from '@alfresco/adf-core';
 
 describe('RuleDetailsUiComponent', () => {
   let fixture: ComponentFixture<RuleDetailsUiComponent>;
@@ -55,7 +55,7 @@ describe('RuleDetailsUiComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule, RuleDetailsUiComponent],
+      imports: [NoopTranslateModule, RuleDetailsUiComponent],
       providers: [{ provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }]
     });
 

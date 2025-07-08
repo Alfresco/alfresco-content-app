@@ -23,7 +23,7 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CoreTestingModule, DataCellEvent, DataTableComponent, NotificationService } from '@alfresco/adf-core';
+import { DataCellEvent, DataTableComponent, NoopTranslateModule, NotificationService } from '@alfresco/adf-core';
 import { SavedSearchesListUiComponent } from './saved-searches-list.ui-component';
 import { SavedSearchesListUiService } from '../saved-searches-list-ui.service';
 import { By } from '@angular/platform-browser';
@@ -42,7 +42,7 @@ describe('SavedSearchesListUiComponent ', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule, SavedSearchesListUiComponent],
+      imports: [NoopTranslateModule, SavedSearchesListUiComponent],
       providers: [SavedSearchesListUiService]
     });
 

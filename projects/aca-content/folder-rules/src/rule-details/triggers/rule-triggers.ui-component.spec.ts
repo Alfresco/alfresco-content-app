@@ -24,7 +24,7 @@
 
 import { RuleTriggersUiComponent } from './rule-triggers.ui-component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CoreTestingModule } from '@alfresco/adf-core';
+import { NoopTranslateModule } from '@alfresco/adf-core';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
@@ -42,7 +42,7 @@ describe('RuleTriggerUiComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule, RuleTriggersUiComponent],
+      imports: [NoopTranslateModule, RuleTriggersUiComponent],
       providers: [{ provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }]
     });
 

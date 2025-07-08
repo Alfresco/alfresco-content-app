@@ -23,13 +23,11 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, SimpleChange } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DebugElement, SimpleChange } from '@angular/core';
 import { RuleOptionsUiComponent } from './rule-options.ui-component';
-import { CoreTestingModule } from '@alfresco/adf-core';
+import { NoopTranslateModule } from '@alfresco/adf-core';
 import { By } from '@angular/platform-browser';
 import { errorScriptConstraintMock } from '../../mock/actions.mock';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatSelectHarness } from '@angular/material/select/testing';
@@ -61,18 +59,8 @@ describe('RuleOptionsUiComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [FormsModule, ReactiveFormsModule, CoreTestingModule, RuleOptionsUiComponent],
-      providers: [
-        {
-          provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-          useValue: { floatLabel: 'auto' }
-        },
-        {
-          provide: AlfrescoApiService,
-          useClass: AlfrescoApiServiceMock
-        }
-      ]
+      imports: [NoopTranslateModule, RuleOptionsUiComponent],
+      providers: [{ provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }]
     });
 
     fixture = TestBed.createComponent(RuleOptionsUiComponent);

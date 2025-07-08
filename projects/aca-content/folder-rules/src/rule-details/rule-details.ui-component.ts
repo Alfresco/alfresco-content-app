@@ -32,7 +32,7 @@ import { ActionDefinitionTransformed } from '../model/rule-action.model';
 import { ruleActionsValidator } from './validators/rule-actions.validator';
 import { ActionParameterConstraint } from '../model/action-parameter-constraint.model';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RuleTriggersUiComponent } from './triggers/rule-triggers.ui-component';
@@ -45,7 +45,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   imports: [
     CommonModule,
-    TranslateModule,
+    TranslatePipe,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,

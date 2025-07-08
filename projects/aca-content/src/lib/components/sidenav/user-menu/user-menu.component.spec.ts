@@ -24,7 +24,7 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatMenuTrigger } from '@angular/material/menu';
-import { CoreTestingModule, UnitTestingUtils } from '@alfresco/adf-core';
+import { NoopTranslateModule, UnitTestingUtils } from '@alfresco/adf-core';
 import { UserMenuComponent } from './user-menu.component';
 import { AppExtensionService } from '@alfresco/aca-shared';
 
@@ -33,14 +33,11 @@ describe('UserMenuComponent', () => {
   let fixture: ComponentFixture<UserMenuComponent>;
   let testingUtils: UnitTestingUtils;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [CoreTestingModule, UserMenuComponent],
-      providers: [{ provide: AppExtensionService, useValue: { runActionById() {} } }]
-    }).compileComponents();
-  });
-
   beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [NoopTranslateModule, UserMenuComponent],
+      providers: [{ provide: AppExtensionService, useValue: { runActionById() {} } }]
+    });
     fixture = TestBed.createComponent(UserMenuComponent);
     testingUtils = new UnitTestingUtils(fixture.debugElement);
 

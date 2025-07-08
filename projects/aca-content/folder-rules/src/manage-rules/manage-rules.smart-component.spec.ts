@@ -25,7 +25,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ManageRulesSmartComponent } from './manage-rules.smart-component';
 import { DebugElement, Predicate } from '@angular/core';
-import { CoreTestingModule } from '@alfresco/adf-core';
 import { FolderRulesService } from '../services/folder-rules.service';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, of, Subject } from 'rxjs';
@@ -42,13 +41,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActionsService } from '../services/actions.service';
 import { FolderRuleSetsService } from '../services/folder-rule-sets.service';
 import { ruleMock, ruleSettingsMock } from '../mock/rules.mock';
-import { Store } from '@ngrx/store';
 import { AppService } from '@alfresco/aca-shared';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatProgressBarHarness } from '@angular/material/progress-bar/testing';
 import { MatSlideToggleHarness } from '@angular/material/slide-toggle/testing';
 import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
+import { provideHttpClient } from '@angular/common/http';
+import { NoopTranslateModule } from '@alfresco/adf-core';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('ManageRulesSmartComponent', () => {
   let fixture: ComponentFixture<ManageRulesSmartComponent>;
@@ -63,8 +64,9 @@ describe('ManageRulesSmartComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule, ManageRulesSmartComponent],
+      imports: [NoopTranslateModule, ManageRulesSmartComponent],
       providers: [
+        provideHttpClient(),
         {
           provide: AppService,
           useValue: {
@@ -73,7 +75,7 @@ describe('ManageRulesSmartComponent', () => {
           }
         },
         { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
-        { provide: Store, useValue: { dispatch: () => {} } },
+        provideMockStore({}),
         { provide: ActivatedRoute, useValue: { params: of({ nodeId: owningFolderIdMock }) } }
       ]
     });

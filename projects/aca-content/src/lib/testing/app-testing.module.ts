@@ -23,9 +23,8 @@
  */
 
 import { NgModule } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthenticationService, PageTitleService, TranslationMock, TranslationService } from '@alfresco/adf-core';
+import { AuthenticationService, NoopTranslateModule, PageTitleService } from '@alfresco/adf-core';
 import { AlfrescoApiService, AlfrescoApiServiceMock, DiscoveryApiService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { RepositoryInfo, VersionInfo } from '@alfresco/js-api';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
@@ -42,11 +41,11 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 @NgModule({
-  exports: [RouterTestingModule, TranslateModule],
+  exports: [RouterTestingModule],
   imports: [
     NoopAnimationsModule,
+    NoopTranslateModule,
     RouterTestingModule,
-    TranslateModule.forRoot(),
     StoreModule.forRoot(
       { app: appReducer },
       {
@@ -65,7 +64,6 @@ import { MatIconTestingModule } from '@angular/material/icon/testing';
   providers: [
     SearchQueryBuilderService,
     { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
-    { provide: TranslationService, useClass: TranslationMock },
     { provide: DocumentBasePageService, useExisting: ContentManagementService },
     {
       provide: DiscoveryApiService,

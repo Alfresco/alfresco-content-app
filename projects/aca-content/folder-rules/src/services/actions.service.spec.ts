@@ -24,7 +24,7 @@
 
 import { ActionsService } from './actions.service';
 import { TestBed } from '@angular/core/testing';
-import { CoreTestingModule } from '@alfresco/adf-core';
+import { NoopTranslateModule } from '@alfresco/adf-core';
 import { ActionsApi } from '@alfresco/js-api';
 import { actionDefListMock, actionsTransformedListMock } from '../mock/actions.mock';
 import { take } from 'rxjs/operators';
@@ -37,7 +37,7 @@ describe('ActionsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule],
+      imports: [NoopTranslateModule],
       providers: [ActionsService, { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }]
     });
 

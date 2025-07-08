@@ -26,7 +26,7 @@ import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testin
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { of, throwError } from 'rxjs';
 import { SavedSearchDeleteDialogComponent } from './saved-search-delete-dialog.component';
-import { ContentTestingModule, SavedSearch, SavedSearchesService } from '@alfresco/adf-content-services';
+import { SavedSearch, SavedSearchesService } from '@alfresco/adf-content-services';
 import { NotificationService } from '@alfresco/adf-core';
 import { AppTestingModule } from '../../../../../testing/app-testing.module';
 
@@ -49,7 +49,7 @@ describe('SaveSearchDeleteDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ContentTestingModule, AppTestingModule, SavedSearchDeleteDialogComponent],
+      imports: [AppTestingModule, SavedSearchDeleteDialogComponent],
       providers: [
         { provide: MatDialogRef, useValue: dialogRef },
         { provide: SavedSearchesService, useValue: { deleteSavedSearch: () => of({}) } },

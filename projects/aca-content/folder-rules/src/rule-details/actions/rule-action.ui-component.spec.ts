@@ -23,7 +23,7 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CardViewBoolItemModel, CardViewComponent, CardViewSelectItemModel, CardViewTextItemModel, CoreTestingModule } from '@alfresco/adf-core';
+import { CardViewBoolItemModel, CardViewComponent, CardViewSelectItemModel, CardViewTextItemModel, NoopTranslateModule } from '@alfresco/adf-core';
 import { RuleActionUiComponent } from './rule-action.ui-component';
 import {
   actionLinkToCategoryTransformedMock,
@@ -63,7 +63,7 @@ describe('RuleActionUiComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule, RuleActionUiComponent],
+      imports: [NoopTranslateModule, RuleActionUiComponent],
       providers: [{ provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }]
     });
 

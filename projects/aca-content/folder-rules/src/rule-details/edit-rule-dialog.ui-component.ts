@@ -29,7 +29,7 @@ import { Observable } from 'rxjs';
 import { ActionDefinitionTransformed } from '../model/rule-action.model';
 import { ActionParameterConstraint } from '../model/action-parameter-constraint.model';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RuleDetailsUiComponent } from './rule-details.ui-component';
@@ -42,7 +42,7 @@ export interface EditRuleDialogOptions {
 }
 
 @Component({
-  imports: [CommonModule, TranslateModule, MatDialogModule, MatButtonModule, MatIconModule, RuleDetailsUiComponent],
+  imports: [CommonModule, TranslatePipe, MatDialogModule, MatButtonModule, MatIconModule, RuleDetailsUiComponent],
   selector: 'aca-edit-rule-dialog',
   templateUrl: './edit-rule-dialog.ui-component.html',
   styleUrls: ['./edit-rule-dialog.ui-component.scss'],

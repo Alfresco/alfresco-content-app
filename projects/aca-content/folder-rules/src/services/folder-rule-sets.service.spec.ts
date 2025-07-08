@@ -24,7 +24,6 @@
 
 import { FolderRuleSetsService } from './folder-rule-sets.service';
 import { TestBed } from '@angular/core/testing';
-import { CoreTestingModule } from '@alfresco/adf-core';
 import { FolderRulesService } from './folder-rules.service';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { getOtherFolderEntryMock, getOwningFolderEntryMock, otherFolderIdMock, owningFolderIdMock, owningFolderMock } from '../mock/node.mock';
@@ -33,6 +32,7 @@ import { getDefaultRuleSetResponseMock, getRuleSetsResponseMock, inheritedRuleSe
 import { take } from 'rxjs/operators';
 import { inheritedRulesMock, linkedRulesMock, ownedRulesMock, ruleMock } from '../mock/rules.mock';
 import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
+import { NoopTranslateModule } from '@alfresco/adf-core';
 
 describe('FolderRuleSetsService', () => {
   let folderRuleSetsService: FolderRuleSetsService;
@@ -45,7 +45,7 @@ describe('FolderRuleSetsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule],
+      imports: [NoopTranslateModule],
       providers: [FolderRuleSetsService, FolderRulesService, ContentApiService, { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }]
     });
 
