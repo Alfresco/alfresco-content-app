@@ -53,7 +53,7 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.components';
 import { CONTENT_LAYOUT_ROUTES, ContentServiceExtensionModule, ContentUrlService, CoreExtensionsModule } from '@alfresco/aca-content';
 import { ContentVersionService } from '@alfresco/adf-content-services';
-import { SHELL_APP_SERVICE, SHELL_AUTH_TOKEN, ShellModule } from '@alfresco/adf-core/shell';
+import { SHELL_APP_SERVICE, SHELL_AUTH_TOKEN, provideShellRoutes } from '@alfresco/adf-core/shell';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { APP_ROUTES } from './app.routes';
 import { MatIconRegistry } from '@angular/material/icon';
@@ -88,13 +88,11 @@ registerLocaleData(localeSv);
       enableTracing: false // enable for debug only
     }),
     AppExtensionsModule,
-    ShellModule.withRoutes({
-      shellChildren: [CONTENT_LAYOUT_ROUTES]
-    }),
     ContentServiceExtensionModule,
     AuthModule.forRoot({ useHash: true })
   ],
   providers: [
+    provideShellRoutes(CONTENT_LAYOUT_ROUTES),
     { provide: ContentVersionService, useClass: ContentUrlService },
     {
       provide: SHELL_APP_SERVICE,

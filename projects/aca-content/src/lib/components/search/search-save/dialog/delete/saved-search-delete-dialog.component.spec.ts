@@ -49,7 +49,7 @@ describe('SaveSearchDeleteDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ContentTestingModule, AppTestingModule],
+      imports: [ContentTestingModule, AppTestingModule, SavedSearchDeleteDialogComponent],
       providers: [
         { provide: MatDialogRef, useValue: dialogRef },
         { provide: SavedSearchesService, useValue: { deleteSavedSearch: () => of({}) } },

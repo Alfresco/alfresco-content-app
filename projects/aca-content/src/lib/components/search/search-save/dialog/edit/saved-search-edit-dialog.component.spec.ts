@@ -50,7 +50,7 @@ describe('SaveSearchEditDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ContentTestingModule, AppTestingModule],
+      imports: [ContentTestingModule, AppTestingModule, SavedSearchEditDialogComponent],
       providers: [
         { provide: MatDialogRef, useValue: dialogRef },
         provideMockStore(),
