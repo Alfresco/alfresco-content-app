@@ -24,7 +24,7 @@
 
 import { RuleListUiComponent } from './rule-list.ui-component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CoreTestingModule } from '@alfresco/adf-core';
+import { NoopTranslateModule } from '@alfresco/adf-core';
 import { ownedRuleSetMock, ruleSetsMock, ruleSetWithLinkMock } from '../../mock/rule-sets.mock';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -39,7 +39,7 @@ describe('RuleListUiComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule, RuleListUiComponent],
+      imports: [NoopTranslateModule, RuleListUiComponent],
       providers: [{ provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }]
     });
 
