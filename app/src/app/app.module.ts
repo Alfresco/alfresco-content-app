@@ -25,7 +25,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { importProvidersFrom, NgModule } from '@angular/core';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthGuard, CoreModule, TRANSLATION_PROVIDER, AuthModule } from '@alfresco/adf-core';
+import { AuthGuard, CoreModule, AuthModule, provideTranslations } from '@alfresco/adf-core';
 import { AppService } from '@alfresco/aca-shared';
 import { AppExtensionsModule } from './extensions.module';
 import { environment } from '../environments/environment';
@@ -96,14 +96,7 @@ registerLocaleData(localeSv);
       provide: SHELL_AUTH_TOKEN,
       useValue: AuthGuard
     },
-    {
-      provide: TRANSLATION_PROVIDER,
-      multi: true,
-      useValue: {
-        name: 'app',
-        source: 'assets'
-      }
-    },
+    provideTranslations('app', 'assets'),
     importProvidersFrom(AuthModule.forRoot({ useHash: true }))
   ],
   declarations: [AppComponent],
