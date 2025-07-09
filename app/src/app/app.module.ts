@@ -24,7 +24,7 @@
 
 import { BrowserModule } from '@angular/platform-browser';
 import { importProvidersFrom, NgModule } from '@angular/core';
-import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideNoopAnimations, provideAnimations } from '@angular/platform-browser/animations';
 import { AuthGuard, CoreModule, AuthModule, provideTranslations } from '@alfresco/adf-core';
 import { AppService } from '@alfresco/aca-shared';
 import { AppExtensionsModule } from './extensions.module';
@@ -76,7 +76,6 @@ registerLocaleData(localeSv);
     BrowserModule,
     CoreModule.forRoot(),
     CoreExtensionsModule.forRoot(),
-    environment.e2e ? NoopAnimationsModule : BrowserAnimationsModule,
     !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25 }) : [],
     RouterModule.forRoot(APP_ROUTES, {
       useHash: true,
@@ -86,6 +85,7 @@ registerLocaleData(localeSv);
     ContentServiceExtensionModule
   ],
   providers: [
+    environment.e2e ? provideNoopAnimations() : provideAnimations(),
     provideShellRoutes(CONTENT_LAYOUT_ROUTES),
     { provide: ContentVersionService, useClass: ContentUrlService },
     {
