@@ -23,14 +23,12 @@
  */
 
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { importProvidersFrom, NgModule } from '@angular/core';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthGuard, AuthModule, CoreModule, TRANSLATION_PROVIDER } from '@alfresco/adf-core';
+import { AuthGuard, CoreModule, TRANSLATION_PROVIDER, AuthModule } from '@alfresco/adf-core';
 import { AppService } from '@alfresco/aca-shared';
-
 import { AppExtensionsModule } from './extensions.module';
 import { environment } from '../environments/environment';
-
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import localeDe from '@angular/common/locales/de';
@@ -86,8 +84,7 @@ registerLocaleData(localeSv);
       enableTracing: false // enable for debug only
     }),
     AppExtensionsModule,
-    ContentServiceExtensionModule,
-    AuthModule.forRoot({ useHash: true })
+    ContentServiceExtensionModule
   ],
   providers: [
     provideShellRoutes(CONTENT_LAYOUT_ROUTES),
@@ -107,7 +104,8 @@ registerLocaleData(localeSv);
         name: 'app',
         source: 'assets'
       }
-    }
+    },
+    importProvidersFrom(AuthModule.forRoot({ useHash: true }))
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent]
