@@ -1,5 +1,6 @@
 /* stylelint-disable scss/no-global-function-names */
 @use '@angular/material' as mat;
+@use './mat-selectors.scss' as ms;
 @import './mixins';
 @import './theme';
 
@@ -44,6 +45,13 @@ ng-component {
   aca-search-results,
   ng-component {
     height: 100vh;
+  }
+}
+
+.adf-property-list .adf-property-value {
+  #{ms.$mat-mdc-form-field-infix} {
+    background-color: var(--adf-metadata-buttons-background-color);
+    border-radius: 3px;
   }
 }
 
