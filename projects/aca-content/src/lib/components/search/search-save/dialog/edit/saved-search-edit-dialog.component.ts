@@ -24,15 +24,31 @@
 
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { AutoFocusDirective, forbidOnlySpaces, SavedSearch, SavedSearchesService } from '@alfresco/adf-content-services';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
-import { CoreModule, NotificationService } from '@alfresco/adf-core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NotificationService } from '@alfresco/adf-core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UniqueSearchNameValidator } from '../unique-search-name-validator';
 import { SavedSearchForm } from '../saved-search-form.interface';
+import { TranslatePipe } from '@ngx-translate/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { TitleCasePipe } from '@angular/common';
 
 @Component({
-  imports: [CoreModule, AutoFocusDirective],
+  imports: [
+    AutoFocusDirective,
+    TranslatePipe,
+    MatIconModule,
+    MatButtonModule,
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    TitleCasePipe
+  ],
   selector: 'aca-saved-search-edit-dialog',
   templateUrl: './saved-search-edit-dialog.component.html',
   styleUrls: ['./saved-search-edit-dialog.component.scss'],
