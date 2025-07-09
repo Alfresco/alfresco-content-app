@@ -48,13 +48,6 @@ ng-component {
   }
 }
 
-.adf-property-list .adf-property-value {
-  #{ms.$mat-mdc-form-field-infix} {
-    background-color: var(--adf-metadata-buttons-background-color);
-    border-radius: 3px;
-  }
-}
-
 .aca-sidebar {
   display: block;
   max-width: 368px;
@@ -62,6 +55,23 @@ ng-component {
   margin-bottom: 65px;
   border-top: 1px solid var(--theme-metadata-property-panel-border-color);
   border-bottom: 1px solid var(--theme-metadata-property-panel-border-color);
+
+  .adf-card-view-selectitem #{ms.$mat-form-field-infix} {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .adf-property-list .adf-property-value {
+    #{ms.$mat-select-trigger} {
+      background-color: var(--adf-metadata-buttons-background-color);
+      border-radius: 3px;
+      padding: 2%;
+
+      #{ms.$mat-select-arrow-wrapper} {
+        margin-top: 16px;
+      }
+    }
+  }
 }
 
 .aca-page-title {
