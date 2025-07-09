@@ -24,7 +24,7 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RuleCompositeConditionUiComponent } from './rule-composite-condition.ui-component';
-import { CoreTestingModule } from '@alfresco/adf-core';
+import { NoopTranslateModule } from '@alfresco/adf-core';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import {
@@ -40,7 +40,7 @@ describe('RuleCompositeConditionUiComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule, RuleCompositeConditionUiComponent, RuleSimpleConditionUiComponent],
+      imports: [NoopTranslateModule, RuleCompositeConditionUiComponent, RuleSimpleConditionUiComponent],
       providers: [{ provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }]
     });
 

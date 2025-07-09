@@ -27,7 +27,7 @@ import { EditRuleDialogOptions, EditRuleDialogUiComponent } from './edit-rule-di
 import { By } from '@angular/platform-browser';
 import { RuleDetailsUiComponent } from './rule-details.ui-component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { CoreTestingModule } from '@alfresco/adf-core';
+import { NoopTranslateModule } from '@alfresco/adf-core';
 import { of, timer } from 'rxjs';
 import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
 
@@ -41,7 +41,7 @@ describe('EditRuleDialogSmartComponent', () => {
 
   const setupBeforeEach = (dialogOptions: EditRuleDialogOptions = { actionDefinitions$: of([]), parameterConstraints$: of([]) }) => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule, EditRuleDialogUiComponent],
+      imports: [NoopTranslateModule, EditRuleDialogUiComponent],
       providers: [
         { provide: MatDialogRef, useValue: dialogRef },
         { provide: MAT_DIALOG_DATA, useValue: dialogOptions },
