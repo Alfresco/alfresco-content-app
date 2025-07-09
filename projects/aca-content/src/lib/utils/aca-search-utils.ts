@@ -99,7 +99,7 @@ export function formatSearchTerm(userInput: string, fields = ['cm:name']): strin
 export function extractUserQueryFromEncodedQuery(encodedQuery: string): string {
   if (encodedQuery) {
     const decodedQuery: { [key: string]: any } = JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(encodedQuery), (c) => c.charCodeAt(0))));
-    return decodedQuery.userQuery;
+    return trimUserQuery(decodedQuery.userQuery);
   }
   return '';
 }
@@ -118,7 +118,13 @@ export function extractSearchedWordFromEncodedQuery(encodedQuery: string): strin
           .split('AND')
           .map((searchCondition) => {
             const searchTerm = searchCondition.split('"')[1];
-            return searchTerm === '*' ? searchTerm : searchTerm.slice(0, -1);
+            if (searchTerm === '*') {
+              return searchTerm;
+            } else if (searchTerm?.endsWith('*')) {
+              return searchTerm.slice(0, -1);
+            } else {
+              return searchTerm;
+            }
           })
           .join(' ')
       : '';
@@ -138,4 +144,17 @@ export function extractFiltersFromEncodedQuery(encodedQuery: string): any {
     return JSON.parse(decodedQuery);
   }
   return null;
+}
+
+/**
+ * Trims one set of parentheses from parsed user query.
+ *
+ * @param userQuery user query parsed from encoded query
+ * @returns string
+ */
+function trimUserQuery(userQuery: string): string {
+  if (userQuery) {
+    return userQuery.replace(/^\(|\)$/g, '');
+  }
+  return '';
 }
