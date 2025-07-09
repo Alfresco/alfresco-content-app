@@ -28,7 +28,7 @@ import { AppHookService, ContentApiService, PageComponent, PageLayoutComponent, 
 import { NavigateToFolder, NavigateToPreviousPage, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { BreadcrumbComponent, ContentService, NodesApiService, PermissionListComponent } from '@alfresco/adf-content-services';
 import { CommonModule, Location } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -44,7 +44,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   imports: [
     CommonModule,
-    TranslateModule,
+    TranslatePipe,
     MatIconModule,
     MatTabsModule,
     MatProgressBarModule,

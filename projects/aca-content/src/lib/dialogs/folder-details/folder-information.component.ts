@@ -27,7 +27,7 @@ import { CommonModule } from '@angular/common';
 import { DIALOG_COMPONENT_DATA, IconComponent, LocalizedDatePipe, TimeAgoPipe } from '@alfresco/adf-core';
 import { Node, SizeDetails } from '@alfresco/js-api';
 import { MatDividerModule } from '@angular/material/divider';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ContentService, NodesApiService } from '@alfresco/adf-content-services';
 import { catchError, concatMap, delay, expand, first, switchMap } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -47,7 +47,7 @@ class FolderDetails {
 
 @Component({
   selector: 'app-folder-info',
-  imports: [CommonModule, MatDividerModule, TimeAgoPipe, TranslateModule, LocalizedDatePipe, IconComponent],
+  imports: [CommonModule, MatDividerModule, TimeAgoPipe, TranslatePipe, LocalizedDatePipe, IconComponent],
   templateUrl: './folder-information.component.html',
   styleUrls: ['./folder-information.component.scss'],
   encapsulation: ViewEncapsulation.None,

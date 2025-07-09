@@ -28,12 +28,12 @@ import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox
 import { RuleOptions } from '../../model/rule.model';
 import { ActionParameterConstraint, ConstraintValue } from '../../model/action-parameter-constraint.model';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 
 @Component({
-  imports: [CommonModule, TranslateModule, ReactiveFormsModule, MatCheckboxModule, MatFormFieldModule, MatSelectModule],
+  imports: [CommonModule, TranslatePipe, ReactiveFormsModule, MatCheckboxModule, MatFormFieldModule, MatSelectModule],
   selector: 'aca-rule-options',
   templateUrl: 'rule-options.ui-component.html',
   styleUrls: ['rule-options.ui-component.scss'],

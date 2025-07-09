@@ -24,7 +24,7 @@
 
 import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { SavedSearchesListUiComponent } from '../ui-list/saved-searches-list.ui-component';
 import { PageComponent, PageLayoutComponent } from '@alfresco/aca-shared';
 import { SavedSearchesService } from '@alfresco/adf-content-services';
@@ -33,7 +33,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'aca-saved-searches-smart-list',
-  imports: [CommonModule, TranslateModule, SavedSearchesListUiComponent, PageLayoutComponent, EmptyContentComponent, MatProgressSpinnerModule],
+  imports: [CommonModule, TranslatePipe, SavedSearchesListUiComponent, PageLayoutComponent, EmptyContentComponent, MatProgressSpinnerModule],
   templateUrl: './saved-searches-smart-list.component.html',
   styleUrls: ['./saved-searches-smart-list.component.scss'],
   encapsulation: ViewEncapsulation.None

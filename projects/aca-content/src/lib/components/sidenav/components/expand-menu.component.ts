@@ -25,15 +25,15 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { NavBarLinkRef } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
-import { IconModule } from '@alfresco/adf-core';
+import { TranslatePipe } from '@ngx-translate/core';
+import { IconComponent } from '@alfresco/adf-core';
 import { MatButtonModule } from '@angular/material/button';
 import { ActiveLinkDirective } from '../directives/active-link.directive';
 import { ActionDirective } from '../directives/action.directive';
 import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
-  imports: [CommonModule, TranslateModule, IconModule, MatButtonModule, ActiveLinkDirective, ActionDirective, MatExpansionModule],
+  imports: [CommonModule, TranslatePipe, IconComponent, MatButtonModule, ActiveLinkDirective, ActionDirective, MatExpansionModule],
   selector: 'app-expand-menu',
   encapsulation: ViewEncapsulation.None,
   templateUrl: './expand-menu.component.html',

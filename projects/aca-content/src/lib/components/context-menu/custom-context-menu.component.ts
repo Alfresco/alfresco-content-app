@@ -29,7 +29,7 @@ import { AppExtensionService } from '@alfresco/aca-shared';
 import { CONTEXT_MENU_DIRECTION } from './direction.token';
 import { ContentActionRef, DynamicExtensionComponent } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { ContextMenuItemComponent } from './context-menu-item.component';
 import { OutsideEventDirective } from './context-menu-outside-event.directive';
@@ -44,7 +44,7 @@ import { BaseContextMenuDirective } from './base-context-menu.directive';
   styleUrls: ['./context-menu.component.scss'],
   imports: [
     CommonModule,
-    TranslateModule,
+    TranslatePipe,
     MatMenuModule,
     MatDividerModule,
     ContextMenuItemComponent,

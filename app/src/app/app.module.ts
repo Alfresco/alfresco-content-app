@@ -23,14 +23,12 @@
  */
 
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthGuard, AuthModule, CoreModule, TRANSLATION_PROVIDER } from '@alfresco/adf-core';
+import { importProvidersFrom, NgModule } from '@angular/core';
+import { provideNoopAnimations, provideAnimations } from '@angular/platform-browser/animations';
+import { AuthGuard, CoreModule, AuthModule, provideTranslations } from '@alfresco/adf-core';
 import { AppService } from '@alfresco/aca-shared';
-
 import { AppExtensionsModule } from './extensions.module';
 import { environment } from '../environments/environment';
-
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import localeDe from '@angular/common/locales/de';
@@ -48,15 +46,13 @@ import localePl from '@angular/common/locales/pl';
 import localeFi from '@angular/common/locales/fi';
 import localeDa from '@angular/common/locales/da';
 import localeSv from '@angular/common/locales/sv';
-import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.components';
 import { CONTENT_LAYOUT_ROUTES, ContentServiceExtensionModule, ContentUrlService, CoreExtensionsModule } from '@alfresco/aca-content';
 import { ContentVersionService } from '@alfresco/adf-content-services';
-import { SHELL_APP_SERVICE, SHELL_AUTH_TOKEN, ShellModule } from '@alfresco/adf-core/shell';
+import { SHELL_APP_SERVICE, SHELL_AUTH_TOKEN, provideShellRoutes } from '@alfresco/adf-core/shell';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { APP_ROUTES } from './app.routes';
-import { MatIconRegistry } from '@angular/material/icon';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -78,23 +74,19 @@ registerLocaleData(localeSv);
 @NgModule({
   imports: [
     BrowserModule,
-    TranslateModule.forRoot(),
     CoreModule.forRoot(),
     CoreExtensionsModule.forRoot(),
-    environment.e2e ? NoopAnimationsModule : BrowserAnimationsModule,
     !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25 }) : [],
     RouterModule.forRoot(APP_ROUTES, {
       useHash: true,
       enableTracing: false // enable for debug only
     }),
     AppExtensionsModule,
-    ShellModule.withRoutes({
-      shellChildren: [CONTENT_LAYOUT_ROUTES]
-    }),
-    ContentServiceExtensionModule,
-    AuthModule.forRoot({ useHash: true })
+    ContentServiceExtensionModule
   ],
   providers: [
+    environment.e2e ? provideNoopAnimations() : provideAnimations(),
+    provideShellRoutes(CONTENT_LAYOUT_ROUTES),
     { provide: ContentVersionService, useClass: ContentUrlService },
     {
       provide: SHELL_APP_SERVICE,
@@ -104,20 +96,10 @@ registerLocaleData(localeSv);
       provide: SHELL_AUTH_TOKEN,
       useValue: AuthGuard
     },
-    {
-      provide: TRANSLATION_PROVIDER,
-      multi: true,
-      useValue: {
-        name: 'app',
-        source: 'assets'
-      }
-    }
+    provideTranslations('app', 'assets'),
+    importProvidersFrom(AuthModule.forRoot({ useHash: true }))
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-  constructor(matIconRegistry: MatIconRegistry) {
-    matIconRegistry.setDefaultFontSetClass('material-icons-outlined');
-  }
-}
+export class AppModule {}

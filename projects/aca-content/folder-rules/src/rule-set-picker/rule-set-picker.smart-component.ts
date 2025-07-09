@@ -29,15 +29,15 @@ import { Node } from '@alfresco/js-api';
 import { RuleSet } from '../model/rule-set.model';
 import { BehaviorSubject, combineLatest, from, of } from 'rxjs';
 import { finalize, map, switchMap } from 'rxjs/operators';
-import { NotificationService, TemplateModule } from '@alfresco/adf-core';
+import { EmptyContentComponent, NotificationService } from '@alfresco/adf-core';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { ContentNodeSelectorModule } from '@alfresco/adf-content-services';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RuleListItemUiComponent } from '../rule-list/rule-list-item/rule-list-item.ui-component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ContentNodeSelectorPanelComponent } from '@alfresco/adf-content-services';
 
 export interface RuleSetPickerOptions {
   nodeId: string;
@@ -48,14 +48,14 @@ export interface RuleSetPickerOptions {
 @Component({
   imports: [
     CommonModule,
-    TranslateModule,
+    TranslatePipe,
     MatDialogModule,
     MatButtonModule,
     MatIconModule,
-    ContentNodeSelectorModule,
     MatProgressSpinnerModule,
     RuleListItemUiComponent,
-    TemplateModule
+    EmptyContentComponent,
+    ContentNodeSelectorPanelComponent
   ],
   selector: 'aca-rule-set-picker',
   templateUrl: './rule-set-picker.smart-component.html',

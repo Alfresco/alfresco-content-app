@@ -32,7 +32,7 @@ import { NodeInfo } from '@alfresco/aca-shared/store';
 import { delay } from 'rxjs/operators';
 import { EditRuleDialogUiComponent } from '../rule-details/edit-rule-dialog.ui-component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { ConfirmDialogComponent, NotificationService, TemplateModule, ToolbarModule } from '@alfresco/adf-core';
+import { ConfirmDialogComponent, EmptyContentComponent, NotificationService, ToolbarComponent, ToolbarTitleComponent } from '@alfresco/adf-core';
 import { ActionDefinitionTransformed } from '../model/rule-action.model';
 import { ActionsService } from '../services/actions.service';
 import { FolderRuleSetsService } from '../services/folder-rule-sets.service';
@@ -40,7 +40,7 @@ import { RuleSet } from '../model/rule-set.model';
 import { RuleSetPickerSmartComponent } from '../rule-set-picker/rule-set-picker.smart-component';
 import { MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ActionParameterConstraint } from '../model/action-parameter-constraint.model';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { GenericErrorComponent, PageLayoutComponent } from '@alfresco/aca-shared';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -53,9 +53,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   imports: [
     CommonModule,
-    TranslateModule,
+    TranslatePipe,
     PageLayoutComponent,
-    ToolbarModule,
     MatButtonModule,
     MatIconModule,
     MatProgressBarModule,
@@ -63,10 +62,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     MatDividerModule,
     RuleListUiComponent,
     RouterModule,
-    TemplateModule,
     GenericErrorComponent,
     RuleDetailsUiComponent,
-    MatDialogModule
+    MatDialogModule,
+    EmptyContentComponent,
+    ToolbarTitleComponent,
+    ToolbarComponent
   ],
   selector: 'aca-manage-rules',
   templateUrl: 'manage-rules.smart-component.html',

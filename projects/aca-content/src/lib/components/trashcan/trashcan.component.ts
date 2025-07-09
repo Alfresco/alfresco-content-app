@@ -33,25 +33,33 @@ import {
   UserProfileService
 } from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
-import { DocumentListModule } from '@alfresco/adf-content-services';
-import { DataTableModule, EmptyContentComponent, PaginationComponent } from '@alfresco/adf-core';
+import { TranslatePipe } from '@ngx-translate/core';
+import {
+  CustomEmptyContentTemplateDirective,
+  DataColumnComponent,
+  DataColumnListComponent,
+  EmptyContentComponent,
+  PaginationComponent
+} from '@alfresco/adf-core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
+import { DocumentListComponent } from '@alfresco/adf-content-services';
 
 @Component({
   imports: [
     CommonModule,
-    TranslateModule,
-    DocumentListModule,
+    TranslatePipe,
     PaginationComponent,
-    DataTableModule,
     DocumentListDirective,
     ContextActionsDirective,
     PaginationDirective,
     PageLayoutComponent,
     ToolbarComponent,
     EmptyContentComponent,
-    DynamicColumnComponent
+    DynamicColumnComponent,
+    DocumentListComponent,
+    CustomEmptyContentTemplateDirective,
+    DataColumnComponent,
+    DataColumnListComponent
   ],
   templateUrl: './trashcan.component.html',
   encapsulation: ViewEncapsulation.None

@@ -23,7 +23,7 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CoreTestingModule } from '@alfresco/adf-core';
+import { NoopTranslateModule } from '@alfresco/adf-core';
 import { RuleActionListUiComponent } from './rule-action-list.ui-component';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
@@ -39,7 +39,7 @@ describe('RuleActionListUiComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule],
+      imports: [NoopTranslateModule, RuleActionListUiComponent],
       providers: [{ provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }]
     });
 

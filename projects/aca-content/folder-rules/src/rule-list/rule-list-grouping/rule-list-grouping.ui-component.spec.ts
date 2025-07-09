@@ -27,8 +27,7 @@ import { RuleListGroupingUiComponent } from './rule-list-grouping.ui-component';
 import { ruleListGroupingItemsMock, rulesMock } from '../../mock/rules.mock';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { CoreTestingModule } from '@alfresco/adf-core';
-import { AcaFolderRulesModule } from '../../folder-rules.module';
+import { NoopTranslateModule } from '@alfresco/adf-core';
 
 describe('RuleListGroupingUiComponent', () => {
   let component: RuleListGroupingUiComponent;
@@ -37,7 +36,7 @@ describe('RuleListGroupingUiComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule, AcaFolderRulesModule, RuleListGroupingUiComponent]
+      imports: [NoopTranslateModule, RuleListGroupingUiComponent]
     });
 
     fixture = TestBed.createComponent(RuleListGroupingUiComponent);

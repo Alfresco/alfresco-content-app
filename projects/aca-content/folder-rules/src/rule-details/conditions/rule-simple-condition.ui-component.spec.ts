@@ -24,7 +24,6 @@
 
 import { ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { RuleSimpleConditionUiComponent } from './rule-simple-condition.ui-component';
-import { CoreTestingModule } from '@alfresco/adf-core';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { tagMock, mimeTypeMock, simpleConditionUnknownFieldMock, categoriesListMock } from '../../mock/conditions.mock';
@@ -38,6 +37,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatSelectHarness } from '@angular/material/select/testing';
 import { MatAutocompleteHarness } from '@angular/material/autocomplete/testing';
 import { AlfrescoMimeType } from '@alfresco/aca-shared';
+import { NoopTranslateModule } from '@alfresco/adf-core';
 
 describe('RuleSimpleConditionUiComponent', () => {
   let fixture: ComponentFixture<RuleSimpleConditionUiComponent>;
@@ -83,7 +83,7 @@ describe('RuleSimpleConditionUiComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule, RuleSimpleConditionUiComponent],
+      imports: [NoopTranslateModule, RuleSimpleConditionUiComponent],
       providers: [{ provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }]
     });
 

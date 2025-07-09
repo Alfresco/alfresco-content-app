@@ -26,11 +26,11 @@ import { Component, inject, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatMenuItem, MatMenuModule } from '@angular/material/menu';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { UserProfileService } from '@alfresco/aca-shared';
 
 @Component({
-  imports: [CommonModule, RouterModule, MatMenuModule, TranslateModule],
+  imports: [CommonModule, RouterModule, MatMenuModule, TranslatePipe],
   selector: 'app-user-info',
   templateUrl: './user-info.component.html',
   styleUrls: ['./user-info.component.scss'],

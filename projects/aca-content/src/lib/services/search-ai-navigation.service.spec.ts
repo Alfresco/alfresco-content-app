@@ -25,7 +25,8 @@
 import { SearchAiNavigationService } from './search-ai-navigation.service';
 import { Params, Router } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
-import { ContentTestingModule, SearchAiService } from '@alfresco/adf-content-services';
+import { SearchAiService } from '@alfresco/adf-content-services';
+import { NoopTranslateModule } from '@alfresco/adf-core';
 
 describe('SearchAiNavigationService', () => {
   let service: SearchAiNavigationService;
@@ -36,7 +37,7 @@ describe('SearchAiNavigationService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ContentTestingModule]
+      imports: [NoopTranslateModule]
     });
     service = TestBed.inject(SearchAiNavigationService);
     router = TestBed.inject(Router);

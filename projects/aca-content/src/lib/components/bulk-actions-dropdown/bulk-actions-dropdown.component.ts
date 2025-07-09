@@ -28,7 +28,7 @@ import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { Store } from '@ngrx/store';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { combineLatest, Observable } from 'rxjs';
 import { IconComponent, TranslationService } from '@alfresco/adf-core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -40,7 +40,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   selector: 'aca-bulk-actions-dropdown',
   templateUrl: './bulk-actions-dropdown.component.html',
   styleUrls: ['./bulk-actions-dropdown.component.scss'],
-  imports: [CommonModule, TranslateModule, MatSelectModule, IconComponent, ReactiveFormsModule],
+  imports: [CommonModule, TranslatePipe, MatSelectModule, IconComponent, ReactiveFormsModule],
   encapsulation: ViewEncapsulation.None
 })
 export class BulkActionsDropdownComponent implements OnInit {

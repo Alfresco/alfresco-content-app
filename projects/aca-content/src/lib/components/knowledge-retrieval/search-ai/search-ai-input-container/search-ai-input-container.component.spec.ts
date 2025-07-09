@@ -26,7 +26,7 @@ import { SearchAiInputContainerComponent } from './search-ai-input-container.com
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SearchAiInputComponent } from '../search-ai-input/search-ai-input.component';
 import { By } from '@angular/platform-browser';
-import { AgentService, ContentTestingModule, SearchAiService } from '@alfresco/adf-content-services';
+import { AgentService, SearchAiService } from '@alfresco/adf-content-services';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { of, Subject } from 'rxjs';
 import { MatDivider } from '@angular/material/divider';
@@ -34,8 +34,10 @@ import { DebugElement } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { SearchAiNavigationService } from '../../../../services/search-ai-navigation.service';
-import { NavigationEnd, Router, RouterEvent } from '@angular/router';
+import { NavigationEnd, provideRouter, Router, RouterEvent } from '@angular/router';
 import { getAppSelection } from '@alfresco/aca-shared/store';
+import { NoopTranslateModule } from '@alfresco/adf-core';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('SearchAiInputContainerComponent', () => {
   const routingEvents$: Subject<RouterEvent> = new Subject();
@@ -63,8 +65,9 @@ describe('SearchAiInputContainerComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [SearchAiInputContainerComponent, ContentTestingModule],
+      imports: [NoopTranslateModule, MatIconTestingModule, SearchAiInputContainerComponent],
       providers: [
+        provideRouter([]),
         { provide: Router, useValue: mockRouter },
         provideMockStore(),
         { provide: SearchAiService, useValue: mockSearchAiService },

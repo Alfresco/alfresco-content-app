@@ -25,9 +25,11 @@
 import { VersionsTabComponent } from './versions-tab.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppSettingsService } from '@alfresco/aca-shared';
-import { ContentTestingModule, VersionListDataSource, VersionManagerComponent } from '@alfresco/adf-content-services';
+import { VersionListDataSource, VersionManagerComponent } from '@alfresco/adf-content-services';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
+import { NoopAuthModule, NoopTranslateModule } from '@alfresco/adf-core';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('VersionsTabComponent', () => {
   let component: VersionsTabComponent;
@@ -36,7 +38,7 @@ describe('VersionsTabComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [VersionsTabComponent, ContentTestingModule]
+      imports: [NoopTranslateModule, NoopAuthModule, NoopAnimationsModule, VersionsTabComponent]
     });
 
     fixture = TestBed.createComponent(VersionsTabComponent);

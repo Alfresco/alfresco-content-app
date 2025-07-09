@@ -24,11 +24,11 @@
 
 import { LoginComponent } from '@alfresco/adf-core';
 import { Component, inject, ViewEncapsulation } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { AppSettingsService } from '@alfresco/aca-shared';
 
 @Component({
-  imports: [LoginComponent, TranslateModule],
+  imports: [LoginComponent, TranslatePipe],
   templateUrl: './app-login.component.html',
   styles: [
     `

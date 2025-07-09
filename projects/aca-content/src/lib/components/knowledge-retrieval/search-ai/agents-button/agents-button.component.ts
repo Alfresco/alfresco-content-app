@@ -32,14 +32,14 @@ import { forkJoin, throwError } from 'rxjs';
 import { catchError, take } from 'rxjs/operators';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule, MatSelectionListChange } from '@angular/material/list';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Agent } from '@alfresco/js-api';
 import { AgentService, SearchAiService } from '@alfresco/adf-content-services';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  imports: [CommonModule, MatMenuModule, MatListModule, TranslateModule, AvatarComponent, IconComponent, MatTooltipModule],
+  imports: [CommonModule, MatMenuModule, MatListModule, TranslatePipe, AvatarComponent, IconComponent, MatTooltipModule],
   selector: 'aca-agents-button',
   templateUrl: './agents-button.component.html',
   styleUrls: ['./agents-button.component.scss'],

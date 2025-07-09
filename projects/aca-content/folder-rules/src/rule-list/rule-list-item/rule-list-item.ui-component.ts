@@ -26,10 +26,10 @@ import { Component, EventEmitter, HostBinding, Input, Output, ViewEncapsulation 
 import { Rule } from '../../model/rule.model';
 import { CommonModule } from '@angular/common';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-  imports: [CommonModule, MatSlideToggleModule, TranslateModule],
+  imports: [CommonModule, MatSlideToggleModule, TranslatePipe],
   selector: 'aca-rule-list-item',
   templateUrl: 'rule-list-item.ui-component.html',
   styleUrls: ['rule-list-item.ui-component.scss'],

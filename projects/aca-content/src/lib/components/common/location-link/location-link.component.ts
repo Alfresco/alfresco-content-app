@@ -30,10 +30,10 @@ import { NavigateToParentFolder } from '@alfresco/aca-shared/store';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { TranslationService } from '@alfresco/adf-core';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslatePipe],
   selector: 'aca-location-link',
   template: `
     <a

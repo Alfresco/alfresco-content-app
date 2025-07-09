@@ -29,11 +29,11 @@ import { ThemePalette } from '@angular/material/core';
 import { ToolbarMenuItemComponent } from '../toolbar-menu-item/toolbar-menu-item.component';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { IconComponent } from '@alfresco/adf-core';
 
 @Component({
-  imports: [CommonModule, TranslateModule, MatButtonModule, MatMenuModule, ToolbarMenuItemComponent, IconComponent, DynamicExtensionComponent],
+  imports: [CommonModule, TranslatePipe, MatButtonModule, MatMenuModule, ToolbarMenuItemComponent, IconComponent, DynamicExtensionComponent],
   selector: 'app-toolbar-menu',
   templateUrl: './toolbar-menu.component.html',
   encapsulation: ViewEncapsulation.None,

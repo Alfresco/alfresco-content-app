@@ -23,7 +23,7 @@
  */
 
 import { TestBed } from '@angular/core/testing';
-import { CoreTestingModule, NotificationService } from '@alfresco/adf-core';
+import { NoopTranslateModule, NotificationService } from '@alfresco/adf-core';
 import { of } from 'rxjs';
 import { FolderRulesService } from './folder-rules.service';
 import {
@@ -57,7 +57,7 @@ describe('FolderRulesService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule],
+      imports: [NoopTranslateModule],
       providers: [FolderRulesService, { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }]
     });
 

@@ -55,7 +55,7 @@ import {
 } from '@alfresco/adf-content-services';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
@@ -65,7 +65,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   imports: [
     CommonModule,
-    TranslateModule,
+    TranslatePipe,
     GenericErrorComponent,
     DocumentListDirective,
     ContextActionsDirective,

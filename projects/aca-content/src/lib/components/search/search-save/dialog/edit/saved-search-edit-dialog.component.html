@@ -20,14 +20,20 @@
           required
           [formControlName]="'name'"
           adf-auto-focus/>
-      <mat-error *ngIf="form.controls['name'].touched">
-        <span *ngIf="form.controls['name'].errors?.required">
+      @if (form.controls['name'].touched) {
+      <mat-error>
+        @if (form.controls['name'].errors?.required) {
+        <span>
           {{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.NAME_REQUIRED_ERROR' | translate }}
         </span>
-        <span *ngIf="!form.controls['name'].errors?.required && form.controls['name'].errors?.message">
+        }
+        @if (!form.controls['name'].errors?.required && form.controls['name'].errors?.message) {
+        <span>
           {{ form.controls['name'].errors?.message | translate : { name: form.controls.name.value } }}
         </span>
+        }
       </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field class="aca-saved-search-edit-dialog__form-field">

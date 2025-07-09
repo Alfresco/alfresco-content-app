@@ -24,6 +24,7 @@
 
 import { Component, ViewEncapsulation } from '@angular/core';
 import { AppService } from '@alfresco/aca-shared';
+import { MatIconRegistry } from '@angular/material/icon';
 
 @Component({
   selector: 'app-root',
@@ -33,7 +34,11 @@ import { AppService } from '@alfresco/aca-shared';
   standalone: false
 })
 export class AppComponent {
-  constructor(private appService: AppService) {
+  constructor(
+    private appService: AppService,
+    matIconRegistry: MatIconRegistry
+  ) {
     this.appService.init();
+    matIconRegistry.setDefaultFontSetClass('material-icons-outlined');
   }
 }

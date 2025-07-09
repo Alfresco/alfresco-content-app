@@ -24,7 +24,7 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RuleSetPickerOptions, RuleSetPickerSmartComponent } from './rule-set-picker.smart-component';
-import { CoreTestingModule } from '@alfresco/adf-core';
+import { NoopAuthModule, NoopTranslateModule } from '@alfresco/adf-core';
 import { folderToLinkMock, otherFolderMock } from '../mock/node.mock';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FolderRuleSetsService } from '../services/folder-rule-sets.service';
@@ -33,6 +33,7 @@ import { ownedRuleSetMock, ruleSetWithLinkMock, ruleSetWithNoRulesToLinkMock, ru
 import { ContentApiService } from '@alfresco/aca-shared';
 import { By } from '@angular/platform-browser';
 import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
+import { provideRouter } from '@angular/router';
 
 describe('RuleSetPickerSmartComponent', () => {
   let fixture: ComponentFixture<RuleSetPickerSmartComponent>;
@@ -54,8 +55,9 @@ describe('RuleSetPickerSmartComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule, RuleSetPickerSmartComponent],
+      imports: [NoopTranslateModule, NoopAuthModule, RuleSetPickerSmartComponent],
       providers: [
+        provideRouter([]),
         { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
         { provide: MatDialogRef, useValue: dialogRef },
         { provide: MAT_DIALOG_DATA, useValue: dialogOptions },

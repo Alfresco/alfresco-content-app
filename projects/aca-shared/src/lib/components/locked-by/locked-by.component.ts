@@ -24,11 +24,11 @@
 
 import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { NodeEntry } from '@alfresco/js-api';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  imports: [TranslateModule, MatIconModule],
+  imports: [TranslatePipe, MatIconModule],
   selector: 'aca-locked-by',
   template: `
     <mat-icon class="aca-locked-by--icon">lock</mat-icon>

@@ -27,9 +27,8 @@ import { Actions } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { TranslateModule } from '@ngx-translate/core';
 import { By } from '@angular/platform-browser';
-import { AuthModule } from '@alfresco/adf-core';
+import { AuthModule, NoopTranslateModule } from '@alfresco/adf-core';
 import { Component, Input } from '@angular/core';
 import { NodeEntry } from '@alfresco/js-api';
 
@@ -49,7 +48,7 @@ describe('CustomNameColumnComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        TranslateModule.forRoot(),
+        NoopTranslateModule,
         CustomNameColumnComponent,
         MockDatatableCellBadgesComponent,
         AuthModule.forRoot(),

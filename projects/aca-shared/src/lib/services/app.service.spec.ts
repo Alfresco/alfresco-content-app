@@ -26,15 +26,14 @@ import { AppService } from './app.service';
 import { TestBed } from '@angular/core/testing';
 import {
   AuthenticationService,
+  NoopAuthModule,
+  NoopTranslateModule,
   NotificationService,
   PageTitleService,
   StorageService,
-  TranslationMock,
-  TranslationService,
   UserPreferencesService
 } from '@alfresco/adf-core';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
   AlfrescoApiService,
   AlfrescoApiServiceMock,
@@ -46,11 +45,8 @@ import {
 } from '@alfresco/adf-content-services';
 import { ActivatedRoute } from '@angular/router';
 import { provideMockStore } from '@ngrx/store/testing';
-import { CommonModule } from '@angular/common';
-import { RouterTestingModule } from '@angular/router/testing';
 import { RepositoryInfo, VersionInfo } from '@alfresco/js-api';
 import { MatDialogModule } from '@angular/material/dialog';
-import { TranslateModule } from '@ngx-translate/core';
 import { Store } from '@ngrx/store';
 import { ContentApiService } from './content-api.service';
 import { AppSettingsService, UserProfileService } from '@alfresco/aca-shared';
@@ -73,7 +69,7 @@ describe('AppService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, TranslateModule.forRoot(), RouterTestingModule.withRoutes([]), MatDialogModule, MatSnackBarModule],
+      imports: [NoopTranslateModule, NoopAuthModule, MatDialogModule, MatSnackBarModule],
       providers: [
         SearchQueryBuilderService,
         provideMockStore({}),
@@ -106,23 +102,12 @@ describe('AppService', () => {
           useClass: AlfrescoApiServiceMock
         },
         {
-          provide: AuthenticationService,
-          useValue: {
-            onLogin: new Subject<any>(),
-            onLogout: new Subject<any>(),
-            isLoggedIn: () => false,
-            getUsername: () => null
-          }
-        },
-        { provide: TranslationService, useClass: TranslationMock },
-        {
           provide: UserPreferencesService,
           useValue: {
             setStoragePrefix: () => null,
             getPropertyKey: (property: string) => `prefix__${property}`
           }
-        },
-        provideHttpClient(withInterceptorsFromDi())
+        }
       ]
     });
 

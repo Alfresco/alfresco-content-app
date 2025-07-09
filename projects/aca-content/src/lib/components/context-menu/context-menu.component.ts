@@ -30,7 +30,7 @@ import { CONTEXT_MENU_DIRECTION } from './direction.token';
 import { Direction } from '@angular/cdk/bidi';
 import { AppExtensionService } from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { IconComponent } from '@alfresco/adf-core';
 import { ContextMenuItemComponent } from './context-menu-item.component';
@@ -41,7 +41,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   imports: [
     CommonModule,
-    TranslateModule,
+    TranslatePipe,
     MatMenuModule,
     MatDividerModule,
     ContextMenuItemComponent,

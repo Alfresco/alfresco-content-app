@@ -25,7 +25,7 @@
 import { HammerModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AuthGuardEcm, LanguagePickerComponent, NotificationHistoryComponent, TRANSLATION_PROVIDER } from '@alfresco/adf-core';
+import { AuthGuardEcm, LanguagePickerComponent, NotificationHistoryComponent, provideTranslations } from '@alfresco/adf-core';
 import {
   ContentModule,
   ContentVersionService,
@@ -105,14 +105,7 @@ import { SaveSearchSidenavComponent } from './components/search/search-save/side
   providers: [
     { provide: ContentVersionService, useClass: ContentUrlService },
     { provide: DocumentBasePageService, useExisting: ContentManagementService },
-    {
-      provide: TRANSLATION_PROVIDER,
-      multi: true,
-      useValue: {
-        name: 'app',
-        source: 'assets'
-      }
-    },
+    provideTranslations('app', 'assets'),
     { provide: SHELL_NAVBAR_MIN_WIDTH, useValue: 0 },
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,

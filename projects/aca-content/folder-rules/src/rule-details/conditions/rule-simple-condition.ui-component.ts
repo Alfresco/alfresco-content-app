@@ -28,7 +28,7 @@ import { RuleSimpleCondition } from '../../model/rule-simple-condition.model';
 import { comparatorHiddenForConditionFieldType, RuleConditionField, ruleConditionFields } from './rule-condition-fields';
 import { RuleConditionComparator, ruleConditionComparators } from './rule-condition-comparators';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
@@ -52,7 +52,7 @@ const AUTOCOMPLETE_OPTIONS_DEBOUNCE_TIME = 500;
 @Component({
   imports: [
     CommonModule,
-    TranslateModule,
+    TranslatePipe,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatSelectModule,

@@ -66,7 +66,7 @@ import {
 import { SearchSortingDefinition } from '@alfresco/adf-content-services/lib/search/models/search-sorting-definition.interface';
 import { take, takeUntil } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { SearchInputComponent } from '../search-input/search-input.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDividerModule } from '@angular/material/divider';
@@ -92,7 +92,7 @@ import { MatMenuModule } from '@angular/material/menu';
 @Component({
   imports: [
     CommonModule,
-    TranslateModule,
+    TranslatePipe,
     SearchInputComponent,
     MatProgressBarModule,
     MatDividerModule,

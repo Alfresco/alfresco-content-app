@@ -30,12 +30,12 @@ import { AppStore, getAppSelection, ShareNodeAction } from '@alfresco/aca-shared
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  imports: [CommonModule, MatMenuModule, MatIconModule, TranslateModule, MatButtonModule],
+  imports: [CommonModule, MatMenuModule, MatIconModule, TranslatePipe, MatButtonModule],
   selector: 'app-toggle-shared',
   templateUrl: './toggle-shared.component.html',
   encapsulation: ViewEncapsulation.None

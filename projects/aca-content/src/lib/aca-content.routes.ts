@@ -104,270 +104,272 @@ const createViewRoutes = (navigateSource: string, additionalData: Data = {}): Ro
   }
 ];
 
-export const CONTENT_LAYOUT_ROUTES: Route = {
-  path: '',
-  canActivate: [ExtensionsDataLoaderGuard],
-  children: [
-    {
-      path: 'profile',
-      canActivate: [ViewProfileRuleGuard],
-      component: ViewProfileComponent
-    },
-    {
-      path: '',
-      component: HomeComponent
-    },
-    {
-      path: 'personal-files',
-      children: [
-        {
-          path: '',
-          component: FilesComponent,
-          data: {
-            sortingPreferenceKey: 'personal-files',
-            title: 'APP.BROWSE.PERSONAL.TITLE',
-            defaultNodeId: '-my-'
-          }
-        },
-        {
-          path: 'details/:nodeId',
-          children: [
-            {
-              path: '',
-              component: DetailsComponent,
-              data: {
-                navigateSource: 'personal-files'
-              }
-            },
-            {
-              path: ':activeTab',
-              component: DetailsComponent,
-              data: {
-                title: 'APP.BROWSE.PERSONAL.PERMISSIONS.TITLE',
-                navigateSource: 'personal-files'
-              }
+export const CONTENT_LAYOUT_ROUTES: Route[] = [
+  {
+    path: '',
+    canActivate: [ExtensionsDataLoaderGuard],
+    children: [
+      {
+        path: 'profile',
+        canActivate: [ViewProfileRuleGuard],
+        component: ViewProfileComponent
+      },
+      {
+        path: '',
+        component: HomeComponent
+      },
+      {
+        path: 'personal-files',
+        children: [
+          {
+            path: '',
+            component: FilesComponent,
+            data: {
+              sortingPreferenceKey: 'personal-files',
+              title: 'APP.BROWSE.PERSONAL.TITLE',
+              defaultNodeId: '-my-'
             }
-          ]
-        },
-        ...createViewRoutes('personal-files')
-      ]
-    },
-    {
-      path: 'personal-files/:folderId',
-      children: [
-        {
-          path: '',
-          component: FilesComponent,
-          data: {
-            title: 'APP.BROWSE.PERSONAL.TITLE',
-            sortingPreferenceKey: 'personal-files'
-          }
-        },
-        ...createViewRoutes('personal-files')
-      ]
-    },
-    {
-      path: 'libraries',
-      children: [
-        {
-          path: '',
-          component: LibrariesComponent,
-          data: {
-            title: 'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE',
-            sortingPreferenceKey: 'libraries'
-          }
-        }
-      ]
-    },
-    {
-      path: 'libraries/:folderId',
-      children: [
-        {
-          path: '',
-          component: FilesComponent,
-          data: {
-            title: 'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE',
-            sortingPreferenceKey: 'libraries-files'
-          }
-        },
-        ...createViewRoutes('libraries', {
-          data: {
-            navigateSource: 'libraries'
-          }
-        })
-      ]
-    },
-    {
-      path: 'favorite',
-      children: [
-        {
-          path: '',
-          pathMatch: 'full',
-          redirectTo: 'libraries'
-        },
-        {
-          path: 'libraries',
-          component: FavoriteLibrariesComponent,
-          data: {
-            title: 'APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.TITLE',
-            sortingPreferenceKey: 'favorite-libraries'
-          }
-        }
-      ]
-    },
-    {
-      path: 'favorite/libraries/:folderId',
-      children: [
-        {
-          path: '',
-          component: FilesComponent,
-          data: {
-            title: 'APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.TITLE',
-            sortingPreferenceKey: 'libraries-files'
-          }
-        },
-        ...createViewRoutes('libraries')
-      ]
-    },
-    {
-      path: 'favorites',
-      data: {
-        sortingPreferenceKey: 'favorites'
-      },
-      children: [
-        {
-          path: '',
-          component: FavoritesComponent,
-          data: {
-            title: 'APP.BROWSE.FAVORITES.TITLE',
-            sortingPreferenceKey: 'favorites'
-          }
-        },
-        ...createViewRoutes('favorites')
-      ]
-    },
-    {
-      path: 'recent-files',
-      data: {
-        sortingPreferenceKey: 'recent-files'
-      },
-      children: [
-        {
-          path: '',
-          component: RecentFilesComponent,
-          data: {
-            title: 'APP.BROWSE.RECENT.TITLE'
-          }
-        },
-        ...createViewRoutes('recent-files')
-      ]
-    },
-    {
-      path: 'shared',
-      children: [
-        {
-          path: '',
-          data: {
-            title: 'APP.BROWSE.SHARED.TITLE',
-            sortingPreferenceKey: 'shared-files'
           },
-          component: SharedFilesComponent
-        },
-        ...createViewRoutes('shared')
-      ],
-      canActivateChild: [AppSharedRuleGuard],
-      canActivate: [AppSharedRuleGuard]
-    },
-    {
-      path: 'trashcan',
-      children: [
-        {
-          path: '',
-          component: TrashcanComponent,
-          data: {
-            title: 'APP.BROWSE.TRASHCAN.TITLE',
-            sortingPreferenceKey: 'trashcan'
-          }
-        }
-      ]
-    },
-    {
-      path: 'search',
-      children: [
-        {
-          path: '',
-          component: SearchResultsComponent,
-          data: {
-            title: 'APP.BROWSE.SEARCH.TITLE',
-            sortingPreferenceKey: 'search'
-          }
-        },
-        ...createViewRoutes('search')
-      ]
-    },
-    {
-      path: 'search-libraries',
-      children: [
-        {
-          path: '',
-          component: SearchLibrariesResultsComponent,
-          data: {
-            title: 'APP.BROWSE.SEARCH.TITLE',
-            sortingPreferenceKey: 'search-libraries'
-          }
-        },
-        {
-          path: 'view/:nodeId',
-          outlet: 'viewer',
-          children: [
-            {
-              path: '',
-              data: {
-                navigateSource: 'search'
+          {
+            path: 'details/:nodeId',
+            children: [
+              {
+                path: '',
+                component: DetailsComponent,
+                data: {
+                  navigateSource: 'personal-files'
+                }
               },
-              loadChildren: () => import('@alfresco/aca-content/viewer').then((m) => m.AcaViewerModule)
-            }
-          ]
-        }
-      ]
-    },
-    {
-      path: 'nodes/:nodeId',
-      children: [
-        {
-          path: '',
-          loadChildren: () => import('@alfresco/aca-content/folder-rules').then((m) => m.AcaFolderRulesModule)
-        }
-      ]
-    },
-    {
-      path: 'knowledge-retrieval',
-      canDeactivate: [UnsavedChangesGuard],
-      canActivate: [PluginEnabledGuard],
-      data: {
-        plugin: 'plugins.knowledgeRetrievalEnabled'
+              {
+                path: ':activeTab',
+                component: DetailsComponent,
+                data: {
+                  title: 'APP.BROWSE.PERSONAL.PERMISSIONS.TITLE',
+                  navigateSource: 'personal-files'
+                }
+              }
+            ]
+          },
+          ...createViewRoutes('personal-files')
+        ]
       },
-      children: [
-        {
-          path: '',
-          component: SearchAiResultsComponent
+      {
+        path: 'personal-files/:folderId',
+        children: [
+          {
+            path: '',
+            component: FilesComponent,
+            data: {
+              title: 'APP.BROWSE.PERSONAL.TITLE',
+              sortingPreferenceKey: 'personal-files'
+            }
+          },
+          ...createViewRoutes('personal-files')
+        ]
+      },
+      {
+        path: 'libraries',
+        children: [
+          {
+            path: '',
+            component: LibrariesComponent,
+            data: {
+              title: 'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE',
+              sortingPreferenceKey: 'libraries'
+            }
+          }
+        ]
+      },
+      {
+        path: 'libraries/:folderId',
+        children: [
+          {
+            path: '',
+            component: FilesComponent,
+            data: {
+              title: 'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE',
+              sortingPreferenceKey: 'libraries-files'
+            }
+          },
+          ...createViewRoutes('libraries', {
+            data: {
+              navigateSource: 'libraries'
+            }
+          })
+        ]
+      },
+      {
+        path: 'favorite',
+        children: [
+          {
+            path: '',
+            pathMatch: 'full',
+            redirectTo: 'libraries'
+          },
+          {
+            path: 'libraries',
+            component: FavoriteLibrariesComponent,
+            data: {
+              title: 'APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.TITLE',
+              sortingPreferenceKey: 'favorite-libraries'
+            }
+          }
+        ]
+      },
+      {
+        path: 'favorite/libraries/:folderId',
+        children: [
+          {
+            path: '',
+            component: FilesComponent,
+            data: {
+              title: 'APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.TITLE',
+              sortingPreferenceKey: 'libraries-files'
+            }
+          },
+          ...createViewRoutes('libraries')
+        ]
+      },
+      {
+        path: 'favorites',
+        data: {
+          sortingPreferenceKey: 'favorites'
         },
-        ...createViewRoutes('knowledge-retrieval')
-      ]
-    },
-    {
-      path: 'saved-searches',
-      children: [
-        {
-          path: '',
-          component: SavedSearchesSmartListComponent
-        }
-      ]
-    },
-    {
-      path: '**',
-      component: GenericErrorComponent
-    }
-  ],
-  canActivateChild: [AuthGuard]
-};
+        children: [
+          {
+            path: '',
+            component: FavoritesComponent,
+            data: {
+              title: 'APP.BROWSE.FAVORITES.TITLE',
+              sortingPreferenceKey: 'favorites'
+            }
+          },
+          ...createViewRoutes('favorites')
+        ]
+      },
+      {
+        path: 'recent-files',
+        data: {
+          sortingPreferenceKey: 'recent-files'
+        },
+        children: [
+          {
+            path: '',
+            component: RecentFilesComponent,
+            data: {
+              title: 'APP.BROWSE.RECENT.TITLE'
+            }
+          },
+          ...createViewRoutes('recent-files')
+        ]
+      },
+      {
+        path: 'shared',
+        children: [
+          {
+            path: '',
+            data: {
+              title: 'APP.BROWSE.SHARED.TITLE',
+              sortingPreferenceKey: 'shared-files'
+            },
+            component: SharedFilesComponent
+          },
+          ...createViewRoutes('shared')
+        ],
+        canActivateChild: [AppSharedRuleGuard],
+        canActivate: [AppSharedRuleGuard]
+      },
+      {
+        path: 'trashcan',
+        children: [
+          {
+            path: '',
+            component: TrashcanComponent,
+            data: {
+              title: 'APP.BROWSE.TRASHCAN.TITLE',
+              sortingPreferenceKey: 'trashcan'
+            }
+          }
+        ]
+      },
+      {
+        path: 'search',
+        children: [
+          {
+            path: '',
+            component: SearchResultsComponent,
+            data: {
+              title: 'APP.BROWSE.SEARCH.TITLE',
+              sortingPreferenceKey: 'search'
+            }
+          },
+          ...createViewRoutes('search')
+        ]
+      },
+      {
+        path: 'search-libraries',
+        children: [
+          {
+            path: '',
+            component: SearchLibrariesResultsComponent,
+            data: {
+              title: 'APP.BROWSE.SEARCH.TITLE',
+              sortingPreferenceKey: 'search-libraries'
+            }
+          },
+          {
+            path: 'view/:nodeId',
+            outlet: 'viewer',
+            children: [
+              {
+                path: '',
+                data: {
+                  navigateSource: 'search'
+                },
+                loadChildren: () => import('@alfresco/aca-content/viewer').then((m) => m.AcaViewerModule)
+              }
+            ]
+          }
+        ]
+      },
+      {
+        path: 'nodes/:nodeId',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('@alfresco/aca-content/folder-rules').then((m) => m.AcaFolderRulesModule)
+          }
+        ]
+      },
+      {
+        path: 'knowledge-retrieval',
+        canDeactivate: [UnsavedChangesGuard],
+        canActivate: [PluginEnabledGuard],
+        data: {
+          plugin: 'plugins.knowledgeRetrievalEnabled'
+        },
+        children: [
+          {
+            path: '',
+            component: SearchAiResultsComponent
+          },
+          ...createViewRoutes('knowledge-retrieval')
+        ]
+      },
+      {
+        path: 'saved-searches',
+        children: [
+          {
+            path: '',
+            component: SavedSearchesSmartListComponent
+          }
+        ]
+      },
+      {
+        path: '**',
+        component: GenericErrorComponent
+      }
+    ],
+    canActivateChild: [AuthGuard]
+  }
+];
