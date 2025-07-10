@@ -1,1 +1,3 @@
-<app-expand-menu *ngIf="item" [item]="item" (actionClicked)="onActionClick($event)" />
+@if (item) {
+<app-expand-menu [item]="item" (actionClicked)="onActionClick($event)" />
+}
