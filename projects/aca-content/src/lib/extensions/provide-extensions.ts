@@ -22,15 +22,14 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
-import { ToolbarButtonComponent } from '../components/toolbar/toolbar-button/toolbar-button.component';
-import { ToolbarActionComponent } from '../components/toolbar/toolbar-action/toolbar-action.component';
-import { ToolbarMenuItemComponent } from '../components/toolbar/toolbar-menu-item/toolbar-menu-item.component';
-import { ToolbarMenuComponent } from '../components/toolbar/toolbar-menu/toolbar-menu.component';
+import { EnvironmentProviders, inject, provideAppInitializer, Provider } from '@angular/core';
+import { AppExtensionService } from '@alfresco/aca-shared';
 
-// @deprecated
-@NgModule({
-  imports: [ToolbarButtonComponent, ToolbarActionComponent, ToolbarMenuItemComponent, ToolbarMenuComponent],
-  exports: [ToolbarButtonComponent, ToolbarActionComponent, ToolbarMenuItemComponent, ToolbarMenuComponent]
-})
-export class SharedToolbarModule {}
+export function provideExtensions(): (Provider | EnvironmentProviders)[] {
+  return [
+    provideAppInitializer(() => {
+      const service = inject(AppExtensionService);
+      return service.load();
+    })
+  ];
+}

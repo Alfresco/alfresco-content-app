@@ -22,8 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowserModule } from '@angular/platform-browser';
-import { importProvidersFrom, NgModule } from '@angular/core';
+import { importProvidersFrom, ApplicationConfig } from '@angular/core';
 import { provideNoopAnimations, provideAnimations } from '@angular/platform-browser/animations';
 import { AuthGuard, CoreModule, AuthModule, provideTranslations } from '@alfresco/adf-core';
 import { AppService } from '@alfresco/aca-shared';
@@ -46,9 +45,8 @@ import localePl from '@angular/common/locales/pl';
 import localeFi from '@angular/common/locales/fi';
 import localeDa from '@angular/common/locales/da';
 import localeSv from '@angular/common/locales/sv';
-import { provideRouter, RouterOutlet, withHashLocation } from '@angular/router';
-import { AppComponent } from './app.components';
-import { CONTENT_LAYOUT_ROUTES, ContentServiceExtensionModule, ContentUrlService, CoreExtensionsModule } from '@alfresco/aca-content';
+import { provideRouter, withHashLocation } from '@angular/router';
+import { CONTENT_LAYOUT_ROUTES, ContentServiceExtensionModule, ContentUrlService, provideExtensions } from '@alfresco/aca-content';
 import { ContentVersionService } from '@alfresco/adf-content-services';
 import { SHELL_APP_SERVICE, SHELL_AUTH_TOKEN, provideShellRoutes } from '@alfresco/adf-core/shell';
 import { APP_ROUTES } from './app.routes';
@@ -70,28 +68,10 @@ registerLocaleData(localeFi);
 registerLocaleData(localeDa);
 registerLocaleData(localeSv);
 
-// export const AppConfig: ApplicationConfig = {
-//   providers: [
-//
-//     environment.e2e ? provideNoopAnimations() : provideAnimations(),
-//     provideShellRoutes(CONTENT_LAYOUT_ROUTES),
-//     { provide: ContentVersionService, useClass: ContentUrlService },
-//     {
-//       provide: SHELL_APP_SERVICE,
-//       useClass: AppService
-//     },
-//     {
-//       provide: SHELL_AUTH_TOKEN,
-//       useValue: AuthGuard
-//     },
-//     provideTranslations('app', 'assets'),
-//     importProvidersFrom(AuthModule.forRoot({ useHash: true }))
-//   ]
-// };
-
-@NgModule({
-  imports: [BrowserModule, CoreModule.forRoot(), CoreExtensionsModule.forRoot(), AppExtensionsModule, ContentServiceExtensionModule, RouterOutlet],
+export const AppConfig: ApplicationConfig = {
   providers: [
+    importProvidersFrom(CoreModule.forRoot(), AppExtensionsModule, ContentServiceExtensionModule),
+    provideExtensions(),
     provideRouter(APP_ROUTES, withHashLocation()),
     environment.e2e ? provideNoopAnimations() : provideAnimations(),
     provideShellRoutes(CONTENT_LAYOUT_ROUTES),
@@ -106,8 +86,5 @@ registerLocaleData(localeSv);
     },
     provideTranslations('app', 'assets'),
     importProvidersFrom(AuthModule.forRoot({ useHash: true }))
-  ],
-  declarations: [AppComponent],
-  bootstrap: [AppComponent]
-})
-export class AppModule {}
+  ]
+};

@@ -23,24 +23,18 @@
  */
 
 import { inject, ModuleWithProviders, NgModule, provideAppInitializer } from '@angular/core';
-import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { AppExtensionService } from '@alfresco/aca-shared';
 
-export function setupExtensions(service: AppExtensionService): () => void {
-  return () => service.load();
-}
-
-@NgModule({
-  imports: [ExtensionsModule]
-})
+/** @deprecated use provideExtensions() api instead */
+@NgModule()
 export class CoreExtensionsModule {
   static forRoot(): ModuleWithProviders<CoreExtensionsModule> {
     return {
       ngModule: CoreExtensionsModule,
       providers: [
         provideAppInitializer(() => {
-          const initializerFn = setupExtensions(inject(AppExtensionService));
-          return initializerFn();
+          const service = inject(AppExtensionService);
+          return service.load();
         })
       ]
     };

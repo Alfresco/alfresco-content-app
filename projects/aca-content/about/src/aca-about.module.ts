@@ -27,7 +27,6 @@ import { AboutComponent } from './about.component';
 import { ExtensionService, provideExtensionConfig } from '@alfresco/adf-extensions';
 
 @NgModule({
-  imports: [AboutComponent],
   providers: [provideExtensionConfig(['about.plugin.json'])]
 })
 export class AcaAboutModule {

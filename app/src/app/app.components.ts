@@ -25,13 +25,15 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { AppService } from '@alfresco/aca-shared';
 import { MatIconRegistry } from '@angular/material/icon';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  standalone: false
+  standalone: true,
+  imports: [RouterOutlet]
 })
 export class AppComponent {
   constructor(
