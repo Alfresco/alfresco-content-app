@@ -125,6 +125,11 @@ describe('SearchUtils', () => {
       const query = { userQuery: 'cm:name:"test"' };
       expect(extractUserQueryFromEncodedQuery(encodeQuery(query))).toBe('cm:name:"test"');
     });
+
+    it('should properly trim set of parentheses from extracted user query', () => {
+      const query = { userQuery: '(cm:name:"test")' };
+      expect(extractUserQueryFromEncodedQuery(encodeQuery(query))).toBe('cm:name:"test"');
+    });
   });
 
   describe('extractSearchedWordFromEncodedQuery', () => {
@@ -137,6 +142,11 @@ describe('SearchUtils', () => {
 
     it('should properly extract search term', () => {
       const query = { userQuery: 'cm:name:"test*"' };
+      expect(extractSearchedWordFromEncodedQuery(encodeQuery(query))).toBe('test');
+    });
+
+    it('should properly extract search term for custom search', () => {
+      const query = { userQuery: '"test"' };
       expect(extractSearchedWordFromEncodedQuery(encodeQuery(query))).toBe('test');
     });
   });
