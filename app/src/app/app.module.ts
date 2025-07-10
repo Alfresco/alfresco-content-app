@@ -57,7 +57,6 @@ import { SHELL_APP_SERVICE, SHELL_AUTH_TOKEN, ShellModule } from '@alfresco/adf-
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { APP_ROUTES } from './app.routes';
 import { MatIconRegistry } from '@angular/material/icon';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -112,10 +111,6 @@ registerLocaleData(localeSv);
         name: 'app',
         source: 'assets'
       }
-    },
-    {
-      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue: { appearance: 'fill', floatLabel: 'always' }
     }
   ],
   declarations: [AppComponent],
