@@ -118,13 +118,7 @@ export function extractSearchedWordFromEncodedQuery(encodedQuery: string): strin
           .split('AND')
           .map((searchCondition) => {
             const searchTerm = searchCondition.split('"')[1];
-            if (searchTerm === '*') {
-              return searchTerm;
-            } else if (searchTerm?.endsWith('*')) {
-              return searchTerm.slice(0, -1);
-            } else {
-              return searchTerm;
-            }
+            return searchTerm?.endsWith('*') && searchTerm !== '*' ? searchTerm.slice(0, -1) : searchTerm;
           })
           .join(' ')
       : '';
@@ -153,8 +147,6 @@ export function extractFiltersFromEncodedQuery(encodedQuery: string): any {
  * @returns string
  */
 function trimUserQuery(userQuery: string): string {
-  if (userQuery) {
-    return userQuery.replace(/^\(|\)$/g, '');
-  }
-  return '';
+  const trimmedQuery = userQuery?.replace(/^\(/, '');
+  return trimmedQuery?.replace(/\)$/, '') ?? '';
 }

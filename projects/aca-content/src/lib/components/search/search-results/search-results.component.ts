@@ -64,7 +64,7 @@ import {
   ToolbarComponent
 } from '@alfresco/aca-shared';
 import { SearchSortingDefinition } from '@alfresco/adf-content-services/lib/search/models/search-sorting-definition.interface';
-import { filter, startWith, take, takeUntil } from 'rxjs/operators';
+import { filter, startWith, switchMap, take, takeUntil } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { SearchInputComponent } from '../search-input/search-input.component';
@@ -209,21 +209,15 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
         this.router.events.pipe(
           filter((e): e is NavigationStart => e instanceof NavigationStart),
           startWith(null)
-        )
+        ),
+        this.route.queryParams.pipe(switchMap(() => this.savedSearchesService.getSavedSearches()))
       ])
         .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe(([params, navigationStartEvent]) => {
+        .subscribe(([params, navigationStartEvent, savedSearches]) => {
           const shouldExecuteQuery = this.shouldExecuteQuery(navigationStartEvent, params);
 
-          this.savedSearchesService
-            .getSavedSearches()
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe((savedSearches) => {
-              const savedSearchFound = savedSearches.find(
-                (savedSearch) => savedSearch.encodedUrl === encodeURIComponent(params[this.queryParamName])
-              );
-              this.initialSavedSearch = savedSearchFound !== undefined ? savedSearchFound : this.initialSavedSearch;
-            });
+          this.initialSavedSearch = savedSearches.find((savedSearch) => savedSearch.encodedUrl === encodeURIComponent(params[this.queryParamName]));
+
           if (params[this.queryParamName]) {
             this.isLoading = true;
           }
@@ -232,7 +226,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
           this.searchedWord = extractSearchedWordFromEncodedQuery(this.encodedQuery);
           this.updateUserQuery();
           const filtersFromEncodedQuery = extractFiltersFromEncodedQuery(this.encodedQuery);
-          if (filtersFromEncodedQuery !== null) {
+          if (filtersFromEncodedQuery) {
             const filtersToLoad = this.queryBuilder.categories.length;
             let loadedFilters = this.searchedWord === '' ? 0 : 1;
             this.queryBuilder.filterLoaded.pipe(takeUntilDestroyed(this.destroyRef), takeUntil(this.loadedFilters$)).subscribe(() => {
@@ -240,7 +234,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
               if (filtersToLoad === loadedFilters) {
                 this.loadedFilters$.next();
                 if (shouldExecuteQuery) {
-                  this.queryBuilder.execute(false);
+                  void this.queryBuilder.execute(false);
                 }
               }
             });
@@ -248,7 +242,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
           } else {
             this.queryBuilder.populateFilters.next({});
             if (shouldExecuteQuery) {
-              this.queryBuilder.execute(false);
+              void this.queryBuilder.execute(false);
             }
           }
           this.queryBuilder.userQuery = extractUserQueryFromEncodedQuery(this.encodedQuery);
@@ -350,12 +344,10 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   }
 
   private shouldExecuteQuery(navigationStartEvent: NavigationStart | null, params: Params): boolean {
-    if (navigationStartEvent === null) {
+    if (!navigationStartEvent || navigationStartEvent.navigationTrigger === 'popstate' || navigationStartEvent.navigationTrigger === 'hashchange') {
       return true;
     } else if (navigationStartEvent.navigationTrigger === 'imperative') {
       return false;
-    } else if (navigationStartEvent.navigationTrigger === 'popstate' || navigationStartEvent.navigationTrigger === 'hashchange') {
-      return true;
     } else {
       return !!params[this.queryParamName];
     }
