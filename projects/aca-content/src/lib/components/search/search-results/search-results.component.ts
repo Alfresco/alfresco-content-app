@@ -351,16 +351,12 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
   private shouldExecuteQuery(navigationStartEvent: NavigationStart | null, params: Params): boolean {
     if (navigationStartEvent === null) {
-      // Case 1: Initial component load / Page refresh.
       return true;
     } else if (navigationStartEvent.navigationTrigger === 'imperative') {
-      // Case 2: Navigation triggered by `router.navigate` (e.g., from NGRX effect).
       return false;
     } else if (navigationStartEvent.navigationTrigger === 'popstate' || navigationStartEvent.navigationTrigger === 'hashchange') {
-      // Case 3: Navigation triggered by browser back/forward or hash change.
       return true;
     } else {
-      // Fallback for any other unexpected or future navigation triggers.
       return !!params[this.queryParamName];
     }
   }
