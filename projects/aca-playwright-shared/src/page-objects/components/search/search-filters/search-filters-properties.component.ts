@@ -90,7 +90,9 @@ export class SearchFiltersProperties extends BaseComponent {
 
     if (fileTypeInputText) {
       await this.fileTypeInput?.fill(fileTypeInputText);
-      await this.dropdownOptions.first().click();
+      const targetDropdownOption = this.page.locator(`mat-option`, { hasText: fileTypeInputText });
+
+      await targetDropdownOption.click();
     }
 
     await page.searchFilters.menuCardApply.click();
