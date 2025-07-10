@@ -38,7 +38,6 @@ import { DocumentBasePageService, ExtensionsDataLoaderGuard } from '@alfresco/ac
 import * as rules from '@alfresco/aca-shared/rules';
 import { AppStoreModule } from './store/app-store.module';
 import { CoreExtensionsModule } from './extensions/core.extensions.module';
-import { AppInfoDrawerModule } from './components/info-drawer/info.drawer.module';
 import { ExtensionService, ExtensionsModule } from '@alfresco/adf-extensions';
 import { APP_TOOLBAR_DIRECTIVES } from './components/toolbar';
 import { APP_SIDENAV_DIRECTIVES } from './components/sidenav';
@@ -94,7 +93,6 @@ import { SaveSearchSidenavComponent } from './components/search/search-save/side
     ...APP_SIDENAV_DIRECTIVES,
     ...APP_SEARCH_DIRECTIVES,
     ContextMenuComponent,
-    AppInfoDrawerModule,
     HammerModule,
     AcaFolderRulesModule
   ],

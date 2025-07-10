@@ -36,14 +36,14 @@ import {
   TagService
 } from '@alfresco/adf-content-services';
 import { filter, map } from 'rxjs/operators';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ExtensionService } from '@alfresco/adf-extensions';
 
 @Component({
-  imports: [CommonModule, ContentMetadataComponent],
+  imports: [ContentMetadataComponent, AsyncPipe],
   selector: 'app-metadata-tab',
   template: `
     <adf-content-metadata
