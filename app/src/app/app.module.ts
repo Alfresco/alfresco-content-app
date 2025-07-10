@@ -46,12 +46,11 @@ import localePl from '@angular/common/locales/pl';
 import localeFi from '@angular/common/locales/fi';
 import localeDa from '@angular/common/locales/da';
 import localeSv from '@angular/common/locales/sv';
-import { RouterModule } from '@angular/router';
+import { provideRouter, RouterOutlet, withHashLocation } from '@angular/router';
 import { AppComponent } from './app.components';
 import { CONTENT_LAYOUT_ROUTES, ContentServiceExtensionModule, ContentUrlService, CoreExtensionsModule } from '@alfresco/aca-content';
 import { ContentVersionService } from '@alfresco/adf-content-services';
 import { SHELL_APP_SERVICE, SHELL_AUTH_TOKEN, provideShellRoutes } from '@alfresco/adf-core/shell';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { APP_ROUTES } from './app.routes';
 
 registerLocaleData(localeFr);
@@ -71,20 +70,29 @@ registerLocaleData(localeFi);
 registerLocaleData(localeDa);
 registerLocaleData(localeSv);
 
+// export const AppConfig: ApplicationConfig = {
+//   providers: [
+//
+//     environment.e2e ? provideNoopAnimations() : provideAnimations(),
+//     provideShellRoutes(CONTENT_LAYOUT_ROUTES),
+//     { provide: ContentVersionService, useClass: ContentUrlService },
+//     {
+//       provide: SHELL_APP_SERVICE,
+//       useClass: AppService
+//     },
+//     {
+//       provide: SHELL_AUTH_TOKEN,
+//       useValue: AuthGuard
+//     },
+//     provideTranslations('app', 'assets'),
+//     importProvidersFrom(AuthModule.forRoot({ useHash: true }))
+//   ]
+// };
+
 @NgModule({
-  imports: [
-    BrowserModule,
-    CoreModule.forRoot(),
-    CoreExtensionsModule.forRoot(),
-    !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25 }) : [],
-    RouterModule.forRoot(APP_ROUTES, {
-      useHash: true,
-      enableTracing: false // enable for debug only
-    }),
-    AppExtensionsModule,
-    ContentServiceExtensionModule
-  ],
+  imports: [BrowserModule, CoreModule.forRoot(), CoreExtensionsModule.forRoot(), AppExtensionsModule, ContentServiceExtensionModule, RouterOutlet],
   providers: [
+    provideRouter(APP_ROUTES, withHashLocation()),
     environment.e2e ? provideNoopAnimations() : provideAnimations(),
     provideShellRoutes(CONTENT_LAYOUT_ROUTES),
     { provide: ContentVersionService, useClass: ContentUrlService },

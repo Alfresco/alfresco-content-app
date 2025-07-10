@@ -26,16 +26,15 @@ import { ExtensionService, provideExtensionConfig } from '@alfresco/adf-extensio
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { AosEffects } from './effects/aos.effects';
-import { TranslationService } from '@alfresco/adf-core';
+import { provideTranslations } from '@alfresco/adf-core';
 import { canOpenWithOffice } from '@alfresco/aca-shared/rules';
 
 @NgModule({
   imports: [EffectsModule.forFeature([AosEffects])],
-  providers: [provideExtensionConfig(['aos.plugin.json'])]
+  providers: [provideExtensionConfig(['aos.plugin.json']), provideTranslations('ms-office', 'assets/ms-office')]
 })
 export class AosExtensionModule {
-  constructor(extensions: ExtensionService, translation: TranslationService) {
-    translation.addTranslationFolder('ms-office', 'assets/ms-office');
+  constructor(extensions: ExtensionService) {
     extensions.setEvaluators({
       'aos.canOpenWithOffice': canOpenWithOffice
     });
