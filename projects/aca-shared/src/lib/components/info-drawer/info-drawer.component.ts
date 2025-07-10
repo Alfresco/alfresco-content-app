@@ -43,6 +43,7 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
   imports: [CommonModule, TranslateModule, MatProgressBarModule, InfoDrawerModule, A11yModule, ToolbarComponent, DynamicTabComponent],
   selector: 'aca-info-drawer',
   templateUrl: './info-drawer.component.html',
+  styleUrl: './info-drawer.component.scss',
   encapsulation: ViewEncapsulation.None,
   providers: [
     {
