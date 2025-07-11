@@ -1,6 +1,6 @@
 @use '../../styles/mat-selectors' as ms;
 
-aca-info-drawer { 
+aca-info-drawer {
   .aca-info-drawer {
     .adf-card-view-selectitem #{ms.$mat-form-field-infix} {
       padding-left: 0;
@@ -17,6 +17,15 @@ aca-info-drawer {
           margin-top: 16px;
         }
       }
+    }
+
+    .adf-metadata-properties
+      .adf-content-metadata-panel
+      .adf-property-list
+      .adf-property
+      .adf-property-field
+      .adf-property-value:not(.adf-card-view-selectitem .adf-property-value) {
+      color: var(--adf-metadata-property-panel-title-color);
     }
   }
 }
