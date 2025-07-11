@@ -27,54 +27,47 @@ See the official [Nx Angular library](https://nx.dev/nx-api/angular/generators/l
 Next to validate the changed verify the following:
 
 - Check in `tsconfig.base.json` that an import path exists and points to the correct entry point:
+- 
 ```json
-"@myorg/my-extension": ["extensions/my-extension/src/index.ts"],
+{
+  "paths" : {
+    "@myorg/my-extension": [
+      "extensions/my-extension/src/index.ts"
+    ]
+  }
+}
 ```
 
 - Test if npm i is working:
 
 # Developing the basics of the ACA extension
 
-Now that the `my-extension` is created, let's add the proper configuration to the extension module. For this purpose, edit the `extensions/my-extension/src/lib/my-extension.module.ts` file changing what is described below.
+Now that the `my-extension` is created, let's add the proper configuration to the extension module.
+For this purpose, edit the `extensions/my-extension/src/lib/my-extension.module.ts` file changing what is described below:
 
 ```typescript
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 
 import { ExtensionService, provideExtensionConfig } from '@alfresco/adf-extensions';
-import { CoreModule, TRANSLATION_PROVIDER } from '@alfresco/adf-core';
+import { provideTranslations } from '@alfresco/adf-core';
 
 import { MyExtensionComponent } from './my-extension.component';
 import { MyExtensionService } from './my-extension.service';
 
-export function components() {
-    return [MyExtensionComponent];
-}
-
 @NgModule({
-    imports: [CoreModule, BrowserModule, FormsModule],
-    providers: [
-        {
-            provide: TRANSLATION_PROVIDER,
-            multi: true,
-            useValue: {
-                name: 'my-extension',
-                source: 'assets/my-extension',
-            },
-        },
-        MyExtensionService,
-        provideExtensionConfig(['my-extension.json']),
-    ],
-    declarations: components(),
-    exports: components(),
+  imports: [MyExtensionComponent],
+  providers: [
+    provideTranslations('my-extension', 'assets/my-extension'),
+    MyExtensionService,
+    provideExtensionConfig(['my-extension.json']),
+  ]
 })
 export class MyExtensionModule {
-    constructor(extensions: ExtensionService) {
-        extensions.setComponents({
-          'my-extension.main.component' : MyExtensionComponent,
-        });
-    }
+  constructor(extensions: ExtensionService) {
+    extensions.setComponents({
+      'my-extension.main.component': MyExtensionComponent,
+    });
+  }
 }
 ```
 
@@ -133,16 +126,13 @@ This is a very basic example, adding a “My Extension” item to the existing l
 Now that the ACA extension is developed in its initial version, let's add the extension module to the list of the ones used by the application. To complete the task, edit the `src/app/extensions.module.ts` file as described below.
 
 ```typescript
-    // Add the following import to the page.
-    import { MyExtensionModule } from 'my-extension';
-    
-    @NgModule({
-      imports: [
-        ...,
-        MyExtensionModule
-    ]
-  })
-  export class AppExtensionsModule {}
+// Add the following import to the page.
+import { MyExtensionModule } from 'my-extension';
+
+@NgModule({
+  imports: [MyExtensionModule]
+})
+export class AppExtensionsModule {}
 ```
 
 In addition, edit the `src/assets/app.extensions.json` file on the `$references` array. Below how it should look like.

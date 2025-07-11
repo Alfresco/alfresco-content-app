@@ -22,8 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowserModule } from '@angular/platform-browser';
-import { importProvidersFrom, NgModule } from '@angular/core';
+import { importProvidersFrom, ApplicationConfig } from '@angular/core';
 import { provideNoopAnimations, provideAnimations } from '@angular/platform-browser/animations';
 import { AuthGuard, CoreModule, AuthModule, provideTranslations } from '@alfresco/adf-core';
 import { AppService } from '@alfresco/aca-shared';
@@ -46,12 +45,10 @@ import localePl from '@angular/common/locales/pl';
 import localeFi from '@angular/common/locales/fi';
 import localeDa from '@angular/common/locales/da';
 import localeSv from '@angular/common/locales/sv';
-import { RouterModule } from '@angular/router';
-import { AppComponent } from './app.components';
-import { CONTENT_LAYOUT_ROUTES, ContentServiceExtensionModule, ContentUrlService, CoreExtensionsModule } from '@alfresco/aca-content';
+import { provideRouter, withHashLocation } from '@angular/router';
+import { CONTENT_LAYOUT_ROUTES, ContentServiceExtensionModule, ContentUrlService, provideExtensions } from '@alfresco/aca-content';
 import { ContentVersionService } from '@alfresco/adf-content-services';
 import { SHELL_APP_SERVICE, SHELL_AUTH_TOKEN, provideShellRoutes } from '@alfresco/adf-core/shell';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { APP_ROUTES } from './app.routes';
 
 registerLocaleData(localeFr);
@@ -71,20 +68,11 @@ registerLocaleData(localeFi);
 registerLocaleData(localeDa);
 registerLocaleData(localeSv);
 
-@NgModule({
-  imports: [
-    BrowserModule,
-    CoreModule.forRoot(),
-    CoreExtensionsModule.forRoot(),
-    !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25 }) : [],
-    RouterModule.forRoot(APP_ROUTES, {
-      useHash: true,
-      enableTracing: false // enable for debug only
-    }),
-    AppExtensionsModule,
-    ContentServiceExtensionModule
-  ],
+export const AppConfig: ApplicationConfig = {
   providers: [
+    importProvidersFrom(CoreModule.forRoot(), AppExtensionsModule, ContentServiceExtensionModule),
+    provideExtensions(),
+    provideRouter(APP_ROUTES, withHashLocation()),
     environment.e2e ? provideNoopAnimations() : provideAnimations(),
     provideShellRoutes(CONTENT_LAYOUT_ROUTES),
     { provide: ContentVersionService, useClass: ContentUrlService },
@@ -98,8 +86,5 @@ registerLocaleData(localeSv);
     },
     provideTranslations('app', 'assets'),
     importProvidersFrom(AuthModule.forRoot({ useHash: true }))
-  ],
-  declarations: [AppComponent],
-  bootstrap: [AppComponent]
-})
-export class AppModule {}
+  ]
+};

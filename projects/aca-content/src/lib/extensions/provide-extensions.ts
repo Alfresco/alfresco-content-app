@@ -22,30 +22,14 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
-import { CommentsTabComponent } from './comments-tab/comments-tab.component';
-import { MetadataTabComponent } from './metadata-tab/metadata-tab.component';
-import { LibraryMetadataTabComponent } from './library-metadata-tab/library-metadata-tab.component';
-import { LibraryMetadataFormComponent } from './library-metadata-tab/library-metadata-form.component';
-import { VersionsTabComponent } from './versions-tab/versions-tab.component';
-import { InfoDrawerComponent } from '@alfresco/aca-shared';
+import { EnvironmentProviders, inject, provideAppInitializer, Provider } from '@angular/core';
+import { AppExtensionService } from '@alfresco/aca-shared';
 
-@NgModule({
-  imports: [
-    InfoDrawerComponent,
-    CommentsTabComponent,
-    LibraryMetadataFormComponent,
-    LibraryMetadataTabComponent,
-    MetadataTabComponent,
-    VersionsTabComponent
-  ],
-  exports: [
-    InfoDrawerComponent,
-    CommentsTabComponent,
-    LibraryMetadataFormComponent,
-    LibraryMetadataTabComponent,
-    MetadataTabComponent,
-    VersionsTabComponent
-  ]
-})
-export class AppInfoDrawerModule {}
+export function provideExtensions(): (Provider | EnvironmentProviders)[] {
+  return [
+    provideAppInitializer(() => {
+      const service = inject(AppExtensionService);
+      return service.load();
+    })
+  ];
+}

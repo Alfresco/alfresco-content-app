@@ -1,4 +1,5 @@
-<mat-card appearance="raised" *ngIf="node">
+@if (node) {
+<mat-card appearance="raised">
   <mat-card-content>
     <form [formGroup]="form" autocomplete="off">
       <mat-form-field floatLabel="auto" data-automation-id="library-name-properties-wrapper" class="app-library-metadata-form-field">
@@ -12,7 +13,9 @@
           formControlName="title"
           [errorStateMatcher]="matcher"
         />
-        <mat-hint *ngIf="libraryTitleExists">{{ 'LIBRARY.HINTS.SITE_TITLE_EXISTS' | translate }}</mat-hint>
+        @if (libraryTitleExists) {
+        <mat-hint>{{ 'LIBRARY.HINTS.SITE_TITLE_EXISTS' | translate }}</mat-hint>
+        }
         <mat-error>
           {{ titleErrorTranslationKey | translate }}
         </mat-error>
@@ -48,17 +51,21 @@
     </form>
   </mat-card-content>
 
-  <mat-card-actions align="end" *ngIf="canUpdateLibrary">
-    <ng-container *ngIf="form.enabled">
-      <button mat-button (click)="cancel()">
-        {{ 'LIBRARY.DIALOG.CANCEL' | translate }}
-      </button>
-      <button mat-button color="primary" [disabled]="form.invalid || form.pristine" (click)="update()">
-        {{ 'LIBRARY.DIALOG.UPDATE' | translate }}
-      </button>
-    </ng-container>
-    <button mat-button color="primary" (click)="toggleEdit()" *ngIf="form.disabled">
+  @if (canUpdateLibrary) {
+  <mat-card-actions align="end">
+    @if (form.enabled) {
+    <button mat-button (click)="cancel()">
+      {{ 'LIBRARY.DIALOG.CANCEL' | translate }}
+    </button>
+    <button mat-button color="primary" [disabled]="form.invalid || form.pristine" (click)="update()">
+      {{ 'LIBRARY.DIALOG.UPDATE' | translate }}
+    </button>
+    } @else {
+    <button mat-button color="primary" (click)="toggleEdit()">
       {{ 'LIBRARY.DIALOG.EDIT' | translate }}
     </button>
+    }
   </mat-card-actions>
+  }
 </mat-card>
+}

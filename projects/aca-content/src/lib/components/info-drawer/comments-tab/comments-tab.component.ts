@@ -26,13 +26,13 @@ import { Component, Input, OnInit, Optional, ViewEncapsulation } from '@angular/
 import { Node } from '@alfresco/js-api';
 import { isLocked, NodePermissionService } from '@alfresco/aca-shared';
 import { MatCardModule } from '@angular/material/card';
-import { NodeCommentsModule } from '@alfresco/adf-content-services';
+import { NodeCommentsComponent } from '@alfresco/adf-content-services';
 import { ExternalNodePermissionCommentsTabService } from './external-node-permission-comments-tab.service';
 
 @Component({
-  imports: [MatCardModule, NodeCommentsModule],
+  imports: [MatCardModule, NodeCommentsComponent],
   selector: 'app-comments-tab',
-  template: `<mat-card class="adf-comments-tab-container" appearance="raised"
+  template: ` <mat-card class="adf-comments-tab-container" appearance="raised"
     ><adf-node-comments [readOnly]="!canUpdateNode" [nodeId]="node?.id"
   /></mat-card>`,
   styles: ['app-comments-tab mat-card { padding: 16px }'],

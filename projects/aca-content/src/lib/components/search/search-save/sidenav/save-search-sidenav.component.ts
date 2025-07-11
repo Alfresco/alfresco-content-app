@@ -24,7 +24,7 @@
 
 import { Component, DestroyRef, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { SavedSearch, SavedSearchesService } from '@alfresco/adf-content-services';
-import { CoreModule, TranslationService, UserPreferencesService, UserPreferenceValues } from '@alfresco/adf-core';
+import { TranslationService, UserPreferencesService, UserPreferenceValues } from '@alfresco/adf-core';
 import { NavBarLinkRef } from '@alfresco/adf-extensions';
 import { ExpandMenuComponent } from '../../../sidenav/components/expand-menu.component';
 import { AppService } from '@alfresco/aca-shared';
@@ -33,7 +33,7 @@ import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'aca-save-search-sidenav',
-  imports: [CoreModule, ExpandMenuComponent],
+  imports: [ExpandMenuComponent],
   templateUrl: './save-search-sidenav.component.html',
   encapsulation: ViewEncapsulation.None
 })

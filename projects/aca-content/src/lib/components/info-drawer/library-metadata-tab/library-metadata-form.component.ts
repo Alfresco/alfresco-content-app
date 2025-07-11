@@ -42,7 +42,6 @@ import { debounceTime, mergeMap } from 'rxjs/operators';
 import { AlfrescoApiService } from '@alfresco/adf-content-services';
 import { from, Observable } from 'rxjs';
 import { ErrorStateMatcher, MatOptionModule } from '@angular/material/core';
-import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -51,6 +50,7 @@ import { MatInputModule } from '@angular/material/input';
 import { A11yModule } from '@angular/cdk/a11y';
 import { MatButtonModule } from '@angular/material/button';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NgForOf } from '@angular/common';
 
 export class InstantErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: UntypedFormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -61,7 +61,6 @@ export class InstantErrorStateMatcher implements ErrorStateMatcher {
 
 @Component({
   imports: [
-    CommonModule,
     MatCardModule,
     TranslatePipe,
     MatFormFieldModule,
@@ -71,7 +70,8 @@ export class InstantErrorStateMatcher implements ErrorStateMatcher {
     MatOptionModule,
     MatInputModule,
     A11yModule,
-    MatButtonModule
+    MatButtonModule,
+    NgForOf
   ],
   selector: 'app-library-metadata-form',
   templateUrl: './library-metadata-form.component.html',

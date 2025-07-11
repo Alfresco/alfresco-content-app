@@ -32,10 +32,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { A11yModule } from '@angular/cdk/a11y';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
-import { CoreModule, NotificationService } from '@alfresco/adf-core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NotificationService } from '@alfresco/adf-core';
 import { AutoFocusDirective, forbidOnlySpaces, SavedSearchesService } from '@alfresco/adf-content-services';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
 import { UniqueSearchNameValidator } from './unique-search-name-validator';
 import { SavedSearchForm } from './saved-search-form.interface';
@@ -52,8 +52,9 @@ import { SavedSearchForm } from './saved-search-form.interface';
     A11yModule,
     MatCheckboxModule,
     FormsModule,
-    CoreModule,
-    AutoFocusDirective
+    AutoFocusDirective,
+    ReactiveFormsModule,
+    MatDialogModule
   ],
   selector: 'aca-save-search-dialog',
   templateUrl: './save-search-dialog.component.html',

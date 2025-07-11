@@ -22,24 +22,12 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TranslationService } from '@alfresco/adf-core';
+import { provideTranslations } from '@alfresco/adf-core';
 import { ExtensionService, provideExtensionConfig } from '@alfresco/adf-extensions';
 import { NgModule } from '@angular/core';
 import * as rules from './folder-rules.rules';
-import { RouterModule, Routes } from '@angular/router';
-import { EditRuleDialogUiComponent } from './rule-details/edit-rule-dialog.ui-component';
+import { provideRouter, Routes } from '@angular/router';
 import { ManageRulesSmartComponent } from './manage-rules/manage-rules.smart-component';
-import { RuleCompositeConditionUiComponent } from './rule-details/conditions/rule-composite-condition.ui-component';
-import { RuleDetailsUiComponent } from './rule-details/rule-details.ui-component';
-import { RuleSimpleConditionUiComponent } from './rule-details/conditions/rule-simple-condition.ui-component';
-import { RuleListItemUiComponent } from './rule-list/rule-list-item/rule-list-item.ui-component';
-import { RuleListGroupingUiComponent } from './rule-list/rule-list-grouping/rule-list-grouping.ui-component';
-import { RuleTriggersUiComponent } from './rule-details/triggers/rule-triggers.ui-component';
-import { RuleOptionsUiComponent } from './rule-details/options/rule-options.ui-component';
-import { RuleActionListUiComponent } from './rule-details/actions/rule-action-list.ui-component';
-import { RuleActionUiComponent } from './rule-details/actions/rule-action.ui-component';
-import { RuleListUiComponent } from './rule-list/rule-list/rule-list.ui-component';
-import { RuleSetPickerSmartComponent } from './rule-set-picker/rule-set-picker.smart-component';
 import { PluginEnabledGuard } from '@alfresco/aca-shared';
 
 const routes: Routes = [
@@ -54,28 +42,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  providers: [provideExtensionConfig(['folder-rules.plugin.json'])],
-  imports: [
-    RouterModule.forChild(routes),
-    RuleListItemUiComponent,
-    RuleListGroupingUiComponent,
-    RuleListUiComponent,
-    ManageRulesSmartComponent,
-    RuleSetPickerSmartComponent,
-    RuleActionListUiComponent,
-    RuleActionUiComponent,
-    RuleCompositeConditionUiComponent,
-    RuleSimpleConditionUiComponent,
-    RuleOptionsUiComponent,
-    RuleTriggersUiComponent,
-    RuleDetailsUiComponent,
-    EditRuleDialogUiComponent
-  ]
+  providers: [provideTranslations('folder-rules', 'assets/folder-rules'), provideExtensionConfig(['folder-rules.plugin.json']), provideRouter(routes)]
 })
 export class AcaFolderRulesModule {
-  constructor(translation: TranslationService, extensions: ExtensionService) {
-    translation.addTranslationFolder('folder-rules', 'assets/folder-rules');
-
+  constructor(extensions: ExtensionService) {
     extensions.setEvaluators({
       'rules.isFolderRulesEnabled': rules.isFolderRulesEnabled
     });

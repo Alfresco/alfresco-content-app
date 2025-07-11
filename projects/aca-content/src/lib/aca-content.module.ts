@@ -34,17 +34,15 @@ import {
   LibraryStatusColumnComponent,
   TrashcanNameColumnComponent
 } from '@alfresco/adf-content-services';
-import { DocumentBasePageService, ExtensionsDataLoaderGuard, OpenInAppComponent } from '@alfresco/aca-shared';
+import { DocumentBasePageService, ExtensionsDataLoaderGuard } from '@alfresco/aca-shared';
 import * as rules from '@alfresco/aca-shared/rules';
 import { AppStoreModule } from './store/app-store.module';
 import { CoreExtensionsModule } from './extensions/core.extensions.module';
-import { AppInfoDrawerModule } from './components/info-drawer/info.drawer.module';
 import { ExtensionService, ExtensionsModule } from '@alfresco/adf-extensions';
 import { APP_TOOLBAR_DIRECTIVES } from './components/toolbar';
 import { APP_SIDENAV_DIRECTIVES } from './components/sidenav';
 import { APP_COMMON_DIRECTIVES } from './components/common';
 import { APP_SEARCH_DIRECTIVES } from './components/search';
-import { CreateFromTemplateDialogComponent } from './dialogs/node-template/create-from-template.dialog';
 import { ContentUrlService } from './services/content-url.service';
 import { CommonModule } from '@angular/common';
 import { LocationLinkComponent } from './components/common/location-link/location-link.component';
@@ -95,12 +93,8 @@ import { SaveSearchSidenavComponent } from './components/search/search-save/side
     ...APP_SIDENAV_DIRECTIVES,
     ...APP_SEARCH_DIRECTIVES,
     ContextMenuComponent,
-    AppInfoDrawerModule,
     HammerModule,
-    AcaFolderRulesModule,
-    CreateFromTemplateDialogComponent,
-    OpenInAppComponent,
-    UploadFilesDialogComponent
+    AcaFolderRulesModule
   ],
   providers: [
     { provide: ContentVersionService, useClass: ContentUrlService },
