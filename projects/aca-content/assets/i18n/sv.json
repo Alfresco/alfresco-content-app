@@ -155,7 +155,7 @@
                     "LIBRARY_NOT_FOUND": "Detta bibliotek finns inte längre.",
                     "LIBRARY_LOADING_ERROR": "Ett problem uppstod när detta bibliotek skulle läsas in."
                 },
-                "LIBRARY_NO_PERMISSIONS_WARNING": "You do not have permission to view this library."
+                "LIBRARY_NO_PERMISSIONS_WARNING": "Du har inte behörighet att visa detta bibliotek."
             },
             "SHARED": {
                 "TITLE": "Delade filer",
@@ -467,7 +467,7 @@
             "ICON": "Mapp-ikon",
             "TITLE": "Mapp Information",
             "SIZE": "Storlek",
-            "NUMBER_OF_FILES": "Number of files",
+            "NUMBER_OF_FILES": "Antal filer",
             "CALCULATING": "Beräknar...",
             "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} på disk) för {{count}} filer",
             "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes för {{count}} filer",

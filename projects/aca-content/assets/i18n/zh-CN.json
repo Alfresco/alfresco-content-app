@@ -155,7 +155,7 @@
                     "LIBRARY_NOT_FOUND": "此收藏库不再存在。",
                     "LIBRARY_LOADING_ERROR": "加载此收藏库时出现了问题。"
                 },
-                "LIBRARY_NO_PERMISSIONS_WARNING": "You do not have permission to view this library."
+                "LIBRARY_NO_PERMISSIONS_WARNING": "您无权查看此收藏库。"
             },
             "SHARED": {
                 "TITLE": "共享文件",
@@ -467,7 +467,7 @@
             "ICON": "文件夹图标",
             "TITLE": "文件夹信息",
             "SIZE": "大小",
-            "NUMBER_OF_FILES": "Number of files",
+            "NUMBER_OF_FILES": "文件数量",
             "CALCULATING": "正在计算…",
             "CALCULATED_SIZE_LARGE": "{{count}} 文件为 {{sizeInBytes}} 字节（磁盘中为 {{sizeInLargeUnit}} {{unit}})",
             "CALCULATED_SIZE_NORMAL": "{{count}} 文件为 {{sizeInBytes}} 字节",

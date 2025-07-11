@@ -155,7 +155,7 @@
                     "LIBRARY_NOT_FOUND": "このライブラリはもはや存在しません。",
                     "LIBRARY_LOADING_ERROR": "このライブラリのロード中に何らかの問題が発生しました。"
                 },
-                "LIBRARY_NO_PERMISSIONS_WARNING": "You do not have permission to view this library."
+                "LIBRARY_NO_PERMISSIONS_WARNING": "このライブラリを閲覧する権限がありません。"
             },
             "SHARED": {
                 "TITLE": "共有ファイル",
@@ -467,7 +467,7 @@
             "ICON": "フォルダアイコン",
             "TITLE": "フォルダ情報",
             "SIZE": "サイズ",
-            "NUMBER_OF_FILES": "Number of files",
+            "NUMBER_OF_FILES": "ファイル数",
             "CALCULATING": "計算中...",
             "CALCULATED_SIZE_LARGE": "{{count}} ファイルあたり{{sizeInBytes}} バイト (ディスク上に{{sizeInLargeUnit}} {{unit}})",
             "CALCULATED_SIZE_NORMAL": "{{count}} ファイルあたり{{sizeInBytes}}バイト",

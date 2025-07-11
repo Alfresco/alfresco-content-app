@@ -155,7 +155,7 @@
                     "LIBRARY_NOT_FOUND": "Dette bibliotek findes ikke mere.",
                     "LIBRARY_LOADING_ERROR": "Der var problemer under hentning af dette bibliotek."
                 },
-                "LIBRARY_NO_PERMISSIONS_WARNING": "You do not have permission to view this library."
+                "LIBRARY_NO_PERMISSIONS_WARNING": "Du har ikke tilladelse til at se dette bibliotek."
             },
             "SHARED": {
                 "TITLE": "Delte filer",
@@ -467,7 +467,7 @@
             "ICON": "Mappe-ikon",
             "TITLE": "Mappe Information",
             "SIZE": "Størrelse",
-            "NUMBER_OF_FILES": "Number of files",
+            "NUMBER_OF_FILES": "Antal filer",
             "CALCULATING": "Beregner...",
             "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} på disk) for {{count}} filer",
             "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes for {{count}} filer",

@@ -155,7 +155,7 @@
                     "LIBRARY_NOT_FOUND": "Данная библиотека не существует.",
                     "LIBRARY_LOADING_ERROR": "Ошибка загрузки библиотеки."
                 },
-                "LIBRARY_NO_PERMISSIONS_WARNING": "You do not have permission to view this library."
+                "LIBRARY_NO_PERMISSIONS_WARNING": "Нет прав для просмотра данной библиотеки."
             },
             "SHARED": {
                 "TITLE": "Общие файлы",
@@ -467,7 +467,7 @@
             "ICON": "Иконка папки",
             "TITLE": "Информация о папке",
             "SIZE": "Размер",
-            "NUMBER_OF_FILES": "Number of files",
+            "NUMBER_OF_FILES": "Количество файлов",
             "CALCULATING": "Вычисление...",
             "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} байт ({{sizeInLargeUnit}} {{unit}} на диске) для файлов {{count}}",
             "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} байт для {{count}} файлов",
