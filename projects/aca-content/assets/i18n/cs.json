@@ -155,7 +155,7 @@
                     "LIBRARY_NOT_FOUND": "Tato knihovna již neexistuje.",
                     "LIBRARY_LOADING_ERROR": "Při načítání této knihovny došlo k problému."
                 },
-                "LIBRARY_NO_PERMISSIONS_WARNING": "You do not have permission to view this library."
+                "LIBRARY_NO_PERMISSIONS_WARNING": "K zobrazení této knihovny nemáte oprávnění."
             },
             "SHARED": {
                 "TITLE": "Sdílené soubory",
@@ -467,7 +467,7 @@
             "ICON": "Ikona složky",
             "TITLE": "Informace o složce",
             "SIZE": "Velikost",
-            "NUMBER_OF_FILES": "Number of files",
+            "NUMBER_OF_FILES": "Počet souborů",
             "CALCULATING": "Probíhá výpočet…",
             "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytů ({{sizeInLargeUnit}} {{unit}} na disku) pro {{count}} souborů",
             "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytů pro {{count}} souborů",

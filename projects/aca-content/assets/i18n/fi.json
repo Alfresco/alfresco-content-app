@@ -155,7 +155,7 @@
                     "LIBRARY_NOT_FOUND": "Tätä kirjastoa ei ole enää olemassa",
                     "LIBRARY_LOADING_ERROR": "Tämän kirjaston lataamisessa ilmeni ongelma."
                 },
-                "LIBRARY_NO_PERMISSIONS_WARNING": "You do not have permission to view this library."
+                "LIBRARY_NO_PERMISSIONS_WARNING": "Sinulla ei ole oikeutta tarkastella tätä kirjastoa."
             },
             "SHARED": {
                 "TITLE": "Jaetut tiedostot",
@@ -467,7 +467,7 @@
             "ICON": "Kansion Kuvake",
             "TITLE": "Kansion Tiedot",
             "SIZE": "Koko",
-            "NUMBER_OF_FILES": "Number of files",
+            "NUMBER_OF_FILES": "Tiedostojen määrä",
             "CALCULATING": "Lasketaan...",
             "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} tavuja ({{sizeInLargeUnit}} {{unit}} levyllä) {{count}}-tiedostoille {{count}}",
             "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} tavua {{count}}-tiedostoille {{count}}",

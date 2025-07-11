@@ -155,7 +155,7 @@
                     "LIBRARY_NOT_FOUND": "Esta biblioteca ya no existe.",
                     "LIBRARY_LOADING_ERROR": "Ha habido un problema al cargar esta biblioteca."
                 },
-                "LIBRARY_NO_PERMISSIONS_WARNING": "You do not have permission to view this library."
+                "LIBRARY_NO_PERMISSIONS_WARNING": "No tiene permiso para ver esta biblioteca."
             },
             "SHARED": {
                 "TITLE": "Ficheros compartidos",
@@ -467,7 +467,7 @@
             "ICON": "Icono de carpeta",
             "TITLE": "Información de la carpeta",
             "SIZE": "Tamaño",
-            "NUMBER_OF_FILES": "Number of files",
+            "NUMBER_OF_FILES": "Número de archivos",
             "CALCULATING": "Calculando...",
             "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} en el disco) para {{count}} archivos",
             "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes para {{count}} archivos",
