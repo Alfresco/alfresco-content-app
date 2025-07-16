@@ -54,7 +54,7 @@
     "@ngrx/store": "19.2.1",
     "@ngrx/store-devtools": "19.2.1",
     "@ngx-translate/core": "^16.0.4",
-    "date-fns": "^2.30.0",
+    "date-fns": "^4.1.0",
     "katex": "^0.16.21",
     "material-icons": "^1.13.12",
     "mermaid": "^11.8.1",
