@@ -42,14 +42,24 @@ describe('SearchInputControlComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should emit submit event on searchSubmit', () => {
-    component.searchTerm = 'mock-search-term';
+  it('should emit submit event if form is valid', () => {
+    component.searchTerm = 'valid';
 
-    let submittedSearchTerm = '';
-    component.submit.subscribe((searchTerm) => (submittedSearchTerm = searchTerm));
+    let submittedTerm = '';
+    component.submit.subscribe((term) => (submittedTerm = term));
 
     component.searchSubmit();
-    expect(submittedSearchTerm).toBe('mock-search-term');
+    expect(submittedTerm).toBe('valid');
+  });
+
+  it('should not emit submit event if form is invalid', () => {
+    component.searchTerm = '';
+
+    let submitted = false;
+    component.submit.subscribe(() => (submitted = true));
+
+    component.searchSubmit();
+    expect(submitted).toBeFalse();
   });
 
   it('should emit searchChange event on inputChange', () => {
@@ -86,5 +96,58 @@ describe('SearchInputControlComponent', () => {
     component.searchTerm = 'dd';
     fixture.detectChanges();
     expect(component.isTermTooShort()).toBe(false);
+  });
+
+  it('should activate search bar on openDropdown()', () => {
+    component.openDropdown();
+    expect(component.isSearchBarActive).toBeTrue();
+  });
+
+  it('should set isSearchBarActive to true on input focus', () => {
+    component.onInputFocus();
+    expect(component.isSearchBarActive).toBeTrue();
+  });
+
+  it('should reset isSearchBarActive and mark field as untouched on blur', () => {
+    component.onInputFocus();
+    component.searchFieldFormControl.markAsTouched();
+
+    component.onBlur();
+
+    expect(component.isSearchBarActive).toBeFalse();
+    expect(component.searchFieldFormControl.touched).toBeFalse();
+  });
+
+  it('should handle Enter key on input and submit if valid', () => {
+    const event = new KeyboardEvent('keydown', { key: 'Enter' });
+    spyOn(event, 'preventDefault');
+    spyOn(event, 'stopPropagation');
+    component.searchTerm = 'abc';
+
+    let emitted = '';
+    component.submit.subscribe((val) => (emitted = val));
+
+    component.onInputKeyDown(event);
+    expect(event.preventDefault).toHaveBeenCalled();
+    expect(event.stopPropagation).toHaveBeenCalled();
+    expect(emitted).toBe('abc');
+  });
+
+  it('should prevent default and open dropdown on Enter key from search icon', () => {
+    const event = new KeyboardEvent('keydown', { key: 'Enter' });
+    spyOn(event, 'preventDefault');
+
+    component.onSearchButtonKeyDown(event);
+    expect(event.preventDefault).toHaveBeenCalled();
+    expect(component.isSearchBarActive).toBeTrue();
+  });
+
+  it('should not submit on non-Enter key press', () => {
+    const event = new KeyboardEvent('keydown', { key: 'Escape' });
+    let emitted = false;
+    component.submit.subscribe(() => (emitted = true));
+
+    component.onInputKeyDown(event);
+    expect(emitted).toBeFalse();
   });
 });

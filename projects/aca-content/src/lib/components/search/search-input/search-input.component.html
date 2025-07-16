@@ -36,7 +36,14 @@
         (submit)="onSearchSubmit($event)"
         (searchChange)="onSearchChange($event)"
       />
-      <mat-hint *ngIf="hasLibrariesConstraint" class="app-search-hint">{{ 'SEARCH.INPUT.HINT' | translate }}</mat-hint>
+      <div class="app-search-feedback">
+        <mat-hint *ngIf="hasLibrariesConstraint" class="app-search-hint">
+          {{ 'SEARCH.INPUT.HINT' | translate }}
+        </mat-hint>
+        <mat-error *ngIf="searchInputControl.searchFieldFormControl.hasError('required') && searchInputControl.searchFieldFormControl.touched" class="app-search-error">
+          {{ 'SEARCH.INPUT.REQUIRED' | translate }}
+        </mat-error>
+      </div>
 
       <div id="search-options" class="app-search-options">
         <mat-checkbox *ngFor="let option of searchOptions"
