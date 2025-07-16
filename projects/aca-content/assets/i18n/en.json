@@ -574,7 +574,8 @@
           "FILES": "Files",
           "FOLDERS": "Folders",
           "LIBRARIES": "Libraries",
-          "HINT": "Search input must have at least 2 alphanumeric characters."
+          "HINT": "Search input must have at least 2 alphanumeric characters.",
+          "REQUIRED": "Search term is required."
         },
         "SORT": {
             "SORTING_OPTION": "Sort by",

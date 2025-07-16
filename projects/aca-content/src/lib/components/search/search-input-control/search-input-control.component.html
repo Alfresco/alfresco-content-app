@@ -5,7 +5,8 @@
       mat-icon-button
       matPrefix
       class="app-search-button"
-      (click)="searchSubmit()"
+      (click)="openDropdown()"
+      (keydown)="onSearchButtonKeyDown($event)"
       [title]="'SEARCH.BUTTON.TOOLTIP' | translate"
     >
       <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
@@ -18,7 +19,9 @@
       [type]="inputType"
       id="app-control-input"
       [formControl]="searchFieldFormControl"
-      (keyup.enter)="searchSubmit()"
+      (keydown)="onInputKeyDown($event)"
+      (focus)="onInputFocus()"
+      (blur)="onBlur()"
       [placeholder]="'SEARCH.INPUT.PLACEHOLDER' | translate"
       autocomplete="off"
     />

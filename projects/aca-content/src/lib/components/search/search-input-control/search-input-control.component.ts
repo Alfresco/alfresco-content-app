@@ -29,7 +29,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -65,7 +65,9 @@ export class SearchInputControlComponent implements OnInit {
   @ViewChild('searchInput', { static: true })
   searchInput: ElementRef;
 
-  searchFieldFormControl = new FormControl('');
+  searchFieldFormControl = new FormControl('', [Validators.required]);
+
+  isSearchBarActive = false;
 
   get searchTerm(): string {
     return this.searchFieldFormControl.value.replace('text:', 'TEXT:');
@@ -82,8 +84,36 @@ export class SearchInputControlComponent implements OnInit {
     });
   }
 
+  onSearchButtonKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      this.openDropdown();
+    }
+  }
+
+  onInputKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      event.stopPropagation();
+      this.searchSubmit();
+    }
+  }
+
+  openDropdown() {
+    this.isSearchBarActive = true;
+    setTimeout(() => {
+      this.searchInput.nativeElement.focus();
+    }, 0);
+  }
+
+  onInputFocus() {
+    this.isSearchBarActive = true;
+  }
+
   searchSubmit() {
-    if (!this.searchFieldFormControl.errors) {
+    this.searchFieldFormControl.markAsTouched();
+
+    if (this.searchFieldFormControl.valid) {
       this.submit.emit(this.searchTerm);
     }
   }
@@ -91,6 +121,11 @@ export class SearchInputControlComponent implements OnInit {
   clear() {
     this.searchTerm = '';
     this.searchChange.emit('');
+  }
+
+  onBlur() {
+    this.isSearchBarActive = false;
+    this.searchFieldFormControl.markAsUntouched();
   }
 
   isTermTooShort() {
