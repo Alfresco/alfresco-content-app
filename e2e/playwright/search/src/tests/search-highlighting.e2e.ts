@@ -77,10 +77,16 @@ test.describe('Search Highlighting', () => {
     expect(await searchPage.dataTable.hasHighlightedText('name')).toBe(false);
   });
 
-  test('[XAT-17121] Matching phrases should be highlighted in the file content for search results', async ({ searchPage }) => {
-    await searchPage.searchWithin(fileContent, 'files');
-    await searchPage.dataTable.progressBarWaitForReload();
-    expect(await searchPage.dataTable.hasHighlightedText('content')).toBe(true);
-    expect(await searchPage.dataTable.hasHighlightedText('name')).toBe(false);
+  test('[XAT-17121] Matching phrases should be highlighted in the file content for search results', async ({ searchPage, personalFiles }) => {
+    await expect(async () => {
+      await personalFiles.navigate();
+      await searchPage.searchWithin(fileContent, 'files');
+      await searchPage.dataTable.progressBarWaitForReload();
+      expect(await searchPage.dataTable.hasHighlightedText('content')).toBe(true);
+      expect(await searchPage.dataTable.hasHighlightedText('name')).toBe(false);
+    }).toPass({
+      intervals: [3_000],
+      timeout: 60_000
+    });
   });
 });

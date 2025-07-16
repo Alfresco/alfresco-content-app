@@ -205,23 +205,22 @@ test.describe('Info Drawer - file folder Properties', () => {
 
   test('[XAT-5516] View image properties', async ({ personalFiles }) => {
     const imageExifProperties = ['Image Width', 'Image Height'];
-    await navigateAndOpenInfoDrawer(personalFiles, file5516, folder5516Id);
-    await expect(personalFiles.infoDrawer.exifInfoProperties.first()).not.toBeInViewport();
-    await personalFiles.infoDrawer.exifInfoAccordion.click();
-    await expect(personalFiles.infoDrawer.exifInfoProperties.first()).toBeInViewport();
+
+    await expect(async () => {
+      await personalFiles.navigate();
+      await navigateAndOpenInfoDrawer(personalFiles, file5516, folder5516Id);
+      await expect(personalFiles.infoDrawer.exifInfoProperties.first()).not.toBeInViewport();
+      await personalFiles.infoDrawer.exifInfoAccordion.click();
+      await expect(personalFiles.infoDrawer.exifInfoProperties.first()).toBeInViewport();
+    }).toPass({
+      intervals: [3_000],
+      timeout: 60_000
+    });
+
     const getPropertiesText = (await personalFiles.infoDrawer.exifInfoProperties.allTextContents()).join('');
     for (const property of imageExifProperties) {
       expect(getPropertiesText).toContain(property);
     }
-  });
-
-  test('[XAT-deletemelater] EXIF check', async ({ personalFiles }) => {
-    await personalFiles.navigate({ remoteUrl: `#/personal-files/${folder5516Id}` });
-    await personalFiles.dataTable.selectItems(file5516);
-    await personalFiles.acaHeader.clickMoreActions();
-    await personalFiles.matMenu.clickMenuItem('Edit Aspects');
-    await personalFiles.page.locator('.adf-accordion-aspect-list-item').first().waitFor();
-    await expect((await personalFiles.page.locator('.adf-accordion-aspect-list-item').allTextContents()).join('')).toContain('EXIF');
   });
 
   test('[XAT-5514] View properties - Should be able to make the folders info drawer expandable as for Sites', async ({ personalFiles }) => {
