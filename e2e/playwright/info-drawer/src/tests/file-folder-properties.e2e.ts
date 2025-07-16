@@ -215,6 +215,15 @@ test.describe('Info Drawer - file folder Properties', () => {
     }
   });
 
+  test('[XAT-deletemelater] EXIF check', async ({ personalFiles }) => {
+    await personalFiles.navigate({ remoteUrl: `#/personal-files/${folder5516Id}` });
+    await personalFiles.dataTable.selectItems(file5516);
+    await personalFiles.acaHeader.clickMoreActions();
+    await personalFiles.matMenu.clickMenuItem('Edit Aspects');
+    await personalFiles.page.locator('.adf-accordion-aspect-list-item').first().waitFor();
+    await expect((await personalFiles.page.locator('.adf-accordion-aspect-list-item').allTextContents()).join('')).toContain('EXIF');
+  });
+
   test('[XAT-5514] View properties - Should be able to make the folders info drawer expandable as for Sites', async ({ personalFiles }) => {
     await navigateAndOpenInfoDrawer(personalFiles, folder5514);
     await personalFiles.infoDrawer.expandDetailsButton.click();
