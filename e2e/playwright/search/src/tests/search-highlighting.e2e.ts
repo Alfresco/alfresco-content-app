@@ -53,6 +53,8 @@ test.describe('Search Highlighting', () => {
       await nodesApi.createFile(fileNameHighlight, '-my-');
       await nodesApi.createFile(fileDescriptionHighlight, '-my-', null, fileDescription);
       await fileActionsApi.uploadFileWithRename(TEST_FILES.PDF.path, fileContentHighlight);
+
+      await fileActionsApi.waitForNodes(fileContentHighlight, { expect: 1 });
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
     }
