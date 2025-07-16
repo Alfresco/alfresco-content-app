@@ -24,7 +24,7 @@
 
 import { ChangeDetectorRef, Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { NodeEntry, Pagination, ResultSetPaging } from '@alfresco/js-api';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, NavigationStart } from '@angular/router';
 import {
   AlfrescoViewerComponent,
   DocumentListComponent,
@@ -64,7 +64,7 @@ import {
   ToolbarComponent
 } from '@alfresco/aca-shared';
 import { SearchSortingDefinition } from '@alfresco/adf-content-services/lib/search/models/search-sorting-definition.interface';
-import { take, takeUntil } from 'rxjs/operators';
+import { filter, first, map, startWith, switchMap, take, tap, toArray } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { SearchInputComponent } from '../search-input/search-input.component';
@@ -85,7 +85,7 @@ import {
   formatSearchTerm
 } from '../../../utils/aca-search-utils';
 import { SaveSearchDirective } from '../search-save/directive/save-search.directive';
-import { Subject } from 'rxjs';
+import { combineLatest, of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatMenuModule } from '@angular/material/menu';
 
@@ -145,7 +145,6 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   encodedQuery: string;
   searchConfig: SearchConfiguration;
 
-  private readonly loadedFilters$ = new Subject<void>();
   constructor(
     tagsService: TagService,
     private readonly queryBuilder: SearchQueryBuilderService,
@@ -163,13 +162,10 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
       maxItems: 25
     };
 
-    this.queryBuilder.configUpdated
-      .asObservable()
-      .pipe(takeUntilDestroyed())
-      .subscribe((searchConfig) => {
-        this.searchConfig = searchConfig;
-        this.updateUserQuery();
-      });
+    this.queryBuilder.configUpdated.pipe(takeUntilDestroyed()).subscribe((searchConfig) => {
+      this.searchConfig = searchConfig;
+      this.updateUserQuery();
+    });
   }
 
   ngOnInit() {
@@ -207,42 +203,55 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     this.columns = this.extensions.documentListPresets.searchResults || [];
 
     if (this.route) {
-      this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params: Params) => {
-        this.savedSearchesService
-          .getSavedSearches()
-          .pipe(takeUntilDestroyed(this.destroyRef))
-          .subscribe((savedSearches) => {
-            const savedSearchFound = savedSearches.find((savedSearch) => savedSearch.encodedUrl === encodeURIComponent(params[this.queryParamName]));
-            this.initialSavedSearch = savedSearchFound !== undefined ? savedSearchFound : this.initialSavedSearch;
-          });
-        if (params[this.queryParamName]) {
-          this.isLoading = true;
-        }
-        this.loadedFilters$.next();
-        this.encodedQuery = params[this.queryParamName] || null;
-        this.searchedWord = extractSearchedWordFromEncodedQuery(this.encodedQuery);
-        this.updateUserQuery();
-        const filtersFromEncodedQuery = extractFiltersFromEncodedQuery(this.encodedQuery);
-        if (filtersFromEncodedQuery !== null) {
-          const filtersToLoad = this.queryBuilder.categories.length;
-          let loadedFilters = this.searchedWord === '' ? 0 : 1;
-          this.queryBuilder.filterLoaded
-            .asObservable()
-            .pipe(takeUntilDestroyed(this.destroyRef), takeUntil(this.loadedFilters$))
-            .subscribe(() => {
-              loadedFilters++;
-              if (filtersToLoad === loadedFilters) {
-                this.loadedFilters$.next();
-                this.queryBuilder.execute(false);
-              }
-            });
-          this.queryBuilder.populateFilters.next(filtersFromEncodedQuery);
-        } else {
-          this.queryBuilder.populateFilters.next({});
-          this.queryBuilder.execute(false);
-        }
-        this.queryBuilder.userQuery = extractUserQueryFromEncodedQuery(this.encodedQuery);
-      });
+      this.route.queryParams
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          switchMap((params) =>
+            this.savedSearchesService.getSavedSearches().pipe(
+              first(),
+              map((savedSearches) => savedSearches.find((savedSearch) => savedSearch.encodedUrl === encodeURIComponent(params[this.queryParamName])))
+            )
+          )
+        )
+        .subscribe((savedSearches) => {
+          this.initialSavedSearch = savedSearches;
+        });
+
+      combineLatest([
+        this.route.queryParams,
+        this.router.events.pipe(
+          filter((e): e is NavigationStart => e instanceof NavigationStart),
+          startWith(null)
+        )
+      ])
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          tap(([params]) => {
+            this.encodedQuery = params[this.queryParamName];
+            this.isLoading = !!this.encodedQuery;
+
+            this.searchedWord = extractSearchedWordFromEncodedQuery(this.encodedQuery);
+            this.updateUserQuery();
+
+            const filtersFromEncodedQuery = extractFiltersFromEncodedQuery(this.encodedQuery);
+            this.queryBuilder.populateFilters.next(filtersFromEncodedQuery || {});
+          }),
+          switchMap(([, navigationStartEvent]) => {
+            const filtersToLoad = this.queryBuilder.categories.length;
+
+            const filtersAreLoaded = filtersToLoad ? this.queryBuilder.filterLoaded.pipe(take(filtersToLoad), toArray()) : of(null);
+
+            return filtersAreLoaded.pipe(map(() => navigationStartEvent));
+          })
+        )
+        .subscribe((navigationStartEvent) => {
+          const shouldExecuteQuery = this.shouldExecuteQuery(navigationStartEvent, this.encodedQuery);
+          this.queryBuilder.userQuery = extractUserQueryFromEncodedQuery(this.encodedQuery);
+
+          if (shouldExecuteQuery) {
+            this.queryBuilder.execute(false);
+          }
+        });
     }
   }
 
@@ -337,5 +346,15 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   private updateUserQuery(): void {
     const updatedUserQuery = formatSearchTerm(this.searchedWord, this.searchConfig['app:fields']);
     this.queryBuilder.userQuery = updatedUserQuery;
+  }
+
+  private shouldExecuteQuery(navigationStartEvent: NavigationStart | null, query: string | undefined): boolean {
+    if (!navigationStartEvent || navigationStartEvent.navigationTrigger === 'popstate' || navigationStartEvent.navigationTrigger === 'hashchange') {
+      return true;
+    } else if (navigationStartEvent.navigationTrigger === 'imperative') {
+      return false;
+    } else {
+      return !!query;
+    }
   }
 }

@@ -29,7 +29,7 @@ import { Store } from '@ngrx/store';
 import { NavigateToFolder } from '@alfresco/aca-shared/store';
 import { Pagination, SearchRequest } from '@alfresco/js-api';
 import { SavedSearchesService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Event, NavigationStart, Params, Router } from '@angular/router';
 import { BehaviorSubject, of, Subject, throwError } from 'rxjs';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AppService } from '@alfresco/aca-shared';
@@ -52,7 +52,9 @@ describe('SearchComponent', () => {
   let router: Router;
   let route: ActivatedRoute;
   const searchRequest = {} as SearchRequest;
-  let params: BehaviorSubject<any>;
+  let params: BehaviorSubject<Params>;
+  let queryParams: Subject<Params>;
+  let routerEvents: Subject<Event>;
   let showErrorSpy: jasmine.Spy<(message: string, action?: string, interpolateArgs?: any, showAction?: boolean) => MatSnackBarRef<any>>;
   let showInfoSpy: jasmine.Spy<(message: string, action?: string, interpolateArgs?: any, showAction?: boolean) => MatSnackBarRef<any>>;
   let loader: HarnessLoader;
@@ -66,6 +68,14 @@ describe('SearchComponent', () => {
 
   beforeEach(() => {
     params = new BehaviorSubject({ q: 'TYPE: "cm:folder" AND %28=cm: name: email OR cm: name: budget%29' });
+    queryParams = new Subject();
+    routerEvents = new Subject();
+
+    const routerMock = jasmine.createSpyObj<Router>('Router', ['navigate'], {
+      url: '/mock-search-url',
+      events: routerEvents
+    });
+
     TestBed.configureTestingModule({
       imports: [AppTestingModule, SearchResultsComponent, MatSnackBarModule, MatMenuModule, NoopAnimationsModule],
       providers: [
@@ -94,9 +104,11 @@ describe('SearchComponent', () => {
                 sortingPreferenceKey: ''
               }
             },
-            params: params.asObservable()
+            params: params.asObservable(),
+            queryParams: queryParams.asObservable()
           }
-        }
+        },
+        { provide: Router, useValue: routerMock }
       ]
     });
 
@@ -106,7 +118,6 @@ describe('SearchComponent', () => {
     translate = TestBed.inject(TranslationService);
     router = TestBed.inject(Router);
     route = TestBed.inject(ActivatedRoute);
-    route.queryParams = of({});
 
     const notificationService = TestBed.inject(NotificationService);
     showErrorSpy = spyOn(notificationService, 'showError');
@@ -303,6 +314,25 @@ describe('SearchComponent', () => {
     component.editSavedSearch({ name: 'test', encodedUrl: 'test', order: 0 });
     tick();
     expect(showErrorSpy).toHaveBeenCalledWith('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.ERROR_MESSAGE');
+  }));
+
+  it('should call execute once on page reload', fakeAsync(() => {
+    spyOn(queryBuilder, 'execute');
+    queryParams.next({ q: encodeQuery({ userQuery: 'cm:name:"test*"' }) });
+
+    tick();
+
+    expect(queryBuilder.execute).toHaveBeenCalledTimes(1);
+  }));
+
+  it('should NOT call execute on navigation to search page', fakeAsync(() => {
+    spyOn(queryBuilder, 'execute');
+    routerEvents.next(new NavigationStart(1, '/mock-search-url', 'imperative'));
+    queryParams.next({ q: encodeQuery({ userQuery: 'cm:name:"test*"' }) });
+
+    tick();
+
+    expect(queryBuilder.execute).not.toHaveBeenCalled();
   }));
 
   testHeader(SearchResultsComponent, false);

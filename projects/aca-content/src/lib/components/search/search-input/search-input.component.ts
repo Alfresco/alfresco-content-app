@@ -28,7 +28,7 @@ import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { AppConfigService, NotificationService } from '@alfresco/adf-core';
 import { Component, DestroyRef, inject, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
-import { ActivatedRoute, Params, PRIMARY_OUTLET, Router, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
+import { ActivatedRoute, NavigationSkipped, Params, PRIMARY_OUTLET, Router, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { SearchInputControlComponent } from '../search-input-control/search-input-control.component';
 import { SearchNavigationService } from '../search-navigation.service';
@@ -44,6 +44,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
 import { extractSearchedWordFromEncodedQuery } from '../../../utils/aca-search-utils';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { merge } from 'rxjs/internal/observable/merge';
+import { filter, map, withLatestFrom } from 'rxjs';
 
 @Component({
   imports: [
@@ -119,13 +121,22 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.showInputValue();
 
-    this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params: Params) => {
-      const encodedQuery = params['q'];
-      if (encodedQuery && this.searchInputControl) {
-        this.searchedWord = extractSearchedWordFromEncodedQuery(encodedQuery);
-        this.searchInputControl.searchTerm = this.searchedWord;
-      }
-    });
+    merge(
+      this.route.queryParams,
+      this.router.events.pipe(
+        filter((e) => e instanceof NavigationSkipped),
+        withLatestFrom(this.route.queryParams),
+        map(([, params]) => params)
+      )
+    )
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((params: Params) => {
+        const encodedQuery = params['q'];
+        if (encodedQuery && this.searchInputControl) {
+          this.searchedWord = extractSearchedWordFromEncodedQuery(encodedQuery);
+          this.searchInputControl.searchTerm = this.searchedWord;
+        }
+      });
 
     this.appHookService.library400Error.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.has400LibraryError = true;
