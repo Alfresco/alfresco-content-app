@@ -25,7 +25,7 @@
 import * as fs from 'fs';
 import { ApiClientFactory } from './api-client-factory';
 import { Utils, waitForApi } from '../utils';
-import { NodeBodyCreate, NodeEntry, ResultSetPaging } from '@alfresco/js-api';
+import { NodeBodyCreate, NodeEntry, ResultSetPaging, SearchRequest } from '@alfresco/js-api';
 
 export class FileActionsApi {
   private apiService: ApiClientFactory;
@@ -159,6 +159,63 @@ export class FileActionsApi {
 
     try {
       await waitForApi(apiCall, predicate, 30, 2500);
+      console.log(`waitForNodes: Found ${data.expect} nodes with search term "${searchTerm}"`);
+    } catch (error) {
+      console.error(`Error: ${error}`);
+    }
+  }
+
+  private async queryNodesSearchHighlight(searchTerm: string): Promise<ResultSetPaging> {
+    const data: SearchRequest = {
+      query: {
+        query: `cm:name:"${searchTerm}*"`,
+        language: 'afts'
+      },
+      filterQueries: [{ query: `+TYPE:'cm:folder' OR +TYPE:'cm:content'` }],
+      highlight: {
+        prefix: "<span class='aca-highlight'>",
+        postfix: '</span>',
+        fields: [
+          {
+            field: 'cm:title'
+          },
+          {
+            field: 'cm:name'
+          },
+          {
+            field: 'cm:description',
+            snippetCount: 1
+          },
+          {
+            field: 'cm:content',
+            snippetCount: 1
+          }
+        ]
+      }
+    };
+
+    try {
+      return this.apiService.search.search(data);
+    } catch {
+      return new ResultSetPaging();
+    }
+  }
+
+  async waitForNodesSearchHighlight(searchTerm: string, data: { expect: number }): Promise<void> {
+    const predicate = (totalItems: number): boolean => totalItems === data.expect;
+
+    const apiCall = async (): Promise<number> => {
+      try {
+        return (await this.queryNodesSearchHighlight(searchTerm)).list.pagination.totalItems;
+      } catch (error) {
+        console.warn(`queryNodesSearchHighlight failed for "${searchTerm}":`, error);
+        return 0;
+      }
+    };
+
+    try {
+      await waitForApi(apiCall, predicate, 30, 2500);
+      console.log(`waitForNodesSearchHighlight: Found ${data.expect} nodes with search term "${searchTerm}"`);
     } catch (error) {
       console.error(`Error: ${error}`);
     }

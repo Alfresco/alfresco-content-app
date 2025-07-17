@@ -96,9 +96,9 @@ export class Utils {
     }
   }
 
-  static async uploadFileNewVersion(personalFilesPage: PersonalFilesPage, fileFromOS: string): Promise<void> {
+  static async uploadFileNewVersion(personalFilesPage: PersonalFilesPage, fileFromOS: string, fileType: string): Promise<void> {
     const fileInput = await personalFilesPage.page.$('#app-upload-file-version');
-    await fileInput.setInputFiles(path.join(__dirname, `../resources/test-files/${fileFromOS}.docx`));
+    await fileInput.setInputFiles(path.join(__dirname, `../resources/test-files/${fileFromOS}.${fileType}`));
   }
 
   static async reloadPageIfRowNotVisible(

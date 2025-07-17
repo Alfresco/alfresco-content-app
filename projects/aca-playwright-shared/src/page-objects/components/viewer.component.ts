@@ -63,6 +63,11 @@ export class ViewerComponent extends BaseComponent {
     return count > 0;
   }
 
+  async isViewerOpened(): Promise<boolean> {
+    await this.waitForViewerToOpen();
+    return this.viewerLocator.isVisible();
+  }
+
   async waitForViewerToOpen(waitForViewerContent?: 'wait for viewer content'): Promise<void> {
     if (waitForViewerContent) {
       await this.waitForViewerLoaderToFinish();
@@ -70,13 +75,13 @@ export class ViewerComponent extends BaseComponent {
     await this.viewerLocator.waitFor({ state: 'visible', timeout: timeouts.large });
   }
 
-  async isViewerOpened(): Promise<boolean> {
-    await this.waitForViewerToOpen();
-    return this.viewerLocator.isVisible();
-  }
-
-  async waitForViewerLoaderToFinish(): Promise<void> {
-    await this.viewerSpinner.waitFor({ state: 'hidden', timeout: timeouts.extraLarge });
+  async waitForViewerLoaderToFinish(customTimeout?: number): Promise<void> {
+    try {
+      await this.viewerSpinner.waitFor({ state: 'hidden', timeout: customTimeout || timeouts.extraLarge });
+    } catch (error) {
+      this.logger.log('waitForViewerLoaderToFinish: Timeout reached while waiting for viewer loader to finish.');
+      throw error;
+    }
   }
 
   async checkViewerActivePage(pageNumber: number): Promise<void> {

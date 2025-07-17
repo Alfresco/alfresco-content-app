@@ -53,6 +53,8 @@ test.describe('Search Highlighting', () => {
       await nodesApi.createFile(fileNameHighlight, '-my-');
       await nodesApi.createFile(fileDescriptionHighlight, '-my-', null, fileDescription);
       await fileActionsApi.uploadFileWithRename(TEST_FILES.PDF.path, fileContentHighlight);
+
+      await fileActionsApi.waitForNodesSearchHighlight(fileContentHighlight, { expect: 1 });
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
     }
@@ -75,7 +77,8 @@ test.describe('Search Highlighting', () => {
     expect(await searchPage.dataTable.hasHighlightedText('name')).toBe(false);
   });
 
-  test('[XAT-17121] Matching phrases should be highlighted in the file content for search results', async ({ searchPage }) => {
+  test('[XAT-17121] Matching phrases should be highlighted in the file content for search results', async ({ searchPage, personalFiles }) => {
+    await personalFiles.navigate();
     await searchPage.searchWithin(fileContent, 'files');
     await searchPage.dataTable.progressBarWaitForReload();
     expect(await searchPage.dataTable.hasHighlightedText('content')).toBe(true);

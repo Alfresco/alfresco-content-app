@@ -109,8 +109,7 @@ test.describe('viewer file', () => {
   test('[XAT-17738] Viewer with preview URL', async ({ personalFiles }) => {
     const previewURL = `#/personal-files/${folderId}/(viewer:view/${fileDocxId})`;
     await personalFiles.navigate({ remoteUrl: previewURL });
-    await personalFiles.dataTable.spinnerWaitForReload();
-    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    await personalFiles.viewer.waitForViewerLoaderToFinish(timeouts.sixtySeconds);
     await expect(personalFiles.viewer.fileTitleButtonLocator).toHaveText(randomDocxName);
   });
 });

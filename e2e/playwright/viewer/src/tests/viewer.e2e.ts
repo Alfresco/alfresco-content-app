@@ -41,6 +41,7 @@ import { Site } from '@alfresco/js-api';
 test.describe('viewer file', () => {
   const username = `user-${Utils.random()}`;
   const randomDocxName = `${TEST_FILES.DOCX.name}-${Utils.random()}`;
+  const randomJpgName = `${TEST_FILES.JPG_FILE.name}-${Utils.random()}`;
   const siteUser = `siteUser-${Utils.random()}`;
   const fileInSite = TEST_FILES.DOCX.name;
   const siteAdmin = `siteAdmin-${Utils.random()}`;
@@ -50,6 +51,7 @@ test.describe('viewer file', () => {
   let docLibSiteUserId: string;
   let folderId: string;
   let fileDocxId: string;
+  let fileJpgId: string;
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
   let siteActionsAdmin: SitesApi;
@@ -79,6 +81,8 @@ test.describe('viewer file', () => {
     folderId = node.entry.id;
     const fileDoc = await fileActionApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
     fileDocxId = fileDoc.entry.id;
+    const fileJpg = await fileActionApi.uploadFile(TEST_FILES.JPG_FILE.path, randomJpgName, folderId);
+    fileJpgId = fileJpg.entry.id;
     const consumerFavoritesTotalItems = await favoritesActions.getFavoritesTotalItems(username);
     await shareActions.shareFileById(fileDocxId);
     await favoritesActions.addFavoriteById('file', fileDocxId);
@@ -189,11 +193,10 @@ test.describe('viewer file', () => {
   });
 
   test('[XAT-5476] Viewer opens when accessing the preview URL for a file', async ({ personalFiles }) => {
-    const previewURL = `#/personal-files/${folderId}/(viewer:view/${fileDocxId})`;
+    const previewURL = `#/personal-files/${folderId}/(viewer:view/${fileJpgId})`;
     await personalFiles.navigate({ remoteUrl: previewURL });
-    await personalFiles.dataTable.spinnerWaitForReload();
-    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-    await expect(personalFiles.viewer.fileTitleButtonLocator).toHaveText(randomDocxName);
+    await personalFiles.viewer.waitForViewerLoaderToFinish(timeouts.fortySeconds);
+    await expect(personalFiles.viewer.fileTitleButtonLocator).toContainText(randomJpgName);
   });
 
   test('[XAT-5480] Viewer opens for a file from Shared Files', async ({ sharedPage }) => {

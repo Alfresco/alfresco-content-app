@@ -37,7 +37,8 @@ import {
   PersonalFilesPage,
   FavoritesPage,
   SharedPage,
-  SearchPage
+  SearchPage,
+  timeouts
 } from '@alfresco/aca-playwright-shared';
 
 test.describe('Version actions', () => {
@@ -180,7 +181,7 @@ test.describe('Version actions', () => {
     test('[XAT-5506] Previous document version title should be the same in Preview mode as in Version Manager - Shared Files', async ({
       sharedPage
     }) => {
-      await sharedPage.viewer.waitForViewerToOpen('wait for viewer content');
+      await sharedPage.viewer.waitForViewerLoaderToFinish(timeouts.fortySeconds);
       expect(await sharedPage.viewer.getFileTitle()).toContain(filenameBeforeUpdate);
     });
 

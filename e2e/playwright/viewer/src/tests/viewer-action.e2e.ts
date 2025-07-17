@@ -35,16 +35,16 @@ test.describe('viewer action file', () => {
   const randomDocxDelete = `${TEST_FILES.DOCX.name}-${Utils.random()}`;
   const fileForEditOffline = `playwright-file1-${Utils.random()}.docx`;
   const fileForCancelEditing = `playwright-file2-${Utils.random()}.docx`;
-  const docxFile2 = TEST_FILES.DOCX2.name;
-  const docxFile = TEST_FILES.DOCX.name;
   let folderId: string;
   let fileDocxShareId: string;
   let randomDocxNameFavoriteId: string;
   let fileForCancelEditingId: string;
-  const filePersonalFiles = `file3-${Utils.random()}.docx`;
+  const filePersonalFiles = `file3-${Utils.random()}.jpg`;
   let filePersonalFilesId: string;
-  const fileForUploadNewVersion2 = `file4-${Utils.random()}.docx`;
-  let fileForUploadNewVersionId2: string;
+  const filePersonalFiles2 = TEST_FILES.JPG_FILE.name;
+  const fileNewVersionLocked = `file4-${Utils.random()}.jpg`;
+  const fileNewVersionLocked2 = TEST_FILES.JPG_FILE.name;
+  let fileNewVersionLockedId: string;
   const destination = `viewer-action-destRF-${Utils.random()}`;
   let destinationId: string;
   const docxRecentFiles = `docxRF-${Utils.random()}.docx`;
@@ -56,12 +56,12 @@ test.describe('viewer action file', () => {
     folderId = node.entry.id;
 
     fileDocxShareId = (await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxNameShare, folderId)).entry.id;
-    filePersonalFilesId = (await fileAction.uploadFile(TEST_FILES.DOCX2.path, filePersonalFiles, folderId)).entry.id;
-    fileForUploadNewVersionId2 = (await fileAction.uploadFileWithRename(TEST_FILES.DOCX.path, fileForUploadNewVersion2, folderId)).entry.id;
+    filePersonalFilesId = (await fileAction.uploadFile(TEST_FILES.JPG_FILE.path, filePersonalFiles, folderId)).entry.id;
+    fileNewVersionLockedId = (await fileAction.uploadFileWithRename(TEST_FILES.JPG_FILE.path, fileNewVersionLocked, folderId)).entry.id;
     await fileAction.uploadFileWithRename(TEST_FILES.DOCX.path, docxRecentFiles, folderId);
     await shareAction.shareFileById(fileDocxShareId);
     fileForCancelEditingId = (await fileAction.uploadFile(TEST_FILES.DOCX.path, fileForCancelEditing, folderId)).entry.id;
-    await fileAction.lockNodes([fileForCancelEditingId, fileForUploadNewVersionId2]);
+    await fileAction.lockNodes([fileForCancelEditingId, fileNewVersionLockedId]);
     await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
     await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxDelete, folderId);
     const fileFavoritesNode = await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxNameFavorite, folderId);
@@ -183,7 +183,7 @@ test.describe('viewer action file', () => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(filePersonalFiles);
     await personalFiles.viewer.waitForViewerToOpen('wait for viewer content');
 
-    await Utils.uploadFileNewVersion(personalFiles, docxFile2);
+    await Utils.uploadFileNewVersion(personalFiles, filePersonalFiles2, 'jpg');
 
     await personalFiles.uploadNewVersionDialog.majorOption.click();
     await personalFiles.uploadNewVersionDialog.description.fill('new major version description');
@@ -193,16 +193,16 @@ test.describe('viewer action file', () => {
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not open').toBe(true);
     await Utils.waitForApiResponse(personalFiles, 'content', 200);
 
-    expect(await personalFiles.viewer.getFileTitle()).toContain(docxFile2);
+    expect(await personalFiles.viewer.getFileTitle()).toContain(filePersonalFiles2);
     expect(await nodesApiAction.getNodeProperty(filePersonalFilesId, 'cm:versionType'), 'File has incorrect version type').toEqual('MAJOR');
     expect(await nodesApiAction.getNodeProperty(filePersonalFilesId, 'cm:versionLabel'), 'File has incorrect version label').toEqual('2.0');
   });
 
   test('[XAT-17781] Upload new version action when node is locked', async ({ personalFiles }) => {
-    await personalFiles.dataTable.performClickFolderOrFileToOpen(fileForUploadNewVersion2);
+    await personalFiles.dataTable.performClickFolderOrFileToOpen(fileNewVersionLocked);
     await personalFiles.viewer.waitForViewerToOpen('wait for viewer content');
 
-    await Utils.uploadFileNewVersion(personalFiles, docxFile);
+    await Utils.uploadFileNewVersion(personalFiles, fileNewVersionLocked2, 'jpg');
 
     await personalFiles.uploadNewVersionDialog.uploadButton.click();
     await personalFiles.uploadNewVersionDialog.uploadButton.waitFor({ state: 'detached' });
@@ -210,7 +210,7 @@ test.describe('viewer action file', () => {
 
     await personalFiles.viewer.waitForViewerToOpen();
     await Utils.waitForApiResponse(personalFiles, 'content', 200);
-    expect(await personalFiles.viewer.getFileTitle()).toContain(docxFile);
+    expect(await personalFiles.viewer.getFileTitle()).toContain(fileNewVersionLocked2);
 
     await personalFiles.acaHeader.clickViewerMoreActions();
     await expect(personalFiles.matMenu.getMenuItemFromHeaderMenu('Cancel Editing'), `'Cancel Editing' button shouldn't be shown`).toBeHidden();

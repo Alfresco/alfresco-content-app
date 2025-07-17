@@ -23,7 +23,17 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, FileActionsApi, NodesApi, test, TEST_FILES, Utils, TrashcanApi, PersonalFilesPage } from '@alfresco/aca-playwright-shared';
+import {
+  ApiClientFactory,
+  FileActionsApi,
+  NodesApi,
+  test,
+  TEST_FILES,
+  Utils,
+  TrashcanApi,
+  PersonalFilesPage,
+  timeouts
+} from '@alfresco/aca-playwright-shared';
 
 test.use({ channel: 'chrome' });
 test.describe('viewer file types', () => {
@@ -92,7 +102,7 @@ test.describe('viewer file types', () => {
   ) {
     await page.dataTable.performClickFolderOrFileToOpen(fileName);
     expect(await page.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-    await page.viewer.waitForViewerLoaderToFinish();
+    await page.viewer.waitForViewerLoaderToFinish(timeouts.fortySeconds);
 
     const viewerElements = {
       viewerImage: page.viewer.viewerImage,
