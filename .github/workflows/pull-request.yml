@@ -83,6 +83,13 @@ jobs:
       - run: npx nx build aca-playwright-shared
       - run: npm run build -- $BUILD_OPTS
 
+      - name: dist cache
+        if: ${{ success() }}
+        uses: actions/cache/save@v4
+        with:
+          path: ./dist/content-ce
+          key: cache-dist-${{ github.run_id }}
+
   unit-tests:
     needs: [lint, build]
     name: "Unit tests"

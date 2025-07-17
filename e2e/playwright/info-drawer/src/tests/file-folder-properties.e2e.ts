@@ -205,18 +205,10 @@ test.describe('Info Drawer - file folder Properties', () => {
 
   test('[XAT-5516] View image properties', async ({ personalFiles }) => {
     const imageExifProperties = ['Image Width', 'Image Height'];
-
-    await expect(async () => {
-      await personalFiles.navigate();
-      await navigateAndOpenInfoDrawer(personalFiles, file5516, folder5516Id);
-      await expect(personalFiles.infoDrawer.exifInfoProperties.first()).not.toBeInViewport();
-      await personalFiles.infoDrawer.exifInfoAccordion.click();
-      await expect(personalFiles.infoDrawer.exifInfoProperties.first()).toBeInViewport();
-    }).toPass({
-      intervals: [3_000],
-      timeout: 60_000
-    });
-
+    await navigateAndOpenInfoDrawer(personalFiles, file5516, folder5516Id);
+    await expect(personalFiles.infoDrawer.exifInfoProperties.first()).not.toBeInViewport();
+    await personalFiles.infoDrawer.exifInfoAccordion.click();
+    await expect(personalFiles.infoDrawer.exifInfoProperties.first()).toBeInViewport();
     const getPropertiesText = (await personalFiles.infoDrawer.exifInfoProperties.allTextContents()).join('');
     for (const property of imageExifProperties) {
       expect(getPropertiesText).toContain(property);
