@@ -25,7 +25,7 @@
 import * as fs from 'fs';
 import { ApiClientFactory } from './api-client-factory';
 import { Utils, waitForApi } from '../utils';
-import { NodeBodyCreate, NodeEntry, ResultSetPaging } from '@alfresco/js-api';
+import { NodeBodyCreate, NodeEntry, ResultSetPaging, SearchRequest } from '@alfresco/js-api';
 
 export class FileActionsApi {
   private apiService: ApiClientFactory;
@@ -166,7 +166,7 @@ export class FileActionsApi {
   }
 
   private async queryNodesSearchHighlight(searchTerm: string): Promise<ResultSetPaging> {
-    const data = {
+    const data: SearchRequest = {
       query: {
         query: `cm:name:"${searchTerm}*"`,
         language: 'afts'
@@ -202,9 +202,9 @@ export class FileActionsApi {
   }
 
   async waitForNodesSearchHighlight(searchTerm: string, data: { expect: number }): Promise<void> {
-    const predicate = (totalItems: number) => totalItems === data.expect;
+    const predicate = (totalItems: number): boolean => totalItems === data.expect;
 
-    const apiCall = async () => {
+    const apiCall = async (): Promise<number> => {
       try {
         return (await this.queryNodesSearchHighlight(searchTerm)).list.pagination.totalItems;
       } catch (error) {
