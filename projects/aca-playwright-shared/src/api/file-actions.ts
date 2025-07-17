@@ -168,7 +168,7 @@ export class FileActionsApi {
   private async queryNodesSearchHighlight(searchTerm: string): Promise<ResultSetPaging> {
     const data = {
       query: {
-        query: `cm:name:\"${searchTerm}*\"`,
+        query: `cm:name:"${searchTerm}*"`,
         language: 'afts'
       },
       filterQueries: [{ query: `+TYPE:'cm:folder' OR +TYPE:'cm:content'` }],
@@ -208,6 +208,7 @@ export class FileActionsApi {
       try {
         return (await this.queryNodesSearchHighlight(searchTerm)).list.pagination.totalItems;
       } catch (error) {
+        console.warn(`queryNodesSearchHighlight failed for "${searchTerm}":`, error);
         return 0;
       }
     };
