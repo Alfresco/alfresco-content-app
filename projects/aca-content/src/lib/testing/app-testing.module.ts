@@ -47,7 +47,6 @@ import { provideRouter } from '@angular/router';
     provideStore(
       { app: appReducer },
       {
-        initialState: INITIAL_STATE,
         runtimeChecks: {
           strictStateImmutability: false,
           strictActionImmutability: false
