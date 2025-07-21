@@ -55,15 +55,12 @@ $search-border-radius: 4px;
   column-gap: 24px;
 }
 
-.app-search-feedback {
+.app-search-hint,
+.app-search-error {
   position: absolute;
   gap: 4px;
   padding-left: 17px;
   margin-top: 4px;
-}
-
-.app-search-hint,
-.app-search-error {
   font-size: 12px;
 }
 

@@ -203,6 +203,12 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   searchByOption() {
     this.syncInputValues();
     this.has400LibraryError = false;
+
+    const searchTerm = this.searchedWord?.trim();
+    if (!searchTerm) {
+      return;
+    }
+
     if (this.isLibrariesChecked()) {
       this.hasLibrariesConstraint = this.evaluateLibrariesConstraint();
       if (this.onLibrariesSearchResults && this.isSameSearchTerm()) {
