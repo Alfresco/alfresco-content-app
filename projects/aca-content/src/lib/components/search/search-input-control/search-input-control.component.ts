@@ -67,8 +67,6 @@ export class SearchInputControlComponent implements OnInit {
 
   searchFieldFormControl = new FormControl('', [Validators.required]);
 
-  isSearchBarActive = false;
-
   get searchTerm(): string {
     return this.searchFieldFormControl.value.replace('text:', 'TEXT:');
   }
@@ -84,37 +82,18 @@ export class SearchInputControlComponent implements OnInit {
     });
   }
 
-  onSearchButtonKeyDown(event: KeyboardEvent): void {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      this.openDropdown();
-    }
-  }
-
-  onInputKeyDown(event: KeyboardEvent): void {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      event.stopPropagation();
-      this.searchSubmit();
-    }
-  }
-
   openDropdown() {
-    this.isSearchBarActive = true;
     setTimeout(() => {
       this.searchInput.nativeElement.focus();
     }, 0);
   }
 
-  onInputFocus() {
-    this.isSearchBarActive = true;
-  }
-
   searchSubmit() {
     this.searchFieldFormControl.markAsTouched();
 
-    if (this.searchFieldFormControl.valid) {
-      this.submit.emit(this.searchTerm);
+    const trimmedTerm = this.searchTerm?.trim();
+    if (this.searchFieldFormControl.valid && trimmedTerm?.length > 0) {
+      this.submit.emit(trimmedTerm);
     }
   }
 
@@ -124,7 +103,6 @@ export class SearchInputControlComponent implements OnInit {
   }
 
   onBlur() {
-    this.isSearchBarActive = false;
     this.searchFieldFormControl.markAsUntouched();
   }
 

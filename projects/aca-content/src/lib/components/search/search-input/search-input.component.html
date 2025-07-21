@@ -1,10 +1,12 @@
-<button class="app-search-container"
-  [matMenuTriggerFor]="searchOptionsMenu"
-  (menuOpened)="onMenuOpened()"
-  (menuClosed)="syncInputValues()"
->
+<button class="app-search-container" [matMenuTriggerFor]="searchOptionsMenu" (menuOpened)="onMenuOpened()" (menuClosed)="syncInputValues()">
   <mat-form-field class="app-input-form-field" appearance="outline">
-    <button class="aca-search-input--search-button" mat-icon-button matPrefix (click)="searchByOption()" [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
+    <button
+      class="aca-search-input--search-button"
+      mat-icon-button
+      matPrefix
+      (click)="searchByOption()"
+      [title]="'SEARCH.BUTTON.TOOLTIP' | translate"
+    >
       <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
     </button>
 
@@ -20,7 +22,12 @@
     <div matSuffix>
       <mat-icon class="app-suffix-icon">arrow_drop_down</mat-icon>
 
-      <button class="aca-search-input--close-button" mat-icon-button [attr.aria-label]="'SEARCH.CLOSE_BUTTON.ARIA_LABEL' | translate" (click)="exitSearch()">
+      <button
+        class="aca-search-input--close-button"
+        mat-icon-button
+        [attr.aria-label]="'SEARCH.CLOSE_BUTTON.ARIA_LABEL' | translate"
+        (click)="exitSearch()"
+      >
         <mat-icon class="app-suffix-icon">close</mat-icon>
       </button>
     </div>
@@ -36,14 +43,13 @@
         (submit)="onSearchSubmit($event)"
         (searchChange)="onSearchChange($event)"
       />
-      <div class="app-search-feedback">
-        <mat-hint *ngIf="hasLibrariesConstraint" class="app-search-hint">
-          {{ 'SEARCH.INPUT.HINT' | translate }}
-        </mat-hint>
-        <mat-error *ngIf="searchInputControl.searchFieldFormControl.hasError('required') && searchInputControl.searchFieldFormControl.touched" class="app-search-error">
-          {{ 'SEARCH.INPUT.REQUIRED' | translate }}
-        </mat-error>
-      </div>
+      <mat-error *ngIf="hasLibrariesConstraint" class="app-search-hint">
+        {{ 'SEARCH.INPUT.HINT' | translate }}
+      </mat-error>
+      <mat-error
+        *ngIf="searchInputControl.searchFieldFormControl.errors?.required && searchInputControl.searchFieldFormControl.touched" class="app-search-error">
+        {{ 'SEARCH.INPUT.REQUIRED' | translate }}
+      </mat-error>
 
       <div id="search-options" class="app-search-options">
         <mat-checkbox *ngFor="let option of searchOptions"
