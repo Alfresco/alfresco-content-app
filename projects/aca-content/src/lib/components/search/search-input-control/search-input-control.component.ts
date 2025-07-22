@@ -90,7 +90,6 @@ export class SearchInputControlComponent implements OnInit {
 
   searchSubmit() {
     this.searchFieldFormControl.markAsTouched();
-
     const trimmedTerm = this.searchTerm?.trim();
     if (this.searchFieldFormControl.valid && trimmedTerm?.length > 0) {
       this.submit.emit(trimmedTerm);

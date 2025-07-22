@@ -50,7 +50,6 @@
         *ngIf="searchInputControl.searchFieldFormControl.errors?.required && searchInputControl.searchFieldFormControl.touched" class="app-search-error">
         {{ 'SEARCH.INPUT.REQUIRED' | translate }}
       </mat-error>
-
       <div id="search-options" class="app-search-options">
         <mat-checkbox *ngFor="let option of searchOptions"
           id="{{ option.id }}"

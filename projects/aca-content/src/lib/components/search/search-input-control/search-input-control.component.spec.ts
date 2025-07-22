@@ -94,5 +94,5 @@ describe('SearchInputControlComponent', () => {
     component.searchTerm = 'dd';
     fixture.detectChanges();
     expect(component.isTermTooShort()).toBe(false);
-  }); 
+  });
 });
