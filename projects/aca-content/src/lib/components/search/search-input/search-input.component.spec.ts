@@ -71,6 +71,7 @@ describe('SearchInputComponent', () => {
     component.searchInputControl.searchFieldFormControl.setValue('');
     component.searchInputControl.searchFieldFormControl.markAsTouched();
     fixture.detectChanges();
+
     expect(getFirstError()).toBe('SEARCH.INPUT.REQUIRED');
   });
 
@@ -79,6 +80,7 @@ describe('SearchInputComponent', () => {
     component.searchInputControl.searchFieldFormControl.setValue('test');
     component.searchInputControl.searchFieldFormControl.markAsTouched();
     fixture.detectChanges();
+
     const error = fixture.debugElement.query(By.directive(MatError));
     expect(error).toBeNull();
   });
@@ -88,6 +90,7 @@ describe('SearchInputComponent', () => {
     component.searchInputControl.searchFieldFormControl.setValue('');
     component.searchInputControl.searchFieldFormControl.markAsUntouched();
     fixture.detectChanges();
+
     const error = fixture.debugElement.query(By.directive(MatError));
     expect(error).toBeNull();
   });
@@ -96,8 +99,10 @@ describe('SearchInputComponent', () => {
     spyOn(component as any, 'isLibrariesChecked').and.returnValue(true);
     spyOn(component as any, 'isFoldersChecked').and.returnValue(false);
     spyOn(component as any, 'isFilesChecked').and.returnValue(false);
+
     component.searchedWord = 'test';
     component.onSearchSubmit('Enter');
+
     expect(store.dispatch).toHaveBeenCalled();
   });
 

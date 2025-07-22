@@ -54,7 +54,6 @@ describe('SearchInputControlComponent', () => {
   it('should not emit submit event if form is invalid', () => {
     component.searchTerm = '';
     spyOn(component.submit, 'emit');
-
     component.searchSubmit();
 
     expect(component.submit.emit).not.toHaveBeenCalled();

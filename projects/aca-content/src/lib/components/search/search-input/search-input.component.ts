@@ -204,8 +204,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     this.syncInputValues();
     this.has400LibraryError = false;
 
-    const searchTerm = this.searchedWord?.trim();
-    if (!searchTerm) {
+    if (!this.searchedWord.trim()) {
       return;
     }
 
@@ -213,8 +212,8 @@ export class SearchInputComponent implements OnInit, OnDestroy {
       this.hasLibrariesConstraint = this.evaluateLibrariesConstraint();
       if (this.onLibrariesSearchResults && this.isSameSearchTerm()) {
         this.queryLibrariesBuilder.update();
-      } else if (searchTerm) {
-        this.store.dispatch(new SearchByTermAction(searchTerm, this.searchOptions));
+      } else if (this.searchedWord) {
+        this.store.dispatch(new SearchByTermAction(this.searchedWord, this.searchOptions));
       }
     } else {
       if (this.isFoldersChecked() && !this.isFilesChecked()) {
@@ -227,8 +226,8 @@ export class SearchInputComponent implements OnInit, OnDestroy {
 
       if (this.onSearchResults && this.isSameSearchTerm()) {
         this.queryBuilder.update();
-      } else if (searchTerm) {
-        this.store.dispatch(new SearchByTermAction(searchTerm, this.searchOptions));
+      } else if (this.searchedWord) {
+        this.store.dispatch(new SearchByTermAction(this.searchedWord, this.searchOptions));
       }
     }
   }

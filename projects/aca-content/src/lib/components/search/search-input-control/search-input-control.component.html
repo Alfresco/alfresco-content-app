@@ -1,5 +1,6 @@
 <div class="app-search-container">
   <mat-form-field class="app-input-form-field" appearance="outline">
+
     <button
       mat-icon-button
       matPrefix
@@ -19,6 +20,7 @@
       id="app-control-input"
       [formControl]="searchFieldFormControl"
       (keydown.enter)="searchSubmit()"
+
       (blur)="onBlur()"
       [placeholder]="'SEARCH.INPUT.PLACEHOLDER' | translate"
       autocomplete="off"
@@ -28,6 +30,6 @@
       <button mat-icon-button (click)="clear()">
         <mat-icon *ngIf="searchFieldFormControl.value.length" class="app-suffix-icon">clear</mat-icon>
       </button>
-    </div> 
+    </div>
   </mat-form-field>
 </div>
