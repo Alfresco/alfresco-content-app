@@ -69,6 +69,7 @@ describe('SearchInputComponent', () => {
         }
       } catch (err) {
         fail(`Checkbox with id ${id} not found`);
+        throw err;
       }
     }
   }
