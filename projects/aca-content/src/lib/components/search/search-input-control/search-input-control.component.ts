@@ -31,6 +31,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { noWhitespaceValidator } from 'projects/aca-content/folder-rules/src/rule-details/validators/no-whitespace.validator';
 
 @Component({
   imports: [CommonModule, TranslatePipe, MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule],
@@ -65,7 +66,7 @@ export class SearchInputControlComponent implements OnInit {
   @ViewChild('searchInput', { static: true })
   searchInput: ElementRef;
 
-  searchFieldFormControl = new FormControl('', [Validators.required]);
+  searchFieldFormControl = new FormControl('', [Validators.required, noWhitespaceValidator()]);
 
   get searchTerm(): string {
     return this.searchFieldFormControl.value.replace('text:', 'TEXT:');
@@ -83,16 +84,14 @@ export class SearchInputControlComponent implements OnInit {
   }
 
   openDropdown() {
-    setTimeout(() => {
-      this.searchInput.nativeElement.focus();
-    }, 0);
+    this.searchInput.nativeElement.focus();
   }
 
   searchSubmit() {
     this.searchFieldFormControl.markAsTouched();
 
     const trimmedTerm = this.searchTerm?.trim();
-    if (this.searchFieldFormControl.valid && trimmedTerm?.length > 0) {
+    if (this.searchFieldFormControl.valid && trimmedTerm) {
       this.submit.emit(trimmedTerm);
     }
   }
@@ -107,6 +106,6 @@ export class SearchInputControlComponent implements OnInit {
   }
 
   isTermTooShort() {
-    return !!(this.searchTerm && this.searchTerm.length < 2);
+    return !!(this.searchTerm.trim() && this.searchTerm.trim().length < 2);
   }
 }

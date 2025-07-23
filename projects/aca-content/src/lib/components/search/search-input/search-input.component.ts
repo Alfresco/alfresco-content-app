@@ -73,6 +73,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   has400LibraryError = false;
   hasLibrariesConstraint = false;
   searchOnChange: boolean;
+  isTrimmedWordEmpty = false;
 
   searchedWord: string = null;
   searchOptions: Array<SearchOptionModel> = [
@@ -177,10 +178,15 @@ export class SearchInputComponent implements OnInit, OnDestroy {
    */
   onSearchSubmit(event: any) {
     const searchTerm = event.target ? (event.target as HTMLInputElement).value : event;
-    if (searchTerm) {
-      this.searchedWord = searchTerm;
+    const trimmedTerm = searchTerm.trim();
 
-      this.searchByOption();
+    if (trimmedTerm) {
+      this.searchedWord = trimmedTerm;
+      if (this.isLibrariesChecked() && this.searchInputControl.isTermTooShort()) {
+        return;
+      } else {
+        this.searchByOption();
+      }
     } else {
       this.notificationService.showError('APP.BROWSE.SEARCH.EMPTY_SEARCH');
     }

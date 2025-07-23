@@ -23,29 +23,62 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { UnitTestingUtils } from '@alfresco/adf-core';
 import { MatError } from '@angular/material/form-field';
 import { AppStore } from '@alfresco/aca-shared/store';
-import { By } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { SearchInputComponent } from './search-input.component';
-import { SearchInputControlComponent } from '../search-input-control/search-input-control.component';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
+import { HarnessLoader } from '@angular/cdk/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { MatMenuHarness } from '@angular/material/menu/testing';
+import { MatCheckboxHarness } from '@angular/material/checkbox/testing';
 
 describe('SearchInputComponent', () => {
   let fixture: ComponentFixture<SearchInputComponent>;
   let component: SearchInputComponent;
   let store: jasmine.SpyObj<Store<AppStore>>;
+  let unitTestingUtils: UnitTestingUtils;
+  let loader: HarnessLoader;
+
+  function getFirstError(): string {
+    const error = unitTestingUtils.getByDirective(MatError);
+    return error?.nativeElement.textContent.trim();
+  }
+
+  async function openMenu() {
+    const menu = await loader.getHarness(MatMenuHarness);
+    await menu.open();
+    return menu;
+  }
+
+  async function getCheckbox(id: string) {
+    const overlayLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
+    return overlayLoader.getHarness(MatCheckboxHarness.with({ selector: `#${id}` }));
+  }
+
+  async function uncheckAllCheckboxes() {
+    const checkboxIds = ['libraries', 'folder', 'content'];
+    for (const id of checkboxIds) {
+      try {
+        const checkbox = await getCheckbox(id);
+        if (await checkbox.isChecked()) {
+          await checkbox.uncheck();
+          fixture.detectChanges();
+        }
+      } catch (err) {
+        fail(`Checkbox with id ${id} not found`);
+      }
+    }
+  }
 
   beforeEach(async () => {
     const storeSpy = jasmine.createSpyObj<Store<AppStore>>('Store', ['dispatch', 'pipe']);
 
     await TestBed.configureTestingModule({
-      imports: [AppTestingModule, ReactiveFormsModule, SearchInputComponent, SearchInputControlComponent],
-      providers: [{ provide: Store, useValue: storeSpy }],
-      schemas: [NO_ERRORS_SCHEMA]
+      imports: [AppTestingModule, SearchInputComponent],
+      providers: [{ provide: Store, useValue: storeSpy }]
     }).compileComponents();
 
     fixture = TestBed.createComponent(SearchInputComponent);
@@ -53,21 +86,13 @@ describe('SearchInputComponent', () => {
     store = TestBed.inject(Store) as jasmine.SpyObj<Store<AppStore>>;
     store.pipe.and.returnValue(of([]));
     fixture.detectChanges();
+    unitTestingUtils = new UnitTestingUtils(fixture.debugElement);
+    loader = TestbedHarnessEnvironment.loader(fixture);
   });
 
-  function getFirstError(): string {
-    const error = fixture.debugElement.query(By.directive(MatError));
-    return error?.nativeElement.textContent.trim();
-  }
+  it('should show required error when field is empty and touched', async () => {
+    await openMenu();
 
-  function openSearchContainer(): void {
-    const menuButton = fixture.debugElement.query(By.css('.app-search-container'));
-    menuButton?.nativeElement.click();
-    fixture.detectChanges();
-  }
-
-  it('should show required error when field is empty and touched', () => {
-    openSearchContainer();
     component.searchInputControl.searchFieldFormControl.setValue('');
     component.searchInputControl.searchFieldFormControl.markAsTouched();
     fixture.detectChanges();
@@ -75,47 +100,50 @@ describe('SearchInputComponent', () => {
     expect(getFirstError()).toBe('SEARCH.INPUT.REQUIRED');
   });
 
-  it('should not show error when field has value', () => {
-    openSearchContainer();
-    component.searchInputControl.searchFieldFormControl.setValue('test');
+  it('should not show error when field has value', async () => {
+    await openMenu();
+
+    component.searchInputControl.searchFieldFormControl.setValue('not giving up');
     component.searchInputControl.searchFieldFormControl.markAsTouched();
     fixture.detectChanges();
 
-    const error = fixture.debugElement.query(By.directive(MatError));
+    const error = unitTestingUtils.getByDirective(MatError);
     expect(error).toBeNull();
   });
 
-  it('should not show error when field is untouched', () => {
-    openSearchContainer();
+  it('should not show error when field is untouched', async () => {
+    await openMenu();
+
     component.searchInputControl.searchFieldFormControl.setValue('');
     component.searchInputControl.searchFieldFormControl.markAsUntouched();
     fixture.detectChanges();
 
-    const error = fixture.debugElement.query(By.directive(MatError));
+    const error = unitTestingUtils.getByDirective(MatError);
     expect(error).toBeNull();
   });
 
-  it('should dispatch SearchByTermAction when libraries are checked and term is new', () => {
-    spyOn(component as any, 'isLibrariesChecked').and.returnValue(true);
-    spyOn(component as any, 'isFoldersChecked').and.returnValue(false);
-    spyOn(component as any, 'isFilesChecked').and.returnValue(false);
+  it('should dispatch action when Libraries checkbox selected and term is entered', async () => {
+    await openMenu();
+    const checkbox = await getCheckbox('libraries');
+    await checkbox.check();
+    fixture.detectChanges();
 
-    component.searchedWord = 'test';
-    component.onSearchSubmit('Enter');
-
+    component.onSearchSubmit({ target: { value: 'happy faces only' } });
     expect(store.dispatch).toHaveBeenCalled();
   });
 
-  it('should not dispatch SearchByTermAction when no checkboxes are selected and term is empty', () => {
+  it('should not dispatch SearchByTermAction when no checkboxes are selected and term is empty', async () => {
     store.dispatch.calls.reset();
 
-    spyOn(component as any, 'isLibrariesChecked').and.returnValue(false);
-    spyOn(component as any, 'isFoldersChecked').and.returnValue(false);
-    spyOn(component as any, 'isFilesChecked').and.returnValue(false);
+    await openMenu();
+    await uncheckAllCheckboxes();
+
+    expect(component.searchOptions.every((option) => !option.value)).toBeTrue();
 
     component.searchedWord = '';
-    component.onSearchSubmit({ target: { value: '' } });
+    fixture.detectChanges();
 
+    component.onSearchSubmit({ target: { value: '' } });
     expect(store.dispatch).not.toHaveBeenCalled();
   });
 });

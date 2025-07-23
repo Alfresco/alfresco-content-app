@@ -575,7 +575,8 @@
           "FOLDERS": "Folders",
           "LIBRARIES": "Libraries",
           "HINT": "Search input must have at least 2 alphanumeric characters.",
-          "REQUIRED": "Search term is required."
+          "REQUIRED": "Search input is required.",
+          "WHITESPACE": "Search input cannot be only whitespace."
         },
         "SORT": {
             "SORTING_OPTION": "Sort by",
