@@ -22,7 +22,20 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, EventEmitter, Input, Output, ViewEncapsulation, ViewChild, ElementRef, OnInit, inject, DestroyRef } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewEncapsulation,
+  ViewChild,
+  ElementRef,
+  OnInit,
+  inject,
+  DestroyRef,
+  OnChanges,
+  SimpleChanges
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -41,8 +54,21 @@ import { noWhitespaceValidator } from '@alfresco/aca-shared';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-search-control' }
 })
-export class SearchInputControlComponent implements OnInit {
+export class SearchInputControlComponent implements OnInit, OnChanges {
   private readonly destroyRef = inject(DestroyRef);
+
+  private validateInput(): void {
+    const errors = this.searchFieldFormControl.errors;
+    if (errors?.whitespace) {
+      this.validationError.emit('SEARCH.INPUT.WHITESPACE');
+    } else if (errors?.required) {
+      this.validationError.emit('SEARCH.INPUT.REQUIRED');
+    } else if (this.hasLibrariesConstraint && this.isTermTooShort()) {
+      this.validationError.emit('SEARCH.INPUT.MIN_LENGTH');
+    } else {
+      this.validationError.emit('');
+    }
+  }
 
   /** Type of the input field to render, e.g. "search" or "text" (default). */
   @Input()
@@ -96,21 +122,20 @@ export class SearchInputControlComponent implements OnInit {
     this.searchFieldFormControl.events.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((event) => {
       if (event instanceof TouchedChangeEvent || event instanceof StatusChangeEvent) {
         if (this.searchFieldFormControl.touched) {
-          const errors = this.searchFieldFormControl.errors;
-          if (errors?.whitespace) {
-            this.validationError.emit('SEARCH.INPUT.WHITESPACE');
-          } else if (this.hasLibrariesConstraint) {
-            this.validationError.emit('SEARCH.INPUT.MIN_LENGTH');
-          } else if (errors?.required) {
-            this.validationError.emit('SEARCH.INPUT.REQUIRED');
-          } else {
-            this.validationError.emit('');
-          }
+          this.validateInput();
         } else {
           this.validationError.emit('');
         }
       }
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['hasLibrariesConstraint'] && !changes['hasLibrariesConstraint'].firstChange) {
+      if (this.searchFieldFormControl.touched) {
+        this.validateInput();
+      }
+    }
   }
 
   openDropdown() {

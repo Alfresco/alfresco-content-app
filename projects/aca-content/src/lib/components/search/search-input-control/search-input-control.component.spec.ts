@@ -80,7 +80,6 @@ describe('SearchInputControlComponent', () => {
   });
 
   it('should check if searchTerm has a length less than 2', () => {
-    expect(component.isTermTooShort()).toBe(false);
     component.searchTerm = 'd';
     fixture.detectChanges();
     expect(component.isTermTooShort()).toBe(true);

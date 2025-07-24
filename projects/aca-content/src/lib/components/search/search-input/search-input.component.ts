@@ -153,8 +153,8 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   showInputValue() {
     this.appService.setAppNavbarMode('collapsed');
     this.has400LibraryError = false;
-    this.hasLibrariesConstraint = this.evaluateLibrariesConstraint();
     this.searchedWord = this.getUrlSearchTerm();
+    this.hasLibrariesConstraint = this.evaluateLibrariesConstraint();
 
     if (this.searchInputControl) {
       this.searchInputControl.searchTerm = this.searchedWord;
@@ -203,8 +203,8 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     }
 
     this.has400LibraryError = false;
-    this.hasLibrariesConstraint = this.evaluateLibrariesConstraint();
     this.searchedWord = searchTerm;
+    this.hasLibrariesConstraint = this.evaluateLibrariesConstraint();
   }
 
   searchByOption() {
