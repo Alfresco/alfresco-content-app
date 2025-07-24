@@ -131,10 +131,8 @@ export class SearchInputControlComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['hasLibrariesConstraint'] && !changes['hasLibrariesConstraint'].firstChange) {
-      if (this.searchFieldFormControl.touched) {
-        this.validateInput();
-      }
+    if (changes['hasLibrariesConstraint'] && !changes['hasLibrariesConstraint'].firstChange && this.searchFieldFormControl.touched) {
+      this.validateInput();
     }
   }
 
