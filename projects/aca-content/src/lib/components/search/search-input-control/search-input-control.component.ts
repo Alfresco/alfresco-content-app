@@ -31,7 +31,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { noWhitespaceValidator } from 'projects/aca-content/folder-rules/src/rule-details/validators/no-whitespace.validator';
+import { noWhitespaceValidator } from 'projects/aca-shared/src/lib/validators/no-whitespace.validator';
 
 @Component({
   imports: [CommonModule, TranslatePipe, MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule],
@@ -106,6 +106,6 @@ export class SearchInputControlComponent implements OnInit {
   }
 
   isTermTooShort() {
-    return !!(this.searchTerm.trim() && this.searchTerm.trim().length < 2);
+    return this.searchTerm.trim()?.length < 2;
   }
 }

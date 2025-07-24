@@ -47,13 +47,13 @@ describe('SearchInputComponent', () => {
     return error?.nativeElement.textContent.trim();
   }
 
-  async function openMenu() {
+  async function openMenu(): Promise<MatMenuHarness> {
     const menu = await loader.getHarness(MatMenuHarness);
     await menu.open();
     return menu;
   }
 
-  async function getCheckbox(id: string) {
+  function getCheckbox(id: string): Promise<MatCheckboxHarness> {
     const overlayLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
     return overlayLoader.getHarness(MatCheckboxHarness.with({ selector: `#${id}` }));
   }

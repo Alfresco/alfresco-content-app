@@ -27,7 +27,7 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 export const noWhitespaceValidator = (): ValidatorFn => {
   return (control: AbstractControl): ValidationErrors | null => {
     const rawValue = control.value;
-    if (rawValue === null || rawValue === '') {
+    if (!rawValue) {
       return null;
     }
 
