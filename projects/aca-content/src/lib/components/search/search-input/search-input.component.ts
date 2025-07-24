@@ -217,6 +217,10 @@ export class SearchInputComponent implements OnInit, OnDestroy {
 
     if (this.isLibrariesChecked()) {
       this.hasLibrariesConstraint = this.evaluateLibrariesConstraint();
+
+      if (this.hasLibrariesConstraint) {
+        return;
+      }
       if (this.onLibrariesSearchResults && this.isSameSearchTerm()) {
         this.queryLibrariesBuilder.update();
       } else if (this.searchedWord) {

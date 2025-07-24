@@ -57,19 +57,6 @@ import { noWhitespaceValidator } from '@alfresco/aca-shared';
 export class SearchInputControlComponent implements OnInit, OnChanges {
   private readonly destroyRef = inject(DestroyRef);
 
-  private validateInput(): void {
-    const errors = this.searchFieldFormControl.errors;
-    if (errors?.whitespace) {
-      this.validationError.emit('SEARCH.INPUT.WHITESPACE');
-    } else if (errors?.required) {
-      this.validationError.emit('SEARCH.INPUT.REQUIRED');
-    } else if (this.hasLibrariesConstraint && this.isTermTooShort()) {
-      this.validationError.emit('SEARCH.INPUT.MIN_LENGTH');
-    } else {
-      this.validationError.emit('');
-    }
-  }
-
   /** Type of the input field to render, e.g. "search" or "text" (default). */
   @Input()
   inputType = 'text';
@@ -122,7 +109,7 @@ export class SearchInputControlComponent implements OnInit, OnChanges {
     this.searchFieldFormControl.events.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((event) => {
       if (event instanceof TouchedChangeEvent || event instanceof StatusChangeEvent) {
         if (this.searchFieldFormControl.touched) {
-          this.validateInput();
+          this.emitValidationError();
         } else {
           this.validationError.emit('');
         }
@@ -132,7 +119,7 @@ export class SearchInputControlComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['hasLibrariesConstraint'] && !changes['hasLibrariesConstraint'].firstChange && this.searchFieldFormControl.touched) {
-      this.validateInput();
+      this.emitValidationError();
     }
   }
 
@@ -160,5 +147,18 @@ export class SearchInputControlComponent implements OnInit, OnChanges {
 
   isTermTooShort() {
     return this.searchTerm.trim()?.length < 2;
+  }
+
+  private emitValidationError(): void {
+    const errors = this.searchFieldFormControl.errors;
+    if (errors?.whitespace) {
+      this.validationError.emit('SEARCH.INPUT.WHITESPACE');
+    } else if (errors?.required) {
+      this.validationError.emit('SEARCH.INPUT.REQUIRED');
+    } else if (this.hasLibrariesConstraint && this.isTermTooShort()) {
+      this.validationError.emit('SEARCH.INPUT.MIN_LENGTH');
+    } else {
+      this.validationError.emit('');
+    }
   }
 }
