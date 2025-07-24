@@ -35,21 +35,11 @@
         (click)="$event.stopPropagation()"
         (submit)="onSearchSubmit($event)"
         (searchChange)="onSearchChange($event)"
+        (validationError)="error = $event"
+        [hasLibrariesConstraint]="hasLibrariesConstraint"
       />
-      <mat-error *ngIf="searchInputControl.searchFieldFormControl.touched" class="app-search-error">
-        <ng-container *ngIf="hasLibrariesConstraint; else checkRequired">
-          {{ 'SEARCH.INPUT.HINT' | translate }}
-        </ng-container>
-        <ng-template #checkRequired>
-          <ng-container *ngIf="searchInputControl.searchFieldFormControl.errors?.required; else checkWhitespace">
-            {{ 'SEARCH.INPUT.REQUIRED' | translate }}
-          </ng-container>
-        </ng-template>
-        <ng-template #checkWhitespace>
-          <ng-container *ngIf="searchInputControl.searchFieldFormControl.errors?.whitespace">
-            {{ 'SEARCH.INPUT.WHITESPACE' | translate }}
-          </ng-container>
-        </ng-template>
+      <mat-error *ngIf="error" class="app-search-error">
+        {{ error | translate }}
       </mat-error>
       <div id="search-options" class="app-search-options">
         <mat-checkbox *ngFor="let option of searchOptions"

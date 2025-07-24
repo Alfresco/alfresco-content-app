@@ -74,6 +74,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   hasLibrariesConstraint = false;
   searchOnChange: boolean;
   isTrimmedWordEmpty = false;
+  error = '';
 
   searchedWord: string = null;
   searchOptions: Array<SearchOptionModel> = [

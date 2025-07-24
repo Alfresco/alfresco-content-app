@@ -29,9 +29,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule, StatusChangeEvent, TouchedChangeEvent, Validators } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { noWhitespaceValidator } from 'projects/aca-shared/src/lib/validators/no-whitespace.validator';
+import { noWhitespaceValidator } from '@alfresco/aca-shared';
 
 @Component({
   imports: [CommonModule, TranslatePipe, MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule],
@@ -48,6 +48,13 @@ export class SearchInputControlComponent implements OnInit {
   @Input()
   inputType = 'text';
 
+  /**
+   * Indicates whether the search is constrained by libraries.
+   * If true, specific error messaging or validation behavior may be triggered.
+   */
+  @Input()
+  hasLibrariesConstraint: boolean;
+
   /** Emitted when the search is submitted pressing ENTER button.
    * The search term is provided as value of the event.
    */
@@ -62,6 +69,10 @@ export class SearchInputControlComponent implements OnInit {
    */
   @Output()
   searchChange: EventEmitter<string> = new EventEmitter();
+
+  /** Emitted when the input control has a validation error. */
+  @Output()
+  validationError = new EventEmitter<string>();
 
   @ViewChild('searchInput', { static: true })
   searchInput: ElementRef;
@@ -80,6 +91,25 @@ export class SearchInputControlComponent implements OnInit {
     this.searchFieldFormControl.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((searchTermValue) => {
       this.searchFieldFormControl.markAsTouched();
       this.searchChange.emit(searchTermValue);
+    });
+
+    this.searchFieldFormControl.events.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((event) => {
+      if (event instanceof TouchedChangeEvent || event instanceof StatusChangeEvent) {
+        if (this.searchFieldFormControl.touched) {
+          const errors = this.searchFieldFormControl.errors;
+          if (errors?.whitespace) {
+            this.validationError.emit('SEARCH.INPUT.WHITESPACE');
+          } else if (this.hasLibrariesConstraint) {
+            this.validationError.emit('SEARCH.INPUT.MIN_LENGTH');
+          } else if (errors?.required) {
+            this.validationError.emit('SEARCH.INPUT.REQUIRED');
+          } else {
+            this.validationError.emit('');
+          }
+        } else {
+          this.validationError.emit('');
+        }
+      }
     });
   }
 
