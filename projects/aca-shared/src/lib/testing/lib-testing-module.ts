@@ -29,8 +29,8 @@ import { TranslateLoaderService, TranslationMock, TranslationService } from '@al
 import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
+import { provideEffects } from '@ngrx/effects';
+import { provideStore } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -99,9 +99,16 @@ export class DocumentBasePageServiceMock extends DocumentBasePageService {
     CommonModule,
     RouterTestingModule,
     MatIconTestingModule,
-    StoreModule,
     OverlayModule,
-    StoreModule.forRoot(
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useClass: TranslateLoaderService
+      }
+    })
+  ],
+  providers: [
+    provideStore(
       { app: null },
       {
         initialState,
@@ -111,15 +118,7 @@ export class DocumentBasePageServiceMock extends DocumentBasePageService {
         }
       }
     ),
-    EffectsModule.forRoot([]),
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useClass: TranslateLoaderService
-      }
-    })
-  ],
-  providers: [
+    provideEffects([]),
     { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
     { provide: TranslationService, useClass: TranslationMock },
     provideHttpClient(withInterceptorsFromDi())

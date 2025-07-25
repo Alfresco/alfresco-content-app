@@ -22,8 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { EffectsModule } from '@ngrx/effects';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { TemplateEffects } from '../store/effects/template.effects';
 import { AppTestingModule } from '../testing/app-testing.module';
 import { Store } from '@ngrx/store';
@@ -32,6 +31,7 @@ import { NodeTemplateService } from './node-template.service';
 import { ResultSetPaging } from '@alfresco/js-api';
 import { NotificationService } from '@alfresco/adf-core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { provideEffects } from '@ngrx/effects';
 
 describe('NodeTemplateService', () => {
   let dialog: MatDialog;
@@ -50,8 +50,8 @@ describe('NodeTemplateService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([TemplateEffects]), MatDialogModule, MatSnackBarModule],
-      providers: [NodeTemplateService]
+      imports: [AppTestingModule, MatDialogModule, MatSnackBarModule],
+      providers: [NodeTemplateService, provideEffects([TemplateEffects])]
     });
 
     store = TestBed.inject(Store);

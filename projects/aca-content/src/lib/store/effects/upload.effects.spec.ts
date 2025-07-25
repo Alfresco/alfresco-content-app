@@ -24,11 +24,11 @@
 
 import { Store } from '@ngrx/store';
 import { TestBed } from '@angular/core/testing';
-import { EffectsModule } from '@ngrx/effects';
+import { provideEffects } from '@ngrx/effects';
 import { UploadEffects } from './upload.effects';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { NgZone } from '@angular/core';
-import { UploadService, FileUploadCompleteEvent, FileModel } from '@alfresco/adf-content-services';
+import { FileModel, FileUploadCompleteEvent, UploadService } from '@alfresco/adf-content-services';
 import { UnlockWriteAction, UploadFilesAction, UploadFileVersionAction, UploadFolderAction } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -43,7 +43,8 @@ describe('UploadEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([UploadEffects]), MatDialogModule, MatSnackBarModule]
+      imports: [AppTestingModule, MatDialogModule, MatSnackBarModule],
+      providers: [provideEffects([UploadEffects])]
     });
 
     zone = TestBed.inject(NgZone);

@@ -23,7 +23,7 @@
  */
 
 import { TestBed } from '@angular/core/testing';
-import { EffectsModule } from '@ngrx/effects';
+import { provideEffects } from '@ngrx/effects';
 import { SearchAiEffects } from './search-ai.effects';
 import { Store } from '@ngrx/store';
 import { AppTestingModule } from '../../testing/app-testing.module';
@@ -39,7 +39,8 @@ describe('SearchAiEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([SearchAiEffects])]
+      imports: [AppTestingModule],
+      providers: [provideEffects([SearchAiEffects])]
     });
     store = TestBed.inject(Store);
   });

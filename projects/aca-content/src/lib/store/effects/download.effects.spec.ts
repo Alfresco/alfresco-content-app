@@ -24,7 +24,6 @@
 
 import { TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { EffectsModule } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -38,7 +37,8 @@ describe('DownloadEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([DownloadEffects]), MatDialogModule]
+      imports: [AppTestingModule, MatDialogModule],
+      providers: [DownloadEffects]
     });
     store = TestBed.inject(Store);
   });

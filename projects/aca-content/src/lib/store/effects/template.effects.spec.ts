@@ -25,7 +25,7 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { TemplateEffects } from './template.effects';
-import { EffectsModule } from '@ngrx/effects';
+import { provideEffects } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { CreateFromTemplate, CreateFromTemplateSuccess, FileFromTemplate, FolderFromTemplate } from '@alfresco/aca-shared/store';
 import { NodeTemplateService } from '../../services/node-template.service';
@@ -76,8 +76,9 @@ describe('TemplateEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([TemplateEffects]), MatSnackBarModule],
+      imports: [AppTestingModule, MatSnackBarModule],
       providers: [
+        provideEffects([TemplateEffects]),
         NodeTemplateService,
         {
           provide: MatDialog,

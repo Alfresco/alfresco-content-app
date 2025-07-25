@@ -29,7 +29,7 @@ import { ContentApiService } from '@alfresco/aca-shared';
 import { Subject } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NotificationService } from '@alfresco/adf-core';
-import { EffectsModule } from '@ngrx/effects';
+import { provideEffects } from '@ngrx/effects';
 import { LibraryEffects } from './library.effects';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { NodeEntry } from '@alfresco/js-api';
@@ -39,7 +39,8 @@ describe('LibraryEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([LibraryEffects])]
+      imports: [AppTestingModule],
+      providers: [provideEffects([LibraryEffects])]
     });
     store = TestBed.inject(Store);
   });

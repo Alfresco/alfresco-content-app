@@ -25,7 +25,7 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ViewerEffects } from './viewer.effects';
-import { EffectsModule } from '@ngrx/effects';
+import { provideEffects } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { SetCurrentFolderAction, SetSelectedNodesAction, ViewFileAction, ViewNodeAction } from '@alfresco/aca-shared/store';
@@ -37,7 +37,8 @@ describe('ViewerEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([ViewerEffects]), MatDialogModule]
+      imports: [AppTestingModule, MatDialogModule],
+      providers: [provideEffects([ViewerEffects])]
     });
 
     store = TestBed.inject(Store);

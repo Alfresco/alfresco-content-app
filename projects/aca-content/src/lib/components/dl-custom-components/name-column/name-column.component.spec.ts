@@ -24,7 +24,7 @@
 
 import { CustomNameColumnComponent } from './name-column.component';
 import { Actions } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
+import { provideStore } from '@ngrx/store';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { By } from '@angular/platform-browser';
@@ -47,12 +47,11 @@ describe('CustomNameColumnComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        NoopTranslateModule,
-        CustomNameColumnComponent,
-        MockDatatableCellBadgesComponent,
-        AuthModule.forRoot(),
-        StoreModule.forRoot(
+      imports: [NoopTranslateModule, CustomNameColumnComponent, MockDatatableCellBadgesComponent, AuthModule.forRoot()],
+      providers: [
+        Actions,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideStore(
           { app: (state) => state },
           {
             initialState: {
@@ -67,8 +66,7 @@ describe('CustomNameColumnComponent', () => {
             }
           }
         )
-      ],
-      providers: [Actions, provideHttpClient(withInterceptorsFromDi())]
+      ]
     });
 
     fixture = TestBed.createComponent(CustomNameColumnComponent);

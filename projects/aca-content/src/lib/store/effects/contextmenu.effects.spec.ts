@@ -25,7 +25,7 @@
 import { TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContextMenuEffects } from './contextmenu.effects';
-import { EffectsModule } from '@ngrx/effects';
+import { provideEffects } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { ContextMenu, CustomContextMenu } from '@alfresco/aca-shared/store';
 import { ContextMenuService } from '../../components/context-menu/context-menu.service';
@@ -51,8 +51,8 @@ describe('ContextMenuEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([ContextMenuEffects]), OverlayModule],
-      providers: [ContextMenuService]
+      imports: [AppTestingModule, OverlayModule],
+      providers: [ContextMenuService, provideEffects([ContextMenuEffects])]
     });
 
     store = TestBed.inject(Store);

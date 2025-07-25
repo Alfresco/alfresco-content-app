@@ -23,29 +23,29 @@
  */
 
 import { NgModule } from '@angular/core';
-import { StoreModule } from '@ngrx/store';
+import { provideStore } from '@ngrx/store';
 import { appReducer } from './reducers/app.reducer';
-import { StoreRouterConnectingModule, FullRouterStateSerializer } from '@ngrx/router-store';
-import { EffectsModule } from '@ngrx/effects';
+import { FullRouterStateSerializer, provideRouterStore } from '@ngrx/router-store';
+import { provideEffects } from '@ngrx/effects';
 import { RouterEffects } from '@alfresco/aca-shared/store';
 import {
   AppEffects,
-  NodeEffects,
+  ContextMenuEffects,
   DownloadEffects,
-  ViewerEffects,
-  SearchEffects,
-  LibraryEffects,
-  UploadEffects,
   FavoriteEffects,
+  LibraryEffects,
+  NodeEffects,
+  SearchEffects,
   TemplateEffects,
-  ContextMenuEffects
+  UploadEffects,
+  ViewerEffects
 } from './effects';
 import { INITIAL_STATE } from './initial-state';
 import { SearchAiEffects } from './effects/search-ai.effects';
 
 @NgModule({
-  imports: [
-    StoreModule.forRoot(
+  providers: [
+    provideStore(
       { app: appReducer },
       {
         initialState: INITIAL_STATE,
@@ -55,11 +55,8 @@ import { SearchAiEffects } from './effects/search-ai.effects';
         }
       }
     ),
-    StoreRouterConnectingModule.forRoot({
-      serializer: FullRouterStateSerializer,
-      stateKey: 'router'
-    }),
-    EffectsModule.forRoot([
+    provideRouterStore({ stateKey: 'router', serializer: FullRouterStateSerializer }),
+    provideEffects([
       AppEffects,
       NodeEffects,
       DownloadEffects,

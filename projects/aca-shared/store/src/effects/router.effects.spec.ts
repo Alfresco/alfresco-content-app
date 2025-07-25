@@ -23,8 +23,8 @@
  */
 
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { EffectsModule } from '@ngrx/effects';
-import { Store, StoreModule } from '@ngrx/store';
+import { provideEffects } from '@ngrx/effects';
+import { provideStore, Store } from '@ngrx/store';
 import { NoopTranslateModule, SnackbarContentComponent } from '@alfresco/adf-core';
 import { RouterEffects } from './router.effects';
 import {
@@ -46,7 +46,8 @@ describe('NodeEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NoopTranslateModule, StoreModule.forRoot({}), EffectsModule.forRoot([RouterEffects])]
+      imports: [NoopTranslateModule],
+      providers: [provideStore(), provideEffects([RouterEffects])]
     });
 
     store = TestBed.inject(Store);
