@@ -31,6 +31,7 @@ import { DownloadNodesAction } from '@alfresco/aca-shared/store';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { VersionEntry } from '@alfresco/js-api';
 import { DownloadEffects } from './download.effects';
+import { provideEffects } from '@ngrx/effects';
 
 describe('DownloadEffects', () => {
   let store: Store;
@@ -38,7 +39,7 @@ describe('DownloadEffects', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, MatDialogModule],
-      providers: [DownloadEffects]
+      providers: [provideEffects([DownloadEffects])]
     });
     store = TestBed.inject(Store);
   });
