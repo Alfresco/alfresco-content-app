@@ -211,6 +211,8 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     this.syncInputValues();
     this.has400LibraryError = false;
 
+    this.searchInputControl.emitValidationError();
+
     if (!this.searchedWord.trim()) {
       return;
     }

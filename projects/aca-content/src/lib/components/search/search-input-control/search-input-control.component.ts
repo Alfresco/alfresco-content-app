@@ -118,7 +118,7 @@ export class SearchInputControlComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['hasLibrariesConstraint'] && !changes['hasLibrariesConstraint'].firstChange && this.searchFieldFormControl.touched) {
+    if (changes['hasLibrariesConstraint'] && !changes['hasLibrariesConstraint'].firstChange) {
       this.emitValidationError();
     }
   }
@@ -149,7 +149,7 @@ export class SearchInputControlComponent implements OnInit, OnChanges {
     return this.searchTerm.trim()?.length < 2;
   }
 
-  private emitValidationError(): void {
+  emitValidationError(): void {
     const errors = this.searchFieldFormControl.errors;
     if (errors?.whitespace) {
       this.validationError.emit('SEARCH.INPUT.WHITESPACE');
