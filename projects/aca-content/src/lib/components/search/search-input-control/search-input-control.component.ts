@@ -66,7 +66,7 @@ export class SearchInputControlComponent implements OnInit, OnChanges {
    * If true, specific error messaging or validation behavior may be triggered.
    */
   @Input()
-  hasLibrariesConstraint: boolean;
+  hasLibrariesConstraint = false;
 
   /** Emitted when the search is submitted pressing ENTER button.
    * The search term is provided as value of the event.
