@@ -25,7 +25,7 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { NodeEffects } from './node.effects';
-import { EffectsModule } from '@ngrx/effects';
+import { provideEffects } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import {
@@ -55,7 +55,7 @@ import {
 } from '@alfresco/aca-shared/store';
 import { RenditionService } from '@alfresco/adf-content-services';
 import { ViewerEffects } from './viewer.effects';
-import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -70,8 +70,12 @@ describe('NodeEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([NodeEffects, ViewerEffects, RouterEffects]), MatDialogModule, MatSnackBarModule],
-      providers: [RenditionService, { provide: ActivatedRoute, useValue: { queryParams: of({ location: 'test-page' }) } }]
+      imports: [AppTestingModule, MatDialogModule, MatSnackBarModule],
+      providers: [
+        provideEffects([NodeEffects, ViewerEffects, RouterEffects]),
+        RenditionService,
+        { provide: ActivatedRoute, useValue: { queryParams: of({ location: 'test-page' }) } }
+      ]
     });
 
     store = TestBed.inject(Store);

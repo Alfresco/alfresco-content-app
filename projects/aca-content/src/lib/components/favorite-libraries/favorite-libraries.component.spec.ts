@@ -29,7 +29,7 @@ import { AlfrescoApiService } from '@alfresco/adf-content-services';
 import { FavoriteLibrariesComponent } from './favorite-libraries.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { AppHookService, ContentApiService } from '@alfresco/aca-shared';
-import { EffectsModule } from '@ngrx/effects';
+import { provideEffects } from '@ngrx/effects';
 import { RouterEffects } from '@alfresco/aca-shared/store';
 import { of, throwError } from 'rxjs';
 import { LibraryEffects } from '../../store/effects';
@@ -58,7 +58,8 @@ describe('FavoriteLibrariesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([RouterEffects, LibraryEffects]), FavoriteLibrariesComponent, MatSnackBarModule]
+      imports: [AppTestingModule, FavoriteLibrariesComponent, MatSnackBarModule],
+      providers: [provideEffects([RouterEffects, LibraryEffects])]
     });
 
     fixture = TestBed.createComponent(FavoriteLibrariesComponent);

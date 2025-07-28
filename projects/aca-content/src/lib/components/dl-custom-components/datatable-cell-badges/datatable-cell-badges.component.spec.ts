@@ -32,7 +32,7 @@ import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { ContentActionType } from '@alfresco/adf-extensions';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { StoreModule } from '@ngrx/store';
+import { provideStore } from '@ngrx/store';
 
 const mockNode = {
   entry: {
@@ -55,10 +55,11 @@ describe('DatatableCellBadgesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        NoopTranslateModule,
-        NoopAuthModule,
-        StoreModule.forRoot(
+      imports: [NoopTranslateModule, NoopAuthModule, DatatableCellBadgesComponent],
+      providers: [
+        Actions,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideStore(
           { app: (state) => state },
           {
             initialState: {
@@ -72,10 +73,8 @@ describe('DatatableCellBadgesComponent', () => {
               }
             }
           }
-        ),
-        DatatableCellBadgesComponent
-      ],
-      providers: [Actions, provideHttpClient(withInterceptorsFromDi())]
+        )
+      ]
     });
 
     fixture = TestBed.createComponent(DatatableCellBadgesComponent);

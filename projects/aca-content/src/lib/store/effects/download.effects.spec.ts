@@ -24,7 +24,6 @@
 
 import { TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { EffectsModule } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -32,13 +31,15 @@ import { DownloadNodesAction } from '@alfresco/aca-shared/store';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { VersionEntry } from '@alfresco/js-api';
 import { DownloadEffects } from './download.effects';
+import { provideEffects } from '@ngrx/effects';
 
 describe('DownloadEffects', () => {
   let store: Store;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([DownloadEffects]), MatDialogModule]
+      imports: [AppTestingModule, MatDialogModule],
+      providers: [provideEffects([DownloadEffects])]
     });
     store = TestBed.inject(Store);
   });

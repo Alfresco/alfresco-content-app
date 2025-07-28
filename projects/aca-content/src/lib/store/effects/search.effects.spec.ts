@@ -22,13 +22,13 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { SearchEffects } from './search.effects';
-import { EffectsModule } from '@ngrx/effects';
+import { provideEffects } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
-import { SearchOptionIds, SearchByTermAction, SearchAction } from '@alfresco/aca-shared/store';
+import { SearchAction, SearchByTermAction, SearchOptionIds } from '@alfresco/aca-shared/store';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 
 describe('SearchEffects', () => {
@@ -38,7 +38,8 @@ describe('SearchEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([SearchEffects])]
+      imports: [AppTestingModule],
+      providers: [provideEffects([SearchEffects])]
     });
 
     store = TestBed.inject(Store);

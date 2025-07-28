@@ -28,10 +28,10 @@ import { AuthenticationService, NoopTranslateModule, PageTitleService } from '@a
 import { AlfrescoApiService, AlfrescoApiServiceMock, DiscoveryApiService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { RepositoryInfo, VersionInfo } from '@alfresco/js-api';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { StoreModule } from '@ngrx/store';
+import { provideStore } from '@ngrx/store';
 import { appReducer } from '../store/reducers/app.reducer';
 import { RouterTestingModule } from '@angular/router/testing';
-import { EffectsModule } from '@ngrx/effects';
+import { provideEffects } from '@ngrx/effects';
 import { INITIAL_STATE } from '../store/initial-state';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { ContentManagementService } from '../services/content-management.service';
@@ -42,11 +42,9 @@ import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 @NgModule({
   exports: [RouterTestingModule],
-  imports: [
-    NoopAnimationsModule,
-    NoopTranslateModule,
-    RouterTestingModule,
-    StoreModule.forRoot(
+  imports: [NoopAnimationsModule, NoopTranslateModule, RouterTestingModule, MatSnackBarModule, MatDialogModule, MatIconTestingModule],
+  providers: [
+    provideStore(
       { app: appReducer },
       {
         initialState: INITIAL_STATE,
@@ -56,12 +54,7 @@ import { MatIconTestingModule } from '@angular/material/icon/testing';
         }
       }
     ),
-    EffectsModule.forRoot([]),
-    MatSnackBarModule,
-    MatDialogModule,
-    MatIconTestingModule
-  ],
-  providers: [
+    provideEffects([]),
     SearchQueryBuilderService,
     { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
     { provide: DocumentBasePageService, useExisting: ContentManagementService },

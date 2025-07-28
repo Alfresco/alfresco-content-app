@@ -24,7 +24,6 @@
 
 import { fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { BehaviorSubject, EMPTY, of, Subject, throwError } from 'rxjs';
-import { EffectsModule } from '@ngrx/effects';
 import {
   AppStore,
   CopyNodesAction,
@@ -62,6 +61,7 @@ import {
   ViewVersion
 } from '@alfresco/adf-content-services';
 import { FolderInformationComponent } from '../dialogs/folder-details/folder-information.component';
+import { provideEffects } from '@ngrx/effects';
 
 describe('ContentManagementService', () => {
   let dialog: MatDialog;
@@ -84,7 +84,8 @@ describe('ContentManagementService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([NodeEffects]), MatDialogModule, MatSnackBarModule]
+      imports: [AppTestingModule, MatDialogModule, MatSnackBarModule],
+      providers: [provideEffects([NodeEffects])]
     });
 
     contentApi = TestBed.inject(ContentApiService);
