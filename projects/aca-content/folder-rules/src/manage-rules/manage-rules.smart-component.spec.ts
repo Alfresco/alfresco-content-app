@@ -270,7 +270,7 @@ describe('ManageRulesSmartComponent', () => {
     expect(ruleDetails).toBeTruthy('expected ruleDetails');
   });
 
-  it('should refresh main rule set', () => {
+  it('should refresh main rule set when link rules dialog is closed', () => {
     folderRuleSetsService.folderInfo$ = of(owningFolderMock);
     folderRuleSetsService.mainRuleSet$ = of(ownedRuleSetMock);
     folderRuleSetsService.inheritedRuleSets$ = of([inheritedRuleSetMock]);
@@ -303,7 +303,7 @@ describe('ManageRulesSmartComponent', () => {
     expect(ruleDetails).toBeTruthy('expected ruleDetails');
   });
 
-  it('should onRuleSetUnlinkClicked', () => {
+  it('should call deleteRuleSetLink when onRuleSetUnlinkClicked is called', () => {
     folderRuleSetsService.folderInfo$ = of(owningFolderMock);
     folderRuleSetsService.mainRuleSet$ = of(ownedRuleSetMock);
     folderRuleSetsService.inheritedRuleSets$ = of([inheritedRuleSetMock]);
@@ -336,7 +336,7 @@ describe('ManageRulesSmartComponent', () => {
     expect(ruleDetails).toBeTruthy('expected ruleDetails');
   });
 
-  describe('EditRuleDialog launching and submission', () => {
+  describe('EditRuleDialog', () => {
     let submit$: Subject<Partial<Rule>>;
     let dialogRefMock: { componentInstance: { submitted: Subject<Partial<Rule>> }; close: jasmine.Spy };
 
