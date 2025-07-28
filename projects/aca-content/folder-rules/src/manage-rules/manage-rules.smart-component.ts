@@ -31,7 +31,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { NodeInfo } from '@alfresco/aca-shared/store';
 import { delay } from 'rxjs/operators';
 import { EditRuleDialogUiComponent } from '../rule-details/edit-rule-dialog.ui-component';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent, EmptyContentComponent, NotificationService, ToolbarComponent, ToolbarTitleComponent } from '@alfresco/adf-core';
 import { ActionDefinitionTransformed } from '../model/rule-action.model';
 import { ActionsService } from '../services/actions.service';
@@ -64,7 +64,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     RouterModule,
     GenericErrorComponent,
     RuleDetailsUiComponent,
-    MatDialogModule,
     EmptyContentComponent,
     ToolbarTitleComponent,
     ToolbarComponent

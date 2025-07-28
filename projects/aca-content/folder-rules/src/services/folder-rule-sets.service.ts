@@ -194,7 +194,7 @@ export class FolderRuleSetsService {
     }
     return combineLatest(
       this.currentFolder?.id === entry.owningFolder ? of(this.currentFolder) : this.getNodeInfo(entry.owningFolder || ''),
-      this.folderRulesService.getRules(this.currentFolder.id || '', entry.id)
+      this.folderRulesService.getRules(this.currentFolder?.id || '', entry.id)
     ).pipe(
       map(([owningFolderNodeInfo, getRulesRes]) => ({
         id: entry.id,
@@ -209,28 +209,28 @@ export class FolderRuleSetsService {
   }
 
   removeRuleFromMainRuleSet(ruleId: string) {
-    if (this.mainRuleSet) {
-      const index = this.mainRuleSet.rules.findIndex((rule: Rule) => rule.id === ruleId);
-      if (index > -1) {
-        if (this.mainRuleSet.rules.length > 1) {
-          this.mainRuleSet.rules.splice(index, 1);
-        } else {
-          this.mainRuleSet = null;
-        }
-        this.mainRuleSetSource.next(this.mainRuleSet);
-        this.folderRulesService.selectRule(this.mainRuleSet?.rules[0] ?? this.inheritedRuleSets[0]?.rules[0] ?? null);
-      }
+    if (!this.mainRuleSet) {
+      return;
     }
+
+    const updatedRules = this.mainRuleSet.rules.filter((rule) => rule.id !== ruleId);
+    const newMainRuleSet: RuleSet = updatedRules.length ? { ...this.mainRuleSet, rules: updatedRules } : null;
+
+    this.mainRuleSet = newMainRuleSet;
+    this.mainRuleSetSource.next(newMainRuleSet);
+
+    const nextRule = newMainRuleSet?.rules[0] ?? this.inheritedRuleSets[0]?.rules[0] ?? null;
+
+    this.folderRulesService.selectRule(nextRule);
   }
 
   addOrUpdateRuleInMainRuleSet(newRule: Rule) {
     if (this.mainRuleSet) {
-      const index = this.mainRuleSet.rules.findIndex((rule: Rule) => rule.id === newRule.id);
-      if (index > -1) {
-        this.mainRuleSet.rules.splice(index, 1, newRule);
-      } else {
-        this.mainRuleSet.rules.push(newRule);
-      }
+      const updatedRules = this.mainRuleSet.rules.some((rule) => rule.id === newRule.id)
+        ? this.mainRuleSet.rules.map((rule) => (rule.id === newRule.id ? newRule : rule))
+        : [...this.mainRuleSet.rules, newRule];
+
+      this.mainRuleSet = { ...this.mainRuleSet, rules: updatedRules };
       this.mainRuleSetSource.next(this.mainRuleSet);
       this.folderRulesService.selectRule(newRule);
     } else {

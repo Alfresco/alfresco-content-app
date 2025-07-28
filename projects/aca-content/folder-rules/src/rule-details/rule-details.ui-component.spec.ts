@@ -25,21 +25,23 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RuleDetailsUiComponent } from './rule-details.ui-component';
 import { Rule } from '../model/rule.model';
-import { By } from '@angular/platform-browser';
 import { RuleTriggersUiComponent } from './triggers/rule-triggers.ui-component';
 import { RuleOptionsUiComponent } from './options/rule-options.ui-component';
 import { RuleActionListUiComponent } from './actions/rule-action-list.ui-component';
 import { AlfrescoApiService, AlfrescoApiServiceMock, CategoryService } from '@alfresco/adf-content-services';
-import { NoopTranslateModule } from '@alfresco/adf-core';
+import { NoopTranslateModule, UnitTestingUtils } from '@alfresco/adf-core';
+import { ActionParameterConstraint } from '../model/action-parameter-constraint.model';
 
 describe('RuleDetailsUiComponent', () => {
   let fixture: ComponentFixture<RuleDetailsUiComponent>;
   let component: RuleDetailsUiComponent;
+  let unitTestingUtils: UnitTestingUtils;
 
   const testValue: Partial<Rule> = {
     id: 'rule-id',
     name: 'Rule name',
     description: 'This is the description of the rule',
+    isShared: false,
     triggers: ['update', 'outbound'],
     isAsynchronous: true,
     isInheritable: true,
@@ -47,11 +49,9 @@ describe('RuleDetailsUiComponent', () => {
     errorScript: ''
   };
 
-  const getHtmlElement = <T>(dataAutomationId: string) =>
-    fixture.debugElement.query(By.css(`[data-automation-id="${dataAutomationId}"]`))?.nativeElement as T;
+  const getHtmlElement = <T>(dataAutomationId: string) => unitTestingUtils.getByDataAutomationId(dataAutomationId)?.nativeElement as T;
 
-  const getComponentInstance = <T>(dataAutomationId: string) =>
-    fixture.debugElement.query(By.css(`[data-automation-id="${dataAutomationId}"]`))?.componentInstance as T;
+  const getComponentInstance = <T>(dataAutomationId: string) => unitTestingUtils.getByDataAutomationId(dataAutomationId)?.componentInstance as T;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -61,6 +61,7 @@ describe('RuleDetailsUiComponent', () => {
 
     fixture = TestBed.createComponent(RuleDetailsUiComponent);
     component = fixture.componentInstance;
+    unitTestingUtils = new UnitTestingUtils(fixture.debugElement);
   });
 
   it('should fill the form out with initial values', () => {
@@ -147,8 +148,7 @@ describe('RuleDetailsUiComponent', () => {
   describe('RuleActionListUiComponent', () => {
     let categoryService: CategoryService;
 
-    const getRuleActionsListComponent = (): RuleActionListUiComponent =>
-      fixture.debugElement.query(By.directive(RuleActionListUiComponent)).componentInstance;
+    const getRuleActionsListComponent = (): RuleActionListUiComponent => unitTestingUtils.getByDirective(RuleActionListUiComponent).componentInstance;
 
     beforeEach(() => {
       categoryService = TestBed.inject(CategoryService);
@@ -192,5 +192,26 @@ describe('RuleDetailsUiComponent', () => {
       expect(component.actionDefinitions[0].id).toBe('test id');
       expect(getRuleActionsListComponent().actionDefinitions).toBe(component.actionDefinitions);
     });
+  });
+
+  it('should return description form control', () => {
+    component.value = testValue;
+    fixture.detectChanges();
+
+    const descriptionControl = component.description;
+
+    expect(descriptionControl.value).toBe(testValue.description);
+  });
+
+  it('should set errorScriptConstraint when parameterConstraints contains script-ref', () => {
+    const mockConstraints: ActionParameterConstraint[] = [
+      { name: 'script-ref', constraints: [] },
+      { name: 'other-constraint', constraints: [] }
+    ];
+
+    component.parameterConstraints = mockConstraints;
+    component.ngOnInit();
+
+    expect(component.errorScriptConstraint).toBe(mockConstraints[0]);
   });
 });

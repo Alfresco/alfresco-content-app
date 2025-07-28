@@ -23,29 +23,34 @@
  */
 
 import { isFolderRulesEnabled } from './folder-rules.rules';
+import { AcaRuleContext } from '@alfresco/aca-shared/rules';
 
 describe('Folder Rules Visibility Rules', () => {
   describe('isFolderRulesEnabled', () => {
-    it('should have the feature enabled', () => {
-      const context: any = {
+    it('should return true when plugin is enabled in app config', () => {
+      const context = {
         appConfig: {
-          get: () => true
+          get: jasmine.createSpy('get').and.returnValue(true)
         }
-      };
+      } as any as AcaRuleContext;
 
       const result = isFolderRulesEnabled(context);
-      expect(result).toEqual(true);
+
+      expect(context.appConfig.get).toHaveBeenCalledWith('plugins.folderRules', false);
+      expect(result).toBe(true);
     });
 
-    it('should have the feature disabled', () => {
-      const context: any = {
+    it('should return false when plugin is disabled in app config', () => {
+      const context = {
         appConfig: {
-          get: () => false
+          get: jasmine.createSpy('get').and.returnValue(false)
         }
-      };
+      } as any as AcaRuleContext;
 
       const result = isFolderRulesEnabled(context);
-      expect(result).toEqual(false);
+
+      expect(context.appConfig.get).toHaveBeenCalledWith('plugins.folderRules', false);
+      expect(result).toBe(false);
     });
   });
 });

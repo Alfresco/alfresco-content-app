@@ -84,6 +84,7 @@ export class RuleDetailsUiComponent implements OnInit {
       id: newValue.id || FolderRulesService.emptyRule.id,
       name: newValue.name || FolderRulesService.emptyRule.name,
       description: newValue.description || FolderRulesService.emptyRule.description,
+      isShared: newValue.isShared || FolderRulesService.emptyRule.isShared,
       triggers: newValue.triggers || FolderRulesService.emptyRule.triggers,
       conditions: newValue.conditions || FolderRulesService.emptyRule.conditions,
       actions: newValue.actions || FolderRulesService.emptyRule.actions,
@@ -146,6 +147,7 @@ export class RuleDetailsUiComponent implements OnInit {
       id: new UntypedFormControl(this.value.id),
       name: new UntypedFormControl(this.value.name || '', Validators.required),
       description: new UntypedFormControl(this.value.description || ''),
+      isShared: new UntypedFormControl(this.value.isShared || false),
       triggers: new UntypedFormControl(this.value.triggers || ['inbound'], Validators.required),
       conditions: new UntypedFormControl(
         this.value.conditions || {

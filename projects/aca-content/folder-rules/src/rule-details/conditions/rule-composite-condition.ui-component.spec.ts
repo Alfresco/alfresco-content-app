@@ -24,8 +24,7 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RuleCompositeConditionUiComponent } from './rule-composite-condition.ui-component';
-import { NoopTranslateModule } from '@alfresco/adf-core';
-import { By } from '@angular/platform-browser';
+import { NoopTranslateModule, UnitTestingUtils } from '@alfresco/adf-core';
 import { DebugElement } from '@angular/core';
 import {
   compositeConditionWithNestedGroupsMock,
@@ -37,6 +36,10 @@ import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-conten
 
 describe('RuleCompositeConditionUiComponent', () => {
   let fixture: ComponentFixture<RuleCompositeConditionUiComponent>;
+  let unitTestingUtils: UnitTestingUtils;
+
+  const getSimpleConditionComponents = (): DebugElement[] => unitTestingUtils.getAllByCSS(`.aca-rule-simple-condition`);
+  const getCompositeConditionComponents = (): DebugElement[] => unitTestingUtils.getAllByCSS(`.aca-rule-composite-condition`);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -45,18 +48,18 @@ describe('RuleCompositeConditionUiComponent', () => {
     });
 
     fixture = TestBed.createComponent(RuleCompositeConditionUiComponent);
+    unitTestingUtils = new UnitTestingUtils(fixture.debugElement);
   });
 
   describe('No conditions', () => {
-    let noConditionsElement: DebugElement;
+    const getNoConditionsElementInnerText = (): string => unitTestingUtils.getInnerTextByDataAutomationId('no-conditions');
 
     beforeEach(() => {
       fixture.detectChanges();
-      noConditionsElement = fixture.debugElement.query(By.css(`[data-automation-id="no-conditions"]`));
     });
 
     it('should default to no conditions', () => {
-      const rowElements = fixture.debugElement.queryAll(By.css(`.aca-rule-composite-condition__form__row`));
+      const rowElements = unitTestingUtils.getAllByCSS(`.aca-rule-composite-condition__form__row`);
 
       expect(rowElements.length).toBe(0);
     });
@@ -65,14 +68,14 @@ describe('RuleCompositeConditionUiComponent', () => {
       fixture.componentInstance.childCondition = false;
       fixture.detectChanges();
 
-      expect((noConditionsElement.nativeElement as HTMLElement).innerText.trim()).toBe('ACA_FOLDER_RULES.RULE_DETAILS.NO_CONDITIONS');
+      expect(getNoConditionsElementInnerText()).toBe('ACA_FOLDER_RULES.RULE_DETAILS.NO_CONDITIONS');
     });
 
     it('should show a different message if the component is not a root condition group', () => {
       fixture.componentInstance.childCondition = true;
       fixture.detectChanges();
 
-      expect((noConditionsElement.nativeElement as HTMLElement).innerText.trim()).toBe('ACA_FOLDER_RULES.RULE_DETAILS.NO_CONDITIONS_IN_GROUP');
+      expect(getNoConditionsElementInnerText()).toBe('ACA_FOLDER_RULES.RULE_DETAILS.NO_CONDITIONS_IN_GROUP');
     });
   });
 
@@ -80,64 +83,52 @@ describe('RuleCompositeConditionUiComponent', () => {
     it('should hide the add buttons in read only mode', () => {
       fixture.componentInstance.readOnly = true;
       fixture.detectChanges();
-      const actionsElement = fixture.debugElement.query(By.css(`[data-automation-id="add-actions"]`));
 
-      expect(actionsElement).toBeNull();
+      expect(unitTestingUtils.getByDataAutomationId('add-actions')).toBeNull();
     });
 
     it('should hide the more actions button on the right side of the condition', () => {
       fixture.componentInstance.writeValue(compositeConditionWithOneGroupMock);
       fixture.componentInstance.readOnly = true;
       fixture.detectChanges();
-      const actionsButtonElements = fixture.debugElement.queryAll(By.css(`[data-automation-id="condition-actions-button"]`));
 
-      expect(actionsButtonElements.length).toBe(0);
+      expect(unitTestingUtils.getAllByCSS(`[data-automation-id="condition-actions-button"]`).length).toBe(0);
     });
   });
 
   it('should have as many simple condition components as defined in the simpleConditions array', () => {
     fixture.componentInstance.writeValue(compositeConditionWithThreeConditionMock);
     fixture.detectChanges();
-    const simpleConditionComponents = fixture.debugElement.queryAll(By.css(`.aca-rule-simple-condition`));
 
-    expect(simpleConditionComponents.length).toBe(3);
+    expect(getSimpleConditionComponents().length).toBe(3);
   });
 
   it('should have as many composite condition components as defined in the compositeConditions array, including nested', () => {
     fixture.componentInstance.writeValue(compositeConditionWithNestedGroupsMock);
     fixture.detectChanges();
-    const compositeConditionComponents = fixture.debugElement.queryAll(By.css(`.aca-rule-composite-condition`));
 
-    expect(compositeConditionComponents.length).toBe(3);
+    expect(getCompositeConditionComponents().length).toBe(3);
   });
 
   it('should add a simple condition component on click of add condition button', () => {
     fixture.detectChanges();
-    const predicate = By.css(`.aca-rule-simple-condition`);
-    const simpleConditionComponentsBeforeClick = fixture.debugElement.queryAll(predicate);
 
-    expect(simpleConditionComponentsBeforeClick.length).toBe(0);
+    expect(getSimpleConditionComponents().length).toBe(0);
 
-    const addConditionButton = fixture.debugElement.query(By.css(`[data-automation-id="add-condition-button"]`));
-    (addConditionButton.nativeElement as HTMLButtonElement).click();
+    unitTestingUtils.clickByDataAutomationId('add-condition-button');
     fixture.detectChanges();
-    const simpleConditionComponentsAfterClick = fixture.debugElement.queryAll(predicate);
 
-    expect(simpleConditionComponentsAfterClick.length).toBe(1);
+    expect(getSimpleConditionComponents().length).toBe(1);
   });
 
   it('should add a composite condition component on click of add group button', () => {
     fixture.detectChanges();
-    const predicate = By.css(`.aca-rule-composite-condition`);
-    const compositeConditionComponentsBeforeClick = fixture.debugElement.queryAll(predicate);
 
-    expect(compositeConditionComponentsBeforeClick.length).toBe(0);
+    expect(getCompositeConditionComponents().length).toBe(0);
 
-    const addGroupButton = fixture.debugElement.query(By.css(`[data-automation-id="add-group-button"]`));
-    (addGroupButton.nativeElement as HTMLButtonElement).click();
+    unitTestingUtils.clickByDataAutomationId('add-group-button');
     fixture.detectChanges();
-    const compositeConditionComponentsAfterClick = fixture.debugElement.queryAll(predicate);
 
-    expect(compositeConditionComponentsAfterClick.length).toBe(1);
+    expect(getCompositeConditionComponents().length).toBe(1);
   });
 });

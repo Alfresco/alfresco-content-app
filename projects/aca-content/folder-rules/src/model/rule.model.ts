@@ -52,6 +52,7 @@ export interface RuleForForm {
   id: string;
   name: string;
   description: string;
+  isShared: boolean;
   triggers: RuleTrigger[];
   conditions: RuleCompositeCondition;
   actions: RuleAction[];

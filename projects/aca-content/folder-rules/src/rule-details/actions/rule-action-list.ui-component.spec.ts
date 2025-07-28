@@ -23,9 +23,8 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopTranslateModule } from '@alfresco/adf-core';
+import { NoopTranslateModule, UnitTestingUtils } from '@alfresco/adf-core';
 import { RuleActionListUiComponent } from './rule-action-list.ui-component';
-import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { RuleActionUiComponent } from './rule-action.ui-component';
 import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
@@ -33,9 +32,10 @@ import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-conten
 describe('RuleActionListUiComponent', () => {
   let fixture: ComponentFixture<RuleActionListUiComponent>;
   let component: RuleActionListUiComponent;
+  let unitTestingUtils: UnitTestingUtils;
 
   const getByDataAutomationId = (dataAutomationId: string, index = 0): DebugElement =>
-    fixture.debugElement.queryAll(By.css(`[data-automation-id="${dataAutomationId}"]`))[index];
+    unitTestingUtils.getAllByCSS(`[data-automation-id="${dataAutomationId}"]`)[index];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -45,13 +45,14 @@ describe('RuleActionListUiComponent', () => {
 
     fixture = TestBed.createComponent(RuleActionListUiComponent);
     component = fixture.componentInstance;
+    unitTestingUtils = new UnitTestingUtils(fixture.debugElement);
 
     component.writeValue([]);
     fixture.detectChanges();
   });
 
   it('should default to 1 empty action when an empty array of actions is written', () => {
-    const acaRuleActions = fixture.debugElement.queryAll(By.directive(RuleActionUiComponent));
+    const acaRuleActions = unitTestingUtils.getAllByDirective(RuleActionUiComponent);
     expect(acaRuleActions.length).toBe(1);
   });
 
@@ -60,7 +61,7 @@ describe('RuleActionListUiComponent', () => {
     addActionButton.click();
     fixture.detectChanges();
 
-    const acaRuleActions = fixture.debugElement.queryAll(By.directive(RuleActionUiComponent));
+    const acaRuleActions = unitTestingUtils.getAllByDirective(RuleActionUiComponent);
     expect(acaRuleActions.length).toBe(2);
   });
 
@@ -99,7 +100,7 @@ describe('RuleActionListUiComponent', () => {
     removeActionButton.click();
     fixture.detectChanges();
 
-    const acaRuleActions = fixture.debugElement.queryAll(By.directive(RuleActionUiComponent));
+    const acaRuleActions = unitTestingUtils.getAllByDirective(RuleActionUiComponent);
     expect(acaRuleActions.length).toBe(1);
   });
 });

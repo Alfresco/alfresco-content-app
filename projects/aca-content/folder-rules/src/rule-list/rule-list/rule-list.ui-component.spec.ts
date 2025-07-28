@@ -24,18 +24,18 @@
 
 import { RuleListUiComponent } from './rule-list.ui-component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopTranslateModule } from '@alfresco/adf-core';
+import { NoopTranslateModule, UnitTestingUtils } from '@alfresco/adf-core';
 import { ownedRuleSetMock, ruleSetsMock, ruleSetWithLinkMock } from '../../mock/rule-sets.mock';
-import { DebugElement } from '@angular/core';
-import { By } from '@angular/platform-browser';
 import { owningFolderIdMock } from '../../mock/node.mock';
 import { of } from 'rxjs';
 import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
+import { Rule } from '../../model/rule.model';
+import { RuleSet } from '../../model/rule-set.model';
 
 describe('RuleListUiComponent', () => {
   let fixture: ComponentFixture<RuleListUiComponent>;
   let component: RuleListUiComponent;
-  let debugElement: DebugElement;
+  let unitTestingUtils: UnitTestingUtils;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -45,7 +45,7 @@ describe('RuleListUiComponent', () => {
 
     fixture = TestBed.createComponent(RuleListUiComponent);
     component = fixture.componentInstance;
-    debugElement = fixture.debugElement;
+    unitTestingUtils = new UnitTestingUtils(fixture.debugElement);
 
     component.folderId = owningFolderIdMock;
     component.inheritedRuleSets = ruleSetsMock;
@@ -55,15 +55,117 @@ describe('RuleListUiComponent', () => {
     component.mainRuleSet$ = of(ownedRuleSetMock);
     fixture.detectChanges();
 
-    const mainRuleSetTitleElement = debugElement.query(By.css(`[data-automation-id="main-rule-set-title"]`));
-    expect((mainRuleSetTitleElement.nativeElement as HTMLDivElement).innerText.trim()).toBe('ACA_FOLDER_RULES.RULE_LIST.OWNED_RULES');
+    expect(unitTestingUtils.getInnerTextByDataAutomationId('main-rule-set-title')).toBe('ACA_FOLDER_RULES.RULE_LIST.OWNED_RULES');
   });
 
   it('should show "Rules from linked folder" as a title if the main rule set is linked', () => {
     component.mainRuleSet$ = of(ruleSetWithLinkMock);
     fixture.detectChanges();
 
-    const mainRuleSetTitleElement = debugElement.query(By.css(`[data-automation-id="main-rule-set-title"]`));
-    expect((mainRuleSetTitleElement.nativeElement as HTMLDivElement).innerText.trim()).toBe('ACA_FOLDER_RULES.RULE_LIST.LINKED_RULES');
+    expect(unitTestingUtils.getInnerTextByDataAutomationId('main-rule-set-title')).toBe('ACA_FOLDER_RULES.RULE_LIST.LINKED_RULES');
+  });
+
+  it('should add loading item when both ruleSetsLoading and hasMoreRuleSets are true', () => {
+    component.inheritedRuleSets = ruleSetsMock;
+    component.mainRuleSet$ = of(ruleSetWithLinkMock);
+    component.ruleSetsLoading = true;
+    component.hasMoreRuleSets = true;
+
+    component.ngOnInit();
+
+    const loadingItem = component.inheritedRuleSetGroupingItems.find((item) => item.type === 'loading');
+    expect(loadingItem).toBeDefined();
+    expect(loadingItem.type).toBe('loading');
+
+    const loadMoreItem = component.inheritedRuleSetGroupingItems.find((item) => item.type === 'load-more-rule-sets');
+    expect(loadMoreItem).toBeUndefined();
+  });
+
+  it('should add loading item when both loadingRules and hasMoreRules are true', () => {
+    const ruleSetWithBothFlags: RuleSet = {
+      ...ownedRuleSetMock,
+      loadingRules: true,
+      hasMoreRules: true
+    };
+
+    const result = component.getRuleSetGroupingItems(ruleSetWithBothFlags, false);
+
+    const loadingItem = result.find((item) => item.type === 'loading');
+    expect(loadingItem).toBeDefined();
+    expect(loadingItem.type).toBe('loading');
+
+    const loadMoreItem = result.find((item) => item.type === 'load-more-rules');
+    expect(loadMoreItem).toBeUndefined();
+  });
+
+  it('should not add any special items when neither loadingRules nor hasMoreRules are true', () => {
+    const ruleSetWithoutFlags: RuleSet = {
+      ...ownedRuleSetMock,
+      loadingRules: false,
+      hasMoreRules: false
+    };
+
+    const result = component.getRuleSetGroupingItems(ruleSetWithoutFlags, false);
+
+    const specialItems = result.filter((item) => item.type === 'loading' || item.type === 'load-more-rules');
+    expect(specialItems.length).toBe(0);
+  });
+
+  it('should emit loadMoreRuleSets event when onLoadMoreRuleSets is called', () => {
+    spyOn(component.loadMoreRuleSets, 'emit');
+
+    component.onLoadMoreRuleSets();
+
+    expect(component.loadMoreRuleSets.emit).toHaveBeenCalledWith();
+  });
+
+  it('should emit loadMoreRules event with ruleSet when onLoadMoreRules is called', () => {
+    spyOn(component.loadMoreRules, 'emit');
+    const mockRuleSet = ownedRuleSetMock;
+
+    component.onLoadMoreRules(mockRuleSet);
+
+    expect(component.loadMoreRules.emit).toHaveBeenCalledWith(mockRuleSet);
+  });
+
+  it('should emit selectRule event with rule when onSelectRule is called', () => {
+    spyOn(component.selectRule, 'emit');
+    const mockRule = ownedRuleSetMock.rules[0];
+
+    component.onSelectRule(mockRule);
+
+    expect(component.selectRule.emit).toHaveBeenCalledWith(mockRule);
+  });
+
+  it('should stop event propagation and emit ruleSetEditLinkClicked with mainRuleSet when onRuleSetEditLinkClicked is called', () => {
+    spyOn(component.ruleSetEditLinkClicked, 'emit');
+    const mockEvent = jasmine.createSpyObj('Event', ['stopPropagation']);
+    component.mainRuleSet = ownedRuleSetMock;
+
+    component.onRuleSetEditLinkClicked(mockEvent);
+
+    expect(mockEvent.stopPropagation).toHaveBeenCalled();
+    expect(component.ruleSetEditLinkClicked.emit).toHaveBeenCalledWith(ownedRuleSetMock);
+  });
+
+  it('should emit ruleEnabledChanged event with tuple when onRuleEnabledChanged is called', () => {
+    spyOn(component.ruleEnabledChanged, 'emit');
+    const mockRule = ownedRuleSetMock.rules[0];
+    const event: [Rule, boolean] = [mockRule, true];
+
+    component.onRuleEnabledChanged(event);
+
+    expect(component.ruleEnabledChanged.emit).toHaveBeenCalledWith(event);
+  });
+
+  it('should stop event propagation and emit ruleSetUnlinkClicked with mainRuleSet when onRuleSetUnlinkClicked is called', () => {
+    spyOn(component.ruleSetUnlinkClicked, 'emit');
+    const mockEvent = jasmine.createSpyObj('Event', ['stopPropagation']);
+    component.mainRuleSet = ownedRuleSetMock;
+
+    component.onRuleSetUnlinkClicked(mockEvent);
+
+    expect(mockEvent.stopPropagation).toHaveBeenCalled();
+    expect(component.ruleSetUnlinkClicked.emit).toHaveBeenCalledWith(ownedRuleSetMock);
   });
 });

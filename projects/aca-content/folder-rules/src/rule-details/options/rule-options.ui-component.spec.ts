@@ -23,10 +23,9 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DebugElement, SimpleChange } from '@angular/core';
+import { SimpleChange } from '@angular/core';
 import { RuleOptionsUiComponent } from './rule-options.ui-component';
-import { NoopTranslateModule } from '@alfresco/adf-core';
-import { By } from '@angular/platform-browser';
+import { NoopTranslateModule, UnitTestingUtils } from '@alfresco/adf-core';
 import { errorScriptConstraintMock } from '../../mock/actions.mock';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
@@ -37,21 +36,19 @@ describe('RuleOptionsUiComponent', () => {
   let fixture: ComponentFixture<RuleOptionsUiComponent>;
   let component: RuleOptionsUiComponent;
   let loader: HarnessLoader;
-
-  const getByDataAutomationId = (dataAutomationId: string): DebugElement =>
-    fixture.debugElement.query(By.css(`[data-automation-id="${dataAutomationId}"]`));
+  let unitTestingUtils: UnitTestingUtils;
 
   const toggleMatCheckbox = (dataAutomationId: string) => {
-    (getByDataAutomationId(dataAutomationId).nativeElement as HTMLElement).querySelector('input').click();
+    (unitTestingUtils.getByDataAutomationId(dataAutomationId).nativeElement as HTMLElement).querySelector('input').click();
   };
 
   const testErrorScriptFormFieldVisibility = (isVisible: boolean) => {
     if (isVisible) {
-      expect((getByDataAutomationId('rule-option-form-field-errorScript').nativeElement as HTMLElement).classList).not.toContain(
+      expect((unitTestingUtils.getByDataAutomationId('rule-option-form-field-errorScript').nativeElement as HTMLElement).classList).not.toContain(
         'aca-hide-error-script-dropdown'
       );
     } else {
-      expect((getByDataAutomationId('rule-option-form-field-errorScript').nativeElement as HTMLElement).classList).toContain(
+      expect((unitTestingUtils.getByDataAutomationId('rule-option-form-field-errorScript').nativeElement as HTMLElement).classList).toContain(
         'aca-hide-error-script-dropdown'
       );
     }
@@ -66,6 +63,7 @@ describe('RuleOptionsUiComponent', () => {
     fixture = TestBed.createComponent(RuleOptionsUiComponent);
     component = fixture.componentInstance;
     loader = TestbedHarnessEnvironment.loader(fixture);
+    unitTestingUtils = new UnitTestingUtils(fixture.debugElement, loader);
 
     component.writeValue({
       isEnabled: true,
@@ -78,9 +76,9 @@ describe('RuleOptionsUiComponent', () => {
   it('should be able to write to the component', () => {
     fixture.detectChanges();
 
-    expect(getByDataAutomationId('rule-option-checkbox-asynchronous').componentInstance.checked).toBeFalsy();
-    expect(getByDataAutomationId('rule-option-checkbox-inheritable').componentInstance.checked).toBeFalsy();
-    expect(getByDataAutomationId('rule-option-checkbox-disabled').componentInstance.checked).toBeFalsy();
+    expect(unitTestingUtils.getByDataAutomationId('rule-option-checkbox-asynchronous').componentInstance.checked).toBeFalsy();
+    expect(unitTestingUtils.getByDataAutomationId('rule-option-checkbox-inheritable').componentInstance.checked).toBeFalsy();
+    expect(unitTestingUtils.getByDataAutomationId('rule-option-checkbox-disabled').componentInstance.checked).toBeFalsy();
     testErrorScriptFormFieldVisibility(false);
 
     component.writeValue({
@@ -91,9 +89,9 @@ describe('RuleOptionsUiComponent', () => {
     });
     fixture.detectChanges();
 
-    expect(getByDataAutomationId('rule-option-checkbox-asynchronous').componentInstance.checked).toBeTruthy();
-    expect(getByDataAutomationId('rule-option-checkbox-inheritable').componentInstance.checked).toBeTruthy();
-    expect(getByDataAutomationId('rule-option-checkbox-disabled').componentInstance.checked).toBeTruthy();
+    expect(unitTestingUtils.getByDataAutomationId('rule-option-checkbox-asynchronous').componentInstance.checked).toBeTruthy();
+    expect(unitTestingUtils.getByDataAutomationId('rule-option-checkbox-inheritable').componentInstance.checked).toBeTruthy();
+    expect(unitTestingUtils.getByDataAutomationId('rule-option-checkbox-disabled').componentInstance.checked).toBeTruthy();
     testErrorScriptFormFieldVisibility(true);
   });
 
@@ -102,18 +100,18 @@ describe('RuleOptionsUiComponent', () => {
     toggleMatCheckbox('rule-option-checkbox-asynchronous');
     fixture.detectChanges();
 
-    expect(getByDataAutomationId('rule-option-checkbox-asynchronous').componentInstance.checked).toBeTruthy();
-    expect(getByDataAutomationId('rule-option-select-errorScript').componentInstance.disabled).toBeFalsy();
+    expect(unitTestingUtils.getByDataAutomationId('rule-option-checkbox-asynchronous').componentInstance.checked).toBeTruthy();
+    expect(unitTestingUtils.getByDataAutomationId('rule-option-select-errorScript').componentInstance.disabled).toBeFalsy();
   });
 
   it('should hide disabled checkbox and unselected checkboxes in read-only mode', () => {
     component.readOnly = true;
     fixture.detectChanges();
 
-    expect(getByDataAutomationId('rule-option-checkbox-asynchronous')).toBeFalsy();
-    expect(getByDataAutomationId('rule-option-checkbox-inheritable')).toBeFalsy();
-    expect(getByDataAutomationId('rule-option-checkbox-enabled')).toBeFalsy();
-    expect(getByDataAutomationId('rule-option-select-errorScript')).toBeFalsy();
+    expect(unitTestingUtils.getByDataAutomationId('rule-option-checkbox-asynchronous')).toBeFalsy();
+    expect(unitTestingUtils.getByDataAutomationId('rule-option-checkbox-inheritable')).toBeFalsy();
+    expect(unitTestingUtils.getByDataAutomationId('rule-option-checkbox-enabled')).toBeFalsy();
+    expect(unitTestingUtils.getByDataAutomationId('rule-option-select-errorScript')).toBeFalsy();
 
     component.writeValue({
       isEnabled: false,
@@ -123,10 +121,10 @@ describe('RuleOptionsUiComponent', () => {
     });
     fixture.detectChanges();
 
-    expect(getByDataAutomationId('rule-option-checkbox-asynchronous')).toBeTruthy();
-    expect(getByDataAutomationId('rule-option-checkbox-inheritable')).toBeTruthy();
-    expect(getByDataAutomationId('rule-option-checkbox-enabled')).toBeFalsy();
-    expect(getByDataAutomationId('rule-option-select-errorScript')).toBeTruthy();
+    expect(unitTestingUtils.getByDataAutomationId('rule-option-checkbox-asynchronous')).toBeTruthy();
+    expect(unitTestingUtils.getByDataAutomationId('rule-option-checkbox-inheritable')).toBeTruthy();
+    expect(unitTestingUtils.getByDataAutomationId('rule-option-checkbox-enabled')).toBeFalsy();
+    expect(unitTestingUtils.getByDataAutomationId('rule-option-select-errorScript')).toBeTruthy();
   });
 
   it('should populate the error script dropdown with scripts', async () => {
@@ -140,7 +138,7 @@ describe('RuleOptionsUiComponent', () => {
     component.ngOnChanges({ errorScriptConstraint: {} as SimpleChange });
     fixture.detectChanges();
 
-    (getByDataAutomationId('rule-option-select-errorScript').nativeElement as HTMLElement).click();
+    unitTestingUtils.clickByDataAutomationId('rule-option-select-errorScript');
     fixture.detectChanges();
 
     const selection = await loader.getHarness(MatSelectHarness);
@@ -161,7 +159,7 @@ describe('RuleOptionsUiComponent', () => {
     component.errorScriptConstraint = errorScriptConstraintMock;
     fixture.detectChanges();
 
-    const matFormField = fixture.debugElement.query(By.css('[data-automation-id="rule-option-form-field-errorScript"'));
+    const matFormField = unitTestingUtils.getByDataAutomationId('rule-option-form-field-errorScript');
     fixture.detectChanges();
     expect(matFormField).not.toBeNull();
     expect(matFormField.componentInstance['floatLabel']).toBe('always');
@@ -177,10 +175,10 @@ describe('RuleOptionsUiComponent', () => {
     });
     fixture.detectChanges();
 
-    expect(getByDataAutomationId('rule-option-checkbox-asynchronous').componentInstance.checked).toBeTrue();
-    expect(getByDataAutomationId('rule-option-checkbox-inheritable').componentInstance.checked).toBeTrue();
-    expect(getByDataAutomationId('rule-option-checkbox-disabled').componentInstance.checked).toBeTrue();
-    expect(getByDataAutomationId('rule-option-select-errorScript').componentInstance.value).toEqual('1234');
+    expect(unitTestingUtils.getByDataAutomationId('rule-option-checkbox-asynchronous').componentInstance.checked).toBeTrue();
+    expect(unitTestingUtils.getByDataAutomationId('rule-option-checkbox-inheritable').componentInstance.checked).toBeTrue();
+    expect(unitTestingUtils.getByDataAutomationId('rule-option-checkbox-disabled').componentInstance.checked).toBeTrue();
+    expect(unitTestingUtils.getByDataAutomationId('rule-option-select-errorScript').componentInstance.value).toEqual('1234');
 
     component.writeValue({
       isEnabled: false,
@@ -190,9 +188,9 @@ describe('RuleOptionsUiComponent', () => {
     });
     fixture.detectChanges();
 
-    expect(getByDataAutomationId('rule-option-checkbox-asynchronous').componentInstance.checked).toBeFalse();
-    expect(getByDataAutomationId('rule-option-checkbox-inheritable').componentInstance.checked).toBeTrue();
-    expect(getByDataAutomationId('rule-option-checkbox-disabled').componentInstance.checked).toBeTrue();
+    expect(unitTestingUtils.getByDataAutomationId('rule-option-checkbox-asynchronous').componentInstance.checked).toBeFalse();
+    expect(unitTestingUtils.getByDataAutomationId('rule-option-checkbox-inheritable').componentInstance.checked).toBeTrue();
+    expect(unitTestingUtils.getByDataAutomationId('rule-option-checkbox-disabled').componentInstance.checked).toBeTrue();
     testErrorScriptFormFieldVisibility(false);
   });
 });

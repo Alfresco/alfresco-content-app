@@ -27,38 +27,76 @@ import { TestBed } from '@angular/core/testing';
 import { FolderRulesService } from './folder-rules.service';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { getOtherFolderEntryMock, getOwningFolderEntryMock, otherFolderIdMock, owningFolderIdMock, owningFolderMock } from '../mock/node.mock';
-import { of } from 'rxjs';
+import { filter, of, skip, throwError } from 'rxjs';
 import { getDefaultRuleSetResponseMock, getRuleSetsResponseMock, inheritedRuleSetMock, ownedRuleSetMock } from '../mock/rule-sets.mock';
 import { take } from 'rxjs/operators';
 import { inheritedRulesMock, linkedRulesMock, ownedRulesMock, ruleMock } from '../mock/rules.mock';
-import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
+import { AlfrescoApiService } from '@alfresco/adf-content-services';
 import { NoopTranslateModule } from '@alfresco/adf-core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Rule } from '../model/rule.model';
 
 describe('FolderRuleSetsService', () => {
   let folderRuleSetsService: FolderRuleSetsService;
   let folderRulesService: FolderRulesService;
   let contentApiService: ContentApiService;
 
-  let callApiSpy: jasmine.Spy;
+  let apiClientSpy: jasmine.SpyObj<{ callApi: jasmine.Spy }>;
   let getRulesSpy: jasmine.Spy;
   let getNodeSpy: jasmine.Spy;
 
   beforeEach(() => {
+    apiClientSpy = jasmine.createSpyObj('contentPrivateClient', ['callApi']);
+
     TestBed.configureTestingModule({
       imports: [NoopTranslateModule],
-      providers: [FolderRuleSetsService, FolderRulesService, ContentApiService, { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }]
+      providers: [
+        ContentApiService,
+        {
+          provide: AlfrescoApiService,
+          useValue: {
+            getInstance: () => ({
+              contentPrivateClient: apiClientSpy
+            })
+          }
+        }
+      ]
     });
 
     folderRuleSetsService = TestBed.inject(FolderRuleSetsService);
     folderRulesService = TestBed.inject(FolderRulesService);
     contentApiService = TestBed.inject(ContentApiService);
 
-    callApiSpy = spyOn<any>(folderRuleSetsService, 'callApi')
-      .withArgs(`/nodes/${owningFolderIdMock}/rule-sets/-default-?include=isLinkedTo,owningFolder,linkedToBy`, 'GET')
+    apiClientSpy.callApi
+      .withArgs(
+        `/nodes/${owningFolderIdMock}/rule-sets/-default-?include=isLinkedTo,owningFolder,linkedToBy`,
+        'GET',
+        {},
+        {},
+        {},
+        {},
+        {},
+        ['application/json'],
+        ['application/json']
+      )
       .and.returnValue(of(getDefaultRuleSetResponseMock))
-      .withArgs(`/nodes/${owningFolderIdMock}/rule-sets?include=isLinkedTo,owningFolder,linkedToBy&skipCount=0&maxItems=100`, 'GET')
+      .withArgs(
+        `/nodes/${owningFolderIdMock}/rule-sets?include=isLinkedTo,owningFolder,linkedToBy&skipCount=0&maxItems=100`,
+        'GET',
+        {},
+        {},
+        {},
+        {},
+        {},
+        ['application/json'],
+        ['application/json']
+      )
       .and.returnValue(of(getRuleSetsResponseMock))
-      .and.stub();
+      .withArgs('/nodes/folder-1-id/rule-set-links', 'POST', {}, {}, {}, {}, { id: 'folder-2-id' }, ['application/json'], ['application/json'])
+      .and.returnValue(of({}))
+      .withArgs('/nodes/folder-1-id/rule-set-links/rule-set-1-id', 'DELETE', {}, {}, {}, {}, {}, ['application/json'], ['application/json'])
+      .and.returnValue(of({}));
+
     getRulesSpy = spyOn<any>(folderRulesService, 'getRules')
       .withArgs(jasmine.anything(), 'rule-set-no-links')
       .and.returnValue(of({ rules: ownedRulesMock, hasMoreRules: false }))
@@ -72,12 +110,32 @@ describe('FolderRuleSetsService', () => {
       .and.returnValue(of(getOwningFolderEntryMock))
       .withArgs(otherFolderIdMock)
       .and.returnValue(of(getOtherFolderEntryMock));
+
+    spyOn(folderRulesService, 'selectRule');
   });
 
   it('should have an initial value of null for selectedRuleSet$', async () => {
     const selectedRuleSetPromise = folderRuleSetsService.selectedRuleSet$.pipe(take(1)).toPromise();
     const selectedRuleSet = await selectedRuleSetPromise;
     expect(selectedRuleSet).toBeNull();
+  });
+
+  it('should select the first rule of the owned rule set of the folder', async () => {
+    // take(3), because: 1 = init of the BehaviourSubject, 2 = reinitialise at beginning of loadRuleSets, 3 = in subscribe
+    const mainRuleSetPromise = folderRuleSetsService.mainRuleSet$.pipe(skip(3), take(1)).toPromise();
+
+    folderRuleSetsService.loadRuleSets(owningFolderIdMock);
+    folderRuleSetsService.removeRuleFromMainRuleSet('owned-rule-1-id');
+    const mainRuleSet = await mainRuleSetPromise;
+
+    expect(mainRuleSet.rules[0].id).toBe('owned-rule-2-id');
+    expect(folderRulesService.selectRule).toHaveBeenCalledWith(ruleMock('owned-rule-1'));
+  });
+
+  it('should not call selectRule on removeRuleFromMainRuleSet if mainRuleSet not set', async () => {
+    folderRuleSetsService.removeRuleFromMainRuleSet('owned-rule-1-id');
+
+    expect(folderRulesService.selectRule).not.toHaveBeenCalled();
   });
 
   it(`should load node info when loading the node's rule sets`, async () => {
@@ -98,7 +156,17 @@ describe('FolderRuleSetsService', () => {
     folderRuleSetsService.loadRuleSets(owningFolderIdMock);
     const ruleSet = await mainRuleSetPromise;
 
-    expect(callApiSpy).toHaveBeenCalledWith(`/nodes/${owningFolderIdMock}/rule-sets/-default-?include=isLinkedTo,owningFolder,linkedToBy`, 'GET');
+    expect(apiClientSpy.callApi).toHaveBeenCalledWith(
+      `/nodes/${owningFolderIdMock}/rule-sets/-default-?include=isLinkedTo,owningFolder,linkedToBy`,
+      'GET',
+      {},
+      {},
+      {},
+      {},
+      {},
+      ['application/json'],
+      ['application/json']
+    );
     expect(ruleSet).toEqual(ownedRuleSetMock);
   });
 
@@ -111,50 +179,298 @@ describe('FolderRuleSetsService', () => {
     const ruleSets = await inheritedRuleSetsPromise;
     const hasMoreRuleSets = await hasMoreRuleSetsPromise;
 
-    expect(callApiSpy).toHaveBeenCalledWith(
+    expect(apiClientSpy.callApi).toHaveBeenCalledWith(
       `/nodes/${owningFolderIdMock}/rule-sets?include=isLinkedTo,owningFolder,linkedToBy&skipCount=0&maxItems=100`,
-      'GET'
+      'GET',
+      {},
+      {},
+      {},
+      {},
+      {},
+      ['application/json'],
+      ['application/json']
     );
     expect(ruleSets).toEqual([inheritedRuleSetMock]);
     expect(getRulesSpy).toHaveBeenCalledWith(owningFolderIdMock, jasmine.anything());
     expect(hasMoreRuleSets).toEqual(false);
   });
 
-  it('should select the first rule of the owned rule set of the folder', async () => {
-    const selectRuleSpy = spyOn(folderRulesService, 'selectRule');
-    // take(3), because: 1 = init of the BehaviourSubject, 2 = reinitialise at beginning of loadRuleSets, 3 = in subscribe
-    const ruleSetListingPromise = folderRuleSetsService.inheritedRuleSets$.pipe(take(3)).toPromise();
-
+  it('should append additional inherited rule sets on loadMoreInheritedRuleSets', (done) => {
     folderRuleSetsService.loadRuleSets(owningFolderIdMock);
-    await ruleSetListingPromise;
 
-    expect(selectRuleSpy).toHaveBeenCalledWith(ruleMock('owned-rule-1'));
+    folderRuleSetsService.inheritedRuleSets$.pipe(take(3)).subscribe(async () => {
+      const additionalRuleSet = {
+        ...inheritedRuleSetMock,
+        id: 'additional-inherited-rule-set',
+        owningFolder: otherFolderIdMock
+      };
+
+      apiClientSpy.callApi
+        .withArgs(
+          `/nodes/${owningFolderIdMock}/rule-sets?include=isLinkedTo,owningFolder,linkedToBy&skipCount=1&maxItems=100`,
+          'GET',
+          {},
+          {},
+          {},
+          {},
+          {},
+          ['application/json'],
+          ['application/json']
+        )
+        .and.returnValue(
+          of({
+            list: {
+              entries: [{ entry: additionalRuleSet }],
+              pagination: { hasMoreItems: false }
+            }
+          })
+        );
+
+      getRulesSpy
+        .withArgs(jasmine.anything(), 'additional-inherited-rule-set')
+        .and.returnValue(of({ rules: inheritedRulesMock, hasMoreRules: false }));
+
+      let updateCount = 0;
+      const subscription = folderRuleSetsService.inheritedRuleSets$.subscribe((ruleSets) => {
+        updateCount++;
+        if (updateCount === 2) {
+          subscription.unsubscribe();
+
+          expect(ruleSets[0]).toEqual(inheritedRuleSetMock);
+          expect(ruleSets[1].id).toBe('additional-inherited-rule-set');
+
+          expect(apiClientSpy.callApi).toHaveBeenCalledWith(
+            `/nodes/${owningFolderIdMock}/rule-sets?include=isLinkedTo,owningFolder,linkedToBy&skipCount=1&maxItems=100`,
+            'GET',
+            {},
+            {},
+            {},
+            {},
+            {},
+            ['application/json'],
+            ['application/json']
+          );
+
+          done();
+        }
+      });
+
+      folderRuleSetsService.loadMoreInheritedRuleSets();
+    });
   });
 
-  it('should select a different rule when removing a rule', () => {
-    const selectRuleSpy = spyOn(folderRulesService, 'selectRule');
-    folderRuleSetsService['mainRuleSet'] = JSON.parse(JSON.stringify(ownedRuleSetMock));
-    folderRuleSetsService['inheritedRuleSets'] = JSON.parse(JSON.stringify([inheritedRuleSetMock]));
+  it('should set main rule set to null on 404 error', (done) => {
+    const httpError = new HttpErrorResponse({
+      status: 404,
+      statusText: 'Not Found',
+      error: { message: 'Rule set not found' }
+    });
+
+    apiClientSpy.callApi
+      .withArgs(
+        `/nodes/${owningFolderIdMock}/rule-sets/-default-?include=isLinkedTo,owningFolder,linkedToBy`,
+        'GET',
+        {},
+        {},
+        {},
+        {},
+        {},
+        ['application/json'],
+        ['application/json']
+      )
+      .and.returnValue(throwError(() => httpError));
+
+    folderRuleSetsService.mainRuleSet$.pipe(skip(1), take(1)).subscribe((value) => {
+      expect(value).toBeNull();
+      done();
+    });
+
+    folderRuleSetsService.loadRuleSets(owningFolderIdMock, false);
+  });
+
+  it('should set mainRuleSet$ to null on non-404 error', (done) => {
+    const httpError = new HttpErrorResponse({
+      status: 400,
+      statusText: 'Failed',
+      error: { message: 'Failed to fetch main rule set' }
+    });
+
+    apiClientSpy.callApi
+      .withArgs(
+        `/nodes/${owningFolderIdMock}/rule-sets/-default-?include=isLinkedTo,owningFolder,linkedToBy`,
+        'GET',
+        {},
+        {},
+        {},
+        {},
+        {},
+        ['application/json'],
+        ['application/json']
+      )
+      .and.returnValue(throwError(() => httpError));
+
+    folderRuleSetsService.mainRuleSet$.pipe(skip(1), take(1)).subscribe((value) => {
+      expect(value).toBeNull();
+      done();
+    });
+
+    folderRuleSetsService.loadRuleSets(owningFolderIdMock, false);
+  });
+
+  it('should emit null folderInfo when getNodeInfo fails with 404', (done) => {
+    const http404 = new HttpErrorResponse({ status: 404, statusText: 'Not Found' });
+    getNodeSpy.withArgs(owningFolderIdMock).and.returnValue(throwError(() => http404));
+
+    folderRuleSetsService.folderInfo$.pipe(skip(1), take(1)).subscribe((info) => {
+      expect(info).toBeNull();
+      done();
+    });
+
+    folderRuleSetsService.loadRuleSets(owningFolderIdMock, false);
+  });
+
+  it('should emit undefined folderInfo on getNodeInfo non-404 error', (done) => {
+    const http404 = new HttpErrorResponse({ status: 400, statusText: 'Failed' });
+    getNodeSpy.withArgs(owningFolderIdMock).and.returnValue(throwError(() => http404));
+
+    folderRuleSetsService.folderInfo$.pipe(skip(1), take(1)).subscribe((info) => {
+      expect(info).toBeUndefined();
+      done();
+    });
+
+    folderRuleSetsService.loadRuleSets(owningFolderIdMock, false);
+  });
+
+  it('should emit null folderInfo when nodeId is empty', (done) => {
+    apiClientSpy.callApi
+      .withArgs(
+        `/nodes//rule-sets/-default-?include=isLinkedTo,owningFolder,linkedToBy`,
+        'GET',
+        {},
+        {},
+        {},
+        {},
+        {},
+        ['application/json'],
+        ['application/json']
+      )
+      .and.returnValue(throwError(() => new Error('Node ID is empty')));
+    folderRuleSetsService.folderInfo$.pipe(skip(1), take(1)).subscribe((info) => {
+      expect(info).toBeNull();
+      expect(getNodeSpy).not.toHaveBeenCalled();
+      done();
+    });
+
+    folderRuleSetsService.loadRuleSets('', false);
+  });
+
+  it('should add new rule to main rule set', async () => {
+    folderRuleSetsService.loadRuleSets(owningFolderIdMock);
+    const newRule = ruleMock('new-rule');
+
+    await folderRuleSetsService.isLoading$
+      .pipe(
+        filter((loading) => !loading),
+        take(1)
+      )
+      .toPromise();
+
+    folderRuleSetsService.addOrUpdateRuleInMainRuleSet(newRule);
+    const main = await folderRuleSetsService.mainRuleSet$.pipe(take(1)).toPromise();
+    expect(main.rules[2]).toEqual(newRule);
+  });
+
+  it('should update existing rule in main rule set', async () => {
+    folderRuleSetsService.loadRuleSets(owningFolderIdMock);
+    const newRule = { ...ownedRulesMock[0], description: 'new description' } as Rule;
+    folderRuleSetsService.addOrUpdateRuleInMainRuleSet(newRule);
+    const main = await folderRuleSetsService.mainRuleSet$.pipe(take(1)).toPromise();
+
+    expect(main.rules[0].description).toEqual(newRule.description);
+  });
+
+  it('should set main rule set to null if last rules was removed', async () => {
+    getRulesSpy.withArgs(jasmine.anything(), 'rule-set-no-links').and.returnValue(of({ rules: [ownedRulesMock[0]], hasMoreRules: false }));
+
+    folderRuleSetsService.loadRuleSets(owningFolderIdMock);
+
+    await folderRuleSetsService.isLoading$
+      .pipe(
+        filter((loading) => !loading),
+        take(1)
+      )
+      .toPromise();
 
     folderRuleSetsService.removeRuleFromMainRuleSet('owned-rule-1-id');
 
-    expect(selectRuleSpy).toHaveBeenCalledWith(ruleMock('owned-rule-2'));
+    const main = await folderRuleSetsService.mainRuleSet$.pipe(take(1)).toPromise();
 
-    selectRuleSpy.calls.reset();
-    folderRuleSetsService.removeRuleFromMainRuleSet('owned-rule-2-id');
-
-    expect(selectRuleSpy).toHaveBeenCalledWith(ruleMock('inherited-rule-1'));
+    expect(main).toBe(null);
   });
 
   it('should send a POST request to create a new link between two folders', async () => {
     await folderRuleSetsService.createRuleSetLink('folder-1-id', 'folder-2-id');
-    expect(callApiSpy).toHaveBeenCalledWith('/nodes/folder-1-id/rule-set-links', 'POST', {
-      id: 'folder-2-id'
-    });
+    expect(apiClientSpy.callApi).toHaveBeenCalledWith(
+      '/nodes/folder-1-id/rule-set-links',
+      'POST',
+      {},
+      {},
+      {},
+      {},
+      { id: 'folder-2-id' },
+      ['application/json'],
+      ['application/json']
+    );
   });
 
-  it('should send a DELETE request to delete a link between two folders', async () => {
+  it('should call refreshMainRuleSet when main rule set is empty', (done) => {
+    const newRule = ruleMock('owned-rule-33');
+    apiClientSpy.callApi
+      .withArgs(
+        `/nodes/${owningFolderIdMock}/rule-sets/-default-?include=isLinkedTo,owningFolder,linkedToBy`,
+        'GET',
+        {},
+        {},
+        {},
+        {},
+        {},
+        ['application/json'],
+        ['application/json']
+      )
+      .and.returnValue(throwError(() => new Error('Main rule set not found')));
+
+    folderRuleSetsService.loadRuleSets(owningFolderIdMock);
+
+    folderRuleSetsService.mainRuleSet$.pipe(skip(0), take(1)).subscribe((ruleSet) => {
+      expect(ruleSet).toBeNull();
+      done();
+    });
+
+    folderRuleSetsService.addOrUpdateRuleInMainRuleSet(newRule);
+  });
+
+  it('should refreshMainRuleSet and select a rule when main rule set exists', () => {
+    folderRuleSetsService.loadRuleSets(owningFolderIdMock);
+    const newRule = ruleMock('new-rule');
+
+    folderRuleSetsService.refreshMainRuleSet(newRule);
+
+    expect(folderRulesService.selectRule).toHaveBeenCalled();
+  });
+
+  it('should send a DELETE request to remove a rule set link', async () => {
     await folderRuleSetsService.deleteRuleSetLink('folder-1-id', 'rule-set-1-id');
-    expect(callApiSpy).toHaveBeenCalledWith('/nodes/folder-1-id/rule-set-links/rule-set-1-id', 'DELETE');
+
+    expect(apiClientSpy.callApi).toHaveBeenCalledWith(
+      '/nodes/folder-1-id/rule-set-links/rule-set-1-id',
+      'DELETE',
+      {},
+      {},
+      {},
+      {},
+      {},
+      ['application/json'],
+      ['application/json']
+    );
   });
 });

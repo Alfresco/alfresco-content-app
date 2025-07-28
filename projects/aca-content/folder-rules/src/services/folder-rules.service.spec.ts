@@ -38,13 +38,13 @@ import {
 import { ruleSetMock } from '../mock/rule-sets.mock';
 import { owningFolderIdMock } from '../mock/node.mock';
 import { take } from 'rxjs/operators';
-import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
+import { AlfrescoApiService } from '@alfresco/adf-content-services';
 
 describe('FolderRulesService', () => {
   let folderRulesService: FolderRulesService;
   let notificationService: NotificationService;
 
-  let callApiSpy: jasmine.Spy;
+  let apiClientSpy: jasmine.SpyObj<{ callApi: jasmine.Spy }>;
 
   const nodeId = owningFolderIdMock;
   const ruleSetId = 'rule-set-id';
@@ -56,20 +56,30 @@ describe('FolderRulesService', () => {
   const key = ruleSettingsMock.key;
 
   beforeEach(() => {
+    apiClientSpy = jasmine.createSpyObj('contentPrivateClient', ['callApi']);
+
     TestBed.configureTestingModule({
       imports: [NoopTranslateModule],
-      providers: [FolderRulesService, { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }]
+      providers: [
+        FolderRulesService,
+        {
+          provide: AlfrescoApiService,
+          useValue: {
+            getInstance: () => ({
+              contentPrivateClient: apiClientSpy
+            })
+          }
+        }
+      ]
     });
 
     folderRulesService = TestBed.inject(FolderRulesService);
     notificationService = TestBed.inject(NotificationService);
-
-    callApiSpy = spyOn<any>(folderRulesService, 'callApi');
   });
 
   it('should load some rules into a rule set', () => {
     const ruleSet = ruleSetMock();
-    callApiSpy.and.returnValue(of(getRulesResponseMock));
+    apiClientSpy.callApi.and.returnValue(of(getRulesResponseMock));
 
     expect(ruleSet.rules.length).toBe(0);
     expect(ruleSet.hasMoreRules).toBeTrue();
@@ -77,7 +87,17 @@ describe('FolderRulesService', () => {
 
     folderRulesService.loadRules(ruleSet);
 
-    expect(callApiSpy).toHaveBeenCalledWith(`/nodes/${ruleSet.owningFolder.id}/rule-sets/${ruleSet.id}/rules?skipCount=0&maxItems=100`, 'GET');
+    expect(apiClientSpy.callApi).toHaveBeenCalledWith(
+      `/nodes/${ruleSet.owningFolder.id}/rule-sets/${ruleSet.id}/rules?skipCount=0&maxItems=100`,
+      'GET',
+      {},
+      {},
+      {},
+      {},
+      {},
+      ['application/json'],
+      ['application/json']
+    );
     expect(ruleSet.rules.length).toBe(2);
     expect(ruleSet.rules).toEqual(rulesMock);
     expect(ruleSet.hasMoreRules).toBeFalse();
@@ -85,14 +105,24 @@ describe('FolderRulesService', () => {
 
   it('should load more rules if it still has some more to load', () => {
     const ruleSet = ruleSetMock(rulesMock);
-    callApiSpy.and.returnValue(of(getMoreRulesResponseMock));
+    apiClientSpy.callApi.and.returnValue(of(getMoreRulesResponseMock));
 
     expect(ruleSet.rules.length).toBe(2);
     expect(ruleSet.hasMoreRules).toBeTrue();
 
     folderRulesService.loadRules(ruleSet);
 
-    expect(callApiSpy).toHaveBeenCalledWith(`/nodes/${ruleSet.owningFolder.id}/rule-sets/${ruleSet.id}/rules?skipCount=2&maxItems=100`, 'GET');
+    expect(apiClientSpy.callApi).toHaveBeenCalledWith(
+      `/nodes/${ruleSet.owningFolder.id}/rule-sets/${ruleSet.id}/rules?skipCount=2&maxItems=100`,
+      'GET',
+      {},
+      {},
+      {},
+      {},
+      {},
+      ['application/json'],
+      ['application/json']
+    );
     expect(ruleSet.rules.length).toBe(4);
     expect(ruleSet.rules).toEqual([...rulesMock, ...moreRulesMock]);
     expect(ruleSet.hasMoreRules).toBeFalse();
@@ -120,7 +150,9 @@ describe('FolderRulesService', () => {
   });
 
   it('should delete a rule and return its id', async () => {
-    callApiSpy.withArgs(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'DELETE').and.returnValue(ruleId);
+    apiClientSpy.callApi
+      .withArgs(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'DELETE', {}, {}, {}, {}, {}, ['application/json'], ['application/json'])
+      .and.returnValue(ruleId);
     const deletedRulePromise = folderRulesService.deletedRuleId$.pipe(take(2)).toPromise();
 
     folderRulesService.deleteRule(nodeId, ruleId, ruleSetId);
@@ -128,13 +160,82 @@ describe('FolderRulesService', () => {
 
     expect(deletedRule).toBeTruthy('rule has not been deleted');
     expect(deletedRule).toBe(ruleId, 'wrong id of deleted rule');
-    expect(callApiSpy).toHaveBeenCalledTimes(1);
-    expect(callApiSpy).toHaveBeenCalledWith(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'DELETE');
+    expect(apiClientSpy.callApi).toHaveBeenCalledTimes(1);
+    expect(apiClientSpy.callApi).toHaveBeenCalledWith(
+      `/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`,
+      'DELETE',
+      {},
+      {},
+      {},
+      {},
+      {},
+      ['application/json'],
+      ['application/json']
+    );
+  });
+
+  it('should emit error when deleting rule fails', (done) => {
+    const errorMessage = 'Delete failed';
+    const mockError = new Error(errorMessage);
+
+    apiClientSpy.callApi
+      .withArgs(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'DELETE', {}, {}, {}, {}, {}, ['application/json'], ['application/json'])
+      .and.returnValue(Promise.reject(mockError));
+
+    folderRulesService.deletedRuleId$.pipe(take(2)).subscribe((value) => {
+      if (value !== null) {
+        expect(value as unknown as Error).toEqual(mockError);
+        done();
+      }
+    });
+
+    folderRulesService.deleteRule(nodeId, ruleId, ruleSetId);
+  });
+
+  it('should format simple conditions with default values when properties are missing', () => {
+    const mockResponse = {
+      list: {
+        entries: [
+          {
+            entry: {
+              id: 'test-rule',
+              name: 'Test Rule',
+              conditions: {
+                simpleConditions: [{}]
+              }
+            }
+          }
+        ],
+        pagination: { hasMoreItems: false }
+      }
+    };
+
+    apiClientSpy.callApi.and.returnValue(of(mockResponse));
+
+    folderRulesService.getRules('folder-id', 'ruleset-id').subscribe((result) => {
+      const conditions = result.rules[0].conditions.simpleConditions;
+
+      expect(conditions[0]).toEqual({
+        field: 'cm:name',
+        comparator: 'equals',
+        parameter: ''
+      });
+    });
   });
 
   it('should send correct POST request and return created rule', async () => {
-    callApiSpy
-      .withArgs(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'POST', mockedRuleWithoutId)
+    apiClientSpy.callApi
+      .withArgs(
+        `/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`,
+        'POST',
+        {},
+        {},
+        {},
+        {},
+        mockedRuleWithoutId,
+        ['application/json'],
+        ['application/json']
+      )
       .and.returnValue(Promise.resolve(mockedRuleEntry));
     const result = await folderRulesService.createRule(nodeId, mockedRuleWithoutId, ruleSetId);
 
@@ -142,8 +243,18 @@ describe('FolderRulesService', () => {
   });
 
   it('should send correct PUT request to update rule and return it', async () => {
-    callApiSpy
-      .withArgs(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'PUT', mockedRule)
+    apiClientSpy.callApi
+      .withArgs(
+        `/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`,
+        'PUT',
+        {},
+        {},
+        {},
+        {},
+        mockedRule,
+        ['application/json'],
+        ['application/json']
+      )
       .and.returnValue(Promise.resolve(mockedRuleEntry));
 
     const result = await folderRulesService.updateRule(nodeId, ruleId, mockedRule, ruleSetId);
@@ -151,8 +262,18 @@ describe('FolderRulesService', () => {
   });
 
   it('should display error message and revert enabled state when updating rule fails', async () => {
-    callApiSpy
-      .withArgs(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'PUT', mockedRule)
+    apiClientSpy.callApi
+      .withArgs(
+        `/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`,
+        'PUT',
+        {},
+        {},
+        {},
+        {},
+        mockedRule,
+        ['application/json'],
+        ['application/json']
+      )
       .and.returnValue(Promise.reject(new Error(JSON.stringify({ error: { briefSummary: 'Error updating rule' } }))));
     spyOn(notificationService, 'showError');
 
@@ -162,16 +283,119 @@ describe('FolderRulesService', () => {
   });
 
   it('should send correct GET request and return rule settings', async () => {
-    callApiSpy.withArgs(`/nodes/${nodeId}/rule-settings/${key}`, 'GET').and.returnValue(Promise.resolve(mockedRuleSettingsEntry));
+    apiClientSpy.callApi
+      .withArgs(`/nodes/${nodeId}/rule-settings/${key}`, 'GET', {}, {}, {}, {}, {}, ['application/json'], ['application/json'])
+      .and.returnValue(Promise.resolve(mockedRuleSettingsEntry));
 
     const result = await folderRulesService.getRuleSettings(nodeId, key);
     expect(result).toEqual(ruleSettingsMock);
   });
 
   it('should send correct PUT request to update rule settings and return them', async () => {
-    callApiSpy.withArgs(`/nodes/${nodeId}/rule-settings/${key}`, 'PUT', ruleSettingsMock).and.returnValue(Promise.resolve(mockedRuleSettingsEntry));
+    apiClientSpy.callApi
+      .withArgs(`/nodes/${nodeId}/rule-settings/${key}`, 'PUT', {}, {}, {}, {}, ruleSettingsMock, ['application/json'], ['application/json'])
+      .and.returnValue(Promise.resolve(mockedRuleSettingsEntry));
 
     const result = await folderRulesService.updateRuleSettings(nodeId, key, ruleSettingsMock);
     expect(result).toEqual(ruleSettingsMock);
+  });
+
+  it('should handle rule with null simpleConditions', () => {
+    const mockResponse = {
+      list: {
+        entries: [
+          {
+            entry: {
+              id: 'test-rule',
+              name: 'Test Rule',
+              conditions: {
+                simpleConditions: null
+              }
+            }
+          }
+        ],
+        pagination: { hasMoreItems: false }
+      }
+    };
+
+    apiClientSpy.callApi.and.returnValue(of(mockResponse));
+
+    folderRulesService.getRules('folder-id', 'ruleset-id').subscribe((result) => {
+      expect(result.rules[0].conditions.simpleConditions).toEqual([]);
+    });
+
+    expect(apiClientSpy.callApi).toHaveBeenCalledWith(
+      '/nodes/folder-id/rule-sets/ruleset-id/rules?skipCount=0&maxItems=100',
+      'GET',
+      {},
+      {},
+      {},
+      {},
+      {},
+      ['application/json'],
+      ['application/json']
+    );
+  });
+
+  it('should handle nested composite conditions when getting rules', () => {
+    const mockResponse = {
+      list: {
+        entries: [
+          {
+            entry: {
+              id: 'test-rule',
+              name: 'Test Rule',
+              conditions: {
+                inverted: false,
+                booleanMode: 'and',
+                simpleConditions: [],
+                compositeConditions: [
+                  {
+                    inverted: true,
+                    booleanMode: 'or',
+                    simpleConditions: [{ field: 'cm:title', comparator: 'contains', parameter: 'test' }],
+                    compositeConditions: [
+                      {
+                        inverted: false,
+                        booleanMode: 'and',
+                        simpleConditions: [{ field: 'cm:description', comparator: 'equals', parameter: 'nested' }],
+                        compositeConditions: []
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        pagination: { hasMoreItems: false }
+      }
+    };
+
+    apiClientSpy.callApi.and.returnValue(of(mockResponse));
+
+    folderRulesService.getRules('folder-id', 'ruleset-id').subscribe((result) => {
+      const conditions = result.rules[0].conditions;
+
+      expect(conditions.compositeConditions[0].inverted).toBe(true);
+      expect(conditions.compositeConditions[0].booleanMode).toBe('or');
+      expect(conditions.compositeConditions[0].compositeConditions[0].inverted).toBe(false);
+      expect(conditions.compositeConditions[0].compositeConditions[0].booleanMode).toBe('and');
+    });
+  });
+
+  it('should create empty rule for form with options properties removed', () => {
+    const result = FolderRulesService.emptyRuleForForm;
+
+    expect(result).toEqual({
+      id: '',
+      name: '',
+      description: '',
+      isShared: false,
+      triggers: ['inbound'],
+      conditions: FolderRulesService.emptyCompositeCondition,
+      actions: [],
+      options: FolderRulesService.emptyRuleOptions
+    });
   });
 });

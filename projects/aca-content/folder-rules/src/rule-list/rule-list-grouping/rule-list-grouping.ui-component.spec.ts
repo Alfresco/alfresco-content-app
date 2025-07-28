@@ -25,14 +25,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RuleListGroupingUiComponent } from './rule-list-grouping.ui-component';
 import { ruleListGroupingItemsMock, rulesMock } from '../../mock/rules.mock';
-import { DebugElement } from '@angular/core';
-import { By } from '@angular/platform-browser';
-import { NoopTranslateModule } from '@alfresco/adf-core';
+import { NoopTranslateModule, UnitTestingUtils } from '@alfresco/adf-core';
+import { RuleSet } from '../../model/rule-set.model';
 
 describe('RuleListGroupingUiComponent', () => {
   let component: RuleListGroupingUiComponent;
   let fixture: ComponentFixture<RuleListGroupingUiComponent>;
-  let debugElement: DebugElement;
+  let unitTestingUtils: UnitTestingUtils;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -41,7 +40,7 @@ describe('RuleListGroupingUiComponent', () => {
 
     fixture = TestBed.createComponent(RuleListGroupingUiComponent);
     component = fixture.componentInstance;
-    debugElement = fixture.debugElement;
+    unitTestingUtils = new UnitTestingUtils(fixture.debugElement);
   });
 
   it('should display the list of rules', () => {
@@ -51,16 +50,79 @@ describe('RuleListGroupingUiComponent', () => {
 
     fixture.detectChanges();
 
-    const rules = debugElement.queryAll(By.css('.aca-rule-list-item'));
+    const rules = unitTestingUtils.getAllByCSS('.aca-rule-list-item');
 
     expect(rules).toBeTruthy('Could not find rules');
     expect(rules.length).toBe(2, 'Unexpected number of rules');
 
-    const rule = debugElement.query(By.css('.aca-rule-list-item:first-child'));
-    const name = rule.query(By.css('.aca-rule-list-item__header__name'));
-    const description = rule.query(By.css('.aca-rule-list-item__description'));
+    const name = unitTestingUtils.getByCSS('.aca-rule-list-item:first-child .aca-rule-list-item__header__name');
+    const description = unitTestingUtils.getByCSS('.aca-rule-list-item:first-child .aca-rule-list-item__description');
 
     expect(name.nativeElement.textContent).toBe(rulesMock[0].name);
     expect(description.nativeElement.textContent).toBe(rulesMock[0].description);
+  });
+
+  it('should emit selectRule event with rule when onRuleClicked is called', () => {
+    spyOn(component.selectRule, 'emit');
+    const mockRule = rulesMock[0];
+
+    component.onRuleClicked(mockRule);
+
+    expect(component.selectRule.emit).toHaveBeenCalledWith(mockRule);
+  });
+
+  it('should return true when rule is selected', () => {
+    const mockRule = rulesMock[0];
+    component.selectedRule = mockRule;
+
+    const result = component.isSelected(mockRule);
+
+    expect(result).toBe(true);
+  });
+
+  it('should return false when rule is not selected', () => {
+    const mockRule = rulesMock[0];
+    const differentRule = rulesMock[1];
+    component.selectedRule = mockRule;
+
+    const result = component.isSelected(differentRule);
+
+    expect(result).toBe(false);
+  });
+
+  it('should return false when no rule is selected', () => {
+    const mockRule = rulesMock[0];
+    component.selectedRule = null;
+
+    const result = component.isSelected(mockRule);
+
+    expect(result).toBe(false);
+  });
+
+  it('should emit ruleEnabledChanged event with tuple when onEnabledChanged is called', () => {
+    spyOn(component.ruleEnabledChanged, 'emit');
+    const mockRule = rulesMock[0];
+    const isEnabled = true;
+
+    component.onEnabledChanged(mockRule, isEnabled);
+
+    expect(component.ruleEnabledChanged.emit).toHaveBeenCalledWith([mockRule, isEnabled]);
+  });
+
+  it('should emit loadMoreRules event with ruleSet when onClickLoadMoreRules is called', () => {
+    spyOn(component.loadMoreRules, 'emit');
+    const mockRuleSet = { id: 'test-rule-set' } as RuleSet;
+
+    component.onClickLoadMoreRules(mockRuleSet);
+
+    expect(component.loadMoreRules.emit).toHaveBeenCalledWith(mockRuleSet);
+  });
+
+  it('should emit loadMoreRuleSets event when onClickLoadMoreRuleSets is called', () => {
+    spyOn(component.loadMoreRuleSets, 'emit');
+
+    component.onClickLoadMoreRuleSets();
+
+    expect(component.loadMoreRuleSets.emit).toHaveBeenCalled();
   });
 });
