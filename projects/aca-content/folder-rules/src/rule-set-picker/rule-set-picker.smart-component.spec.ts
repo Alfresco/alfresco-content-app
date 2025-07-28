@@ -137,7 +137,7 @@ describe('RuleSetPickerSmartComponent', () => {
     expect(getEmptyList()).not.toBeNull();
   });
 
-  it('should not show an empty list message if a selected folder has linked rules', () => {
+  it('should show an empty list message if a selected folder has linked rules', () => {
     component.mainRuleSet$ = of(ruleSetWithLinkMock);
     component.rulesLoading$ = of(false);
     component.onNodeSelect([folderToLinkMock]);

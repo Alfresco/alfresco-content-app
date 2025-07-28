@@ -36,7 +36,7 @@ describe('RuleListItemUiComponent', () => {
   let loader: HarnessLoader;
   let unitTestingUtils: UnitTestingUtils;
 
-  const mockRule: Rule = {
+  const mockRule = {
     id: 'test-rule-id',
     name: 'Test Rule',
     description: 'Test rule description',
