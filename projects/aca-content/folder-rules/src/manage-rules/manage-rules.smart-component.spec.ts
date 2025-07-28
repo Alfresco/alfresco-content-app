@@ -387,7 +387,8 @@ describe('ManageRulesSmartComponent', () => {
     it('should show error notification if submission fails', fakeAsync(() => {
       const notificationService = TestBed.inject(NotificationService);
       const params = { name: 'Bad' } as Rule;
-      const error = { response: { body: { error: { errorKey: 'ERROR_KEY' } } } };
+      const error = new Error('Test error');
+      (error as any).response = { body: { error: { errorKey: 'ERROR_KEY' } } };
       spyOn(folderRulesService, 'createRule').and.returnValue(Promise.reject(error));
       spyOn(notificationService, 'showError');
 

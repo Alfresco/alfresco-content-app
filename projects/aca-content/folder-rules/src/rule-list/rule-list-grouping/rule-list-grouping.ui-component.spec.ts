@@ -81,8 +81,7 @@ describe('RuleListGroupingUiComponent', () => {
   });
 
   it('should return false when rule is not selected', () => {
-    const mockRule = rulesMock[0];
-    const differentRule = rulesMock[1];
+    const [mockRule, differentRule] = rulesMock;
     component.selectedRule = mockRule;
 
     const result = component.isSelected(differentRule);
