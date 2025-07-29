@@ -5,8 +5,8 @@
       mat-icon-button
       matPrefix
       class="app-search-button"
-      (click)="openDropdown()"
-      (keydown.enter)="openDropdown()"
+      (click)="searchSubmit()"
+      (keydown.enter)="searchSubmit()"
       [title]="'SEARCH.BUTTON.TOOLTIP' | translate"
     >
       <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>

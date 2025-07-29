@@ -123,10 +123,6 @@ export class SearchInputControlComponent implements OnInit, OnChanges {
     }
   }
 
-  openDropdown() {
-    this.searchInput.nativeElement.focus();
-  }
-
   searchSubmit() {
     this.searchFieldFormControl.markAsTouched();
 
