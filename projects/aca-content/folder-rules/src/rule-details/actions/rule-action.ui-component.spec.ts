@@ -49,11 +49,12 @@ import {
   SecurityControlsService,
   TagService
 } from '@alfresco/adf-content-services';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatSelectHarness } from '@angular/material/select/testing';
 import { of, Subject } from 'rxjs';
+import { Node } from '@alfresco/js-api';
 import { SimpleChanges } from '@angular/core';
 
 describe('RuleActionUiComponent', () => {
@@ -62,6 +63,10 @@ describe('RuleActionUiComponent', () => {
   let loader: HarnessLoader;
   let unitTestingUtils: UnitTestingUtils;
   let securityControlsService: SecurityControlsService;
+
+  const clickActionItem = () => {
+    unitTestingUtils.getByCSS('.adf-textitem-action').nativeElement.click();
+  };
 
   const changeMatSelectValue = async (value: string) => {
     const matSelect = await loader.getHarness(MatSelectHarness);
@@ -157,7 +162,7 @@ describe('RuleActionUiComponent', () => {
     fixture.detectChanges();
 
     await changeMatSelectValue('mock-action-3-definition');
-    unitTestingUtils.getByCSS('.adf-textitem-action').nativeElement.click();
+    clickActionItem();
 
     expect(dialog.open).toHaveBeenCalledTimes(1);
     expect(dialog.open['calls'].argsFor(0)[0].name).toBe('CategorySelectorDialogComponent');
@@ -177,7 +182,7 @@ describe('RuleActionUiComponent', () => {
     fixture.detectChanges();
 
     await changeMatSelectValue('mock-action-5-definition');
-    unitTestingUtils.getByCSS('.adf-textitem-action').nativeElement.click();
+    clickActionItem();
 
     expect(dialog.open).toHaveBeenCalledTimes(1);
     expect(dialogSpy.calls.mostRecent().args[1].data).toEqual(expectedData);
@@ -312,7 +317,9 @@ describe('RuleActionUiComponent', () => {
 
   describe('ContentNodeSelectorComponent dialog', () => {
     let mockDialogRef: jasmine.SpyObj<MatDialogRef<ContentNodeSelectorComponent, Node[]>>;
-    let dialogOpenSpy: jasmine.Spy;
+    let dialogOpenSpy: jasmine.Spy<
+      (component: typeof ContentNodeSelectorComponent, config?: MatDialogConfig) => MatDialogRef<ContentNodeSelectorComponent, Node[]>
+    >;
 
     beforeEach(() => {
       mockDialogRef = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
@@ -327,7 +334,7 @@ describe('RuleActionUiComponent', () => {
       fixture.detectChanges();
 
       await changeMatSelectValue('mock-action-5-definition');
-      unitTestingUtils.getByCSS('.adf-textitem-action').nativeElement.click();
+      clickActionItem();
 
       expect(dialogOpenSpy).toHaveBeenCalledWith(ContentNodeSelectorComponent, {
         data: {
@@ -350,10 +357,10 @@ describe('RuleActionUiComponent', () => {
 
       component.parameters = { existingParam: 'value' };
 
-      unitTestingUtils.getByCSS('.adf-textitem-action').nativeElement.click();
+      clickActionItem();
 
       const dialogData = dialogOpenSpy.calls.mostRecent().args[1].data;
-      const selectedNode = { id: 'selected-node-123', name: 'Test Folder' } as unknown as Node;
+      const selectedNode = { id: 'selected-node-123', name: 'Test Folder' } as Node;
       dialogData.select.next([selectedNode]);
 
       expect(component.parameters).toEqual({
@@ -367,7 +374,7 @@ describe('RuleActionUiComponent', () => {
       fixture.detectChanges();
 
       await changeMatSelectValue('mock-action-5-definition');
-      unitTestingUtils.getByCSS('.adf-textitem-action').nativeElement.click();
+      clickActionItem();
 
       const dialogData = dialogOpenSpy.calls.mostRecent().args[1].data;
       const testError = new Error('Selection failed');
@@ -382,7 +389,7 @@ describe('RuleActionUiComponent', () => {
       fixture.detectChanges();
 
       await changeMatSelectValue('mock-action-5-definition');
-      unitTestingUtils.getByCSS('.adf-textitem-action').nativeElement.click();
+      clickActionItem();
 
       const dialogData = dialogOpenSpy.calls.mostRecent().args[1].data;
       dialogData.select.complete();

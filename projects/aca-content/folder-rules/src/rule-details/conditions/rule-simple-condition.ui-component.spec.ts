@@ -44,6 +44,13 @@ describe('RuleSimpleConditionUiComponent', () => {
   let unitTestingUtils: UnitTestingUtils;
 
   const fieldSelectAutomationId = 'field-select';
+  const comparatorSelectAutomationId = 'comparator-select';
+  const comparatorFormFieldAutomationId = 'comparator-form-field';
+  const unknownFieldOptionAutomationId = 'unknown-field-option';
+  const simpleConditionValueAutomationId = 'simple-condition-value-select';
+  const autoCompleteInputFieldAutomationId = 'auto-complete-input-field';
+  const autoCompleteSpinnerAutomationId = 'auto-complete-loading-spinner';
+  const valueInputAutomationId = 'value-input';
   const folderRulesBaseLabel = 'ACA_FOLDER_RULES.RULE_DETAILS.COMPARATORS';
 
   const changeMatSelectValue = async (dataAutomationId: string, value: string) => {
@@ -86,14 +93,14 @@ describe('RuleSimpleConditionUiComponent', () => {
     fixture.detectChanges();
 
     expect(unitTestingUtils.getByDataAutomationId(fieldSelectAutomationId).componentInstance.value).toBe('cm:name');
-    expect(unitTestingUtils.getByDataAutomationId('comparator-select').componentInstance.value).toBe('equals');
-    expect(unitTestingUtils.getByDataAutomationId('value-input').nativeElement.value).toBe('');
+    expect(unitTestingUtils.getByDataAutomationId(comparatorSelectAutomationId).componentInstance.value).toBe('equals');
+    expect(unitTestingUtils.getByDataAutomationId(valueInputAutomationId).nativeElement.value).toBe('');
   });
 
   it('should hide the comparator select box if the type of the field is mimeType', async () => {
     fixture.componentInstance.mimeTypes = [{ value: '', label: '' } as AlfrescoMimeType];
     fixture.detectChanges();
-    const comparatorFormField = unitTestingUtils.getByDataAutomationId('comparator-form-field').nativeElement;
+    const comparatorFormField = unitTestingUtils.getByDataAutomationId(comparatorFormFieldAutomationId).nativeElement;
 
     expect(fixture.componentInstance.isComparatorHidden).toBeFalsy();
     expect(getComputedStyle(comparatorFormField).display).not.toBe('none');
@@ -106,9 +113,9 @@ describe('RuleSimpleConditionUiComponent', () => {
 
   it('should set the comparator to equals if the field is set to a type with different comparators', async () => {
     spyOn(fixture.componentInstance, 'onChangeField').and.callThrough();
-    const comparatorSelect = await loader.getHarness(MatSelectHarness.with({ selector: '[data-automation-id="comparator-select"]' }));
+    const comparatorSelect = await loader.getHarness(MatSelectHarness.with({ selector: `[data-automation-id="${comparatorSelectAutomationId}"]` }));
 
-    await changeMatSelectValue('comparator-select', 'contains');
+    await changeMatSelectValue(comparatorSelectAutomationId, 'contains');
     expect(await comparatorSelect.getValueText()).toBe(folderRulesBaseLabel + '.CONTAINS');
 
     await changeMatSelectValue(fieldSelectAutomationId, 'size');
@@ -125,7 +132,7 @@ describe('RuleSimpleConditionUiComponent', () => {
     matSelect.click();
     fixture.detectChanges();
 
-    expect(unitTestingUtils.getInnerTextByDataAutomationId('unknown-field-option').trim()).toBe(simpleConditionUnknownFieldMock.field);
+    expect(unitTestingUtils.getInnerTextByDataAutomationId(unknownFieldOptionAutomationId).trim()).toBe(simpleConditionUnknownFieldMock.field);
   });
 
   it('should remove the option for the unknown field as soon as another option is selected', async () => {
@@ -136,7 +143,7 @@ describe('RuleSimpleConditionUiComponent', () => {
     matSelect.click();
     fixture.detectChanges();
 
-    const unknownOptionMatOption = unitTestingUtils.getByDataAutomationId('unknown-field-option');
+    const unknownOptionMatOption = unitTestingUtils.getByDataAutomationId(unknownFieldOptionAutomationId);
     expect(unknownOptionMatOption).toBeNull();
   });
 
@@ -166,7 +173,7 @@ describe('RuleSimpleConditionUiComponent', () => {
     fixture.componentInstance.onChangeField();
     fixture.detectChanges();
 
-    expect(unitTestingUtils.getByDataAutomationId('simple-condition-value-select')).toBeTruthy();
+    expect(unitTestingUtils.getByDataAutomationId(simpleConditionValueAutomationId)).toBeTruthy();
     expect(fixture.componentInstance.form.get('parameter').value).toEqual(mockMimeTypes[0].value);
   });
 
@@ -174,12 +181,12 @@ describe('RuleSimpleConditionUiComponent', () => {
     fixture.componentInstance.writeValue(mimeTypeMock);
     fixture.detectChanges();
 
-    expect(unitTestingUtils.getByDataAutomationId('simple-condition-value-select')).toBeTruthy();
+    expect(unitTestingUtils.getByDataAutomationId(simpleConditionValueAutomationId)).toBeTruthy();
 
     fixture.componentInstance.writeValue(tagMock);
     fixture.detectChanges();
 
-    expect(unitTestingUtils.getByDataAutomationId('value-input').nativeElement.value).toBe('');
+    expect(unitTestingUtils.getByDataAutomationId(valueInputAutomationId).nativeElement.value).toBe('');
   });
 
   it('should show loading spinner while auto-complete options are fetched, and then remove it once it is received', fakeAsync(async () => {
@@ -187,12 +194,12 @@ describe('RuleSimpleConditionUiComponent', () => {
     fixture.detectChanges();
     await changeMatSelectValue(fieldSelectAutomationId, 'category');
     tick(500);
-    unitTestingUtils.getByDataAutomationId('auto-complete-input-field')?.nativeElement?.click();
-    let loadingSpinner = unitTestingUtils.getByDataAutomationId('auto-complete-loading-spinner');
+    unitTestingUtils.getByDataAutomationId(autoCompleteInputFieldAutomationId)?.nativeElement?.click();
+    let loadingSpinner = unitTestingUtils.getByDataAutomationId(autoCompleteSpinnerAutomationId);
     expect(loadingSpinner).not.toBeNull();
     tick(1000);
     fixture.detectChanges();
-    loadingSpinner = unitTestingUtils.getByDataAutomationId('auto-complete-loading-spinner');
+    loadingSpinner = unitTestingUtils.getByDataAutomationId(autoCompleteSpinnerAutomationId);
     expect(loadingSpinner).toBeNull();
     discardPeriodicTasks();
   }));
@@ -205,7 +212,7 @@ describe('RuleSimpleConditionUiComponent', () => {
     it('should hide the comparator select box if the type of the field is autoComplete', async () => {
       const autoCompleteField = 'category';
       fixture.detectChanges();
-      const comparatorFormField = unitTestingUtils.getByDataAutomationId('comparator-form-field').nativeElement;
+      const comparatorFormField = unitTestingUtils.getByDataAutomationId(comparatorFormFieldAutomationId).nativeElement;
 
       expect(fixture.componentInstance.isComparatorHidden).toBeFalsy();
       expect(getComputedStyle(comparatorFormField).display).not.toBe('none');
@@ -218,7 +225,7 @@ describe('RuleSimpleConditionUiComponent', () => {
 
     it('should hide the comparator select box if the type of the field is special', async () => {
       fixture.detectChanges();
-      const comparatorFormField = unitTestingUtils.getByDataAutomationId('comparator-form-field').nativeElement;
+      const comparatorFormField = unitTestingUtils.getByDataAutomationId(comparatorFormFieldAutomationId).nativeElement;
 
       expect(fixture.componentInstance.isComparatorHidden).toBeFalsy();
       expect(getComputedStyle(comparatorFormField).display).not.toBe('none');
@@ -233,7 +240,7 @@ describe('RuleSimpleConditionUiComponent', () => {
       fixture.detectChanges();
       await changeMatSelectValue(fieldSelectAutomationId, 'category');
 
-      expect(unitTestingUtils.getByDataAutomationId('auto-complete-input-field')).toBeTruthy();
+      expect(unitTestingUtils.getByDataAutomationId(autoCompleteInputFieldAutomationId)).toBeTruthy();
       expect(fixture.componentInstance.form.get('parameter').value).toEqual('');
     });
 
@@ -253,7 +260,7 @@ describe('RuleSimpleConditionUiComponent', () => {
       tick(500);
       expect(categoryService.searchCategories).toHaveBeenCalledWith('');
 
-      unitTestingUtils.fillInputByDataAutomationId('auto-complete-input-field', categoryValue);
+      unitTestingUtils.fillInputByDataAutomationId(autoCompleteInputFieldAutomationId, categoryValue);
       tick(500);
       expect(categoryService.searchCategories).toHaveBeenCalledWith(categoryValue);
     }));
@@ -262,9 +269,9 @@ describe('RuleSimpleConditionUiComponent', () => {
       fixture.detectChanges();
       await changeMatSelectValue(fieldSelectAutomationId, 'category');
       tick(500);
-      unitTestingUtils.getByDataAutomationId('auto-complete-input-field')?.nativeElement?.click();
+      unitTestingUtils.getByDataAutomationId(autoCompleteInputFieldAutomationId)?.nativeElement?.click();
       await changeMatAutocompleteValue(categoriesListMock.list.entries[0].entry.id);
-      const displayValue = unitTestingUtils.getByDataAutomationId('auto-complete-input-field')?.nativeElement?.value;
+      const displayValue = unitTestingUtils.getByDataAutomationId(autoCompleteInputFieldAutomationId)?.nativeElement?.value;
       expect(displayValue).toBe('category/path/1/FakeCategory1');
       discardPeriodicTasks();
     }));
@@ -273,7 +280,7 @@ describe('RuleSimpleConditionUiComponent', () => {
       fixture.detectChanges();
       await changeMatSelectValue(fieldSelectAutomationId, 'category');
       tick(500);
-      const autoCompleteInputField = unitTestingUtils.getByDataAutomationId('auto-complete-input-field')?.nativeElement;
+      const autoCompleteInputField = unitTestingUtils.getByDataAutomationId(autoCompleteInputFieldAutomationId)?.nativeElement;
       autoCompleteInputField.value = 'FakeCat';
       autoCompleteInputField.dispatchEvent(new Event('focusout'));
       const parameterValue = fixture.componentInstance.form.get('parameter').value;

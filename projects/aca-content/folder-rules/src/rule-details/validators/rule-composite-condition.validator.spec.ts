@@ -34,7 +34,7 @@ describe('ruleCompositeConditionValidator', () => {
   });
 
   it('should return null for root condition with empty compositeConditions and empty simpleConditions', () => {
-    const mockCondition: RuleCompositeCondition = {
+    const mockCondition = {
       compositeConditions: [],
       simpleConditions: []
     } as RuleCompositeCondition;
@@ -44,7 +44,7 @@ describe('ruleCompositeConditionValidator', () => {
   });
 
   it('should return validation error for nested condition with empty simpleConditions and no nested compositeConditions', () => {
-    const mockCondition: RuleCompositeCondition = {
+    const mockCondition = {
       compositeConditions: [
         {
           compositeConditions: [],
@@ -59,7 +59,7 @@ describe('ruleCompositeConditionValidator', () => {
   });
 
   it('should return validation error for deeply nested invalid composite conditions', () => {
-    const mockCondition: RuleCompositeCondition = {
+    const mockCondition = {
       compositeConditions: [
         {
           compositeConditions: [

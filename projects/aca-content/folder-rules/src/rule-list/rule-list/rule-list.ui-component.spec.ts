@@ -37,6 +37,8 @@ describe('RuleListUiComponent', () => {
   let component: RuleListUiComponent;
   let unitTestingUtils: UnitTestingUtils;
 
+  const getMainRuleSetTitleText = (): string => unitTestingUtils.getInnerTextByDataAutomationId('main-rule-set-title');
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [NoopTranslateModule, RuleListUiComponent],
@@ -55,14 +57,14 @@ describe('RuleListUiComponent', () => {
     component.mainRuleSet$ = of(ownedRuleSetMock);
     fixture.detectChanges();
 
-    expect(unitTestingUtils.getInnerTextByDataAutomationId('main-rule-set-title')).toBe('ACA_FOLDER_RULES.RULE_LIST.OWNED_RULES');
+    expect(getMainRuleSetTitleText()).toBe('ACA_FOLDER_RULES.RULE_LIST.OWNED_RULES');
   });
 
   it('should show "Rules from linked folder" as a title if the main rule set is linked', () => {
     component.mainRuleSet$ = of(ruleSetWithLinkMock);
     fixture.detectChanges();
 
-    expect(unitTestingUtils.getInnerTextByDataAutomationId('main-rule-set-title')).toBe('ACA_FOLDER_RULES.RULE_LIST.LINKED_RULES');
+    expect(getMainRuleSetTitleText()).toBe('ACA_FOLDER_RULES.RULE_LIST.LINKED_RULES');
   });
 
   it('should add loading item when both ruleSetsLoading and hasMoreRuleSets are true', () => {
@@ -139,7 +141,7 @@ describe('RuleListUiComponent', () => {
 
   it('should stop event propagation and emit ruleSetEditLinkClicked with mainRuleSet when onRuleSetEditLinkClicked is called', () => {
     spyOn(component.ruleSetEditLinkClicked, 'emit');
-    const mockEvent = jasmine.createSpyObj('Event', ['stopPropagation']);
+    const mockEvent = jasmine.createSpyObj<Event>('Event', ['stopPropagation']);
     component.mainRuleSet = ownedRuleSetMock;
 
     component.onRuleSetEditLinkClicked(mockEvent);
@@ -160,7 +162,7 @@ describe('RuleListUiComponent', () => {
 
   it('should stop event propagation and emit ruleSetUnlinkClicked with mainRuleSet when onRuleSetUnlinkClicked is called', () => {
     spyOn(component.ruleSetUnlinkClicked, 'emit');
-    const mockEvent = jasmine.createSpyObj('Event', ['stopPropagation']);
+    const mockEvent = jasmine.createSpyObj<Event>('Event', ['stopPropagation']);
     component.mainRuleSet = ownedRuleSetMock;
 
     component.onRuleSetUnlinkClicked(mockEvent);

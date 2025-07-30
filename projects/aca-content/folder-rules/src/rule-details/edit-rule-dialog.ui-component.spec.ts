@@ -41,6 +41,9 @@ describe('EditRuleDialogSmartComponent', () => {
     open: jasmine.createSpy('open')
   };
 
+  const getDialogSubmit = (): HTMLButtonElement => unitTestingUtils.getByDataAutomationId('edit-rule-dialog-submit').nativeElement;
+  const getDialogTitle = (): HTMLDivElement => unitTestingUtils.getByDataAutomationId('edit-rule-dialog-title').nativeElement;
+
   const setupBeforeEach = (dialogOptions: EditRuleDialogOptions = { actionDefinitions$: of([]), parameterConstraints$: of([]) }) => {
     TestBed.configureTestingModule({
       imports: [NoopTranslateModule, EditRuleDialogUiComponent],
@@ -63,7 +66,6 @@ describe('EditRuleDialogSmartComponent', () => {
     });
 
     it('should activate the submit button only when a valid state is received', async () => {
-      const submitButton = unitTestingUtils.getByDataAutomationId('edit-rule-dialog-submit').nativeElement as HTMLButtonElement;
       const ruleDetails = unitTestingUtils.getByDirective(RuleDetailsUiComponent).componentInstance as RuleDetailsUiComponent;
       ruleDetails.formValidationChanged.emit(true);
 
@@ -71,25 +73,21 @@ describe('EditRuleDialogSmartComponent', () => {
       // timer needed to wait for the next tick to avoid ExpressionChangedAfterItHasBeenCheckedError
       await timer(1).toPromise();
       fixture.detectChanges();
-      expect(submitButton.disabled).toBeFalsy();
+      expect(getDialogSubmit().disabled).toBeFalsy();
       ruleDetails.formValidationChanged.emit(false);
 
       fixture.detectChanges();
       await timer(1).toPromise();
       fixture.detectChanges();
-      expect(submitButton.disabled).toBeTruthy();
+      expect(getDialogSubmit().disabled).toBeTruthy();
     });
 
     it('should show a "create" label in the title', () => {
-      const titleElement = unitTestingUtils.getByDataAutomationId('edit-rule-dialog-title').nativeElement as HTMLDivElement;
-
-      expect(titleElement.innerText.trim()).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.CREATE_TITLE');
+      expect(getDialogTitle().innerText.trim()).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.CREATE_TITLE');
     });
 
     it('should show a "create" label in the submit button', () => {
-      const titleElement = unitTestingUtils.getByDataAutomationId('edit-rule-dialog-submit').nativeElement as HTMLButtonElement;
-
-      expect(titleElement.innerText.trim()).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.CREATE');
+      expect(getDialogSubmit().innerText.trim()).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.CREATE');
     });
 
     it('should set correct title and submitLabel for create mode', () => {
@@ -112,15 +110,11 @@ describe('EditRuleDialogSmartComponent', () => {
     });
 
     it('should show an "update" label in the title', () => {
-      const titleElement = unitTestingUtils.getByDataAutomationId('edit-rule-dialog-title').nativeElement as HTMLDivElement;
-
-      expect(titleElement.innerText.trim()).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.UPDATE_TITLE');
+      expect(getDialogTitle().innerText.trim()).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.UPDATE_TITLE');
     });
 
     it('should show an "update" label in the submit button', () => {
-      const titleElement = unitTestingUtils.getByDataAutomationId('edit-rule-dialog-submit').nativeElement as HTMLButtonElement;
-
-      expect(titleElement.innerText.trim()).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.UPDATE');
+      expect(getDialogSubmit().innerText.trim()).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.UPDATE');
     });
 
     it('should set correct title and submitLabel for update mode', () => {

@@ -93,7 +93,7 @@ describe('RuleListItemUiComponent', () => {
   describe('onToggleClick', () => {
     it('should stop event propagation and emit enabledChanged with isEnabled value', () => {
       spyOn(component.enabledChanged, 'emit');
-      const mockEvent = jasmine.createSpyObj('Event', ['stopPropagation']);
+      const mockEvent = jasmine.createSpyObj<Event>('Event', ['stopPropagation']);
       const isEnabled = true;
 
       component.onToggleClick(isEnabled, mockEvent);
@@ -104,7 +104,7 @@ describe('RuleListItemUiComponent', () => {
 
     it('should stop event propagation and emit enabledChanged with false value', () => {
       spyOn(component.enabledChanged, 'emit');
-      const mockEvent = jasmine.createSpyObj('Event', ['stopPropagation']);
+      const mockEvent = jasmine.createSpyObj<Event>('Event', ['stopPropagation']);
       const isEnabled = false;
 
       component.onToggleClick(isEnabled, mockEvent);

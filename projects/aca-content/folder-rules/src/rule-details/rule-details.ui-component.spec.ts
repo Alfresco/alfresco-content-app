@@ -49,9 +49,8 @@ describe('RuleDetailsUiComponent', () => {
     errorScript: ''
   };
 
-  const getHtmlElement = <T>(dataAutomationId: string) => unitTestingUtils.getByDataAutomationId(dataAutomationId)?.nativeElement as T;
-
-  const getComponentInstance = <T>(dataAutomationId: string) => unitTestingUtils.getByDataAutomationId(dataAutomationId)?.componentInstance as T;
+  const getHtmlElement = <T>(dataAutomationId: string): T => unitTestingUtils.getByDataAutomationId(dataAutomationId)?.nativeElement as T;
+  const getComponentInstance = <T>(dataAutomationId: string): T => unitTestingUtils.getByDataAutomationId(dataAutomationId)?.componentInstance as T;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

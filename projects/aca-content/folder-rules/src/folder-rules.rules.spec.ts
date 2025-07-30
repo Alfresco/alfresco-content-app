@@ -24,33 +24,32 @@
 
 import { isFolderRulesEnabled } from './folder-rules.rules';
 import { AcaRuleContext } from '@alfresco/aca-shared/rules';
+import { AppConfigService } from '@alfresco/adf-core';
 
 describe('Folder Rules Visibility Rules', () => {
-  describe('isFolderRulesEnabled', () => {
-    it('should return true when plugin is enabled in app config', () => {
-      const context = {
-        appConfig: {
-          get: jasmine.createSpy('get').and.returnValue(true)
-        }
-      } as any as AcaRuleContext;
+  let mockAppConfig: jasmine.SpyObj<AppConfigService>;
+  let context: Partial<AcaRuleContext>;
 
-      const result = isFolderRulesEnabled(context);
+  beforeEach(() => {
+    mockAppConfig = jasmine.createSpyObj<AppConfigService>('AppConfigService', ['get']);
+    context = {
+      appConfig: mockAppConfig
+    };
+  });
 
-      expect(context.appConfig.get).toHaveBeenCalledWith('plugins.folderRules', false);
-      expect(result).toBe(true);
-    });
+  it('should return true when plugin is enabled in app config', () => {
+    mockAppConfig.get.and.returnValue(true);
+    const result = isFolderRulesEnabled(context as AcaRuleContext);
 
-    it('should return false when plugin is disabled in app config', () => {
-      const context = {
-        appConfig: {
-          get: jasmine.createSpy('get').and.returnValue(false)
-        }
-      } as any as AcaRuleContext;
+    expect(context.appConfig.get).toHaveBeenCalledWith('plugins.folderRules', false);
+    expect(result).toBe(true);
+  });
 
-      const result = isFolderRulesEnabled(context);
+  it('should return false when plugin is disabled in app config', () => {
+    mockAppConfig.get.and.returnValue(false);
+    const result = isFolderRulesEnabled(context as AcaRuleContext);
 
-      expect(context.appConfig.get).toHaveBeenCalledWith('plugins.folderRules', false);
-      expect(result).toBe(false);
-    });
+    expect(context.appConfig.get).toHaveBeenCalledWith('plugins.folderRules', false);
+    expect(result).toBe(false);
   });
 });

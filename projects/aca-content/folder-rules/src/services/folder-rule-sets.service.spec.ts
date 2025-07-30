@@ -27,7 +27,7 @@ import { TestBed } from '@angular/core/testing';
 import { FolderRulesService } from './folder-rules.service';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { getOtherFolderEntryMock, getOwningFolderEntryMock, otherFolderIdMock, owningFolderIdMock, owningFolderMock } from '../mock/node.mock';
-import { filter, of, skip, throwError } from 'rxjs';
+import { filter, firstValueFrom, lastValueFrom, of, skip, throwError } from 'rxjs';
 import { getDefaultRuleSetResponseMock, getRuleSetsResponseMock, inheritedRuleSetMock, ownedRuleSetMock } from '../mock/rule-sets.mock';
 import { take } from 'rxjs/operators';
 import { inheritedRulesMock, linkedRulesMock, ownedRulesMock, ruleMock } from '../mock/rules.mock';
@@ -115,14 +115,14 @@ describe('FolderRuleSetsService', () => {
   });
 
   it('should have an initial value of null for selectedRuleSet$', async () => {
-    const selectedRuleSetPromise = folderRuleSetsService.selectedRuleSet$.pipe(take(1)).toPromise();
+    const selectedRuleSetPromise = firstValueFrom(folderRuleSetsService.selectedRuleSet$.pipe(take(1)));
     const selectedRuleSet = await selectedRuleSetPromise;
     expect(selectedRuleSet).toBeNull();
   });
 
   it('should select the first rule of the owned rule set of the folder', async () => {
     // take(3), because: 1 = init of the BehaviourSubject, 2 = reinitialise at beginning of loadRuleSets, 3 = in subscribe
-    const mainRuleSetPromise = folderRuleSetsService.mainRuleSet$.pipe(skip(3), take(1)).toPromise();
+    const mainRuleSetPromise = firstValueFrom(folderRuleSetsService.mainRuleSet$.pipe(skip(3), take(1)));
 
     folderRuleSetsService.loadRuleSets(owningFolderIdMock);
     folderRuleSetsService.removeRuleFromMainRuleSet('owned-rule-1-id');
@@ -140,7 +140,7 @@ describe('FolderRuleSetsService', () => {
 
   it(`should load node info when loading the node's rule sets`, async () => {
     // take(2), because: 1 = init of the BehaviourSubject, 2 = in subscribe
-    const folderInfoPromise = folderRuleSetsService.folderInfo$.pipe(take(2)).toPromise();
+    const folderInfoPromise = lastValueFrom(folderRuleSetsService.folderInfo$.pipe(take(2)));
 
     folderRuleSetsService.loadRuleSets(owningFolderIdMock);
     const folderInfo = await folderInfoPromise;
@@ -151,7 +151,7 @@ describe('FolderRuleSetsService', () => {
 
   it('should load the main rule set (main or linked)', async () => {
     // take(3), because: 1 = init of the BehaviourSubject, 2 = reinitialise at beginning of loadRuleSets, 3 = in subscribe
-    const mainRuleSetPromise = folderRuleSetsService.mainRuleSet$.pipe(take(3)).toPromise();
+    const mainRuleSetPromise = lastValueFrom(folderRuleSetsService.mainRuleSet$.pipe(take(3)));
 
     folderRuleSetsService.loadRuleSets(owningFolderIdMock);
     const ruleSet = await mainRuleSetPromise;
@@ -172,8 +172,8 @@ describe('FolderRuleSetsService', () => {
 
   it('should load inherited rule sets of a node and filter out owned or inherited rule sets', async () => {
     // take(3), because: 1 = init of the BehaviourSubject, 2 = reinitialise at beginning of loadRuleSets, 3 = in subscribe
-    const inheritedRuleSetsPromise = folderRuleSetsService.inheritedRuleSets$.pipe(take(3)).toPromise();
-    const hasMoreRuleSetsPromise = folderRuleSetsService.hasMoreRuleSets$.pipe(take(3)).toPromise();
+    const inheritedRuleSetsPromise = lastValueFrom(folderRuleSetsService.inheritedRuleSets$.pipe(take(3)));
+    const hasMoreRuleSetsPromise = lastValueFrom(folderRuleSetsService.hasMoreRuleSets$.pipe(take(3)));
 
     folderRuleSetsService.loadRuleSets(owningFolderIdMock);
     const ruleSets = await inheritedRuleSetsPromise;
@@ -259,86 +259,63 @@ describe('FolderRuleSetsService', () => {
     });
   });
 
-  it('should set main rule set to null on 404 error', (done) => {
-    const httpError = new HttpErrorResponse({
-      status: 404,
-      statusText: 'Not Found',
-      error: { message: 'Rule set not found' }
+  describe('Error handling', () => {
+    function testRuleSetApiError(status: number, statusText: string, errorMessage: string, done: DoneFn) {
+      const httpError = new HttpErrorResponse({
+        status,
+        statusText,
+        error: { message: errorMessage }
+      });
+
+      apiClientSpy.callApi
+        .withArgs(
+          `/nodes/${owningFolderIdMock}/rule-sets/-default-?include=isLinkedTo,owningFolder,linkedToBy`,
+          'GET',
+          {},
+          {},
+          {},
+          {},
+          {},
+          ['application/json'],
+          ['application/json']
+        )
+        .and.returnValue(throwError(() => httpError));
+
+      folderRuleSetsService.mainRuleSet$.pipe(skip(1), take(1)).subscribe((value) => {
+        expect(value).toBeNull();
+        done();
+      });
+
+      folderRuleSetsService.loadRuleSets(owningFolderIdMock, false);
+    }
+
+    function testNodeInfoError(service: FolderRuleSetsService, status: number, expectedValue: null | undefined, done: DoneFn) {
+      const httpError = new HttpErrorResponse({ status, statusText: status === 404 ? 'Not Found' : 'Failed' });
+      getNodeSpy.withArgs(owningFolderIdMock).and.returnValue(throwError(() => httpError));
+
+      service.folderInfo$.pipe(skip(1), take(1)).subscribe((info) => {
+        expect(info).toEqual(expectedValue);
+        done();
+      });
+
+      service.loadRuleSets(owningFolderIdMock, false);
+    }
+
+    it('should set main rule set to null on 404 error', (done) => {
+      testRuleSetApiError(404, 'Not Found', 'Rule set not found', done);
     });
 
-    apiClientSpy.callApi
-      .withArgs(
-        `/nodes/${owningFolderIdMock}/rule-sets/-default-?include=isLinkedTo,owningFolder,linkedToBy`,
-        'GET',
-        {},
-        {},
-        {},
-        {},
-        {},
-        ['application/json'],
-        ['application/json']
-      )
-      .and.returnValue(throwError(() => httpError));
-
-    folderRuleSetsService.mainRuleSet$.pipe(skip(1), take(1)).subscribe((value) => {
-      expect(value).toBeNull();
-      done();
+    it('should set mainRuleSet$ to null on non-404 error', (done) => {
+      testRuleSetApiError(400, 'Failed', 'Failed to fetch main rule set', done);
     });
 
-    folderRuleSetsService.loadRuleSets(owningFolderIdMock, false);
-  });
-
-  it('should set mainRuleSet$ to null on non-404 error', (done) => {
-    const httpError = new HttpErrorResponse({
-      status: 400,
-      statusText: 'Failed',
-      error: { message: 'Failed to fetch main rule set' }
+    it('should emit null folderInfo when getNodeInfo fails with 404', (done) => {
+      testNodeInfoError(folderRuleSetsService, 404, null, done);
     });
 
-    apiClientSpy.callApi
-      .withArgs(
-        `/nodes/${owningFolderIdMock}/rule-sets/-default-?include=isLinkedTo,owningFolder,linkedToBy`,
-        'GET',
-        {},
-        {},
-        {},
-        {},
-        {},
-        ['application/json'],
-        ['application/json']
-      )
-      .and.returnValue(throwError(() => httpError));
-
-    folderRuleSetsService.mainRuleSet$.pipe(skip(1), take(1)).subscribe((value) => {
-      expect(value).toBeNull();
-      done();
+    it('should emit undefined folderInfo on getNodeInfo non-404 error', (done) => {
+      testNodeInfoError(folderRuleSetsService, 400, undefined, done);
     });
-
-    folderRuleSetsService.loadRuleSets(owningFolderIdMock, false);
-  });
-
-  it('should emit null folderInfo when getNodeInfo fails with 404', (done) => {
-    const http404 = new HttpErrorResponse({ status: 404, statusText: 'Not Found' });
-    getNodeSpy.withArgs(owningFolderIdMock).and.returnValue(throwError(() => http404));
-
-    folderRuleSetsService.folderInfo$.pipe(skip(1), take(1)).subscribe((info) => {
-      expect(info).toBeNull();
-      done();
-    });
-
-    folderRuleSetsService.loadRuleSets(owningFolderIdMock, false);
-  });
-
-  it('should emit undefined folderInfo on getNodeInfo non-404 error', (done) => {
-    const http404 = new HttpErrorResponse({ status: 400, statusText: 'Failed' });
-    getNodeSpy.withArgs(owningFolderIdMock).and.returnValue(throwError(() => http404));
-
-    folderRuleSetsService.folderInfo$.pipe(skip(1), take(1)).subscribe((info) => {
-      expect(info).toBeUndefined();
-      done();
-    });
-
-    folderRuleSetsService.loadRuleSets(owningFolderIdMock, false);
   });
 
   it('should emit null folderInfo when nodeId is empty', (done) => {
@@ -368,15 +345,15 @@ describe('FolderRuleSetsService', () => {
     folderRuleSetsService.loadRuleSets(owningFolderIdMock);
     const newRule = ruleMock('new-rule');
 
-    await folderRuleSetsService.isLoading$
-      .pipe(
+    await firstValueFrom(
+      folderRuleSetsService.isLoading$.pipe(
         filter((loading) => !loading),
         take(1)
       )
-      .toPromise();
+    );
 
     folderRuleSetsService.addOrUpdateRuleInMainRuleSet(newRule);
-    const main = await folderRuleSetsService.mainRuleSet$.pipe(take(1)).toPromise();
+    const main = await firstValueFrom(folderRuleSetsService.mainRuleSet$.pipe(take(1)));
     expect(main.rules[2]).toEqual(newRule);
   });
 
@@ -384,7 +361,7 @@ describe('FolderRuleSetsService', () => {
     folderRuleSetsService.loadRuleSets(owningFolderIdMock);
     const newRule = { ...ownedRulesMock[0], description: 'new description' } as Rule;
     folderRuleSetsService.addOrUpdateRuleInMainRuleSet(newRule);
-    const main = await folderRuleSetsService.mainRuleSet$.pipe(take(1)).toPromise();
+    const main = await firstValueFrom(folderRuleSetsService.mainRuleSet$.pipe(take(1)));
 
     expect(main.rules[0].description).toEqual(newRule.description);
   });
@@ -394,16 +371,16 @@ describe('FolderRuleSetsService', () => {
 
     folderRuleSetsService.loadRuleSets(owningFolderIdMock);
 
-    await folderRuleSetsService.isLoading$
-      .pipe(
+    await firstValueFrom(
+      folderRuleSetsService.isLoading$.pipe(
         filter((loading) => !loading),
         take(1)
       )
-      .toPromise();
+    );
 
     folderRuleSetsService.removeRuleFromMainRuleSet('owned-rule-1-id');
 
-    const main = await folderRuleSetsService.mainRuleSet$.pipe(take(1)).toPromise();
+    const main = await lastValueFrom(folderRuleSetsService.mainRuleSet$.pipe(take(1)));
 
     expect(main).toBe(null);
   });

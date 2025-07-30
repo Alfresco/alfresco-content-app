@@ -30,7 +30,13 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { of } from 'rxjs';
 import { ruleSetWithLinkMock, ruleSetWithNoRulesToLinkMock, ruleSetWithOwnedRulesToLinkMock } from '../mock/rule-sets.mock';
 import { ContentApiService } from '@alfresco/aca-shared';
-import { AlfrescoApiService, AlfrescoApiServiceMock, ContentNodeSelectorPanelComponent, SitesService } from '@alfresco/adf-content-services';
+import {
+  AlfrescoApiService,
+  AlfrescoApiServiceMock,
+  ContentNodeSelectorPanelComponent,
+  NodeEntryEvent,
+  SitesService
+} from '@alfresco/adf-content-services';
 import { provideRouter } from '@angular/router';
 import { Component, DebugElement, EventEmitter, Input, Output } from '@angular/core';
 import { RuleSet } from '../model/rule-set.model';
@@ -43,8 +49,8 @@ import { RuleSet } from '../model/rule-set.model';
 class MockContentNodeSelectorPanelComponent {
   @Input() currentFolderId: string;
   @Output() folderLoaded = new EventEmitter<void>();
-  @Output() navigationChange = new EventEmitter<any>();
-  @Output() siteChange = new EventEmitter<any>();
+  @Output() navigationChange = new EventEmitter<NodeEntryEvent>();
+  @Output() siteChange = new EventEmitter<string>();
 }
 
 describe('RuleSetPickerSmartComponent', () => {
@@ -158,8 +164,8 @@ describe('RuleSetPickerSmartComponent', () => {
   });
 
   describe('onSubmit', () => {
-    let deleteRuleSetLinkSpy: jasmine.Spy;
-    let createRuleSetLinkSpy: jasmine.Spy;
+    let deleteRuleSetLinkSpy: jasmine.Spy<(nodeId: string, ruleSetId: string) => Promise<void>>;
+    let createRuleSetLinkSpy: jasmine.Spy<(nodeId: string, linkedNodeId: string) => Promise<void>>;
 
     beforeEach(() => {
       deleteRuleSetLinkSpy = spyOn(component.folderRuleSetsService, 'deleteRuleSetLink').and.returnValue(Promise.resolve());
