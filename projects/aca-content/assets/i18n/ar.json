@@ -574,7 +574,9 @@
             "FILES": "ملفات",
             "FOLDERS": "مجلدات",
             "LIBRARIES": "مكتبات",
-            "HINT": "يجب أن يحتوي إدخال البحث على حرفين أبجديين رقميين على الأقل."
+            "MIN_LENGTH": "Search input must have at least 2 alphanumeric characters.",
+            "REQUIRED": "Search input is required.",
+            "WHITESPACE": "Search input cannot be only whitespace."
         },
         "SORT": {
             "SORTING_OPTION": "صنف حسب",

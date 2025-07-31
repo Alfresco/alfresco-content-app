@@ -574,7 +574,9 @@
             "FILES": "文件",
             "FOLDERS": "文件夹",
             "LIBRARIES": "库",
-            "HINT": "搜索输入必须至少具有 2 个字母数字字符。"
+            "MIN_LENGTH": "Search input must have at least 2 alphanumeric characters.",
+            "REQUIRED": "Search input is required.",
+            "WHITESPACE": "Search input cannot be only whitespace."
         },
         "SORT": {
             "SORTING_OPTION": "排序方式",
