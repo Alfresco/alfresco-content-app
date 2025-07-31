@@ -574,9 +574,7 @@
             "FILES": "ファイル",
             "FOLDERS": "フォルダ",
             "LIBRARIES": "ライブラリ",
-            "MIN_LENGTH": "Search input must have at least 2 alphanumeric characters.",
-            "REQUIRED": "Search input is required.",
-            "WHITESPACE": "Search input cannot be only whitespace."
+            "HINT": "検索する語句は、2 文字以上の英数字で入力してください。"
         },
         "SORT": {
             "SORTING_OPTION": "並べ替え",
