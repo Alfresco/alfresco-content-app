@@ -40,7 +40,6 @@ export * from './lib/components/document-base-page/document-base-page.component'
 export * from './lib/components/document-base-page/document-base-page.service';
 export * from './lib/components/open-in-app/open-in-app.component';
 export * from './lib/constants';
-
 export * from './lib/directives/contextmenu/contextmenu.directive';
 export * from './lib/directives/pagination.directive';
 
@@ -61,8 +60,5 @@ export * from './lib/services/app-settings.service';
 export * from './lib/services/user-profile.service';
 export * from './lib/services/navigation-history.service';
 
-export * from './lib/testing/lib-testing-module';
-
 export * from './lib/utils/node.utils';
-
-export * from './lib/validators/no-whitespace.validator';
+export * from './lib/testing/lib-testing-module';

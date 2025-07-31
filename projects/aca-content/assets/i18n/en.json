@@ -574,9 +574,7 @@
           "FILES": "Files",
           "FOLDERS": "Folders",
           "LIBRARIES": "Libraries",
-          "MIN_LENGTH": "Search input must have at least 2 alphanumeric characters.",
-          "REQUIRED": "Search input is required.",
-          "WHITESPACE": "Search input cannot be only whitespace."
+          "HINT": "Search input must have at least 2 alphanumeric characters."
         },
         "SORT": {
             "SORTING_OPTION": "Sort by",

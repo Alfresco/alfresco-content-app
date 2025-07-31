@@ -49,18 +49,16 @@ $search-border-radius: 4px;
 .app-search-options {
   color: var(--theme-text-color);
   border-top: 1px solid var(--theme-divider-color);
-  padding: 25px;
+  padding: 10px;
   display: flex;
   flex-direction: row;
   column-gap: 24px;
 }
 
-.app-search-error {
+.app-search-hint {
   position: absolute;
-  gap: 4px;
-  padding-left: 17px;
-  margin-top: 4px;
   font-size: 12px;
+  padding-left: 17px;
 }
 
 @media screen and (max-width: 959px) {
