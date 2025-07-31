@@ -192,9 +192,9 @@ export class SearchInputComponent implements OnInit, OnDestroy {
       this.notificationService.showError('APP.BROWSE.SEARCH.EMPTY_SEARCH');
     }
 
-    if (this.trigger) {
-      this.trigger.closeMenu();
-    }
+    setTimeout(() => {
+      this.trigger?.closeMenu();
+    }, 0);
   }
 
   onSearchChange(searchTerm: string) {
