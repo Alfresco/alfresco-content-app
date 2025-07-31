@@ -194,7 +194,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
 
     setTimeout(() => {
       this.trigger?.closeMenu();
-    }, 0);
+    });
   }
 
   onSearchChange(searchTerm: string) {
