@@ -574,9 +574,7 @@
             "FILES": "Pliki",
             "FOLDERS": "Foldery",
             "LIBRARIES": "Biblioteki",
-            "MIN_LENGTH": "Search input must have at least 2 alphanumeric characters.",
-            "REQUIRED": "Search input is required.",
-            "WHITESPACE": "Search input cannot be only whitespace."
+            "HINT": "Tekst do wyszukiwania musi mieć co najmniej 2 znaki alfanumeryczne."
         },
         "SORT": {
             "SORTING_OPTION": "Sortuj wg",

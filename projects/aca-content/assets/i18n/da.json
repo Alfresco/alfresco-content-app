@@ -574,9 +574,7 @@
             "FILES": "Filer",
             "FOLDERS": "Mapper",
             "LIBRARIES": "Biblioteker",
-            "MIN_LENGTH": "Search input must have at least 2 alphanumeric characters.",
-            "REQUIRED": "Search input is required.",
-            "WHITESPACE": "Search input cannot be only whitespace."
+            "HINT": "Din søgetekst skal være på mindst 2 tal/bogstaver."
         },
         "SORT": {
             "SORTING_OPTION": "Sortér efter",

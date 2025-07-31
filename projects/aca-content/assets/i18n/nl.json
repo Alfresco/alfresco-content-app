@@ -574,9 +574,7 @@
             "FILES": "Bestanden",
             "FOLDERS": "Mappen",
             "LIBRARIES": "Bibliotheken",
-            "MIN_LENGTH": "Search input must have at least 2 alphanumeric characters.",
-            "REQUIRED": "Search input is required.",
-            "WHITESPACE": "Search input cannot be only whitespace."
+            "HINT": "Invoer voor een zoekopdracht moet uit minstens 2 alfanumerieke tekens bestaan."
         },
         "SORT": {
             "SORTING_OPTION": "Sorteren op",

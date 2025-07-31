@@ -574,9 +574,7 @@
             "FILES": "Tiedostot",
             "FOLDERS": "Kansiot",
             "LIBRARIES": "Kirjastot",
-            "MIN_LENGTH": "Search input must have at least 2 alphanumeric characters.",
-            "REQUIRED": "Search input is required.",
-            "WHITESPACE": "Search input cannot be only whitespace."
+            "HINT": "Hakuehdoissa täytyy olla vähintään kaksi aakkosnumeerista merkkiä."
         },
         "SORT": {
             "SORTING_OPTION": "Järjestä",

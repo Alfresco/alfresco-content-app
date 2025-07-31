@@ -574,9 +574,7 @@
             "FILES": "Soubory",
             "FOLDERS": "Složky",
             "LIBRARIES": "Knihovny",
-            "MIN_LENGTH": "Search input must have at least 2 alphanumeric characters.",
-            "REQUIRED": "Search input is required.",
-            "WHITESPACE": "Search input cannot be only whitespace."
+            "HINT": "Hledaný výraz musí obsahovat kombinaci alespoň 2 písmen a číslic."
         },
         "SORT": {
             "SORTING_OPTION": "Řadit podle",
