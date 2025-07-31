@@ -73,6 +73,8 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   has400LibraryError = false;
   hasLibrariesConstraint = false;
   searchOnChange: boolean;
+  isTrimmedWordEmpty = false;
+  error = '';
 
   searchedWord: string = null;
   searchOptions: Array<SearchOptionModel> = [
@@ -151,8 +153,8 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   showInputValue() {
     this.appService.setAppNavbarMode('collapsed');
     this.has400LibraryError = false;
-    this.hasLibrariesConstraint = this.evaluateLibrariesConstraint();
     this.searchedWord = this.getUrlSearchTerm();
+    this.hasLibrariesConstraint = this.evaluateLibrariesConstraint();
 
     if (this.searchInputControl) {
       this.searchInputControl.searchTerm = this.searchedWord;
@@ -177,17 +179,22 @@ export class SearchInputComponent implements OnInit, OnDestroy {
    */
   onSearchSubmit(event: any) {
     const searchTerm = event.target ? (event.target as HTMLInputElement).value : event;
-    if (searchTerm) {
-      this.searchedWord = searchTerm;
+    const trimmedTerm = searchTerm.trim();
 
-      this.searchByOption();
+    if (trimmedTerm) {
+      this.searchedWord = trimmedTerm;
+      if (this.isLibrariesChecked() && this.searchInputControl.isTermTooShort()) {
+        return;
+      } else {
+        this.searchByOption();
+      }
     } else {
       this.notificationService.showError('APP.BROWSE.SEARCH.EMPTY_SEARCH');
     }
 
-    if (this.trigger) {
-      this.trigger.closeMenu();
-    }
+    setTimeout(() => {
+      this.trigger?.closeMenu();
+    }, 0);
   }
 
   onSearchChange(searchTerm: string) {
@@ -196,15 +203,26 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     }
 
     this.has400LibraryError = false;
-    this.hasLibrariesConstraint = this.evaluateLibrariesConstraint();
     this.searchedWord = searchTerm;
+    this.hasLibrariesConstraint = this.evaluateLibrariesConstraint();
   }
 
   searchByOption() {
     this.syncInputValues();
     this.has400LibraryError = false;
+
+    this.searchInputControl.emitValidationError();
+
+    if (!this.searchedWord.trim()) {
+      return;
+    }
+
     if (this.isLibrariesChecked()) {
       this.hasLibrariesConstraint = this.evaluateLibrariesConstraint();
+
+      if (this.hasLibrariesConstraint) {
+        return;
+      }
       if (this.onLibrariesSearchResults && this.isSameSearchTerm()) {
         this.queryLibrariesBuilder.update();
       } else if (this.searchedWord) {
