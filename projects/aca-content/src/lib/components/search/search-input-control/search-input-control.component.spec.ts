@@ -30,40 +30,44 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 describe('SearchInputControlComponent', () => {
   let fixture: ComponentFixture<SearchInputControlComponent>;
   let component: SearchInputControlComponent;
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, SearchInputControlComponent],
       schemas: [NO_ERRORS_SCHEMA]
     });
-
     fixture = TestBed.createComponent(SearchInputControlComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should emit submit event on searchSubmit', () => {
-    component.searchTerm = 'mock-search-term';
-
-    let submittedSearchTerm = '';
-    component.submit.subscribe((searchTerm) => (submittedSearchTerm = searchTerm));
+  it('should emit submit event if form is valid', () => {
+    component.searchTerm = 'valid';
+    spyOn(component.submit, 'emit');
 
     component.searchSubmit();
-    expect(submittedSearchTerm).toBe('mock-search-term');
+
+    expect(component.submit.emit).toHaveBeenCalledWith('valid');
+  });
+
+  it('should not emit submit event if form is invalid', () => {
+    component.searchTerm = '';
+    spyOn(component.submit, 'emit');
+
+    component.searchSubmit();
+
+    expect(component.submit.emit).not.toHaveBeenCalled();
   });
 
   it('should emit searchChange event on inputChange', () => {
     let emittedSearchTerm = '';
     component.searchChange.subscribe((searchTerm) => (emittedSearchTerm = searchTerm));
     component.searchTerm = 'mock-search-term';
-
     expect(emittedSearchTerm).toBe('mock-search-term');
   });
 
   it('should emit searchChange event on clear', () => {
     let emittedSearchTerm: string = null;
     component.searchChange.subscribe((searchTerm) => (emittedSearchTerm = searchTerm));
-
     component.clear();
     expect(emittedSearchTerm).toBe('');
   });
@@ -71,18 +75,14 @@ describe('SearchInputControlComponent', () => {
   it('should clear searchTerm', () => {
     component.searchTerm = 'c';
     fixture.detectChanges();
-
     component.clear();
     expect(component.searchTerm).toBe('');
   });
 
   it('should check if searchTerm has a length less than 2', () => {
-    expect(component.isTermTooShort()).toBe(false);
-
     component.searchTerm = 'd';
     fixture.detectChanges();
     expect(component.isTermTooShort()).toBe(true);
-
     component.searchTerm = 'dd';
     fixture.detectChanges();
     expect(component.isTermTooShort()).toBe(false);

@@ -6,6 +6,7 @@
       matPrefix
       class="app-search-button"
       (click)="searchSubmit()"
+      (keydown.enter)="searchSubmit()"
       [title]="'SEARCH.BUTTON.TOOLTIP' | translate"
     >
       <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
@@ -18,10 +19,12 @@
       [type]="inputType"
       id="app-control-input"
       [formControl]="searchFieldFormControl"
-      (keyup.enter)="searchSubmit()"
+      (keydown.enter)="searchSubmit()"
+      (blur)="onBlur()"
       [placeholder]="'SEARCH.INPUT.PLACEHOLDER' | translate"
       autocomplete="off"
     />
+    
     <div matSuffix>
       <button mat-icon-button (click)="clear()">
         <mat-icon *ngIf="searchFieldFormControl.value.length" class="app-suffix-icon">clear</mat-icon>

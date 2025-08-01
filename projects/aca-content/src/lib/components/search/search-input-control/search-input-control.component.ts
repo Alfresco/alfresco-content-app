@@ -22,15 +22,29 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, EventEmitter, Input, Output, ViewEncapsulation, ViewChild, ElementRef, OnInit, inject, DestroyRef } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewEncapsulation,
+  ViewChild,
+  ElementRef,
+  OnInit,
+  inject,
+  DestroyRef,
+  OnChanges,
+  SimpleChanges
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule, StatusChangeEvent, TouchedChangeEvent, Validators } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { noWhitespaceValidator } from '@alfresco/aca-shared';
 
 @Component({
   imports: [CommonModule, TranslatePipe, MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule],
@@ -40,12 +54,19 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-search-control' }
 })
-export class SearchInputControlComponent implements OnInit {
+export class SearchInputControlComponent implements OnInit, OnChanges {
   private readonly destroyRef = inject(DestroyRef);
 
   /** Type of the input field to render, e.g. "search" or "text" (default). */
   @Input()
   inputType = 'text';
+
+  /**
+   * Indicates whether the search is constrained by libraries.
+   * If true, specific error messaging or validation behavior may be triggered.
+   */
+  @Input()
+  hasLibrariesConstraint = false;
 
   /** Emitted when the search is submitted pressing ENTER button.
    * The search term is provided as value of the event.
@@ -62,10 +83,14 @@ export class SearchInputControlComponent implements OnInit {
   @Output()
   searchChange: EventEmitter<string> = new EventEmitter();
 
+  /** Emitted when the input control has a validation error. */
+  @Output()
+  validationError = new EventEmitter<string>();
+
   @ViewChild('searchInput', { static: true })
   searchInput: ElementRef;
 
-  searchFieldFormControl = new FormControl('');
+  searchFieldFormControl = new FormControl('', [Validators.required, noWhitespaceValidator()]);
 
   get searchTerm(): string {
     return this.searchFieldFormControl.value.replace('text:', 'TEXT:');
@@ -80,11 +105,30 @@ export class SearchInputControlComponent implements OnInit {
       this.searchFieldFormControl.markAsTouched();
       this.searchChange.emit(searchTermValue);
     });
+
+    this.searchFieldFormControl.events.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((event) => {
+      if (event instanceof TouchedChangeEvent || event instanceof StatusChangeEvent) {
+        if (this.searchFieldFormControl.touched) {
+          this.emitValidationError();
+        } else {
+          this.validationError.emit('');
+        }
+      }
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['hasLibrariesConstraint'] && !changes['hasLibrariesConstraint'].firstChange) {
+      this.emitValidationError();
+    }
   }
 
   searchSubmit() {
-    if (!this.searchFieldFormControl.errors) {
-      this.submit.emit(this.searchTerm);
+    this.searchFieldFormControl.markAsTouched();
+
+    const trimmedTerm = this.searchTerm?.trim();
+    if (this.searchFieldFormControl.valid && trimmedTerm) {
+      this.submit.emit(trimmedTerm);
     }
   }
 
@@ -93,7 +137,24 @@ export class SearchInputControlComponent implements OnInit {
     this.searchChange.emit('');
   }
 
+  onBlur() {
+    this.searchFieldFormControl.markAsUntouched();
+  }
+
   isTermTooShort() {
-    return !!(this.searchTerm && this.searchTerm.length < 2);
+    return this.searchTerm.trim()?.length < 2;
+  }
+
+  emitValidationError(): void {
+    const errors = this.searchFieldFormControl.errors;
+    if (errors?.whitespace) {
+      this.validationError.emit('SEARCH.INPUT.WHITESPACE');
+    } else if (errors?.required) {
+      this.validationError.emit('SEARCH.INPUT.REQUIRED');
+    } else if (this.hasLibrariesConstraint && this.isTermTooShort()) {
+      this.validationError.emit('SEARCH.INPUT.MIN_LENGTH');
+    } else {
+      this.validationError.emit('');
+    }
   }
 }
