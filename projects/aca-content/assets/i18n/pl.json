@@ -574,7 +574,7 @@
             "FILES": "Pliki",
             "FOLDERS": "Foldery",
             "LIBRARIES": "Biblioteki",
-            "HINT": "Tekst do wyszukiwania musi mieć co najmniej 2 znaki alfanumeryczne."
+            "HINT": "Search input must have at least 2 alphanumeric characters."
         },
         "SORT": {
             "SORTING_OPTION": "Sortuj wg",

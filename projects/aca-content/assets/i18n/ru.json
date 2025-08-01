@@ -574,7 +574,7 @@
             "FILES": "Файлы",
             "FOLDERS": "Папки",
             "LIBRARIES": "Библиотеки",
-            "HINT": "Поисковый запрос должен содержать как минимум два буквенно-цифровых символа."
+            "HINT": "Search input must have at least 2 alphanumeric characters."
         },
         "SORT": {
             "SORTING_OPTION": "Сортировать по",

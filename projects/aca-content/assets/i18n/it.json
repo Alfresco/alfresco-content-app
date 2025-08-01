@@ -574,7 +574,7 @@
             "FILES": "File",
             "FOLDERS": "Cartelle",
             "LIBRARIES": "Librerie",
-            "HINT": "La stringa di ricerca deve contenere almeno 2 caratteri alfanumerici."
+            "HINT": "Search input must have at least 2 alphanumeric characters."
         },
         "SORT": {
             "SORTING_OPTION": "Ordina per",

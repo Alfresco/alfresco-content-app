@@ -574,7 +574,7 @@
             "FILES": "Ficheros",
             "FOLDERS": "Carpetas",
             "LIBRARIES": "Bibliotecas",
-            "HINT": "La cadena de búsqueda debe contener al menos 2 caracteres alfanuméricos"
+            "HINT": "Search input must have at least 2 alphanumeric characters."
         },
         "SORT": {
             "SORTING_OPTION": "Clasificar por",

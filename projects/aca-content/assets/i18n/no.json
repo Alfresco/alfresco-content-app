@@ -574,7 +574,7 @@
             "FILES": "Filer",
             "FOLDERS": "Mapper",
             "LIBRARIES": "Biblioteker",
-            "HINT": "Søketeksten må bestå av minst 2 alfanumeriske tegn."
+            "HINT": "Search input must have at least 2 alphanumeric characters."
         },
         "SORT": {
             "SORTING_OPTION": "Sorter etter",

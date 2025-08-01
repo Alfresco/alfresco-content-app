@@ -574,7 +574,7 @@
             "FILES": "Soubory",
             "FOLDERS": "Složky",
             "LIBRARIES": "Knihovny",
-            "HINT": "Hledaný výraz musí obsahovat kombinaci alespoň 2 písmen a číslic."
+            "HINT": "Search input must have at least 2 alphanumeric characters."
         },
         "SORT": {
             "SORTING_OPTION": "Řadit podle",

@@ -574,7 +574,7 @@
             "FILES": "Filer",
             "FOLDERS": "Mapper",
             "LIBRARIES": "Biblioteker",
-            "HINT": "Din søgetekst skal være på mindst 2 tal/bogstaver."
+            "HINT": "Search input must have at least 2 alphanumeric characters."
         },
         "SORT": {
             "SORTING_OPTION": "Sortér efter",

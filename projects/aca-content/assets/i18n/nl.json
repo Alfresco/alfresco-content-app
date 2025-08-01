@@ -574,7 +574,7 @@
             "FILES": "Bestanden",
             "FOLDERS": "Mappen",
             "LIBRARIES": "Bibliotheken",
-            "HINT": "Invoer voor een zoekopdracht moet uit minstens 2 alfanumerieke tekens bestaan."
+            "HINT": "Search input must have at least 2 alphanumeric characters."
         },
         "SORT": {
             "SORTING_OPTION": "Sorteren op",

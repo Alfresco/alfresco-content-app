@@ -574,7 +574,7 @@
             "FILES": "ファイル",
             "FOLDERS": "フォルダ",
             "LIBRARIES": "ライブラリ",
-            "HINT": "検索する語句は、2 文字以上の英数字で入力してください。"
+            "HINT": "Search input must have at least 2 alphanumeric characters."
         },
         "SORT": {
             "SORTING_OPTION": "並べ替え",

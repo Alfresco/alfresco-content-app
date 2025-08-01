@@ -574,7 +574,7 @@
             "FILES": "Dateien",
             "FOLDERS": "Ordner",
             "LIBRARIES": "Bibliotheken",
-            "HINT": "Die Sucheingabe muss mindestens zwei alphanumerische Zeichen umfassen."
+            "HINT": "Search input must have at least 2 alphanumeric characters."
         },
         "SORT": {
             "SORTING_OPTION": "Sortieren nach",
