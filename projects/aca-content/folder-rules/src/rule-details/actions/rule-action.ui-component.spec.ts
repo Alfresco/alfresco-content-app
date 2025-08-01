@@ -23,7 +23,14 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CardViewBoolItemModel, CardViewComponent, CardViewSelectItemModel, CardViewTextItemModel, NoopTranslateModule } from '@alfresco/adf-core';
+import {
+  CardViewBoolItemModel,
+  CardViewComponent,
+  CardViewSelectItemModel,
+  CardViewTextItemModel,
+  NoopTranslateModule,
+  UnitTestingUtils
+} from '@alfresco/adf-core';
 import { RuleActionUiComponent } from './rule-action.ui-component';
 import {
   actionLinkToCategoryTransformedMock,
@@ -31,20 +38,35 @@ import {
   actionsTransformedListMock,
   securityActionTransformedMock
 } from '../../mock/actions.mock';
-import { By } from '@angular/platform-browser';
 import { dummyCategoriesConstraints, dummyConstraints, dummyTagsConstraints } from '../../mock/action-parameter-constraints.mock';
 import { securityMarksResponseMock, updateNotificationMock } from '../../mock/security-marks.mock';
-import { AlfrescoApiService, AlfrescoApiServiceMock, CategoryService, NodeAction, TagService } from '@alfresco/adf-content-services';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  AlfrescoApiService,
+  AlfrescoApiServiceMock,
+  CategoryService,
+  ContentNodeSelectorComponent,
+  NodeAction,
+  SecurityControlsService,
+  TagService
+} from '@alfresco/adf-content-services';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatSelectHarness } from '@angular/material/select/testing';
 import { of, Subject } from 'rxjs';
+import { Node } from '@alfresco/js-api';
+import { SimpleChanges } from '@angular/core';
 
 describe('RuleActionUiComponent', () => {
   let fixture: ComponentFixture<RuleActionUiComponent>;
   let component: RuleActionUiComponent;
   let loader: HarnessLoader;
+  let unitTestingUtils: UnitTestingUtils;
+  let securityControlsService: SecurityControlsService;
+
+  const clickActionItem = () => {
+    unitTestingUtils.getByCSS('.adf-textitem-action').nativeElement.click();
+  };
 
   const changeMatSelectValue = async (value: string) => {
     const matSelect = await loader.getHarness(MatSelectHarness);
@@ -52,14 +74,7 @@ describe('RuleActionUiComponent', () => {
     fixture.detectChanges();
   };
 
-  const getPropertiesCardView = (): CardViewComponent => fixture.debugElement.query(By.directive(CardViewComponent)).componentInstance;
-
-  function setInputValue(value: string) {
-    const input = fixture.debugElement.query(By.css('input')).nativeElement;
-    input.value = value;
-    input.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
-  }
+  const getPropertiesCardView = (): CardViewComponent => unitTestingUtils.getByDirective(CardViewComponent).componentInstance;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -69,7 +84,9 @@ describe('RuleActionUiComponent', () => {
 
     fixture = TestBed.createComponent(RuleActionUiComponent);
     component = fixture.componentInstance;
+    securityControlsService = TestBed.inject(SecurityControlsService);
     loader = TestbedHarnessEnvironment.loader(fixture);
+    unitTestingUtils = new UnitTestingUtils(fixture.debugElement, loader);
   });
 
   it('should not accept empty parameters', async () => {
@@ -79,12 +96,12 @@ describe('RuleActionUiComponent', () => {
 
     await changeMatSelectValue('mock-action-1-definition');
 
-    setInputValue('test');
+    await unitTestingUtils.fillMatInput('test');
     await fixture.whenStable();
 
     expect(component.parameters).toEqual({ 'mock-action-parameter-boolean': false, 'mock-action-parameter-text': 'test' });
 
-    setInputValue('');
+    await unitTestingUtils.fillMatInput('');
     await fixture.whenStable();
 
     expect(component.parameters).toEqual({ 'mock-action-parameter-boolean': false });
@@ -119,7 +136,7 @@ describe('RuleActionUiComponent', () => {
     expect(cardView.properties[4]).toBeInstanceOf(CardViewSelectItemModel);
 
     await changeMatSelectValue('mock-action-2-definition');
-    expect(fixture.debugElement.query(By.directive(CardViewComponent))).toBeNull();
+    expect(unitTestingUtils.getByDirective(CardViewComponent)).toBeNull();
   });
 
   it('should create category-value action parameter as a text box rather than node picker', async () => {
@@ -138,21 +155,21 @@ describe('RuleActionUiComponent', () => {
   });
 
   it('should open category selector dialog on category-value action parameter clicked', async () => {
-    const dialog = fixture.debugElement.injector.get(MatDialog);
+    const dialog = TestBed.inject(MatDialog);
     component.actionDefinitions = [actionLinkToCategoryTransformedMock];
     component.parameterConstraints = dummyConstraints;
     spyOn(dialog, 'open');
     fixture.detectChanges();
 
     await changeMatSelectValue('mock-action-3-definition');
-    fixture.debugElement.query(By.css('.adf-textitem-action')).nativeElement.click();
+    clickActionItem();
 
     expect(dialog.open).toHaveBeenCalledTimes(1);
     expect(dialog.open['calls'].argsFor(0)[0].name).toBe('CategorySelectorDialogComponent');
   });
 
   it('should open node selector dialog with correct parameters', async () => {
-    const dialog = fixture.debugElement.injector.get(MatDialog);
+    const dialog = TestBed.inject(MatDialog);
     component.actionDefinitions = [actionNodeTransformedMock];
     const expectedData = {
       selectionMode: 'single',
@@ -165,7 +182,7 @@ describe('RuleActionUiComponent', () => {
     fixture.detectChanges();
 
     await changeMatSelectValue('mock-action-5-definition');
-    fixture.debugElement.query(By.css('.adf-textitem-action')).nativeElement.click();
+    clickActionItem();
 
     expect(dialog.open).toHaveBeenCalledTimes(1);
     expect(dialogSpy.calls.mostRecent().args[1].data).toEqual(expectedData);
@@ -248,6 +265,23 @@ describe('RuleActionUiComponent', () => {
         ]);
       });
     });
+
+    it('should load security mark options when writeValue is called with securityGroupId parameter', async () => {
+      component.actionDefinitions = [securityActionTransformedMock];
+      spyOn(securityControlsService, 'getSecurityMark').and.returnValue(Promise.resolve(securityMarksResponseMock));
+      fixture.detectChanges();
+
+      await changeMatSelectValue('mock-action-4-definition');
+
+      component.writeValue({
+        actionDefinitionId: 'mock-action-4-definition',
+        params: { securityGroupId: 'group-1' }
+      });
+
+      await fixture.whenStable();
+
+      expect(securityControlsService.getSecurityMark).toHaveBeenCalled();
+    });
   });
 
   describe('Security mark actions', () => {
@@ -279,5 +313,126 @@ describe('RuleActionUiComponent', () => {
         expect(options).toEqual([]);
       });
     });
+  });
+
+  describe('ContentNodeSelectorComponent dialog', () => {
+    let mockDialogRef: jasmine.SpyObj<MatDialogRef<ContentNodeSelectorComponent, Node[]>>;
+    let dialogOpenSpy: jasmine.Spy<
+      (component: typeof ContentNodeSelectorComponent, config?: MatDialogConfig) => MatDialogRef<ContentNodeSelectorComponent, Node[]>
+    >;
+
+    beforeEach(() => {
+      mockDialogRef = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
+      dialogOpenSpy = spyOn(TestBed.inject(MatDialog), 'open').and.returnValue(mockDialogRef);
+      spyOn(TestBed.inject(MatDialog), 'closeAll');
+      spyOn(console, 'error');
+    });
+
+    it('should open dialog when node selector is clicked', async () => {
+      component.actionDefinitions = [actionNodeTransformedMock];
+      component.nodeId = 'test-folder-id';
+      fixture.detectChanges();
+
+      await changeMatSelectValue('mock-action-5-definition');
+      clickActionItem();
+
+      expect(dialogOpenSpy).toHaveBeenCalledWith(ContentNodeSelectorComponent, {
+        data: {
+          selectionMode: 'single',
+          title: 'ACA_FOLDER_RULES.RULE_DETAILS.PLACEHOLDER.CHOOSE_FOLDER',
+          actionName: NodeAction.CHOOSE,
+          currentFolderId: 'test-folder-id',
+          select: jasmine.any(Subject)
+        },
+        panelClass: 'adf-content-node-selector-dialog',
+        width: '630px'
+      });
+    });
+
+    it('should update component when valid node is selected through dialog', async () => {
+      component.actionDefinitions = [actionNodeTransformedMock];
+      fixture.detectChanges();
+
+      await changeMatSelectValue('mock-action-5-definition');
+
+      component.parameters = { existingParam: 'value' };
+
+      clickActionItem();
+
+      const dialogData = dialogOpenSpy.calls.mostRecent().args[1].data;
+      const selectedNode = { id: 'selected-node-123', name: 'Test Folder' } as Node;
+      dialogData.select.next([selectedNode]);
+
+      expect(component.parameters).toEqual({
+        existingParam: 'value',
+        'aspect-name': 'selected-node-123'
+      });
+    });
+
+    it('should log error when dialog selection encounters error', async () => {
+      component.actionDefinitions = [actionNodeTransformedMock];
+      fixture.detectChanges();
+
+      await changeMatSelectValue('mock-action-5-definition');
+      clickActionItem();
+
+      const dialogData = dialogOpenSpy.calls.mostRecent().args[1].data;
+      const testError = new Error('Selection failed');
+      dialogData.select.error(testError);
+
+      expect(console.error).toHaveBeenCalledWith(testError);
+    });
+
+    it('should close all dialogs when selection completes', async () => {
+      const dialogService = TestBed.inject(MatDialog);
+      component.actionDefinitions = [actionNodeTransformedMock];
+      fixture.detectChanges();
+
+      await changeMatSelectValue('mock-action-5-definition');
+      clickActionItem();
+
+      const dialogData = dialogOpenSpy.calls.mostRecent().args[1].data;
+      dialogData.select.complete();
+
+      expect(dialogService.closeAll).toHaveBeenCalled();
+    });
+  });
+
+  it('should enable form when readOnly changes from true to false', () => {
+    component.readOnly = true;
+    component.form.disable();
+
+    const changes: SimpleChanges = {
+      readOnly: {
+        currentValue: false,
+        previousValue: true,
+        firstChange: false,
+        isFirstChange: () => false
+      }
+    };
+
+    component.ngOnChanges(changes);
+
+    expect(component.readOnly).toBe(false);
+    expect(component.form.enabled).toBe(true);
+  });
+
+  it('should disable form when readOnly changes from false to true', () => {
+    component.readOnly = false;
+    component.form.enable();
+
+    const changes: SimpleChanges = {
+      readOnly: {
+        currentValue: true,
+        previousValue: false,
+        firstChange: false,
+        isFirstChange: () => false
+      }
+    };
+
+    component.ngOnChanges(changes);
+
+    expect(component.readOnly).toBe(true);
+    expect(component.form.disabled).toBe(true);
   });
 });

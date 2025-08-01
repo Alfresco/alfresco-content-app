@@ -23,29 +23,33 @@
  */
 
 import { isFolderRulesEnabled } from './folder-rules.rules';
+import { AcaRuleContext } from '@alfresco/aca-shared/rules';
+import { AppConfigService } from '@alfresco/adf-core';
 
 describe('Folder Rules Visibility Rules', () => {
-  describe('isFolderRulesEnabled', () => {
-    it('should have the feature enabled', () => {
-      const context: any = {
-        appConfig: {
-          get: () => true
-        }
-      };
+  let mockAppConfig: jasmine.SpyObj<AppConfigService>;
+  let context: Partial<AcaRuleContext>;
 
-      const result = isFolderRulesEnabled(context);
-      expect(result).toEqual(true);
-    });
+  beforeEach(() => {
+    mockAppConfig = jasmine.createSpyObj<AppConfigService>('AppConfigService', ['get']);
+    context = {
+      appConfig: mockAppConfig
+    };
+  });
 
-    it('should have the feature disabled', () => {
-      const context: any = {
-        appConfig: {
-          get: () => false
-        }
-      };
+  it('should return true when plugin is enabled in app config', () => {
+    mockAppConfig.get.and.returnValue(true);
+    const result = isFolderRulesEnabled(context as AcaRuleContext);
 
-      const result = isFolderRulesEnabled(context);
-      expect(result).toEqual(false);
-    });
+    expect(context.appConfig.get).toHaveBeenCalledWith('plugins.folderRules', false);
+    expect(result).toBe(true);
+  });
+
+  it('should return false when plugin is disabled in app config', () => {
+    mockAppConfig.get.and.returnValue(false);
+    const result = isFolderRulesEnabled(context as AcaRuleContext);
+
+    expect(context.appConfig.get).toHaveBeenCalledWith('plugins.folderRules', false);
+    expect(result).toBe(false);
   });
 });

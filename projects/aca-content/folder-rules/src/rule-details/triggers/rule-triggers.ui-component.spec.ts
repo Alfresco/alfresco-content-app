@@ -24,20 +24,27 @@
 
 import { RuleTriggersUiComponent } from './rule-triggers.ui-component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopTranslateModule } from '@alfresco/adf-core';
-import { DebugElement } from '@angular/core';
-import { By } from '@angular/platform-browser';
+import { NoopTranslateModule, UnitTestingUtils } from '@alfresco/adf-core';
 import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
+import { HarnessLoader } from '@angular/cdk/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { DebugElement } from '@angular/core';
 
 describe('RuleTriggerUiComponent', () => {
   let fixture: ComponentFixture<RuleTriggersUiComponent>;
   let component: RuleTriggersUiComponent;
+  let unitTestingUtils: UnitTestingUtils;
+  let loader: HarnessLoader;
 
-  const getByDataAutomationId = (dataAutomationId: string): DebugElement =>
-    fixture.debugElement.query(By.css(`[data-automation-id="${dataAutomationId}"]`));
+  const checkboxUpdateAutomationId = 'rule-trigger-checkbox-update';
+  const checkboxInboundAutomationId = 'rule-trigger-checkbox-inbound';
+  const getCheckboxInbound = (): DebugElement => unitTestingUtils.getByDataAutomationId(checkboxInboundAutomationId);
+  const getCheckboxUpdate = (): DebugElement => unitTestingUtils.getByDataAutomationId(checkboxUpdateAutomationId);
+  const getCheckboxOutbound = (): DebugElement => unitTestingUtils.getByDataAutomationId('rule-trigger-checkbox-outbound');
 
-  const toggleMatCheckbox = (dataAutomationId: string) => {
-    (getByDataAutomationId(dataAutomationId).nativeElement as HTMLElement).querySelector('input').click();
+  const toggleMatCheckbox = async (dataAutomationId: string) => {
+    const checkbox = await unitTestingUtils.getMatCheckboxByDataAutomationId(dataAutomationId);
+    await checkbox.toggle();
   };
 
   beforeEach(() => {
@@ -48,15 +55,17 @@ describe('RuleTriggerUiComponent', () => {
 
     fixture = TestBed.createComponent(RuleTriggersUiComponent);
     component = fixture.componentInstance;
+    loader = TestbedHarnessEnvironment.loader(fixture);
+    unitTestingUtils = new UnitTestingUtils(fixture.debugElement, loader);
   });
 
   it('should default to only the inbound checkbox', () => {
     fixture.detectChanges();
 
     expect(component.value).toEqual(['inbound']);
-    expect(getByDataAutomationId('rule-trigger-checkbox-inbound').componentInstance.checked).toBeTruthy();
-    expect(getByDataAutomationId('rule-trigger-checkbox-update').componentInstance.checked).toBeFalsy();
-    expect(getByDataAutomationId('rule-trigger-checkbox-outbound').componentInstance.checked).toBeFalsy();
+    expect(getCheckboxInbound().componentInstance.checked).toBeTruthy();
+    expect(getCheckboxUpdate().componentInstance.checked).toBeFalsy();
+    expect(getCheckboxOutbound().componentInstance.checked).toBeFalsy();
   });
 
   it('should change the checked boxes when the value is written to', () => {
@@ -65,25 +74,25 @@ describe('RuleTriggerUiComponent', () => {
     fixture.detectChanges();
 
     expect(component.value).toEqual(['update', 'outbound']);
-    expect(getByDataAutomationId('rule-trigger-checkbox-inbound').componentInstance.checked).toBeFalsy();
-    expect(getByDataAutomationId('rule-trigger-checkbox-update').componentInstance.checked).toBeTruthy();
-    expect(getByDataAutomationId('rule-trigger-checkbox-outbound').componentInstance.checked).toBeTruthy();
+    expect(getCheckboxInbound().componentInstance.checked).toBeFalsy();
+    expect(getCheckboxUpdate().componentInstance.checked).toBeTruthy();
+    expect(getCheckboxOutbound().componentInstance.checked).toBeTruthy();
   });
 
-  it('should update the value when a checkbox is checked', () => {
+  it('should update the value when a checkbox is checked', async () => {
     const onChangeSpy = spyOn(component, 'onChange');
     fixture.detectChanges();
-    toggleMatCheckbox('rule-trigger-checkbox-update');
+    await toggleMatCheckbox(checkboxUpdateAutomationId);
     fixture.detectChanges();
 
     expect(component.value).toEqual(['inbound', 'update']);
     expect(onChangeSpy).toHaveBeenCalledWith(['inbound', 'update']);
   });
 
-  it('should update the value when a checkbox is unchecked', () => {
+  it('should update the value when a checkbox is unchecked', async () => {
     const onChangeSpy = spyOn(component, 'onChange');
     fixture.detectChanges();
-    toggleMatCheckbox('rule-trigger-checkbox-inbound');
+    await toggleMatCheckbox(checkboxInboundAutomationId);
     fixture.detectChanges();
 
     expect(component.value).toEqual([]);
@@ -95,12 +104,12 @@ describe('RuleTriggerUiComponent', () => {
     component.writeValue(['update', 'outbound']);
     fixture.detectChanges();
 
-    expect(getByDataAutomationId('rule-trigger-checkbox-inbound')).toBeNull();
-    expect(getByDataAutomationId('rule-trigger-checkbox-update')).toBeNull();
-    expect(getByDataAutomationId('rule-trigger-checkbox-outbound')).toBeNull();
+    expect(getCheckboxInbound()).toBeNull();
+    expect(getCheckboxUpdate()).toBeNull();
+    expect(getCheckboxOutbound()).toBeNull();
 
-    expect(getByDataAutomationId('rule-trigger-value-inbound')).toBeNull();
-    expect(getByDataAutomationId('rule-trigger-value-update')).not.toBeNull();
-    expect(getByDataAutomationId('rule-trigger-value-outbound')).not.toBeNull();
+    expect(unitTestingUtils.getByDataAutomationId('rule-trigger-value-inbound')).toBeNull();
+    expect(unitTestingUtils.getByDataAutomationId('rule-trigger-value-update')).not.toBeNull();
+    expect(unitTestingUtils.getByDataAutomationId('rule-trigger-value-outbound')).not.toBeNull();
   });
 });

@@ -22,9 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ManageRulesSmartComponent } from './manage-rules.smart-component';
-import { DebugElement, Predicate } from '@angular/core';
 import { FolderRulesService } from '../services/folder-rules.service';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, of, Subject } from 'rxjs';
@@ -35,32 +34,69 @@ import {
   ownedRuleSetMock,
   ruleSetWithLinkMock
 } from '../mock/rule-sets.mock';
-import { By } from '@angular/platform-browser';
-import { getOwningFolderEntryMock, owningFolderIdMock, owningFolderMock } from '../mock/node.mock';
-import { MatDialog } from '@angular/material/dialog';
+import { owningFolderIdMock, owningFolderMock } from '../mock/node.mock';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActionsService } from '../services/actions.service';
 import { FolderRuleSetsService } from '../services/folder-rule-sets.service';
 import { ruleMock, ruleSettingsMock } from '../mock/rules.mock';
-import { AppService } from '@alfresco/aca-shared';
+import { AppService, GenericErrorComponent } from '@alfresco/aca-shared';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatProgressBarHarness } from '@angular/material/progress-bar/testing';
 import { MatSlideToggleHarness } from '@angular/material/slide-toggle/testing';
 import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
 import { provideHttpClient } from '@angular/common/http';
-import { NoopTranslateModule } from '@alfresco/adf-core';
+import { EmptyContentComponent, NoopTranslateModule, NotificationService, UnitTestingUtils } from '@alfresco/adf-core';
 import { provideMockStore } from '@ngrx/store/testing';
+import { Location } from '@angular/common';
+import { DebugElement } from '@angular/core';
+import { EditRuleDialogUiComponent } from '../rule-details/edit-rule-dialog.ui-component';
+import { Rule } from '../model/rule.model';
+import { RuleDetailsUiComponent } from '../rule-details/rule-details.ui-component';
 
 describe('ManageRulesSmartComponent', () => {
   let fixture: ComponentFixture<ManageRulesSmartComponent>;
   let component: ManageRulesSmartComponent;
-  let debugElement: DebugElement;
   let loader: HarnessLoader;
+  let dialog: MatDialog;
+  let unitTestingUtils: UnitTestingUtils;
 
   let folderRuleSetsService: FolderRuleSetsService;
   let folderRulesService: FolderRulesService;
   let actionsService: ActionsService;
-  let callApiSpy: jasmine.Spy;
+
+  const setupBasicObservables = () => {
+    folderRuleSetsService.folderInfo$ = of(owningFolderMock);
+    folderRuleSetsService.isLoading$ = of(false);
+    actionsService.loading$ = of(false);
+    folderRulesService.deletedRuleId$ = of(null);
+  };
+
+  const setupWithMainRuleSet = (ruleSet = ownedRuleSetMock) => {
+    setupBasicObservables();
+    folderRuleSetsService.mainRuleSet$ = of(ruleSet);
+    folderRuleSetsService.inheritedRuleSets$ = of([inheritedRuleSetMock]);
+    folderRulesService.selectedRule$ = of(ruleMock('owned-rule-1'));
+  };
+
+  const setupWithoutMainRuleSet = (inheritedRuleSets = [inheritedRuleSetWithEmptyRulesMock]) => {
+    setupBasicObservables();
+    folderRuleSetsService.mainRuleSet$ = of(null);
+    folderRuleSetsService.inheritedRuleSets$ = of(inheritedRuleSets);
+    folderRulesService.selectedRule$ = of(ruleMock('owned-rule-1'));
+  };
+
+  const setupLoadingState = () => {
+    folderRuleSetsService.folderInfo$ = of(null);
+    folderRuleSetsService.mainRuleSet$ = of(null);
+    folderRuleSetsService.inheritedRuleSets$ = of([]);
+    folderRuleSetsService.isLoading$ = of(true);
+    actionsService.loading$ = of(true);
+  };
+
+  const getRules = (): DebugElement[] => unitTestingUtils.getAllByCSS('.aca-rule-list-item');
+  const getRuleSets = (): DebugElement[] => unitTestingUtils.getAllByCSS(`[data-automation-id="rule-set-list-item"]`);
+  const getRuleDetails = (): DebugElement => unitTestingUtils.getByDirective(RuleDetailsUiComponent);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -81,9 +117,10 @@ describe('ManageRulesSmartComponent', () => {
     });
 
     fixture = TestBed.createComponent(ManageRulesSmartComponent);
+    dialog = TestBed.inject(MatDialog);
     component = fixture.componentInstance;
-    debugElement = fixture.debugElement;
     loader = TestbedHarnessEnvironment.loader(fixture);
+    unitTestingUtils = new UnitTestingUtils(fixture.debugElement, loader);
 
     folderRuleSetsService = TestBed.inject(FolderRuleSetsService);
     folderRulesService = TestBed.inject(FolderRulesService);
@@ -91,85 +128,84 @@ describe('ManageRulesSmartComponent', () => {
 
     spyOn(actionsService, 'loadActionDefinitions').and.stub();
     spyOn(folderRulesService, 'getRuleSettings').and.returnValue(Promise.resolve(ruleSettingsMock));
-    callApiSpy = spyOn<any>(folderRuleSetsService, 'callApi');
-    callApiSpy
-      .withArgs(`/nodes/${owningFolderIdMock}/rule-sets?include=isLinkedTo,owningFolder,linkedToBy&skipCount=0&maxItems=100`, 'GET')
-      .and.returnValue(Promise.resolve(ownedRuleSetMock))
-      .withArgs(`/nodes/${owningFolderIdMock}/rule-sets/-default-?include=isLinkedTo,owningFolder,linkedToBy`, 'GET')
-      .and.returnValue(Promise.resolve(ownedRuleSetMock))
-      .withArgs(`/nodes/${owningFolderIdMock}?include=path%2Cproperties%2CallowableOperations%2Cpermissions`, 'GET')
-      .and.returnValue(Promise.resolve(getOwningFolderEntryMock));
+    spyOn(folderRuleSetsService, 'loadRuleSets');
   });
 
   afterEach(() => {
     fixture.destroy();
   });
 
+  it('should call location.back() when goBack is called', () => {
+    const locationService = TestBed.inject(Location);
+    spyOn(locationService, 'back');
+    component.goBack();
+
+    expect(locationService.back).toHaveBeenCalled();
+  });
+
+  it('should call folderRulesService.selectRule with provided rule on rule select', () => {
+    const testRule = ruleMock('test-rule-1');
+    spyOn(folderRulesService, 'selectRule');
+
+    component.onSelectRule(testRule);
+
+    expect(folderRulesService.selectRule).toHaveBeenCalledWith(testRule);
+  });
+
+  it('should call loadMoreInheritedRuleSets on load more rule sets', () => {
+    spyOn(folderRuleSetsService, 'loadMoreInheritedRuleSets');
+    component.onLoadMoreRuleSets();
+    expect(folderRuleSetsService.loadMoreInheritedRuleSets).toHaveBeenCalled();
+  });
+
+  it('should load rules for the given rule set', () => {
+    spyOn(folderRulesService, 'loadRules');
+    const ruleSet = inheritedRuleSetMock;
+    component.onLoadMoreRules(ruleSet);
+    expect(folderRulesService.loadRules).toHaveBeenCalledWith(ruleSet);
+  });
+
   it('should show a list of rule sets and rules', () => {
-    const loadRuleSetsSpy = spyOn(folderRuleSetsService, 'loadRuleSets').and.stub();
-
-    folderRuleSetsService.folderInfo$ = of(owningFolderMock);
-    folderRuleSetsService.mainRuleSet$ = of(ownedRuleSetMock);
-    folderRuleSetsService.inheritedRuleSets$ = of([inheritedRuleSetMock]);
-    folderRuleSetsService.isLoading$ = of(false);
-    folderRulesService.selectedRule$ = of(ruleMock('owned-rule-1'));
-    actionsService.loading$ = of(false);
-
+    setupWithMainRuleSet();
     fixture.detectChanges();
 
     expect(component).toBeTruthy();
+    expect(folderRuleSetsService.loadRuleSets).toHaveBeenCalledOnceWith(component.nodeId);
 
-    expect(loadRuleSetsSpy).toHaveBeenCalledOnceWith(component.nodeId);
+    const ruleGroupingSections = unitTestingUtils.getAllByCSS(`[data-automation-id="rule-list-item"]`);
 
-    const ruleGroupingSections = debugElement.queryAll(By.css(`[data-automation-id="rule-list-item"]`));
-    const rules = debugElement.queryAll(By.css('.aca-rule-list-item'));
-    const ruleDetails = debugElement.query(By.css('aca-rule-details'));
-    const deleteRuleBtn = debugElement.query(By.css('#delete-rule-btn'));
+    const deleteRuleBtn = unitTestingUtils.getByCSS('#delete-rule-btn');
 
     expect(ruleGroupingSections.length).toBe(2, 'unexpected number of rule sections');
-    expect(rules.length).toBe(4, 'unexpected number of aca-rule-list-item');
-    expect(ruleDetails).toBeTruthy('aca-rule-details was not rendered');
+    expect(getRules().length).toBe(4, 'unexpected number of aca-rule-list-item');
+    expect(getRuleDetails()).toBeTruthy('aca-rule-details was not rendered');
     expect(deleteRuleBtn).toBeTruthy('no delete rule button');
   });
 
   it('should show adf-empty-content if node has no rules defined yet', () => {
-    folderRuleSetsService.folderInfo$ = of(owningFolderMock);
-    folderRuleSetsService.mainRuleSet$ = of(null);
-    folderRuleSetsService.inheritedRuleSets$ = of([inheritedRuleSetWithEmptyRulesMock]);
-    folderRuleSetsService.isLoading$ = of(false);
-    actionsService.loading$ = of(false);
-
+    setupWithoutMainRuleSet();
     fixture.detectChanges();
 
     expect(component).toBeTruthy();
 
-    const adfEmptyContent = debugElement.query(By.css('adf-empty-content'));
-    const ruleSets = debugElement.queryAll(By.css(`[data-automation-id="rule-set-list-item"]`));
-    const ruleDetails = debugElement.query(By.css('aca-rule-details'));
+    const adfEmptyContent = unitTestingUtils.getByDirective(EmptyContentComponent);
 
     expect(adfEmptyContent).toBeTruthy();
-    expect(ruleSets.length).toBe(0);
-    expect(ruleDetails).toBeFalsy();
+    expect(getRuleSets().length).toBe(0);
+    expect(getRuleDetails()).toBeFalsy();
   });
 
   it('should show adf-empty-content if there are only inherited disabled rules', () => {
-    folderRuleSetsService.folderInfo$ = of(owningFolderMock);
-    folderRuleSetsService.mainRuleSet$ = of(null);
-    folderRuleSetsService.inheritedRuleSets$ = of([inheritedRuleSetWithOnlyDisabledRulesMock]);
-    folderRuleSetsService.isLoading$ = of(false);
-    actionsService.loading$ = of(false);
-
+    setupWithoutMainRuleSet([inheritedRuleSetWithOnlyDisabledRulesMock]);
     fixture.detectChanges();
 
     expect(component).toBeTruthy();
 
-    const adfEmptyContent = debugElement.query(By.css('adf-empty-content'));
-    const ruleSets = debugElement.queryAll(By.css(`[data-automation-id="rule-set-list-item"]`));
-    const ruleDetails = debugElement.query(By.css('aca-rule-details'));
+    const adfEmptyContent = unitTestingUtils.getByDirective(EmptyContentComponent);
 
     expect(adfEmptyContent).toBeTruthy();
-    expect(ruleSets.length).toBe(0);
-    expect(ruleDetails).toBeFalsy();
+    expect(getRuleSets().length).toBe(0);
+    expect(getRuleDetails()).toBeFalsy();
   });
 
   it('should only show aca-generic-error if the non-existing node was provided', () => {
@@ -183,129 +219,203 @@ describe('ManageRulesSmartComponent', () => {
 
     expect(component).toBeTruthy();
 
-    const acaGenericError = debugElement.query(By.css('aca-generic-error'));
-    const rules = debugElement.query(By.css('.aca-rule-list-item'));
-    const ruleDetails = debugElement.query(By.css('aca-rule-details'));
+    const acaGenericError = unitTestingUtils.getByDirective(GenericErrorComponent);
 
     expect(acaGenericError).toBeTruthy();
-    expect(rules).toBeFalsy();
-    expect(ruleDetails).toBeFalsy();
+    expect(getRules().length).toBeFalsy();
+    expect(getRuleDetails()).toBeFalsy();
   });
 
   it('should only show progress bar while loading', async () => {
-    folderRuleSetsService.folderInfo$ = of(null);
-    folderRuleSetsService.mainRuleSet$ = of(null);
-    folderRuleSetsService.inheritedRuleSets$ = of([]);
-    folderRuleSetsService.isLoading$ = of(true);
-    actionsService.loading$ = of(true);
-
+    setupLoadingState();
     fixture.detectChanges();
 
     expect(component).toBeTruthy();
 
     const matProgressBar = loader.getHarness(MatProgressBarHarness);
-    const rules = debugElement.query(By.css('.aca-rule-list-item'));
-    const ruleDetails = debugElement.query(By.css('aca-rule-details'));
 
     expect(matProgressBar).toBeTruthy();
-    expect(rules).toBeFalsy();
-    expect(ruleDetails).toBeFalsy();
+    expect(getRules().length).toBeFalsy();
+    expect(getRuleDetails()).toBeFalsy();
   });
 
-  // TODO: [ACS-9719] flaky test that needs review
-  // eslint-disable-next-line ban/ban
-  xit('should call deleteRule() if confirmation dialog returns true', () => {
-    const dialog = TestBed.inject(MatDialog);
-    folderRuleSetsService.folderInfo$ = of(owningFolderMock);
-    folderRuleSetsService.mainRuleSet$ = of(ownedRuleSetMock);
-    folderRuleSetsService.inheritedRuleSets$ = of([inheritedRuleSetMock]);
-    folderRuleSetsService.isLoading$ = of(false);
-    folderRulesService.selectedRule$ = of(ruleMock('owned-rule-1'));
-    folderRulesService.deletedRuleId$ = of(null);
-    actionsService.loading$ = of(false);
+  it('should call deleteRule() if confirmation dialog returns true', () => {
+    setupWithMainRuleSet();
+    fixture.detectChanges();
 
-    const onRuleDeleteButtonClickedSpy = spyOn(component, 'onRuleDeleteButtonClicked').and.callThrough();
-
-    const dialogResult: any = {
+    spyOn(dialog, 'open').and.returnValue({
       afterClosed: () => of(true)
-    };
-    const dialogOpenSpy = spyOn(dialog, 'open').and.returnValue(dialogResult);
+    } as MatDialogRef<boolean>);
     const deleteRuleSpy = spyOn(folderRulesService, 'deleteRule');
-    const onRuleDeleteSpy = spyOn(component, 'onRuleDelete').and.callThrough();
 
     fixture.detectChanges();
     expect(component).toBeTruthy('expected component');
 
-    const rules = debugElement.queryAll(By.css('.aca-rule-list-item'));
-    const ruleDetails = debugElement.query(By.css('aca-rule-details'));
-    const deleteRuleBtn = fixture.debugElement.nativeElement.querySelector('#delete-rule-btn');
-
-    deleteRuleBtn.click();
+    component.onRuleDeleteButtonClicked(ruleMock('owned-rule-1'));
 
     fixture.detectChanges();
     folderRulesService.deletedRuleId$ = of('owned-rule-1-id');
 
-    expect(onRuleDeleteButtonClickedSpy).toHaveBeenCalled();
-    expect(dialogOpenSpy).toHaveBeenCalled();
+    expect(dialog.open).toHaveBeenCalled();
     expect(deleteRuleSpy).toHaveBeenCalled();
-    expect(onRuleDeleteSpy).toHaveBeenCalledTimes(1);
-    expect(rules).toBeTruthy('expected rules');
-    expect(ruleDetails).toBeTruthy('expected ruleDetails');
-    expect(deleteRuleBtn).toBeTruthy();
+    expect(getRules()).toBeTruthy('expected rules');
+    expect(getRuleDetails()).toBeTruthy('expected ruleDetails');
+  });
+
+  it('should refresh main rule set when link rules dialog is closed', () => {
+    setupWithMainRuleSet();
+    fixture.detectChanges();
+
+    spyOn(dialog, 'open').and.returnValue({
+      afterClosed: () => of(true)
+    } as MatDialogRef<boolean>);
+    const refreshMainRuleSetSpy = spyOn(folderRuleSetsService, 'refreshMainRuleSet');
+
+    fixture.detectChanges();
+    expect(component).toBeTruthy('expected component');
+
+    component.openLinkRulesDialog();
+
+    fixture.detectChanges();
+    folderRulesService.deletedRuleId$ = of('owned-rule-1-id');
+
+    expect(dialog.open).toHaveBeenCalled();
+    expect(refreshMainRuleSetSpy).toHaveBeenCalled();
+    expect(getRules()).toBeTruthy('expected rules');
+    expect(getRuleDetails()).toBeTruthy('expected ruleDetails');
+  });
+
+  it('should call deleteRuleSetLink when onRuleSetUnlinkClicked is called', () => {
+    setupWithMainRuleSet();
+    fixture.detectChanges();
+
+    spyOn(dialog, 'open').and.returnValue({
+      afterClosed: () => of(true)
+    } as MatDialogRef<boolean>);
+    const deleteRuleSetLinkSpy = spyOn(folderRuleSetsService, 'deleteRuleSetLink');
+
+    fixture.detectChanges();
+    expect(component).toBeTruthy('expected component');
+
+    component.onRuleSetUnlinkClicked(ruleSetWithLinkMock);
+
+    fixture.detectChanges();
+    folderRulesService.deletedRuleId$ = of('owned-rule-1-id');
+
+    expect(dialog.open).toHaveBeenCalled();
+    expect(deleteRuleSetLinkSpy).toHaveBeenCalled();
+    expect(getRules()).toBeTruthy('expected rules');
+    expect(getRuleDetails()).toBeTruthy('expected ruleDetails');
+  });
+
+  describe('EditRuleDialog', () => {
+    let submit$: Subject<Partial<Rule>>;
+    let dialogRefMock: jasmine.SpyObj<MatDialogRef<EditRuleDialogUiComponent, boolean>>;
+
+    beforeEach(() => {
+      submit$ = new Subject<Partial<Rule>>();
+      dialogRefMock = jasmine.createSpyObj<MatDialogRef<EditRuleDialogUiComponent, boolean>>('MatDialogRef', ['close', 'afterClosed']);
+      dialogRefMock.afterClosed.and.returnValue(of(true));
+      dialogRefMock.componentInstance = { submitted: submit$ } as EditRuleDialogUiComponent;
+      spyOn(dialog, 'open').and.returnValue(dialogRefMock as MatDialogRef<EditRuleDialogUiComponent, boolean>);
+    });
+
+    it('should open EditRuleDialogUiComponent with correct config', () => {
+      const model = { name: 'bar' } as Rule;
+      component.openCreateUpdateRuleDialog(model);
+
+      expect(dialog.open).toHaveBeenCalled();
+    });
+
+    it('should create a new rule and close dialog when submitted without id', async () => {
+      const newRuleParams = { name: 'NewRule' } as Rule;
+      const createdRule = ruleMock('new-id');
+      spyOn(folderRulesService, 'createRule').and.returnValue(Promise.resolve(createdRule));
+      const addOrUpdateSpy = spyOn(folderRuleSetsService, 'addOrUpdateRuleInMainRuleSet');
+
+      component.openCreateUpdateRuleDialog();
+      submit$.next(newRuleParams);
+      await Promise.resolve();
+
+      expect(folderRulesService.createRule).toHaveBeenCalledWith(component.nodeId, newRuleParams);
+      expect(addOrUpdateSpy).toHaveBeenCalledWith(createdRule);
+    });
+
+    it('should update existing rule when submitted with id', async () => {
+      const updatedRuleParams = { id: '123', name: 'Test' } as Rule;
+      const updatedRule = ruleMock('123');
+      spyOn(folderRulesService, 'updateRule').and.returnValue(Promise.resolve(updatedRule));
+      const addOrUpdateSpy = spyOn(folderRuleSetsService, 'addOrUpdateRuleInMainRuleSet');
+
+      component.openCreateUpdateRuleDialog();
+      submit$.next(updatedRuleParams);
+      await Promise.resolve();
+
+      expect(folderRulesService.updateRule).toHaveBeenCalled();
+      expect(addOrUpdateSpy).toHaveBeenCalledWith(updatedRule);
+    });
+
+    it('should show error notification if submission fails', fakeAsync(() => {
+      const notificationService = TestBed.inject(NotificationService);
+      const params = { name: 'Bad' } as Rule;
+      const error = new Error('Test error');
+      (error as any).response = { body: { error: { errorKey: 'ERROR_KEY' } } };
+      spyOn(folderRulesService, 'createRule').and.returnValue(Promise.reject(error));
+      spyOn(notificationService, 'showError');
+
+      component.openCreateUpdateRuleDialog();
+      submit$.next(params);
+      tick();
+
+      expect(notificationService.showError).toHaveBeenCalledWith('ERROR_KEY');
+      expect(dialogRefMock.close).not.toHaveBeenCalled();
+    }));
   });
 
   describe('Create rule & link rules buttons visibility', () => {
-    let createButtonPredicate: Predicate<DebugElement>;
-    let linkButtonPredicate: Predicate<DebugElement>;
+    const getCreateButton = (): DebugElement => unitTestingUtils.getByDataAutomationId('manage-rules-create-button');
+    const getLinkButton = (): DebugElement => unitTestingUtils.getByDataAutomationId('manage-rules-link-button');
 
     beforeEach(() => {
       folderRuleSetsService.folderInfo$ = of(owningFolderMock);
       folderRuleSetsService.inheritedRuleSets$ = of([]);
       folderRuleSetsService.isLoading$ = of(false);
       actionsService.loading$ = of(false);
-
-      createButtonPredicate = By.css(`[data-automation-id="manage-rules-create-button"]`);
-      linkButtonPredicate = By.css(`[data-automation-id="manage-rules-link-button"]`);
     });
 
     it('should show the create rule button if there is no main rule set', () => {
       folderRuleSetsService.mainRuleSet$ = of(null);
       fixture.detectChanges();
 
-      const createButton = debugElement.query(createButtonPredicate);
-      expect(createButton).toBeTruthy();
+      expect(getCreateButton()).toBeTruthy();
     });
 
     it('should show the link rules button if there is no main rule set', () => {
       folderRuleSetsService.mainRuleSet$ = of(null);
       fixture.detectChanges();
 
-      const linkButton = debugElement.query(linkButtonPredicate);
-      expect(linkButton).toBeTruthy();
+      expect(getLinkButton()).toBeTruthy();
     });
 
     it('should show the create rule button if the main rule set is owned', () => {
       folderRuleSetsService.mainRuleSet$ = of(ownedRuleSetMock);
       fixture.detectChanges();
 
-      const createButton = debugElement.query(createButtonPredicate);
-      expect(createButton).toBeTruthy();
+      expect(getCreateButton()).toBeTruthy();
     });
 
     it('should not show the create rule button if the main rule set is linked', () => {
       folderRuleSetsService.mainRuleSet$ = of(ruleSetWithLinkMock);
       fixture.detectChanges();
 
-      const createButton = debugElement.query(createButtonPredicate);
-      expect(createButton).toBeFalsy();
+      expect(getCreateButton()).toBeFalsy();
     });
 
     it('should not show the link rules button if the folder has a main rule set', () => {
       folderRuleSetsService.mainRuleSet$ = of(ownedRuleSetMock);
       fixture.detectChanges();
 
-      const linkButton = debugElement.query(linkButtonPredicate);
-      expect(linkButton).toBeFalsy();
+      expect(getLinkButton()).toBeFalsy();
     });
   });
 
@@ -331,22 +441,36 @@ describe('ManageRulesSmartComponent', () => {
       expect(await createButton.isDisabled()).toBeTrue();
     });
 
-    it('should call onInheritanceToggleChange() on change', () => {
-      const onInheritanceToggleChangeSpy = spyOn(component, 'onInheritanceToggleChange').and.callThrough();
+    it('should call onInheritanceToggleChange() on change', fakeAsync(() => {
       const updateRuleSettingsSpy = spyOn(folderRulesService, 'updateRuleSettings').and.returnValue(Promise.resolve(ruleSettingsMock));
-      const loadRuleSetsSpy = spyOn(folderRuleSetsService, 'loadRuleSets').and.callThrough();
 
       fixture.detectChanges();
 
-      const inheritanceToggleBtn = fixture.debugElement.query(By.css(`[data-automation-id="manage-rules-inheritance-toggle-button"]`));
+      const inheritanceToggleBtn = unitTestingUtils.getByDataAutomationId('manage-rules-inheritance-toggle-button');
 
       inheritanceToggleBtn.nativeElement.dispatchEvent(new Event('change'));
 
+      tick();
       fixture.detectChanges();
 
-      expect(onInheritanceToggleChangeSpy).toHaveBeenCalled();
-      expect(updateRuleSettingsSpy).toHaveBeenCalledTimes(1);
-      expect(loadRuleSetsSpy).toHaveBeenCalledTimes(1);
-    });
+      expect(updateRuleSettingsSpy).toHaveBeenCalled();
+      expect(folderRuleSetsService.loadRuleSets).toHaveBeenCalled();
+      expect(folderRuleSetsService.loadRuleSets).toHaveBeenCalledWith(component.nodeId);
+      expect(component.isInheritanceToggleDisabled).toBeFalse();
+    }));
+
+    it('should update rule enabled state and add or update it in main rule set', fakeAsync(() => {
+      const original = ruleMock('test');
+      const toggled: Rule = { ...original, isEnabled: !original.isEnabled };
+      spyOn(folderRulesService, 'updateRule').and.returnValue(Promise.resolve(toggled));
+      const addOrUpdateSpy = spyOn(folderRuleSetsService, 'addOrUpdateRuleInMainRuleSet');
+      component.nodeId = 'node-123';
+
+      component.onRuleEnabledToggle(original, toggled.isEnabled);
+      tick();
+
+      expect(folderRulesService.updateRule).toHaveBeenCalledWith('node-123', original.id, { ...original, isEnabled: toggled.isEnabled });
+      expect(addOrUpdateSpy).toHaveBeenCalledWith(toggled);
+    }));
   });
 });

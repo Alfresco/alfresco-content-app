@@ -24,20 +24,25 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EditRuleDialogOptions, EditRuleDialogUiComponent } from './edit-rule-dialog.ui-component';
-import { By } from '@angular/platform-browser';
 import { RuleDetailsUiComponent } from './rule-details.ui-component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { NoopTranslateModule } from '@alfresco/adf-core';
+import { NoopTranslateModule, UnitTestingUtils } from '@alfresco/adf-core';
 import { of, timer } from 'rxjs';
 import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
+import { Rule } from '../model/rule.model';
 
 describe('EditRuleDialogSmartComponent', () => {
   let fixture: ComponentFixture<EditRuleDialogUiComponent>;
+  let component: EditRuleDialogUiComponent;
+  let unitTestingUtils: UnitTestingUtils;
 
   const dialogRef = {
     close: jasmine.createSpy('close'),
     open: jasmine.createSpy('open')
   };
+
+  const getDialogSubmit = (): HTMLButtonElement => unitTestingUtils.getByDataAutomationId('edit-rule-dialog-submit').nativeElement;
+  const getDialogTitle = (): HTMLDivElement => unitTestingUtils.getByDataAutomationId('edit-rule-dialog-title').nativeElement;
 
   const setupBeforeEach = (dialogOptions: EditRuleDialogOptions = { actionDefinitions$: of([]), parameterConstraints$: of([]) }) => {
     TestBed.configureTestingModule({
@@ -51,6 +56,8 @@ describe('EditRuleDialogSmartComponent', () => {
 
     fixture = TestBed.createComponent(EditRuleDialogUiComponent);
     fixture.detectChanges();
+    component = fixture.componentInstance;
+    unitTestingUtils = new UnitTestingUtils(fixture.debugElement);
   };
 
   describe('No dialog options passed / indifferent', () => {
@@ -59,38 +66,33 @@ describe('EditRuleDialogSmartComponent', () => {
     });
 
     it('should activate the submit button only when a valid state is received', async () => {
-      const submitButton = fixture.debugElement.query(By.css('[data-automation-id="edit-rule-dialog-submit"]')).nativeElement as HTMLButtonElement;
-      const ruleDetails = fixture.debugElement.query(By.directive(RuleDetailsUiComponent)).componentInstance as RuleDetailsUiComponent;
+      const ruleDetails = unitTestingUtils.getByDirective(RuleDetailsUiComponent).componentInstance as RuleDetailsUiComponent;
       ruleDetails.formValidationChanged.emit(true);
 
       fixture.detectChanges();
       // timer needed to wait for the next tick to avoid ExpressionChangedAfterItHasBeenCheckedError
       await timer(1).toPromise();
       fixture.detectChanges();
-      expect(submitButton.disabled).toBeFalsy();
+      expect(getDialogSubmit().disabled).toBeFalsy();
       ruleDetails.formValidationChanged.emit(false);
 
       fixture.detectChanges();
       await timer(1).toPromise();
       fixture.detectChanges();
-      expect(submitButton.disabled).toBeTruthy();
+      expect(getDialogSubmit().disabled).toBeTruthy();
     });
 
     it('should show a "create" label in the title', () => {
-      const titleElement = fixture.debugElement.query(By.css('[data-automation-id="edit-rule-dialog-title"]')).nativeElement as HTMLDivElement;
-
-      expect(titleElement.innerText.trim()).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.CREATE_TITLE');
+      expect(getDialogTitle().innerText.trim()).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.CREATE_TITLE');
     });
 
     it('should show a "create" label in the submit button', () => {
-      const titleElement = fixture.debugElement.query(By.css('[data-automation-id="edit-rule-dialog-submit"]')).nativeElement as HTMLButtonElement;
-
-      expect(titleElement.innerText.trim()).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.CREATE');
+      expect(getDialogSubmit().innerText.trim()).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.CREATE');
     });
 
     it('should set correct title and submitLabel for create mode', () => {
-      expect(fixture.componentInstance.title).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.CREATE_TITLE');
-      expect(fixture.componentInstance.submitLabel).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.CREATE');
+      expect(component.title).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.CREATE_TITLE');
+      expect(component.submitLabel).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.CREATE');
     });
   });
 
@@ -108,20 +110,36 @@ describe('EditRuleDialogSmartComponent', () => {
     });
 
     it('should show an "update" label in the title', () => {
-      const titleElement = fixture.debugElement.query(By.css('[data-automation-id="edit-rule-dialog-title"]')).nativeElement as HTMLDivElement;
-
-      expect(titleElement.innerText.trim()).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.UPDATE_TITLE');
+      expect(getDialogTitle().innerText.trim()).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.UPDATE_TITLE');
     });
 
     it('should show an "update" label in the submit button', () => {
-      const titleElement = fixture.debugElement.query(By.css('[data-automation-id="edit-rule-dialog-submit"]')).nativeElement as HTMLButtonElement;
-
-      expect(titleElement.innerText.trim()).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.UPDATE');
+      expect(getDialogSubmit().innerText.trim()).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.UPDATE');
     });
 
     it('should set correct title and submitLabel for update mode', () => {
-      expect(fixture.componentInstance.title).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.UPDATE_TITLE');
-      expect(fixture.componentInstance.submitLabel).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.UPDATE');
+      expect(component.title).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.UPDATE_TITLE');
+      expect(component.submitLabel).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.UPDATE');
     });
+  });
+
+  it('should emit submitted event with form value when onSubmit is called', () => {
+    setupBeforeEach();
+    let emittedValue: Partial<Rule> | undefined;
+
+    const testFormValue: Partial<Rule> = {
+      id: 'test-id',
+      name: 'Test Rule',
+      description: 'Test description'
+    };
+
+    component.submitted.subscribe((value) => {
+      emittedValue = value;
+    });
+
+    component.formValue = testFormValue;
+    component.onSubmit();
+
+    expect(emittedValue).toEqual(testFormValue);
   });
 });
