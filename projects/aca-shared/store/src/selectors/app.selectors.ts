@@ -37,7 +37,7 @@ export const getNavigationState = createSelector(selectApp, (state) => state.nav
 export const isInfoDrawerOpened = createSelector(selectApp, (state) => state.infoDrawerOpened);
 export const infoDrawerPreview = createSelector(selectApp, (state) => state.infoDrawerPreview);
 export const getRepositoryStatus = createSelector(selectApp, (state) => state.repository);
-export const getCurrentACSVersion = createSelector(getRepositoryStatus, (repository) => repository.version?.display?.split(' ')[0]);
+export const getCurrentACSVersion = createSelector(getRepositoryStatus, (repository) => repository.version?.display?.split('')[0]);
 export const isQuickShareEnabled = createSelector(getRepositoryStatus, (info) => info.status.isQuickShareEnabled);
 export const isHXIConnectorEnabled = createSelector(getRepositoryStatus, (info) => !!info?.modules?.find((module) => module.id === HXI_CONNECTOR));
 export const isAdmin = createSelector(selectApp, (state) => state.user.isAdmin);
