@@ -24,45 +24,6 @@
 
 import { SelectionState, ProfileState, NavigationState } from '@alfresco/adf-extensions';
 import { RepositoryInfo, VersionEntry } from '@alfresco/js-api';
-import { InjectionToken } from '@angular/core';
-
-/** @deprecated no longer used */
-export const STORE_INITIAL_APP_DATA = new InjectionToken<AppState>('STORE_INITIAL_APP_DATA');
-
-export const INITIAL_APP_STATE: AppState = {
-  user: {
-    isAdmin: null,
-    id: null,
-    firstName: '',
-    lastName: ''
-  },
-  selection: {
-    nodes: [],
-    libraries: [],
-    isEmpty: true,
-    count: 0
-  },
-  navigation: {
-    currentFolder: null
-  },
-  currentNodeVersion: null,
-  infoDrawerOpened: false,
-  infoDrawerPreview: false,
-  infoDrawerMetadataAspect: '',
-  fileUploadingDialog: true,
-  showLoader: false,
-  repository: {
-    status: {
-      isQuickShareEnabled: true
-    }
-  } as any,
-  searchItemsTotalCount: null
-};
-
-/** @deprecated no longer used */
-export const INITIAL_STATE: AppStore = {
-  app: INITIAL_APP_STATE
-};
 
 export interface AppState {
   currentNodeVersion: VersionEntry;
