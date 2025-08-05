@@ -38,11 +38,10 @@ import {
   SetInfoDrawerPreviewStateAction,
   AppActionTypes,
   ShowLoaderAction,
-  INITIAL_APP_STATE,
   SetSearchItemsTotalCountAction
 } from '@alfresco/aca-shared/store';
 
-export function appReducer(state: AppState = INITIAL_APP_STATE, action: Action): AppState {
+export function appReducer(state: AppState, action: Action): AppState {
   let newState: AppState;
 
   switch (action.type) {
