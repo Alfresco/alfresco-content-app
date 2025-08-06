@@ -24,7 +24,6 @@
 
 import { HammerModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthGuardEcm, LanguagePickerComponent, NotificationHistoryComponent, provideTranslations } from '@alfresco/adf-core';
 import {
   ContentModule,
@@ -34,17 +33,15 @@ import {
   LibraryStatusColumnComponent,
   TrashcanNameColumnComponent
 } from '@alfresco/adf-content-services';
-import { DocumentBasePageService, ExtensionsDataLoaderGuard } from '@alfresco/aca-shared';
+import { DocumentBasePageService, ExtensionsDataLoaderGuard, provideContentAppExtensions } from '@alfresco/aca-shared';
 import * as rules from '@alfresco/aca-shared/rules';
 import { AppStoreModule } from './store/app-store.module';
-import { CoreExtensionsModule } from './extensions/core.extensions.module';
-import { ExtensionService, ExtensionsModule } from '@alfresco/adf-extensions';
+import { ExtensionService, provideAppExtensions } from '@alfresco/adf-extensions';
 import { APP_TOOLBAR_DIRECTIVES } from './components/toolbar';
 import { APP_SIDENAV_DIRECTIVES } from './components/sidenav';
 import { APP_COMMON_DIRECTIVES } from './components/common';
 import { APP_SEARCH_DIRECTIVES } from './components/search';
 import { ContentUrlService } from './services/content-url.service';
-import { CommonModule } from '@angular/common';
 import { LocationLinkComponent } from './components/common/location-link/location-link.component';
 import { LogoutComponent } from './components/common/logout/logout.component';
 import { ToggleSharedComponent } from './components/common/toggle-shared/toggle-shared.component';
@@ -71,7 +68,6 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ContentManagementService } from './services/content-management.service';
 import { SHELL_NAVBAR_MIN_WIDTH, ShellLayoutComponent } from '@alfresco/adf-core/shell';
 import { UserMenuComponent } from './components/sidenav/user-menu/user-menu.component';
-import { ContextMenuComponent } from './components/context-menu/context-menu.component';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { SearchResultsRowComponent } from './components/search/search-results-row/search-results-row.component';
 import { BulkActionsDropdownComponent } from './components/bulk-actions-dropdown/bulk-actions-dropdown.component';
@@ -80,25 +76,21 @@ import { SaveSearchSidenavComponent } from './components/search/search-save/side
 
 @NgModule({
   imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
     ContentModule.forRoot(),
     RouterModule.forChild(CONTENT_ROUTES),
-    ExtensionsModule,
-    CoreExtensionsModule,
     AppStoreModule,
     ...APP_COMMON_DIRECTIVES,
     ...APP_TOOLBAR_DIRECTIVES,
     ...APP_SIDENAV_DIRECTIVES,
     ...APP_SEARCH_DIRECTIVES,
-    ContextMenuComponent,
     HammerModule,
     AcaFolderRulesModule
   ],
   providers: [
     { provide: ContentVersionService, useClass: ContentUrlService },
     { provide: DocumentBasePageService, useExisting: ContentManagementService },
+    provideAppExtensions(),
+    provideContentAppExtensions(),
     provideTranslations('app', 'assets'),
     { provide: SHELL_NAVBAR_MIN_WIDTH, useValue: 0 },
     {

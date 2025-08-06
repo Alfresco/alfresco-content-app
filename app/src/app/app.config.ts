@@ -25,7 +25,7 @@
 import { importProvidersFrom, ApplicationConfig } from '@angular/core';
 import { provideNoopAnimations, provideAnimations } from '@angular/platform-browser/animations';
 import { AuthGuard, CoreModule, AuthModule, provideTranslations } from '@alfresco/adf-core';
-import { AppService } from '@alfresco/aca-shared';
+import { AppService, provideContentAppExtensions } from '@alfresco/aca-shared';
 import { AppExtensionsModule } from './extensions.module';
 import { environment } from '../environments/environment';
 import { registerLocaleData } from '@angular/common';
@@ -46,7 +46,7 @@ import localeFi from '@angular/common/locales/fi';
 import localeDa from '@angular/common/locales/da';
 import localeSv from '@angular/common/locales/sv';
 import { provideRouter, withHashLocation } from '@angular/router';
-import { CONTENT_LAYOUT_ROUTES, ContentServiceExtensionModule, ContentUrlService, provideExtensions } from '@alfresco/aca-content';
+import { CONTENT_LAYOUT_ROUTES, ContentServiceExtensionModule, ContentUrlService } from '@alfresco/aca-content';
 import { ContentVersionService } from '@alfresco/adf-content-services';
 import { SHELL_APP_SERVICE, SHELL_AUTH_TOKEN, provideShellRoutes } from '@alfresco/adf-core/shell';
 import { APP_ROUTES } from './app.routes';
@@ -72,7 +72,7 @@ export const AppConfig: ApplicationConfig = {
   providers: [
     importProvidersFrom(AuthModule.forRoot({ useHash: true })),
     importProvidersFrom(CoreModule.forRoot(), AppExtensionsModule, ContentServiceExtensionModule),
-    provideExtensions(),
+    provideContentAppExtensions(),
     provideRouter(APP_ROUTES, withHashLocation()),
     environment.e2e ? provideNoopAnimations() : provideAnimations(),
     provideShellRoutes(CONTENT_LAYOUT_ROUTES),
