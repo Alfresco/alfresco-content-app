@@ -25,6 +25,36 @@
 import { SelectionState, ProfileState, NavigationState } from '@alfresco/adf-extensions';
 import { RepositoryInfo, VersionEntry } from '@alfresco/js-api';
 
+export const INITIAL_APP_STATE: AppState = {
+  user: {
+    isAdmin: null,
+    id: null,
+    firstName: '',
+    lastName: ''
+  },
+  selection: {
+    nodes: [],
+    libraries: [],
+    isEmpty: true,
+    count: 0
+  },
+  navigation: {
+    currentFolder: null
+  },
+  currentNodeVersion: null,
+  infoDrawerOpened: false,
+  infoDrawerPreview: false,
+  infoDrawerMetadataAspect: '',
+  fileUploadingDialog: true,
+  showLoader: false,
+  repository: {
+    status: {
+      isQuickShareEnabled: true
+    }
+  } as any,
+  searchItemsTotalCount: null
+};
+
 export interface AppState {
   currentNodeVersion: VersionEntry;
   selection: SelectionState;
