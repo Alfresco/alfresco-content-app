@@ -36,11 +36,7 @@ import {
 import { DocumentBasePageService, ExtensionsDataLoaderGuard, provideContentAppExtensions } from '@alfresco/aca-shared';
 import * as rules from '@alfresco/aca-shared/rules';
 import { AppStoreModule } from './store/app-store.module';
-import { ExtensionService, provideAppExtensions } from '@alfresco/adf-extensions';
-import { APP_TOOLBAR_DIRECTIVES } from './components/toolbar';
-import { APP_SIDENAV_DIRECTIVES } from './components/sidenav';
-import { APP_COMMON_DIRECTIVES } from './components/common';
-import { APP_SEARCH_DIRECTIVES } from './components/search';
+import { provideAppExtensions, provideExtensions } from '@alfresco/adf-extensions';
 import { ContentUrlService } from './services/content-url.service';
 import { LocationLinkComponent } from './components/common/location-link/location-link.component';
 import { LogoutComponent } from './components/common/logout/logout.component';
@@ -75,15 +71,7 @@ import { AgentsButtonComponent } from './components/knowledge-retrieval/search-a
 import { SaveSearchSidenavComponent } from './components/search/search-save/sidenav/save-search-sidenav.component';
 
 @NgModule({
-  imports: [
-    ContentModule.forRoot(),
-    AppStoreModule,
-    ...APP_COMMON_DIRECTIVES,
-    ...APP_TOOLBAR_DIRECTIVES,
-    ...APP_SIDENAV_DIRECTIVES,
-    ...APP_SEARCH_DIRECTIVES,
-    HammerModule
-  ],
+  imports: [ContentModule.forRoot(), AppStoreModule, HammerModule],
   providers: [
     provideRouter(CONTENT_ROUTES),
     { provide: ContentVersionService, useClass: ContentUrlService },
@@ -96,91 +84,88 @@ import { SaveSearchSidenavComponent } from './components/search/search-save/side
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
       useValue: { closeOnNavigation: true, hasBackdrop: true, autoFocus: true }
-    }
+    },
+    provideExtensions({
+      authGuards: {
+        'app.auth': AuthGuardEcm,
+        'app.extensions.dataLoaderGuard': ExtensionsDataLoaderGuard
+      },
+      components: {
+        'app.layout.main': ShellLayoutComponent,
+        'app.layout.sidenav': SidenavComponent,
+        'app.shell.sibling': UploadFilesDialogComponent,
+        'app.components.tabs.metadata': MetadataTabComponent,
+        'app.components.tabs.library.metadata': LibraryMetadataTabComponent,
+        'app.components.tabs.comments': CommentsTabComponent,
+        'app.components.tabs.versions': VersionsTabComponent,
+        'app.components.preview': PreviewComponent,
+        'app.toolbar.toggleInfoDrawer': ToggleInfoDrawerComponent,
+        'app.toolbar.toggleFavorite': ToggleFavoriteComponent,
+        'app.toolbar.toggleFavoriteLibrary': ToggleFavoriteLibraryComponent,
+        'app.toolbar.toggleJoinLibrary': ToggleJoinLibraryButtonComponent,
+        'app.toolbar.ai.agents-button': AgentsButtonComponent,
+        'app.menu.toggleJoinLibrary': ToggleJoinLibraryMenuComponent,
+        'app.bulk-actions-dropdown': BulkActionsDropdownComponent,
+        'app.shared-link.toggleSharedLink': ToggleSharedComponent,
+        'app.columns.name': CustomNameColumnComponent,
+        'app.columns.libraryName': LibraryNameColumnComponent,
+        'app.columns.libraryRole': LibraryRoleColumnComponent,
+        'app.columns.libraryStatus': LibraryStatusColumnComponent,
+        'app.columns.trashcanName': TrashcanNameColumnComponent,
+        'app.columns.location': LocationLinkComponent,
+        'app.columns.tags': TagsColumnComponent,
+        'app.toolbar.toggleEditOffline': ToggleEditOfflineComponent,
+        'app.toolbar.viewNode': ViewNodeComponent,
+        'app.languagePicker': LanguagePickerComponent,
+        'app.logout': LogoutComponent,
+        'app.user': UserInfoComponent,
+        'app.notification-center': NotificationHistoryComponent,
+        'app.user.menu': UserMenuComponent,
+        'app.search.columns.name': SearchResultsRowComponent,
+        'app.search.navbar': SaveSearchSidenavComponent
+      },
+      evaluators: {
+        canToggleJoinLibrary: rules.canToggleJoinLibrary,
+        canToggleSharedLink: rules.canToggleSharedLink,
+        canToggleFileLock: rules.canToggleFileLock,
+        canToggleFavorite: rules.canToggleFavorite,
+        isLibraryManager: rules.isLibraryManager,
+        canEditAspects: rules.canEditAspects,
+        isSmartFolder: rules.isSmartFolder,
+        isMultiSelection: rules.isMultiselection,
+        canPrintFile: rules.canPrintFile,
+
+        'app.selection.canDelete': rules.canDeleteSelection,
+        'app.selection.canDownload': rules.canDownloadSelection,
+        'app.selection.notEmpty': rules.hasSelection,
+        'app.selection.canAddFavorite': rules.canAddFavorite,
+        'app.selection.canRemoveFavorite': rules.canRemoveFavorite,
+        'app.selection.first.canUpdate': rules.canUpdateSelectedNode,
+        'app.selection.file': rules.hasFileSelected,
+        'app.selection.file.isLocked': rules.hasLockedFiles,
+        'app.selection.file.canUploadVersion': rules.canUploadVersion,
+        'app.selection.library': rules.hasLibrarySelected,
+        'app.selection.hasLibraryRole': rules.hasLibraryRole,
+        'app.selection.folder': rules.hasFolderSelected,
+        'app.selection.folder.canUpdate': rules.canUpdateSelectedFolder,
+        'app.selection.displayedKnowledgeRetrievalButton': rules.canDisplayKnowledgeRetrievalButton,
+
+        'app.navigation.folder.canCreate': rules.canCreateFolder,
+        'app.navigation.isTrashcan': rules.isTrashcan,
+        'app.navigation.isLibraries': rules.isLibraries,
+        'app.navigation.isSharedFiles': rules.isSharedFiles,
+        'app.navigation.isFavorites': rules.isFavorites,
+        'app.navigation.isRecentFiles': rules.isRecentFiles,
+        'app.navigation.isSearchResults': rules.isSearchResults,
+        'app.navigation.isPreview': rules.isPreview,
+        'app.navigation.isDetails': rules.isDetails,
+
+        'app.canShowLogout': rules.canShowLogout,
+        'app.isContentServiceEnabled': rules.isContentServiceEnabled,
+        'app.areTagsEnabled': rules.areTagsEnabled,
+        'app.areCategoriesEnabled': rules.areCategoriesEnabled
+      }
+    })
   ]
 })
-export class ContentServiceExtensionModule {
-  constructor(public extensions: ExtensionService) {
-    extensions.setAuthGuards({
-      'app.auth': AuthGuardEcm,
-      'app.extensions.dataLoaderGuard': ExtensionsDataLoaderGuard
-    });
-
-    extensions.setComponents({
-      'app.layout.main': ShellLayoutComponent,
-      'app.layout.sidenav': SidenavComponent,
-      'app.shell.sibling': UploadFilesDialogComponent,
-      'app.components.tabs.metadata': MetadataTabComponent,
-      'app.components.tabs.library.metadata': LibraryMetadataTabComponent,
-      'app.components.tabs.comments': CommentsTabComponent,
-      'app.components.tabs.versions': VersionsTabComponent,
-      'app.components.preview': PreviewComponent,
-      'app.toolbar.toggleInfoDrawer': ToggleInfoDrawerComponent,
-      'app.toolbar.toggleFavorite': ToggleFavoriteComponent,
-      'app.toolbar.toggleFavoriteLibrary': ToggleFavoriteLibraryComponent,
-      'app.toolbar.toggleJoinLibrary': ToggleJoinLibraryButtonComponent,
-      'app.toolbar.ai.agents-button': AgentsButtonComponent,
-      'app.menu.toggleJoinLibrary': ToggleJoinLibraryMenuComponent,
-      'app.bulk-actions-dropdown': BulkActionsDropdownComponent,
-      'app.shared-link.toggleSharedLink': ToggleSharedComponent,
-      'app.columns.name': CustomNameColumnComponent,
-      'app.columns.libraryName': LibraryNameColumnComponent,
-      'app.columns.libraryRole': LibraryRoleColumnComponent,
-      'app.columns.libraryStatus': LibraryStatusColumnComponent,
-      'app.columns.trashcanName': TrashcanNameColumnComponent,
-      'app.columns.location': LocationLinkComponent,
-      'app.columns.tags': TagsColumnComponent,
-      'app.toolbar.toggleEditOffline': ToggleEditOfflineComponent,
-      'app.toolbar.viewNode': ViewNodeComponent,
-      'app.languagePicker': LanguagePickerComponent,
-      'app.logout': LogoutComponent,
-      'app.user': UserInfoComponent,
-      'app.notification-center': NotificationHistoryComponent,
-      'app.user.menu': UserMenuComponent,
-      'app.search.columns.name': SearchResultsRowComponent,
-      'app.search.navbar': SaveSearchSidenavComponent
-    });
-
-    extensions.setEvaluators({
-      canToggleJoinLibrary: rules.canToggleJoinLibrary,
-      canToggleSharedLink: rules.canToggleSharedLink,
-      canToggleFileLock: rules.canToggleFileLock,
-      canToggleFavorite: rules.canToggleFavorite,
-      isLibraryManager: rules.isLibraryManager,
-      canEditAspects: rules.canEditAspects,
-      isSmartFolder: rules.isSmartFolder,
-      isMultiSelection: rules.isMultiselection,
-      canPrintFile: rules.canPrintFile,
-
-      'app.selection.canDelete': rules.canDeleteSelection,
-      'app.selection.canDownload': rules.canDownloadSelection,
-      'app.selection.notEmpty': rules.hasSelection,
-      'app.selection.canAddFavorite': rules.canAddFavorite,
-      'app.selection.canRemoveFavorite': rules.canRemoveFavorite,
-      'app.selection.first.canUpdate': rules.canUpdateSelectedNode,
-      'app.selection.file': rules.hasFileSelected,
-      'app.selection.file.isLocked': rules.hasLockedFiles,
-      'app.selection.file.canUploadVersion': rules.canUploadVersion,
-      'app.selection.library': rules.hasLibrarySelected,
-      'app.selection.hasLibraryRole': rules.hasLibraryRole,
-      'app.selection.folder': rules.hasFolderSelected,
-      'app.selection.folder.canUpdate': rules.canUpdateSelectedFolder,
-      'app.selection.displayedKnowledgeRetrievalButton': rules.canDisplayKnowledgeRetrievalButton,
-
-      'app.navigation.folder.canCreate': rules.canCreateFolder,
-      'app.navigation.isTrashcan': rules.isTrashcan,
-      'app.navigation.isLibraries': rules.isLibraries,
-      'app.navigation.isSharedFiles': rules.isSharedFiles,
-      'app.navigation.isFavorites': rules.isFavorites,
-      'app.navigation.isRecentFiles': rules.isRecentFiles,
-      'app.navigation.isSearchResults': rules.isSearchResults,
-      'app.navigation.isPreview': rules.isPreview,
-      'app.navigation.isDetails': rules.isDetails,
-
-      'app.canShowLogout': rules.canShowLogout,
-      'app.isContentServiceEnabled': rules.isContentServiceEnabled,
-      'app.areTagsEnabled': rules.areTagsEnabled,
-      'app.areCategoriesEnabled': rules.areCategoriesEnabled
-    });
-  }
-}
+export class ContentServiceExtensionModule {}
