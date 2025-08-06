@@ -61,7 +61,7 @@ import { ViewNodeComponent } from './components/toolbar/view-node/view-node.comp
 import { CONTENT_ROUTES } from './aca-content.routes';
 import { RouterModule } from '@angular/router';
 import { UploadFilesDialogComponent } from './components/upload-files-dialog/upload-files-dialog.component';
-import { AcaFolderRulesModule } from '@alfresco/aca-content/folder-rules';
+import { provideFolderRulesExtension } from '@alfresco/aca-content/folder-rules';
 import { TagsColumnComponent } from './components/dl-custom-components/tags-column/tags-column.component';
 import { UserInfoComponent } from './components/common/user-info/user-info.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
@@ -83,14 +83,14 @@ import { SaveSearchSidenavComponent } from './components/search/search-save/side
     ...APP_TOOLBAR_DIRECTIVES,
     ...APP_SIDENAV_DIRECTIVES,
     ...APP_SEARCH_DIRECTIVES,
-    HammerModule,
-    AcaFolderRulesModule
+    HammerModule
   ],
   providers: [
     { provide: ContentVersionService, useClass: ContentUrlService },
     { provide: DocumentBasePageService, useExisting: ContentManagementService },
     provideAppExtensions(),
     provideContentAppExtensions(),
+    provideFolderRulesExtension(),
     provideTranslations('app', 'assets'),
     { provide: SHELL_NAVBAR_MIN_WIDTH, useValue: 0 },
     {

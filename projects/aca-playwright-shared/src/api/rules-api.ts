@@ -23,7 +23,6 @@
  */
 
 import { ApiClientFactory } from './api-client-factory';
-import { AcaFolderRulesModule } from '@alfresco/aca-content/folder-rules';
 import * as crypto from 'crypto';
 
 export class RulesApi {
@@ -199,7 +198,7 @@ export interface Rule {
   errorScript: string;
   isShared: boolean;
   triggers: RuleTrigger[];
-  conditions: AcaFolderRulesModule;
+  conditions: any;
   actions: RuleAction[];
 }
 
@@ -288,6 +287,6 @@ export class ConditionsTypes {
   static readonly conditions = [ConditionsTypes.MIMETYPE.value, ConditionsTypes.CMNAME.value, ConditionsTypes.SIZE.value, ConditionsTypes.TAG.value];
   constructor(
     public key: string,
-    public value: AcaFolderRulesModule
+    public value: any
   ) {}
 }

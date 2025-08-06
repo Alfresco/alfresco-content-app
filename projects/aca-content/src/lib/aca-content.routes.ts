@@ -337,7 +337,7 @@ export const CONTENT_LAYOUT_ROUTES: Route[] = [
         children: [
           {
             path: '',
-            loadChildren: () => import('@alfresco/aca-content/folder-rules').then((m) => m.AcaFolderRulesModule)
+            loadChildren: () => import('@alfresco/aca-content/folder-rules').then((m) => m.FOLDER_RULES_ROUTES)
           }
         ]
       },
