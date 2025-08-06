@@ -70,6 +70,7 @@ registerLocaleData(localeSv);
 
 export const AppConfig: ApplicationConfig = {
   providers: [
+    importProvidersFrom(AuthModule.forRoot({ useHash: true })),
     importProvidersFrom(CoreModule.forRoot(), AppExtensionsModule, ContentServiceExtensionModule),
     provideExtensions(),
     provideRouter(APP_ROUTES, withHashLocation()),
@@ -84,7 +85,6 @@ export const AppConfig: ApplicationConfig = {
       provide: SHELL_AUTH_TOKEN,
       useValue: AuthGuard
     },
-    provideTranslations('app', 'assets'),
-    importProvidersFrom(AuthModule.forRoot({ useHash: true }))
+    provideTranslations('app', 'assets')
   ]
 };
