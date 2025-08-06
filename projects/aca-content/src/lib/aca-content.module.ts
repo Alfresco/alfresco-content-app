@@ -59,7 +59,7 @@ import { ToggleJoinLibraryButtonComponent } from './components/toolbar/toggle-jo
 import { ToggleJoinLibraryMenuComponent } from './components/toolbar/toggle-join-library/toggle-join-library-menu.component';
 import { ViewNodeComponent } from './components/toolbar/view-node/view-node.component';
 import { CONTENT_ROUTES } from './aca-content.routes';
-import { RouterModule } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { UploadFilesDialogComponent } from './components/upload-files-dialog/upload-files-dialog.component';
 import { provideFolderRulesExtension } from '@alfresco/aca-content/folder-rules';
 import { TagsColumnComponent } from './components/dl-custom-components/tags-column/tags-column.component';
@@ -77,7 +77,6 @@ import { SaveSearchSidenavComponent } from './components/search/search-save/side
 @NgModule({
   imports: [
     ContentModule.forRoot(),
-    RouterModule.forChild(CONTENT_ROUTES),
     AppStoreModule,
     ...APP_COMMON_DIRECTIVES,
     ...APP_TOOLBAR_DIRECTIVES,
@@ -86,6 +85,7 @@ import { SaveSearchSidenavComponent } from './components/search/search-save/side
     HammerModule
   ],
   providers: [
+    provideRouter(CONTENT_ROUTES),
     { provide: ContentVersionService, useClass: ContentUrlService },
     { provide: DocumentBasePageService, useExisting: ContentManagementService },
     provideAppExtensions(),
