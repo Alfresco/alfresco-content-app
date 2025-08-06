@@ -35,7 +35,7 @@ import {
   TranslateLoaderService
 } from '@alfresco/adf-core';
 import { AppService, provideContentAppExtensions } from '@alfresco/aca-shared';
-import { AppExtensionsModule } from './extensions.module';
+import { provideApplicationExtensions } from './extensions.module';
 import { environment } from '../environments/environment';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
@@ -105,7 +105,7 @@ function provideAdfCore(): (Provider | EnvironmentProviders)[] {
 export const AppConfig: ApplicationConfig = {
   providers: [
     importProvidersFrom(AuthModule.forRoot({ useHash: true })),
-    importProvidersFrom(AppExtensionsModule, ContentServiceExtensionModule),
+    importProvidersFrom(ContentServiceExtensionModule),
     provideTranslateService({
       loader: {
         provide: TranslateLoader,
@@ -116,6 +116,7 @@ export const AppConfig: ApplicationConfig = {
     }),
     provideAdfCore(),
     provideContentAppExtensions(),
+    provideApplicationExtensions(),
     provideRouter(APP_ROUTES, withHashLocation()),
     environment.e2e ? provideNoopAnimations() : provideAnimations(),
     provideShellRoutes(CONTENT_LAYOUT_ROUTES),

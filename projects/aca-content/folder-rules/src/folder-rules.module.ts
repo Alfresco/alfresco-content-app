@@ -56,6 +56,6 @@ export function provideFolderRulesExtension(): (Provider | EnvironmentProviders)
 
 /** @deprecated use `provideFolderRulesExtension()` instead **/
 @NgModule({
-  providers: [provideFolderRulesExtension()]
+  providers: [...provideFolderRulesExtension()]
 })
 export class AcaFolderRulesModule {}

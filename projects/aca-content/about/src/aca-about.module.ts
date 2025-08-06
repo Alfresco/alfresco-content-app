@@ -22,17 +22,23 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
+import { NgModule, Provider } from '@angular/core';
 import { AboutComponent } from './about.component';
-import { ExtensionService, provideExtensionConfig } from '@alfresco/adf-extensions';
+import { provideExtensionConfig, provideExtensions } from '@alfresco/adf-extensions';
 
-@NgModule({
-  providers: [provideExtensionConfig(['about.plugin.json'])]
-})
-export class AcaAboutModule {
-  constructor(extensions: ExtensionService) {
-    extensions.setComponents({
-      'app.about.component': AboutComponent
-    });
-  }
+export function provideAboutExtension(): Provider[] {
+  return [
+    provideExtensionConfig(['about.plugin.json']),
+    provideExtensions({
+      components: {
+        'app.about.component': AboutComponent
+      }
+    })
+  ];
 }
+
+/* @deprecated use `provideAboutExtension()` provider api instead */
+@NgModule({
+  providers: [...provideAboutExtension()]
+})
+export class AcaAboutModule {}
