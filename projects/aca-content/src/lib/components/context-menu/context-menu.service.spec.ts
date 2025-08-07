@@ -63,7 +63,7 @@ describe('ContextMenuService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [NoopTranslateModule, ContextMenuComponent],
-      providers: [provideCoreAuthTesting(), Overlay, { provide: Store, useValue: { select: () => of() } }]
+      providers: [provideCoreAuthTesting(), Overlay, { provide: Store, useValue: { select: () => of() } }, UserPreferencesService]
     });
 
     injector = TestBed.inject(Injector);
@@ -92,7 +92,7 @@ describe('ContextMenuService', () => {
 
     contextMenuService.open(overlayConfig);
 
-    expect(document.body.querySelector('div[dir="ltr"]')).not.toBe(null);
+    expect(document.body.querySelector('div[dir="ltr"]')).not.toEqual(null);
   });
 
   it('should change direction on textOrientation event', () => {

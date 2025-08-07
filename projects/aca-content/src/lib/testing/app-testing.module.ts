@@ -23,27 +23,27 @@
  */
 
 import { NgModule } from '@angular/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthenticationService, NoopTranslateModule, PageTitleService } from '@alfresco/adf-core';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { NoopTranslateModule, PageTitleService, provideCoreAuthTesting } from '@alfresco/adf-core';
 import { AlfrescoApiService, AlfrescoApiServiceMock, DiscoveryApiService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { RepositoryInfo, VersionInfo } from '@alfresco/js-api';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { provideStore } from '@ngrx/store';
 import { appReducer } from '../store/reducers/app.reducer';
-import { RouterTestingModule } from '@angular/router/testing';
 import { provideEffects } from '@ngrx/effects';
 import { INITIAL_STATE } from '../store/initial-state';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ContentManagementService } from '../services/content-management.service';
 import { DocumentBasePageService } from '@alfresco/aca-shared';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { provideRouter } from '@angular/router';
 
 @NgModule({
-  exports: [RouterTestingModule],
-  imports: [NoopAnimationsModule, NoopTranslateModule, RouterTestingModule, MatSnackBarModule, MatDialogModule, MatIconTestingModule],
+  imports: [NoopTranslateModule, MatSnackBarModule, MatDialogModule, MatIconTestingModule],
   providers: [
+    provideNoopAnimations(),
+    provideRouter([]),
     provideStore(
       { app: appReducer },
       {
@@ -72,24 +72,11 @@ import { MatIconTestingModule } from '@angular/material/icon/testing';
           )
       }
     },
-    {
-      provide: AuthenticationService,
-      useValue: {
-        isEcmLoggedIn: (): boolean => true,
-        getRedirect: (): string | null => null,
-        setRedirect() {},
-        isOauth: (): boolean => false,
-        isOAuthWithoutSilentLogin: (): boolean => false,
-        onLogin: new Subject<any>(),
-        onLogout: new Subject<any>(),
-        isLoggedIn: () => true
-      }
-    },
+    provideCoreAuthTesting(),
     {
       provide: PageTitleService,
       useValue: {}
-    },
-    provideHttpClient(withInterceptorsFromDi())
+    }
   ]
 })
 export class AppTestingModule {}
