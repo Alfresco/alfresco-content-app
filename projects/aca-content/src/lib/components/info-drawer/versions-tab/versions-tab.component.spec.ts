@@ -28,8 +28,8 @@ import { AppSettingsService } from '@alfresco/aca-shared';
 import { VersionListDataSource, VersionManagerComponent } from '@alfresco/adf-content-services';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
-import { NoopAuthModule, NoopTranslateModule } from '@alfresco/adf-core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopTranslateModule, provideCoreAuthTesting } from '@alfresco/adf-core';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 describe('VersionsTabComponent', () => {
   let component: VersionsTabComponent;
@@ -38,7 +38,8 @@ describe('VersionsTabComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NoopTranslateModule, NoopAuthModule, NoopAnimationsModule, VersionsTabComponent]
+      imports: [NoopTranslateModule, VersionsTabComponent],
+      providers: [provideNoopAnimations(), provideCoreAuthTesting()]
     });
 
     fixture = TestBed.createComponent(VersionsTabComponent);

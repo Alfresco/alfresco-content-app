@@ -23,23 +23,10 @@
  */
 
 import { CustomNameColumnComponent } from './name-column.component';
-import { Actions } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { By } from '@angular/platform-browser';
-import { AuthModule, NoopTranslateModule } from '@alfresco/adf-core';
-import { Component, Input } from '@angular/core';
-import { NodeEntry } from '@alfresco/js-api';
-
-@Component({
-  selector: 'aca-datatable-cell-badges',
-  standalone: true,
-  template: ''
-})
-class MockDatatableCellBadgesComponent {
-  @Input() node: NodeEntry;
-}
+import { NoopTranslateModule, provideCoreAuth } from '@alfresco/adf-core';
 
 describe('CustomNameColumnComponent', () => {
   let fixture: ComponentFixture<CustomNameColumnComponent>;
@@ -47,10 +34,9 @@ describe('CustomNameColumnComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NoopTranslateModule, CustomNameColumnComponent, MockDatatableCellBadgesComponent, AuthModule.forRoot()],
+      imports: [NoopTranslateModule, CustomNameColumnComponent],
       providers: [
-        Actions,
-        provideHttpClient(withInterceptorsFromDi()),
+        provideCoreAuth(),
         provideStore(
           { app: (state) => state },
           {

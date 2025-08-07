@@ -26,10 +26,10 @@ import { AppService } from './app.service';
 import { TestBed } from '@angular/core/testing';
 import {
   AuthenticationService,
-  NoopAuthModule,
   NoopTranslateModule,
   NotificationService,
   PageTitleService,
+  provideCoreAuthTesting,
   StorageService,
   UserPreferencesService
 } from '@alfresco/adf-core';
@@ -69,8 +69,9 @@ describe('AppService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NoopTranslateModule, NoopAuthModule, MatDialogModule, MatSnackBarModule],
+      imports: [NoopTranslateModule, MatDialogModule, MatSnackBarModule],
       providers: [
+        provideCoreAuthTesting(),
         SearchQueryBuilderService,
         provideMockStore({}),
         {
