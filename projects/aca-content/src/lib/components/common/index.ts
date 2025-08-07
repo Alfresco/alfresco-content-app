@@ -28,6 +28,7 @@ import { LanguagePickerComponent } from './language-picker/language-picker.compo
 import { LogoutComponent } from './logout/logout.component';
 import { UserInfoComponent } from './user-info/user-info.component';
 
+/* @deprecated import standalone components instead */
 export const APP_COMMON_DIRECTIVES = [
   LanguagePickerComponent,
   LocationLinkComponent,

@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@angular/core';
+import { EnvironmentProviders, inject, Injectable, provideAppInitializer } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -57,6 +57,15 @@ import { Badge } from '../models/types';
 import { NodePermissionService } from '../services/node-permission.service';
 import { map } from 'rxjs/operators';
 import { SearchCategory } from '@alfresco/adf-content-services';
+
+export function provideContentAppExtensions(): EnvironmentProviders[] {
+  return [
+    provideAppInitializer(() => {
+      const service = inject(AppExtensionService);
+      return service.load();
+    })
+  ];
+}
 
 @Injectable({
   providedIn: 'root'

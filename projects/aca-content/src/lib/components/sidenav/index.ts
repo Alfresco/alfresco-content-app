@@ -32,6 +32,7 @@ import { ActionDirective } from './directives/action.directive';
 import { SidenavHeaderComponent } from './components/sidenav-header.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 
+/* @deprecated import standalone components instead */
 export const APP_SIDENAV_DIRECTIVES = [
   ButtonMenuComponent,
   ActiveLinkDirective,

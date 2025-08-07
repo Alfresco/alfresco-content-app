@@ -29,6 +29,7 @@ import { SearchResultsRowComponent } from './search-results-row/search-results-r
 import { SearchInputComponent } from './search-input/search-input.component';
 import { SearchInputControlComponent } from './search-input-control/search-input-control.component';
 
+/* @deprecated import standalone components instead */
 export const APP_SEARCH_DIRECTIVES = [
   SearchActionMenuComponent,
   SearchLibrariesResultsComponent,

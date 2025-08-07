@@ -22,11 +22,20 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { importProvidersFrom, ApplicationConfig } from '@angular/core';
+import { importProvidersFrom, ApplicationConfig, Provider, EnvironmentProviders } from '@angular/core';
 import { provideNoopAnimations, provideAnimations } from '@angular/platform-browser/animations';
-import { AuthGuard, CoreModule, AuthModule, provideTranslations } from '@alfresco/adf-core';
-import { AppService } from '@alfresco/aca-shared';
-import { AppExtensionsModule } from './extensions.module';
+import {
+  AuthGuard,
+  AuthModule,
+  provideTranslations,
+  provideAppConfig,
+  FORM_FIELD_MODEL_RENDER_MIDDLEWARE,
+  DecimalRenderMiddlewareService,
+  AuthenticationService,
+  TranslateLoaderService
+} from '@alfresco/adf-core';
+import { AppService, provideContentAppExtensions } from '@alfresco/aca-shared';
+import { provideApplicationExtensions } from './extensions.module';
 import { environment } from '../environments/environment';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
@@ -46,10 +55,14 @@ import localeFi from '@angular/common/locales/fi';
 import localeDa from '@angular/common/locales/da';
 import localeSv from '@angular/common/locales/sv';
 import { provideRouter, withHashLocation } from '@angular/router';
-import { CONTENT_LAYOUT_ROUTES, ContentServiceExtensionModule, ContentUrlService, provideExtensions } from '@alfresco/aca-content';
+import { CONTENT_LAYOUT_ROUTES, ContentServiceExtensionModule, ContentUrlService } from '@alfresco/aca-content';
 import { ContentVersionService } from '@alfresco/adf-content-services';
 import { SHELL_APP_SERVICE, SHELL_AUTH_TOKEN, provideShellRoutes } from '@alfresco/adf-core/shell';
 import { APP_ROUTES } from './app.routes';
+import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi, withXsrfConfiguration } from '@angular/common/http';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import { Authentication, AuthenticationInterceptor } from '@alfresco/adf-core/auth';
+import { provideTranslateService, TranslateLoader } from '@ngx-translate/core';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -68,11 +81,42 @@ registerLocaleData(localeFi);
 registerLocaleData(localeDa);
 registerLocaleData(localeSv);
 
+/* The replacement for the CoreModule.forRoot() */
+function provideAdfCore(): (Provider | EnvironmentProviders)[] {
+  return [
+    provideAppConfig(),
+    provideHttpClient(withInterceptorsFromDi(), withXsrfConfiguration({ cookieName: 'CSRF-TOKEN', headerName: 'X-CSRF-TOKEN' })),
+    { provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true },
+    { provide: Authentication, useClass: AuthenticationService },
+    {
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+      useValue: {
+        duration: 10000
+      }
+    },
+    {
+      provide: FORM_FIELD_MODEL_RENDER_MIDDLEWARE,
+      useClass: DecimalRenderMiddlewareService,
+      multi: true
+    }
+  ];
+}
+
 export const AppConfig: ApplicationConfig = {
   providers: [
     importProvidersFrom(AuthModule.forRoot({ useHash: true })),
-    importProvidersFrom(CoreModule.forRoot(), AppExtensionsModule, ContentServiceExtensionModule),
-    provideExtensions(),
+    importProvidersFrom(ContentServiceExtensionModule),
+    provideTranslateService({
+      loader: {
+        provide: TranslateLoader,
+        useClass: TranslateLoaderService,
+        deps: [HttpClient]
+      },
+      defaultLanguage: 'en'
+    }),
+    provideAdfCore(),
+    provideContentAppExtensions(),
+    provideApplicationExtensions(),
     provideRouter(APP_ROUTES, withHashLocation()),
     environment.e2e ? provideNoopAnimations() : provideAnimations(),
     provideShellRoutes(CONTENT_LAYOUT_ROUTES),

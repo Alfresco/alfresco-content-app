@@ -23,14 +23,14 @@
  */
 
 import { provideTranslations } from '@alfresco/adf-core';
-import { ExtensionService, provideExtensionConfig } from '@alfresco/adf-extensions';
-import { NgModule } from '@angular/core';
+import { provideExtensionConfig, provideExtensions } from '@alfresco/adf-extensions';
+import { EnvironmentProviders, NgModule, Provider } from '@angular/core';
 import * as rules from './folder-rules.rules';
 import { provideRouter, Routes } from '@angular/router';
 import { ManageRulesSmartComponent } from './manage-rules/manage-rules.smart-component';
 import { PluginEnabledGuard } from '@alfresco/aca-shared';
 
-const routes: Routes = [
+export const FOLDER_RULES_ROUTES: Routes = [
   {
     path: 'rules',
     component: ManageRulesSmartComponent,
@@ -41,13 +41,21 @@ const routes: Routes = [
   }
 ];
 
-@NgModule({
-  providers: [provideTranslations('folder-rules', 'assets/folder-rules'), provideExtensionConfig(['folder-rules.plugin.json']), provideRouter(routes)]
-})
-export class AcaFolderRulesModule {
-  constructor(extensions: ExtensionService) {
-    extensions.setEvaluators({
-      'rules.isFolderRulesEnabled': rules.isFolderRulesEnabled
-    });
-  }
+export function provideFolderRulesExtension(): (Provider | EnvironmentProviders)[] {
+  return [
+    provideTranslations('folder-rules', 'assets/folder-rules'),
+    provideExtensionConfig(['folder-rules.plugin.json']),
+    provideRouter(FOLDER_RULES_ROUTES),
+    provideExtensions({
+      evaluators: {
+        'rules.isFolderRulesEnabled': rules.isFolderRulesEnabled
+      }
+    })
+  ];
 }
+
+/** @deprecated use `provideFolderRulesExtension()` instead **/
+@NgModule({
+  providers: [...provideFolderRulesExtension()]
+})
+export class AcaFolderRulesModule {}

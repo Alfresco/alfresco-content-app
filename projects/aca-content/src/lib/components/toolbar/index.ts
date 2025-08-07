@@ -30,6 +30,7 @@ import { ToggleFavoriteLibraryComponent } from './toggle-favorite-library/toggle
 import { ToggleEditOfflineComponent } from './toggle-edit-offline/toggle-edit-offline.component';
 import { ViewNodeComponent } from './view-node/view-node.component';
 
+/* @deprecated import standalone components instead */
 export const APP_TOOLBAR_DIRECTIVES = [
   ToggleFavoriteComponent,
   ToggleEditOfflineComponent,
