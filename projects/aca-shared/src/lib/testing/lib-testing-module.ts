@@ -23,15 +23,13 @@
  */
 
 import { Injectable, NgModule } from '@angular/core';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { TranslateLoaderService, TranslationMock, TranslationService } from '@alfresco/adf-core';
+import { NoopTranslateModule } from '@alfresco/adf-core';
 import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
-import { CommonModule } from '@angular/common';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { RepositoryInfo, VersionInfo } from '@alfresco/js-api';
@@ -93,20 +91,7 @@ export class DocumentBasePageServiceMock extends DocumentBasePageService {
 }
 
 @NgModule({
-  exports: [TranslateModule],
-  imports: [
-    NoopAnimationsModule,
-    CommonModule,
-    RouterTestingModule,
-    MatIconTestingModule,
-    OverlayModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useClass: TranslateLoaderService
-      }
-    })
-  ],
+  imports: [NoopAnimationsModule, NoopTranslateModule, RouterTestingModule, MatIconTestingModule, OverlayModule],
   providers: [
     provideStore(
       { app: null },
@@ -120,7 +105,6 @@ export class DocumentBasePageServiceMock extends DocumentBasePageService {
     ),
     provideEffects([]),
     { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
-    { provide: TranslationService, useClass: TranslationMock },
     provideHttpClient(withInterceptorsFromDi())
   ]
 })

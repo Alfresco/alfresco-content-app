@@ -24,7 +24,7 @@
 
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { RuleSetPickerOptions, RuleSetPickerSmartComponent } from './rule-set-picker.smart-component';
-import { NoopAuthModule, NoopTranslateModule, NotificationService, UnitTestingUtils } from '@alfresco/adf-core';
+import { NoopTranslateModule, NotificationService, provideCoreAuthTesting, UnitTestingUtils } from '@alfresco/adf-core';
 import { folderToLinkMock, otherFolderMock } from '../mock/node.mock';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { of } from 'rxjs';
@@ -76,9 +76,10 @@ describe('RuleSetPickerSmartComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NoopTranslateModule, NoopAuthModule, RuleSetPickerSmartComponent],
+      imports: [NoopTranslateModule, RuleSetPickerSmartComponent],
       providers: [
         provideRouter([]),
+        provideCoreAuthTesting(),
         { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
         { provide: MatDialogRef, useValue: dialogRef },
         { provide: MAT_DIALOG_DATA, useValue: dialogOptions },

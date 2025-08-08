@@ -39,7 +39,7 @@ import {
   reduceSeparators,
   sortByOrder
 } from '@alfresco/adf-extensions';
-import { AppConfigService, AuthModule, LogService } from '@alfresco/adf-core';
+import { AppConfigService, LogService, provideCoreAuth } from '@alfresco/adf-core';
 import { provideMockStore } from '@ngrx/store/testing';
 import { hasQuickShareEnabled } from '@alfresco/aca-shared/rules';
 import { MatIconRegistry } from '@angular/material/icon';
@@ -58,8 +58,8 @@ describe('AppExtensionService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [LibTestingModule, AuthModule.forRoot()],
-      providers: [provideMockStore({ initialState })]
+      imports: [LibTestingModule],
+      providers: [provideMockStore({ initialState }), provideCoreAuth()]
     });
 
     iconRegistry = TestBed.inject(MatIconRegistry);

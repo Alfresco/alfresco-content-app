@@ -27,17 +27,13 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { DetailsComponent } from './details.component';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, of, Subject } from 'rxjs';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppExtensionService, AppHookService, ContentApiService } from '@alfresco/aca-shared';
 import { NavigateToFolder, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { Node, NodeEntry, PathElement } from '@alfresco/js-api';
-import { RouterTestingModule } from '@angular/router/testing';
-import { AuthenticationService, CORE_PIPES, PageTitleService } from '@alfresco/adf-core';
 import { BreadcrumbComponent, ContentService, NodesApiService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { By } from '@angular/platform-browser';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { Location } from '@angular/common';
 
 describe('DetailsComponent', () => {
@@ -63,9 +59,8 @@ describe('DetailsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, DetailsComponent, ...CORE_PIPES, MatSnackBarModule],
+      imports: [AppTestingModule, DetailsComponent],
       providers: [
-        RouterTestingModule,
         SearchQueryBuilderService,
         { provide: Store, useValue: storeMock },
         {
@@ -74,22 +69,8 @@ describe('DetailsComponent', () => {
             snapshot: { data: { preferencePrefix: 'prefix' } },
             params: of({ nodeId: 'someId', activeTab: 'permissions' })
           }
-        },
-        {
-          provide: PageTitleService,
-          useValue: {}
-        },
-        {
-          provide: AuthenticationService,
-          useValue: {
-            onLogin: new Subject<any>(),
-            onLogout: new Subject<any>(),
-            isLoggedIn: () => true
-          }
-        },
-        ...CORE_PIPES
-      ],
-      schemas: [NO_ERRORS_SCHEMA]
+        }
+      ]
     });
 
     const appExtensionService = TestBed.inject(AppExtensionService);

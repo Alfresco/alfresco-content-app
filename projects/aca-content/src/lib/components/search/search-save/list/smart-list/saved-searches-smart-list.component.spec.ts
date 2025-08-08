@@ -23,7 +23,7 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAuthModule, NoopTranslateModule } from '@alfresco/adf-core';
+import { NoopTranslateModule, provideCoreAuthTesting } from '@alfresco/adf-core';
 import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { SavedSearchesService, SavedSearch } from '@alfresco/adf-content-services';
@@ -56,8 +56,9 @@ describe('SavedSearchesSmartListComponent', () => {
       infoDrawerOpened: false
     };
     TestBed.configureTestingModule({
-      imports: [NoopTranslateModule, NoopAuthModule, SavedSearchesSmartListComponent],
+      imports: [NoopTranslateModule, SavedSearchesSmartListComponent],
       providers: [
+        provideCoreAuthTesting(),
         provideMockStore({
           initialState: { app: appState }
         }),

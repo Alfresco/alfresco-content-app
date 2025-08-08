@@ -25,13 +25,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DatatableCellBadgesComponent } from './datatable-cell-badges.component';
 import { AppExtensionService } from '@alfresco/aca-shared';
-import { NoopAuthModule, NoopTranslateModule } from '@alfresco/adf-core';
-import { Actions } from '@ngrx/effects';
+import { NoopTranslateModule, provideCoreAuthTesting } from '@alfresco/adf-core';
 import { NodeEntry } from '@alfresco/js-api';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { ContentActionType } from '@alfresco/adf-extensions';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { provideStore } from '@ngrx/store';
 
 const mockNode = {
@@ -55,10 +53,9 @@ describe('DatatableCellBadgesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NoopTranslateModule, NoopAuthModule, DatatableCellBadgesComponent],
+      imports: [NoopTranslateModule, DatatableCellBadgesComponent],
       providers: [
-        Actions,
-        provideHttpClient(withInterceptorsFromDi()),
+        provideCoreAuthTesting(),
         provideStore(
           { app: (state) => state },
           {
