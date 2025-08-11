@@ -574,7 +574,9 @@
             "FILES": "Arquivos",
             "FOLDERS": "Pastas",
             "LIBRARIES": "Bibliotecas",
-            "HINT": "O termo da pesquisa deve ter no mínimo 2 caracteres alfanuméricos."
+            "MIN_LENGTH": "O termo da pesquisa deve ter no mínimo 2 caracteres alfanuméricos.",
+            "REQUIRED": "Campo de pesquisa é obrigatório",
+            "WHITESPACE": "Entrada de pesquisa não pode ser apenas espaço em branco."
         },
         "SORT": {
             "SORTING_OPTION": "Classificar por",

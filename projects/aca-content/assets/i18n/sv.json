@@ -574,7 +574,9 @@
             "FILES": "Filer",
             "FOLDERS": "Mappar",
             "LIBRARIES": "Bibliotek",
-            "HINT": "Sökindata måste ha minst 2 alfanumeriska tecken."
+            "MIN_LENGTH": "Sökindata måste ha minst 2 alfanumeriska tecken.",
+            "REQUIRED": "Sökindata måste fyllas i.",
+            "WHITESPACE": "Sökinmatningen kan inte bara vara blankt."
         },
         "SORT": {
             "SORTING_OPTION": "Sortera efter",
