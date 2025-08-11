@@ -574,7 +574,9 @@
             "FILES": "Tiedostot",
             "FOLDERS": "Kansiot",
             "LIBRARIES": "Kirjastot",
-            "HINT": "Hakuehdoissa täytyy olla vähintään kaksi aakkosnumeerista merkkiä."
+            "MIN_LENGTH": "Hakuehdoissa täytyy olla vähintään kaksi aakkosnumeerista merkkiä.",
+            "REQUIRED": "Hakusyöte on pakollinen.",
+            "WHITESPACE": "Hakusyöte ei voi olla vain valkoinen."
         },
         "SORT": {
             "SORTING_OPTION": "Järjestä",

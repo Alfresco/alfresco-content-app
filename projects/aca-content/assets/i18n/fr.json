@@ -574,7 +574,9 @@
             "FILES": "Fichiers",
             "FOLDERS": "Dossiers",
             "LIBRARIES": "Bibliothèques",
-            "HINT": "L'élément de recherche doit comporter au moins 2 caractères alphanumériques."
+            "MIN_LENGTH": "L'élément de recherche doit comporter au moins 2 caractères alphanumériques.",
+            "REQUIRED": "La recherche est obligatoire.",
+            "WHITESPACE": "L'entrée de recherche ne peut pas être uniquement un espace."
         },
         "SORT": {
             "SORTING_OPTION": "Trier par",

@@ -574,7 +574,9 @@
             "FILES": "Filer",
             "FOLDERS": "Mapper",
             "LIBRARIES": "Biblioteker",
-            "HINT": "Søketeksten må bestå av minst 2 alfanumeriske tegn."
+            "MIN_LENGTH": "Søketeksten må bestå av minst 2 alfanumeriske tegn.",
+            "REQUIRED": "Søk i inndata er påkrevd.",
+            "WHITESPACE": "Søkeinndata kan ikke bare være i blanke rom."
         },
         "SORT": {
             "SORTING_OPTION": "Sorter etter",

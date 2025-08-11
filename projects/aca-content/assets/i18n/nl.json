@@ -574,7 +574,9 @@
             "FILES": "Bestanden",
             "FOLDERS": "Mappen",
             "LIBRARIES": "Bibliotheken",
-            "HINT": "Invoer voor een zoekopdracht moet uit minstens 2 alfanumerieke tekens bestaan."
+            "MIN_LENGTH": "Invoer voor een zoekopdracht moet uit minstens 2 alfanumerieke tekens bestaan.",
+            "REQUIRED": "Zoekinvoer is vereist.",
+            "WHITESPACE": "Zoekinvoer kan niet alleen witruimte zijn."
         },
         "SORT": {
             "SORTING_OPTION": "Sorteren op",
