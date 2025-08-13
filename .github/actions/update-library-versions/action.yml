@@ -17,7 +17,7 @@ runs:
       run: |
         VERSION_IN_PACKAGE_JSON=$(jq -cr '.version' < package.json)
 
-        if [[ ${{ inputs.branch_name }} =~ ^master.*?$ ]] ; then
+        if [[ ${{ inputs.branch_name }} =~ ^master.*?$ ]] || [[ "${{ inputs.branch_name }}" == release/* ]] ; then
           NEW_LIBRARY_VERSION="$VERSION_IN_PACKAGE_JSON"
         else
           NEW_LIBRARY_VERSION="${VERSION_IN_PACKAGE_JSON}-${{ github.run_id }}"
