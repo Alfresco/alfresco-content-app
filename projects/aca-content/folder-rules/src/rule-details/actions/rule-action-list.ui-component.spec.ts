@@ -26,7 +26,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopTranslateModule, UnitTestingUtils } from '@alfresco/adf-core';
 import { RuleActionListUiComponent } from './rule-action-list.ui-component';
 import { DebugElement } from '@angular/core';
-import { RuleActionUiComponent } from './rule-action.ui-component';
 import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
 
 describe('RuleActionListUiComponent', () => {
@@ -51,56 +50,49 @@ describe('RuleActionListUiComponent', () => {
     fixture.detectChanges();
   });
 
+  function countRuleActions(): number {
+    const acaRuleActions = fixture.nativeElement.querySelectorAll('aca-rule-action');
+    return acaRuleActions.length;
+  }
+
+  function clickButton(selector: string) {
+    const button = getByDataAutomationId(selector).nativeElement as HTMLButtonElement;
+    button.click();
+    fixture.detectChanges();
+  }
+
   it('should default to 1 empty action when an empty array of actions is written', () => {
-    const acaRuleActions = unitTestingUtils.getAllByDirective(RuleActionUiComponent);
-    expect(acaRuleActions.length).toBe(1);
+    expect(countRuleActions()).toBe(1);
   });
 
   it('should add a new action when the "add action" button is clicked', () => {
-    const addActionButton = getByDataAutomationId('rule-action-list-add-action-button').nativeElement as HTMLButtonElement;
-    addActionButton.click();
-    fixture.detectChanges();
-
-    const acaRuleActions = unitTestingUtils.getAllByDirective(RuleActionUiComponent);
-    expect(acaRuleActions.length).toBe(2);
+    clickButton('rule-action-list-add-action-button');
+    expect(countRuleActions()).toBe(2);
   });
 
   it('should disable the remove button if there is only one action', () => {
-    const menuButton = getByDataAutomationId('rule-action-list-action-menu', 0).nativeElement as HTMLButtonElement;
-    menuButton.click();
-    fixture.detectChanges();
+    clickButton('rule-action-list-action-menu');
 
     const removeActionButton = getByDataAutomationId('rule-action-list-remove-action-button').nativeElement as HTMLButtonElement;
     expect(removeActionButton.disabled).toBeTrue();
   });
 
   it('should enable the remove button if there is more than one action', () => {
-    const addActionButton = getByDataAutomationId('rule-action-list-add-action-button').nativeElement as HTMLButtonElement;
-    addActionButton.click();
-    fixture.detectChanges();
-
-    const menuButton = getByDataAutomationId('rule-action-list-action-menu', 0).nativeElement as HTMLButtonElement;
-    menuButton.click();
-    fixture.detectChanges();
+    clickButton('rule-action-list-add-action-button');
+    clickButton('rule-action-list-action-menu');
 
     const removeActionButton = getByDataAutomationId('rule-action-list-remove-action-button').nativeElement as HTMLButtonElement;
     expect(removeActionButton.disabled).toBeFalse();
   });
 
   it('should remove an action when the remove action button is clicked', () => {
-    const addActionButton = getByDataAutomationId('rule-action-list-add-action-button').nativeElement as HTMLButtonElement;
-    addActionButton.click();
-    fixture.detectChanges();
-
-    const menuButton = getByDataAutomationId('rule-action-list-action-menu', 0).nativeElement as HTMLButtonElement;
-    menuButton.click();
-    fixture.detectChanges();
+    clickButton('rule-action-list-add-action-button');
+    clickButton('rule-action-list-action-menu');
 
     const removeActionButton = getByDataAutomationId('rule-action-list-remove-action-button').nativeElement as HTMLButtonElement;
     removeActionButton.click();
     fixture.detectChanges();
 
-    const acaRuleActions = unitTestingUtils.getAllByDirective(RuleActionUiComponent);
-    expect(acaRuleActions.length).toBe(1);
+    expect(countRuleActions()).toBe(1);
   });
 });
