@@ -29,7 +29,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'IsFeatureSupportedInCurrentAcs'
 })
 export class IsFeatureSupportedInCurrentAcsPipe implements PipeTransform {
-  constructor(private appExtensionsService: AppExtensionService) {}
+  constructor(private readonly appExtensionsService: AppExtensionService) {}
 
   transform(evaluatorId: string) {
     return this.appExtensionsService.isFeatureSupported(evaluatorId);
