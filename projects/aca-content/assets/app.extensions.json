@@ -212,7 +212,10 @@
         "items": [
           {
             "id": "app.search.navbar",
-            "component": "app.search.navbar"
+            "component": "app.search.navbar",
+            "rules": {
+              "visible": "isSavedSearchAvailable"
+            }
           }
         ]
       }
