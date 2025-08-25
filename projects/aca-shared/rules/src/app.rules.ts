@@ -483,6 +483,48 @@ export function canOpenWithOffice(context: AcaRuleContext): boolean {
   return context.permissions.check(file, ['update']);
 }
 
+/**
+ * Checks if user savedSearches are supported by current ACS version.
+ * JSON ref: `isSavedSearchAvailable`
+ */
+export const isSavedSearchAvailable = createVersionRule('25.1.0');
+
+/**
+ * Partially applies minimal version of a feature against a core compatibility evaluation.
+ * @param minimalVersion The minimal version to check against.
+ */
+function createVersionRule(minimalVersion: string): (context: RuleContext) => boolean {
+  return (context: RuleContext): boolean => {
+    const acsVersion = context.repository.version?.display?.split(' ')[0];
+    return isVersionCompatible(acsVersion, minimalVersion);
+  };
+}
+
+function isVersionCompatible(currentVersion: string, minimalVersion: string): boolean {
+  if (!currentVersion || !minimalVersion) {
+    return false;
+  }
+
+  const currentParts = currentVersion.split('.').map(Number);
+  const minimalParts = minimalVersion.split('.').map(Number);
+  const maxLength = Math.max(currentParts.length, minimalParts.length);
+
+  for (let i = 0; i < maxLength; i++) {
+    const currentSegment = i < currentParts.length ? currentParts[i] : 0;
+    const minimalSegment = i < minimalParts.length ? minimalParts[i] : 0;
+
+    if (currentSegment > minimalSegment) {
+      return true;
+    }
+
+    if (currentSegment < minimalSegment) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 export function isSmartFolder(context: RuleContext): boolean {
   if (!context.selection?.isEmpty) {
     const node = context.selection.first;
