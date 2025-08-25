@@ -592,4 +592,8 @@ export class AppExtensionService implements RuleContext {
   bulkActionExecuted(): void {
     this.bulkActionExecuted$.next();
   }
+
+  isFeatureSupported(feature: string) {
+    return this.extensions.evaluateRule(feature, this);
+  }
 }
