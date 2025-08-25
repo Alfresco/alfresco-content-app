@@ -115,11 +115,12 @@ export function extractSearchedWordFromEncodedQuery(encodedQuery: string): strin
     const userQuery = extractUserQueryFromEncodedQuery(encodedQuery);
     return userQuery !== '' && userQuery !== undefined
       ? userQuery
-          .split('AND')
-          .map((searchCondition) => {
-            const searchTerm = searchCondition.includes('"') ? searchCondition.split('"')[1] : searchCondition.trim();
-            return searchTerm?.endsWith('*') && searchTerm !== '*' ? searchTerm.slice(0, -1) : searchTerm;
+          .split(/\s+AND\s+/i)
+          .map((condition) => {
+            const match = condition.match(/"([^"]+)"|(\S+)/);
+            return match ? (match[1] ?? match[2]) : '';
           })
+          .filter(Boolean)
           .join(' ')
       : '';
   }
