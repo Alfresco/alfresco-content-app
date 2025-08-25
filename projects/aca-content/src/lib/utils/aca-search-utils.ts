@@ -113,20 +113,24 @@ export function extractUserQueryFromEncodedQuery(encodedQuery: string): string {
 export function extractSearchedWordFromEncodedQuery(encodedQuery: string): string {
   if (encodedQuery) {
     const userQuery = extractUserQueryFromEncodedQuery(encodedQuery);
-    return userQuery !== '' && userQuery !== undefined
-      ? userQuery
-          .split(/\s+AND\s+/i)
-          .map((condition) => {
-            const match = condition.match(/"([^"]+)"|(\S+)/);
-            return match ? (match[1] ?? match[2]) : '';
-          })
-          .filter(Boolean)
-          .join(' ')
-      : '';
+    if (userQuery !== '' && userQuery !== undefined) {
+      const conditions = userQuery
+        .split('AND')
+        .map((condition) => condition.trim())
+        .filter((condition) => condition.length > 0);
+
+      const searchTerms = conditions
+        .map((condition) => {
+          const match = condition.match(/"([^"]+)"|(\S+)/);
+          return match ? (match[1] ?? match[2]) : '';
+        })
+        .filter(Boolean);
+
+      return searchTerms.join(' ');
+    }
   }
   return '';
 }
-
 /**
  * Extracts filters configuration from encoded query
  *
