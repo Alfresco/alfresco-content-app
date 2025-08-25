@@ -493,14 +493,14 @@ export const isSavedSearchAvailable = createVersionRule('25.1.0');
  * Partially applies minimal version of a feature against a core compatibility evaluation.
  * @param minimalVersion The minimal version to check against.
  */
-function createVersionRule(minimalVersion: string): (context: RuleContext) => boolean {
+export function createVersionRule(minimalVersion: string): (context: RuleContext) => boolean {
   return (context: RuleContext): boolean => {
     const acsVersion = context.repository.version?.display?.split(' ')[0];
     return isVersionCompatible(acsVersion, minimalVersion);
   };
 }
 
-function isVersionCompatible(currentVersion: string, minimalVersion: string): boolean {
+export function isVersionCompatible(currentVersion: string, minimalVersion: string): boolean {
   if (!currentVersion || !minimalVersion) {
     return false;
   }

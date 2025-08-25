@@ -23,7 +23,7 @@
  */
 
 import * as app from './app.rules';
-import { getFileExtension } from './app.rules';
+import { getFileExtension, isSavedSearchAvailable, isVersionCompatible } from './app.rules';
 import { TestRuleContext } from './test-rule-context';
 import { NodeEntry, RepositoryInfo, StatusInfo } from '@alfresco/js-api';
 import { ProfileState } from '@alfresco/adf-extensions';
@@ -1195,6 +1195,70 @@ describe('app.evaluators', () => {
       context.selection.first = { entry: { isFolder: true, aspectNames: ['smf:systemConfigSmartFolder'] } } as any;
       expect(app.isSmartFolder(context)).toBeTrue();
     });
+  });
+});
+
+describe('isSavedSearchAvailable', () => {
+  function makeContext(versionDisplay: string | undefined) {
+    return {
+      repository: {
+        version: versionDisplay ? { display: versionDisplay } : undefined
+      }
+    } as any;
+  }
+
+  it('returns true if ACS version is equal to minimal version', () => {
+    expect(isSavedSearchAvailable(makeContext('25.1.0'))).toBe(true);
+  });
+
+  it('returns true if ACS version is greater than minimal version', () => {
+    expect(isSavedSearchAvailable(makeContext('25.2.0'))).toBe(true);
+    expect(isSavedSearchAvailable(makeContext('26.0.0'))).toBe(true);
+  });
+
+  it('returns false if ACS version is less than minimal version', () => {
+    expect(isSavedSearchAvailable(makeContext('24.4.0'))).toBe(false);
+    expect(isSavedSearchAvailable(makeContext('25.0.9'))).toBe(false);
+  });
+
+  it('returns false if ACS version is missing', () => {
+    expect(isSavedSearchAvailable(makeContext(undefined))).toBe(false);
+    expect(isSavedSearchAvailable({ repository: {} } as any)).toBe(false);
+  });
+
+  it('handles version strings with extra text', () => {
+    expect(isSavedSearchAvailable(makeContext('25.1.0 (r12345-b1)'))).toBe(true);
+    expect(isSavedSearchAvailable(makeContext('24.9.0 (r12345-b1)'))).toBe(false);
+  });
+});
+
+describe('isVersionCompatible', () => {
+  it('returns true if current version is equal to minimal version', () => {
+    expect(isVersionCompatible('25.1.0', '25.1.0')).toBe(true);
+  });
+
+  it('returns true if current version is greater than minimal version', () => {
+    expect(isVersionCompatible('25.2.0', '25.1.0')).toBe(true);
+    expect(isVersionCompatible('26.0.0', '25.1.0')).toBe(true);
+    expect(isVersionCompatible('25.1.1', '25.1.0')).toBe(true);
+  });
+
+  it('returns false if current version is less than minimal version', () => {
+    expect(isVersionCompatible('25.0.9', '25.1.0')).toBe(false);
+    expect(isVersionCompatible('24.9.0', '25.1.0')).toBe(false);
+  });
+
+  it('returns false if any version is missing', () => {
+    expect(isVersionCompatible('', '25.1.0')).toBe(false);
+    expect(isVersionCompatible('25.1.0', '')).toBe(false);
+    expect(isVersionCompatible('', '')).toBe(false);
+  });
+
+  it('handles versions with different number of segments', () => {
+    expect(isVersionCompatible('25.1', '25.1.0')).toBe(true);
+    expect(isVersionCompatible('25.1.1', '25.1')).toBe(true);
+    expect(isVersionCompatible('25.1.0.1', '25.1.0')).toBe(true);
+    expect(isVersionCompatible('25.0.1.1', '25.1.0')).toBe(false);
   });
 });
 
