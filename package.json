@@ -94,7 +94,7 @@
     "@typescript-eslint/utils": "^8.40.0",
     "dotenv": "16.4.5",
     "dotenv-expand": "^5.1.0",
-    "eslint": "^8.57.0",
+    "eslint": "^9.34.0",
     "eslint-plugin-ban": "^2.0.0",
     "eslint-plugin-import": "2.31.0",
     "eslint-plugin-jsdoc": "50.3.0",
