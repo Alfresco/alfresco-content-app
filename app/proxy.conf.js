@@ -1,5 +1,5 @@
 const { BASE_URL } = process.env;
-console.log('Using backend URL: ' + BASE_URL || 'unknown');
+console.log('Using backend URL: ' + (BASE_URL || 'unknown'));
 
 module.exports = {
   '/alfresco': {
