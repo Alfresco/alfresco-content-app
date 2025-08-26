@@ -40,7 +40,7 @@ The documentation is divided into the following sections:
 
 | ACA   | ADF           | ACS       | Node | Angular |
 |-------|---------------|-----------|------|---------|
-| 7.1.x | 8.1.0         | 25.2      | 22.x | 19.x    |
+| 7.1.x | 8.1.1         | 25.2      | 22.x | 19.x    |
 | 7.0.x | 8.0.0         | 25.2      | 22.x | 19.x    |
 | 6.0.x | 7.0.0         | 25.1      | 20.x | 17.x    |
 | 5.3.x | 7.0.0-alpha.7 | 23.4      | 18.x | 16.x    |

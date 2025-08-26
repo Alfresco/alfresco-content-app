@@ -10,11 +10,11 @@ This page lists all third party libraries the project depends on.
 
 | Name | Version | License |
 | --- | --- | --- |
-| [@alfresco/adf-content-services](https://github.com/Alfresco/alfresco-ng2-components) | 8.1.0 | [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0) |
-| [@alfresco/adf-core](https://github.com/Alfresco/alfresco-ng2-components) | 8.1.0 | [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0) |
-| [@alfresco/adf-extensions](https://github.com/Alfresco/alfresco-ng2-components) | 8.1.0 | [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0) |
-| [@alfresco/eslint-plugin-eslint-angular](https://github.com/Alfresco/alfresco-ng2-components) | 8.1.0 | [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0) |
-| [@alfresco/js-api](https://github.com/Alfresco/alfresco-ng2-components) | 9.1.0 | [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0) |
+| [@alfresco/adf-content-services](https://github.com/Alfresco/alfresco-ng2-components) | 8.1.1 | [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0) |
+| [@alfresco/adf-core](https://github.com/Alfresco/alfresco-ng2-components) | 8.1.1 | [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0) |
+| [@alfresco/adf-extensions](https://github.com/Alfresco/alfresco-ng2-components) | 8.1.1 | [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0) |
+| [@alfresco/eslint-plugin-eslint-angular](https://github.com/Alfresco/alfresco-ng2-components) | 8.1.1 | [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0) |
+| [@alfresco/js-api](https://github.com/Alfresco/alfresco-ng2-components) | 9.1.1 | [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0) |
 | [@angular/animations](https://github.com/angular/angular) | 19.2.6 | [MIT](http://www.opensource.org/licenses/MIT) |
 | [@angular/cdk](https://github.com/angular/components) | 19.2.9 | [MIT](http://www.opensource.org/licenses/MIT) |
 | [@angular/common](https://github.com/angular/angular) | 19.2.6 | [MIT](http://www.opensource.org/licenses/MIT) |

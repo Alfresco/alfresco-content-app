@@ -4,6 +4,7 @@ Title: Changelog for alfresco-content-app v7.1.0
 
 # Changelog
 
+- [ec621cd7](https://github.com/Alfresco/alfresco-content-app/commit/ec621cd7) [ACS-10091] exclude test (#4757)
 - [49a2c9bc](https://github.com/Alfresco/alfresco-content-app/commit/49a2c9bc) AAE-37689: Remove unused Angular CLI dependency (#4749)
 - [aca1bb14](https://github.com/Alfresco/alfresco-content-app/commit/aca1bb14) OPSEXP-3437 Increase ingress creation timeout for setup-kind action (#4741)
 - [181d7fc5](https://github.com/Alfresco/alfresco-content-app/commit/181d7fc5) Release from branch workflow fix (#4740)
