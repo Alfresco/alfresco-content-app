@@ -1,6 +1,6 @@
 {
   "name": "alfresco-content-app",
-  "version": "8.0.0",
+  "version": "7.1.0",
   "license": "LGPL-3.0",
   "scripts": {
     "start": "nx serve content-ce",
@@ -30,11 +30,11 @@
   },
   "private": true,
   "dependencies": {
-    "@alfresco/adf-content-services": "9.1.0-17001752560",
-    "@alfresco/adf-core": "9.1.0-17001752560",
-    "@alfresco/adf-extensions": "9.1.0-17001752560",
-    "@alfresco/eslint-plugin-eslint-angular": "9.1.0-17001752560",
-    "@alfresco/js-api": "10.1.0-17001752560",
+    "@alfresco/adf-content-services": "8.1.1",
+    "@alfresco/adf-core": "8.1.1",
+    "@alfresco/adf-extensions": "8.1.1",
+    "@alfresco/eslint-plugin-eslint-angular": "8.1.1",
+    "@alfresco/js-api": "9.1.1",
     "@angular/animations": "19.2.6",
     "@angular/cdk": "19.2.9",
     "@angular/common": "19.2.6",
@@ -67,7 +67,7 @@
     "zone.js": "0.15.0"
   },
   "devDependencies": {
-    "@alfresco/adf-cli": "9.1.0-17001752560",
+    "@alfresco/adf-cli": "8.1.1",
     "@angular-devkit/build-angular": "19.2.15",
     "@angular-devkit/core": "19.2.7",
     "@angular-devkit/schematics": "19.2.7",
