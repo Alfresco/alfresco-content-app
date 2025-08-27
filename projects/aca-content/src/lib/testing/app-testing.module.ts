@@ -30,7 +30,6 @@ import { RepositoryInfo, VersionInfo } from '@alfresco/js-api';
 import { provideStore } from '@ngrx/store';
 import { appReducer } from '../store/reducers/app.reducer';
 import { provideEffects } from '@ngrx/effects';
-import { INITIAL_STATE } from '../store/initial-state';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ContentManagementService } from '../services/content-management.service';
 import { DocumentBasePageService } from '@alfresco/aca-shared';
@@ -47,7 +46,6 @@ import { provideRouter } from '@angular/router';
     provideStore(
       { app: appReducer },
       {
-        initialState: INITIAL_STATE,
         runtimeChecks: {
           strictStateImmutability: false,
           strictActionImmutability: false

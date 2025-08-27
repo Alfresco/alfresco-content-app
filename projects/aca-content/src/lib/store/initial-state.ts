@@ -22,4 +22,4 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export { INITIAL_STATE, INITIAL_APP_STATE } from '@alfresco/aca-shared/store';
+export { INITIAL_APP_STATE } from '@alfresco/aca-shared/store';

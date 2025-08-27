@@ -40,7 +40,6 @@ import {
   UploadEffects,
   ViewerEffects
 } from './effects';
-import { INITIAL_STATE } from './initial-state';
 import { SearchAiEffects } from './effects/search-ai.effects';
 
 @NgModule({
@@ -48,7 +47,6 @@ import { SearchAiEffects } from './effects/search-ai.effects';
     provideStore(
       { app: appReducer },
       {
-        initialState: INITIAL_STATE,
         runtimeChecks: {
           strictStateImmutability: false,
           strictActionImmutability: false

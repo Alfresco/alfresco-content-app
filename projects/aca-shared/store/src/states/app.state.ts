@@ -24,10 +24,6 @@
 
 import { SelectionState, ProfileState, NavigationState } from '@alfresco/adf-extensions';
 import { RepositoryInfo, VersionEntry } from '@alfresco/js-api';
-import { InjectionToken } from '@angular/core';
-
-/** @deprecated no longer used */
-export const STORE_INITIAL_APP_DATA = new InjectionToken<AppState>('STORE_INITIAL_APP_DATA');
 
 export const INITIAL_APP_STATE: AppState = {
   user: {
@@ -57,11 +53,6 @@ export const INITIAL_APP_STATE: AppState = {
     }
   } as any,
   searchItemsTotalCount: null
-};
-
-/** @deprecated no longer used */
-export const INITIAL_STATE: AppStore = {
-  app: INITIAL_APP_STATE
 };
 
 export interface AppState {
