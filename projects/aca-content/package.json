@@ -5,9 +5,9 @@
   "peerDependencies": {
     "@angular/common": ">=15.2",
     "@angular/core": ">=15.2",
-    "@alfresco/adf-core": ">=8.2.0-0",
-    "@alfresco/adf-content-services": ">=8.2.0-0",
-    "@alfresco/adf-extensions": ">=8.2.0-0",
+    "@alfresco/adf-core": ">=8.3.0-0",
+    "@alfresco/adf-content-services": ">=8.3.0-0",
+    "@alfresco/adf-extensions": ">=8.3.0-0",
     "@alfresco/js-api": ">=9.1.1-0",
     "@angular/animations": ">=15.2",
     "@angular/cdk": ">=15.2",
