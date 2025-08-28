@@ -32,7 +32,7 @@ import { SavedSearchesService, SearchQueryBuilderService } from '@alfresco/adf-c
 import { ActivatedRoute, Event, NavigationStart, Params, Router } from '@angular/router';
 import { BehaviorSubject, of, Subject, throwError } from 'rxjs';
 import { AppTestingModule } from '../../../testing/app-testing.module';
-import { AppService } from '@alfresco/aca-shared';
+import { AppExtensionService, AppService } from '@alfresco/aca-shared';
 import { MatSnackBarModule, MatSnackBarRef } from '@angular/material/snack-bar';
 import { Buffer } from 'buffer';
 import { testHeader } from '../../../testing/document-base-page-utils';
@@ -131,6 +131,13 @@ describe('SearchComponent', () => {
     component = fixture.componentInstance;
 
     spyOn(queryBuilder, 'update').and.stub();
+
+    // Mock AppExtensionService methods
+    spyOn(AppExtensionService.prototype, 'isFeatureSupported').and.returnValue(true);
+    spyOn(AppExtensionService.prototype, 'getCreateActions').and.returnValue(of([]));
+    spyOn(AppExtensionService.prototype, 'getAllowedToolbarActions').and.returnValue(of([]));
+    spyOn(AppExtensionService.prototype, 'getBulkActions').and.returnValue(of([]));
+    spyOn(AppExtensionService.prototype, 'getViewerToolbarActions').and.returnValue(of([]));
 
     fixture.detectChanges();
     loader = TestbedHarnessEnvironment.loader(fixture);
