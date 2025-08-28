@@ -1255,10 +1255,12 @@ describe('isVersionCompatible', () => {
   });
 
   it('handles versions with different number of segments', () => {
+    const versionDiffMinor = '25.1.0.1';
+    const versionDiffPatch = '25.0.1.1';
     expect(isVersionCompatible('25.1', '25.1.0')).toBe(true);
     expect(isVersionCompatible('25.1.1', '25.1')).toBe(true);
-    expect(isVersionCompatible('25.1.0.1', '25.1.0')).toBe(true);
-    expect(isVersionCompatible('25.0.1.1', '25.1.0')).toBe(false);
+    expect(isVersionCompatible(versionDiffMinor, '25.1.0')).toBe(true);
+    expect(isVersionCompatible(versionDiffPatch, '25.1.0')).toBe(false);
   });
 });
 
