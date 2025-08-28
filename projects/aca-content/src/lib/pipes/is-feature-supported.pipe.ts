@@ -26,7 +26,7 @@ import { AppExtensionService } from '@alfresco/aca-shared';
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'IsFeatureSupportedInCurrentAcs'
+  name: 'isFeatureSupportedInCurrentAcs'
 })
 export class IsFeatureSupportedInCurrentAcsPipe implements PipeTransform {
   constructor(private readonly appExtensionsService: AppExtensionService) {}
