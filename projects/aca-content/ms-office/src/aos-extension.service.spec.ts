@@ -46,7 +46,7 @@ describe('AosEditOnlineService', () => {
     authenticationService = TestBed.inject(AuthenticationService);
     appConfigService = TestBed.inject(AppConfigService);
 
-    spyOn(authenticationService, 'getEcmUsername').and.returnValue('user1');
+    spyOn(authenticationService, 'getUsername').and.returnValue('user1');
     spyOn(appConfigService, 'get').and.returnValue('http://localhost:3000');
     userAgent = spyOnProperty(navigator, 'userAgent').and.returnValue('mac');
   });
