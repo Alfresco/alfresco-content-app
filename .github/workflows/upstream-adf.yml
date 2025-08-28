@@ -1,7 +1,7 @@
 name: Upstream adf
 on:
   schedule:
-    - cron: '0 */3 * * *' # “At minute 0 past every 3rd hour.”
+    - cron: '0 10,14,17 * * 1-5' #At 10,14,17 on every day-of-week from Monday through Friday.
   workflow_dispatch:
     inputs:
       tag:
