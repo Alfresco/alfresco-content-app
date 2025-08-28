@@ -29,9 +29,5 @@ import { AuthenticationService } from '@alfresco/adf-core';
 export const ViewProfileRuleGuard: CanActivateFn = () => {
   const authService = inject(AuthenticationService);
 
-  const isEcmLoggedIn = (): boolean => {
-    return authService.isEcmLoggedIn() || (authService.isECMProvider() && authService.isKerberosEnabled());
-  };
-
-  return isEcmLoggedIn() || authService.isOauth();
+  return authService.isLoggedIn() || authService.isOauth();
 };

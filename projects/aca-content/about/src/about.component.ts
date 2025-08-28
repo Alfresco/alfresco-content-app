@@ -54,7 +54,7 @@ export class AboutComponent implements OnInit {
   landingPage = this.appSettings.landingPage;
 
   ngOnInit(): void {
-    if (this.authService.isEcmLoggedIn()) {
+    if (this.authService.isLoggedIn()) {
       this.setECMInfo();
     }
   }
