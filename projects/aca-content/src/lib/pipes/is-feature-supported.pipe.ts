@@ -24,7 +24,7 @@
 
 import { AppExtensionService } from '@alfresco/aca-shared';
 import { Pipe, PipeTransform } from '@angular/core';
-import { AppStore, getCurrentACSVersion } from '../../../../aca-shared/store/src/public-api';
+import { AppStore, getCurrentACSVersion } from '@alfresco/aca-shared/store';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs';
 
