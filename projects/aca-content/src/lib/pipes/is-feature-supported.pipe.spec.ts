@@ -22,6 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { of } from 'rxjs';
 import { IsFeatureSupportedInCurrentAcsPipe } from './is-feature-supported.pipe';
 
 class MockAppExtensionService {
@@ -32,16 +33,27 @@ class MockAppExtensionService {
 }
 
 describe('IsFeatureSupportedInCurrentAcsPipe', () => {
+  let serviceSpy: jasmine.SpyObj<MockAppExtensionService>;
+  let storeSpy: jasmine.SpyObj<any>;
+
+  beforeEach(() => {
+    serviceSpy = jasmine.createSpyObj('MockAppExtensionService', ['isFeatureSupported']);
+    storeSpy = jasmine.createSpyObj('Store', ['dispatch', 'select']);
+  });
+
   it('should create an instance', () => {
-    const pipe = new IsFeatureSupportedInCurrentAcsPipe(new MockAppExtensionService() as any);
+    const pipe = new IsFeatureSupportedInCurrentAcsPipe(serviceSpy as any, storeSpy);
     expect(pipe).toBeTruthy();
   });
 
-  it('should call isFeatureSupported in AppExtensionService', () => {
-    const service = new MockAppExtensionService();
-    spyOn(service, 'isFeatureSupported').and.returnValue(false);
-    const pipe = new IsFeatureSupportedInCurrentAcsPipe(service as any);
-    expect(pipe.transform('someFeature')).toBe(false);
-    expect(service.isFeatureSupported).toHaveBeenCalledWith('someFeature');
+  it('should call isFeatureSupported in AppExtensionService', (done) => {
+    serviceSpy.isFeatureSupported.and.returnValue(false);
+    storeSpy.select.and.returnValue(of('7.4.0'));
+    const pipe = new IsFeatureSupportedInCurrentAcsPipe(serviceSpy as any, storeSpy);
+    pipe.transform('someFeature').subscribe((result) => {
+      expect(result).toBe(false);
+      expect(serviceSpy.isFeatureSupported).toHaveBeenCalledWith('someFeature');
+      done();
+    });
   });
 });
