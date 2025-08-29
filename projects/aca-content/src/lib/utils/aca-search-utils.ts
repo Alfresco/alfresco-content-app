@@ -113,22 +113,15 @@ export function extractUserQueryFromEncodedQuery(encodedQuery: string): string {
 export function extractSearchedWordFromEncodedQuery(encodedQuery: string): string {
   if (encodedQuery) {
     const userQuery = extractUserQueryFromEncodedQuery(encodedQuery);
-    if (userQuery !== '' && userQuery !== undefined) {
-      const conditions = userQuery
-        .split('AND')
-        .map((condition) => condition.trim())
-        .filter((condition) => condition.length > 0);
-
-      const searchTerms = conditions
-        .map((condition) => {
-          const match = condition.match(/"([^"]+)"|(\S+)/);
-          const searchTerm = match ? (match[1] ?? match[2]) : '';
-          return searchTerm?.endsWith('*') && searchTerm !== '*' ? searchTerm.slice(0, -1) : searchTerm;
-        })
-        .filter(Boolean);
-
-      return searchTerms.join(' ');
-    }
+    return userQuery !== '' && userQuery !== undefined
+      ? userQuery
+          .split('AND')
+          .map((searchCondition) => {
+            const searchTerm = searchCondition.includes('"') ? searchCondition.split('"')[1] : searchCondition.trim();
+            return searchTerm?.endsWith('*') && searchTerm !== '*' ? searchTerm.slice(0, -1) : searchTerm;
+          })
+          .join(' ')
+      : '';
   }
   return '';
 }
