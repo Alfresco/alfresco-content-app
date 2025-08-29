@@ -117,8 +117,14 @@ export function extractSearchedWordFromEncodedQuery(encodedQuery: string): strin
       ? userQuery
           .split('AND')
           .map((searchCondition) => {
-            const searchTerm = searchCondition.includes('"') ? searchCondition.split('"')[1] : searchCondition.trim();
-            return searchTerm?.endsWith('*') && searchTerm !== '*' ? searchTerm.slice(0, -1) : searchTerm;
+            const match = searchCondition.trim().match(/^(?:[^:]+:)*(?:"([^"]+)"|(\S+))/);
+            let searchTerm = match ? (match[1] ?? match[2]) : '';
+
+            if (searchTerm?.endsWith('*') && searchTerm !== '*') {
+              searchTerm = searchTerm.slice(0, -1);
+            }
+
+            return searchTerm;
           })
           .join(' ')
       : '';
