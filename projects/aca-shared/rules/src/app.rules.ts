@@ -500,7 +500,7 @@ export function createVersionRule(minimalVersion: string): (context: RuleContext
   };
 }
 
-export function isVersionCompatible(currentVersion: string, minimalVersion: string): boolean {
+function isVersionCompatible(currentVersion: string, minimalVersion: string): boolean {
   if (!currentVersion || !minimalVersion) {
     return false;
   }
@@ -510,8 +510,8 @@ export function isVersionCompatible(currentVersion: string, minimalVersion: stri
   const maxLength = Math.max(currentParts.length, minimalParts.length);
 
   for (let i = 0; i < maxLength; i++) {
-    const currentSegment = i < currentParts.length ? currentParts[i] : 0;
-    const minimalSegment = i < minimalParts.length ? minimalParts[i] : 0;
+    const currentSegment = currentParts[i] ?? 0;
+    const minimalSegment = minimalParts[i] ?? 0;
 
     if (currentSegment > minimalSegment) {
       return true;

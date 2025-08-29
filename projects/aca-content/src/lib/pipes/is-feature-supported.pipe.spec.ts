@@ -24,32 +24,28 @@
 
 import { of } from 'rxjs';
 import { IsFeatureSupportedInCurrentAcsPipe } from './is-feature-supported.pipe';
-
-class MockAppExtensionService {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  isFeatureSupported(_feature: string) {
-    return true;
-  }
-}
+import { TestBed } from '@angular/core/testing';
+import { AppExtensionService } from '@alfresco/aca-shared';
+import { AppStore } from '@alfresco/aca-shared/store';
+import { Store } from '@ngrx/store';
 
 describe('IsFeatureSupportedInCurrentAcsPipe', () => {
-  let serviceSpy: jasmine.SpyObj<MockAppExtensionService>;
-  let storeSpy: jasmine.SpyObj<any>;
+  let serviceSpy: jasmine.SpyObj<AppExtensionService>;
+  let storeSpy: jasmine.SpyObj<Store<AppStore>>;
+  let pipe: IsFeatureSupportedInCurrentAcsPipe;
 
   beforeEach(() => {
-    serviceSpy = jasmine.createSpyObj('MockAppExtensionService', ['isFeatureSupported']);
+    serviceSpy = jasmine.createSpyObj('AppExtensionService', ['isFeatureSupported']);
     storeSpy = jasmine.createSpyObj('Store', ['dispatch', 'select']);
-  });
-
-  it('should create an instance', () => {
-    const pipe = new IsFeatureSupportedInCurrentAcsPipe(serviceSpy as any, storeSpy);
-    expect(pipe).toBeTruthy();
+    TestBed.configureTestingModule({
+      providers: [IsFeatureSupportedInCurrentAcsPipe, { provide: AppExtensionService, useValue: serviceSpy }, { provide: Store, useValue: storeSpy }]
+    });
+    pipe = TestBed.inject(IsFeatureSupportedInCurrentAcsPipe);
   });
 
   it('should call isFeatureSupported in AppExtensionService', (done) => {
     serviceSpy.isFeatureSupported.and.returnValue(false);
     storeSpy.select.and.returnValue(of('7.4.0'));
-    const pipe = new IsFeatureSupportedInCurrentAcsPipe(serviceSpy as any, storeSpy);
     pipe.transform('someFeature').subscribe((result) => {
       expect(result).toBe(false);
       expect(serviceSpy.isFeatureSupported).toHaveBeenCalledWith('someFeature');

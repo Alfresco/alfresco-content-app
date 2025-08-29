@@ -24,6 +24,7 @@
 
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { SearchResultsComponent } from './search-results.component';
+import { Pipe, PipeTransform } from '@angular/core';
 import { AppConfigService, NotificationService, TranslationService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { NavigateToFolder } from '@alfresco/aca-shared/store';
@@ -32,7 +33,7 @@ import { SavedSearchesService, SearchQueryBuilderService } from '@alfresco/adf-c
 import { ActivatedRoute, Event, NavigationStart, Params, Router } from '@angular/router';
 import { BehaviorSubject, of, Subject, throwError } from 'rxjs';
 import { AppTestingModule } from '../../../testing/app-testing.module';
-import { AppExtensionService, AppService } from '@alfresco/aca-shared';
+import { AppService } from '@alfresco/aca-shared';
 import { MatSnackBarModule, MatSnackBarRef } from '@angular/material/snack-bar';
 import { Buffer } from 'buffer';
 import { testHeader } from '../../../testing/document-base-page-utils';
@@ -41,6 +42,13 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatMenuHarness } from '@angular/material/menu/testing';
+
+@Pipe({ name: 'isFeatureSupportedInCurrentAcs', standalone: true })
+class MockIsFeatureSupportedInCurrentAcsPipe implements PipeTransform {
+  transform() {
+    return of(true);
+  }
+}
 
 describe('SearchComponent', () => {
   let component: SearchResultsComponent;
@@ -112,6 +120,12 @@ describe('SearchComponent', () => {
       ]
     });
 
+    TestBed.overrideComponent(SearchResultsComponent, {
+      add: {
+        imports: [MockIsFeatureSupportedInCurrentAcsPipe]
+      }
+    });
+
     config = TestBed.inject(AppConfigService);
     store = TestBed.inject(Store);
     queryBuilder = TestBed.inject(SearchQueryBuilderService);
@@ -131,13 +145,6 @@ describe('SearchComponent', () => {
     component = fixture.componentInstance;
 
     spyOn(queryBuilder, 'update').and.stub();
-
-    // Mock AppExtensionService methods
-    spyOn(AppExtensionService.prototype, 'isFeatureSupported').and.returnValue(true);
-    spyOn(AppExtensionService.prototype, 'getCreateActions').and.returnValue(of([]));
-    spyOn(AppExtensionService.prototype, 'getAllowedToolbarActions').and.returnValue(of([]));
-    spyOn(AppExtensionService.prototype, 'getBulkActions').and.returnValue(of([]));
-    spyOn(AppExtensionService.prototype, 'getViewerToolbarActions').and.returnValue(of([]));
 
     fixture.detectChanges();
     loader = TestbedHarnessEnvironment.loader(fixture);
