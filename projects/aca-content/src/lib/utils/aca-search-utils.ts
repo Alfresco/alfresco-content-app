@@ -122,7 +122,8 @@ export function extractSearchedWordFromEncodedQuery(encodedQuery: string): strin
       const searchTerms = conditions
         .map((condition) => {
           const match = condition.match(/"([^"]+)"|(\S+)/);
-          return match ? (match[1] ?? match[2]) : '';
+          const searchTerm = match ? (match[1] ?? match[2]) : '';
+          return searchTerm?.endsWith('*') && searchTerm !== '*' ? searchTerm.slice(0, -1) : searchTerm;
         })
         .filter(Boolean);
 
@@ -131,6 +132,7 @@ export function extractSearchedWordFromEncodedQuery(encodedQuery: string): strin
   }
   return '';
 }
+
 /**
  * Extracts filters configuration from encoded query
  *
