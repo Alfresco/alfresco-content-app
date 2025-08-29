@@ -24,6 +24,7 @@
 
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { SearchResultsComponent } from './search-results.component';
+import { Pipe, PipeTransform } from '@angular/core';
 import { AppConfigService, NotificationService, TranslationService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { NavigateToFolder } from '@alfresco/aca-shared/store';
@@ -41,6 +42,13 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatMenuHarness } from '@angular/material/menu/testing';
+
+@Pipe({ name: 'isFeatureSupportedInCurrentAcs', standalone: true })
+class MockIsFeatureSupportedInCurrentAcsPipe implements PipeTransform {
+  transform() {
+    return of(true);
+  }
+}
 
 describe('SearchComponent', () => {
   let component: SearchResultsComponent;
@@ -110,6 +118,12 @@ describe('SearchComponent', () => {
         },
         { provide: Router, useValue: routerMock }
       ]
+    });
+
+    TestBed.overrideComponent(SearchResultsComponent, {
+      add: {
+        imports: [MockIsFeatureSupportedInCurrentAcsPipe]
+      }
     });
 
     config = TestBed.inject(AppConfigService);
