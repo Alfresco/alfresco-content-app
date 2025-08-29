@@ -149,6 +149,21 @@ describe('SearchUtils', () => {
       const query = { userQuery: '"test"' };
       expect(extractSearchedWordFromEncodedQuery(encodeQuery(query))).toBe('test');
     });
+
+    it('should properly extract search term when userQuery does not contain quotes', () => {
+      const query = { userQuery: 'TEXT:abcdef' };
+      expect(extractSearchedWordFromEncodedQuery(encodeQuery(query))).toBe('TEXT:abcdef');
+    });
+
+    it('should properly extract search term when userQuery contains field without quotes', () => {
+      const query = { userQuery: 'cm:name:searchterm' };
+      expect(extractSearchedWordFromEncodedQuery(encodeQuery(query))).toBe('cm:name:searchterm');
+    });
+
+    it('should handle mixed conditions with and without quotes', () => {
+      const query = { userQuery: 'cm:name:"quoted term" AND TEXT:unquoted' };
+      expect(extractSearchedWordFromEncodedQuery(encodeQuery(query))).toBe('quoted term TEXT:unquoted');
+    });
   });
 
   describe('extractFiltersFromEncodedQuery', () => {
