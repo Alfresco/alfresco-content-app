@@ -7,11 +7,6 @@
     "access": "public"
   },
   "peerDependencies": {
-    "@alfresco/adf-core": ">=8.3.0-0",
-    "@alfresco/adf-content-services": ">=8.3.0-0",
-    "@alfresco/adf-extensions": ">=8.3.0-0",
-    "@alfresco/eslint-plugin-eslint-angular": ">=8.3.0-0",
-    "@alfresco/js-api": ">=9.3.0-0",
     "tslib": ">=2.0.0"
   },
   "repository": {
