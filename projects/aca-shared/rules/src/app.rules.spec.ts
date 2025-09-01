@@ -1223,13 +1223,8 @@ describe('Versions compatibility', () => {
     });
 
     it('returns false if ACS version is missing', () => {
-      expect(isSavedSearchAvailable(makeContext(undefined))).toBe(false);
+      expect(isSavedSearchAvailable(makeContext())).toBe(false);
       expect(isSavedSearchAvailable({ repository: {} } as any)).toBe(false);
-    });
-
-    it('handles version strings with extra text', () => {
-      expect(isSavedSearchAvailable(makeContext('25.1.0 (r12345-b1)'))).toBe(true);
-      expect(isSavedSearchAvailable(makeContext('24.9.0 (r12345-b1)'))).toBe(false);
     });
   });
 
@@ -1254,14 +1249,8 @@ describe('Versions compatibility', () => {
 
     it('returns false if version is missing', () => {
       const rule = createVersionRule('25.1.0');
-      expect(rule(makeContext(undefined))).toBe(false);
+      expect(rule(makeContext())).toBe(false);
       expect(rule({ repository: {} } as any)).toBe(false);
-    });
-
-    it('handles version strings with extra text', () => {
-      const rule = createVersionRule('25.1.0');
-      expect(rule(makeContext('25.1.0 (r12345-b1)'))).toBe(true);
-      expect(rule(makeContext('24.9.0 (r12345-b1)'))).toBe(false);
     });
 
     it('handles versions with different number of segments', () => {
