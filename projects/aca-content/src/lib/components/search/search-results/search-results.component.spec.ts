@@ -31,7 +31,7 @@ import { NavigateToFolder } from '@alfresco/aca-shared/store';
 import { Pagination, SearchRequest } from '@alfresco/js-api';
 import { SavedSearchesService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { ActivatedRoute, Event, NavigationStart, Params, Router } from '@angular/router';
-import { BehaviorSubject, of, Subject, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject, throwError } from 'rxjs';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AppService } from '@alfresco/aca-shared';
 import { MatSnackBarModule, MatSnackBarRef } from '@angular/material/snack-bar';
@@ -43,9 +43,9 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatMenuHarness } from '@angular/material/menu/testing';
 
-@Pipe({ name: 'isFeatureSupportedInCurrentAcs', standalone: true })
+@Pipe({ name: 'isFeatureSupportedInCurrentAcs' })
 class MockIsFeatureSupportedInCurrentAcsPipe implements PipeTransform {
-  transform() {
+  transform(): Observable<boolean> {
     return of(true);
   }
 }

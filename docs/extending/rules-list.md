@@ -80,6 +80,6 @@ or not.
 
 Rules/Evaluators created for specific features in ADW to be checked if supported in current ACS version. Evaluators are created using  **createVersionRule** helper function locking specific version number into the rule.
 
-| Version | Key                             | Description                                                              |
-|---------|---------------------------------|--------------------------------------------------------------------------|
-| 8.1.0   | isSavedSearchAvailable          | Checks whether current ACS version supports PUT method in Preferences API|
+| Version | Key                             | Description                                                               |
+|---------|---------------------------------|---------------------------------------------------------------------------|
+| 8.1.0   | isSavedSearchAvailable          | Checks whether current ACS version supports PUT method in Preferences API |
