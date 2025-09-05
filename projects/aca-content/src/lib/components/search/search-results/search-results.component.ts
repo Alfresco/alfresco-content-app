@@ -88,6 +88,7 @@ import { SaveSearchDirective } from '../search-save/directive/save-search.direct
 import { combineLatest, of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatMenuModule } from '@angular/material/menu';
+import { IsFeatureSupportedInCurrentAcsPipe } from '../../../pipes/is-feature-supported.pipe';
 
 @Component({
   imports: [
@@ -121,7 +122,8 @@ import { MatMenuModule } from '@angular/material/menu';
     ViewerToolbarComponent,
     BulkActionsDropdownComponent,
     SearchAiInputContainerComponent,
-    SaveSearchDirective
+    SaveSearchDirective,
+    IsFeatureSupportedInCurrentAcsPipe
   ],
   selector: 'aca-search-results',
   templateUrl: './search-results.component.html',

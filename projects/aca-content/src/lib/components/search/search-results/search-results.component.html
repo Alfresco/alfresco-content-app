@@ -26,17 +26,18 @@
               <div class="aca-content__advanced-filters--header">
                 <p>{{ 'APP.BROWSE.SEARCH.ADVANCED_FILTERS' | translate }}</p>
                 <div class="aca-content__advanced-filters--header--action-buttons">
-                  <button
-                    *ngIf="initialSavedSearch !== undefined else saveSearchButton"
-                    mat-button
-                    [disabled]="!encodedQuery"
-                    class="aca-content__save-search-action"
-                    title="{{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate }}"
-                    [attr.aria-label]="'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate "
-                    [matMenuTriggerFor]="saveSearchOptionsMenu">
-                    {{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate }}
-                    <mat-icon iconPositionEnd>keyboard_arrow_down</mat-icon>
-                  </button>
+                  @if('isSavedSearchAvailable' | isFeatureSupportedInCurrentAcs | async) {
+                    <button
+                      *ngIf="initialSavedSearch !== undefined else saveSearchButton"
+                      mat-button
+                      [disabled]="!encodedQuery"
+                      class="aca-content__save-search-action"
+                      title="{{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate }}"
+                      [attr.aria-label]="'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate "
+                      [matMenuTriggerFor]="saveSearchOptionsMenu">
+                      {{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate }}
+                      <mat-icon iconPositionEnd>keyboard_arrow_down</mat-icon>
+                    </button>
                   <mat-menu #saveSearchOptionsMenu="matMenu">
                     <button
                       mat-menu-item
@@ -66,6 +67,7 @@
                       {{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate }}
                     </button>
                   </ng-template>
+                }
                   <button
                     mat-button
                     adf-reset-search
