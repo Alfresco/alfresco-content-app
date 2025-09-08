@@ -234,7 +234,6 @@ describe('SearchResultsRowComponent', () => {
         .asObservable()
         .pipe(first())
         .subscribe((sanitizedName) => {
-          expect(sanitizedName).toContain('');
           expect(sanitizedName).not.toContain('<script>');
           done();
         });
