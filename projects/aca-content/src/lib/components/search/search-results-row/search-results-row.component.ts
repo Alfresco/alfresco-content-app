@@ -47,14 +47,6 @@ import { DomSanitizer } from '@angular/platform-browser';
   host: { class: 'aca-search-results-row' }
 })
 export class SearchResultsRowComponent implements OnInit {
-  private settings = inject(AppSettingsService);
-  private readonly sanitizer = inject(DomSanitizer);
-
-  private readonly highlightPrefix = "<span class='aca-highlight'>";
-  private readonly highlightPostfix = '</span>';
-
-  private node: NodeEntry;
-
   @Input({ required: true })
   context: any;
 
@@ -68,7 +60,13 @@ export class SearchResultsRowComponent implements OnInit {
   contentStripped = '';
   isFile = false;
 
+  private settings = inject(AppSettingsService);
+  private node: NodeEntry;
+
   private readonly destroyRef = inject(DestroyRef);
+  private readonly sanitizer = inject(DomSanitizer);
+  private readonly highlightPrefix = "<span class='aca-highlight'>";
+  private readonly highlightPostfix = '</span>';
 
   constructor(
     private store: Store<any>,
@@ -135,8 +133,6 @@ export class SearchResultsRowComponent implements OnInit {
     if (title !== name) {
       const sanitizedTitle = this.sanitizer.sanitize(SecurityContext.HTML, title);
       this.title$.next(sanitizedTitle ? ` ( ${sanitizedTitle} )` : '');
-      this.title$.next(title ? ` ( ${title} )` : '');
-      this.titleStripped = this.stripHighlighting(title);
     }
   }
 

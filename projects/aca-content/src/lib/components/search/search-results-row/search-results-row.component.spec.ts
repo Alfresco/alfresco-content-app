@@ -29,6 +29,7 @@ import { first } from 'rxjs/operators';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { SearchResultsRowComponent } from './search-results-row.component';
 import { Component, Input } from '@angular/core';
+import { ResultNode } from '@alfresco/js-api/typings';
 
 @Component({
   selector: 'aca-datatable-cell-badges',
@@ -241,7 +242,7 @@ describe('SearchResultsRowComponent', () => {
     });
   });
 
-  function createMaliciousEntry(overrides: any): ResultSetRowEntry {
+  function createMaliciousEntry(overrides: Partial<ResultNode>): ResultSetRowEntry {
     return {
       entry: {
         id: 'test-entry',
