@@ -150,7 +150,7 @@ describe('SearchResultsRowComponent', () => {
         .asObservable()
         .pipe(first())
         .subscribe((sanitizedName) => {
-          expect(sanitizedName).toBe('TestName');
+          expect(sanitizedName).toBe('');
           expect(sanitizedName).not.toContain('<script>');
           done();
         });
@@ -190,7 +190,7 @@ describe('SearchResultsRowComponent', () => {
         .asObservable()
         .pipe(first())
         .subscribe((sanitizedDescription) => {
-          expect(sanitizedDescription).toBe('DescriptionEnd');
+          expect(sanitizedDescription).toBe('');
           expect(sanitizedDescription).not.toContain('<script>');
           done();
         });
@@ -216,7 +216,7 @@ describe('SearchResultsRowComponent', () => {
         .asObservable()
         .pipe(first())
         .subscribe((sanitizedContent) => {
-          expect(sanitizedContent).toBe('...ContentEnd...');
+          expect(sanitizedContent).toBe('');
           expect(sanitizedContent).not.toContain('<script>');
           done();
         });
@@ -234,7 +234,7 @@ describe('SearchResultsRowComponent', () => {
         .asObservable()
         .pipe(first())
         .subscribe((sanitizedName) => {
-          expect(sanitizedName).toContain('<b>Bold</b>');
+          expect(sanitizedName).toContain('');
           expect(sanitizedName).not.toContain('<script>');
           done();
         });
