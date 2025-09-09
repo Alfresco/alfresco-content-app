@@ -494,6 +494,13 @@ export const isSavedSearchAvailable = createVersionRule('25.1.0');
  * JSON ref: `isFolderInfoAvailable`
  */
 export const isFolderInfoAvailable = createVersionRule('23.4.0');
+
+/**
+ * Checks if bulk update feature for legal holds is supported by current ACS version.
+ * JSON ref: `isBulkActionsAvailable`
+ */
+export const isBulkActionsAvailable = createVersionRule('23.3.0');
+
 /**
  * Partially applies minimal version of a feature against a core compatibility evaluation.
  * @param minimalVersion The minimal version to check against.
