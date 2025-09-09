@@ -134,6 +134,7 @@ import { SaveSearchSidenavComponent } from './components/search/search-save/side
         isSmartFolder: rules.isSmartFolder,
         isMultiSelection: rules.isMultiselection,
         canPrintFile: rules.canPrintFile,
+        isSavedSearchAvailable: rules.isSavedSearchAvailable,
 
         'app.selection.canDelete': rules.canDeleteSelection,
         'app.selection.canDownload': rules.canDownloadSelection,

@@ -1697,4 +1697,10 @@ describe('AppExtensionService', () => {
 
     service.bulkActionExecuted();
   });
+
+  it('should call evaluateRule on isFeatureSupported', () => {
+    const evaluateRuleSpy = spyOn(extensions, 'evaluateRule').and.returnValue(true);
+    service.isFeatureSupported('someFeature');
+    expect(evaluateRuleSpy).toHaveBeenCalledWith('someFeature', service);
+  });
 });

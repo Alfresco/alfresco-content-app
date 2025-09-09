@@ -22,15 +22,22 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Public API Surface of aca-content
- */
+import { AppExtensionService } from '@alfresco/aca-shared';
+import { Pipe, PipeTransform } from '@angular/core';
+import { AppStore, getRepositoryStatus } from '@alfresco/aca-shared/store';
+import { Store } from '@ngrx/store';
+import { map, Observable } from 'rxjs';
 
-export * from './lib/aca-content.module';
-export * from './lib/aca-content.routes';
-export * from './lib/store/initial-state';
-export * from './lib/services/content-url.service';
-export * from './lib/services/content-management.service';
-export * from './lib/components/info-drawer/comments-tab/external-node-permission-comments-tab.service';
-export * from './lib/utils/aca-search-utils';
-export * from './lib/pipes/is-feature-supported.pipe';
+@Pipe({
+  name: 'isFeatureSupportedInCurrentAcs'
+})
+export class IsFeatureSupportedInCurrentAcsPipe implements PipeTransform {
+  constructor(
+    private readonly appExtensionsService: AppExtensionService,
+    private readonly store: Store<AppStore>
+  ) {}
+
+  transform(evaluatorId: string): Observable<boolean> {
+    return this.store.select(getRepositoryStatus).pipe(map(() => this.appExtensionsService.isFeatureSupported(evaluatorId)));
+  }
+}
