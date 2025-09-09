@@ -23,7 +23,7 @@
  */
 
 import * as app from './app.rules';
-import { createVersionRule, getFileExtension, isSavedSearchAvailable, isFolderInfoAvailable } from './app.rules';
+import { createVersionRule, getFileExtension, isSavedSearchAvailable, isFolderInfoAvailable, isBulkActionsAvailable } from './app.rules';
 import { TestRuleContext } from './test-rule-context';
 import { NodeEntry, RepositoryInfo, StatusInfo } from '@alfresco/js-api';
 import { ProfileState, RuleContext } from '@alfresco/adf-extensions';
@@ -1246,6 +1246,27 @@ describe('Versions compatibility', () => {
     it('should return false if ACS version is missing', () => {
       expect(isFolderInfoAvailable(makeContext())).toBe(false);
       expect(isFolderInfoAvailable({ repository: {} } as any)).toBe(false);
+    });
+  });
+
+  describe('isBulkActionsAvailable', () => {
+    it('should return true if ACS version is equal to minimal version', () => {
+      expect(isBulkActionsAvailable(makeContext('25.1.0'))).toBe(true);
+    });
+
+    it('should return true if ACS version is greater than minimal version', () => {
+      expect(isBulkActionsAvailable(makeContext('25.2.0'))).toBe(true);
+      expect(isBulkActionsAvailable(makeContext('26.0.0'))).toBe(true);
+    });
+
+    it('should return false if ACS version is less than minimal version', () => {
+      expect(isBulkActionsAvailable(makeContext('22.0.0'))).toBe(false);
+      expect(isBulkActionsAvailable(makeContext('23.2.0'))).toBe(false);
+    });
+
+    it('should return false if ACS version is missing', () => {
+      expect(isBulkActionsAvailable(makeContext())).toBe(false);
+      expect(isBulkActionsAvailable({ repository: {} } as any)).toBe(false);
     });
   });
 
