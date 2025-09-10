@@ -76,25 +76,22 @@ interface SnackbarMessageData {
   providedIn: 'root'
 })
 export class ContentManagementService {
-  private notificationService = inject(NotificationService);
+  private readonly notificationService = inject(NotificationService);
+  private readonly nodesApiService = inject(NodesApiService);
+  private readonly store = inject(Store<AppStore>);
+  private readonly contentApi = inject(ContentApiService);
+  private readonly permission = inject(NodePermissionService);
+  private readonly dialogRef = inject(MatDialog);
+  private readonly nodeActionsService = inject(NodeActionsService);
+  private readonly translation = inject(TranslationService);
+  private readonly nodeAspectService = inject(NodeAspectService);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly appHookService = inject(AppHookService);
+  private readonly newVersionUploaderService = inject(NewVersionUploaderService);
+  private readonly router = inject(Router);
+  private readonly appSettingsService = inject(AppSettingsService);
+  private readonly documentListService = inject(DocumentListService);
   private readonly createMenuButtonSelector = 'app-toolbar-menu button[id="app.toolbar.create"]';
-
-  constructor(
-    private nodesApiService: NodesApiService,
-    private store: Store<AppStore>,
-    private contentApi: ContentApiService,
-    private permission: NodePermissionService,
-    private dialogRef: MatDialog,
-    private nodeActionsService: NodeActionsService,
-    private translation: TranslationService,
-    private nodeAspectService: NodeAspectService,
-    private activatedRoute: ActivatedRoute,
-    private appHookService: AppHookService,
-    private newVersionUploaderService: NewVersionUploaderService,
-    private router: Router,
-    private appSettingsService: AppSettingsService,
-    private documentListService: DocumentListService
-  ) {}
 
   addFavorite(nodes: Array<NodeEntry>) {
     if (nodes && nodes.length > 0) {
