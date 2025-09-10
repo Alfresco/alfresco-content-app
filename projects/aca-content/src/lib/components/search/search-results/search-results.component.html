@@ -5,7 +5,7 @@
       [agentId]="searchAiInputState.selectedAgentId" />
     <div class="aca-header-container">
       <aca-search-input />
-      <aca-bulk-actions-dropdown *ngIf="bulkActions" [items]="bulkActions" />
+      <aca-bulk-actions-dropdown *ngIf="bulkActions && ('isBulkActionsAvailable' | isFeatureSupportedInCurrentAcs | async)" [items]="bulkActions" />
       <div class="aca-search-toolbar-spacer"></div>
       <aca-toolbar [items]="actions" />
     </div>
