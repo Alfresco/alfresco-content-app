@@ -6,3 +6,67 @@
     color: var(--theme-text-color);
   }
 }
+
+
+.adf-metadata-properties .adf-content-metadata-panel[data-automation-id="adf-metadata-group-AI Insights"] {
+  background: #f0f7fa !important;
+  position: relative;
+  animation: ai-glow-multi 7s infinite alternate;
+}
+
+@keyframes copilot-glow {
+  0% {
+    box-shadow: 0 0 12px 2px #00e1c8, 0 2px 8px rgba(25, 118, 210, 0.1);
+    border-color: #626174;
+  }
+  50% {
+    box-shadow: 0 0 24px 6px #00e1c8, 0 4px 16px rgba(25, 118, 210, 0.18);
+    border-color: #00b4fc;
+  }
+  100% {
+    box-shadow: 0 0 12px 2px #00e1c8, 0 2px 8px rgba(25, 118, 210, 0.1);
+    border-color: #00e1c8;
+  }
+}
+
+.adf-metadata-properties .adf-content-metadata-panel[data-automation-id="adf-metadata-group-AI Insights"]:hover {
+    box-shadow: 0 4px 12px rgba(25, 118, 210, 0.2);
+}
+
+.adf-metadata-properties .adf-content-metadata-panel .adf-property-list .adf-property .adf-property-field .adf-property-value:not(.adf-card-view-selectitem .adf-property-value):is(textarea) {
+  color: #050505 !important;
+  font-family: 'Fira Mono', 'Courier New', monospace !important;
+}
+
+
+
+@keyframes ai-glow-multi {
+  0% {
+      box-shadow:
+          0 2px 12px 2px #32cd32,
+          0 0 16px 2px #0077ff,
+          0 0 16px 2px #a020f0;
+      border-color: #32cd32;
+  }
+  33% {
+      box-shadow:
+          0 2px 12px 2px #a020f0,
+          0 0 16px 2px #32cd32,
+          0 0 16px 2px #0077ff;
+      border-color: #a020f0;
+  }
+  66% {
+      box-shadow:
+          0 2px 12px 2px #0077ff,
+          0 0 16px 2px #a020f0,
+          0 0 16px 2px #32cd32;
+      border-color: #0077ff;
+  }
+  100% {
+      box-shadow:
+          0 2px 12px 2px #32cd32,
+          0 0 16px 2px #0077ff,
+          0 0 16px 2px #a020f0;
+      border-color: #32cd32;
+  }
+}
