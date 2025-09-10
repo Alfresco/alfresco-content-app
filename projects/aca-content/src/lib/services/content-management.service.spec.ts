@@ -37,7 +37,6 @@ import {
   SetSelectedNodesAction,
   ShareNodeAction,
   UnlockWriteAction,
-  ViewNodeExtras,
   ViewNodeVersionAction
 } from '@alfresco/aca-shared/store';
 import { NodeEffects } from '../store/effects/node.effects';
@@ -62,6 +61,7 @@ import {
 } from '@alfresco/adf-content-services';
 import { FolderInformationComponent } from '../dialogs/folder-details/folder-information.component';
 import { provideEffects } from '@ngrx/effects';
+import { ActivatedRoute, Router } from '@angular/router';
 
 describe('ContentManagementService', () => {
   let dialog: MatDialog;
@@ -77,6 +77,8 @@ describe('ContentManagementService', () => {
   let appHookService: AppHookService;
   let newVersionUploaderService: NewVersionUploaderService;
   let appSettingsService: AppSettingsService;
+  let router: Router;
+  let activatedRoute: ActivatedRoute;
   let showErrorSpy: jasmine.Spy<(message: string, action?: string, interpolateArgs?: any, showAction?: boolean) => MatSnackBarRef<any>>;
   let showInfoSpy: jasmine.Spy<(message: string, action?: string, interpolateArgs?: any, showAction?: boolean) => MatSnackBarRef<any>>;
   let showWarningSpy: jasmine.Spy<(message: string, action?: string, interpolateArgs?: any, showAction?: boolean) => MatSnackBarRef<any>>;
@@ -104,7 +106,8 @@ describe('ContentManagementService', () => {
     appHookService = TestBed.inject(AppHookService);
     newVersionUploaderService = TestBed.inject(NewVersionUploaderService);
     appSettingsService = TestBed.inject(AppSettingsService);
-
+    router = TestBed.inject(Router);
+    activatedRoute = TestBed.inject(ActivatedRoute);
     dialog = TestBed.inject(MatDialog);
   });
 
@@ -1618,12 +1621,47 @@ describe('ContentManagementService', () => {
 
     it('should dispatch ViewNodeVersionAction if dialog emit view action', () => {
       const fakeVersionId = '1';
-      const fakeLocation: ViewNodeExtras = {
-        location: '/'
-      };
+      const mockLocation = '/personal-files';
+      activatedRoute.snapshot.queryParams = { location: mockLocation };
+
       spyOnOpenUploadNewVersionDialog.and.returnValue(of({ action: NewVersionUploaderDataAction.view, versionId: fakeVersionId } as ViewVersion));
       contentManagementService.manageVersions(fakeNodeIsFile);
-      expect(spyOnDispatch).toHaveBeenCalledOnceWith(new ViewNodeVersionAction(fakeNodeIsFile.entry.id, fakeVersionId, fakeLocation));
+
+      expect(spyOnDispatch).toHaveBeenCalledOnceWith(
+        new ViewNodeVersionAction(fakeNodeIsFile.entry.id, fakeVersionId, {
+          location: mockLocation
+        })
+      );
+    });
+
+    it('should dispatch ViewNodeVersionAction with location value from router.url if location param doesnt exist already', () => {
+      const fakeVersionId = '1';
+      const currentUrl = '/current-page';
+      activatedRoute.snapshot.queryParams = {};
+
+      spyOnProperty(router, 'url', 'get').and.returnValue(currentUrl);
+
+      spyOnOpenUploadNewVersionDialog.and.returnValue(of({ action: NewVersionUploaderDataAction.view, versionId: fakeVersionId } as ViewVersion));
+
+      contentManagementService.manageVersions(fakeNodeIsFile);
+
+      expect(spyOnDispatch).toHaveBeenCalledOnceWith(
+        new ViewNodeVersionAction(fakeNodeIsFile.entry.id, fakeVersionId, {
+          location: currentUrl
+        })
+      );
+    });
+
+    it('should dispatch ViewNodeVersionAction with the same location param if already exist', () => {
+      const fakeVersionId = '1';
+      const location = '/personal-files';
+      activatedRoute.snapshot.queryParams = { location: location };
+
+      spyOnOpenUploadNewVersionDialog.and.returnValue(of({ action: NewVersionUploaderDataAction.view, versionId: fakeVersionId } as ViewVersion));
+
+      contentManagementService.manageVersions(fakeNodeIsFile);
+
+      expect(spyOnDispatch).toHaveBeenCalledOnceWith(new ViewNodeVersionAction(fakeNodeIsFile.entry.id, fakeVersionId, { location }));
     });
 
     it('should show permission error is node is not a file and does not have nodeId', () => {

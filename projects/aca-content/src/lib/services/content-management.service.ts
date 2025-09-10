@@ -48,7 +48,7 @@ import {
   NodesApiService,
   ShareDialogComponent
 } from '@alfresco/adf-content-services';
-import { NotificationService, TranslationService, ConfirmDialogComponent, DialogComponent, DialogSize } from '@alfresco/adf-core';
+import { ConfirmDialogComponent, DialogComponent, DialogSize, NotificationService, TranslationService } from '@alfresco/adf-core';
 import { DeletedNodesPaging, Node, NodeEntry, PathInfo, SiteBodyCreate, SiteEntry } from '@alfresco/js-api';
 import { inject, Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -56,7 +56,7 @@ import { Store } from '@ngrx/store';
 import { forkJoin, Observable, of, zip } from 'rxjs';
 import { catchError, map, mergeMap, take, tap } from 'rxjs/operators';
 import { NodeActionsService } from './node-actions.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FolderInformationComponent } from '../dialogs/folder-details/folder-information.component';
 
 interface RestoredNode {
@@ -76,24 +76,22 @@ interface SnackbarMessageData {
   providedIn: 'root'
 })
 export class ContentManagementService {
-  private notificationService = inject(NotificationService);
+  private readonly notificationService = inject(NotificationService);
+  private readonly nodesApiService = inject(NodesApiService);
+  private readonly store = inject(Store<AppStore>);
+  private readonly contentApi = inject(ContentApiService);
+  private readonly permission = inject(NodePermissionService);
+  private readonly dialogRef = inject(MatDialog);
+  private readonly nodeActionsService = inject(NodeActionsService);
+  private readonly translation = inject(TranslationService);
+  private readonly nodeAspectService = inject(NodeAspectService);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly appHookService = inject(AppHookService);
+  private readonly newVersionUploaderService = inject(NewVersionUploaderService);
+  private readonly router = inject(Router);
+  private readonly appSettingsService = inject(AppSettingsService);
+  private readonly documentListService = inject(DocumentListService);
   private readonly createMenuButtonSelector = 'app-toolbar-menu button[id="app.toolbar.create"]';
-
-  constructor(
-    private nodesApiService: NodesApiService,
-    private store: Store<AppStore>,
-    private contentApi: ContentApiService,
-    private permission: NodePermissionService,
-    private dialogRef: MatDialog,
-    private nodeActionsService: NodeActionsService,
-    private translation: TranslationService,
-    private nodeAspectService: NodeAspectService,
-    private appHookService: AppHookService,
-    private newVersionUploaderService: NewVersionUploaderService,
-    private router: Router,
-    private appSettingsService: AppSettingsService,
-    private documentListService: DocumentListService
-  ) {}
 
   addFavorite(nodes: Array<NodeEntry>) {
     if (nodes && nodes.length > 0) {
@@ -618,13 +616,11 @@ export class ContentManagementService {
                 this.documentListService.reload();
                 this.store.dispatch(new RefreshPreviewAction(newVersionUploaderData.node));
                 break;
-              case NewVersionUploaderDataAction.view:
-                this.store.dispatch(
-                  new ViewNodeVersionAction(node.id, newVersionUploaderData.versionId, {
-                    location: this.router.url
-                  })
-                );
+              case NewVersionUploaderDataAction.view: {
+                const location = this.activatedRoute.snapshot.queryParams['location'] || this.router.url;
+                this.store.dispatch(new ViewNodeVersionAction(node.id, newVersionUploaderData.versionId, { location }));
                 break;
+              }
               default:
                 break;
             }
