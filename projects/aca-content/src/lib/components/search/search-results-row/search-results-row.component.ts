@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, Input, OnInit, SecurityContext, ViewEncapsulation } from '@angular/core';
 import { NodeEntry, SearchEntryHighlight } from '@alfresco/js-api';
 import { NavigateToFolder, ViewNodeAction } from '@alfresco/aca-shared/store';
 import { Store } from '@ngrx/store';
@@ -35,6 +35,7 @@ import { LocationLinkComponent } from '../../common/location-link/location-link.
 import { MatDialogModule } from '@angular/material/dialog';
 import { DatatableCellBadgesComponent } from '../../dl-custom-components/datatable-cell-badges/datatable-cell-badges.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   imports: [CommonModule, LocationLinkComponent, MatDialogModule, DatatableCellBadgesComponent],
@@ -46,13 +47,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   host: { class: 'aca-search-results-row' }
 })
 export class SearchResultsRowComponent implements OnInit {
-  private settings = inject(AppSettingsService);
-
-  private readonly highlightPrefix = "<span class='aca-highlight'>";
-  private readonly highlightPostfix = '</span>';
-
-  private node: NodeEntry;
-
   @Input({ required: true })
   context: any;
 
@@ -66,7 +60,13 @@ export class SearchResultsRowComponent implements OnInit {
   contentStripped = '';
   isFile = false;
 
+  private settings = inject(AppSettingsService);
+  private node: NodeEntry;
+
   private readonly destroyRef = inject(DestroyRef);
+  private readonly sanitizer = inject(DomSanitizer);
+  private readonly highlightPrefix = "<span class='aca-highlight'>";
+  private readonly highlightPostfix = '</span>';
 
   constructor(
     private store: Store<any>,
@@ -122,17 +122,17 @@ export class SearchResultsRowComponent implements OnInit {
           break;
       }
     });
-    this.name$.next(name);
-    this.description$.next(description);
-    this.content$.next(content);
+    this.name$.next(this.sanitizer.sanitize(SecurityContext.HTML, name));
+    this.description$.next(this.sanitizer.sanitize(SecurityContext.HTML, description));
+    this.content$.next(this.sanitizer.sanitize(SecurityContext.HTML, content));
 
     this.nameStripped = this.stripHighlighting(name);
     this.descriptionStripped = this.stripHighlighting(description);
     this.contentStripped = this.stripHighlighting(content);
 
     if (title !== name) {
-      this.title$.next(title ? ` ( ${title} )` : '');
-      this.titleStripped = this.stripHighlighting(title);
+      const sanitizedTitle = this.sanitizer.sanitize(SecurityContext.HTML, title);
+      this.title$.next(sanitizedTitle ? ` ( ${sanitizedTitle} )` : '');
     }
   }
 

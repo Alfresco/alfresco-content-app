@@ -29,6 +29,7 @@ import { first } from 'rxjs/operators';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { SearchResultsRowComponent } from './search-results-row.component';
 import { Component, Input } from '@angular/core';
+import { ResultNode } from '@alfresco/js-api/typings';
 
 @Component({
   selector: 'aca-datatable-cell-badges',
@@ -137,4 +138,121 @@ describe('SearchResultsRowComponent', () => {
     expect(badgeElement).not.toBe(null);
     expect(badgeElement.componentInstance.node).toBe(component.context.node);
   });
+
+  describe('XSS Prevention', () => {
+    it('should sanitize malicious scripts in name field', (done) => {
+      const maliciousEntry = createMaliciousEntry({
+        name: 'Test<script>alert("xss")</script>Name'
+      });
+
+      component.context = { row: { node: maliciousEntry } };
+
+      component.name$
+        .asObservable()
+        .pipe(first())
+        .subscribe((sanitizedName) => {
+          expect(sanitizedName).toBe('');
+          expect(sanitizedName).not.toContain('<script>');
+          done();
+        });
+      fixture.detectChanges();
+    });
+
+    it('should sanitize malicious event handlers in title field', (done) => {
+      const maliciousEntry = createMaliciousEntry({
+        properties: {
+          'cm:title': 'Title<img src=x onerror=alert("xss")>End'
+        }
+      });
+
+      component.context = { row: { node: maliciousEntry } };
+
+      component.title$
+        .asObservable()
+        .pipe(first())
+        .subscribe((sanitizedTitle) => {
+          expect(sanitizedTitle).not.toContain('onerror');
+          expect(sanitizedTitle).not.toContain('alert');
+          done();
+        });
+      fixture.detectChanges();
+    });
+
+    it('should sanitize malicious content in description field', (done) => {
+      const maliciousEntry = createMaliciousEntry({
+        properties: {
+          'cm:description': 'Description<script>document.cookie</script>End'
+        }
+      });
+
+      component.context = { row: { node: maliciousEntry } };
+
+      component.description$
+        .asObservable()
+        .pipe(first())
+        .subscribe((sanitizedDescription) => {
+          expect(sanitizedDescription).toBe('');
+          expect(sanitizedDescription).not.toContain('<script>');
+          done();
+        });
+      fixture.detectChanges();
+    });
+
+    it('should sanitize malicious content field', (done) => {
+      const maliciousEntry = createMaliciousEntry({
+        search: {
+          score: 10,
+          highlight: [
+            {
+              field: 'cm:content',
+              snippets: ['Content<script>alert("xss")</script>End']
+            }
+          ]
+        }
+      });
+
+      component.context = { row: { node: maliciousEntry } };
+
+      component.content$
+        .asObservable()
+        .pipe(first())
+        .subscribe((sanitizedContent) => {
+          expect(sanitizedContent).toBe('');
+          expect(sanitizedContent).not.toContain('<script>');
+          done();
+        });
+      fixture.detectChanges();
+    });
+
+    it('should preserve safe HTML while removing malicious content', (done) => {
+      const mixedEntry = createMaliciousEntry({
+        name: 'Test<b>Bold</b><script>alert("xss")</script>End'
+      });
+
+      component.context = { row: { node: mixedEntry } };
+
+      component.name$
+        .asObservable()
+        .pipe(first())
+        .subscribe((sanitizedName) => {
+          expect(sanitizedName).not.toContain('<script>');
+          done();
+        });
+      fixture.detectChanges();
+    });
+  });
+
+  function createMaliciousEntry(overrides: Partial<ResultNode>): ResultSetRowEntry {
+    return {
+      entry: {
+        id: 'test-entry',
+        modifiedAt: new Date(),
+        isFile: true,
+        name: 'Default Name',
+        properties: { 'cm:title': 'Default Title', 'cm:description': 'Default Description' },
+        search: { score: 10, highlight: [] },
+        ...overrides
+      }
+    } as ResultSetRowEntry;
+  }
 });
