@@ -30,4 +30,4 @@ runs:
         printf "\nApplication is ready.\n"
 
         echo "Running playwright tests with options ${{ inputs.options }}"
-        npx nx run ${{ inputs.options }}-e2e:e2e
+        ./node_modules/.bin/nx run ${{ inputs.options }}-e2e:e2e
