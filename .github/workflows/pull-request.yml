@@ -55,7 +55,7 @@ jobs:
         run: npm run affected:lint -- --base=origin/develop
       - name: lint all
         if: ${{ github.event_name != 'pull_request' }}
-        run: npx nx run-many --target=lint
+        run: ./node_modules/.bin/nx run-many --target=lint
       - run: npm run stylelint
 
   build:
@@ -80,7 +80,7 @@ jobs:
         with:
           name: npm-logs
           path: /home/runner/.npm/_logs/
-      - run: npx nx build aca-playwright-shared
+      - run: ./node_modules/.bin/nx build aca-playwright-shared
       - run: npm run build -- $BUILD_OPTS
 
       - name: dist cache
@@ -119,7 +119,7 @@ jobs:
 
       - name: Test all
         if: ${{ github.event_name != 'pull_request' }}
-        run: npx nx run-many --target=test --browsers=ChromeHeadless --watch=false $TEST_OPTS
+        run: ./node_modules/.bin/nx run-many --target=test --browsers=ChromeHeadless --watch=false $TEST_OPTS
 
   e2es-playwright:
     needs: [lint, build, unit-tests]
@@ -204,7 +204,7 @@ jobs:
 
       - name: Before playwright
         shell: bash
-        run: npx playwright install chromium
+        run: ./node_modules/.bin/playwright install chromium
 
       - uses: ./.github/actions/run-e2e-playwright
         with:

@@ -7,7 +7,7 @@
     "e2e": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["npx playwright test --config=e2e/playwright/edit-actions/playwright.config.ts"]
+        "commands": ["playwright test --config=e2e/playwright/edit-actions/playwright.config.ts"]
       },
       "configurations": {
         "production": {

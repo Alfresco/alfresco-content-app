@@ -9,7 +9,7 @@
     "build.release": "npm run build -- --configuration=production,release",
     "test": "nx test",
     "lint": "NODE_OPTIONS=--max_old_space_size=4096 nx run-many --all --target=lint",
-    "inspect.bundle": "nx build content-ce --configuration production --stats-json && npx webpack-bundle-analyzer dist/content-ce/stats.json",
+    "inspect.bundle": "nx build content-ce --configuration production --stats-json && webpack-bundle-analyzer dist/content-ce/stats.json",
     "prepare": "husky install",
     "stylelint": "stylelint \"{app,projects}/**/*.scss\"",
     "affected:build": "nx affected:build",
@@ -121,6 +121,7 @@
     "stylelint": "^15.11.0",
     "stylelint-config-standard-scss": "^7.0.1",
     "ts-node": "^10.9.2",
-    "typescript": "5.8.2"
+    "typescript": "5.8.2",
+    "webpack-bundle-analyzer": "^4.10.2"
   }
 }

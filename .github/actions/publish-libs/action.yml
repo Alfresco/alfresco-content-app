@@ -29,7 +29,9 @@ runs:
 
     - name: Build Libraries
       shell: bash
-      run: npm ci && npx nx run-many --target=build
+      run: |
+        npm ci
+        ./node_modules/.bin/nx run-many --target=build
 
     - uses: actions/setup-node@v4
       name: setup GH registry
