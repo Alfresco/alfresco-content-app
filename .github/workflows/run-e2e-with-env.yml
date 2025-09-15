@@ -45,7 +45,7 @@ jobs:
           cache: 'npm'
       - uses: ./.github/actions/before-install
       - run: npm ci
-      - run: ./node_modules/.bin/nx build aca-playwright-shared
+      - run: npm run ci:build -- aca-playwright-shared
       - run: npm run build -- $BUILD_OPTS
 
       - name: dist cache
@@ -128,12 +128,12 @@ jobs:
         uses: ./.github/actions/before-e2e
 
       - name: Before playwright
-        shell: bash
-        run: ./node_modules/.bin/playwright install chromium
+        run: npm run ci:playwright:install
 
       - uses: ./.github/actions/run-e2e-playwright
         with:
           options: "${{ matrix.e2e-suites.name }}"
           artifact-name: ${{ matrix.e2e-suites.name }}
           test-runner: playwright
+
       - uses: ./.github/actions/after-e2e

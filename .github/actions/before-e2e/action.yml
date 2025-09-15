@@ -6,4 +6,4 @@ runs:
   steps:
     - name: Check content UP
       shell: bash
-      run: ./node_modules/@alfresco/adf-cli/bin/adf-cli check-cs-env --host $BASE_URL -u $ADMIN_EMAIL -p $ADMIN_PASSWORD || exit 1
+      run: npm run ci:check-env || exit 1
