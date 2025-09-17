@@ -133,8 +133,82 @@ describe('SearchResultsRowComponent', () => {
 
   it('should pass node to badge component', () => {
     component.context = { row: { node: nodeEntry } };
+    fixture.detectChanges();
+
     const badgeElement = fixture.debugElement.query(By.css('aca-datatable-cell-badges'));
     expect(badgeElement).not.toBe(null);
-    expect(badgeElement.componentInstance.node).toBe(component.context.node);
+    expect(badgeElement.componentInstance.node).toBe(component.context.row.node);
+  });
+
+  it('should escape plain < and > in values', (done) => {
+    const customEntry: ResultSetRowEntry = {
+      entry: {
+        ...nodeEntry.entry,
+        name: '2 < 5 > 3',
+        search: { score: 5 }
+      }
+    } as ResultSetRowEntry;
+
+    component.context = { row: { node: customEntry } };
+    component.name$
+      .asObservable()
+      .pipe(first())
+      .subscribe(() => {
+        fixture.detectChanges();
+
+        const nameElement: HTMLSpanElement = fixture.debugElement.query(By.css('.aca-link.aca-crop-text')).nativeElement;
+        expect(nameElement.innerHTML).toBe('2 &lt; 5 &gt; 3');
+        expect(nameElement.textContent).toBe('2 < 5 > 3');
+        done();
+      });
+    fixture.detectChanges();
+  });
+
+  it('should not render script tags as HTML', (done) => {
+    const customEntry: ResultSetRowEntry = {
+      entry: {
+        ...nodeEntry.entry,
+        name: '<script>alert("xss")</script>',
+        search: { score: 5 }
+      }
+    } as ResultSetRowEntry;
+
+    component.context = { row: { node: customEntry } };
+    component.name$
+      .asObservable()
+      .pipe(first())
+      .subscribe(() => {
+        fixture.detectChanges();
+
+        const nameElement: HTMLSpanElement = fixture.debugElement.query(By.css('.aca-link.aca-crop-text')).nativeElement;
+        expect(nameElement.innerHTML).toContain('&lt;script&gt;alert("xss")&lt;/script&gt;');
+        expect(nameElement.textContent).toBe('<script>alert("xss")</script>');
+        done();
+      });
+    fixture.detectChanges();
+  });
+
+  it('should allow highlight spans but escape other tags', (done) => {
+    const customEntry: ResultSetRowEntry = {
+      entry: {
+        ...nodeEntry.entry,
+        name: '<b><span class="aca-highlight">BoldHighlight</span></b>',
+        search: { score: 5 }
+      }
+    } as ResultSetRowEntry;
+
+    component.context = { row: { node: customEntry } };
+    component.name$
+      .asObservable()
+      .pipe(first())
+      .subscribe(() => {
+        fixture.detectChanges();
+
+        const nameElement: HTMLSpanElement = fixture.debugElement.query(By.css('.aca-link.aca-crop-text')).nativeElement;
+        expect(nameElement.innerHTML).toBe('&lt;b&gt;<span class="aca-highlight">BoldHighlight</span>&lt;/b&gt;');
+        expect(nameElement.textContent).toBe('<b>BoldHighlight</b>');
+        done();
+      });
+    fixture.detectChanges();
   });
 });
