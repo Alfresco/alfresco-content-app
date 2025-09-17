@@ -48,8 +48,20 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class SearchResultsRowComponent implements OnInit {
   private settings = inject(AppSettingsService);
 
-  private readonly highlightPrefix = "<span class='aca-highlight'>";
-  private readonly highlightPostfix = '</span>';
+  private readonly highlightPrefix = `<span class="aca-highlight">`;
+  private readonly highlightPostfix = `</span>`;
+
+  private readonly highlightOpenEscapedRegex = /&lt;span class=(['"])aca-highlight\1&gt;/g;
+  private readonly highlightCloseEscapedRegex = /&lt;\/span&gt;/g;
+
+  private readonly highlightOpenRawRegex = /<span class=(['"])aca-highlight\1>/g;
+  private readonly highlightCloseRawRegex = /<\/span>/g;
+
+  private readonly escapeMap: Record<string, string> = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;'
+  };
 
   private node: NodeEntry;
 
@@ -122,17 +134,26 @@ export class SearchResultsRowComponent implements OnInit {
           break;
       }
     });
-    this.name$.next(name);
-    this.description$.next(description);
-    this.content$.next(content);
+
+    const safeName = this.sanitizeAndHighlight(name);
+    const safeDescription = this.sanitizeAndHighlight(description);
+    const safeContent = this.sanitizeAndHighlight(content);
+
+    this.name$.next(safeName);
+    this.description$.next(safeDescription);
+    this.content$.next(safeContent);
 
     this.nameStripped = this.stripHighlighting(name);
+    this.titleStripped = this.stripHighlighting(title);
     this.descriptionStripped = this.stripHighlighting(description);
     this.contentStripped = this.stripHighlighting(content);
 
     if (title !== name) {
-      this.title$.next(title ? ` ( ${title} )` : '');
+      const safeTitle = this.sanitizeAndHighlight(` ( ${title} )`);
+      this.title$.next(safeTitle);
       this.titleStripped = this.stripHighlighting(title);
+    } else {
+      this.title$.next('');
     }
   }
 
@@ -149,9 +170,22 @@ export class SearchResultsRowComponent implements OnInit {
     this.store.dispatch(new NavigateToFolder(this.node));
   }
 
-  private stripHighlighting(highlightedContent: string): string {
-    return highlightedContent
-      ? highlightedContent.replace(new RegExp(this.highlightPrefix, 'g'), '').replace(new RegExp(this.highlightPostfix, 'g'), '')
-      : '';
+  private stripHighlighting(input: string): string {
+    if (!input) {
+      return '';
+    }
+    return input.replace(this.highlightOpenRawRegex, '').replace(this.highlightCloseRawRegex, '');
+  }
+
+  private sanitizeAndHighlight(value: string | null | undefined): string {
+    if (!value) {
+      return '';
+    }
+
+    let escaped = value.replace(/[&<>]/g, (char) => this.escapeMap[char] ?? char);
+
+    escaped = escaped.replace(this.highlightOpenEscapedRegex, this.highlightPrefix).replace(this.highlightCloseEscapedRegex, this.highlightPostfix);
+
+    return escaped;
   }
 }
