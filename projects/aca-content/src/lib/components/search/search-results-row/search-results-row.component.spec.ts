@@ -86,6 +86,11 @@ describe('SearchResultsRowComponent', () => {
     utils = new UnitTestingUtils(fixture.debugElement);
   });
 
+  const getNameEl = () => utils.getByCSS('.aca-link.aca-crop-text').nativeElement as HTMLSpanElement;
+  const getTitleEl = () => utils.getByDataAutomationId('search-results-entry-title').nativeElement as HTMLSpanElement;
+  const getDescriptionEl = () => utils.getByDataAutomationId('search-results-entry-description').nativeElement as HTMLDivElement;
+  const getContentEl = () => utils.getByCSS('.aca-result-content.aca-crop-text').nativeElement as HTMLDivElement;
+
   it('should show the current node', () => {
     component.context = { row: { node: nodeEntry } };
     fixture.detectChanges();
@@ -98,23 +103,17 @@ describe('SearchResultsRowComponent', () => {
     component.content$.pipe(first()).subscribe(() => {
       fixture.detectChanges();
 
-      expect(utils.getByCSS('.aca-link.aca-crop-text').nativeElement.innerHTML).toBe('<span class="aca-highlight">Random</span>');
-      expect(utils.getByCSS('.aca-link.aca-crop-text').nativeElement.title).toBe('Random');
+      expect(getNameEl().innerHTML).toBe('<span class="aca-highlight">Random</span>');
+      expect(getNameEl().title).toBe('Random');
 
-      expect(utils.getByCSS('[data-automation-id="search-results-entry-title"]').nativeElement.innerHTML).toBe(
-        ' ( <span class="aca-highlight">Random</span> title )'
-      );
-      expect(utils.getByCSS('[data-automation-id="search-results-entry-title"]').nativeElement.title).toBe('Random title');
+      expect(getTitleEl().innerHTML).toBe(' ( <span class="aca-highlight">Random</span> title )');
+      expect(getTitleEl().title).toBe('Random title');
 
-      expect(utils.getByCSS('[data-automation-id="search-results-entry-description"]').nativeElement.innerHTML).toBe(
-        'some <span class="aca-highlight">random</span> description'
-      );
-      expect(utils.getByCSS('[data-automation-id="search-results-entry-description"]').nativeElement.title).toBe('some random description');
+      expect(getDescriptionEl().innerHTML).toBe('some <span class="aca-highlight">random</span> description');
+      expect(getDescriptionEl().title).toBe('some random description');
 
-      expect(utils.getByCSS('.aca-result-content.aca-crop-text').nativeElement.innerHTML).toBe(
-        '...Interesting <span class="aca-highlight">random</span> content...'
-      );
-      expect(utils.getByCSS('.aca-result-content.aca-crop-text').nativeElement.title).toBe('...Interesting random content...');
+      expect(getContentEl().innerHTML).toBe('...Interesting <span class="aca-highlight">random</span> content...');
+      expect(getContentEl().title).toBe('...Interesting random content...');
       done();
     });
     fixture.detectChanges();
@@ -138,9 +137,8 @@ describe('SearchResultsRowComponent', () => {
     component.name$.pipe(first()).subscribe(() => {
       fixture.detectChanges();
 
-      const nameEl = utils.getByCSS('.aca-link.aca-crop-text').nativeElement;
-      expect(nameEl.innerHTML).toBe('2 &lt; 5 &gt; 3');
-      expect(nameEl.textContent).toBe('2 < 5 > 3');
+      expect(getNameEl().innerHTML).toBe('2 &lt; 5 &gt; 3');
+      expect(getNameEl().textContent).toBe('2 < 5 > 3');
       done();
     });
     fixture.detectChanges();
@@ -155,9 +153,8 @@ describe('SearchResultsRowComponent', () => {
     component.name$.pipe(first()).subscribe(() => {
       fixture.detectChanges();
 
-      const nameEl = utils.getByCSS('.aca-link.aca-crop-text').nativeElement;
-      expect(nameEl.innerHTML).toContain('&lt;script&gt;alert("xss")&lt;/script&gt;');
-      expect(nameEl.textContent).toBe('<script>alert("xss")</script>');
+      expect(getNameEl().innerHTML).toContain('&lt;script&gt;alert("xss")&lt;/script&gt;');
+      expect(getNameEl().textContent).toBe('<script>alert("xss")</script>');
       done();
     });
     fixture.detectChanges();
@@ -172,9 +169,8 @@ describe('SearchResultsRowComponent', () => {
     component.name$.pipe(first()).subscribe(() => {
       fixture.detectChanges();
 
-      const nameEl = utils.getByCSS('.aca-link.aca-crop-text').nativeElement;
-      expect(nameEl.innerHTML).toBe('&lt;b&gt;<span class="aca-highlight">BoldHighlight</span>&lt;/b&gt;');
-      expect(nameEl.textContent).toBe('<b>BoldHighlight</b>');
+      expect(getNameEl().innerHTML).toBe('&lt;b&gt;<span class="aca-highlight">BoldHighlight</span>&lt;/b&gt;');
+      expect(getNameEl().textContent).toBe('<b>BoldHighlight</b>');
       done();
     });
     fixture.detectChanges();
