@@ -86,10 +86,11 @@ describe('SearchResultsRowComponent', () => {
     utils = new UnitTestingUtils(fixture.debugElement);
   });
 
-  const getNameEl = () => utils.getByCSS('.aca-link.aca-crop-text').nativeElement as HTMLSpanElement;
-  const getTitleEl = () => utils.getByDataAutomationId('search-results-entry-title').nativeElement as HTMLSpanElement;
-  const getDescriptionEl = () => utils.getByDataAutomationId('search-results-entry-description').nativeElement as HTMLDivElement;
-  const getContentEl = () => utils.getByCSS('.aca-result-content.aca-crop-text').nativeElement as HTMLDivElement;
+  const getNameEl: () => HTMLSpanElement = () => utils.getByCSS('.aca-link.aca-crop-text').nativeElement as HTMLSpanElement;
+  const getTitleEl: () => HTMLSpanElement = () => utils.getByDataAutomationId('search-results-entry-title').nativeElement as HTMLSpanElement;
+  const getDescriptionEl: () => HTMLDivElement = () =>
+    utils.getByDataAutomationId('search-results-entry-description').nativeElement as HTMLDivElement;
+  const getContentEl: () => HTMLDivElement = () => utils.getByCSS('.aca-result-content.aca-crop-text').nativeElement as HTMLDivElement;
 
   it('should show the current node', () => {
     component.context = { row: { node: nodeEntry } };
