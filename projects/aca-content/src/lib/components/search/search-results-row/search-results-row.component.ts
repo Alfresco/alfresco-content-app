@@ -148,7 +148,7 @@ export class SearchResultsRowComponent implements OnInit {
     this.descriptionStripped = this.stripHighlighting(description);
     this.contentStripped = this.stripHighlighting(content);
 
-    if (title !== name) {
+    if (title && title !== name) {
       const safeTitle = this.sanitizeAndHighlight(` ( ${title} )`);
       this.title$.next(safeTitle);
       this.titleStripped = this.stripHighlighting(title);
