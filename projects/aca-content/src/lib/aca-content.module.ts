@@ -147,6 +147,7 @@ import { SaveSearchSidenavComponent } from './components/search/search-save/side
         'app.selection.file': rules.hasFileSelected,
         'app.selection.file.isLocked': rules.hasLockedFiles,
         'app.selection.file.canUploadVersion': rules.canUploadVersion,
+        'app.selection.file.isLockOwner': rules.isUserWriteLockOwner,
         'app.selection.library': rules.hasLibrarySelected,
         'app.selection.hasLibraryRole': rules.hasLibraryRole,
         'app.selection.folder': rules.hasFolderSelected,
