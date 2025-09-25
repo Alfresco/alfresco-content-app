@@ -14,10 +14,12 @@ runs:
   steps:
     - name: Update Versions
       shell: bash
+      env:
+        BRANCH_NAME: ${{ inputs.branch_name }}
       run: |
         VERSION_IN_PACKAGE_JSON=$(jq -cr '.version' < package.json)
 
-        if [[ ${{ inputs.branch_name }} =~ ^master.*?$ ]] || [[ "${{ inputs.branch_name }}" == release/* ]] ; then
+        if [[ $BRANCH_NAME =~ ^master.*?$ ]] || [[ "$BRANCH_NAME" == release/* ]] ; then
           NEW_LIBRARY_VERSION="$VERSION_IN_PACKAGE_JSON"
         else
           NEW_LIBRARY_VERSION="${VERSION_IN_PACKAGE_JSON}-${{ github.run_id }}"

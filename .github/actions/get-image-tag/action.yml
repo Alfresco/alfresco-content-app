@@ -11,10 +11,13 @@ runs:
   steps:
     - name: Get docker image tag name
       shell: bash
+      env:
+        BRANCH_NAME: ${{ inputs.branch_name }}
+        RUN_ID: ${{ github.run_id }}
       run: |
-        if [[ "${{ inputs.branch_name }}" == "master" ]] || [[ "${{ inputs.branch_name }}" == release/* ]]; then
+        if [[ "$BRANCH_NAME" == "master" ]] || [[ "$BRANCH_NAME" == release/* ]]; then
           TAG_VERSION="$(jq -cr '.version' < package.json)"
         else
-          TAG_VERSION="${{ inputs.branch_name }}-${{ github.run_id }}"
+          TAG_VERSION="${BRANCH_NAME}-${RUN_ID}"
         fi
         echo "TAG_VERSION=$TAG_VERSION" >> $GITHUB_ENV

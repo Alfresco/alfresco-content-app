@@ -19,6 +19,8 @@ runs:
 
     - name: Setup and run with options
       shell: bash
+      env:
+        OPTIONS: ${{ inputs.options }}"
       run: |
         npm start > /dev/null &\
 
@@ -29,5 +31,5 @@ runs:
         done
         printf "\nApplication is ready.\n"
 
-        echo "Running playwright tests with options ${{ inputs.options }}"
-        E2E_TARGET=${{ inputs.options }} npm run ci:e2e
+        echo "Running playwright tests with options $OPTIONS"
+        E2E_TARGET=$OPTIONS npm run ci:e2e

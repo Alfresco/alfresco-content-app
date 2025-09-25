@@ -22,9 +22,11 @@ runs:
     - uses: Alfresco/alfresco-build-tools/.github/actions/get-branch-name@v8.33.0
     - name: set TAG_NPM
       shell: bash
+      env:
+        NPM_TAG: ${{ inputs.npm_tag }}
       run: |
-        if [[ -n "${{ inputs.npm_tag }}" ]]; then
-          TAG_NPM=${{ inputs.npm_tag }}
+        if [[ -n "$NPM_TAG" ]]; then
+          TAG_NPM=$NPM_TAG
         else
           TAG_NPM="alpha"
           VERSION_IN_PACKAGE_JSON=$(jq -cr '.version' < package.json)
