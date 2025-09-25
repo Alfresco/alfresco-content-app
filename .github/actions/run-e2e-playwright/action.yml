@@ -20,7 +20,7 @@ runs:
     - name: Setup and run with options
       shell: bash
       env:
-        OPTIONS: ${{ inputs.options }}"
+        OPTIONS: ${{ inputs.options }}
       run: |
         npm start > /dev/null &\
 
