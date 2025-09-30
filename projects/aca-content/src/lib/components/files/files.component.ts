@@ -61,6 +61,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpErrorResponse } from '@angular/common/http';
+import { extractFiltersFromEncodedQuery } from '../../utils/aca-search-utils';
 
 @Component({
   imports: [
@@ -121,7 +122,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     this.title = data.title;
 
     this.route.queryParamMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((queryMap: Params) => {
-      this.queryParams = queryMap.params;
+      this.queryParams = extractFiltersFromEncodedQuery(queryMap?.params?.q);
     });
     this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(({ folderId }: Params) => {
       const nodeId = folderId || data.defaultNodeId;
