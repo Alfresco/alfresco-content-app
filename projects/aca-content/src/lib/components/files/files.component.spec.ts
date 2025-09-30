@@ -190,6 +190,22 @@ describe('FilesComponent', () => {
       expect(router.navigate['calls'].argsFor(0)[0]).toEqual(['/personal-files', 'parent-id']);
     });
 
+    it('should set decoded query as queryParams', () => {
+      const initialQuery = { checkList: 'TYPE:"cm:folder"' };
+
+      const encoded = btoa(JSON.stringify(initialQuery));
+
+      const mockParamMap = convertToParamMap({ q: encoded });
+
+      Object.defineProperty(component['route'], 'queryParamMap', {
+        value: of(mockParamMap)
+      });
+
+      fixture.detectChanges();
+
+      expect(component.queryParams).toEqual(initialQuery);
+    });
+
     it('should check isFilterHeaderActive to be true when filters are present in queryParamMap', () => {
       Object.defineProperty(route, 'queryParamMap', { value: of({ params: { $thumbnail: 'TYPE:"cm:folder"' } }) });
 
