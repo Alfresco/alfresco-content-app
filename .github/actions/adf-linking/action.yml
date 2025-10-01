@@ -4,7 +4,7 @@ description: "ADF linking"
 runs:
   using: "composite"
   steps:
-    - uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@v8.33.0
+    - uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@v9.0.1
     - name: clone and install
       shell: bash
       run: |
