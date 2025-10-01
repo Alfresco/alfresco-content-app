@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
 @use './mat-selectors' as ms;
-@import '@alfresco/adf-core/theming';
+@use '@alfresco/adf-core/theming' as adf-core;
 @import './custom-theme';
 @import './variables/variables';
 @include custom-theme($custom-theme);
