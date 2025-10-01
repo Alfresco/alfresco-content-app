@@ -24,7 +24,7 @@
 
 import { TestBed, fakeAsync, tick, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA, SimpleChange, SimpleChanges } from '@angular/core';
-import { Router, ActivatedRoute, convertToParamMap } from '@angular/router';
+import { Router, ActivatedRoute, convertToParamMap, ParamMap } from '@angular/router';
 import { DocumentListService, FilterSearch, UploadService } from '@alfresco/adf-content-services';
 import { NodeActionsService } from '../../services/node-actions.service';
 import { FilesComponent } from './files.component';
@@ -70,6 +70,11 @@ describe('FilesComponent', () => {
   function verifyEmptyTemplate() {
     const template = fixture.debugElement.query(By.css('.adf-empty-list_template'));
     expect(template).not.toBeNull();
+  }
+
+  function getEncodedParamMap(initialQuery = { checkList: 'TYPE:"cm:folder"' }): ParamMap {
+    const encoded = btoa(JSON.stringify(initialQuery));
+    return convertToParamMap({ q: encoded });
   }
 
   beforeEach(() => {
@@ -193,9 +198,7 @@ describe('FilesComponent', () => {
     it('should set decoded query as queryParams', () => {
       const initialQuery = { checkList: 'TYPE:"cm:folder"' };
 
-      const encoded = btoa(JSON.stringify(initialQuery));
-
-      const mockParamMap = convertToParamMap({ q: encoded });
+      const mockParamMap = getEncodedParamMap(initialQuery);
 
       Object.defineProperty(component['route'], 'queryParamMap', {
         value: of(mockParamMap)
@@ -207,7 +210,11 @@ describe('FilesComponent', () => {
     });
 
     it('should check isFilterHeaderActive to be true when filters are present in queryParamMap', () => {
-      Object.defineProperty(route, 'queryParamMap', { value: of({ params: { $thumbnail: 'TYPE:"cm:folder"' } }) });
+      const mockParamMap = getEncodedParamMap();
+
+      Object.defineProperty(component['route'], 'queryParamMap', {
+        value: of(mockParamMap)
+      });
 
       fixture.detectChanges();
 
