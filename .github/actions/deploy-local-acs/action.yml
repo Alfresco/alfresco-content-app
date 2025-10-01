@@ -23,20 +23,20 @@ runs:
         version: "3.14.3"
 
     - name: Login to Docker Hub
-      uses: docker/login-action@184bdaa0721073962dff0199f1fb9940f07167d1  # v3.5.0
+      uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef  # v3.6.0
       with:
         username: ${{ inputs.docker_username }}
         password: ${{ inputs.docker_password }}
 
     - name: Login to Quay.io
-      uses: docker/login-action@184bdaa0721073962dff0199f1fb9940f07167d1  # v3.5.0
+      uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef  # v3.6.0
       with:
         registry: quay.io
         username: ${{ inputs.quay_username }}
         password: ${{ inputs.quay_password }}
 
     - name: Setup cluster
-      uses: Alfresco/alfresco-build-tools/.github/actions/setup-kind@v8.33.0
+      uses: Alfresco/alfresco-build-tools/.github/actions/setup-kind@v9.0.1
       with:
         ingress-nginx-ref: controller-v1.8.2
         ingress-creation-timeout: 180s
@@ -77,4 +77,4 @@ runs:
         --values .github/acs-deployment-values-override.yaml
 
     - name: Wait for pods to be ready
-      uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-wait@v8.33.0
+      uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-wait@v9.0.1
