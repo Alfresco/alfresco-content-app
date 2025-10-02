@@ -37,12 +37,11 @@ import {
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { catchError, map, mergeMap, take } from 'rxjs/operators';
+import { map, mergeMap, take, tap } from 'rxjs/operators';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { ContentManagementService } from '../../services/content-management.service';
 import { NotificationService } from '@alfresco/adf-core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class LibraryEffects {
@@ -101,7 +100,7 @@ export class LibraryEffects {
       this.actions$.pipe(
         ofType<CreateLibraryAction>(LibraryActionTypes.Create),
         mergeMap(() => this.content.createLibrary()),
-        mergeMap((libraryId) => this.navigateToLibraryById(libraryId))
+        tap((libraryId) => this.navigateToLibraryById(libraryId))
       ),
     { dispatch: false }
   );
@@ -110,48 +109,49 @@ export class LibraryEffects {
     () =>
       this.actions$.pipe(
         ofType<NavigateLibraryAction>(LibraryActionTypes.Navigate),
-        mergeMap((action) => {
+        tap((action) => {
           const payload = action.payload;
           if (payload && 'guid' in payload) {
-            return this.store.select(isAdmin).pipe(
-              take(1),
-              mergeMap((isUserAdmin) => {
+            this.store
+              .select(isAdmin)
+              .pipe(take(1))
+              .subscribe((isUserAdmin) => {
                 if (!isUserAdmin && payload.visibility !== 'PUBLIC' && !payload.role) {
                   this.notificationService.showError('APP.BROWSE.LIBRARIES.LIBRARY_NO_PERMISSIONS_WARNING');
-                  return of(null);
+                } else {
+                  this.navigateToLibraryById(payload.guid, action.route);
                 }
-                return this.navigateToLibraryById(payload.guid, action.route);
-              })
-            );
+              });
           }
-          return of(null);
         })
       ),
     { dispatch: false }
   );
 
-  private navigateToLibraryById(libraryId: string, route?: string): Observable<null> {
-    return this.contentApi.getNode(libraryId, { relativePath: '/documentLibrary' }).pipe(
-      map((node) => node.entry.id),
-      mergeMap((id) => {
-        const routePath = route ? route : 'libraries';
-        this.store.dispatch(new NavigateRouteAction([routePath, id]));
-        return of(null);
-      }),
-      catchError((error: HttpErrorResponse) => {
-        switch (error.status) {
-          case 403:
-            this.notificationService.showWarning('APP.BROWSE.LIBRARIES.LIBRARY_NO_PERMISSIONS_WARNING');
-            break;
-          case 404:
-            this.notificationService.showError('APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_NOT_FOUND');
-            break;
-          default:
-            this.notificationService.showError('APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_LOADING_ERROR');
+  private navigateToLibraryById(libraryId: string, route = 'libraries'): void {
+    this.contentApi
+      .getNode(libraryId, { relativePath: '/documentLibrary' })
+      .pipe(
+        map((node) => node.entry.id),
+        take(1)
+      )
+      .subscribe({
+        next: (id) => {
+          this.store.dispatch(new NavigateRouteAction([route, id]));
+        },
+        error: (error: HttpErrorResponse) => {
+          switch (error.status) {
+            case 403:
+              this.notificationService.showWarning('APP.BROWSE.LIBRARIES.LIBRARY_NO_PERMISSIONS_WARNING');
+              break;
+            case 404:
+              this.notificationService.showError('APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_NOT_FOUND');
+              break;
+            default:
+              this.notificationService.showError('APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_LOADING_ERROR');
+          }
         }
-        return of(null);
-      })
-    );
+      });
   }
 
   updateLibrary$ = createEffect(
