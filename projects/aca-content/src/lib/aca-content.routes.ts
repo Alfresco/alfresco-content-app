@@ -42,6 +42,7 @@ import { TrashcanComponent } from './components/trashcan/trashcan.component';
 import { ShellLayoutComponent } from '@alfresco/adf-core/shell';
 import { SearchAiResultsComponent } from './components/knowledge-retrieval/search-ai/search-ai-results/search-ai-results.component';
 import { SavedSearchesSmartListComponent } from './components/search/search-save/list/smart-list/saved-searches-smart-list.component';
+import { LibraryListComponent } from './components/library-list/library-list.component';
 
 export const CONTENT_ROUTES: ExtensionRoute[] = [
   {
@@ -228,6 +229,24 @@ export const CONTENT_LAYOUT_ROUTES: Route[] = [
             }
           },
           ...createViewRoutes('libraries')
+        ]
+      },
+      {
+        path: 'all',
+        children: [
+          {
+            path: '',
+            pathMatch: 'full',
+            redirectTo: 'libraries'
+          },
+          {
+            path: 'libraries',
+            component: LibraryListComponent,
+            data: {
+              title: 'APP.BROWSE.LIBRARIES.MENU.ALL_LIBRARIES.TITLE',
+              sortingPreferenceKey: 'all-libraries'
+            }
+          }
         ]
       },
       {

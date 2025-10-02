@@ -135,6 +135,10 @@
                     "FAVORITE_LIBRARIES": {
                         "TITLE": "No Favorite Libraries",
                         "TEXT": "Favorite a library that you want to find easily later."
+                    },
+                    "ALL_LIBRARIES": {
+                        "TITLE": "No Libraries",
+                        "TEXT": "There are no libraries you can view."
                     }
                 },
                 "MENU": {
@@ -150,6 +154,13 @@
                         "SIDENAV_LINK": {
                             "LABEL": "Favorite Libraries",
                             "TOOLTIP": "Access my favorite libraries"
+                        }
+                    },
+                    "ALL_LIBRARIES": {
+                        "TITLE": "All Libraries",
+                        "SIDENAV_LINK": {
+                            "LABEL": "All Libraries",
+                            "TOOLTIP": "Access all libraries"
                         }
                     }
                 },

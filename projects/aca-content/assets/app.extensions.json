@@ -176,6 +176,13 @@
                 "route": "favorite/libraries"
               },
               {
+                "id": "app.navbar.libraries.all",
+                "order": 350,
+                "title": "APP.BROWSE.LIBRARIES.MENU.ALL_LIBRARIES.SIDENAV_LINK.LABEL",
+                "description": "APP.BROWSE.LIBRARIES.MENU.ALL_LIBRARIES.SIDENAV_LINK.TOOLTIP",
+                "route": "all/libraries"
+              },
+              {
                 "id": "app.navbar.recentFiles",
                 "order": 400,
                 "title": "APP.BROWSE.RECENT.SIDENAV_LINK.LABEL",
