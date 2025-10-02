@@ -32,7 +32,7 @@ import { NotificationService } from '@alfresco/adf-core';
 import { provideEffects } from '@ngrx/effects';
 import { LibraryEffects } from './library.effects';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { NodeEntry } from '@alfresco/js-api';
+import { NodeEntry, Site } from '@alfresco/js-api';
 
 describe('LibraryEffects', () => {
   let store: Store<AppStore>;
@@ -48,31 +48,106 @@ describe('LibraryEffects', () => {
   describe('navigateLibrary$', () => {
     let notificationService: NotificationService;
     let node$: Subject<NodeEntry>;
+    let admin$: Subject<boolean>;
+    let site: Site;
 
     beforeEach(() => {
       node$ = new Subject<NodeEntry>();
+      admin$ = new Subject<boolean>();
+      site = { guid: 'site-guid', visibility: 'PUBLIC', role: 'SiteConsumer', id: 'site-id', title: 'Title' };
       spyOn(TestBed.inject(ContentApiService), 'getNode').and.returnValue(node$);
       notificationService = TestBed.inject(NotificationService);
       spyOn(notificationService, 'showError');
+      spyOn(store, 'dispatch').and.callThrough();
+      spyOn(store, 'select').and.returnValue(admin$);
     });
 
     it('should display library no permission warning if user does not have permission', () => {
       spyOn(notificationService, 'showWarning');
-      store.dispatch(new NavigateLibraryAction('libraryId'));
+      store.dispatch(new NavigateLibraryAction(site));
+      admin$.next(false);
       node$.error(new HttpErrorResponse({ status: 403 }));
       expect(notificationService.showWarning).toHaveBeenCalledWith('APP.BROWSE.LIBRARIES.LIBRARY_NO_PERMISSIONS_WARNING');
     });
 
     it('should display library not found error if library does not exist', () => {
-      store.dispatch(new NavigateLibraryAction('libraryId'));
+      store.dispatch(new NavigateLibraryAction(site));
+      admin$.next(false);
       node$.error(new HttpErrorResponse({ status: 404 }));
       expect(notificationService.showError).toHaveBeenCalledWith('APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_NOT_FOUND');
     });
 
     it('should display generic library loading error if there is different problem than missing permissions or absence of library', () => {
-      store.dispatch(new NavigateLibraryAction('libraryId'));
+      store.dispatch(new NavigateLibraryAction(site));
+      admin$.next(false);
       node$.error(new HttpErrorResponse({ status: 500 }));
       expect(notificationService.showError).toHaveBeenCalledWith('APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_LOADING_ERROR');
+    });
+
+    it('should show error when non-admin user without site role tries to access private site', () => {
+      store.dispatch(new NavigateLibraryAction({ ...site, visibility: 'PRIVATE', role: null }));
+      admin$.next(false);
+
+      expect(store.dispatch).not.toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          type: 'NAVIGATE_ROUTE'
+        })
+      );
+      expect(notificationService.showError).toHaveBeenCalledWith('APP.BROWSE.LIBRARIES.LIBRARY_NO_PERMISSIONS_WARNING');
+    });
+
+    it('should allow admin user to navigate to private site without role', () => {
+      store.dispatch(new NavigateLibraryAction({ ...site, visibility: 'PRIVATE', role: null }));
+      admin$.next(true);
+      node$.next({ entry: { id: 'private-doc-lib-id' } } as NodeEntry);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          type: 'NAVIGATE_ROUTE',
+          payload: ['libraries', 'private-doc-lib-id']
+        })
+      );
+      expect(notificationService.showError).not.toHaveBeenCalled();
+    });
+
+    it('should allow navigation to public site for non-admin user without a role', () => {
+      store.dispatch(new NavigateLibraryAction({ ...site, role: null }));
+      admin$.next(false);
+      node$.next({ entry: { id: 'public-doc-lib-id' } } as NodeEntry);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          type: 'NAVIGATE_ROUTE',
+          payload: ['libraries', 'public-doc-lib-id']
+        })
+      );
+      expect(notificationService.showError).not.toHaveBeenCalled();
+    });
+
+    it('should allow navigation to private site for non-admin user with a role', () => {
+      store.dispatch(new NavigateLibraryAction({ ...site, visibility: 'PRIVATE' }));
+      admin$.next(false);
+      node$.next({ entry: { id: 'role-doc-lib-id' } } as NodeEntry);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          type: 'NAVIGATE_ROUTE',
+          payload: ['libraries', 'role-doc-lib-id']
+        })
+      );
+    });
+
+    it('should use custom route if provided', () => {
+      store.dispatch(new NavigateLibraryAction(site, 'custom-route'));
+      admin$.next(false);
+      node$.next({ entry: { id: 'doc-lib-id' } } as NodeEntry);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          type: 'NAVIGATE_ROUTE',
+          payload: ['custom-route', 'doc-lib-id']
+        })
+      );
     });
   });
 });

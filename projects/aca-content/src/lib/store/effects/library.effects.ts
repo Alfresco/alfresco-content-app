@@ -31,16 +31,18 @@ import {
   LibraryActionTypes,
   NavigateLibraryAction,
   NavigateRouteAction,
-  UpdateLibraryAction
+  UpdateLibraryAction,
+  isAdmin
 } from '@alfresco/aca-shared/store';
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { map, mergeMap, take } from 'rxjs/operators';
+import { catchError, map, mergeMap, take } from 'rxjs/operators';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { ContentManagementService } from '../../services/content-management.service';
 import { NotificationService } from '@alfresco/adf-core';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class LibraryEffects {
@@ -99,44 +101,58 @@ export class LibraryEffects {
       this.actions$.pipe(
         ofType<CreateLibraryAction>(LibraryActionTypes.Create),
         mergeMap(() => this.content.createLibrary()),
-        map((libraryId) => new NavigateLibraryAction(libraryId))
+        mergeMap((libraryId) => this.navigateToLibraryById(libraryId))
       ),
-    { dispatch: true }
+    { dispatch: false }
   );
 
   navigateLibrary$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType<NavigateLibraryAction>(LibraryActionTypes.Navigate),
-        map((action) => {
-          const libraryId = action.payload;
-          if (libraryId) {
-            this.contentApi
-              .getNode(libraryId, { relativePath: '/documentLibrary' })
-              .pipe(map((node) => node.entry.id))
-              .subscribe(
-                (id) => {
-                  const route = action.route ? action.route : 'libraries';
-                  this.store.dispatch(new NavigateRouteAction([route, id]));
-                },
-                (error: HttpErrorResponse) => {
-                  switch (error.status) {
-                    case 403:
-                      this.notificationService.showWarning('APP.BROWSE.LIBRARIES.LIBRARY_NO_PERMISSIONS_WARNING');
-                      break;
-                    case 404:
-                      this.notificationService.showError('APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_NOT_FOUND');
-                      break;
-                    default:
-                      this.notificationService.showError('APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_LOADING_ERROR');
-                  }
+        mergeMap((action) => {
+          const payload = action.payload;
+          if (payload && 'guid' in payload) {
+            return this.store.select(isAdmin).pipe(
+              take(1),
+              mergeMap((isUserAdmin) => {
+                if (!isUserAdmin && payload.visibility !== 'PUBLIC' && !payload.role) {
+                  this.notificationService.showError('APP.BROWSE.LIBRARIES.LIBRARY_NO_PERMISSIONS_WARNING');
+                  return of(null);
                 }
-              );
+                return this.navigateToLibraryById(payload.guid, action.route);
+              })
+            );
           }
+          return of(null);
         })
       ),
     { dispatch: false }
   );
+
+  private navigateToLibraryById(libraryId: string, route?: string): Observable<null> {
+    return this.contentApi.getNode(libraryId, { relativePath: '/documentLibrary' }).pipe(
+      map((node) => node.entry.id),
+      mergeMap((id) => {
+        const routePath = route ? route : 'libraries';
+        this.store.dispatch(new NavigateRouteAction([routePath, id]));
+        return of(null);
+      }),
+      catchError((error: HttpErrorResponse) => {
+        switch (error.status) {
+          case 403:
+            this.notificationService.showWarning('APP.BROWSE.LIBRARIES.LIBRARY_NO_PERMISSIONS_WARNING');
+            break;
+          case 404:
+            this.notificationService.showError('APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_NOT_FOUND');
+            break;
+          default:
+            this.notificationService.showError('APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_LOADING_ERROR');
+        }
+        return of(null);
+      })
+    );
+  }
 
   updateLibrary$ = createEffect(
     () =>

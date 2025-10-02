@@ -89,7 +89,7 @@ export class LibrariesComponent extends PageComponent implements OnInit {
 
   navigateTo(node: SiteEntry) {
     if (node?.entry?.guid) {
-      this.store.dispatch(new NavigateLibraryAction(node.entry.guid));
+      this.store.dispatch(new NavigateLibraryAction(node.entry));
     }
   }
 

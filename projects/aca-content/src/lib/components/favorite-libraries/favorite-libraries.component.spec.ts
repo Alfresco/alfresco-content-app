@@ -36,6 +36,7 @@ import { LibraryEffects } from '../../store/effects';
 import { NodeEntry } from '@alfresco/js-api';
 import { getTitleElementText } from '../../testing/test-utils';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { SiteEntry } from '@alfresco/js-api/typings';
 
 describe('FavoriteLibrariesComponent', () => {
   let fixture: ComponentFixture<FavoriteLibrariesComponent>;
@@ -126,7 +127,13 @@ describe('FavoriteLibrariesComponent', () => {
 
     it('does not navigate when id is not passed', () => {
       spyOn(router, 'navigate').and.stub();
-      component.navigateTo({ entry: { guid: 'guid' } } as any);
+      component.navigateTo({
+        entry: {
+          guid: 'test-guid',
+          visibility: 'PUBLIC',
+          role: 'SiteConsumer'
+        }
+      } as SiteEntry);
 
       expect(router.navigate).toHaveBeenCalledWith(['favorite/libraries', 'libraryId']);
     });
