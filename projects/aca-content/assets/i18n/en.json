@@ -34,7 +34,8 @@
           "TITLE": "Packages",
           "NAME": "Name",
           "VERSION": "Version"
-        }
+        },
+        "BACK_BUTTON_LABEL": "Go back"
       },
         "LANGUAGE": "Language",
         "SIGN_IN": "Sign in",

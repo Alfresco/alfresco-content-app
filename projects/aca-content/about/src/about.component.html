@@ -1,6 +1,10 @@
 <aca-page-layout>
   <div class="aca-page-layout-header">
-    <button mat-icon-button [routerLink]="landingPage">
+    <button
+      mat-icon-button
+      [attr.aria-label]="'APP.ABOUT.BACK_BUTTON_LABEL' | translate"
+      [attr.title]="'APP.ABOUT.BACK_BUTTON_LABEL' | translate"
+      [routerLink]="landingPage">
       <mat-icon class="app-profile-icon">arrow_back</mat-icon>
     </button>
     <h1>{{ 'APP.BROWSE.ABOUT.TITLE' | translate }}</h1>
