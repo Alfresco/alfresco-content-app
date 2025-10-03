@@ -29,11 +29,17 @@ import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { AppService } from '@alfresco/aca-shared';
+import { UnitTestingUtils } from '@alfresco/adf-core';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { HarnessLoader } from '@angular/cdk/testing';
 
 describe('ViewProfileComponent', () => {
   let fixture: ComponentFixture<ViewProfileComponent>;
   let component: ViewProfileComponent;
   let router: Router;
+  let unitTestingUtils: UnitTestingUtils;
+  let loader: HarnessLoader;
+
   const appServiceMock = {
     toggleAppNavBar$: new Subject(),
     appNavNarMode$: new BehaviorSubject<'collapsed' | 'expanded'>('expanded')
@@ -53,6 +59,8 @@ describe('ViewProfileComponent', () => {
     fixture = TestBed.createComponent(ViewProfileComponent);
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
+    loader = TestbedHarnessEnvironment.loader(fixture);
+    unitTestingUtils = new UnitTestingUtils(fixture.debugElement, loader);
     router.initialNavigation();
   });
 
@@ -193,5 +201,12 @@ describe('ViewProfileComponent', () => {
     contactCancelButton.triggerEventHandler('click', null);
 
     expect(component.toggleContactButtons).toHaveBeenCalledTimes(2);
+  });
+
+  it('should navigate to personal files when go to personal files button is clicked', async () => {
+    spyOn(router, 'navigate');
+    await unitTestingUtils.clickMatButtonByCSS('.app-profile-icon');
+
+    expect(router.navigate).toHaveBeenCalledWith(['/personal-files'], { replaceUrl: true });
   });
 });

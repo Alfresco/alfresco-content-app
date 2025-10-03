@@ -20,6 +20,14 @@ app-view-profile {
     align-items: center;
     height: 32px;
     padding: 0 24px;
+
+    .app-profile-icon {
+      margin-right: 1rem;
+      cursor: pointer;
+      width: 24px;
+      height: 24px;
+      padding: 0;
+    }
   }
 
   .app-profile {
@@ -32,11 +40,6 @@ app-view-profile {
     width: 70%;
     border: 1px solid var(--theme-grey-background-color);
     border-radius: 1rem;
-  }
-
-  .app-profile-icon {
-    margin-right: 1rem;
-    cursor: pointer;
   }
 
   .app-profile-general-icon {

@@ -5,7 +5,14 @@
         title="{{'APP.TOOLTIPS.EXPAND_NAVIGATION' | translate}}">
         <mat-icon>menu</mat-icon>
       </button>
-      <mat-icon class="app-profile-icon" (click)="navigateToPersonalFiles()" id="backButton">arrow_back</mat-icon>
+      <button
+        class="app-profile-icon"
+        mat-icon-button
+        (click)="navigateToPersonalFiles()"
+        [attr.aria-label]="'APP.EDIT_PROFILE.GO_TO_PERSONAL_FILES_BUTTON_LABEL' | translate"
+        [attr.title]="'APP.EDIT_PROFILE.GO_TO_PERSONAL_FILES_BUTTON_LABEL' | translate">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
       <h3 class="app-profile">{{'APP.EDIT_PROFILE.MY_PROFILE' | translate}}</h3>
     </div>
   </div>

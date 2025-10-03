@@ -63,7 +63,8 @@
             "NAME": "Name",
             "ADDRESS": "Address",
             "POSTCODE": "Postcode",
-            "INVALID_INPUT": "Invalid Input"
+            "INVALID_INPUT": "Invalid Input",
+            "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Go to Personal Files"
         },
         "LOCKED_BY": "Locked by: ",
         "PREVIEW": {
