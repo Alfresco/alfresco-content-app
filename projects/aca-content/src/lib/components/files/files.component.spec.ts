@@ -200,7 +200,7 @@ describe('FilesComponent', () => {
 
       const mockParamMap = getEncodedParamMap(initialQuery);
 
-      Object.defineProperty(component['route'], 'queryParamMap', {
+      Object.defineProperty(route, 'queryParamMap', {
         value: of(mockParamMap)
       });
 
@@ -212,7 +212,7 @@ describe('FilesComponent', () => {
     it('should check isFilterHeaderActive to be true when filters are present in queryParamMap', () => {
       const mockParamMap = getEncodedParamMap();
 
-      Object.defineProperty(component['route'], 'queryParamMap', {
+      Object.defineProperty(route, 'queryParamMap', {
         value: of(mockParamMap)
       });
 

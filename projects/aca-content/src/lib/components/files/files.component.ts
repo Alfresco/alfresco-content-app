@@ -61,7 +61,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpErrorResponse } from '@angular/common/http';
-import { extractFiltersFromEncodedQuery } from '../../utils/aca-search-utils';
+import { extractFiltersFromEncodedQuery } from '@alfresco/aca-content';
 
 @Component({
   imports: [
