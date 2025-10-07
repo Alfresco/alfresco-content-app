@@ -20,7 +20,12 @@
     <div matSuffix>
       <mat-icon class="app-suffix-icon">arrow_drop_down</mat-icon>
 
-      <button class="aca-search-input--close-button" mat-icon-button [attr.aria-label]="'SEARCH.CLOSE_BUTTON.ARIA_LABEL' | translate" (click)="exitSearch()">
+      <button
+        class="aca-search-input--close-button"
+        mat-icon-button
+        [attr.aria-label]="'SEARCH.CLOSE_BUTTON.ARIA_LABEL' | translate"
+        [attr.title]="'SEARCH.CLOSE_BUTTON.ARIA_LABEL' | translate"
+        (click)="exitSearch()">
         <mat-icon class="app-suffix-icon">close</mat-icon>
       </button>
     </div>

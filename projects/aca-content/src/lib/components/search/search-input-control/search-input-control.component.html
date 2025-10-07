@@ -24,9 +24,14 @@
       [placeholder]="'SEARCH.INPUT.PLACEHOLDER' | translate"
       autocomplete="off"
     />
-    
+
     <div matSuffix>
-      <button mat-icon-button (click)="clear()">
+      <button
+        mat-icon-button
+        (click)="clear()"
+        [attr.aria-label]="'COMMON.CLEAR' | translate"
+        [attr.title]="'COMMON.CLEAR' | translate"
+        class="app-search-input-control-clear-button">
         <mat-icon *ngIf="searchFieldFormControl.value.length" class="app-suffix-icon">clear</mat-icon>
       </button>
     </div>

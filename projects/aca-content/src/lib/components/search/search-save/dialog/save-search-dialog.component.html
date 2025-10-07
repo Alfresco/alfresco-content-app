@@ -1,6 +1,12 @@
 <div class="aca-save-search-dialog__header">
     <h2 class="aca-save-search-dialog__title">{{"APP.BROWSE.SEARCH.SAVE_SEARCH.MODAL_HEADER" | translate}}</h2>
-    <button mat-icon-button mat-dialog-close><mat-icon>close</mat-icon></button>
+    <button
+      mat-icon-button
+      mat-dialog-close
+      [attr.aria-label]="'CLOSE' | translate | titlecase"
+      [attr.title]="'CLOSE' | translate | titlecase">
+      <mat-icon>close</mat-icon>
+    </button>
 </div>
 
 
