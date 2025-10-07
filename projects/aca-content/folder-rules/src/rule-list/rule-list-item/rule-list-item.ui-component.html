@@ -5,7 +5,7 @@
   <mat-slide-toggle
     *ngIf="showEnabledToggle"
     [checked]="rule.isEnabled"
-    [aria-label]="'ACA_FOLDER_RULES.RULE_LIST.TOGGLE_RULE_STATE' | translate"
+    [aria-label]="'ACA_FOLDER_RULES.RULE_LIST.TOGGLE_RULE_STATE' | translate: { name: rule.name }"
     (click)="onToggleClick(!rule.isEnabled, $event)" />
 
 </div>

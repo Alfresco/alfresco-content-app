@@ -124,7 +124,7 @@
       "LOAD_MORE_RULE_SETS": "Load rules from other folders",
       "LOAD_MORE_RULES": "Load more rules",
       "LOADING_RULES": "Loading rules",
-      "TOGGLE_RULE_STATE": "Toggle rule enabled state",
+      "TOGGLE_RULE_STATE": "Toggle {{ name }} rule",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "Inherited rules will be run first",
       "ALL_LINKED_RULES_ARE_DISABLED": "All rules linked from this rule set are disabled"
     },
