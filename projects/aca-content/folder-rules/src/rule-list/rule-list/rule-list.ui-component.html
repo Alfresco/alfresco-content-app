@@ -6,7 +6,10 @@
 
   <div
     tabindex="0"
+    role="button"
     class="aca-rule-list__item__header"
+    [attr.aria-expanded]="inheritedRuleSetsExpanded"
+    [attr.aria-label]="'ACA_FOLDER_RULES.RULE_LIST.INHERITED_RULES' | translate"
     matRipple matRippleColor="hsla(0,0%,0%,0.05)"
     (click)="inheritedRuleSetsExpanded = !inheritedRuleSetsExpanded"
     (keyup.enter)="inheritedRuleSetsExpanded = !inheritedRuleSetsExpanded">
