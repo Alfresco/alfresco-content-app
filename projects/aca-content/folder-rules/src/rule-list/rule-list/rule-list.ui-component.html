@@ -43,8 +43,11 @@
 
   <div
     tabindex="0"
+    role="button"
     class="aca-rule-list__item__header"
     matRipple matRippleColor="hsla(0,0%,0%,0.05)"
+    [attr.aria-expanded]="mainRuleSetExpanded"
+    [attr.aria-label]="(isMainRuleSetOwned ? 'ACA_FOLDER_RULES.RULE_LIST.OWNED_RULES' : 'ACA_FOLDER_RULES.RULE_LIST.LINKED_RULES') | translate"
     (click)="mainRuleSetExpanded = !mainRuleSetExpanded"
     (keyup.enter)="mainRuleSetExpanded = !mainRuleSetExpanded">
 
