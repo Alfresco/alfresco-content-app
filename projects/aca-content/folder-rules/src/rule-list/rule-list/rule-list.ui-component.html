@@ -1,6 +1,6 @@
 <mat-accordion multi>
   @if (inheritedRuleSetGroupingItems.length > 0) {
-    <mat-expansion-panel class="aca-rule-list__item">
+    <mat-expansion-panel [expanded]="true" class="aca-rule-list__item">
       <mat-expansion-panel-header class="aca-rule-list__item__header">
         <mat-panel-title>
           <span class="aca-rule-list__item__header__title">
@@ -23,7 +23,7 @@
     </mat-expansion-panel>
   }
   @if (mainRuleSetGroupingItems.length > 0 || isMainRuleSetLinked) {
-    <mat-expansion-panel class="aca-rule-list__item">
+    <mat-expansion-panel [expanded]="true" class="aca-rule-list__item">
       <mat-expansion-panel-header class="aca-rule-list__item__header">
         <mat-panel-title>
           <span class="aca-rule-list__item__header__title" data-automation-id="main-rule-set-title">
@@ -38,6 +38,10 @@
             <mat-icon
               class="aca-rule-list__item__header__icon"
               tabindex="0"
+              aria-hidden="false"
+              [attr.aria-label]="'ACA_FOLDER_RULES.RULE_LIST.EDIT_LINK_LABEL' | translate"
+              [attr.title]="'ACA_FOLDER_RULES.RULE_LIST.EDIT_LINK_LABEL' | translate"
+              (keydown.enter)="onRuleSetEditLinkClicked($event)"
               (keydown.enter)="onRuleSetEditLinkClicked($event)"
               (click)="onRuleSetEditLinkClicked($event)">
               edit
@@ -45,6 +49,9 @@
             <mat-icon
               class="aca-rule-list__item__header__icon"
               tabindex="0"
+              aria-hidden="false"
+              [attr.aria-label]="'ACA_FOLDER_RULES.CONFIRMATION_DIALOG.DELETE_RULE_SET_LINK.TITLE' | translate"
+              [attr.title]="'ACA_FOLDER_RULES.CONFIRMATION_DIALOG.DELETE_RULE_SET_LINK.TITLE' | translate"
               (keydown.enter)="onRuleSetUnlinkClicked($event)"
               (click)="onRuleSetUnlinkClicked($event)">
               link_off
