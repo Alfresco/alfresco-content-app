@@ -31,7 +31,6 @@ import { of } from 'rxjs';
 import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
 import { Rule } from '../../model/rule.model';
 import { RuleSet } from '../../model/rule-set.model';
-import { DebugElement } from '@angular/core';
 
 describe('RuleListUiComponent', () => {
   let fixture: ComponentFixture<RuleListUiComponent>;
@@ -39,7 +38,6 @@ describe('RuleListUiComponent', () => {
   let unitTestingUtils: UnitTestingUtils;
 
   const getMainRuleSetTitleText = (): string => unitTestingUtils.getInnerTextByDataAutomationId('main-rule-set-title');
-  const getRuleSetHeader = (): DebugElement => unitTestingUtils.getByCSS('.aca-rule-list__item__header');
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -67,36 +65,6 @@ describe('RuleListUiComponent', () => {
     fixture.detectChanges();
 
     expect(getMainRuleSetTitleText()).toBe('ACA_FOLDER_RULES.RULE_LIST.LINKED_RULES');
-  });
-
-  it('should provide label and aria expanded state for main rule set', () => {
-    component.mainRuleSet$ = of(ownedRuleSetMock);
-    component.inheritedRuleSets = [];
-    fixture.detectChanges();
-
-    const header = getRuleSetHeader();
-    expect(header.attributes['aria-label']).toBe('ACA_FOLDER_RULES.RULE_LIST.OWNED_RULES');
-    expect(header.attributes['aria-expanded']).toBe('true');
-
-    header.nativeElement.click();
-    fixture.detectChanges();
-
-    expect(header.attributes['aria-expanded']).toBe('false');
-  });
-
-  it('should provide label and aria expanded state for inherited rules', () => {
-    component.mainRuleSet$ = of(null);
-    component.inheritedRuleSets = ruleSetsMock;
-    fixture.detectChanges();
-
-    const header = getRuleSetHeader();
-    expect(header.attributes['aria-label']).toBe('ACA_FOLDER_RULES.RULE_LIST.INHERITED_RULES');
-    expect(header.attributes['aria-expanded']).toBe('true');
-
-    header.nativeElement.click();
-    fixture.detectChanges();
-
-    expect(header.attributes['aria-expanded']).toBe('false');
   });
 
   it('should add loading item when both ruleSetsLoading and hasMoreRuleSets are true', () => {

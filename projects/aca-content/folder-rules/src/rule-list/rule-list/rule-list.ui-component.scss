@@ -1,26 +1,33 @@
+/* stylelint-disable selector-class-pattern */
+@use '@angular/material' as mat;
+
 .aca-rule-list {
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  gap: 8px;
+  @include mat.expansion-overrides(
+    (
+      container-background-color: var(--theme-background-color),
+      header-text-color: var(--theme-text-color),
+      container-shape: 12px
+    )
+  );
 
   &__item {
-    display: flex;
-    flex-direction: column;
     border: 1px solid var(--theme-border-color);
     border-radius: 12px;
-    overflow: hidden;
+    /* stylelint-disable-next-line declaration-no-important */
+    box-shadow: none !important;
+
+    .mat-expansion-panel-body {
+      padding: 0;
+    }
 
     &__header {
-      display: flex;
-      flex-direction: row;
-      gap: 4px;
-      align-items: stretch;
-      cursor: pointer;
-      color: var(--theme-text-color);
-      user-select: none;
       font-size: 0.9em;
-      padding: 0.5em 1em;
+      padding: 0 16px;
+
+      &.mat-expanded {
+        border-bottom: 1px solid var(--theme-border-color);
+        border-radius: 0;
+      }
 
       & > * {
         display: flex;
@@ -38,12 +45,6 @@
         &__icon {
           transform: scale(0.8);
         }
-      }
-    }
-
-    &.aca-expanded {
-      .aca-rule-list__item__header {
-        border-bottom: 1px solid var(--theme-border-color);
       }
     }
 

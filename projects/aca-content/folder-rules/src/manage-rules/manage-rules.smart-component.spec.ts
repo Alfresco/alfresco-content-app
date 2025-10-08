@@ -172,7 +172,7 @@ describe('ManageRulesSmartComponent', () => {
     expect(component).toBeTruthy();
     expect(folderRuleSetsService.loadRuleSets).toHaveBeenCalledOnceWith(component.nodeId);
 
-    const ruleGroupingSections = unitTestingUtils.getAllByCSS(`[data-automation-id="rule-list-item"]`);
+    const ruleGroupingSections = unitTestingUtils.getAllByCSS('.aca-rule-list__item');
 
     const deleteRuleBtn = unitTestingUtils.getByCSS('#delete-rule-btn');
 

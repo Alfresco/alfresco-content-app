@@ -31,6 +31,7 @@ import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatRippleModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle } from '@angular/material/expansion';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RuleListGroupingUiComponent } from '../rule-list-grouping/rule-list-grouping.ui-component';
 import { RouterModule } from '@angular/router';
@@ -47,7 +48,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     MatTooltipModule,
     RuleListGroupingUiComponent,
     RouterModule,
-    MatButtonModule
+    MatButtonModule,
+    MatAccordion,
+    MatExpansionPanel,
+    MatExpansionPanelHeader,
+    MatExpansionPanelTitle
   ],
   selector: 'aca-rule-list',
   templateUrl: './rule-list.ui-component.html',
@@ -83,7 +88,6 @@ export class RuleListUiComponent implements OnInit {
   ruleSetUnlinkClicked = new EventEmitter<RuleSet>();
 
   mainRuleSet: RuleSet = null;
-  inheritedRuleSetsExpanded = true;
   mainRuleSetExpanded = true;
   mainRuleSetGroupingItems: RuleGroupingItem[] = [];
   inheritedRuleSetGroupingItems: RuleGroupingItem[] = [];
