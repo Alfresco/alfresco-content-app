@@ -26,11 +26,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PageComponent } from './document-base-page.component';
 import { AppState, SetSelectedNodesAction, ViewNodeAction } from '@alfresco/aca-shared/store';
 import { LibTestingModule, discoveryApiServiceMockValue, DocumentBasePageServiceMock } from '@alfresco/aca-shared';
-import { NodeEntry, NodePaging } from '@alfresco/js-api';
+import { NodeEntry } from '@alfresco/js-api';
 import { DocumentBasePageService } from './document-base-page.service';
 import { Store } from '@ngrx/store';
 import { Component } from '@angular/core';
-import { DiscoveryApiService, DocumentListComponent, DocumentListService, SearchAiInputState, SearchAiService } from '@alfresco/adf-content-services';
+import { DiscoveryApiService, DocumentListService, SearchAiInputState, SearchAiService } from '@alfresco/adf-content-services';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { provideCoreAuth, UserPreferencesService } from '@alfresco/adf-core';
 import { of, Subscription } from 'rxjs';
@@ -155,41 +155,6 @@ describe('PageComponent', () => {
 
       component.reload(node);
       expect(store.dispatch['calls'].mostRecent().args[0]).toEqual(new SetSelectedNodesAction([node]));
-    });
-
-    it('should clear results onAllFilterCleared event', () => {
-      spyOn(documentListService, 'reload');
-
-      component.documentList = {
-        node: {
-          list: {
-            pagination: {},
-            entries: [{ entry: { id: 'new-node-id' } }]
-          }
-        } as NodePaging
-      } as DocumentListComponent;
-      spyOn(store, 'dispatch');
-
-      component.onAllFilterCleared();
-      expect(component.documentList.node).toBe(null);
-      expect(documentListService.reload).toHaveBeenCalled();
-    });
-
-    it('should call onAllFilterCleared event if page is viewer outlet', () => {
-      window.history.pushState({}, null, `${locationHref}#test(viewer:view)`);
-      const nodePaging = {
-        list: {
-          pagination: {},
-          entries: [{ entry: { id: 'new-node-id' } }]
-        }
-      } as NodePaging;
-
-      component.documentList = { node: nodePaging } as DocumentListComponent;
-      spyOn(store, 'dispatch');
-
-      component.onAllFilterCleared();
-      expect(component.documentList.node).toEqual(nodePaging);
-      expect(store.dispatch).not.toHaveBeenCalled();
     });
 
     it('should call ViewNodeAction on showPreview for selected node', () => {

@@ -30,7 +30,7 @@ import {
   ShowHeaderMode
 } from '@alfresco/adf-core';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, ParamMap, Params } from '@angular/router';
 import { Node, NodeEntry, PathElement } from '@alfresco/js-api';
 import { NodeActionsService } from '../../services/node-actions.service';
 import {
@@ -121,8 +121,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     this.title = data.title;
 
-    this.route.queryParamMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((queryMap: Params) => {
-      this.queryParams = extractFiltersFromEncodedQuery(queryMap?.params?.q);
+    this.route.queryParamMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((queryMap: ParamMap) => {
+      this.queryParams = extractFiltersFromEncodedQuery(queryMap?.get('q'));
     });
     this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(({ folderId }: Params) => {
       const nodeId = folderId || data.defaultNodeId;
@@ -385,7 +385,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       void this.router.navigate(['.'], { relativeTo: this.route });
       this.isFilterHeaderActive = false;
       this.showHeader = ShowHeaderMode.Data;
-      this.onAllFilterCleared();
     }
   }
 

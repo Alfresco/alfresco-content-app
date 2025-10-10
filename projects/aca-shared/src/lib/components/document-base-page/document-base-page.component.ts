@@ -259,11 +259,4 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   onSortingChanged(event: any) {
     this.filterSorting = event.detail.key + '-' + event.detail.direction;
   }
-
-  onAllFilterCleared() {
-    if (!this.isOutletPreviewUrl()) {
-      this.documentList.node = null;
-      this.documentListService.reload();
-    }
-  }
 }
