@@ -34,6 +34,7 @@ import {
 } from '@alfresco/aca-shared';
 import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
 import {
+  AppConfigService,
   CustomEmptyContentTemplateDirective,
   DataColumnComponent,
   DataColumnListComponent,
@@ -70,7 +71,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   encapsulation: ViewEncapsulation.None
 })
 export class LibraryListComponent extends PageComponent implements OnInit {
-  pagination: Pagination = new Pagination({
+  pagination = new Pagination({
     skipCount: 0,
     maxItems: 25,
     totalItems: 0
@@ -79,17 +80,23 @@ export class LibraryListComponent extends PageComponent implements OnInit {
   list: SitePaging;
   columns: DocumentListPresetRef[] = [];
 
+  private legalHoldsEnabled = false;
+
   constructor(
-    private appHookService: AppHookService,
-    private preferences: UserPreferencesService,
-    private changeDetectorRef: ChangeDetectorRef,
-    private sitesService: SitesService
+    private readonly appHookService: AppHookService,
+    private readonly preferences: UserPreferencesService,
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private readonly sitesService: SitesService,
+    private readonly appConfig: AppConfigService
   ) {
     super();
   }
 
   ngOnInit() {
     super.ngOnInit();
+
+    const legalHoldFlag = this.appConfig.get<boolean | string>('plugins.legalHoldEnabled', false);
+    this.legalHoldsEnabled = legalHoldFlag === true || legalHoldFlag === 'true';
 
     this.getList({ maxItems: this.preferences.paginationSize });
 
@@ -114,13 +121,13 @@ export class LibraryListComponent extends PageComponent implements OnInit {
     this.getList(pagination);
   }
 
-  onChange(pagination: Pagination) {
-    this.getList(pagination);
-  }
-
-  private getList(pagination: Pagination) {
+  getList(pagination: Pagination) {
     this.isLoading = true;
-    this.sitesService.getSites(pagination).subscribe({
+    let where: string | undefined;
+    if (!this.legalHoldsEnabled) {
+      where = `(preset='site-dashboard')`;
+    }
+    this.sitesService.getSites({ ...pagination, where: where }).subscribe({
       next: (libraryList: SitePaging) => {
         this.list = libraryList;
         this.pagination = libraryList.list.pagination;

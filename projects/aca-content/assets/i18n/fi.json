@@ -133,6 +133,10 @@
                     "FAVORITE_LIBRARIES": {
                         "TITLE": "Ei suosikkikirjastoja",
                         "TEXT": "Voit lisätä suosikkeihin kirjastoja, jotka haluat löytää helposti myöhemmin."
+                    },
+                    "ALL_LIBRARIES": {
+                        "TITLE": "Yhtään kirjastoa ei löytynyt",
+                        "TEXT": "Luo uusi kirjasto aloittaaksesi"
                     }
                 },
                 "MENU": {
@@ -148,6 +152,12 @@
                         "SIDENAV_LINK": {
                             "LABEL": "Suosikkikirjastot",
                             "TOOLTIP": "Siirry omiin suosikkikirjastoihin"
+                        }
+                    },
+                    "ALL_LIBRARIES": {
+                        "TITLE": "Kaikki kirjastot",
+                        "SIDENAV_LINK": {
+                            "LABEL": "Kaikki kirjastot"
                         }
                     }
                 },

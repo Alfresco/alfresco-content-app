@@ -133,6 +133,10 @@
                     "FAVORITE_LIBRARIES": {
                         "TITLE": "Brak ulubionych bibliotek",
                         "TEXT": "Dodaj do ulubionych bibliotekę, którą później chcesz łatwo znaleźć."
+                    },
+                    "ALL_LIBRARIES": {
+                        "TITLE": "Nie znaleziono biblioteki",
+                        "TEXT": "Utwórz nową bibliotekę, aby rozpocząć"
                     }
                 },
                 "MENU": {
@@ -148,6 +152,12 @@
                         "SIDENAV_LINK": {
                             "LABEL": "Ulubione biblioteki",
                             "TOOLTIP": "Uzyskaj dostęp do moich ulubionych bibliotek"
+                        }
+                    },
+                    "ALL_LIBRARIES": {
+                        "TITLE": "Wszystkie biblioteki",
+                        "SIDENAV_LINK": {
+                            "LABEL": "Wszystkie biblioteki"
                         }
                     }
                 },

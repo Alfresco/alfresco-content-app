@@ -133,6 +133,10 @@
           "FAVORITE_LIBRARIES": {
             "TITLE": "Ingen favorittbiblioteker",
             "TEXT": "Legg et bibliotek til som favoritt, slik at du lett kan finne det senere."
+          },
+          "ALL_LIBRARIES": {
+            "TITLE": "Fant ingen biblioteker",
+            "TEXT": "Opprett et nytt bibliotek for å komme i gang"
           }
         },
         "MENU": {
@@ -148,6 +152,12 @@
             "SIDENAV_LINK": {
               "LABEL": "Favorittbiblioteker",
               "TOOLTIP": "Gå inn i mine favorittbiblioteker"
+            }
+          },
+          "ALL_LIBRARIES": {
+            "TITLE": "Alle biblioteker",
+            "SIDENAV_LINK": {
+              "LABEL": "Alle biblioteker"
             }
           }
         }

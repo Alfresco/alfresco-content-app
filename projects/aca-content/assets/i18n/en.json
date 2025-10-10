@@ -137,8 +137,8 @@
                         "TEXT": "Favorite a library that you want to find easily later."
                     },
                     "ALL_LIBRARIES": {
-                        "TITLE": "No Libraries",
-                        "TEXT": "There are no libraries you can view."
+                      "TITLE": "No library found",
+                      "TEXT": "Create a new library to get started."
                     }
                 },
                 "MENU": {

@@ -511,8 +511,7 @@
         "component": "app.toolbar.toggleInfoDrawer",
         "rules": {
           "visible": [
-            "app.selection.library",
-            "isLibraryManager"
+            "app.selection.library"
           ]
         }
       },
@@ -1590,8 +1589,7 @@
           "component": "app.components.tabs.library.metadata",
           "rules": {
             "visible": [
-              "app.selection.library",
-              "isLibraryManager"
+              "app.selection.library"
             ]
           }
         }

@@ -133,6 +133,10 @@
                     "FAVORITE_LIBRARIES": {
                         "TITLE": "无收藏库",
                         "TEXT": "收藏您希望以后轻松查找的库"
+                    },
+                    "ALL_LIBRARIES": {
+                        "TITLE": "未发现任何库",
+                        "TEXT": "创建新库以开始使用"
                     }
                 },
                 "MENU": {
@@ -148,6 +152,12 @@
                         "SIDENAV_LINK": {
                             "LABEL": "收藏库",
                             "TOOLTIP": "访问我的收藏库"
+                        }
+                    },
+                    "ALL_LIBRARIES": {
+                        "TITLE": "所有库",
+                        "SIDENAV_LINK": {
+                            "LABEL": "所有库"
                         }
                     }
                 },

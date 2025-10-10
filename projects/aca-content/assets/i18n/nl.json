@@ -133,6 +133,10 @@
                     "FAVORITE_LIBRARIES": {
                         "TITLE": "Geen favoriete bibliotheken",
                         "TEXT": "Voeg een bibliotheek toe aan uw favorieten zodat u deze later gemakkelijk kunt vinden."
+                    },
+                    "ALL_LIBRARIES": {
+                        "TITLE": "Geen bibliotheek gevonden",
+                        "TEXT": "Maak een nieuwe bibliotheek om aan de slag te gaan"
                     }
                 },
                 "MENU": {
@@ -148,6 +152,12 @@
                         "SIDENAV_LINK": {
                             "LABEL": "Favoriete bibliotheken",
                             "TOOLTIP": "Toegang krijgen tot mijn favoriete bibliotheken"
+                        }
+                    },
+                    "ALL_LIBRARIES": {
+                        "TITLE": "Alle bibliotheken",
+                        "SIDENAV_LINK": {
+                            "LABEL": "Alle bibliotheken"
                         }
                     }
                 },

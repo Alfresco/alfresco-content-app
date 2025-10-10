@@ -1,7 +1,11 @@
 <aca-page-layout>
   <div class="aca-page-layout-header">
     <h1 class="aca-page-title">
-      {{ (selectedRowItemsCount < 1 ? 'APP.BROWSE.LIBRARIES.MENU.ALL_LIBRARIES.TITLE' : 'APP.HEADER.SELECTED') | translate: { count: selectedRowItemsCount } }}
+      @if (selectedRowItemsCount < 1) {
+        {{ 'APP.BROWSE.LIBRARIES.MENU.ALL_LIBRARIES.TITLE' | translate: { count: selectedRowItemsCount } }}
+      } @else {
+        {{ 'APP.HEADER.SELECTED' | translate: { count: selectedRowItemsCount } }}
+      }
     </h1>
     <aca-toolbar [items]="actions" />
   </div>
@@ -37,8 +41,8 @@
         </adf-custom-empty-content-template>
 
         <data-columns>
-          <ng-container *ngFor="let column of columns; trackBy: trackByColumnId">
-            <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
+          @for (column of columns; track column.id) {
+            @if (column.template && !(column.desktopOnly && isSmallScreen)) {
               <data-column
                 [id]="column.id"
                 [draggable]="column.draggable"
@@ -56,9 +60,7 @@
                   <adf-dynamic-column [id]="column.template" [context]="context" />
                 </ng-template>
               </data-column>
-            </ng-container>
-
-            <ng-container *ngIf="!column.template && !(column.desktopOnly && isSmallScreen)">
+            } @else if (!column.template && !(column.desktopOnly && isSmallScreen)) {
               <data-column
                 [id]="column.id"
                 [key]="column.key"
@@ -72,8 +74,8 @@
                 [isHidden]="column.isHidden"
                 [sortingKey]="column.sortingKey || column.key"
               />
-            </ng-container>
-          </ng-container>
+            }
+          }
         </data-columns>
       </adf-document-list>
 
@@ -81,14 +83,14 @@
         [target]="documentList"
         [pagination]="pagination"
         (changePageSize)="onChangePageSize($event)"
-        (changePageNumber)="onChange($event)"
-        (nextPage)="onChange($event)"
-        (prevPage)="onChange($event)"
+        (changePageNumber)="getList($event)"
+        (nextPage)="getList($event)"
+        (prevPage)="getList($event)"
       />
     </div>
 
-    <div class="aca-sidebar" *ngIf="infoDrawerOpened$ | async">
-      <aca-info-drawer [node]="selection.last" />
-    </div>
+    @if (infoDrawerOpened$ | async) {
+      <aca-info-drawer class="aca-sidebar" [node]="selection.last" />
+    }
   </div>
 </aca-page-layout>

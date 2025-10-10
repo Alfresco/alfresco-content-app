@@ -133,6 +133,10 @@
                     "FAVORITE_LIBRARIES": {
                         "TITLE": "Žádné oblíbené knihovny souborů",
                         "TEXT": "Pro snadnější dostupnost můžete označit vybrané knihovny za oblíbené."
+                    },
+                    "ALL_LIBRARIES": {
+                        "TITLE": "Nebyla nalezena žádná knihovna",
+                        "TEXT": "Začněte vytvořením nové knihovny"
                     }
                 },
                 "MENU": {
@@ -148,6 +152,12 @@
                         "SIDENAV_LINK": {
                             "LABEL": "Oblíbené knihovny",
                             "TOOLTIP": "Přejít do oblíbených knihoven"
+                        }
+                    },
+                    "ALL_LIBRARIES": {
+                        "TITLE": "Všechny knihovny",
+                        "SIDENAV_LINK": {
+                            "LABEL": "Všechny knihovny"
                         }
                     }
                 },
