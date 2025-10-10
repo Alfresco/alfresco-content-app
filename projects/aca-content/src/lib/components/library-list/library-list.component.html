@@ -41,7 +41,7 @@
         </adf-custom-empty-content-template>
 
         <data-columns>
-          @for (column of columns; track column.id) {
+          @for (column of columns; track trackByColumnId($index, column)) {
             @if (column.template && !(column.desktopOnly && isSmallScreen)) {
               <data-column
                 [id]="column.id"
