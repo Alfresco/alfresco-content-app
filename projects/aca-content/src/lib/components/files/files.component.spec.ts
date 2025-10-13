@@ -90,7 +90,7 @@ describe('FilesComponent', () => {
           useValue: {
             snapshot: { data: { preferencePrefix: 'prefix' }, paramMap: convertToParamMap({ folderId: undefined }) },
             params: of({ folderId: 'someId' }),
-            queryParamMap: of({})
+            queryParamMap: of(convertToParamMap({}))
           }
         },
         AppExtensionService,
