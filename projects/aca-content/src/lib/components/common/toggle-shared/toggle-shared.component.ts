@@ -22,13 +22,13 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, DestroyRef, inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { AppStore, getAppSelection, ShareNodeAction } from '@alfresco/aca-shared/store';
 import { CommonModule } from '@angular/common';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatMenuItem, MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -45,6 +45,9 @@ export class ToggleSharedComponent implements OnInit {
   data: {
     iconButton?: string;
   };
+
+  @ViewChild(MatMenuItem)
+  menuItem: MatMenuItem;
 
   selection$: Observable<SelectionState>;
   selectionState: SelectionState;

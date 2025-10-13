@@ -22,9 +22,9 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AfterViewInit, Component, DestroyRef, inject, Inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { MatMenuModule } from '@angular/material/menu';
-import { DynamicExtensionComponent } from '@alfresco/adf-extensions';
+import { AfterViewInit, Component, DestroyRef, inject, Inject, OnInit, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
+import { MatMenu, MatMenuItem, MatMenuModule } from '@angular/material/menu';
+import { ContentActionType, DynamicExtensionComponent } from '@alfresco/adf-extensions';
 import { ContextMenuOverlayRef } from './context-menu-overlay';
 import { CONTEXT_MENU_DIRECTION } from './direction.token';
 import { Direction } from '@angular/cdk/bidi';
@@ -58,6 +58,15 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   encapsulation: ViewEncapsulation.None
 })
 export class ContextMenuComponent extends BaseContextMenuDirective implements OnInit, AfterViewInit {
+  @ViewChildren(DynamicExtensionComponent)
+  dynamicExtensionComponents: QueryList<DynamicExtensionComponent>;
+
+  @ViewChild(MatMenu)
+  menu: MatMenu;
+
+  @ViewChildren(MatMenuItem)
+  matMenuItems: QueryList<MatMenuItem>;
+
   private readonly destroyRef = inject(DestroyRef);
 
   constructor(contextMenuOverlayRef: ContextMenuOverlayRef, extensions: AppExtensionService, @Inject(CONTEXT_MENU_DIRECTION) direction: Direction) {
@@ -77,5 +86,43 @@ export class ContextMenuComponent extends BaseContextMenuDirective implements On
     if (this.actions.length) {
       setTimeout(() => this.trigger.openMenu(), 0);
     }
+
+    const itemsById = this.createMenuItemsLookup();
+    const orderedItems = this.createOrderedItemsList(itemsById);
+
+    const menuItemsQueryList = new QueryList<MatMenuItem>();
+    menuItemsQueryList.reset(orderedItems);
+    this.menu._allItems = menuItemsQueryList;
+    this.menu.ngAfterContentInit();
+  }
+
+  private createMenuItemsLookup(): Map<string, MatMenuItem> {
+    const itemsById = new Map<string, MatMenuItem>();
+    this.matMenuItems.toArray().forEach((item) => {
+      itemsById.set(item._getHostElement()?.getAttribute('id'), item);
+    });
+
+    this.dynamicExtensionComponents.forEach((component) => {
+      if (component.menuItem && component.id) {
+        itemsById.set(component.id, component.menuItem);
+      }
+    });
+
+    return itemsById;
+  }
+
+  private createOrderedItemsList(itemsById: Map<string, MatMenuItem>): MatMenuItem[] {
+    const orderedItems: MatMenuItem[] = [];
+
+    this.actions.forEach((action) => {
+      const lookupId = action.type === ContentActionType.custom ? action.component : action.id;
+      const item = lookupId ? itemsById.get(lookupId) : undefined;
+
+      if (item) {
+        orderedItems.push(item);
+      }
+    });
+
+    return orderedItems;
   }
 }

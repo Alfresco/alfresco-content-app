@@ -23,7 +23,7 @@
  */
 
 import { Component, Input, ViewEncapsulation, HostListener, ViewChild, ViewChildren, QueryList, AfterViewInit, OnInit } from '@angular/core';
-import { ContentActionRef, DynamicExtensionComponent } from '@alfresco/adf-extensions';
+import { ContentActionRef, ContentActionType, DynamicExtensionComponent } from '@alfresco/adf-extensions';
 import { MatMenu, MatMenuItem, MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { ThemePalette } from '@angular/material/core';
 import { ToolbarMenuItemComponent } from '../toolbar-menu-item/toolbar-menu-item.component';
@@ -55,6 +55,9 @@ export class ToolbarMenuComponent implements OnInit, AfterViewInit {
   @ViewChildren(ToolbarMenuItemComponent)
   toolbarMenuItems: QueryList<ToolbarMenuItemComponent>;
 
+  @ViewChildren(DynamicExtensionComponent)
+  dynamicExtensionComponents: QueryList<DynamicExtensionComponent>;
+
   @Input()
   data: {
     menuType?: string;
@@ -73,13 +76,35 @@ export class ToolbarMenuComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    const menuItems: MatMenuItem[] = [];
-    this.toolbarMenuItems.forEach((toolbarMenuItem: ToolbarMenuItemComponent) => {
-      if (toolbarMenuItem.menuItem !== undefined) {
-        menuItems.push(toolbarMenuItem.menuItem);
+    const dynamicComponentMap = new Map<string, DynamicExtensionComponent>();
+    this.dynamicExtensionComponents.forEach((component) => {
+      dynamicComponentMap.set(component.id, component);
+    });
+
+    const toolbarItemMap = new Map<string, ToolbarMenuItemComponent>();
+    this.toolbarMenuItems.forEach((item) => {
+      if (item.actionRef?.id) {
+        toolbarItemMap.set(item.actionRef.id, item);
       }
     });
-    const menuItemsQueryList: QueryList<MatMenuItem> = new QueryList<MatMenuItem>();
+
+    const menuItems: MatMenuItem[] = [];
+    this.actionRef.children.forEach((child) => {
+      if (child.type === ContentActionType.custom) {
+        const componentId = child.component || child.id;
+        const component = dynamicComponentMap.get(componentId);
+        if (component?.menuItem) {
+          menuItems.push(component.menuItem);
+        }
+      } else {
+        const toolbarItem = toolbarItemMap.get(child.id);
+        if (toolbarItem?.menuItem) {
+          menuItems.push(toolbarItem.menuItem);
+        }
+      }
+    });
+
+    const menuItemsQueryList = new QueryList<MatMenuItem>();
     menuItemsQueryList.reset(menuItems);
     this.menu._allItems = menuItemsQueryList;
     this.menu.ngAfterContentInit();

@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, inject, Input, ViewEncapsulation } from '@angular/core';
+import { Component, inject, Input, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppStore, getAppSelection, ViewNodeAction } from '@alfresco/aca-shared/store';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -33,7 +33,7 @@ import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatMenuItem, MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
@@ -62,6 +62,9 @@ export class ViewNodeComponent {
   private settings = inject(AppSettingsService);
 
   @Input() data: { title?: string; menuButton?: boolean; iconButton?: boolean };
+
+  @ViewChild(MatMenuItem)
+  menuItem: MatMenuItem;
 
   constructor(
     private store: Store<AppStore>,

@@ -24,14 +24,14 @@
 
 import { AppStore, DownloadNodesAction, EditOfflineAction, SetSelectedNodesAction, getAppSelection } from '@alfresco/aca-shared/store';
 import { NodeEntry, SharedLinkEntry, Node, NodesApi } from '@alfresco/js-api';
-import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppExtensionService, isLocked } from '@alfresco/aca-shared';
 import { NotificationService } from '@alfresco/adf-core';
 import { AlfrescoApiService } from '@alfresco/adf-content-services';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatMenuItem, MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -47,6 +47,9 @@ import { MatIconModule } from '@angular/material/icon';
   host: { class: 'app-toggle-edit-offline' }
 })
 export class ToggleEditOfflineComponent implements OnInit {
+  @ViewChild(MatMenuItem)
+  menuItem: MatMenuItem;
+
   private notificationService = inject(NotificationService);
 
   private nodesApi: NodesApi;

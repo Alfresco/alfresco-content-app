@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, DestroyRef, inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppHookService } from '@alfresco/aca-shared';
 import { AppStore, getAppSelection } from '@alfresco/aca-shared/store';
@@ -33,7 +33,7 @@ import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LibraryFavoriteDirective } from '@alfresco/adf-content-services';
 import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatMenuItem, MatMenuModule } from '@angular/material/menu';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -46,8 +46,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
       [adf-favorite-library]="library"
       [attr.title]="library.isFavorite ? ('APP.ACTIONS.REMOVE_FAVORITE' | translate) : ('APP.ACTIONS.FAVORITE' | translate)"
     >
-      <mat-icon *ngIf="library.isFavorite">star</mat-icon>
-      <mat-icon *ngIf="!library.isFavorite">star_border</mat-icon>
+      <mat-icon class="app-context-menu-item--icon">{{ library.isFavorite ? 'star' : 'star_border' }}</mat-icon>
       <span>{{ (library.isFavorite ? 'APP.ACTIONS.REMOVE_FAVORITE' : 'APP.ACTIONS.FAVORITE') | translate }}</span>
     </button>
   `,
@@ -56,6 +55,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class ToggleFavoriteLibraryComponent implements OnInit {
   library;
+
+  @ViewChild(MatMenuItem)
+  menuItem: MatMenuItem;
 
   private readonly destroyRef = inject(DestroyRef);
 
