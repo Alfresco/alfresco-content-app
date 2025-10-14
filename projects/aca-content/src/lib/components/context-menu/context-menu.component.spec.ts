@@ -104,10 +104,12 @@ describe('ContextMenuComponent', () => {
     await fixture.whenStable();
 
     const contextMenuButtons = unitTestingUtils.getAllByCSS('.aca-context-menu button');
-    const actionButtonLabel: HTMLElement = contextMenuButtons[0].nativeElement.querySelector(`[data-automation-id="${contextItem.id}-label"]`);
+    const actionButtonLabel = unitTestingUtils.getInnerTextByCSS(
+      `.aca-context-menu button:first-child [data-automation-id="${contextItem.id}-label"]`
+    );
 
     expect(contextMenuButtons?.length).toBe(1);
-    expect(actionButtonLabel.innerText).toBe(contextItem.title);
+    expect(actionButtonLabel).toBe(contextItem.title);
   });
 
   it('should not render context menu if no actions items', async () => {
