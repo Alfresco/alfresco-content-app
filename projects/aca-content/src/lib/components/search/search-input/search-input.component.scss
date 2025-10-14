@@ -22,6 +22,13 @@ $search-border-radius: 4px;
       display: none;
     }
   }
+
+  .app-search-input {
+    &:focus-within {
+      outline: 2px solid var(--theme-blue-button-color);
+      border-radius: 4px;
+    }
+  }
 }
 
 .app-search-options-menu {

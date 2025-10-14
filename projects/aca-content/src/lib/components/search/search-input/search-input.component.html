@@ -1,4 +1,5 @@
-<button class="app-search-container"
+<div class="app-search-container"
+  role="search"
   [matMenuTriggerFor]="searchOptionsMenu"
   (menuOpened)="onMenuOpened()"
   (menuClosed)="syncInputValues()"
@@ -9,6 +10,7 @@
     </button>
 
     <input
+      class="app-search-input"
       matInput
       [attr.aria-label]="'SEARCH.INPUT.ARIA-LABEL' | translate"
       [type]="'text'"
@@ -30,7 +32,7 @@
       </button>
     </div>
   </mat-form-field>
-</button>
+</div>
 
 <mat-menu #searchOptionsMenu="matMenu" [overlapTrigger]="true" class="app-search-options-menu">
   <div (keydown.tab)="$event.stopPropagation()" (keydown.shift.tab)="$event.stopPropagation()" tabindex=0>
