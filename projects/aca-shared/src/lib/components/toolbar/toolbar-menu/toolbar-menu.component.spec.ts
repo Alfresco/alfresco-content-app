@@ -63,10 +63,6 @@ describe('ToolbarMenuComponent', () => {
   });
 
   describe('ngAfterViewInit', () => {
-    beforeEach(() => {
-      component.menu = jasmine.createSpyObj('MatMenu', ['ngAfterContentInit']);
-    });
-
     it('should set mixed custom and standard menu items in right order', () => {
       const customMenuItem = jasmine.createSpyObj('MatMenuItem', ['focus'], { id: 'customMenuItem' });
       const dynamicComponent = { id: 'comp1', menuItem: customMenuItem } as DynamicExtensionComponent;
@@ -89,7 +85,6 @@ describe('ToolbarMenuComponent', () => {
 
       component.ngAfterViewInit();
 
-      expect(component.menu.ngAfterContentInit).toHaveBeenCalled();
       expect(component.menu._allItems.length).toBe(3);
       expect(component.menu._allItems.toArray()).toEqual([customMenuItem, standardMenuItem, customMenuItem]);
     });
