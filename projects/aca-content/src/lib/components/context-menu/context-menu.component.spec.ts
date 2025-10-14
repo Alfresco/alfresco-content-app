@@ -26,18 +26,35 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContextMenuComponent } from './context-menu.component';
 import { ContextMenuOverlayRef } from './context-menu-overlay';
-import { ContentActionType } from '@alfresco/adf-extensions';
+import { ContentActionRef, ContentActionType, ExtensionService } from '@alfresco/adf-extensions';
 
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppExtensionService } from '@alfresco/aca-shared';
+import { Component, ViewChild } from '@angular/core';
+import { MatMenuItem, MatMenuModule } from '@angular/material/menu';
+import { UnitTestingUtils } from '@alfresco/adf-core';
+
+@Component({
+  selector: 'aca-custom-menu-component',
+  standalone: true,
+  imports: [MatMenuModule],
+  // eslint-disable-next-line @alfresco/eslint-angular/no-angular-material-selectors
+  template: '<button mat-menu-item id="custom-action">Custom Component Content</button>'
+})
+class TestCustomMenuComponent {
+  data: any;
+  @ViewChild(MatMenuItem) menuItem: MatMenuItem;
+}
 
 describe('ContextMenuComponent', () => {
   let fixture: ComponentFixture<ContextMenuComponent>;
   let component: ContextMenuComponent;
   let extensionsService: AppExtensionService;
+  let extensionService: ExtensionService;
+  let unitTestingUtils: UnitTestingUtils;
 
-  const contextItem = {
+  const contextItem: ContentActionRef = {
     type: ContentActionType.button,
     id: 'action-button',
     title: 'Test Button',
@@ -48,7 +65,7 @@ describe('ContextMenuComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule],
+      imports: [AppTestingModule, TestCustomMenuComponent],
       providers: [
         {
           provide: ContextMenuOverlayRef,
@@ -70,6 +87,8 @@ describe('ContextMenuComponent', () => {
     component = fixture.componentInstance;
 
     extensionsService = TestBed.inject(AppExtensionService);
+    extensionService = TestBed.inject(ExtensionService);
+    unitTestingUtils = new UnitTestingUtils(fixture.debugElement);
   });
 
   it('should load context menu actions on init', () => {
@@ -84,10 +103,10 @@ describe('ContextMenuComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const contextMenuElements = document.body.querySelector('.aca-context-menu')?.querySelectorAll('button');
-    const actionButtonLabel: HTMLElement = contextMenuElements?.[0].querySelector(`[data-automation-id="${contextItem.id}-label"]`);
+    const contextMenuButtons = unitTestingUtils.getAllByCSS('.aca-context-menu button');
+    const actionButtonLabel: HTMLElement = contextMenuButtons[0].nativeElement.querySelector(`[data-automation-id="${contextItem.id}-label"]`);
 
-    expect(contextMenuElements?.length).toBe(1);
+    expect(contextMenuButtons?.length).toBe(1);
     expect(actionButtonLabel.innerText).toBe(contextItem.title);
   });
 
@@ -96,8 +115,41 @@ describe('ContextMenuComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const contextMenuElements = document.body.querySelector('.aca-context-menu');
+    const contextMenuElements = unitTestingUtils.getByCSS('.aca-context-menu');
 
     expect(contextMenuElements).toBeNull();
+  });
+
+  it('should append menu items in the correct order according to actions array', async () => {
+    const customComponentAction: ContentActionRef = {
+      type: ContentActionType.custom,
+      component: 'test-custom-component',
+      id: 'custom-action',
+      data: { testProp: 'test-value' }
+    };
+
+    const buttonAction2: ContentActionRef = {
+      type: ContentActionType.button,
+      id: 'button-action-2',
+      title: 'Button 2',
+      actions: {
+        click: 'EVENT_2'
+      }
+    };
+
+    const orderedActions = [contextItem, customComponentAction, buttonAction2];
+
+    spyOn(extensionsService, 'getAllowedContextMenuActions').and.returnValue(of(orderedActions));
+    spyOn(extensionService, 'getComponentById').and.returnValue(TestCustomMenuComponent);
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const menuItems = component.menu._allItems.toArray();
+    expect(menuItems.length).toBe(3);
+
+    const menuItemsIds = menuItems.map((item) => item._getHostElement().getAttribute('id'));
+    const domIds: string[] = Array.from(unitTestingUtils.getAllByCSS('button')).map((button) => button.nativeElement.getAttribute('id'));
+    expect(domIds).toEqual(menuItemsIds);
   });
 });

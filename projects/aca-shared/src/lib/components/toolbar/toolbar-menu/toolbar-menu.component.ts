@@ -76,10 +76,9 @@ export class ToolbarMenuComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    const dynamicComponentMap = new Map<string, DynamicExtensionComponent>();
-    this.dynamicExtensionComponents.forEach((component) => {
-      dynamicComponentMap.set(component.id, component);
-    });
+    const dynamicComponentMap = new Map<string, DynamicExtensionComponent>(
+      this.dynamicExtensionComponents.map((component) => [component.id, component])
+    );
 
     const toolbarItemMap = new Map<string, ToolbarMenuItemComponent>();
     this.toolbarMenuItems.forEach((item) => {
@@ -89,7 +88,7 @@ export class ToolbarMenuComponent implements OnInit, AfterViewInit {
     });
 
     const menuItems: MatMenuItem[] = [];
-    this.actionRef.children.forEach((child) => {
+    this.actionRef.children?.forEach((child) => {
       if (child.type === ContentActionType.custom) {
         const componentId = child.component || child.id;
         const component = dynamicComponentMap.get(componentId);

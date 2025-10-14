@@ -24,9 +24,9 @@
 
 import { ToolbarMenuComponent } from './toolbar-menu.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ContentActionRef, ContentActionType } from '@alfresco/adf-extensions';
-import { QueryList } from '@angular/core';
+import { ContentActionRef, ContentActionType, DynamicExtensionComponent } from '@alfresco/adf-extensions';
 import { LibTestingModule } from '@alfresco/aca-shared';
+import { ToolbarMenuItemComponent } from '../toolbar-menu-item/toolbar-menu-item.component';
 
 describe('ToolbarMenuComponent', () => {
   let fixture: ComponentFixture<ToolbarMenuComponent>;
@@ -53,16 +53,6 @@ describe('ToolbarMenuComponent', () => {
     expect(component.matTrigger.closeMenu).toHaveBeenCalled();
   });
 
-  it('should populate underlying menu with toolbar items', () => {
-    component.toolbarMenuItems = new QueryList();
-    component.toolbarMenuItems.reset([{ menuItem: {} } as any]);
-    expect(component.toolbarMenuItems.length).toBe(1);
-
-    expect(component.menu._allItems.length).toBe(0);
-    component.ngAfterViewInit();
-    expect(component.menu._allItems.length).toBe(1);
-  });
-
   it('should track elements by content action id', () => {
     const contentActionRef: ContentActionRef = {
       id: 'action1',
@@ -70,5 +60,76 @@ describe('ToolbarMenuComponent', () => {
     };
 
     expect(component.trackByActionId(0, contentActionRef)).toBe('action1');
+  });
+
+  describe('ngAfterViewInit', () => {
+    beforeEach(() => {
+      component.menu = jasmine.createSpyObj('MatMenu', ['ngAfterContentInit']);
+    });
+
+    it('should set mixed custom and standard menu items in right order', () => {
+      const customMenuItem = jasmine.createSpyObj('MatMenuItem', ['focus'], { id: 'customMenuItem' });
+      const dynamicComponent = { id: 'comp1', menuItem: customMenuItem } as DynamicExtensionComponent;
+
+      component.dynamicExtensionComponents.reset([dynamicComponent]);
+
+      const standardMenuItem = jasmine.createSpyObj('MatMenuItem', ['focus'], { id: 'standardMenuItem' });
+      const toolbarItem = { actionRef: { id: 'item1' }, menuItem: standardMenuItem } as ToolbarMenuItemComponent;
+
+      component.toolbarMenuItems.reset([toolbarItem]);
+
+      component.actionRef = {
+        id: 'parent',
+        children: [
+          { id: 'custom1', type: ContentActionType.custom, component: 'comp1' },
+          { id: 'item1', type: ContentActionType.button },
+          { id: 'custom2', type: ContentActionType.custom, component: 'comp1' }
+        ]
+      } as ContentActionRef;
+
+      component.ngAfterViewInit();
+
+      expect(component.menu.ngAfterContentInit).toHaveBeenCalled();
+      expect(component.menu._allItems.length).toBe(3);
+      expect(component.menu._allItems.toArray()).toEqual([customMenuItem, standardMenuItem, customMenuItem]);
+    });
+
+    it('should skip items without menuItem property', () => {
+      const customMenuItem = jasmine.createSpyObj('MatMenuItem', ['focus'], { id: 'menuItem1' });
+      const toolbarItem1 = { actionRef: { id: 'item1' }, menuItem: customMenuItem } as ToolbarMenuItemComponent;
+      const toolbarItem2 = { actionRef: { id: 'item2' } } as ToolbarMenuItemComponent;
+
+      component.toolbarMenuItems.reset([toolbarItem1, toolbarItem2]);
+
+      component.actionRef = {
+        id: 'parent',
+        children: [
+          { id: 'item1', type: ContentActionType.button },
+          { id: 'item2', type: ContentActionType.button }
+        ]
+      } as ContentActionRef;
+
+      component.ngAfterViewInit();
+
+      expect(component.menu._allItems.length).toBe(1);
+      expect(component.menu._allItems.toArray()).toEqual([customMenuItem]);
+    });
+
+    it('should use component ID when component property is not specified for custom item', () => {
+      const menuItem = jasmine.createSpyObj('MatMenuItem', ['focus'], { id: 'menuItem' });
+      const dynamicComponent = { id: 'custom1', menuItem: menuItem } as DynamicExtensionComponent;
+
+      component.dynamicExtensionComponents.reset([dynamicComponent]);
+
+      component.actionRef = {
+        id: 'parent',
+        children: [{ id: 'custom1', type: ContentActionType.custom }]
+      } as ContentActionRef;
+
+      component.ngAfterViewInit();
+
+      expect(component.menu._allItems.length).toBe(1);
+      expect(component.menu._allItems.first).toBe(menuItem);
+    });
   });
 });

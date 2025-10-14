@@ -98,7 +98,7 @@ export class ContextMenuComponent extends BaseContextMenuDirective implements On
 
   private createMenuItemsLookup(): Map<string, MatMenuItem> {
     const itemsById = new Map<string, MatMenuItem>();
-    this.matMenuItems.toArray().forEach((item) => {
+    this.matMenuItems.forEach((item) => {
       itemsById.set(item._getHostElement()?.getAttribute('id'), item);
     });
 
@@ -107,7 +107,6 @@ export class ContextMenuComponent extends BaseContextMenuDirective implements On
         itemsById.set(component.id, component.menuItem);
       }
     });
-
     return itemsById;
   }
 
@@ -122,7 +121,6 @@ export class ContextMenuComponent extends BaseContextMenuDirective implements On
         orderedItems.push(item);
       }
     });
-
     return orderedItems;
   }
 }
