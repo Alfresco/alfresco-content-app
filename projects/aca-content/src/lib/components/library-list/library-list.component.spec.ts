@@ -24,7 +24,7 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { AppConfigService, UnitTestingUtils, UserPreferencesService } from '@alfresco/adf-core';
+import { UnitTestingUtils, UserPreferencesService } from '@alfresco/adf-core';
 import { DocumentListComponent, SitesService } from '@alfresco/adf-content-services';
 import { LibraryListComponent } from './library-list.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
@@ -46,8 +46,6 @@ describe('LibraryListComponent', () => {
   let appHookService: AppHookService;
   let getSitesSpy: jasmine.Spy<(options?: any) => Observable<SitePaging>>;
   let unitTestingUtils: UnitTestingUtils;
-  let appConfig: AppConfigService;
-  let getLegalHoldsEnabledSpy: jasmine.Spy<(key: string, defaultValue?: string | boolean) => string | boolean>;
 
   const paging: SitePaging = {
     list: {
@@ -58,8 +56,6 @@ describe('LibraryListComponent', () => {
       pagination: { count: 25, skipCount: 0 }
     }
   };
-
-  const whereOpt = `(preset='site-dashboard')`;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -74,13 +70,10 @@ describe('LibraryListComponent', () => {
     sitesService = TestBed.inject(SitesService);
     userPreference = TestBed.inject(UserPreferencesService);
     appHookService = TestBed.inject(AppHookService);
-    appConfig = TestBed.inject(AppConfigService);
     router = TestBed.inject(Router);
 
     getSitesSpy = spyOn(sitesService, 'getSites');
     getSitesSpy.and.returnValue(of(paging));
-    getLegalHoldsEnabledSpy = spyOn(appConfig, 'get');
-    getLegalHoldsEnabledSpy.and.returnValue(false);
     fixture.detectChanges();
   });
 
@@ -93,7 +86,7 @@ describe('LibraryListComponent', () => {
     it('should get data with user preference pagination size', () => {
       userPreference.paginationSize = 1;
       component.ngOnInit();
-      expect(sitesService.getSites).toHaveBeenCalledWith({ maxItems: 1, where: whereOpt });
+      expect(sitesService.getSites).toHaveBeenCalledWith({ maxItems: 1 });
     });
 
     it('should set data on error', () => {
@@ -118,19 +111,6 @@ describe('LibraryListComponent', () => {
       component['extensions'].documentListPresets.libraries = undefined;
       component.ngOnInit();
       expect(component.columns.length).toBe(0);
-    });
-  });
-
-  describe('Legal Holds flag', () => {
-    it('should call getSites with where option when legal holds disabled', () => {
-      component.ngOnInit();
-      expect(sitesService.getSites).toHaveBeenCalledWith(jasmine.objectContaining({ where: whereOpt }));
-    });
-
-    it('should not call getSites with where option when legal holds enabled', () => {
-      getLegalHoldsEnabledSpy.and.returnValue(true);
-      component.ngOnInit();
-      expect(sitesService.getSites).toHaveBeenCalledWith(jasmine.objectContaining({ where: undefined }));
     });
   });
 
@@ -198,12 +178,12 @@ describe('LibraryListComponent', () => {
 
     it('should get list with pagination data onChange event', () => {
       component.getList(pagination);
-      expect(sitesService.getSites).toHaveBeenCalledWith({ ...pagination, where: whereOpt });
+      expect(sitesService.getSites).toHaveBeenCalledWith(pagination);
     });
 
     it('should get list with pagination data onChangePageSize event', () => {
       component.onChangePageSize(pagination);
-      expect(sitesService.getSites).toHaveBeenCalledWith({ ...pagination, where: whereOpt });
+      expect(sitesService.getSites).toHaveBeenCalledWith(pagination);
     });
 
     it('should set preference page size onChangePageSize event', () => {

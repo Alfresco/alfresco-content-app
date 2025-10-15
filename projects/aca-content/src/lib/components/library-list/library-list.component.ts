@@ -34,7 +34,6 @@ import {
 } from '@alfresco/aca-shared';
 import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
 import {
-  AppConfigService,
   CustomEmptyContentTemplateDirective,
   DataColumnComponent,
   DataColumnListComponent,
@@ -80,23 +79,17 @@ export class LibraryListComponent extends PageComponent implements OnInit {
   list: SitePaging;
   columns: DocumentListPresetRef[] = [];
 
-  private legalHoldsEnabled = false;
-
   constructor(
     private readonly appHookService: AppHookService,
     private readonly preferences: UserPreferencesService,
     private readonly changeDetectorRef: ChangeDetectorRef,
-    private readonly sitesService: SitesService,
-    private readonly appConfig: AppConfigService
+    private readonly sitesService: SitesService
   ) {
     super();
   }
 
   ngOnInit() {
     super.ngOnInit();
-
-    const legalHoldFlag = this.appConfig.get<boolean | string>('plugins.legalHoldEnabled', false);
-    this.legalHoldsEnabled = legalHoldFlag === true || legalHoldFlag === 'true';
 
     this.getList({ maxItems: this.preferences.paginationSize });
 
@@ -108,7 +101,7 @@ export class LibraryListComponent extends PageComponent implements OnInit {
 
   navigateTo(node: SiteEntry) {
     if (node?.entry?.guid) {
-      this.store.dispatch(new NavigateLibraryAction(node.entry.guid));
+      this.store.dispatch(new NavigateLibraryAction(node.entry));
     }
   }
 
@@ -123,11 +116,7 @@ export class LibraryListComponent extends PageComponent implements OnInit {
 
   getList(pagination: Pagination) {
     this.isLoading = true;
-    let where: string | undefined;
-    if (!this.legalHoldsEnabled) {
-      where = `(preset='site-dashboard')`;
-    }
-    this.sitesService.getSites({ ...pagination, where: where }).subscribe({
+    this.sitesService.getSites(pagination).subscribe({
       next: (libraryList: SitePaging) => {
         this.list = libraryList;
         this.pagination = libraryList.list.pagination;
