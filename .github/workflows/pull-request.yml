@@ -37,7 +37,7 @@ jobs:
           fetch-depth: 0
 
       - name: node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
@@ -68,7 +68,7 @@ jobs:
           fetch-depth: 2
 
       - name: node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
@@ -100,7 +100,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
@@ -176,7 +176,7 @@ jobs:
           fetch-depth: 2
 
       - name: node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
@@ -236,7 +236,7 @@ jobs:
           fetch-depth: 2
 
       - name: Extract commit message
-        uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@ce7f6e0b62727da8600acf87d72ffbf064ac34b5 #v8.33.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@de5e037bf9a2ac174c1993dab82002a2278a6506 #v9.3.2
 
       - name: Check ADF link
         shell: bash

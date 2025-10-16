@@ -31,7 +31,7 @@ jobs:
           fetch-depth: 1
       - id: fetchLatestPkg
         name: Fetch the latest package version
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
           script: |
@@ -67,7 +67,7 @@ jobs:
       - id: checkPrAlreadyExist
         name: Check if PR with latest already exist
         if: ${{ steps.fetchLatestPkg.outputs.hasNewVersion == 'true' }}
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         env:
           HAS_NEW_ADF_VERSION: ${{ steps.fetchLatestPkg.outputs.hasNewADFVersion }}
           LATEST_ADF_VERSION: ${{ steps.fetchLatestPkg.outputs.latestADFVersion }}
@@ -109,7 +109,7 @@ jobs:
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
           fetch-depth: 1
       - name: setup NPM
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
@@ -150,7 +150,7 @@ jobs:
           fi
       - name: Commit Code
         if: ${{ needs.upstream.outputs.hasNewVersion == 'true'  }}
-        uses: stefanzweifel/git-auto-commit-action@778341af668090896ca464160c2def5d1d1a3eb0 #v6
+        uses: stefanzweifel/git-auto-commit-action@28e16e81777b558cc906c8750092100bbb34c5e3 #v6
         with:
           commit_message: "[ci:force][auto-commit] Update dependencies ADF:${{ needs.upstream.outputs.latestADFVersion }}  JS:${{ needs.upstream.outputs.latestJSVersion }}"
           branch: upstream-dependencies
@@ -158,7 +158,7 @@ jobs:
           create_branch: true
 
       - name: Create a Pull request
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         env:
           PACKAGE_VERSION_ADF: ${{ needs.upstream.outputs.latestADFVersion }}
           PACKAGE_VERSION_JS: ${{ needs.upstream.outputs.latestJSVersion }}
