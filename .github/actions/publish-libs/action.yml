@@ -33,7 +33,7 @@ runs:
         npm ci
         npm run ci:build:many
 
-    - uses: actions/setup-node@v4
+    - uses: actions/setup-node@v6
       name: setup GH registry
       with:
         node-version-file: '.nvmrc'
@@ -48,7 +48,7 @@ runs:
         TAG: ${{ inputs.npm_tag }}
         DRY_RUN: ${{ inputs.dry-run }}
 
-    - uses: actions/setup-node@v4
+    - uses: actions/setup-node@v6
       name: setup NPM registry
       with:
         node-version-file: '.nvmrc'
