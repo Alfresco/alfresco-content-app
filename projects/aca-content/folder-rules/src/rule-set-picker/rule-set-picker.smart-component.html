@@ -2,7 +2,7 @@
   <div class="aca-rule-set-picker__header__title">
     {{ 'ACA_FOLDER_RULES.LINK_RULES_DIALOG.TITLE' | translate }}
   </div>
-  <button mat-icon-button mat-dialog-close class="aca-rule-set-picker__header__close" tabindex="-1">
+  <button mat-icon-button (click)="dialogRef.close()" [attr.aria-label]="'ACA_FOLDER_RULES.EDIT_RULE_DIALOG.CLOSE' | translate" class="aca-rule-set-picker__header__close">
     <mat-icon class="aca-rule-set-picker__header__close__icon">close</mat-icon>
   </button>
 </div>
