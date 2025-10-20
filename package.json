@@ -92,7 +92,7 @@
     "@nx/angular": "21.4.1",
     "@nx/eslint-plugin": "21.3.1",
     "@nx/workspace": "21.4.1",
-    "@playwright/test": "^1.55.0",
+    "@playwright/test": "^1.56.1",
     "@reportportal/agent-js-playwright": "^5.1.9",
     "@types/event-emitter": "^0.3.3",
     "@types/jasmine": "~3.6.0",
