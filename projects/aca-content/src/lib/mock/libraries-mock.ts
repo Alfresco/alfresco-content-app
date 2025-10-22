@@ -22,30 +22,45 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { LibrariesBaseComponent } from '../libraries-base/libraries-base.component';
+import { DocumentListPresetRef } from '@alfresco/adf-extensions';
+import { FavoritePaging, Pagination, SitePaging } from '@alfresco/js-api';
 
-@Component({
-  selector: 'aca-libraries',
-  standalone: true,
-  templateUrl: './libraries.component.html',
-  imports: [LibrariesBaseComponent],
-  encapsulation: ViewEncapsulation.None
-})
-export class LibrariesComponent extends LibrariesBaseComponent implements OnInit {
-  constructor() {
-    super();
+export const librariesMock: SitePaging = {
+  list: {
+    entries: [
+      { entry: { id: '1', guid: '1', title: 'Library 1', visibility: 'public' } },
+      { entry: { id: '2', guid: '2', title: 'Library 2', visibility: 'private' } }
+    ],
+    pagination: { count: 25, skipCount: 0 }
   }
+};
 
-  ngOnInit() {
-    super.ngOnInit();
-
-    this.subscriptions.push(
-      this.appHookService.libraryDeleted.subscribe(() => this.reload()),
-      this.appHookService.libraryUpdated.subscribe(() => this.reload()),
-      this.appHookService.libraryLeft.subscribe(() => this.reload())
-    );
-
-    this.columns = this.extensions.documentListPresets.libraries || [];
+export const favoriteLibrariesMock: FavoritePaging = {
+  list: {
+    entries: [
+      { entry: { id: '1', targetGuid: '1', title: 'Favorite Library 1', visibility: 'public' } },
+      { entry: { id: '2', targetGuid: '2', title: 'Favorite Library 2', visibility: 'private' } }
+    ],
+    pagination: { count: 25, skipCount: 0 }
   }
-}
+} as any as FavoritePaging;
+
+export const libraryColumnsPresetMock: DocumentListPresetRef[] = [
+  {
+    key: 'name',
+    type: 'text',
+    sortable: false,
+    template: '',
+    desktopOnly: false,
+    sortingKey: '',
+    id: ''
+  }
+];
+
+export const libraryPaginationMock: Pagination = {
+  count: 100,
+  hasMoreItems: true,
+  totalItems: 300,
+  skipCount: 25,
+  maxItems: 25
+};

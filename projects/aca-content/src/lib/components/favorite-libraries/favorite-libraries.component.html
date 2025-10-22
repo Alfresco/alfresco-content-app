@@ -1,94 +1,14 @@
-<aca-page-layout>
-  <div class="aca-page-layout-header">
-    <h1 class="aca-page-title">
-      {{ (selectedRowItemsCount < 1 ? 'APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.TITLE' : 'APP.HEADER.SELECTED') | translate: { count: selectedRowItemsCount } }}
-    </h1>
-    <aca-toolbar [items]="actions" />
-  </div>
-
-  <div class="aca-page-layout-content">
-    <div class="aca-main-content">
-      <adf-document-list
-        #documentList
-        acaDocumentList
-        acaContextActions
-        [node]="$any(list)"
-        [loading]="isLoading"
-        [selectionMode]="'multiple'"
-        [multiselect]="true"
-        [navigate]="false"
-        [sorting]="['title', 'asc']"
-        [sortingMode]="'client'"
-        [displayCheckboxesOnHover]="true"
-        [preselectNodes]="selectedNodesState?.nodes"
-        (node-dblclick)="handleNodeClick($event)"
-        [imageResolver]="imageResolver"
-        (selectedItemsCountChanged)="onSelectedItemsCountChanged($event)"
-        [isResizingEnabled]="true"
-        [blurOnResize]="false"
-        (name-click)="handleNodeClick($event)"
-      >
-        <adf-custom-empty-content-template>
-          <adf-empty-content
-            icon="library_books"
-            [title]="'APP.BROWSE.LIBRARIES.EMPTY_STATE.FAVORITE_LIBRARIES.TITLE'"
-            subtitle="APP.BROWSE.LIBRARIES.EMPTY_STATE.FAVORITE_LIBRARIES.TEXT"
-          />
-        </adf-custom-empty-content-template>
-
-        <data-columns>
-          <ng-container *ngFor="let column of columns; trackBy: trackByColumnId">
-            <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
-              <data-column
-                [id]="column.id"
-                [draggable]="column.draggable"
-                [resizable]="column.resizable"
-                [key]="column.key"
-                [title]="column.title"
-                [type]="column.type"
-                [format]="column.format"
-                [class]="column.class"
-                [sortable]="column.sortable"
-                [isHidden]="column.isHidden"
-                [sortingKey]="column.sortingKey || column.key"
-              >
-                <ng-template let-context>
-                  <adf-dynamic-column [id]="column.template" [context]="context" />
-                </ng-template>
-              </data-column>
-            </ng-container>
-
-            <ng-container *ngIf="!column.template && !(column.desktopOnly && isSmallScreen)">
-              <data-column
-                [id]="column.id"
-                [key]="column.key"
-                [draggable]="column.draggable"
-                [resizable]="column.resizable"
-                [title]="column.title"
-                [type]="column.type"
-                [format]="column.format"
-                [class]="column.class"
-                [sortable]="column.sortable"
-                [isHidden]="column.isHidden"
-                [sortingKey]="column.sortingKey || column.key"
-              />
-            </ng-container>
-          </ng-container>
-        </data-columns>
-      </adf-document-list>
-
-      <adf-pagination
-        [target]="documentList"
-        [pagination]="pagination"
-        (changePageSize)="onChangePageSize($event)"
-        (changePageNumber)="onChange($event)"
-        (nextPage)="onChange($event)"
-        (prevPage)="onChange($event)"
-      />
-    </div>
-
-    <div class="aca-sidebar" *ngIf="infoDrawerOpened$ | async">
-      <aca-info-drawer [node]="selection.last" />
-    </div>
-  </div>
-</aca-page-layout>
+<aca-libraries-base
+  [list]="list"
+  [isLoading]="isLoading"
+  [pagination]="pagination"
+  [columns]="columns"
+  [navigateRoute]="'favorite/libraries'"
+  [titleKey]="'APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.TITLE'"
+  [emptyTitleKey]="'APP.BROWSE.LIBRARIES.EMPTY_STATE.FAVORITE_LIBRARIES.TITLE'"
+  [emptySubtitleKey]="'APP.BROWSE.LIBRARIES.EMPTY_STATE.FAVORITE_LIBRARIES.TEXT'"
+  (changePageSize)="onChangePageSize($event)"
+  (changePageNumber)="getList($event)"
+  (nextPage)="getList($event)"
+  (prevPage)="getList($event)"
+/>

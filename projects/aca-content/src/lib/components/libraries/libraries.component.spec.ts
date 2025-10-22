@@ -23,32 +23,20 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
-import { AlfrescoApiService } from '@alfresco/adf-content-services';
 import { LibrariesComponent } from './libraries.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { provideEffects } from '@ngrx/effects';
 import { LibraryEffects } from '../../store/effects';
-import { ContentApiService } from '@alfresco/aca-shared';
-import { getTitleElementText } from '../../testing/test-utils';
+import { AppExtensionService, AppHookService, ContentApiService } from '@alfresco/aca-shared';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { libraryColumnsPresetMock, librariesMock } from '../../mock/libraries-mock';
 
 describe('LibrariesComponent', () => {
   let fixture: ComponentFixture<LibrariesComponent>;
   let component: LibrariesComponent;
-  let alfrescoApi: AlfrescoApiService;
   let contentApiService: ContentApiService;
-  let router: Router;
-  let page;
-
-  beforeEach(() => {
-    page = {
-      list: {
-        entries: [{ entry: { id: 1 } }, { entry: { id: 2 } }],
-        pagination: { data: 'data' }
-      }
-    };
-  });
+  let appHookService: AppHookService;
+  let appExtensionService: AppExtensionService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -59,34 +47,49 @@ describe('LibrariesComponent', () => {
     fixture = TestBed.createComponent(LibrariesComponent);
     component = fixture.componentInstance;
 
-    alfrescoApi = TestBed.inject(AlfrescoApiService);
     contentApiService = TestBed.inject(ContentApiService);
-    alfrescoApi.reset();
-    router = TestBed.inject(Router);
+    appHookService = TestBed.inject(AppHookService);
+    appExtensionService = TestBed.inject(AppExtensionService);
 
     const sitesApi = contentApiService.sitesApi;
 
-    spyOn(sitesApi, 'listSites').and.returnValue(Promise.resolve(page));
+    spyOn(sitesApi, 'listSites').and.returnValue(Promise.resolve(librariesMock));
     spyOn(sitesApi, 'listSiteMembershipsForPerson').and.returnValue(Promise.resolve({}));
   });
 
-  describe('Initialization', () => {
-    it('should set title to MY_LIBRARIES.TITLE based on selectedRowItemsCount', () => {
-      fixture.detectChanges();
-      expect(getTitleElementText(fixture)).toBe('APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE');
-
-      component.selectedRowItemsCount = 2;
-      fixture.detectChanges();
-      expect(getTitleElementText(fixture)).toBe('APP.HEADER.SELECTED');
-    });
+  it('should set columns from extensions on init', () => {
+    appExtensionService.documentListPresets.libraries = libraryColumnsPresetMock;
+    fixture.detectChanges();
+    expect(component.columns).toEqual(appExtensionService.documentListPresets.libraries);
   });
 
-  describe('Node navigation', () => {
-    it('does not navigate when id is not passed', () => {
-      spyOn(router, 'navigate').and.stub();
-      component.navigateTo(null);
+  it('should handle no columns preset in extensions', () => {
+    appExtensionService.documentListPresets.libraries = undefined;
+    component.ngOnInit();
+    expect(component.columns.length).toBe(0);
+  });
 
-      expect(router.navigate).not.toHaveBeenCalled();
+  describe('Library hooks', () => {
+    let reloadSpy: jasmine.Spy<() => void>;
+
+    beforeEach(() => {
+      reloadSpy = spyOn(component, 'reload');
+      fixture.detectChanges();
+    });
+
+    it('should reload on libraryDeleted hook', () => {
+      appHookService.libraryDeleted.next('');
+      expect(reloadSpy).toHaveBeenCalled();
+    });
+
+    it('should reload on libraryUpdated hook', () => {
+      appHookService.libraryUpdated.next(librariesMock.list.entries[0]);
+      expect(reloadSpy).toHaveBeenCalled();
+    });
+
+    it('should reload on libraryLeft hook', () => {
+      appHookService.libraryLeft.next('');
+      expect(reloadSpy).toHaveBeenCalled();
     });
   });
 });

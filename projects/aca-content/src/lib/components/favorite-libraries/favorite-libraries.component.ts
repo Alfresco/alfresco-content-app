@@ -23,52 +23,20 @@
  */
 
 import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FavoritePaging, Pagination, SiteEntry } from '@alfresco/js-api';
-import {
-  AppHookService,
-  ContentApiService,
-  ContextActionsDirective,
-  InfoDrawerComponent,
-  PageComponent,
-  PageLayoutComponent,
-  ToolbarComponent
-} from '@alfresco/aca-shared';
-import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
-import {
-  CustomEmptyContentTemplateDirective,
-  DataColumnComponent,
-  DataColumnListComponent,
-  EmptyContentComponent,
-  PaginationComponent,
-  UserPreferencesService
-} from '@alfresco/adf-core';
-import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
-import { CommonModule } from '@angular/common';
-import { DocumentListDirective } from '../../directives/document-list.directive';
-import { TranslatePipe } from '@ngx-translate/core';
-import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { FavoritePaging, Pagination } from '@alfresco/js-api';
+import { ContentApiService } from '@alfresco/aca-shared';
+import { UserPreferencesService } from '@alfresco/adf-core';
+import { DocumentListPresetRef } from '@alfresco/adf-extensions';
+import { LibrariesBaseComponent } from '../libraries-base/libraries-base.component';
 
 @Component({
-  imports: [
-    CommonModule,
-    DocumentListDirective,
-    ContextActionsDirective,
-    PaginationComponent,
-    InfoDrawerComponent,
-    PageLayoutComponent,
-    TranslatePipe,
-    ToolbarComponent,
-    EmptyContentComponent,
-    DynamicColumnComponent,
-    DataColumnListComponent,
-    DataColumnComponent,
-    DocumentListComponent,
-    CustomEmptyContentTemplateDirective
-  ],
+  selector: 'aca-favorite-libraries',
+  standalone: true,
   templateUrl: './favorite-libraries.component.html',
+  imports: [LibrariesBaseComponent],
   encapsulation: ViewEncapsulation.None
 })
-export class FavoriteLibrariesComponent extends PageComponent implements OnInit {
+export class FavoriteLibrariesComponent extends LibrariesBaseComponent implements OnInit {
   pagination: Pagination = new Pagination({
     skipCount: 0,
     maxItems: 25,
@@ -79,7 +47,6 @@ export class FavoriteLibrariesComponent extends PageComponent implements OnInit 
   columns: DocumentListPresetRef[] = [];
 
   constructor(
-    private appHookService: AppHookService,
     private contentApiService: ContentApiService,
     private preferences: UserPreferencesService,
     private changeDetectorRef: ChangeDetectorRef
@@ -92,24 +59,14 @@ export class FavoriteLibrariesComponent extends PageComponent implements OnInit 
 
     this.getList({ maxItems: this.preferences.paginationSize });
 
-    this.subscriptions = this.subscriptions.concat([
+    this.subscriptions.push(
       this.appHookService.libraryDeleted.subscribe(() => this.reloadList()),
       this.appHookService.libraryUpdated.subscribe(() => this.reloadList()),
       this.appHookService.libraryJoined.subscribe(() => this.reloadList()),
       this.appHookService.libraryLeft.subscribe(() => this.reloadList()),
       this.appHookService.favoriteLibraryToggle.subscribe(() => this.reloadList())
-    ]);
+    );
     this.columns = this.extensions.documentListPresets.favoriteLibraries || [];
-  }
-
-  navigateTo(node: SiteEntry) {
-    if (node?.entry?.guid) {
-      this.store.dispatch(new NavigateLibraryAction(node.entry, 'favorite/libraries'));
-    }
-  }
-
-  handleNodeClick(event: Event) {
-    this.navigateTo((event as CustomEvent).detail?.node);
   }
 
   onChangePageSize(pagination: Pagination) {
@@ -117,11 +74,7 @@ export class FavoriteLibrariesComponent extends PageComponent implements OnInit 
     this.getList(pagination);
   }
 
-  onChange(pagination: Pagination) {
-    this.getList(pagination);
-  }
-
-  private getList(pagination: Pagination) {
+  getList(pagination: Pagination) {
     this.isLoading = true;
     this.contentApiService.getFavoriteLibraries('-me-', pagination).subscribe(
       (favoriteLibraries: FavoritePaging) => {

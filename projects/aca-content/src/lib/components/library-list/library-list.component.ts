@@ -23,53 +23,19 @@
  */
 
 import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Pagination, SiteEntry, SitePaging } from '@alfresco/js-api';
-import {
-  AppHookService,
-  ContextActionsDirective,
-  InfoDrawerComponent,
-  PageComponent,
-  PageLayoutComponent,
-  ToolbarComponent
-} from '@alfresco/aca-shared';
-import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
-import {
-  CustomEmptyContentTemplateDirective,
-  DataColumnComponent,
-  DataColumnListComponent,
-  EmptyContentComponent,
-  PaginationComponent,
-  UserPreferencesService
-} from '@alfresco/adf-core';
-import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
-import { CommonModule } from '@angular/common';
-import { DocumentListDirective } from '../../directives/document-list.directive';
-import { TranslatePipe } from '@ngx-translate/core';
-import { DocumentListComponent, SitesService } from '@alfresco/adf-content-services';
-import { merge } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Pagination, SitePaging } from '@alfresco/js-api';
+import { UserPreferencesService } from '@alfresco/adf-core';
+import { SitesService } from '@alfresco/adf-content-services';
+import { LibrariesBaseComponent } from '../libraries-base/libraries-base.component';
 
 @Component({
-  imports: [
-    CommonModule,
-    DocumentListDirective,
-    ContextActionsDirective,
-    PaginationComponent,
-    InfoDrawerComponent,
-    PageLayoutComponent,
-    TranslatePipe,
-    ToolbarComponent,
-    EmptyContentComponent,
-    DynamicColumnComponent,
-    DataColumnListComponent,
-    DataColumnComponent,
-    DocumentListComponent,
-    CustomEmptyContentTemplateDirective
-  ],
+  selector: 'aca-library-list',
+  standalone: true,
   templateUrl: './library-list.component.html',
+  imports: [LibrariesBaseComponent],
   encapsulation: ViewEncapsulation.None
 })
-export class LibraryListComponent extends PageComponent implements OnInit {
+export class LibraryListComponent extends LibrariesBaseComponent implements OnInit {
   pagination = new Pagination({
     skipCount: 0,
     maxItems: 25,
@@ -77,10 +43,8 @@ export class LibraryListComponent extends PageComponent implements OnInit {
   });
   isLoading = false;
   list: SitePaging;
-  columns: DocumentListPresetRef[] = [];
 
   constructor(
-    private readonly appHookService: AppHookService,
     private readonly preferences: UserPreferencesService,
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly sitesService: SitesService
@@ -92,21 +56,13 @@ export class LibraryListComponent extends PageComponent implements OnInit {
     super.ngOnInit();
 
     this.getList({ maxItems: this.preferences.paginationSize });
-
-    merge(this.appHookService.libraryDeleted, this.appHookService.libraryUpdated, this.appHookService.libraryJoined, this.appHookService.libraryLeft)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.reloadList());
+    this.subscriptions.push(
+      this.appHookService.libraryDeleted.subscribe(() => this.reloadList()),
+      this.appHookService.libraryUpdated.subscribe(() => this.reloadList()),
+      this.appHookService.libraryJoined.subscribe(() => this.reloadList()),
+      this.appHookService.libraryLeft.subscribe(() => this.reloadList())
+    );
     this.columns = this.extensions.documentListPresets.libraries || [];
-  }
-
-  navigateTo(node: SiteEntry) {
-    if (node?.entry?.guid) {
-      this.store.dispatch(new NavigateLibraryAction(node.entry));
-    }
-  }
-
-  handleNodeClick(event: Event) {
-    this.navigateTo((event as CustomEvent).detail?.node);
   }
 
   onChangePageSize(pagination: Pagination) {

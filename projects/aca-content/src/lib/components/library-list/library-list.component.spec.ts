@@ -23,136 +23,86 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
-import { UnitTestingUtils, UserPreferencesService } from '@alfresco/adf-core';
-import { DocumentListComponent, SitesService } from '@alfresco/adf-content-services';
+import { UserPreferencesService } from '@alfresco/adf-core';
+import { SitesService } from '@alfresco/adf-content-services';
 import { LibraryListComponent } from './library-list.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { AppHookService } from '@alfresco/aca-shared';
+import { AppExtensionService, AppHookService } from '@alfresco/aca-shared';
 import { provideEffects } from '@ngrx/effects';
-import { RouterEffects } from '@alfresco/aca-shared/store';
 import { Observable, of, throwError } from 'rxjs';
 import { LibraryEffects } from '../../store/effects';
-import { getTitleElementText } from '../../testing/test-utils';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { Pagination, SiteEntry, SitePaging } from '@alfresco/js-api';
+import { SitePaging } from '@alfresco/js-api';
+import { libraryColumnsPresetMock, librariesMock, libraryPaginationMock } from '../../mock/libraries-mock';
 
 describe('LibraryListComponent', () => {
   let fixture: ComponentFixture<LibraryListComponent>;
   let component: LibraryListComponent;
   let userPreference: UserPreferencesService;
   let sitesService: SitesService;
-  let router: Router;
   let appHookService: AppHookService;
   let getSitesSpy: jasmine.Spy<(options?: any) => Observable<SitePaging>>;
-  let unitTestingUtils: UnitTestingUtils;
-
-  const paging: SitePaging = {
-    list: {
-      entries: [
-        { entry: { id: '1', guid: '1', title: 'Library 1', visibility: 'public', preset: 'site-dashboard' } },
-        { entry: { id: '2', guid: '2', title: 'Library 2', visibility: 'private' } }
-      ],
-      pagination: { count: 25, skipCount: 0 }
-    }
-  };
+  let appExtensionService: AppExtensionService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, LibraryListComponent, MatSnackBarModule],
-      providers: [provideEffects([RouterEffects, LibraryEffects])]
+      providers: [provideEffects([LibraryEffects])]
     });
 
     fixture = TestBed.createComponent(LibraryListComponent);
     component = fixture.componentInstance;
 
-    unitTestingUtils = new UnitTestingUtils(fixture.debugElement);
     sitesService = TestBed.inject(SitesService);
     userPreference = TestBed.inject(UserPreferencesService);
     appHookService = TestBed.inject(AppHookService);
-    router = TestBed.inject(Router);
+    appExtensionService = TestBed.inject(AppExtensionService);
 
     getSitesSpy = spyOn(sitesService, 'getSites');
-    getSitesSpy.and.returnValue(of(paging));
+    getSitesSpy.and.returnValue(of(librariesMock));
     fixture.detectChanges();
   });
 
-  describe('on initialization', () => {
-    it('should set data', () => {
-      expect(component.list).toBe(paging);
-      expect(component.pagination).toBe(paging.list.pagination);
-    });
-
-    it('should get data with user preference pagination size', () => {
-      userPreference.paginationSize = 1;
-      component.ngOnInit();
-      expect(sitesService.getSites).toHaveBeenCalledWith({ maxItems: 1 });
-    });
-
-    it('should set data on error', () => {
-      getSitesSpy.and.returnValue(throwError(() => 'error'));
-      component.ngOnInit();
-
-      expect(component.list).toBeNull();
-      expect(component.pagination).toBeNull();
-      expect(component.isLoading).toBe(false);
-    });
-
-    it('should set title based on selectedRowItemsCount', () => {
-      expect(getTitleElementText(fixture)).toBe('APP.BROWSE.LIBRARIES.MENU.ALL_LIBRARIES.TITLE');
-
-      component.selectedRowItemsCount = 5;
-      fixture.detectChanges();
-
-      expect(getTitleElementText(fixture)).toBe('APP.HEADER.SELECTED');
-    });
-
-    it('should handle no columns preset in extensions', () => {
-      component['extensions'].documentListPresets.libraries = undefined;
-      component.ngOnInit();
-      expect(component.columns.length).toBe(0);
-    });
+  it('should set data', () => {
+    expect(component.list).toBe(librariesMock);
+    expect(component.pagination).toBe(librariesMock.list.pagination);
   });
 
-  describe('Node navigation', () => {
-    it('should not navigate when node is null or missing guid', () => {
-      spyOn(router, 'navigate').and.stub();
-      component.navigateTo(null);
-      expect(router.navigate).not.toHaveBeenCalled();
-
-      component.navigateTo({ entry: {} } as SiteEntry);
-      expect(router.navigate).not.toHaveBeenCalled();
-    });
-
-    it('should dispatch navigation action when node has guid', () => {
-      spyOn(component['store'], 'dispatch').and.stub();
-      component.navigateTo({ entry: { guid: 'guid' } } as SiteEntry);
-      expect(component['store'].dispatch).toHaveBeenCalled();
-    });
-
-    it('should handle node double click', () => {
-      spyOn(component, 'navigateTo').and.stub();
-      const documentList = unitTestingUtils.getByDirective(DocumentListComponent);
-      documentList.triggerEventHandler('node-dblclick', { detail: { node: { entry: { guid: 'guid' } } } });
-      expect(component.navigateTo).toHaveBeenCalledWith({ entry: { guid: 'guid' } } as SiteEntry);
-    });
-
-    it('should handle name click', () => {
-      spyOn(component, 'navigateTo').and.stub();
-      const documentList = unitTestingUtils.getByDirective(DocumentListComponent);
-      documentList.triggerEventHandler('name-click', { detail: { node: { entry: { guid: 'guid' } } } });
-      expect(component.navigateTo).toHaveBeenCalledWith({ entry: { guid: 'guid' } } as SiteEntry);
-    });
+  it('should get data with user preference pagination size', () => {
+    userPreference.paginationSize = 1;
+    component.ngOnInit();
+    expect(sitesService.getSites).toHaveBeenCalledWith({ maxItems: 1 });
   });
 
-  describe('Reload on actions', () => {
+  it('should set data on error', () => {
+    getSitesSpy.and.returnValue(throwError(() => 'error'));
+    component.ngOnInit();
+
+    expect(component.list).toBeNull();
+    expect(component.pagination).toBeNull();
+    expect(component.isLoading).toBe(false);
+  });
+
+  it('should set columns from extensions on init', () => {
+    appExtensionService.documentListPresets.libraries = libraryColumnsPresetMock;
+    component.ngOnInit();
+    expect(component.columns).toEqual(appExtensionService.documentListPresets.libraries);
+  });
+
+  it('should handle no columns preset in extensions', () => {
+    appExtensionService.documentListPresets.libraries = undefined;
+    component.ngOnInit();
+    expect(component.columns.length).toBe(0);
+  });
+
+  describe('Library hooks', () => {
     it('should reload on libraryDeleted action', () => {
       appHookService.libraryDeleted.next('');
       expect(sitesService.getSites).toHaveBeenCalled();
     });
 
     it('should reload on libraryUpdated action', () => {
-      appHookService.libraryUpdated.next(paging.list.entries[0]);
+      appHookService.libraryUpdated.next(librariesMock.list.entries[0]);
       expect(sitesService.getSites).toHaveBeenCalled();
     });
 
@@ -168,27 +118,19 @@ describe('LibraryListComponent', () => {
   });
 
   describe('Pagination', () => {
-    const pagination: Pagination = {
-      count: 100,
-      hasMoreItems: true,
-      totalItems: 300,
-      skipCount: 25,
-      maxItems: 25
-    };
-
     it('should get list with pagination data onChange event', () => {
-      component.getList(pagination);
-      expect(sitesService.getSites).toHaveBeenCalledWith(pagination);
+      component.getList(libraryPaginationMock);
+      expect(sitesService.getSites).toHaveBeenCalledWith(libraryPaginationMock);
     });
 
     it('should get list with pagination data onChangePageSize event', () => {
-      component.onChangePageSize(pagination);
-      expect(sitesService.getSites).toHaveBeenCalledWith(pagination);
+      component.onChangePageSize(libraryPaginationMock);
+      expect(sitesService.getSites).toHaveBeenCalledWith(libraryPaginationMock);
     });
 
     it('should set preference page size onChangePageSize event', () => {
-      component.onChangePageSize(pagination);
-      expect(userPreference.paginationSize).toBe(pagination.maxItems);
+      component.onChangePageSize(libraryPaginationMock);
+      expect(userPreference.paginationSize).toBe(libraryPaginationMock.maxItems);
     });
   });
 });

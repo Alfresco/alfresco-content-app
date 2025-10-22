@@ -1,0 +1,96 @@
+<aca-page-layout>
+  <div class="aca-page-layout-header">
+    <h1 class="aca-page-title">
+      @if (selectedRowItemsCount < 1) {
+        {{ titleKey | translate: { count: selectedRowItemsCount } }}
+      } @else {
+        {{ 'APP.HEADER.SELECTED' | translate: { count: selectedRowItemsCount } }}
+      }
+    </h1>
+    <aca-toolbar [items]="actions" />
+  </div>
+
+  <div class="aca-page-layout-content">
+    <div class="aca-main-content">
+      <adf-document-list
+        #documentList
+        acaDocumentList
+        acaContextActions
+        [currentFolderId]="currentFolderId"
+        [node]="$any(list)"
+        [loading]="isLoading"
+        [selectionMode]="'multiple'"
+        [multiselect]="true"
+        [navigate]="false"
+        [sorting]="['title', 'asc']"
+        [sortingMode]="'client'"
+        [displayCheckboxesOnHover]="true"
+        [preselectNodes]="selectedNodesState?.nodes"
+        (node-dblclick)="handleNodeClick($event)"
+        [imageResolver]="imageResolver"
+        [isResizingEnabled]="true"
+        [blurOnResize]="false"
+        (name-click)="handleNodeClick($event)"
+      >
+        <adf-custom-empty-content-template>
+          <adf-empty-content
+            icon="library_books"
+            [title]="emptyTitleKey | translate"
+            [subtitle]="emptySubtitleKey | translate"
+          />
+        </adf-custom-empty-content-template>
+
+        <data-columns>
+          @for (column of columns; track trackByColumnId($index, column)) {
+            @if (column.template && !(column.desktopOnly && isSmallScreen)) {
+              <data-column
+                [id]="column.id"
+                [draggable]="column.draggable"
+                [resizable]="column.resizable"
+                [key]="column.key"
+                [title]="column.title"
+                [type]="column.type"
+                [format]="column.format"
+                [class]="column.class"
+                [sortable]="column.sortable"
+                [isHidden]="column.isHidden"
+                [sortingKey]="column.sortingKey || column.key"
+              >
+                <ng-template let-context>
+                  <adf-dynamic-column [id]="column.template" [context]="context" />
+                </ng-template>
+              </data-column>
+            } @else if (!column.template && !(column.desktopOnly && isSmallScreen)) {
+              <data-column
+                [id]="column.id"
+                [key]="column.key"
+                [draggable]="column.draggable"
+                [resizable]="column.resizable"
+                [title]="column.title"
+                [type]="column.type"
+                [format]="column.format"
+                [class]="column.class"
+                [sortable]="column.sortable"
+                [isHidden]="column.isHidden"
+                [sortingKey]="column.sortingKey || column.key"
+              />
+            }
+          }
+        </data-columns>
+      </adf-document-list>
+
+      <adf-pagination
+        [target]="documentList"
+        [pagination]="pagination"
+        (changePageSize)="changePageSize.emit($event)"
+        (changePageNumber)="changePageNumber.emit($event)"
+        (nextPage)="nextPage.emit($event)"
+        (prevPage)="prevPage.emit($event)"
+      />
+    </div>
+
+    @if (infoDrawerOpened$ | async) {
+      <aca-info-drawer class="aca-sidebar" [node]="$any(selection?.last)" />
+    }
+  </div>
+</aca-page-layout>
