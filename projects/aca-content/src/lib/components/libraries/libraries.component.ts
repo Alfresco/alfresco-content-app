@@ -33,10 +33,6 @@ import { LibrariesBaseComponent } from '../libraries-base/libraries-base.compone
   encapsulation: ViewEncapsulation.None
 })
 export class LibrariesComponent extends LibrariesBaseComponent implements OnInit {
-  constructor() {
-    super();
-  }
-
   ngOnInit() {
     super.ngOnInit();
 

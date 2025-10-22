@@ -86,11 +86,7 @@ export class LibrariesBaseComponent extends PageComponent {
 
   protected appHookService = inject(AppHookService);
 
-  constructor() {
-    super();
-  }
-
-  navigateTo(node: SiteEntry) {
+  private navigateTo(node: SiteEntry) {
     if (node?.entry?.guid) {
       this.store.dispatch(new NavigateLibraryAction(node.entry, this.navigateRoute));
     }

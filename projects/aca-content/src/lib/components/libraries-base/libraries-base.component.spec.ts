@@ -27,31 +27,31 @@ import { LibrariesBaseComponent } from './libraries-base.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { CustomEmptyContentTemplateDirective, PaginationComponent, UnitTestingUtils } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
-import { SiteEntry } from '@alfresco/js-api';
-import { Router } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
-import { RouterEffects } from '@alfresco/aca-shared/store';
+import { NavigateLibraryAction, RouterEffects } from '@alfresco/aca-shared/store';
 import { LibraryEffects } from '../../store/effects';
 import { getTitleElementText } from '../../testing/test-utils';
 import { librariesMock, libraryPaginationMock } from '../../mock/libraries-mock';
 import { DebugElement } from '@angular/core';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { initialState } from '@alfresco/aca-shared';
 
 describe('LibrariesBaseComponent', () => {
   let component: LibrariesBaseComponent;
   let fixture: ComponentFixture<LibrariesBaseComponent>;
   let unitTestingUtils: UnitTestingUtils;
-  let router: Router;
+  let store: MockStore;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppTestingModule, LibrariesBaseComponent],
-      providers: [provideEffects([RouterEffects, LibraryEffects])]
+      providers: [provideEffects([RouterEffects, LibraryEffects]), provideMockStore({ initialState })]
     }).compileComponents();
     fixture = TestBed.createComponent(LibrariesBaseComponent);
     component = fixture.componentInstance;
 
-    router = TestBed.inject(Router);
     unitTestingUtils = new UnitTestingUtils(fixture.debugElement);
+    store = TestBed.inject(MockStore);
 
     component.list = librariesMock;
     fixture.detectChanges();
@@ -113,33 +113,33 @@ describe('LibrariesBaseComponent', () => {
   });
 
   describe('Node navigation', () => {
-    it('should not navigate when node is null or missing guid', () => {
-      spyOn(router, 'navigate').and.stub();
-      component.navigateTo(null);
-      expect(router.navigate).not.toHaveBeenCalled();
+    let documentListComponent: DebugElement;
 
-      component.navigateTo({ entry: {} } as SiteEntry);
-      expect(router.navigate).not.toHaveBeenCalled();
+    beforeEach(() => {
+      documentListComponent = unitTestingUtils.getByDirective(DocumentListComponent);
     });
 
-    it('should dispatch navigation action when node has guid', () => {
-      spyOn(component['store'], 'dispatch').and.stub();
-      component.navigateTo({ entry: { guid: 'guid' } } as SiteEntry);
-      expect(component['store'].dispatch).toHaveBeenCalled();
+    it('should not navigate when node is null or missing guid', () => {
+      spyOn(store, 'dispatch').and.stub();
+      documentListComponent.triggerEventHandler('node-dblclick', { detail: { node: null } });
+      expect(store.dispatch).not.toHaveBeenCalled();
+
+      documentListComponent.triggerEventHandler('node-dblclick', { detail: { node: { entry: {} } } });
+      expect(store.dispatch).not.toHaveBeenCalled();
     });
 
     it('should handle node double click', () => {
-      spyOn(component, 'navigateTo').and.stub();
-      const documentList = unitTestingUtils.getByDirective(DocumentListComponent);
-      documentList.triggerEventHandler('node-dblclick', { detail: { node: { entry: { guid: 'guid' } } } });
-      expect(component.navigateTo).toHaveBeenCalledWith({ entry: { guid: 'guid' } } as SiteEntry);
+      spyOn(store, 'dispatch').and.stub();
+      const siteEntry = librariesMock.list.entries[0].entry;
+      documentListComponent.triggerEventHandler('node-dblclick', { detail: { node: { entry: siteEntry } } });
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new NavigateLibraryAction(siteEntry) }));
     });
 
     it('should handle name click', () => {
-      spyOn(component, 'navigateTo').and.stub();
-      const documentList = unitTestingUtils.getByDirective(DocumentListComponent);
-      documentList.triggerEventHandler('name-click', { detail: { node: { entry: { guid: 'guid' } } } });
-      expect(component.navigateTo).toHaveBeenCalledWith({ entry: { guid: 'guid' } } as SiteEntry);
+      spyOn(store, 'dispatch').and.stub();
+      const siteEntry = librariesMock.list.entries[0].entry;
+      documentListComponent.triggerEventHandler('name-click', { detail: { node: { entry: siteEntry } } });
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new NavigateLibraryAction(siteEntry) }));
     });
   });
 });

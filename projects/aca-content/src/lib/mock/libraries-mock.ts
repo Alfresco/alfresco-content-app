@@ -38,12 +38,12 @@ export const librariesMock: SitePaging = {
 export const favoriteLibrariesMock: FavoritePaging = {
   list: {
     entries: [
-      { entry: { id: '1', targetGuid: '1', title: 'Favorite Library 1', visibility: 'public' } },
-      { entry: { id: '2', targetGuid: '2', title: 'Favorite Library 2', visibility: 'private' } }
+      { entry: { targetGuid: '1', target: { id: '1', guid: '1', title: 'Favorite Library 1', visibility: 'public' } } },
+      { entry: { targetGuid: '2', target: { id: '2', guid: '2', title: 'Favorite Library 2', visibility: 'private' } } }
     ],
     pagination: { count: 25, skipCount: 0 }
   }
-} as any as FavoritePaging;
+};
 
 export const libraryColumnsPresetMock: DocumentListPresetRef[] = [
   {

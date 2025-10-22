@@ -79,7 +79,7 @@ describe('FavoriteLibrariesComponent', () => {
   });
 
   it('should set data on error', () => {
-    spyOn(contentApiService, 'getFavoriteLibraries').and.returnValue(throwError('error'));
+    spyOn(contentApiService, 'getFavoriteLibraries').and.returnValue(throwError(() => 'error'));
     fixture.detectChanges();
 
     expect(component.list).toBe(null);
