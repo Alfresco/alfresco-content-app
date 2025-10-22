@@ -24,14 +24,14 @@
 
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { SaveSearchSidenavComponent } from './save-search-sidenav.component';
-import { SavedSearchesService } from '@alfresco/adf-content-services';
 import { AppTestingModule } from '../../../../testing/app-testing.module';
 import { of, ReplaySubject } from 'rxjs';
+import { SavedSearchesContextService } from '../../../../services/saved-searches-context.service';
 
 describe('SaveSearchSidenavComponent', () => {
   let fixture: ComponentFixture<SaveSearchSidenavComponent>;
   let component: SaveSearchSidenavComponent;
-  let savedSearchesService: SavedSearchesService;
+  let savedSearchesService: SavedSearchesContextService;
 
   beforeEach(() => {
     const mockService = {
@@ -43,7 +43,7 @@ describe('SaveSearchSidenavComponent', () => {
       imports: [AppTestingModule, SaveSearchSidenavComponent],
       providers: [
         {
-          provide: SavedSearchesService,
+          provide: SavedSearchesContextService,
           useValue: mockService
         }
       ]
@@ -51,7 +51,7 @@ describe('SaveSearchSidenavComponent', () => {
 
     fixture = TestBed.createComponent(SaveSearchSidenavComponent);
     component = fixture.componentInstance;
-    savedSearchesService = TestBed.inject(SavedSearchesService);
+    savedSearchesService = TestBed.inject(SavedSearchesContextService);
   });
 
   it('should set navbar object if no search is saved', async () => {

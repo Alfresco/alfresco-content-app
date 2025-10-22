@@ -26,16 +26,16 @@ import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testin
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { of, throwError } from 'rxjs';
 import { SaveSearchDialogComponent } from './save-search-dialog.component';
-import { SavedSearchesService } from '@alfresco/adf-content-services';
 import { provideMockStore } from '@ngrx/store/testing';
 import { AppTestingModule } from '../../../../testing/app-testing.module';
 import { NoopTranslateModule, NotificationService } from '@alfresco/adf-core';
+import { SavedSearchesContextService } from '../../../../services/saved-searches-context.service';
 
 describe('SaveSearchDialogComponent', () => {
   let fixture: ComponentFixture<SaveSearchDialogComponent>;
   let component: SaveSearchDialogComponent;
   let notificationService: NotificationService;
-  let savedSearchesService: SavedSearchesService;
+  let savedSearchesService: SavedSearchesContextService;
   let submitButton: HTMLButtonElement;
 
   const dialogRef = {
@@ -48,7 +48,7 @@ describe('SaveSearchDialogComponent', () => {
       providers: [
         { provide: MatDialogRef, useValue: dialogRef },
         provideMockStore(),
-        { provide: SavedSearchesService, useValue: { saveSearch: () => of({}), getSavedSearches: () => of([]) } },
+        { provide: SavedSearchesContextService, useValue: { saveSearch: () => of({}), getSavedSearches: () => of([]) } },
         { provide: MAT_DIALOG_DATA, useValue: { searchUrl: 'abcdef' } }
       ]
     });
@@ -56,7 +56,7 @@ describe('SaveSearchDialogComponent', () => {
     fixture = TestBed.createComponent(SaveSearchDialogComponent);
     component = fixture.componentInstance;
     notificationService = TestBed.inject(NotificationService);
-    savedSearchesService = TestBed.inject(SavedSearchesService);
+    savedSearchesService = TestBed.inject(SavedSearchesContextService);
 
     submitButton = fixture.nativeElement.querySelector('#aca-save-search-dialog-save-button');
   });

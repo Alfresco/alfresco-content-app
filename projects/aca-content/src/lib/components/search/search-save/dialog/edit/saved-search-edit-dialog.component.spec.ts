@@ -26,16 +26,17 @@ import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testin
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { of, throwError } from 'rxjs';
 import { SavedSearchEditDialogComponent } from './saved-search-edit-dialog.component';
-import { SavedSearch, SavedSearchesService } from '@alfresco/adf-content-services';
+import { SavedSearch } from '@alfresco/adf-content-services';
 import { provideMockStore } from '@ngrx/store/testing';
 import { NotificationService } from '@alfresco/adf-core';
 import { AppTestingModule } from '../../../../../testing/app-testing.module';
+import { SavedSearchesContextService } from '../../../../../services/saved-searches-context.service';
 
 describe('SaveSearchEditDialogComponent', () => {
   let fixture: ComponentFixture<SavedSearchEditDialogComponent>;
   let component: SavedSearchEditDialogComponent;
   let notificationService: NotificationService;
-  let savedSearchesService: SavedSearchesService;
+  let savedSearchesService: SavedSearchesContextService;
   let submitButton: HTMLButtonElement;
 
   const savedSearchToDelete: SavedSearch = {
@@ -54,7 +55,7 @@ describe('SaveSearchEditDialogComponent', () => {
       providers: [
         { provide: MatDialogRef, useValue: dialogRef },
         provideMockStore(),
-        { provide: SavedSearchesService, useValue: { editSavedSearch: () => of({}), getSavedSearches: () => of([]) } },
+        { provide: SavedSearchesContextService, useValue: { editSavedSearch: () => of({}), getSavedSearches: () => of([]) } },
         { provide: MAT_DIALOG_DATA, useValue: savedSearchToDelete }
       ]
     });
@@ -62,7 +63,7 @@ describe('SaveSearchEditDialogComponent', () => {
     fixture = TestBed.createComponent(SavedSearchEditDialogComponent);
     component = fixture.componentInstance;
     notificationService = TestBed.inject(NotificationService);
-    savedSearchesService = TestBed.inject(SavedSearchesService);
+    savedSearchesService = TestBed.inject(SavedSearchesContextService);
 
     submitButton = fixture.nativeElement.querySelector('#aca-saved-search-edit-dialog-submit-button');
   });

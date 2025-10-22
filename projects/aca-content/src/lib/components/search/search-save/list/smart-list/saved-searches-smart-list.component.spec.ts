@@ -26,11 +26,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopTranslateModule, provideCoreAuthTesting } from '@alfresco/adf-core';
 import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 import { By } from '@angular/platform-browser';
-import { SavedSearchesService, SavedSearch } from '@alfresco/adf-content-services';
+import { SavedSearch } from '@alfresco/adf-content-services';
 import { SavedSearchesSmartListComponent } from './saved-searches-smart-list.component';
 import { AppService, DocumentBasePageService, DocumentBasePageServiceMock } from '@alfresco/aca-shared';
 import { AppState } from '@alfresco/aca-shared/store';
 import { provideMockStore } from '@ngrx/store/testing';
+import { SavedSearchesContextService } from '../../../../../services/saved-searches-context.service';
 
 const appServiceMock = {
   appNavNarMode$: new BehaviorSubject('collapsed'),
@@ -63,7 +64,7 @@ describe('SavedSearchesSmartListComponent', () => {
           initialState: { app: appState }
         }),
         { provide: DocumentBasePageService, useClass: DocumentBasePageServiceMock },
-        { provide: SavedSearchesService, useValue: { savedSearches$: fakeSavedSearches$ } },
+        { provide: SavedSearchesContextService, useValue: { savedSearches$: fakeSavedSearches$ } },
         { provide: AppService, useValue: appServiceMock }
       ]
     });

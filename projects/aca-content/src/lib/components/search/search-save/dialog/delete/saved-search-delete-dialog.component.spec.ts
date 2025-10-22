@@ -26,14 +26,15 @@ import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testin
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { of, throwError } from 'rxjs';
 import { SavedSearchDeleteDialogComponent } from './saved-search-delete-dialog.component';
-import { SavedSearch, SavedSearchesService } from '@alfresco/adf-content-services';
+import { SavedSearch } from '@alfresco/adf-content-services';
 import { NotificationService } from '@alfresco/adf-core';
 import { AppTestingModule } from '../../../../../testing/app-testing.module';
+import { SavedSearchesContextService } from '../../../../../services/saved-searches-context.service';
 
 describe('SaveSearchDeleteDialogComponent', () => {
   let fixture: ComponentFixture<SavedSearchDeleteDialogComponent>;
   let notificationService: NotificationService;
-  let savedSearchesService: SavedSearchesService;
+  let savedSearchesService: SavedSearchesContextService;
   let submitButton: HTMLButtonElement;
   let cancelButton: HTMLButtonElement;
 
@@ -52,13 +53,13 @@ describe('SaveSearchDeleteDialogComponent', () => {
       imports: [AppTestingModule, SavedSearchDeleteDialogComponent],
       providers: [
         { provide: MatDialogRef, useValue: dialogRef },
-        { provide: SavedSearchesService, useValue: { deleteSavedSearch: () => of({}) } },
+        { provide: SavedSearchesContextService, useValue: { deleteSavedSearch: () => of({}) } },
         { provide: MAT_DIALOG_DATA, useValue: savedSearchToDelete }
       ]
     });
     dialogRef.close.calls.reset();
     fixture = TestBed.createComponent(SavedSearchDeleteDialogComponent);
-    savedSearchesService = TestBed.inject(SavedSearchesService);
+    savedSearchesService = TestBed.inject(SavedSearchesContextService);
     notificationService = TestBed.inject(NotificationService);
 
     submitButton = fixture.nativeElement.querySelector('#aca-save-search-delete-dialog-submit-button');

@@ -29,7 +29,7 @@ import { AppConfigService, NotificationService, TranslationService } from '@alfr
 import { Store } from '@ngrx/store';
 import { NavigateToFolder } from '@alfresco/aca-shared/store';
 import { Pagination, SearchRequest } from '@alfresco/js-api';
-import { SavedSearchesService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
+import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { ActivatedRoute, Event, NavigationStart, Params, Router } from '@angular/router';
 import { BehaviorSubject, Observable, of, Subject, throwError } from 'rxjs';
 import { AppTestingModule } from '../../../testing/app-testing.module';
@@ -42,6 +42,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatMenuHarness } from '@angular/material/menu/testing';
+import { SavedSearchesContextService } from '../../../services/saved-searches-context.service';
 
 @Pipe({ name: 'isFeatureSupportedInCurrentAcs' })
 class MockIsFeatureSupportedInCurrentAcsPipe implements PipeTransform {
@@ -96,7 +97,7 @@ describe('SearchComponent', () => {
           }
         },
         {
-          provide: SavedSearchesService,
+          provide: SavedSearchesContextService,
           useValue: {
             getSavedSearches: jasmine
               .createSpy('getSavedSearches')

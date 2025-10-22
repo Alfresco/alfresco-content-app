@@ -24,10 +24,10 @@
 
 import { TestBed } from '@angular/core/testing';
 import { UniqueSearchNameValidator } from './unique-search-name-validator';
-import { SavedSearchesService } from '@alfresco/adf-content-services';
 import { of } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { NoopTranslateModule } from '@alfresco/adf-core';
+import { SavedSearchesContextService } from '../../../../services/saved-searches-context.service';
 
 describe('UniqueSearchNameValidator', () => {
   let validator: UniqueSearchNameValidator;
@@ -40,7 +40,7 @@ describe('UniqueSearchNameValidator', () => {
 
   describe('Save searches returns results', () => {
     beforeEach(() => {
-      TestBed.overrideProvider(SavedSearchesService, { useValue: { getSavedSearches: () => of([{ name: 'test' }]) } });
+      TestBed.overrideProvider(SavedSearchesContextService, { useValue: { getSavedSearches: () => of([{ name: 'test' }]) } });
       validator = TestBed.inject(UniqueSearchNameValidator);
     });
 
@@ -63,7 +63,7 @@ describe('UniqueSearchNameValidator', () => {
 
   describe('Save searches returns error', () => {
     beforeEach(() => {
-      TestBed.overrideProvider(SavedSearchesService, { useValue: { getSavedSearches: () => of(null) } });
+      TestBed.overrideProvider(SavedSearchesContextService, { useValue: { getSavedSearches: () => of(null) } });
       validator = TestBed.inject(UniqueSearchNameValidator);
     });
 
