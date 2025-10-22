@@ -42,7 +42,7 @@ export class LibraryListComponent extends LibrariesBaseComponent implements OnIn
     totalItems: 0
   });
   isLoading = false;
-  list: SitePaging;
+  list: SitePaging = null;
 
   constructor(
     private readonly preferences: UserPreferencesService,

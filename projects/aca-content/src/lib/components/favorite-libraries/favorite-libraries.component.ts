@@ -43,7 +43,7 @@ export class FavoriteLibrariesComponent extends LibrariesBaseComponent implement
     totalItems: 0
   });
   isLoading = false;
-  list: FavoritePaging;
+  list: FavoritePaging = null;
   columns: DocumentListPresetRef[] = [];
 
   constructor(
