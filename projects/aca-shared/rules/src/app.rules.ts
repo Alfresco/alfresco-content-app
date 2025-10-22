@@ -560,3 +560,5 @@ export const canDisplayKnowledgeRetrievalButton = (context: AcaRuleContext): boo
     navigation.isRecentFiles(context) ||
     navigation.isFavorites(context) ||
     ((navigation.isSearchResults(context) || navigation.isLibraryContent(context)) && !navigation.isLibraries(context)));
+
+export const isSSOEnabled = (context: AcaRuleContext): boolean => context.appConfig.get('authType') === 'OAUTH';

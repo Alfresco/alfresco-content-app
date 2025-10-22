@@ -34,3 +34,7 @@ export interface Badge extends Partial<Pick<ContentActionRef, 'component' | 'act
   icon: string;
   tooltip: string;
 }
+
+export interface UserProfileSection extends Partial<Pick<ContentActionRef, 'component' | 'rules'>> {
+  id: string;
+}

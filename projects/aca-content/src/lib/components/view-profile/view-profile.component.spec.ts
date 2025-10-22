@@ -25,10 +25,9 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { ViewProfileComponent } from './view-profile.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { AppService } from '@alfresco/aca-shared';
+import { BehaviorSubject, of, Subject } from 'rxjs';
+import { AppExtensionService, AppService } from '@alfresco/aca-shared';
 import { UnitTestingUtils } from '@alfresco/adf-core';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { HarnessLoader } from '@angular/cdk/testing';
@@ -39,6 +38,7 @@ describe('ViewProfileComponent', () => {
   let router: Router;
   let unitTestingUtils: UnitTestingUtils;
   let loader: HarnessLoader;
+  let appExtensionService: AppExtensionService;
 
   const appServiceMock = {
     toggleAppNavBar$: new Subject(),
@@ -61,6 +61,7 @@ describe('ViewProfileComponent', () => {
     router = TestBed.inject(Router);
     loader = TestbedHarnessEnvironment.loader(fixture);
     unitTestingUtils = new UnitTestingUtils(fixture.debugElement, loader);
+    appExtensionService = TestBed.inject(AppExtensionService);
     router.initialNavigation();
   });
 
@@ -71,7 +72,7 @@ describe('ViewProfileComponent', () => {
 
   it('should toggle the appService toggleAppNavBar$ Subject', () => {
     spyOn(appServiceMock.toggleAppNavBar$, 'next');
-    component.toggleClick();
+    component.toggleNavigationMenu();
     expect(appServiceMock.toggleAppNavBar$.next).toHaveBeenCalled();
   });
 
@@ -156,8 +157,7 @@ describe('ViewProfileComponent', () => {
     component.generalSectionDropdown = false;
     fixture.detectChanges();
 
-    const generalToggleIcon = fixture.debugElement.query(By.css('#toggle-general-dropdown'));
-    generalToggleIcon.triggerEventHandler('click', null);
+    unitTestingUtils.clickByCSS('#general-dropdown button');
 
     expect(component.toggleGeneralDropdown).toHaveBeenCalled();
     expect(component.generalSectionButtonsToggle).toBe(true);
@@ -168,8 +168,7 @@ describe('ViewProfileComponent', () => {
     component.contactSectionDropdown = false;
     fixture.detectChanges();
 
-    const contactToggleIcon = fixture.debugElement.query(By.css('#toggle-contact-dropdown'));
-    contactToggleIcon.triggerEventHandler('click', null);
+    unitTestingUtils.clickByCSS('#contact-dropdown button');
 
     expect(component.toggleContactDropdown).toHaveBeenCalled();
     expect(component.contactSectionButtonsToggle).toBe(true);
@@ -179,12 +178,10 @@ describe('ViewProfileComponent', () => {
     spyOn(component, 'toggleGeneralButtons').and.callThrough();
     fixture.detectChanges();
 
-    const generalEditButton = fixture.debugElement.query(By.css('#general-edit-button'));
-    generalEditButton.triggerEventHandler('click', null);
+    unitTestingUtils.clickByCSS('#general-dropdown .app-general-edit');
     fixture.detectChanges();
 
-    const generalCancelButton = fixture.debugElement.query(By.css('#general-cancel-button'));
-    generalCancelButton.triggerEventHandler('click', null);
+    unitTestingUtils.clickByCSS('#general-dropdown .app-general-cancel-btn');
 
     expect(component.toggleGeneralButtons).toHaveBeenCalledTimes(2);
   });
@@ -193,12 +190,10 @@ describe('ViewProfileComponent', () => {
     spyOn(component, 'toggleContactButtons').and.callThrough();
     fixture.detectChanges();
 
-    const contactEditButton = fixture.debugElement.query(By.css('#contact-edit-button'));
-    contactEditButton.triggerEventHandler('click', null);
+    unitTestingUtils.clickByCSS('#contact-dropdown .app-general-edit');
     fixture.detectChanges();
 
-    const contactCancelButton = fixture.debugElement.query(By.css('#contact-cancel-button'));
-    contactCancelButton.triggerEventHandler('click', null);
+    unitTestingUtils.clickByCSS('#contact-dropdown .app-general-cancel-btn');
 
     expect(component.toggleContactButtons).toHaveBeenCalledTimes(2);
   });
@@ -208,5 +203,13 @@ describe('ViewProfileComponent', () => {
     await unitTestingUtils.clickMatButtonByCSS('.app-profile-icon');
 
     expect(router.navigate).toHaveBeenCalledWith(['/personal-files'], { replaceUrl: true });
+  });
+
+  it('should render additional user profile sections if provided', () => {
+    spyOn(appExtensionService, 'getUserProfileSections').and.returnValue(of([{ id: 'test-section' }]));
+    fixture.detectChanges();
+
+    expect(component.sections.length).toBe(1);
+    expect(unitTestingUtils.getByCSS('adf-dynamic-component')).toBeDefined();
   });
 });

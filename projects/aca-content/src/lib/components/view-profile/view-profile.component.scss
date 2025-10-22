@@ -43,6 +43,7 @@ app-view-profile {
   }
 
   .app-profile-general-icon {
+    padding: 0 0.5rem 0 1rem;
     cursor: pointer;
   }
 
@@ -52,7 +53,16 @@ app-view-profile {
 
   .app-profile-general {
     display: flex;
-    padding-left: 1rem;
+    align-items: center;
+    width: 100%;
+
+    .app-general-edit {
+      color: var(--adf-theme-foreground-text-color-054);
+    }
+
+    .app-general-cancel-btn {
+      color: var(--adf-metadata-action-button-clear-color);
+    }
   }
 
   .app-profile-general-bottom-radius {
@@ -62,48 +72,12 @@ app-view-profile {
 
   .app-profile-general-section {
     display: flex;
-    width: 60%;
-    padding-top: 1rem;
-    cursor: pointer;
-  }
-
-  .app-general-title {
-    margin-left: 0.6rem;
-    margin-top: 4px;
-    letter-spacing: 0.5px;
-  }
-
-  .app-general-edit-btn {
-    width: 60%;
-    text-align: end;
-
-    .app-general-edit {
-      background: var(--theme-grey-text-background-color);
-      height: 30px;
-      margin: 1rem;
-    }
-
-    .app-general-cancel-btn {
-      height: 30px;
-      margin: 1rem;
-      margin-left: 0.5rem;
-      background-color: var(--theme-grey-text-background-color);
-      padding-top: 0.25px;
-    }
-
-    .app-general-save-btn {
-      width: 75px;
-      height: 30px;
-      margin: 1rem;
-      margin-left: 0.5rem;
-      color: var(--theme-white-background);
-      background-color: var(--theme-blue-button-color);
-      font-weight: 600;
-    }
+    align-items: center;
+    width: 100%;
   }
 
   .app-divider {
-    border-top-width: 2px;
+    border-top-width: 1px;
     border-top-color: var(--theme-grey-background-color);
     padding-left: -1px;
     padding-right: 1px;
@@ -114,10 +88,6 @@ app-view-profile {
     border-radius: 6px;
     outline: none;
     box-shadow: 0 0 2px var(--theme-blue-button-color);
-  }
-
-  .app-general-edit:hover {
-    background: var(--theme-grey-hover-background-color);
   }
 
   .app-general-dropdown-divider {
@@ -183,7 +153,7 @@ app-view-profile {
   }
 
   .app-profile-contact-row {
-    margin: 2rem 0 5rem 2rem;
+    margin: 2rem 0 0 2rem;
     width: 70%;
     border: 1px solid var(--theme-grey-background-color);
     border-radius: 1rem;

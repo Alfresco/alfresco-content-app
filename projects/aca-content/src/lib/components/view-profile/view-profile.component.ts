@@ -27,8 +27,8 @@ import { PeopleApi, Person } from '@alfresco/js-api';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable, throwError } from 'rxjs';
-import { AppService } from '@alfresco/aca-shared';
+import { Observable, take, throwError } from 'rxjs';
+import { AppExtensionService, AppService, UserProfileSection } from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -36,9 +36,19 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DynamicExtensionComponent } from '@alfresco/adf-extensions';
 
 @Component({
-  imports: [CommonModule, TranslatePipe, ReactiveFormsModule, MatButtonModule, MatIconModule, MatDividerModule, MatFormFieldModule],
+  imports: [
+    CommonModule,
+    TranslatePipe,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDividerModule,
+    MatFormFieldModule,
+    DynamicExtensionComponent
+  ],
   selector: 'app-view-profile',
   templateUrl: './view-profile.component.html',
   styleUrls: ['./view-profile.component.scss'],
@@ -60,13 +70,15 @@ export class ViewProfileComponent implements OnInit {
   contactSectionDropdown = false;
   contactSectionButtonsToggle = true;
   appNavNarMode$: Observable<'collapsed' | 'expanded'>;
+  sections: UserProfileSection[] = [];
 
   constructor(
     private router: Router,
-    apiService: AlfrescoApiService,
-    private appService: AppService
+    private apiService: AlfrescoApiService,
+    private appService: AppService,
+    private extensionService: AppExtensionService
   ) {
-    this.peopleApi = new PeopleApi(apiService.getInstance());
+    this.peopleApi = new PeopleApi(this.apiService.getInstance());
     this.appNavNarMode$ = appService.appNavNarMode$.pipe(takeUntilDestroyed());
   }
 
@@ -81,9 +93,14 @@ export class ViewProfileComponent implements OnInit {
       .catch((error) => {
         throwError(error);
       });
+
+    this.extensionService
+      .getUserProfileSections()
+      .pipe(take(1))
+      .subscribe((sections) => (this.sections = sections));
   }
 
-  toggleClick() {
+  toggleNavigationMenu() {
     this.appService.toggleAppNavBar$.next();
   }
 
@@ -112,10 +129,6 @@ export class ViewProfileComponent implements OnInit {
 
   toggleGeneralDropdown() {
     this.generalSectionDropdown = !this.generalSectionDropdown;
-
-    if (!this.generalSectionDropdown) {
-      this.generalSectionButtonsToggle = true;
-    }
   }
 
   toggleGeneralButtons() {
@@ -143,10 +156,6 @@ export class ViewProfileComponent implements OnInit {
 
   toggleLoginDropdown() {
     this.loginSectionDropdown = !this.loginSectionDropdown;
-
-    if (!this.loginSectionDropdown) {
-      this.loginSectionButtonsToggle = true;
-    }
   }
 
   toggleLoginButtons() {
@@ -161,10 +170,6 @@ export class ViewProfileComponent implements OnInit {
 
   toggleContactDropdown() {
     this.contactSectionDropdown = !this.contactSectionDropdown;
-
-    if (!this.contactSectionDropdown) {
-      this.contactSectionButtonsToggle = true;
-    }
   }
 
   toggleContactButtons() {

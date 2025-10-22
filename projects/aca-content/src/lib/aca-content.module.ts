@@ -166,7 +166,8 @@ import { SaveSearchSidenavComponent } from './components/search/search-save/side
         'app.canShowLogout': rules.canShowLogout,
         'app.isContentServiceEnabled': rules.isContentServiceEnabled,
         'app.areTagsEnabled': rules.areTagsEnabled,
-        'app.areCategoriesEnabled': rules.areCategoriesEnabled
+        'app.areCategoriesEnabled': rules.areCategoriesEnabled,
+        'app.isSSOEnabled': rules.isSSOEnabled
       }
     })
   ]

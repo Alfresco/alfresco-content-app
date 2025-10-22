@@ -1196,6 +1196,18 @@ describe('app.evaluators', () => {
       expect(app.isSmartFolder(context)).toBeTrue();
     });
   });
+
+  describe('isSSOEnabled', () => {
+    it('should return true if sso is enabled', () => {
+      context.appConfig = { get: () => 'OAUTH' } as any;
+      expect(app.isSSOEnabled(context)).toBe(true);
+    });
+
+    it('should return false if sso is not enabled', () => {
+      context.appConfig = { get: () => 'basic' } as any;
+      expect(app.isSSOEnabled(context)).toBe(false);
+    });
+  });
 });
 
 describe('Versions compatibility', () => {

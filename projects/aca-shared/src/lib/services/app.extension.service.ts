@@ -53,7 +53,7 @@ import { AppConfigService, AuthenticationService, LogService } from '@alfresco/a
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { NodeEntry, RepositoryInfo } from '@alfresco/js-api';
 import { ViewerRules } from '../models/viewer.rules';
-import { Badge } from '../models/types';
+import { Badge, UserProfileSection } from '../models/types';
 import { NodePermissionService } from '../services/node-permission.service';
 import { map } from 'rxjs/operators';
 import { SearchCategory } from '@alfresco/adf-content-services';
@@ -92,6 +92,7 @@ export class AppExtensionService implements RuleContext {
   private _filesDocumentListPreset = new BehaviorSubject<Array<DocumentListPresetRef>>([]);
   private _customMetadataPanels = new BehaviorSubject<Array<ContentActionRef>>([]);
   private _bulkActions = new BehaviorSubject<Array<ContentActionRef>>([]);
+  private _userProfileSections = new BehaviorSubject<Array<UserProfileSection>>([]);
 
   documentListPresets: {
     libraries: Array<DocumentListPresetRef>;
@@ -169,6 +170,7 @@ export class AppExtensionService implements RuleContext {
     this._openWithActions.next(this.loader.getContentActions(config, 'features.viewer.openWith'));
     this._createActions.next(this.loader.getElements<ContentActionRef>(config, 'features.create'));
     this._badges.next(this.loader.getElements<Badge>(config, 'features.badges'));
+    this._userProfileSections.next(this.loader.getElements<UserProfileSection>(config, 'features.userProfileSections'));
     this._filesDocumentListPreset.next(this.getDocumentListPreset(config, 'files'));
     this._customMetadataPanels.next(this.loader.getElements<ContentActionRef>(config, 'features.customMetadataPanels'));
     this._bulkActions.next(this.loader.getElements<ContentActionRef>(config, 'features.bulk-actions'));
@@ -382,6 +384,10 @@ export class AppExtensionService implements RuleContext {
 
   getBadges(node: NodeEntry): Observable<Array<Badge>> {
     return this._badges.pipe(map((badges) => badges.filter((badge) => this.evaluateRule(badge.rules.visible, node))));
+  }
+
+  getUserProfileSections(): Observable<Array<UserProfileSection>> {
+    return this._userProfileSections.pipe(map((sections) => sections.filter((section) => this.evaluateRule(section.rules.visible))));
   }
 
   getCustomMetadataPanels(node: NodeEntry): Observable<Array<ContentActionRef>> {

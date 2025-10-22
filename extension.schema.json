@@ -743,6 +743,20 @@
           "type": "string"
         }
       }
+    },
+    "userProfileSection": {
+      "type": "object",
+      "required": ["id", "title"],
+      "properties": {
+        "id": {
+          "description": "Unique identifier.",
+          "type": "string"
+        },
+        "component": {
+          "description": "Custom component id to display inside the section",
+          "type": "string"
+        }
+      }
     }
   },
 
@@ -1011,6 +1025,12 @@
           "description": "List of badges to display in the name column",
           "type": "array",
           "items": { "$ref": "#/definitions/badge" },
+          "minItems": 1
+        },
+        "userProfileSections": {
+          "description": "List of custom sections to display in the user profile component",
+          "type": "array",
+          "items": { "$ref": "#/definitions/userProfileSection" },
           "minItems": 1
         },
         "search": {
