@@ -65,8 +65,8 @@
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.TELEPHONE' | translate}}</h4>
           <p class="app-profile-general-dropdown-details" *ngIf="generalSectionButtonsToggle">{{personDetails?.telephone}}</p>
           <input type="tel" name="Telephone" value="" formControlName="telephone" *ngIf="!generalSectionButtonsToggle"
-            class="app-profile-general-dropdown-input-details app-selected">
-          <mat-error class="app-error-message" *ngIf="profileForm.get('telephone').invalid">
+            class="app-profile-general-dropdown-input-details app-selected" aria-describedby="app-view-profile-phone-error-message">
+          <mat-error class="app-error-message" *ngIf="profileForm.get('telephone').invalid" role="alert" id="app-view-profile-phone-error-message">
             {{ 'APP.EDIT_PROFILE.INVALID_INPUT' | translate }}
           </mat-error>
         </div>
@@ -75,8 +75,8 @@
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.MOBILE' | translate}}</h4>
           <p class="app-profile-general-dropdown-details" *ngIf="generalSectionButtonsToggle">{{personDetails?.mobile}}</p>
         <input type="tel" value="" formControlName="mobile" *ngIf="!generalSectionButtonsToggle"
-          class="app-profile-general-dropdown-input-details app-selected">
-        <mat-error class="app-error-message" *ngIf="profileForm.get('mobile').invalid">
+          class="app-profile-general-dropdown-input-details app-selected" aria-describedby="app-view-profile-mobile-error-message">
+        <mat-error class="app-error-message" *ngIf="profileForm.get('mobile').invalid" role="alert" id="app-view-profile-mobile-error-message">
           {{ 'APP.EDIT_PROFILE.INVALID_INPUT' | translate }}
         </mat-error>
         </div>
@@ -131,8 +131,9 @@
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.TELEPHONE' | translate}}</h4>
           <p class="app-profile-general-dropdown-details" *ngIf="contactSectionButtonsToggle">{{personDetails?.company?.telephone}}</p>
           <input type="tel" value="" *ngIf="!contactSectionButtonsToggle" formControlName="companyTelephone"
-            class="app-profile-general-dropdown-input-details app-selected">
-          <mat-error class="app-error-message" *ngIf="profileForm.get('companyTelephone').invalid">
+            class="app-profile-general-dropdown-input-details app-selected" aria-describedby="app-view-profile-company-phone-error-message">
+          <mat-error class="app-error-message" *ngIf="profileForm.get('companyTelephone').invalid" role="alert"
+            id="app-view-profile-company-phone-error-message">
             {{ 'APP.EDIT_PROFILE.INVALID_INPUT' | translate }}
           </mat-error>
         </div>
@@ -141,8 +142,9 @@
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.EMAIL' | translate}}</h4>
           <p class="app-profile-general-dropdown-details" *ngIf="contactSectionButtonsToggle">{{personDetails?.company?.email}}</p>
           <input type="text" value="" *ngIf="!contactSectionButtonsToggle" formControlName="companyEmail"
-            class="app-profile-general-dropdown-input-details app-selected">
-          <mat-error class="app-error-message" *ngIf="profileForm.get('companyEmail').invalid">
+            class="app-profile-general-dropdown-input-details app-selected" aria-describedby="app-view-profile-company-email-error-message">
+          <mat-error class="app-error-message" *ngIf="profileForm.get('companyEmail').invalid" role="alert"
+            id="app-view-profile-company-email-error-message">
             {{ 'APP.EDIT_PROFILE.INVALID_INPUT' | translate }}
           </mat-error>
         </div>
