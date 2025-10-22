@@ -23,7 +23,7 @@
  */
 
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
-import { AutoFocusDirective, forbidOnlySpaces, SavedSearch, SavedSearchesService } from '@alfresco/adf-content-services';
+import { AutoFocusDirective, forbidOnlySpaces, SavedSearch } from '@alfresco/adf-content-services';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
 import { NotificationService } from '@alfresco/adf-core';
@@ -36,6 +36,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { TitleCasePipe } from '@angular/common';
+import { SavedSearchesContextService } from '../../../../../services/saved-searches-context.service';
 
 @Component({
   imports: [
@@ -62,7 +63,7 @@ export class SavedSearchEditDialogComponent {
   constructor(
     private readonly dialog: MatDialogRef<SavedSearchEditDialogComponent>,
     private readonly notificationService: NotificationService,
-    private readonly savedSearchesService: SavedSearchesService,
+    private readonly savedSearchesService: SavedSearchesContextService,
     private readonly uniqueSearchNameValidator: UniqueSearchNameValidator,
     @Inject(MAT_DIALOG_DATA) private readonly data: SavedSearch
   ) {

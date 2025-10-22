@@ -23,7 +23,7 @@
  */
 
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
-import { SavedSearch, SavedSearchesService } from '@alfresco/adf-content-services';
+import { SavedSearch } from '@alfresco/adf-content-services';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
 import { NotificationService } from '@alfresco/adf-core';
@@ -31,6 +31,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { TitleCasePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { SavedSearchesContextService } from '../../../../../services/saved-searches-context.service';
 
 @Component({
   imports: [TranslatePipe, TitleCasePipe, MatIconModule, MatButtonModule, MatDialogModule],
@@ -46,7 +47,7 @@ export class SavedSearchDeleteDialogComponent {
   constructor(
     private readonly dialog: MatDialogRef<SavedSearchDeleteDialogComponent>,
     private readonly notificationService: NotificationService,
-    private readonly savedSearchesService: SavedSearchesService,
+    private readonly savedSearchesService: SavedSearchesContextService,
     @Inject(MAT_DIALOG_DATA) private readonly data: SavedSearch
   ) {}
 

@@ -30,7 +30,6 @@ import {
   DocumentListComponent,
   ResetSearchDirective,
   SavedSearch,
-  SavedSearchesService,
   SearchConfiguration,
   SearchFilterChipsComponent,
   SearchFormComponent,
@@ -89,6 +88,7 @@ import { combineLatest, of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatMenuModule } from '@angular/material/menu';
 import { IsFeatureSupportedInCurrentAcsPipe } from '../../../pipes/is-feature-supported.pipe';
+import { SavedSearchesContextService } from '../../../services/saved-searches-context.service';
 
 @Component({
   imports: [
@@ -155,7 +155,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly route: ActivatedRoute,
     private readonly translationService: TranslationService,
-    private readonly savedSearchesService: SavedSearchesService
+    private readonly savedSearchesService: SavedSearchesContextService
   ) {
     super();
 

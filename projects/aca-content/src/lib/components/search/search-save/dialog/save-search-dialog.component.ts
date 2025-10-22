@@ -34,11 +34,12 @@ import { A11yModule } from '@angular/cdk/a11y';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NotificationService } from '@alfresco/adf-core';
-import { AutoFocusDirective, forbidOnlySpaces, SavedSearchesService } from '@alfresco/adf-content-services';
+import { AutoFocusDirective, forbidOnlySpaces } from '@alfresco/adf-content-services';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
 import { UniqueSearchNameValidator } from './unique-search-name-validator';
 import { SavedSearchForm } from './saved-search-form.interface';
+import { SavedSearchesContextService } from '../../../../services/saved-searches-context.service';
 
 @Component({
   imports: [
@@ -69,7 +70,7 @@ export class SaveSearchDialogComponent {
   constructor(
     private readonly dialog: MatDialogRef<SaveSearchDialogComponent>,
     private readonly notificationService: NotificationService,
-    private readonly savedSearchesService: SavedSearchesService,
+    private readonly savedSearchesService: SavedSearchesContextService,
     private readonly uniqueSearchNameValidator: UniqueSearchNameValidator,
     @Inject(MAT_DIALOG_DATA) private readonly data: { searchUrl: string }
   ) {
