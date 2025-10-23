@@ -23,16 +23,17 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Observable, take } from 'rxjs';
-
+import { Observable, ReplaySubject, switchMap, take } from 'rxjs';
 import { NodeEntry } from '@alfresco/js-api';
 import { SavedSearch, SavedSearchesLegacyService, SavedSearchesService, SavedSearchStrategy } from '@alfresco/adf-content-services';
 import { IsFeatureSupportedInCurrentAcsPipe } from '../pipes/is-feature-supported.pipe';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SavedSearchesContextService implements SavedSearchStrategy {
+  private readonly strategy$ = new ReplaySubject<SavedSearchStrategy>(1);
   private strategy: SavedSearchStrategy;
 
   constructor(
@@ -41,19 +42,20 @@ export class SavedSearchesContextService implements SavedSearchStrategy {
     isFeatureSupported: IsFeatureSupportedInCurrentAcsPipe
   ) {
     isFeatureSupported
-      .transform('isSavedSearchAvailable')
-      .pipe(take(1))
+      .transform('isPreferencesApiAvailable')
+      .pipe(takeUntilDestroyed())
       .subscribe((isSupported) => {
         this.strategy = isSupported ? this.modernService : this.legacyService;
+        this.strategy$.next(this.strategy);
       });
   }
 
   get savedSearches$(): Observable<SavedSearch[]> {
-    return this.strategy.savedSearches$;
+    return this.strategy$.pipe(switchMap((strategy) => strategy.savedSearches$));
   }
 
   init(): void {
-    this.strategy.init();
+    this.strategy$.pipe(take(1)).subscribe((strategy) => strategy.init());
   }
 
   getSavedSearches(): Observable<SavedSearch[]> {
