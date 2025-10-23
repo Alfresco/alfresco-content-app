@@ -98,7 +98,13 @@
           @if (generalSectionButtonsToggle) {
             <p class="app-profile-general-dropdown-details">{{personDetails?.telephone}}</p>
           } @else {
-            <input type="tel" name="Telephone" value="" formControlName="telephone" class="app-profile-general-dropdown-input-details app-selected" aria-describedby="app-view-profile-phone-error-message">
+            <input
+              type="tel"
+              name="Telephone"
+              value=""
+              formControlName="telephone"
+              class="app-profile-general-dropdown-input-details app-selected"
+              aria-describedby="app-view-profile-phone-error-message">
           }
           @if (profileForm.controls['telephone'].errors) {
             <mat-error class="app-error-message" role="alert" id="app-view-profile-phone-error-message">
@@ -112,7 +118,12 @@
           @if (generalSectionButtonsToggle) {
             <p class="app-profile-general-dropdown-details">{{personDetails?.mobile}}</p>
           } @else {
-            <input type="tel" value="" formControlName="mobile" class="app-profile-general-dropdown-input-details app-selected" aria-describedby="app-view-profile-mobile-error-message">
+            <input
+              type="tel"
+              value=""
+              formControlName="mobile"
+              class="app-profile-general-dropdown-input-details app-selected"
+              aria-describedby="app-view-profile-mobile-error-message">
           }
           @if (profileForm.controls['mobile'].errors) {
             <mat-error class="app-error-message" role="alert" id="app-view-profile-mobile-error-message">
@@ -200,7 +211,12 @@
           @if (contactSectionButtonsToggle) {
             <p class="app-profile-general-dropdown-details">{{personDetails?.company?.telephone}}</p>
           } @else {
-            <input type="tel" value="" formControlName="companyTelephone" class="app-profile-general-dropdown-input-details app-selected" aria-describedby="app-view-profile-company-phone-error-message">
+            <input
+              type="tel"
+              value=""
+              formControlName="companyTelephone"
+              class="app-profile-general-dropdown-input-details app-selected"
+              aria-describedby="app-view-profile-company-phone-error-message">
           }
           @if (profileForm.controls['companyTelephone'].errors) {
             <mat-error class="app-error-message" role="alert" id="app-view-profile-company-phone-error-message">
@@ -214,7 +230,12 @@
           @if (contactSectionButtonsToggle) {
              <p class="app-profile-general-dropdown-details">{{personDetails?.company?.email}}</p>
           } @else {
-            <input type="text" value="" formControlName="companyEmail" class="app-profile-general-dropdown-input-details app-selected" aria-describedby="app-view-profile-company-email-error-message">
+            <input
+              type="text"
+              value=""
+              formControlName="companyEmail"
+              class="app-profile-general-dropdown-input-details app-selected"
+              aria-describedby="app-view-profile-company-email-error-message">
           }
           @if (profileForm.controls['companyEmail'].errors) {
             <mat-error class="app-error-message" role="alert" id="app-view-profile-company-email-error-message">
