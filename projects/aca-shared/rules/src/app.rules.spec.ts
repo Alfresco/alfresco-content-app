@@ -23,7 +23,7 @@
  */
 
 import * as app from './app.rules';
-import { createVersionRule, getFileExtension, isSavedSearchAvailable, isFolderInfoAvailable, isBulkActionsAvailable } from './app.rules';
+import { createVersionRule, getFileExtension, isPreferencesApiAvailable, isFolderInfoAvailable, isBulkActionsAvailable } from './app.rules';
 import { TestRuleContext } from './test-rule-context';
 import { NodeEntry, RepositoryInfo, StatusInfo } from '@alfresco/js-api';
 import { ProfileState, RuleContext } from '@alfresco/adf-extensions';
@@ -1219,24 +1219,24 @@ describe('Versions compatibility', () => {
     } as RuleContext;
   }
 
-  describe('isSavedSearchAvailable', () => {
+  describe('isPreferencesApiAvailable', () => {
     it('should return true if ACS version is equal to minimal version', () => {
-      expect(isSavedSearchAvailable(makeContext('25.1.0'))).toBe(true);
+      expect(isPreferencesApiAvailable(makeContext('25.1.0'))).toBe(true);
     });
 
     it('should return true if ACS version is greater than minimal version', () => {
-      expect(isSavedSearchAvailable(makeContext('25.2.0'))).toBe(true);
-      expect(isSavedSearchAvailable(makeContext('26.0.0'))).toBe(true);
+      expect(isPreferencesApiAvailable(makeContext('25.2.0'))).toBe(true);
+      expect(isPreferencesApiAvailable(makeContext('26.0.0'))).toBe(true);
     });
 
     it('should return false if ACS version is less than minimal version', () => {
-      expect(isSavedSearchAvailable(makeContext('24.4.0'))).toBe(false);
-      expect(isSavedSearchAvailable(makeContext('25.0.9'))).toBe(false);
+      expect(isPreferencesApiAvailable(makeContext('24.4.0'))).toBe(false);
+      expect(isPreferencesApiAvailable(makeContext('25.0.9'))).toBe(false);
     });
 
     it('should return false if ACS version is missing', () => {
-      expect(isSavedSearchAvailable(makeContext())).toBe(false);
-      expect(isSavedSearchAvailable({ repository: {} } as any)).toBe(false);
+      expect(isPreferencesApiAvailable(makeContext())).toBe(false);
+      expect(isPreferencesApiAvailable({ repository: {} } as any)).toBe(false);
     });
   });
 

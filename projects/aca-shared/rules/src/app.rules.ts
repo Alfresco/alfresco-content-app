@@ -485,9 +485,9 @@ export function canOpenWithOffice(context: AcaRuleContext): boolean {
 
 /**
  * Checks if user savedSearches are supported by current ACS version.
- * JSON ref: `isSavedSearchAvailable`
+ * JSON ref: `isPreferencesApiAvailable`
  */
-export const isSavedSearchAvailable = createVersionRule('25.1.0');
+export const isPreferencesApiAvailable = createVersionRule('25.1.0');
 
 /**
  * Checks if folder info modal is supported by current ACS version.

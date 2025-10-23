@@ -135,7 +135,7 @@ import { IsFeatureSupportedInCurrentAcsPipe } from './pipes/is-feature-supported
         isSmartFolder: rules.isSmartFolder,
         isMultiSelection: rules.isMultiselection,
         canPrintFile: rules.canPrintFile,
-        isSavedSearchAvailable: rules.isSavedSearchAvailable,
+        isPreferencesApiAvailable: rules.isPreferencesApiAvailable,
         isFolderInfoAvailable: rules.isFolderInfoAvailable,
         isBulkActionsAvailable: rules.isBulkActionsAvailable,
 

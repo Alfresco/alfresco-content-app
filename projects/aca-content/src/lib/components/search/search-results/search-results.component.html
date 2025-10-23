@@ -26,7 +26,6 @@
               <div class="aca-content__advanced-filters--header">
                 <p>{{ 'APP.BROWSE.SEARCH.ADVANCED_FILTERS' | translate }}</p>
                 <div class="aca-content__advanced-filters--header--action-buttons">
-                  @if('isSavedSearchAvailable' | isFeatureSupportedInCurrentAcs | async) {
                     <button
                       *ngIf="initialSavedSearch !== undefined else saveSearchButton"
                       mat-button
@@ -67,7 +66,6 @@
                       {{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate }}
                     </button>
                   </ng-template>
-                }
                   <button
                     mat-button
                     adf-reset-search
