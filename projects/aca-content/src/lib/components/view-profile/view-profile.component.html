@@ -54,7 +54,6 @@
         <button
           mat-icon-button
           color="primary"
-          class="app-general-save-btn"
           [attr.title]="'APP.TOOLTIPS.SAVE' | translate"
           [attr.aria-label]="'APP.TOOLTIPS.SAVE' | translate"
           [disabled]="profileForm.invalid"
@@ -101,7 +100,7 @@
           } @else {
             <input type="tel" name="Telephone" value="" formControlName="telephone" class="app-profile-general-dropdown-input-details app-selected" aria-describedby="app-view-profile-phone-error-message">
           }
-          @if (profileForm.get('telephone').invalid) {
+          @if (profileForm.controls['telephone'].errors) {
             <mat-error class="app-error-message" role="alert" id="app-view-profile-phone-error-message">
               {{ 'APP.EDIT_PROFILE.INVALID_INPUT' | translate }}
             </mat-error>
@@ -115,7 +114,7 @@
           } @else {
             <input type="tel" value="" formControlName="mobile" class="app-profile-general-dropdown-input-details app-selected" aria-describedby="app-view-profile-mobile-error-message">
           }
-          @if (profileForm.get('mobile').invalid) {
+          @if (profileForm.controls['mobile'].errors) {
             <mat-error class="app-error-message" role="alert" id="app-view-profile-mobile-error-message">
               {{ 'APP.EDIT_PROFILE.INVALID_INPUT' | translate }}
             </mat-error>
@@ -158,7 +157,6 @@
         <button
           mat-icon-button
           color="primary"
-          class="app-general-save-btn"
           [attr.title]="'APP.TOOLTIPS.SAVE' | translate"
           [attr.aria-label]="'APP.TOOLTIPS.SAVE' | translate"
           [disabled]="profileForm.invalid"
@@ -204,7 +202,7 @@
           } @else {
             <input type="tel" value="" formControlName="companyTelephone" class="app-profile-general-dropdown-input-details app-selected" aria-describedby="app-view-profile-company-phone-error-message">
           }
-          @if (profileForm.get('companyTelephone').invalid) {
+          @if (profileForm.controls['companyTelephone'].errors) {
             <mat-error class="app-error-message" role="alert" id="app-view-profile-company-phone-error-message">
               {{ 'APP.EDIT_PROFILE.INVALID_INPUT' | translate }}
             </mat-error>
@@ -218,7 +216,7 @@
           } @else {
             <input type="text" value="" formControlName="companyEmail" class="app-profile-general-dropdown-input-details app-selected" aria-describedby="app-view-profile-company-email-error-message">
           }
-          @if (profileForm.get('companyEmail').invalid) {
+          @if (profileForm.controls['companyEmail'].errors) {
             <mat-error class="app-error-message" role="alert" id="app-view-profile-company-email-error-message">
               {{ 'APP.EDIT_PROFILE.INVALID_INPUT' | translate }}
             </mat-error>

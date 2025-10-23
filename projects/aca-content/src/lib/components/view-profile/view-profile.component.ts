@@ -74,9 +74,9 @@ export class ViewProfileComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private apiService: AlfrescoApiService,
-    private appService: AppService,
-    private extensionService: AppExtensionService
+    private readonly apiService: AlfrescoApiService,
+    private readonly appService: AppService,
+    private readonly extensionService: AppExtensionService
   ) {
     this.peopleApi = new PeopleApi(this.apiService.getInstance());
     this.appNavNarMode$ = appService.appNavNarMode$.pipe(takeUntilDestroyed());

@@ -31,6 +31,7 @@ import { AppExtensionService, AppService } from '@alfresco/aca-shared';
 import { UnitTestingUtils } from '@alfresco/adf-core';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { HarnessLoader } from '@angular/cdk/testing';
+import { DynamicExtensionComponent } from '@alfresco/adf-extensions';
 
 describe('ViewProfileComponent', () => {
   let fixture: ComponentFixture<ViewProfileComponent>;
@@ -210,6 +211,6 @@ describe('ViewProfileComponent', () => {
     fixture.detectChanges();
 
     expect(component.sections.length).toBe(1);
-    expect(unitTestingUtils.getByCSS('adf-dynamic-component')).toBeDefined();
+    expect(unitTestingUtils.getByDirective(DynamicExtensionComponent)).toBeDefined();
   });
 });

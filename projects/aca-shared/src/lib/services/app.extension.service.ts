@@ -92,7 +92,7 @@ export class AppExtensionService implements RuleContext {
   private _filesDocumentListPreset = new BehaviorSubject<Array<DocumentListPresetRef>>([]);
   private _customMetadataPanels = new BehaviorSubject<Array<ContentActionRef>>([]);
   private _bulkActions = new BehaviorSubject<Array<ContentActionRef>>([]);
-  private _userProfileSections = new BehaviorSubject<Array<UserProfileSection>>([]);
+  private readonly _userProfileSections = new BehaviorSubject<Array<UserProfileSection>>([]);
 
   documentListPresets: {
     libraries: Array<DocumentListPresetRef>;

@@ -1682,6 +1682,41 @@ describe('AppExtensionService', () => {
     });
   });
 
+  it('should get custom user profile sections from config', (done) => {
+    extensions.setEvaluators({
+      'action.enabled': () => true
+    });
+
+    applyConfig({
+      ...defaultConfigMock,
+      features: {
+        userProfileSections: [
+          {
+            id: 'section1-id',
+            component: 'testComponent1',
+            rules: {
+              visible: 'action.enabled'
+            }
+          },
+          {
+            id: 'section2-id',
+            component: 'testComponent2',
+            rules: {
+              visible: 'action.enabled'
+            }
+          }
+        ]
+      }
+    });
+
+    service.getUserProfileSections().subscribe((sections) => {
+      expect(sections.length).toBe(2);
+      expect(sections[0].id).toEqual('section1-id');
+      expect(sections[1].id).toEqual('section2-id');
+      done();
+    });
+  });
+
   it('should update sidebar actions correctly', () => {
     spyOn(loader, 'getContentActions').and.callThrough();
     service.updateSidebarActions();
