@@ -26,7 +26,7 @@ import { AppExtensionService } from '@alfresco/aca-shared';
 import { Pipe, PipeTransform } from '@angular/core';
 import { AppStore, getRepositoryStatus } from '@alfresco/aca-shared/store';
 import { Store } from '@ngrx/store';
-import { map, Observable } from 'rxjs';
+import { filter, map, Observable } from 'rxjs';
 
 @Pipe({
   name: 'isFeatureSupportedInCurrentAcs'
@@ -38,6 +38,9 @@ export class IsFeatureSupportedInCurrentAcsPipe implements PipeTransform {
   ) {}
 
   transform(evaluatorId: string): Observable<boolean> {
-    return this.store.select(getRepositoryStatus).pipe(map(() => this.appExtensionsService.isFeatureSupported(evaluatorId)));
+    return this.store.select(getRepositoryStatus).pipe(
+      filter((repoStatus) => 'version' in repoStatus),
+      map(() => this.appExtensionsService.isFeatureSupported(evaluatorId))
+    );
   }
 }
