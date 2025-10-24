@@ -24,7 +24,7 @@
 
 import { SearchPage } from '../../../pages';
 import { BaseComponent } from '../../base.component';
-import { Page } from '@playwright/test';
+import { Page, Locator } from '@playwright/test';
 
 export class SearchFiltersLocation extends BaseComponent {
   private static rootElement = '.adf-search-filter-menu-card';
@@ -34,7 +34,8 @@ export class SearchFiltersLocation extends BaseComponent {
   }
 
   public addOptionInput = this.getChild(`[data-automation-id$='adf-search-chip-autocomplete-input']`);
-  private searchOption(value: string) {
+
+  private searchOption(value: string): Locator {
     return this.page.locator(`[data-automation-id="option-${value}"]`);
   }
 
