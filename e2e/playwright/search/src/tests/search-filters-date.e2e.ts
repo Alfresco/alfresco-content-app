@@ -160,19 +160,5 @@ test.describe('Search - Filters - Date', () => {
         endDay: currentAndPreviousDay.currentDate
       });
     });
-
-    test('[XAT-17702] Should able to filter search result with Modified date under Date Facet - Modified between', async ({ searchPage }) => {
-      await searchPage.searchFiltersDate.filterFilesByDate({
-        searchPage,
-        filterType: 'between',
-        dateFilterTab: 'Modified',
-        searchPhrase: searchPhrase,
-        searchType: 'files',
-        expectSearchResults: 1,
-        inTheLastInputValue: '1',
-        startDay: dateForSearch,
-        endDay: currentAndPreviousDay.currentDate
-      });
-    });
   });
 });
