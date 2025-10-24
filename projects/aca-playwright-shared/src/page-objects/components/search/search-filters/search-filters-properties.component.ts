@@ -35,7 +35,7 @@ export class SearchFiltersProperties extends BaseComponent {
 
   public operatorButton = this.getChild(`[data-automation-id='adf-search-properties-file-size-operator']`);
   public fileSizeInput = this.getChild(`[placeholder$='Enter file size']`);
-  public unitButton = this.getChild(`[data-automation-id=adf-search-properties-file-size-unit']`);
+  public unitButton = this.getChild(`[data-automation-id='adf-search-properties-file-size-unit']`);
   public fileTypeInput = this.getChild(`[placeholder$='File Type']`);
   public atLeastOption = this.page.locator(`mat-option`, { hasText: 'At Least' });
   public atMostOption = this.page.locator(`mat-option`, { hasText: 'At Most' });
