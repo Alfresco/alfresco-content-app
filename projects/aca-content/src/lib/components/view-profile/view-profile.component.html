@@ -76,7 +76,11 @@
         </div>
         <mat-divider class="app-general-dropdown-divider" />
         <div class="app-general-dropdown-details">
-          <label class="app-profile-general-dropdown-heading" for="app-view-profile-job-title">{{'APP.EDIT_PROFILE.JOB_TITLE' | translate}}</label>
+          <label
+            class="app-profile-general-dropdown-heading"
+            for="app-view-profile-job-title">
+            {{'APP.EDIT_PROFILE.JOB_TITLE' | translate}}
+          </label>
           @if (generalSectionButtonsToggle) {
             <p class="app-profile-general-dropdown-details">{{personDetails?.jobTitle}}</p>
           } @else {
@@ -90,16 +94,29 @@
         </div>
         <mat-divider class="app-general-dropdown-divider" />
         <div class="app-general-dropdown-details">
-          <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.LOCATION' | translate}}</h4>
+          <label
+            class="app-profile-general-dropdown-heading"
+            for="app-view-profile-location">
+            {{'APP.EDIT_PROFILE.LOCATION' | translate}}
+          </label>
           @if (generalSectionButtonsToggle) {
             <p class="app-profile-general-dropdown-details">{{personDetails?.location}}</p>
           } @else {
-            <input type="text" value="" formControlName="location" class="app-profile-general-dropdown-input-details app-selected">
+            <input
+              type="text"
+              value=""
+              formControlName="location"
+              class="app-profile-general-dropdown-input-details app-selected"
+              id="app-view-profile-location">
           }
         </div>
         <mat-divider class="app-general-dropdown-divider" />
         <div class="app-general-dropdown-details">
-          <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.TELEPHONE' | translate}}</h4>
+          <label
+            class="app-profile-general-dropdown-heading"
+            for="app-view-profile-telephone">
+            {{'APP.EDIT_PROFILE.TELEPHONE' | translate}}
+          </label>
           @if (generalSectionButtonsToggle) {
             <p class="app-profile-general-dropdown-details">{{personDetails?.telephone}}</p>
           } @else {
@@ -109,7 +126,8 @@
               value=""
               formControlName="telephone"
               class="app-profile-general-dropdown-input-details app-selected"
-              aria-describedby="app-view-profile-phone-error-message">
+              aria-describedby="app-view-profile-phone-error-message"
+              id="app-view-profile-telephone">
           }
           @if (profileForm.controls['telephone'].errors) {
             <mat-error class="app-error-message" role="alert" id="app-view-profile-phone-error-message">
@@ -119,7 +137,11 @@
         </div>
         <mat-divider class="app-general-dropdown-divider" />
         <div class="app-general-dropdown-details">
-          <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.MOBILE' | translate}}</h4>
+          <label
+            class="app-profile-general-dropdown-heading"
+            for="app-view-profile-mobile">
+            {{'APP.EDIT_PROFILE.MOBILE' | translate}}
+          </label>
           @if (generalSectionButtonsToggle) {
             <p class="app-profile-general-dropdown-details">{{personDetails?.mobile}}</p>
           } @else {
@@ -128,7 +150,8 @@
               value=""
               formControlName="mobile"
               class="app-profile-general-dropdown-input-details app-selected"
-              aria-describedby="app-view-profile-mobile-error-message">
+              aria-describedby="app-view-profile-mobile-error-message"
+              id="app-view-profile-mobile">
           }
           @if (profileForm.controls['mobile'].errors) {
             <mat-error class="app-error-message" role="alert" id="app-view-profile-mobile-error-message">
@@ -185,34 +208,65 @@
       <mat-divider class="app-divider" />
       <div class="app-general-dropdown">
         <div class="app-general-dropdown-details">
-          <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.NAME' | translate}}</h4>
+          <label
+            class="app-profile-general-dropdown-heading"
+            for="app-view-profile-company-name">
+            {{'APP.EDIT_PROFILE.NAME' | translate}}
+          </label>
           @if (contactSectionButtonsToggle) {
             <p class="app-profile-general-dropdown-details">{{personDetails?.company?.organization}}</p>
           } @else {
-            <input type="text" value="" formControlName="companyName" class="app-profile-general-dropdown-input-details app-selected">
+            <input
+              type="text"
+              value=""
+              formControlName="companyName"
+              class="app-profile-general-dropdown-input-details app-selected"
+              id="app-view-profile-company-name">
           }
         </div>
         <mat-divider class="app-general-dropdown-divider" />
         <div class="app-general-dropdown-details">
-          <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.ADDRESS' | translate}}</h4>
+          <label
+            class="app-profile-general-dropdown-heading"
+            for="app-view-profile-company-address">
+            {{'APP.EDIT_PROFILE.ADDRESS' | translate}}
+          </label>
           @if (contactSectionButtonsToggle) {
             <p class="app-profile-general-dropdown-details">{{personDetails?.company?.address1}}</p>
           } @else {
-            <input type="text" value="" formControlName="companyAddress" class="app-profile-general-dropdown-input-details app-selected">
+            <input
+              type="text"
+              value=""
+              formControlName="companyAddress"
+              class="app-profile-general-dropdown-input-details app-selected"
+              id="app-view-profile-company-address">
           }
         </div>
         <mat-divider class="app-general-dropdown-divider" />
         <div class="app-general-dropdown-details">
-          <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.POSTCODE' | translate}}</h4>
+          <label
+            class="app-profile-general-dropdown-heading"
+            for="app-view-profile-company-post-code">
+            {{'APP.EDIT_PROFILE.POSTCODE' | translate}}
+          </label>
           @if (contactSectionButtonsToggle) {
             <p class="app-profile-general-dropdown-details">{{personDetails?.company?.postcode}}</p>
           } @else {
-            <input type="text" value="" formControlName="companyPostCode" class="app-profile-general-dropdown-input-details app-selected">
+            <input
+              type="text"
+              value=""
+              formControlName="companyPostCode"
+              class="app-profile-general-dropdown-input-details app-selected"
+              id="app-view-profile-company-post-code">
           }
         </div>
         <mat-divider class="app-general-dropdown-divider" />
         <div class="app-general-dropdown-details">
-          <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.TELEPHONE' | translate}}</h4>
+          <label
+            class="app-profile-general-dropdown-heading"
+            for="app-view-profile-company-telephone">
+            {{'APP.EDIT_PROFILE.TELEPHONE' | translate}}
+          </label>
           @if (contactSectionButtonsToggle) {
             <p class="app-profile-general-dropdown-details">{{personDetails?.company?.telephone}}</p>
           } @else {
@@ -221,7 +275,8 @@
               value=""
               formControlName="companyTelephone"
               class="app-profile-general-dropdown-input-details app-selected"
-              aria-describedby="app-view-profile-company-phone-error-message">
+              aria-describedby="app-view-profile-company-phone-error-message"
+              id="app-view-profile-company-telephone">
           }
           @if (profileForm.controls['companyTelephone'].errors) {
             <mat-error class="app-error-message" role="alert" id="app-view-profile-company-phone-error-message">
@@ -231,7 +286,11 @@
         </div>
         <mat-divider class="app-general-dropdown-divider" />
         <div class="app-general-dropdown-details">
-          <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.EMAIL' | translate}}</h4>
+          <label
+            class="app-profile-general-dropdown-heading"
+            for="app-view-profile-company-email">
+            {{'APP.EDIT_PROFILE.EMAIL' | translate}}
+          </label>
           @if (contactSectionButtonsToggle) {
              <p class="app-profile-general-dropdown-details">{{personDetails?.company?.email}}</p>
           } @else {
@@ -240,7 +299,8 @@
               value=""
               formControlName="companyEmail"
               class="app-profile-general-dropdown-input-details app-selected"
-              aria-describedby="app-view-profile-company-email-error-message">
+              aria-describedby="app-view-profile-company-email-error-message"
+              id="app-view-profile-company-email">
           }
           @if (profileForm.controls['companyEmail'].errors) {
             <mat-error class="app-error-message" role="alert" id="app-view-profile-company-email-error-message">
