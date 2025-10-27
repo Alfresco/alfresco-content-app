@@ -76,11 +76,16 @@
         </div>
         <mat-divider class="app-general-dropdown-divider" />
         <div class="app-general-dropdown-details">
-          <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.JOB_TITLE' | translate}}</h4>
+          <label class="app-profile-general-dropdown-heading" for="app-view-profile-job-title">{{'APP.EDIT_PROFILE.JOB_TITLE' | translate}}</label>
           @if (generalSectionButtonsToggle) {
             <p class="app-profile-general-dropdown-details">{{personDetails?.jobTitle}}</p>
           } @else {
-            <input type="text" value="" formControlName="jobTitle" class="app-profile-general-dropdown-input-details app-selected">
+            <input
+              type="text"
+              value=""
+              formControlName="jobTitle"
+              class="app-profile-general-dropdown-input-details app-selected"
+              id="app-view-profile-job-title">
           }
         </div>
         <mat-divider class="app-general-dropdown-divider" />
