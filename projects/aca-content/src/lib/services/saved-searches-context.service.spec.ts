@@ -26,7 +26,7 @@ import { TestBed } from '@angular/core/testing';
 import { Subject } from 'rxjs';
 
 import { SavedSearchesContextService } from './saved-searches-context.service';
-import { SavedSearchesLegacyService, SavedSearchesService } from '@alfresco/adf-content-services';
+import { SavedSearch, SavedSearchesLegacyService, SavedSearchesService } from '@alfresco/adf-content-services';
 import { IsFeatureSupportedInCurrentAcsPipe } from '../pipes/is-feature-supported.pipe';
 
 describe('SavedSearchesContextService', () => {
@@ -80,7 +80,9 @@ describe('SavedSearchesContextService', () => {
     });
 
     it('should use modern service when feature is supported', () => {
-      expect(service['strategy']).toBe(modernSpy);
+      service.init();
+      expect(legacySpy.init).not.toHaveBeenCalled();
+      expect(modernSpy.init).toHaveBeenCalled();
     });
 
     it('should delegate init() call to a current strategy', () => {
@@ -133,7 +135,9 @@ describe('SavedSearchesContextService', () => {
     });
 
     it('should use legacy service when feature is NOT supported', () => {
-      expect(service['strategy']).toBe(legacySpy);
+      service.init();
+      expect(legacySpy.init).toHaveBeenCalled();
+      expect(modernSpy.init).not.toHaveBeenCalled();
     });
 
     it('should delegate init() call to a current strategy', () => {
@@ -147,13 +151,13 @@ describe('SavedSearchesContextService', () => {
     });
 
     it('should delegate saveSearch() call to a current strategy', () => {
-      const newSavedSearch = { name: 'Test Search', description: 'Test Description', encodedUrl: 'http://example.com' };
+      const newSavedSearch = { name: 'Test Search', description: 'Test Description', encodedUrl: 'http://example.com' } as SavedSearch;
       service.saveSearch(newSavedSearch);
       expect(legacySpy.saveSearch).toHaveBeenCalledWith(newSavedSearch);
     });
 
     it('should delegate editSavedSearch() call to a current strategy', () => {
-      const updatedSavedSearch = {
+      const updatedSavedSearch: SavedSearch = {
         name: 'Updated Search',
         description: 'Updated Description',
         encodedUrl: 'http://example.com',
@@ -164,7 +168,7 @@ describe('SavedSearchesContextService', () => {
     });
 
     it('should delegate deleteSavedSearch() call to a current strategy', () => {
-      const deletedSavedSearch = {
+      const deletedSavedSearch: SavedSearch = {
         name: 'Deleted Search',
         description: 'Deleted Description',
         encodedUrl: 'http://example.com',

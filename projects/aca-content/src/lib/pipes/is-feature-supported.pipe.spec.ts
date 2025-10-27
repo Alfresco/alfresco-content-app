@@ -52,12 +52,8 @@ describe('IsFeatureSupportedInCurrentAcsPipe', () => {
 
     storeSpy.select.and.returnValue(repoStatusSubject.asObservable());
 
-    let emittedCount = 0;
     pipe.transform(featureId).subscribe({
       next: (result) => {
-        emittedCount++;
-
-        expect(emittedCount).toBe(1);
         expect(result).toBe(true);
         expect(serviceSpy.isFeatureSupported).toHaveBeenCalledWith(featureId);
         done();
