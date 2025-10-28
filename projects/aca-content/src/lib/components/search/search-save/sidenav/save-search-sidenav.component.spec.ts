@@ -25,8 +25,9 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { SaveSearchSidenavComponent } from './save-search-sidenav.component';
 import { AppTestingModule } from '../../../../testing/app-testing.module';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { SavedSearchesContextService } from '../../../../services/saved-searches-context.service';
+import { SavedSearch } from '@alfresco/adf-content-services';
 
 describe('SaveSearchSidenavComponent', () => {
   let fixture: ComponentFixture<SaveSearchSidenavComponent>;
@@ -34,11 +35,10 @@ describe('SaveSearchSidenavComponent', () => {
   let savedSearchesService: SavedSearchesContextService;
 
   beforeEach(() => {
-    const mockService = {
-      init: () => {},
-      getSavedSearches: () => {},
+    const mockService: Partial<SavedSearchesContextService> = {
+      init: (): void => {},
 
-      get savedSearches$() {
+      get savedSearches$(): Observable<SavedSearch[]> {
         return of([]);
       }
     };
