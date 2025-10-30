@@ -339,14 +339,34 @@ describe('SearchComponent', () => {
     expect(queryBuilder.execute).toHaveBeenCalledTimes(1);
   }));
 
-  it('should NOT call execute on navigation to search page', fakeAsync(() => {
-    spyOn(queryBuilder, 'execute');
+  it('should NOT call execute on navigation to search page with unchanged query', fakeAsync(() => {
+    const executeSpy = spyOn(queryBuilder, 'execute');
+    queryParams.next({ q: encodeQuery({ userQuery: 'cm:name:"test*"' }) });
+    tick();
+
+    executeSpy.calls.reset();
+
     routerEvents.next(new NavigationStart(1, '/mock-search-url', 'imperative'));
     queryParams.next({ q: encodeQuery({ userQuery: 'cm:name:"test*"' }) });
 
     tick();
 
     expect(queryBuilder.execute).not.toHaveBeenCalled();
+  }));
+
+  it('should call execute on navigation to search page with changed query', fakeAsync(() => {
+    const executeSpy = spyOn(queryBuilder, 'execute');
+    queryParams.next({ q: encodeQuery({ userQuery: 'cm:name:"different*"' }) });
+    tick();
+
+    executeSpy.calls.reset();
+
+    routerEvents.next(new NavigationStart(1, '/mock-search-url', 'imperative'));
+    queryParams.next({ q: encodeQuery({ userQuery: 'cm:name:"test*"' }) });
+
+    tick();
+
+    expect(executeSpy).toHaveBeenCalledTimes(1);
   }));
 
   testHeader(SearchResultsComponent, false);

@@ -147,6 +147,8 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   encodedQuery: string;
   searchConfig: SearchConfiguration;
 
+  private previousEncodedQuery: string;
+
   constructor(
     tagsService: TagService,
     private readonly queryBuilder: SearchQueryBuilderService,
@@ -351,10 +353,13 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   }
 
   private shouldExecuteQuery(navigationStartEvent: NavigationStart | null, query: string | undefined): boolean {
+    const hasQueryChanged = query !== this.previousEncodedQuery;
+    this.previousEncodedQuery = query;
+
     if (!navigationStartEvent || navigationStartEvent.navigationTrigger === 'popstate' || navigationStartEvent.navigationTrigger === 'hashchange') {
       return true;
     } else if (navigationStartEvent.navigationTrigger === 'imperative') {
-      return false;
+      return hasQueryChanged;
     } else {
       return !!query;
     }
