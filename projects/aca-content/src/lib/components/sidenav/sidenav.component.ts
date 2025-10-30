@@ -35,9 +35,10 @@ import { MatListModule } from '@angular/material/list';
 import { ExpandMenuComponent } from './components/expand-menu.component';
 import { NavigationEnd } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-  imports: [CommonModule, SidenavHeaderComponent, MatListModule, ExpandMenuComponent, DynamicExtensionComponent],
+  imports: [CommonModule, SidenavHeaderComponent, MatListModule, ExpandMenuComponent, DynamicExtensionComponent, TranslatePipe],
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss'],
