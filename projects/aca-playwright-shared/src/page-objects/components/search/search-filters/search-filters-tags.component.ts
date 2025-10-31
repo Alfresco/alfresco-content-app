@@ -24,7 +24,7 @@
 
 import { SearchPage } from '../../../pages';
 import { BaseComponent } from '../../base.component';
-import { Page } from '@playwright/test';
+import { Page, Locator } from '@playwright/test';
 
 export class SearchFiltersTags extends BaseComponent {
   private static rootElement = '.adf-search-filter-menu-card';
@@ -35,10 +35,14 @@ export class SearchFiltersTags extends BaseComponent {
 
   public addOptionInput = this.getChild(`[data-automation-id$='adf-search-chip-autocomplete-input']`);
 
+  private searchOption(value: string): Locator {
+    return this.page.locator(`[data-automation-id="option-${value}"]`);
+  }
+
   async filterByTag(page: SearchPage, tag: string): Promise<void> {
     await page.searchFilters.tagsFilter.click();
     await page.searchFiltersTags.addOptionInput.fill(tag);
-    await page.page.keyboard.press('Enter');
+    await this.searchOption(tag).click();
     await page.searchFilters.menuCardApply.click();
     await page.dataTable.progressBarWaitForReload();
   }
