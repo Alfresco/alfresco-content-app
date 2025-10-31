@@ -23,9 +23,11 @@
  */
 
 import { SearchInputControlComponent } from './search-input-control.component';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { of } from 'rxjs';
 
 describe('SearchInputControlComponent', () => {
   let fixture: ComponentFixture<SearchInputControlComponent>;
@@ -86,5 +88,44 @@ describe('SearchInputControlComponent', () => {
     component.searchTerm = 'dd';
     fixture.detectChanges();
     expect(component.isTermTooShort()).toBe(false);
+  });
+
+  describe('ngOnInit', () => {
+    let route: ActivatedRoute;
+    let router: Router;
+
+    beforeEach(() => {
+      route = TestBed.inject(ActivatedRoute);
+      router = TestBed.inject(Router);
+      spyOnProperty(router, 'events').and.returnValue(of(new NavigationStart(1, '')));
+    });
+
+    it('should set * as value when url params has q parameter and input is empty', fakeAsync(() => {
+      spyOn(component.searchFieldFormControl, 'setValue');
+      route.queryParams = of({ q: 'someQueryParams' });
+
+      component.ngOnInit();
+      tick();
+      expect(component.searchFieldFormControl.setValue).toHaveBeenCalledWith('*');
+    }));
+
+    it('should not set * as value when url params has missing q parameter and input is empty', fakeAsync(() => {
+      spyOn(component.searchFieldFormControl, 'setValue');
+      route.queryParams = of({ otherQueryParam: 'someQueryParams' });
+
+      component.ngOnInit();
+      tick();
+      expect(component.searchFieldFormControl.setValue).not.toHaveBeenCalled();
+    }));
+
+    it('should not set * as value when url params has q parameter and input is not empty', fakeAsync(() => {
+      component.searchFieldFormControl.setValue('some value');
+      spyOn(component.searchFieldFormControl, 'setValue');
+      route.queryParams = of({ q: 'someQueryParams' });
+
+      component.ngOnInit();
+      tick();
+      expect(component.searchFieldFormControl.setValue).not.toHaveBeenCalled();
+    }));
   });
 });

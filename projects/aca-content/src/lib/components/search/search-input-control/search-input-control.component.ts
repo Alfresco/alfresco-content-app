@@ -45,6 +45,9 @@ import { MatInputModule } from '@angular/material/input';
 import { FormControl, FormsModule, ReactiveFormsModule, StatusChangeEvent, TouchedChangeEvent, Validators } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { noWhitespaceValidator } from '@alfresco/aca-shared';
+import { combineLatest } from 'rxjs';
+import { filter, startWith } from 'rxjs/operators';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 
 @Component({
   imports: [CommonModule, TranslatePipe, MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule],
@@ -56,6 +59,8 @@ import { noWhitespaceValidator } from '@alfresco/aca-shared';
 })
 export class SearchInputControlComponent implements OnInit, OnChanges {
   private readonly destroyRef = inject(DestroyRef);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
   /** Type of the input field to render, e.g. "search" or "text" (default). */
   @Input()
@@ -115,6 +120,19 @@ export class SearchInputControlComponent implements OnInit, OnChanges {
         }
       }
     });
+    combineLatest([
+      this.route.queryParams,
+      this.router.events.pipe(
+        filter((e): e is NavigationStart => e instanceof NavigationStart),
+        startWith(null)
+      )
+    ])
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(([params]) => {
+        if (params['q'] && !this.searchFieldFormControl.value) {
+          setTimeout(() => this.searchFieldFormControl.setValue('*'));
+        }
+      });
   }
 
   ngOnChanges(changes: SimpleChanges): void {

@@ -251,6 +251,9 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
         .subscribe((navigationStartEvent) => {
           const shouldExecuteQuery = this.shouldExecuteQuery(navigationStartEvent, this.encodedQuery);
           this.queryBuilder.userQuery = extractUserQueryFromEncodedQuery(this.encodedQuery);
+          if (!this.searchedWord && !this.queryBuilder.userQuery && this.encodedQuery) {
+            this.queryBuilder.userQuery = formatSearchTerm('*', this.searchConfig['app:fields']);
+          }
 
           if (shouldExecuteQuery) {
             this.queryBuilder.execute(false);
