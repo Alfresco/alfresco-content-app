@@ -263,13 +263,18 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   }
 
   onSearchError(error: { message: any }) {
-    const { statusCode } = JSON.parse(error.message).error;
+    let message: string;
+    try {
+      const { statusCode } = JSON.parse(error.message).error;
 
-    const messageKey = `APP.BROWSE.SEARCH.ERRORS.${statusCode}`;
-    let message = this.translationService.instant(messageKey);
+      const messageKey = `APP.BROWSE.SEARCH.ERRORS.${statusCode}`;
+      message = this.translationService.instant(messageKey);
 
-    if (message === messageKey) {
-      message = this.translationService.instant(`APP.BROWSE.SEARCH.ERRORS.GENERIC`);
+      if (message === messageKey) {
+        message = this.translationService.instant(`APP.BROWSE.SEARCH.ERRORS.GENERIC`);
+      }
+    } catch {
+      message = error.message;
     }
 
     this.notificationService.showError(message);

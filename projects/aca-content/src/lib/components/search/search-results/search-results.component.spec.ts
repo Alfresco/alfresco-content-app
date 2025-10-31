@@ -369,14 +369,12 @@ describe('SearchComponent', () => {
   }));
 
   it('should format userQuery when url parameters changed and userQuery is not contained by url', () => {
-    spyOn(queryBuilder, 'execute');
     routerEvents.next(new NavigationStart(1, ''));
     queryParams.next({ q: encodeQuery('') });
     expect(queryBuilder.userQuery).toBe('((cm:name:"*"))');
   });
 
   it('should not format userQuery when url parameters changed when userQuery is already contained by url', () => {
-    spyOn(queryBuilder, 'execute');
     routerEvents.next(new NavigationStart(1, ''));
     queryParams.next({ q: encodeQuery({ userQuery: 'test' }) });
     expect(queryBuilder.userQuery).toBe('(test)');
