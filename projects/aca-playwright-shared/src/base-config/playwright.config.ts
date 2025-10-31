@@ -65,7 +65,8 @@ export const getGlobalConfig: PlaywrightTestConfig = {
     screenshot: 'only-on-failure',
     launchOptions: {
       devtools: false,
-      args: ['--no-sandbox', '--disable-site-isolation-trials']
+      args: ['--no-sandbox', '--disable-site-isolation-trials'],
+      slowMo: 300
     }
   },
 

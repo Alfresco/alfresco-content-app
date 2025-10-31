@@ -89,6 +89,7 @@ export class SearchOverlayComponent extends BaseComponent {
   }
 
   async searchFor(input: string): Promise<void> {
+    await this.searchInput.clear();
     await this.searchInput.fill(input);
     await this.searchButton.click({ force: true });
   }
