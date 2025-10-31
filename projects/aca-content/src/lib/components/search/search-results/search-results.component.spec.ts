@@ -271,12 +271,11 @@ describe('SearchComponent', () => {
     expect(queryBuilder.userQuery).toBe(`((cm:tag:"orange*"))`);
   });
 
-  it('should get initial saved search when url matches', fakeAsync(() => {
+  it('should get initial saved search when url matches', () => {
     route.queryParams = of({ q: encodeQuery({ name: 'test' }) });
     component.ngOnInit();
-    tick();
     expect(component.initialSavedSearch).toEqual({ name: 'test', encodedUrl: encodeQuery({ name: 'test' }), order: 0 });
-  }));
+  });
 
   it('should render a menu with 2 options when initial saved search is found', async () => {
     route.queryParams = of({ q: encodeQuery({ name: 'test' }) });
