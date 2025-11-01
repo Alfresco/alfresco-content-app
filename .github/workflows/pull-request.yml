@@ -44,7 +44,7 @@ jobs:
       - run: npm ci
 
       - name: upload npm logs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: failure()
         with:
           name: npm-logs
@@ -75,7 +75,7 @@ jobs:
       - uses: ./.github/actions/before-install
       - run: npm ci
       - name: upload npm logs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: failure()
         with:
           name: npm-logs
@@ -107,7 +107,7 @@ jobs:
       - uses: ./.github/actions/before-install
       - run: npm ci
       - name: upload npm logs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: failure()
         with:
           name: npm-logs
