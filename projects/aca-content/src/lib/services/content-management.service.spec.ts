@@ -52,6 +52,7 @@ import { Node, NodeEntry, SiteBodyCreate, SiteEntry, UserInfo, VersionPaging } f
 import {
   DocumentListService,
   FileModel,
+  LibraryDialogComponent,
   NewVersionUploaderDataAction,
   NewVersionUploaderDialogData,
   NewVersionUploaderService,
@@ -62,6 +63,7 @@ import {
 import { FolderInformationComponent } from '../dialogs/folder-details/folder-information.component';
 import { provideEffects } from '@ngrx/effects';
 import { ActivatedRoute, Router } from '@angular/router';
+import { EventEmitter } from '@angular/core';
 
 describe('ContentManagementService', () => {
   let dialog: MatDialog;
@@ -1864,6 +1866,59 @@ describe('ContentManagementService', () => {
 
       expect(appHookService.libraryUpdateFailed.next).toHaveBeenCalled();
       expect(showErrorSpy).toHaveBeenCalledWith('LIBRARY.ERRORS.LIBRARY_UPDATE_ERROR');
+    });
+  });
+
+  describe('createLibrary', () => {
+    let dialogRefMock: jasmine.SpyObj<MatDialogRef<LibraryDialogComponent, SiteEntry | null>>;
+
+    beforeEach(() => {
+      dialogRefMock = jasmine.createSpyObj<MatDialogRef<LibraryDialogComponent, SiteEntry | null>>('MatDialogRef', ['afterClosed'], {
+        componentInstance: { error: new EventEmitter<string>() } as any
+      });
+    });
+
+    it('should open LibraryDialogComponent with autoFocus set to false', () => {
+      dialogRefMock.afterClosed.and.returnValue(of(null));
+      spyOn(dialog, 'open').and.returnValue(dialogRefMock);
+      contentManagementService.createLibrary();
+
+      expect(dialog.open).toHaveBeenCalledWith(LibraryDialogComponent, jasmine.objectContaining({ autoFocus: false }));
+    });
+
+    it('should show library creation error notifications', () => {
+      dialogRefMock.afterClosed.and.returnValue(of(null));
+      spyOn(dialog, 'open').and.returnValue(dialogRefMock);
+      contentManagementService.createLibrary();
+      dialogRefMock.componentInstance.error.emit('Library creation error');
+
+      expect(showErrorSpy).toHaveBeenCalled();
+    });
+
+    it('should emit guid, call libraryCreated hook and focus when site is created', (done) => {
+      const mockSiteEntry = new SiteEntry({ entry: { guid: 'guid', id: 'id', visibility: 'PUBLIC', title: 'title' } });
+      dialogRefMock.afterClosed.and.returnValue(of(mockSiteEntry));
+      spyOn(dialog, 'open').and.returnValue(dialogRefMock);
+      spyOn(appHookService.libraryCreated, 'next');
+      spyOn(document, 'querySelector').and.returnValue(document.createElement('button'));
+      spyOn(document.querySelector('button'), 'focus');
+
+      contentManagementService.createLibrary().subscribe((guid) => {
+        expect(guid).toBe('guid');
+        expect(appHookService.libraryCreated.next).toHaveBeenCalledWith(mockSiteEntry);
+        expect(document.querySelector('button').focus).toHaveBeenCalled();
+        done();
+      });
+    });
+
+    it('should emit null when node is missing guid', (done) => {
+      dialogRefMock.afterClosed.and.returnValue(of(null));
+      spyOn(dialog, 'open').and.returnValue(dialogRefMock);
+
+      contentManagementService.createLibrary().subscribe((guid) => {
+        expect(guid).toBeNull();
+        done();
+      });
     });
   });
 
