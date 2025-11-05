@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { SearchResultsComponent } from './search-results.component';
 import { AppConfigService, NotificationService, TranslationService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
@@ -60,6 +60,7 @@ describe('SearchComponent', () => {
   let showErrorSpy: jasmine.Spy<(message: string, action?: string, interpolateArgs?: any, showAction?: boolean) => MatSnackBarRef<any>>;
   let showInfoSpy: jasmine.Spy<(message: string, action?: string, interpolateArgs?: any, showAction?: boolean) => MatSnackBarRef<any>>;
   let loader: HarnessLoader;
+  let updatedSubjectMock: Subject<SearchRequest>;
 
   const editSavedSearchesSpy = jasmine.createSpy('editSavedSearch');
   const getSavedSearchButton = (): HTMLButtonElement => fixture.nativeElement.querySelector('.aca-content__save-search-action');
@@ -72,6 +73,7 @@ describe('SearchComponent', () => {
     params = new BehaviorSubject({ q: 'TYPE: "cm:folder" AND %28=cm: name: email OR cm: name: budget%29' });
     queryParams = new Subject();
     routerEvents = new Subject();
+    updatedSubjectMock = new Subject();
 
     const routerMock = jasmine.createSpyObj<Router>('Router', ['navigate'], {
       url: '/mock-search-url',
@@ -124,6 +126,8 @@ describe('SearchComponent', () => {
     translate = TestBed.inject(TranslationService);
     router = TestBed.inject(Router);
     route = TestBed.inject(ActivatedRoute);
+
+    queryBuilder.updated = updatedSubjectMock;
 
     const notificationService = TestBed.inject(NotificationService);
     showErrorSpy = spyOn(notificationService, 'showError');
@@ -371,6 +375,26 @@ describe('SearchComponent', () => {
     queryParams.next({ q: encodeQuery({ userQuery: 'test' }) });
     expect(queryBuilder.userQuery).toBe('(test)');
   });
+
+  it('should set loading to true in updated stream for non-nullish query', fakeAsync(() => {
+    spyOn(queryBuilder, 'execute').and.stub();
+
+    expect(component.isLoading).toBeFalse();
+
+    updatedSubjectMock.next(null as SearchRequest);
+
+    tick();
+
+    expect(component.isLoading).toBeFalse();
+
+    updatedSubjectMock.next({} as SearchRequest);
+
+    tick();
+
+    expect(component.isLoading).toBeTrue();
+
+    flush();
+  }));
 
   testHeader(SearchResultsComponent, false);
 });

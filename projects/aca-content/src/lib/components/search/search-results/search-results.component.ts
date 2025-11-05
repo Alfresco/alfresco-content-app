@@ -179,12 +179,10 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     this.sorting = this.getSorting();
 
     this.subscriptions.push(
-      this.queryBuilder.updated.subscribe((query) => {
+      this.queryBuilder.updated.pipe(filter(Boolean)).subscribe(() => {
         this.isLoading = true;
-        if (query) {
-          this.sorting = this.getSorting();
-          this.changeDetectorRef.detectChanges();
-        }
+        this.sorting = this.getSorting();
+        this.changeDetectorRef.detectChanges();
       }),
 
       this.queryBuilder.executed.subscribe((data) => {
