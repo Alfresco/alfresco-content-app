@@ -46,8 +46,7 @@ import localeFi from '@angular/common/locales/fi';
 import localeDa from '@angular/common/locales/da';
 import localeSv from '@angular/common/locales/sv';
 import { provideRouter, withHashLocation } from '@angular/router';
-import { CONTENT_LAYOUT_ROUTES, ContentServiceExtensionModule, ContentUrlService } from '@alfresco/aca-content';
-import { ContentVersionService } from '@alfresco/adf-content-services';
+import { CONTENT_LAYOUT_ROUTES, ContentServiceExtensionModule } from '@alfresco/aca-content';
 import { SHELL_APP_SERVICE, SHELL_AUTH_TOKEN, provideShellRoutes } from '@alfresco/adf-core/shell';
 import { APP_ROUTES } from './app.routes';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
@@ -82,7 +81,6 @@ export const AppConfig: ApplicationConfig = {
     provideRouter(APP_ROUTES, withHashLocation()),
     environment.e2e ? provideNoopAnimations() : provideAnimations(),
     provideShellRoutes(CONTENT_LAYOUT_ROUTES),
-    { provide: ContentVersionService, useClass: ContentUrlService },
     {
       provide: SHELL_APP_SERVICE,
       useClass: AppService
