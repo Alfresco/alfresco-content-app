@@ -1874,7 +1874,7 @@ describe('ContentManagementService', () => {
 
     beforeEach(() => {
       dialogRefMock = jasmine.createSpyObj<MatDialogRef<LibraryDialogComponent, SiteEntry | null>>('MatDialogRef', ['afterClosed'], {
-        componentInstance: { error: new EventEmitter<string>() } as any
+        componentInstance: { error: new EventEmitter<string>() } as LibraryDialogComponent
       });
     });
 
@@ -1897,16 +1897,17 @@ describe('ContentManagementService', () => {
 
     it('should emit guid, call libraryCreated hook and focus when site is created', (done) => {
       const mockSiteEntry = new SiteEntry({ entry: { guid: 'guid', id: 'id', visibility: 'PUBLIC', title: 'title' } });
+      const button = document.createElement('button');
       dialogRefMock.afterClosed.and.returnValue(of(mockSiteEntry));
       spyOn(dialog, 'open').and.returnValue(dialogRefMock);
       spyOn(appHookService.libraryCreated, 'next');
-      spyOn(document, 'querySelector').and.returnValue(document.createElement('button'));
-      spyOn(document.querySelector('button'), 'focus');
+      spyOn(document, 'querySelector').and.returnValue(button);
+      spyOn(button, 'focus');
 
       contentManagementService.createLibrary().subscribe((guid) => {
         expect(guid).toBe('guid');
         expect(appHookService.libraryCreated.next).toHaveBeenCalledWith(mockSiteEntry);
-        expect(document.querySelector('button').focus).toHaveBeenCalled();
+        expect(button.focus).toHaveBeenCalled();
         done();
       });
     });
