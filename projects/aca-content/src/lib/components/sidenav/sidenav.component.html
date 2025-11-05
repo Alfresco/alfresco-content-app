@@ -3,8 +3,7 @@
 
   <div class="aca-sidenav__section">
     <div *ngFor="let group of groups; trackBy: trackByGroupId" class="aca-sidenav__section__actions">
-      <mat-list-item
-        role="navigation"
+      <nav
         [attr.aria-label]="item.title | translate"
         class="aca-sidenav__section__actions__item"
         *ngFor="let item of group.items; trackBy: trackByLinkId"
@@ -15,7 +14,7 @@
         <ng-container *ngIf="item.component">
           <adf-dynamic-component [data]="{ item: item, state: 'expanded' }" [id]="item.component" />
         </ng-container>
-      </mat-list-item>
+      </nav>
     </div>
   </div>
 </div>
