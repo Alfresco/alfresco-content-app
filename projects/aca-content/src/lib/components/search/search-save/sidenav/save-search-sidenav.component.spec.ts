@@ -55,7 +55,11 @@ describe('SaveSearchSidenavComponent', () => {
   });
 
   it('should set navbar object if no search is saved', async () => {
-    savedSearchesService.savedSearches$.next([]);
+    Object.defineProperty(savedSearchesService, 'savedSearches$', {
+      value: of([]),
+      writable: true,
+      configurable: true
+    });
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -78,7 +82,11 @@ describe('SaveSearchSidenavComponent', () => {
   });
 
   it('should set navbar object with children is searches are saved', fakeAsync(() => {
-    savedSearchesService.savedSearches$.next([{ name: '1', order: 0, encodedUrl: 'abc' }]);
+    Object.defineProperty(savedSearchesService, 'savedSearches$', {
+      value: of([{ name: '1', order: 0, encodedUrl: 'abc' }]),
+      writable: true,
+      configurable: true
+    });
     component.ngOnInit();
     fixture.detectChanges();
     tick(100);
