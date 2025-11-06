@@ -51,13 +51,10 @@ export class SaveSearchSidenavComponent implements OnInit {
 
   ngOnInit() {
     this.savedSearchesService.init();
-    this.savedSearchesService.savedSearches$
-      .asObservable()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((savedSearches) => {
-        this.item = this.createNavBarLinkRef(savedSearches);
-        this.savedSearchCount = savedSearches.length;
-      });
+    this.savedSearchesService.savedSearches$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((savedSearches) => {
+      this.item = this.createNavBarLinkRef(savedSearches);
+      this.savedSearchCount = savedSearches.length;
+    });
     this.userPreferenceService
       .select(UserPreferenceValues.Locale)
       .pipe(takeUntilDestroyed(this.destroyRef), delay(10))
