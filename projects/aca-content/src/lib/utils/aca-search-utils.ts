@@ -30,10 +30,8 @@
  */
 export function isOperator(input: string): boolean {
   if (input) {
-    input = input.trim().toUpperCase();
-
     const operators = ['AND', 'OR'];
-    return operators.includes(input);
+    return operators.includes(input.trim());
   }
   return false;
 }
@@ -111,19 +109,40 @@ export function extractUserQueryFromEncodedQuery(encodedQuery: string): string {
  * @returns string
  */
 export function extractSearchedWordFromEncodedQuery(encodedQuery: string): string {
-  if (encodedQuery) {
-    const userQuery = extractUserQueryFromEncodedQuery(encodedQuery);
-    return userQuery !== '' && userQuery !== undefined
-      ? userQuery
-          .split('AND')
-          .map((searchCondition) => {
-            const searchTerm = searchCondition.includes('"') ? searchCondition.split('"')[1] : searchCondition.trim();
-            return searchTerm?.endsWith('*') && searchTerm !== '*' ? searchTerm.slice(0, -1) : searchTerm;
-          })
-          .join(' ')
-      : '';
+  if (!encodedQuery) {
+    return '';
   }
-  return '';
+
+  const userQuery = extractUserQueryFromEncodedQuery(encodedQuery);
+  if (!userQuery) {
+    return '';
+  }
+
+  const tokenRegex = /\(([^()]+)\)|\b(AND|OR)\b/g;
+  const fragments: string[] = [];
+  let match: RegExpExecArray | null;
+
+  while ((match = tokenRegex.exec(userQuery))) {
+    if (match[1]) {
+      fragments.push(extractWordFromQuery(match[1]));
+    } else if (match[2]) {
+      const operator = match[2] === 'AND' ? '' : 'OR';
+      fragments.push(operator);
+    }
+  }
+
+  return fragments.join(' ').replace(/\s+/g, ' ').trim();
+}
+
+/**
+ * Extracts the searched word from a part of search query
+ *
+ * @param queryPart encoded query
+ * @returns searched word
+ */
+function extractWordFromQuery(queryPart: string): string {
+  const quoted = queryPart.match(/"([^"]+)\*"/);
+  return quoted ? quoted[1] : '';
 }
 
 /**
