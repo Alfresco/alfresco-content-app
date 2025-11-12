@@ -34,7 +34,8 @@
                 "TITLE": "Paquetes",
                 "NAME": "Nombre",
                 "VERSION": "Versión"
-            }
+            },
+            "BACK_BUTTON_LABEL": "Volver"
         },
         "LANGUAGE": "Idioma",
         "SIGN_IN": "Iniciar sesión",
@@ -63,7 +64,8 @@
             "NAME": "Nombre",
             "ADDRESS": "Dirección",
             "POSTCODE": "Código postal",
-            "INVALID_INPUT": "Entrada no válida"
+            "INVALID_INPUT": "Entrada no válida",
+            "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Ir a Archivos personales"
         },
         "LOCKED_BY": "Bloqueado por: ",
         "PREVIEW": {
@@ -135,8 +137,8 @@
                         "TEXT": "Marcar como favorita una biblioteca para encontrarla más rápidamente."
                     },
                     "ALL_LIBRARIES": {
-                        "TITLE": "No se ha encontrado ninguna biblioteca",
-                        "TEXT ": "Crear una biblioteca nueva para empezar"
+                        "TITLE": "Ninguna biblioteca encontrada",
+                        "TEXT": "Crear una nueva biblioteca para empezar."
                     }
                 },
                 "MENU": {
@@ -157,7 +159,8 @@
                     "ALL_LIBRARIES": {
                         "TITLE": "Todas las bibliotecas",
                         "SIDENAV_LINK": {
-                            "LABEL": "Todas las bibliotecas"
+                            "LABEL": "Todas las bibliotecas",
+                            "TOOLTIP": "Acceder a todas las bibliotecas"
                         }
                     }
                 },
@@ -471,7 +474,12 @@
             "COLLAPSE_NAVIGATION": "Oculta el menú de navegación",
             "OPTIONS_SETTINGS": "Configuración y opciones",
             "MY_PROFILE": "Mi Perfil",
-            "EXPAND_NAVIGATION": "Expande el menú de navegación"
+            "EXPAND_NAVIGATION": "Expande el menú de navegación",
+            "EXPAND_SECTION": "Expandir sección",
+            "COLLAPSE_SECTION": "Colapsar sección",
+            "EDIT": "Editar",
+            "CANCEL": "Cancelar",
+            "SAVE": "Guardar"
         },
         "FOLDER_INFO": {
             "ICON": "Icono de carpeta",

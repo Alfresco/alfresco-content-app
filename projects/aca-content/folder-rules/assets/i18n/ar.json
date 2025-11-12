@@ -126,7 +126,8 @@
       "LOADING_RULES": "قواعد التحميل",
       "TOGGLE_RULE_STATE": "تبادل حالة تفعيل القاعدة",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "سيتم تشغيل القواعد الموروثة أولاً",
-      "ALL_LINKED_RULES_ARE_DISABLED": "تم تعطيل جميع القواعد المرتبطة من مجموعة القواعد هذه"
+      "ALL_LINKED_RULES_ARE_DISABLED": "تم تعطيل جميع القواعد المرتبطة من مجموعة القواعد هذه",
+      "EDIT_LINK_LABEL": "ربط القواعد من مجلد آخر"
     },
     "LINK_RULES_DIALOG": {
       "TITLE": "حدد مجلدًا لربط القواعد منه",

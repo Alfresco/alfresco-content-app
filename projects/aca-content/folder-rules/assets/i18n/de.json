@@ -126,7 +126,8 @@
       "LOADING_RULES": "Regeln werden geladen",
       "TOGGLE_RULE_STATE": "Status der Regelaktivierung umschalten",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "Vererbte Regeln werden zuerst ausgeführt",
-      "ALL_LINKED_RULES_ARE_DISABLED": "Alle von diesem Regelsatz verknüpften Regeln sind deaktiviert"
+      "ALL_LINKED_RULES_ARE_DISABLED": "Alle von diesem Regelsatz verknüpften Regeln sind deaktiviert",
+      "EDIT_LINK_LABEL": "Link-Regeln aus einem anderen Ordner"
     },
     "LINK_RULES_DIALOG": {
       "TITLE": "Wählen Sie einen Ordner für die Verknüpfung von Regeln aus",

@@ -34,7 +34,8 @@
                 "TITLE": "حزم",
                 "NAME": "الاسم",
                 "VERSION": "الإصدار"
-            }
+            },
+            "BACK_BUTTON_LABEL": "الرجوع"
         },
         "LANGUAGE": "اللغة",
         "SIGN_IN": "تسجيل دخول",
@@ -63,7 +64,8 @@
             "NAME": "الاسم",
             "ADDRESS": "العنوان",
             "POSTCODE": "الرمز البريدي",
-            "INVALID_INPUT": "إدخال غير صالح"
+            "INVALID_INPUT": "إدخال غير صالح",
+            "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "الذهاب إلى الملفات الشخصية"
         },
         "LOCKED_BY": "مغلق من قبل ",
         "PREVIEW": {
@@ -134,9 +136,9 @@
                         "TITLE": "لا توجد مكتبات مفضلة",
                         "TEXT": "حدد مكتبة تريد العثور عليها بسهولة لاحقًا كمفضلة."
                     },
-                    "ALL_LIBRARIES":{
+                    "ALL_LIBRARIES": {
                         "TITLE": "لم يتم العثور على مكتبة",
-                        "TEXT": "أنشئ مكتبة جديدة للبدء"
+                        "TEXT": "إنشاء مكتبة جديدة للبدء."
                     }
                 },
                 "MENU": {
@@ -155,9 +157,10 @@
                         }
                     },
                     "ALL_LIBRARIES": {
-                        "TITLE": "كل المكتبات",
+                        "TITLE": "جميع المكتبات",
                         "SIDENAV_LINK": {
-                            "LABEL": "كل المكتبات"
+                            "LABEL": "جميع المكتبات",
+                            "TOOLTIP": "الوصول إلى جميع المكتبات"
                         }
                     }
                 },
@@ -471,7 +474,12 @@
             "COLLAPSE_NAVIGATION": "طي قائمة التنقل",
             "OPTIONS_SETTINGS": "الخيارات والإعدادات",
             "MY_PROFILE": "ملف التعريف الخاص بي",
-            "EXPAND_NAVIGATION": "قم بتوسيع قائمة التنقل"
+            "EXPAND_NAVIGATION": "قم بتوسيع قائمة التنقل",
+            "EXPAND_SECTION": "توسيع القسم",
+            "COLLAPSE_SECTION": "طي القسم",
+            "EDIT": "تحرير",
+            "CANCEL": "إلغاء",
+            "SAVE": "حفظ"
         },
         "FOLDER_INFO": {
             "ICON": "أيقونة المجلد",

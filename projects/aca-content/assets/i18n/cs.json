@@ -34,7 +34,8 @@
                 "TITLE": "Balíčky",
                 "NAME": "Název",
                 "VERSION": "Verze"
-            }
+            },
+            "BACK_BUTTON_LABEL": "Přejít zpět"
         },
         "LANGUAGE": "Jazyk",
         "SIGN_IN": "Přihlásit se",
@@ -63,7 +64,8 @@
             "NAME": "Název",
             "ADDRESS": "Adresa",
             "POSTCODE": "PSČ",
-            "INVALID_INPUT": "Neplatný vstup"
+            "INVALID_INPUT": "Neplatný vstup",
+            "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Přejít na osobní soubory"
         },
         "LOCKED_BY": "Uzamknul(a): ",
         "PREVIEW": {
@@ -135,8 +137,8 @@
                         "TEXT": "Pro snadnější dostupnost můžete označit vybrané knihovny za oblíbené."
                     },
                     "ALL_LIBRARIES": {
-                        "TITLE": "Nebyla nalezena žádná knihovna",
-                        "TEXT": "Začněte vytvořením nové knihovny"
+                        "TITLE": "Nenalezena žádná knihovna",
+                        "TEXT": "Vytvořte novou knihovnu, abyste mohli začít."
                     }
                 },
                 "MENU": {
@@ -157,7 +159,8 @@
                     "ALL_LIBRARIES": {
                         "TITLE": "Všechny knihovny",
                         "SIDENAV_LINK": {
-                            "LABEL": "Všechny knihovny"
+                            "LABEL": "Všechny knihovny",
+                            "TOOLTIP": "Přístup ke všem knihovnám"
                         }
                     }
                 },
@@ -471,7 +474,12 @@
             "COLLAPSE_NAVIGATION": "Sbalit navigační nabídku",
             "OPTIONS_SETTINGS": "Možnosti a nastavení",
             "MY_PROFILE": "Můj profil",
-            "EXPAND_NAVIGATION": "Rozbalit navigační nabídku"
+            "EXPAND_NAVIGATION": "Rozbalit navigační nabídku",
+            "EXPAND_SECTION": "Rozbalit sekci",
+            "COLLAPSE_SECTION": "Sbalit sekci",
+            "EDIT": "Upravit",
+            "CANCEL": "Zrušit",
+            "SAVE": "Uložit"
         },
         "FOLDER_INFO": {
             "ICON": "Ikona složky",

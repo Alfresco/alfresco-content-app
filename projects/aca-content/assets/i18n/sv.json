@@ -34,7 +34,8 @@
                 "TITLE": "Paket",
                 "NAME": "Namn",
                 "VERSION": "Version"
-            }
+            },
+            "BACK_BUTTON_LABEL": "Gå tillbaka"
         },
         "LANGUAGE": "Språk",
         "SIGN_IN": "Logga in",
@@ -63,7 +64,8 @@
             "NAME": "Namn",
             "ADDRESS": "Adress",
             "POSTCODE": "Postnummer",
-            "INVALID_INPUT": "Ogiltig inmatning"
+            "INVALID_INPUT": "Ogiltig inmatning",
+            "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Gå till personliga filer"
         },
         "LOCKED_BY": "Låst av: ",
         "PREVIEW": {
@@ -136,7 +138,7 @@
                     },
                     "ALL_LIBRARIES": {
                         "TITLE": "Inget bibliotek hittades",
-                        "TEXT": "Skapa ett nytt bibliotek för att komma igång"
+                        "TEXT": "Skapa ett nytt bibliotek för att komma igång."
                     }
                 },
                 "MENU": {
@@ -157,7 +159,8 @@
                     "ALL_LIBRARIES": {
                         "TITLE": "Alla bibliotek",
                         "SIDENAV_LINK": {
-                            "LABEL": "Alla bibliotek"
+                            "LABEL": "Alla bibliotek",
+                            "TOOLTIP": "Få tillgång till alla bibliotek"
                         }
                     }
                 },
@@ -471,7 +474,12 @@
             "COLLAPSE_NAVIGATION": "Dölj navigeringsmenyn",
             "OPTIONS_SETTINGS": "Alternativ och inställningar",
             "MY_PROFILE": "Min profil",
-            "EXPAND_NAVIGATION": "Expandera navigeringsmenyn"
+            "EXPAND_NAVIGATION": "Expandera navigeringsmenyn",
+            "EXPAND_SECTION": "Expandera avsnitt",
+            "COLLAPSE_SECTION": "Minimera avsnitt",
+            "EDIT": "Redigera",
+            "CANCEL": "Avbryt",
+            "SAVE": "Spara"
         },
         "FOLDER_INFO": {
             "ICON": "Mapp-ikon",

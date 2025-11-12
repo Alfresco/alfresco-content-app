@@ -34,7 +34,8 @@
                 "TITLE": "Pacotes",
                 "NAME": "Nome",
                 "VERSION": "Versão"
-            }
+            },
+            "BACK_BUTTON_LABEL": "Voltar"
         },
         "LANGUAGE": "Idioma",
         "SIGN_IN": "Entrar",
@@ -63,7 +64,8 @@
             "NAME": "Nome",
             "ADDRESS": "Endereço",
             "POSTCODE": "Código postal",
-            "INVALID_INPUT": "Entrada inválida"
+            "INVALID_INPUT": "Entrada inválida",
+            "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Ir para Arquivos Pessoais"
         },
         "LOCKED_BY": "Bloqueado por: ",
         "PREVIEW": {
@@ -136,7 +138,7 @@
                     },
                     "ALL_LIBRARIES": {
                         "TITLE": "Nenhuma biblioteca encontrada",
-                        "TEXT": "Crie uma nova biblioteca para iniciar"
+                        "TEXT": "Crie uma nova biblioteca para começar."
                     }
                 },
                 "MENU": {
@@ -155,9 +157,10 @@
                         }
                     },
                     "ALL_LIBRARIES": {
-                        "TITLE": "Todas as bibliotecas",
+                        "TITLE": "Todas as Bibliotecas",
                         "SIDENAV_LINK": {
-                            "LABEL": "Todas as bibliotecas"
+                            "LABEL": "Todas as Bibliotecas",
+                            "TOOLTIP": "Acessar todas as bibliotecas"
                         }
                     }
                 },
@@ -471,7 +474,12 @@
             "COLLAPSE_NAVIGATION": "Recolher menu de navegação",
             "OPTIONS_SETTINGS": "Opções e configurações",
             "MY_PROFILE": "Meu perfil",
-            "EXPAND_NAVIGATION": "Expandir menu de navegação"
+            "EXPAND_NAVIGATION": "Expandir menu de navegação",
+            "EXPAND_SECTION": "Expandir seção",
+            "COLLAPSE_SECTION": "Recolher seção",
+            "EDIT": "Editar",
+            "CANCEL": "Cancelar",
+            "SAVE": "Salvar"
         },
         "FOLDER_INFO": {
             "ICON": "Ícone da pasta",

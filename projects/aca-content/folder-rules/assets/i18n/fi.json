@@ -126,7 +126,8 @@
       "LOADING_RULES": "Sääntöjä ladataan",
       "TOGGLE_RULE_STATE": "Muuta käytössä olevan säännön tila",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "Perityt säännöt suoritetaan ensin",
-      "ALL_LINKED_RULES_ARE_DISABLED": "Kaikki tästä sääntöjoukosta linkitetyt säännöt on poistettu käytöstä"
+      "ALL_LINKED_RULES_ARE_DISABLED": "Kaikki tästä sääntöjoukosta linkitetyt säännöt on poistettu käytöstä",
+      "EDIT_LINK_LABEL": "Linkin säännöt toisesta kansiosta"
     },
     "LINK_RULES_DIALOG": {
       "TITLE": "Valitse kansio, josta sääntöjä linkitetään",

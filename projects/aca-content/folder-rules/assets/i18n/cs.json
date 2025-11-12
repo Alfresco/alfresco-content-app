@@ -126,7 +126,8 @@
       "LOADING_RULES": "Načítání pravidel",
       "TOGGLE_RULE_STATE": "Přepnout stav povolení pravidla",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "Jako první budou spuštěna zděděná pravidla",
-      "ALL_LINKED_RULES_ARE_DISABLED": "Všechna pravidla, na která byl vytvořen odkaz z tohoto souboru pravidel, jsou zakázaná"
+      "ALL_LINKED_RULES_ARE_DISABLED": "Všechna pravidla, na která byl vytvořen odkaz z tohoto souboru pravidel, jsou zakázaná",
+      "EDIT_LINK_LABEL": "Pravidla odkazů z jiné složky"
     },
     "LINK_RULES_DIALOG": {
       "TITLE": "Vyberte složku pro vytvoření odkazu na pravidla z",

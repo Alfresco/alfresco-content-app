@@ -126,7 +126,8 @@
       "LOADING_RULES": "ルールの読み込み中",
       "TOGGLE_RULE_STATE": "切替ルール有効状態",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "継承されたルールが最初に実行されます",
-      "ALL_LINKED_RULES_ARE_DISABLED": "このルールセットからリンクされているすべてのルールは無効です"
+      "ALL_LINKED_RULES_ARE_DISABLED": "このルールセットからリンクされているすべてのルールは無効です",
+      "EDIT_LINK_LABEL": "別のフォルダからリンクルールを移動する"
     },
     "LINK_RULES_DIALOG": {
       "TITLE": "ルールをリンクさせるフォルダを選択",

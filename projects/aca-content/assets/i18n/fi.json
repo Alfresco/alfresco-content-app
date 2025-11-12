@@ -34,7 +34,8 @@
                 "TITLE": "Paketit",
                 "NAME": "Nimi",
                 "VERSION": "Versio"
-            }
+            },
+            "BACK_BUTTON_LABEL": "Palaa takaisin"
         },
         "LANGUAGE": "Kieli",
         "SIGN_IN": "Kirjaudu sisään",
@@ -63,7 +64,8 @@
             "NAME": "Nimi",
             "ADDRESS": "Osoite",
             "POSTCODE": "Postinumero",
-            "INVALID_INPUT": "Syöte ei kelpaa"
+            "INVALID_INPUT": "Syöte ei kelpaa",
+            "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Siirry henkilökohtaisiin tiedostoihin"
         },
         "LOCKED_BY": "Lukinnut: ",
         "PREVIEW": {
@@ -135,8 +137,8 @@
                         "TEXT": "Voit lisätä suosikkeihin kirjastoja, jotka haluat löytää helposti myöhemmin."
                     },
                     "ALL_LIBRARIES": {
-                        "TITLE": "Yhtään kirjastoa ei löytynyt",
-                        "TEXT": "Luo uusi kirjasto aloittaaksesi"
+                        "TITLE": "Kirjastoa ei löytynyt",
+                        "TEXT": "Luo uusi kirjasto päästäksesi alkuun."
                     }
                 },
                 "MENU": {
@@ -155,9 +157,10 @@
                         }
                     },
                     "ALL_LIBRARIES": {
-                        "TITLE": "Kaikki kirjastot",
+                        "TITLE": "Kaikki Kirjastot",
                         "SIDENAV_LINK": {
-                            "LABEL": "Kaikki kirjastot"
+                            "LABEL": "Kaikki Kirjastot",
+                            "TOOLTIP": "Käytä kaikkia kirjastoja"
                         }
                     }
                 },
@@ -471,7 +474,12 @@
             "COLLAPSE_NAVIGATION": "Kutista siirtymisvalikko",
             "OPTIONS_SETTINGS": "Asetukset ja vaihtoehdot",
             "MY_PROFILE": "Oma profiili",
-            "EXPAND_NAVIGATION": "Laajenna siirtymisvalikko"
+            "EXPAND_NAVIGATION": "Laajenna siirtymisvalikko",
+            "EXPAND_SECTION": "Laajenna osio",
+            "COLLAPSE_SECTION": "Kutista osio",
+            "EDIT": "Muokkaa",
+            "CANCEL": "Peruuta",
+            "SAVE": "Tallenna"
         },
         "FOLDER_INFO": {
             "ICON": "Kansion Kuvake",

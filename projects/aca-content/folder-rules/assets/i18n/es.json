@@ -126,7 +126,8 @@
       "LOADING_RULES": "Cargando reglas",
       "TOGGLE_RULE_STATE": "Alternar estado de regla habilitada",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "Las reglas heredadas se ejecutarán primero",
-      "ALL_LINKED_RULES_ARE_DISABLED": "Todas las reglas vinculadas a este conjunto de reglas están deshabilitadas"
+      "ALL_LINKED_RULES_ARE_DISABLED": "Todas las reglas vinculadas a este conjunto de reglas están deshabilitadas",
+      "EDIT_LINK_LABEL": "Enlazar reglas desde otra carpeta"
     },
     "LINK_RULES_DIALOG": {
       "TITLE": "Seleccione una carpeta desde la que vincular las reglas",

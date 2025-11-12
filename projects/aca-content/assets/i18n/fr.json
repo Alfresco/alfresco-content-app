@@ -34,7 +34,8 @@
                 "TITLE": "Packages",
                 "NAME": "Nom",
                 "VERSION": "Version"
-            }
+            },
+            "BACK_BUTTON_LABEL": "Retour"
         },
         "LANGUAGE": "Langue",
         "SIGN_IN": "Connexion",
@@ -63,7 +64,8 @@
             "NAME": "Nom",
             "ADDRESS": "Adresse",
             "POSTCODE": "Code postal",
-            "INVALID_INPUT": "Entrée non valide"
+            "INVALID_INPUT": "Entrée non valide",
+            "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Accéder aux fichiers personnels"
         },
         "LOCKED_BY": "Verrouillé par: ",
         "PREVIEW": {
@@ -136,7 +138,7 @@
                     },
                     "ALL_LIBRARIES": {
                         "TITLE": "Aucune bibliothèque trouvée",
-                        "TEXT": "Créez une nouvelle bibliothèque pour commencer"
+                        "TEXT": "Créer une nouvelle bibliothèque pour commencer."
                     }
                 },
                 "MENU": {
@@ -157,7 +159,8 @@
                     "ALL_LIBRARIES": {
                         "TITLE": "Toutes les bibliothèques",
                         "SIDENAV_LINK": {
-                            "LABEL": "Toutes les bibliothèques"
+                            "LABEL": "Toutes les bibliothèques",
+                            "TOOLTIP": "Accéder à toutes les bibliothèques"
                         }
                     }
                 },
@@ -471,7 +474,12 @@
             "COLLAPSE_NAVIGATION": "Réduire le menu de navigation",
             "OPTIONS_SETTINGS": "Options et paramètres",
             "MY_PROFILE": "Mon profil",
-            "EXPAND_NAVIGATION": "Agrandir le menu de navigation"
+            "EXPAND_NAVIGATION": "Agrandir le menu de navigation",
+            "EXPAND_SECTION": "Développer la section",
+            "COLLAPSE_SECTION": "Réduire la section",
+            "EDIT": "Modifier",
+            "CANCEL": "Annuler",
+            "SAVE": "Enregistrer"
         },
         "FOLDER_INFO": {
             "ICON": "Icône de dossier",

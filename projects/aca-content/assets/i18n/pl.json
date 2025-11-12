@@ -34,7 +34,8 @@
                 "TITLE": "Pakiety",
                 "NAME": "Nazwa",
                 "VERSION": "Wersja"
-            }
+            },
+            "BACK_BUTTON_LABEL": "Cofnij"
         },
         "LANGUAGE": "Język",
         "SIGN_IN": "Zaloguj się",
@@ -63,7 +64,8 @@
             "NAME": "Nazwa",
             "ADDRESS": "Adres",
             "POSTCODE": "Kod pocztowy",
-            "INVALID_INPUT": "Nieprawidłowe dane wejściowe"
+            "INVALID_INPUT": "Nieprawidłowe dane wejściowe",
+            "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Przejdź do plików osobistych"
         },
         "LOCKED_BY": "Zablokowane przez: ",
         "PREVIEW": {
@@ -136,7 +138,7 @@
                     },
                     "ALL_LIBRARIES": {
                         "TITLE": "Nie znaleziono biblioteki",
-                        "TEXT": "Utwórz nową bibliotekę, aby rozpocząć"
+                        "TEXT": "Utwórz nową bibliotekę, aby rozpocząć."
                     }
                 },
                 "MENU": {
@@ -157,7 +159,8 @@
                     "ALL_LIBRARIES": {
                         "TITLE": "Wszystkie biblioteki",
                         "SIDENAV_LINK": {
-                            "LABEL": "Wszystkie biblioteki"
+                            "LABEL": "Wszystkie biblioteki",
+                            "TOOLTIP": "Dostęp do wszystkich bibliotek"
                         }
                     }
                 },
@@ -471,7 +474,12 @@
             "COLLAPSE_NAVIGATION": "Zwiń menu nawigacji",
             "OPTIONS_SETTINGS": "Opcje i ustawienia",
             "MY_PROFILE": "Mój profil",
-            "EXPAND_NAVIGATION": "Rozwiń menu nawigacji"
+            "EXPAND_NAVIGATION": "Rozwiń menu nawigacji",
+            "EXPAND_SECTION": "Rozwiń sekcję",
+            "COLLAPSE_SECTION": "Zwiń sekcję",
+            "EDIT": "Edytuj",
+            "CANCEL": "Anuluj",
+            "SAVE": "Zapisz"
         },
         "FOLDER_INFO": {
             "ICON": "Ikona folderu",

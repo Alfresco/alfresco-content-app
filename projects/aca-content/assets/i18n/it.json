@@ -34,7 +34,8 @@
                 "TITLE": "Pacchetti",
                 "NAME": "Nome",
                 "VERSION": "Versione"
-            }
+            },
+            "BACK_BUTTON_LABEL": "Torna indietro"
         },
         "LANGUAGE": "Lingua",
         "SIGN_IN": "Accedi",
@@ -63,7 +64,8 @@
             "NAME": "Nome",
             "ADDRESS": "Indirizzo",
             "POSTCODE": "Codice postale",
-            "INVALID_INPUT": "Input non valido"
+            "INVALID_INPUT": "Input non valido",
+            "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Vai a File personali"
         },
         "LOCKED_BY": "Bloccato da: ",
         "PREVIEW": {
@@ -136,7 +138,7 @@
                     },
                     "ALL_LIBRARIES": {
                         "TITLE": "Nessuna libreria trovata",
-                        "TEXT": "Crea una nuova libreria per iniziare"
+                        "TEXT": "Crea una nuova libreria per iniziare."
                     }
                 },
                 "MENU": {
@@ -155,9 +157,10 @@
                         }
                     },
                     "ALL_LIBRARIES": {
-                        "TITLE": "Tutte le librerie",
+                        "TITLE": "Tutte le biblioteche",
                         "SIDENAV_LINK": {
-                            "LABEL": "Tutte le librerie"
+                            "LABEL": "Tutte le biblioteche",
+                            "TOOLTIP": "Accedi a tutte le biblioteche"
                         }
                     }
                 },
@@ -471,7 +474,12 @@
             "COLLAPSE_NAVIGATION": "Comprimi il menu di navigazione",
             "OPTIONS_SETTINGS": "Opzioni e impostazioni",
             "MY_PROFILE": "Il mio profilo",
-            "EXPAND_NAVIGATION": "Espande il menu di navigazione"
+            "EXPAND_NAVIGATION": "Espande il menu di navigazione",
+            "EXPAND_SECTION": "Espandi sezione",
+            "COLLAPSE_SECTION": "Chiudi sezione",
+            "EDIT": "Modifica",
+            "CANCEL": "Annulla",
+            "SAVE": "Salva"
         },
         "FOLDER_INFO": {
             "ICON": "Icona Cartella",

@@ -126,7 +126,8 @@
       "LOADING_RULES": "Carregando regras",
       "TOGGLE_RULE_STATE": "Alternar o estado de ativação da regra",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "As regras herdadas serão executadas primeiro",
-      "ALL_LINKED_RULES_ARE_DISABLED": "Todas as regras vinculadas deste conjunto de regras estão desativadas"
+      "ALL_LINKED_RULES_ARE_DISABLED": "Todas as regras vinculadas deste conjunto de regras estão desativadas",
+      "EDIT_LINK_LABEL": "Regras de link de outra pasta"
     },
     "LINK_RULES_DIALOG": {
       "TITLE": "Selecione uma pasta da qual vincular regras",

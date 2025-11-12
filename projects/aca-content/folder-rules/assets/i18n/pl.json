@@ -126,7 +126,8 @@
       "LOADING_RULES": "Wczytywanie reguł",
       "TOGGLE_RULE_STATE": "Przełącz status włączonej reguły",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "Odziedziczone reguły zostaną wykonane najpierw",
-      "ALL_LINKED_RULES_ARE_DISABLED": "Wszystkie reguły z łączem z tego zbioru reguł są wyłączone"
+      "ALL_LINKED_RULES_ARE_DISABLED": "Wszystkie reguły z łączem z tego zbioru reguł są wyłączone",
+      "EDIT_LINK_LABEL": "Zasady dotyczące linków z innego folderu"
     },
     "LINK_RULES_DIALOG": {
       "TITLE": "Wybierz folder, z którego mają być łączone reguły",

@@ -126,7 +126,8 @@
       "LOADING_RULES": "Laddar regler",
       "TOGGLE_RULE_STATE": "Växla status för aktiverad regel",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "Ärvda regler körs först",
-      "ALL_LINKED_RULES_ARE_DISABLED": "Alla regler som är länkade från den här regeluppsättningen är inaktiverade"
+      "ALL_LINKED_RULES_ARE_DISABLED": "Alla regler som är länkade från den här regeluppsättningen är inaktiverade",
+      "EDIT_LINK_LABEL": "Länk regler från en annan mapp"
     },
     "LINK_RULES_DIALOG": {
       "TITLE": "Välj en mapp att länka regler från",

@@ -126,7 +126,8 @@
       "LOADING_RULES": "Indlæser regler",
       "TOGGLE_RULE_STATE": "Skift regelaktiveret tilstand",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "Overtagede regler køres først",
-      "ALL_LINKED_RULES_ARE_DISABLED": "Alle regler, der er forbundet af dette indstillede regelsæt, er deaktiveret"
+      "ALL_LINKED_RULES_ARE_DISABLED": "Alle regler, der er forbundet af dette indstillede regelsæt, er deaktiveret",
+      "EDIT_LINK_LABEL": "Link regler fra en anden mappe"
     },
     "LINK_RULES_DIALOG": {
       "TITLE": "Vælg en mappe for at forbinde regler fra",

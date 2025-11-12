@@ -126,7 +126,8 @@
       "LOADING_RULES": "正在加载规则",
       "TOGGLE_RULE_STATE": "切换规则已启用状态",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "首先运行继承的规则",
-      "ALL_LINKED_RULES_ARE_DISABLED": "禁用从此规则集链接的所有规则"
+      "ALL_LINKED_RULES_ARE_DISABLED": "禁用从此规则集链接的所有规则",
+      "EDIT_LINK_LABEL": "从另一个文件夹链接规则"
     },
     "LINK_RULES_DIALOG": {
       "TITLE": "选择要从中链接规则的文件夹",

@@ -34,7 +34,8 @@
                 "TITLE": "软件包",
                 "NAME": "名称",
                 "VERSION": "版本"
-            }
+            },
+            "BACK_BUTTON_LABEL": "返回"
         },
         "LANGUAGE": "语言",
         "SIGN_IN": "登录",
@@ -63,7 +64,8 @@
             "NAME": "名称",
             "ADDRESS": "地址",
             "POSTCODE": "邮政编码",
-            "INVALID_INPUT": "无效输入"
+            "INVALID_INPUT": "无效输入",
+            "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "转到个人文件"
         },
         "LOCKED_BY": "锁定者： ",
         "PREVIEW": {
@@ -135,8 +137,8 @@
                         "TEXT": "收藏您希望以后轻松查找的库"
                     },
                     "ALL_LIBRARIES": {
-                        "TITLE": "未发现任何库",
-                        "TEXT": "创建新库以开始使用"
+                        "TITLE": "没有找到库",
+                        "TEXT": "创建一个新的库以开始操作。"
                     }
                 },
                 "MENU": {
@@ -157,7 +159,8 @@
                     "ALL_LIBRARIES": {
                         "TITLE": "所有库",
                         "SIDENAV_LINK": {
-                            "LABEL": "所有库"
+                            "LABEL": "所有库",
+                            "TOOLTIP": "访问所有库"
                         }
                     }
                 },
@@ -471,7 +474,12 @@
             "COLLAPSE_NAVIGATION": "折叠导航菜单",
             "OPTIONS_SETTINGS": "选项和设置",
             "MY_PROFILE": "我的个人档案",
-            "EXPAND_NAVIGATION": "展开导航菜单"
+            "EXPAND_NAVIGATION": "展开导航菜单",
+            "EXPAND_SECTION": "展开版块",
+            "COLLAPSE_SECTION": "折叠版块",
+            "EDIT": "编辑",
+            "CANCEL": "取消",
+            "SAVE": "保存"
         },
         "FOLDER_INFO": {
             "ICON": "文件夹图标",

@@ -126,7 +126,8 @@
       "LOADING_RULES": "Laster regler",
       "TOGGLE_RULE_STATE": "Veksle regelaktivert status",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "Arvede regler vil bli kjørt først",
-      "ALL_LINKED_RULES_ARE_DISABLED": "Alle regler som er koblet fra dette regelsettet, er deaktivert"
+      "ALL_LINKED_RULES_ARE_DISABLED": "Alle regler som er koblet fra dette regelsettet, er deaktivert",
+      "EDIT_LINK_LABEL": "Koble til regler fra en annen mappe"
     },
     "LINK_RULES_DIALOG": {
       "TITLE": "Velg en mappe du vil koble til regler fra",

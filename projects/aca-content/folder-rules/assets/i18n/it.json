@@ -126,7 +126,8 @@
       "LOADING_RULES": "Caricamento delle regole in corso",
       "TOGGLE_RULE_STATE": "Attiva/Disattiva stato attivato da regola",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "Le regole ereditate verranno eseguite per prime",
-      "ALL_LINKED_RULES_ARE_DISABLED": "Tutte le regole collegate a questo set di regole verranno disabilitate"
+      "ALL_LINKED_RULES_ARE_DISABLED": "Tutte le regole collegate a questo set di regole verranno disabilitate",
+      "EDIT_LINK_LABEL": "Collega le regole da un'altra cartella"
     },
     "LINK_RULES_DIALOG": {
       "TITLE": "Seleziona una cartella da cui collegare le regole",

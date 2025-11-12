@@ -34,7 +34,8 @@
                 "TITLE": "Pakker",
                 "NAME": "Navn",
                 "VERSION": "Versjon"
-            }
+            },
+            "BACK_BUTTON_LABEL": "Gå tilbake"
         },
         "LANGUAGE": "Språk",
         "SIGN_IN": "Logg på",
@@ -63,7 +64,8 @@
             "NAME": "Navn",
             "ADDRESS": "Adresse",
             "POSTCODE": "Postnummer",
-            "INVALID_INPUT": "Ugyldig inndata"
+            "INVALID_INPUT": "Ugyldig inndata",
+            "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Gå til personlige filer"
         },
         "LOCKED_BY": "Låst av: ",
         "PREVIEW": {
@@ -135,8 +137,8 @@
                         "TEXT": "Merk et bibliotek som favoritt for å enkelt finne det senere."
                     },
                     "ALL_LIBRARIES": {
-                        "TITLE": "Fant ingen bibliotek",
-                        "TEXT": "Opprett et nytt bibliotek for å komme i gang"
+                        "TITLE": "Ingen bibliotek funnet",
+                        "TEXT": "Opprett et nytt bibliotek for å komme i gang."
                     }
                 },
                 "MENU": {
@@ -157,7 +159,8 @@
                     "ALL_LIBRARIES": {
                         "TITLE": "Alle biblioteker",
                         "SIDENAV_LINK": {
-                            "LABEL": "Alle biblioteker"
+                            "LABEL": "Alle biblioteker",
+                            "TOOLTIP": "Tilgang til alle biblioteker"
                         }
                     }
                 },
@@ -471,7 +474,12 @@
             "COLLAPSE_NAVIGATION": "Skjul navigasjonsmeny",
             "OPTIONS_SETTINGS": "Alternativer og innstillinger",
             "MY_PROFILE": "Min profil",
-            "EXPAND_NAVIGATION": "Utvid navigasjonsmeny"
+            "EXPAND_NAVIGATION": "Utvid navigasjonsmeny",
+            "EXPAND_SECTION": "Utvid seksjon",
+            "COLLAPSE_SECTION": "Skjul seksjonen",
+            "EDIT": "Rediger",
+            "CANCEL": "Avbryt",
+            "SAVE": "Lagre"
         },
         "FOLDER_INFO": {
             "ICON": "Mappe ikon",

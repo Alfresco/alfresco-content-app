@@ -34,7 +34,8 @@
                 "TITLE": "パッケージ",
                 "NAME": "名前",
                 "VERSION": "バージョン"
-            }
+            },
+            "BACK_BUTTON_LABEL": "戻る"
         },
         "LANGUAGE": "言語",
         "SIGN_IN": "サインイン",
@@ -63,7 +64,8 @@
             "NAME": "名前",
             "ADDRESS": "住所",
             "POSTCODE": "郵便番号",
-            "INVALID_INPUT": "無効な入力"
+            "INVALID_INPUT": "無効な入力",
+            "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "個人ファイルに移動"
         },
         "LOCKED_BY": "ロックしているユーザー: ",
         "PREVIEW": {
@@ -136,7 +138,7 @@
                     },
                     "ALL_LIBRARIES": {
                         "TITLE": "ライブラリが見つかりません",
-                        "TEXT": "最初に新しいライブラリを作成してください"
+                        "TEXT": "新しいライブラリを作成して始めましょう。"
                     }
                 },
                 "MENU": {
@@ -157,7 +159,8 @@
                     "ALL_LIBRARIES": {
                         "TITLE": "すべてのライブラリ",
                         "SIDENAV_LINK": {
-                            "LABEL": "すべてのライブラリ"
+                            "LABEL": "すべてのライブラリ",
+                            "TOOLTIP": "すべてのライブラリにアクセス"
                         }
                     }
                 },
@@ -471,7 +474,12 @@
             "COLLAPSE_NAVIGATION": "ナビゲーションメニューを折りたたむ",
             "OPTIONS_SETTINGS": "オプションと設定",
             "MY_PROFILE": "あなたのプロフィール",
-            "EXPAND_NAVIGATION": "ナビゲーションメニューを展開します"
+            "EXPAND_NAVIGATION": "ナビゲーションメニューを展開します",
+            "EXPAND_SECTION": "セクションを展開",
+            "COLLAPSE_SECTION": "セクションを閉じる",
+            "EDIT": "編集",
+            "CANCEL": "キャンセル",
+            "SAVE": "保存"
         },
         "FOLDER_INFO": {
             "ICON": "フォルダアイコン",

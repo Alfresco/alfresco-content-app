@@ -126,7 +126,8 @@
       "LOADING_RULES": "Chargement des règles en cours",
       "TOGGLE_RULE_STATE": "Changer l’état des règles activées",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "Les règles héritées seront exécutées en premier",
-      "ALL_LINKED_RULES_ARE_DISABLED": "Toutes les règles liées à cet ensemble de règles sont désactivées"
+      "ALL_LINKED_RULES_ARE_DISABLED": "Toutes les règles liées à cet ensemble de règles sont désactivées",
+      "EDIT_LINK_LABEL": "Lier les règles d'un autre dossier"
     },
     "LINK_RULES_DIALOG": {
       "TITLE": "Sélectionner le dossier à partir duquel lier les règles",

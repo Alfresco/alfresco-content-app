@@ -34,7 +34,8 @@
                 "TITLE": "Pakete",
                 "NAME": "Name",
                 "VERSION": "Version"
-            }
+            },
+            "BACK_BUTTON_LABEL": "Zurück"
         },
         "LANGUAGE": "Sprache",
         "SIGN_IN": "Anmelden",
@@ -63,7 +64,8 @@
             "NAME": "Name",
             "ADDRESS": "Anschrift",
             "POSTCODE": "Postleitzahl",
-            "INVALID_INPUT": "Ungültige Eingabe"
+            "INVALID_INPUT": "Ungültige Eingabe",
+            "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Zu persönlichen Dateien wechseln"
         },
         "LOCKED_BY": "Gesperrte von: ",
         "PREVIEW": {
@@ -136,7 +138,7 @@
                     },
                     "ALL_LIBRARIES": {
                         "TITLE": "Keine Bibliothek gefunden",
-                        "TEXT": "Erstellen Sie zu Beginn eine neue Bibliothek."
+                        "TEXT": "Erstellen Sie eine neue Bibliothek, um loszulegen."
                     }
                 },
                 "MENU": {
@@ -157,7 +159,8 @@
                     "ALL_LIBRARIES": {
                         "TITLE": "Alle Bibliotheken",
                         "SIDENAV_LINK": {
-                            "LABEL": "Alle Bibliotheken"
+                            "LABEL": "Alle Bibliotheken",
+                            "TOOLTIP": "Zugriff auf alle Bibliotheken"
                         }
                     }
                 },
@@ -471,7 +474,12 @@
             "COLLAPSE_NAVIGATION": "Navigationsmenü reduzieren",
             "OPTIONS_SETTINGS": "Optionen und Einstellungen",
             "MY_PROFILE": "Mein Profil",
-            "EXPAND_NAVIGATION": "Navigationsmenü erweitern"
+            "EXPAND_NAVIGATION": "Navigationsmenü erweitern",
+            "EXPAND_SECTION": "Abschnitt erweitern",
+            "COLLAPSE_SECTION": "Abschnitt ausblenden",
+            "EDIT": "Bearbeiten",
+            "CANCEL": "Abbrechen",
+            "SAVE": "Speichern"
         },
         "FOLDER_INFO": {
             "ICON": "Ordnersymbol",

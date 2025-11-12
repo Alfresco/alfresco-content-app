@@ -34,7 +34,8 @@
                 "TITLE": "Pakketten",
                 "NAME": "Naam",
                 "VERSION": "Versie"
-            }
+            },
+            "BACK_BUTTON_LABEL": "Teruggaan"
         },
         "LANGUAGE": "Taal",
         "SIGN_IN": "Aanmelden",
@@ -63,7 +64,8 @@
             "NAME": "Naam",
             "ADDRESS": "Adres",
             "POSTCODE": "Postcode",
-            "INVALID_INPUT": "Ongeldige invoer"
+            "INVALID_INPUT": "Ongeldige invoer",
+            "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Ga naar persoonlijke bestanden"
         },
         "LOCKED_BY": "Vergrendeld door: ",
         "PREVIEW": {
@@ -136,7 +138,7 @@
                     },
                     "ALL_LIBRARIES": {
                         "TITLE": "Geen bibliotheek gevonden",
-                        "TEXT": "Maak een nieuwe bibliotheek om aan de slag te gaan"
+                        "TEXT": "Maak een nieuwe bibliotheek aan om te beginnen."
                     }
                 },
                 "MENU": {
@@ -157,7 +159,8 @@
                     "ALL_LIBRARIES": {
                         "TITLE": "Alle bibliotheken",
                         "SIDENAV_LINK": {
-                            "LABEL": "Alle bibliotheken"
+                            "LABEL": "Alle bibliotheken",
+                            "TOOLTIP": "Toegang tot alle bibliotheken"
                         }
                     }
                 },
@@ -471,7 +474,12 @@
             "COLLAPSE_NAVIGATION": "Navigatiemenu samenvouwen",
             "OPTIONS_SETTINGS": "Opties en instellingen",
             "MY_PROFILE": "Mijn profiel",
-            "EXPAND_NAVIGATION": "Navigatiemenu uitvouwen"
+            "EXPAND_NAVIGATION": "Navigatiemenu uitvouwen",
+            "EXPAND_SECTION": "Sectie uitvouwen",
+            "COLLAPSE_SECTION": "Sectie samenvouwen",
+            "EDIT": "Bewerken",
+            "CANCEL": "Annuleren",
+            "SAVE": "Opslaan"
         },
         "FOLDER_INFO": {
             "ICON": "Mappictogram",

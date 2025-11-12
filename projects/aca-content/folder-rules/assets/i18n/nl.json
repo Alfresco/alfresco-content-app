@@ -126,7 +126,8 @@
       "LOADING_RULES": "Regels worden geladen",
       "TOGGLE_RULE_STATE": "Toestand schakelregel geactiveerd",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "Overgenomen regels worden als eerste uitgevoerd",
-      "ALL_LINKED_RULES_ARE_DISABLED": "Alle regels die vanuit deze regelset zijn gekoppeld worden uitgeschakeld"
+      "ALL_LINKED_RULES_ARE_DISABLED": "Alle regels die vanuit deze regelset zijn gekoppeld worden uitgeschakeld",
+      "EDIT_LINK_LABEL": "Koppel regels van een andere map"
     },
     "LINK_RULES_DIALOG": {
       "TITLE": "Selecteer een map van waaruit regels moeten worden gekoppeld",
