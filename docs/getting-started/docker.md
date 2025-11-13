@@ -73,7 +73,6 @@ docker run --rm -it \
 | APP_BASE_SHARE_URL                           | `baseShareUrl`                   |
 | APP_CONFIG_OAUTH2_HOST                       | `oauth2.host`                    |
 | APP_CONFIG_OAUTH2_CLIENTID                   | `oauth2.clientId`                |
-| APP_CONFIG_OAUTH2_CLIENT_SECRET              | `oauth2.secret`                  |
 | APP_CONFIG_OAUTH2_IMPLICIT_FLOW              | `oauth2.implicitFlow`            |
 | APP_CONFIG_OAUTH2_CODE_FLOW                  | `oauth2.codeFlow`                |
 | APP_CONFIG_OAUTH2_SILENT_LOGIN               | `oauth2.silentLogin`             |

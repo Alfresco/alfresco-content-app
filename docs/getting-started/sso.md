@@ -21,7 +21,6 @@ You can find the settings in the `app.config.json` file, and they look similar t
     "host": "http://localhost:4200/auth/realms/alfresco",
     "clientId": "alfresco",
     "scope": "openid",
-    "secret": "",
     "implicitFlow": false,
     "codeFlow": true,
     "silentLogin": true,

@@ -22,7 +22,6 @@ Basic 認証に加えて、Content Application を以下で使用できます:
     "host": "http://localhost:4200/auth/realms/alfresco",
     "clientId": "alfresco",
     "scope": "openid",
-    "secret": "",
     "implicitFlow": false,
     "codeFlow": true,
     "silentLogin": true,

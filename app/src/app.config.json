@@ -21,7 +21,6 @@
     "host": "{protocol}//{hostname}{:port}/auth/realms/alfresco",
     "clientId": "alfresco",
     "scope": "openid",
-    "secret": "",
     "implicitFlow": false,
     "codeFlow": true,
     "silentLogin": true,
