@@ -71,7 +71,7 @@ runs:
         ACS_VERSION_INPUT: ${{ inputs.acs_deployment_version }}
       run: |
         if [ "$ACS_VERSION_INPUT" = "latest" ]; then
-          latest_tag=$(curl -s https://api.github.com/repos/Alfresco/acs-deployment/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+          latest_tag=$(curl -s https://api.github.com/repos/Alfresco/acs-deployment/releases/latest | jq -r .tag_name)
           echo "Using latest ACS deployment version: $latest_tag"
           echo "version=$latest_tag" >> $GITHUB_OUTPUT
         else
@@ -79,7 +79,7 @@ runs:
           echo "version=$ACS_VERSION_INPUT" >> $GITHUB_OUTPUT
         fi
 
-    - name: Checkout acs-deployment sources
+    - name: Checkout acs-deployment ${{ steps.get-acs-version.outputs.version }}
       uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       with:
         repository: Alfresco/acs-deployment
