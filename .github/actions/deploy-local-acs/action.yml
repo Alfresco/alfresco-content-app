@@ -67,14 +67,16 @@ runs:
     - name: Get latest ACS deployment version
       id: get-acs-version
       shell: bash
+      env:
+        ACS_VERSION_INPUT: ${{ inputs.acs_deployment_version }}
       run: |
-        if [ "${{ inputs.acs_deployment_version }}" = "latest" ]; then
+        if [ "$ACS_VERSION_INPUT" = "latest" ]; then
           latest_tag=$(curl -s https://api.github.com/repos/Alfresco/acs-deployment/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
           echo "Using latest ACS deployment version: $latest_tag"
-          echo "acs deployment version=$latest_tag" >> $GITHUB_OUTPUT
+          echo "version=$latest_tag" >> $GITHUB_OUTPUT
         else
-          echo "Using specified ACS deployment version: ${{ inputs.acs_deployment_version }}"
-          echo "acs deployment version=${{ inputs.acs_deployment_version }}" >> $GITHUB_OUTPUT
+          echo "Using specified ACS deployment version: $ACS_VERSION_INPUT"
+          echo "version=$ACS_VERSION_INPUT" >> $GITHUB_OUTPUT
         fi
 
     - name: Checkout acs-deployment sources
