@@ -14,6 +14,10 @@ inputs:
   quay_password:
     description: 'Quay password'
     required: true
+  acs_deployment_version:
+    description: 'ACS deployment version (defaults to latest)'
+    required: false
+    default: 'latest'
 
 runs:
   using: "composite"
@@ -36,7 +40,7 @@ runs:
         password: ${{ inputs.quay_password }}
 
     - name: Setup cluster
-      uses: Alfresco/alfresco-build-tools/.github/actions/setup-kind@v9.3.2
+      uses: Alfresco/alfresco-build-tools/.github/actions/setup-kind@v9.0.1
       with:
         ingress-nginx-ref: controller-v1.8.2
         ingress-creation-timeout: 180s
@@ -60,11 +64,24 @@ runs:
         helm repo add self https://alfresco.github.io/alfresco-helm-charts/
         helm repo add elastic https://helm.elastic.co/
 
+    - name: Get latest ACS deployment version
+      id: get-acs-version
+      shell: bash
+      run: |
+        if [ "${{ inputs.acs_deployment_version }}" = "latest" ]; then
+          latest_tag=$(curl -s https://api.github.com/repos/Alfresco/acs-deployment/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+          echo "Using latest ACS deployment version: $latest_tag"
+          echo "acs deployment version=$latest_tag" >> $GITHUB_OUTPUT
+        else
+          echo "Using specified ACS deployment version: ${{ inputs.acs_deployment_version }}"
+          echo "acs deployment version=${{ inputs.acs_deployment_version }}" >> $GITHUB_OUTPUT
+        fi
+
     - name: Checkout acs-deployment sources
       uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       with:
         repository: Alfresco/acs-deployment
-        ref: v9.5.1
+        ref: ${{ steps.get-acs-version.outputs.version }}
         path: acs-deployment
 
     - name: Helm install
@@ -77,4 +94,4 @@ runs:
         --values .github/acs-deployment-values-override.yaml
 
     - name: Wait for pods to be ready
-      uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-wait@v9.3.2
+      uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-wait@v9.0.1
