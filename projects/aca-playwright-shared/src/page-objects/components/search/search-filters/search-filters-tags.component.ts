@@ -46,4 +46,10 @@ export class SearchFiltersTags extends BaseComponent {
     await page.searchFilters.menuCardApply.click();
     await page.dataTable.progressBarWaitForReload();
   }
+
+  async clearTagFilter(page: SearchPage): Promise<void> {
+    await page.searchFilters.tagsFilter.click();
+    await page.searchFilters.menuCardClear.click();
+    await page.dataTable.progressBarWaitForReload();
+  }
 }
