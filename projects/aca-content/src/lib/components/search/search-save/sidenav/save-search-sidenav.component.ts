@@ -66,12 +66,6 @@ export class SaveSearchSidenavComponent implements OnInit {
       });
   }
 
-  onActionClick(el: NavBarLinkRef): void {
-    if (el.id !== this.manageSearchesId) {
-      this.appService.appNavNarMode$.next('collapsed');
-    }
-  }
-
   private createNavBarLinkRef(children: SavedSearch[]): NavBarLinkRef {
     const mappedChildren = children
       .map((child) => ({
