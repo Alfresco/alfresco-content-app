@@ -31,6 +31,8 @@ import { AppTestingModule } from '../../../testing/app-testing.module';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Site, SiteBodyCreate, SiteEntry, SitePaging } from '@alfresco/js-api';
 import { of, Subject } from 'rxjs';
+import { UnitTestingUtils } from '@alfresco/adf-core';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 
 describe('LibraryMetadataFormComponent', () => {
   let fixture: ComponentFixture<LibraryMetadataFormComponent>;
@@ -38,6 +40,11 @@ describe('LibraryMetadataFormComponent', () => {
   let store: Store<any>;
   let siteEntryModel: SiteBodyCreate;
   let appHookService: AppHookService;
+  let unitTestingUtils: UnitTestingUtils;
+
+  const getNameInput = (): HTMLInputElement => unitTestingUtils.getInputByDataAutomationId('app-library-metadata-form-name-input');
+
+  const clickEditButton = (): Promise<void> => unitTestingUtils.clickMatButtonByDataAutomationId('app-library-metadata-form-edit-button');
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -77,6 +84,7 @@ describe('LibraryMetadataFormComponent', () => {
         ...siteEntryModel
       } as Site
     };
+    unitTestingUtils = new UnitTestingUtils(fixture.debugElement, TestbedHarnessEnvironment.loader(fixture));
   });
 
   it('should initialize form with node data', () => {
@@ -159,7 +167,7 @@ describe('LibraryMetadataFormComponent', () => {
     component.node.entry.role = Site.RoleEnum.SiteManager;
     siteEntryModel.title = '   some title    ';
     component.node.entry.title = siteEntryModel.title;
-    component.ngOnInit();
+    fixture.detectChanges();
     component.toggleEdit();
 
     component.update();
@@ -176,7 +184,7 @@ describe('LibraryMetadataFormComponent', () => {
   it('should call markAsPristine on form when updating valid form and has permission to update', () => {
     component.node.entry.role = Site.RoleEnum.SiteManager;
     spyOn(component.form, 'markAsPristine');
-    component.ngOnInit();
+    fixture.detectChanges();
     component.toggleEdit();
 
     component.update();
@@ -209,7 +217,7 @@ describe('LibraryMetadataFormComponent', () => {
   it('should not call markAsPristine on form when updating valid form but has not permission to update', () => {
     component.node.entry.role = Site.RoleEnum.SiteConsumer;
     spyOn(component.form, 'markAsPristine');
-    component.ngOnInit();
+    fixture.detectChanges();
     component.toggleEdit();
 
     component.update();
@@ -233,7 +241,7 @@ describe('LibraryMetadataFormComponent', () => {
     component.node.entry.role = Site.RoleEnum.SiteManager;
     spyOn(component.form, 'markAsPristine');
     spyOnProperty(component.form, 'valid').and.returnValue(false);
-    component.ngOnInit();
+    fixture.detectChanges();
     component.toggleEdit();
 
     component.update();
@@ -250,7 +258,7 @@ describe('LibraryMetadataFormComponent', () => {
   });
 
   it('should enable form without id field after calling toggleEdit if form was disabled', () => {
-    component.toggleEdit();
+    fixture.detectChanges();
     spyOn(component.form, 'enable');
     spyOn(component.form.controls.id, 'disable');
 
@@ -259,6 +267,27 @@ describe('LibraryMetadataFormComponent', () => {
       emitEvent: false
     });
     expect(component.form.controls.id.disable).toHaveBeenCalled();
+  });
+
+  it('should call focus on name input after clicking on edit button', async () => {
+    component.node.entry.role = Site.RoleEnum.SiteManager;
+    fixture.detectChanges();
+    const nameInput = getNameInput();
+    spyOn(nameInput, 'focus');
+
+    await clickEditButton();
+    expect(nameInput.focus).toHaveBeenCalled();
+  });
+
+  it('should not call focus on name input after clicking on cancel button', async () => {
+    component.node.entry.role = Site.RoleEnum.SiteManager;
+    fixture.detectChanges();
+    await clickEditButton();
+    const nameInput = getNameInput();
+    spyOn(nameInput, 'focus');
+
+    await unitTestingUtils.clickMatButtonByDataAutomationId('app-library-metadata-form-cancel-button');
+    expect(nameInput.focus).not.toHaveBeenCalled();
   });
 
   it('should cancel from changes', () => {
@@ -348,7 +377,7 @@ describe('LibraryMetadataFormComponent', () => {
   }));
 
   it('should set proper titleErrorTranslationKey when there is error for empty title', () => {
-    component.ngOnInit();
+    fixture.detectChanges();
     component.toggleEdit();
 
     component.form.controls.title.setValue('     ');

@@ -5,9 +5,9 @@
       <mat-form-field floatLabel="auto" data-automation-id="library-name-properties-wrapper" class="app-library-metadata-form-field">
         <mat-label class="app-library-metadata-form-field-label">{{ 'LIBRARY.DIALOG.FORM.NAME' | translate }}</mat-label>
         <input
+          #libraryNameInput
+          data-automation-id="app-library-metadata-form-name-input"
           matInput
-          [cdkTrapFocusAutoCapture]="form.enabled"
-          [cdkTrapFocus]="form.enabled"
           required
           placeholder="{{ 'LIBRARY.DIALOG.FORM.NAME' | translate }}"
           formControlName="title"
@@ -54,14 +54,21 @@
   @if (canUpdateLibrary) {
   <mat-card-actions align="end">
     @if (form.enabled) {
-    <button mat-button (click)="cancel()">
+    <button
+      data-automation-id="app-library-metadata-form-cancel-button"
+      mat-button
+      (click)="cancel()">
       {{ 'LIBRARY.DIALOG.CANCEL' | translate }}
     </button>
     <button mat-button color="primary" [disabled]="form.invalid || form.pristine" (click)="update()">
       {{ 'LIBRARY.DIALOG.UPDATE' | translate }}
     </button>
     } @else {
-    <button mat-button color="primary" (click)="toggleEdit()">
+    <button
+      mat-button
+      color="primary"
+      (click)="toggleEdit()"
+      data-automation-id="app-library-metadata-form-edit-button">
       {{ 'LIBRARY.DIALOG.EDIT' | translate }}
     </button>
     }

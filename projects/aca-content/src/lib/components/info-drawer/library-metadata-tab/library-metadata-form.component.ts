@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, DestroyRef, inject, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, DestroyRef, ElementRef, inject, Input, OnChanges, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import {
   FormControl,
   FormGroupDirective,
@@ -47,7 +47,6 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
-import { A11yModule } from '@angular/cdk/a11y';
 import { MatButtonModule } from '@angular/material/button';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgForOf } from '@angular/common';
@@ -69,7 +68,6 @@ export class InstantErrorStateMatcher implements ErrorStateMatcher {
     MatSelectModule,
     MatOptionModule,
     MatInputModule,
-    A11yModule,
     MatButtonModule,
     NgForOf
   ],
@@ -113,6 +111,8 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges {
   canUpdateLibrary = false;
   isAdmin = false;
 
+  @ViewChild('libraryNameInput')
+  private readonly libraryNameInput: ElementRef<HTMLInputElement>;
   private readonly destroyRef = inject(DestroyRef);
 
   constructor(
@@ -131,6 +131,7 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges {
         emitEvent: false
       });
       this.form.controls.id.disable();
+      this.libraryNameInput.nativeElement.focus();
     }
   }
 
