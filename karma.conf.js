@@ -54,7 +54,7 @@ module.exports = () => {
     coverageReporter: {
       dir: join(__dirname, './coverage'),
       subdir: '.',
-      reporters: [{ type: 'html' }, { type: 'text-summary' }],
+      reporters: [{ type: 'html' }, { type: 'text-summary' }, { type: 'text-summary', subdir: '.', file: 'summary.txt' }],
       check: {
         global: {
           statements: 75,
