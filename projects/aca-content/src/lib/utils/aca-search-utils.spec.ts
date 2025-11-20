@@ -54,6 +54,11 @@ describe('SearchUtils', () => {
       expect(isOperator(null)).toBeFalse();
       expect(isOperator(undefined)).toBeFalse();
     });
+
+    it('should treat lowercase operators as search terms', () => {
+      expect(isOperator('and')).toBeFalse();
+      expect(isOperator('or')).toBeFalse();
+    });
   });
 
   describe('formatSearchTermByFields', () => {
@@ -109,8 +114,8 @@ describe('SearchUtils', () => {
     });
 
     it('should support exact term matching with operators', () => {
-      expect(formatSearchTerm('=test1.pdf or =test2.pdf', ['cm:name', 'cm:title'])).toBe(
-        `(=cm:name:"test1.pdf" OR =cm:title:"test1.pdf") or (=cm:name:"test2.pdf" OR =cm:title:"test2.pdf")`
+      expect(formatSearchTerm('=test1.pdf OR =test2.pdf', ['cm:name', 'cm:title'])).toBe(
+        `(=cm:name:"test1.pdf" OR =cm:title:"test1.pdf") OR (=cm:name:"test2.pdf" OR =cm:title:"test2.pdf")`
       );
     });
   });
@@ -145,9 +150,9 @@ describe('SearchUtils', () => {
       expect(extractSearchedWordFromEncodedQuery(encodeQuery(query))).toBe('test');
     });
 
-    it('should properly extract search term for custom search', () => {
+    it('should preserve quotes in search term for custom search', () => {
       const query = { userQuery: '"test"' };
-      expect(extractSearchedWordFromEncodedQuery(encodeQuery(query))).toBe('test');
+      expect(extractSearchedWordFromEncodedQuery(encodeQuery(query))).toBe('"test"');
     });
 
     it('should properly extract search term when userQuery does not contain quotes', () => {
@@ -163,6 +168,25 @@ describe('SearchUtils', () => {
     it('should handle mixed conditions with and without quotes', () => {
       const query = { userQuery: 'cm:name:"quoted term" AND TEXT:unquoted' };
       expect(extractSearchedWordFromEncodedQuery(encodeQuery(query))).toBe('quoted term TEXT:unquoted');
+    });
+
+    it('should handle complex search query', () => {
+      const query = {
+        userQuery: `((cm:name:"a*" OR cm:title:"a*" OR cm:description:"a*" OR TEXT:"a*" OR TAG:"a*") AND
+          (cm:name:"b*" OR cm:title:"b*" OR cm:description:"b*" OR TEXT:"b*" OR TAG:"b*") OR
+          (cm:name:"c*" OR cm:title:"c*" OR cm:description:"c*" OR TEXT:"c*" OR TAG:"c*"))`
+      };
+      expect(extractSearchedWordFromEncodedQuery(encodeQuery(query))).toBe('a b OR c');
+    });
+
+    it('should not treat operator as a searched word', () => {
+      const query = { userQuery: 'AND' };
+      expect(extractSearchedWordFromEncodedQuery(encodeQuery(query))).toBe('');
+    });
+
+    it('should not unquote when searching for phrase', () => {
+      const query = { userQuery: '"exact phrase search"' };
+      expect(extractSearchedWordFromEncodedQuery(encodeQuery(query))).toBe('"exact phrase search"');
     });
   });
 

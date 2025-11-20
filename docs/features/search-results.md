@@ -71,24 +71,25 @@ OR ia:whatEvent:"[term]*" OR ia:descriptionEvent:"[term]*" OR lnk:title:"[term]*
 
 ### Key facts
 
-If you have entered more than one word into the search input box, then the search query is constructed automatically using an `AND` operation.
+1. If you have entered more than one word into the search input box, then the search query is constructed automatically using an `AND` operation.
 
-I you have entered more than one word encapsulated in quotation marks, then the search query is constructed treated everything as a single string.
+2. If you have entered more than one word encapsulated in quotation marks, then the search query is constructed treated everything as a single string.
 
-If you have entered more than one word separated by `AND`, then the search query is constructed using an `AND` conjunction.
+3. If you have entered more than one word separated by `AND`, then the search query is constructed using an `AND` conjunction. Since `AND` is the default operator (see fact 1), the explicit `AND` keywords are removed when the search input value is processed.
 
-If you have entered more than one word separated by `OR`, then the search query is constructed using an `OR` disjunction.
+4. If you have entered more than one word separated by `OR`, then the search query is constructed using an `OR` disjunction. Unlike `AND`, the `OR` operators are preserved when processing the search input value because `OR` is not the default operator.
 
-If you have entered an `=` symbol before the search term, then the search query is constructed using exact term matching.
+5. If you have entered an `=` symbol before the search term, then the search query is constructed using exact term matching. **Note:** Works only with Solr search. For Elastic Search consider using Search Logical Filter.
 
 ### Examples
 
-| Search Type | Search input | Expected result |
-| --- | --- | --- |
-| Single Term | banana | Nodes that contain the term **banana** in any content | 
-| Conjunction | big yellow banana | Nodes that contain all of the terms **big**, **yellow**, and **banana** |
-| Phrase | "big yellow banana" | Nodes that contain all of the terms **big**, **yellow**, and **banana** |
-| Conjunction | big AND yellow AND banana | Nodes that contain all of the terms **big**, **yellow**, and **banana** |
-| Disjunction | orange OR banana OR apple | Nodes that contain at least one of the terms **orange**, **banana** or **apple** |
-| Exact term | =orange | Nodes that contain the exact term **orange** in any content |
+| Search Type | Entered search input value | Expected result | Processed search input value |
+| --- | --- | --- | --- |
+| Single Term | banana | Nodes that contain the term **banana** in any content | banana |
+| Conjunction | big yellow banana | Nodes that contain all of the terms **big**, **yellow**, and **banana** | big yellow banana |
+| Phrase | "big yellow banana" | Nodes that contain the exact phrase **big yellow banana** | "big yellow banana" |
+| Conjunction | big AND yellow AND banana | Nodes that contain all of the terms **big**, **yellow**, and **banana** | big yellow banana |
+| Disjunction | orange OR banana OR apple | Nodes that contain at least one of the terms **orange**, **banana** or **apple** | orange OR banana OR apple |
+| Exact term | =orange | Nodes that contain the exact term **orange** in any content. | orange |
 
+**Important note:** Consider using Search Logical Filter when you need to combine multiple search types. Mixing search types directly in the input may result in wrong query format and incorrect results.

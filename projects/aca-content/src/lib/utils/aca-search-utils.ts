@@ -125,13 +125,21 @@ export function extractSearchedWordFromEncodedQuery(encodedQuery: string): strin
   while ((match = tokenRegex.exec(userQuery))) {
     if (match[1]) {
       fragments.push(extractWordFromQuery(match[1]));
-    } else if (match[2]) {
-      const operator = match[2] === 'AND' ? '' : 'OR';
-      fragments.push(operator);
+    } else if (match[2] === 'OR') {
+      fragments.push('OR');
     }
   }
 
-  return fragments.join(' ').replace(/\s+/g, ' ').trim();
+  if (fragments.length === 0) {
+    return userQuery
+      .split(/\bAND\b|\bOR\b/)
+      .map((part) => extractWordFromQuery(part))
+      .filter(Boolean)
+      .join(' ')
+      .trim();
+  }
+
+  return fragments.join(' ').trim();
 }
 
 /**
@@ -141,8 +149,16 @@ export function extractSearchedWordFromEncodedQuery(encodedQuery: string): strin
  * @returns searched word
  */
 function extractWordFromQuery(queryPart: string): string {
-  const quoted = queryPart.match(/"([^"]+)\*"/);
-  return quoted ? quoted[1] : '';
+  const regex = /\:"([^"]+)"/;
+  const quoted = regex.exec(queryPart);
+  if (quoted) {
+    return quoted[1].replace(/\*$/, '');
+  }
+  const trimmedPart = queryPart.trim();
+  if (trimmedPart && !isOperator(trimmedPart)) {
+    return trimmedPart;
+  }
+  return '';
 }
 
 /**
