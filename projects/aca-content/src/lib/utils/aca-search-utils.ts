@@ -149,7 +149,7 @@ export function extractSearchedWordFromEncodedQuery(encodedQuery: string): strin
  * @returns searched word
  */
 function extractWordFromQuery(queryPart: string): string {
-  const regex = /\:"([^"]+)"/;
+  const regex = /:"([^"]+)"/;
   const quoted = regex.exec(queryPart);
   if (quoted) {
     return quoted[1].replace(/\*$/, '');
