@@ -30,6 +30,8 @@ import { TestBed } from '@angular/core/testing';
 describe('DocumentListDirective', () => {
   let documentListDirective: DocumentListDirective;
 
+  const preferenceKey = 'files';
+  const sortingKey = 'sortingKey';
   const documentListMock: any = {
     currentFolderId: '',
     stickyHeader: false,
@@ -159,7 +161,7 @@ describe('DocumentListDirective', () => {
 
   it('should set user preferences for columns visibility`', () => {
     const event = new CustomEvent('columnsVisibilityChanged', { detail: { 'app.tags': true, 'app.name': false } });
-    mockRoute.snapshot.data.sortingPreferenceKey = 'files';
+    mockRoute.snapshot.data.sortingPreferenceKey = preferenceKey;
     documentListDirective.ngOnInit();
     documentListDirective.onColumnsVisibilityChange(event);
 
@@ -168,7 +170,7 @@ describe('DocumentListDirective', () => {
 
   it('should set user preferences for columns order`', () => {
     const event = new CustomEvent('columnsOrderChanged', { detail: ['app.tags', 'app.name'] });
-    mockRoute.snapshot.data.sortingPreferenceKey = 'files';
+    mockRoute.snapshot.data.sortingPreferenceKey = preferenceKey;
     documentListDirective.ngOnInit();
     documentListDirective.onColumnOrderChanged(event);
 
@@ -177,7 +179,7 @@ describe('DocumentListDirective', () => {
 
   it('should set user preferences for columns width`', () => {
     const event = new CustomEvent('columnsWidthChanged', { detail: { 'app.tags': 65, 'app.name': 75 } });
-    mockRoute.snapshot.data.sortingPreferenceKey = 'files';
+    mockRoute.snapshot.data.sortingPreferenceKey = preferenceKey;
     documentListDirective.ngOnInit();
     documentListDirective.onColumnsWidthChanged(event);
 
@@ -185,7 +187,7 @@ describe('DocumentListDirective', () => {
   });
 
   it('should set document list properties from user preferences`', () => {
-    mockRoute.snapshot.data.sortingPreferenceKey = 'files';
+    mockRoute.snapshot.data.sortingPreferenceKey = preferenceKey;
     userPreferencesServiceMock.hasItem.and.returnValue(true);
     userPreferencesServiceMock.get.and.returnValue(false);
     userPreferencesServiceMock.get.withArgs('files.columns.width').and.returnValue(JSON.stringify({ 'app.tag': 87 }));
@@ -196,5 +198,59 @@ describe('DocumentListDirective', () => {
     expect(documentListMock.setColumnsWidths).toEqual({ 'app.tag': 87 });
     expect(documentListMock.setColumnsOrder).toEqual(['app.tag', 'app.name']);
     expect(documentListMock.setColumnsVisibility).toEqual({ 'app.tag': true });
+  });
+
+  it('should set sorting using sortingKey from preferences if sortingKey exists in preferences', () => {
+    mockRoute.snapshot.data.sortingPreferenceKey = preferenceKey;
+    documentListMock.sortingMode = 'server';
+    userPreferencesServiceMock.get.and.callThrough().withArgs(`${preferenceKey}.sorting.sortingKey`, null).and.returnValue(sortingKey);
+
+    documentListDirective.ngOnInit();
+    expect(documentListMock.sorting).toEqual([sortingKey, undefined]);
+    expect(documentListMock.data.setSorting).toHaveBeenCalledWith({
+      key: sortingKey,
+      direction: undefined
+    });
+  });
+
+  it('should set sorting using key from preferences when sortingKey is missing in preferences', () => {
+    mockRoute.snapshot.data.sortingPreferenceKey = preferenceKey;
+    documentListMock.sortingMode = 'server';
+    userPreferencesServiceMock.get.and.callThrough().withArgs(`${preferenceKey}.sorting.key`, null).and.returnValue(sortingKey);
+
+    documentListDirective.ngOnInit();
+    expect(documentListMock.sorting).toEqual([sortingKey, undefined]);
+    expect(documentListMock.data.setSorting).toHaveBeenCalledWith({
+      key: sortingKey,
+      direction: undefined
+    });
+  });
+
+  describe('onReady', () => {
+    beforeEach(() => {
+      mockRoute.snapshot.data.sortingPreferenceKey = preferenceKey;
+    });
+
+    it('should set sorting using sortingKey from preferences if sortingKey exists in preferences', () => {
+      userPreferencesServiceMock.get.and.callThrough().withArgs(`${preferenceKey}.sorting.sortingKey`, null).and.returnValue(sortingKey);
+
+      documentListDirective.onReady();
+      expect(documentListMock.sorting).toEqual([sortingKey, undefined]);
+      expect(documentListMock.data.setSorting).toHaveBeenCalledWith({
+        key: sortingKey,
+        direction: undefined
+      });
+    });
+
+    it('should set sorting using key from preferences when sortingKey is missing in preferences', () => {
+      userPreferencesServiceMock.get.and.callThrough().withArgs(`${preferenceKey}.sorting.key`, null).and.returnValue(sortingKey);
+
+      documentListDirective.onReady();
+      expect(documentListMock.sorting).toEqual([sortingKey, undefined]);
+      expect(documentListMock.data.setSorting).toHaveBeenCalledWith({
+        key: sortingKey,
+        direction: undefined
+      });
+    });
   });
 });
