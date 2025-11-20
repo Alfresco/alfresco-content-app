@@ -1,6 +1,6 @@
 {
   "name": "alfresco-content-app",
-  "version": "7.2.0",
+  "version": "7.3.0",
   "license": "LGPL-3.0",
   "scripts": {
     "start": "nx serve content-ce",
