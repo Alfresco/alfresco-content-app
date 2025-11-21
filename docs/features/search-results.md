@@ -83,13 +83,13 @@ OR ia:whatEvent:"[term]*" OR ia:descriptionEvent:"[term]*" OR lnk:title:"[term]*
 
 ### Examples
 
-| Search Type | Entered search input value | Expected result | Processed search input value |
-| --- | --- | --- | --- |
-| Single Term | banana | Nodes that contain the term **banana** in any content | banana |
-| Conjunction | big yellow banana | Nodes that contain all of the terms **big**, **yellow**, and **banana** | big yellow banana |
-| Phrase | "big yellow banana" | Nodes that contain the exact phrase **big yellow banana** | "big yellow banana" |
-| Conjunction | big AND yellow AND banana | Nodes that contain all of the terms **big**, **yellow**, and **banana** | big yellow banana |
-| Disjunction | orange OR banana OR apple | Nodes that contain at least one of the terms **orange**, **banana** or **apple** | orange OR banana OR apple |
-| Exact term | =orange | Nodes that contain the exact term **orange** in any content. | orange |
+| Search Type | Entered search input value | Expected result                                                                  | Processed search input value |
+| ----------- | -------------------------- | -------------------------------------------------------------------------------- | ---------------------------- |
+| Single Term | banana                     | Nodes that contain the term **banana** in any content                            | banana                       |
+| Conjunction | big yellow banana          | Nodes that contain all of the terms **big**, **yellow**, and **banana**          | big yellow banana            |
+| Phrase      | "big yellow banana"        | Nodes that contain the exact phrase **big yellow banana**                        | "big yellow banana"          |
+| Conjunction | big AND yellow AND banana  | Nodes that contain all of the terms **big**, **yellow**, and **banana**          | big yellow banana            |
+| Disjunction | orange OR banana OR apple  | Nodes that contain at least one of the terms **orange**, **banana** or **apple** | orange OR banana OR apple    |
+| Exact term  | =orange                    | Nodes that contain the exact term **orange** in any content.                     | orange                       |
 
 **Important note:** Consider using Search Logical Filter when you need to combine multiple search types. Mixing search types directly in the input may result in wrong query format and incorrect results.
