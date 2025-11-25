@@ -41,7 +41,7 @@ on:
 
 permissions:
   id-token: write  # Required for OIDC
-  contents: write
+  contents: read
 
 env:
   BASE_URL: ${{ secrets.PIPELINE_ENV_URL }}
@@ -210,7 +210,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       id-token: write  # Required for OIDC
-      contents: write
+      contents: read
       packages: write
     steps:
       - name: Check previous jobs status
