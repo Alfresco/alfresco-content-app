@@ -80,7 +80,8 @@ describe('SaveSearchDirective', () => {
     element.triggerEventHandler('click', event);
 
     const expectedConfig = {
-      data: { searchUrl: 'encodedQuery' }
+      data: { searchUrl: 'encodedQuery' },
+      restoreFocus: true
     };
 
     expect(dialog.open).toHaveBeenCalledWith(SaveSearchDialogComponent, expectedConfig);

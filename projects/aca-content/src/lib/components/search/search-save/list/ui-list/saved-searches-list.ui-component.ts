@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AfterContentInit, Component, DestroyRef, EventEmitter, inject, Input, Output, ViewEncapsulation } from '@angular/core';
+import { AfterContentInit, Component, DestroyRef, EventEmitter, HostListener, inject, Input, Output, ViewEncapsulation } from '@angular/core';
 import {
   AppConfigService,
   DataCellEvent,
@@ -56,6 +56,14 @@ export class SavedSearchesListUiComponent extends DataTableSchema implements Aft
 
   @Output()
   savedSearchOrderChanged = new EventEmitter<{ previousIndex: number; currentIndex: number }>();
+
+  @HostListener('document:keydown.escape', ['$event'])
+  onEscapeKeydown() {
+    const contextMenu = document.querySelector<HTMLElement>('.adf-context-menu');
+    if (contextMenu) {
+      document.querySelector<HTMLElement>('.adf-context-menu-source')?.focus();
+    }
+  }
 
   readonly ShowHeaderMode = ShowHeaderMode;
 

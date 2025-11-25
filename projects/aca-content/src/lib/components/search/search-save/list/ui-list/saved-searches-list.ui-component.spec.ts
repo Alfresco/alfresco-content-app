@@ -23,14 +23,14 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DataCellEvent, DataTableComponent, NoopTranslateModule, NotificationService } from '@alfresco/adf-core';
+import { DataCellEvent, DataTableComponent, NoopTranslateModule, NotificationService, UnitTestingUtils } from '@alfresco/adf-core';
 import { SavedSearchesListUiComponent } from './saved-searches-list.ui-component';
 import { SavedSearchesListUiService } from '../saved-searches-list-ui.service';
-import { By } from '@angular/platform-browser';
 import { SavedSearch } from '@alfresco/adf-content-services';
 import { Subject } from 'rxjs';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Router } from '@angular/router';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 describe('SavedSearchesListUiComponent ', () => {
   let fixture: ComponentFixture<SavedSearchesListUiComponent>;
@@ -39,11 +39,12 @@ describe('SavedSearchesListUiComponent ', () => {
   let savedSearchesListUiService: SavedSearchesListUiService;
   let clipboard: Clipboard;
   let router: Router;
+  let unitTestingUtils: UnitTestingUtils;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [NoopTranslateModule, SavedSearchesListUiComponent],
-      providers: [SavedSearchesListUiService]
+      providers: [SavedSearchesListUiService, provideNoopAnimations()]
     });
 
     notificationService = TestBed.inject(NotificationService);
@@ -53,6 +54,7 @@ describe('SavedSearchesListUiComponent ', () => {
 
     fixture = TestBed.createComponent(SavedSearchesListUiComponent);
     component = fixture.componentInstance;
+    unitTestingUtils = new UnitTestingUtils(fixture.debugElement);
   });
 
   function getColumnDefinition(key: string, title: string) {
@@ -73,7 +75,7 @@ describe('SavedSearchesListUiComponent ', () => {
 
     beforeEach(() => {
       fixture.detectChanges();
-      dataTable = fixture.debugElement.query(By.directive(DataTableComponent)).componentInstance;
+      dataTable = unitTestingUtils.getByDirective(DataTableComponent).componentInstance;
       dataCellEvent = new DataCellEvent(
         {
           isSelected: true,
@@ -157,6 +159,42 @@ describe('SavedSearchesListUiComponent ', () => {
           data: dataCellEvent.value.row.obj
         }
       ]);
+    });
+
+    it('should focus .adf-context-menu-source element when escape key is pressed and context menu exists', () => {
+      component.savedSearches = [{ name: '1', order: 0, encodedUrl: '123' }] as SavedSearch[];
+
+      fixture.detectChanges();
+
+      dataTable.showRowContextMenu.emit(dataCellEvent);
+      fixture.detectChanges();
+
+      const tableCell = unitTestingUtils.getByCSS('adf-datatable-cell');
+
+      tableCell.nativeElement.dispatchEvent(
+        new MouseEvent('contextmenu', {
+          bubbles: true,
+          cancelable: true,
+          button: 2
+        })
+      );
+      fixture.detectChanges();
+
+      const contextMenu = document.querySelector('.adf-context-menu');
+      const contextMenuSource: HTMLElement = unitTestingUtils.getByCSS('.adf-context-menu-source').nativeElement;
+
+      expect(contextMenu).toBeTruthy();
+      spyOn(contextMenuSource, 'focus');
+
+      document.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: 'Escape',
+          code: 'Escape',
+          bubbles: true
+        })
+      );
+
+      expect(contextMenuSource.focus).toHaveBeenCalled();
     });
 
     describe('Context menu actions', () => {

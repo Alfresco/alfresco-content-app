@@ -48,7 +48,7 @@ export class SaveSearchDirective {
   }
 
   private openDialog(): void {
-    this.dialogRef.open(SaveSearchDialogComponent, this.getDialogConfig());
+    this.dialogRef.open(SaveSearchDialogComponent, { ...this.getDialogConfig(), restoreFocus: true });
   }
 
   private getDialogConfig(): { data: SaveSearchDirectiveDialogData } {

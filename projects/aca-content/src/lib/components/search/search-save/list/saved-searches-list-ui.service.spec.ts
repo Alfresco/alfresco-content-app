@@ -22,16 +22,18 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed } from '@angular/core/testing';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { fakeAsync, TestBed } from '@angular/core/testing';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { SavedSearchesListUiService } from './saved-searches-list-ui.service';
 import { SavedSearch } from '@alfresco/adf-content-services';
 import { SavedSearchEditDialogComponent } from '../dialog/edit/saved-search-edit-dialog.component';
 import { SavedSearchDeleteDialogComponent } from '../dialog/delete/saved-search-delete-dialog.component';
+import { of } from 'rxjs';
 
 describe('NodeTemplateService', () => {
   let dialog: MatDialog;
   let savedSearchesListUiService: SavedSearchesListUiService;
+  let dialogRefSpy: jasmine.SpyObj<MatDialogRef<any>>;
 
   const mockedSearch: SavedSearch = { name: 'test', encodedUrl: 'test', order: 1 };
 
@@ -42,19 +44,21 @@ describe('NodeTemplateService', () => {
 
     dialog = TestBed.inject(MatDialog);
     savedSearchesListUiService = TestBed.inject(SavedSearchesListUiService);
+
+    dialogRefSpy = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
+    dialogRefSpy.afterClosed.and.returnValue(of(null));
+    spyOn(dialog, 'open').and.returnValue(dialogRefSpy);
   });
 
-  it('should open edit save search dialog with proper params', () => {
-    spyOn(dialog, 'open');
+  it('should open edit save search dialog with proper params', fakeAsync(() => {
     savedSearchesListUiService.openEditSavedSearch(mockedSearch);
 
     expect(dialog.open).toHaveBeenCalledWith(SavedSearchEditDialogComponent, { data: mockedSearch, width: '600px' });
-  });
+  }));
 
-  it('should open delete save search dialog with proper params', () => {
-    spyOn(dialog, 'open');
+  it('should open delete save search dialog with proper params', fakeAsync(() => {
     savedSearchesListUiService.confirmDeleteSavedSearch(mockedSearch);
 
     expect(dialog.open).toHaveBeenCalledWith(SavedSearchDeleteDialogComponent, { data: mockedSearch, minWidth: '500px' });
-  });
+  }));
 });

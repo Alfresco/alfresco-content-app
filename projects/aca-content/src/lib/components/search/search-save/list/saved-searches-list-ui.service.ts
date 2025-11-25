@@ -33,16 +33,28 @@ export class SavedSearchesListUiService {
   private readonly dialog = inject(MatDialog);
 
   openEditSavedSearch(savedSearch: SavedSearch): void {
-    this.dialog.open(SavedSearchEditDialogComponent, {
-      data: savedSearch,
-      width: '600px'
-    });
+    this.dialog
+      .open(SavedSearchEditDialogComponent, {
+        data: savedSearch,
+        width: '600px'
+      })
+      .afterClosed()
+      .subscribe(() => this.focusAfterClose(savedSearch.name));
   }
 
   confirmDeleteSavedSearch(savedSearch: SavedSearch): void {
-    this.dialog.open(SavedSearchDeleteDialogComponent, {
-      data: savedSearch,
-      minWidth: '500px'
-    });
+    this.dialog
+      .open(SavedSearchDeleteDialogComponent, {
+        data: savedSearch,
+        minWidth: '500px'
+      })
+      .afterClosed()
+      .subscribe(() => this.focusAfterClose(savedSearch.name));
+  }
+
+  private focusAfterClose(focusedElementSelector: string): void {
+    if (focusedElementSelector) {
+      document.querySelector<HTMLElement>(`[data-automation-id="${focusedElementSelector}"]`)?.parentElement.focus();
+    }
   }
 }
