@@ -8,9 +8,6 @@ inputs:
   github_token:
     description: 'Github token'
     required: true
-  npm_registry_token:
-    description: 'NPM registry token'
-    required: true
   npm_tag:
     description: 'NPM tag'
     required: true
@@ -59,6 +56,5 @@ runs:
       shell: bash
       run: ${{ github.action_path }}/npm-publish.sh "$TAG" "$DRY_RUN"
       env:
-        NODE_AUTH_TOKEN: ${{ inputs.npm_registry_token }}
         TAG: ${{ inputs.npm_tag }}
         DRY_RUN: ${{ inputs.dry-run }}

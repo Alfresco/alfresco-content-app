@@ -39,6 +39,10 @@ on:
       - master
       - develop
 
+permissions:
+  id-token: write  # Required for OIDC
+  contents: write
+
 env:
   BASE_URL: ${{ secrets.PIPELINE_ENV_URL }}
   ADMIN_EMAIL: ${{ secrets.PIPELINE_ADMIN_USERNAME }}
@@ -205,6 +209,8 @@ jobs:
     name: "Publish libs to NPM and GitHub registry"
     runs-on: ubuntu-latest
     permissions:
+      id-token: write  # Required for OIDC
+      contents: write
       packages: write
     steps:
       - name: Check previous jobs status
@@ -231,7 +237,6 @@ jobs:
         with:
           branch_name: ${{ env.BRANCH_NAME }}
           github_token: ${{ secrets.BOT_GITHUB_TOKEN }}
-          npm_registry_token: ${{ secrets.NPM_REGISTRY_TOKEN }}
           npm_tag: ${{ env.TAG_NPM }}
           dry-run: ${{ inputs.dry-run-release }}
 
