@@ -161,8 +161,8 @@ export class SearchInputComponent implements OnInit, OnDestroy {
         )
       )
       .subscribe(([, navigationStartEvent]) => {
-        const afterResetNav = navigationStartEvent?.url.split('?').length === 1;
-        if (this.searchedWord && !afterResetNav) {
+        const noQueryParams = navigationStartEvent?.url.split('?').length === 1;
+        if (this.searchedWord && !noQueryParams) {
           this.searchByOption();
         }
       });
