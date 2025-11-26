@@ -1,8 +1,6 @@
 <aca-page-layout [class.aca-search-results-active-search-ai-input]="searchAiInputState.active">
   <div class="aca-page-layout-header">
-    <aca-search-ai-input-container
-      *ngIf="searchAiInputState.active"
-      [agentId]="searchAiInputState.selectedAgentId" />
+    <aca-search-ai-input-container *ngIf="searchAiInputState.active" [agentId]="searchAiInputState.selectedAgentId" />
     <div class="aca-header-container">
       <aca-search-input />
       <aca-bulk-actions-dropdown *ngIf="bulkActions && ('isBulkActionsAvailable' | isFeatureSupportedInCurrentAcs | async)" [items]="bulkActions" />
@@ -26,23 +24,25 @@
               <div class="aca-content__advanced-filters--header">
                 <p>{{ 'APP.BROWSE.SEARCH.ADVANCED_FILTERS' | translate }}</p>
                 <div class="aca-content__advanced-filters--header--action-buttons">
-                    <button
-                      *ngIf="initialSavedSearch !== undefined else saveSearchButton"
-                      mat-button
-                      [disabled]="!encodedQuery"
-                      class="aca-content__save-search-action"
-                      title="{{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate }}"
-                      [attr.aria-label]="'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate "
-                      [matMenuTriggerFor]="saveSearchOptionsMenu">
-                      {{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate }}
-                      <mat-icon iconPositionEnd>keyboard_arrow_down</mat-icon>
-                    </button>
+                  <button
+                    *ngIf="initialSavedSearch !== undefined; else saveSearchButton"
+                    mat-button
+                    [disabled]="!encodedQuery"
+                    class="aca-content__save-search-action"
+                    title="{{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate }}"
+                    [attr.aria-label]="'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate"
+                    [matMenuTriggerFor]="saveSearchOptionsMenu"
+                  >
+                    {{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate }}
+                    <mat-icon iconPositionEnd>keyboard_arrow_down</mat-icon>
+                  </button>
                   <mat-menu #saveSearchOptionsMenu="matMenu">
                     <button
                       mat-menu-item
                       (click)="editSavedSearch(initialSavedSearch)"
                       title="{{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_CHANGES' | translate }}"
-                      [attr.aria-label]="'APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_CHANGES' | translate ">
+                      [attr.aria-label]="'APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_CHANGES' | translate"
+                    >
                       {{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_CHANGES' | translate }}
                     </button>
                     <button
@@ -50,7 +50,8 @@
                       acaSaveSearch
                       [acaSaveSearchQuery]="encodedQuery"
                       title="{{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_AS_NEW' | translate }}"
-                      [attr.aria-label]="'APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_AS_NEW' | translate ">
+                      [attr.aria-label]="'APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_AS_NEW' | translate"
+                    >
                       {{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_AS_NEW' | translate }}
                     </button>
                   </mat-menu>
@@ -62,16 +63,19 @@
                       [disabled]="!encodedQuery"
                       class="aca-content__save-search-action"
                       title="{{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate }}"
-                      [attr.aria-label]="'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate ">
+                      [attr.aria-label]="'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate"
+                    >
                       {{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate }}
                     </button>
                   </ng-template>
                   <button
+                    [disabled]="!(areFiltersActive$ | async)"
                     mat-button
                     adf-reset-search
                     class="aca-content__reset-action"
                     title="{{ 'APP.BROWSE.SEARCH.RESET_ACTION' | translate }}"
-                    [attr.aria-label]="'APP.BROWSE.SEARCH.RESET_ACTION' | translate ">
+                    [attr.aria-label]="'APP.BROWSE.SEARCH.RESET_ACTION' | translate"
+                  >
                     {{ 'APP.BROWSE.SEARCH.RESET' | translate }}
                   </button>
                 </div>
@@ -97,7 +101,13 @@
             (node-dblclick)="handleNodeClick($event)"
           >
             <data-columns>
-              <data-column id="app.search.thumbnail" key="$thumbnail" type="image" [sr-title]="'ADF-DOCUMENT-LIST.LAYOUT.THUMBNAIL'" [sortable]="false">
+              <data-column
+                id="app.search.thumbnail"
+                key="$thumbnail"
+                type="image"
+                [sr-title]="'ADF-DOCUMENT-LIST.LAYOUT.THUMBNAIL'"
+                [sortable]="false"
+              >
                 <ng-template let-context>
                   <aca-custom-thumbnail-column [context]="context" />
                 </ng-template>

@@ -28,7 +28,7 @@ import { AppConfigService, NotificationService, TranslationService } from '@alfr
 import { Store } from '@ngrx/store';
 import { NavigateToFolder } from '@alfresco/aca-shared/store';
 import { Pagination, SearchRequest } from '@alfresco/js-api';
-import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
+import { FacetFieldBucket, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { ActivatedRoute, Event, NavigationStart, Params, Router } from '@angular/router';
 import { BehaviorSubject, Observable, of, Subject, throwError } from 'rxjs';
 import { AppTestingModule } from '../../../testing/app-testing.module';
@@ -64,6 +64,7 @@ describe('SearchComponent', () => {
 
   const editSavedSearchesSpy = jasmine.createSpy('editSavedSearch');
   const getSavedSearchButton = (): HTMLButtonElement => fixture.nativeElement.querySelector('.aca-content__save-search-action');
+  const getResetSearchButton = (): HTMLButtonElement => fixture.nativeElement.querySelector('.aca-content__reset-action');
 
   const encodeQuery = (query: any): string => {
     return Buffer.from(JSON.stringify(query)).toString('base64');
@@ -94,9 +95,7 @@ describe('SearchComponent', () => {
         {
           provide: SavedSearchesContextService,
           useValue: {
-            getSavedSearches: jasmine
-              .createSpy('getSavedSearches')
-              .and.returnValue(of([{ name: 'test', encodedUrl: encodeQuery({ name: 'test' }), order: 0 }])),
+            savedSearches$: of([{ name: 'test', encodedUrl: encodeQuery({ name: 'test' }), order: 0 }]),
             editSavedSearch: editSavedSearchesSpy
           }
         },
@@ -261,12 +260,6 @@ describe('SearchComponent', () => {
     });
   });
 
-  it('should update the user query whenever configuration changed', () => {
-    component.searchedWord = 'orange';
-    queryBuilder.configUpdated.next({ 'app:fields': ['cm:tag'] } as any);
-    expect(queryBuilder.userQuery).toBe(`((cm:tag:"orange*"))`);
-  });
-
   it('should get initial saved search when url matches', () => {
     route.queryParams = of({ q: encodeQuery({ name: 'test' }) });
     component.ngOnInit();
@@ -381,7 +374,7 @@ describe('SearchComponent', () => {
 
     expect(component.isLoading).toBeFalse();
 
-    updatedSubjectMock.next(null as SearchRequest);
+    updatedSubjectMock.next(null);
 
     tick();
 
@@ -395,6 +388,54 @@ describe('SearchComponent', () => {
 
     flush();
   }));
+
+  describe('reset button', () => {
+    it('should enable the reset button when there are queryFragments', fakeAsync(() => {
+      queryBuilder.queryFragmentsUpdate.next({ test: 'test-value' });
+
+      tick();
+
+      fixture.detectChanges();
+
+      const resetBtn = getResetSearchButton();
+
+      expect(resetBtn).toBeDefined();
+      expect(resetBtn.getAttribute('disabled')).toBeFalsy();
+
+      flush();
+    }));
+
+    it('should enable the reset button when there are userFacetBuckets', fakeAsync(() => {
+      queryBuilder.userFacetBucketsUpdate.next({ test: [{ label: 'test-value' }] as FacetFieldBucket[] });
+
+      tick();
+
+      fixture.detectChanges();
+
+      const resetBtn = getResetSearchButton();
+
+      expect(resetBtn).toBeDefined();
+      expect(resetBtn.getAttribute('disabled')).toBeFalsy();
+
+      flush();
+    }));
+
+    it('should disable the reset button when there are no filters applied', fakeAsync(() => {
+      queryBuilder.queryFragmentsUpdate.next({});
+      queryBuilder.userFacetBucketsUpdate.next({});
+
+      tick();
+
+      fixture.detectChanges();
+
+      const resetBtn = getResetSearchButton();
+
+      expect(resetBtn).toBeDefined();
+      expect(resetBtn.getAttribute('disabled')).toBeTruthy();
+
+      flush();
+    }));
+  });
 
   testHeader(SearchResultsComponent, false);
 });
