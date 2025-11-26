@@ -39,7 +39,7 @@ export class SavedSearchesListUiService {
         width: '600px'
       })
       .afterClosed()
-      .subscribe(() => this.focusAfterClose(savedSearch.name));
+      .subscribe(() => this.focusAfterClose(`.adf-datatable-cell--${savedSearch.name}`));
   }
 
   confirmDeleteSavedSearch(savedSearch: SavedSearch): void {
@@ -49,12 +49,12 @@ export class SavedSearchesListUiService {
         minWidth: '500px'
       })
       .afterClosed()
-      .subscribe(() => this.focusAfterClose(savedSearch.name));
+      .subscribe(() => this.focusAfterClose(`.adf-datatable-cell--${savedSearch.name}`));
   }
 
   private focusAfterClose(focusedElementSelector: string): void {
     if (focusedElementSelector) {
-      document.querySelector<HTMLElement>(`[data-automation-id="${focusedElementSelector}"]`)?.parentElement.focus();
+      document.querySelector<HTMLElement>(focusedElementSelector)?.closest<HTMLElement>('adf-datatable-row').focus();
     }
   }
 }

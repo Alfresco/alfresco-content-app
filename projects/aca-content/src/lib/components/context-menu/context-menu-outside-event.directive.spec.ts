@@ -32,7 +32,7 @@ import { UnitTestingUtils } from '@alfresco/adf-core';
   standalone: true,
   imports: [OutsideEventDirective, MatMenuModule],
   template: `
-    <div class="adf-context-menu-source">
+    <div class="custom-selector">
       <button #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="menu" data-automation-id="trigger-button">Open Menu</button>
       <mat-menu #menu="matMenu" class="aca-context-menu" acaContextMenuOutsideEvent>
         <button mat-menu-item data-automation-id="menu-item">Item 1</button>
@@ -82,11 +82,14 @@ describe('OutsideEventDirective', () => {
     expect(directiveInstance.clickOutside.next).not.toHaveBeenCalled();
   });
 
-  it('should focus .adf-context-menu-source element on escape key', () => {
+  it('should focus focusTargetSelector element on escape key', () => {
+    expect(directiveInstance.focusTargetSelector).toBe('.adf-context-menu-source');
+
+    directiveInstance.focusTargetSelector = '.custom-selector';
     unitTestingUtils.clickByDataAutomationId('trigger-button');
     fixture.detectChanges();
 
-    const contextMenuSource: HTMLElement = unitTestingUtils.getByCSS('.adf-context-menu-source').nativeElement;
+    const contextMenuSource: HTMLElement = unitTestingUtils.getByCSS(directiveInstance.focusTargetSelector).nativeElement;
     spyOn(contextMenuSource, 'focus');
 
     document.dispatchEvent(

@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, HostListener, Input } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SaveSearchDialogComponent } from '../dialog/save-search-dialog.component';
 
@@ -39,11 +39,15 @@ export class SaveSearchDirective {
   @Input()
   acaSaveSearchQuery: string;
 
-  constructor(private readonly dialogRef: MatDialog) {}
+  constructor(
+    private readonly dialogRef: MatDialog,
+    private readonly elementRef: ElementRef<HTMLElement>
+  ) {}
 
   @HostListener('click', ['$event'])
   onClick(event: MouseEvent) {
     event.preventDefault();
+    this.elementRef.nativeElement.focus();
     this.openDialog();
   }
 
