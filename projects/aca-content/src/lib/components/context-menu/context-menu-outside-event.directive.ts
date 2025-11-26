@@ -38,11 +38,6 @@ export class OutsideEventDirective implements OnInit {
   @Input()
   focusTargetSelector = '.adf-context-menu-source';
 
-  @HostListener('document:keydown.escape', ['$event'])
-  onEscapeKeydown() {
-    document.querySelector<HTMLElement>(this.focusTargetSelector)?.focus();
-  }
-
   private readonly destroyRef = inject(DestroyRef);
 
   ngOnInit() {
@@ -52,6 +47,11 @@ export class OutsideEventDirective implements OnInit {
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe(() => this.clickOutside.next());
+  }
+
+  @HostListener('document:keydown.escape', ['$event'])
+  onEscapeKeydown() {
+    document.querySelector<HTMLElement>(this.focusTargetSelector)?.focus();
   }
 
   private findAncestor(el: Element): boolean {

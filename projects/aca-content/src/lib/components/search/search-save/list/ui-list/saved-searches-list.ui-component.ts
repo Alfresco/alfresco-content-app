@@ -68,14 +68,6 @@ export class SavedSearchesListUiComponent extends DataTableSchema implements Aft
   @Output()
   savedSearchOrderChanged = new EventEmitter<{ previousIndex: number; currentIndex: number }>();
 
-  @HostListener('document:keydown.escape', ['$event'])
-  onEscapeKeydown() {
-    const contextMenu = document.querySelector<HTMLElement>('.adf-context-menu');
-    if (contextMenu) {
-      this.hostElement.nativeElement.querySelector<HTMLElement>('.adf-context-menu-source')?.focus();
-    }
-  }
-
   readonly ShowHeaderMode = ShowHeaderMode;
 
   private readonly notificationService = inject(NotificationService);
@@ -121,6 +113,14 @@ export class SavedSearchesListUiComponent extends DataTableSchema implements Aft
   ngAfterContentInit() {
     this.createDatatableSchema();
     this.contextMenuAction$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((action) => this.executeMenuOption(action.key, action.data));
+  }
+
+  @HostListener('document:keydown.escape', ['$event'])
+  onEscapeKeydown() {
+    const contextMenu = document.querySelector<HTMLElement>('.adf-context-menu');
+    if (contextMenu) {
+      this.hostElement.nativeElement.querySelector<HTMLElement>('.adf-context-menu-source')?.focus();
+    }
   }
 
   onShowRowActionsMenu(event: DataCellEvent): void {
