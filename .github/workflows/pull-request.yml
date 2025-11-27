@@ -169,6 +169,8 @@ jobs:
             id: 18
           - name: "folder-information-actions"
             id: 19
+          - name: "a11y-personal-files"
+            id: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v5
