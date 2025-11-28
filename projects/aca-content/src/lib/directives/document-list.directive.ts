@@ -193,7 +193,8 @@ export class DocumentListDirective implements OnInit {
     ];
 
     const [currentKey, currentDir] = [
-      this.preferences.get(`${this.sortingPreferenceKey}.sorting.key`, null),
+      this.preferences.get(`${this.sortingPreferenceKey}.sorting.sortingKey`, null) ||
+        this.preferences.get(`${this.sortingPreferenceKey}.sorting.key`, null),
       this.preferences.get(`${this.sortingPreferenceKey}.sorting.direction`, null)
     ];
 
