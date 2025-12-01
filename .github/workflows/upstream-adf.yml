@@ -26,7 +26,7 @@ jobs:
     steps:
       - id: checkoutRepo
         name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 1
       - id: fetchLatestPkg
@@ -104,7 +104,7 @@ jobs:
     needs: upstream
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
           fetch-depth: 1
