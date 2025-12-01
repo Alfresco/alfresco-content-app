@@ -24,6 +24,7 @@
 
 import { Locator, Page } from '@playwright/test';
 import { BaseComponent } from './base.component';
+import { timeouts } from '../../public-api';
 
 export enum ActionType {
   AddAspect = 'Add aspect',
@@ -140,7 +141,7 @@ export class ActionsDropdownComponent extends BaseComponent {
    * ```
    */
   async selectMimeType(mimeType: Partial<MimeType>, index: number): Promise<void> {
-    await this.mimeTypeDropdownLocator.nth(index).hover({ timeout: 1000 });
+    await this.mimeTypeDropdownLocator.nth(index).hover({ timeout: timeouts.short });
     await this.mimeTypeDropdownLocator.nth(index).click();
     const option = this.getOptionLocator(mimeType);
     await option.click();

@@ -60,12 +60,11 @@ test.describe('Folder Rules Actions', () => {
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
       fileActionApi = await FileActionsApi.initialize(username, username);
+      randomFolderName1Id = (await nodesApi.createFolder(randomFolderName1)).entry.id;
+      await nodesApi.createFile(copyFileName, randomFolderName1Id);
     } catch (error) {
       console.error(`beforeAll failed : ${error}`);
     }
-
-    randomFolderName1Id = (await nodesApi.createFolder(randomFolderName1)).entry.id;
-    await nodesApi.createFile(copyFileName, randomFolderName1Id);
   });
 
   test.beforeEach(async ({ loginPage }) => {
@@ -76,7 +75,7 @@ test.describe('Folder Rules Actions', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
-  test('XAT-8050 - Supported types transformation - to PDF', async ({ personalFiles, nodesPage, loginPage }) => {
+  test('[XAT-8050] Supported types transformation to PDF', async ({ personalFiles, nodesPage, loginPage }) => {
     const toFolderName = 'TO_PDF';
     await nodesApi.createFolder(toFolderName);
     await personalFiles.navigate({ remoteUrl: `#/nodes/${randomFolderName1Id}/rules` });
@@ -95,15 +94,12 @@ test.describe('Folder Rules Actions', () => {
     await expect(loginPage.username, 'User name was not visible').toBeVisible();
     await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
     await personalFiles.dataTable.performClickFolderOrFileToOpen(toFolderName);
-    await personalFiles.page.waitForTimeout(5000);
+    await personalFiles.spinner.waitForReload();
     const docxToPDF = `${randomDocxName}.pdf`;
     const xlsxToPDF = `${randomXLSXName}.pdf`;
     const pptxToPDF = `${randomPPTXName}.pdf`;
-    const uploadedFiles = await personalFiles.dataTable.isItemPresent(docxToPDF);
-    expect(uploadedFiles, `Converted PDF from DOCX ${docxToPDF} was not present in data table`).toBe(true);
-    const uploadedFilesXLSX = await personalFiles.dataTable.isItemPresent(xlsxToPDF);
-    expect(uploadedFilesXLSX, `Converted PDF from XLSX ${xlsxToPDF} was not present in data table`).toBe(true);
-    const uploadedFilesPPTX = await personalFiles.dataTable.isItemPresent(pptxToPDF);
-    expect(uploadedFilesPPTX, `Converted PDF from PPTX ${pptxToPDF} was not present in data table`).toBe(true);
+    expect(personalFiles.dataTable.isItemPresent(docxToPDF), `Converted PDF from DOCX ${docxToPDF} was not present in data table`).toBe(true);
+    expect(personalFiles.dataTable.isItemPresent(xlsxToPDF), `Converted PDF from XLSX ${xlsxToPDF} was not present in data table`).toBe(true);
+    expect(personalFiles.dataTable.isItemPresent(pptxToPDF), `Converted PDF from PPTX ${pptxToPDF} was not present in data table`).toBe(true);
   });
 });
