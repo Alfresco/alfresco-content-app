@@ -51,12 +51,7 @@ export enum ActionType {
 }
 
 export enum MimeType {
-  AdobePDFDocument = 'Adobe PDF Document [application/pdf]',
-  GIFImage = 'GIF Image [image/gif]',
-  JPEGImage = 'JPEG Image [image/jpeg]',
-  MicrosoftWordDocument = 'Microsoft Word [application/msword]',
-  PNGImage = 'PNG Image [image/png]',
-  BitmapImage = 'Bitmap Image [image/bmp]'
+  AdobePDFDocument = 'Adobe PDF Document [application/pdf]'
 }
 
 export class ActionsDropdownComponent extends BaseComponent {
@@ -77,9 +72,9 @@ export class ActionsDropdownComponent extends BaseComponent {
   private actionSimpleWorkflowLabelApproveLocator = `[data-automation-id="card-boolean-label-approve-move"]`;
   private actionSimpleWorkflowSRejectStepLocator = '[data-automation-id="header-reject-step"] input';
   private actionSimpleWorkflowRejectFolderLocator = `[data-automation-id="header-reject-folder"] input`;
-  private mimeTypeDropdownLocator = this.getChild('[data-automation-class="select-box"][aria-label="Mimetype *"]');
-  private actionTransformAndCopyContentDestinationFolderLocator = '[data-automation-id="card-textitem-value-destination-folder"]';
-  private contentNodeSelectorSearchInput = '[data-automation-id="content-node-selector-search-input"]';
+  private readonly mimeTypeDropdownLocator = this.getChild('[data-automation-class="select-box"][aria-label="Mimetype *"]');
+  private readonly actionTransformAndCopyContentDestinationFolderLocator = '[data-automation-id="card-textitem-value-destination-folder"]';
+  private readonly contentNodeSelectorSearchInput = '[data-automation-id="content-node-selector-search-input"]';
 
   constructor(page: Page) {
     super(page, ActionsDropdownComponent.rootElement);
@@ -175,9 +170,6 @@ export class ActionsDropdownComponent extends BaseComponent {
     // Locate and fill the search input field within the content node selector
     const searchInput = this.page.locator(this.contentNodeSelectorSearchInput);
     await searchInput.fill(searchTerm);
-
-    // Wait for search results to load
-    await this.page.waitForTimeout(1000);
 
     // Click on the folder from the search results (first match if multiple)
     const folderRow = this.page.locator('.adf-datatable-body .adf-name-location-cell-name', { hasText: searchTerm }).first();
