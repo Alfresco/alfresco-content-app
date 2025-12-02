@@ -98,11 +98,8 @@ test.describe('Folder Rules Actions', () => {
     const docxToPDF = `${randomDocxName}.pdf`;
     const xlsxToPDF = `${randomXLSXName}.pdf`;
     const pptxToPDF = `${randomPPTXName}.pdf`;
-    const docxPDFExists = await personalFiles.dataTable.isItemPresent(docxToPDF);
-    expect(docxPDFExists, `Converted PDF from DOCX ${docxToPDF} was not present in data table`).toBe(true);
-    const xlsxPDFExists = await personalFiles.dataTable.isItemPresent(xlsxToPDF);
-    expect(xlsxPDFExists, `Converted PDF from XLSX ${xlsxToPDF} was not present in data table`).toBe(true);
-    const pptxPDFExists = await personalFiles.dataTable.isItemPresent(pptxToPDF);
-    expect(pptxPDFExists, `Converted PDF from PPTX ${pptxToPDF} was not present in data table`).toBe(true);
+    expect(await personalFiles.dataTable.isItemPresent(docxToPDF), `Converted PDF from DOCX ${docxToPDF} was not present in data table`).toBe(true);
+    expect(await personalFiles.dataTable.isItemPresent(pptxToPDF), `Converted PDF from PPTX ${pptxToPDF} was not present in data table`).toBe(true);
+    expect(await personalFiles.dataTable.isItemPresent(xlsxToPDF), `Converted PDF from XLSX ${xlsxToPDF} was not present in data table`).toBe(true);
   });
 });
