@@ -51,7 +51,9 @@ export enum ActionType {
 }
 
 export enum MimeType {
-  AdobePDFDocument = 'Adobe PDF Document [application/pdf]'
+  AdobePDFDocument = 'Adobe PDF Document [application/pdf]',
+  BitmapImage = 'Bitmap Image [image/bmp]',
+  JPEGImage = 'JPEG Image [image/jpeg]'
 }
 
 export class ActionsDropdownComponent extends BaseComponent {

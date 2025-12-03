@@ -35,6 +35,75 @@ import {
   TEST_FILES
 } from '@alfresco/aca-playwright-shared';
 
+/**
+ * Helper function to test file transformation via folder rules.
+ * Creates a rule with the specified MIME type, uploads files, and verifies the transformations.
+ *
+ * @param context - Playwright page objects (personalFiles, nodesPage, loginPage)
+ * @param config - Configuration object containing:
+ *   - nodesApi: API for node operations
+ *   - fileActionApi: API for file operations
+ *   - randomFolderName1Id: ID of the parent folder
+ *   - testString: String to use for rule name/description
+ *   - username: Username for login
+ *   - folderName: Name of the destination folder for transformed files
+ *   - mimeType: Target MIME type for transformation
+ *   - files: Array of {path, name} objects representing files to upload
+ *   - expectedExtension: Expected file extension after transformation (e.g., 'pdf', 'bmp')
+ */
+async function testTransformation(
+  context: { personalFiles: any; nodesPage: any; loginPage: any },
+  config: {
+    nodesApi: NodesApi;
+    fileActionApi: FileActionsApi;
+    randomFolderName1Id: string;
+    testString: string;
+    username: string;
+    folderName: string;
+    mimeType: MimeType;
+    files: Array<{ path: string; name: string }>;
+    expectedExtension: string;
+  }
+) {
+  const { personalFiles, nodesPage, loginPage } = context;
+  const { nodesApi, fileActionApi, randomFolderName1Id, testString, username, folderName, mimeType, files, expectedExtension } = config;
+
+  // Create destination folder
+  await nodesApi.createFolder(folderName);
+
+  // Navigate to folder rules and create a new rule
+  await personalFiles.navigate({ remoteUrl: `#/nodes/${randomFolderName1Id}/rules` });
+  await nodesPage.toolbar.clickCreateRuleButton();
+  await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(testString);
+  await nodesPage.manageRulesDialog.ruleDescriptionInputLocator.fill(testString);
+  await nodesPage.actionsDropdown.selectAction(ActionType.TransformAndCopyContent, 0);
+  await nodesPage.actionsDropdown.selectMimeType(mimeType, 0);
+  await nodesPage.actionsDropdown.selectDestinationFolderTransformAndCopyContent(0, folderName);
+  await nodesPage.manageRulesDialog.createRuleButton.click();
+  await expect(nodesPage.manageRules.getGroupsList(testString)).toBeVisible();
+
+  // Upload files to trigger the transformation rule
+  for (const file of files) {
+    await fileActionApi.uploadFile(file.path, file.name, randomFolderName1Id);
+  }
+
+  // Logout and login to ensure transformations have completed
+  await loginPage.logoutUser();
+  await expect(loginPage.username, 'User name was not visible').toBeVisible();
+  await Utils.tryLoginUser(loginPage, username, username, 'Login after transformation failed');
+
+  // Navigate to destination folder and verify transformed files
+  await personalFiles.dataTable.performClickFolderOrFileToOpen(folderName);
+  await personalFiles.spinner.waitForReload();
+
+  // Verify each transformed file exists
+  for (const file of files) {
+    const transformedFileName = `${file.name}.${expectedExtension}`;
+    const exists = await personalFiles.dataTable.isItemPresent(transformedFileName);
+    expect(exists, `Transformed file ${transformedFileName} was not present in data table`).toBe(true);
+  }
+}
+
 test.use({ launchOptions: { slowMo: 300 } });
 test.describe('Folder Rules Actions', () => {
   const apiClientFactory = new ApiClientFactory();
@@ -47,6 +116,9 @@ test.describe('Folder Rules Actions', () => {
   const randomDocxName = `${TEST_FILES.DOCX.name}-${Utils.random()}`;
   const randomXLSXName = `${TEST_FILES.XLSX.name}-${Utils.random()}`;
   const randomPPTXName = `${TEST_FILES.PPTX_FILE.name}-${Utils.random()}`;
+  const randomJPGName = `${TEST_FILES.JPG_FILE.name}-${Utils.random()}`;
+  const randomPNGName = `${TEST_FILES.PNG_FILE.name}-${Utils.random()}`;
+  const randomGIFName = `${TEST_FILES.GIF_FILE.name}-${Utils.random()}`;
 
   const copyFileName = `copy-file-${Utils.random()}`;
   const testString = '"!@£$%^&*()_+{}|:""?&gt;&lt;,/.\';][=-`~"';
@@ -76,30 +148,64 @@ test.describe('Folder Rules Actions', () => {
   });
 
   test('[XAT-8050] Supported types transformation to PDF', async ({ personalFiles, nodesPage, loginPage }) => {
-    const toFolderName = 'TO_PDF';
-    await nodesApi.createFolder(toFolderName);
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${randomFolderName1Id}/rules` });
-    await nodesPage.toolbar.clickCreateRuleButton();
-    await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(testString);
-    await nodesPage.manageRulesDialog.ruleDescriptionInputLocator.fill(testString);
-    await nodesPage.actionsDropdown.selectAction(ActionType.TransformAndCopyContent, 0);
-    await nodesPage.actionsDropdown.selectMimeType(MimeType.AdobePDFDocument, 0);
-    await nodesPage.actionsDropdown.selectDestinationFolderTransformAndCopyContent(0, toFolderName);
-    await nodesPage.manageRulesDialog.createRuleButton.click();
-    await expect(nodesPage.manageRules.getGroupsList(testString)).toBeVisible();
-    await fileActionApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, randomFolderName1Id);
-    await fileActionApi.uploadFile(TEST_FILES.XLSX.path, randomXLSXName, randomFolderName1Id);
-    await fileActionApi.uploadFile(TEST_FILES.PPTX_FILE.path, randomPPTXName, randomFolderName1Id);
-    await loginPage.logoutUser();
-    await expect(loginPage.username, 'User name was not visible').toBeVisible();
-    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
-    await personalFiles.dataTable.performClickFolderOrFileToOpen(toFolderName);
-    await personalFiles.spinner.waitForReload();
-    const docxToPDF = `${randomDocxName}.pdf`;
-    const xlsxToPDF = `${randomXLSXName}.pdf`;
-    const pptxToPDF = `${randomPPTXName}.pdf`;
-    expect(await personalFiles.dataTable.isItemPresent(docxToPDF), `Converted PDF from DOCX ${docxToPDF} was not present in data table`).toBe(true);
-    expect(await personalFiles.dataTable.isItemPresent(pptxToPDF), `Converted PDF from PPTX ${pptxToPDF} was not present in data table`).toBe(true);
-    expect(await personalFiles.dataTable.isItemPresent(xlsxToPDF), `Converted PDF from XLSX ${xlsxToPDF} was not present in data table`).toBe(true);
+    await testTransformation(
+      { personalFiles, nodesPage, loginPage },
+      {
+        nodesApi,
+        fileActionApi,
+        randomFolderName1Id,
+        testString,
+        username,
+        folderName: 'TO_PDF',
+        mimeType: MimeType.AdobePDFDocument,
+        expectedExtension: 'pdf',
+        files: [
+          { path: TEST_FILES.DOCX.path, name: randomDocxName },
+          { path: TEST_FILES.XLSX.path, name: randomXLSXName },
+          { path: TEST_FILES.PPTX_FILE.path, name: randomPPTXName }
+        ]
+      }
+    );
+  });
+
+  test('[XAT-8051] Supported types transformation to BMP', async ({ personalFiles, nodesPage, loginPage }) => {
+    await testTransformation(
+      { personalFiles, nodesPage, loginPage },
+      {
+        nodesApi,
+        fileActionApi,
+        randomFolderName1Id,
+        testString,
+        username,
+        folderName: 'TO_BMP',
+        mimeType: MimeType.BitmapImage,
+        expectedExtension: 'bmp',
+        files: [
+          { path: TEST_FILES.JPG_FILE.path, name: randomJPGName },
+          { path: TEST_FILES.PNG_FILE.path, name: randomPNGName },
+          { path: TEST_FILES.GIF_FILE.path, name: randomGIFName }
+        ]
+      }
+    );
+  });
+
+  test('[XAT-8052] Supported types transformation to JPG', async ({ personalFiles, nodesPage, loginPage }) => {
+    await testTransformation(
+      { personalFiles, nodesPage, loginPage },
+      {
+        nodesApi,
+        fileActionApi,
+        randomFolderName1Id,
+        testString,
+        username,
+        folderName: 'TO_JPG',
+        mimeType: MimeType.JPEGImage,
+        expectedExtension: 'jpg',
+        files: [
+          { path: TEST_FILES.PNG_FILE.path, name: randomPNGName },
+          { path: TEST_FILES.GIF_FILE.path, name: randomGIFName }
+        ]
+      }
+    );
   });
 });
