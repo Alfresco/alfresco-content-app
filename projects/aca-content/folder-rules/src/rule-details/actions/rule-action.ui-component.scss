@@ -1,3 +1,5 @@
+@use '../../styles/mat-selectors' as ms;
+
 .aca-rule-action {
   max-width: 100%;
 
@@ -32,6 +34,10 @@
 
     &.aca-rule-action-form-field {
       min-width: unset;
+
+      #{ms.$mat-form-field-subscript-wrapper} {
+        min-height: 22.5px;
+      }
     }
 
     &.aca-rule-action-card-view {
