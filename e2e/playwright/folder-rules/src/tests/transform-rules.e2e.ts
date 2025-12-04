@@ -32,7 +32,10 @@ import {
   NodesApi,
   MimeType,
   FileActionsApi,
-  TEST_FILES
+  TEST_FILES,
+  PersonalFilesPage,
+  NodesPage,
+  LoginPage
 } from '@alfresco/aca-playwright-shared';
 
 /**
@@ -52,7 +55,7 @@ import {
  *   - expectedExtension: Expected file extension after transformation (e.g., 'pdf', 'bmp')
  */
 async function testTransformation(
-  context: { personalFiles: any; nodesPage: any; loginPage: any },
+  context: { personalFiles: PersonalFilesPage; nodesPage: NodesPage; loginPage: LoginPage },
   config: {
     nodesApi: NodesApi;
     fileActionApi: FileActionsApi;
