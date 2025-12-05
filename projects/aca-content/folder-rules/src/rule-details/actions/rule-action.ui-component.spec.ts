@@ -56,6 +56,7 @@ import { MatSelectHarness } from '@angular/material/select/testing';
 import { of, Subject } from 'rxjs';
 import { Node } from '@alfresco/js-api';
 import { SimpleChanges } from '@angular/core';
+import { MatError } from '@angular/material/form-field';
 
 describe('RuleActionUiComponent', () => {
   let fixture: ComponentFixture<RuleActionUiComponent>;
@@ -187,6 +188,14 @@ describe('RuleActionUiComponent', () => {
     expect(dialog.open).toHaveBeenCalledTimes(1);
     expect(dialogSpy.calls.mostRecent().args[1].data).toEqual(expectedData);
     expect(dialog.open['calls'].argsFor(0)[0].name).toBe('ContentNodeSelectorComponent');
+  });
+
+  it('should display error when no option is selected', () => {
+    component.actionDefinitions = actionsTransformedListMock;
+
+    component.form.controls.actionDefinitionId.markAsTouched();
+    fixture.detectChanges();
+    expect(unitTestingUtils.getByDirective(MatError).nativeElement.textContent).toBe('ACA_FOLDER_RULES.RULE_DETAILS.ERROR.ACTION_REQUIRED');
   });
 
   describe('Select options', () => {
