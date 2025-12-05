@@ -1,6 +1,13 @@
 @use '../styles/mat-selectors' as ms;
+@use '@angular/material' as mat;
 
 .aca-manage-rules {
+  @include mat.button-overrides(
+    (
+      outlined-outline-color: var(--adf-theme-foreground-text-color-064)
+    )
+  );
+
   #{ms.$mat-slide-toggle}:is(mat-slide-toggle) #{ms.$mat-switch}:enabled #{ms.$mat-switch-track}::after {
     background: var(--mdc-switch-selected-track-color);
   }
