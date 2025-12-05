@@ -101,4 +101,4 @@ runs:
     - name: Debug alfresco-search-enterprise-mediation logs
       if: failure()
       shell: bash
-      run: kubectl logs alfresco-search-enterprise-mediation-0
+      run: kubectl logs kubectl logs acs-elasticsearch-es-0
