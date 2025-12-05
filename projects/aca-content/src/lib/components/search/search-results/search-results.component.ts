@@ -225,7 +225,9 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
           )
         )
         .subscribe((savedSearches) => {
-          this.initialSavedSearch = savedSearches;
+          if (!this.initialSavedSearch && savedSearches) {
+            this.initialSavedSearch = savedSearches;
+          }
         });
 
       combineLatest([

@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { SearchResultsComponent } from './search-results.component';
 import { AppConfigService, NotificationService, TranslationService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
@@ -265,6 +265,15 @@ describe('SearchComponent', () => {
     component.ngOnInit();
     expect(component.initialSavedSearch).toEqual({ name: 'test', encodedUrl: encodeQuery({ name: 'test' }), order: 0 });
   });
+
+  it('should not clear initialSavedSearch if already set', waitForAsync(() => {
+    const existingSavedSearch = { name: 'existing', encodedUrl: 'existing-url', order: 1 };
+    component.initialSavedSearch = existingSavedSearch;
+    route.queryParams = of({ q: '' });
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(component.initialSavedSearch).toEqual(existingSavedSearch);
+  }));
 
   it('should render a menu with 2 options when initial saved search is found', async () => {
     route.queryParams = of({ q: encodeQuery({ name: 'test' }) });
