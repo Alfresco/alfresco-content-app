@@ -97,3 +97,8 @@ runs:
 
     - name: Wait for pods to be ready
       uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-wait@v10.1.0
+
+    - name: Debug alfresco-search-enterprise-mediation logs
+      if: failure()
+      shell: bash
+      run: kubectl logs alfresco-search-enterprise-mediation-0

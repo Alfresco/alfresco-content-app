@@ -198,7 +198,7 @@ jobs:
           docker_password: ${{ secrets.DOCKER_PASSWORD }}
           quay_username: ${{ secrets.QUAY_USERNAME }}
           quay_password: ${{ secrets.QUAY_PASSWORD }}
-          acs_deployment_version: 'latest'
+          acs_deployment_version: 'v10.0.0'
 
       - name: Before e2e
         uses: ./.github/actions/before-e2e
