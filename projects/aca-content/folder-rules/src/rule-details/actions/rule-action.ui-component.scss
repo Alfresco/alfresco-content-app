@@ -22,6 +22,11 @@
         .adf-textitem-action {
           .adf-textitem-icon {
             margin-left: -10px;
+            color: var(--adf-theme-foreground-text-color-064);
+
+            &:hover {
+              color: var(--adf-theme-foreground-text-color);
+            }
           }
         }
       }
