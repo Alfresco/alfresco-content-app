@@ -228,7 +228,6 @@ jobs:
           echo "Environment: ${{ env.ENVIRONMENT }}"
           echo "BASE_URL: ${{ env.BASE_URL }}"
           echo "PLAYWRIGHT_E2E_HOST: ${{ env.PLAYWRIGHT_E2E_HOST }}"
-          echo "HR_USER_PASSWORD='${{ env.HR_USER_PASSWORD_CI }}"
           echo "=========================================="
 
       - name: Before e2e
