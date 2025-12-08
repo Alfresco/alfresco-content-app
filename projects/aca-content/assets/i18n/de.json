@@ -493,7 +493,7 @@
             "CREATED": "Erstellt",
             "MODIFIED": "Geändert",
             "DONE": "Fertig",
-            "ERROR": "Something went wrong, please close this dialog and try again"
+            "ERROR": "Etwas ist schiefgelaufen. Bitte schließen Sie diesen Dialog und versuchen Sie es erneut"
         }
     },
     "NODE_SELECTOR": {
