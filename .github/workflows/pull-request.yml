@@ -19,6 +19,8 @@ env:
   ADMIN_PASSWORD_CI: ${{ secrets.PIPELINE_ADMIN_PASSWORD }}
   HR_USER: admin
   HR_USER_PASSWORD: admin
+  HR_USER_PASSWORD_EMAIL_CI: ${{ secrets.PIPELINE_HR_USERNAME }}
+  HR_USER_PASSWORD_CI: ${{ secrets.PIPELINE_HR_PASSWORD }}
   SCREENSHOT_USERNAME: ${{ secrets.SCREENSHOT_USERNAME }}
   SCREENSHOT_PASSWORD: ${{ secrets.SCREENSHOT_PASSWORD}}
   PLAYWRIGHT_E2E_HOST: http://localhost:4200
@@ -218,8 +220,10 @@ jobs:
           else
             echo "⚠️ Local ACS deployment failed - falling back to adwe2e environment"
             echo "BASE_URL=https://adwe2e.envalfresco.com" >> $GITHUB_ENV
-            echo "ADMIN_EMAIL=ADMIN_EMAIL_CI" >> $GITHUB_ENV
-            echo "ADMIN_PASSWORD=ADMIN_PASSWORD_CI" >> $GITHUB_ENV
+            echo "ADMIN_EMAIL=${{ env.ADMIN_EMAIL_CI }}" >> $GITHUB_ENV
+            echo "ADMIN_PASSWORD='${{ env.ADMIN_PASSWORD_CI }}'" | sed "s/ADMIN_PASSWORD='\(.*\)'/ADMIN_PASSWORD=\1/" >> $GITHUB_ENV
+            echo "HR_USER=${{ env.HR_USER_PASSWORD_EMAIL_CI }}" >> $GITHUB_ENV
+            echo "HR_USER_PASSWORD='${{ env.HR_USER_PASSWORD_CI }}'" | sed "s/HR_USER_PASSWORD='\(.*\)'/HR_USER_PASSWORD=\1/" >> $GITHUB_ENV
             echo "ENVIRONMENT=adwe2e" >> $GITHUB_ENV
             echo "Using environment: adwe2e"
             echo "BASE_URL: https://adwe2e.envalfresco.com"
@@ -234,6 +238,7 @@ jobs:
           echo "Environment: ${{ env.ENVIRONMENT }}"
           echo "BASE_URL: ${{ env.BASE_URL }}"
           echo "PLAYWRIGHT_E2E_HOST: ${{ env.PLAYWRIGHT_E2E_HOST }}"
+          echo "HR_USER_PASSWORD='${{ env.HR_USER_PASSWORD_CI }}"
           echo "=========================================="
 
       - name: Before e2e
