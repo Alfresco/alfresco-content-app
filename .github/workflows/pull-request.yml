@@ -12,15 +12,11 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  BASE_URL: http://localhost
-  ADMIN_EMAIL: admin
-  ADMIN_PASSWORD: admin
-  ADMIN_EMAIL_CI: ${{ secrets.PIPELINE_ADMIN_USERNAME }}
-  ADMIN_PASSWORD_CI: ${{ secrets.PIPELINE_ADMIN_PASSWORD }}
-  HR_USER: admin
-  HR_USER_PASSWORD: admin
-  HR_USER_PASSWORD_EMAIL_CI: ${{ secrets.PIPELINE_HR_USERNAME }}
-  HR_USER_PASSWORD_CI: ${{ secrets.PIPELINE_HR_PASSWORD }}
+  BASE_URL: https://adwe2e.envalfresco.com
+  ADMIN_EMAIL: ${{ secrets.PIPELINE_ADMIN_USERNAME }}
+  ADMIN_PASSWORD: ${{ secrets.PIPELINE_ADMIN_PASSWORD }}
+  HR_USER: ${{ secrets.HR_USER }}
+  HR_USER_PASSWORD: ${{ secrets.HR_USER_PASSWORD }}
   SCREENSHOT_USERNAME: ${{ secrets.SCREENSHOT_USERNAME }}
   SCREENSHOT_PASSWORD: ${{ secrets.SCREENSHOT_PASSWORD}}
   PLAYWRIGHT_E2E_HOST: http://localhost:4200
@@ -219,14 +215,8 @@ jobs:
             echo "BASE_URL: http://localhost"
           else
             echo "⚠️ Local ACS deployment failed - falling back to adwe2e environment"
-            echo "BASE_URL=https://adwe2e.envalfresco.com" >> $GITHUB_ENV
-            echo "ADMIN_EMAIL=${{ env.ADMIN_EMAIL_CI }}" >> $GITHUB_ENV
-            echo "ADMIN_PASSWORD='${{ env.ADMIN_PASSWORD_CI }}'" | sed "s/ADMIN_PASSWORD='\(.*\)'/ADMIN_PASSWORD=\1/" >> $GITHUB_ENV
-            echo "HR_USER=${{ env.HR_USER_PASSWORD_EMAIL_CI }}" >> $GITHUB_ENV
-            echo "HR_USER_PASSWORD='${{ env.HR_USER_PASSWORD_CI }}'" | sed "s/HR_USER_PASSWORD='\(.*\)'/HR_USER_PASSWORD=\1/" >> $GITHUB_ENV
             echo "ENVIRONMENT=adwe2e" >> $GITHUB_ENV
             echo "Using environment: adwe2e"
-            echo "BASE_URL: https://adwe2e.envalfresco.com"
           fi
 
       - name: Log environment configuration
