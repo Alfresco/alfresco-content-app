@@ -219,9 +219,9 @@ jobs:
             echo "⚠️ Local ACS deployment failed - falling back to adwe2e environment"
             echo "BASE_URL=https://adwe2e.envalfresco.com" >> $GITHUB_ENV
             echo "ADMIN_EMAIL=${{ secrets.PIPELINE_ADMIN_USERNAME }}" >> $GITHUB_ENV
-            echo "ADMIN_PASSWORD='${{ secrets.PIPELINE_ADMIN_PASSWORD }}'" >> $GITHUB_ENV
+            echo "ADMIN_PASSWORD='${{ secrets.PIPELINE_ADMIN_PASSWORD }}'" | sed "s/ADMIN_PASSWORD='\(.*\)'/ADMIN_PASSWORD=\1/" >> $GITHUB_ENV
             echo "HR_USER=${{ secrets.PIPELINE_ADMIN_USERNAME }}" >> $GITHUB_ENV
-            echo "HR_USER_PASSWORD='${{ secrets.PIPELINE_ADMIN_PASSWORD }}'" >> $GITHUB_ENV
+            echo "HR_USER_PASSWORD='${{ secrets.PIPELINE_ADMIN_PASSWORD }}'" | sed "s/HR_USER_PASSWORD='\(.*\)'/HR_USER_PASSWORD=\1/" >> $GITHUB_ENV
             echo "ENVIRONMENT=adwe2e" >> $GITHUB_ENV
             echo "Using environment: adwe2e"
             echo "BASE_URL: https://adwe2e.envalfresco.com"
@@ -235,7 +235,6 @@ jobs:
           echo "=========================================="
           echo "Environment: ${{ env.ENVIRONMENT }}"
           echo "BASE_URL: ${{ env.BASE_URL }}"
-          echo "ADMIN_EMAIL: ${{ env.ADMIN_EMAIL }}"
           echo "PLAYWRIGHT_E2E_HOST: ${{ env.PLAYWRIGHT_E2E_HOST }}"
           echo "=========================================="
 
