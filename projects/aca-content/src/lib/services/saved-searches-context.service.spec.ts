@@ -28,6 +28,7 @@ import { of, Subject } from 'rxjs';
 import { SavedSearchesContextService } from './saved-searches-context.service';
 import { SavedSearch, SavedSearchesLegacyService, SavedSearchesService } from '@alfresco/adf-content-services';
 import { IsFeatureSupportedInCurrentAcsPipe } from '../pipes/is-feature-supported.pipe';
+import { NodeEntry } from '@alfresco/js-api';
 
 describe('SavedSearchesContextService', () => {
   let legacySpy: jasmine.SpyObj<SavedSearchesLegacyService>;
@@ -46,9 +47,9 @@ describe('SavedSearchesContextService', () => {
       'changeOrder'
     ]);
     legacySpy.getSavedSearches.and.returnValue(of([]));
-    legacySpy.saveSearch.and.returnValue(of({} as any));
-    legacySpy.editSavedSearch.and.returnValue(of({} as any));
-    legacySpy.deleteSavedSearch.and.returnValue(of({} as any));
+    legacySpy.saveSearch.and.returnValue(of({} as NodeEntry));
+    legacySpy.editSavedSearch.and.returnValue(of({} as NodeEntry));
+    legacySpy.deleteSavedSearch.and.returnValue(of({} as NodeEntry));
 
     modernSpy = jasmine.createSpyObj('SavedSearchesService', [
       'init',
@@ -59,9 +60,9 @@ describe('SavedSearchesContextService', () => {
       'changeOrder'
     ]);
     modernSpy.getSavedSearches.and.returnValue(of([]));
-    modernSpy.saveSearch.and.returnValue(of({} as any));
-    modernSpy.editSavedSearch.and.returnValue(of({} as any));
-    modernSpy.deleteSavedSearch.and.returnValue(of({} as any));
+    modernSpy.saveSearch.and.returnValue(of({} as NodeEntry));
+    modernSpy.editSavedSearch.and.returnValue(of({} as NodeEntry));
+    modernSpy.deleteSavedSearch.and.returnValue(of({} as NodeEntry));
 
     isSupported = new Subject<boolean>();
 

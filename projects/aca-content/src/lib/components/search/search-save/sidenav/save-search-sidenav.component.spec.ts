@@ -28,6 +28,7 @@ import { AppTestingModule } from '../../../../testing/app-testing.module';
 import { Observable, of } from 'rxjs';
 import { SavedSearchesContextService } from '../../../../services/saved-searches-context.service';
 import { SavedSearch } from '@alfresco/adf-content-services';
+import { NavBarLinkRef } from '@alfresco/adf-extensions';
 
 describe('SaveSearchSidenavComponent', () => {
   let fixture: ComponentFixture<SaveSearchSidenavComponent>;
@@ -36,8 +37,8 @@ describe('SaveSearchSidenavComponent', () => {
 
   beforeEach(() => {
     const mockService: Partial<SavedSearchesContextService> = {
+      currentContextSavedSearch: undefined,
       init: (): void => {},
-
       get savedSearches$(): Observable<SavedSearch[]> {
         return of([]);
       }
@@ -94,4 +95,46 @@ describe('SaveSearchSidenavComponent', () => {
       id: 'search1'
     });
   }));
+
+  describe('onActionClicked', () => {
+    beforeEach(() => {
+      spyOnProperty(savedSearchesService, 'savedSearches$', 'get').and.returnValue(of([{ name: 'abc', order: 0, encodedUrl: 'abc' }]));
+      component.ngOnInit();
+      fixture.detectChanges();
+    });
+
+    it('should set currentContextSavedSearch when matching saved search is found', () => {
+      const selectedLinkRef: NavBarLinkRef = {
+        id: 'search-test',
+        icon: '',
+        title: 'abc',
+        description: 'test',
+        route: 'search?q=encoded',
+        url: 'search?q=encoded'
+      };
+
+      component.onActionClicked(selectedLinkRef);
+
+      expect(component.savedSearchesService.currentContextSavedSearch).toEqual({
+        name: 'abc',
+        encodedUrl: 'abc',
+        order: 0
+      });
+    });
+
+    it('should set currentContextSavedSearch to undefined when no matching saved search is found', () => {
+      const selectedLinkRef: NavBarLinkRef = {
+        id: 'search-unknown',
+        icon: '',
+        title: 'Unknown Search',
+        description: 'Unknown Search',
+        route: 'search?q=unknown',
+        url: 'search?q=unknown'
+      };
+
+      component.onActionClicked(selectedLinkRef);
+
+      expect(component.savedSearchesService.currentContextSavedSearch).toBeUndefined();
+    });
+  });
 });

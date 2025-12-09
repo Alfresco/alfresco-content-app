@@ -220,14 +220,16 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
           switchMap((params) =>
             this.savedSearchesService.savedSearches$.pipe(
               first(),
-              map((savedSearches) => savedSearches.find((savedSearch) => savedSearch.encodedUrl === encodeURIComponent(params[this.queryParamName])))
+              map(
+                (savedSearches) =>
+                  savedSearches.find((savedSearch) => savedSearch.encodedUrl === encodeURIComponent(params[this.queryParamName])) ||
+                  this.savedSearchesService.currentContextSavedSearch
+              )
             )
           )
         )
         .subscribe((savedSearches) => {
-          if (!this.initialSavedSearch && savedSearches) {
-            this.initialSavedSearch = savedSearches;
-          }
+          this.initialSavedSearch = savedSearches;
         });
 
       combineLatest([

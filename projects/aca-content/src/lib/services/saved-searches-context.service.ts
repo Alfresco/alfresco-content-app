@@ -33,6 +33,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   providedIn: 'root'
 })
 export class SavedSearchesContextService implements SavedSearchStrategy {
+  currentContextSavedSearch: SavedSearch;
+
   private readonly strategy$ = new ReplaySubject<SavedSearchStrategy>(1);
 
   constructor(
