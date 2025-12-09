@@ -40,7 +40,7 @@ test.describe('Pagination on multiple pages : ', () => {
 
   test.beforeAll(async () => {
     try {
-      test.setTimeout(timeouts.extendedTest);
+      test.setTimeout(timeouts.extendedLongTest);
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);
