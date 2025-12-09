@@ -58,7 +58,9 @@ export class FavoritesPageApi {
           favorites.push(favorite);
         }
       }
-    } catch {}
+    } catch {
+      console.error('FavoritesApi: addFavoritesByIds failed ');
+    }
     return favorites;
   }
 
@@ -98,6 +100,7 @@ export class FavoritesPageApi {
     try {
       return (await this.apiService.favorites.listFavorites(username)).list.pagination.totalItems;
     } catch {
+      console.error('FavoritesApi: getFavoritesTotalItems failed ');
       return -1;
     }
   }

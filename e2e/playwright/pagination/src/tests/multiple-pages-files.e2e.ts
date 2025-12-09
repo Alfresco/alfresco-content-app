@@ -39,21 +39,25 @@ test.describe('Pagination on multiple pages : ', () => {
   const apiClientFactory = new ApiClientFactory();
 
   test.beforeAll(async () => {
-    test.setTimeout(timeouts.extendedTest);
-    await apiClientFactory.setUpAcaBackend('admin');
-    await apiClientFactory.createUser({ username });
-    nodesApi = await NodesApi.initialize(username, username);
-    favoritesApi = await FavoritesPageApi.initialize(username, username);
+    try {
+      test.setTimeout(timeouts.extendedTest);
+      await apiClientFactory.setUpAcaBackend('admin');
+      await apiClientFactory.createUser({ username });
+      nodesApi = await NodesApi.initialize(username, username);
+      favoritesApi = await FavoritesPageApi.initialize(username, username);
 
-    const files = Array(51)
-      .fill('my-file')
-      .map((name, index): string => `${name}-${index + 1}-${random}.txt`);
+      const files = Array(51)
+        .fill('my-file')
+        .map((name, index): string => `${name}-${index + 1}-${random}.txt`);
 
-    await nodesApi.createFolder(parent);
-    const filesIds = (await nodesApi.createFiles(files, parent)).list.entries.map((entries) => entries.entry.id);
-    initialFavoritesTotalItems = await favoritesApi.getFavoritesTotalItems(username);
+      await nodesApi.createFolder(parent);
+      const filesIds = (await nodesApi.createFiles(files, parent)).list.entries.map((entries) => entries.entry.id);
+      initialFavoritesTotalItems = await favoritesApi.getFavoritesTotalItems(username);
 
-    await favoritesApi.addFavoritesByIds('file', filesIds);
+      await favoritesApi.addFavoritesByIds('file', filesIds);
+    } catch (error) {
+      console.error('multiple-pages-files.e2e: beforeAll failed', error);
+    }
   });
 
   test.afterAll(async () => {
