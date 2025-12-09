@@ -50,6 +50,7 @@ import {
   DocumentListComponent,
   FileUploadEvent,
   FilterSearch,
+  SearchHeaderQueryBuilderService,
   ShareDataRow,
   UploadDragAreaComponent
 } from '@alfresco/adf-content-services';
@@ -109,7 +110,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   constructor(
     private readonly contentApi: ContentApiService,
     private readonly nodeActionsService: NodeActionsService,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly queryBuilderService: SearchHeaderQueryBuilderService
   ) {
     super();
   }
@@ -123,6 +125,10 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     this.route.queryParamMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((queryMap) => {
       this.queryParams = extractFiltersFromEncodedQuery(queryMap?.get('q'));
+      this.queryBuilderService.populateFilters.next(this.queryParams);
+      if (!this.queryParams) {
+        this.queryBuilderService.resetActiveFilters();
+      }
     });
     this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(({ folderId }: Params) => {
       const nodeId = folderId || data.defaultNodeId;
