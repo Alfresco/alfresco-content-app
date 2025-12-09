@@ -24,7 +24,6 @@
 
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { SearchResultsComponent } from './search-results.component';
-import { Pipe, PipeTransform } from '@angular/core';
 import { AppConfigService, NotificationService, TranslationService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { NavigateToFolder } from '@alfresco/aca-shared/store';
@@ -43,13 +42,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatMenuHarness } from '@angular/material/menu/testing';
 import { SavedSearchesContextService } from '../../../services/saved-searches-context.service';
-
-@Pipe({ name: 'isFeatureSupportedInCurrentAcs' })
-class MockIsFeatureSupportedInCurrentAcsPipe implements PipeTransform {
-  transform(): Observable<boolean> {
-    return of(true);
-  }
-}
+import { IsFeatureSupportedInCurrentAcsPipe } from '../../../pipes/is-feature-supported.pipe';
 
 describe('SearchComponent', () => {
   let component: SearchResultsComponent;
@@ -117,14 +110,12 @@ describe('SearchComponent', () => {
             queryParams: queryParams.asObservable()
           }
         },
-        { provide: Router, useValue: routerMock }
+        { provide: Router, useValue: routerMock },
+        {
+          provide: IsFeatureSupportedInCurrentAcsPipe,
+          useValue: { transform: (): Observable<boolean> => of(true) }
+        }
       ]
-    });
-
-    TestBed.overrideComponent(SearchResultsComponent, {
-      add: {
-        imports: [MockIsFeatureSupportedInCurrentAcsPipe]
-      }
     });
 
     config = TestBed.inject(AppConfigService);
