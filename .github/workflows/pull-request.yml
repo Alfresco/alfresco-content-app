@@ -181,10 +181,13 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
 
-      - uses: ./.github/actions/before-install
-      - run: npm ci
+      - name: Before install
+        uses: ./.github/actions/before-install
+      - name: Install dependencies
+        run: npm ci
 
-      - uses: actions/cache/restore@v4
+      - name: Restore dist cache
+        uses: actions/cache/restore@v4
         id: cache
         with:
           path: ./dist/content-ce
@@ -210,26 +213,10 @@ jobs:
             echo "BASE_URL=http://localhost" >> $GITHUB_ENV
             echo "ADMIN_EMAIL=admin" >> $GITHUB_ENV
             echo "ADMIN_PASSWORD=admin" >> $GITHUB_ENV
-            echo "ENVIRONMENT=local" >> $GITHUB_ENV
-            echo "Using environment: local"
             echo "BASE_URL: http://localhost"
           else
             echo "⚠️ Local ACS deployment failed - falling back to adwe2e environment"
-            echo "ENVIRONMENT=adwe2e" >> $GITHUB_ENV
-            echo "Using environment: adwe2e"
           fi
-
-      - name: Log environment configuration
-        shell: bash
-        run: |
-          echo "=========================================="
-          echo "E2E Test Environment Configuration"
-          echo "=========================================="
-          echo "Environment: ${{ env.ENVIRONMENT }}"
-          echo "BASE_URL: ${{ env.BASE_URL }}"
-          echo "PLAYWRIGHT_E2E_HOST: ${{ env.PLAYWRIGHT_E2E_HOST }}"
-          echo "HR_USER_PASSWORD='${{ env.HR_USER_PASSWORD_CI }}"
-          echo "=========================================="
 
       - name: Before e2e
         uses: ./.github/actions/before-e2e
@@ -237,7 +224,8 @@ jobs:
       - name: Before playwright
         run: npm run ci:playwright:install
 
-      - uses: ./.github/actions/run-e2e-playwright
+      - name: Run e2e playwright
+        uses: ./.github/actions/run-e2e-playwright
         with:
           options: "${{ matrix.e2e-suites.name }}"
           artifact-name: ${{ matrix.e2e-suites.name }}
