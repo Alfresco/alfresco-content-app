@@ -221,20 +221,6 @@ jobs:
             echo "⚠️ Local ACS deployment failed - falling back to adwe2e environment"
           fi
 
-<<<<<<< HEAD
-=======
-      - name: Log environment configuration
-        shell: bash
-        run: |
-          echo "=========================================="
-          echo "E2E Test Environment Configuration"
-          echo "=========================================="
-          echo "Environment: ${{ env.ENVIRONMENT }}"
-          echo "BASE_URL: ${{ env.BASE_URL }}"
-          echo "PLAYWRIGHT_E2E_HOST: ${{ env.PLAYWRIGHT_E2E_HOST }}"
-          echo "=========================================="
-
->>>>>>> 5df9f3b4f77fe23b20eb504dde0b7eac8ac4ba74
       - name: Before e2e
         uses: ./.github/actions/before-e2e
 
