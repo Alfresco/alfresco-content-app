@@ -97,10 +97,3 @@ runs:
 
     - name: Wait for pods to be ready
       uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-wait@v10.1.0
-
-    - name: Collect and push logs as artifact
-      if: always()
-      uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-keep-nslogs@9e15988fdf503869a04a9106daa9b06cfdb1768c # v11.0.0
-      with:
-        log_retention: 7
-        log_name_identifier: "ACS-Version-${{ inputs.acs_deployment_version }}"
