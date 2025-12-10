@@ -203,9 +203,9 @@ jobs:
           for type in deployment.apps statefulset.apps jobs; do
             echo "type=${type}"
             mkdir -p "${type}"
-            ls -la "${type}"
+            ls -la
             for i in $(kubectl get "$type" -o name); do \
-               kubectl logs job.batch/acs-alfresco-search-enterprise-reindexing
+               echo "i=${i}"
                echo "pouet"
             done
           done
