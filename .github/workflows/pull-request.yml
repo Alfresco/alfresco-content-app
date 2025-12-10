@@ -172,6 +172,8 @@ jobs:
           - name: "a11y-personal-files"
             id: 20
     steps:
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v10.1.0
+
       - name: Checkout
         uses: actions/checkout@v6
         with:
