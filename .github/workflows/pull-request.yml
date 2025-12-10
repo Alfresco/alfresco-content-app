@@ -215,8 +215,8 @@ jobs:
             echo '⚠️ Local ACS deployment failed - falling back to adwe2e environment'
             BASE_URL: https://adwe2e.envalfresco.com
             echo 'BASE_URL=$BASE_URL' >> $GITHUB_ENV
-            echo 'ADMIN_EMAIL=$ADMIN_EMAIL' >> $GITHUB_ENV
-            echo 'ADMIN_PASSWORD=$ADMIN_PASSWORD' >> $GITHUB_ENV
+            echo 'ADMIN_EMAIL=${{ secrets.PIPELINE_ADMIN_USERNAME }}' >> $GITHUB_ENV
+            echo 'ADMIN_PASSWORD=${{ secrets.PIPELINE_ADMIN_PASSWORD }}' >> $GITHUB_ENV
           fi
 
       - name: Before e2e
