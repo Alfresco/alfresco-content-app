@@ -181,14 +181,8 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
 
-      - uses: ./.github/actions/before-install
-      - run: npm ci
-
-      - uses: actions/cache/restore@v4
-        id: cache
-        with:
-          path: ./dist/content-ce
-          key: cache-dist-${{ github.run_id }}
+      - name: Free hosted runner disk space
+        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v10.5.0
 
       - name: Deploy local ACS
         id: deploy-local-acs
@@ -200,13 +194,27 @@ jobs:
           quay_password: ${{ secrets.QUAY_PASSWORD }}
           acs_deployment_version: 'latest'
 
+      - name: Before install
+        uses: ./.github/actions/before-install
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Restore dist cache
+        uses: actions/cache/restore@v4
+        id: cache
+        with:
+          path: ./dist/content-ce
+          key: cache-dist-${{ github.run_id }}
+
       - name: Before e2e
         uses: ./.github/actions/before-e2e
 
       - name: Before playwright
         run: npm run ci:playwright:install
 
-      - uses: ./.github/actions/run-e2e-playwright
+      - name: Run e2e playwright
+        uses: ./.github/actions/run-e2e-playwright
         with:
           options: "${{ matrix.e2e-suites.name }}"
           artifact-name: ${{ matrix.e2e-suites.name }}
