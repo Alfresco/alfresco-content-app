@@ -200,7 +200,9 @@ jobs:
         if: always()
         run: |
           kubectl config set-context --current --namespace=default
-          kubectl get "$type" -o name
+          for type in deployment.apps statefulset.apps jobs; do
+            kubectl get "$type" -o name
+          done
 
 #        uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-keep-nslogs@9e15988fdf503869a04a9106daa9b06cfdb1768c # v11.0.0
 #        with:
