@@ -22,9 +22,10 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+import { DestroyRef, Directive, ElementRef, EventEmitter, HostListener, inject, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SaveSearchDialogComponent } from '../dialog/save-search-dialog.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface SaveSearchDirectiveDialogData {
   searchUrl: string;
@@ -39,10 +40,13 @@ export class SaveSearchDirective {
   @Input()
   acaSaveSearchQuery: string;
 
-  constructor(
-    private readonly dialogRef: MatDialog,
-    private readonly elementRef: ElementRef<HTMLElement>
-  ) {}
+  /** Outputs a true value when search was successfully saved */
+  @Output()
+  searchSaved = new EventEmitter<boolean>();
+
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly dialogRef = inject(MatDialog);
+  private readonly elementRef = inject(ElementRef<HTMLElement>);
 
   @HostListener('click', ['$event'])
   onClick(event: MouseEvent) {
@@ -52,7 +56,15 @@ export class SaveSearchDirective {
   }
 
   private openDialog(): void {
-    this.dialogRef.open(SaveSearchDialogComponent, { ...this.getDialogConfig(), restoreFocus: true });
+    const dialog = this.dialogRef.open(SaveSearchDialogComponent, { ...this.getDialogConfig(), restoreFocus: true });
+    dialog
+      .afterClosed()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((value: boolean) => {
+        if (value) {
+          this.searchSaved.emit(value);
+        }
+      });
   }
 
   private getDialogConfig(): { data: SaveSearchDirectiveDialogData } {

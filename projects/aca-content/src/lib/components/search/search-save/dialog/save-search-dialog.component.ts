@@ -96,7 +96,7 @@ export class SaveSearchDialogComponent {
       .pipe(take(1))
       .subscribe({
         next: () => {
-          this.dialog.close();
+          this.dialog.close(true);
           this.notificationService.showInfo('APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_SUCCESS');
           this.disableSubmitButton = false;
         },

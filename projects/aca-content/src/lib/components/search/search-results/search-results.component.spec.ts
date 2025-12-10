@@ -274,6 +274,17 @@ describe('SearchComponent', () => {
     expect(component.initialSavedSearch).toEqual({ name: 'test', encodedUrl: encodeQuery({ name: 'test' }), order: 0 });
   });
 
+  it('should get initial saved search after creating a new one', () => {
+    route.queryParams = of({ q: encodeQuery({ name: 'test' }) });
+    component.onSaveSearch();
+    expect(component.initialSavedSearch).toEqual({ name: 'test', encodedUrl: encodeQuery({ name: 'test' }), order: 0 });
+  });
+
+  it('should clear context save search in service on component destroy', () => {
+    component.ngOnDestroy();
+    expect(TestBed.inject(SavedSearchesContextService).currentContextSavedSearch).toBeUndefined();
+  });
+
   it('should render a menu with 2 options when initial saved search is found', async () => {
     route.queryParams = of({ q: encodeQuery({ name: 'test' }) });
     component.ngOnInit();

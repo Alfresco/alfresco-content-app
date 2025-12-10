@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ChangeDetectorRef, Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { NodeEntry, Pagination, ResultSetPaging } from '@alfresco/js-api';
 import { ActivatedRoute, NavigationStart } from '@angular/router';
 import {
@@ -131,7 +131,7 @@ import { SavedSearchesContextService } from '../../../services/saved-searches-co
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./search-results.component.scss']
 })
-export class SearchResultsComponent extends PageComponent implements OnInit {
+export class SearchResultsComponent extends PageComponent implements OnInit, OnDestroy {
   private notificationService = inject(NotificationService);
 
   infoDrawerPreview$ = this.store.select(infoDrawerPreview);
@@ -214,23 +214,9 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     this.columns = this.extensions.documentListPresets.searchResults || [];
 
     if (this.route) {
-      this.route.queryParams
-        .pipe(
-          takeUntilDestroyed(this.destroyRef),
-          switchMap((params) =>
-            this.savedSearchesService.savedSearches$.pipe(
-              first(),
-              map(
-                (savedSearches) =>
-                  savedSearches.find((savedSearch) => savedSearch.encodedUrl === encodeURIComponent(params[this.queryParamName])) ||
-                  this.savedSearchesService.currentContextSavedSearch
-              )
-            )
-          )
-        )
-        .subscribe((savedSearches) => {
-          this.initialSavedSearch = savedSearches;
-        });
+      this.selectInitialSavedSearch().subscribe((savedSearches) => {
+        this.initialSavedSearch = savedSearches;
+      });
 
       combineLatest([
         this.route.queryParams,
@@ -271,6 +257,10 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
           }
         });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.savedSearchesService.currentContextSavedSearch = undefined;
   }
 
   onSearchError(error: { message: any }) {
@@ -366,6 +356,20 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
       });
   }
 
+  onSaveSearch(): void {
+    this.selectInitialSavedSearch()
+      .pipe(take(1))
+      .subscribe((savedSearch) => {
+        this.initialSavedSearch = savedSearch;
+        this.savedSearchesService.currentContextSavedSearch = savedSearch;
+      });
+  }
+
+  private updateUserQuery(): void {
+    const updatedUserQuery = formatSearchTerm(this.searchedWord, this.searchConfig['app:fields']);
+    this.queryBuilder.userQuery = updatedUserQuery;
+  }
+
   private shouldExecuteQuery(navigationStartEvent: NavigationStart | null, query: string | undefined): boolean {
     const hasQueryChanged = query !== this.previousEncodedQuery;
     this.previousEncodedQuery = query;
@@ -377,5 +381,21 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     } else {
       return !!query;
     }
+  }
+
+  private selectInitialSavedSearch(): Observable<SavedSearch> {
+    return this.route.queryParams.pipe(
+      takeUntilDestroyed(this.destroyRef),
+      switchMap((params) =>
+        this.savedSearchesService.savedSearches$.pipe(
+          first(),
+          map(
+            (savedSearches) =>
+              savedSearches.find((savedSearch) => savedSearch.encodedUrl === encodeURIComponent(params[this.queryParamName])) ||
+              this.savedSearchesService.currentContextSavedSearch
+          )
+        )
+      )
+    );
   }
 }

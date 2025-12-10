@@ -60,6 +60,7 @@
                       mat-button
                       acaSaveSearch
                       [acaSaveSearchQuery]="encodedQuery"
+                      (searchSaved)="onSaveSearch()"
                       [disabled]="!encodedQuery"
                       class="aca-content__save-search-action"
                       title="{{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate }}"

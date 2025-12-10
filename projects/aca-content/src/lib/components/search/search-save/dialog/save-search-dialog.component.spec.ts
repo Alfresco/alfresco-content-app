@@ -74,12 +74,12 @@ describe('SaveSearchDialogComponent', () => {
     expect(savedSearchesService.saveSearch).not.toHaveBeenCalled();
   });
 
-  it('should save search, show snackbar message and close modal if form is valid', fakeAsync(() => {
+  it('should save search, show snackbar message and close modal with emitting true value if form is valid', fakeAsync(() => {
     spyOn(savedSearchesService, 'saveSearch').and.callThrough();
     spyOn(notificationService, 'showInfo');
     setFormValuesAndSubmit();
     expect(notificationService.showInfo).toHaveBeenCalledWith('APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_SUCCESS');
-    expect(dialogRef.close).toHaveBeenCalled();
+    expect(dialogRef.close).toHaveBeenCalledWith(true);
   }));
 
   it('should show snackbar error if there is save error', fakeAsync(() => {
