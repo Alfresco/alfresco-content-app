@@ -198,25 +198,10 @@ jobs:
 
       - name: Collect and push logs as artifact
         if: always()
-        uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-keep-nslogs@d5176640570886be4e4dee4ce1d33478d7c1f124 # v11.0.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-keep-nslogs@b51dfeef6bda4a506778050a1c0e53eed440598c # v11.0.1
         with:
           log_retention: 7
           log_name_identifier: "logs-${{ matrix.e2e-suites.name }}"
-
-#        run: |
-#          kubectl config set-context --current --namespace=default
-#          for type in deployment.apps statefulset.apps job.batch; do
-#            mkdir -p "${type}"
-#            for i in $(kubectl get "$type" -o name); do \
-#               kubectl logs "$i" --all-containers=true > ${i}.log
-#            done
-#          done
-
-#              kubectl logs "$i" --all-containers=true > ${i}.log
-#        uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-keep-nslogs@d5176640570886be4e4dee4ce1d33478d7c1f124 # v11.0.1
-#        with:
-#          log_retention: 7
-#          log_name_identifier: "logs-${{ matrix.e2e-suites.name }}"
 
       - name: Before install
         uses: ./.github/actions/before-install
