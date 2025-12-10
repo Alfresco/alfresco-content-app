@@ -200,13 +200,10 @@ jobs:
         if: always()
         run: |
           kubectl config set-context --current --namespace=default
-          for type in deployment.apps statefulset.apps jobs; do
-            echo "type=${type}"
+          for type in deployment.apps statefulset.apps job.batch; do
             mkdir -p "${type}"
-            ls -la
             for i in $(kubectl get "$type" -o name); do \
-               echo "i=${i}"
-               echo "pouet"
+               kubectl logs "$i" --all-containers=true > ${i}.log
             done
           done
 
