@@ -12,11 +12,9 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  BASE_URL: https://adwe2e.envalfresco.com
-  ADMIN_EMAIL: ${{ secrets.PIPELINE_ADMIN_USERNAME }}
-  ADMIN_PASSWORD: ${{ secrets.PIPELINE_ADMIN_PASSWORD }}
-  HR_USER: ${{ secrets.HR_USER }}
-  HR_USER_PASSWORD: ${{ secrets.HR_USER_PASSWORD }}
+  BASE_URL: http://localhost
+  ADMIN_EMAIL: admin
+  ADMIN_PASSWORD: admin
   SCREENSHOT_USERNAME: ${{ secrets.SCREENSHOT_USERNAME }}
   SCREENSHOT_PASSWORD: ${{ secrets.SCREENSHOT_PASSWORD}}
   PLAYWRIGHT_E2E_HOST: http://localhost:4200
@@ -212,13 +210,13 @@ jobs:
         shell: bash
         run: |
           if [ "${{ steps.deploy-local-acs.outcome }}" == "success" ]; then
-            echo "✅ Local ACS deployment succeeded - using local environment"
-            echo "BASE_URL=http://localhost" >> $GITHUB_ENV
-            echo "ADMIN_EMAIL=admin" >> $GITHUB_ENV
-            echo "ADMIN_PASSWORD=admin" >> $GITHUB_ENV
-            echo "BASE_URL: http://localhost"
+            echo '✅ Local ACS deployment succeeded - using local environment'
           else
-            echo "⚠️ Local ACS deployment failed - falling back to adwe2e environment"
+            echo '⚠️ Local ACS deployment failed - falling back to adwe2e environment'
+            BASE_URL: https://adwe2e.envalfresco.com
+            echo 'BASE_URL=$BASE_URL' >> $GITHUB_ENV
+            echo 'ADMIN_EMAIL=$ADMIN_EMAIL' >> $GITHUB_ENV
+            echo 'ADMIN_PASSWORD=$ADMIN_PASSWORD' >> $GITHUB_ENV
           fi
 
       - name: Before e2e

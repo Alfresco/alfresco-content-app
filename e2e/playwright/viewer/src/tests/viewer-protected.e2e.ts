@@ -23,9 +23,8 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, getUserState, test, TEST_FILES, Utils } from '@alfresco/aca-playwright-shared';
+import { ApiClientFactory, test, TEST_FILES, Utils } from '@alfresco/aca-playwright-shared';
 
-test.use({ storageState: getUserState('hruser') });
 test.describe('viewer file', () => {
   const apiClientFactory = new ApiClientFactory();
   const randomFolderName = `viewer-protected-${Utils.random()}`;
@@ -34,7 +33,7 @@ test.describe('viewer file', () => {
   let fileDocxId: string;
 
   test.beforeAll(async ({ fileAction, shareAction, favoritesPageAction }) => {
-    await apiClientFactory.setUpAcaBackend('hruser');
+    await apiClientFactory.setUpAcaBackend('admin');
     const node = await apiClientFactory.nodes.createNode('-my-', { name: randomFolderName, nodeType: 'cm:folder', relativePath: '/' });
     folderId = node.entry.id;
     const fileDoc = await fileAction.uploadFile(TEST_FILES.PDF_PROTECTED.path, randomDocxName, folderId);
