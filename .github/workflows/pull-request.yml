@@ -15,6 +15,8 @@ env:
   BASE_URL: http://localhost
   ADMIN_EMAIL: admin
   ADMIN_PASSWORD: admin
+  HR_USER: admin
+  HR_USER_PASSWORD: admin
   SCREENSHOT_USERNAME: ${{ secrets.SCREENSHOT_USERNAME }}
   SCREENSHOT_PASSWORD: ${{ secrets.SCREENSHOT_PASSWORD}}
   PLAYWRIGHT_E2E_HOST: http://localhost:4200
@@ -217,6 +219,8 @@ jobs:
             echo 'BASE_URL=$BASE_URL' >> $GITHUB_ENV
             echo 'ADMIN_EMAIL=${{ secrets.PIPELINE_ADMIN_USERNAME }}' >> $GITHUB_ENV
             echo 'ADMIN_PASSWORD=${{ secrets.PIPELINE_ADMIN_PASSWORD }}' >> $GITHUB_ENV
+            echo 'HR_USER=${{ secrets.HR_USER }}' >> $GITHUB_ENV
+            echo 'HR_USER_PASSWORD=${{ secrets.HR_USER_PASSWORD }}' >> $GITHUB_ENV
           fi
 
       - name: Before e2e

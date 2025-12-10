@@ -23,8 +23,9 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, test, TEST_FILES, timeouts, Utils } from '@alfresco/aca-playwright-shared';
+import { ApiClientFactory, getUserState, test, TEST_FILES, timeouts, Utils } from '@alfresco/aca-playwright-shared';
 
+test.use({ storageState: getUserState('hruser') });
 test.describe('viewer action file', () => {
   const apiClientFactory = new ApiClientFactory();
   const randomFolderName = `viewer-action-${Utils.random()}`;
@@ -49,7 +50,7 @@ test.describe('viewer action file', () => {
   const docxRecentFiles = `docxRF-${Utils.random()}.docx`;
 
   test.beforeAll(async ({ fileAction, favoritesPageAction, shareAction }) => {
-    await apiClientFactory.setUpAcaBackend('admin');
+    await apiClientFactory.setUpAcaBackend('hruser');
     const node = await apiClientFactory.nodes.createNode('-my-', { name: randomFolderName, nodeType: 'cm:folder', relativePath: '/' });
     destinationId = (await apiClientFactory.nodes.createNode('-my-', { name: destination, nodeType: 'cm:folder', relativePath: '/' })).entry.id;
     folderId = node.entry.id;
@@ -67,7 +68,7 @@ test.describe('viewer action file', () => {
     randomDocxNameFavoriteId = fileFavoritesNode.entry.id;
     await fileAction.uploadFile(TEST_FILES.DOCX.path, fileForEditOffline, folderId);
     await favoritesPageAction.addFavoriteById('file', randomDocxNameFavoriteId);
-    await favoritesPageAction.isFavoriteWithRetry('admin', randomDocxNameFavoriteId, { expect: true });
+    await favoritesPageAction.isFavoriteWithRetry('hruser', randomDocxNameFavoriteId, { expect: true });
     await fileAction.isFileLockedWriteWithRetry(fileForCancelEditingId, true);
   });
 
