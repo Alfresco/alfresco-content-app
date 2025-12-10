@@ -201,7 +201,10 @@ jobs:
         run: |
           kubectl config set-context --current --namespace=default
           for type in deployment.apps statefulset.apps jobs; do
-            kubectl get "$type" -o name
+            mkdir -p "${type}"
+            for i in $(kubectl get "$type" -o name); do \
+              kubectl logs "$i" --all-containers=true > ${i}.log
+            done
           done
 
 #        uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-keep-nslogs@9e15988fdf503869a04a9106daa9b06cfdb1768c # v11.0.0
