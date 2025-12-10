@@ -196,6 +196,13 @@ jobs:
           quay_password: ${{ secrets.QUAY_PASSWORD }}
           acs_deployment_version: 'latest'
 
+      - name: Collect and push logs as artifact
+        if: always()
+        uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-keep-nslogs@9e15988fdf503869a04a9106daa9b06cfdb1768c # v11.0.0
+        with:
+          log_retention: 7
+          log_name_identifier: "logs-${{ matrix.e2e-suites.name }}"
+
       - name: Before install
         uses: ./.github/actions/before-install
 
