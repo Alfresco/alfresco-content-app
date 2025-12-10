@@ -201,12 +201,16 @@ jobs:
         run: |
           kubectl config set-context --current --namespace=default
           for type in deployment.apps statefulset.apps jobs; do
+            echo "type=${type}"
             mkdir -p "${type}"
+            ls -la "${type}"
             for i in $(kubectl get "$type" -o name); do \
-              kubectl logs "$i" --all-containers=true > ${i}.log
+               kubectl logs job.batch/acs-alfresco-search-enterprise-reindexing
+               echo "pouet"
             done
           done
 
+#              kubectl logs "$i" --all-containers=true > ${i}.log
 #        uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-keep-nslogs@9e15988fdf503869a04a9106daa9b06cfdb1768c # v11.0.0
 #        with:
 #          log_retention: 7
