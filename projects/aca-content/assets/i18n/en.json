@@ -595,7 +595,8 @@
           "LIBRARIES": "Libraries",
           "MIN_LENGTH": "Search input must have at least 2 alphanumeric characters.",
           "REQUIRED": "Search input is required.",
-          "WHITESPACE": "Search input cannot be only whitespace."
+          "WHITESPACE": "Search input cannot be only whitespace.",
+          "OPERATORS": "Search input cannot begin with, end with or contain only operators."
         },
         "SORT": {
             "SORTING_OPTION": "Sort by",

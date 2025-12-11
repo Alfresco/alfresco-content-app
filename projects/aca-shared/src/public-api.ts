@@ -66,3 +66,4 @@ export * from './lib/testing/lib-testing-module';
 export * from './lib/utils/node.utils';
 
 export * from './lib/validators/no-whitespace.validator';
+export * from './lib/validators/no-leading-trailing-operators.validator';

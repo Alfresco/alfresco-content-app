@@ -44,7 +44,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormControl, FormsModule, ReactiveFormsModule, StatusChangeEvent, TouchedChangeEvent, Validators } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { noWhitespaceValidator } from '@alfresco/aca-shared';
+import { noWhitespaceValidator, noLeadingTrailingOperatorsValidator } from '@alfresco/aca-shared';
 import { combineLatest } from 'rxjs';
 import { filter, startWith } from 'rxjs/operators';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
@@ -95,7 +95,7 @@ export class SearchInputControlComponent implements OnInit, OnChanges {
   @ViewChild('searchInput', { static: true })
   searchInput: ElementRef;
 
-  searchFieldFormControl = new FormControl('', [Validators.required, noWhitespaceValidator()]);
+  searchFieldFormControl = new FormControl('', [Validators.required, noWhitespaceValidator(), noLeadingTrailingOperatorsValidator()]);
 
   get searchTerm(): string {
     return this.searchFieldFormControl.value.replace('text:', 'TEXT:');
@@ -167,6 +167,8 @@ export class SearchInputControlComponent implements OnInit, OnChanges {
     const errors = this.searchFieldFormControl.errors;
     if (errors?.whitespace) {
       this.validationError.emit('SEARCH.INPUT.WHITESPACE');
+    } else if (errors?.operators) {
+      this.validationError.emit('SEARCH.INPUT.OPERATORS');
     } else if (errors?.required) {
       this.validationError.emit('SEARCH.INPUT.REQUIRED');
     } else if (this.hasLibrariesConstraint && this.isTermTooShort()) {

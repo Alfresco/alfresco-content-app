@@ -78,7 +78,7 @@ export function formatSearchTerm(userInput: string, fields = ['cm:name']): strin
     return userInput;
   }
 
-  const words = userInput.split(' ');
+  const words = userInput.split(/\s+/);
 
   if (words.length > 1) {
     const separator = words.some(isOperator) ? ' ' : ' AND ';

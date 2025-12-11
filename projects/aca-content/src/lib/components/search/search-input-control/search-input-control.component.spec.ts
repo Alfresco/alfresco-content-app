@@ -90,6 +90,12 @@ describe('SearchInputControlComponent', () => {
     expect(component.isTermTooShort()).toBe(false);
   });
 
+  it('should mark searchFieldFormControl as untouched on blur', () => {
+    spyOn(component.searchFieldFormControl, 'markAsUntouched');
+    component.onBlur();
+    expect(component.searchFieldFormControl.markAsUntouched).toHaveBeenCalled();
+  });
+
   describe('ngOnInit', () => {
     let route: ActivatedRoute;
     let router: Router;
@@ -126,6 +132,78 @@ describe('SearchInputControlComponent', () => {
       component.ngOnInit();
       tick();
       expect(component.searchFieldFormControl.setValue).not.toHaveBeenCalled();
+    }));
+  });
+
+  describe('ngOnChanges', () => {
+    it('should not emit validation error on hasLibrariesConstraint first change', () => {
+      spyOn(component, 'emitValidationError');
+      component.ngOnChanges({
+        hasLibrariesConstraint: {
+          currentValue: false,
+          previousValue: null,
+          firstChange: true,
+          isFirstChange: () => true
+        }
+      });
+
+      expect(component.emitValidationError).not.toHaveBeenCalled();
+    });
+
+    it('should emit validation error on hasLibrariesConstraint subsequent changes', () => {
+      spyOn(component, 'emitValidationError');
+      component.ngOnChanges({
+        hasLibrariesConstraint: {
+          currentValue: false,
+          previousValue: true,
+          firstChange: false,
+          isFirstChange: () => false
+        }
+      });
+
+      expect(component.emitValidationError).toHaveBeenCalled();
+    });
+  });
+
+  describe('validation error messages', () => {
+    let errorMessage: string;
+
+    beforeEach(() => {
+      errorMessage = '';
+      component.validationError.subscribe((message) => (errorMessage = message));
+    });
+
+    it('should display correct validation error message for whitespace validator', fakeAsync(() => {
+      component.searchTerm = '   ';
+      component.searchFieldFormControl.markAsTouched();
+      tick();
+
+      expect(errorMessage).toBe('SEARCH.INPUT.WHITESPACE');
+    }));
+
+    it('should display correct validation error message for operators validator', fakeAsync(() => {
+      component.searchTerm = 'AND word';
+      component.searchFieldFormControl.markAsTouched();
+      tick();
+
+      expect(errorMessage).toBe('SEARCH.INPUT.OPERATORS');
+    }));
+
+    it('should display correct validation error message for min length validator', fakeAsync(() => {
+      component.hasLibrariesConstraint = true;
+      component.searchTerm = 'a';
+      component.searchFieldFormControl.markAsTouched();
+      tick();
+
+      expect(errorMessage).toBe('SEARCH.INPUT.MIN_LENGTH');
+    }));
+
+    it('should display correct validation error message for required validator', fakeAsync(() => {
+      component.searchTerm = '';
+      component.searchFieldFormControl.markAsTouched();
+      tick();
+
+      expect(errorMessage).toBe('SEARCH.INPUT.REQUIRED');
     }));
   });
 });

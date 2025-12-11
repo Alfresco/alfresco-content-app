@@ -118,6 +118,12 @@ describe('SearchUtils', () => {
         `(=cm:name:"test1.pdf" OR =cm:title:"test1.pdf") OR (=cm:name:"test2.pdf" OR =cm:title:"test2.pdf")`
       );
     });
+
+    it('should split words correctly when multiple whitespaces are present', () => {
+      expect(formatSearchTerm('  big  yellow  ', ['cm:name', 'cm:title'])).toBe(
+        `(cm:name:"big*" OR cm:title:"big*") AND (cm:name:"yellow*" OR cm:title:"yellow*")`
+      );
+    });
   });
 
   describe('extractUserQueryFromEncodedQuery', () => {
