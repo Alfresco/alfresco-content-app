@@ -35,21 +35,23 @@ import {
   TEST_FILES,
   PersonalFilesPage,
   NodesPage,
-  LoginPage
+  LoginPage,
+  timeouts
 } from '@alfresco/aca-playwright-shared';
 
 /**
  * Helper function to test file transformation via folder rules.
  * Creates a rule with the specified MIME type, uploads files, and verifies the transformations.
+ * Each test creates its own parent folder to ensure thread safety in parallel execution.
  *
  * @param context - Playwright page objects (personalFiles, nodesPage, loginPage)
  * @param config - Configuration object containing:
  *   - nodesApi: API for node operations
  *   - fileActionApi: API for file operations
- *   - randomFolderName1Id: ID of the parent folder
  *   - testString: String to use for rule name/description
  *   - username: Username for login
- *   - folderName: Name of the destination folder for transformed files
+ *   - parentFolderName: Name of the parent folder for this test
+ *   - destinationFolderName: Name of the destination folder for transformed files
  *   - mimeType: Target MIME type for transformation
  *   - files: Array of {path, name} objects representing files to upload
  *   - expectedExtension: Expected file extension after transformation (e.g., 'pdf', 'bmp')
@@ -59,44 +61,46 @@ async function testTransformation(
   config: {
     nodesApi: NodesApi;
     fileActionApi: FileActionsApi;
-    randomFolderName1Id: string;
     testString: string;
     username: string;
-    folderName: string;
+    parentFolderName: string;
+    destinationFolderName: string;
     mimeType: MimeType;
     files: Array<{ path: string; name: string }>;
     expectedExtension: string;
   }
 ) {
-  const { personalFiles, nodesPage, loginPage } = context;
-  const { nodesApi, fileActionApi, randomFolderName1Id, testString, username, folderName, mimeType, files, expectedExtension } = config;
+  const { personalFiles, nodesPage } = context;
+  const { nodesApi, fileActionApi, testString, parentFolderName, destinationFolderName, mimeType, files, expectedExtension } = config;
 
-  // Create destination folder
-  await nodesApi.createFolder(folderName);
+  // Create unique parent folder for this test to ensure thread safety
+  const parentFolderId = (await nodesApi.createFolder(parentFolderName)).entry.id;
+
+  // Create destination folder for transformed files
+  await nodesApi.createFolder(destinationFolderName);
 
   // Navigate to folder rules and create a new rule
-  await personalFiles.navigate({ remoteUrl: `#/nodes/${randomFolderName1Id}/rules` });
+  await personalFiles.navigate({ remoteUrl: `#/nodes/${parentFolderId}/rules` });
   await nodesPage.toolbar.clickCreateRuleButton();
   await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(testString);
   await nodesPage.manageRulesDialog.ruleDescriptionInputLocator.fill(testString);
   await nodesPage.actionsDropdown.selectAction(ActionType.TransformAndCopyContent, 0);
   await nodesPage.actionsDropdown.selectMimeType(mimeType, 0);
-  await nodesPage.actionsDropdown.selectDestinationFolderTransformAndCopyContent(0, folderName);
+  await nodesPage.actionsDropdown.selectDestinationFolderTransformAndCopyContent(0, destinationFolderName);
   await nodesPage.manageRulesDialog.createRuleButton.click();
   await expect(nodesPage.manageRules.getGroupsList(testString)).toBeVisible();
 
   // Upload files to trigger the transformation rule
   for (const file of files) {
-    await fileActionApi.uploadFile(file.path, file.name, randomFolderName1Id);
+    await fileActionApi.uploadFile(file.path, file.name, parentFolderId);
   }
 
-  // Logout and login to ensure transformations have completed
-  await loginPage.logoutUser();
-  await expect(loginPage.username, 'User name was not visible').toBeVisible();
-  await Utils.tryLoginUser(loginPage, username, username, 'Login after transformation failed');
+  // Wait for transformations to complete (transformation happens asynchronously)
+  await personalFiles.page.waitForTimeout(timeouts.medium);
 
-  // Navigate to destination folder and verify transformed files
-  await personalFiles.dataTable.performClickFolderOrFileToOpen(folderName);
+  // Navigate to Personal Files root and then to destination folder
+  await personalFiles.navigate();
+  await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolderName);
   await personalFiles.spinner.waitForReload();
 
   // Verify each transformed file exists
@@ -115,20 +119,7 @@ test.describe('Folder Rules Actions', () => {
   let fileActionApi: FileActionsApi;
   const username = `user-e2e-${Utils.random()}`;
 
-  const randomFolderName1 = `folder-name-${Utils.random()}`;
-  const randomDocxName = `${TEST_FILES.DOCX.name}-${Utils.random()}`;
-  const randomXLSXName = `${TEST_FILES.XLSX.name}-${Utils.random()}`;
-  const randomPPTXName = `${TEST_FILES.PPTX_FILE.name}-${Utils.random()}`;
-  const randomJPGName = `${TEST_FILES.JPG_FILE.name}-${Utils.random()}`;
-  const randomPNGName = `${TEST_FILES.PNG_FILE.name}-${Utils.random()}`;
-  const randomGIFName = `${TEST_FILES.GIF_FILE.name}-${Utils.random()}`;
-  const randomBMPName = `${TEST_FILES.BMP_FILE.name}-${Utils.random()}`;
-  const randomTIFFName = `${TEST_FILES.TIFF_FILE.name}-${Utils.random()}`;
-
-  const copyFileName = `copy-file-${Utils.random()}`;
   const testString = '"!@£$%^&*()_+{}|:""?&gt;&lt;,/.\';][=-`~"';
-
-  let randomFolderName1Id: string;
 
   test.beforeAll(async () => {
     try {
@@ -137,8 +128,6 @@ test.describe('Folder Rules Actions', () => {
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
       fileActionApi = await FileActionsApi.initialize(username, username);
-      randomFolderName1Id = (await nodesApi.createFolder(randomFolderName1)).entry.id;
-      await nodesApi.createFile(copyFileName, randomFolderName1Id);
     } catch (error) {
       console.error(`beforeAll failed : ${error}`);
     }
@@ -158,16 +147,16 @@ test.describe('Folder Rules Actions', () => {
       {
         nodesApi,
         fileActionApi,
-        randomFolderName1Id,
         testString,
         username,
-        folderName: 'TO_PDF',
+        parentFolderName: `parent-pdf-${Utils.random()}`,
+        destinationFolderName: `TO_PDF-${Utils.random()}`,
         mimeType: MimeType.AdobePDFDocument,
         expectedExtension: 'pdf',
         files: [
-          { path: TEST_FILES.DOCX.path, name: randomDocxName },
-          { path: TEST_FILES.XLSX.path, name: randomXLSXName },
-          { path: TEST_FILES.PPTX_FILE.path, name: randomPPTXName }
+          { path: TEST_FILES.DOCX.path, name: `${TEST_FILES.DOCX.name}-${Utils.random()}` },
+          { path: TEST_FILES.XLSX.path, name: `${TEST_FILES.XLSX.name}-${Utils.random()}` },
+          { path: TEST_FILES.PPTX_FILE.path, name: `${TEST_FILES.PPTX_FILE.name}-${Utils.random()}` }
         ]
       }
     );
@@ -179,17 +168,17 @@ test.describe('Folder Rules Actions', () => {
       {
         nodesApi,
         fileActionApi,
-        randomFolderName1Id,
         testString,
         username,
-        folderName: 'TO_BMP',
+        parentFolderName: `parent-bmp-${Utils.random()}`,
+        destinationFolderName: `TO_BMP-${Utils.random()}`,
         mimeType: MimeType.BitmapImage,
         expectedExtension: 'bmp',
         files: [
-          { path: TEST_FILES.JPG_FILE.path, name: randomJPGName },
-          { path: TEST_FILES.PNG_FILE.path, name: randomPNGName },
-          { path: TEST_FILES.GIF_FILE.path, name: randomGIFName },
-          { path: TEST_FILES.TIFF_FILE.path, name: randomTIFFName }
+          { path: TEST_FILES.JPG_FILE.path, name: `${TEST_FILES.JPG_FILE.name}-${Utils.random()}` },
+          { path: TEST_FILES.PNG_FILE.path, name: `${TEST_FILES.PNG_FILE.name}-${Utils.random()}` },
+          { path: TEST_FILES.GIF_FILE.path, name: `${TEST_FILES.GIF_FILE.name}-${Utils.random()}` },
+          { path: TEST_FILES.TIFF_FILE.path, name: `${TEST_FILES.TIFF_FILE.name}-${Utils.random()}` }
         ]
       }
     );
@@ -201,17 +190,17 @@ test.describe('Folder Rules Actions', () => {
       {
         nodesApi,
         fileActionApi,
-        randomFolderName1Id,
         testString,
         username,
-        folderName: 'TO_JPG',
+        parentFolderName: `parent-jpg-${Utils.random()}`,
+        destinationFolderName: `TO_JPG-${Utils.random()}`,
         mimeType: MimeType.JPEGImage,
         expectedExtension: 'jpg',
         files: [
-          { path: TEST_FILES.PNG_FILE.path, name: randomPNGName },
-          { path: TEST_FILES.GIF_FILE.path, name: randomGIFName },
-          { path: TEST_FILES.BMP_FILE.path, name: randomBMPName },
-          { path: TEST_FILES.TIFF_FILE.path, name: randomTIFFName }
+          { path: TEST_FILES.PNG_FILE.path, name: `${TEST_FILES.PNG_FILE.name}-${Utils.random()}` },
+          { path: TEST_FILES.GIF_FILE.path, name: `${TEST_FILES.GIF_FILE.name}-${Utils.random()}` },
+          { path: TEST_FILES.BMP_FILE.path, name: `${TEST_FILES.BMP_FILE.name}-${Utils.random()}` },
+          { path: TEST_FILES.TIFF_FILE.path, name: `${TEST_FILES.TIFF_FILE.name}-${Utils.random()}` }
         ]
       }
     );
@@ -223,61 +212,61 @@ test.describe('Folder Rules Actions', () => {
       {
         nodesApi,
         fileActionApi,
-        randomFolderName1Id,
         testString,
         username,
-        folderName: 'TO_GIF',
+        parentFolderName: `parent-gif-${Utils.random()}`,
+        destinationFolderName: `TO_GIF-${Utils.random()}`,
         mimeType: MimeType.GIFImage,
         expectedExtension: 'gif',
         files: [
-          { path: TEST_FILES.PNG_FILE.path, name: randomPNGName },
-          { path: TEST_FILES.JPG_FILE.path, name: randomJPGName },
-          { path: TEST_FILES.BMP_FILE.path, name: randomBMPName },
-          { path: TEST_FILES.TIFF_FILE.path, name: randomTIFFName }
+          { path: TEST_FILES.PNG_FILE.path, name: `${TEST_FILES.PNG_FILE.name}-${Utils.random()}` },
+          { path: TEST_FILES.JPG_FILE.path, name: `${TEST_FILES.JPG_FILE.name}-${Utils.random()}` },
+          { path: TEST_FILES.BMP_FILE.path, name: `${TEST_FILES.BMP_FILE.name}-${Utils.random()}` },
+          { path: TEST_FILES.TIFF_FILE.path, name: `${TEST_FILES.TIFF_FILE.name}-${Utils.random()}` }
         ]
       }
     );
   });
 
-  test('[XAT-8055] Supported types transformation to TIFF', async ({ personalFiles, nodesPage, loginPage }) => {
+  test('[XAT-8054] Supported types transformation to TIFF', async ({ personalFiles, nodesPage, loginPage }) => {
     await testTransformation(
       { personalFiles, nodesPage, loginPage },
       {
         nodesApi,
         fileActionApi,
-        randomFolderName1Id,
         testString,
         username,
-        folderName: 'TO_TIFF',
+        parentFolderName: `parent-tiff-${Utils.random()}`,
+        destinationFolderName: `TO_TIFF-${Utils.random()}`,
         mimeType: MimeType.TIFFImage,
         expectedExtension: 'tif',
         files: [
-          { path: TEST_FILES.PNG_FILE.path, name: randomPNGName },
-          { path: TEST_FILES.JPG_FILE.path, name: randomJPGName },
-          { path: TEST_FILES.BMP_FILE.path, name: randomBMPName },
-          { path: TEST_FILES.GIF_FILE.path, name: randomGIFName }
+          { path: TEST_FILES.PNG_FILE.path, name: `${TEST_FILES.PNG_FILE.name}-${Utils.random()}` },
+          { path: TEST_FILES.JPG_FILE.path, name: `${TEST_FILES.JPG_FILE.name}-${Utils.random()}` },
+          { path: TEST_FILES.BMP_FILE.path, name: `${TEST_FILES.BMP_FILE.name}-${Utils.random()}` },
+          { path: TEST_FILES.GIF_FILE.path, name: `${TEST_FILES.GIF_FILE.name}-${Utils.random()}` }
         ]
       }
     );
   });
 
-  test('[XAT-8054] Supported types transformation to PNG', async ({ personalFiles, nodesPage, loginPage }) => {
+  test('[XAT-8055] Supported types transformation to PNG', async ({ personalFiles, nodesPage, loginPage }) => {
     await testTransformation(
       { personalFiles, nodesPage, loginPage },
       {
         nodesApi,
         fileActionApi,
-        randomFolderName1Id,
         testString,
         username,
-        folderName: 'TO_PNG',
+        parentFolderName: `parent-png-${Utils.random()}`,
+        destinationFolderName: `TO_PNG-${Utils.random()}`,
         mimeType: MimeType.PNGImage,
         expectedExtension: 'png',
         files: [
-          { path: TEST_FILES.JPG_FILE.path, name: randomJPGName },
-          { path: TEST_FILES.BMP_FILE.path, name: randomBMPName },
-          { path: TEST_FILES.GIF_FILE.path, name: randomGIFName },
-          { path: TEST_FILES.TIFF_FILE.path, name: randomTIFFName }
+          { path: TEST_FILES.JPG_FILE.path, name: `${TEST_FILES.JPG_FILE.name}-${Utils.random()}` },
+          { path: TEST_FILES.BMP_FILE.path, name: `${TEST_FILES.BMP_FILE.name}-${Utils.random()}` },
+          { path: TEST_FILES.GIF_FILE.path, name: `${TEST_FILES.GIF_FILE.name}-${Utils.random()}` },
+          { path: TEST_FILES.TIFF_FILE.path, name: `${TEST_FILES.TIFF_FILE.name}-${Utils.random()}` }
         ]
       }
     );
