@@ -122,6 +122,8 @@ test.describe('Folder Rules Actions', () => {
   const randomJPGName = `${TEST_FILES.JPG_FILE.name}-${Utils.random()}`;
   const randomPNGName = `${TEST_FILES.PNG_FILE.name}-${Utils.random()}`;
   const randomGIFName = `${TEST_FILES.GIF_FILE.name}-${Utils.random()}`;
+  const randomBMPName = `${TEST_FILES.BMP_FILE.name}-${Utils.random()}`;
+  const randomTIFFName = `${TEST_FILES.TIFF_FILE.name}-${Utils.random()}`;
 
   const copyFileName = `copy-file-${Utils.random()}`;
   const testString = '"!@£$%^&*()_+{}|:""?&gt;&lt;,/.\';][=-`~"';
@@ -186,7 +188,8 @@ test.describe('Folder Rules Actions', () => {
         files: [
           { path: TEST_FILES.JPG_FILE.path, name: randomJPGName },
           { path: TEST_FILES.PNG_FILE.path, name: randomPNGName },
-          { path: TEST_FILES.GIF_FILE.path, name: randomGIFName }
+          { path: TEST_FILES.GIF_FILE.path, name: randomGIFName },
+          { path: TEST_FILES.TIFF_FILE.path, name: randomTIFFName }
         ]
       }
     );
@@ -206,7 +209,75 @@ test.describe('Folder Rules Actions', () => {
         expectedExtension: 'jpg',
         files: [
           { path: TEST_FILES.PNG_FILE.path, name: randomPNGName },
+          { path: TEST_FILES.GIF_FILE.path, name: randomGIFName },
+          { path: TEST_FILES.BMP_FILE.path, name: randomBMPName },
+          { path: TEST_FILES.TIFF_FILE.path, name: randomTIFFName }
+        ]
+      }
+    );
+  });
+
+  test('[XAT-8053] Supported types transformation to GIF', async ({ personalFiles, nodesPage, loginPage }) => {
+    await testTransformation(
+      { personalFiles, nodesPage, loginPage },
+      {
+        nodesApi,
+        fileActionApi,
+        randomFolderName1Id,
+        testString,
+        username,
+        folderName: 'TO_GIF',
+        mimeType: MimeType.GIFImage,
+        expectedExtension: 'gif',
+        files: [
+          { path: TEST_FILES.PNG_FILE.path, name: randomPNGName },
+          { path: TEST_FILES.JPG_FILE.path, name: randomJPGName },
+          { path: TEST_FILES.BMP_FILE.path, name: randomBMPName },
+          { path: TEST_FILES.TIFF_FILE.path, name: randomTIFFName }
+        ]
+      }
+    );
+  });
+
+  test('[XAT-8055] Supported types transformation to TIFF', async ({ personalFiles, nodesPage, loginPage }) => {
+    await testTransformation(
+      { personalFiles, nodesPage, loginPage },
+      {
+        nodesApi,
+        fileActionApi,
+        randomFolderName1Id,
+        testString,
+        username,
+        folderName: 'TO_TIFF',
+        mimeType: MimeType.TIFFImage,
+        expectedExtension: 'tif',
+        files: [
+          { path: TEST_FILES.PNG_FILE.path, name: randomPNGName },
+          { path: TEST_FILES.JPG_FILE.path, name: randomJPGName },
+          { path: TEST_FILES.BMP_FILE.path, name: randomBMPName },
           { path: TEST_FILES.GIF_FILE.path, name: randomGIFName }
+        ]
+      }
+    );
+  });
+
+  test('[XAT-8054] Supported types transformation to PNG', async ({ personalFiles, nodesPage, loginPage }) => {
+    await testTransformation(
+      { personalFiles, nodesPage, loginPage },
+      {
+        nodesApi,
+        fileActionApi,
+        randomFolderName1Id,
+        testString,
+        username,
+        folderName: 'TO_PNG',
+        mimeType: MimeType.PNGImage,
+        expectedExtension: 'png',
+        files: [
+          { path: TEST_FILES.JPG_FILE.path, name: randomJPGName },
+          { path: TEST_FILES.BMP_FILE.path, name: randomBMPName },
+          { path: TEST_FILES.GIF_FILE.path, name: randomGIFName },
+          { path: TEST_FILES.TIFF_FILE.path, name: randomTIFFName }
         ]
       }
     );

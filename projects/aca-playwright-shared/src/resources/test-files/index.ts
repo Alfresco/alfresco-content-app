@@ -78,6 +78,14 @@ export const TEST_FILES = {
     path: resolve(__dirname, 'file-gif.gif'),
     name: 'file-gif'
   },
+  TIFF_FILE: {
+    path: resolve(__dirname, 'file-tif.tif'),
+    name: 'file-tif'
+  },
+  BMP_FILE: {
+    path: resolve(__dirname, 'file-bmp.bmp'),
+    name: 'file-bmp'
+  },
   PPTX_FILE: {
     path: resolve(__dirname, 'file-pptx.pptx'),
     name: 'file-pptx'
