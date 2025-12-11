@@ -40,6 +40,15 @@ import {
 } from '@alfresco/aca-playwright-shared';
 
 /**
+ * Helper function to generate file configurations with unique random names.
+ * @param testFiles - Array of test file objects
+ * @returns Array of {path, name} objects with randomized names
+ */
+function generateUniqueFiles(testFiles: Array<{ path: string; name: string }>): Array<{ path: string; name: string }> {
+  return testFiles.map((file) => ({ path: file.path, name: `${file.name}-${Utils.random()}` }));
+}
+
+/**
  * Helper function to test file transformation via folder rules.
  * Creates a rule with the specified MIME type, uploads files, and verifies the transformations.
  * Each test creates its own parent folder to ensure thread safety in parallel execution.
@@ -153,11 +162,7 @@ test.describe('Folder Rules Actions', () => {
         destinationFolderName: `TO_PDF-${Utils.random()}`,
         mimeType: MimeType.AdobePDFDocument,
         expectedExtension: 'pdf',
-        files: [
-          { path: TEST_FILES.DOCX.path, name: `${TEST_FILES.DOCX.name}-${Utils.random()}` },
-          { path: TEST_FILES.XLSX.path, name: `${TEST_FILES.XLSX.name}-${Utils.random()}` },
-          { path: TEST_FILES.PPTX_FILE.path, name: `${TEST_FILES.PPTX_FILE.name}-${Utils.random()}` }
-        ]
+        files: generateUniqueFiles([TEST_FILES.DOCX, TEST_FILES.XLSX, TEST_FILES.PPTX_FILE])
       }
     );
   });
@@ -174,12 +179,7 @@ test.describe('Folder Rules Actions', () => {
         destinationFolderName: `TO_BMP-${Utils.random()}`,
         mimeType: MimeType.BitmapImage,
         expectedExtension: 'bmp',
-        files: [
-          { path: TEST_FILES.JPG_FILE.path, name: `${TEST_FILES.JPG_FILE.name}-${Utils.random()}` },
-          { path: TEST_FILES.PNG_FILE.path, name: `${TEST_FILES.PNG_FILE.name}-${Utils.random()}` },
-          { path: TEST_FILES.GIF_FILE.path, name: `${TEST_FILES.GIF_FILE.name}-${Utils.random()}` },
-          { path: TEST_FILES.TIFF_FILE.path, name: `${TEST_FILES.TIFF_FILE.name}-${Utils.random()}` }
-        ]
+        files: generateUniqueFiles([TEST_FILES.JPG_FILE, TEST_FILES.PNG_FILE, TEST_FILES.GIF_FILE, TEST_FILES.TIFF_FILE])
       }
     );
   });
@@ -196,12 +196,7 @@ test.describe('Folder Rules Actions', () => {
         destinationFolderName: `TO_JPG-${Utils.random()}`,
         mimeType: MimeType.JPEGImage,
         expectedExtension: 'jpg',
-        files: [
-          { path: TEST_FILES.PNG_FILE.path, name: `${TEST_FILES.PNG_FILE.name}-${Utils.random()}` },
-          { path: TEST_FILES.GIF_FILE.path, name: `${TEST_FILES.GIF_FILE.name}-${Utils.random()}` },
-          { path: TEST_FILES.BMP_FILE.path, name: `${TEST_FILES.BMP_FILE.name}-${Utils.random()}` },
-          { path: TEST_FILES.TIFF_FILE.path, name: `${TEST_FILES.TIFF_FILE.name}-${Utils.random()}` }
-        ]
+        files: generateUniqueFiles([TEST_FILES.PNG_FILE, TEST_FILES.GIF_FILE, TEST_FILES.BMP_FILE, TEST_FILES.TIFF_FILE])
       }
     );
   });
@@ -218,12 +213,7 @@ test.describe('Folder Rules Actions', () => {
         destinationFolderName: `TO_GIF-${Utils.random()}`,
         mimeType: MimeType.GIFImage,
         expectedExtension: 'gif',
-        files: [
-          { path: TEST_FILES.PNG_FILE.path, name: `${TEST_FILES.PNG_FILE.name}-${Utils.random()}` },
-          { path: TEST_FILES.JPG_FILE.path, name: `${TEST_FILES.JPG_FILE.name}-${Utils.random()}` },
-          { path: TEST_FILES.BMP_FILE.path, name: `${TEST_FILES.BMP_FILE.name}-${Utils.random()}` },
-          { path: TEST_FILES.TIFF_FILE.path, name: `${TEST_FILES.TIFF_FILE.name}-${Utils.random()}` }
-        ]
+        files: generateUniqueFiles([TEST_FILES.PNG_FILE, TEST_FILES.JPG_FILE, TEST_FILES.BMP_FILE, TEST_FILES.TIFF_FILE])
       }
     );
   });
@@ -240,12 +230,7 @@ test.describe('Folder Rules Actions', () => {
         destinationFolderName: `TO_TIFF-${Utils.random()}`,
         mimeType: MimeType.TIFFImage,
         expectedExtension: 'tif',
-        files: [
-          { path: TEST_FILES.PNG_FILE.path, name: `${TEST_FILES.PNG_FILE.name}-${Utils.random()}` },
-          { path: TEST_FILES.JPG_FILE.path, name: `${TEST_FILES.JPG_FILE.name}-${Utils.random()}` },
-          { path: TEST_FILES.BMP_FILE.path, name: `${TEST_FILES.BMP_FILE.name}-${Utils.random()}` },
-          { path: TEST_FILES.GIF_FILE.path, name: `${TEST_FILES.GIF_FILE.name}-${Utils.random()}` }
-        ]
+        files: generateUniqueFiles([TEST_FILES.PNG_FILE, TEST_FILES.JPG_FILE, TEST_FILES.BMP_FILE, TEST_FILES.GIF_FILE])
       }
     );
   });
@@ -262,12 +247,7 @@ test.describe('Folder Rules Actions', () => {
         destinationFolderName: `TO_PNG-${Utils.random()}`,
         mimeType: MimeType.PNGImage,
         expectedExtension: 'png',
-        files: [
-          { path: TEST_FILES.JPG_FILE.path, name: `${TEST_FILES.JPG_FILE.name}-${Utils.random()}` },
-          { path: TEST_FILES.BMP_FILE.path, name: `${TEST_FILES.BMP_FILE.name}-${Utils.random()}` },
-          { path: TEST_FILES.GIF_FILE.path, name: `${TEST_FILES.GIF_FILE.name}-${Utils.random()}` },
-          { path: TEST_FILES.TIFF_FILE.path, name: `${TEST_FILES.TIFF_FILE.name}-${Utils.random()}` }
-        ]
+        files: generateUniqueFiles([TEST_FILES.JPG_FILE, TEST_FILES.BMP_FILE, TEST_FILES.GIF_FILE, TEST_FILES.TIFF_FILE])
       }
     );
   });
