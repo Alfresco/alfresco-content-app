@@ -170,7 +170,8 @@ jobs:
           - name: "folder-information-actions"
             id: 19
     steps:
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@9e15988fdf503869a04a9106daa9b06cfdb1768c # v11.0.0
+      - name: Free hosted runner disk space
+        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@9e15988fdf503869a04a9106daa9b06cfdb1768c # v11.0.0
 
       - name: Checkout
         uses: actions/checkout@v6
