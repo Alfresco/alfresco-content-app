@@ -22,6 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './user-model';
-export * from './custom-config';
-export * from './test-file.model';
+export interface TestFileConfig {
+  path: string;
+  name: string;
+}

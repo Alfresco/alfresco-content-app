@@ -35,60 +35,30 @@ import {
   TEST_FILES,
   PersonalFilesPage,
   NodesPage,
-  LoginPage,
-  timeouts
+  timeouts,
+  TestFileConfig
 } from '@alfresco/aca-playwright-shared';
 
-/**
- * Helper function to generate file configurations with unique random names.
- * @param testFiles - Array of test file objects
- * @returns Array of {path, name} objects with randomized names
- */
-function generateUniqueFiles(testFiles: Array<{ path: string; name: string }>): Array<{ path: string; name: string }> {
+function generateUniqueFiles(testFiles: Array<TestFileConfig>): Array<TestFileConfig> {
   return testFiles.map((file) => ({ path: file.path, name: `${file.name}-${Utils.random()}` }));
 }
 
-/**
- * Helper function to test file transformation via folder rules.
- * Creates a rule with the specified MIME type, uploads files, and verifies the transformations.
- * Each test creates its own parent folder to ensure thread safety in parallel execution.
- *
- * @param context - Playwright page objects (personalFiles, nodesPage, loginPage)
- * @param config - Configuration object containing:
- *   - nodesApi: API for node operations
- *   - fileActionApi: API for file operations
- *   - testString: String to use for rule name/description
- *   - username: Username for login
- *   - parentFolderName: Name of the parent folder for this test
- *   - destinationFolderName: Name of the destination folder for transformed files
- *   - mimeType: Target MIME type for transformation
- *   - files: Array of {path, name} objects representing files to upload
- *   - expectedExtension: Expected file extension after transformation (e.g., 'pdf', 'bmp')
- */
-async function testTransformation(
-  context: { personalFiles: PersonalFilesPage; nodesPage: NodesPage; loginPage: LoginPage },
+async function setupTransformationTest(
+  context: { personalFiles: PersonalFilesPage; nodesPage: NodesPage },
   config: {
     nodesApi: NodesApi;
-    fileActionApi: FileActionsApi;
     testString: string;
-    username: string;
     parentFolderName: string;
     destinationFolderName: string;
     mimeType: MimeType;
-    files: Array<{ path: string; name: string }>;
-    expectedExtension: string;
   }
-) {
+): Promise<string> {
   const { personalFiles, nodesPage } = context;
-  const { nodesApi, fileActionApi, testString, parentFolderName, destinationFolderName, mimeType, files, expectedExtension } = config;
+  const { nodesApi, testString, parentFolderName, destinationFolderName, mimeType } = config;
 
-  // Create unique parent folder for this test to ensure thread safety
   const parentFolderId = (await nodesApi.createFolder(parentFolderName)).entry.id;
-
-  // Create destination folder for transformed files
   await nodesApi.createFolder(destinationFolderName);
 
-  // Navigate to folder rules and create a new rule
   await personalFiles.navigate({ remoteUrl: `#/nodes/${parentFolderId}/rules` });
   await nodesPage.toolbar.clickCreateRuleButton();
   await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(testString);
@@ -98,21 +68,36 @@ async function testTransformation(
   await nodesPage.actionsDropdown.selectDestinationFolderTransformAndCopyContent(0, destinationFolderName);
   await nodesPage.manageRulesDialog.createRuleButton.click();
   await expect(nodesPage.manageRules.getGroupsList(testString)).toBeVisible();
+  return parentFolderId;
+}
 
-  // Upload files to trigger the transformation rule
+async function triggerTransformation(config: {
+  fileActionApi: FileActionsApi;
+  files: Array<TestFileConfig>;
+  parentFolderId: string;
+  page: any;
+}): Promise<void> {
+  const { fileActionApi, files, parentFolderId, page } = config;
   for (const file of files) {
     await fileActionApi.uploadFile(file.path, file.name, parentFolderId);
   }
+  await page.waitForTimeout(timeouts.medium);
+}
 
-  // Wait for transformations to complete (transformation happens asynchronously)
-  await personalFiles.page.waitForTimeout(timeouts.medium);
+async function verifyTransformation(
+  context: { personalFiles: PersonalFilesPage },
+  config: {
+    destinationFolderName: string;
+    files: Array<TestFileConfig>;
+    expectedExtension: string;
+  }
+): Promise<void> {
+  const { personalFiles } = context;
+  const { destinationFolderName, files, expectedExtension } = config;
 
-  // Navigate to Personal Files root and then to destination folder
   await personalFiles.navigate();
   await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolderName);
   await personalFiles.spinner.waitForReload();
-
-  // Verify each transformed file exists
   for (const file of files) {
     const transformedFileName = `${file.name}.${expectedExtension}`;
     const exists = await personalFiles.dataTable.isItemPresent(transformedFileName);
@@ -127,7 +112,6 @@ test.describe('Folder Rules Actions', () => {
   let trashcanApi: TrashcanApi;
   let fileActionApi: FileActionsApi;
   const username = `user-e2e-${Utils.random()}`;
-
   const testString = '"!@£$%^&*()_+{}|:""?&gt;&lt;,/.\';][=-`~"';
 
   test.beforeAll(async () => {
@@ -150,105 +134,87 @@ test.describe('Folder Rules Actions', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
-  test('[XAT-8050] Supported types transformation to PDF', async ({ personalFiles, nodesPage, loginPage }) => {
-    await testTransformation(
-      { personalFiles, nodesPage, loginPage },
-      {
-        nodesApi,
-        fileActionApi,
-        testString,
-        username,
-        parentFolderName: `parent-pdf-${Utils.random()}`,
-        destinationFolderName: `TO_PDF-${Utils.random()}`,
-        mimeType: MimeType.AdobePDFDocument,
-        expectedExtension: 'pdf',
-        files: generateUniqueFiles([TEST_FILES.DOCX, TEST_FILES.XLSX, TEST_FILES.PPTX_FILE])
-      }
+  test('[XAT-8050] Supported types transformation to PDF', async ({ personalFiles, nodesPage }) => {
+    const parentFolderName = `parent-pdf-${Utils.random()}`;
+    const destinationFolderName = `TO_PDF-${Utils.random()}`;
+    const files = generateUniqueFiles([TEST_FILES.DOCX, TEST_FILES.XLSX, TEST_FILES.PPTX_FILE]);
+
+    const parentFolderId = await setupTransformationTest(
+      { personalFiles, nodesPage },
+      { nodesApi, testString, parentFolderName, destinationFolderName, mimeType: MimeType.AdobePDFDocument }
     );
+
+    await triggerTransformation({ fileActionApi, files, parentFolderId, page: personalFiles.page });
+    await verifyTransformation({ personalFiles }, { destinationFolderName, files, expectedExtension: 'pdf' });
   });
 
-  test('[XAT-8051] Supported types transformation to BMP', async ({ personalFiles, nodesPage, loginPage }) => {
-    await testTransformation(
-      { personalFiles, nodesPage, loginPage },
-      {
-        nodesApi,
-        fileActionApi,
-        testString,
-        username,
-        parentFolderName: `parent-bmp-${Utils.random()}`,
-        destinationFolderName: `TO_BMP-${Utils.random()}`,
-        mimeType: MimeType.BitmapImage,
-        expectedExtension: 'bmp',
-        files: generateUniqueFiles([TEST_FILES.JPG_FILE, TEST_FILES.PNG_FILE, TEST_FILES.GIF_FILE, TEST_FILES.TIFF_FILE])
-      }
+  test('[XAT-8051] Supported types transformation to BMP', async ({ personalFiles, nodesPage }) => {
+    const parentFolderName = `parent-bmp-${Utils.random()}`;
+    const destinationFolderName = `TO_BMP-${Utils.random()}`;
+    const files = generateUniqueFiles([TEST_FILES.JPG_FILE, TEST_FILES.PNG_FILE, TEST_FILES.GIF_FILE, TEST_FILES.TIFF_FILE]);
+
+    const parentFolderId = await setupTransformationTest(
+      { personalFiles, nodesPage },
+      { nodesApi, testString, parentFolderName, destinationFolderName, mimeType: MimeType.BitmapImage }
     );
+
+    await triggerTransformation({ fileActionApi, files, parentFolderId, page: personalFiles.page });
+    await verifyTransformation({ personalFiles }, { destinationFolderName, files, expectedExtension: 'bmp' });
   });
 
-  test('[XAT-8052] Supported types transformation to JPG', async ({ personalFiles, nodesPage, loginPage }) => {
-    await testTransformation(
-      { personalFiles, nodesPage, loginPage },
-      {
-        nodesApi,
-        fileActionApi,
-        testString,
-        username,
-        parentFolderName: `parent-jpg-${Utils.random()}`,
-        destinationFolderName: `TO_JPG-${Utils.random()}`,
-        mimeType: MimeType.JPEGImage,
-        expectedExtension: 'jpg',
-        files: generateUniqueFiles([TEST_FILES.PNG_FILE, TEST_FILES.GIF_FILE, TEST_FILES.BMP_FILE, TEST_FILES.TIFF_FILE])
-      }
+  test('[XAT-8052] Supported types transformation to JPG', async ({ personalFiles, nodesPage }) => {
+    const parentFolderName = `parent-jpg-${Utils.random()}`;
+    const destinationFolderName = `TO_JPG-${Utils.random()}`;
+    const files = generateUniqueFiles([TEST_FILES.PNG_FILE, TEST_FILES.GIF_FILE, TEST_FILES.BMP_FILE, TEST_FILES.TIFF_FILE]);
+
+    const parentFolderId = await setupTransformationTest(
+      { personalFiles, nodesPage },
+      { nodesApi, testString, parentFolderName, destinationFolderName, mimeType: MimeType.JPEGImage }
     );
+
+    await triggerTransformation({ fileActionApi, files, parentFolderId, page: personalFiles.page });
+    await verifyTransformation({ personalFiles }, { destinationFolderName, files, expectedExtension: 'jpg' });
   });
 
-  test('[XAT-8053] Supported types transformation to GIF', async ({ personalFiles, nodesPage, loginPage }) => {
-    await testTransformation(
-      { personalFiles, nodesPage, loginPage },
-      {
-        nodesApi,
-        fileActionApi,
-        testString,
-        username,
-        parentFolderName: `parent-gif-${Utils.random()}`,
-        destinationFolderName: `TO_GIF-${Utils.random()}`,
-        mimeType: MimeType.GIFImage,
-        expectedExtension: 'gif',
-        files: generateUniqueFiles([TEST_FILES.PNG_FILE, TEST_FILES.JPG_FILE, TEST_FILES.BMP_FILE, TEST_FILES.TIFF_FILE])
-      }
+  test('[XAT-8053] Supported types transformation to GIF', async ({ personalFiles, nodesPage }) => {
+    const parentFolderName = `parent-gif-${Utils.random()}`;
+    const destinationFolderName = `TO_GIF-${Utils.random()}`;
+    const files = generateUniqueFiles([TEST_FILES.PNG_FILE, TEST_FILES.JPG_FILE, TEST_FILES.BMP_FILE, TEST_FILES.TIFF_FILE]);
+
+    const parentFolderId = await setupTransformationTest(
+      { personalFiles, nodesPage },
+      { nodesApi, testString, parentFolderName, destinationFolderName, mimeType: MimeType.GIFImage }
     );
+
+    await triggerTransformation({ fileActionApi, files, parentFolderId, page: personalFiles.page });
+    await verifyTransformation({ personalFiles }, { destinationFolderName, files, expectedExtension: 'gif' });
   });
 
-  test('[XAT-8054] Supported types transformation to TIFF', async ({ personalFiles, nodesPage, loginPage }) => {
-    await testTransformation(
-      { personalFiles, nodesPage, loginPage },
-      {
-        nodesApi,
-        fileActionApi,
-        testString,
-        username,
-        parentFolderName: `parent-tiff-${Utils.random()}`,
-        destinationFolderName: `TO_TIFF-${Utils.random()}`,
-        mimeType: MimeType.TIFFImage,
-        expectedExtension: 'tif',
-        files: generateUniqueFiles([TEST_FILES.PNG_FILE, TEST_FILES.JPG_FILE, TEST_FILES.BMP_FILE, TEST_FILES.GIF_FILE])
-      }
+  test('[XAT-8054] Supported types transformation to TIFF', async ({ personalFiles, nodesPage }) => {
+    const parentFolderName = `parent-tiff-${Utils.random()}`;
+    const destinationFolderName = `TO_TIFF-${Utils.random()}`;
+    const files = generateUniqueFiles([TEST_FILES.PNG_FILE, TEST_FILES.JPG_FILE, TEST_FILES.BMP_FILE, TEST_FILES.GIF_FILE]);
+
+    const parentFolderId = await setupTransformationTest(
+      { personalFiles, nodesPage },
+      { nodesApi, testString, parentFolderName, destinationFolderName, mimeType: MimeType.TIFFImage }
     );
+
+    await triggerTransformation({ fileActionApi, files, parentFolderId, page: personalFiles.page });
+    await verifyTransformation({ personalFiles }, { destinationFolderName, files, expectedExtension: 'tif' });
   });
 
-  test('[XAT-8055] Supported types transformation to PNG', async ({ personalFiles, nodesPage, loginPage }) => {
-    await testTransformation(
-      { personalFiles, nodesPage, loginPage },
-      {
-        nodesApi,
-        fileActionApi,
-        testString,
-        username,
-        parentFolderName: `parent-png-${Utils.random()}`,
-        destinationFolderName: `TO_PNG-${Utils.random()}`,
-        mimeType: MimeType.PNGImage,
-        expectedExtension: 'png',
-        files: generateUniqueFiles([TEST_FILES.JPG_FILE, TEST_FILES.BMP_FILE, TEST_FILES.GIF_FILE, TEST_FILES.TIFF_FILE])
-      }
+  test('[XAT-8055] Supported types transformation to PNG', async ({ personalFiles, nodesPage }) => {
+    const parentFolderName = `parent-png-${Utils.random()}`;
+    const destinationFolderName = `TO_PNG-${Utils.random()}`;
+    const files = generateUniqueFiles([TEST_FILES.JPG_FILE, TEST_FILES.BMP_FILE, TEST_FILES.GIF_FILE, TEST_FILES.TIFF_FILE]);
+
+    const parentFolderId = await setupTransformationTest(
+      { personalFiles, nodesPage },
+      { nodesApi, testString, parentFolderName, destinationFolderName, mimeType: MimeType.PNGImage }
     );
+
+    await triggerTransformation({ fileActionApi, files, parentFolderId, page: personalFiles.page });
+    await verifyTransformation({ personalFiles }, { destinationFolderName, files, expectedExtension: 'png' });
   });
 });
