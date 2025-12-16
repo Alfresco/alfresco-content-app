@@ -168,14 +168,14 @@ describe('SearchInputComponent', () => {
 
   describe('queryBuilder configUpdated handling', () => {
     it('should call searchByOption when searchedWord set and navigation has query params', () => {
-      component.searchedWord = 'term';
-
-      routerEventsSubject.next(new NavigationStart(1, '/path?x=1'));
-
       spyOn(component, 'searchByOption').and.stub();
-      configUpdatedSubject.next({});
 
       component.ngOnInit();
+
+      component.searchedWord = 'term';
+
+      routerEventsSubject.next(new NavigationStart(1, '/path?q=term'));
+      configUpdatedSubject.next({});
 
       expect(component.searchByOption).toHaveBeenCalled();
     });
