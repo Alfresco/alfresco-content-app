@@ -84,7 +84,7 @@ import {
   formatSearchTerm
 } from '../../../utils/aca-search-utils';
 import { SaveSearchDirective } from '../search-save/directive/save-search.directive';
-import { combineLatest, merge, of } from 'rxjs';
+import { combineLatest, merge, Observable, of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatMenuModule } from '@angular/material/menu';
 import { IsFeatureSupportedInCurrentAcsPipe } from '../../../pipes/is-feature-supported.pipe';
@@ -136,12 +136,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
   infoDrawerPreview$ = this.store.select(infoDrawerPreview);
 
-  protected readonly areFiltersActive$ = merge(this.queryBuilder.queryFragmentsUpdate, this.queryBuilder.userFacetBucketsUpdate).pipe(
-    takeUntilDestroyed(),
-    map((v) => {
-      return Object.values(v).some((filterValue) => (Array.isArray(filterValue) ? filterValue.length > 0 : !!filterValue));
-    })
-  );
+  protected readonly areFiltersActive$: Observable<boolean>;
 
   searchedWord: string;
   queryParamName = 'q';
@@ -177,6 +172,13 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     this.queryBuilder.configUpdated.pipe(takeUntilDestroyed()).subscribe((searchConfig) => {
       this.searchConfig = searchConfig;
     });
+
+    this.areFiltersActive$ = merge(this.queryBuilder.queryFragmentsUpdate, this.queryBuilder.userFacetBucketsUpdate).pipe(
+      takeUntilDestroyed(),
+      map((v) => {
+        return Object.values(v).some((filterValue) => (Array.isArray(filterValue) ? filterValue.length > 0 : !!filterValue));
+      })
+    );
   }
 
   ngOnInit() {
