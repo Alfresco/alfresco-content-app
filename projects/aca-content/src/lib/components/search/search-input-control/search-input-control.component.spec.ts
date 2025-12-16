@@ -42,6 +42,14 @@ describe('SearchInputControlComponent', () => {
     fixture.detectChanges();
   });
 
+  /**
+   * Sets the input value of the search input control component.
+   */
+  function setInputValue(value: string) {
+    component.searchTerm = value;
+    fixture.detectChanges();
+  }
+
   it('should emit submit event if form is valid', () => {
     component.searchTerm = 'valid';
     spyOn(component.submit, 'emit');
@@ -75,18 +83,15 @@ describe('SearchInputControlComponent', () => {
   });
 
   it('should clear searchTerm', () => {
-    component.searchTerm = 'c';
-    fixture.detectChanges();
+    setInputValue('c');
     component.clear();
     expect(component.searchTerm).toBe('');
   });
 
   it('should check if searchTerm has a length less than 2', () => {
-    component.searchTerm = 'd';
-    fixture.detectChanges();
+    setInputValue('d');
     expect(component.isTermTooShort()).toBe(true);
-    component.searchTerm = 'dd';
-    fixture.detectChanges();
+    setInputValue('dd');
     expect(component.isTermTooShort()).toBe(false);
   });
 
@@ -166,44 +171,29 @@ describe('SearchInputControlComponent', () => {
   });
 
   describe('validation error messages', () => {
-    let errorMessage: string;
-
     beforeEach(() => {
-      errorMessage = '';
-      component.validationError.subscribe((message) => (errorMessage = message));
+      spyOn(component.validationError, 'emit');
     });
 
-    it('should display correct validation error message for whitespace validator', fakeAsync(() => {
-      component.searchTerm = '   ';
-      component.searchFieldFormControl.markAsTouched();
-      tick();
+    it('should emit correct validation error message for whitespace validator', () => {
+      setInputValue('   ');
+      expect(component.validationError.emit).toHaveBeenCalledWith('SEARCH.INPUT.WHITESPACE');
+    });
 
-      expect(errorMessage).toBe('SEARCH.INPUT.WHITESPACE');
-    }));
+    it('should emit correct validation error message for operators validator', () => {
+      setInputValue('AND word');
+      expect(component.validationError.emit).toHaveBeenCalledWith('SEARCH.INPUT.OPERATORS');
+    });
 
-    it('should display correct validation error message for operators validator', fakeAsync(() => {
-      component.searchTerm = 'AND word';
-      component.searchFieldFormControl.markAsTouched();
-      tick();
-
-      expect(errorMessage).toBe('SEARCH.INPUT.OPERATORS');
-    }));
-
-    it('should display correct validation error message for min length validator', fakeAsync(() => {
+    it('should emit correct validation error message for min length validator', () => {
       component.hasLibrariesConstraint = true;
-      component.searchTerm = 'a';
-      component.searchFieldFormControl.markAsTouched();
-      tick();
+      setInputValue('a');
+      expect(component.validationError.emit).toHaveBeenCalledWith('SEARCH.INPUT.MIN_LENGTH');
+    });
 
-      expect(errorMessage).toBe('SEARCH.INPUT.MIN_LENGTH');
-    }));
-
-    it('should display correct validation error message for required validator', fakeAsync(() => {
-      component.searchTerm = '';
-      component.searchFieldFormControl.markAsTouched();
-      tick();
-
-      expect(errorMessage).toBe('SEARCH.INPUT.REQUIRED');
-    }));
+    it('should emit correct validation error message for required validator', () => {
+      setInputValue('');
+      expect(component.validationError.emit).toHaveBeenCalledWith('SEARCH.INPUT.REQUIRED');
+    });
   });
 });

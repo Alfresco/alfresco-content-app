@@ -30,7 +30,7 @@ const isOperator = (word: string): boolean => {
 };
 
 export const noLeadingTrailingOperatorsValidator = (): ValidatorFn => {
-  return (control: AbstractControl): ValidationErrors | null => {
+  return (control: AbstractControl<string>): ValidationErrors | null => {
     const rawValue = control.value;
     if (!rawValue) {
       return null;
