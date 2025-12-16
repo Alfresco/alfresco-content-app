@@ -43,7 +43,8 @@ describe('ContextMenuComponent', () => {
       title: 'action1',
       actions: {
         click: 'event1'
-      }
+      },
+      icon: 'icon-name'
     },
     {
       type: ContentActionType.button,
@@ -51,7 +52,8 @@ describe('ContextMenuComponent', () => {
       title: 'action2',
       actions: {
         click: 'event2'
-      }
+      },
+      icon: 'icon-name'
     }
   ];
 

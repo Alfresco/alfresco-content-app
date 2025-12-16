@@ -137,7 +137,8 @@ describe('ContextMenuComponent', () => {
       title: 'Button 2',
       actions: {
         click: 'EVENT_2'
-      }
+      },
+      icon: 'icon-name'
     };
 
     const orderedActions = [contextItem, customComponentAction, buttonAction2];

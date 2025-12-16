@@ -42,7 +42,12 @@ describe('UserMenuComponent', () => {
     testingUtils = new UnitTestingUtils(fixture.debugElement);
 
     component = fixture.componentInstance;
-    component.data = { items: [{ id: 'id-1' }, { id: 'id-2' }] };
+    component.data = {
+      items: [
+        { id: 'id-1', icon: 'icon-name' },
+        { id: 'id-2', icon: 'icon-name' }
+      ]
+    };
     fixture.detectChanges();
   });
 
