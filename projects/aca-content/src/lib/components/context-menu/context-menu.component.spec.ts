@@ -60,7 +60,8 @@ describe('ContextMenuComponent', () => {
     title: 'Test Button',
     actions: {
       click: 'TEST_EVENT'
-    }
+    },
+    icon: 'icon-name'
   };
 
   beforeEach(() => {

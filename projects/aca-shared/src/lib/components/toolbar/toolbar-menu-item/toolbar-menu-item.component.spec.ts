@@ -67,7 +67,8 @@ describe('ToolbarMenuItemComponent', () => {
       type: ContentActionType.button,
       actions: {
         click: 'ON_CLICK'
-      }
+      },
+      icon: 'icon-name'
     };
 
     fixture.detectChanges();
@@ -91,7 +92,8 @@ describe('ToolbarMenuItemComponent', () => {
       type: ContentActionType.button,
       actions: {
         click: 'ON_CLICK'
-      }
+      },
+      icon: 'icon-name'
     };
 
     fixture.detectChanges();
