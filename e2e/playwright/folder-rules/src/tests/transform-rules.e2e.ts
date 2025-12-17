@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { expect } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
 import {
   ActionType,
   ApiClientFactory,
@@ -75,7 +75,7 @@ async function triggerTransformation(config: {
   fileActionApi: FileActionsApi;
   files: Array<TestFileConfig>;
   parentFolderId: string;
-  page: any;
+  page: Page;
 }): Promise<void> {
   const { fileActionApi, files, parentFolderId, page } = config;
   for (const file of files) {
