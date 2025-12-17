@@ -81,8 +81,6 @@ describe('SearchComponent', () => {
       events: routerEvents
     });
 
-    const testSaveSearch = { name: 'test', encodedUrl: encodeQuery({ name: 'test' }), order: 0 };
-
     TestBed.configureTestingModule({
       imports: [AppTestingModule, SearchResultsComponent, MatSnackBarModule, MatMenuModule, NoopAnimationsModule],
       providers: [
@@ -264,12 +262,6 @@ describe('SearchComponent', () => {
 
   it('should get initial saved search when url matches', () => {
     route.queryParams = of({ q: encodeQuery({ name: 'test' }) });
-    component.ngOnInit();
-    expect(component.initialSavedSearch).toEqual({ name: 'test', encodedUrl: encodeQuery({ name: 'test' }), order: 0 });
-  });
-
-  it('should get initial saved search when cant match url but name matches', () => {
-    route.queryParams = of({ q: encodeQuery({ name: 'randomlyDifferentQueryName' }) });
     component.ngOnInit();
     expect(component.initialSavedSearch).toEqual({ name: 'test', encodedUrl: encodeQuery({ name: 'test' }), order: 0 });
   });

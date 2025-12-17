@@ -365,11 +365,6 @@ export class SearchResultsComponent extends PageComponent implements OnInit, OnD
       });
   }
 
-  private updateUserQuery(): void {
-    const updatedUserQuery = formatSearchTerm(this.searchedWord, this.searchConfig['app:fields']);
-    this.queryBuilder.userQuery = updatedUserQuery;
-  }
-
   private shouldExecuteQuery(navigationStartEvent: NavigationStart | null, query: string | undefined): boolean {
     const hasQueryChanged = query !== this.previousEncodedQuery;
     this.previousEncodedQuery = query;
