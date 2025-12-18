@@ -123,13 +123,18 @@ jobs:
 
   e2es-playwright:
     needs: [lint, build, unit-tests]
-    name: 'E2E Playwright - ${{ matrix.e2e-suites.name }}'
+    name: 'E2E Playwright - ${{ matrix.browser || 'chromium' }} - ${{ matrix.e2e-suites.name }}'
     runs-on: ubuntu-24.04
     env:
       NODE_OPTIONS: --dns-result-order=ipv4first
+      PLAYWRIGHT_BROWSER: ${{ matrix.browser || 'chromium' }}
     strategy:
       fail-fast: false
       matrix:
+        # TEMPORARY: Enable all browsers for PRs to test multi-browser functionality
+        # TODO: Revert to label-based or scheduled-only after testing
+        # Original: browser: ${{ (github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test-all-browsers')) && fromJSON('["chromium", "firefox", "webkit", "msedge"]') || fromJSON('["chromium"]') }}
+        browser: ${{ github.event_name == 'schedule' && fromJSON('["chromium", "firefox", "webkit", "msedge"]') || fromJSON('["chromium", "firefox", "webkit", "msedge"]') }}
         e2e-suites:
           - name: "create-actions"
             id: 1
@@ -199,7 +204,7 @@ jobs:
         uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-keep-nslogs@b51dfeef6bda4a506778050a1c0e53eed440598c # v11.0.1
         with:
           log_retention: 7
-          log_name_identifier: "logs-${{ matrix.e2e-suites.name }}"
+          log_name_identifier: "logs-${{ matrix.browser || 'chromium' }}-${{ matrix.e2e-suites.name }}"
 
       - name: Before install
         uses: ./.github/actions/before-install
@@ -218,14 +223,24 @@ jobs:
         uses: ./.github/actions/before-e2e
 
       - name: Before playwright
+        # TEMPORARY: Disabled for testing - all PRs will install all browsers
+        if: false
         run: npm run ci:playwright:install
+
+      - name: Before playwright (all browsers)
+        # TEMPORARY: Enable for all PRs to test multi-browser functionality
+        # TODO: Revert to: if: ${{ github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test-all-browsers') }}
+        if: ${{ github.event_name == 'schedule' || github.event_name == 'pull_request' }}
+        run: npm run ci:playwright:install:all
 
       - name: Run e2e playwright
         uses: ./.github/actions/run-e2e-playwright
         with:
           options: "${{ matrix.e2e-suites.name }}"
-          artifact-name: ${{ matrix.e2e-suites.name }}
+          artifact-name: "${{ matrix.browser || 'chromium' }}-${{ matrix.e2e-suites.name }}"
           test-runner: playwright
+        env:
+          PLAYWRIGHT_BROWSER: ${{ matrix.browser || 'chromium' }}
 
       - name: Debug Ingress Controller Logs
         if: always() && steps.deploy-local-acs.outcome == 'success'
