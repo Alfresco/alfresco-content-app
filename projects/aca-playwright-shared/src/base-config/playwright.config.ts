@@ -36,7 +36,7 @@ const { env } = process;
  */
 export function getBrowserDevice() {
   const browserEnv = (env.PLAYWRIGHT_BROWSER || 'chromium').toLowerCase();
-  
+
   switch (browserEnv) {
     case 'firefox':
       return devices['Desktop Firefox'];
