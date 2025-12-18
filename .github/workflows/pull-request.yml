@@ -133,8 +133,11 @@ jobs:
       matrix:
         # TEMPORARY: Enable all browsers for PRs to test multi-browser functionality
         # TODO: Revert to label-based or scheduled-only after testing
-        # Original: browser: ${{ (github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test-all-browsers')) && fromJSON('["chromium", "firefox", "webkit", "msedge"]') || fromJSON('["chromium"]') }}
-        browser: ${{ github.event_name == 'schedule' && fromJSON('["chromium", "firefox", "webkit", "msedge"]') || fromJSON('["chromium", "firefox", "webkit", "msedge"]') }}
+        browser:
+          - chromium
+          - firefox
+          - webkit
+          - msedge
         e2e-suites:
           - name: "create-actions"
             id: 1
