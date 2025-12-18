@@ -29,6 +29,89 @@ import { getReporter } from './report-portal.config';
 require('@alfresco/adf-cli/tooling').dotenvConfig();
 const { env } = process;
 
+/**
+ * Get the browser device configuration based on PLAYWRIGHT_BROWSER environment variable
+ * Supports: chromium (default), firefox, webkit, msedge
+ * @returns Browser device configuration object
+ */
+export function getBrowserDevice() {
+  const browserEnv = (env.PLAYWRIGHT_BROWSER || 'chromium').toLowerCase();
+  
+  switch (browserEnv) {
+    case 'firefox':
+      return devices['Desktop Firefox'];
+    case 'webkit':
+      return devices['Desktop Safari'];
+    case 'msedge':
+      return devices['Desktop Edge'];
+    case 'chromium':
+    default:
+      return devices['Desktop Chrome'];
+  }
+}
+
+/**
+ * Get browser projects based on PLAYWRIGHT_BROWSER environment variable
+ * Supports: chromium (default), firefox, webkit, msedge, or all
+ * @returns Array of browser project configurations
+ */
+export function getBrowserProjects() {
+  const browserEnv = (env.PLAYWRIGHT_BROWSER || 'chromium').toLowerCase();
+  const allBrowsers = ['chromium', 'firefox', 'webkit', 'msedge'];
+
+  let browsersToUse: string[];
+  if (browserEnv === 'all') {
+    browsersToUse = allBrowsers;
+  } else if (allBrowsers.includes(browserEnv)) {
+    browsersToUse = [browserEnv];
+  } else {
+    // Default to chromium if invalid value
+    browsersToUse = ['chromium'];
+  }
+
+  const browserProjects = browsersToUse.map((browser) => {
+    switch (browser) {
+      case 'chromium':
+        return {
+          name: 'chromium',
+          use: {
+            ...devices['Desktop Chrome']
+          }
+        };
+      case 'firefox':
+        return {
+          name: 'firefox',
+          use: {
+            ...devices['Desktop Firefox']
+          }
+        };
+      case 'webkit':
+        return {
+          name: 'webkit',
+          use: {
+            ...devices['Desktop Safari']
+          }
+        };
+      case 'msedge':
+        return {
+          name: 'msedge',
+          use: {
+            ...devices['Desktop Edge']
+          }
+        };
+      default:
+        return {
+          name: 'chromium',
+          use: {
+            ...devices['Desktop Chrome']
+          }
+        };
+    }
+  });
+
+  return browserProjects;
+}
+
 export const getGlobalConfig: PlaywrightTestConfig = {
   timeout: timeouts.globalTest,
   globalTimeout: timeouts.globalSpec,
@@ -71,12 +154,5 @@ export const getGlobalConfig: PlaywrightTestConfig = {
   },
 
   /* Configure projects for major browsers */
-  projects: [
-    {
-      name: 'chromium',
-      use: {
-        ...devices['Desktop Chrome']
-      }
-    }
-  ]
+  projects: getBrowserProjects()
 };

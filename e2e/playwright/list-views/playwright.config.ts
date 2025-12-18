@@ -23,7 +23,7 @@
  */
 
 import { PlaywrightTestConfig } from '@playwright/test';
-import { CustomConfig, getGlobalConfig, getExcludedTestsRegExpArray } from '@alfresco/aca-playwright-shared';
+import { CustomConfig, getGlobalConfig, getExcludedTestsRegExpArray, getBrowserDevice } from '@alfresco/aca-playwright-shared';
 import EXCLUDED_JSON from './exclude.tests.json';
 
 const config: PlaywrightTestConfig<CustomConfig> = {
@@ -35,7 +35,8 @@ const config: PlaywrightTestConfig<CustomConfig> = {
       name: 'List Views',
       testDir: './src/tests',
       use: {
-        users: ['admin']
+        users: ['admin'],
+        ...getBrowserDevice()
       }
     }
   ]
