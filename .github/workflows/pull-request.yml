@@ -236,6 +236,14 @@ jobs:
         if: ${{ github.event_name == 'schedule' || github.event_name == 'pull_request' }}
         run: npm run ci:playwright:install:all
 
+      - name: Install Playwright system dependencies
+        # Install system dependencies required for all browsers (especially WebKit on Linux)
+        # This is needed for WebKit to work properly in CI environments
+        # The install-deps command will automatically use sudo if needed
+        # For Chromium-only runs, this step is optional but doesn't hurt
+        if: ${{ github.event_name == 'schedule' || github.event_name == 'pull_request' }}
+        run: npx playwright install-deps
+
       - name: Run e2e playwright
         uses: ./.github/actions/run-e2e-playwright
         with:
