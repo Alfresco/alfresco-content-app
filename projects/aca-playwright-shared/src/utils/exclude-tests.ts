@@ -22,15 +22,49 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
+const getCurrentBrowser = (): string => {
+  const browserEnv = (process.env.PLAYWRIGHT_BROWSER || 'chromium').toLowerCase();
+  return browserEnv;
+};
+
+/**
+ * Get excluded test IDs as regex patterns for the current browser
+ * Expects nested format: { "all": {...}, "firefox": {...}, "webkit": {...}, ... }
+ * @param excludedJson - The exclusion JSON object in nested format
+ * @param projectName - Name of the test project for logging
+ * @returns Array of RegExp patterns for excluded tests
+ */
 export const getExcludedTestsRegExpArray = (excludedJson: any, projectName: string) => {
   const prefix = `[ 🎭 Playwright Excludes - ${projectName} ]`;
-  const objectKeys = Object.keys(excludedJson);
+  const currentBrowser = getCurrentBrowser();
+  const browserKeys = ['all', 'firefox', 'chromium', 'webkit', 'msedge'];
+  const relevantKeys: string[] = [];
+  const testIdsToExclude: string[] = [];
 
-  if (!objectKeys.length) {
-    console.info(`${prefix} ✅ No excluded tests 🎉 `);
-  } else {
-    console.warn(`${prefix} ❌ Tests excluded because of 🐛 : ${objectKeys}`);
+  // Always include 'all' if it exists
+  if (excludedJson.all && typeof excludedJson.all === 'object') {
+    const allTestIds = Object.keys(excludedJson.all);
+    testIdsToExclude.push(...allTestIds);
+    relevantKeys.push('all');
   }
 
-  return objectKeys.map((key) => new RegExp(key));
+  // Include current browser-specific exclusions
+  const browserKey = browserKeys.find((key) => key.toLowerCase() === currentBrowser);
+  if (browserKey && excludedJson[browserKey] && typeof excludedJson[browserKey] === 'object') {
+    const browserTestIds = Object.keys(excludedJson[browserKey]);
+    testIdsToExclude.push(...browserTestIds);
+    if (!relevantKeys.includes(browserKey)) {
+      relevantKeys.push(browserKey);
+    }
+  }
+
+  if (testIdsToExclude.length > 0) {
+    console.warn(
+      `${prefix} ❌ Tests excluded for browser '${currentBrowser}' because of 🐛 : ${testIdsToExclude.join(', ')} (from keys: ${relevantKeys.join(', ')})`
+    );
+  } else {
+    console.info(`${prefix} ✅ No excluded tests for browser '${currentBrowser}' 🎉`);
+  }
+
+  return testIdsToExclude.map((key) => new RegExp(key));
 };

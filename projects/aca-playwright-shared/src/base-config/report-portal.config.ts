@@ -46,13 +46,19 @@ export const getReportPortalConfig = () => {
     project: 'alfresco-content-app',
     launch,
     includeTestSteps: true,
+    skipPassed: true,
     restClientConfig: {
       timeout: timeouts.extendedTest
     },
     attributes,
-    description: `[Run on GitHub Actions ${env.GITHUB_RUN_ID}](${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}) - Browser: ${browser}`
+    description: `[Run ${env.GITHUB_RUN_ID}](${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}) - ${browser} - Failures only`
   };
 };
 
-export const getReporter = (): ReporterDescription[] =>
-  env.CI ? [['@reportportal/agent-js-playwright', getReportPortalConfig()], ['github']] : [['html']];
+export const getReporter = (): ReporterDescription[] => {
+  if (!env.CI) {
+    return [['html']];
+  }
+
+  return [['@reportportal/agent-js-playwright', getReportPortalConfig()], ['github']];
+};

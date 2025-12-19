@@ -123,7 +123,7 @@ jobs:
 
   e2es-playwright:
     needs: [lint, build, unit-tests]
-    name: E2E Playwright - ${{ matrix.browser }} - ${{ matrix.e2e-suites.name }}
+    name: E2E | ${{ matrix.browser }} | ${{ matrix.e2e-suites.name }} | Playwright
     runs-on: ubuntu-24.04
     env:
       NODE_OPTIONS: --dns-result-order=ipv4first

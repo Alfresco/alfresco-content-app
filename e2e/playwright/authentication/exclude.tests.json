@@ -1,3 +1,8 @@
 {
-  "XAT-4370" : "https://hyland.atlassian.net/browse/ACS-5479"
+  "all": {
+    "XAT-4370": "https://hyland.atlassian.net/browse/ACS-5479"
+  },
+  "firefox": {
+    "XAT-17773": "https://hyland.atlassian.net/browse/ACS-10917"
+  }
 }

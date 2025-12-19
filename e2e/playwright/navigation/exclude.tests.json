@@ -1,1 +1,10 @@
-{}
+{
+  "all": {},
+  "webkit": {
+    "XAT-4400": "https://hyland.atlassian.net/browse/ACS-10917",
+    "XAT-4388": "https://hyland.atlassian.net/browse/ACS-10917",
+    "XAT-4391": "https://hyland.atlassian.net/browse/ACS-10917",
+    "XAT-4396": "https://hyland.atlassian.net/browse/ACS-10917",
+    "XAT-4399": "https://hyland.atlassian.net/browse/ACS-10917"
+  }
+}
