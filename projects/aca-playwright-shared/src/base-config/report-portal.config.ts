@@ -28,14 +28,17 @@ import { timeouts } from '../utils';
 const { env } = process;
 
 export const getReportPortalConfig = () => {
+  const browser = (env.PLAYWRIGHT_BROWSER || 'chromium').toLowerCase();
   const attributes = [
     { key: 'Job', value: `${env.GITHUB_JOB}` },
     { key: 'Build_type', value: `${env.GITHUB_EVENT_NAME}` },
     { key: 'Repository', value: `${env.GITHUB_REPOSITORY}` },
-    { key: 'Branch', value: `${env.GITHUB_HEAD_REF || env.GITHUB_REF}` }
+    { key: 'Branch', value: `${env.GITHUB_HEAD_REF || env.GITHUB_REF}` },
+    { key: 'Browser', value: browser }
   ];
 
-  const launch = `GitHub Actions - ACA`;
+  // Include browser in launch name to avoid conflicts when multiple browsers run in parallel
+  const launch = `GitHub Actions - ACA - ${browser}`;
 
   return {
     endpoint: env.REPORT_PORTAL_URL,
@@ -47,7 +50,7 @@ export const getReportPortalConfig = () => {
       timeout: timeouts.extendedTest
     },
     attributes,
-    description: `[Run on GitHub Actions ${env.GITHUB_RUN_ID}](${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID})`
+    description: `[Run on GitHub Actions ${env.GITHUB_RUN_ID}](${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}) - Browser: ${browser}`
   };
 };
 

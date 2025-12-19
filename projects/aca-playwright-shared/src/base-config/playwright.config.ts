@@ -51,6 +51,75 @@ export function getBrowserDevice() {
 }
 
 /**
+ * Create suite projects for all browsers when PLAYWRIGHT_BROWSER=all
+ * Otherwise creates a single suite project for the specified browser
+ * @param suiteName - Name of the test suite
+ * @param testDir - Directory containing the tests
+ * @param useConfig - Additional use configuration (e.g., users)
+ * @param projectConfig - Additional project-level configuration (e.g., timeout)
+ * @returns Array of project configurations
+ */
+export function createSuiteProjects(
+  suiteName: string,
+  testDir: string,
+  useConfig: Record<string, any> = {},
+  projectConfig: Record<string, any> = {}
+) {
+  const browserEnv = (env.PLAYWRIGHT_BROWSER || 'chromium').toLowerCase();
+  const allBrowsers = ['chromium', 'firefox', 'webkit', 'msedge'];
+
+  let browsersToUse: string[];
+  if (browserEnv === 'all') {
+    browsersToUse = allBrowsers;
+  } else if (allBrowsers.includes(browserEnv)) {
+    browsersToUse = [browserEnv];
+  } else {
+    browsersToUse = ['chromium'];
+  }
+
+  return browsersToUse.map((browser) => {
+    let browserDevice;
+    const launchOptions: any = {
+      devtools: false,
+      slowMo: 300
+    };
+
+    switch (browser) {
+      case 'firefox':
+        browserDevice = devices['Desktop Firefox'];
+        // Firefox doesn't need Chromium-specific args
+        break;
+      case 'webkit':
+        browserDevice = devices['Desktop Safari'];
+        // WebKit doesn't support --no-sandbox or --disable-site-isolation-trials
+        break;
+      case 'msedge':
+        browserDevice = devices['Desktop Edge'];
+        // Edge (Chromium-based) supports Chromium args
+        launchOptions.args = ['--no-sandbox', '--disable-site-isolation-trials'];
+        break;
+      case 'chromium':
+      default:
+        browserDevice = devices['Desktop Chrome'];
+        // Chromium-specific args for CI environments
+        launchOptions.args = ['--no-sandbox', '--disable-site-isolation-trials'];
+        break;
+    }
+
+    return {
+      name: browserEnv === 'all' ? `${suiteName} - ${browser}` : suiteName,
+      testDir,
+      use: {
+        ...browserDevice,
+        launchOptions,
+        ...useConfig
+      },
+      ...projectConfig
+    };
+  });
+}
+
+/**
  * Get browser projects based on PLAYWRIGHT_BROWSER environment variable
  * Supports: chromium (default), firefox, webkit, msedge, or all
  * @returns Array of browser project configurations
@@ -70,40 +139,55 @@ export function getBrowserProjects() {
   }
 
   const browserProjects = browsersToUse.map((browser) => {
+    const launchOptions: any = {
+      devtools: false,
+      slowMo: 300
+    };
+
     switch (browser) {
       case 'chromium':
+        launchOptions.args = ['--no-sandbox', '--disable-site-isolation-trials'];
         return {
           name: 'chromium',
           use: {
-            ...devices['Desktop Chrome']
+            ...devices['Desktop Chrome'],
+            launchOptions
           }
         };
       case 'firefox':
+        // Firefox doesn't need Chromium-specific args
         return {
           name: 'firefox',
           use: {
-            ...devices['Desktop Firefox']
+            ...devices['Desktop Firefox'],
+            launchOptions
           }
         };
       case 'webkit':
+        // WebKit doesn't support --no-sandbox or --disable-site-isolation-trials
         return {
           name: 'webkit',
           use: {
-            ...devices['Desktop Safari']
+            ...devices['Desktop Safari'],
+            launchOptions
           }
         };
       case 'msedge':
+        launchOptions.args = ['--no-sandbox', '--disable-site-isolation-trials'];
         return {
           name: 'msedge',
           use: {
-            ...devices['Desktop Edge']
+            ...devices['Desktop Edge'],
+            launchOptions
           }
         };
       default:
+        launchOptions.args = ['--no-sandbox', '--disable-site-isolation-trials'];
         return {
           name: 'chromium',
           use: {
-            ...devices['Desktop Chrome']
+            ...devices['Desktop Chrome'],
+            launchOptions
           }
         };
     }
@@ -145,12 +229,8 @@ export const getGlobalConfig: PlaywrightTestConfig = {
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'retain-on-failure',
     video: 'retain-on-failure',
-    screenshot: 'only-on-failure',
-    launchOptions: {
-      devtools: false,
-      args: ['--no-sandbox', '--disable-site-isolation-trials'],
-      slowMo: 300
-    }
+    screenshot: 'only-on-failure'
+    /* Note: launchOptions are now browser-specific and set in createSuiteProjects/getBrowserProjects */
   },
 
   /* Configure projects for major browsers */
