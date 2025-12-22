@@ -30,7 +30,7 @@ require('@alfresco/adf-cli/tooling').dotenvConfig();
 const { env } = process;
 
 export function getBrowserDevice() {
-  const browserEnv = (env.PLAYWRIGHT_BROWSER || 'chromium').toLowerCase();
+  const browserEnv = (env.PLAYWRIGHT_BROWSER || 'chrome').toLowerCase();
 
   switch (browserEnv) {
     case 'firefox':
@@ -39,7 +39,8 @@ export function getBrowserDevice() {
       return devices['Desktop Safari'];
     case 'msedge':
       return { ...devices['Desktop Edge'], channel: 'msedge' };
-    case 'chromium':
+    case 'chrome':
+    case 'chromium': // Support both for backward compatibility
     default:
       return { ...devices['Desktop Chrome'], channel: 'chrome' };
   }
@@ -51,8 +52,8 @@ export function createSuiteProjects(
   useConfig: Record<string, any> = {},
   projectConfig: Record<string, any> = {}
 ) {
-  const browserEnv = (env.PLAYWRIGHT_BROWSER || 'chromium').toLowerCase();
-  const allBrowsers = ['chromium', 'firefox', 'webkit', 'msedge'];
+  const browserEnv = (env.PLAYWRIGHT_BROWSER || 'chrome').toLowerCase();
+  const allBrowsers = ['chrome', 'firefox', 'webkit', 'msedge'];
 
   let browsersToUse: string[];
   if (browserEnv === 'all') {
@@ -60,7 +61,7 @@ export function createSuiteProjects(
   } else if (allBrowsers.includes(browserEnv)) {
     browsersToUse = [browserEnv];
   } else {
-    browsersToUse = ['chromium'];
+    browsersToUse = ['chrome'];
   }
 
   return browsersToUse.map((browser) => {
@@ -81,7 +82,8 @@ export function createSuiteProjects(
         browserDevice = { ...devices['Desktop Edge'], channel: 'msedge' };
         launchOptions.args = ['--no-sandbox', '--disable-site-isolation-trials'];
         break;
-      case 'chromium':
+      case 'chrome':
+      case 'chromium': // Support both for backward compatibility
       default:
         browserDevice = { ...devices['Desktop Chrome'], channel: 'chrome' };
         launchOptions.args = ['--no-sandbox', '--disable-site-isolation-trials'];
@@ -102,8 +104,8 @@ export function createSuiteProjects(
 }
 
 export function getBrowserProjects() {
-  const browserEnv = (env.PLAYWRIGHT_BROWSER || 'chromium').toLowerCase();
-  const allBrowsers = ['chromium', 'firefox', 'webkit', 'msedge'];
+  const browserEnv = (env.PLAYWRIGHT_BROWSER || 'chrome').toLowerCase();
+  const allBrowsers = ['chrome', 'firefox', 'webkit', 'msedge'];
 
   let browsersToUse: string[];
   if (browserEnv === 'all') {
@@ -111,8 +113,8 @@ export function getBrowserProjects() {
   } else if (allBrowsers.includes(browserEnv)) {
     browsersToUse = [browserEnv];
   } else {
-    // Default to chromium if invalid value
-    browsersToUse = ['chromium'];
+    // Default to chrome if invalid value
+    browsersToUse = ['chrome'];
   }
 
   const browserProjects = browsersToUse.map((browser) => {
@@ -122,10 +124,11 @@ export function getBrowserProjects() {
     };
 
     switch (browser) {
-      case 'chromium':
+      case 'chrome':
+      case 'chromium': // Support both for backward compatibility
         launchOptions.args = ['--no-sandbox', '--disable-site-isolation-trials'];
         return {
-          name: 'chromium',
+          name: 'chrome',
           use: {
             ...devices['Desktop Chrome'],
             channel: 'chrome',
@@ -163,7 +166,7 @@ export function getBrowserProjects() {
       default:
         launchOptions.args = ['--no-sandbox', '--disable-site-isolation-trials'];
         return {
-          name: 'chromium',
+          name: 'chrome',
           use: {
             ...devices['Desktop Chrome'],
             channel: 'chrome',

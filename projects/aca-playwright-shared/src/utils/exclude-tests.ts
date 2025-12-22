@@ -23,7 +23,7 @@
  */
 
 const getCurrentBrowser = (): string => {
-  const browserEnv = (process.env.PLAYWRIGHT_BROWSER || 'chromium').toLowerCase();
+  const browserEnv = (process.env.PLAYWRIGHT_BROWSER || 'chrome').toLowerCase();
   return browserEnv;
 };
 

@@ -81,8 +81,8 @@ PLAYWRIGHT_BROWSER=webkit nx run authentication-e2e:e2e
 # Run with MS Edge
 PLAYWRIGHT_BROWSER=msedge nx run authentication-e2e:e2e
 
-# Run with Chromium (default)
-PLAYWRIGHT_BROWSER=chromium nx run authentication-e2e:e2e
+# Run with Chrome (default)
+PLAYWRIGHT_BROWSER=chrome nx run authentication-e2e:e2e
 ```
 
 ### Running All Tests
@@ -231,9 +231,9 @@ The Report Portal URL is configured as a GitHub secret. To find it:
 #### Report Portal Configuration
 
 - Tests are reported **only in CI environments** (not locally)
-- Each browser has its own launch to avoid conflicts when running in parallel
+
 - Launch descriptions include direct links back to the GitHub Actions run
-- Test steps are included for detailed analysis
+
 
 ## Test Suites
 
@@ -313,17 +313,7 @@ Each `exclude.tests.json` file follows this structure:
 
 ### Adding Test Exclusions
 
-1. **Identify the test ID** - Each test should have a unique ID (e.g., `XAT-4370`)
-
-2. **Determine the scope**:
-   - If the test fails on all browsers, add it to `"all"`
-   - If it fails only on a specific browser, add it to that browser's section
-
-3. **Add the exclusion**:
-   - Open the `exclude.tests.json` file in the relevant test suite directory
-   - Add the test ID as a key with a Jira ticket URL as the value
-
-4. **Example**:
+ **Example**:
    ```json
    {
      "all": {
@@ -377,10 +367,10 @@ Each test suite has its own `playwright.config.ts` that:
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `PLAYWRIGHT_BROWSER` | Browser to use for tests | `chromium` |
+| `PLAYWRIGHT_BROWSER` | Browser to use for tests | `chrome` |
 | `PLAYWRIGHT_E2E_HOST` | Base URL for the application | `http://localhost:4200` |
 | `PLAYWRIGHT_HEADLESS` | Run in headless mode | `true` (CI) / `false` (local) |
-| `CI` | Indicates CI environment | `false` |
+
 
 ## Troubleshooting
 
@@ -403,20 +393,6 @@ Each test suite has its own `playwright.config.ts` that:
    echo $PLAYWRIGHT_E2E_HOST
    ```
 
-### Tests Timeout
-
-- Increase timeout in test configuration
-- Check network connectivity
-- Verify application is responding
-
-### Browser-Specific Issues
-
-- Install browser-specific dependencies:
-  ```bash
-  npx playwright install-deps
-  ```
-- Check browser-specific exclusions in `exclude.tests.json`
-
 ### CI Failures
 
 When tests fail in CI, you can view results in multiple ways:
@@ -428,12 +404,9 @@ When tests fail in CI, you can view results in multiple ways:
    - Click on the failed workflow run
    - Find the specific failed job (e.g., `E2E | chromium | authentication | Playwright`)
 
-2. **View test output**:
-   - The GitHub Actions logs show detailed test execution output
-   - Failed tests are highlighted with error messages
-   - The `github` reporter provides inline test results in the workflow logs
 
-3. **Download test artifacts**:
+
+2. **Download test artifacts**:
    - Playwright automatically saves artifacts on test failure:
      - **Screenshots**: Captured at the point of failure
      - **Videos**: Full test execution recordings
@@ -444,48 +417,32 @@ When tests fail in CI, you can view results in multiple ways:
      npx playwright show-trace <trace-file.zip>
      ```
 
-4. **View logs**:
-   - Application logs and Kubernetes logs are collected as artifacts
-   - Look for artifacts named `logs-<browser>-<suite-name>`
 
 #### Viewing Results in Report Portal
 
 Test results are automatically sent to Report Portal when running in CI. Report Portal provides a comprehensive dashboard for analyzing test results.
 
 1. **Finding the Report Portal URL**:
-   - The Report Portal URL is stored as a GitHub secret: `REPORT_PORTAL_URL`
-   - To find it:
-     - Go to repository **Settings** → **Secrets and variables** → **Actions**
-     - Look for the `REPORT_PORTAL_URL` secret (visible to repository administrators)
-     - Alternatively, check the workflow file (`.github/workflows/pull-request.yml`) which references `${{ secrets.REPORT_PORTAL_URL }}`
+
+     - CI e2e result have link under Run e2e Playwright to report portal results 
+       ex. https://reportportal.envalfresco.com/ui/#alfresco-content-app/launches/all/1364426
 
 2. **Accessing Report Portal**:
    - Navigate to the Report Portal URL
    - Log in with your credentials
    - Project name: `alfresco-content-app`
 
-3. **Finding your test run**:
-   - Launches are named: `GitHub Actions - ACA - <browser>`
-   - Filter by attributes:
-     - **Job**: GitHub job name
-     - **Build_type**: `pull_request` or `schedule`
-     - **Repository**: GitHub repository name
-     - **Branch**: Branch name
-     - **Browser**: `chromium`, `firefox`, `webkit`, or `msedge`
-   - Each launch includes a link back to the GitHub Actions run
 
 4. **Report Portal Features**:
    - **Test execution details**: View individual test results with steps
-   - **Failure analysis**: See screenshots, logs, and error messages
-   - **Historical trends**: Track test stability over time
-   - **Filtering**: Filter by browser, suite, or date range
+
    - **Only failures shown**: The configuration skips passed tests (`skipPassed: true`) to focus on issues
 
 5. **Report Portal Configuration**:
    - Tests are reported only in CI environments
-   - Each browser has its own launch to avoid conflicts
+
    - Launch descriptions include links to the GitHub Actions run
-   - Test steps are included for detailed analysis
+
 
 #### Additional Debugging Steps
 
@@ -508,7 +465,5 @@ This will:
 
 ## Additional Resources
 
-- [Playwright Documentation](https://playwright.dev/)
-- [Nx Documentation](https://nx.dev/)
 - Project-specific test utilities: `projects/aca-playwright-shared/`
 

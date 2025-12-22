@@ -28,7 +28,7 @@ import { timeouts } from '../utils';
 const { env } = process;
 
 export const getReportPortalConfig = () => {
-  const browser = (env.PLAYWRIGHT_BROWSER || 'chromium').toLowerCase();
+  const browser = (env.PLAYWRIGHT_BROWSER || 'chrome').toLowerCase();
   const attributes = [
     { key: 'Job', value: `${env.GITHUB_JOB}` },
     { key: 'Build_type', value: `${env.GITHUB_EVENT_NAME}` },

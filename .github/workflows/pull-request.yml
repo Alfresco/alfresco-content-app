@@ -134,7 +134,7 @@ jobs:
         # TEMPORARY: Enable all browsers for PRs to test multi-browser functionality
         # TODO: Revert to label-based or scheduled-only after testing
         browser:
-          - chromium
+          - chrome
           - firefox
           - webkit
           - msedge
