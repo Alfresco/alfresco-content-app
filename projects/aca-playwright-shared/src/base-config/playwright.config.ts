@@ -29,23 +29,6 @@ import { getReporter } from './report-portal.config';
 require('@alfresco/adf-cli/tooling').dotenvConfig();
 const { env } = process;
 
-export function getBrowserDevice() {
-  switch ((env.PLAYWRIGHT_BROWSER || 'chrome').toLowerCase()) {
-    case 'firefox':
-      return devices['Desktop Firefox'];
-    case 'webkit':
-      return devices['Desktop Safari'];
-    case 'msedge':
-      return { ...devices['Desktop Edge'], channel: 'msedge' };
-    case 'chrome':
-      return { ...devices['Desktop Chrome'], channel: 'chrome' };
-    case 'chromium':
-      return devices['Desktop Chrome'];
-    default:
-      return { ...devices['Desktop Chrome'], channel: 'chrome' };
-  }
-}
-
 export function createSuiteProjects(
   suiteName: string,
   testDir: string,
@@ -140,16 +123,6 @@ export function getBrowserProjects() {
             launchOptions
           }
         };
-      case 'chromium':
-      default: // Default to chromium for any unexpected browser values
-        launchOptions.args = ['--no-sandbox', '--disable-site-isolation-trials'];
-        return {
-          name: 'chromium',
-          use: {
-            ...devices['Desktop Chrome'],
-            launchOptions
-          }
-        };
       case 'firefox':
         // Firefox doesn't need Chromium-specific args
         return {
@@ -175,6 +148,16 @@ export function getBrowserProjects() {
           use: {
             ...devices['Desktop Edge'],
             channel: 'msedge',
+            launchOptions
+          }
+        };
+      case 'chromium':
+      default: // Default to chromium for any unexpected browser values
+        launchOptions.args = ['--no-sandbox', '--disable-site-isolation-trials'];
+        return {
+          name: 'chromium',
+          use: {
+            ...devices['Desktop Chrome'],
             launchOptions
           }
         };

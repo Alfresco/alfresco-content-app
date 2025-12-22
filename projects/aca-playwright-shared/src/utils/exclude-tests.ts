@@ -22,10 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-const getCurrentBrowser = (): string => {
-  const browserEnv = (process.env.PLAYWRIGHT_BROWSER || 'chrome').toLowerCase();
-  return browserEnv;
-};
+const getCurrentBrowser = (): string => (process.env.PLAYWRIGHT_BROWSER || 'chrome').toLowerCase();
 
 /**
  * Get excluded test IDs as regex patterns for the current browser
