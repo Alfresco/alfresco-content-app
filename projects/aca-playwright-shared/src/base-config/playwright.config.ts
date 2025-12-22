@@ -38,7 +38,9 @@ export function getBrowserDevice() {
     case 'msedge':
       return { ...devices['Desktop Edge'], channel: 'msedge' };
     case 'chrome':
-    case 'chromium': // Support both for backward compatibility
+      return { ...devices['Desktop Chrome'], channel: 'chrome' };
+    case 'chromium':
+      return devices['Desktop Chrome'];
     default:
       return { ...devices['Desktop Chrome'], channel: 'chrome' };
   }
@@ -56,7 +58,7 @@ export function createSuiteProjects(
   let browsersToUse: string[];
   if (browserEnv === 'all') {
     browsersToUse = allBrowsers;
-  } else if (allBrowsers.includes(browserEnv)) {
+  } else if (allBrowsers.includes(browserEnv) || browserEnv === 'chromium') {
     browsersToUse = [browserEnv];
   } else {
     browsersToUse = ['chrome'];
@@ -81,7 +83,13 @@ export function createSuiteProjects(
         launchOptions.args = ['--no-sandbox', '--disable-site-isolation-trials'];
         break;
       case 'chrome':
-      case 'chromium': // Support both for backward compatibility
+        browserDevice = { ...devices['Desktop Chrome'], channel: 'chrome' };
+        launchOptions.args = ['--no-sandbox', '--disable-site-isolation-trials'];
+        break;
+      case 'chromium':
+        browserDevice = devices['Desktop Chrome'];
+        launchOptions.args = ['--no-sandbox', '--disable-site-isolation-trials'];
+        break;
       default:
         browserDevice = { ...devices['Desktop Chrome'], channel: 'chrome' };
         launchOptions.args = ['--no-sandbox', '--disable-site-isolation-trials'];
@@ -108,7 +116,7 @@ export function getBrowserProjects() {
   let browsersToUse: string[];
   if (browserEnv === 'all') {
     browsersToUse = allBrowsers;
-  } else if (allBrowsers.includes(browserEnv)) {
+  } else if (allBrowsers.includes(browserEnv) || browserEnv === 'chromium') {
     browsersToUse = [browserEnv];
   } else {
     // Default to chrome if invalid value
@@ -123,14 +131,22 @@ export function getBrowserProjects() {
 
     switch (browser) {
       case 'chrome':
-      case 'chromium': // Support both for backward compatibility
-      default: // Default to chrome for any unexpected browser values
         launchOptions.args = ['--no-sandbox', '--disable-site-isolation-trials'];
         return {
           name: 'chrome',
           use: {
             ...devices['Desktop Chrome'],
             channel: 'chrome',
+            launchOptions
+          }
+        };
+      case 'chromium':
+      default: // Default to chromium for any unexpected browser values
+        launchOptions.args = ['--no-sandbox', '--disable-site-isolation-trials'];
+        return {
+          name: 'chromium',
+          use: {
+            ...devices['Desktop Chrome'],
             launchOptions
           }
         };
