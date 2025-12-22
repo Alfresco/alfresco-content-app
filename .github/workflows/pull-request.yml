@@ -123,7 +123,7 @@ jobs:
 
   e2es-playwright:
     needs: [lint, build, unit-tests]
-    name: E2E | ${{ matrix.browser }} | ${{ matrix.e2e-suites.name }} | Playwright
+    name: E2E | ${{ matrix.browser || 'chromium' }} | ${{ matrix.e2e-suites.name }} | Playwright
     runs-on: ubuntu-24.04
     env:
       NODE_OPTIONS: --dns-result-order=ipv4first
@@ -131,13 +131,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # TEMPORARY: Enable all browsers for PRs to test multi-browser functionality
-        # TODO: Revert to label-based or scheduled-only after testing
-        browser:
-          - chrome
-          - firefox
-          - webkit
-          - msedge
+        # For scheduled runs, include all browsers; for PR runs, only Chromium
+        browser: ${{ github.event_name == 'schedule' && fromJSON('["chromium", "firefox", "webkit", "msedge"]') || fromJSON('["chromium"]') }}
         e2e-suites:
           - name: "create-actions"
             id: 1
@@ -226,22 +221,20 @@ jobs:
         uses: ./.github/actions/before-e2e
 
       - name: Before playwright
-        # TEMPORARY: Disabled for testing - all PRs will install all browsers
-        if: false
+        # Install Chromium only for PR runs
+        if: ${{ github.event_name == 'pull_request' }}
         run: npm run ci:playwright:install
 
       - name: Before playwright (all browsers)
-        # TEMPORARY: Enable for all PRs to test multi-browser functionality
-        # TODO: Revert to: if: ${{ github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test-all-browsers') }}
-        if: ${{ github.event_name == 'schedule' || github.event_name == 'pull_request' }}
+        # Install all browsers for scheduled runs
+        if: ${{ github.event_name != 'pull_request' }}
         run: npm run ci:playwright:install:all
 
       - name: Install Playwright system dependencies
         # Install system dependencies required for all browsers (especially WebKit on Linux)
         # This is needed for WebKit to work properly in CI environments
-        # The install-deps command will automatically use sudo if needed
-        # For Chromium-only runs, this step is optional but doesn't hurt
-        if: ${{ github.event_name == 'schedule' || github.event_name == 'pull_request' }}
+        # Only needed for scheduled runs with all browsers
+        if: ${{ github.event_name != 'pull_request' }}
         run: npx playwright install-deps
 
       - name: Run e2e playwright

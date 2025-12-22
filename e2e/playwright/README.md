@@ -7,7 +7,6 @@ This directory contains end-to-end (E2E) tests for the Alfresco Content Applicat
 - [Running Tests Locally](#running-tests-locally)
 - [Running Tests in CI](#running-tests-in-ci)
 - [Viewing Test Results](#viewing-test-results)
-- [Test Suites](#test-suites)
 - [Browser Support](#browser-support)
 - [Excluding Tests](#excluding-tests)
 - [Test Configuration](#test-configuration)
@@ -31,11 +30,7 @@ This directory contains end-to-end (E2E) tests for the Alfresco Content Applicat
    npm run ci:playwright:install:all
    ```
    
-   **Note**: 
-   - When running Chrome/Chromium tests, the `playwright install chrome` command (included in `ci:playwright:install:all`) installs the Chrome browser binary that Playwright uses. The tests run on the actual Chrome browser, not an emulation.
-   - When running MS Edge tests, the `playwright install msedge` command (included in `ci:playwright:install:all`) installs the Edge browser binary that Playwright uses. The tests run on the actual Edge browser, not an emulation.
-   - Firefox uses Playwright's patched version (not real Firefox).
-   - Safari/WebKit uses emulation (not supported in CI).
+   **Note**: Chrome/Chromium and MS Edge use real browser binaries. Firefox uses Playwright's patched version. Safari/WebKit uses emulation (not supported in CI).
 
 ### Running a Specific Test Suite
 
@@ -109,8 +104,8 @@ When a pull request is opened, synchronized, or reopened against `master` or `de
 
 The CI runs tests in a matrix configuration:
 
-- **Browsers**: `chromium`, `firefox`, `webkit`, `msedge`
-- **Test Suites**: All 19 test suites (see [Test Suites](#test-suites))
+- **Browsers**: `all`, `chromium`, `firefox`, `webkit`, `msedge`
+- **Test Suites**: All available test suites
 
 Each combination of browser and test suite runs in parallel, creating multiple test jobs.
 
@@ -143,13 +138,12 @@ RETRY_COUNT: 2
 
 ### CI Test Execution Flow
 
-1. **Deploy Local ACS** - Sets up Alfresco Content Services locally
-2. **Install Dependencies** - Runs `npm ci`
-3. **Install Playwright Browsers** - Installs all browsers for multi-browser testing
-4. **Install System Dependencies** - Installs system dependencies (especially for WebKit)
-5. **Start Application** - Starts the application server
-6. **Run Tests** - Executes Playwright tests for the specific suite and browser
-7. **Collect Artifacts** - Saves test reports, screenshots, videos, and traces
+1. Deploy Local ACS
+2. Install Dependencies (`npm ci`)
+3. Install Playwright Browsers
+4. Start Application
+5. Run Tests
+6. Collect Artifacts (reports, screenshots, videos, traces)
 
 ## Viewing Test Results
 
@@ -157,124 +151,32 @@ When tests run in CI, results are available in two places: **GitHub Actions** an
 
 ### Viewing Results in GitHub Actions
 
-1. **Navigate to the workflow run**:
-   - Go to the repository's **Actions** tab
-   - Click on the workflow run (Pull Request or Scheduled)
-   - Find the specific test job (e.g., `E2E | chromium | authentication | Playwright`)
-
-2. **View test output**:
-   - Test execution logs are displayed in the job output
-   - Failed tests are highlighted with error messages and stack traces
-   - The `github` reporter provides inline test results
-
-3. **Download test artifacts**:
-   - On test failure, Playwright automatically saves:
-     - **Screenshots**: Captured at the point of failure
-     - **Videos**: Full test execution recordings (`.webm` files)
-     - **Traces**: Interactive trace files for debugging (`.zip` files)
-   - Artifacts are available in the job's **Artifacts** section at the bottom
-   - Download and analyze using Playwright Trace Viewer:
-     ```bash
-     npx playwright show-trace <trace-file.zip>
-     ```
-
-4. **View application logs**:
-   - Kubernetes and application logs are collected as artifacts
-   - Look for artifacts named `logs-<browser>-<suite-name>`
+1. Navigate to the repository's **Actions** tab and select the workflow run
+2. Find the specific test job (e.g., `E2E | chromium | authentication | Playwright`)
+3. View test output and logs in the job output
+4. Download test artifacts on failure:
+   - Screenshots, videos (`.webm`), and traces (`.zip`)
+   - Analyze traces using: `npx playwright show-trace <trace-file.zip>`
+5. Application logs are available as artifacts named `logs-<browser>-<suite-name>`
 
 ### Viewing Results in Report Portal
 
-Test results are automatically sent to Report Portal for comprehensive analysis and historical tracking.
+CI e2e test results are automatically reported to Report Portal for analysis and historical tracking. The Report Portal URL is available in the GitHub Actions workflow run under "Run e2e Playwright" section.
 
-#### Finding the Report Portal URL
+**Sample URL format**: `https://reportportal.envalfresco.com/ui/#alfresco-content-app/launches/all/<launch-id>`
 
-The Report Portal URL is configured as a GitHub secret. To find it:
+- Project name: `alfresco-content-app`
+- Tests are reported only in CI environments (not locally)
 
-1. **For repository administrators**:
-   - Go to repository **Settings** → **Secrets and variables** → **Actions**
-   - Look for the `REPORT_PORTAL_URL` secret
-   - The URL will be visible in the secret value
-
-2. **From workflow file**:
-   - Check `.github/workflows/pull-request.yml`
-   - Look for `REPORT_PORTAL_URL: ${{ secrets.REPORT_PORTAL_URL }}`
-   - The actual URL is stored in GitHub secrets (not visible in the file)
-
-#### Accessing Report Portal
-
-1. **Navigate to Report Portal**:
-   - Open the Report Portal URL in your browser
-   - Log in with your credentials
-
-2. **Select the project**:
-   - Project name: `alfresco-content-app`
-
-3. **Find your test run**:
-   - Launches are named: `GitHub Actions - ACA - <browser>`
-   - Use filters to find specific runs:
-     - **Job**: GitHub job name (e.g., `E2E | chromium | authentication | Playwright`)
-     - **Build_type**: `pull_request` or `schedule`
-     - **Repository**: GitHub repository name
-     - **Branch**: Branch name (e.g., `feature/my-branch`)
-     - **Browser**: `chromium`, `firefox`, `webkit`, or `msedge`
-   - Each launch description includes a link to the GitHub Actions run
-
-#### Report Portal Features
-
-- **Detailed test execution**: View individual test results with step-by-step execution
-- **Failure analysis**: See screenshots, error messages, and logs for failed tests
-- **Historical trends**: Track test stability and flakiness over time
-- **Advanced filtering**: Filter by browser, suite, date range, or test status
-- **Failure-focused**: Only failed tests are shown (`skipPassed: true`) to focus on issues
-- **Test steps included**: Detailed step-by-step execution for debugging
-
-#### Report Portal Configuration
-
-- Tests are reported **only in CI environments** (not locally)
-
-- Launch descriptions include direct links back to the GitHub Actions run
-
-
-## Test Suites
-
-The following test suites are available:
-
-1. **authentication** - Login, logout, and authentication flows
-2. **create-actions** - Creating files, folders, and libraries
-3. **folder-rules** - Folder rule management
-4. **viewer** - Document viewing functionality
-5. **navigation** - Navigation and routing
-6. **special-permissions** - Special permission handling
-7. **pagination** - Pagination functionality
-8. **list-views** - List view displays
-9. **share-action** - Sharing functionality
-10. **copy-move-actions** - Copy and move operations
-11. **library-actions** - Library management
-12. **info-drawer** - Information drawer functionality
-13. **search** - Search functionality
-14. **upload-download-actions** - Upload and download operations
-15. **favorite-actions** - Favorite/unfavorite actions
-16. **delete-actions** - Delete and restore operations
-17. **edit-actions** - Edit operations
-18. **smoke-test** - Quick smoke tests
-19. **folder-information-actions** - Folder information actions
-
-Each suite is located in its own directory under `e2e/playwright/`.
 
 ## Browser Support
 
 The tests support the following browsers:
 
-- **Chromium** (default) - Uses real Google Chrome browser via `channel: 'chrome'`
-- **Firefox** - Mozilla Firefox (uses Playwright's patched version, not real Firefox)
+- **Chromium** (default) - Uses real Google Chrome browser
+- **Firefox** - Uses Playwright's patched version
 - **WebKit** - Safari-based browser (uses emulation, not supported in CI)
-- **MS Edge** - Microsoft Edge (uses real Edge browser via `channel: 'msedge'`)
-
-**Browser Implementation Details**:
-- **Chrome/Chromium**: Tests run on the actual Google Chrome browser installed on the system (or installed via `playwright install chrome`). This provides more accurate testing compared to emulation, as it uses the real browser engine and behavior that end-users experience.
-- **MS Edge**: Tests run on the actual Microsoft Edge browser installed on the system (or installed via `playwright install msedge`). This provides more accurate testing compared to emulation, as it uses the real browser engine and behavior that end-users experience.
-- **Firefox**: Playwright uses its own patched version of Firefox for consistent automation. Real Firefox browser cannot be used due to Playwright limitations.
-- **Safari/WebKit**: Uses emulation via `devices['Desktop Safari']`. Real Safari is not supported in CI environments.
+- **MS Edge** - Uses real Microsoft Edge browser
 
 Browser-specific test exclusions are supported (see [Excluding Tests](#excluding-tests)).
 
@@ -367,7 +269,7 @@ Each test suite has its own `playwright.config.ts` that:
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `PLAYWRIGHT_BROWSER` | Browser to use for tests | `chrome` |
+| `PLAYWRIGHT_BROWSER` | Browser to use for tests | `chromium` |
 | `PLAYWRIGHT_E2E_HOST` | Base URL for the application | `http://localhost:4200` |
 | `PLAYWRIGHT_HEADLESS` | Run in headless mode | `true` (CI) / `false` (local) |
 
@@ -395,60 +297,17 @@ Each test suite has its own `playwright.config.ts` that:
 
 ### CI Failures
 
-When tests fail in CI, you can view results in multiple ways:
+When tests fail in CI:
 
-#### Viewing Results in GitHub Actions
-
-1. **Navigate to the failed job**:
-   - Go to the "Actions" tab in the GitHub repository
-   - Click on the failed workflow run
-   - Find the specific failed job (e.g., `E2E | chromium | authentication | Playwright`)
-
-
-
-2. **Download test artifacts**:
-   - Playwright automatically saves artifacts on test failure:
-     - **Screenshots**: Captured at the point of failure
-     - **Videos**: Full test execution recordings
-     - **Traces**: Interactive trace files for debugging
-   - These artifacts are available in the job's "Artifacts" section
-   - Download and use Playwright Trace Viewer to analyze failures:
-     ```bash
-     npx playwright show-trace <trace-file.zip>
-     ```
-
-
-#### Viewing Results in Report Portal
-
-Test results are automatically sent to Report Portal when running in CI. Report Portal provides a comprehensive dashboard for analyzing test results.
-
-1. **Finding the Report Portal URL**:
-
-     - CI e2e result have link under Run e2e Playwright to report portal results 
-       ex. https://reportportal.envalfresco.com/ui/#alfresco-content-app/launches/all/1364426
-
-2. **Accessing Report Portal**:
-   - Navigate to the Report Portal URL
-   - Log in with your credentials
-   - Project name: `alfresco-content-app`
-
-
-4. **Report Portal Features**:
-   - **Test execution details**: View individual test results with steps
-
-   - **Only failures shown**: The configuration skips passed tests (`skipPassed: true`) to focus on issues
-
-5. **Report Portal Configuration**:
-   - Tests are reported only in CI environments
-
-   - Launch descriptions include links to the GitHub Actions run
-
+1. Navigate to the failed job in GitHub Actions
+2. Download test artifacts (screenshots, videos, traces) from the job's Artifacts section
+3. Analyze traces using: `npx playwright show-trace <trace-file.zip>`
 
 #### Additional Debugging Steps
 
-1. **Verify environment** - Ensure all required services (ACS) are deployed correctly
-2. **Check environment variables** - Verify all required secrets and variables are set
-3. **Review related logs** - Check ACS deployment logs and application logs
+1. Verify environment - Ensure all required services (ACS) are deployed correctly
+2. Check environment variables - Verify all required secrets and variables are set
+3. Review related logs - Check ACS deployment logs and application logs
 
 ### Debug Mode
 
