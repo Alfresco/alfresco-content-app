@@ -123,7 +123,7 @@ jobs:
 
   e2es-playwright:
     needs: [lint, build, unit-tests]
-    name: E2E | ${{ matrix.browser || 'chromium' }} | ${{ matrix.e2e-suites.name }} | Playwright
+    name: E2E | ${{ matrix.browser || 'chrome' }} | ${{ matrix.e2e-suites.name }} | Playwright
     runs-on: ubuntu-24.04
     env:
       NODE_OPTIONS: --dns-result-order=ipv4first
@@ -132,7 +132,7 @@ jobs:
       fail-fast: false
       matrix:
         # For scheduled runs, include all browsers; for PR runs, only Chromium
-        browser: ${{ github.event_name == 'schedule' && fromJSON('["chromium", "firefox", "webkit", "msedge"]') || fromJSON('["chromium"]') }}
+        browser: ${{ github.event_name != 'pull_request' && fromJSON('["chrome", "firefox", "webkit", "msedge"]') || fromJSON('["chrome"]') }}
         e2e-suites:
           - name: "create-actions"
             id: 1

@@ -30,9 +30,7 @@ require('@alfresco/adf-cli/tooling').dotenvConfig();
 const { env } = process;
 
 export function getBrowserDevice() {
-  const browserEnv = (env.PLAYWRIGHT_BROWSER || 'chrome').toLowerCase();
-
-  switch (browserEnv) {
+  switch ((env.PLAYWRIGHT_BROWSER || 'chrome').toLowerCase()) {
     case 'firefox':
       return devices['Desktop Firefox'];
     case 'webkit':
@@ -117,7 +115,7 @@ export function getBrowserProjects() {
     browsersToUse = ['chrome'];
   }
 
-  const browserProjects = browsersToUse.map((browser) => {
+  return browsersToUse.map((browser) => {
     const launchOptions: any = {
       devtools: false,
       slowMo: 300
@@ -126,6 +124,7 @@ export function getBrowserProjects() {
     switch (browser) {
       case 'chrome':
       case 'chromium': // Support both for backward compatibility
+      default: // Default to chrome for any unexpected browser values
         launchOptions.args = ['--no-sandbox', '--disable-site-isolation-trials'];
         return {
           name: 'chrome',
@@ -163,20 +162,8 @@ export function getBrowserProjects() {
             launchOptions
           }
         };
-      default:
-        launchOptions.args = ['--no-sandbox', '--disable-site-isolation-trials'];
-        return {
-          name: 'chrome',
-          use: {
-            ...devices['Desktop Chrome'],
-            channel: 'chrome',
-            launchOptions
-          }
-        };
     }
   });
-
-  return browserProjects;
 }
 
 export const getGlobalConfig: PlaywrightTestConfig = {
