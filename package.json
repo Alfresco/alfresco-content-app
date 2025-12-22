@@ -28,7 +28,7 @@
     "ci:build": "nx build",
     "ci:build:many": "nx run-many --target=build",
     "ci:playwright:install": "playwright install chromium",
-    "ci:playwright:install:all": "playwright install chromium firefox webkit msedge",
+    "ci:playwright:install:all": "playwright install chromium chrome firefox webkit msedge",
     "ci:e2e": "nx run $E2E_TARGET-e2e:e2e",
     "ci:audit": "adf-cli audit -d docs/audit",
     "ci:licenses": "adf-cli licenses -d docs/licences",

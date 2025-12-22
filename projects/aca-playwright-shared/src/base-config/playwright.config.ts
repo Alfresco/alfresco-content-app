@@ -29,11 +29,6 @@ import { getReporter } from './report-portal.config';
 require('@alfresco/adf-cli/tooling').dotenvConfig();
 const { env } = process;
 
-/**
- * Get the browser device configuration based on PLAYWRIGHT_BROWSER environment variable
- * Supports: chromium (default), firefox, webkit, msedge
- * @returns Browser device configuration object
- */
 export function getBrowserDevice() {
   const browserEnv = (env.PLAYWRIGHT_BROWSER || 'chromium').toLowerCase();
 
@@ -43,22 +38,13 @@ export function getBrowserDevice() {
     case 'webkit':
       return devices['Desktop Safari'];
     case 'msedge':
-      return devices['Desktop Edge'];
+      return { ...devices['Desktop Edge'], channel: 'msedge' };
     case 'chromium':
     default:
-      return devices['Desktop Chrome'];
+      return { ...devices['Desktop Chrome'], channel: 'chrome' };
   }
 }
 
-/**
- * Create suite projects for all browsers when PLAYWRIGHT_BROWSER=all
- * Otherwise creates a single suite project for the specified browser
- * @param suiteName - Name of the test suite
- * @param testDir - Directory containing the tests
- * @param useConfig - Additional use configuration (e.g., users)
- * @param projectConfig - Additional project-level configuration (e.g., timeout)
- * @returns Array of project configurations
- */
 export function createSuiteProjects(
   suiteName: string,
   testDir: string,
@@ -87,21 +73,17 @@ export function createSuiteProjects(
     switch (browser) {
       case 'firefox':
         browserDevice = devices['Desktop Firefox'];
-        // Firefox doesn't need Chromium-specific args
         break;
       case 'webkit':
         browserDevice = devices['Desktop Safari'];
-        // WebKit doesn't support --no-sandbox or --disable-site-isolation-trials
         break;
       case 'msedge':
-        browserDevice = devices['Desktop Edge'];
-        // Edge (Chromium-based) supports Chromium args
+        browserDevice = { ...devices['Desktop Edge'], channel: 'msedge' };
         launchOptions.args = ['--no-sandbox', '--disable-site-isolation-trials'];
         break;
       case 'chromium':
       default:
-        browserDevice = devices['Desktop Chrome'];
-        // Chromium-specific args for CI environments
+        browserDevice = { ...devices['Desktop Chrome'], channel: 'chrome' };
         launchOptions.args = ['--no-sandbox', '--disable-site-isolation-trials'];
         break;
     }
@@ -119,11 +101,6 @@ export function createSuiteProjects(
   });
 }
 
-/**
- * Get browser projects based on PLAYWRIGHT_BROWSER environment variable
- * Supports: chromium (default), firefox, webkit, msedge, or all
- * @returns Array of browser project configurations
- */
 export function getBrowserProjects() {
   const browserEnv = (env.PLAYWRIGHT_BROWSER || 'chromium').toLowerCase();
   const allBrowsers = ['chromium', 'firefox', 'webkit', 'msedge'];
@@ -151,6 +128,7 @@ export function getBrowserProjects() {
           name: 'chromium',
           use: {
             ...devices['Desktop Chrome'],
+            channel: 'chrome',
             launchOptions
           }
         };
@@ -178,6 +156,7 @@ export function getBrowserProjects() {
           name: 'msedge',
           use: {
             ...devices['Desktop Edge'],
+            channel: 'msedge',
             launchOptions
           }
         };
@@ -187,6 +166,7 @@ export function getBrowserProjects() {
           name: 'chromium',
           use: {
             ...devices['Desktop Chrome'],
+            channel: 'chrome',
             launchOptions
           }
         };
