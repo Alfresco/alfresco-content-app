@@ -221,19 +221,15 @@ jobs:
         uses: ./.github/actions/before-e2e
 
       - name: Before playwright (Chromium for PR)
-        # Install Chromium only for PR runs
         if: ${{ github.event_name == 'pull_request' }}
         run: npm run ci:playwright:install
 
       - name: Before playwright (all browsers)
-        # Install all browsers for scheduled runs
         if: ${{ github.event_name != 'pull_request' }}
         run: npm run ci:playwright:install:all
 
       - name: Install Playwright system dependencies
         # Install system dependencies required for all browsers (especially WebKit on Linux)
-        # This is needed for WebKit to work properly in CI environments
-        # Only needed for scheduled runs with all browsers
         if: ${{ github.event_name != 'pull_request' }}
         run: npx playwright install-deps
 

@@ -37,7 +37,6 @@ export const getReportPortalConfig = () => {
     { key: 'Browser', value: browser }
   ];
 
-  // Include browser in launch name to avoid conflicts when multiple browsers run in parallel
   const launch = `GitHub Actions - ACA - ${browser}`;
 
   return {

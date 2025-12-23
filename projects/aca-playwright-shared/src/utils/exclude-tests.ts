@@ -24,13 +24,6 @@
 
 const getCurrentBrowser = (): string => (process.env.PLAYWRIGHT_BROWSER || 'chrome').toLowerCase();
 
-/**
- * Get excluded test IDs as regex patterns for the current browser
- * Expects nested format: { "all": {...}, "firefox": {...}, "webkit": {...}, ... }
- * @param excludedJson - The exclusion JSON object in nested format
- * @param projectName - Name of the test project for logging
- * @returns Array of RegExp patterns for excluded tests
- */
 export const getExcludedTestsRegExpArray = (excludedJson: any, projectName: string) => {
   const prefix = `[ 🎭 Playwright Excludes - ${projectName} ]`;
   const currentBrowser = getCurrentBrowser();

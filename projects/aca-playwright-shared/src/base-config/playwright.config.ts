@@ -22,12 +22,79 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { PlaywrightTestConfig, devices } from '@playwright/test';
+import { PlaywrightTestConfig, devices, chromium } from '@playwright/test';
 import { timeouts } from '../utils';
 import { getReporter } from './report-portal.config';
 
+type LaunchOptions = Parameters<typeof chromium.launch>[0];
+
 require('@alfresco/adf-cli/tooling').dotenvConfig();
 const { env } = process;
+
+interface BrowserConfig {
+  device: any;
+  launchOptions: LaunchOptions;
+  name: string;
+}
+
+function getBrowsersToUse(): string[] {
+  const browserEnv = (env.PLAYWRIGHT_BROWSER || 'chromium').toLowerCase();
+  const allBrowsers = ['chrome', 'firefox', 'webkit', 'msedge'];
+
+  if (browserEnv === 'all') {
+    return allBrowsers;
+  } else if (allBrowsers.includes(browserEnv) || browserEnv === 'chromium') {
+    return [browserEnv];
+  } else {
+    return ['chromium'];
+  }
+}
+
+function getBrowserConfig(browser: string): BrowserConfig {
+  const launchOptions: LaunchOptions = {
+    devtools: false,
+    slowMo: 300
+  };
+
+  const chromiumArgs = ['--no-sandbox', '--disable-site-isolation-trials'];
+
+  switch (browser) {
+    case 'firefox':
+      return {
+        device: devices['Desktop Firefox'],
+        launchOptions,
+        name: 'firefox'
+      };
+    case 'webkit':
+      return {
+        device: devices['Desktop Safari'],
+        launchOptions,
+        name: 'webkit'
+      };
+    case 'msedge':
+      launchOptions.args = chromiumArgs;
+      return {
+        device: { ...devices['Desktop Edge'], channel: 'msedge' },
+        launchOptions,
+        name: 'msedge'
+      };
+    case 'chrome':
+      launchOptions.args = chromiumArgs;
+      return {
+        device: { ...devices['Desktop Chrome'], channel: 'chrome' },
+        launchOptions,
+        name: 'chrome'
+      };
+    case 'chromium':
+    default:
+      launchOptions.args = chromiumArgs;
+      return {
+        device: devices['Desktop Chrome'],
+        launchOptions,
+        name: 'chromium'
+      };
+  }
+}
 
 export function createSuiteProjects(
   suiteName: string,
@@ -35,55 +102,17 @@ export function createSuiteProjects(
   useConfig: Record<string, any> = {},
   projectConfig: Record<string, any> = {}
 ) {
+  const browsersToUse = getBrowsersToUse();
   const browserEnv = (env.PLAYWRIGHT_BROWSER || 'chrome').toLowerCase();
-  const allBrowsers = ['chrome', 'firefox', 'webkit', 'msedge'];
-
-  let browsersToUse: string[];
-  if (browserEnv === 'all') {
-    browsersToUse = allBrowsers;
-  } else if (allBrowsers.includes(browserEnv) || browserEnv === 'chromium') {
-    browsersToUse = [browserEnv];
-  } else {
-    browsersToUse = ['chrome'];
-  }
 
   return browsersToUse.map((browser) => {
-    let browserDevice;
-    const launchOptions: any = {
-      devtools: false,
-      slowMo: 300
-    };
-
-    switch (browser) {
-      case 'firefox':
-        browserDevice = devices['Desktop Firefox'];
-        break;
-      case 'webkit':
-        browserDevice = devices['Desktop Safari'];
-        break;
-      case 'msedge':
-        browserDevice = { ...devices['Desktop Edge'], channel: 'msedge' };
-        launchOptions.args = ['--no-sandbox', '--disable-site-isolation-trials'];
-        break;
-      case 'chrome':
-        browserDevice = { ...devices['Desktop Chrome'], channel: 'chrome' };
-        launchOptions.args = ['--no-sandbox', '--disable-site-isolation-trials'];
-        break;
-      case 'chromium':
-        browserDevice = devices['Desktop Chrome'];
-        launchOptions.args = ['--no-sandbox', '--disable-site-isolation-trials'];
-        break;
-      default:
-        browserDevice = { ...devices['Desktop Chrome'], channel: 'chrome' };
-        launchOptions.args = ['--no-sandbox', '--disable-site-isolation-trials'];
-        break;
-    }
+    const { device, launchOptions } = getBrowserConfig(browser);
 
     return {
       name: browserEnv === 'all' ? `${suiteName} - ${browser}` : suiteName,
       testDir,
       use: {
-        ...browserDevice,
+        ...device,
         launchOptions,
         ...useConfig
       },
@@ -93,75 +122,18 @@ export function createSuiteProjects(
 }
 
 export function getBrowserProjects() {
-  const browserEnv = (env.PLAYWRIGHT_BROWSER || 'chrome').toLowerCase();
-  const allBrowsers = ['chrome', 'firefox', 'webkit', 'msedge'];
-
-  let browsersToUse: string[];
-  if (browserEnv === 'all') {
-    browsersToUse = allBrowsers;
-  } else if (allBrowsers.includes(browserEnv) || browserEnv === 'chromium') {
-    browsersToUse = [browserEnv];
-  } else {
-    // Default to chrome if invalid value
-    browsersToUse = ['chrome'];
-  }
+  const browsersToUse = getBrowsersToUse();
 
   return browsersToUse.map((browser) => {
-    const launchOptions: any = {
-      devtools: false,
-      slowMo: 300
-    };
+    const { device, launchOptions, name } = getBrowserConfig(browser);
 
-    switch (browser) {
-      case 'chrome':
-        launchOptions.args = ['--no-sandbox', '--disable-site-isolation-trials'];
-        return {
-          name: 'chrome',
-          use: {
-            ...devices['Desktop Chrome'],
-            channel: 'chrome',
-            launchOptions
-          }
-        };
-      case 'firefox':
-        // Firefox doesn't need Chromium-specific args
-        return {
-          name: 'firefox',
-          use: {
-            ...devices['Desktop Firefox'],
-            launchOptions
-          }
-        };
-      case 'webkit':
-        // WebKit doesn't support --no-sandbox or --disable-site-isolation-trials
-        return {
-          name: 'webkit',
-          use: {
-            ...devices['Desktop Safari'],
-            launchOptions
-          }
-        };
-      case 'msedge':
-        launchOptions.args = ['--no-sandbox', '--disable-site-isolation-trials'];
-        return {
-          name: 'msedge',
-          use: {
-            ...devices['Desktop Edge'],
-            channel: 'msedge',
-            launchOptions
-          }
-        };
-      case 'chromium':
-      default: // Default to chromium for any unexpected browser values
-        launchOptions.args = ['--no-sandbox', '--disable-site-isolation-trials'];
-        return {
-          name: 'chromium',
-          use: {
-            ...devices['Desktop Chrome'],
-            launchOptions
-          }
-        };
-    }
+    return {
+      name,
+      use: {
+        ...device,
+        launchOptions
+      }
+    };
   });
 }
 
@@ -199,7 +171,6 @@ export const getGlobalConfig: PlaywrightTestConfig = {
     trace: 'retain-on-failure',
     video: 'retain-on-failure',
     screenshot: 'only-on-failure'
-    /* Note: launchOptions are now browser-specific and set in createSuiteProjects/getBrowserProjects */
   },
 
   /* Configure projects for major browsers */
