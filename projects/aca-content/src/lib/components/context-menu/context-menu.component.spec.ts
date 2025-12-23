@@ -60,7 +60,8 @@ describe('ContextMenuComponent', () => {
     title: 'Test Button',
     actions: {
       click: 'TEST_EVENT'
-    }
+    },
+    icon: 'icon-name'
   };
 
   beforeEach(() => {
@@ -136,7 +137,8 @@ describe('ContextMenuComponent', () => {
       title: 'Button 2',
       actions: {
         click: 'EVENT_2'
-      }
+      },
+      icon: 'icon-name'
     };
 
     const orderedActions = [contextItem, customComponentAction, buttonAction2];

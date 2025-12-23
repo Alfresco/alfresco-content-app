@@ -67,7 +67,8 @@ describe('ToolbarButtonComponent', () => {
       type: ContentActionType.button,
       actions: {
         click: 'ON_CLICK'
-      }
+      },
+      icon: 'icon-name'
     };
 
     fixture.detectChanges();

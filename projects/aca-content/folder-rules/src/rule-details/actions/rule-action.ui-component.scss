@@ -1,3 +1,5 @@
+@use '../../styles/mat-selectors' as ms;
+
 .aca-rule-action {
   max-width: 100%;
 
@@ -20,6 +22,11 @@
         .adf-textitem-action {
           .adf-textitem-icon {
             margin-left: -10px;
+            color: var(--adf-theme-foreground-text-color-064);
+
+            &:hover {
+              color: var(--adf-theme-foreground-text-color);
+            }
           }
         }
       }
@@ -32,6 +39,10 @@
 
     &.aca-rule-action-form-field {
       min-width: unset;
+
+      #{ms.$mat-form-field-subscript-wrapper} {
+        min-height: 22.5px;
+      }
     }
 
     &.aca-rule-action-card-view {

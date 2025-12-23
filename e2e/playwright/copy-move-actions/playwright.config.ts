@@ -23,21 +23,14 @@
  */
 
 import { PlaywrightTestConfig } from '@playwright/test';
-import { CustomConfig, getGlobalConfig, getExcludedTestsRegExpArray, timeouts } from '@alfresco/aca-playwright-shared';
+import { CustomConfig, getGlobalConfig, getExcludedTestsRegExpArray, timeouts, createSuiteProjects } from '@alfresco/aca-playwright-shared';
 import EXCLUDED_JSON from './exclude.tests.json';
 
 const config: PlaywrightTestConfig<CustomConfig> = {
   ...getGlobalConfig,
 
   grepInvert: getExcludedTestsRegExpArray(EXCLUDED_JSON, 'Copy Move Actions'),
-  projects: [
-    {
-      name: 'Copy Move Actions',
-      testDir: './src/tests',
-      use: {},
-      timeout: timeouts.extendedTest
-    }
-  ]
+  projects: createSuiteProjects('Copy Move Actions', './src/tests', {}, { timeout: timeouts.extendedTest })
 };
 
 export default config;

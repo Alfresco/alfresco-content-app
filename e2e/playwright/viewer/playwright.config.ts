@@ -23,20 +23,14 @@
  */
 
 import { PlaywrightTestConfig } from '@playwright/test';
-import { CustomConfig, getGlobalConfig, getExcludedTestsRegExpArray } from '@alfresco/aca-playwright-shared';
+import { CustomConfig, getGlobalConfig, getExcludedTestsRegExpArray, createSuiteProjects } from '@alfresco/aca-playwright-shared';
 import EXCLUDED_JSON from './exclude.tests.json';
 
 const config: PlaywrightTestConfig<CustomConfig> = {
   ...getGlobalConfig,
 
   grepInvert: getExcludedTestsRegExpArray(EXCLUDED_JSON, 'Viewer'),
-  projects: [
-    {
-      name: 'Viewer',
-      testDir: './src/tests',
-      use: {}
-    }
-  ]
+  projects: createSuiteProjects('Viewer', './src/tests', { users: ['hruser'] })
 };
 
 export default config;

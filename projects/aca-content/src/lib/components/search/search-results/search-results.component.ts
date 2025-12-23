@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ChangeDetectorRef, Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { NodeEntry, Pagination, ResultSetPaging } from '@alfresco/js-api';
 import { ActivatedRoute, NavigationStart } from '@angular/router';
 import {
@@ -64,7 +64,7 @@ import {
 } from '@alfresco/aca-shared';
 import { SearchSortingDefinition } from '@alfresco/adf-content-services/lib/search/models/search-sorting-definition.interface';
 import { filter, first, map, startWith, switchMap, take, tap, toArray } from 'rxjs/operators';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { SearchInputComponent } from '../search-input/search-input.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -84,7 +84,7 @@ import {
   formatSearchTerm
 } from '../../../utils/aca-search-utils';
 import { SaveSearchDirective } from '../search-save/directive/save-search.directive';
-import { combineLatest, of } from 'rxjs';
+import { combineLatest, merge, Observable, of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatMenuModule } from '@angular/material/menu';
 import { IsFeatureSupportedInCurrentAcsPipe } from '../../../pipes/is-feature-supported.pipe';
@@ -123,17 +123,20 @@ import { SavedSearchesContextService } from '../../../services/saved-searches-co
     BulkActionsDropdownComponent,
     SearchAiInputContainerComponent,
     SaveSearchDirective,
-    IsFeatureSupportedInCurrentAcsPipe
+    IsFeatureSupportedInCurrentAcsPipe,
+    AsyncPipe
   ],
   selector: 'aca-search-results',
   templateUrl: './search-results.component.html',
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./search-results.component.scss']
 })
-export class SearchResultsComponent extends PageComponent implements OnInit {
+export class SearchResultsComponent extends PageComponent implements OnInit, OnDestroy {
   private notificationService = inject(NotificationService);
 
   infoDrawerPreview$ = this.store.select(infoDrawerPreview);
+
+  protected readonly areFiltersActive$: Observable<boolean>;
 
   searchedWord: string;
   queryParamName = 'q';
@@ -168,8 +171,14 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
     this.queryBuilder.configUpdated.pipe(takeUntilDestroyed()).subscribe((searchConfig) => {
       this.searchConfig = searchConfig;
-      this.updateUserQuery();
     });
+
+    this.areFiltersActive$ = merge(this.queryBuilder.queryFragmentsUpdate, this.queryBuilder.userFacetBucketsUpdate).pipe(
+      takeUntilDestroyed(),
+      map((v) => {
+        return Object.values(v).some((filterValue) => (Array.isArray(filterValue) ? filterValue.length > 0 : !!filterValue));
+      })
+    );
   }
 
   ngOnInit() {
@@ -179,12 +188,10 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     this.sorting = this.getSorting();
 
     this.subscriptions.push(
-      this.queryBuilder.updated.subscribe((query) => {
+      this.queryBuilder.updated.pipe(filter(Boolean)).subscribe(() => {
         this.isLoading = true;
-        if (query) {
-          this.sorting = this.getSorting();
-          this.changeDetectorRef.detectChanges();
-        }
+        this.sorting = this.getSorting();
+        this.changeDetectorRef.detectChanges();
       }),
 
       this.queryBuilder.executed.subscribe((data) => {
@@ -207,35 +214,25 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     this.columns = this.extensions.documentListPresets.searchResults || [];
 
     if (this.route) {
-      this.route.queryParams
-        .pipe(
-          takeUntilDestroyed(this.destroyRef),
-          switchMap((params) =>
-            this.savedSearchesService.getSavedSearches().pipe(
-              first(),
-              map((savedSearches) => savedSearches.find((savedSearch) => savedSearch.encodedUrl === encodeURIComponent(params[this.queryParamName])))
-            )
-          )
-        )
-        .subscribe((savedSearches) => {
-          this.initialSavedSearch = savedSearches;
-        });
+      this.selectInitialSavedSearch().subscribe((savedSearches) => {
+        this.initialSavedSearch = savedSearches;
+      });
 
       combineLatest([
         this.route.queryParams,
         this.router.events.pipe(
-          filter((e): e is NavigationStart => e instanceof NavigationStart),
+          filter((event): event is NavigationStart => event instanceof NavigationStart),
           startWith(null)
         )
       ])
         .pipe(
           takeUntilDestroyed(this.destroyRef),
           tap(([params]) => {
+            this.queryBuilder.userQuery = '';
             this.encodedQuery = params[this.queryParamName];
             this.isLoading = !!this.encodedQuery;
 
             this.searchedWord = extractSearchedWordFromEncodedQuery(this.encodedQuery);
-            this.updateUserQuery();
 
             const filtersFromEncodedQuery = extractFiltersFromEncodedQuery(this.encodedQuery);
             this.queryBuilder.populateFilters.next(filtersFromEncodedQuery || {});
@@ -260,6 +257,10 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
           }
         });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.savedSearchesService.currentContextSavedSearch = undefined;
   }
 
   onSearchError(error: { message: any }) {
@@ -355,9 +356,13 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
       });
   }
 
-  private updateUserQuery(): void {
-    const updatedUserQuery = formatSearchTerm(this.searchedWord, this.searchConfig['app:fields']);
-    this.queryBuilder.userQuery = updatedUserQuery;
+  onSaveSearch(): void {
+    this.selectInitialSavedSearch()
+      .pipe(take(1))
+      .subscribe((savedSearch) => {
+        this.initialSavedSearch = savedSearch;
+        this.savedSearchesService.currentContextSavedSearch = savedSearch;
+      });
   }
 
   private shouldExecuteQuery(navigationStartEvent: NavigationStart | null, query: string | undefined): boolean {
@@ -371,5 +376,21 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     } else {
       return !!query;
     }
+  }
+
+  private selectInitialSavedSearch(): Observable<SavedSearch> {
+    return this.route.queryParams.pipe(
+      takeUntilDestroyed(this.destroyRef),
+      switchMap((params) =>
+        this.savedSearchesService.savedSearches$.pipe(
+          first(),
+          map(
+            (savedSearches) =>
+              savedSearches.find((savedSearch) => savedSearch.encodedUrl === encodeURIComponent(params[this.queryParamName])) ||
+              this.savedSearchesService.currentContextSavedSearch
+          )
+        )
+      )
+    );
   }
 }

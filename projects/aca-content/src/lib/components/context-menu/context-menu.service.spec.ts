@@ -46,7 +46,8 @@ describe('ContextMenuService', () => {
       title: 'action',
       actions: {
         click: 'event'
-      }
+      },
+      icon: 'icon-name'
     }
   ];
 

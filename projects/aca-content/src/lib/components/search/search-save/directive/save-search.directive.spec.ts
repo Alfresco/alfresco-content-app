@@ -24,19 +24,24 @@
 
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { SaveSearchDirective } from './save-search.directive';
 import { SaveSearchDialogComponent } from '../dialog/save-search-dialog.component';
 
 @Component({
   selector: 'app-test-component',
-  template: '<div acaSaveSearch="searchQuery" acaSaveSearchQuery="encodedQuery"></div>',
+  template: '<div acaSaveSearch="searchQuery" (searchSaved)="onSaveSearchSuccess($event)" acaSaveSearchQuery="encodedQuery"></div>',
   imports: [SaveSearchDirective]
 })
 class TestComponent {
   searchQuery = 'encodedQuery';
+  isSavedWithSuccess = false;
+
+  onSaveSearchSuccess(value: boolean): void {
+    this.isSavedWithSuccess = value;
+  }
 }
 
 describe('SaveSearchDirective', () => {
@@ -57,7 +62,7 @@ describe('SaveSearchDirective', () => {
           provide: MatDialog,
           useValue: {
             open: () => ({
-              afterClosed: jasmine.createSpy('afterClosed').and.returnValue(of(null))
+              afterClosed: jasmine.createSpy('afterClosed').and.returnValue(of(true))
             })
           }
         }
@@ -85,5 +90,21 @@ describe('SaveSearchDirective', () => {
     };
 
     expect(dialog.open).toHaveBeenCalledWith(SaveSearchDialogComponent, expectedConfig);
+  });
+
+  it('should emit event on save search success', () => {
+    const afterClosed$ = new Subject<boolean>();
+
+    spyOn(dialog, 'open').and.returnValue({
+      afterClosed: () => afterClosed$.asObservable()
+    } as MatDialogRef<SaveSearchDialogComponent>);
+
+    element.triggerEventHandler('click', event);
+
+    afterClosed$.next(true);
+    afterClosed$.complete();
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.isSavedWithSuccess).toBe(true);
   });
 });

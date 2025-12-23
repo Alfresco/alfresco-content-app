@@ -28,14 +28,16 @@ import { timeouts } from '../utils';
 const { env } = process;
 
 export const getReportPortalConfig = () => {
+  const browser = (env.PLAYWRIGHT_BROWSER || 'chrome').toLowerCase();
   const attributes = [
     { key: 'Job', value: `${env.GITHUB_JOB}` },
     { key: 'Build_type', value: `${env.GITHUB_EVENT_NAME}` },
     { key: 'Repository', value: `${env.GITHUB_REPOSITORY}` },
-    { key: 'Branch', value: `${env.GITHUB_HEAD_REF || env.GITHUB_REF}` }
+    { key: 'Branch', value: `${env.GITHUB_HEAD_REF || env.GITHUB_REF}` },
+    { key: 'Browser', value: browser }
   ];
 
-  const launch = `GitHub Actions - ACA`;
+  const launch = `GitHub Actions - ACA - ${browser}`;
 
   return {
     endpoint: env.REPORT_PORTAL_URL,
@@ -43,13 +45,19 @@ export const getReportPortalConfig = () => {
     project: 'alfresco-content-app',
     launch,
     includeTestSteps: true,
+    skipPassed: true,
     restClientConfig: {
       timeout: timeouts.extendedTest
     },
     attributes,
-    description: `[Run on GitHub Actions ${env.GITHUB_RUN_ID}](${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID})`
+    description: `[Run ${env.GITHUB_RUN_ID}](${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}) - ${browser} - Failures only`
   };
 };
 
-export const getReporter = (): ReporterDescription[] =>
-  env.CI ? [['@reportportal/agent-js-playwright', getReportPortalConfig()], ['github']] : [['html']];
+export const getReporter = (): ReporterDescription[] => {
+  if (!env.CI) {
+    return [['html']];
+  }
+
+  return [['@reportportal/agent-js-playwright', getReportPortalConfig()], ['github']];
+};

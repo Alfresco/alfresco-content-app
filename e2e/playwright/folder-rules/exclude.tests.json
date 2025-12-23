@@ -1,4 +1,9 @@
 {
-  "XAT-897": "https://hyland.atlassian.net/browse/ACS-5503",
-  "XAT-907": "https://hyland.atlassian.net/browse/ACS-10486"
+  "all": {
+    "XAT-897": "https://hyland.atlassian.net/browse/ACS-5503",
+    "XAT-907": "https://hyland.atlassian.net/browse/ACS-10486"
+  },
+  "webkit": {
+    "XAT-888": "https://hyland.atlassian.net/browse/ACS-10917"
+  }
 }

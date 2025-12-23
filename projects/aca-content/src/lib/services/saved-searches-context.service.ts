@@ -33,8 +33,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   providedIn: 'root'
 })
 export class SavedSearchesContextService implements SavedSearchStrategy {
+  currentContextSavedSearch: SavedSearch;
+
   private readonly strategy$ = new ReplaySubject<SavedSearchStrategy>(1);
-  private strategy: SavedSearchStrategy;
 
   constructor(
     private readonly legacyService: SavedSearchesLegacyService,
@@ -45,8 +46,8 @@ export class SavedSearchesContextService implements SavedSearchStrategy {
       .transform('isPreferencesApiAvailable')
       .pipe(takeUntilDestroyed())
       .subscribe((isSupported) => {
-        this.strategy = isSupported ? this.modernService : this.legacyService;
-        this.strategy$.next(this.strategy);
+        const strategy = isSupported ? this.modernService : this.legacyService;
+        this.strategy$.next(strategy);
       });
   }
 
@@ -55,26 +56,34 @@ export class SavedSearchesContextService implements SavedSearchStrategy {
   }
 
   init(): void {
-    this.strategy$.pipe(take(1)).subscribe((strategy) => strategy.init());
+    this.executeOnStrategyVoid((strategy) => strategy.init());
   }
 
   getSavedSearches(): Observable<SavedSearch[]> {
-    return this.strategy.getSavedSearches();
+    return this.executeOnStrategy((strategy) => strategy.getSavedSearches());
   }
 
   saveSearch(newSaveSearch: Pick<SavedSearch, 'name' | 'description' | 'encodedUrl'>): Observable<NodeEntry> {
-    return this.strategy.saveSearch(newSaveSearch);
+    return this.executeOnStrategy((strategy) => strategy.saveSearch(newSaveSearch));
   }
 
   editSavedSearch(updatedSavedSearch: SavedSearch): Observable<NodeEntry> {
-    return this.strategy.editSavedSearch(updatedSavedSearch);
+    return this.executeOnStrategy((strategy) => strategy.editSavedSearch(updatedSavedSearch));
   }
 
   deleteSavedSearch(deletedSavedSearch: SavedSearch): Observable<NodeEntry> {
-    return this.strategy.deleteSavedSearch(deletedSavedSearch);
+    return this.executeOnStrategy((strategy) => strategy.deleteSavedSearch(deletedSavedSearch));
   }
 
   changeOrder(previousIndex: number, currentIndex: number): void {
-    this.strategy.changeOrder(previousIndex, currentIndex);
+    this.executeOnStrategyVoid((strategy) => strategy.changeOrder(previousIndex, currentIndex));
+  }
+
+  private executeOnStrategy<T>(action: (strategy: SavedSearchStrategy) => Observable<T>): Observable<T> {
+    return this.strategy$.pipe(take(1), switchMap(action));
+  }
+
+  private executeOnStrategyVoid(action: (strategy: SavedSearchStrategy) => void): void {
+    this.strategy$.pipe(take(1)).subscribe(action);
   }
 }

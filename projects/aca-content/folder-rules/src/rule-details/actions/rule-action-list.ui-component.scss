@@ -8,10 +8,6 @@
     padding-top: 24px;
   }
 
-  .mat-mdc-form-field-subscript-wrapper {
-    display: none;
-  }
-
   .aca-rule-action-list-add-action-button {
     margin: 4px 0 20px;
 
@@ -28,7 +24,7 @@
     border-radius: 8px;
     display: flex;
     margin: 10px;
-    padding: 10px;
+    padding: 10px 10px 0;
 
     & > .aca-rule-action {
       flex: 1;

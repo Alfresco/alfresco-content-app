@@ -29,7 +29,9 @@ import { AppStore } from '@alfresco/aca-shared/store';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { SearchInputComponent } from './search-input.component';
 import { Store } from '@ngrx/store';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
+import { NavigationStart, Router, RouterEvent } from '@angular/router';
+import { SearchConfiguration, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatMenuHarness } from '@angular/material/menu/testing';
@@ -41,6 +43,9 @@ describe('SearchInputComponent', () => {
   let store: jasmine.SpyObj<Store<AppStore>>;
   let unitTestingUtils: UnitTestingUtils;
   let loader: HarnessLoader;
+  let router: Router;
+  const routerEventsSubject = new Subject<RouterEvent>();
+  const configUpdatedSubject = new Subject<SearchConfiguration>();
 
   function getFirstError(): string {
     const error = unitTestingUtils.getByDirective(MatError);
@@ -77,18 +82,31 @@ describe('SearchInputComponent', () => {
   beforeEach(async () => {
     const storeSpy = jasmine.createSpyObj<Store<AppStore>>('Store', ['dispatch', 'pipe']);
 
+    const queryBuilderSpy = {
+      configUpdated: configUpdatedSubject,
+      removeFilterQuery: () => {}
+    } as Partial<SearchQueryBuilderService>;
+
     await TestBed.configureTestingModule({
       imports: [AppTestingModule, SearchInputComponent],
-      providers: [{ provide: Store, useValue: storeSpy }]
+      providers: [
+        { provide: Store, useValue: storeSpy },
+        { provide: SearchQueryBuilderService, useValue: queryBuilderSpy }
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(SearchInputComponent);
     component = fixture.componentInstance;
     store = TestBed.inject(Store) as jasmine.SpyObj<Store<AppStore>>;
+    router = TestBed.inject(Router);
     store.pipe.and.returnValue(of([]));
     fixture.detectChanges();
     unitTestingUtils = new UnitTestingUtils(fixture.debugElement);
     loader = TestbedHarnessEnvironment.loader(fixture);
+
+    Object.defineProperty(router, 'events', {
+      get: () => routerEventsSubject.asObservable()
+    });
   });
 
   it('should show required error when field is empty and touched', async () => {
@@ -146,5 +164,33 @@ describe('SearchInputComponent', () => {
 
     component.onSearchSubmit({ target: { value: '' } });
     expect(store.dispatch).not.toHaveBeenCalled();
+  });
+
+  describe('queryBuilder configUpdated handling', () => {
+    it('should call searchByOption when searchedWord set and navigation has query params', () => {
+      spyOn(component, 'searchByOption').and.stub();
+
+      component.ngOnInit();
+
+      component.searchedWord = 'term';
+
+      routerEventsSubject.next(new NavigationStart(1, '/path?q=term'));
+      configUpdatedSubject.next({});
+
+      expect(component.searchByOption).toHaveBeenCalled();
+    });
+
+    it('should NOT call searchByOption when searchedWord set and navigation has NO query params', () => {
+      component.searchedWord = 'term';
+
+      routerEventsSubject.next(new NavigationStart(1, '/path'));
+
+      configUpdatedSubject.next({});
+      spyOn(component, 'searchByOption').and.stub();
+
+      component.ngOnInit();
+
+      expect(component.searchByOption).not.toHaveBeenCalled();
+    });
   });
 });

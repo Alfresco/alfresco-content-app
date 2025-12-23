@@ -24,3 +24,4 @@
 
 export * from './user-model';
 export * from './custom-config';
+export * from './test-file.model';

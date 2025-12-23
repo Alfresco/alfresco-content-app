@@ -42,17 +42,19 @@ export class SaveSearchSidenavComponent implements OnInit {
   translationService = inject(TranslationService);
   item: NavBarLinkRef;
 
+  private savedSearchCount = 0;
+  private savedSearches: SavedSearch[];
+
   private readonly manageSearchesId = 'manage-saved-searches';
   private readonly destroyRef = inject(DestroyRef);
   private readonly userPreferenceService = inject(UserPreferencesService);
-
-  private savedSearchCount = 0;
 
   ngOnInit() {
     this.savedSearchesService.init();
     this.savedSearchesService.savedSearches$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((savedSearches) => {
       this.item = this.createNavBarLinkRef(savedSearches);
       this.savedSearchCount = savedSearches.length;
+      this.savedSearches = savedSearches;
     });
     this.userPreferenceService
       .select(UserPreferenceValues.Locale)
@@ -62,6 +64,11 @@ export class SaveSearchSidenavComponent implements OnInit {
           this.item.title = this.translationService.instant('APP.BROWSE.SEARCH.SAVE_SEARCH.NAVBAR.TITLE', { number: this.savedSearchCount });
         }
       });
+  }
+
+  onActionClicked(selectedLinkRef: NavBarLinkRef): void {
+    const selectedSavedSearch = this.savedSearches?.find((savedSearch) => savedSearch.name === selectedLinkRef.title);
+    this.savedSearchesService.currentContextSavedSearch = selectedSavedSearch;
   }
 
   private createNavBarLinkRef(children: SavedSearch[]): NavBarLinkRef {

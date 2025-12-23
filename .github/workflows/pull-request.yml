@@ -123,13 +123,16 @@ jobs:
 
   e2es-playwright:
     needs: [lint, build, unit-tests]
-    name: 'E2E Playwright - ${{ matrix.e2e-suites.name }}'
+    name: E2E | ${{ matrix.browser || 'chromium' }} | ${{ matrix.e2e-suites.name }} | Playwright
     runs-on: ubuntu-24.04
     env:
       NODE_OPTIONS: --dns-result-order=ipv4first
+      PLAYWRIGHT_BROWSER: ${{ matrix.browser }}
     strategy:
       fail-fast: false
       matrix:
+        # For scheduled runs, include all browsers; for PR runs, only Chromium
+        browser: ${{ github.event_name != 'pull_request' && fromJSON('["chrome", "firefox", "webkit", "msedge"]') || fromJSON('["chromium"]') }}
         e2e-suites:
           - name: "create-actions"
             id: 1
@@ -170,6 +173,9 @@ jobs:
           - name: "folder-information-actions"
             id: 19
     steps:
+      - name: Free hosted runner disk space
+        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@9e15988fdf503869a04a9106daa9b06cfdb1768c # v11.0.0
+
       - name: Checkout
         uses: actions/checkout@v6
         with:
@@ -180,9 +186,6 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
-
-      - name: Free hosted runner disk space
-        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v10.5.0
 
       - name: Deploy local ACS
         id: deploy-local-acs
@@ -195,8 +198,16 @@ jobs:
           quay_password: ${{ secrets.QUAY_PASSWORD }}
           acs_deployment_version: 'latest'
 
+      - name: Collect and push logs as artifact
+        if: always()
+        uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-keep-nslogs@b51dfeef6bda4a506778050a1c0e53eed440598c # v11.0.1
+        with:
+          log_retention: 7
+          log_name_identifier: "logs-${{ matrix.browser || 'chromium' }}-${{ matrix.e2e-suites.name }}"
+
       - name: Before install
         uses: ./.github/actions/before-install
+
       - name: Install dependencies
         run: npm ci
 
@@ -207,34 +218,30 @@ jobs:
           path: ./dist/content-ce
           key: cache-dist-${{ github.run_id }}
 
-      - name: Set environment based on deployment outcome
-        id: set-env
-        shell: bash
-        run: |
-          if [ "${{ steps.deploy-local-acs.outcome }}" == "success" ]; then
-            echo '✅ Local ACS deployment succeeded - using local environment'
-          else
-            echo '⚠️ Local ACS deployment failed - falling back to adwe2e environment'
-            BASE_URL: https://adwe2e.envalfresco.com
-            echo 'BASE_URL=$BASE_URL' >> $GITHUB_ENV
-            echo 'ADMIN_EMAIL=${{ secrets.PIPELINE_ADMIN_USERNAME }}' >> $GITHUB_ENV
-            echo 'ADMIN_PASSWORD=${{ secrets.PIPELINE_ADMIN_PASSWORD }}' >> $GITHUB_ENV
-            echo 'HR_USER=${{ secrets.HR_USER }}' >> $GITHUB_ENV
-            echo 'HR_USER_PASSWORD=${{ secrets.HR_USER_PASSWORD }}' >> $GITHUB_ENV
-          fi
-
       - name: Before e2e
         uses: ./.github/actions/before-e2e
 
-      - name: Before playwright
+      - name: Before playwright (Chromium for PR)
+        if: ${{ github.event_name == 'pull_request' }}
         run: npm run ci:playwright:install
+
+      - name: Before playwright (all browsers)
+        if: ${{ github.event_name != 'pull_request' }}
+        run: npm run ci:playwright:install:all
+
+      - name: Install Playwright system dependencies
+        # Install system dependencies required for all browsers (especially WebKit on Linux)
+        if: ${{ github.event_name != 'pull_request' }}
+        run: npx playwright install-deps
 
       - name: Run e2e playwright
         uses: ./.github/actions/run-e2e-playwright
         with:
           options: "${{ matrix.e2e-suites.name }}"
-          artifact-name: ${{ matrix.e2e-suites.name }}
+          artifact-name: "${{ matrix.browser || 'chromium' }}-${{ matrix.e2e-suites.name }}"
           test-runner: playwright
+        env:
+          PLAYWRIGHT_BROWSER: ${{ matrix.browser || 'chromium' }}
 
       - name: Debug Ingress Controller Logs
         if: always() && steps.deploy-local-acs.outcome == 'success'

@@ -1,3 +1,28 @@
 {
-  "XAT-4525": "https://hyland.atlassian.net/browse/ACS-9741"
+  "all": {
+    "XAT-4525": "https://hyland.atlassian.net/browse/ACS-9741"
+  },
+  "firefox": {
+    "XAT-4455": "https://hyland.atlassian.net/browse/ACS-10917"
+  },
+  "webkit": {
+    "XAT-4459": "https://hyland.atlassian.net/browse/ACS-10917",
+    "XAT-4460": "https://hyland.atlassian.net/browse/ACS-10917",
+    "XAT-4461": "https://hyland.atlassian.net/browse/ACS-10917",
+    "XAT-4462": "https://hyland.atlassian.net/browse/ACS-10917",
+    "XAT-4452": "https://hyland.atlassian.net/browse/ACS-10917",
+    "XAT-4464": "https://hyland.atlassian.net/browse/ACS-10917",
+    "XAT-4441": "https://hyland.atlassian.net/browse/ACS-10917",
+    "XAT-5612": "https://hyland.atlassian.net/browse/ACS-10917",
+    "XAT-4448": "https://hyland.atlassian.net/browse/ACS-10917",
+    "XAT-4449": "https://hyland.atlassian.net/browse/ACS-10917",
+    "XAT-4450": "https://hyland.atlassian.net/browse/ACS-10917",
+    "XAT-4437": "https://hyland.atlassian.net/browse/ACS-10917",
+    "XAT-4438": "https://hyland.atlassian.net/browse/ACS-10917",
+    "XAT-4439": "https://hyland.atlassian.net/browse/ACS-10917",
+    "XAT-4526": "https://hyland.atlassian.net/browse/ACS-10917",
+    "XAT-4471": "https://hyland.atlassian.net/browse/ACS-10917",
+    "XAT-4470": "https://hyland.atlassian.net/browse/ACS-10917",
+    "XAT-4472": "https://hyland.atlassian.net/browse/ACS-10917"
+  }
 }

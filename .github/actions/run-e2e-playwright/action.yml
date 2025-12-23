@@ -21,6 +21,7 @@ runs:
       shell: bash
       env:
         OPTIONS: ${{ inputs.options }}
+        PLAYWRIGHT_BROWSER: ${{ env.PLAYWRIGHT_BROWSER || 'chromium' }}
       run: |
         npm start > /dev/null &\
 
@@ -31,5 +32,5 @@ runs:
         done
         printf "\nApplication is ready.\n"
 
-        echo "Running playwright tests with options $OPTIONS"
+        echo "Running playwright tests with options $OPTIONS on browser ${PLAYWRIGHT_BROWSER}"
         E2E_TARGET=$OPTIONS npm run ci:e2e

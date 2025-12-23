@@ -28,7 +28,17 @@ import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { AppConfigService, NotificationService } from '@alfresco/adf-core';
 import { Component, DestroyRef, inject, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
-import { ActivatedRoute, NavigationSkipped, Params, PRIMARY_OUTLET, Router, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationSkipped,
+  NavigationStart,
+  Params,
+  PRIMARY_OUTLET,
+  Router,
+  UrlSegment,
+  UrlSegmentGroup,
+  UrlTree
+} from '@angular/router';
 import { Store } from '@ngrx/store';
 import { SearchInputControlComponent } from '../search-input-control/search-input-control.component';
 import { SearchNavigationService } from '../search-navigation.service';
@@ -45,7 +55,7 @@ import { FormsModule } from '@angular/forms';
 import { extractSearchedWordFromEncodedQuery } from '../../../utils/aca-search-utils';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { merge } from 'rxjs/internal/observable/merge';
-import { filter, map, withLatestFrom } from 'rxjs';
+import { filter, map, startWith, withLatestFrom } from 'rxjs';
 
 @Component({
   imports: [
@@ -137,6 +147,23 @@ export class SearchInputComponent implements OnInit, OnDestroy {
         if (encodedQuery && this.searchInputControl) {
           this.searchedWord = extractSearchedWordFromEncodedQuery(encodedQuery);
           this.searchInputControl.searchTerm = this.searchedWord;
+        }
+      });
+
+    this.queryBuilder.configUpdated
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        withLatestFrom(
+          this.router.events.pipe(
+            filter((event): event is NavigationStart => event instanceof NavigationStart),
+            startWith(null)
+          )
+        )
+      )
+      .subscribe(([, navigationStartEvent]) => {
+        const hasQueryParams = navigationStartEvent?.url.includes('?');
+        if (this.searchedWord && hasQueryParams) {
+          this.searchByOption();
         }
       });
 

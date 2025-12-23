@@ -48,7 +48,7 @@ describe('ButtonMenuComponent', () => {
     component.item = {
       id: 'test-action-button',
       url: 'dummy',
-      icon: null,
+      icon: 'icon-name',
       title: null,
       route: null
     };
@@ -62,7 +62,7 @@ describe('ButtonMenuComponent', () => {
   it('should render action item with children', () => {
     component.item = {
       id: 'test-action-button',
-      icon: null,
+      icon: 'icon-name',
       title: null,
       route: null,
       children: [
