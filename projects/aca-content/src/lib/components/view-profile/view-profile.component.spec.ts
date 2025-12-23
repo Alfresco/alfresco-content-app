@@ -66,9 +66,9 @@ describe('ViewProfileComponent', () => {
     router.initialNavigation();
   });
 
-  it('should company dropdown remains close', async () => {
-    expect(component.loginSectionDropdown).toBe(false);
-    expect(component.contactSectionDropdown).toBe(false);
+  it('should expand only general section by default', async () => {
+    expect(component.generalSectionExpanded).toBe(true);
+    expect(component.contactSectionExpanded).toBe(false);
   });
 
   it('should toggle the appService toggleAppNavBar$ Subject', () => {
@@ -77,18 +77,17 @@ describe('ViewProfileComponent', () => {
     expect(appServiceMock.toggleAppNavBar$.next).toHaveBeenCalled();
   });
 
-  it('should save button is disabled if form has invalid mobile number', () => {
+  it('should disable save button if form is invalid', () => {
     component.ngOnInit();
     const profileFormGroup = component.profileForm;
 
     profileFormGroup.setValue({
+      firstName: 'John',
+      lastName: 'Doe',
       jobTitle: 'Developer',
       location: 'US',
       telephone: '2744245',
-      mobile: 'AB8866322112',
-      oldPassword: 'admin@123',
-      newPassword: 'admin@1234',
-      verifyPassword: 'admin@1234',
+      mobile: 'invalid',
       companyName: 'test Name',
       companyPostCode: '12345',
       companyAddress: 'test address',
@@ -97,44 +96,54 @@ describe('ViewProfileComponent', () => {
     });
 
     expect(profileFormGroup.valid).toEqual(false);
-    expect(component.isSaveButtonDisabled()).toBeTruthy();
-  });
-
-  it('should save button is disabled if form has invalid email', () => {
-    component.ngOnInit();
-    const profileFormGroup = component.profileForm;
+    expect(component.isSaveButtonDisabled()).toBeTrue();
 
     profileFormGroup.setValue({
+      firstName: 'John',
+      lastName: 'Doe',
       jobTitle: 'Developer',
       location: 'US',
-      telephone: '27442445',
-      mobile: '457554',
-      oldPassword: 'admin@123',
-      newPassword: 'admin@1234',
-      verifyPassword: 'admin@1234',
+      telephone: '274-424-55',
+      mobile: '886-632-2112',
       companyName: 'test Name',
       companyPostCode: '12345',
       companyAddress: 'test address',
-      companyTelephone: '27442266',
-      companyEmail: 'email'
+      companyTelephone: '274-42-266',
+      companyEmail: 'invalid'
     });
 
     expect(profileFormGroup.valid).toEqual(false);
-    expect(component.isSaveButtonDisabled()).toBeTruthy();
+    expect(component.isSaveButtonDisabled()).toBeTrue();
+
+    profileFormGroup.setValue({
+      firstName: 'John',
+      lastName: 'Doe',
+      jobTitle: 'Developer',
+      location: 'US',
+      telephone: 'invalid',
+      mobile: '886-632-2112',
+      companyName: 'test Name',
+      companyPostCode: '12345',
+      companyAddress: 'test address',
+      companyTelephone: '274-42-266',
+      companyEmail: 'test@test.com'
+    });
+
+    expect(profileFormGroup.valid).toEqual(false);
+    expect(component.isSaveButtonDisabled()).toBeTrue();
   });
 
-  it('should save button is enabled if form has valid inputs', () => {
+  it('should enable save button if form has valid inputs', () => {
     component.ngOnInit();
     const profileFormGroup = component.profileForm;
 
     profileFormGroup.setValue({
+      firstName: 'John',
+      lastName: 'Doe',
       jobTitle: 'Developer',
       location: 'US',
       telephone: '274-422-55',
       mobile: '886-632-2112',
-      oldPassword: 'test@123',
-      newPassword: 'test@1234',
-      verifyPassword: 'test@1234',
       companyName: 'testCompany',
       companyPostCode: '12345',
       companyAddress: 'test address',
@@ -143,40 +152,33 @@ describe('ViewProfileComponent', () => {
     });
 
     expect(profileFormGroup.valid).toEqual(true);
-    expect(component.isSaveButtonDisabled()).toBeFalsy();
-  });
-
-  it('should navigate to personal files when back button is clicked', () => {
-    const navigateSpy = spyOn(router, 'navigate');
-    component.navigateToPersonalFiles();
-
-    expect(navigateSpy).toHaveBeenCalledWith(['/personal-files'], { replaceUrl: true });
+    expect(component.isSaveButtonDisabled()).toBeFalse();
   });
 
   it('should expand or compress general dropdown when arrow button is clicked', () => {
-    spyOn(component, 'toggleGeneralDropdown').and.callThrough();
-    component.generalSectionDropdown = false;
+    spyOn(component, 'toggleGeneralSection').and.callThrough();
+    component.generalSectionExpanded = false;
     fixture.detectChanges();
 
     unitTestingUtils.clickByCSS('#general-dropdown button');
 
-    expect(component.toggleGeneralDropdown).toHaveBeenCalled();
-    expect(component.generalSectionButtonsToggle).toBe(true);
+    expect(component.toggleGeneralSection).toHaveBeenCalled();
+    expect(component.generalSectionExpanded).toBe(true);
   });
 
   it('should expand or compress contact dropdown when arrow button is clicked', () => {
-    spyOn(component, 'toggleContactDropdown').and.callThrough();
-    component.contactSectionDropdown = false;
+    spyOn(component, 'toggleContactSection').and.callThrough();
+    component.contactSectionExpanded = false;
     fixture.detectChanges();
 
     unitTestingUtils.clickByCSS('#contact-dropdown button');
 
-    expect(component.toggleContactDropdown).toHaveBeenCalled();
-    expect(component.contactSectionButtonsToggle).toBe(true);
+    expect(component.toggleContactSection).toHaveBeenCalled();
+    expect(component.contactSectionExpanded).toBe(true);
   });
 
   it('should toggle form view when edit or cancel buttons is clicked for general form', () => {
-    spyOn(component, 'toggleGeneralButtons').and.callThrough();
+    spyOn(component, 'toggleGeneralSectionEditMode').and.callThrough();
     fixture.detectChanges();
 
     unitTestingUtils.clickByCSS('#general-dropdown .app-general-edit');
@@ -184,11 +186,11 @@ describe('ViewProfileComponent', () => {
 
     unitTestingUtils.clickByCSS('#general-dropdown .app-general-cancel-btn');
 
-    expect(component.toggleGeneralButtons).toHaveBeenCalledTimes(2);
+    expect(component.toggleGeneralSectionEditMode).toHaveBeenCalledTimes(2);
   });
 
   it('should toggle form view when edit or cancel buttons is clicked for contact form', () => {
-    spyOn(component, 'toggleContactButtons').and.callThrough();
+    spyOn(component, 'toggleContactSectionEditMode').and.callThrough();
     fixture.detectChanges();
 
     unitTestingUtils.clickByCSS('#contact-dropdown .app-general-edit');
@@ -196,7 +198,7 @@ describe('ViewProfileComponent', () => {
 
     unitTestingUtils.clickByCSS('#contact-dropdown .app-general-cancel-btn');
 
-    expect(component.toggleContactButtons).toHaveBeenCalledTimes(2);
+    expect(component.toggleContactSectionEditMode).toHaveBeenCalledTimes(2);
   });
 
   it('should navigate to personal files when go to personal files button is clicked', async () => {

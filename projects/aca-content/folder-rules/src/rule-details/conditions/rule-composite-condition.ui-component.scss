@@ -28,12 +28,6 @@
       display: flex;
       gap: 8px;
 
-      #{ms.$mat-form-field} {
-        #{ms.$mat-form-field-infix} {
-          padding-bottom: 4px;
-        }
-      }
-
       & > :nth-child(1) {
         width: 7em;
         height: fit-content;

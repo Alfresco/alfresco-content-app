@@ -168,7 +168,6 @@ describe('RuleOptionsUiComponent', () => {
     const matFormField = getErrorScriptFormField();
     fixture.detectChanges();
     expect(matFormField).not.toBeNull();
-    expect(matFormField.componentInstance['floatLabel']).toBe('always');
   });
 
   it('should properly update formFields on only isAsynchronous and errorScript changes', () => {

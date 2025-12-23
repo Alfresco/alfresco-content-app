@@ -2,8 +2,8 @@
 <mat-card appearance="raised">
   <mat-card-content>
     <form [formGroup]="form" autocomplete="off">
-      <mat-form-field floatLabel="auto" data-automation-id="library-name-properties-wrapper" class="app-library-metadata-form-field">
-        <mat-label class="app-library-metadata-form-field-label">{{ 'LIBRARY.DIALOG.FORM.NAME' | translate }}</mat-label>
+      <mat-form-field data-automation-id="library-name-properties-wrapper" class="app-library-metadata-form-field">
+        <mat-label>{{ 'LIBRARY.DIALOG.FORM.NAME' | translate }}</mat-label>
         <input
           #libraryNameInput
           data-automation-id="app-library-metadata-form-name-input"
@@ -21,13 +21,13 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field floatLabel="auto" data-automation-id="library-id-properties-wrapper" class="app-library-metadata-form-field">
-        <mat-label class="app-library-metadata-form-field-label">{{ 'LIBRARY.DIALOG.FORM.SITE_ID' | translate }}</mat-label>
+      <mat-form-field data-automation-id="library-id-properties-wrapper" class="app-library-metadata-form-field">
+        <mat-label>{{ 'LIBRARY.DIALOG.FORM.SITE_ID' | translate }}</mat-label>
         <input matInput placeholder="{{ 'LIBRARY.DIALOG.FORM.SITE_ID' | translate }}" formControlName="id" />
       </mat-form-field>
 
-      <mat-form-field floatLabel="auto" data-automation-id="library-visibility-properties-wrapper" class="app-library-metadata-form-field">
-        <mat-label class="app-library-metadata-form-field-label">{{ 'LIBRARY.DIALOG.FORM.VISIBILITY' | translate }}</mat-label>
+      <mat-form-field data-automation-id="library-visibility-properties-wrapper" class="app-library-metadata-form-field">
+        <mat-label>{{ 'LIBRARY.DIALOG.FORM.VISIBILITY' | translate }}</mat-label>
         <mat-select placeholder="{{ 'LIBRARY.DIALOG.FORM.VISIBILITY' | translate }}" formControlName="visibility">
           <mat-option [value]="type.value" [attr.data-automation-id]="'library-visibility-option-' + type.value" *ngFor="let type of libraryType">
             {{ type.label | translate }}
@@ -35,8 +35,8 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field floatLabel="auto" data-automation-id="library-description-properties-wrapper" class="app-library-metadata-form-field">
-        <mat-label class="app-library-metadata-form-field-label">{{ 'LIBRARY.DIALOG.FORM.DESCRIPTION' | translate }}</mat-label>
+      <mat-form-field data-automation-id="library-description-properties-wrapper" class="app-library-metadata-form-field">
+        <mat-label>{{ 'LIBRARY.DIALOG.FORM.DESCRIPTION' | translate }}</mat-label>
         <textarea
           matInput
           placeholder="{{ 'LIBRARY.DIALOG.FORM.DESCRIPTION' | translate }}"

@@ -9,8 +9,6 @@
     gap: 20px;
 
     adf-card-view {
-      margin-top: -15px;
-
       .adf-property-list .adf-property adf-card-view-item-dispatcher adf-card-view-textitem {
         display: inline-block;
         width: 100%;
@@ -43,11 +41,6 @@
       #{ms.$mat-form-field-subscript-wrapper} {
         min-height: 22.5px;
       }
-    }
-
-    &.aca-rule-action-card-view {
-      overflow: hidden;
-      margin-top: 11px;
     }
   }
 }

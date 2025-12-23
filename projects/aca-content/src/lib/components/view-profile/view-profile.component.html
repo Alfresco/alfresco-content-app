@@ -26,17 +26,17 @@
       <div class="app-profile-general-section">
         <button
           mat-icon-button
-          (click)="toggleGeneralDropdown()"
-          [attr.title]="`APP.TOOLTIPS.${generalSectionDropdown ? 'COLLAPSE' : 'EXPAND'}_SECTION` | translate"
-          [attr.aria-label]="`APP.TOOLTIPS.${generalSectionDropdown ? 'COLLAPSE' : 'EXPAND'}_SECTION` | translate">
-          <mat-icon>{{ generalSectionDropdown ?  'expand_more' : 'chevron_right'}}</mat-icon>
+          (click)="toggleGeneralSection()"
+          [attr.title]="`APP.TOOLTIPS.${generalSectionExpanded ? 'COLLAPSE' : 'EXPAND'}_SECTION` | translate"
+          [attr.aria-label]="`APP.TOOLTIPS.${generalSectionExpanded ? 'COLLAPSE' : 'EXPAND'}_SECTION` | translate">
+          <mat-icon>{{ generalSectionExpanded ?  'expand_more' : 'chevron_right'}}</mat-icon>
         </button>
         <h4 class="app-general-title">{{'APP.EDIT_PROFILE.GENERAL' | translate}}</h4>
       </div>
-      @if (generalSectionButtonsToggle) {
+      @if (!generalSectionEditMode) {
         <button
           mat-icon-button
-          (click)="toggleGeneralButtons()"
+          (click)="toggleGeneralSectionEditMode()"
           class="app-general-edit"
           [attr.title]="'APP.TOOLTIPS.EDIT' | translate"
           [attr.aria-label]="'APP.TOOLTIPS.EDIT' | translate">
@@ -48,7 +48,7 @@
           class="app-general-cancel-btn"
           [attr.title]="'APP.TOOLTIPS.CANCEL' | translate"
           [attr.aria-label]="'APP.TOOLTIPS.CANCEL' | translate"
-          (click)="toggleGeneralButtons()">
+          (click)="toggleGeneralSectionEditMode()">
           <mat-icon>close</mat-icon>
         </button>
         <button
@@ -62,103 +62,76 @@
         </button>
       }
     </div>
-    @if (generalSectionDropdown) {
+    @if (generalSectionExpanded) {
       <mat-divider class="app-divider" aria-hidden="true" />
       <div class="app-general-dropdown">
-        <div class="app-general-dropdown-details">
-          <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.FIRST_NAME' | translate}}</h4>
-          <p class="app-profile-general-dropdown-details">{{personDetails?.firstName}}</p>
-        </div>
-        <mat-divider class="app-general-dropdown-divider" aria-hidden="true" />
-        <div class="app-general-dropdown-details">
-          <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.LAST_NAME' | translate}}</h4>
-          <p class="app-profile-general-dropdown-details">{{personDetails?.lastName}}</p>
-        </div>
-        <mat-divider class="app-general-dropdown-divider" aria-hidden="true" />
-        <div class="app-general-dropdown-details">
-          <label
-            class="app-profile-general-dropdown-heading"
-            for="app-view-profile-job-title">
-            {{'APP.EDIT_PROFILE.JOB_TITLE' | translate}}
-          </label>
-          @if (generalSectionButtonsToggle) {
-            <p class="app-profile-general-dropdown-details">{{personDetails?.jobTitle}}</p>
-          } @else {
-            <input
-              type="text"
-              value=""
-              formControlName="jobTitle"
-              class="app-profile-general-dropdown-input-details app-selected"
-              id="app-view-profile-job-title">
-          }
-        </div>
-        <mat-divider class="app-general-dropdown-divider" aria-hidden="true" />
-        <div class="app-general-dropdown-details">
-          <label
-            class="app-profile-general-dropdown-heading"
-            for="app-view-profile-location">
-            {{'APP.EDIT_PROFILE.LOCATION' | translate}}
-          </label>
-          @if (generalSectionButtonsToggle) {
-            <p class="app-profile-general-dropdown-details">{{personDetails?.location}}</p>
-          } @else {
-            <input
-              type="text"
-              value=""
-              formControlName="location"
-              class="app-profile-general-dropdown-input-details app-selected"
-              id="app-view-profile-location">
-          }
-        </div>
-        <mat-divider class="app-general-dropdown-divider" aria-hidden="true" />
-        <div class="app-general-dropdown-details">
-          <label
-            class="app-profile-general-dropdown-heading"
-            for="app-view-profile-telephone">
-            {{'APP.EDIT_PROFILE.TELEPHONE' | translate}}
-          </label>
-          @if (generalSectionButtonsToggle) {
-            <p class="app-profile-general-dropdown-details">{{personDetails?.telephone}}</p>
-          } @else {
-            <input
-              type="tel"
-              name="Telephone"
-              value=""
-              formControlName="telephone"
-              class="app-profile-general-dropdown-input-details app-selected"
-              aria-describedby="app-view-profile-phone-error-message"
-              id="app-view-profile-telephone">
-          }
-          @if (profileForm.controls['telephone'].errors) {
-            <mat-error class="app-error-message" role="alert" id="app-view-profile-phone-error-message">
-              {{ 'APP.EDIT_PROFILE.INVALID_INPUT' | translate }}
-            </mat-error>
-          }
-        </div>
-        <mat-divider class="app-general-dropdown-divider" aria-hidden="true" />
-        <div class="app-general-dropdown-details">
-          <label
-            class="app-profile-general-dropdown-heading"
-            for="app-view-profile-mobile">
-            {{'APP.EDIT_PROFILE.MOBILE' | translate}}
-          </label>
-          @if (generalSectionButtonsToggle) {
-            <p class="app-profile-general-dropdown-details">{{personDetails?.mobile}}</p>
-          } @else {
-            <input
-              type="tel"
-              value=""
-              formControlName="mobile"
-              class="app-profile-general-dropdown-input-details app-selected"
-              aria-describedby="app-view-profile-mobile-error-message"
-              id="app-view-profile-mobile">
-          }
-          @if (profileForm.controls['mobile'].errors) {
-            <mat-error class="app-error-message" role="alert" id="app-view-profile-mobile-error-message">
-              {{ 'APP.EDIT_PROFILE.INVALID_INPUT' | translate }}
-            </mat-error>
-          }
-        </div>
+        <mat-form-field class="app-form-field">
+          <mat-label>{{ 'APP.EDIT_PROFILE.FIRST_NAME' | translate }}</mat-label>
+          <input
+            matInput
+            readonly
+            placeholder="{{ 'APP.EDIT_PROFILE.FIRST_NAME' | translate }}"
+            formControlName="firstName"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="app-form-field">
+          <mat-label>{{ 'APP.EDIT_PROFILE.LAST_NAME' | translate }}</mat-label>
+          <input
+            matInput
+            readonly
+            placeholder="{{ 'APP.EDIT_PROFILE.LAST_NAME' | translate }}"
+            formControlName="lastName"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="app-form-field">
+          <mat-label>{{ 'APP.EDIT_PROFILE.JOB_TITLE' | translate }}</mat-label>
+          <input
+            matInput
+            [readonly]="!generalSectionEditMode"
+            placeholder="{{ 'APP.EDIT_PROFILE.JOB_TITLE' | translate }}"
+            formControlName="jobTitle"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="app-form-field">
+          <mat-label>{{ 'APP.EDIT_PROFILE.LOCATION' | translate }}</mat-label>
+          <input
+            matInput
+            [readonly]="!generalSectionEditMode"
+            placeholder="{{ 'APP.EDIT_PROFILE.LOCATION' | translate }}"
+            formControlName="location"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="app-form-field">
+          <mat-label>{{ 'APP.EDIT_PROFILE.TELEPHONE' | translate }}</mat-label>
+          <input
+            matInput
+            [type]="'tel'"
+            [readonly]="!generalSectionEditMode"
+            placeholder="{{ 'APP.EDIT_PROFILE.TELEPHONE' | translate }}"
+            formControlName="telephone"
+          />
+          <mat-error>
+            {{ 'APP.EDIT_PROFILE.INVALID_PHONE_FORMAT' | translate }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="app-form-field">
+          <mat-label>{{ 'APP.EDIT_PROFILE.MOBILE' | translate }}</mat-label>
+          <input
+            matInput
+            [type]="'tel'"
+            [readonly]="!generalSectionEditMode"
+            placeholder="{{ 'APP.EDIT_PROFILE.MOBILE' | translate }}"
+            formControlName="mobile"
+          />
+          <mat-error>
+            {{ 'APP.EDIT_PROFILE.INVALID_PHONE_FORMAT' | translate }}
+          </mat-error>
+        </mat-form-field>
       </div>
     }
   </div>
@@ -168,17 +141,17 @@
       <div class="app-profile-general-section">
          <button
           mat-icon-button
-          (click)="toggleContactDropdown()"
-          [attr.title]="`APP.TOOLTIPS.${contactSectionDropdown ? 'COLLAPSE' : 'EXPAND'}_SECTION` | translate"
-          [attr.aria-label]="`APP.TOOLTIPS.${contactSectionDropdown ? 'COLLAPSE' : 'EXPAND'}_SECTION` | translate">
-          <mat-icon>{{ contactSectionDropdown ?  'expand_more' : 'chevron_right'}}</mat-icon>
+          (click)="toggleContactSection()"
+          [attr.title]="`APP.TOOLTIPS.${contactSectionExpanded ? 'COLLAPSE' : 'EXPAND'}_SECTION` | translate"
+          [attr.aria-label]="`APP.TOOLTIPS.${contactSectionExpanded ? 'COLLAPSE' : 'EXPAND'}_SECTION` | translate">
+          <mat-icon>{{ contactSectionExpanded ?  'expand_more' : 'chevron_right'}}</mat-icon>
         </button>
         <h4 class="app-general-title">{{'APP.EDIT_PROFILE.COMPANY_DETAILS' | translate}}</h4>
       </div>
-      @if (contactSectionButtonsToggle) {
+      @if (!contactSectionEditMode) {
         <button
           mat-icon-button
-          (click)="toggleContactButtons()"
+          (click)="toggleContactSectionEditMode()"
           class="app-general-edit"
           [attr.title]="'APP.TOOLTIPS.EDIT' | translate"
           [attr.aria-label]="'APP.TOOLTIPS.EDIT' | translate">
@@ -190,7 +163,7 @@
           class="app-general-cancel-btn"
           [attr.title]="'APP.TOOLTIPS.CANCEL' | translate"
           [attr.aria-label]="'APP.TOOLTIPS.CANCEL' | translate"
-          (click)="toggleContactButtons()">
+          (click)="toggleContactSectionEditMode()">
           <mat-icon>close</mat-icon>
         </button>
         <button
@@ -204,110 +177,64 @@
         </button>
       }
     </div>
-    @if (contactSectionDropdown) {
+    @if (contactSectionExpanded) {
       <mat-divider class="app-divider" aria-hidden="true" />
       <div class="app-general-dropdown">
-        <div class="app-general-dropdown-details">
-          <label
-            class="app-profile-general-dropdown-heading"
-            for="app-view-profile-company-name">
-            {{'APP.EDIT_PROFILE.NAME' | translate}}
-          </label>
-          @if (contactSectionButtonsToggle) {
-            <p class="app-profile-general-dropdown-details">{{personDetails?.company?.organization}}</p>
-          } @else {
-            <input
-              type="text"
-              value=""
-              formControlName="companyName"
-              class="app-profile-general-dropdown-input-details app-selected"
-              id="app-view-profile-company-name">
-          }
-        </div>
-        <mat-divider class="app-general-dropdown-divider" aria-hidden="true" />
-        <div class="app-general-dropdown-details">
-          <label
-            class="app-profile-general-dropdown-heading"
-            for="app-view-profile-company-address">
-            {{'APP.EDIT_PROFILE.ADDRESS' | translate}}
-          </label>
-          @if (contactSectionButtonsToggle) {
-            <p class="app-profile-general-dropdown-details">{{personDetails?.company?.address1}}</p>
-          } @else {
-            <input
-              type="text"
-              value=""
-              formControlName="companyAddress"
-              class="app-profile-general-dropdown-input-details app-selected"
-              id="app-view-profile-company-address">
-          }
-        </div>
-        <mat-divider class="app-general-dropdown-divider" aria-hidden="true" />
-        <div class="app-general-dropdown-details">
-          <label
-            class="app-profile-general-dropdown-heading"
-            for="app-view-profile-company-post-code">
-            {{'APP.EDIT_PROFILE.POSTCODE' | translate}}
-          </label>
-          @if (contactSectionButtonsToggle) {
-            <p class="app-profile-general-dropdown-details">{{personDetails?.company?.postcode}}</p>
-          } @else {
-            <input
-              type="text"
-              value=""
-              formControlName="companyPostCode"
-              class="app-profile-general-dropdown-input-details app-selected"
-              id="app-view-profile-company-post-code">
-          }
-        </div>
-        <mat-divider class="app-general-dropdown-divider" aria-hidden="true" />
-        <div class="app-general-dropdown-details">
-          <label
-            class="app-profile-general-dropdown-heading"
-            for="app-view-profile-company-telephone">
-            {{'APP.EDIT_PROFILE.TELEPHONE' | translate}}
-          </label>
-          @if (contactSectionButtonsToggle) {
-            <p class="app-profile-general-dropdown-details">{{personDetails?.company?.telephone}}</p>
-          } @else {
-            <input
-              type="tel"
-              value=""
-              formControlName="companyTelephone"
-              class="app-profile-general-dropdown-input-details app-selected"
-              aria-describedby="app-view-profile-company-phone-error-message"
-              id="app-view-profile-company-telephone">
-          }
-          @if (profileForm.controls['companyTelephone'].errors) {
-            <mat-error class="app-error-message" role="alert" id="app-view-profile-company-phone-error-message">
-              {{ 'APP.EDIT_PROFILE.INVALID_INPUT' | translate }}
-            </mat-error>
-          }
-        </div>
-        <mat-divider class="app-general-dropdown-divider" aria-hidden="true" />
-        <div class="app-general-dropdown-details">
-          <label
-            class="app-profile-general-dropdown-heading"
-            for="app-view-profile-company-email">
-            {{'APP.EDIT_PROFILE.EMAIL' | translate}}
-          </label>
-          @if (contactSectionButtonsToggle) {
-             <p class="app-profile-general-dropdown-details">{{personDetails?.company?.email}}</p>
-          } @else {
-            <input
-              type="text"
-              value=""
-              formControlName="companyEmail"
-              class="app-profile-general-dropdown-input-details app-selected"
-              aria-describedby="app-view-profile-company-email-error-message"
-              id="app-view-profile-company-email">
-          }
-          @if (profileForm.controls['companyEmail'].errors) {
-            <mat-error class="app-error-message" role="alert" id="app-view-profile-company-email-error-message">
-              {{ 'APP.EDIT_PROFILE.INVALID_INPUT' | translate }}
-            </mat-error>
-          }
-        </div>
+        <mat-form-field class="app-form-field">
+          <mat-label>{{ 'APP.EDIT_PROFILE.NAME' | translate }}</mat-label>
+          <input
+            matInput
+            [readonly]="!contactSectionEditMode"
+            placeholder="{{ 'APP.EDIT_PROFILE.NAME' | translate }}"
+            formControlName="companyName"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="app-form-field">
+          <mat-label>{{ 'APP.EDIT_PROFILE.ADDRESS' | translate }}</mat-label>
+          <input
+            matInput
+            [readonly]="!contactSectionEditMode"
+            placeholder="{{ 'APP.EDIT_PROFILE.ADDRESS' | translate }}"
+            formControlName="companyAddress"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="app-form-field">
+          <mat-label>{{ 'APP.EDIT_PROFILE.POSTCODE' | translate }}</mat-label>
+          <input
+            matInput
+            [readonly]="!contactSectionEditMode"
+            placeholder="{{ 'APP.EDIT_PROFILE.POSTCODE' | translate }}"
+            formControlName="companyPostCode"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="app-form-field">
+          <mat-label>{{ 'APP.EDIT_PROFILE.TELEPHONE' | translate }}</mat-label>
+          <input
+            matInput
+            [readonly]="!contactSectionEditMode"
+            placeholder="{{ 'APP.EDIT_PROFILE.TELEPHONE' | translate }}"
+            formControlName="companyTelephone"
+          />
+          <mat-error>
+            {{ 'APP.EDIT_PROFILE.INVALID_PHONE_FORMAT' | translate }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="app-form-field">
+          <mat-label>{{ 'APP.EDIT_PROFILE.EMAIL' | translate }}</mat-label>
+          <input
+            matInput
+            [readonly]="!contactSectionEditMode"
+            placeholder="{{ 'APP.EDIT_PROFILE.EMAIL' | translate }}"
+            formControlName="companyEmail"
+          />
+          <mat-error>
+            {{ 'APP.EDIT_PROFILE.INVALID_EMAIL_FORMAT' | translate }}
+          </mat-error>
+        </mat-form-field>
       </div>
     }
   </div>

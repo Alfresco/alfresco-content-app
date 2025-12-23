@@ -12,7 +12,7 @@
     [attr.aria-labelledby]="'conditions-group-label-' + (childCondition ? 'nested' : 'main')"
     class="aca-rule-composite-condition__form__row"
     *ngFor="let control of conditionFormControls; let i = index">
-    <mat-form-field *ngIf="i === 0" subscriptSizing="dynamic">
+    <mat-form-field *ngIf="i === 0">
       <mat-label>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.LOGIC_OPERATOR' | translate }}</mat-label>
       <mat-select
         [formControl]="invertedControl"
@@ -22,7 +22,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field *ngIf="i > 0" subscriptSizing="dynamic" class="aca-rule-composite-condition__boolean-mode-control">
+    <mat-form-field *ngIf="i > 0" class="aca-rule-composite-condition__boolean-mode-control">
       <mat-select
         [formControl]="booleanModeControl">
         <mat-option value="and">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LOGIC_OPERATORS.AND' | translate }}</mat-option>

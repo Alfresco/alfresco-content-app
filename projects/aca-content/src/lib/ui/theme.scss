@@ -18,6 +18,43 @@
   --mdc-checkbox-selected-hover-icon-color: var(--theme-blue-checkbox-color);
   --mdc-checkbox-selected-focus-icon-color: var(--theme-blue-checkbox-color);
   --mat-dialog-container-max-width: 100%;
+
+  @include mat.form-field-overrides(
+    (
+      outlined-label-text-populated-size: 18px,
+      outlined-label-text-color: var(--adf-metadata-property-panel-title-color),
+      outlined-hover-label-text-color: var(--adf-theme-foreground-text-color),
+      outlined-disabled-input-text-color: var(--adf-theme-foreground-text-color-040),
+      outlined-disabled-label-text-color: var(--adf-theme-foreground-text-color-040),
+      outlined-disabled-outline-color: var(--adf-theme-foreground-text-color-040),
+      subscript-text-size: 12px
+    )
+  );
+}
+
+.adf-search-properties-form,
+.adf-search-date-range {
+  @include mat.form-field-overrides(
+    (
+      outlined-label-text-populated-size: 14px
+    )
+  );
+
+  #{ms.$mat-form-field} .mdc-text-field--outlined .mdc-notched-outline--upgraded .mdc-floating-label--float-above {
+    line-height: 18px;
+  }
+}
+
+.adf-property-readonly-value {
+  color: var(--adf-theme-foreground-text-color-040);
+
+  .adf-dateitem-editable-controls {
+    color: var(--adf-theme-foreground-text-color-040);
+  }
+}
+
+#{ms.$mat-form-field} .mdc-text-field--outlined .mdc-notched-outline--upgraded .mdc-floating-label--float-above {
+  line-height: 22px;
 }
 
 mat-toolbar {
@@ -26,20 +63,6 @@ mat-toolbar {
 
 .adf-name-location-cell-location.adf-datatable-cell-value {
   color: var(--theme-secondary-text);
-}
-
-#{ms.$mat-text-field-filled}:not(#{ms.$mat-text-field-disabled}) {
-  padding: 0;
-}
-
-#{ms.$mat-form-field-error-wrapper}:is(div) {
-  padding: 0;
-  font-size: 10px;
-
-  #{ms.$mat-form-field-error} {
-    position: relative;
-    top: -3px;
-  }
 }
 
 #{ms.$mat-checkbox} {
@@ -314,12 +337,6 @@ adf-dynamic-component {
   &#{ms.$mat-mdc-submenu-icon} {
     color: var(--theme-text-color);
   }
-}
-
-#{ms.$mat-notched-outline-trailing},
-#{ms.$mat-notched-outline-notch},
-#{ms.$mat-notched-outline-leading} {
-  border-color: var(--adf-theme-foreground-text-color-014);
 }
 
 #{ms.$mat-menu-surface}#{ms.$mat-autocomplete-panel}:is(div) {

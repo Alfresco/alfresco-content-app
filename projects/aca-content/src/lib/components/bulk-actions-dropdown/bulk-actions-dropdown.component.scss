@@ -3,13 +3,6 @@
 .aca-bulk-actions-form-field {
   margin-left: 24px;
   width: 295px;
-
-  #{ms.$mat-form-field-flex},
-  #{ms.$mat-select-value} {
-    height: 48px;
-    display: flex;
-    align-items: center;
-  }
 }
 
 .aca-bulk-actions-option-content {

@@ -1,52 +1,6 @@
-/* stylelint-disable selector-class-pattern */
-
 app-library-metadata-form {
   .app-library-metadata-form-field {
     width: 100%;
-
-    .mat-mdc-form-field-flex {
-      border-bottom: 1px solid;
-
-      .mat-mdc-form-field-infix {
-        padding-bottom: 3px;
-        min-height: unset;
-      }
-    }
-
-    &.mat-form-field-disabled {
-      .mat-mdc-form-field-flex {
-        border-bottom: 1px dotted var(--theme-text-disabled-color);
-      }
-    }
-
-    &.mat-focused {
-      .mat-mdc-form-field-flex {
-        border-bottom: 2px solid var(--theme-blue-button-color);
-      }
-    }
-  }
-
-  .mdc-text-field--disabled.mdc-text-field--filled {
-    background: transparent;
-  }
-
-  .mat-mdc-card-content:first-child {
-    padding: 8px 16px;
-  }
-
-  .app-library-metadata-form-field-label {
-    color: var(--theme-text-color);
-  }
-
-  .mdc-text-field {
-    padding: 0;
-  }
-
-  .mdc-line-ripple {
-    display: none;
-  }
-
-  .mat-mdc-form-field-subscript-wrapper {
-    height: 10px;
+    margin-bottom: 15px;
   }
 }

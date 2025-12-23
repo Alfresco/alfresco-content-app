@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 .aca-rule-options {
   fieldset {
     display: flex;
@@ -14,7 +16,17 @@
   }
 
   &__error-script-dropdown {
-    margin-top: 4px;
+    margin-top: 8px;
+
+    @include mat.form-field-overrides(
+      (
+        outlined-label-text-populated-size: 16px
+      )
+    );
+
+    mat-label {
+      line-height: 18px;
+    }
   }
 
   &.aca-read-only &__checkbox > div > div:first-child {

@@ -1,5 +1,5 @@
 <form class="aca-rule-simple-condition__form" [formGroup]="form">
-  <mat-form-field class="aca-rule-simple-condition__form__field-input" subscriptSizing="dynamic">
+  <mat-form-field class="aca-rule-simple-condition__form__field-input">
     <mat-label>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.FIELD' | translate }}</mat-label>
     <mat-select formControlName="field" data-automation-id="field-select"
       (selectionChange)="onChangeField()">
@@ -12,7 +12,7 @@
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field class="aca-rule-simple-condition__form__field-input aca-rule-simple-condition__form__comparator-input" subscriptSizing="dynamic"
+  <mat-form-field class="aca-rule-simple-condition__form__field-input aca-rule-simple-condition__form__comparator-input"
                   [class]="{ 'aca-hidden': isComparatorHidden }" data-automation-id="comparator-form-field">
     <mat-label>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.COMPARATOR' | translate }}</mat-label>
     <mat-select formControlName="comparator" data-automation-id="comparator-select">
@@ -25,7 +25,7 @@
   </mat-form-field>
 
   <mat-form-field class="aca-rule-simple-condition__form__field-input aca-rule-simple-condition__form__parameter-input"
-                  subscriptSizing="dynamic" [ngSwitch]="selectedField.type">
+                  [ngSwitch]="selectedField.type">
     <mat-label>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.VALUE' | translate }}</mat-label>
     <mat-select formControlName="parameter" data-automation-id="simple-condition-value-select" *ngSwitchCase="'mimeType'">
       <mat-option *ngFor="let mimeType of mimeTypes"

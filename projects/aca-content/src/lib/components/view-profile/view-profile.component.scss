@@ -42,15 +42,6 @@ app-view-profile {
     border-radius: 1rem;
   }
 
-  .app-profile-general-icon {
-    padding: 0 0.5rem 0 1rem;
-    cursor: pointer;
-  }
-
-  .app-profile-text {
-    letter-spacing: 0.5px;
-  }
-
   .app-profile-general {
     display: flex;
     align-items: center;
@@ -83,75 +74,14 @@ app-view-profile {
     padding-right: 1px;
   }
 
-  .app-selected:focus {
-    border: 2px solid var(--theme-blue-button-color);
-    border-radius: 6px;
-    outline: none;
-    box-shadow: 0 0 2px var(--theme-blue-button-color);
-  }
-
-  .app-general-dropdown-divider {
-    border-top-color: var(--theme-grey-divider-color);
-  }
-
   .app-general-dropdown {
-    padding: 0 1rem;
-  }
-
-  .app-general-dropdown-details {
     display: flex;
-  }
+    flex-direction: column;
+    padding: 21.5px 1rem 0;
 
-  .app-profile-general-dropdown-heading {
-    color: var(--theme-heading-color);
-    width: 20%;
-    font-weight: 400;
-    letter-spacing: 0.5px;
-    margin-top: 1.33em;
-    margin-bottom: 1.33em;
-  }
-
-  .app-profile-general-dropdown-details {
-    margin-top: 1.3rem;
-    letter-spacing: 0.5px;
-  }
-
-  .app-profile-general-dropdown-input-details {
-    width: 24%;
-    height: 25px;
-    border: none;
-    margin-top: 1.3rem;
-    background-color: var(--theme-dropdown-color);
-  }
-
-  .app-profile-login-row {
-    margin: 2rem 0 0 2rem;
-    width: 70%;
-    border: 1px solid var(--theme-grey-background-color);
-    border-radius: 1rem;
-  }
-
-  .app-profile-login {
-    display: flex;
-    padding-left: 1rem;
-  }
-
-  .app-profile-login-dropdown-details {
-    width: 24%;
-    height: 25px;
-    border: none;
-    margin-top: 1.3rem;
-    background-color: var(--theme-dropdown-color);
-  }
-
-  .app-profile-login-dropdown-heading-forgot {
-    margin-top: 1.3rem;
-    color: var(--theme-heading-color);
-    margin-left: 16rem;
-  }
-
-  .app-profile-company-row {
-    margin-top: 2rem;
+    .app-form-field {
+      margin-bottom: 15px;
+    }
   }
 
   .app-profile-contact-row {
@@ -159,10 +89,5 @@ app-view-profile {
     width: 70%;
     border: 1px solid var(--theme-grey-background-color);
     border-radius: 1rem;
-  }
-
-  .app-error-message {
-    padding-top: 2rem;
-    padding-left: 0.5rem;
   }
 }

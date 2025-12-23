@@ -1,12 +1,6 @@
-@use '../styles/mat-selectors' as ms;
-
 .aca-rule-details {
   .aca-rule-details__form__triggers {
     margin-top: 10px;
-  }
-
-  .aca-rule-details__name__label {
-    padding-top: 1.5em;
   }
 
   .aca-rule-details__form__others {
@@ -51,6 +45,11 @@
         width: 100%;
         max-width: 400px;
         font-size: inherit;
+        margin-bottom: 15px;
+
+        &:first-of-type {
+          margin-top: 10px;
+        }
 
         label[for='rule-details-name-input'] {
           transform: translateY(-20%) scale(1);
@@ -85,41 +84,6 @@
       .aca-rule-action-list {
         flex: 1;
       }
-    }
-
-    &.aca-read-only,
-    #{ms.$mat-form-field-disabled} {
-      #{ms.$mat-notched-outline-leading},
-      #{ms.$mat-notched-outline-trailing},
-      #{ms.$mat-notched-outline-notch} {
-        border: none;
-      }
-
-      #{ms.$mat-line-ripple} {
-        &::before,
-        &::after {
-          display: none;
-        }
-      }
-
-      *:disabled,
-      #{ms.$mat-select-disabled} #{ms.$mat-select-value} {
-        color: inherit;
-      }
-
-      #{ms.$mat-select-arrow-wrapper} {
-        display: none;
-      }
-    }
-
-    .aca-rule-details__form__row #{ms.$mat-form-field-flex} #{ms.$mat-form-field-infix} {
-      padding-bottom: 0.375em;
-      padding-top: 24px;
-    }
-
-    .aca-rule-details__form__row aca-rule-action #{ms.$mat-form-field-flex} #{ms.$mat-form-field-infix} {
-      padding-top: 0.1em;
-      padding-bottom: 0.1em;
     }
   }
 }

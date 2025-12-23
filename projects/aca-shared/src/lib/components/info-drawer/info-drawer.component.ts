@@ -37,7 +37,6 @@ import { A11yModule } from '@angular/cdk/a11y';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
 import { ContentService, NodesApiService } from '@alfresco/adf-content-services';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 @Component({
   imports: [
@@ -52,14 +51,7 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
   ],
   selector: 'aca-info-drawer',
   templateUrl: './info-drawer.component.html',
-  styleUrl: './info-drawer.component.scss',
-  encapsulation: ViewEncapsulation.None,
-  providers: [
-    {
-      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue: { appearance: 'fill', floatLabel: 'always' }
-    }
-  ]
+  encapsulation: ViewEncapsulation.None
 })
 export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
   @Input()

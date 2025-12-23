@@ -4,10 +4,6 @@
 .aca-rule-action-list {
   min-width: 0;
 
-  .aca-rule-action-list__item .aca-rule-action .mat-mdc-form-field-flex .mat-mdc-form-field-infix {
-    padding-top: 24px;
-  }
-
   .aca-rule-action-list-add-action-button {
     margin: 4px 0 20px;
 
@@ -24,14 +20,10 @@
     border-radius: 8px;
     display: flex;
     margin: 10px;
-    padding: 10px 10px 0;
+    padding: 10px;
 
     & > .aca-rule-action {
       flex: 1;
-    }
-
-    #{ms.$mat-text-field-disabled}#{ms.$mat-text-field-filled} {
-      background: transparent;
     }
 
     &:nth-child(2n) {

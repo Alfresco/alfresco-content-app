@@ -4,11 +4,14 @@
     <div class="aca-rule-details__form__row">
       <label class="aca-rule-details__name__label" for="rule-details-name-input">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.NAME' | translate }}</label>
       <div>
-        <mat-form-field appearance="fill" floatLabel='always' class="aca-rule-details__form__row__field">
-          <mat-label *ngIf="!name.value">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.PLACEHOLDER.NAME' | translate }}</mat-label>
+        <mat-form-field class="aca-rule-details__form__row__field">
           <input
             id="rule-details-name-input"
-            matInput type="text" formControlName="name" data-automation-id="rule-details-name-input">
+            matInput
+            type="text"
+            formControlName="name"
+            [placeholder]="'ACA_FOLDER_RULES.RULE_DETAILS.PLACEHOLDER.NAME' | translate"
+            data-automation-id="rule-details-name-input">
           <mat-error>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.REQUIRED' | translate }}</mat-error>
         </mat-form-field>
       </div>
@@ -17,7 +20,7 @@
     <div class="aca-rule-details__form__row aca-rule-details__form__description">
       <label for="rule-details-description-textarea">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.DESCRIPTION' | translate }}</label>
       <div>
-        <mat-form-field floatLabel='auto' appearance="fill" class="aca-rule-details__form__row__field">
+        <mat-form-field class="aca-rule-details__form__row__field">
         <textarea
           class="aca-rule-details__form__row__field__textarea"
           id="rule-details-description-textarea"
