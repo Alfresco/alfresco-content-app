@@ -84,7 +84,7 @@ import {
   formatSearchTerm
 } from '../../../utils/aca-search-utils';
 import { SaveSearchDirective } from '../search-save/directive/save-search.directive';
-import { combineLatest, merge, Observable, of } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatMenuModule } from '@angular/material/menu';
 import { IsFeatureSupportedInCurrentAcsPipe } from '../../../pipes/is-feature-supported.pipe';
@@ -173,10 +173,13 @@ export class SearchResultsComponent extends PageComponent implements OnInit, OnD
       this.searchConfig = searchConfig;
     });
 
-    this.areFiltersActive$ = merge(this.queryBuilder.queryFragmentsUpdate, this.queryBuilder.userFacetBucketsUpdate).pipe(
+    this.areFiltersActive$ = combineLatest([this.queryBuilder.queryFragmentsUpdate, this.queryBuilder.userFacetBucketsUpdate]).pipe(
       takeUntilDestroyed(),
-      map((v) => {
-        return Object.values(v).some((filterValue) => (Array.isArray(filterValue) ? filterValue.length > 0 : !!filterValue));
+      map((filters) => {
+        const [queryFragments, userFacetBuckets] = filters.map((rawFilter) => {
+          return Object.values(rawFilter).some((filterValue) => (Array.isArray(filterValue) ? filterValue.length > 0 : !!filterValue));
+        });
+        return queryFragments || userFacetBuckets;
       })
     );
   }
