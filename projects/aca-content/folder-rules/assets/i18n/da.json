@@ -31,7 +31,8 @@
       "ERROR": {
         "REQUIRED": "Dette felt er påkrævet",
         "RULE_COMPOSITE_CONDITION_INVALID": "En eller flere betingelsesgrupper tomme",
-        "INSUFFICIENT_TRIGGERS_SELECTED": "Der kræves mindst en udløser"
+        "INSUFFICIENT_TRIGGERS_SELECTED": "Der kræves mindst en udløser",
+        "ACTION_REQUIRED": "Handlingsfelt er påkrævet"
       },
       "TRIGGERS": {
         "INBOUND": "Der er oprettet elementer, eller indtast denne mappe",

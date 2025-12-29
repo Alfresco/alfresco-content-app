@@ -31,7 +31,8 @@
       "ERROR": {
         "REQUIRED": "Dette feltet er obligatorisk",
         "RULE_COMPOSITE_CONDITION_INVALID": "En eller flere betingelsesgrupper er tomme",
-        "INSUFFICIENT_TRIGGERS_SELECTED": "Minst én trigger er nødvendig"
+        "INSUFFICIENT_TRIGGERS_SELECTED": "Minst én trigger er nødvendig",
+        "ACTION_REQUIRED": "Felt for handling er obligatorisk"
       },
       "TRIGGERS": {
         "INBOUND": "Elementene er opprettet eller inn i denne mappen",

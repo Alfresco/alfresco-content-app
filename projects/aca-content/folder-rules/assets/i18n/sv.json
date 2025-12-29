@@ -31,7 +31,8 @@
       "ERROR": {
         "REQUIRED": "Det här fältet krävs",
         "RULE_COMPOSITE_CONDITION_INVALID": "En eller flera villkorsgrupper är tomma",
-        "INSUFFICIENT_TRIGGERS_SELECTED": "Minst en utlösare krävs"
+        "INSUFFICIENT_TRIGGERS_SELECTED": "Minst en utlösare krävs",
+        "ACTION_REQUIRED": "Åtgärdsfältet är obligatoriskt"
       },
       "TRIGGERS": {
         "INBOUND": "Objekt skapas eller gå in i den här mappen",

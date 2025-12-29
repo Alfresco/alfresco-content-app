@@ -31,7 +31,8 @@
       "ERROR": {
         "REQUIRED": "Toto pole je povinné",
         "RULE_COMPOSITE_CONDITION_INVALID": "Nejméně jedna skupina podmínek je prázdná",
-        "INSUFFICIENT_TRIGGERS_SELECTED": "Je požadován alespoň jeden spouštěč"
+        "INSUFFICIENT_TRIGGERS_SELECTED": "Je požadován alespoň jeden spouštěč",
+        "ACTION_REQUIRED": "Pole akce je povinné"
       },
       "TRIGGERS": {
         "INBOUND": "Položky jsou vytvořeny nebo vstupují do této složky",

@@ -31,7 +31,8 @@
       "ERROR": {
         "REQUIRED": "Questo campo è obbligatorio",
         "RULE_COMPOSITE_CONDITION_INVALID": "Uno o più gruppi di condizioni sono vuoti.",
-        "INSUFFICIENT_TRIGGERS_SELECTED": "È necessario almeno un trigger"
+        "INSUFFICIENT_TRIGGERS_SELECTED": "È necessario almeno un trigger",
+        "ACTION_REQUIRED": "Campo di azione obbligatorio"
       },
       "TRIGGERS": {
         "INBOUND": "Vengono creati gli elementi o si accede alla cartella",

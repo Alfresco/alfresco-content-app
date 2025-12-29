@@ -31,7 +31,8 @@
       "ERROR": {
         "REQUIRED": "Поле обязательно для заполнения",
         "RULE_COMPOSITE_CONDITION_INVALID": "Одна или несколько групп условий пустые",
-        "INSUFFICIENT_TRIGGERS_SELECTED": "Требуется как минимум один триггер"
+        "INSUFFICIENT_TRIGGERS_SELECTED": "Требуется как минимум один триггер",
+        "ACTION_REQUIRED": "Поле действия является обязательным"
       },
       "TRIGGERS": {
         "INBOUND": "Элементы создаются или попадают в эту папку",

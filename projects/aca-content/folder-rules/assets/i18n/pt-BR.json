@@ -31,7 +31,8 @@
       "ERROR": {
         "REQUIRED": "Este campo é obrigatório",
         "RULE_COMPOSITE_CONDITION_INVALID": "Um ou mais grupos de condições estiver vazio",
-        "INSUFFICIENT_TRIGGERS_SELECTED": "Pelo menos um gatilho será necessário"
+        "INSUFFICIENT_TRIGGERS_SELECTED": "Pelo menos um gatilho será necessário",
+        "ACTION_REQUIRED": "O campo de ação é obrigatório"
       },
       "TRIGGERS": {
         "INBOUND": "Itens foram criados ou inseridos nesta pasta",

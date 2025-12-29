@@ -31,7 +31,8 @@
       "ERROR": {
         "REQUIRED": "Este campo es obligatorio",
         "RULE_COMPOSITE_CONDITION_INVALID": "Uno o más grupos de condiciones están vacíos",
-        "INSUFFICIENT_TRIGGERS_SELECTED": "Se requiere al menos un activador"
+        "INSUFFICIENT_TRIGGERS_SELECTED": "Se requiere al menos un activador",
+        "ACTION_REQUIRED": "El campo de acción es obligatorio"
       },
       "TRIGGERS": {
         "INBOUND": "Los elementos se crean o ingresan a esta carpeta",

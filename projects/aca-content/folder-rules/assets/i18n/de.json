@@ -31,7 +31,8 @@
       "ERROR": {
         "REQUIRED": "Dieses Feld ist erforderlich",
         "RULE_COMPOSITE_CONDITION_INVALID": "Eine oder mehrere Konditionsgruppen sind leer",
-        "INSUFFICIENT_TRIGGERS_SELECTED": "Mindestens ein Auslöser ist erforderlich"
+        "INSUFFICIENT_TRIGGERS_SELECTED": "Mindestens ein Auslöser ist erforderlich",
+        "ACTION_REQUIRED": "Aktionsfeld ist erforderlich"
       },
       "TRIGGERS": {
         "INBOUND": "Elemente werden erstellt oder in diesen Ordner eingegeben",

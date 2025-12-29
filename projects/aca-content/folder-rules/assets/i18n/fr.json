@@ -31,7 +31,8 @@
       "ERROR": {
         "REQUIRED": "Ce champ est obligatoire",
         "RULE_COMPOSITE_CONDITION_INVALID": "Un ou plusieurs groupes de conditions sont vides",
-        "INSUFFICIENT_TRIGGERS_SELECTED": "Au moins un déclencheur est requis"
+        "INSUFFICIENT_TRIGGERS_SELECTED": "Au moins un déclencheur est requis",
+        "ACTION_REQUIRED": "Le champ d'action est requis"
       },
       "TRIGGERS": {
         "INBOUND": "Des éléments sont créés ou ajoutés à ce dossier",

@@ -31,7 +31,8 @@
       "ERROR": {
         "REQUIRED": "此字段为必填字段",
         "RULE_COMPOSITE_CONDITION_INVALID": "一个或多个条件组为空",
-        "INSUFFICIENT_TRIGGERS_SELECTED": "至少需要一个触发器"
+        "INSUFFICIENT_TRIGGERS_SELECTED": "至少需要一个触发器",
+        "ACTION_REQUIRED": "操作字段为必填项"
       },
       "TRIGGERS": {
         "INBOUND": "项目被创建或进入此文件夹",

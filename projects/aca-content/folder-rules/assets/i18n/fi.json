@@ -31,7 +31,8 @@
       "ERROR": {
         "REQUIRED": "Tämä kenttä on pakollinen",
         "RULE_COMPOSITE_CONDITION_INVALID": "Yksi tai useampi ehtoryhmä on tyhjä",
-        "INSUFFICIENT_TRIGGERS_SELECTED": "Vähintään yksi laukaisija on pakollinen"
+        "INSUFFICIENT_TRIGGERS_SELECTED": "Vähintään yksi laukaisija on pakollinen",
+        "ACTION_REQUIRED": "Toimintakenttä on pakollinen"
       },
       "TRIGGERS": {
         "INBOUND": "Kohteet luodaan tai syötetään tähän kansioon",

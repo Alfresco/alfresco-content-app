@@ -31,7 +31,8 @@
       "ERROR": {
         "REQUIRED": "Dit veld is vereist",
         "RULE_COMPOSITE_CONDITION_INVALID": "Eén of meer voorwaardengroepen zijn leeg",
-        "INSUFFICIENT_TRIGGERS_SELECTED": "Er is minstens één trigger vereist"
+        "INSUFFICIENT_TRIGGERS_SELECTED": "Er is minstens één trigger vereist",
+        "ACTION_REQUIRED": "Actie veld is vereist"
       },
       "TRIGGERS": {
         "INBOUND": "Items worden gemaakt of gaan naar deze map",
