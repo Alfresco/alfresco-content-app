@@ -446,6 +446,40 @@ describe('SearchComponent', () => {
 
       flush();
     }));
+
+    it('should enable the reset button when userFacetBuckets was reset but queryFragments are still present', fakeAsync(() => {
+      queryBuilder.userFacetBucketsUpdate.next({ test: [{ label: 'test-value' }] as FacetFieldBucket[] });
+      queryBuilder.queryFragmentsUpdate.next({ test: 'test-value' });
+      queryBuilder.userFacetBucketsUpdate.next({});
+
+      tick();
+
+      fixture.detectChanges();
+
+      const resetBtn = getResetSearchButton();
+
+      expect(resetBtn).toBeDefined();
+      expect(resetBtn.getAttribute('disabled')).toBeFalsy();
+
+      flush();
+    }));
+
+    it('should enable the reset button when queryFragments was reset but userFacetBuckets are still present', fakeAsync(() => {
+      queryBuilder.userFacetBucketsUpdate.next({ test: [{ label: 'test-value' }] as FacetFieldBucket[] });
+      queryBuilder.queryFragmentsUpdate.next({ test: 'test-value' });
+      queryBuilder.queryFragmentsUpdate.next({});
+
+      tick();
+
+      fixture.detectChanges();
+
+      const resetBtn = getResetSearchButton();
+
+      expect(resetBtn).toBeDefined();
+      expect(resetBtn.getAttribute('disabled')).toBeFalsy();
+
+      flush();
+    }));
   });
 
   testHeader(SearchResultsComponent, false);
