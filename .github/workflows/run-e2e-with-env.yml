@@ -50,7 +50,7 @@ jobs:
 
       - name: dist cache
         if: ${{ success() }}
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: ./dist/content-ce
           key: cache-dist-${{ github.run_id }}
@@ -118,7 +118,7 @@ jobs:
       - uses: ./.github/actions/before-install
       - run: npm ci
 
-      - uses: actions/cache/restore@v4
+      - uses: actions/cache/restore@v5
         id: cache
         with:
           path: ./dist/content-ce

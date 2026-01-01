@@ -44,7 +44,7 @@ jobs:
       - run: npm ci
 
       - name: upload npm logs
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if: failure()
         with:
           name: npm-logs
@@ -75,7 +75,7 @@ jobs:
       - uses: ./.github/actions/before-install
       - run: npm ci
       - name: upload npm logs
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if: failure()
         with:
           name: npm-logs
@@ -85,7 +85,7 @@ jobs:
 
       - name: dist cache
         if: ${{ success() }}
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: ./dist/content-ce
           key: cache-dist-${{ github.run_id }}
@@ -107,7 +107,7 @@ jobs:
       - uses: ./.github/actions/before-install
       - run: npm ci
       - name: upload npm logs
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if: failure()
         with:
           name: npm-logs
@@ -174,7 +174,7 @@ jobs:
             id: 19
     steps:
       - name: Free hosted runner disk space
-        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@9e15988fdf503869a04a9106daa9b06cfdb1768c # v11.0.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@4657bc5c89f722332e897d8f360b75f08e81b8b9 # v12.1.0
 
       - name: Checkout
         uses: actions/checkout@v6
@@ -199,7 +199,7 @@ jobs:
 
       - name: Collect and push logs as artifact
         if: always()
-        uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-keep-nslogs@b51dfeef6bda4a506778050a1c0e53eed440598c # v11.0.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-keep-nslogs@4657bc5c89f722332e897d8f360b75f08e81b8b9 # v12.1.0
         with:
           log_retention: 7
           log_name_identifier: "logs-${{ matrix.browser || 'chromium' }}-${{ matrix.e2e-suites.name }}"
@@ -211,7 +211,7 @@ jobs:
         run: npm ci
 
       - name: Restore dist cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         id: cache
         with:
           path: ./dist/content-ce
@@ -267,7 +267,7 @@ jobs:
           fetch-depth: 2
 
       - name: Extract commit message
-        uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@7eb56e49e47d11547d61c3c68826022db830fc15 #v10.1.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@4657bc5c89f722332e897d8f360b75f08e81b8b9 #v12.1.0
 
       - name: Check ADF link
         shell: bash
