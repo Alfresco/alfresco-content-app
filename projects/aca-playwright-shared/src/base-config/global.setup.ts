@@ -68,7 +68,7 @@ async function createOutputFolders() {
 
 async function removeOutputFolders() {
   if (fs.existsSync(paths.rootFolder)) {
-    fs.rmdirSync(paths.rootFolder, { recursive: true });
+    fs.rmSync(paths.rootFolder, { recursive: true, force: true });
   }
 }
 
