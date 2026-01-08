@@ -29,7 +29,12 @@ import { getReporter } from './report-portal.config';
 
 type LaunchOptions = Parameters<typeof chromium.launch>[0];
 
-loadEnvFile();
+try {
+  loadEnvFile();
+} catch (error) {
+  // .env file is optional, continue without it
+}
+
 const { env } = process;
 
 interface BrowserConfig {
