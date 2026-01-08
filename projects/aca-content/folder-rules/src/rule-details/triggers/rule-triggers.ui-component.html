@@ -1,4 +1,4 @@
-<div role="group" [attr.aria-labelledby]="ariaLabelledBy">
+<fieldset [attr.aria-labelledby]="ariaLabelledBy">
   <div *ngFor="let trigger of triggerOptions">
     <ng-container *ngIf="readOnly; else checkbox">
       <div
@@ -17,4 +17,4 @@
       </mat-checkbox>
     </ng-template>
   </div>
-</div>
+</fieldset>

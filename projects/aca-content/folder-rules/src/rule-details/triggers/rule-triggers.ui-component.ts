@@ -33,6 +33,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   imports: [CommonModule, TranslatePipe, MatCheckboxModule],
   selector: 'aca-rule-triggers',
   templateUrl: './rule-triggers.ui-component.html',
+  styleUrls: ['./rule-triggers.ui-component.scss'],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'aca-rule-triggers' },
   providers: [
