@@ -30,7 +30,7 @@
   </ng-container>
 
   <div class="aca-rule-details__form__row aca-rule-details__form__triggers">
-    <div class="aca-label">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.WHEN' | translate }}</div>
+    <span id="rule-triggers-label" class="aca-label">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.WHEN' | translate }}</span>
     <div>
       <aca-rule-triggers formControlName="triggers" data-automation-id="rule-details-triggers-component" />
       <mat-error class="aca-rule-details-error" *ngIf="triggers.hasError('required')">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.INSUFFICIENT_TRIGGERS_SELECTED' | translate }}</mat-error>
