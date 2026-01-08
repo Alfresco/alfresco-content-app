@@ -1,11 +1,9 @@
 <aca-page-layout>
 
   <div class="aca-page-layout-header">
-    <adf-toolbar class="adf-toolbar--inline">
-      <button mat-icon-button (click)="goBack()" [attr.aria-label]="'ACA_FOLDER_RULES.ACTIONS.GO_BACK' | translate">
-        <mat-icon>arrow_back</mat-icon>
-      </button>
-    </adf-toolbar>
+    <button mat-icon-button (click)="goBack()" [attr.aria-label]="'ACA_FOLDER_RULES.ACTIONS.GO_BACK' | translate">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
     <h1 class="aca-page-title">{{ 'ACA_FOLDER_RULES.ACTIONS.MANAGE_RULES' | translate }}</h1>
   </div>
 
@@ -18,12 +16,12 @@
 
       <ng-template #onLoaded>
         <ng-container *ngIf="folderInfo$ | async; else genericError">
-          <adf-toolbar class="adf-toolbar--inline aca-manage-rules__actions-bar">
+          <mat-toolbar class="aca-manage-rules__toolbar aca-manage-rules__actions-bar">
 
-            <adf-toolbar-title class="aca-manage-rules__actions-bar__title">
+            <span class="aca-manage-rules__actions-bar__title">
               <mat-icon class="icon-aligner">folder</mat-icon>
-              <h2 class="aca-page-title">{{ (folderInfo$ | async).name }}:{{'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.BREADCRUMB.RULES' | translate}}</h2>
-            </adf-toolbar-title>
+              <span class="aca-page-title">{{ (folderInfo$ | async).name }}:{{'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.BREADCRUMB.RULES' | translate}}</span>
+            </span>
 
             <mat-slide-toggle
               data-automation-id="manage-rules-inheritance-toggle-button"
@@ -55,7 +53,7 @@
               </button>
             </div>
 
-          </adf-toolbar>
+          </mat-toolbar>
           <mat-divider />
 
           <div class="aca-manage-rules__container" *ngIf="isMainRuleSetNotEmpty || isInheritedRuleSetsNotEmpty; else emptyContent">

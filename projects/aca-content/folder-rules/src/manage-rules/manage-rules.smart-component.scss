@@ -16,6 +16,16 @@
     background: var(--mdc-switch-selected-pressed-handle-color);
   }
 
+  &__toolbar {
+    color: var(--adf-theme-foreground-text-color-064);
+    height: 64px;
+    font-size: var(--theme-body-1-font-size);
+    white-space: normal;
+    background-color: inherit;
+    border: none;
+    padding: 0;
+  }
+
   &__actions-bar {
     padding: 0 30px;
     display: flex;
@@ -26,8 +36,10 @@
     }
 
     &__title {
+      display: flex;
       align-items: center;
       flex: 1;
+      font-size: var(--theme-body-1-font-size);
     }
 
     &__buttons {

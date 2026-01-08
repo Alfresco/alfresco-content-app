@@ -32,7 +32,7 @@ import { NodeInfo } from '@alfresco/aca-shared/store';
 import { delay } from 'rxjs/operators';
 import { EditRuleDialogUiComponent } from '../rule-details/edit-rule-dialog.ui-component';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent, EmptyContentComponent, NotificationService, ToolbarComponent, ToolbarTitleComponent } from '@alfresco/adf-core';
+import { ConfirmDialogComponent, EmptyContentComponent, NotificationService } from '@alfresco/adf-core';
 import { ActionDefinitionTransformed } from '../model/rule-action.model';
 import { ActionsService } from '../services/actions.service';
 import { FolderRuleSetsService } from '../services/folder-rule-sets.service';
@@ -49,6 +49,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { RuleListUiComponent } from '../rule-list/rule-list/rule-list.ui-component';
 import { RuleDetailsUiComponent } from '../rule-details/rule-details.ui-component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatToolbar } from '@angular/material/toolbar';
 
 @Component({
   imports: [
@@ -65,8 +66,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     GenericErrorComponent,
     RuleDetailsUiComponent,
     EmptyContentComponent,
-    ToolbarTitleComponent,
-    ToolbarComponent
+    MatToolbar
   ],
   selector: 'aca-manage-rules',
   templateUrl: 'manage-rules.smart-component.html',
