@@ -70,6 +70,8 @@ export class RuleOptionsUiComponent implements ControlValueAccessor, OnChanges, 
 
   hideErrorScriptDropdown = true;
 
+  @Input() ariaLabelledBy = 'rule-options-label';
+
   @Input()
   errorScriptConstraint: ActionParameterConstraint;
 

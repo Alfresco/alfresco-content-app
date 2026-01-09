@@ -53,7 +53,7 @@
   </div>
 
   <div class="aca-rule-details__form__row aca-rule-details__form__others" *ngIf="showOptionsSection">
-    <div class="aca-label">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.OPTIONS' | translate }}</div>
+    <span id="rule-options-label" class="aca-label">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.OPTIONS' | translate }}</span>
     <aca-rule-options
       formControlName="options"
       data-automation-id="rule-details-options-component"

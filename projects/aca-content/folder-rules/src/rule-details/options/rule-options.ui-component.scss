@@ -1,7 +1,12 @@
 .aca-rule-options {
-  display: flex;
-  flex-direction: row;
-  gap: 24px;
+  fieldset {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
 
   &__option {
     display: flex;
