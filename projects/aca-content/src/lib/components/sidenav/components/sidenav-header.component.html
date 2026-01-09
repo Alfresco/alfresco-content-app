@@ -1,15 +1,17 @@
 <div class="aca-sidenav-header" data-automation-id="app-sidenav-header">
   <div class="aca-sidenav-header-title" data-automation-id="app-sidenav-header-title">
-    <div class="aca-sidenav-header-title-logo"
-      tabindex=0
+    <button
+      class="aca-sidenav-header-title-logo"
       data-automation-id="app-sidenav-header-title-logo"
       (click)="toggleNavBar.emit()"
-      (keypress)="toggleNavBar.emit()">
+      [attr.aria-label]="'CORE.HEADER.LOGO_ARIA' | translate">
       <img
         src="{{ logoUrl }}"
-        title="{{'APP.TOOLTIPS.COLLAPSE_NAVIGATION' | translate}}"
-        alt="{{ 'CORE.HEADER.LOGO_ARIA' | translate }}" />
-    </div>
+        alt=""
+        aria-hidden="true"
+      />
+    </button>
+
 
     <div
       class="aca-sidenav-header-title-text"
