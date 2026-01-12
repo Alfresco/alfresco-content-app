@@ -1,4 +1,4 @@
-<div class="aca-rule-action-list__item  " *ngFor="let control of formControls">
+<div class="aca-rule-action-list__item  " [attr.aria-labelledby]="'rule-actions-label'" *ngFor="let control of formControls">
   <aca-rule-action
     [actionDefinitions]="actionDefinitions"
     [parameterConstraints]="parameterConstraints"

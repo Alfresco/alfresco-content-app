@@ -19,7 +19,13 @@
         "DESCRIPTION": "Description",
         "WHEN": "When",
         "PERFORM_ACTIONS": "Perform actions",
-        "OPTIONS": "Other options"
+        "OPTIONS": "Other options",
+        "FIELD": "Field",
+        "COMPARATOR": "Comparator",
+        "VALUE": "Value",
+        "LOGIC_OPERATOR": "Logic Operator",
+        "GROUP_CONDITIONS": "Group Conditions",
+        "CONDITIONS": "Conditions"
       },
       "PLACEHOLDER": {
         "NAME": "Enter rule name",
