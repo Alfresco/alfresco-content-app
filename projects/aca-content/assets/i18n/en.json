@@ -472,6 +472,7 @@
         },
         "TOOLTIPS": {
             "COLLAPSE_NAVIGATION": "Collapse navigation menu",
+            "COLLAPSE_NAVIGATION_ALT": "Collapse navigation menu icon",
             "OPTIONS_SETTINGS": "Options and settings",
             "MY_PROFILE": "My profile",
             "EXPAND_NAVIGATION": "Expand navigation menu",
