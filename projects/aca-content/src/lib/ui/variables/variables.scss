@@ -53,7 +53,7 @@ $card-background-grey-color: rgb(248, 248, 248);
 $light-grey-1: #d5d5d5;
 $light-grey-2: #d9d9d9;
 $light-grey-3: #dedede;
-$user-profile-background: #8a8a8a;
+$user-profile-background: #595959;
 
 // CSS Variables
 $defaults: (
@@ -62,7 +62,6 @@ $defaults: (
   --theme-text-color: mat.m2-get-color-from-palette($foreground, text, 0.54),
   --theme-sidenav-text-color: mat.m2-get-color-from-palette($foreground, text),
   --theme-sidenav-hovered-text-color: mat.m2-get-color-from-palette($foreground, text),
-  --theme-sidenav-user-menu-color: mat.m2-get-color-from-palette($foreground, text),
   --theme-tab-active-text-color: mat.m2-get-color-from-palette($foreground, text),
   --theme-text-bold-color: mat.m2-get-color-from-palette($foreground, text, 0.87),
   --theme-title-color: mat.m2-get-color-from-palette($foreground, text, 0.87),
