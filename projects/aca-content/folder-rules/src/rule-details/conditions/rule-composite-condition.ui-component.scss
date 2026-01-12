@@ -4,6 +4,12 @@
   display: block;
   border-radius: 8px;
 
+  fieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+  }
+
   &.aca-childCompositeCondition {
     padding: 8px 16px;
     background-color: hsl(0deg, 0%, 100%);

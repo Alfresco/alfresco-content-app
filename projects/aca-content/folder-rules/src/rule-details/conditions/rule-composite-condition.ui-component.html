@@ -8,11 +8,10 @@
   </span>
   </div>
 
-  <div
-    role="group" [attr.aria-labelledby]="'conditions-group-label-' + (childCondition ? 'nested' : 'main')"
+  <fieldset
+    [attr.aria-labelledby]="'conditions-group-label-' + (childCondition ? 'nested' : 'main')"
     class="aca-rule-composite-condition__form__row"
     *ngFor="let control of conditionFormControls; let i = index">
-
     <mat-form-field *ngIf="i === 0" subscriptSizing="dynamic">
       <mat-label>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.LOGIC_OPERATOR' | translate }}</mat-label>
       <mat-select
@@ -57,8 +56,7 @@
         <span>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.CONDITION_BUTTONS.REMOVE' | translate }}</span>
       </button>
     </mat-menu>
-
-  </div>
+  </fieldset>
 
   <div class="aca-rule-composite-condition__form__actions" *ngIf="!readOnly" data-automation-id="add-actions">
     <button mat-flat-button (click)="addSimpleCondition()" data-automation-id="add-condition-button">
