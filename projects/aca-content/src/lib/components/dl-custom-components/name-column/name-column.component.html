@@ -8,7 +8,7 @@
           | translate : { name: displayText$ | async }
       "
       class="adf-datatable-cell-value"
-      title="{{ node | adfNodeNameTooltip }}"
+      [title]="tooltip()"
       (click)="onLinkClick($event)"
       (keyup.enter)="onLinkClick($event)"
     >

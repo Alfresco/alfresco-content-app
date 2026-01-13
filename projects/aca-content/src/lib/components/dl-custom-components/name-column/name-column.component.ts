@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NameColumnComponent, NodeNameTooltipPipe, NodesApiService } from '@alfresco/adf-content-services';
+import { NameColumnComponent, NodesApiService } from '@alfresco/adf-content-services';
 import { ChangeDetectorRef, Component, DestroyRef, ElementRef, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { filter } from 'rxjs/operators';
@@ -34,7 +34,7 @@ import { DatatableCellBadgesComponent } from '../datatable-cell-badges/datatable
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  imports: [CommonModule, TranslatePipe, LockedByComponent, NodeNameTooltipPipe, DatatableCellBadgesComponent],
+  imports: [CommonModule, TranslatePipe, LockedByComponent, DatatableCellBadgesComponent],
   selector: 'aca-custom-name-column',
   templateUrl: './name-column.component.html',
   styleUrls: ['./name-column.component.scss'],
