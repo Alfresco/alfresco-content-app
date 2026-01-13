@@ -65,13 +65,15 @@ describe('CustomNameColumnComponent', () => {
         node: {
           entry: {
             isFile: true,
-            id: 'nodeId'
+            id: 'nodeId',
+            name: 'test-file.txt'
           }
         },
         getValue: (key: string) => key
       }
     };
 
+    component.ngOnInit();
     fixture.detectChanges();
 
     expect(fixture.debugElement.nativeElement.querySelector('aca-locked-by')).toBe(null);
@@ -83,13 +85,15 @@ describe('CustomNameColumnComponent', () => {
         node: {
           entry: {
             isFile: false,
-            id: 'nodeId'
+            id: 'nodeId',
+            name: 'test-folder'
           }
         },
         getValue: (key: string) => key
       }
     };
 
+    component.ngOnInit();
     fixture.detectChanges();
 
     expect(fixture.debugElement.nativeElement.querySelector('aca-locked-by')).toBe(null);
@@ -102,6 +106,7 @@ describe('CustomNameColumnComponent', () => {
           entry: {
             isFile: true,
             id: 'nodeId',
+            name: 'locked-file.txt',
             properties: { 'cm:lockType': 'WRITE_LOCK' }
           }
         },
@@ -109,6 +114,7 @@ describe('CustomNameColumnComponent', () => {
       }
     };
 
+    component.ngOnInit();
     fixture.detectChanges();
 
     expect(fixture.debugElement.nativeElement.querySelector('aca-locked-by')).not.toBe(null);
