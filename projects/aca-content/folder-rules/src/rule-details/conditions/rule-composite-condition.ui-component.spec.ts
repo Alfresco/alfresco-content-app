@@ -40,6 +40,7 @@ describe('RuleCompositeConditionUiComponent', () => {
 
   const getSimpleConditionComponents = (): DebugElement[] => unitTestingUtils.getAllByCSS(`.aca-rule-simple-condition`);
   const getCompositeConditionComponents = (): DebugElement[] => unitTestingUtils.getAllByCSS(`.aca-rule-composite-condition`);
+  const getLabelWithConditionsElementInnerText = (): string => unitTestingUtils.getInnerTextByDataAutomationId('label-with-conditions');
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -130,5 +131,39 @@ describe('RuleCompositeConditionUiComponent', () => {
     fixture.detectChanges();
 
     expect(getCompositeConditionComponents().length).toBe(1);
+  });
+
+  describe('When hasNoConditions is false', () => {
+    beforeEach(() => {
+      fixture.componentInstance.writeValue(compositeConditionWithThreeConditionMock);
+    });
+
+    it('should display "CONDITIONS" label when childCondition is false', () => {
+      fixture.componentInstance.childCondition = false;
+      fixture.detectChanges();
+
+      expect(getLabelWithConditionsElementInnerText()).toBe('ACA_FOLDER_RULES.RULE_DETAILS.LABEL.CONDITIONS');
+    });
+
+    it('should display "GROUP_CONDITIONS" label when childCondition is true', () => {
+      fixture.componentInstance.childCondition = true;
+      fixture.detectChanges();
+
+      expect(getLabelWithConditionsElementInnerText()).toBe('ACA_FOLDER_RULES.RULE_DETAILS.LABEL.GROUP_CONDITIONS');
+    });
+
+    it('should set correct id attribute when childCondition is false', () => {
+      fixture.componentInstance.childCondition = false;
+      fixture.detectChanges();
+
+      expect(unitTestingUtils.getAllByCSS('[conditions-group-label-main]')).toBeTruthy();
+    });
+
+    it('should set correct id attribute when childCondition is true', () => {
+      fixture.componentInstance.childCondition = true;
+      fixture.detectChanges();
+
+      expect(unitTestingUtils.getAllByCSS('[conditions-group-label-nested]')).toBeTruthy();
+    });
   });
 });

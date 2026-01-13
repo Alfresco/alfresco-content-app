@@ -2,10 +2,10 @@
   <div *ngIf="hasNoConditions" class="aca-rule-composite-condition__form__no-conditions" data-automation-id="no-conditions">
     {{ 'ACA_FOLDER_RULES.RULE_DETAILS.' + (childCondition ? 'NO_CONDITIONS_IN_GROUP' : 'NO_CONDITIONS') | translate }}
   </div>
-  <div *ngIf="!hasNoConditions" class="aca-rule-composite-condition__form__no-conditions" data-automation-id="no-conditions">
-    <span id="conditions-group-label-{{ childCondition ? 'nested' : 'main' }}" class="aca-label">
-    {{ (childCondition ? 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.GROUP_CONDITIONS' : 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.CONDITIONS') | translate }}
-  </span>
+  <div *ngIf="!hasNoConditions" class="aca-rule-composite-condition__form__no-conditions" data-automation-id="label-with-conditions">
+    <span id="conditions-group-label-{{ childCondition ? 'nested' : 'main' }}">
+      {{ (childCondition ? 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.GROUP_CONDITIONS' : 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.CONDITIONS') | translate }}
+    </span>
   </div>
 
   <fieldset
