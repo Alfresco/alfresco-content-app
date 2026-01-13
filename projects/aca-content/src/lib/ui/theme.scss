@@ -375,3 +375,9 @@ adf-dynamic-component {
   right: 6px;
   transform: translateY(-50%);
 }
+
+#{ms.$mat-form-field-hint-wrapper} {
+  /* stylelint-disable-next-line declaration-no-important */
+  padding-left: 0 !important;
+  color: var(--adf-theme-foreground-secondary-text-color);
+}
