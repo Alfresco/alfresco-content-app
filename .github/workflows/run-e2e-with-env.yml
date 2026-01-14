@@ -7,6 +7,9 @@ on:
       url:
         description: 'Application URL'
         required: true
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [master, develop]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -20,7 +23,7 @@ env:
   HR_USER_PASSWORD: ${{ secrets.HR_USER_PASSWORD }}
   SCREENSHOT_USERNAME: ${{ secrets.SCREENSHOT_USERNAME }}
   SCREENSHOT_PASSWORD: ${{ secrets.SCREENSHOT_PASSWORD}}
-  PLAYWRIGHT_E2E_HOST: ${{ inputs.url || secrets.PIPELINE_ENV_URL }}/aca/#/
+  PLAYWRIGHT_E2E_HOST: http://localhost:4200
   GH_BUILD_NUMBER: ${{ github.run_id }}
   REPORT_PORTAL_URL: ${{ secrets.REPORT_PORTAL_URL }}
   REPORT_PORTAL_TOKEN: ${{ secrets.REPORT_PORTAL_TOKEN }}
