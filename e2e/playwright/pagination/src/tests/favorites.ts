@@ -54,6 +54,7 @@ export function favoritesTests(username: string) {
 
       await favoritePage.pagination.openMaxItemsMenu();
       await favoritePage.pagination.clickMenuItem('50');
+      await favoritePage.dataTable.spinnerWaitForReload();
       expect(await favoritePage.pagination.getMaxItems()).toContain('50');
       expect(await favoritePage.pagination.getTotalPages()).toContain('of 2');
 
@@ -61,6 +62,7 @@ export function favoritesTests(username: string) {
 
       await favoritePage.pagination.openMaxItemsMenu();
       await favoritePage.pagination.clickMenuItem('100');
+      await favoritePage.dataTable.spinnerWaitForReload();
       expect(await favoritePage.pagination.getMaxItems()).toContain('100');
       expect(await favoritePage.pagination.getTotalPages()).toContain('of 1');
 
