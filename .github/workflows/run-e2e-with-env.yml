@@ -7,9 +7,6 @@ on:
       url:
         description: 'Application URL'
         required: true
-  pull_request:
-    types: [opened, synchronize, reopened]
-    branches: [master, develop]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
