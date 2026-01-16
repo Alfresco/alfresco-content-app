@@ -1,6 +1,6 @@
 const path = require('path');
 module.exports = {
-  extends: '../../.eslintrc.json',
+  extends: ['../../.eslintrc.json', '../../.eslintrc.e2e.json'],
   ignorePatterns: ['!**/*'],
   overrides: [
     {
