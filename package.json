@@ -58,7 +58,7 @@
     "@angular/platform-browser-dynamic": "19.2.18",
     "@angular/router": "19.2.18",
     "@fontsource/open-sans": "^5.1.0",
-    "@mat-datetimepicker/core": "15.0.2",
+    "@mat-datetimepicker/core": "17.0.1",
     "@ngrx/effects": "19.2.1",
     "@ngrx/operators": "19.2.1",
     "@ngrx/router-store": "19.2.1",
