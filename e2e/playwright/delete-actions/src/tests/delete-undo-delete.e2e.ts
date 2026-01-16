@@ -132,6 +132,7 @@ test.describe('Delete and undo delete', () => {
       items--;
       expect(await personalFiles.pagination.getMaxRange()).toEqual(` Showing 1-${items} of ${items} `);
       await trashPage.navigate();
+      await trashPage.page.pause();
       expect(await personalFiles.dataTable.isItemPresent(file1)).toBeTruthy();
     });
 
