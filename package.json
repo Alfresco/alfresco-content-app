@@ -78,7 +78,7 @@
     "zone.js": "0.15.0"
   },
   "devDependencies": {
-    "@alfresco/adf-cli": "8.4.0-21023813499",
+    "@alfresco/adf-cli": "8.4.0-21033441068",
     "@angular-devkit/build-angular": "19.2.18",
     "@angular-devkit/core": "19.2.18",
     "@angular-devkit/schematics": "19.2.18",
