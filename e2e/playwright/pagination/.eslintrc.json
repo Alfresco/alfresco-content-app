@@ -4,11 +4,10 @@
   "overrides": [
     {
       "files": ["*.ts"],
+      "extends": ["../../../.eslintrc.e2e.json"],
       "parserOptions": {
-        "project": ["e2e/playwright/pagination/tsconfig.e2e.json"],
-        "createDefaultProgram": true
+        "project": ["e2e/playwright/pagination/tsconfig.e2e.json"]
       },
-      "plugins": ["rxjs", "unicorn"],
       "rules": {
         "@typescript-eslint/no-floating-promises": "off"
       }

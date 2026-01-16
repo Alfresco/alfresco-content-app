@@ -8,16 +8,12 @@
       "files": [
         "*.ts"
       ],
+      "extends": ["../../../.eslintrc.e2e.json"],
       "parserOptions": {
         "project": [
           "e2e/playwright/create-actions/tsconfig.e2e.json"
-        ],
-        "createDefaultProgram": true
+        ]
       },
-      "plugins": [
-        "rxjs",
-        "unicorn"
-      ],
       "rules": {
         "@typescript-eslint/no-floating-promises": "off"
       }
