@@ -102,7 +102,7 @@
     "@types/superagent": "^4.1.10",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
-    "@typescript-eslint/utils": "^8.40.0",
+    "@typescript-eslint/utils": "^8.53.0",
     "eslint": "^8.57.0",
     "eslint-plugin-ban": "^2.0.0",
     "eslint-plugin-import": "2.32.0",
