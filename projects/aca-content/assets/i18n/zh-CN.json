@@ -472,6 +472,7 @@
         },
         "TOOLTIPS": {
             "COLLAPSE_NAVIGATION": "折叠导航菜单",
+            "COLLAPSE_NAVIGATION_ALT": "Collapse navigation menu icon",
             "OPTIONS_SETTINGS": "选项和设置",
             "MY_PROFILE": "我的个人档案",
             "EXPAND_NAVIGATION": "展开导航菜单",
@@ -594,7 +595,8 @@
             "LIBRARIES": "库",
             "MIN_LENGTH": "搜索输入必须至少具有 2 个字母数字字符。",
             "REQUIRED": "搜索输入是必需的。",
-            "WHITESPACE": "搜索输入不能仅为空格。"
+            "WHITESPACE": "搜索输入不能仅为空格。",
+            "OPERATORS": "Search input cannot begin with, end with or contain only operators."
         },
         "SORT": {
             "SORTING_OPTION": "排序方式",

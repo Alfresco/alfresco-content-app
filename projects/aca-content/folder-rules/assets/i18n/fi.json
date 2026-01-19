@@ -19,7 +19,13 @@
         "DESCRIPTION": "Kuvaus",
         "WHEN": "Kun",
         "PERFORM_ACTIONS": "Suorita toimintoja",
-        "OPTIONS": "Muut valinnat"
+        "OPTIONS": "Muut valinnat",
+        "FIELD": "Field",
+        "COMPARATOR": "Comparator",
+        "VALUE": "Value",
+        "LOGIC_OPERATOR": "Logic Operator",
+        "GROUP_CONDITIONS": "Group Conditions",
+        "CONDITIONS": "Conditions"
       },
       "PLACEHOLDER": {
         "NAME": "Syötä säännön nimi",

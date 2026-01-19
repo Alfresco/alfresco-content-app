@@ -472,6 +472,7 @@
         },
         "TOOLTIPS": {
             "COLLAPSE_NAVIGATION": "Sbalit navigační nabídku",
+            "COLLAPSE_NAVIGATION_ALT": "Collapse navigation menu icon",
             "OPTIONS_SETTINGS": "Možnosti a nastavení",
             "MY_PROFILE": "Můj profil",
             "EXPAND_NAVIGATION": "Rozbalit navigační nabídku",
@@ -594,7 +595,8 @@
             "LIBRARIES": "Knihovny",
             "MIN_LENGTH": "Hledaný výraz musí obsahovat kombinaci alespoň 2 písmen a číslic.",
             "REQUIRED": "Je vyžadován vstup pro vyhledávání.",
-            "WHITESPACE": "Zadání hledání nemůže být pouze mezera."
+            "WHITESPACE": "Zadání hledání nemůže být pouze mezera.",
+            "OPERATORS": "Search input cannot begin with, end with or contain only operators."
         },
         "SORT": {
             "SORTING_OPTION": "Řadit podle",

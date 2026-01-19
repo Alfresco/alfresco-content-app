@@ -472,6 +472,7 @@
         },
         "TOOLTIPS": {
             "COLLAPSE_NAVIGATION": "طي قائمة التنقل",
+            "COLLAPSE_NAVIGATION_ALT": "Collapse navigation menu icon",
             "OPTIONS_SETTINGS": "الخيارات والإعدادات",
             "MY_PROFILE": "ملف التعريف الخاص بي",
             "EXPAND_NAVIGATION": "قم بتوسيع قائمة التنقل",
@@ -594,7 +595,8 @@
             "LIBRARIES": "مكتبات",
             "MIN_LENGTH": "يجب أن يحتوي إدخال البحث على حرفين أبجديين رقميين على الأقل.",
             "REQUIRED": "إدخال البحث مطلوب.",
-            "WHITESPACE": "لا يمكن لمدخلات البحث أن تكون مساحة بيضاء فقط."
+            "WHITESPACE": "لا يمكن لمدخلات البحث أن تكون مساحة بيضاء فقط.",
+            "OPERATORS": "Search input cannot begin with, end with or contain only operators."
         },
         "SORT": {
             "SORTING_OPTION": "صنف حسب",

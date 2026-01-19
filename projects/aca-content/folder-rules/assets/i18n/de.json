@@ -19,7 +19,13 @@
         "DESCRIPTION": "Beschreibung",
         "WHEN": "Wenn",
         "PERFORM_ACTIONS": "Aktionen durchführen",
-        "OPTIONS": "Andere Optionen"
+        "OPTIONS": "Andere Optionen",
+        "FIELD": "Feld",
+        "COMPARATOR": "Vergleicher",
+        "VALUE": "Wert",
+        "LOGIC_OPERATOR": "Logischer Operator",
+        "GROUP_CONDITIONS": "Gruppenbedingungen",
+        "CONDITIONS": "Bedingungen"
       },
       "PLACEHOLDER": {
         "NAME": "Regelname eingeben",

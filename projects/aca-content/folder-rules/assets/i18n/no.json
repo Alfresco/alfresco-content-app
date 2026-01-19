@@ -19,7 +19,13 @@
         "DESCRIPTION": "Beskrivelse",
         "WHEN": "Når",
         "PERFORM_ACTIONS": "Utfør handlinger",
-        "OPTIONS": "Andre valg"
+        "OPTIONS": "Andre valg",
+        "FIELD": "Field",
+        "COMPARATOR": "Comparator",
+        "VALUE": "Value",
+        "LOGIC_OPERATOR": "Logic Operator",
+        "GROUP_CONDITIONS": "Group Conditions",
+        "CONDITIONS": "Conditions"
       },
       "PLACEHOLDER": {
         "NAME": "Angi regelnavn",

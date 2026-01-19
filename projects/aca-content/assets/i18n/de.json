@@ -472,6 +472,7 @@
         },
         "TOOLTIPS": {
             "COLLAPSE_NAVIGATION": "Navigationsmenü reduzieren",
+            "COLLAPSE_NAVIGATION_ALT": "Navigationsmenü-Symbol einklappen",
             "OPTIONS_SETTINGS": "Optionen und Einstellungen",
             "MY_PROFILE": "Mein Profil",
             "EXPAND_NAVIGATION": "Navigationsmenü erweitern",
@@ -594,7 +595,8 @@
             "LIBRARIES": "Bibliotheken",
             "MIN_LENGTH": "Die Sucheingabe muss mindestens zwei alphanumerische Zeichen umfassen.",
             "REQUIRED": "Sucheingabe ist erforderlich.",
-            "WHITESPACE": "Sucheingabe darf nicht nur Leerzeichen sein."
+            "WHITESPACE": "Sucheingabe darf nicht nur Leerzeichen sein.",
+            "OPERATORS": "Die Sucheingabe darf nicht mit Operatoren beginnen, mit Operatoren enden oder ausschließlich Operatoren enthalten."
         },
         "SORT": {
             "SORTING_OPTION": "Sortieren nach",

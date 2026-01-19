@@ -19,7 +19,13 @@
         "DESCRIPTION": "Beskrivning",
         "WHEN": "När",
         "PERFORM_ACTIONS": "Utför åtgärder",
-        "OPTIONS": "Andra alternativ"
+        "OPTIONS": "Andra alternativ",
+        "FIELD": "Field",
+        "COMPARATOR": "Comparator",
+        "VALUE": "Value",
+        "LOGIC_OPERATOR": "Logic Operator",
+        "GROUP_CONDITIONS": "Group Conditions",
+        "CONDITIONS": "Conditions"
       },
       "PLACEHOLDER": {
         "NAME": "Ange regelnamn",

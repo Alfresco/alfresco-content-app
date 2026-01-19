@@ -472,6 +472,7 @@
         },
         "TOOLTIPS": {
             "COLLAPSE_NAVIGATION": "ナビゲーションメニューを折りたたむ",
+            "COLLAPSE_NAVIGATION_ALT": "Collapse navigation menu icon",
             "OPTIONS_SETTINGS": "オプションと設定",
             "MY_PROFILE": "あなたのプロフィール",
             "EXPAND_NAVIGATION": "ナビゲーションメニューを展開します",
@@ -594,7 +595,8 @@
             "LIBRARIES": "ライブラリ",
             "MIN_LENGTH": "検索する語句は、2 文字以上の英数字で入力してください。",
             "REQUIRED": "検索入力が必要です。",
-            "WHITESPACE": "検索入力は空白にはできません。"
+            "WHITESPACE": "検索入力は空白にはできません。",
+            "OPERATORS": "Search input cannot begin with, end with or contain only operators."
         },
         "SORT": {
             "SORTING_OPTION": "並べ替え",

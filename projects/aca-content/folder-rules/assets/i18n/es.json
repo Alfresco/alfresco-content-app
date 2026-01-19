@@ -19,7 +19,13 @@
         "DESCRIPTION": "Descripción",
         "WHEN": "Cuando",
         "PERFORM_ACTIONS": "Realizar acciones",
-        "OPTIONS": "Otras opciones"
+        "OPTIONS": "Otras opciones",
+        "FIELD": "Field",
+        "COMPARATOR": "Comparator",
+        "VALUE": "Value",
+        "LOGIC_OPERATOR": "Logic Operator",
+        "GROUP_CONDITIONS": "Group Conditions",
+        "CONDITIONS": "Conditions"
       },
       "PLACEHOLDER": {
         "NAME": "Introducir un nombre para la regla",

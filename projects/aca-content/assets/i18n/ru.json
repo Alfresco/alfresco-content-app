@@ -472,6 +472,7 @@
         },
         "TOOLTIPS": {
             "COLLAPSE_NAVIGATION": "Свернуть меню навигации",
+            "COLLAPSE_NAVIGATION_ALT": "Collapse navigation menu icon",
             "OPTIONS_SETTINGS": "Параметры и настройки",
             "MY_PROFILE": "Мой профиль",
             "EXPAND_NAVIGATION": "Развернуть меню навигации",
@@ -594,7 +595,8 @@
             "LIBRARIES": "Библиотеки",
             "MIN_LENGTH": "Поисковый запрос должен содержать как минимум два буквенно-цифровых символа.",
             "REQUIRED": "Требуется ввести введенный поиск.",
-            "WHITESPACE": "Поисковый запрос не может быть только пробелов."
+            "WHITESPACE": "Поисковый запрос не может быть только пробелов.",
+            "OPERATORS": "Search input cannot begin with, end with or contain only operators."
         },
         "SORT": {
             "SORTING_OPTION": "Сортировать по",

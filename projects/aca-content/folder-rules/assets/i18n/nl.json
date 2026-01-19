@@ -19,7 +19,13 @@
         "DESCRIPTION": "Beschrijving",
         "WHEN": "Wanneer",
         "PERFORM_ACTIONS": "Acties uitvoeren",
-        "OPTIONS": "Andere opties"
+        "OPTIONS": "Andere opties",
+        "FIELD": "Field",
+        "COMPARATOR": "Comparator",
+        "VALUE": "Value",
+        "LOGIC_OPERATOR": "Logic Operator",
+        "GROUP_CONDITIONS": "Group Conditions",
+        "CONDITIONS": "Conditions"
       },
       "PLACEHOLDER": {
         "NAME": "Regelnaam invoeren",

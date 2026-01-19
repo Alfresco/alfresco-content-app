@@ -472,6 +472,7 @@
         },
         "TOOLTIPS": {
             "COLLAPSE_NAVIGATION": "Kutista siirtymisvalikko",
+            "COLLAPSE_NAVIGATION_ALT": "Collapse navigation menu icon",
             "OPTIONS_SETTINGS": "Asetukset ja vaihtoehdot",
             "MY_PROFILE": "Oma profiili",
             "EXPAND_NAVIGATION": "Laajenna siirtymisvalikko",
@@ -594,7 +595,8 @@
             "LIBRARIES": "Kirjastot",
             "MIN_LENGTH": "Hakuehdoissa täytyy olla vähintään kaksi aakkosnumeerista merkkiä.",
             "REQUIRED": "Hakusyöte on pakollinen.",
-            "WHITESPACE": "Hakusyöte ei voi olla vain valkoinen."
+            "WHITESPACE": "Hakusyöte ei voi olla vain valkoinen.",
+            "OPERATORS": "Search input cannot begin with, end with or contain only operators."
         },
         "SORT": {
             "SORTING_OPTION": "Järjestä",

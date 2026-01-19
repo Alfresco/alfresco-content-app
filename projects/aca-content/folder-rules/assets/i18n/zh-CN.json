@@ -19,7 +19,13 @@
         "DESCRIPTION": "说明",
         "WHEN": "什么时候",
         "PERFORM_ACTIONS": "执行操作",
-        "OPTIONS": "其他选项"
+        "OPTIONS": "其他选项",
+        "FIELD": "Field",
+        "COMPARATOR": "Comparator",
+        "VALUE": "Value",
+        "LOGIC_OPERATOR": "Logic Operator",
+        "GROUP_CONDITIONS": "Group Conditions",
+        "CONDITIONS": "Conditions"
       },
       "PLACEHOLDER": {
         "NAME": "输入规则名称",

@@ -472,6 +472,7 @@
         },
         "TOOLTIPS": {
             "COLLAPSE_NAVIGATION": "Zwiń menu nawigacji",
+            "COLLAPSE_NAVIGATION_ALT": "Collapse navigation menu icon",
             "OPTIONS_SETTINGS": "Opcje i ustawienia",
             "MY_PROFILE": "Mój profil",
             "EXPAND_NAVIGATION": "Rozwiń menu nawigacji",
@@ -594,7 +595,8 @@
             "LIBRARIES": "Biblioteki",
             "MIN_LENGTH": "Tekst do wyszukiwania musi mieć co najmniej 2 znaki alfanumeryczne.",
             "REQUIRED": "Wymagane jest wyszukiwanie.",
-            "WHITESPACE": "Pole wyszukiwania nie może być tylko spacją białą."
+            "WHITESPACE": "Pole wyszukiwania nie może być tylko spacją białą.",
+            "OPERATORS": "Search input cannot begin with, end with or contain only operators."
         },
         "SORT": {
             "SORTING_OPTION": "Sortuj wg",

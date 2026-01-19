@@ -19,7 +19,13 @@
         "DESCRIPTION": "説明",
         "WHEN": "日時",
         "PERFORM_ACTIONS": "アクションの実行",
-        "OPTIONS": "他のオプション"
+        "OPTIONS": "他のオプション",
+        "FIELD": "Field",
+        "COMPARATOR": "Comparator",
+        "VALUE": "Value",
+        "LOGIC_OPERATOR": "Logic Operator",
+        "GROUP_CONDITIONS": "Group Conditions",
+        "CONDITIONS": "Conditions"
       },
       "PLACEHOLDER": {
         "NAME": "ルールの名前を入力します",

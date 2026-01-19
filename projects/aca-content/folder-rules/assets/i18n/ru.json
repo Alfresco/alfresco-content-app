@@ -19,7 +19,13 @@
         "DESCRIPTION": "Описание",
         "WHEN": "Когда",
         "PERFORM_ACTIONS": "Выполнить действия",
-        "OPTIONS": "Другие параметры"
+        "OPTIONS": "Другие параметры",
+        "FIELD": "Field",
+        "COMPARATOR": "Comparator",
+        "VALUE": "Value",
+        "LOGIC_OPERATOR": "Logic Operator",
+        "GROUP_CONDITIONS": "Group Conditions",
+        "CONDITIONS": "Conditions"
       },
       "PLACEHOLDER": {
         "NAME": "Введите имя правила",

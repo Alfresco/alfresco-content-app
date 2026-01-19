@@ -472,6 +472,7 @@
         },
         "TOOLTIPS": {
             "COLLAPSE_NAVIGATION": "Dölj navigeringsmenyn",
+            "COLLAPSE_NAVIGATION_ALT": "Collapse navigation menu icon",
             "OPTIONS_SETTINGS": "Alternativ och inställningar",
             "MY_PROFILE": "Min profil",
             "EXPAND_NAVIGATION": "Expandera navigeringsmenyn",
@@ -594,7 +595,8 @@
             "LIBRARIES": "Bibliotek",
             "MIN_LENGTH": "Sökindata måste ha minst 2 alfanumeriska tecken.",
             "REQUIRED": "Sökindata måste fyllas i.",
-            "WHITESPACE": "Sökinmatningen kan inte bara vara blankt."
+            "WHITESPACE": "Sökinmatningen kan inte bara vara blankt.",
+            "OPERATORS": "Search input cannot begin with, end with or contain only operators."
         },
         "SORT": {
             "SORTING_OPTION": "Sortera efter",

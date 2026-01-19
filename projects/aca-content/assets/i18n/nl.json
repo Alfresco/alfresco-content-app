@@ -472,6 +472,7 @@
         },
         "TOOLTIPS": {
             "COLLAPSE_NAVIGATION": "Navigatiemenu samenvouwen",
+            "COLLAPSE_NAVIGATION_ALT": "Collapse navigation menu icon",
             "OPTIONS_SETTINGS": "Opties en instellingen",
             "MY_PROFILE": "Mijn profiel",
             "EXPAND_NAVIGATION": "Navigatiemenu uitvouwen",
@@ -594,7 +595,8 @@
             "LIBRARIES": "Bibliotheken",
             "MIN_LENGTH": "Invoer voor een zoekopdracht moet uit minstens 2 alfanumerieke tekens bestaan.",
             "REQUIRED": "Zoekinvoer is vereist.",
-            "WHITESPACE": "Zoekinvoer kan niet alleen witruimte zijn."
+            "WHITESPACE": "Zoekinvoer kan niet alleen witruimte zijn.",
+            "OPERATORS": "Search input cannot begin with, end with or contain only operators."
         },
         "SORT": {
             "SORTING_OPTION": "Sorteren op",

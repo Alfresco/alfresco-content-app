@@ -19,7 +19,13 @@
         "DESCRIPTION": "الوصف",
         "WHEN": "متي",
         "PERFORM_ACTIONS": "تنفيذ الإجراءات",
-        "OPTIONS": "خيارات أخرى"
+        "OPTIONS": "خيارات أخرى",
+        "FIELD": "Field",
+        "COMPARATOR": "Comparator",
+        "VALUE": "Value",
+        "LOGIC_OPERATOR": "Logic Operator",
+        "GROUP_CONDITIONS": "Group Conditions",
+        "CONDITIONS": "Conditions"
       },
       "PLACEHOLDER": {
         "NAME": "أدخل اسم للقاعدة",

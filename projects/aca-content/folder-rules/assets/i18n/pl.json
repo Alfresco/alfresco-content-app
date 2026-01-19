@@ -19,7 +19,13 @@
         "DESCRIPTION": "Opis",
         "WHEN": "Kiedy",
         "PERFORM_ACTIONS": "Wykonaj czynności",
-        "OPTIONS": "Inne opcje"
+        "OPTIONS": "Inne opcje",
+        "FIELD": "Field",
+        "COMPARATOR": "Comparator",
+        "VALUE": "Value",
+        "LOGIC_OPERATOR": "Logic Operator",
+        "GROUP_CONDITIONS": "Group Conditions",
+        "CONDITIONS": "Conditions"
       },
       "PLACEHOLDER": {
         "NAME": "Wprowadź nazwę reguły",

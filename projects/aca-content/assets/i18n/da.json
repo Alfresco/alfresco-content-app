@@ -472,6 +472,7 @@
         },
         "TOOLTIPS": {
             "COLLAPSE_NAVIGATION": "Luk navigationsmenuen",
+            "COLLAPSE_NAVIGATION_ALT": "Collapse navigation menu icon",
             "OPTIONS_SETTINGS": "Valgmuligheder og indstillinger",
             "MY_PROFILE": "Min profil",
             "EXPAND_NAVIGATION": "Udvid navigationsmenu",
@@ -594,7 +595,8 @@
             "LIBRARIES": "Biblioteker",
             "MIN_LENGTH": "Din søgetekst skal være på mindst 2 tal/bogstaver.",
             "REQUIRED": "Søg input er påkrævet.",
-            "WHITESPACE": "Søg input kan ikke kun være mellemrum."
+            "WHITESPACE": "Søg input kan ikke kun være mellemrum.",
+            "OPERATORS": "Search input cannot begin with, end with or contain only operators."
         },
         "SORT": {
             "SORTING_OPTION": "Sortér efter",
