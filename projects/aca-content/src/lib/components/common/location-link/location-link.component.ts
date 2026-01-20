@@ -37,9 +37,10 @@ import { TranslatePipe } from '@ngx-translate/core';
   selector: 'aca-location-link',
   template: `
     <a
-      href=""
+      href="#"
       [title]="nodeLocation$ | async"
-      (click)="goToLocation()"
+      (click)="goToLocation($event)"
+      (keydown.enter)="goToLocation($event)"
       class="adf-datatable-cell-value"
       [innerHTML]="displayText | async | translate"
     >
@@ -72,7 +73,8 @@ export class LocationLinkComponent implements OnInit {
     this.getTooltip(this._path);
   }
 
-  goToLocation() {
+  goToLocation(event: Event) {
+    event.preventDefault();
     if (this.context) {
       const node: NodeEntry = this.context.row.node;
       this.store.dispatch(new NavigateToParentFolder(node));
