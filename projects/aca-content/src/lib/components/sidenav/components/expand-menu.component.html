@@ -38,8 +38,8 @@
         </div>
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <div class="aca-expansion-panel-body">
-      <div *ngFor="let child of item.children; trackBy: trackById" class="aca-expansion-panel-item">
+    <ul class="aca-expansion-panel-body" [attr.aria-label]="item.title | translate">
+      <li *ngFor="let child of item.children; trackBy: trackById" class="aca-expansion-panel-item">
         <button
           acaActiveLink="aca-action-button--active"
           [action]="child"
@@ -54,7 +54,7 @@
           <adf-icon *ngIf="child.icon" [value]="child.icon" />
           <span class="aca-action-button__label">{{ child.title | translate }}</span>
         </button>
-      </div>
-    </div>
+      </li>
+    </ul>
   </mat-expansion-panel>
 </ng-container>

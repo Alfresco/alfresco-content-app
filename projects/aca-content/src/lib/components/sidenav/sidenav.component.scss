@@ -46,6 +46,10 @@
   .aca-sidenav__section {
     overflow-y: auto;
 
+    #{mat.$mat-expansion-panel-body} {
+      padding: 0;
+    }
+
     .aca-expansion-panel {
       width: 100%;
       background-color: unset;
@@ -103,8 +107,9 @@
       }
 
       &-body {
-        margin: 0 -24px 16px;
         font-size: var(--theme-body-1-font-size);
+        padding: 0;
+        margin: 0;
 
         button {
           line-height: 32px;
@@ -137,6 +142,7 @@
       &__item:has(span) {
         padding: 0;
         height: 100%;
+        margin-bottom: 32px;
 
         span {
           pointer-events: auto;
