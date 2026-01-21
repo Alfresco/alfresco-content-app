@@ -119,14 +119,14 @@ export class NodeEffects {
         ofType<PurgeDeletedNodesAction>(NodeActionTypes.PurgeDeleted),
         map((action) => {
           if (action?.payload?.length > 0) {
-            this.contentService.purgeDeletedNodes(action.payload);
+            this.contentService.purgeDeletedNodes(action.payload, action.configuration?.focusedElementOnCloseSelector);
           } else {
             this.store
               .select(getAppSelection)
               .pipe(take(1))
               .subscribe((selection) => {
                 if (selection && selection.count > 0) {
-                  this.contentService.purgeDeletedNodes(selection.nodes);
+                  this.contentService.purgeDeletedNodes(selection.nodes, action.configuration?.focusedElementOnCloseSelector);
                 }
               });
           }
@@ -141,14 +141,14 @@ export class NodeEffects {
         ofType<RestoreDeletedNodesAction>(NodeActionTypes.RestoreDeleted),
         map((action) => {
           if (action?.payload?.length > 0) {
-            this.contentService.restoreDeletedNodes(action.payload);
+            this.contentService.restoreDeletedNodes(action.payload, action.configuration?.focusedElementOnCloseSelector);
           } else {
             this.store
               .select(getAppSelection)
               .pipe(take(1))
               .subscribe((selection) => {
                 if (selection && selection.count > 0) {
-                  this.contentService.restoreDeletedNodes(selection.nodes);
+                  this.contentService.restoreDeletedNodes(selection.nodes, action.configuration?.focusedElementOnCloseSelector);
                 }
               });
           }
@@ -164,14 +164,14 @@ export class NodeEffects {
         map((action) => {
           this.store.dispatch(new ShowLoaderAction(true));
           if (action?.payload?.length > 0) {
-            this.contentService.deleteNodes(action.payload, action.allowUndo);
+            this.contentService.deleteNodes(action.payload, action.allowUndo, action.configuration?.focusedElementOnCloseSelector);
           } else {
             this.store
               .select(getAppSelection)
               .pipe(take(1))
               .subscribe((selection) => {
                 if (selection && selection.count > 0) {
-                  this.contentService.deleteNodes(selection.nodes, action.allowUndo);
+                  this.contentService.deleteNodes(selection.nodes, action.allowUndo, action.configuration?.focusedElementOnCloseSelector);
                 }
               });
           }

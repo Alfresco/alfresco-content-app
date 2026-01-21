@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ToggleFavoriteLibraryComponent } from './toggle-favorite-library.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -86,14 +86,24 @@ describe('ToggleFavoriteLibraryComponent', () => {
     expect(component.library.isFavorite).toBe(true);
   });
 
-  it('should emit onToggleEvent() event', async () => {
+  it('should emit onToggleEvent() event', fakeAsync(() => {
     spyOn(appHookService.favoriteLibraryToggle, 'next');
 
     fixture.detectChanges();
-    await fixture.whenStable();
-
     component.onToggleEvent();
+    tick(100);
 
     expect(appHookService.favoriteLibraryToggle.next).toHaveBeenCalled();
+  }));
+
+  it('should focus element on toggle when focusAfterClosed is provided', () => {
+    const mockElement = jasmine.createSpyObj<HTMLElement>('HTMLElement', ['focus']);
+    spyOn(document, 'querySelector').and.returnValue(mockElement);
+
+    component.data = { focusAfterClosed: '.adf-context-menu-source' };
+    component.onToggleEvent();
+
+    expect(document.querySelector).toHaveBeenCalledWith('.adf-context-menu-source');
+    expect(mockElement.focus).toHaveBeenCalled();
   });
 });

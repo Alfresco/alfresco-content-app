@@ -41,14 +41,14 @@ export class FavoriteEffects {
         ofType<AddFavoriteAction>(NodeActionTypes.AddFavorite),
         map((action) => {
           if (action.payload && action.payload.length > 0) {
-            this.content.addFavorite(action.payload);
+            this.content.addFavorite(action.payload, action.configuration.focusedElementOnCloseSelector);
           } else {
             this.store
               .select(getAppSelection)
               .pipe(take(1))
               .subscribe((selection) => {
                 if (selection && !selection.isEmpty) {
-                  this.content.addFavorite(selection.nodes);
+                  this.content.addFavorite(selection.nodes, action.configuration.focusedElementOnCloseSelector);
                 }
               });
           }
@@ -63,14 +63,14 @@ export class FavoriteEffects {
         ofType<RemoveFavoriteAction>(NodeActionTypes.RemoveFavorite),
         map((action) => {
           if (action.payload && action.payload.length > 0) {
-            this.content.removeFavorite(action.payload);
+            this.content.removeFavorite(action.payload, action.configuration.focusedElementOnCloseSelector);
           } else {
             this.store
               .select(getAppSelection)
               .pipe(take(1))
               .subscribe((selection) => {
                 if (selection && !selection.isEmpty) {
-                  this.content.removeFavorite(selection.nodes);
+                  this.content.removeFavorite(selection.nodes, action.configuration.focusedElementOnCloseSelector);
                 }
               });
           }

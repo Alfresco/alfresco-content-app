@@ -45,7 +45,7 @@
         (validationError)="error = $event"
         [hasLibrariesConstraint]="hasLibrariesConstraint"
       />
-      <mat-error *ngIf="error" class="app-search-error">
+      <mat-error *ngIf="error" class="app-search-error" role="alert" aria-live="assertive">
         {{ error | translate }}
       </mat-error>
       <div id="search-options" class="app-search-options">

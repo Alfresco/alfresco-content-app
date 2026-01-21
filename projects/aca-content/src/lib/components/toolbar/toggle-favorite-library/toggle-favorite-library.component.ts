@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, DestroyRef, inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppHookService } from '@alfresco/aca-shared';
 import { AppStore, getAppSelection } from '@alfresco/aca-shared/store';
@@ -56,6 +56,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class ToggleFavoriteLibraryComponent implements OnInit {
   library;
 
+  @Input() data: { focusAfterClosed?: string };
+
   @ViewChild(MatMenuItem)
   menuItem: MatMenuItem;
 
@@ -84,6 +86,11 @@ export class ToggleFavoriteLibraryComponent implements OnInit {
   }
 
   onToggleEvent() {
-    this.appHookService.favoriteLibraryToggle.next();
+    if (this.data?.focusAfterClosed) {
+      document.querySelector<HTMLElement>('.adf-context-menu-source')?.focus();
+    }
+    setTimeout(() => {
+      this.appHookService.favoriteLibraryToggle.next();
+    }, 100);
   }
 }

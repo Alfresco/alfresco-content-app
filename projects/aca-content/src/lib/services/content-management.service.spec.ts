@@ -902,6 +902,20 @@ describe('ContentManagementService', () => {
       store.dispatch(new DeleteNodesAction(selection));
       expect(openSnackMessageActionSpy.calls.argsFor(0)[2].panelClass).toBe('adf-warning-snackbar');
     });
+
+    it('should focus element when deleting nodes with focusAfterClosed selector', fakeAsync(() => {
+      const mockElement = jasmine.createSpyObj<HTMLElement>('HTMLElement', ['focus']);
+      spyOn(document, 'querySelector').and.returnValue(mockElement);
+      spyOn(contentApi, 'deleteNode').and.returnValue(of(null));
+
+      const nodes = [{ entry: { id: '1', name: 'name1' } } as NodeEntry];
+
+      contentManagementService.deleteNodes(nodes, false, '.some-button');
+      tick();
+
+      expect(document.querySelector).toHaveBeenCalledWith('.some-button');
+      expect(mockElement.focus).toHaveBeenCalled();
+    }));
   });
 
   describe('Permanent Delete', () => {
@@ -926,6 +940,20 @@ describe('ContentManagementService', () => {
 
       expect(contentApi.purgeDeletedNode).toHaveBeenCalled();
     });
+
+    it('should focus element when purging nodes with focusAfterClosed selector', fakeAsync(() => {
+      const mockElement = jasmine.createSpyObj<HTMLElement>('HTMLElement', ['focus']);
+      spyOn(document, 'querySelector').and.returnValue(mockElement);
+      spyOn(contentApi, 'purgeDeletedNode').and.returnValue(of({}));
+
+      const nodes = [{ entry: { id: '1', name: 'name1' } } as NodeEntry];
+
+      contentManagementService.purgeDeletedNodes(nodes, '.some-button');
+      tick();
+
+      expect(document.querySelector).toHaveBeenCalledWith('.some-button');
+      expect(mockElement.focus).toHaveBeenCalled();
+    }));
 
     describe('notification', () => {
       it('raises warning on multiple fail and one success', (done) => {
@@ -1307,6 +1335,28 @@ describe('ContentManagementService', () => {
         store.dispatch(new RestoreDeletedNodesAction(selection));
         expect(openSnackMessageActionSpy.calls.argsFor(0)[2].panelClass).toBe('adf-info-snackbar');
       });
+
+      it('should focus element when restoring nodes with focusAfterClosed selector', fakeAsync(() => {
+        const mockElement = jasmine.createSpyObj<HTMLElement>('HTMLElement', ['focus']);
+        spyOn(document, 'querySelector').and.returnValue(mockElement);
+        spyOn(contentApi, 'restoreNode').and.returnValue(of({} as NodeEntry));
+        const path = {
+          elements: [
+            {
+              id: '1-1',
+              name: 'Company Home'
+            }
+          ]
+        };
+
+        const nodes = [{ entry: { name: 'node1', id: '1', path } } as NodeEntry];
+
+        contentManagementService.restoreDeletedNodes(nodes, '.some-button');
+        tick(100);
+
+        expect(document.querySelector).toHaveBeenCalledWith('.some-button');
+        expect(mockElement.focus).toHaveBeenCalled();
+      }));
     });
   });
 
@@ -1996,6 +2046,19 @@ describe('ContentManagementService', () => {
       expect(showInfoSpy).toHaveBeenCalledWith('APP.MESSAGES.INFO.FAVORITE_NODES_ADDED', null, { number: 2 });
     });
 
+    it('should focus element when adding favorite with focusAfterClosed selector', fakeAsync(() => {
+      const mockElement = jasmine.createSpyObj<HTMLElement>('HTMLElement', ['focus']);
+
+      spyOn(document, 'querySelector').and.returnValue(mockElement);
+      spyOn(contentApi, 'addFavorite').and.returnValue(of({ entry: { targetGuid: '', target: '' } }));
+
+      contentManagementService.addFavorite([fakeNode1, fakeNode2], '.some-button');
+      tick(100);
+
+      expect(document.querySelector).toHaveBeenCalledWith('.some-button');
+      expect(mockElement.focus).toHaveBeenCalled();
+    }));
+
     it('should call proper content api and display proper snackbar message if one node is provided for removeFavorite', () => {
       spyOn(contentApi, 'removeFavorite').and.returnValue(of({}));
 
@@ -2024,5 +2087,18 @@ describe('ContentManagementService', () => {
       expect(contentApi.removeFavorite).toHaveBeenCalledWith([fakeNode1, fakeNode2]);
       expect(showErrorSpy).toHaveBeenCalledWith('APP.MESSAGES.ERRORS.FAVORITE_NODE_NOT_FOUND', null, { name: 'mock-folder2-name' });
     });
+
+    it('should focus element when removing favorite with focusAfterClosed selector', fakeAsync(() => {
+      const mockElement = jasmine.createSpyObj<HTMLElement>('HTMLElement', ['focus']);
+
+      spyOn(document, 'querySelector').and.returnValue(mockElement);
+      spyOn(contentApi, 'removeFavorite').and.returnValue(of({}));
+
+      contentManagementService.removeFavorite([fakeNode1, fakeNode2], '.some-button');
+      tick(100);
+
+      expect(document.querySelector).toHaveBeenCalledWith('.some-button');
+      expect(mockElement.focus).toHaveBeenCalled();
+    }));
   });
 });

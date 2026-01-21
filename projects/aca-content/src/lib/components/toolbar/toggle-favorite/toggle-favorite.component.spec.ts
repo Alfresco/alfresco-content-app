@@ -66,7 +66,7 @@ describe('ToggleFavoriteComponent', () => {
   });
 
   it('should not dispatch reload if route is not specified', () => {
-    component.data = '["/reload_on_this_route"]';
+    component.data = { routes: ['/reload_on_this_route'] };
     router.url = '/somewhere_over_the_rainbow';
 
     fixture.detectChanges();
@@ -76,12 +76,23 @@ describe('ToggleFavoriteComponent', () => {
   });
 
   it('should dispatch reload if route is specified', () => {
-    component.data = '["/reload_on_this_route"]';
+    component.data = { routes: ['/reload_on_this_route'] };
     router.url = '/reload_on_this_route';
 
     fixture.detectChanges();
     component.onToggleEvent();
 
     expect(mockStore.dispatch).toHaveBeenCalled();
+  });
+
+  it('should focus element on toggle when focusAfterClosed is provided', () => {
+    const mockElement = jasmine.createSpyObj<HTMLElement>('HTMLElement', ['focus']);
+    spyOn(document, 'querySelector').and.returnValue(mockElement);
+
+    component.data = { routes: [], focusAfterClosed: '.adf-context-menu-source' };
+    component.onToggleEvent();
+
+    expect(document.querySelector).toHaveBeenCalledWith('.adf-context-menu-source');
+    expect(mockElement.focus).toHaveBeenCalled();
   });
 });

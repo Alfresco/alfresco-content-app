@@ -64,12 +64,14 @@ export class ToggleFavoriteComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.data) {
-      this.reloadOnRoutes = JSON.parse(this.data.replace(/'/g, '"'));
-    }
+    this.reloadOnRoutes = this.data?.routes ?? [];
   }
 
   onToggleEvent() {
+    const focusAfterClosed = this.data?.focusAfterClosed;
+    if (focusAfterClosed) {
+      document.querySelector<HTMLElement>(focusAfterClosed)?.focus();
+    }
     if (this.reloadOnRoutes.includes(this.router.url)) {
       this.documentListService.reload();
     }
