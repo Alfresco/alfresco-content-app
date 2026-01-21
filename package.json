@@ -79,7 +79,7 @@
   },
   "devDependencies": {
     "@alfresco/adf-cli": "8.4.0-21063643799",
-    "@angular-devkit/build-angular": "19.2.18",
+    "@angular-devkit/build-angular": "19.2.19",
     "@angular-devkit/core": "19.2.18",
     "@angular-devkit/schematics": "19.2.18",
     "@angular-eslint/builder": "19.3.0",
