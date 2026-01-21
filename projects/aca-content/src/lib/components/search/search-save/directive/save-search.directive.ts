@@ -26,6 +26,7 @@ import { DestroyRef, Directive, ElementRef, EventEmitter, HostListener, inject, 
 import { MatDialog } from '@angular/material/dialog';
 import { SaveSearchDialogComponent } from '../dialog/save-search-dialog.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { OverlayContainer } from '@angular/cdk/overlay';
 
 interface SaveSearchDirectiveDialogData {
   searchUrl: string;
@@ -48,6 +49,8 @@ export class SaveSearchDirective {
   private readonly dialogRef = inject(MatDialog);
   private readonly elementRef = inject(ElementRef<HTMLElement>);
 
+  constructor(private readonly overlayContainer: OverlayContainer) {}
+
   @HostListener('click', ['$event'])
   onClick(event: MouseEvent) {
     event.preventDefault();
@@ -56,7 +59,12 @@ export class SaveSearchDirective {
   }
 
   private openDialog(): void {
-    const dialog = this.dialogRef.open(SaveSearchDialogComponent, { ...this.getDialogConfig(), restoreFocus: true });
+    this.overlayContainer.getContainerElement().setAttribute('role', 'dialog');
+    const dialog = this.dialogRef.open(SaveSearchDialogComponent, {
+      ...this.getDialogConfig(),
+      restoreFocus: true,
+      ariaLabelledBy: 'aca-save-search-dialog-title'
+    });
     dialog
       .afterClosed()
       .pipe(takeUntilDestroyed(this.destroyRef))

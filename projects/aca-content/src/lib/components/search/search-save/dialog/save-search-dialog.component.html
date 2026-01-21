@@ -1,5 +1,9 @@
 <div class="aca-save-search-dialog__header">
-    <h2 class="aca-save-search-dialog__title">{{"APP.BROWSE.SEARCH.SAVE_SEARCH.MODAL_HEADER" | translate}}</h2>
+    <h2
+      id="aca-save-search-dialog-title"
+      class="aca-save-search-dialog__title">
+      {{"APP.BROWSE.SEARCH.SAVE_SEARCH.MODAL_HEADER" | translate}}
+    </h2>
     <button
       mat-icon-button
       mat-dialog-close
@@ -20,7 +24,6 @@
         matInput
         required
         [formControlName]="'name'"
-        adf-auto-focus
       />
 
       <mat-error *ngIf="form.controls['name'].touched">
