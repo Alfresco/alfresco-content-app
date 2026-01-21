@@ -89,7 +89,6 @@ describe('ToggleFavoriteLibraryComponent', () => {
   it('should emit onToggleEvent() event', fakeAsync(() => {
     spyOn(appHookService.favoriteLibraryToggle, 'next');
 
-    fixture.detectChanges();
     component.onToggleEvent();
     tick(100);
 
