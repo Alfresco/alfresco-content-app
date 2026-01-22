@@ -433,6 +433,10 @@
                         "FAIL": "{{ failed }} couldn't be moved."
                     }
                 },
+                "NODE_CREATE": {
+                  "FILE_FROM_TEMPLATE_SUCCESS": "{{ name }} created from template",
+                  "FOLDER_FROM_TEMPLATE_SUCCESS": "{{ name }} created from template"
+                },
                 "LIBRARY_DELETED": "Library deleted",
                 "LEFT_LIBRARY": "You have left the library",
                 "FAVORITE_NODE_ADDED": "Added {{ name }} to favorites",

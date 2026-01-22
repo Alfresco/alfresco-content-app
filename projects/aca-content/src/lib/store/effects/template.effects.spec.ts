@@ -46,6 +46,7 @@ describe('TemplateEffects', () => {
   let updateNodeSpy;
   let matDialog: MatDialog;
   let showErrorSpy;
+  let showInfoSpy;
 
   const node: Node = {
     name: 'node-name',
@@ -98,6 +99,7 @@ describe('TemplateEffects', () => {
 
     const notificationService = TestBed.inject(NotificationService);
     showErrorSpy = spyOn(notificationService, 'showError');
+    showInfoSpy = spyOn(notificationService, 'showInfo');
 
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(documentListService, 'reload').and.stub();
@@ -214,5 +216,33 @@ describe('TemplateEffects', () => {
     store.dispatch(new CreateFromTemplateSuccess(TEST_NODE));
     tick();
     expect(documentListService.reload).toHaveBeenCalled();
+  }));
+
+  it('should show success notification for file created from template', fakeAsync(() => {
+    const fileNode: Node = {
+      id: 'file-node-id',
+      name: 'test-file.txt',
+      isFolder: false,
+      isFile: true
+    } as Node;
+
+    store.dispatch(new CreateFromTemplateSuccess(fileNode));
+    tick();
+
+    expect(showInfoSpy).toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_CREATE.FOLDER_FROM_TEMPLATE_SUCCESS', null, { name: 'test-file.txt' });
+  }));
+
+  it('should show success notification for folder created from template', fakeAsync(() => {
+    const folderNode: Node = {
+      id: 'folder-node-id',
+      name: 'test-folder',
+      isFolder: true,
+      isFile: false
+    } as Node;
+
+    store.dispatch(new CreateFromTemplateSuccess(folderNode));
+    tick();
+
+    expect(showInfoSpy).toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_CREATE.FILE_FROM_TEMPLATE_SUCCESS', null, { name: 'test-folder' });
   }));
 });

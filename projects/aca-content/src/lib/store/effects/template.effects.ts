@@ -112,7 +112,12 @@ export class TemplateEffects {
     () =>
       this.actions$.pipe(
         ofType<CreateFromTemplateSuccess>(TemplateActionTypes.CreateFromTemplateSuccess),
-        map(() => {
+        map((action) => {
+          const node = action.node;
+          const messageKey = node.isFolder
+            ? 'APP.MESSAGES.INFO.NODE_CREATE.FOLDER_FROM_TEMPLATE_SUCCESS'
+            : 'APP.MESSAGES.INFO.NODE_CREATE.FILE_FROM_TEMPLATE_SUCCESS';
+          this.notificationService.showInfo(messageKey, null, { name: node.name });
           this.matDialog.closeAll();
           this.documentListService.reload();
         })
