@@ -34,7 +34,7 @@ import { A11yModule } from '@angular/cdk/a11y';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NotificationService } from '@alfresco/adf-core';
-import { AutoFocusDirective, forbidOnlySpaces } from '@alfresco/adf-content-services';
+import { forbidOnlySpaces } from '@alfresco/adf-content-services';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
 import { UniqueSearchNameValidator } from './unique-search-name-validator';
@@ -53,7 +53,6 @@ import { SavedSearchesContextService } from '../../../../services/saved-searches
     A11yModule,
     MatCheckboxModule,
     FormsModule,
-    AutoFocusDirective,
     ReactiveFormsModule,
     MatDialogModule
   ],

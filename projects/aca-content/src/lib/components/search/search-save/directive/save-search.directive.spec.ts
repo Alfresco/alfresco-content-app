@@ -24,11 +24,13 @@
 
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { of, Subject } from 'rxjs';
 import { SaveSearchDirective } from './save-search.directive';
 import { SaveSearchDialogComponent } from '../dialog/save-search-dialog.component';
+import { SaveSearchDirectiveDialogData } from '../dialog/save-search-directive-dialog-data';
+import { OverlayContainer } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-test-component',
@@ -48,11 +50,6 @@ describe('SaveSearchDirective', () => {
   let fixture: ComponentFixture<TestComponent>;
   let element: DebugElement;
   let dialog: MatDialog;
-
-  const event = {
-    type: 'click',
-    preventDefault: jasmine.createSpy('preventDefault')
-  };
 
   beforeEach(() => {
     void TestBed.configureTestingModule({
@@ -75,36 +72,65 @@ describe('SaveSearchDirective', () => {
     fixture.detectChanges();
   });
 
-  it('should prevent the default click action', () => {
-    element.triggerEventHandler('click', event);
-    expect(event.preventDefault).toHaveBeenCalled();
-  });
+  describe('Click on save search directive', () => {
+    it('should prevent the default click action', () => {
+      const event = new MouseEvent('click');
+      spyOn(event, 'preventDefault');
 
-  it('should open the dialog with the correct configuration', () => {
-    spyOn(dialog, 'open');
-    element.triggerEventHandler('click', event);
+      element.nativeElement.dispatchEvent(event);
+      expect(event.preventDefault).toHaveBeenCalled();
+    });
 
-    const expectedConfig = {
-      data: { searchUrl: 'encodedQuery' },
-      restoreFocus: true
-    };
+    it('should open the dialog with the correct configuration', () => {
+      spyOn(dialog, 'open');
+      element.nativeElement.click();
 
-    expect(dialog.open).toHaveBeenCalledWith(SaveSearchDialogComponent, expectedConfig);
-  });
+      const expectedConfig: MatDialogConfig<SaveSearchDirectiveDialogData> = {
+        data: { searchUrl: 'encodedQuery' },
+        restoreFocus: true,
+        ariaLabelledBy: 'aca-save-search-dialog-title'
+      };
 
-  it('should emit event on save search success', () => {
-    const afterClosed$ = new Subject<boolean>();
+      expect(dialog.open).toHaveBeenCalledWith(SaveSearchDialogComponent, expectedConfig);
+    });
 
-    spyOn(dialog, 'open').and.returnValue({
-      afterClosed: () => afterClosed$.asObservable()
-    } as MatDialogRef<SaveSearchDialogComponent>);
+    it('should call setAttribute on container element', () => {
+      const overlayContainer = TestBed.inject(OverlayContainer);
+      const containerElement = document.createElement('div');
+      spyOn(containerElement, 'setAttribute');
+      spyOn(overlayContainer, 'getContainerElement').and.returnValue(containerElement);
 
-    element.triggerEventHandler('click', event);
+      element.nativeElement.click();
+      expect(containerElement.setAttribute).toHaveBeenCalledWith('role', 'dialog');
+    });
 
-    afterClosed$.next(true);
-    afterClosed$.complete();
-    fixture.detectChanges();
+    it('should open the dialog with the correct configuration', () => {
+      spyOn(dialog, 'open');
+      element.nativeElement.click();
 
-    expect(fixture.componentInstance.isSavedWithSuccess).toBe(true);
+      const expectedConfig: MatDialogConfig<SaveSearchDirectiveDialogData> = {
+        data: { searchUrl: 'encodedQuery' },
+        restoreFocus: true,
+        ariaLabelledBy: 'aca-save-search-dialog-title'
+      };
+
+      expect(dialog.open).toHaveBeenCalledWith(SaveSearchDialogComponent, expectedConfig);
+    });
+
+    it('should emit event on save search success', () => {
+      const afterClosed$ = new Subject<boolean>();
+
+      spyOn(dialog, 'open').and.returnValue({
+        afterClosed: () => afterClosed$.asObservable()
+      } as MatDialogRef<SaveSearchDialogComponent>);
+
+      element.nativeElement.click();
+
+      afterClosed$.next(true);
+      afterClosed$.complete();
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.isSavedWithSuccess).toBe(true);
+    });
   });
 });

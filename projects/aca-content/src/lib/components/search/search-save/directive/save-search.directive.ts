@@ -27,10 +27,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { SaveSearchDialogComponent } from '../dialog/save-search-dialog.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { OverlayContainer } from '@angular/cdk/overlay';
-
-interface SaveSearchDirectiveDialogData {
-  searchUrl: string;
-}
+import { SaveSearchDirectiveDialogData } from '../dialog/save-search-directive-dialog-data';
 
 @Directive({
   selector: '[acaSaveSearch]',
