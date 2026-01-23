@@ -33,7 +33,7 @@
               {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.INHERIT_RULES' | translate }}
             </mat-slide-toggle>
 
-            <mat-divider vertical class="aca-manage-rules__actions-bar__vertical-divider" />
+            <mat-divider vertical class="aca-manage-rules__actions-bar__vertical-divider" aria-hidden="true" />
 
             <div class="aca-manage-rules__actions-bar__buttons">
               <button
@@ -54,7 +54,7 @@
             </div>
 
           </mat-toolbar>
-          <mat-divider />
+          <mat-divider aria-hidden="true" />
 
           <div class="aca-manage-rules__container" *ngIf="isMainRuleSetNotEmpty || isInheritedRuleSetsNotEmpty; else emptyContent">
             <aca-rule-list
