@@ -167,8 +167,8 @@ describe('NodeEffects', () => {
 
       tick(100);
 
-      store.dispatch(new PurgeDeletedNodesAction(null));
-      expect(contentService.purgeDeletedNodes).toHaveBeenCalledWith([node], undefined);
+      store.dispatch(new PurgeDeletedNodesAction([node], { focusedElementOnCloseSelector: '.test-selector' }));
+      expect(contentService.purgeDeletedNodes).toHaveBeenCalledWith([node], '.test-selector');
     }));
 
     it('should do nothing if invoking purge with no data', () => {
@@ -198,8 +198,8 @@ describe('NodeEffects', () => {
 
       tick(100);
 
-      store.dispatch(new RestoreDeletedNodesAction(null));
-      expect(contentService.restoreDeletedNodes).toHaveBeenCalledWith([node], undefined);
+      store.dispatch(new RestoreDeletedNodesAction(null, { focusedElementOnCloseSelector: '.test-selector' }));
+      expect(contentService.restoreDeletedNodes).toHaveBeenCalledWith([node], '.test-selector');
     }));
 
     it('should do nothing if invoking restore with no data', () => {
@@ -231,11 +231,13 @@ describe('NodeEffects', () => {
 
       tick(100);
 
-      store.dispatch(new DeleteNodesAction(null));
+      store.dispatch(new DeleteNodesAction(null, true, { focusedElementOnCloseSelector: '.test-selector' }));
 
-      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new DeleteNodesAction(null, true) }));
+      expect(store.dispatch).toHaveBeenCalledWith(
+        jasmine.objectContaining({ ...new DeleteNodesAction(null, true, { focusedElementOnCloseSelector: '.test-selector' }) })
+      );
       expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new ShowLoaderAction(true) }));
-      expect(contentService.deleteNodes).toHaveBeenCalledWith([node], true, undefined);
+      expect(contentService.deleteNodes).toHaveBeenCalledWith([node], true, '.test-selector');
     }));
 
     it('should do nothing if invoking delete with no data', () => {

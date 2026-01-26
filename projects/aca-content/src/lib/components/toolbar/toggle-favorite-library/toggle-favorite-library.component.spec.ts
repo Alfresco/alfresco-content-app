@@ -30,12 +30,14 @@ import { AppTestingModule } from '../../../testing/app-testing.module';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import { AppHookService, ContentApiService } from '@alfresco/aca-shared';
+import { UnitTestingUtils } from '@alfresco/adf-core';
 
 describe('ToggleFavoriteLibraryComponent', () => {
   let fixture: ComponentFixture<ToggleFavoriteLibraryComponent>;
   let component: ToggleFavoriteLibraryComponent;
   let appHookService: AppHookService;
   let contentApiService: any;
+  let unitTestingUtils: UnitTestingUtils;
 
   const selection = { library: { entry: { id: 'libraryId' } } };
   const mockRouter = {
@@ -66,6 +68,7 @@ describe('ToggleFavoriteLibraryComponent', () => {
     fixture = TestBed.createComponent(ToggleFavoriteLibraryComponent);
     component = fixture.componentInstance;
     contentApiService = TestBed.inject(ContentApiService);
+    unitTestingUtils = new UnitTestingUtils(fixture.debugElement);
 
     appHookService = TestBed.inject(AppHookService);
     spyOn(contentApiService['favoritesApi'], 'getFavoriteSite').and.returnValue(Promise.resolve(null));
@@ -100,7 +103,8 @@ describe('ToggleFavoriteLibraryComponent', () => {
     spyOn(document, 'querySelector').and.returnValue(mockElement);
 
     component.data = { focusAfterClosed: '.adf-context-menu-source' };
-    component.onToggleEvent();
+    const button = unitTestingUtils.getByCSS('button');
+    button.triggerEventHandler('toggle', new CustomEvent('toggle'));
 
     expect(document.querySelector).toHaveBeenCalledWith('.adf-context-menu-source');
     expect(mockElement.focus).toHaveBeenCalled();

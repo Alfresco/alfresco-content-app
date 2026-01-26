@@ -29,11 +29,14 @@ import { ExtensionService } from '@alfresco/adf-extensions';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { AppTestingModule } from '../../../testing/app-testing.module';
+import { UnitTestingUtils } from '@alfresco/adf-core';
 
 describe('ToggleFavoriteComponent', () => {
   let component: ToggleFavoriteComponent;
   let fixture;
   let router;
+  let unitTestingUtils: UnitTestingUtils;
+
   const mockRouter = {
     url: 'some-url'
   };
@@ -54,6 +57,7 @@ describe('ToggleFavoriteComponent', () => {
 
     fixture = TestBed.createComponent(ToggleFavoriteComponent);
     component = fixture.componentInstance;
+    unitTestingUtils = new UnitTestingUtils(fixture.debugElement);
     router = TestBed.inject(Router);
   });
 
@@ -90,7 +94,8 @@ describe('ToggleFavoriteComponent', () => {
     spyOn(document, 'querySelector').and.returnValue(mockElement);
 
     component.data = { routes: [], focusAfterClosed: '.adf-context-menu-source' };
-    component.onToggleEvent();
+    const button = unitTestingUtils.getByCSS('button');
+    button.triggerEventHandler('toggle', new CustomEvent('toggle'));
 
     expect(document.querySelector).toHaveBeenCalledWith('.adf-context-menu-source');
     expect(mockElement.focus).toHaveBeenCalled();
