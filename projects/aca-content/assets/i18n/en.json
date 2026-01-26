@@ -434,8 +434,8 @@
                     }
                 },
                 "NODE_CREATE": {
-                  "FILE_FROM_TEMPLATE_SUCCESS": "{{ name }} created from template",
-                  "FOLDER_FROM_TEMPLATE_SUCCESS": "{{ name }} created from template"
+                  "FILE_FROM_TEMPLATE_SUCCESS": "File {{ name }} created from template",
+                  "FOLDER_FROM_TEMPLATE_SUCCESS": "Folder {{ name }} created from template"
                 },
                 "LIBRARY_DELETED": "Library deleted",
                 "LEFT_LIBRARY": "You have left the library",
