@@ -229,7 +229,7 @@ describe('TemplateEffects', () => {
     store.dispatch(new CreateFromTemplateSuccess(fileNode));
     tick();
 
-    expect(showInfoSpy).toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_CREATE.FOLDER_FROM_TEMPLATE_SUCCESS', null, { name: 'test-file.txt' });
+    expect(showInfoSpy).toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_CREATE.FILE_FROM_TEMPLATE_SUCCESS', null, { name: 'test-file.txt' });
   }));
 
   it('should show success notification for folder created from template', fakeAsync(() => {
@@ -243,6 +243,6 @@ describe('TemplateEffects', () => {
     store.dispatch(new CreateFromTemplateSuccess(folderNode));
     tick();
 
-    expect(showInfoSpy).toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_CREATE.FILE_FROM_TEMPLATE_SUCCESS', null, { name: 'test-folder' });
+    expect(showInfoSpy).toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_CREATE.FOLDER_FROM_TEMPLATE_SUCCESS', null, { name: 'test-folder' });
   }));
 });
