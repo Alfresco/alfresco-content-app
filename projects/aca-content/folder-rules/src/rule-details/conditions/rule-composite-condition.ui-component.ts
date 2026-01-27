@@ -107,7 +107,7 @@ export class RuleCompositeConditionUiComponent implements ControlValueAccessor, 
   private readonly focusTrapFactory = inject(FocusTrapFactory);
 
   constructor() {
-    this.form.valueChanges.pipe(takeUntilDestroyed()).subscribe((value: any) => {
+    this.form.valueChanges.pipe(takeUntilDestroyed()).subscribe((value: RuleCompositeCondition) => {
       this.onChange(value);
       this.onTouch();
     });
