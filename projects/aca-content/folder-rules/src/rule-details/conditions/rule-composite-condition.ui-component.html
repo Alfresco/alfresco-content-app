@@ -9,6 +9,7 @@
   </div>
 
   <fieldset
+    #conditionRow
     [attr.aria-labelledby]="'conditions-group-label-' + (childCondition ? 'nested' : 'main')"
     class="aca-rule-composite-condition__form__row"
     *ngFor="let control of conditionFormControls; let i = index">

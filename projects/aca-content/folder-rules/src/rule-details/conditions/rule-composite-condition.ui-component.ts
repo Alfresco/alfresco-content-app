@@ -22,7 +22,22 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, forwardRef, HostBinding, Input, OnChanges, OnDestroy, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  DestroyRef,
+  ElementRef,
+  forwardRef,
+  HostBinding,
+  inject,
+  Input,
+  OnChanges,
+  QueryList,
+  SimpleChanges,
+  ViewChildren,
+  ViewEncapsulation
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RuleCompositeCondition } from '../../model/rule-composite-condition.model';
 import { ControlValueAccessor, FormArray, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { RuleSimpleCondition } from '../../model/rule-simple-condition.model';
@@ -34,6 +49,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { RuleSimpleConditionUiComponent } from './rule-simple-condition.ui-component';
+import { FocusTrapFactory } from '@angular/cdk/a11y';
 
 @Component({
   imports: [
@@ -60,15 +76,20 @@ import { RuleSimpleConditionUiComponent } from './rule-simple-condition.ui-compo
     }
   ]
 })
-export class RuleCompositeConditionUiComponent implements ControlValueAccessor, OnDestroy, OnChanges {
+export class RuleCompositeConditionUiComponent implements ControlValueAccessor, OnChanges, AfterViewInit {
   @HostBinding('class.aca-secondaryBackground')
   @Input()
   secondaryBackground = false;
+
   @HostBinding('class.aca-childCompositeCondition')
   @Input()
   childCondition = false;
+
   @Input()
   readOnly = false;
+
+  @ViewChildren('conditionRow', { read: ElementRef })
+  private conditionRows: QueryList<ElementRef<HTMLElement>>;
 
   readonly isOrImplemented = false;
 
@@ -79,29 +100,43 @@ export class RuleCompositeConditionUiComponent implements ControlValueAccessor, 
     simpleConditions: new FormArray([])
   });
 
-  private formSubscription = this.form.valueChanges.subscribe((value: any) => {
-    this.onChange(value);
-    this.onTouch();
-  });
-
   public invertedControl = this.form.get('inverted') as FormControl;
   public booleanModeControl = this.form.get('booleanMode') as FormControl;
+
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly focusTrapFactory = inject(FocusTrapFactory);
+
+  constructor() {
+    this.form.valueChanges.pipe(takeUntilDestroyed()).subscribe((value: any) => {
+      this.onChange(value);
+      this.onTouch();
+    });
+  }
 
   get compositeConditionsFormArray(): FormArray {
     return this.form.get('compositeConditions') as FormArray;
   }
+
   get simpleConditionsFormArray(): FormArray {
     return this.form.get('simpleConditions') as FormArray;
   }
+
   get conditionFormControls(): FormControl[] {
     return [...(this.compositeConditionsFormArray.controls as FormControl[]), ...(this.simpleConditionsFormArray.controls as FormControl[])];
   }
+
   get hasNoConditions(): boolean {
     return this.conditionFormControls.length === 0;
   }
 
   onChange: (condition: RuleCompositeCondition) => void = () => undefined;
   onTouch: () => void = () => undefined;
+
+  ngAfterViewInit(): void {
+    this.conditionRows.changes.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+      this.focusLastCondition();
+    });
+  }
 
   writeValue(value: RuleCompositeCondition) {
     this.form.get('inverted').setValue(value.inverted);
@@ -148,10 +183,6 @@ export class RuleCompositeConditionUiComponent implements ControlValueAccessor, 
     this.compositeConditionsFormArray.push(new FormControl(newCondition));
   }
 
-  ngOnDestroy() {
-    this.formSubscription.unsubscribe();
-  }
-
   ngOnChanges(changes: SimpleChanges) {
     const readOnly = changes['readOnly']?.currentValue;
 
@@ -164,5 +195,20 @@ export class RuleCompositeConditionUiComponent implements ControlValueAccessor, 
         this.form.enable();
       }
     }
+  }
+
+  private focusLastCondition(): void {
+    const rows = this.conditionRows.toArray();
+    const lastRow = rows[rows.length - 1]?.nativeElement;
+
+    if (!lastRow) {
+      return;
+    }
+
+    setTimeout(() => {
+      const focusTrap = this.focusTrapFactory.create(lastRow);
+      focusTrap.focusFirstTabbableElement();
+      focusTrap.destroy();
+    });
   }
 }
