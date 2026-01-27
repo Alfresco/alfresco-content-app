@@ -77,7 +77,7 @@ export class ActionsDropdownComponent extends BaseComponent {
   private actionSimpleWorkflowLabelApproveLocator = `[data-automation-id="card-boolean-label-approve-move"]`;
   private actionSimpleWorkflowSRejectStepLocator = '[data-automation-id="header-reject-step"] input';
   private actionSimpleWorkflowRejectFolderLocator = `[data-automation-id="header-reject-folder"] input`;
-  private readonly mimeTypeDropdownLocator = this.getChild('[data-automation-class="select-box"][aria-label="Mimetype *"]');
+  private readonly mimeTypeDropdownLocator = this.getChild('[data-automation-id="select-box"][aria-label="Mimetype *"]');
   private readonly actionTransformAndCopyContentDestinationFolderLocator = '[data-automation-id="card-textitem-value-destination-folder"]';
   private readonly contentNodeSelectorSearchInput = '[data-automation-id="content-node-selector-search-input"]';
 
