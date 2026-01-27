@@ -27,8 +27,8 @@
         <button
           mat-icon-button
           (click)="toggleGeneralSection()"
-          [attr.title]="`APP.TOOLTIPS.${generalSectionExpanded ? 'COLLAPSE' : 'EXPAND'}_SECTION` | translate"
-          [attr.aria-label]="`APP.TOOLTIPS.${generalSectionExpanded ? 'COLLAPSE' : 'EXPAND'}_SECTION` | translate">
+          [attr.title]="generalSectionButtonTooltip | translate"
+          [attr.aria-label]="generalSectionButtonTooltip | translate">
           <mat-icon>{{ generalSectionExpanded ?  'expand_more' : 'chevron_right'}}</mat-icon>
         </button>
         <h4 class="app-general-title">{{'APP.EDIT_PROFILE.GENERAL' | translate}}</h4>
@@ -142,8 +142,8 @@
          <button
           mat-icon-button
           (click)="toggleContactSection()"
-          [attr.title]="`APP.TOOLTIPS.${contactSectionExpanded ? 'COLLAPSE' : 'EXPAND'}_SECTION` | translate"
-          [attr.aria-label]="`APP.TOOLTIPS.${contactSectionExpanded ? 'COLLAPSE' : 'EXPAND'}_SECTION` | translate">
+          [attr.title]="contactSectionButtonTooltip | translate"
+          [attr.aria-label]="contactSectionButtonTooltip | translate">
           <mat-icon>{{ contactSectionExpanded ?  'expand_more' : 'chevron_right'}}</mat-icon>
         </button>
         <h4 class="app-general-title">{{'APP.EDIT_PROFILE.COMPANY_DETAILS' | translate}}</h4>

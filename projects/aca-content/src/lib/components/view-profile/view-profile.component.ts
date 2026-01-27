@@ -79,6 +79,14 @@ export class ViewProfileComponent implements OnInit {
   appNavNarMode$: Observable<'collapsed' | 'expanded'>;
   sections: UserProfileSection[] = [];
 
+  get generalSectionButtonTooltip(): string {
+    return `APP.TOOLTIPS.${this.generalSectionExpanded ? 'COLLAPSE' : 'EXPAND'}_SECTION`;
+  }
+
+  get contactSectionButtonTooltip(): string {
+    return `APP.TOOLTIPS.${this.contactSectionExpanded ? 'COLLAPSE' : 'EXPAND'}_SECTION`;
+  }
+
   constructor(
     private router: Router,
     private readonly apiService: AlfrescoApiService,

@@ -22,7 +22,7 @@
   @include mat.form-field-overrides(
     (
       outlined-label-text-populated-size: 18px,
-      outlined-label-text-color: var(--adf-metadata-property-panel-title-color),
+      outlined-label-text-color: var(--theme-selected-text-color),
       outlined-hover-label-text-color: var(--adf-theme-foreground-text-color),
       outlined-disabled-input-text-color: var(--adf-theme-foreground-text-color-040),
       outlined-disabled-label-text-color: var(--adf-theme-foreground-text-color-040),
