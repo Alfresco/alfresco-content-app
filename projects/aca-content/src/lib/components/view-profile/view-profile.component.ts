@@ -136,7 +136,7 @@ export class ViewProfileComponent implements OnInit {
   }
 
   navigateToPersonalFiles() {
-    void this.router.navigate(['/personal-files'], {
+    this.router.navigate(['/personal-files'], {
       replaceUrl: true
     });
   }
