@@ -1,6 +1,11 @@
 {
   "extends": ["plugin:playwright/playwright-test"],
+  "plugins": ["@alfresco/eslint-angular"],
   "rules": {
+    "@typescript-eslint/no-floating-promises": "warn",
+    "@typescript-eslint/no-misused-promises": "warn",
+    "max-lines": "off",
+    "@alfresco/eslint-angular/no-angular-material-selectors": "error",
     "no-empty-pattern": "off",
     "playwright/expect-expect": "off",
     "playwright/max-nested-describe": "off",
