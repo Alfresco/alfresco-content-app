@@ -10,7 +10,16 @@ module.exports = {
         createDefaultProgram: true
       },
       rules: {
-        'no-console': ['error', {'allow': ['info', 'log', 'warn', 'error'] }]
+        'no-console': ['error', {'allow': ['info', 'log', 'warn', 'error'] }],
+        'playwright/no-raw-locators': 'off',
+        '@alfresco/eslint-angular/no-angular-material-selectors': 'off'
+      }
+    },
+    {
+      files: ['*.js'],
+      rules: {
+        '@typescript-eslint/no-floating-promises': 'off',
+        '@typescript-eslint/no-misused-promises': 'off'
       }
     }
   ]
