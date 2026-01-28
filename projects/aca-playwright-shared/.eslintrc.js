@@ -11,8 +11,7 @@ module.exports = {
       },
       rules: {
         'no-console': ['error', {'allow': ['info', 'log', 'warn', 'error'] }],
-        'playwright/no-raw-locators': 'off',
-        '@alfresco/eslint-angular/no-angular-material-selectors': 'off'
+        'playwright/no-raw-locators': 'off'
       }
     },
     {

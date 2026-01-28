@@ -50,7 +50,9 @@ export const getExcludedTestsRegExpArray = (excludedJson: any, projectName: stri
 
   if (testIdsToExclude.length > 0) {
     console.warn(
-      `${prefix} ❌ Tests excluded for browser '${currentBrowser}' because of 🐛 : ${testIdsToExclude.join(', ')} (from keys: ${relevantKeys.join(', ')})`
+      `${prefix} ❌ Tests excluded for browser '${currentBrowser}' because of 🐛 : ${testIdsToExclude.join(', ')} (from keys: ${relevantKeys.join(
+        ', '
+      )})`
     );
   } else {
     console.info(`${prefix} ✅ No excluded tests for browser '${currentBrowser}' 🎉`);
