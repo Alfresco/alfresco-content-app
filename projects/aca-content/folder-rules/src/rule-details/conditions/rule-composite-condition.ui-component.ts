@@ -89,7 +89,7 @@ export class RuleCompositeConditionUiComponent implements ControlValueAccessor, 
   readOnly = false;
 
   @ViewChildren('conditionRow', { read: ElementRef })
-  private conditionRows: QueryList<ElementRef<HTMLElement>>;
+  private readonly conditionRows: QueryList<ElementRef<HTMLElement>>;
 
   readonly isOrImplemented = false;
 
