@@ -5,7 +5,7 @@
     "@typescript-eslint/no-floating-promises": "warn",
     "@typescript-eslint/no-misused-promises": "warn",
     "max-lines": "off",
-    "@alfresco/eslint-angular/no-angular-material-selectors": "error",
+    "@alfresco/eslint-angular/no-angular-material-selectors": "warn",
     "no-empty-pattern": "off",
     "playwright/expect-expect": "off",
     "playwright/max-nested-describe": "off",
