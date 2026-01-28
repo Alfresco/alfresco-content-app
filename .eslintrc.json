@@ -323,6 +323,16 @@
       }
     },
     {
+      "files": ["*.spec.ts"],
+      "plugins": ["@alfresco/eslint-angular"],
+      "rules": {
+        "@typescript-eslint/no-floating-promises": "warn",
+        "@typescript-eslint/no-misused-promises": "warn",
+        "max-lines": "off",
+        "@alfresco/eslint-angular/no-angular-material-selectors": "error"
+      }
+    },
+    {
       "files": ["*.json"],
       "parser": "jsonc-eslint-parser",
       "rules": {
