@@ -26,7 +26,7 @@ import { Page } from '@playwright/test';
 import { BaseComponent } from './base.component';
 
 export class SpinnerComponent extends BaseComponent {
-  private static rootElement = 'mat-progress-spinner';
+  private static rootElement = '[role="progressbar"]';
 
   constructor(page: Page, rootElement = SpinnerComponent.rootElement) {
     super(page, rootElement);

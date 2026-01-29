@@ -26,6 +26,7 @@ import { expect } from '@playwright/test';
 import { ApiClientFactory, getUserState, test, TEST_FILES, Utils } from '@alfresco/aca-playwright-shared';
 
 test.use({ storageState: getUserState('hruser') });
+
 test.describe('viewer file', () => {
   const apiClientFactory = new ApiClientFactory();
   const randomFolderName = `viewer-protected-${Utils.random()}`;

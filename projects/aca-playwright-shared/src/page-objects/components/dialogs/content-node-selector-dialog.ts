@@ -27,22 +27,22 @@ import { BaseComponent } from '../base.component';
 
 export class ContentNodeSelectorDialog extends BaseComponent {
   private static rootElement = 'adf-content-node-selector';
-
-  constructor(page: Page) {
-    super(page, ContentNodeSelectorDialog.rootElement);
-  }
+  private selectedRow = this.getChild('.adf-is-selected');
+  private getRowByName = (name: string | number): Locator => this.getChild(`adf-datatable-row`, { hasText: name.toString() });
 
   public cancelButton = this.getChild('[data-automation-id="content-node-selector-actions-cancel"]');
   public actionButton = this.getChild('[data-automation-id="content-node-selector-actions-choose"]');
-  public locationDropDown = this.getChild('[id="site-dropdown-container"] mat-form-field');
-  private selectedRow = this.getChild('.adf-is-selected');
-  getOptionLocator = (optionName: string): Locator =>
-    this.page.locator('.mat-mdc-select-panel .mdc-list-item__primary-text', { hasText: optionName });
-  private getRowByName = (name: string | number): Locator => this.getChild(`adf-datatable-row`, { hasText: name.toString() });
+  public locationDropDown = this.getChild('[id="site-dropdown-container"] .adf-sites-dropdown-form-field');
+
+  getOptionLocator = (optionName: string): Locator => this.page.locator('[role=listbox] [role=option]', { hasText: optionName }).first();
   getDialogTitle = (text: string) => this.getChild('[data-automation-id="content-node-selector-title"]', { hasText: text });
   getBreadcrumb = (text: string) => this.getChild('[data-automation-id="current-folder"]', { hasText: text });
   getFolderIcon = this.getChild('[data-automation-id="dropdown-breadcrumb-trigger"]');
   loadMoreButton = this.getChild('[data-automation-id="adf-infinite-pagination-button"]');
+
+  constructor(page: Page) {
+    super(page, ContentNodeSelectorDialog.rootElement);
+  }
 
   async loadMoreNodes(): Promise<void> {
     await this.spinnerWaitForReload();

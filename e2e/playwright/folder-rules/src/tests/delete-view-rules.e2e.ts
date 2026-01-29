@@ -26,6 +26,7 @@ import { ApiClientFactory, test, Utils, NodesApi, TrashcanApi, RulesApi } from '
 import { expect } from '@playwright/test';
 
 test.use({ launchOptions: { slowMo: 300 } });
+
 test.describe('Rules - Manage Rules', () => {
   const apiClientFactory = new ApiClientFactory();
   let nodesApi: NodesApi;

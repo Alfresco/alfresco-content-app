@@ -26,6 +26,7 @@ import { expect } from '@playwright/test';
 import { ApiClientFactory, Utils, test, NodesApi, TrashcanApi, FileActionsApi, TEST_FILES } from '@alfresco/aca-playwright-shared';
 
 test.use({ launchOptions: { slowMo: 500 } });
+
 test.describe('Search - Filters - Date', () => {
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;

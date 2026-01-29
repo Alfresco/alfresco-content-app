@@ -106,6 +106,7 @@ async function verifyTransformation(
 }
 
 test.use({ launchOptions: { slowMo: 300 } });
+
 test.describe('Folder Rules Actions', () => {
   const apiClientFactory = new ApiClientFactory();
   let nodesApi: NodesApi;

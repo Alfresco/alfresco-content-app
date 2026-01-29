@@ -240,6 +240,7 @@ test.describe('Remember sorting', () => {
 
   test.describe('User Tests', () => {
     test.describe.configure({ mode: 'serial' });
+
     test('[XAT-4520] Size sort order is retained when user logs out and logs back in', async ({ personalFiles, loginPage }) => {
       await personalFiles.dataTable.sortBy('Name', 'desc');
       await personalFiles.dataTable.spinnerWaitForReload();

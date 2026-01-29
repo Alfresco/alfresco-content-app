@@ -33,8 +33,8 @@ export class SearchSortingPicker extends BaseComponent {
 
   public actionMenu = this.page.locator('[data-automation-id="auto_header_content_id_$thumbnail"]');
   public sortOrderButton = this.page.locator('#aca-button-sorting-menu');
-  public sortByDropdownExpanded = this.page.locator('.mat-mdc-menu-panel').first();
-  public sortByList = this.page.locator('.mat-mdc-menu-panel button');
+  public sortByDropdownExpanded = this.page.locator('[role="menu"]').first();
+  public sortByList = this.page.locator('[role="menu"] button');
 
   constructor(page: Page, rootElement = SearchSortingPicker.rootElement) {
     super(page, rootElement);

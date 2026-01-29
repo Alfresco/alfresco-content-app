@@ -68,6 +68,7 @@ test.describe('Pagination on multiple pages : ', () => {
     test.beforeAll(async () => {
       await favoritesApi.waitForApi(username, { expect: initialFavoritesTotalItems + 51 });
     });
+
     favoritesTests(username);
   });
 });

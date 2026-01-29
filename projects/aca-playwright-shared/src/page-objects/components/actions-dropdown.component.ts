@@ -62,17 +62,15 @@ export enum MimeType {
 export class ActionsDropdownComponent extends BaseComponent {
   private static rootElement = 'aca-edit-rule-dialog aca-rule-action-list';
 
-  private getOptionLocator = (optionName: string): Locator =>
-    this.page.locator('.mat-mdc-select-panel .mdc-list-item__primary-text', { hasText: optionName }).first();
+  private getOptionLocator = (optionName: string): Locator => this.page.locator('[role=listbox] [role=option]', { hasText: optionName }).first();
   private ruleActionLocator = this.getChild('aca-rule-action');
   private addActionButtonLocator = this.getChild('[data-automation-id="rule-action-list-add-action-button"]');
   private actionDropdownLocator = this.getChild('[data-automation-id="rule-action-select"]');
   private actionAspectNameLocator = '[data-automation-id="header-aspect-name"] .adf-property-field';
   private actionCheckInInputLocator = '[data-automation-id="header-description"] input';
-  private actionAutoDeclareLocator = '[data-automation-id="header-version"] mat-select';
-  private actionSpecialiseTypeLocator = '[data-automation-id="header-type-name"] mat-select';
+  private actionSpecialiseTypeLocator = '[data-automation-id="header-type-name"] [role="combobox"]';
   private actionSimpleWorkflowStepInputLocator = '[data-automation-id="header-approve-step"] input';
-  private actionSimpleWorkflowApproveFolderLocator = `[data-automation-id="header-approve-folder"] mat-icon`;
+  private actionSimpleWorkflowApproveFolderLocator = `[data-automation-id="header-approve-folder"] [role="img"]`;
   private actionSimpleWorkflowActionChoiceLocator = '[data-automation-id="content-node-selector-actions-choose"]';
   private actionSimpleWorkflowLabelApproveLocator = `[data-automation-id="card-boolean-label-approve-move"]`;
   private actionSimpleWorkflowSRejectStepLocator = '[data-automation-id="header-reject-step"] input';
@@ -106,10 +104,6 @@ export class ActionsDropdownComponent extends BaseComponent {
 
   async insertAddAspectActionValues(AspectValue: string, index: number): Promise<void> {
     await this.dropdownSelection(AspectValue, this.actionAspectNameLocator, index);
-  }
-
-  async insertAutoDeclareOptionsActionValues(autoDeclareOptionsValue: string, index: number): Promise<void> {
-    await this.dropdownSelection(autoDeclareOptionsValue, this.actionAutoDeclareLocator, index);
   }
 
   async insertSpecialiseTypeActionValues(specialiseTypeValue: string, index: number): Promise<void> {

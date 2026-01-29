@@ -68,8 +68,8 @@ export class PaginationComponent extends BaseComponent {
 
   async spinnerWaitForReload(): Promise<void> {
     try {
-      await this.page.locator('mat-progress-spinner').waitFor({ state: 'attached', timeout: 2000 });
-      await this.page.locator('mat-progress-spinner').waitFor({ state: 'detached', timeout: 2000 });
+      await this.page.locator('[role="progressbar"]').waitFor({ state: 'attached', timeout: 2000 });
+      await this.page.locator('[role="progressbar"]').waitFor({ state: 'detached', timeout: 2000 });
     } catch (e) {
       this.logger.info('Spinner was not present');
     }

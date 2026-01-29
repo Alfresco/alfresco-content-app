@@ -37,6 +37,7 @@ import {
 } from '@alfresco/aca-playwright-shared';
 
 test.use({ launchOptions: { slowMo: 500 } });
+
 test.describe('Search sorting', () => {
   const random = Utils.random();
 

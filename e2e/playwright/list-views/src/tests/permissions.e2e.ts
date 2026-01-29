@@ -40,6 +40,7 @@ import { Site } from '@alfresco/js-api';
 test.describe('Special permissions', () => {
   const username = `userPermissions-${Utils.random()}`;
   let siteApiAdmin: SitesApi;
+
   test.beforeAll(async () => {
     const apiClientFactory = new ApiClientFactory();
     await apiClientFactory.setUpAcaBackend('admin');
