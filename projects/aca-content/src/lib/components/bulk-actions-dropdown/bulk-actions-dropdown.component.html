@@ -4,6 +4,7 @@
   class="aca-bulk-actions-form-field"
   data-automation-id="aca-bulk-actions-form-field"
 >
+  <mat-label>{{ 'SEARCH.BULK_ACTIONS_DROPDOWN.LABEL' | translate }}</mat-label>
   <mat-select
     [formControl]="bulkSelectControl"
     [placeholder]="placeholder"
@@ -19,6 +20,7 @@
           [title]="bulkSelectControl.value?.title | translate"
           [value]="bulkSelectControl.value?.icon"
           class="aca-bulk-actions-icon"
+          aria-hidden="true"
           [attr.data-automation-id]="'aca-bulk-action-icon-' + bulkSelectControl.value?.id"
         />
         {{ bulkSelectControl.value?.title | translate }}
@@ -39,6 +41,7 @@
           [title]="option.title | translate"
           [value]="option.icon"
           class="aca-bulk-actions-icon"
+          aria-hidden="true"
           [attr.data-automation-id]="'aca-bulk-action-icon-' + option.id"
         />
         {{ option.title | translate }}

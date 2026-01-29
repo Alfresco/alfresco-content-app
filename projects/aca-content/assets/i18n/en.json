@@ -582,7 +582,8 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
-          "TITLE": "Bulk Actions ({{ count }} Items)",
+          "LABEL": "Bulk Actions",
+          "TITLE": "Select an action for all {{ count }} results",
           "BULK_NOT_AVAILABLE": "Bulk Actions (Not Available)",
           "BULK_NOT_AVAILABLE_TOOLTIP": "Bulk Actions cannot be used without search results"
         },
