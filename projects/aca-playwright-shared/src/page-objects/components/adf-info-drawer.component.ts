@@ -39,7 +39,7 @@ export class AdfInfoDrawerComponent extends BaseComponent {
     this.getChild(`[data-automation-id="library-name-properties-wrapper"] input[placeholder='${labelText}']`);
   public getIdField = (labelText: string) => this.getChild(`[data-automation-id="library-id-properties-wrapper"] input[placeholder='${labelText}']`);
   public getVisibilityField = (labelText: string) =>
-    this.getChild(`[data-automation-id="library-visibility-properties-wrapper"] mat-select[ng-reflect-placeholder='${labelText}']`);
+    this.getChild(`[data-automation-id="library-visibility-properties-wrapper"] [role="combobox"][ng-reflect-placeholder='${labelText}']`);
   public getDescriptionField = this.getChild('[data-automation-id="library-description-properties-wrapper"] textarea');
   public propertiesTab = this.page.getByRole('tab', { name: 'Properties' });
   public commentsTab = this.page.getByRole('tab', { name: 'Comments' });
@@ -56,10 +56,10 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   public editButton = this.page.getByRole('button', { name: 'Edit' });
   public cancelButton = this.page.getByRole('button', { name: 'Cancel' });
   public updateButton = this.page.getByRole('button', { name: 'Update' });
-  public hintMessage = this.page.locator('mat-hint');
-  public errorMessage = this.page.locator('mat-error');
+  public hintMessage = this.getChild('[data-automation-id="app-library-metadata-form-name-hint"]');
+  public errorMessage = this.getChild('[data-automation-id="app-library-metadata-form-name-error"]');
   public expandDetailsButton = this.getChild(`button[title='Expand panel']`);
-  public expandedDetailsTabs = this.page.locator('.aca-details-container .mdc-tab__text-label');
+  public expandedDetailsTabs = this.page.locator('.aca-details-container [role="tab"]');
   public expandedDetailsPermissionsTab = this.expandedDetailsTabs.getByText('Permissions');
   public nameField = this.page.locator('input[placeholder=Name]');
   public idField = this.page.locator(`input[placeholder='Library ID']`);
@@ -72,7 +72,7 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   public categoriesAccordionPenButton = this.categoriesAccordion.locator('[data-automation-id="meta-data-categories-edit"]');
   public tagsInput = this.tagsCreator.locator('input');
   public createTagButton = this.tagsCreator.locator('.adf-create-tag-label');
-  public tagsChips = this.tagsCreator.locator('mat-chip');
+  public tagsChips = this.tagsCreator.locator('[role="listitem"]');
   public tagsChipsXButton = this.tagsChips.locator('.adf-dynamic-chip-list-delete-icon');
   public tagsAccordionCancelButton = this.getChild('[data-automation-id="reset-tags-metadata"]');
   public tagsAccordionConfirmButton = this.getChild('[data-automation-id="save-tags-metadata"]');

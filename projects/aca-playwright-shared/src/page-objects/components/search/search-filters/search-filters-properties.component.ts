@@ -37,13 +37,13 @@ export class SearchFiltersProperties extends BaseComponent {
   public fileSizeInput = this.getChild(`[placeholder$='Enter file size']`);
   public unitButton = this.getChild(`[data-automation-id='adf-search-properties-file-size-unit']`);
   public fileTypeInput = this.getChild(`[placeholder$='File Type']`);
-  public atLeastOption = this.page.locator(`mat-option`, { hasText: 'At Least' });
-  public atMostOption = this.page.locator(`mat-option`, { hasText: 'At Most' });
-  public exactlyOption = this.page.locator(`mat-option`, { hasText: 'Exactly' });
-  public kbUnit = this.page.locator(`mat-option`, { hasText: 'KB' });
-  public mbUnit = this.page.locator(`mat-option`, { hasText: 'MB' });
-  public gbUnit = this.page.locator(`mat-option`, { hasText: 'GB' });
-  public dropdownOptions = this.page.locator(`mat-option`);
+  public atLeastOption = this.page.locator(`[role="option"]`, { hasText: 'At Least' });
+  public atMostOption = this.page.locator(`[role="option"]`, { hasText: 'At Most' });
+  public exactlyOption = this.page.locator(`[role="option"]`, { hasText: 'Exactly' });
+  public kbUnit = this.page.locator(`[role="option"]`, { hasText: 'KB' });
+  public mbUnit = this.page.locator(`[role="option"]`, { hasText: 'MB' });
+  public gbUnit = this.page.locator(`[role="option"]`, { hasText: 'GB' });
+  public dropdownOptions = this.page.locator(`[role="option"]`);
 
   async setPropertiesParameters(
     page: SearchPage,

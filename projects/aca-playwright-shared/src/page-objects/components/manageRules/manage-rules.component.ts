@@ -29,8 +29,8 @@ export class ManageRules extends BaseComponent {
   private static rootElement = '.aca-manage-rules';
 
   public getGroupsList = (optionName: string): Locator => this.getChild('.aca-rule-list-item__header', { hasText: optionName });
-  public ruleToggle = this.getChild('.aca-manage-rules__container .mdc-switch').first();
-  public ruleToggleFalse = this.getChild('aca-rule-list-grouping aca-rule-list-item .mdc-switch--unselected').first();
+  public ruleToggle = this.getChild('.aca-manage-rules__container [role="switch"]').first();
+  public ruleToggleFalse = this.getChild('aca-rule-list-grouping aca-rule-list-item [role="switch"][aria-checked="false"]').first();
   public ruleDetailsTitle = this.getChild('.aca-manage-rules__container__rule-details__header__title__name');
   public ruleDetailsDeleteButton = this.getChild('#delete-rule-btn');
   public ruleDetailsEditButton = this.getChild('#edit-rule-btn');

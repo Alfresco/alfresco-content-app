@@ -14,9 +14,9 @@
           [errorStateMatcher]="matcher"
         />
         @if (libraryTitleExists) {
-        <mat-hint>{{ 'LIBRARY.HINTS.SITE_TITLE_EXISTS' | translate }}</mat-hint>
+        <mat-hint data-automation-id="app-library-metadata-form-name-hint">{{ 'LIBRARY.HINTS.SITE_TITLE_EXISTS' | translate }}</mat-hint>
         }
-        <mat-error>
+        <mat-error data-automation-id="app-library-metadata-form-name-error">
           {{ titleErrorTranslationKey | translate }}
         </mat-error>
       </mat-form-field>

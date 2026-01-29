@@ -44,5 +44,5 @@ export class SearchFilters extends BaseComponent {
   public menuCardClose = this.page.locator('.adf-search-filter-title-action');
   public menuCardClear = this.page.locator('#cancel-filter-button');
   public menuCardApply = this.page.locator('#apply-filter-button');
-  public dropdownOptions = this.page.locator(`mat-option`);
+  public dropdownOptions = this.page.locator(`[role="option"]`);
 }
