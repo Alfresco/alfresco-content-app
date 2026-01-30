@@ -18,7 +18,7 @@
         [attr.title]="'APP.EDIT_PROFILE.GO_TO_PERSONAL_FILES_BUTTON_LABEL' | translate">
         <mat-icon>arrow_back</mat-icon>
       </button>
-      <h3 class="app-profile">{{'APP.EDIT_PROFILE.MY_PROFILE' | translate}}</h3>
+      <h2 class="app-profile">{{'APP.EDIT_PROFILE.MY_PROFILE' | translate}}</h2>
     </div>
   </div>
   <div class="app-profile-general-row" [formGroup]="profileForm" id="general-dropdown">
@@ -31,7 +31,7 @@
           [attr.aria-label]="generalSectionButtonTooltip | translate">
           <mat-icon>{{ generalSectionExpanded ?  'expand_more' : 'chevron_right'}}</mat-icon>
         </button>
-        <h4 class="app-general-title">{{'APP.EDIT_PROFILE.GENERAL' | translate}}</h4>
+        <h3 class="app-general-title">{{'APP.EDIT_PROFILE.GENERAL' | translate}}</h3>
       </div>
       @if (!generalSectionEditMode) {
         <button
@@ -146,7 +146,7 @@
           [attr.aria-label]="contactSectionButtonTooltip | translate">
           <mat-icon>{{ contactSectionExpanded ?  'expand_more' : 'chevron_right'}}</mat-icon>
         </button>
-        <h4 class="app-general-title">{{'APP.EDIT_PROFILE.COMPANY_DETAILS' | translate}}</h4>
+        <h3 class="app-general-title">{{'APP.EDIT_PROFILE.COMPANY_DETAILS' | translate}}</h3>
       </div>
       @if (!contactSectionEditMode) {
         <button

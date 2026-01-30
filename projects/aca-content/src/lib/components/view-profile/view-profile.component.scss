@@ -32,7 +32,8 @@ app-view-profile {
 
   .app-profile {
     cursor: pointer;
-    margin-top: 1rem;
+    margin-bottom: 1em;
+    font-size: 1.17em;
   }
 
   .app-profile-general-row {
@@ -65,6 +66,12 @@ app-view-profile {
     display: flex;
     align-items: center;
     width: 100%;
+
+    .app-general-title {
+      font-size: unset;
+      margin-bottom: 1.33em;
+      margin-top: 1.33em;
+    }
   }
 
   .app-divider {
