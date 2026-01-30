@@ -7,9 +7,9 @@ on:
       url:
         description: 'Application URL'
         required: true
-        default: 'https://acadev.envalfresco.com/'
+        default: 'https://acadev.envalfresco.com'
       playwright_e2e_host:
-        description: 'Playwright E2E host'
+        description: 'Playwright E2E host (e.g. https://acadev.envalfresco.com)'
         required: false
         default: 'http://localhost:4200'
 
