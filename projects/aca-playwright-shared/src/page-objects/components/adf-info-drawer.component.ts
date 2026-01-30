@@ -57,7 +57,8 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   public cancelButton = this.page.getByRole('button', { name: 'Cancel' });
   public updateButton = this.page.getByRole('button', { name: 'Update' });
   public hintMessage = this.getChild('[data-automation-id="app-library-metadata-form-name-hint"]');
-  public errorMessage = this.getChild('[data-automation-id="library-description-properties-wrapper"] [aria-atomic="true"]');
+  public errorNameMessage = this.getChild('[data-automation-id="library-name-properties-wrapper"] [aria-atomic="true"]');
+  public errorDescriptionMessage = this.getChild('[data-automation-id="library-description-properties-wrapper"] [aria-atomic="true"]');
   public expandDetailsButton = this.getChild(`button[title='Expand panel']`);
   public expandedDetailsTabs = this.page.locator('.aca-details-container [role="tab"]');
   public expandedDetailsPermissionsTab = this.expandedDetailsTabs.getByText('Permissions');

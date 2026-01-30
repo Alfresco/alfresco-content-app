@@ -37,7 +37,7 @@ export class AdfLibraryDialogComponent extends BaseComponent {
   }
 
   public getLabelText = (text: string) => this.getChild('label', { hasText: text });
-  public getRequiredMarker = (text: string) => this.getLabelText(text).locator('label span');
+  public getRequiredMarker = (text: string) => this.getLabelText(text).locator('span');
   public getDialogTitle = (text: string) => this.getChild('h2', { hasText: text });
   public getErrorByText = (text: string): Locator => this.getChild('.adf-library-dialog-form-field').getByText(text);
 
