@@ -68,13 +68,13 @@ export class ActionsDropdownComponent extends BaseComponent {
   private actionDropdownLocator = this.getChild('[data-automation-id="rule-action-select"]');
   private actionAspectNameLocator = '[data-automation-id="header-aspect-name"] .adf-property-field';
   private actionCheckInInputLocator = '[data-automation-id="header-description"] input';
-  private actionSpecialiseTypeLocator = '[data-automation-id="header-type-name"] [role="combobox"]';
   private actionSimpleWorkflowStepInputLocator = '[data-automation-id="header-approve-step"] input';
-  private actionSimpleWorkflowApproveFolderLocator = `[data-automation-id="header-approve-folder"] [role="img"]`;
   private actionSimpleWorkflowActionChoiceLocator = '[data-automation-id="content-node-selector-actions-choose"]';
   private actionSimpleWorkflowLabelApproveLocator = `[data-automation-id="card-boolean-label-approve-move"]`;
   private actionSimpleWorkflowSRejectStepLocator = '[data-automation-id="header-reject-step"] input';
   private actionSimpleWorkflowRejectFolderLocator = `[data-automation-id="header-reject-folder"] input`;
+  private readonly actionSimpleWorkflowApproveFolderLocator = `[data-automation-id="header-approve-folder"] [role="img"]`;
+  private readonly actionSpecialiseTypeLocator = '[data-automation-id="header-type-name"] [role="combobox"]';
   private readonly mimeTypeDropdownLocator = this.getChild('[data-automation-id="select-box"][aria-label="Mimetype *"]');
   private readonly actionTransformAndCopyContentDestinationFolderLocator = '[data-automation-id="card-textitem-value-destination-folder"]';
   private readonly contentNodeSelectorSearchInput = '[data-automation-id="content-node-selector-search-input"]';
