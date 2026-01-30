@@ -400,6 +400,20 @@ describe('SearchComponent', () => {
     flush();
   }));
 
+  it('should set isSmallScreen to true for small width', () => {
+    spyOnProperty(window, 'innerWidth').and.returnValue(300);
+    window.dispatchEvent(new Event('resize'));
+    fixture.detectChanges();
+    expect(component.isSmallScreen).toBeTrue();
+  });
+
+  it('should set isSmallScreen to false for large width', () => {
+    spyOnProperty(window, 'innerWidth').and.returnValue(800);
+    window.dispatchEvent(new Event('resize'));
+    fixture.detectChanges();
+    expect(component.isSmallScreen).toBeFalse();
+  });
+
   describe('reset button', () => {
     it('should enable the reset button when there are queryFragments', fakeAsync(() => {
       queryBuilder.queryFragmentsUpdate.next({ test: 'test-value' });

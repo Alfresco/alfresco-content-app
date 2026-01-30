@@ -149,8 +149,12 @@ export class SearchResultsComponent extends PageComponent implements OnInit, OnD
   columns: DocumentListPresetRef[] = [];
   encodedQuery: string;
   searchConfig: SearchConfiguration;
+  isSmallScreen = window.innerWidth < 320;
 
   private previousEncodedQuery: string;
+  private readonly resizeListener = () => {
+    this.isSmallScreen = window.innerWidth < 320;
+  };
 
   constructor(
     tagsService: TagService,
@@ -260,10 +264,13 @@ export class SearchResultsComponent extends PageComponent implements OnInit, OnD
           }
         });
     }
+
+    window.addEventListener('resize', this.resizeListener);
   }
 
   ngOnDestroy(): void {
     this.savedSearchesService.currentContextSavedSearch = undefined;
+    window.removeEventListener('resize', this.resizeListener);
   }
 
   onSearchError(error: { message: any }) {

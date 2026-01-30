@@ -19,7 +19,10 @@
               <p>{{ 'APP.BROWSE.SEARCH.FILTER_SET' | translate }}</p>
               <adf-search-form />
             </div>
-            <mat-divider [vertical]="true" class="aca-content__divider" aria-hidden="true" />
+            <mat-divider
+              [vertical]="!isSmallScreen"
+              [ngClass]="'aca-content__divider-' + (isSmallScreen ? 'horizontal' : 'vertical')"
+              aria-hidden="true" />
             <div class="aca-content__advanced-filters">
               <div class="aca-content__advanced-filters--header">
                 <p>{{ 'APP.BROWSE.SEARCH.ADVANCED_FILTERS' | translate }}</p>

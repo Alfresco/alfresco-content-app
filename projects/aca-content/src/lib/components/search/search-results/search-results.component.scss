@@ -144,8 +144,12 @@ aca-search-results {
         }
       }
 
-      &__divider {
+      &__divider-vertical {
         height: 100%;
+      }
+
+      &__divider-horizontal {
+        width: 100%;
       }
 
       &__advanced-filters {
@@ -186,6 +190,20 @@ aca-search-results {
         text-align: left;
         direction: rtl;
       }
+    }
+  }
+
+  @media (max-width: 320px) {
+    .adf-search-results__content-header {
+      flex-direction: column;
+    }
+
+    .adf-search-results__content {
+      overflow-y: auto;
+    }
+
+    .adf-document-list {
+      min-height: unset;
     }
   }
 }
