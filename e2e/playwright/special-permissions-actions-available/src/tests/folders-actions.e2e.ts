@@ -33,11 +33,9 @@ test.describe('Folders - available actions : ', () => {
 
   async function checkActionsAvailable(
     myPersonalFiles: PersonalFilesPage,
-    item: string,
     expectedToolbarPrimary: string[],
     expectedToolbarMore: string[]
   ): Promise<void> {
-    await myPersonalFiles.dataTable.selectItems(item);
     await myPersonalFiles.acaHeader.verifyToolbarPrimaryActions(expectedToolbarPrimary);
     await myPersonalFiles.acaHeader.clickMoreActions();
     await myPersonalFiles.matMenu.verifyActualMoreActions(expectedToolbarMore);
@@ -84,18 +82,13 @@ test.describe('Folders - available actions : ', () => {
     test('[XAT-4637] Actions for a folder, not favorite', async ({ personalFiles }) => {
       await personalFiles.dataTable.getRowByName(testData.folderFile.name).click({ button: 'right' });
       await personalFiles.matMenu.verifyActualMoreActions(testData.folderFile.contextMenu);
-      await checkActionsAvailable(personalFiles, testData.folderFile.name, testData.folderFile.toolbarPrimary, testData.folderFile.toolbarMore);
+      await checkActionsAvailable(personalFiles, testData.folderFile.toolbarPrimary, testData.folderFile.toolbarMore);
     });
 
     test('[XAT-4638] Actions for a folder, favorite', async ({ personalFiles }) => {
       await personalFiles.dataTable.getRowByName(testData.folderFavFile.name).click({ button: 'right' });
       await personalFiles.matMenu.verifyActualMoreActions(testData.folderFavFile.contextMenu);
-      await checkActionsAvailable(
-        personalFiles,
-        testData.folderFavFile.name,
-        testData.folderFavFile.toolbarPrimary,
-        testData.folderFavFile.toolbarMore
-      );
+      await checkActionsAvailable(personalFiles, testData.folderFavFile.toolbarPrimary, testData.folderFavFile.toolbarMore);
     });
 
     test('[XAT-4642] Actions on multiple folders', async ({ personalFiles }) => {
