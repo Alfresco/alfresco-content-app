@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementHandle, Locator, Page } from '@playwright/test';
+import { ElementHandle, Page } from '@playwright/test';
 import { BaseComponent } from '../base.component';
 import { timeouts } from '../../../utils';
 import { DateTimePicker } from '../datetime-picker/datetime-picker.component';
@@ -43,12 +43,13 @@ export class ShareDialogComponent extends BaseComponent {
   urlAction = this.getChild('.adf-input-action');
   expireToggle = this.getChild(`[data-automation-id='adf-expire-toggle']`);
   expireInput = this.getChild('input[formcontrolname="time"]');
-  datetimePickerButton = this.getChild('.mat-datepicker-toggle');
+  datetimePickerButton = this.getChild('[data-automation-id="adf-content-share-expiration-field"] button');
+  dateErrorText = this.getChild('[data-automation-id="adf-share-link-input-warning"]');
+  clockIcon = this.getChild('[adf-icon="timer"]');
 
   dateTimePicker = new DateTimePicker(this.page);
 
   getDialogLabel = () => this.getChild('label').innerText();
-  getErrorByText = (text: string): Locator => this.page.locator('mat-error', { hasText: text });
 
   async getLabels(): Promise<Array<string>> {
     return this.page.$$eval('.adf-share-link__label', (elements) => elements.map((element) => element.textContent));

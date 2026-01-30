@@ -182,6 +182,10 @@ test.describe('Share a file', () => {
         await personalFiles.shareDialog.expireToggle.click();
         expect(await personalFiles.shareDialog.isExpireToggleEnabled()).toBe(true);
 
+        await personalFiles.shareDialog.expireInput.click();
+        await personalFiles.shareDialog.clockIcon.click();
+        await expect(personalFiles.shareDialog.dateErrorText).toContainText('Invalid date');
+
         await personalFiles.shareDialog.datetimePickerButton.click();
         expect(await personalFiles.shareDialog.dateTimePicker.isCalendarOpen()).toBe(true);
 

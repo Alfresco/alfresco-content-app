@@ -26,7 +26,7 @@ import { Page } from '@playwright/test';
 import { BaseComponent } from '../base.component';
 
 export class EditDialog extends BaseComponent {
-  private static rootElement = 'mat-dialog-container';
+  private static rootElement = 'adf-folder-dialog';
 
   public editDialog = this.getChild('');
   public titleInput = this.getChild('[data-automation-id="adf-folder-dialog-title"]');
@@ -34,7 +34,7 @@ export class EditDialog extends BaseComponent {
   public updateButton = this.getChild('#adf-folder-create-button');
   public descriptionInput = this.getChild('#adf-folder-description-input');
   public nameInput = this.getChild('#adf-folder-name-input');
-  public fieldHint = this.getChild('mat-hint');
+  public fieldHint = this.getChild('[aria-atomic="true"] span');
 
   constructor(page: Page) {
     super(page, EditDialog.rootElement);

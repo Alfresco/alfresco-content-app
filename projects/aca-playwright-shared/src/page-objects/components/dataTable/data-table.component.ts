@@ -56,8 +56,6 @@ export class DataTableComponent extends BaseComponent {
   sitesName = this.page.locator('.adf-datatable-body [data-automation-id*="datatable-row"] [aria-label="Name"]');
   sitesRole = this.page.locator('.adf-datatable-body [data-automation-id*="datatable-row"] [aria-label="My Role"]');
   lockOwner = this.page.locator('.aca-locked-by--name');
-  uncheckedCheckbox = this.page.locator('.mat-mdc-checkbox');
-  checkedCheckbox = this.page.locator('.mat-mdc-checkbox-checked');
   highlightedText = '.aca-highlight';
   searchFileName = '.search-file-name';
   searchFileDescription = '[data-automation-id="search-results-entry-description"]';
@@ -108,14 +106,6 @@ export class DataTableComponent extends BaseComponent {
   getByAriaLabelTitle = (title: string): Locator => this.getChild(`[aria-label="${title}"]`);
 
   /**
-   * Method used in cases where we want to get the button (hamburger menu) for row element
-   *
-   * @returns reference to menu placed in row localized by the name
-   */
-  getActionsButtonByName = (name: string): Locator =>
-    this.getRowByName(name).locator('mat-icon', { hasText: new RegExp(`^\\s*more_vert\\s*$`, 'g') });
-
-  /**
    * Method used in cases where we want to get the edit button and there is no hamburger menu
    *
    * @returns reference to edit button placed in row localized by the name
@@ -142,7 +132,7 @@ export class DataTableComponent extends BaseComponent {
    *
    * @returns reference to checkbox placed in row localized by the name
    */
-  getCheckboxForElement = (item: string): Locator => this.getRowByName(item).locator('.mat-mdc-checkbox');
+  getCheckboxForElement = (item: string): Locator => this.getRowByName(item).locator('[type="checkbox"]');
 
   getColumnHeaderByTitleLocator = (headerTitle: string): Locator => this.getChild('[role="columnheader"]', { hasText: headerTitle });
 
@@ -177,22 +167,6 @@ export class DataTableComponent extends BaseComponent {
     const actionButtonLocator = await this.getActionLocatorFromExpandableMenu(name, action);
     await actionButtonLocator.click();
     await this.spinnerWaitForReload();
-  }
-
-  /**
-   * Click action from the expandable kebab menu for the element in datatable
-   *
-   * @param name title of the record you would like to proceed
-   * @param action provide button title for the action
-   * @param subAction if the action is in sub menu, then provide it here
-   */
-  async performActionForElement(name: string, action: string, subAction?: string): Promise<void> {
-    await this.getActionsButtonByName(name).click();
-    await this.contextMenuActions.getButtonByText(action).click();
-
-    if (subAction) {
-      await this.contextMenuActions.getButtonByText(subAction).click();
-    }
   }
 
   /**
@@ -251,15 +225,17 @@ export class DataTableComponent extends BaseComponent {
       if (!isSelected) {
         const row = this.getRowByName(name);
         await row.hover();
-        await row.locator(this.uncheckedCheckbox).click();
-        await row.locator(this.checkedCheckbox).waitFor({ state: 'visible', timeout: timeouts.large });
+        if (!(await this.getCheckboxForElement(name).isChecked())) {
+          await this.getCheckboxForElement(name).click();
+        }
       }
     }
   }
 
   async isRowSelected(itemName: string): Promise<boolean> {
     const row = this.getRowByName(itemName);
-    return row.locator(this.checkedCheckbox).isVisible();
+    await row.hover();
+    return this.getCheckboxForElement(itemName).isChecked();
   }
 
   async getColumnHeaders(): Promise<Array<string>> {
