@@ -26,18 +26,16 @@ import { Page } from '@playwright/test';
 import { BaseComponent } from '../base.component';
 
 export class DateTimePicker extends BaseComponent {
-  private static rootElement = '.mat-calendar';
-  calendar = this.getChild('.mat-datepicker-popup');
-  dayPicker = this.getChild('mat-month-view');
-  nextMonthBtn = this.getChild('.mat-calendar-next-button');
-  rootElemLocator = this.page.locator('.mat-datepicker-popup');
+  private static rootElement = '[role="dialog"]';
+  dayPicker = this.getChild('[role="grid"]');
+  nextMonthBtn = this.getChild('[aria-label="Next month"]');
 
   constructor(page: Page) {
     super(page, DateTimePicker.rootElement);
   }
 
   async isCalendarOpen(): Promise<boolean> {
-    const element = this.rootElemLocator;
+    const element = this.getChild('');
     return element.isVisible();
   }
 

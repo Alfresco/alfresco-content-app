@@ -29,7 +29,7 @@ export class AdfFolderDialogComponent extends BaseComponent {
   private static rootElement = 'adf-folder-dialog';
 
   public folderNameInputLocator = this.getChild('[id="adf-folder-name-input"]');
-  public folderNameInputHint = this.getChild('mat-hint');
+  public folderNameInputHint = this.getChild('[aria-atomic="true"] span');
   public folderTitleInput = this.getChild('[id="adf-folder-title-input"]');
   public folderDescriptionInput = this.getChild('[id="adf-folder-description-input"]');
   public createButton = this.getChild('[id="adf-folder-create-button"]');
@@ -40,7 +40,7 @@ export class AdfFolderDialogComponent extends BaseComponent {
   }
 
   public getLabelText = (text: string) => this.getChild('label', { hasText: text });
-  public getRequiredMarker = (text: string) => this.getLabelText(text).locator('.mat-mdc-form-field-required-marker');
+  public getRequiredMarker = (text: string) => this.getLabelText(text).locator('[for="adf-folder-name-input"] span');
 
   /**
    * This method is used when we want to fill in Create new Folder Dialog and choose Create button
