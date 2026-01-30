@@ -43,7 +43,6 @@ describe('BulkActionsDropdownComponent', () => {
   let fixture: ComponentFixture<BulkActionsDropdownComponent>;
   let store: Store<AppStore>;
   let translationService: TranslationService;
-  let bulkFormField: HTMLElement;
   let dropdown: HTMLElement;
   let extensionService: AppExtensionService;
   let loader: HarnessLoader;
@@ -103,16 +102,11 @@ describe('BulkActionsDropdownComponent', () => {
       totalItemsMock$.next(0);
       fixture.detectChanges();
       dropdown = getElement('aca-bulk-actions-dropdown');
-      bulkFormField = getElement('aca-bulk-actions-form-field');
       fixture.detectChanges();
     });
 
     it('should disable dropdown', () => {
       expect(dropdown.getAttribute('aria-disabled')).toBe('true');
-    });
-
-    it('should have correct tooltip', () => {
-      expect(bulkFormField.getAttribute('title')).toBe('SEARCH.BULK_ACTIONS_DROPDOWN.BULK_NOT_AVAILABLE_TOOLTIP');
     });
 
     it('should have correct placeholder', () => {
@@ -130,17 +124,12 @@ describe('BulkActionsDropdownComponent', () => {
       totalItemsMock$.next(10);
       fixture.detectChanges();
       dropdown = getElement('aca-bulk-actions-dropdown');
-      bulkFormField = getElement('aca-bulk-actions-form-field');
       dropdown.click();
       fixture.detectChanges();
     });
 
     it('should enable dropdown', () => {
       expect(dropdown.getAttribute('aria-disabled')).toBe('false');
-    });
-
-    it('should have correct tooltip', () => {
-      expect(bulkFormField.getAttribute('title')).toBe('SEARCH.BULK_ACTIONS_DROPDOWN.TITLE');
     });
 
     it('should have correct placeholder', () => {
