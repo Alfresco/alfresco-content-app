@@ -43,6 +43,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatMenuHarness } from '@angular/material/menu/testing';
 import { SavedSearchesContextService } from '../../../services/saved-searches-context.service';
 import { IsFeatureSupportedInCurrentAcsPipe } from '../../../pipes/is-feature-supported.pipe';
+import { MatDividerHarness } from '@angular/material/divider/testing';
 
 describe('SearchComponent', () => {
   let component: SearchResultsComponent;
@@ -65,6 +66,7 @@ describe('SearchComponent', () => {
   const editSavedSearchesSpy = jasmine.createSpy('editSavedSearch');
   const getSavedSearchButton = (): HTMLButtonElement => fixture.nativeElement.querySelector('.aca-content__save-search-action');
   const getResetSearchButton = (): HTMLButtonElement => fixture.nativeElement.querySelector('.aca-content__reset-action');
+  const getDividerHarness = () => loader.getHarness(MatDividerHarness);
 
   const encodeQuery = (query: any): string => {
     return Buffer.from(JSON.stringify(query)).toString('base64');
@@ -400,18 +402,26 @@ describe('SearchComponent', () => {
     flush();
   }));
 
-  it('should set isSmallScreen to true for small width', () => {
+  it('should set isSmallScreen to true for small width', async () => {
     spyOnProperty(window, 'innerWidth').and.returnValue(300);
     window.dispatchEvent(new Event('resize'));
     fixture.detectChanges();
+    const divider = await getDividerHarness();
+
     expect(component.isSmallScreen).toBeTrue();
+    expect(await (await divider.host()).getAttribute('class')).toContain('aca-content__divider-horizontal');
+    expect(await divider.getOrientation()).toBe('horizontal');
   });
 
-  it('should set isSmallScreen to false for large width', () => {
+  it('should set isSmallScreen to false for large width', async () => {
     spyOnProperty(window, 'innerWidth').and.returnValue(800);
     window.dispatchEvent(new Event('resize'));
     fixture.detectChanges();
+    const divider = await getDividerHarness();
+
     expect(component.isSmallScreen).toBeFalse();
+    expect(await (await divider.host()).getAttribute('class')).toContain('aca-content__divider-vertical');
+    expect(await divider.getOrientation()).toBe('vertical');
   });
 
   describe('reset button', () => {
