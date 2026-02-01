@@ -174,7 +174,7 @@ jobs:
             id: 19
     steps:
       - name: Free hosted runner disk space
-        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@4657bc5c89f722332e897d8f360b75f08e81b8b9 # v12.1.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@3768f40c71f5f9b0c4e6a507c8f87ed40d9b60c9 # v12.9.0
 
       - name: Checkout
         uses: actions/checkout@v6
@@ -199,7 +199,7 @@ jobs:
 
       - name: Collect and push logs as artifact
         if: always()
-        uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-keep-nslogs@4657bc5c89f722332e897d8f360b75f08e81b8b9 # v12.1.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-keep-nslogs@3768f40c71f5f9b0c4e6a507c8f87ed40d9b60c9 # v12.9.0
         with:
           log_retention: 7
           log_name_identifier: "logs-${{ matrix.browser || 'chromium' }}-${{ matrix.e2e-suites.name }}"
@@ -267,7 +267,7 @@ jobs:
           fetch-depth: 2
 
       - name: Extract commit message
-        uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@4657bc5c89f722332e897d8f360b75f08e81b8b9 #v12.1.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@3768f40c71f5f9b0c4e6a507c8f87ed40d9b60c9 #v12.9.0
 
       - name: Check ADF link
         shell: bash
