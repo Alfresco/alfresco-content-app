@@ -52,19 +52,13 @@
             "LOCATION": "Placering",
             "TELEPHONE": "Telefon",
             "MOBILE": "Mobil",
-            "LOGIN": "Log ind",
-            "USERNAME": "Brugernavn",
             "EMAIL": "E-mail",
-            "PASSWORD": "Adgangskode",
-            "OLD_PASSWORD": "Gammel adgangskode",
-            "FORGOT_PASSWORD": "Glemt adgangskode",
-            "NEW_PASSWORD": "Ny adgangskode",
-            "VERIFY_PASSWORD": "Bekræft adgangskode",
             "COMPANY_DETAILS": "Virksomhedsoplysninger",
             "NAME": "Navn",
             "ADDRESS": "Adresse",
             "POSTCODE": "Postnummer",
-            "INVALID_INPUT": "Ugyldig indtastning",
+            "INVALID_PHONE_FORMAT": "Please enter a valid phone number",
+            "INVALID_EMAIL_FORMAT": "Please enter a valid email address",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Gå til personlige filer"
         },
         "LOCKED_BY": "Låst af: ",
@@ -433,6 +427,10 @@
                         "FAIL": "{{ failed }} kunne ikke flyttes."
                     }
                 },
+                "NODE_CREATE": {
+                    "FILE_FROM_TEMPLATE_SUCCESS": "File {{ name }} created from template",
+                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Folder {{ name }} created from template"
+                },
                 "LIBRARY_DELETED": "Biblioteket er blevet slettet",
                 "LEFT_LIBRARY": "Du er ikke længere tilmeldt biblioteket",
                 "FAVORITE_NODE_ADDED": "Tilføjet {{ name }} til favoritter",
@@ -584,6 +582,7 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
+            "LABEL": "Bulk Actions",
             "TITLE": "Gruppehandlinger ({{ count }} dele)",
             "BULK_NOT_AVAILABLE": "Gruppehandlinger (ikke tilgængelig)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "Gruppehandlinger kan ikke anvendes uden søgeresultater"

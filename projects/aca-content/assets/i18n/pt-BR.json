@@ -52,19 +52,13 @@
             "LOCATION": "Localização",
             "TELEPHONE": "Telefone",
             "MOBILE": "Celular",
-            "LOGIN": "Logon",
-            "USERNAME": "Nome de usuário",
             "EMAIL": "E-mail",
-            "PASSWORD": "Senha",
-            "OLD_PASSWORD": "Senha antiga",
-            "FORGOT_PASSWORD": "Esqueci a senha",
-            "NEW_PASSWORD": "Nova senha",
-            "VERIFY_PASSWORD": "Verificar senha",
             "COMPANY_DETAILS": "Detalhes da empresa",
             "NAME": "Nome",
             "ADDRESS": "Endereço",
             "POSTCODE": "Código postal",
-            "INVALID_INPUT": "Entrada inválida",
+            "INVALID_PHONE_FORMAT": "Please enter a valid phone number",
+            "INVALID_EMAIL_FORMAT": "Please enter a valid email address",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Ir para Arquivos Pessoais"
         },
         "LOCKED_BY": "Bloqueado por: ",
@@ -433,6 +427,10 @@
                         "FAIL": "Não foi possível mover {{ failed }}."
                     }
                 },
+                "NODE_CREATE": {
+                    "FILE_FROM_TEMPLATE_SUCCESS": "File {{ name }} created from template",
+                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Folder {{ name }} created from template"
+                },
                 "LIBRARY_DELETED": "Biblioteca apagada",
                 "LEFT_LIBRARY": "Você saiu da biblioteca",
                 "FAVORITE_NODE_ADDED": "{{ name }} foi adicionada aos favoritos",
@@ -584,6 +582,7 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
+            "LABEL": "Bulk Actions",
             "TITLE": "Ações em massa ({{ count }} itens)",
             "BULK_NOT_AVAILABLE": "Ações em massa (não disponíveis)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "As ações em massa não podem ser usadas sem resultados de pesquis"

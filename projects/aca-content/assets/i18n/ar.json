@@ -52,19 +52,13 @@
             "LOCATION": "مكان",
             "TELEPHONE": "الهاتف",
             "MOBILE": "الجوال",
-            "LOGIN": "دخول",
-            "USERNAME": "اسم المستخدم",
             "EMAIL": "بريد إلكتروني",
-            "PASSWORD": "كلمة سر",
-            "OLD_PASSWORD": "كلمة السر القديمة",
-            "FORGOT_PASSWORD": "هل نسيت كلمة السر",
-            "NEW_PASSWORD": "كلمة سر جديدة",
-            "VERIFY_PASSWORD": "التحقق من كلمة السر",
             "COMPANY_DETAILS": "تفاصيل الشركة",
             "NAME": "الاسم",
             "ADDRESS": "العنوان",
             "POSTCODE": "الرمز البريدي",
-            "INVALID_INPUT": "إدخال غير صالح",
+            "INVALID_PHONE_FORMAT": "Please enter a valid phone number",
+            "INVALID_EMAIL_FORMAT": "Please enter a valid email address",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "الذهاب إلى الملفات الشخصية"
         },
         "LOCKED_BY": "مغلق من قبل ",
@@ -433,6 +427,10 @@
                         "FAIL": "تعذر نقل {{ failed }}."
                     }
                 },
+                "NODE_CREATE": {
+                    "FILE_FROM_TEMPLATE_SUCCESS": "File {{ name }} created from template",
+                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Folder {{ name }} created from template"
+                },
                 "LIBRARY_DELETED": "تم حذف المكتبة",
                 "LEFT_LIBRARY": "لقد غادرت المكتبة",
                 "FAVORITE_NODE_ADDED": "تمت الإضافة {{ name }} إلى المفضلة",
@@ -584,6 +582,7 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
+            "LABEL": "Bulk Actions",
             "TITLE": "الإجراءات المجمعة ({{ count }} من العناصر)",
             "BULK_NOT_AVAILABLE": "الإجراءات المجمعة (غير متاحة)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "لا يمكن استخدام الإجراءات المجمعة بدون نتائج البحث"

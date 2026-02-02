@@ -52,19 +52,13 @@
             "LOCATION": "Speicherort",
             "TELEPHONE": "Telefon",
             "MOBILE": "Mobil",
-            "LOGIN": "Anmeldung",
-            "USERNAME": "Benutzername",
             "EMAIL": "E-Mail",
-            "PASSWORD": "Passwort",
-            "OLD_PASSWORD": "Altes Passwort",
-            "FORGOT_PASSWORD": "Passwort vergessen",
-            "NEW_PASSWORD": "Neues Passwort",
-            "VERIFY_PASSWORD": "Passwort prüfen",
             "COMPANY_DETAILS": "Angaben zum Unternehmen",
             "NAME": "Name",
             "ADDRESS": "Anschrift",
             "POSTCODE": "Postleitzahl",
-            "INVALID_INPUT": "Ungültige Eingabe",
+            "INVALID_PHONE_FORMAT": "Bitte geben Sie eine gültige Telefonnummer ein",
+            "INVALID_EMAIL_FORMAT": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Zu persönlichen Dateien wechseln"
         },
         "LOCKED_BY": "Gesperrte von: ",
@@ -433,6 +427,10 @@
                         "FAIL": "{{ failed }} konnte nicht verschoben werden."
                     }
                 },
+                "NODE_CREATE": {
+                    "FILE_FROM_TEMPLATE_SUCCESS": "Datei {{ name }} aus Vorlage erstellt",
+                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Ordner {{ name }} aus Vorlage erstellt"
+                },
                 "LIBRARY_DELETED": "Bibliothek gelöscht",
                 "LEFT_LIBRARY": "Sie haben die Bibliothek verlassen",
                 "FAVORITE_NODE_ADDED": "{{ name }} zu Favoriten hinzugefügt",
@@ -584,6 +582,7 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
+            "LABEL": "Massenaktionen",
             "TITLE": "Bulk-Aktionen ({{ count }} Elemente)",
             "BULK_NOT_AVAILABLE": "Bulk-Aktionen (Nicht verfügbar)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "Bulk-Aktionen können nicht ohne Suchergebnisse verwendet werden"

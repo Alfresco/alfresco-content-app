@@ -52,19 +52,13 @@
             "LOCATION": "Umístění",
             "TELEPHONE": "Telefon",
             "MOBILE": "Mobil",
-            "LOGIN": "Přihlášení",
-            "USERNAME": "Uživatelské jméno",
             "EMAIL": "E-mail",
-            "PASSWORD": "Heslo",
-            "OLD_PASSWORD": "Staré heslo",
-            "FORGOT_PASSWORD": "Zapomenuté heslo",
-            "NEW_PASSWORD": "Nové heslo",
-            "VERIFY_PASSWORD": "Ověření hesla",
             "COMPANY_DETAILS": "Podrobnosti o společnosti",
             "NAME": "Název",
             "ADDRESS": "Adresa",
             "POSTCODE": "PSČ",
-            "INVALID_INPUT": "Neplatný vstup",
+            "INVALID_PHONE_FORMAT": "Please enter a valid phone number",
+            "INVALID_EMAIL_FORMAT": "Please enter a valid email address",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Přejít na osobní soubory"
         },
         "LOCKED_BY": "Uzamknul(a): ",
@@ -433,6 +427,10 @@
                         "FAIL": "Některé položky ({{ failed }}) nebylo možné přesunout."
                     }
                 },
+                "NODE_CREATE": {
+                    "FILE_FROM_TEMPLATE_SUCCESS": "File {{ name }} created from template",
+                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Folder {{ name }} created from template"
+                },
                 "LIBRARY_DELETED": "Knihovna odstraněna",
                 "LEFT_LIBRARY": "Opustili jste knihovnu",
                 "FAVORITE_NODE_ADDED": "Došlo k přidání {{ name }} do oblíbených",
@@ -584,6 +582,7 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
+            "LABEL": "Bulk Actions",
             "TITLE": "Hromadné akce (počet položek: {{ count }})",
             "BULK_NOT_AVAILABLE": "Hromadné akce (nedostupné)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "Hromadné akce nelze použít bez výsledků vyhledávání"

@@ -52,19 +52,13 @@
             "LOCATION": "Posizione",
             "TELEPHONE": "Telefono",
             "MOBILE": "Cellulare",
-            "LOGIN": "Login",
-            "USERNAME": "Nome utente",
             "EMAIL": "E-mail",
-            "PASSWORD": "Password",
-            "OLD_PASSWORD": "Vecchia password",
-            "FORGOT_PASSWORD": "Password dimenticata",
-            "NEW_PASSWORD": "Nuova password",
-            "VERIFY_PASSWORD": "Verifica password",
             "COMPANY_DETAILS": "Dettagli azienda",
             "NAME": "Nome",
             "ADDRESS": "Indirizzo",
             "POSTCODE": "Codice postale",
-            "INVALID_INPUT": "Input non valido",
+            "INVALID_PHONE_FORMAT": "Please enter a valid phone number",
+            "INVALID_EMAIL_FORMAT": "Please enter a valid email address",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Vai a File personali"
         },
         "LOCKED_BY": "Bloccato da: ",
@@ -433,6 +427,10 @@
                         "FAIL": "Impossibile spostare {{ failed }}."
                     }
                 },
+                "NODE_CREATE": {
+                    "FILE_FROM_TEMPLATE_SUCCESS": "File {{ name }} created from template",
+                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Folder {{ name }} created from template"
+                },
                 "LIBRARY_DELETED": "Libreria eliminata",
                 "LEFT_LIBRARY": "Sei uscito dalla libreria",
                 "FAVORITE_NODE_ADDED": "{{ name }} Aggiunto",
@@ -584,6 +582,7 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
+            "LABEL": "Bulk Actions",
             "TITLE": "Azioni in blocco ({{ count }} elementi)",
             "BULK_NOT_AVAILABLE": "Azioni in blocco (non disponibile)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "Azioni in blocco non possono essere utilizzate senza i risultati di ricerca"

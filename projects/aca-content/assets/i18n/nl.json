@@ -52,19 +52,13 @@
             "LOCATION": "Locatie",
             "TELEPHONE": "Telefoon",
             "MOBILE": "Mobiel",
-            "LOGIN": "Aanmelden",
-            "USERNAME": "Gebruikersnaam",
             "EMAIL": "E-mail",
-            "PASSWORD": "Wachtwoord",
-            "OLD_PASSWORD": "Oud wachtwoord",
-            "FORGOT_PASSWORD": "Wachtwoord vergeten",
-            "NEW_PASSWORD": "Nieuw wachtwoord",
-            "VERIFY_PASSWORD": "Wachtwoord bevestigen",
             "COMPANY_DETAILS": "Bedrijfsgegevens",
             "NAME": "Naam",
             "ADDRESS": "Adres",
             "POSTCODE": "Postcode",
-            "INVALID_INPUT": "Ongeldige invoer",
+            "INVALID_PHONE_FORMAT": "Please enter a valid phone number",
+            "INVALID_EMAIL_FORMAT": "Please enter a valid email address",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Ga naar persoonlijke bestanden"
         },
         "LOCKED_BY": "Vergrendeld door: ",
@@ -433,6 +427,10 @@
                         "FAIL": "Kan {{ failed }} niet verplaatsen."
                     }
                 },
+                "NODE_CREATE": {
+                    "FILE_FROM_TEMPLATE_SUCCESS": "File {{ name }} created from template",
+                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Folder {{ name }} created from template"
+                },
                 "LIBRARY_DELETED": "Bibliotheek verwijderd",
                 "LEFT_LIBRARY": "U hebt de bibliotheek verlaten",
                 "FAVORITE_NODE_ADDED": "{{ name }} toegevoegd aan favorieten",
@@ -584,6 +582,7 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
+            "LABEL": "Bulk Actions",
             "TITLE": "Bulkacties ({{ count }} items)",
             "BULK_NOT_AVAILABLE": "Bulkacties (niet beschikbaar)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "Bulkacties kunnen niet gebruikt worden zonder zoekresultaten"

@@ -52,19 +52,13 @@
             "LOCATION": "Местоположение",
             "TELEPHONE": "Телефон",
             "MOBILE": "Мобильный",
-            "LOGIN": "Войти",
-            "USERNAME": "Имя пользователя",
             "EMAIL": "Электронная почта",
-            "PASSWORD": "Пароль",
-            "OLD_PASSWORD": "Старый пароль",
-            "FORGOT_PASSWORD": "Забыли пароль",
-            "NEW_PASSWORD": "Новый пароль",
-            "VERIFY_PASSWORD": "Проверка пароля",
             "COMPANY_DETAILS": "Сведения о компании",
             "NAME": "Имя",
             "ADDRESS": "Адрес",
             "POSTCODE": "Почтовый индекс",
-            "INVALID_INPUT": "Недопустимый ввод",
+            "INVALID_PHONE_FORMAT": "Please enter a valid phone number",
+            "INVALID_EMAIL_FORMAT": "Please enter a valid email address",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Перейти к личным файлам"
         },
         "LOCKED_BY": "Заблокировано: ",
@@ -433,6 +427,10 @@
                         "FAIL": "Не удалось переместить: {{ failed }}."
                     }
                 },
+                "NODE_CREATE": {
+                    "FILE_FROM_TEMPLATE_SUCCESS": "File {{ name }} created from template",
+                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Folder {{ name }} created from template"
+                },
                 "LIBRARY_DELETED": "Библиотека удалена",
                 "LEFT_LIBRARY": "Вы уже покинули библиотеку",
                 "FAVORITE_NODE_ADDED": "Добавлено в избранное: {{ name }}",
@@ -584,6 +582,7 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
+            "LABEL": "Bulk Actions",
             "TITLE": "Массовые операции (объектов: {{ count }})",
             "BULK_NOT_AVAILABLE": "Массовые операции (недоступно)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "Массовые операции невозможно использовать без результатов поиска"

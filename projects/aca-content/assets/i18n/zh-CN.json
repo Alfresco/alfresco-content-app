@@ -52,19 +52,13 @@
             "LOCATION": "位置",
             "TELEPHONE": "电话",
             "MOBILE": "移动电话",
-            "LOGIN": "登录",
-            "USERNAME": "用户名",
             "EMAIL": "电子邮件",
-            "PASSWORD": "密码",
-            "OLD_PASSWORD": "旧密码",
-            "FORGOT_PASSWORD": "忘记密码",
-            "NEW_PASSWORD": "新密码",
-            "VERIFY_PASSWORD": "验证密码",
             "COMPANY_DETAILS": "公司详细信息",
             "NAME": "名称",
             "ADDRESS": "地址",
             "POSTCODE": "邮政编码",
-            "INVALID_INPUT": "无效输入",
+            "INVALID_PHONE_FORMAT": "Please enter a valid phone number",
+            "INVALID_EMAIL_FORMAT": "Please enter a valid email address",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "转到个人文件"
         },
         "LOCKED_BY": "锁定者： ",
@@ -433,6 +427,10 @@
                         "FAIL": "{{ failed }} 无法移动。"
                     }
                 },
+                "NODE_CREATE": {
+                    "FILE_FROM_TEMPLATE_SUCCESS": "File {{ name }} created from template",
+                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Folder {{ name }} created from template"
+                },
                 "LIBRARY_DELETED": "库已删除",
                 "LEFT_LIBRARY": "您已离开该库",
                 "FAVORITE_NODE_ADDED": "已将 {{ name }} 添加至收藏夹",
@@ -584,6 +582,7 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
+            "LABEL": "Bulk Actions",
             "TITLE": "批量操作（{{ count }} 个项目）",
             "BULK_NOT_AVAILABLE": "批量操作（不可用）",
             "BULK_NOT_AVAILABLE_TOOLTIP": "没有搜索结果，无法使用批量操作"

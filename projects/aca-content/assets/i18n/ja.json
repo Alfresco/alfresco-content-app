@@ -52,19 +52,13 @@
             "LOCATION": "場所",
             "TELEPHONE": "電話",
             "MOBILE": "携帯",
-            "LOGIN": "ログイン",
-            "USERNAME": "ユーザー名",
             "EMAIL": "E メール",
-            "PASSWORD": "パスワード",
-            "OLD_PASSWORD": "古いパスワード",
-            "FORGOT_PASSWORD": "パスワードを忘れた場合",
-            "NEW_PASSWORD": "新しいパスワード",
-            "VERIFY_PASSWORD": "新しいパスワードの再入力",
             "COMPANY_DETAILS": "会社情報",
             "NAME": "名前",
             "ADDRESS": "住所",
             "POSTCODE": "郵便番号",
-            "INVALID_INPUT": "無効な入力",
+            "INVALID_PHONE_FORMAT": "Please enter a valid phone number",
+            "INVALID_EMAIL_FORMAT": "Please enter a valid email address",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "個人ファイルに移動"
         },
         "LOCKED_BY": "ロックしているユーザー: ",
@@ -433,6 +427,10 @@
                         "FAIL": "{{ failed }} 件を移動できませんでした。"
                     }
                 },
+                "NODE_CREATE": {
+                    "FILE_FROM_TEMPLATE_SUCCESS": "File {{ name }} created from template",
+                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Folder {{ name }} created from template"
+                },
                 "LIBRARY_DELETED": "ライブラリが削除されました",
                 "LEFT_LIBRARY": "このライブラリからは脱退しています",
                 "FAVORITE_NODE_ADDED": "{{ name }} がお気に入りに追加されました",
@@ -584,6 +582,7 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
+            "LABEL": "Bulk Actions",
             "TITLE": "バルクアクション ({{ count }} 項目)",
             "BULK_NOT_AVAILABLE": "バルクアクション (利用不可)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "バルクアクションは検索結果なしでは使用できません"

@@ -52,19 +52,13 @@
             "LOCATION": "Sijainti",
             "TELEPHONE": "Kotipuhelinnumero",
             "MOBILE": "Matkapuhelinnumero",
-            "LOGIN": "Kirjaudu sisään",
-            "USERNAME": "Käyttäjänimi",
             "EMAIL": "Sähköposti",
-            "PASSWORD": "Salasana",
-            "OLD_PASSWORD": "Vanha salasana",
-            "FORGOT_PASSWORD": "Unohtuiko salasana?",
-            "NEW_PASSWORD": "Uusi salasana",
-            "VERIFY_PASSWORD": "Vahvista salasana",
             "COMPANY_DETAILS": "Yhtiön tiedot",
             "NAME": "Nimi",
             "ADDRESS": "Osoite",
             "POSTCODE": "Postinumero",
-            "INVALID_INPUT": "Syöte ei kelpaa",
+            "INVALID_PHONE_FORMAT": "Please enter a valid phone number",
+            "INVALID_EMAIL_FORMAT": "Please enter a valid email address",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Siirry henkilökohtaisiin tiedostoihin"
         },
         "LOCKED_BY": "Lukinnut: ",
@@ -433,6 +427,10 @@
                         "FAIL": "{{ failed }} kohteen siirtäminen ei onnistunut."
                     }
                 },
+                "NODE_CREATE": {
+                    "FILE_FROM_TEMPLATE_SUCCESS": "File {{ name }} created from template",
+                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Folder {{ name }} created from template"
+                },
                 "LIBRARY_DELETED": "Kirjasto poistettiin",
                 "LEFT_LIBRARY": "Olet poistunut kirjastosta",
                 "FAVORITE_NODE_ADDED": "{{ name }} lisätty suosikkeihin",
@@ -584,6 +582,7 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
+            "LABEL": "Bulk Actions",
             "TITLE": "Joukkotoiminnot ({{ count }} kohdetta)",
             "BULK_NOT_AVAILABLE": "Joukkotoiminnot (ei käytettävissä)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "Joukkotoimintoja ei voida käyttää ilman hakutuloksia"
