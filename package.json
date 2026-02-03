@@ -41,11 +41,11 @@
   },
   "private": true,
   "dependencies": {
-    "@alfresco/adf-content-services": "8.4.0-21588488864",
-    "@alfresco/adf-core": "8.4.0-21588488864",
-    "@alfresco/adf-extensions": "8.4.0-21588488864",
-    "@alfresco/eslint-plugin-eslint-angular": "8.4.0-21588488864",
-    "@alfresco/js-api": "9.4.0-21588488864",
+    "@alfresco/adf-content-services": "8.4.0-21631773843",
+    "@alfresco/adf-core": "8.4.0-21631773843",
+    "@alfresco/adf-extensions": "8.4.0-21631773843",
+    "@alfresco/eslint-plugin-eslint-angular": "8.4.0-21631773843",
+    "@alfresco/js-api": "9.4.0-21631773843",
     "@angular/animations": "19.2.18",
     "@angular/cdk": "19.2.18",
     "@angular/common": "19.2.18",
@@ -78,7 +78,7 @@
     "zone.js": "0.15.0"
   },
   "devDependencies": {
-    "@alfresco/adf-cli": "8.4.0-21588488864",
+    "@alfresco/adf-cli": "8.4.0-21631773843",
     "@angular-devkit/build-angular": "19.2.19",
     "@angular-devkit/core": "19.2.18",
     "@angular-devkit/schematics": "19.2.18",
