@@ -90,7 +90,8 @@
     --adf-disabled-button-background: rgba(0, 0, 0, 0.12),
     --adf-chip-border-color: #757575,
     --adf-sidenav-active-text-color: rgba(0, 48, 100, 1),
-    --adf-accessibility-tooltip-background-color: #2f3033
+    --adf-accessibility-tooltip-background-color: #2f3033,
+    --adf-pdf-viewer-annotation-tooltip-color: rgb(255, 235, 107)
   );
 
   // propagates SCSS variables into the CSS variables scope
