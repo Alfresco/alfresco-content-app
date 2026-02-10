@@ -41,6 +41,11 @@
             "output": "/assets"
           },
           {
+            "glob": "openjpeg*",
+            "input": "node_modules/pdfjs-dist/wasm",
+            "output": "/wasm/"
+          },
+          {
             "glob": "pdf.worker.min.mjs",
             "input": "node_modules/pdfjs-dist/build",
             "output": "/"
