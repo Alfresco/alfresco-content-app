@@ -57,8 +57,8 @@
             "NAME": "名称",
             "ADDRESS": "地址",
             "POSTCODE": "邮政编码",
-            "INVALID_PHONE_FORMAT": "Please enter a valid phone number",
-            "INVALID_EMAIL_FORMAT": "Please enter a valid email address",
+            "INVALID_PHONE_FORMAT": "请输入有效的电话号码",
+            "INVALID_EMAIL_FORMAT": "请输入有效的电子邮件地址",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "转到个人文件"
         },
         "LOCKED_BY": "锁定者： ",
@@ -428,8 +428,8 @@
                     }
                 },
                 "NODE_CREATE": {
-                    "FILE_FROM_TEMPLATE_SUCCESS": "File {{ name }} created from template",
-                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Folder {{ name }} created from template"
+                    "FILE_FROM_TEMPLATE_SUCCESS": "文件 {{ name }} 已从模板创建",
+                    "FOLDER_FROM_TEMPLATE_SUCCESS": "文件夹 {{ name }} 已从模板创建"
                 },
                 "LIBRARY_DELETED": "库已删除",
                 "LEFT_LIBRARY": "您已离开该库",
@@ -470,7 +470,7 @@
         },
         "TOOLTIPS": {
             "COLLAPSE_NAVIGATION": "折叠导航菜单",
-            "COLLAPSE_NAVIGATION_ALT": "Collapse navigation menu icon",
+            "COLLAPSE_NAVIGATION_ALT": "折叠导航菜单图标",
             "OPTIONS_SETTINGS": "选项和设置",
             "MY_PROFILE": "我的个人档案",
             "EXPAND_NAVIGATION": "展开导航菜单",
@@ -582,7 +582,7 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
-            "LABEL": "Bulk Actions",
+            "LABEL": "批量操作",
             "TITLE": "批量操作（{{ count }} 个项目）",
             "BULK_NOT_AVAILABLE": "批量操作（不可用）",
             "BULK_NOT_AVAILABLE_TOOLTIP": "没有搜索结果，无法使用批量操作"
@@ -595,7 +595,7 @@
             "MIN_LENGTH": "搜索输入必须至少具有 2 个字母数字字符。",
             "REQUIRED": "搜索输入是必需的。",
             "WHITESPACE": "搜索输入不能仅为空格。",
-            "OPERATORS": "Search input cannot begin with, end with or contain only operators."
+            "OPERATORS": "搜索输入不能以运算符开头、结尾或仅由运算符组成。"
         },
         "SORT": {
             "SORTING_OPTION": "排序方式",

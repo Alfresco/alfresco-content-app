@@ -57,8 +57,8 @@
             "NAME": "الاسم",
             "ADDRESS": "العنوان",
             "POSTCODE": "الرمز البريدي",
-            "INVALID_PHONE_FORMAT": "Please enter a valid phone number",
-            "INVALID_EMAIL_FORMAT": "Please enter a valid email address",
+            "INVALID_PHONE_FORMAT": "يرجى إدخال رقم هاتف صالح",
+            "INVALID_EMAIL_FORMAT": "يرجى إدخال عنوان بريد إلكتروني صالح",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "الذهاب إلى الملفات الشخصية"
         },
         "LOCKED_BY": "مغلق من قبل ",
@@ -428,8 +428,8 @@
                     }
                 },
                 "NODE_CREATE": {
-                    "FILE_FROM_TEMPLATE_SUCCESS": "File {{ name }} created from template",
-                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Folder {{ name }} created from template"
+                    "FILE_FROM_TEMPLATE_SUCCESS": "تم إنشاء الملف {{ name }} من القالب",
+                    "FOLDER_FROM_TEMPLATE_SUCCESS": "تم إنشاء المجلد {{ name }} من القالب"
                 },
                 "LIBRARY_DELETED": "تم حذف المكتبة",
                 "LEFT_LIBRARY": "لقد غادرت المكتبة",
@@ -470,7 +470,7 @@
         },
         "TOOLTIPS": {
             "COLLAPSE_NAVIGATION": "طي قائمة التنقل",
-            "COLLAPSE_NAVIGATION_ALT": "Collapse navigation menu icon",
+            "COLLAPSE_NAVIGATION_ALT": "طي رمز قائمة التنقل",
             "OPTIONS_SETTINGS": "الخيارات والإعدادات",
             "MY_PROFILE": "ملف التعريف الخاص بي",
             "EXPAND_NAVIGATION": "قم بتوسيع قائمة التنقل",
@@ -582,7 +582,7 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
-            "LABEL": "Bulk Actions",
+            "LABEL": "الإجراءات الشاملة",
             "TITLE": "الإجراءات المجمعة ({{ count }} من العناصر)",
             "BULK_NOT_AVAILABLE": "الإجراءات المجمعة (غير متاحة)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "لا يمكن استخدام الإجراءات المجمعة بدون نتائج البحث"
@@ -595,7 +595,7 @@
             "MIN_LENGTH": "يجب أن يحتوي إدخال البحث على حرفين أبجديين رقميين على الأقل.",
             "REQUIRED": "إدخال البحث مطلوب.",
             "WHITESPACE": "لا يمكن لمدخلات البحث أن تكون مساحة بيضاء فقط.",
-            "OPERATORS": "Search input cannot begin with, end with or contain only operators."
+            "OPERATORS": "لا يمكن أن يبدأ إدخال البحث أو ينتهي أو يتكون فقط من عوامل تشغيل"
         },
         "SORT": {
             "SORTING_OPTION": "صنف حسب",

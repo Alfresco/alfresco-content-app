@@ -57,8 +57,8 @@
             "NAME": "Nimi",
             "ADDRESS": "Osoite",
             "POSTCODE": "Postinumero",
-            "INVALID_PHONE_FORMAT": "Please enter a valid phone number",
-            "INVALID_EMAIL_FORMAT": "Please enter a valid email address",
+            "INVALID_PHONE_FORMAT": "Anna voimassa oleva puhelinnumero",
+            "INVALID_EMAIL_FORMAT": "Anna voimassa oleva sähköpostiosoite",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Siirry henkilökohtaisiin tiedostoihin"
         },
         "LOCKED_BY": "Lukinnut: ",
@@ -428,8 +428,8 @@
                     }
                 },
                 "NODE_CREATE": {
-                    "FILE_FROM_TEMPLATE_SUCCESS": "File {{ name }} created from template",
-                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Folder {{ name }} created from template"
+                    "FILE_FROM_TEMPLATE_SUCCESS": "Tiedosto {{ name }} luotiin mallista",
+                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Kansio {{ name }} luotiin mallista"
                 },
                 "LIBRARY_DELETED": "Kirjasto poistettiin",
                 "LEFT_LIBRARY": "Olet poistunut kirjastosta",
@@ -470,7 +470,7 @@
         },
         "TOOLTIPS": {
             "COLLAPSE_NAVIGATION": "Kutista siirtymisvalikko",
-            "COLLAPSE_NAVIGATION_ALT": "Collapse navigation menu icon",
+            "COLLAPSE_NAVIGATION_ALT": "Navigointivalikon supistuskuvake",
             "OPTIONS_SETTINGS": "Asetukset ja vaihtoehdot",
             "MY_PROFILE": "Oma profiili",
             "EXPAND_NAVIGATION": "Laajenna siirtymisvalikko",
@@ -582,7 +582,7 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
-            "LABEL": "Bulk Actions",
+            "LABEL": "Joukkotoiminnot",
             "TITLE": "Joukkotoiminnot ({{ count }} kohdetta)",
             "BULK_NOT_AVAILABLE": "Joukkotoiminnot (ei käytettävissä)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "Joukkotoimintoja ei voida käyttää ilman hakutuloksia"
@@ -595,7 +595,7 @@
             "MIN_LENGTH": "Hakuehdoissa täytyy olla vähintään kaksi aakkosnumeerista merkkiä.",
             "REQUIRED": "Hakusyöte on pakollinen.",
             "WHITESPACE": "Hakusyöte ei voi olla vain valkoinen.",
-            "OPERATORS": "Search input cannot begin with, end with or contain only operators."
+            "OPERATORS": "Hakusyöte ei voi alkaa tai päättyä operaattoreihin eikä koostua pelkästään niistä"
         },
         "SORT": {
             "SORTING_OPTION": "Järjestä",

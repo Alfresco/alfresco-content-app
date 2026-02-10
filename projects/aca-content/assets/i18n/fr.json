@@ -57,8 +57,8 @@
             "NAME": "Nom",
             "ADDRESS": "Adresse",
             "POSTCODE": "Code postal",
-            "INVALID_PHONE_FORMAT": "Please enter a valid phone number",
-            "INVALID_EMAIL_FORMAT": "Please enter a valid email address",
+            "INVALID_PHONE_FORMAT": "Veuillez saisir un numéro de téléphone valide",
+            "INVALID_EMAIL_FORMAT": "Veuillez saisir une adresse e‑mail valide",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Accéder aux fichiers personnels"
         },
         "LOCKED_BY": "Verrouillé par: ",
@@ -428,8 +428,8 @@
                     }
                 },
                 "NODE_CREATE": {
-                    "FILE_FROM_TEMPLATE_SUCCESS": "File {{ name }} created from template",
-                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Folder {{ name }} created from template"
+                    "FILE_FROM_TEMPLATE_SUCCESS": "Le fichier {{ name }} a été créé à partir du modèle",
+                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Le dossier {{ name }} a été créé à partir du modèle"
                 },
                 "LIBRARY_DELETED": "Bibliothèque supprimée",
                 "LEFT_LIBRARY": "Vous avez quitté la bibliothèque",
@@ -470,7 +470,7 @@
         },
         "TOOLTIPS": {
             "COLLAPSE_NAVIGATION": "Réduire le menu de navigation",
-            "COLLAPSE_NAVIGATION_ALT": "Collapse navigation menu icon",
+            "COLLAPSE_NAVIGATION_ALT": "Icône de réduction du menu de navigation",
             "OPTIONS_SETTINGS": "Options et paramètres",
             "MY_PROFILE": "Mon profil",
             "EXPAND_NAVIGATION": "Agrandir le menu de navigation",
@@ -582,7 +582,7 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
-            "LABEL": "Bulk Actions",
+            "LABEL": "Actions groupées",
             "TITLE": "Actions en bloc ({{ count }} éléments)",
             "BULK_NOT_AVAILABLE": "Actions en bloc (non disponible)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "Les actions en bloc ne peuvent pas être utilisées sans résultats de recherche"
@@ -595,7 +595,7 @@
             "MIN_LENGTH": "L'élément de recherche doit comporter au moins 2 caractères alphanumériques.",
             "REQUIRED": "La recherche est obligatoire.",
             "WHITESPACE": "L'entrée de recherche ne peut pas être uniquement un espace.",
-            "OPERATORS": "Search input cannot begin with, end with or contain only operators."
+            "OPERATORS": "La saisie de recherche ne peut pas commencer, se terminer ou être composée uniquement d’opérateurs"
         },
         "SORT": {
             "SORTING_OPTION": "Trier par",

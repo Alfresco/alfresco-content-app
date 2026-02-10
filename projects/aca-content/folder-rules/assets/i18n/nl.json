@@ -20,12 +20,12 @@
         "WHEN": "Wanneer",
         "PERFORM_ACTIONS": "Acties uitvoeren",
         "OPTIONS": "Andere opties",
-        "FIELD": "Field",
+        "FIELD": "Veld",
         "COMPARATOR": "Comparator",
         "VALUE": "Waarde",
-        "LOGIC_OPERATOR": "Logic Operator",
-        "GROUP_CONDITIONS": "Group Conditions",
-        "CONDITIONS": "Conditions"
+        "LOGIC_OPERATOR": "Logische operator",
+        "GROUP_CONDITIONS": "Groepscondities",
+        "CONDITIONS": "Condities"
       },
       "PLACEHOLDER": {
         "NAME": "Regelnaam invoeren",

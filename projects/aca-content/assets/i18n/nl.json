@@ -57,8 +57,8 @@
             "NAME": "Naam",
             "ADDRESS": "Adres",
             "POSTCODE": "Postcode",
-            "INVALID_PHONE_FORMAT": "Please enter a valid phone number",
-            "INVALID_EMAIL_FORMAT": "Please enter a valid email address",
+            "INVALID_PHONE_FORMAT": "Voer een geldig telefoonnummer in",
+            "INVALID_EMAIL_FORMAT": "Voer een geldig e-mailadres in",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Ga naar persoonlijke bestanden"
         },
         "LOCKED_BY": "Vergrendeld door: ",
@@ -428,8 +428,8 @@
                     }
                 },
                 "NODE_CREATE": {
-                    "FILE_FROM_TEMPLATE_SUCCESS": "File {{ name }} created from template",
-                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Folder {{ name }} created from template"
+                    "FILE_FROM_TEMPLATE_SUCCESS": "Bestand {{ name }} is gemaakt op basis van de sjabloon",
+                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Map {{ name }} is gemaakt op basis van de sjabloon"
                 },
                 "LIBRARY_DELETED": "Bibliotheek verwijderd",
                 "LEFT_LIBRARY": "U hebt de bibliotheek verlaten",
@@ -470,7 +470,7 @@
         },
         "TOOLTIPS": {
             "COLLAPSE_NAVIGATION": "Navigatiemenu samenvouwen",
-            "COLLAPSE_NAVIGATION_ALT": "Collapse navigation menu icon",
+            "COLLAPSE_NAVIGATION_ALT": "Navigatiemenu pictogram inklappen",
             "OPTIONS_SETTINGS": "Opties en instellingen",
             "MY_PROFILE": "Mijn profiel",
             "EXPAND_NAVIGATION": "Navigatiemenu uitvouwen",
@@ -582,7 +582,7 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
-            "LABEL": "Bulk Actions",
+            "LABEL": "Bulk acties",
             "TITLE": "Bulkacties ({{ count }} items)",
             "BULK_NOT_AVAILABLE": "Bulkacties (niet beschikbaar)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "Bulkacties kunnen niet gebruikt worden zonder zoekresultaten"
@@ -595,7 +595,7 @@
             "MIN_LENGTH": "Invoer voor een zoekopdracht moet uit minstens 2 alfanumerieke tekens bestaan.",
             "REQUIRED": "Zoekinvoer is vereist.",
             "WHITESPACE": "Zoekinvoer kan niet alleen witruimte zijn.",
-            "OPERATORS": "Search input cannot begin with, end with or contain only operators."
+            "OPERATORS": "Zoekinvoer mag niet beginnen of eindigen met, of uitsluitend uit operatoren bestaan"
         },
         "SORT": {
             "SORTING_OPTION": "Sorteren op",

@@ -20,12 +20,12 @@
         "WHEN": "什么时候",
         "PERFORM_ACTIONS": "执行操作",
         "OPTIONS": "其他选项",
-        "FIELD": "Field",
-        "COMPARATOR": "Comparator",
-        "VALUE": "Value",
-        "LOGIC_OPERATOR": "Logic Operator",
-        "GROUP_CONDITIONS": "Group Conditions",
-        "CONDITIONS": "Conditions"
+        "FIELD": "字段",
+        "COMPARATOR": "比较符",
+        "VALUE": "值",
+        "LOGIC_OPERATOR": "逻辑运算符",
+        "GROUP_CONDITIONS": "分组条件",
+        "CONDITIONS": "条件"
       },
       "PLACEHOLDER": {
         "NAME": "输入规则名称",

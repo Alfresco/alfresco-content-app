@@ -57,8 +57,8 @@
             "NAME": "Nome",
             "ADDRESS": "Endereço",
             "POSTCODE": "Código postal",
-            "INVALID_PHONE_FORMAT": "Please enter a valid phone number",
-            "INVALID_EMAIL_FORMAT": "Please enter a valid email address",
+            "INVALID_PHONE_FORMAT": "Insira um número de telefone válido",
+            "INVALID_EMAIL_FORMAT": "Insira um endereço de e-mail válido",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Ir para Arquivos Pessoais"
         },
         "LOCKED_BY": "Bloqueado por: ",
@@ -428,8 +428,8 @@
                     }
                 },
                 "NODE_CREATE": {
-                    "FILE_FROM_TEMPLATE_SUCCESS": "File {{ name }} created from template",
-                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Folder {{ name }} created from template"
+                    "FILE_FROM_TEMPLATE_SUCCESS": "O arquivo {{ name }} foi criado a partir do modelo",
+                    "FOLDER_FROM_TEMPLATE_SUCCESS": "A pasta {{ name }} foi criada a partir do modelo"
                 },
                 "LIBRARY_DELETED": "Biblioteca apagada",
                 "LEFT_LIBRARY": "Você saiu da biblioteca",
@@ -470,7 +470,7 @@
         },
         "TOOLTIPS": {
             "COLLAPSE_NAVIGATION": "Recolher menu de navegação",
-            "COLLAPSE_NAVIGATION_ALT": "Collapse navigation menu icon",
+            "COLLAPSE_NAVIGATION_ALT": "Ícone de recolher o menu de navegação",
             "OPTIONS_SETTINGS": "Opções e configurações",
             "MY_PROFILE": "Meu perfil",
             "EXPAND_NAVIGATION": "Expandir menu de navegação",
@@ -582,7 +582,7 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
-            "LABEL": "Bulk Actions",
+            "LABEL": "Ações em massa",
             "TITLE": "Ações em massa ({{ count }} itens)",
             "BULK_NOT_AVAILABLE": "Ações em massa (não disponíveis)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "As ações em massa não podem ser usadas sem resultados de pesquis"
@@ -595,7 +595,7 @@
             "MIN_LENGTH": "O termo da pesquisa deve ter no mínimo 2 caracteres alfanuméricos.",
             "REQUIRED": "Campo de pesquisa é obrigatório",
             "WHITESPACE": "Entrada de pesquisa não pode ser apenas espaço em branco.",
-            "OPERATORS": "Search input cannot begin with, end with or contain only operators."
+            "OPERATORS": "A entrada de pesquisa não pode começar, terminar ou consistir apenas de operadores"
         },
         "SORT": {
             "SORTING_OPTION": "Classificar por",

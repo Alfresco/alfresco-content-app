@@ -20,12 +20,12 @@
         "WHEN": "Quando",
         "PERFORM_ACTIONS": "Realizar ações",
         "OPTIONS": "Outras opções",
-        "FIELD": "Field",
-        "COMPARATOR": "Comparator",
-        "VALUE": "Value",
-        "LOGIC_OPERATOR": "Logic Operator",
-        "GROUP_CONDITIONS": "Group Conditions",
-        "CONDITIONS": "Conditions"
+        "FIELD": "Campo",
+        "COMPARATOR": "Comparador",
+        "VALUE": "Valor",
+        "LOGIC_OPERATOR": "Operador lógico",
+        "GROUP_CONDITIONS": "Condições do grupo",
+        "CONDITIONS": "Condições"
       },
       "PLACEHOLDER": {
         "NAME": "Inserir um nome para a regra",

@@ -57,8 +57,8 @@
             "NAME": "Navn",
             "ADDRESS": "Adresse",
             "POSTCODE": "Postnummer",
-            "INVALID_PHONE_FORMAT": "Please enter a valid phone number",
-            "INVALID_EMAIL_FORMAT": "Please enter a valid email address",
+            "INVALID_PHONE_FORMAT": "Indtast et gyldigt telefonnummer",
+            "INVALID_EMAIL_FORMAT": "Indtast en gyldig e-mailadresse",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Gå til personlige filer"
         },
         "LOCKED_BY": "Låst af: ",
@@ -428,8 +428,8 @@
                     }
                 },
                 "NODE_CREATE": {
-                    "FILE_FROM_TEMPLATE_SUCCESS": "File {{ name }} created from template",
-                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Folder {{ name }} created from template"
+                    "FILE_FROM_TEMPLATE_SUCCESS": "Filen {{ name }} blev oprettet fra skabelonen",
+                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Mappen {{ name }} blev oprettet fra skabelonen"
                 },
                 "LIBRARY_DELETED": "Biblioteket er blevet slettet",
                 "LEFT_LIBRARY": "Du er ikke længere tilmeldt biblioteket",
@@ -470,7 +470,7 @@
         },
         "TOOLTIPS": {
             "COLLAPSE_NAVIGATION": "Luk navigationsmenuen",
-            "COLLAPSE_NAVIGATION_ALT": "Collapse navigation menu icon",
+            "COLLAPSE_NAVIGATION_ALT": "Skjul navigationsmenu-ikon",
             "OPTIONS_SETTINGS": "Valgmuligheder og indstillinger",
             "MY_PROFILE": "Min profil",
             "EXPAND_NAVIGATION": "Udvid navigationsmenu",
@@ -582,7 +582,7 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
-            "LABEL": "Bulk Actions",
+            "LABEL": "Bulk Handlinger",
             "TITLE": "Gruppehandlinger ({{ count }} dele)",
             "BULK_NOT_AVAILABLE": "Gruppehandlinger (ikke tilgængelig)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "Gruppehandlinger kan ikke anvendes uden søgeresultater"
@@ -595,7 +595,7 @@
             "MIN_LENGTH": "Din søgetekst skal være på mindst 2 tal/bogstaver.",
             "REQUIRED": "Søg input er påkrævet.",
             "WHITESPACE": "Søg input kan ikke kun være mellemrum.",
-            "OPERATORS": "Search input cannot begin with, end with or contain only operators."
+            "OPERATORS": "øgeinput må ikke starte med, slutte med eller kun indeholde operatorer"
         },
         "SORT": {
             "SORTING_OPTION": "Sortér efter",

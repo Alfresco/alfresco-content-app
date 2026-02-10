@@ -20,12 +20,12 @@
         "WHEN": "Когда",
         "PERFORM_ACTIONS": "Выполнить действия",
         "OPTIONS": "Другие параметры",
-        "FIELD": "Field",
-        "COMPARATOR": "Comparator",
-        "VALUE": "Value",
-        "LOGIC_OPERATOR": "Logic Operator",
-        "GROUP_CONDITIONS": "Group Conditions",
-        "CONDITIONS": "Conditions"
+        "FIELD": "Поле",
+        "COMPARATOR": "Компаратор",
+        "VALUE": "Значение",
+        "LOGIC_OPERATOR": "Логический оператор",
+        "GROUP_CONDITIONS": "Условия группы",
+        "CONDITIONS": "Условия"
       },
       "PLACEHOLDER": {
         "NAME": "Введите имя правила",

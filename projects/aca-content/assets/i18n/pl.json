@@ -57,8 +57,8 @@
             "NAME": "Nazwa",
             "ADDRESS": "Adres",
             "POSTCODE": "Kod pocztowy",
-            "INVALID_PHONE_FORMAT": "Please enter a valid phone number",
-            "INVALID_EMAIL_FORMAT": "Please enter a valid email address",
+            "INVALID_PHONE_FORMAT": "Wprowadź prawidłowy numer telefonu",
+            "INVALID_EMAIL_FORMAT": "Wprowadź prawidłowy adres e‑mail",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Przejdź do plików osobistych"
         },
         "LOCKED_BY": "Zablokowane przez: ",
@@ -428,8 +428,8 @@
                     }
                 },
                 "NODE_CREATE": {
-                    "FILE_FROM_TEMPLATE_SUCCESS": "File {{ name }} created from template",
-                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Folder {{ name }} created from template"
+                    "FILE_FROM_TEMPLATE_SUCCESS": "Plik {{ name }} został utworzony z szablonu",
+                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Folder {{ name }} został utworzony z szablonu"
                 },
                 "LIBRARY_DELETED": "Usunięto bibliotekę",
                 "LEFT_LIBRARY": "Opuszczasz bibliotekę",
@@ -470,7 +470,7 @@
         },
         "TOOLTIPS": {
             "COLLAPSE_NAVIGATION": "Zwiń menu nawigacji",
-            "COLLAPSE_NAVIGATION_ALT": "Collapse navigation menu icon",
+            "COLLAPSE_NAVIGATION_ALT": "Ikona zwijania menu nawigacji",
             "OPTIONS_SETTINGS": "Opcje i ustawienia",
             "MY_PROFILE": "Mój profil",
             "EXPAND_NAVIGATION": "Rozwiń menu nawigacji",
@@ -582,7 +582,7 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
-            "LABEL": "Bulk Actions",
+            "LABEL": "Operacje zbiorcze",
             "TITLE": "Czynności zbiorcze (liczba elementów: {{ count }})",
             "BULK_NOT_AVAILABLE": "Czynności zbiorcze (niedostępne)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "Nie można użyć czynności zbiorczych bez wyników wyszukiwania"
@@ -595,7 +595,7 @@
             "MIN_LENGTH": "Tekst do wyszukiwania musi mieć co najmniej 2 znaki alfanumeryczne.",
             "REQUIRED": "Wymagane jest wyszukiwanie.",
             "WHITESPACE": "Pole wyszukiwania nie może być tylko spacją białą.",
-            "OPERATORS": "Search input cannot begin with, end with or contain only operators."
+            "OPERATORS": "Wyszukiwanie nie może zaczynać się, kończyć ani składać się wyłącznie z operatorów"
         },
         "SORT": {
             "SORTING_OPTION": "Sortuj wg",

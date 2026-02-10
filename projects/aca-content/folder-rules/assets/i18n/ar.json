@@ -20,12 +20,12 @@
         "WHEN": "متي",
         "PERFORM_ACTIONS": "تنفيذ الإجراءات",
         "OPTIONS": "خيارات أخرى",
-        "FIELD": "Field",
-        "COMPARATOR": "Comparator",
+        "FIELD": "الحقل",
+        "COMPARATOR": "المقارِن",
         "VALUE": "القيمة",
-        "LOGIC_OPERATOR": "Logic Operator",
-        "GROUP_CONDITIONS": "Group Conditions",
-        "CONDITIONS": "Conditions"
+        "LOGIC_OPERATOR": "عامل منطقي",
+        "GROUP_CONDITIONS": "شروط المجموعة",
+        "CONDITIONS": "الشروط"
       },
       "PLACEHOLDER": {
         "NAME": "أدخل اسم للقاعدة",

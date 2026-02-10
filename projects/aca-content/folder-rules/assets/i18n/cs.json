@@ -20,12 +20,12 @@
         "WHEN": "Když",
         "PERFORM_ACTIONS": "Provádějte akce",
         "OPTIONS": "Jiné možnosti",
-        "FIELD": "Field",
-        "COMPARATOR": "Comparator",
-        "VALUE": "Value",
-        "LOGIC_OPERATOR": "Logic Operator",
-        "GROUP_CONDITIONS": "Group Conditions",
-        "CONDITIONS": "Conditions"
+        "FIELD": "Pole",
+        "COMPARATOR": "Komparátor",
+        "VALUE": "Hodnota",
+        "LOGIC_OPERATOR": "Logický operátor",
+        "GROUP_CONDITIONS": "Podmínky skupiny",
+        "CONDITIONS": "Podmínky"
       },
       "PLACEHOLDER": {
         "NAME": "Zadejte název pravidla",

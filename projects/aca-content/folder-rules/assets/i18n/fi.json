@@ -20,12 +20,12 @@
         "WHEN": "Kun",
         "PERFORM_ACTIONS": "Suorita toimintoja",
         "OPTIONS": "Muut valinnat",
-        "FIELD": "Field",
-        "COMPARATOR": "Comparator",
-        "VALUE": "Value",
-        "LOGIC_OPERATOR": "Logic Operator",
-        "GROUP_CONDITIONS": "Group Conditions",
-        "CONDITIONS": "Conditions"
+        "FIELD": "Kenttä",
+        "COMPARATOR": "Vertailija",
+        "VALUE": "Arvo",
+        "LOGIC_OPERATOR": "Looginen operaattori",
+        "GROUP_CONDITIONS": "Ryhmäehdot",
+        "CONDITIONS": "Ehdot"
       },
       "PLACEHOLDER": {
         "NAME": "Syötä säännön nimi",

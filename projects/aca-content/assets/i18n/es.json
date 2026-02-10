@@ -57,8 +57,8 @@
             "NAME": "Nombre",
             "ADDRESS": "Dirección",
             "POSTCODE": "Código postal",
-            "INVALID_PHONE_FORMAT": "Please enter a valid phone number",
-            "INVALID_EMAIL_FORMAT": "Please enter a valid email address",
+            "INVALID_PHONE_FORMAT": "Introduzca un número de teléfono válido",
+            "INVALID_EMAIL_FORMAT": "Introduzca una dirección de correo electrónico válida",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Ir a Archivos personales"
         },
         "LOCKED_BY": "Bloqueado por: ",
@@ -428,8 +428,8 @@
                     }
                 },
                 "NODE_CREATE": {
-                    "FILE_FROM_TEMPLATE_SUCCESS": "File {{ name }} created from template",
-                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Folder {{ name }} created from template"
+                    "FILE_FROM_TEMPLATE_SUCCESS": "El archivo {{ name }} se creó a partir de la plantilla",
+                    "FOLDER_FROM_TEMPLATE_SUCCESS": "La carpeta {{ name }} se creó a partir de la plantilla"
                 },
                 "LIBRARY_DELETED": "Biblioteca eliminada",
                 "LEFT_LIBRARY": "Ha abandonado la biblioteca",
@@ -470,7 +470,7 @@
         },
         "TOOLTIPS": {
             "COLLAPSE_NAVIGATION": "Oculta el menú de navegación",
-            "COLLAPSE_NAVIGATION_ALT": "Collapse navigation menu icon",
+            "COLLAPSE_NAVIGATION_ALT": "Icono para contraer el menú de navegación",
             "OPTIONS_SETTINGS": "Configuración y opciones",
             "MY_PROFILE": "Mi Perfil",
             "EXPAND_NAVIGATION": "Expande el menú de navegación",
@@ -582,7 +582,7 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
-            "LABEL": "Bulk Actions",
+            "LABEL": "Acciones masivas",
             "TITLE": "Acciones masivas ({{ count }} elementos)",
             "BULK_NOT_AVAILABLE": "Acciones masivas (no disponible)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "Las acciones masivas no pueden utilizarse sin resultados de búsqueda"
@@ -595,7 +595,7 @@
             "MIN_LENGTH": "La cadena de búsqueda debe contener al menos 2 caracteres alfanuméricos",
             "REQUIRED": "Se requiere entrada de búsqueda.",
             "WHITESPACE": "Entrada de búsqueda no puede ser solo espacio en blanco.",
-            "OPERATORS": "Search input cannot begin with, end with or contain only operators."
+            "OPERATORS": "La entrada de búsqueda no puede comenzar, terminar o consistir únicamente en operadores"
         },
         "SORT": {
             "SORTING_OPTION": "Clasificar por",

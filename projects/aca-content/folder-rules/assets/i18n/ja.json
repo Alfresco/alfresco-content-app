@@ -20,12 +20,12 @@
         "WHEN": "日時",
         "PERFORM_ACTIONS": "アクションの実行",
         "OPTIONS": "他のオプション",
-        "FIELD": "Field",
-        "COMPARATOR": "Comparator",
-        "VALUE": "Value",
-        "LOGIC_OPERATOR": "Logic Operator",
-        "GROUP_CONDITIONS": "Group Conditions",
-        "CONDITIONS": "Conditions"
+        "FIELD": "フィールド",
+        "COMPARATOR": "コンパレーター",
+        "VALUE": "値",
+        "LOGIC_OPERATOR": "論理演算子",
+        "GROUP_CONDITIONS": "グループ条件",
+        "CONDITIONS": "条件"
       },
       "PLACEHOLDER": {
         "NAME": "ルールの名前を入力します",

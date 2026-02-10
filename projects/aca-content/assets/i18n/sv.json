@@ -57,8 +57,8 @@
             "NAME": "Namn",
             "ADDRESS": "Adress",
             "POSTCODE": "Postnummer",
-            "INVALID_PHONE_FORMAT": "Please enter a valid phone number",
-            "INVALID_EMAIL_FORMAT": "Please enter a valid email address",
+            "INVALID_PHONE_FORMAT": "Ange ett giltigt telefonnummer",
+            "INVALID_EMAIL_FORMAT": "Ange en giltig e‑postadress",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Gå till personliga filer"
         },
         "LOCKED_BY": "Låst av: ",
@@ -428,8 +428,8 @@
                     }
                 },
                 "NODE_CREATE": {
-                    "FILE_FROM_TEMPLATE_SUCCESS": "File {{ name }} created from template",
-                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Folder {{ name }} created from template"
+                    "FILE_FROM_TEMPLATE_SUCCESS": "Filen {{ name }} har skapats från mallen",
+                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Mappen {{ name }} har skapats från mallen"
                 },
                 "LIBRARY_DELETED": "Bibliotek raderat",
                 "LEFT_LIBRARY": "Du har lämnat biblioteket",
@@ -470,7 +470,7 @@
         },
         "TOOLTIPS": {
             "COLLAPSE_NAVIGATION": "Dölj navigeringsmenyn",
-            "COLLAPSE_NAVIGATION_ALT": "Collapse navigation menu icon",
+            "COLLAPSE_NAVIGATION_ALT": "Ikon för att fälla ihop navigationsmenyn",
             "OPTIONS_SETTINGS": "Alternativ och inställningar",
             "MY_PROFILE": "Min profil",
             "EXPAND_NAVIGATION": "Expandera navigeringsmenyn",
@@ -582,7 +582,7 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
-            "LABEL": "Bulk Actions",
+            "LABEL": "Massåtgärder",
             "TITLE": "Gruppåtgärder ({{ count }} objekt)",
             "BULK_NOT_AVAILABLE": "Gruppåtgärder (inte tillgängligt)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "Gruppåtgärder kan inte användas utan sökresultat"
@@ -595,7 +595,7 @@
             "MIN_LENGTH": "Sökindata måste ha minst 2 alfanumeriska tecken.",
             "REQUIRED": "Sökindata måste fyllas i.",
             "WHITESPACE": "Sökinmatningen kan inte bara vara blankt.",
-            "OPERATORS": "Search input cannot begin with, end with or contain only operators."
+            "OPERATORS": "Sökfältet får inte börja eller sluta med, eller enbart bestå av operatorer"
         },
         "SORT": {
             "SORTING_OPTION": "Sortera efter",

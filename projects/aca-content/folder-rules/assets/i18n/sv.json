@@ -20,12 +20,12 @@
         "WHEN": "När",
         "PERFORM_ACTIONS": "Utför åtgärder",
         "OPTIONS": "Andra alternativ",
-        "FIELD": "Field",
-        "COMPARATOR": "Comparator",
-        "VALUE": "Value",
-        "LOGIC_OPERATOR": "Logic Operator",
-        "GROUP_CONDITIONS": "Group Conditions",
-        "CONDITIONS": "Conditions"
+        "FIELD": "Fält",
+        "COMPARATOR": "Komparator",
+        "VALUE": "Värde",
+        "LOGIC_OPERATOR": "Logisk operator",
+        "GROUP_CONDITIONS": "Gruppvillkor",
+        "CONDITIONS": "Villkor"
       },
       "PLACEHOLDER": {
         "NAME": "Ange regelnamn",

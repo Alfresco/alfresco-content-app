@@ -57,8 +57,8 @@
             "NAME": "名前",
             "ADDRESS": "住所",
             "POSTCODE": "郵便番号",
-            "INVALID_PHONE_FORMAT": "Please enter a valid phone number",
-            "INVALID_EMAIL_FORMAT": "Please enter a valid email address",
+            "INVALID_PHONE_FORMAT": "有効な電話番号を入力してください",
+            "INVALID_EMAIL_FORMAT": "有効なメールアドレスを入力してください",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "個人ファイルに移動"
         },
         "LOCKED_BY": "ロックしているユーザー: ",
@@ -428,8 +428,8 @@
                     }
                 },
                 "NODE_CREATE": {
-                    "FILE_FROM_TEMPLATE_SUCCESS": "File {{ name }} created from template",
-                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Folder {{ name }} created from template"
+                    "FILE_FROM_TEMPLATE_SUCCESS": "ファイル {{ name }} がテンプレートから作成されました",
+                    "FOLDER_FROM_TEMPLATE_SUCCESS": "フォルダー {{ name }} がテンプレートから作成されました"
                 },
                 "LIBRARY_DELETED": "ライブラリが削除されました",
                 "LEFT_LIBRARY": "このライブラリからは脱退しています",
@@ -470,7 +470,7 @@
         },
         "TOOLTIPS": {
             "COLLAPSE_NAVIGATION": "ナビゲーションメニューを折りたたむ",
-            "COLLAPSE_NAVIGATION_ALT": "Collapse navigation menu icon",
+            "COLLAPSE_NAVIGATION_ALT": "ナビゲーションメニュー折りたたみアイコン",
             "OPTIONS_SETTINGS": "オプションと設定",
             "MY_PROFILE": "あなたのプロフィール",
             "EXPAND_NAVIGATION": "ナビゲーションメニューを展開します",
@@ -582,7 +582,7 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
-            "LABEL": "Bulk Actions",
+            "LABEL": "一括操作",
             "TITLE": "バルクアクション ({{ count }} 項目)",
             "BULK_NOT_AVAILABLE": "バルクアクション (利用不可)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "バルクアクションは検索結果なしでは使用できません"
@@ -595,7 +595,7 @@
             "MIN_LENGTH": "検索する語句は、2 文字以上の英数字で入力してください。",
             "REQUIRED": "検索入力が必要です。",
             "WHITESPACE": "検索入力は空白にはできません。",
-            "OPERATORS": "Search input cannot begin with, end with or contain only operators."
+            "OPERATORS": "検索入力は演算子で開始・終了、または演算子のみで構成することはできません"
         },
         "SORT": {
             "SORTING_OPTION": "並べ替え",

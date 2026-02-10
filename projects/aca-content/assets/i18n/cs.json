@@ -57,8 +57,8 @@
             "NAME": "Název",
             "ADDRESS": "Adresa",
             "POSTCODE": "PSČ",
-            "INVALID_PHONE_FORMAT": "Please enter a valid phone number",
-            "INVALID_EMAIL_FORMAT": "Please enter a valid email address",
+            "INVALID_PHONE_FORMAT": "Zadejte platné telefonní číslo",
+            "INVALID_EMAIL_FORMAT": "Zadejte platnou e‑mailovou adresu",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Přejít na osobní soubory"
         },
         "LOCKED_BY": "Uzamknul(a): ",
@@ -428,8 +428,8 @@
                     }
                 },
                 "NODE_CREATE": {
-                    "FILE_FROM_TEMPLATE_SUCCESS": "File {{ name }} created from template",
-                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Folder {{ name }} created from template"
+                    "FILE_FROM_TEMPLATE_SUCCESS": "Soubor {{ name }} byl vytvořen ze šablony",
+                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Složka {{ name }} byla vytvořena ze šablony"
                 },
                 "LIBRARY_DELETED": "Knihovna odstraněna",
                 "LEFT_LIBRARY": "Opustili jste knihovnu",
@@ -470,7 +470,7 @@
         },
         "TOOLTIPS": {
             "COLLAPSE_NAVIGATION": "Sbalit navigační nabídku",
-            "COLLAPSE_NAVIGATION_ALT": "Collapse navigation menu icon",
+            "COLLAPSE_NAVIGATION_ALT": "Sbalit ikonu navigační nabídky",
             "OPTIONS_SETTINGS": "Možnosti a nastavení",
             "MY_PROFILE": "Můj profil",
             "EXPAND_NAVIGATION": "Rozbalit navigační nabídku",
@@ -582,7 +582,7 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
-            "LABEL": "Bulk Actions",
+            "LABEL": "Hromadné akce",
             "TITLE": "Hromadné akce (počet položek: {{ count }})",
             "BULK_NOT_AVAILABLE": "Hromadné akce (nedostupné)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "Hromadné akce nelze použít bez výsledků vyhledávání"
@@ -595,7 +595,7 @@
             "MIN_LENGTH": "Hledaný výraz musí obsahovat kombinaci alespoň 2 písmen a číslic.",
             "REQUIRED": "Je vyžadován vstup pro vyhledávání.",
             "WHITESPACE": "Zadání hledání nemůže být pouze mezera.",
-            "OPERATORS": "Search input cannot begin with, end with or contain only operators."
+            "OPERATORS": "Vyhledávací výraz nesmí začínat, končit nebo být tvořen pouze operátory."
         },
         "SORT": {
             "SORTING_OPTION": "Řadit podle",

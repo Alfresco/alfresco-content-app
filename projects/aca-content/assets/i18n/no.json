@@ -57,8 +57,8 @@
             "NAME": "Navn",
             "ADDRESS": "Adresse",
             "POSTCODE": "Postnummer",
-            "INVALID_PHONE_FORMAT": "Please enter a valid phone number",
-            "INVALID_EMAIL_FORMAT": "Please enter a valid email address",
+            "INVALID_PHONE_FORMAT": "Angi et gyldig telefonnummer",
+            "INVALID_EMAIL_FORMAT": "Angi en gyldig e‑postadresse",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Gå til personlige filer"
         },
         "LOCKED_BY": "Låst av: ",
@@ -428,8 +428,8 @@
                     }
                 },
                 "NODE_CREATE": {
-                    "FILE_FROM_TEMPLATE_SUCCESS": "File {{ name }} created from template",
-                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Folder {{ name }} created from template"
+                    "FILE_FROM_TEMPLATE_SUCCESS": "Filen {{ name }} ble opprettet fra malen",
+                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Mappen {{ name }} ble opprettet fra malen"
                 },
                 "LIBRARY_DELETED": "Biblioteket er slettet",
                 "LEFT_LIBRARY": "Du har forlatt biblioteket",
@@ -470,7 +470,7 @@
         },
         "TOOLTIPS": {
             "COLLAPSE_NAVIGATION": "Skjul navigasjonsmeny",
-            "COLLAPSE_NAVIGATION_ALT": "Collapse navigation menu icon",
+            "COLLAPSE_NAVIGATION_ALT": "Ikon for å skjule navigasjonsmenyen",
             "OPTIONS_SETTINGS": "Alternativer og innstillinger",
             "MY_PROFILE": "Min profil",
             "EXPAND_NAVIGATION": "Utvid navigasjonsmeny",
@@ -582,7 +582,7 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
-            "LABEL": "Bulk Actions",
+            "LABEL": "Handlinger for flere",
             "TITLE": "Massehandlinger ({{ count }} elementer)",
             "BULK_NOT_AVAILABLE": "Massehandlinger (ikke tilgjengelig)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "Massehandlinger kan ikke brukes uten søkeresultater"
@@ -595,7 +595,7 @@
             "MIN_LENGTH": "Søketeksten må bestå av minst 2 alfanumeriske tegn.",
             "REQUIRED": "Søk i inndata er påkrevd.",
             "WHITESPACE": "Søkeinndata kan ikke bare være i blanke rom.",
-            "OPERATORS": "Search input cannot begin with, end with or contain only operators."
+            "OPERATORS": "Søkefeltet kan ikke starte med, slutte med eller kun bestå av operatorer"
         },
         "SORT": {
             "SORTING_OPTION": "Sorter etter",

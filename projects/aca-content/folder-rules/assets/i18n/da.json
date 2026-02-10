@@ -20,12 +20,12 @@
         "WHEN": "Når",
         "PERFORM_ACTIONS": "Udfør handlinger",
         "OPTIONS": "Andre optioner",
-        "FIELD": "Field",
-        "COMPARATOR": "Comparator",
-        "VALUE": "Value",
-        "LOGIC_OPERATOR": "Logic Operator",
-        "GROUP_CONDITIONS": "Group Conditions",
-        "CONDITIONS": "Conditions"
+        "FIELD": "Felt",
+        "COMPARATOR": "Komparator",
+        "VALUE": "Værdi",
+        "LOGIC_OPERATOR": "Logik Operatør",
+        "GROUP_CONDITIONS": "Gruppebetingelser",
+        "CONDITIONS": "Betingelser"
       },
       "PLACEHOLDER": {
         "NAME": "Indtast regelnavn",

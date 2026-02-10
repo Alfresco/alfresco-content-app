@@ -20,12 +20,12 @@
         "WHEN": "Kiedy",
         "PERFORM_ACTIONS": "Wykonaj czynności",
         "OPTIONS": "Inne opcje",
-        "FIELD": "Field",
-        "COMPARATOR": "Comparator",
-        "VALUE": "Value",
-        "LOGIC_OPERATOR": "Logic Operator",
-        "GROUP_CONDITIONS": "Group Conditions",
-        "CONDITIONS": "Conditions"
+        "FIELD": "Pole",
+        "COMPARATOR": "Komparator",
+        "VALUE": "Wartość",
+        "LOGIC_OPERATOR": "Operator logiczny",
+        "GROUP_CONDITIONS": "Warunki grupy",
+        "CONDITIONS": "Warunki"
       },
       "PLACEHOLDER": {
         "NAME": "Wprowadź nazwę reguły",
