@@ -175,7 +175,9 @@ describe('SearchInputComponent', () => {
       component.searchedWord = 'term';
 
       routerEventsSubject.next(new NavigationStart(1, '/path?q=term'));
-      configUpdatedSubject.next({});
+      configUpdatedSubject.next({
+        id: 'config1'
+      });
 
       expect(component.searchByOption).toHaveBeenCalled();
     });
@@ -185,7 +187,9 @@ describe('SearchInputComponent', () => {
 
       routerEventsSubject.next(new NavigationStart(1, '/path'));
 
-      configUpdatedSubject.next({});
+      configUpdatedSubject.next({
+        id: 'config1'
+      });
       spyOn(component, 'searchByOption').and.stub();
 
       component.ngOnInit();
