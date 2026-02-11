@@ -1,0 +1,27 @@
+.app-node-location-reference {
+  display: flex;
+  margin: 15px 0;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+
+  &-link {
+    color: var(--theme-foreground-text-color);
+  }
+
+  &-title {
+    font-size: medium;
+    font-weight: 200;
+    margin-bottom: 20px;
+  }
+
+  &-no-locations {
+    margin-bottom: 1px;
+  }
+
+  &-icon {
+    color: var(--theme-app-blue-folder);
+    margin-right: 15px;
+  }
+}

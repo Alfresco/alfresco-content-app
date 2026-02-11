@@ -267,7 +267,8 @@
                     "LOCATION": "Location",
                     "SIZE": "Size"
                 },
-                "UNKNOWN_LOCATION": "Unknown",
+                "UNKNOWN_LOCATION": "You do not have permission to view the location of this document.",
+                "VIEW_ADDITIONAL_LOCATIONS": "View additional references locations",
                 "NO_RESULTS": "Your search returned 0 results",
                 "EMPTY_SEARCH": "Search term required",
                 "NO_FILTER_RESULTS": "Your filter returned 0 results",
@@ -312,7 +313,7 @@
             "EDIT_OFFLINE_CANCEL": "Cancel Editing",
             "CHANGE_ASPECT": "Edit Aspects",
             "ADD_ASPECTS": "Add Aspects",
-            "FOLDER_INFO": "Folder Information"
+            "NODE_INFO": "Information"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -480,19 +481,24 @@
             "CANCEL": "Cancel",
             "SAVE": "Save"
           },
-        "FOLDER_INFO": {
-          "ICON": "Folder Icon",
-          "TITLE": "Folder Information",
+        "NODE_INFO": {
+          "ICON": "Node Icon",
+          "TITLE": "Information",
           "SIZE" : "Size",
           "NUMBER_OF_FILES": "Number of files",
           "CALCULATING": "Calculating...",
-          "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} on disk)",
-          "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes",
           "LOCATION": "Location",
+          "REFERENCED": "Referenced",
           "CREATED": "Created",
           "MODIFIED": "Modified",
           "DONE": "Done",
           "ERROR": "Something went wrong, please close this dialog and try again"
+        },
+        "ADDITIONAL_REFERENCES_DIALOG": {
+          "TITLE": "Additional Reference Locations",
+          "NO_LOCATIONS": "{{ name }} is not referenced in any locations.",
+          "DESCRIPTION": "{{ name }} is currently referenced in these locations.",
+          "CLOSE": "Close"
         }
     },
     "NODE_SELECTOR": {

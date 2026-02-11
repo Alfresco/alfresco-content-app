@@ -490,10 +490,10 @@ export function canOpenWithOffice(context: AcaRuleContext): boolean {
 export const isPreferencesApiAvailable = createVersionRule('25.1.0');
 
 /**
- * Checks if folder info modal is supported by current ACS version.
- * JSON ref: `isFolderInfoAvailable`
+ * Checks if node info modal is supported by current ACS version.
+ * JSON ref: `isNodeInfoAvailable`
  */
-export const isFolderInfoAvailable = createVersionRule('23.4.0');
+export const isNodeInfoAvailable = createVersionRule('23.4.0');
 
 /**
  * Checks if bulk update feature for legal holds is supported by current ACS version.

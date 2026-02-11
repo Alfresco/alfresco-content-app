@@ -1,0 +1,25 @@
+@if (hasPrimaryParentPath) {
+  <a
+    href="#"
+    [title]="nodeLocation$ | async"
+    (click)="goToLocation($event)"
+    (keydown.enter)="goToLocation($event)"
+    class="adf-datatable-cell-value"
+    [innerHTML]="displayText | async | translate">
+  </a>
+} @else {
+  <div class="aca-location-link-unknown">
+    <span
+      class="adf-datatable-cell-value"
+      [title]="'APP.BROWSE.SEARCH.UNKNOWN_LOCATION' | translate">
+      {{ 'APP.BROWSE.SEARCH.UNKNOWN_LOCATION' | translate }}
+    </span>
+    <button mat-icon-button
+        [title]="'APP.BROWSE.SEARCH.VIEW_ADDITIONAL_LOCATIONS' | translate"
+        [attr.aria-label]="'APP.BROWSE.SEARCH.VIEW_ADDITIONAL_LOCATIONS' | translate"
+        class="aca-location-link-info-btn"
+        (click)="openAdditionalLocationReferencesDialog()">
+        <mat-icon>info</mat-icon>
+    </button>
+  </div>
+}

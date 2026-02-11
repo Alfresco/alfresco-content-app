@@ -39,7 +39,7 @@ export enum NodeActionTypes {
   Unshare = 'UNSHARE_NODES',
   Copy = 'COPY_NODES',
   Move = 'MOVE_NODES',
-  FolderInformation = 'FOLDER_INFORMATION',
+  NodeInformation = 'NODE_INFORMATION',
   ManagePermissions = 'MANAGE_PERMISSIONS',
   PrintFile = 'PRINT_FILE',
   ManageVersions = 'MANAGE_VERSIONS',
@@ -219,8 +219,8 @@ export class ManageRulesAction implements Action {
   constructor(public payload: NodeEntry) {}
 }
 
-export class FolderInformationAction implements Action {
-  readonly type = NodeActionTypes.FolderInformation;
+export class NodeInformationAction implements Action {
+  readonly type = NodeActionTypes.NodeInformation;
 
   constructor(public payload: NodeEntry) {}
 }

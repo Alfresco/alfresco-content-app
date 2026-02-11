@@ -136,7 +136,7 @@ import { IsFeatureSupportedInCurrentAcsPipe } from './pipes/is-feature-supported
         isMultiSelection: rules.isMultiselection,
         canPrintFile: rules.canPrintFile,
         isPreferencesApiAvailable: rules.isPreferencesApiAvailable,
-        isFolderInfoAvailable: rules.isFolderInfoAvailable,
+        isNodeInfoAvailable: rules.isNodeInfoAvailable,
         isBulkActionsAvailable: rules.isBulkActionsAvailable,
 
         'app.selection.canDelete': rules.canDeleteSelection,

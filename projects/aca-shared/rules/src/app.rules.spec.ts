@@ -23,7 +23,7 @@
  */
 
 import * as app from './app.rules';
-import { createVersionRule, getFileExtension, isPreferencesApiAvailable, isFolderInfoAvailable, isBulkActionsAvailable } from './app.rules';
+import { createVersionRule, getFileExtension, isPreferencesApiAvailable, isNodeInfoAvailable, isBulkActionsAvailable } from './app.rules';
 import { TestRuleContext } from './test-rule-context';
 import { NodeEntry, RepositoryInfo, StatusInfo } from '@alfresco/js-api';
 import { ProfileState, RuleContext } from '@alfresco/adf-extensions';
@@ -1240,24 +1240,24 @@ describe('Versions compatibility', () => {
     });
   });
 
-  describe('isFolderInfoAvailable', () => {
+  describe('isNodeInfoAvailable', () => {
     it('should return true if ACS version is equal to minimal version', () => {
-      expect(isFolderInfoAvailable(makeContext('25.1.0'))).toBe(true);
+      expect(isNodeInfoAvailable(makeContext('25.1.0'))).toBe(true);
     });
 
     it('should return true if ACS version is greater than minimal version', () => {
-      expect(isFolderInfoAvailable(makeContext('25.2.0'))).toBe(true);
-      expect(isFolderInfoAvailable(makeContext('26.0.0'))).toBe(true);
+      expect(isNodeInfoAvailable(makeContext('25.2.0'))).toBe(true);
+      expect(isNodeInfoAvailable(makeContext('26.0.0'))).toBe(true);
     });
 
     it('should return false if ACS version is less than minimal version', () => {
-      expect(isFolderInfoAvailable(makeContext('22.0.0'))).toBe(false);
-      expect(isFolderInfoAvailable(makeContext('23.2.0'))).toBe(false);
+      expect(isNodeInfoAvailable(makeContext('22.0.0'))).toBe(false);
+      expect(isNodeInfoAvailable(makeContext('23.2.0'))).toBe(false);
     });
 
     it('should return false if ACS version is missing', () => {
-      expect(isFolderInfoAvailable(makeContext())).toBe(false);
-      expect(isFolderInfoAvailable({ repository: {} } as any)).toBe(false);
+      expect(isNodeInfoAvailable(makeContext())).toBe(false);
+      expect(isNodeInfoAvailable({ repository: {} } as any)).toBe(false);
     });
   });
 

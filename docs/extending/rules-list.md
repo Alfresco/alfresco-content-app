@@ -83,5 +83,5 @@ Rules/Evaluators created for specific features in ADW to be checked if supported
 | Version | Key                             | Description                                                               |
 |---------|---------------------------------|---------------------------------------------------------------------------|
 | 8.1.0   | isPreferencesApiAvailable       | Checks whether current ACS version supports PUT method in Preferences API |
-| 8.1.0   | isFolderInfoAvailable           | Checks whether current ACS version supports folder size calculation API   |
+| 8.1.0   | isNodeInfoAvailable             | Checks whether current ACS version supports folder size calculation API   |
 | 8.1.0   | isBulkActionsAvailable          | Checks whether current ACS version supports bulk update feature           |

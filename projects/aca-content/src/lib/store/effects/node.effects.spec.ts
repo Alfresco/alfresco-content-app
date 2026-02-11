@@ -34,7 +34,7 @@ import {
   DeleteNodesAction,
   EditFolderAction,
   ExpandInfoDrawerAction,
-  FolderInformationAction,
+  NodeInformationAction,
   FullscreenViewerAction,
   ManageAspectsAction,
   ManagePermissionsAction,
@@ -569,8 +569,8 @@ describe('NodeEffects', () => {
     });
   });
 
-  describe('folderInformation$', () => {
-    it('should call folder information dialog', () => {
+  describe('nodeInformation$', () => {
+    it('should call node information dialog', () => {
       const node: NodeEntry = {
         entry: {
           id: 'folder-node-id',
@@ -584,16 +584,15 @@ describe('NodeEffects', () => {
           createdByUser: new UserInfo()
         }
       };
-      spyOn(contentService, 'showFolderInformation').and.stub();
+      spyOn(contentService, 'showNodeInformation').and.stub();
 
-      store.dispatch(new FolderInformationAction(node));
+      store.dispatch(new NodeInformationAction(node));
 
-      expect(contentService.showFolderInformation).toHaveBeenCalledWith(node);
+      expect(contentService.showNodeInformation).toHaveBeenCalledWith(node);
     });
 
-    it('should call folder information dialog from the active folder selection', fakeAsync(() => {
-      spyOn(contentService, 'showFolderInformation').and.stub();
-
+    it('should call node information dialog from the active selection', fakeAsync(() => {
+      spyOn(contentService, 'showNodeInformation').and.stub();
       const node: NodeEntry = {
         entry: {
           id: 'folder-node-id',
@@ -611,9 +610,9 @@ describe('NodeEffects', () => {
 
       tick(100);
 
-      store.dispatch(new FolderInformationAction(null));
+      store.dispatch(new NodeInformationAction(null));
 
-      expect(contentService.showFolderInformation).toHaveBeenCalledWith(node);
+      expect(contentService.showNodeInformation).toHaveBeenCalledWith(node);
     }));
   });
 });

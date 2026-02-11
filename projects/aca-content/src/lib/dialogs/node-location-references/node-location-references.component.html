@@ -1,0 +1,22 @@
+@if (additionalReferenceLocations.length > 0) {
+  <div class="app-node-location-reference-title">
+    {{ 'APP.ADDITIONAL_REFERENCES_DIALOG.DESCRIPTION' | translate : { name: node.name} }}
+  </div>
+  @for (location of additionalReferenceLocations; track $index) {
+    <div class="app-node-location-reference">
+      <adf-icon value="folder" class="app-node-location-reference-icon" fontSet="material-icons"/>
+      <a
+        href="#"
+        [title]="location.path.name"
+        (click)="goToLocation($event, location)"
+        (keydown.enter)="goToLocation($event, location)"
+        class="app-node-location-reference-link">
+        {{ location.path.name }}
+      </a>
+    </div>
+  }
+} @else {
+  <div class="app-node-location-reference-title app-node-location-reference-no-locations">
+    {{ 'APP.ADDITIONAL_REFERENCES_DIALOG.NO_LOCATIONS' | translate : { name: node.name } }}
+  </div>
+}

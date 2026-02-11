@@ -52,7 +52,7 @@ import {
   UndoDeleteNodesAction,
   UnlockWriteAction,
   UnshareNodesAction,
-  FolderInformationAction
+  NodeInformationAction
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import { RenditionService } from '@alfresco/adf-content-services';
@@ -462,20 +462,20 @@ export class NodeEffects {
     { dispatch: false }
   );
 
-  folderInformation$ = createEffect(
+  nodeInformation$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType<FolderInformationAction>(NodeActionTypes.FolderInformation),
+        ofType<NodeInformationAction>(NodeActionTypes.NodeInformation),
         map((action) => {
           if (action?.payload) {
-            this.contentService.showFolderInformation(action.payload);
+            this.contentService.showNodeInformation(action.payload);
           } else {
             this.store
               .select(getAppSelection)
               .pipe(take(1))
               .subscribe((selection) => {
-                if (selection && !selection.isEmpty && selection.folder.entry) {
-                  this.contentService.showFolderInformation(selection.folder);
+                if (selection && !selection.isEmpty) {
+                  this.contentService.showNodeInformation(selection.nodes[0]);
                 }
               });
           }

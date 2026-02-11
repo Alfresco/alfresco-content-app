@@ -60,7 +60,7 @@ import {
   NodesApiService,
   ViewVersion
 } from '@alfresco/adf-content-services';
-import { FolderInformationComponent } from '../dialogs/folder-details/folder-information.component';
+import { NodeInformationComponent } from '../dialogs/node-details/node-information.component';
 import { provideEffects } from '@ngrx/effects';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventEmitter } from '@angular/core';
@@ -1973,14 +1973,14 @@ describe('ContentManagementService', () => {
     });
   });
 
-  describe('folderInformationDialog', () => {
-    it('should open folder information dialog', () => {
+  describe('nodeInformationDialog', () => {
+    it('should open node information dialog', () => {
       spyOn(dialog, 'open');
 
       const fakeNode: NodeEntry = {
         entry: {
-          id: 'folder-node-id',
-          name: 'mock-folder-name',
+          id: 'node-id',
+          name: 'mock-node-name',
           nodeType: 'fake-node-type',
           isFolder: true,
           isFile: false,
@@ -1991,15 +1991,15 @@ describe('ContentManagementService', () => {
         }
       };
 
-      contentManagementService.showFolderInformation(fakeNode);
+      contentManagementService.showNodeInformation(fakeNode);
       expect(dialog.open).toHaveBeenCalledWith(DialogComponent, {
         data: {
-          title: 'APP.FOLDER_INFO.TITLE',
-          confirmButtonTitle: 'APP.FOLDER_INFO.DONE',
+          title: 'APP.NODE_INFO.TITLE',
+          confirmButtonTitle: 'APP.NODE_INFO.DONE',
           isCancelButtonHidden: true,
           isCloseButtonHidden: false,
           dialogSize: DialogSize.Large,
-          contentComponent: FolderInformationComponent,
+          contentComponent: NodeInformationComponent,
           componentData: fakeNode.entry
         },
         width: '700px'

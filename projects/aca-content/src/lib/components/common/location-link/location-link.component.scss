@@ -1,0 +1,21 @@
+.aca-location-link {
+  &-unknown {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+
+    .adf-datatable-cell-value:hover {
+      color: var(--theme-foreground-text-color);
+      text-decoration: none;
+    }
+  }
+
+  .aca-location-link-info-btn {
+    --mdc-icon-button-state-layer-size: 24px;
+    --mdc-icon-button-icon-size: 24px;
+
+    color: var(--theme-foreground-text-color);
+    padding: 0;
+    margin-left: 5px;
+  }
+}

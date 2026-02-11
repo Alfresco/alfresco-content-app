@@ -683,18 +683,20 @@
             }
           },
           {
-            "id": "app.context.menu.folder-info",
-            "title": "APP.ACTIONS.FOLDER_INFO",
+            "id": "app.context.menu.node-info",
+            "title": "APP.ACTIONS.NODE_INFO",
             "order": 800,
             "icon": "info",
             "actions": {
-              "click": "FOLDER_INFORMATION"
+              "click": "NODE_INFORMATION"
             },
             "rules": {
               "visible": [
-                "app.selection.folder",
+                "app.selection.notEmpty",
+                "!app.navigation.isLibraries",
+                "!app.navigation.isSharedFiles",
                 "!app.navigation.isTrashcan",
-                "isFolderInfoAvailable"
+                "isNodeInfoAvailable"
               ]
             }
           },
@@ -1023,18 +1025,20 @@
         }
       },
       {
-        "id": "app.context.menu.folder-info",
-        "title": "APP.ACTIONS.FOLDER_INFO",
+        "id": "app.context.menu.node-info",
+        "title": "APP.ACTIONS.NODE_INFO",
         "order": 1200,
         "icon": "info",
         "actions": {
-          "click": "FOLDER_INFORMATION"
+          "click": "NODE_INFORMATION"
         },
         "rules": {
           "visible": [
-            "app.selection.folder",
+            "app.selection.notEmpty",
+            "!app.navigation.isLibraries",
+            "!app.navigation.isSharedFiles",
             "!app.navigation.isTrashcan",
-            "isFolderInfoAvailable"
+            "isNodeInfoAvailable"
           ]
         }
       },

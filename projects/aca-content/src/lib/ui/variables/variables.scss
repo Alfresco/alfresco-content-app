@@ -54,6 +54,7 @@ $light-grey-1: #d5d5d5;
 $light-grey-2: #d9d9d9;
 $light-grey-3: #dedede;
 $user-profile-background: #595959;
+$app-blue-folder: #2a7de1;
 
 // CSS Variables
 $defaults: (
@@ -110,7 +111,8 @@ $defaults: (
   --theme-light-grey-1-color: $light-grey-1,
   --theme-light-grey-2-color: $light-grey-2,
   --theme-light-grey-3-color: $light-grey-3,
-  --theme-user-profile-background-color: $user-profile-background
+  --theme-user-profile-background-color: $user-profile-background,
+  --theme-app-blue-folder: $app-blue-folder
 );
 
 // propagates SCSS variables into the CSS variables scope

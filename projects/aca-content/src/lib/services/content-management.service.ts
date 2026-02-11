@@ -57,7 +57,7 @@ import { forkJoin, Observable, of, zip } from 'rxjs';
 import { catchError, map, mergeMap, take, tap } from 'rxjs/operators';
 import { NodeActionsService } from './node-actions.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FolderInformationComponent } from '../dialogs/folder-details/folder-information.component';
+import { NodeInformationComponent } from '../dialogs/node-details/node-information.component';
 
 interface RestoredNode {
   status: number;
@@ -1168,15 +1168,15 @@ export class ContentManagementService {
     }
   }
 
-  showFolderInformation(node: NodeEntry) {
+  showNodeInformation(node: NodeEntry) {
     this.dialogRef.open(DialogComponent, {
       data: {
-        title: 'APP.FOLDER_INFO.TITLE',
-        confirmButtonTitle: 'APP.FOLDER_INFO.DONE',
+        title: 'APP.NODE_INFO.TITLE',
+        confirmButtonTitle: 'APP.NODE_INFO.DONE',
         isCancelButtonHidden: true,
         isCloseButtonHidden: false,
         dialogSize: DialogSize.Large,
-        contentComponent: FolderInformationComponent,
+        contentComponent: NodeInformationComponent,
         componentData: node.entry
       },
       width: '700px'

@@ -1,0 +1,62 @@
+<div class="aca-node-info-header">
+  <img class="aca-node-icon" alt="{{ 'APP.NODE_INFO.ICON' | translate }}" src="{{ nodeDetails.icon }}">
+  <div class="aca-node-title" data-automation-id="node-info-name">{{ nodeDetails.name }}</div>
+</div>
+<mat-divider aria-hidden="true"/>
+<div class="aca-node-info-body">
+  @if (node.isFolder) {
+    <div class="aca-node-info-item">
+      <div class="aca-node-info-item-label">{{ 'APP.NODE_INFO.NUMBER_OF_FILES' | translate }}</div>
+      <div class="aca-node-info-item-value"
+          data-automation-id="node-info-number-of-files">{{ nodeDetails.numberOfFiles }}</div>
+    </div>
+    <mat-divider aria-hidden="true"/>
+  }
+  <div class="aca-node-info-item">
+    <div class="aca-node-info-item-label">{{ 'APP.NODE_INFO.SIZE' | translate }}</div>
+    <div class="aca-node-info-item-value" data-automation-id="node-info-size">
+      {{ nodeDetails.size }}
+    </div>
+  </div>
+  <mat-divider aria-hidden="true"/>
+  <div [ngClass]="{'aca-node-location-group': nodeDetails.secondaryParentsPaths?.length > 0}">
+    <div class="aca-node-info-item">
+      <div class="aca-node-info-item-label">{{ 'APP.NODE_INFO.LOCATION' | translate }}</div>
+      <div class="aca-node-info-item-value" data-automation-id="node-info-location">
+          <adf-icon value="folder" class="aca-node-icon" fontSet="material-icons"/>
+          <div class="aca-node-info-location">
+            {{ nodeDetails.location }}
+          </div>
+      </div>
+    </div>
+    @if (nodeDetails.secondaryParentsPaths?.length > 0) {
+      <div class="aca-node-info-item">
+        <div class="aca-node-info-item-label">{{ 'APP.NODE_INFO.REFERENCED' | translate }}</div>
+        <div class="aca-node-info-secondary-parents-container" data-automation-id="node-info-secondary-parents">
+          @for (secondaryParentPath of nodeDetails.secondaryParentsPaths; track $index) {
+            <div class="aca-node-info-secondary-parent" [attr.data-automation-id]="'node-info-secondary-parent-' + $index">
+              <adf-icon value="folder" class="aca-node-icon" fontSet="material-icons"/>
+              <div class="aca-node-info-location">
+                {{ secondaryParentPath }}
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+  <mat-divider aria-hidden="true"/>
+  <div class="aca-node-info-item">
+    <div class="aca-node-info-item-label">{{ 'APP.NODE_INFO.CREATED' | translate }}</div>
+    <div class="aca-node-info-item-value"
+         data-automation-id="node-info-creation-date"
+         [title]="nodeDetails.created | adfLocalizedDate">{{ nodeDetails.created | adfTimeAgo }}</div>
+  </div>
+  <mat-divider aria-hidden="true"/>
+  <div class="aca-node-info-item">
+    <div class="aca-node-info-item-label">{{ 'APP.NODE_INFO.MODIFIED' | translate }}</div>
+    <div class="aca-node-info-item-value"
+         data-automation-id="node-info-modify-date"
+         [title]="nodeDetails.modified | adfLocalizedDate">{{ nodeDetails.modified | adfTimeAgo }}</div>
+  </div>
+</div>
