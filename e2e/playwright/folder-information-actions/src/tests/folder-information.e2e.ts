@@ -133,7 +133,7 @@ test.describe('Actions - Folder Information', () => {
   ) {
     await page.dataTable.selectItems(folderName);
     await page.acaHeader.clickMoreActions();
-    await page.matMenu.clickMenuItem('Folder Information');
+    await page.matMenu.clickMenuItem('Information');
     await expect(async () => {
       expect(await page.folderInformationDialog.folderNumberOfFiles.textContent()).toContain(expectedNumber);
       expect(await page.folderInformationDialog.folderSize.textContent()).toContain(expectedSize);

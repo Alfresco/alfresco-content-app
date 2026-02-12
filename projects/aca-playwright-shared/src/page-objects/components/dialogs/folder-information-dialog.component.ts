@@ -32,13 +32,13 @@ export class FolderInformationDialogComponent extends BaseComponent {
     super(page, FolderInformationDialogComponent.rootElement);
   }
 
-  folderName = this.getChild('.aca-folder-info-header');
+  folderName = this.getChild('.aca-node-info-header');
   doneButton = this.getChild('[data-automation-id="adf-dialog-actions-confirm"]');
-  folderNumberOfFiles = this.getChild('[data-automation-id="folder-info-number-of-files"]');
-  folderSize = this.getChild('[data-automation-id="folder-info-size"]');
-  folderLocation = this.getChild('[data-automation-id="folder-info-location"]');
-  folderCreationDate = this.getChild('[data-automation-id="folder-info-creation-date"]');
-  folderModifiedDate = this.getChild('[data-automation-id="folder-info-modify-date"]');
+  folderNumberOfFiles = this.getChild('[data-automation-id="node-info-number-of-files"]');
+  folderSize = this.getChild('[data-automation-id="node-info-size"]');
+  folderLocation = this.getChild('[data-automation-id="node-info-location"]');
+  folderCreationDate = this.getChild('[data-automation-id="node-info-creation-date"]');
+  folderModifiedDate = this.getChild('[data-automation-id="node-info-modify-date"]');
 
   async getFolderSizeNumber(): Promise<number> {
     const textContent = await this.folderSize.textContent();
