@@ -25,7 +25,7 @@
 import { Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PageComponent, PageLayoutComponent } from '@alfresco/aca-shared';
-import { catchError, concatMap, delay, filter, finalize, map, retryWhen, skipWhile, switchMap } from 'rxjs/operators';
+import { catchError, delay, filter, finalize, map, retry, switchMap } from 'rxjs/operators';
 import { ClipboardService, EmptyContentComponent, NotificationService, ThumbnailService, UnsavedChangesGuard } from '@alfresco/adf-core';
 import { AiAnswer, Node } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
@@ -196,13 +196,12 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
         switchMap((response) => this.searchAiService.getAnswer(response.questionId)),
         switchMap((response) => {
           if (!response.entry?.answer) {
-            return throwError((e) => e);
+            return throwError(() => new Error());
           }
           this.queryAnswer = response.entry;
           this._displayedAnswer = this.preprocessMarkdownFormat(response.entry.answer);
-          const references = this.queryAnswer.objectReferences;
           return forkJoin(
-            references.map((reference) =>
+            this.queryAnswer.objectReferences.map((reference) =>
               this.nodesApiService.getNode(reference.objectId).pipe(
                 catchError(() => {
                   this.hasReferencesLoadingError = true;
@@ -212,7 +211,9 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
             )
           ).pipe(map((nodes) => nodes.filter((node): node is Node => node !== null)));
         }),
-        retryWhen((errors: Observable<Error>) => this.aiSearchRetryWhen(errors)),
+        retry({
+          delay: (error: Error, retryCount: number) => this.aiSearchRetryDelay(error, retryCount)
+        }),
         finalize(() => {
           this._loading = false;
           if (this.hasReferencesLoadingError) {
@@ -256,23 +257,18 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
     }
   }
 
-  private aiSearchRetryWhen(errors: Observable<Error>): Observable<Error> {
+  private aiSearchRetryDelay(error: Error, retryCount: number): Observable<Error> {
     this._hasAnsweringError = false;
     const delayBetweenRetries = 3000;
     const maxRetries = 9;
 
-    return errors.pipe(
-      skipWhile(() => this.hasAnsweringError),
-      delay(delayBetweenRetries),
-      concatMap((e, index) => {
-        if (index === maxRetries) {
-          this._hasAnsweringError = true;
-          this._loading = false;
-          return throwError(() => e);
-        }
-        return of(null);
-      })
-    );
+    if (retryCount > maxRetries) {
+      this._hasAnsweringError = true;
+      this._loading = false;
+      return throwError(() => error);
+    }
+
+    return of(null).pipe(delay(delayBetweenRetries));
   }
 
   private preprocessMarkdownFormat(answer: string): string {
