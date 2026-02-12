@@ -153,46 +153,34 @@ test.describe('Actions - Folder Information', () => {
 
   test('[XAT-17722] Folder information Empty folder size and number of documents as 0', async ({ personalFiles }) => {
     await personalFiles.navigate();
-    await checkFolderInformation(personalFiles, emptyFolder, '0', '0 bytes', `/Company Home/User Homes/${username}`, 'isEmpty');
+    await checkFolderInformation(personalFiles, emptyFolder, '0', '0 Bytes', `/Company Home/User Homes/${username}`, 'isEmpty');
   });
 
   test('[XAT-17715] Folder information correct folder size and number of documents - single file', async ({ personalFiles }) => {
     await personalFiles.navigate();
-    await checkFolderInformation(personalFiles, folder1File, '1', '13,877 bytes (13.88 KB on disk)', `/Company Home/User Homes/${username}`);
+    await checkFolderInformation(personalFiles, folder1File, '1', '13.55 KB', `/Company Home/User Homes/${username}`);
   });
 
   test('[XAT-17752] Folder information correct folder size and number of documents - multiple files', async ({ personalFiles }) => {
     await personalFiles.navigate();
-    await checkFolderInformation(personalFiles, folderXFiles, '3', '41,631 bytes (41.63 KB on disk)', `/Company Home/User Homes/${username}`);
+    await checkFolderInformation(personalFiles, folderXFiles, '3', '40.66 KB', `/Company Home/User Homes/${username}`);
   });
 
   test('[XAT-17753] Folder information correct folder size and number of documents - folder and files', async ({ personalFiles }) => {
     await personalFiles.navigate();
-    await checkFolderInformation(
-      personalFiles,
-      folderXFilesAndFolders,
-      '5',
-      '69,385 bytes (69.39 KB on disk)',
-      `/Company Home/User Homes/${username}`
-    );
+    await checkFolderInformation(personalFiles, folderXFilesAndFolders, '5', '67.76 KB', `/Company Home/User Homes/${username}`);
   });
 
   test('[XAT-17758] Folder information correct folder size and number of documents - from libraries', async ({ myLibrariesPage }) => {
     await myLibrariesPage.navigate();
     await myLibrariesPage.dataTable.getRowByName(libraryForFolder).dblclick();
-    await checkFolderInformation(
-      myLibrariesPage,
-      folderInLibrary,
-      '1',
-      '13,877 bytes (13.88 KB on disk)',
-      `/Company Home/Sites/${libraryForFolder}/documentLibrary`
-    );
+    await checkFolderInformation(myLibrariesPage, folderInLibrary, '1', '13.55 KB', `/Company Home/Sites/${libraryForFolder}/documentLibrary`);
   });
 
   test('[XAT-17759] Folder information correct folder size and number of documents - from search', async ({ personalFiles, searchPage }) => {
     await personalFiles.navigate();
     await searchPage.searchWithin(folderForSearch, 'folders');
-    await checkFolderInformation(searchPage, folderForSearch, '2', '27,754 bytes (27.75 KB on disk)', `/Company Home/User Homes/${username}`);
+    await checkFolderInformation(searchPage, folderForSearch, '2', '27.1 KB', `/Company Home/User Homes/${username}`);
   });
 
   test('[XAT-17766] Folder information correct folder size and number of documents - nested folders', async ({ personalFiles }) => {
@@ -203,7 +191,7 @@ test.describe('Actions - Folder Information', () => {
       personalFiles,
       folderNested3,
       '1',
-      '13,877 bytes (13.88 KB on disk)',
+      '13.55 KB',
       `/Company Home/User Homes/${username}/${folderNested1}/${folderNested2}`
     );
   });
