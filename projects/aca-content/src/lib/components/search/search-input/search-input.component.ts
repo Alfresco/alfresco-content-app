@@ -37,11 +37,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { SearchInMenuComponent } from '../search-in-menu/search-in-menu.component';
-import { extractSearchedWordFromEncodedQuery } from '@alfresco/aca-content';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { merge } from 'rxjs/internal/observable/merge';
 import { filter, map, startWith, withLatestFrom } from 'rxjs';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
+import { extractSearchedWordFromEncodedQuery } from '../../../utils/aca-search-utils';
 
 @Component({
   imports: [CommonModule, TranslatePipe, MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule, FormsModule, SearchInMenuComponent],

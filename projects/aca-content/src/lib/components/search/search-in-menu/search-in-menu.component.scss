@@ -1,3 +1,5 @@
+@use '../../../ui/mat-selectors' as ms;
+
 .aca-search-input--search-in-button {
   border-radius: 16px;
   height: 32px;
@@ -7,7 +9,7 @@
   background-color: var(--theme-dropdown-color);
   border: none;
 
-  .mat-icon {
+  &#{ms.$mat-icon-no-color} {
     font-size: 18px;
     width: 18px;
     height: 18px;

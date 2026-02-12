@@ -22,9 +22,9 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { extractSearchedWordFromEncodedQuery } from '@alfresco/aca-content';
 import { Injectable } from '@angular/core';
 import { PRIMARY_OUTLET, Router, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
+import { extractSearchedWordFromEncodedQuery } from '../../utils/aca-search-utils';
 
 @Injectable({
   providedIn: 'root'
