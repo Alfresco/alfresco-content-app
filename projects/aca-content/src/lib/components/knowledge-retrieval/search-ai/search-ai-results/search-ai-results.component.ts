@@ -25,8 +25,8 @@
 import { Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PageComponent, PageLayoutComponent } from '@alfresco/aca-shared';
-import { concatMap, delay, filter, finalize, retryWhen, skipWhile, switchMap } from 'rxjs/operators';
-import { ClipboardService, EmptyContentComponent, ThumbnailService, UnsavedChangesGuard } from '@alfresco/adf-core';
+import { catchError, concatMap, delay, filter, finalize, map, retryWhen, skipWhile, switchMap } from 'rxjs/operators';
+import { ClipboardService, EmptyContentComponent, NotificationService, ThumbnailService, UnsavedChangesGuard } from '@alfresco/adf-core';
 import { AiAnswer, Node } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
 import { SearchAiInputContainerComponent } from '../search-ai-input-container/search-ai-input-container.component';
@@ -89,6 +89,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
   private _searchQuery = '';
   private queryAnswer: AiAnswer;
   private _displayedAnswer: string;
+  private hasReferencesLoadingError = false;
 
   get agentId(): string {
     return this._agentId;
@@ -131,7 +132,8 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
     private readonly unsavedChangesGuard: UnsavedChangesGuard,
     private readonly modalAiService: ModalAiService,
     private readonly viewerService: ViewerService,
-    private readonly elementRef: ElementRef
+    private readonly elementRef: ElementRef,
+    private readonly notificationService: NotificationService
   ) {
     super();
   }
@@ -182,6 +184,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
 
   performAiSearch(): void {
     this._loading = true;
+    this.hasReferencesLoadingError = false;
 
     this.searchAiService
       .ask({
@@ -197,14 +200,29 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
           }
           this.queryAnswer = response.entry;
           this._displayedAnswer = this.preprocessMarkdownFormat(response.entry.answer);
-          return forkJoin(this.queryAnswer.objectReferences.map((reference) => this.nodesApiService.getNode(reference.objectId)));
+          const references = this.queryAnswer.objectReferences;
+          return forkJoin(
+            references.map((reference) =>
+              this.nodesApiService.getNode(reference.objectId).pipe(
+                catchError(() => {
+                  this.hasReferencesLoadingError = true;
+                  return of(null);
+                })
+              )
+            )
+          ).pipe(map((nodes) => nodes.filter((node): node is Node => node !== null)));
         }),
         retryWhen((errors: Observable<Error>) => this.aiSearchRetryWhen(errors)),
-        finalize(() => (this._loading = false)),
+        finalize(() => {
+          this._loading = false;
+          if (this.hasReferencesLoadingError) {
+            this.notificationService.showWarning('KNOWLEDGE_RETRIEVAL.SEARCH.ERRORS.REFERENCES_LOADING_WARNING');
+          }
+        }),
         takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe(
-        (nodes) => {
+      .subscribe({
+        next: (nodes) => {
           nodes.forEach((node) => {
             this._mimeTypeIconsByNodeId[node.id] = this.thumbnailService.getMimeTypeIcon(node.content?.mimeType);
           });
@@ -213,8 +231,8 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
           this.viewerService.customNodesOrder = nodesIds;
           this.userPreferencesService.set('aiReferences', JSON.stringify(nodesIds));
         },
-        () => (this._hasAnsweringError = true)
-      );
+        error: () => (this._hasAnsweringError = true)
+      });
   }
 
   openFile(id: string): void {
@@ -250,7 +268,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
         if (index === maxRetries) {
           this._hasAnsweringError = true;
           this._loading = false;
-          return throwError(e);
+          return throwError(() => e);
         }
         return of(null);
       })

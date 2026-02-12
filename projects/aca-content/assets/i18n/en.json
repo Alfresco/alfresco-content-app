@@ -726,7 +726,8 @@
           "AGENTS_FETCHING": "Error while fetching agents.",
           "HX_INSIGHT_URL_FETCHING": "Error while fetching HX Insight URL.",
           "LOADING_ERROR": "Hmm... something seems to have gone wrong.",
-          "PAGE_NOT_AVAILABLE_ERROR": "Page is not available for these conditions."
+          "PAGE_NOT_AVAILABLE_ERROR": "Page is not available for these conditions.",
+          "REFERENCES_LOADING_WARNING": "Something went wrong while loading the references. The list of referenced files might be incomplete."
         },
         "DISCARD_CHANGES": {
           "WARNING": "Warning!",

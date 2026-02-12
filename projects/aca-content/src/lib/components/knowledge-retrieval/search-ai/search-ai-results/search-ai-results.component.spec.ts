@@ -27,7 +27,14 @@ import { SearchAiResultsComponent } from './search-ai-results.component';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable, of, Subject, throwError } from 'rxjs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { EmptyContentComponent, UnitTestingUtils, UnsavedChangesGuard, UserPreferencesService } from '@alfresco/adf-core';
+import {
+  ClipboardService,
+  EmptyContentComponent,
+  NotificationService,
+  UnitTestingUtils,
+  UnsavedChangesGuard,
+  UserPreferencesService
+} from '@alfresco/adf-core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AppTestingModule } from '../../../../testing/app-testing.module';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
@@ -35,7 +42,7 @@ import { AgentService, NodesApiService, SearchAiService } from '@alfresco/adf-co
 import { By } from '@angular/platform-browser';
 import { ModalAiService } from '../../../../services/modal-ai.service';
 import { delay } from 'rxjs/operators';
-import { AiAnswerEntry, QuestionModel } from '@alfresco/js-api/typings';
+import { AiAnswerEntry, Node, QuestionModel } from '@alfresco/js-api/typings';
 import { SearchAiInputComponent } from '../search-ai-input/search-ai-input.component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { getAppSelection, getCurrentFolder, ViewNodeAction } from '@alfresco/aca-shared/store';
@@ -68,6 +75,9 @@ describe('SearchAiResultsComponent', () => {
   let viewerService: ViewerService;
   let unsavedChangesGuard: UnsavedChangesGuard;
   let unitTestingUtils: UnitTestingUtils;
+  let nodesApiService: NodesApiService;
+  let notificationService: NotificationService;
+  let clipboardService: ClipboardService;
 
   afterEach(() => {
     store.resetSelectors();
@@ -79,12 +89,6 @@ describe('SearchAiResultsComponent', () => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, SearchAiResultsComponent, MatSnackBarModule, MatDialogModule, MatIconTestingModule, MarkdownModule.forRoot()],
       providers: [
-        {
-          provide: NodesApiService,
-          useValue: {
-            getNode: () => of({ id: 'someId', isFolder: true }).pipe(delay(50))
-          }
-        },
         {
           provide: ActivatedRoute,
           useValue: {
@@ -110,6 +114,9 @@ describe('SearchAiResultsComponent', () => {
     userPreferencesService = TestBed.inject(UserPreferencesService);
     viewerService = TestBed.inject(ViewerService);
     unsavedChangesGuard = TestBed.inject(UnsavedChangesGuard);
+    nodesApiService = TestBed.inject(NodesApiService);
+    notificationService = TestBed.inject(NotificationService);
+    clipboardService = TestBed.inject(ClipboardService);
     store = TestBed.inject(MockStore);
     store.overrideSelector(getAppSelection, {
       nodes: [],
@@ -166,7 +173,7 @@ describe('SearchAiResultsComponent', () => {
 
     it('should not get query answer and display an error when getAnswer throws error', fakeAsync(() => {
       spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
-      spyOn(searchAiService, 'getAnswer').and.returnValue(throwError('error').pipe(delay(100)));
+      spyOn(searchAiService, 'getAnswer').and.returnValue(throwError(() => 'error').pipe(delay(100)));
       mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
 
       tick(30000);
@@ -178,7 +185,10 @@ describe('SearchAiResultsComponent', () => {
 
     it('should get query answer and not display an error when getAnswer throws one error and one successful response', fakeAsync(() => {
       spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
-      spyOn(searchAiService, 'getAnswer').and.returnValues(throwError('error'), of(getAiAnswerEntry()));
+      spyOn(searchAiService, 'getAnswer').and.returnValues(
+        throwError(() => 'error'),
+        of(getAiAnswerEntry())
+      );
       mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
 
       tick(3000);
@@ -189,7 +199,7 @@ describe('SearchAiResultsComponent', () => {
 
     it('should display and answer and not display an error when getAnswer throws nine errors and one successful response', fakeAsync(() => {
       spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
-      spyOn(searchAiService, 'getAnswer').and.returnValues(...Array(9).fill(throwError('error')), of(getAiAnswerEntry()));
+      spyOn(searchAiService, 'getAnswer').and.returnValues(...Array(9).fill(throwError(() => 'error')), of(getAiAnswerEntry()));
       mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
 
       tick(50000);
@@ -200,7 +210,7 @@ describe('SearchAiResultsComponent', () => {
 
     it('should not display an answer and display an error when getAnswer throws ten errors', fakeAsync(() => {
       spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
-      spyOn(searchAiService, 'getAnswer').and.returnValues(...Array(14).fill(throwError('error')), of(getAiAnswerEntry(true)));
+      spyOn(searchAiService, 'getAnswer').and.returnValues(...Array(14).fill(throwError(() => 'error')), of(getAiAnswerEntry(true)));
       mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
 
       tick(30000);
@@ -252,6 +262,21 @@ describe('SearchAiResultsComponent', () => {
 
       fixture.detectChanges();
       expect(getEmptyContentElement()).toBeNull();
+    });
+
+    describe('when queryAnswer already exists', () => {
+      it('should not re-run search when returning from viewer', fakeAsync(() => {
+        spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
+        spyOn(searchAiService, 'getAnswer').and.returnValue(of(getAiAnswerEntry()));
+        mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
+
+        expect(searchAiService.getAnswer).toHaveBeenCalledTimes(1);
+
+        mockQueryParams.next({ query: 'test', agentId: 'agentId1', location: 'viewer' });
+        mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
+
+        expect(searchAiService.getAnswer).toHaveBeenCalledTimes(1);
+      }));
     });
 
     describe('when query params contains location', () => {
@@ -509,33 +534,39 @@ describe('SearchAiResultsComponent', () => {
 
   describe('References', () => {
     let documentElement: HTMLDivElement;
-    let nodesOrder: string[];
 
     const nodeId = 'someId';
     const url = 'some-url';
+    const node1 = of({ id: nodeId, isFolder: true } as Node).pipe(delay(50));
+    const node2 = of({ id: nodeId + '1', isFolder: false } as Node).pipe(delay(50));
+    const nodeError = throwError(() => 'error').pipe(delay(50));
 
-    beforeEach(fakeAsync(() => {
-      spyOnProperty(viewerService, 'customNodesOrder', 'set').and.callFake((passedNodesOrder) => (nodesOrder ??= passedNodesOrder));
-      spyOn(userPreferencesService, 'set');
+    const setupReferencesTest = (nodeResponses: Observable<Node>[] = [node1]) => {
+      spyOn(nodesApiService, 'getNode').and.returnValues(...nodeResponses);
       spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
+
       const answer = getAiAnswerEntry();
-      answer.entry.objectReferences = [
-        {
-          objectId: nodeId,
-          references: []
-        }
-      ];
-      spyOn(searchAiService, 'getAnswer').and.returnValues(throwError('error'), of(answer));
+      answer.entry.objectReferences = nodeResponses.map((_, index) => ({
+        objectId: `${nodeId}${index}`,
+        references: []
+      }));
+
+      spyOn(searchAiService, 'getAnswer').and.returnValues(
+        throwError(() => 'error'),
+        of(answer)
+      );
       mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
 
       tick(3051);
       fixture.detectChanges();
-      documentElement = fixture.debugElement.query(By.css(`[data-automation-id="aca-search-ai-results-someId-document"]`)).nativeElement;
-      spyOn(store, 'dispatch');
+      documentElement = fixture.debugElement.query(By.css(`[data-automation-id="aca-search-ai-results-${nodeId}-document"]`))?.nativeElement;
       spyOnProperty(TestBed.inject(Router), 'url').and.returnValue(url);
-    }));
+    };
 
-    it('should dispatch ViewNodeAction on store when clicked', () => {
+    it('should dispatch ViewNodeAction on store when clicked', fakeAsync(() => {
+      spyOn(store, 'dispatch');
+      setupReferencesTest();
+
       documentElement.click();
       expect(store.dispatch).toHaveBeenCalledWith(
         jasmine.objectContaining({
@@ -544,9 +575,12 @@ describe('SearchAiResultsComponent', () => {
           })
         })
       );
-    });
+    }));
 
-    it('should dispatch ViewNodeAction on store when pressed enter', () => {
+    it('should dispatch ViewNodeAction on store when pressed enter', fakeAsync(() => {
+      spyOn(store, 'dispatch');
+      setupReferencesTest();
+
       documentElement.dispatchEvent(
         new KeyboardEvent('keyup', {
           key: 'Enter'
@@ -559,15 +593,60 @@ describe('SearchAiResultsComponent', () => {
           })
         })
       );
-    });
+    }));
 
-    it('should assign nodes ids to customNodesOrder for ViewerService', () => {
+    it('should assign nodes ids to customNodesOrder for ViewerService', fakeAsync(() => {
+      let nodesOrder: string[];
+      spyOnProperty(viewerService, 'customNodesOrder', 'set').and.callFake((passedNodesOrder) => (nodesOrder ??= passedNodesOrder));
+      setupReferencesTest();
+
       expect(nodesOrder).toEqual([nodeId]);
-    });
+    }));
 
-    it('should call set on userPreferencesService with correct parameters', () => {
+    it('should call set on userPreferencesService with correct parameters', fakeAsync(() => {
+      spyOn(userPreferencesService, 'set');
+      setupReferencesTest();
+
       expect(userPreferencesService.set).toHaveBeenCalledWith('aiReferences', JSON.stringify([nodeId]));
-    });
+    }));
+
+    it('should display answer and all reference nodes', fakeAsync(() => {
+      setupReferencesTest([node1, node2]);
+      const firstNode = unitTestingUtils.getByDataAutomationId(`aca-search-ai-results-${nodeId}-document`);
+      const secondNode = unitTestingUtils.getByDataAutomationId(`aca-search-ai-results-${nodeId}1-document`);
+
+      expect(component.displayedAnswer).toEqual('Some answer');
+      expect(component.nodes.length).toBe(2);
+      expect(firstNode).not.toBeNull();
+      expect(secondNode).not.toBeNull();
+    }));
+
+    it('should display answer even when fetching nodes fails', fakeAsync(() => {
+      setupReferencesTest([nodeError]);
+
+      expect(component.displayedAnswer).toEqual('Some answer');
+      expect(component.hasAnsweringError).toBeFalse();
+      expect(component.nodes).toEqual([]);
+    }));
+
+    it('should notify about node fetching error', fakeAsync(() => {
+      spyOn(notificationService, 'showWarning');
+      setupReferencesTest([node1, nodeError]);
+
+      expect(notificationService.showWarning).toHaveBeenCalledWith('KNOWLEDGE_RETRIEVAL.SEARCH.ERRORS.REFERENCES_LOADING_WARNING');
+    }));
+
+    it('should display answer and partial nodes when some getNode calls fail', fakeAsync(() => {
+      setupReferencesTest([node1, nodeError, node2]);
+      const firstNode = unitTestingUtils.getByDataAutomationId(`aca-search-ai-results-${nodeId}-document`);
+      const secondNode = unitTestingUtils.getByDataAutomationId(`aca-search-ai-results-${nodeId}1-document`);
+
+      expect(component.displayedAnswer).toEqual('Some answer');
+      expect(component.hasAnsweringError).toBeFalse();
+      expect(component.nodes.length).toBe(2);
+      expect(firstNode).not.toBeNull();
+      expect(secondNode).not.toBeNull();
+    }));
   });
 
   describe('ngOnInit', () => {
@@ -611,5 +690,22 @@ describe('SearchAiResultsComponent', () => {
         maxWidth: 'none'
       });
     });
+  });
+
+  it('should copy answer to clipboard and show notification on copy button click', () => {
+    spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
+    spyOn(searchAiService, 'getAnswer').and.returnValue(of(getAiAnswerEntry()));
+    spyOn(clipboardService, 'copyContentToClipboard');
+
+    mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
+    fixture.detectChanges();
+
+    const copyButton = unitTestingUtils.getByDataAutomationId('aca-search-ai-results-copying-button').nativeElement;
+    copyButton.click();
+
+    expect(clipboardService.copyContentToClipboard).toHaveBeenCalledWith(
+      component.displayedAnswer,
+      'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.COPY_MESSAGE'
+    );
   });
 });
