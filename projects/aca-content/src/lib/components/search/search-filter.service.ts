@@ -96,7 +96,7 @@ export class SearchFilterService {
       return 'SEARCH.INPUT.WHITESPACE';
     }
 
-    if (/^[\+\-\|\!\(\)\{\}\[\]\^\"\~\*\?\:\\\/]|[\+\-\|\!\(\)\{\}\[\]\^\"\~\*\?\:\\\/]$/.test(term)) {
+    if (/^[+\-|!(){}[\]^"~*?:\\/]/.test(term) || /[+\-|!(){}[\]^"~*?:\\/]$/.test(term)) {
       return 'SEARCH.INPUT.OPERATORS';
     }
 

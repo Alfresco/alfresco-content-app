@@ -11,7 +11,7 @@
 </button>
 
 <mat-menu #searchInMenu="matMenu" class="aca-search-in-menu">
-  <div
+  <fieldset
     class="aca-search-in-panel"
     role="group"
     tabindex="-1"
@@ -61,5 +61,5 @@
       <button mat-button (click)="reset()">{{ 'SEARCH.FILTER.BUTTONS.RESET-ALL.LABEL' | translate }}</button>
       <button mat-flat-button color="primary" (click)="apply()">{{ 'SEARCH.FILTER.BUTTONS.APPLY' | translate }}</button>
     </div>
-  </div>
+  </fieldset>
 </mat-menu>

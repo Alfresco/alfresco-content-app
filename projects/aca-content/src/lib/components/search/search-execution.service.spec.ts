@@ -29,7 +29,7 @@ import { SearchFilterService } from './search-filter.service';
 import { SearchNavigationService } from './search-navigation.service';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { SearchLibrariesQueryBuilderService } from './search-libraries-results/search-libraries-query-builder.service';
-import { AppStore, SearchByTermAction } from '@alfresco/aca-shared/store';
+import { AppStore, SearchActionTypes } from '@alfresco/aca-shared/store';
 
 describe('SearchExecutionService', () => {
   let service: SearchExecutionService;
@@ -85,7 +85,7 @@ describe('SearchExecutionService', () => {
 
     it('should dispatch SearchByTermAction for new content search', () => {
       service.execute('test');
-      expect(store.dispatch).toHaveBeenCalledWith(SearchByTermAction);
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ type: SearchActionTypes.SearchByTerm, payload: 'test' }));
     });
 
     it('should update queryBuilder when on same search results page with same term', () => {
@@ -105,7 +105,7 @@ describe('SearchExecutionService', () => {
 
     it('should dispatch SearchByTermAction for new libraries search', () => {
       service.execute('test');
-      expect(store.dispatch).toHaveBeenCalledWith(SearchByTermAction);
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ type: SearchActionTypes.SearchByTerm, payload: 'test' }));
     });
 
     it('should update queryLibrariesBuilder when on same libraries results page with same term', () => {

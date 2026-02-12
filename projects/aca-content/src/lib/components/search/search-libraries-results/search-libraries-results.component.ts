@@ -80,9 +80,9 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
   columns: DocumentListPresetRef[] = [];
 
   constructor(
-    private librariesQueryBuilder: SearchLibrariesQueryBuilderService,
-    private route: ActivatedRoute,
-    private appHookService: AppHookService
+    private readonly librariesQueryBuilder: SearchLibrariesQueryBuilderService,
+    private readonly route: ActivatedRoute,
+    private readonly appHookService: AppHookService
   ) {
     super();
 
