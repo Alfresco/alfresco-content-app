@@ -1,5 +1,5 @@
 <div class="aca-node-info-header">
-  <img class="aca-node-icon" alt="{{ 'APP.NODE_INFO.ICON' | translate }}" src="{{ nodeDetails.icon }}">
+  <img class="aca-node-icon" alt="{{ 'APP.NODE_INFO.ICON' | translate }}" [ngSrc]="nodeDetails.icon">
   <div class="aca-node-title" data-automation-id="node-info-name">{{ nodeDetails.name }}</div>
 </div>
 <mat-divider aria-hidden="true"/>

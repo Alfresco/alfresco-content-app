@@ -23,7 +23,7 @@
  */
 
 import { Component, DestroyRef, inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { DIALOG_COMPONENT_DATA, LocalizedDatePipe, TimeAgoPipe, IconComponent, FileSizePipe, TranslationService } from '@alfresco/adf-core';
 import { Node, SizeDetails } from '@alfresco/js-api';
 import { MatDividerModule } from '@angular/material/divider';
@@ -46,7 +46,7 @@ class NodeDetails {
 
 @Component({
   selector: 'app-node-info',
-  imports: [CommonModule, MatDividerModule, TimeAgoPipe, TranslatePipe, LocalizedDatePipe, IconComponent],
+  imports: [CommonModule, MatDividerModule, TimeAgoPipe, TranslatePipe, LocalizedDatePipe, IconComponent, NgOptimizedImage],
   templateUrl: './node-information.component.html',
   styleUrls: ['./node-information.component.scss'],
   encapsulation: ViewEncapsulation.None,
