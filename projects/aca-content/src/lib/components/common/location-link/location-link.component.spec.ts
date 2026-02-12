@@ -504,7 +504,7 @@ describe('LocationLinkComponent', () => {
       fixture.detectChanges();
       const infoButton = unitTestingUtils.getByCSS('.aca-location-link-info-btn');
       const unknownLocation = getCell();
-      expect(unknownLocation.nativeElement.innerText).toBe('APP.BROWSE.SEARCH.UNKNOWN_LOCATION');
+      expect(unknownLocation.nativeElement.innerText.trim()).toBe('APP.BROWSE.SEARCH.UNKNOWN_LOCATION');
       expect(unknownLocation.attributes['title']).toBe('APP.BROWSE.SEARCH.UNKNOWN_LOCATION');
       expect(infoButton.attributes['title']).toBe('APP.BROWSE.SEARCH.VIEW_ADDITIONAL_LOCATIONS');
       expect(infoButton.attributes['aria-label']).toBe('APP.BROWSE.SEARCH.VIEW_ADDITIONAL_LOCATIONS');
