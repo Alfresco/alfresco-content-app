@@ -1,0 +1,65 @@
+<button
+  mat-stroked-button
+  class="aca-search-input--search-in-button"
+  [matMenuTriggerFor]="searchInMenu"
+  #searchInTrigger="matMenuTrigger"
+  [title]="'SEARCH.INPUT.SEARCH_IN' | translate"
+  [attr.aria-label]="'SEARCH.INPUT.SEARCH_IN' | translate"
+>
+  {{ 'SEARCH.INPUT.IN_PREFIX' | translate }}: {{ getSearchInLabel() | translate }}
+  <mat-icon iconPositionEnd>keyboard_arrow_down</mat-icon>
+</button>
+
+<mat-menu #searchInMenu="matMenu" class="aca-search-in-menu">
+  <div
+    class="aca-search-in-panel"
+    role="group"
+    tabindex="-1"
+    [attr.aria-label]="'SEARCH.INPUT.SEARCH_IN' | translate"
+    (click)="$event.stopPropagation()"
+    (keydown)="$event.stopPropagation()"
+  >
+    <div class="aca-search-in-panel__header">
+      <span class="aca-search-in-panel__title">{{ 'SEARCH.INPUT.SEARCH_IN' | translate }}</span>
+      <button mat-icon-button (click)="close()" [attr.aria-label]="'COMMON.CLOSE' | translate">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <div class="aca-search-in-panel__content">
+      <mat-radio-group [(ngModel)]="searchInMode" (change)="onSearchInModeChange()">
+        <mat-radio-button value="content" class="aca-search-in-panel__radio">
+          {{ 'SEARCH.INPUT.FILES_AND_FOLDERS' | translate }}
+        </mat-radio-button>
+
+        <div class="aca-search-in-panel__checkboxes" *ngIf="searchInMode === 'content'">
+          <mat-checkbox
+            [id]="SearchOptionIds.Files"
+            [(ngModel)]="filesChecked"
+            (change)="onContentFilterChange()"
+          >
+            {{ 'SEARCH.INPUT.FILES' | translate }}
+          </mat-checkbox>
+          <mat-checkbox
+            [id]="SearchOptionIds.Folders"
+            [(ngModel)]="foldersChecked"
+            (change)="onContentFilterChange()"
+          >
+            {{ 'SEARCH.INPUT.FOLDERS' | translate }}
+          </mat-checkbox>
+        </div>
+
+        <mat-radio-button [value]="SearchOptionIds.Libraries" class="aca-search-in-panel__radio">
+          {{ 'SEARCH.INPUT.LIBRARIES' | translate }}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <mat-divider />
+
+    <div class="aca-search-in-panel__actions">
+      <button mat-button (click)="reset()">{{ 'SEARCH.FILTER.BUTTONS.RESET-ALL.LABEL' | translate }}</button>
+      <button mat-flat-button color="primary" (click)="apply()">{{ 'SEARCH.FILTER.BUTTONS.APPLY' | translate }}</button>
+    </div>
+  </div>
+</mat-menu>

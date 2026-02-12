@@ -24,14 +24,14 @@
 
 import { inject, Injectable } from '@angular/core';
 import {
-  AuthenticationService,
   AppConfigService,
-  PageTitleService,
-  UserPreferencesService,
+  AuthenticationService,
   NotificationService,
-  StorageService
+  PageTitleService,
+  StorageService,
+  UserPreferencesService
 } from '@alfresco/adf-core';
-import { Observable, BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import {
   AlfrescoApiService,
   FileUploadErrorEvent,
@@ -72,7 +72,7 @@ export class AppService implements ShellAppService {
   toggleAppNavBar$ = new Subject<void>();
 
   hideSidenavConditions = ['/preview/'];
-  minimizeSidenavConditions = ['/search'];
+  minimizeSidenavConditions = [];
 
   /**
    * Whether `withCredentials` mode is enabled.

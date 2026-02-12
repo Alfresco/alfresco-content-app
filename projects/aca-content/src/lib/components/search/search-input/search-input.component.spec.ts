@@ -23,178 +23,278 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UnitTestingUtils } from '@alfresco/adf-core';
-import { MatError } from '@angular/material/form-field';
-import { AppStore } from '@alfresco/aca-shared/store';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { SearchInputComponent } from './search-input.component';
-import { Store } from '@ngrx/store';
-import { of, Subject } from 'rxjs';
-import { NavigationStart, Router, RouterEvent } from '@angular/router';
+import { Subject } from 'rxjs';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { SearchConfiguration, SearchQueryBuilderService } from '@alfresco/adf-content-services';
-import { HarnessLoader } from '@angular/cdk/testing';
-import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { MatMenuHarness } from '@angular/material/menu/testing';
-import { MatCheckboxHarness } from '@angular/material/checkbox/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SearchNavigationService } from '../search-navigation.service';
+import { SearchFilterService } from '../search-filter.service';
+import { SearchExecutionService } from '../search-execution.service';
+import { AppHookService } from '@alfresco/aca-shared';
 
 describe('SearchInputComponent', () => {
   let fixture: ComponentFixture<SearchInputComponent>;
   let component: SearchInputComponent;
-  let store: jasmine.SpyObj<Store<AppStore>>;
-  let unitTestingUtils: UnitTestingUtils;
-  let loader: HarnessLoader;
   let router: Router;
-  const routerEventsSubject = new Subject<RouterEvent>();
+  let searchExecutionService: jasmine.SpyObj<SearchExecutionService>;
+  let searchFilterService: jasmine.SpyObj<SearchFilterService>;
+  let searchNavigationService: jasmine.SpyObj<SearchNavigationService>;
+
+  const routerEventsSubject = new Subject<any>();
   const configUpdatedSubject = new Subject<SearchConfiguration>();
+  const queryParamsSubject = new Subject<any>();
+  const library400ErrorSubject = new Subject<void>();
 
-  function getFirstError(): string {
-    const error = unitTestingUtils.getByDirective(MatError);
-    return error?.nativeElement.textContent.trim();
-  }
-
-  async function openMenu(): Promise<MatMenuHarness> {
-    const menu = await loader.getHarness(MatMenuHarness);
-    await menu.open();
-    return menu;
-  }
-
-  function getCheckbox(id: string): Promise<MatCheckboxHarness> {
-    const overlayLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
-    return overlayLoader.getHarness(MatCheckboxHarness.with({ selector: `#${id}` }));
-  }
-
-  async function uncheckAllCheckboxes() {
-    const checkboxIds = ['libraries', 'folder', 'content'];
-    for (const id of checkboxIds) {
-      try {
-        const checkbox = await getCheckbox(id);
-        if (await checkbox.isChecked()) {
-          await checkbox.uncheck();
-          fixture.detectChanges();
-        }
-      } catch (err) {
-        fail(`Checkbox with id ${id} not found`);
-        throw err;
-      }
-    }
-  }
+  const getSearchInput = (): HTMLInputElement => fixture.nativeElement.querySelector('.app-search-input');
 
   beforeEach(async () => {
-    const storeSpy = jasmine.createSpyObj<Store<AppStore>>('Store', ['dispatch', 'pipe']);
-
     const queryBuilderSpy = {
       configUpdated: configUpdatedSubject,
-      removeFilterQuery: () => {}
+      removeFilterQuery: jasmine.createSpy('removeFilterQuery'),
+      addFilterQuery: jasmine.createSpy('addFilterQuery'),
+      update: jasmine.createSpy('update')
     } as Partial<SearchQueryBuilderService>;
 
+    searchExecutionService = jasmine.createSpyObj<SearchExecutionService>('SearchExecutionService', ['execute']);
+    searchFilterService = jasmine.createSpyObj<SearchFilterService>('SearchFilterService', [
+      'validateSearchTerm',
+      'removeContentFilters',
+      'initForLibrariesRoute'
+    ]);
+    searchNavigationService = jasmine.createSpyObj<SearchNavigationService>('SearchNavigationService', ['navigateBack', 'getUrlSearchTerm'], {
+      onLibrariesSearchResults: false
+    });
+
+    searchNavigationService.getUrlSearchTerm.and.returnValue(null);
+    searchFilterService.validateSearchTerm.and.returnValue(null);
+
+    const appHookServiceMock = {
+      library400Error: library400ErrorSubject.asObservable()
+    };
+
+    const activatedRouteMock = {
+      queryParams: queryParamsSubject.asObservable()
+    };
+
     await TestBed.configureTestingModule({
-      imports: [AppTestingModule, SearchInputComponent],
+      imports: [AppTestingModule, SearchInputComponent, NoopAnimationsModule],
       providers: [
-        { provide: Store, useValue: storeSpy },
-        { provide: SearchQueryBuilderService, useValue: queryBuilderSpy }
+        { provide: SearchQueryBuilderService, useValue: queryBuilderSpy },
+        { provide: SearchExecutionService, useValue: searchExecutionService },
+        { provide: SearchFilterService, useValue: searchFilterService },
+        { provide: SearchNavigationService, useValue: searchNavigationService },
+        { provide: AppHookService, useValue: appHookServiceMock },
+        { provide: ActivatedRoute, useValue: activatedRouteMock }
       ]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SearchInputComponent);
-    component = fixture.componentInstance;
-    store = TestBed.inject(Store) as jasmine.SpyObj<Store<AppStore>>;
     router = TestBed.inject(Router);
-    store.pipe.and.returnValue(of([]));
-    fixture.detectChanges();
-    unitTestingUtils = new UnitTestingUtils(fixture.debugElement);
-    loader = TestbedHarnessEnvironment.loader(fixture);
-
     Object.defineProperty(router, 'events', {
       get: () => routerEventsSubject.asObservable()
     });
+
+    fixture = TestBed.createComponent(SearchInputComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
-  it('should show required error when field is empty and touched', async () => {
-    await openMenu();
-
-    component.searchInputControl.searchFieldFormControl.setValue('');
-    component.searchInputControl.searchFieldFormControl.markAsTouched();
-    fixture.detectChanges();
-
-    expect(getFirstError()).toBe('SEARCH.INPUT.REQUIRED');
+  it('should render a directly editable search input', () => {
+    const input = getSearchInput();
+    expect(input).toBeTruthy();
+    expect(input.readOnly).toBeFalse();
   });
 
-  it('should not show error when field has value', async () => {
-    await openMenu();
-
-    component.searchInputControl.searchFieldFormControl.setValue('not giving up');
-    component.searchInputControl.searchFieldFormControl.markAsTouched();
-    fixture.detectChanges();
-
-    const error = unitTestingUtils.getByDirective(MatError);
-    expect(error).toBeNull();
+  it('should render the search-in menu component', () => {
+    const searchInMenu = fixture.nativeElement.querySelector('aca-search-in-menu');
+    expect(searchInMenu).toBeTruthy();
   });
 
-  it('should not show error when field is untouched', async () => {
-    await openMenu();
-
-    component.searchInputControl.searchFieldFormControl.setValue('');
-    component.searchInputControl.searchFieldFormControl.markAsUntouched();
-    fixture.detectChanges();
-
-    const error = unitTestingUtils.getByDirective(MatError);
-    expect(error).toBeNull();
+  it('should render the close button', () => {
+    const closeButton = fixture.nativeElement.querySelector('.aca-search-input--close-button');
+    expect(closeButton).toBeTruthy();
   });
 
-  it('should dispatch action when Libraries checkbox selected and term is entered', async () => {
-    await openMenu();
-    const checkbox = await getCheckbox('libraries');
-    await checkbox.check();
-    fixture.detectChanges();
-
-    component.onSearchSubmit({ target: { value: 'happy faces only' } });
-    expect(store.dispatch).toHaveBeenCalled();
+  it('should render the search button', () => {
+    const searchButton = fixture.nativeElement.querySelector('.aca-search-input--search-button');
+    expect(searchButton).toBeTruthy();
   });
 
-  it('should not dispatch SearchByTermAction when no checkboxes are selected and term is empty', async () => {
-    store.dispatch.calls.reset();
+  describe('onSearchSubmit', () => {
+    it('should execute search on submit with valid term', () => {
+      component.onSearchSubmit('happy faces only');
+      expect(searchExecutionService.execute).toHaveBeenCalledWith('happy faces only');
+    });
 
-    await openMenu();
-    await uncheckAllCheckboxes();
+    it('should not execute search when search term is empty', () => {
+      searchFilterService.validateSearchTerm.and.returnValue('SEARCH.ERRORS.EMPTY_QUERY');
+      component.onSearchSubmit('');
+      expect(searchExecutionService.execute).not.toHaveBeenCalled();
+    });
 
-    expect(component.searchOptions.every((option) => !option.value)).toBeTrue();
+    it('should not execute search when search term is whitespace', () => {
+      searchFilterService.validateSearchTerm.and.returnValue('SEARCH.ERRORS.EMPTY_QUERY');
+      component.onSearchSubmit('   ');
+      expect(searchExecutionService.execute).not.toHaveBeenCalled();
+    });
 
-    component.searchedWord = '';
-    fixture.detectChanges();
+    it('should set error when validation fails', () => {
+      searchFilterService.validateSearchTerm.and.returnValue('SEARCH.ERRORS.EMPTY_QUERY');
+      component.onSearchSubmit('');
+      expect(component.error).toBe('SEARCH.ERRORS.EMPTY_QUERY');
+    });
 
-    component.onSearchSubmit({ target: { value: '' } });
-    expect(store.dispatch).not.toHaveBeenCalled();
+    it('should clear error on valid submission', () => {
+      component.error = 'some error';
+      component.onSearchSubmit('valid term');
+      expect(component.error).toBe('');
+    });
+
+    it('should trim whitespace from search term', () => {
+      component.onSearchSubmit('  hello  ');
+      expect(component.searchedWord).toBe('hello');
+      expect(searchExecutionService.execute).toHaveBeenCalledWith('hello');
+    });
+  });
+
+  describe('onFiltersApplied', () => {
+    it('should execute search when searchedWord is set and valid', () => {
+      component.searchedWord = 'test';
+      component.onFiltersApplied();
+      expect(searchExecutionService.execute).toHaveBeenCalledWith('test');
+    });
+
+    it('should not execute search when searchedWord is empty', () => {
+      component.searchedWord = '';
+      component.onFiltersApplied();
+      expect(searchExecutionService.execute).not.toHaveBeenCalled();
+    });
+
+    it('should not execute search when searchedWord is null', () => {
+      component.searchedWord = null;
+      component.onFiltersApplied();
+      expect(searchExecutionService.execute).not.toHaveBeenCalled();
+    });
+
+    it('should not execute search when searchedWord is whitespace', () => {
+      component.searchedWord = '   ';
+      component.onFiltersApplied();
+      expect(searchExecutionService.execute).not.toHaveBeenCalled();
+    });
+
+    it('should set error when validation fails', () => {
+      component.searchedWord = 'test';
+      searchFilterService.validateSearchTerm.and.returnValue('SEARCH.ERRORS.SOME_ERROR');
+      component.onFiltersApplied();
+      expect(component.error).toBe('SEARCH.ERRORS.SOME_ERROR');
+      expect(searchExecutionService.execute).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('executeSearch', () => {
+    it('should reset has400LibraryError flag', () => {
+      component.has400LibraryError = true;
+      component.searchedWord = 'test';
+      component.executeSearch();
+      expect(component.has400LibraryError).toBeFalse();
+    });
+
+    it('should call searchExecutionService.execute with searchedWord', () => {
+      component.searchedWord = 'test query';
+      component.executeSearch();
+      expect(searchExecutionService.execute).toHaveBeenCalledWith('test query');
+    });
+  });
+
+  describe('exitSearch', () => {
+    it('should call searchNavigationService.navigateBack', () => {
+      component.exitSearch();
+      expect(searchNavigationService.navigateBack).toHaveBeenCalled();
+    });
+  });
+
+  describe('ngOnDestroy', () => {
+    it('should call removeContentFilters on destroy', () => {
+      component.ngOnDestroy();
+      expect(searchFilterService.removeContentFilters).toHaveBeenCalled();
+    });
+  });
+
+  describe('library400Error handling', () => {
+    it('should set has400LibraryError when library400Error emits', () => {
+      expect(component.has400LibraryError).toBeFalse();
+      library400ErrorSubject.next();
+      expect(component.has400LibraryError).toBeTrue();
+    });
+  });
+
+  describe('route params subscription', () => {
+    it('should update searchedWord from query params', () => {
+      queryParamsSubject.next({ q: 'encoded-query' });
+      expect(component.searchedWord).toBeTruthy();
+    });
+
+    it('should not update searchedWord when q param is missing', () => {
+      component.searchedWord = null;
+      queryParamsSubject.next({});
+      expect(component.searchedWord).toBeNull();
+    });
   });
 
   describe('queryBuilder configUpdated handling', () => {
-    it('should call searchByOption when searchedWord set and navigation has query params', () => {
-      spyOn(component, 'searchByOption').and.stub();
-
-      component.ngOnInit();
-
+    it('should execute search when searchedWord is set and navigation has query params', () => {
       component.searchedWord = 'term';
-
       routerEventsSubject.next(new NavigationStart(1, '/path?q=term'));
-      configUpdatedSubject.next({
-        id: 'config1'
-      });
+      configUpdatedSubject.next({ id: 'config1' } as SearchConfiguration);
 
-      expect(component.searchByOption).toHaveBeenCalled();
+      expect(searchExecutionService.execute).toHaveBeenCalledWith('term');
     });
 
-    it('should NOT call searchByOption when searchedWord set and navigation has NO query params', () => {
+    it('should NOT execute search when navigation has no query params', () => {
+      searchExecutionService.execute.calls.reset();
       component.searchedWord = 'term';
-
       routerEventsSubject.next(new NavigationStart(1, '/path'));
+      configUpdatedSubject.next({} as SearchConfiguration);
+      expect(searchExecutionService.execute).not.toHaveBeenCalled();
+    });
 
-      configUpdatedSubject.next({
-        id: 'config1'
-      });
-      spyOn(component, 'searchByOption').and.stub();
+    it('should NOT execute search when searchedWord is not set', () => {
+      searchExecutionService.execute.calls.reset();
+      component.searchedWord = null;
+      routerEventsSubject.next(new NavigationStart(1, '/path?q=term'));
+      configUpdatedSubject.next({} as SearchConfiguration);
+      expect(searchExecutionService.execute).not.toHaveBeenCalled();
+    });
+  });
 
-      component.ngOnInit();
+  describe('initSearchState', () => {
+    it('should reset has400LibraryError on init', () => {
+      component.has400LibraryError = true;
+      component['initSearchState']();
+      expect(component.has400LibraryError).toBeFalse();
+    });
 
-      expect(component.searchByOption).not.toHaveBeenCalled();
+    it('should call initForLibrariesRoute when on libraries search results', () => {
+      Object.defineProperty(searchNavigationService, 'onLibrariesSearchResults', { get: () => true });
+      component['initSearchState']();
+      expect(searchFilterService.initForLibrariesRoute).toHaveBeenCalled();
+    });
+  });
+
+  describe('error display', () => {
+    it('should show error message when error is set', () => {
+      component.error = 'SEARCH.ERRORS.EMPTY_QUERY';
+      fixture.detectChanges();
+      const errorEl = fixture.nativeElement.querySelector('.app-search-error');
+      expect(errorEl).toBeTruthy();
+    });
+
+    it('should not show error message when error is empty', () => {
+      component.error = '';
+      fixture.detectChanges();
+      const errorEl = fixture.nativeElement.querySelector('.app-search-error');
+      expect(errorEl).toBeFalsy();
     });
   });
 });
