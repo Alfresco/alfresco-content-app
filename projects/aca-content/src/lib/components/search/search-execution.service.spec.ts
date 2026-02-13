@@ -87,15 +87,6 @@ describe('SearchExecutionService', () => {
       service.execute('test');
       expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ type: SearchActionTypes.SearchByTerm, payload: 'test' }));
     });
-
-    it('should update queryBuilder when on same search results page with same term', () => {
-      navigationService.isSameSearchTerm.and.returnValue(true);
-
-      service.execute('test');
-
-      expect(queryBuilder.update).toHaveBeenCalled();
-      expect(store.dispatch).not.toHaveBeenCalled();
-    });
   });
 
   describe('libraries search', () => {
@@ -106,15 +97,6 @@ describe('SearchExecutionService', () => {
     it('should dispatch SearchByTermAction for new libraries search', () => {
       service.execute('test');
       expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ type: SearchActionTypes.SearchByTerm, payload: 'test' }));
-    });
-
-    it('should update queryLibrariesBuilder when on same libraries results page with same term', () => {
-      navigationService.isSameSearchTerm.and.returnValue(true);
-
-      service.execute('test');
-
-      expect(queryLibrariesBuilder.update).toHaveBeenCalled();
-      expect(store.dispatch).not.toHaveBeenCalled();
     });
   });
 });

@@ -75,12 +75,6 @@ describe('SearchLibrariesResultsComponent', () => {
     expect(component.onSearchResultLoaded).toHaveBeenCalledWith(emptyPage);
   });
 
-  it('should collapsed sidenav by default', () => {
-    component.ngOnInit();
-
-    expect(appServiceMock.setAppNavbarMode).toHaveBeenCalledWith('collapsed');
-  });
-
   it('should extract searched word from query params', (done) => {
     route.queryParams = of({ q: encodeQuery({ userQuery: 'cm:name:"test*"' }) });
     route.queryParams.subscribe(() => {

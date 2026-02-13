@@ -35,12 +35,11 @@ describe('SearchInMenuComponent', () => {
   let filterService: jasmine.SpyObj<SearchFilterService>;
 
   beforeEach(async () => {
-    filterService = jasmine.createSpyObj<SearchFilterService>('SearchFilterService', ['getSearchInLabel'], {
-      searchInMode: 'content',
-      filesChecked: true,
-      foldersChecked: true
-    });
+    filterService = jasmine.createSpyObj<SearchFilterService>('SearchFilterService', ['getSearchInLabel']);
     filterService.getSearchInLabel.and.returnValue('SEARCH.INPUT.FILES_AND_FOLDERS');
+    filterService.searchInMode = 'content';
+    filterService.filesChecked = true;
+    filterService.foldersChecked = true;
 
     await TestBed.configureTestingModule({
       imports: [SearchInMenuComponent, AppTestingModule, NoopAnimationsModule, TranslateModule.forRoot()],

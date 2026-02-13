@@ -61,8 +61,10 @@ describe('SearchInputComponent', () => {
     searchFilterService = jasmine.createSpyObj<SearchFilterService>('SearchFilterService', [
       'validateSearchTerm',
       'removeContentFilters',
-      'initForLibrariesRoute'
+      'initForLibrariesRoute',
+      'getSearchInLabel'
     ]);
+    searchFilterService.getSearchInLabel.and.returnValue('some-label');
     searchNavigationService = jasmine.createSpyObj<SearchNavigationService>('SearchNavigationService', ['navigateBack', 'getUrlSearchTerm'], {
       onLibrariesSearchResults: false
     });
@@ -231,7 +233,8 @@ describe('SearchInputComponent', () => {
 
   describe('route params subscription', () => {
     it('should update searchedWord from query params', () => {
-      queryParamsSubject.next({ q: 'encoded-query' });
+      const encodedQuery = btoa(JSON.stringify({ userQuery: '(cm:name:"hello*")' }));
+      queryParamsSubject.next({ q: encodedQuery });
       expect(component.searchedWord).toBeTruthy();
     });
 
