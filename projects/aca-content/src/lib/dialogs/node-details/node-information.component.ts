@@ -71,7 +71,7 @@ export class NodeInformationComponent implements OnInit {
     this.nodeDetails.modified = this.node.modifiedAt;
     this.nodeDetails.icon = this.contentService.getNodeIcon(this.node);
     this.nodesService
-      .listParents(this.node.id, { where: `(isPrimary=false)`, include: ['path'] })
+      .listParents(this.node.id, { where: `(isPrimary=false and assocType='cm:contains')`, include: ['path'] })
       .pipe(
         take(1),
         catchError(() => of(null))

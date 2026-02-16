@@ -25,7 +25,11 @@
       <div class="aca-node-info-item-value" data-automation-id="node-info-location">
           <adf-icon value="folder" class="aca-node-icon" fontSet="material-icons"/>
           <div class="aca-node-info-location">
-            {{ nodeDetails.location }}
+            @if (nodeDetails.location) {
+              {{ nodeDetails.location }}
+            } @else {
+              {{ 'APP.BROWSE.SEARCH.UNKNOWN_LOCATION' | translate }}
+            }
           </div>
       </div>
     </div>

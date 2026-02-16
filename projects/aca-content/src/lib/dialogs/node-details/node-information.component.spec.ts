@@ -226,7 +226,13 @@ describe('NodeInformationComponent', () => {
 
     it('should call API to fetch secondary parent paths', () => {
       fixture.detectChanges();
-      expect(listParentsSpy).toHaveBeenCalledWith('mock-file-id', { where: '(isPrimary=false)', include: ['path'] });
+      expect(listParentsSpy).toHaveBeenCalledWith('mock-file-id', { where: `(isPrimary=false and assocType='cm:contains')`, include: ['path'] });
+    });
+
+    it('should display correct message when primary parent has no path', () => {
+      fixture.componentInstance.nodeDetails.location = undefined;
+      fixture.detectChanges();
+      expect(getNodeLocation()).toBe('APP.BROWSE.SEARCH.UNKNOWN_LOCATION');
     });
 
     it('should display secondary parent paths if there are any', () => {

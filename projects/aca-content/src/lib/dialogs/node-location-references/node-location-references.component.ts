@@ -47,7 +47,7 @@ export class NodeLocationReferencesComponent implements OnInit {
 
   ngOnInit(): void {
     this.nodesService
-      .listParents(this.node.id, { where: `(isPrimary=false)`, include: ['path'] })
+      .listParents(this.node.id, { where: `(isPrimary=false and assocType='cm:contains')`, include: ['path'] })
       .pipe(
         take(1),
         catchError(() => of({ list: { entries: [] } }))
