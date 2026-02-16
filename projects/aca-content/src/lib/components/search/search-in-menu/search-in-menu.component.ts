@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, EventEmitter, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -66,18 +66,14 @@ export class SearchInMenuComponent implements OnInit {
   filesChecked = true;
   foldersChecked = true;
 
+  readonly filterService = inject(SearchFilterService);
+
   private pendingSearchInMode: 'content' | 'libraries' = 'content';
   private pendingFilesChecked = true;
   private pendingFoldersChecked = true;
 
-  constructor(private readonly filterService: SearchFilterService) {}
-
   ngOnInit() {
     this.initializeSavedValues();
-  }
-
-  getSearchInLabel(): string {
-    return this.filterService.getSearchInLabel();
   }
 
   onSearchInModeChange() {

@@ -604,6 +604,7 @@
           "OPERATORS": "Search input cannot begin with, end with or contain only operators.",
           "IN_PREFIX": "In",
           "FILES_AND_FOLDERS": "Files and folders",
+          "RESET": "Reset",
           "SEARCH_IN": "Search in"
         },
         "SORT": {

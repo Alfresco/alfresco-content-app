@@ -25,6 +25,7 @@
 import { Injectable } from '@angular/core';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { SearchOptionIds, SearchOptionModel } from '@alfresco/aca-shared/store';
+import { isOperator } from '../../utils/aca-search-utils';
 
 @Injectable({ providedIn: 'root' })
 export class SearchFilterService {
@@ -91,22 +92,23 @@ export class SearchFilterService {
     if (!term) {
       return 'SEARCH.INPUT.REQUIRED';
     }
-
     if (/^\s+$/.test(term)) {
       return 'SEARCH.INPUT.WHITESPACE';
+    }
+
+    const words = term.trim().split(/\s+/);
+    if (isOperator(words[0]) || isOperator(words[words.length - 1])) {
+      return 'SEARCH.INPUT.OPERATORS';
     }
 
     if (/^[+\-|!(){}[\]^"~*?:\\/]/.test(term) || /[+\-|!(){}[\]^"~*?:\\/]$/.test(term)) {
       return 'SEARCH.INPUT.OPERATORS';
     }
-
     if (this.searchInMode === SearchOptionIds.Libraries && term.length < 2) {
       return 'SEARCH.INPUT.MIN_LENGTH';
     }
-
     return null;
   }
-
   syncSearchOptionsFromState() {
     const filesOption = this.searchOptions.find((opt) => opt.id === SearchOptionIds.Files);
     const foldersOption = this.searchOptions.find((opt) => opt.id === SearchOptionIds.Folders);

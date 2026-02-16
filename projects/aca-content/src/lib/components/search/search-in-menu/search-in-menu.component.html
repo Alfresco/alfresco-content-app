@@ -6,7 +6,7 @@
   [title]="'SEARCH.INPUT.SEARCH_IN' | translate"
   [attr.aria-label]="'SEARCH.INPUT.SEARCH_IN' | translate"
 >
-  {{ 'SEARCH.INPUT.IN_PREFIX' | translate }}: {{ getSearchInLabel() | translate }}
+  {{ 'SEARCH.INPUT.IN_PREFIX' | translate }}: {{ filterService.getSearchInLabel() | translate }}
   <mat-icon iconPositionEnd>keyboard_arrow_down</mat-icon>
 </button>
 
@@ -21,7 +21,7 @@
   >
     <div class="aca-search-in-panel__header">
       <span class="aca-search-in-panel__title">{{ 'SEARCH.INPUT.SEARCH_IN' | translate }}</span>
-      <button mat-icon-button (click)="close()" [attr.aria-label]="'COMMON.CLOSE' | translate">
+      <button mat-icon-button (click)="close()" [title]="'COMMON.CLOSE' | translate" [attr.aria-label]="'COMMON.CLOSE' | translate">
         <mat-icon>close</mat-icon>
       </button>
     </div>
@@ -32,22 +32,24 @@
           {{ 'SEARCH.INPUT.FILES_AND_FOLDERS' | translate }}
         </mat-radio-button>
 
-        <div class="aca-search-in-panel__checkboxes" *ngIf="searchInMode === 'content'">
-          <mat-checkbox
-            [id]="SearchOptionIds.Files"
-            [(ngModel)]="filesChecked"
-            (change)="onContentFilterChange()"
-          >
-            {{ 'SEARCH.INPUT.FILES' | translate }}
-          </mat-checkbox>
-          <mat-checkbox
-            [id]="SearchOptionIds.Folders"
-            [(ngModel)]="foldersChecked"
-            (change)="onContentFilterChange()"
-          >
-            {{ 'SEARCH.INPUT.FOLDERS' | translate }}
-          </mat-checkbox>
-        </div>
+        @if (searchInMode === 'content') {
+          <div class="aca-search-in-panel__checkboxes">
+            <mat-checkbox
+              [id]="SearchOptionIds.Files"
+              [(ngModel)]="filesChecked"
+              (change)="onContentFilterChange()"
+            >
+              {{ 'SEARCH.INPUT.FILES' | translate }}
+            </mat-checkbox>
+            <mat-checkbox
+              [id]="SearchOptionIds.Folders"
+              [(ngModel)]="foldersChecked"
+              (change)="onContentFilterChange()"
+            >
+              {{ 'SEARCH.INPUT.FOLDERS' | translate }}
+            </mat-checkbox>
+          </div>
+        }
 
         <mat-radio-button [value]="SearchOptionIds.Libraries" class="aca-search-in-panel__radio">
           {{ 'SEARCH.INPUT.LIBRARIES' | translate }}
@@ -58,7 +60,7 @@
     <mat-divider />
 
     <div class="aca-search-in-panel__actions">
-      <button mat-button (click)="reset()">{{ 'SEARCH.FILTER.BUTTONS.RESET-ALL.LABEL' | translate }}</button>
+      <button mat-button (click)="reset()">{{ 'SEARCH.INPUT.RESET' | translate }}</button>
       <button mat-flat-button color="primary" (click)="apply()">{{ 'SEARCH.FILTER.BUTTONS.APPLY' | translate }}</button>
     </div>
   </fieldset>

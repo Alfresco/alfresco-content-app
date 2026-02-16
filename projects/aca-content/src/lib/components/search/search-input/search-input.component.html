@@ -37,7 +37,9 @@
     </div>
   </mat-form-field>
 
-  <mat-error *ngIf="error" class="app-search-error" role="alert" aria-live="assertive">
-    {{ error | translate }}
-  </mat-error>
+  @if (error) {
+    <mat-error class="app-search-error" role="alert" aria-live="assertive">
+      {{ error | translate }}
+    </mat-error>
+  }
 </div>

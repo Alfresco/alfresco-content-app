@@ -33,6 +33,7 @@ import { SearchNavigationService } from '../search-navigation.service';
 import { SearchFilterService } from '../search-filter.service';
 import { SearchExecutionService } from '../search-execution.service';
 import { AppHookService } from '@alfresco/aca-shared';
+import { UnitTestingUtils } from '@alfresco/adf-core';
 
 describe('SearchInputComponent', () => {
   let fixture: ComponentFixture<SearchInputComponent>;
@@ -41,13 +42,12 @@ describe('SearchInputComponent', () => {
   let searchExecutionService: jasmine.SpyObj<SearchExecutionService>;
   let searchFilterService: jasmine.SpyObj<SearchFilterService>;
   let searchNavigationService: jasmine.SpyObj<SearchNavigationService>;
+  let testingUtils: UnitTestingUtils;
 
   const routerEventsSubject = new Subject<any>();
   const configUpdatedSubject = new Subject<SearchConfiguration>();
   const queryParamsSubject = new Subject<any>();
   const library400ErrorSubject = new Subject<void>();
-
-  const getSearchInput = (): HTMLInputElement => fixture.nativeElement.querySelector('.app-search-input');
 
   beforeEach(async () => {
     const queryBuilderSpy = {
@@ -99,27 +99,28 @@ describe('SearchInputComponent', () => {
 
     fixture = TestBed.createComponent(SearchInputComponent);
     component = fixture.componentInstance;
+    testingUtils = new UnitTestingUtils(fixture.debugElement);
     fixture.detectChanges();
   });
 
   it('should render a directly editable search input', () => {
-    const input = getSearchInput();
+    const input = testingUtils.getInputByCSS('.app-search-input');
     expect(input).toBeTruthy();
     expect(input.readOnly).toBeFalse();
   });
 
   it('should render the search-in menu component', () => {
-    const searchInMenu = fixture.nativeElement.querySelector('aca-search-in-menu');
+    const searchInMenu = testingUtils.getByCSS('aca-search-in-menu');
     expect(searchInMenu).toBeTruthy();
   });
 
   it('should render the close button', () => {
-    const closeButton = fixture.nativeElement.querySelector('.aca-search-input--close-button');
+    const closeButton = testingUtils.getByCSS('.aca-search-input--close-button');
     expect(closeButton).toBeTruthy();
   });
 
   it('should render the search button', () => {
-    const searchButton = fixture.nativeElement.querySelector('.aca-search-input--search-button');
+    const searchButton = testingUtils.getByCSS('.aca-search-input--search-button');
     expect(searchButton).toBeTruthy();
   });
 
@@ -289,14 +290,14 @@ describe('SearchInputComponent', () => {
     it('should show error message when error is set', () => {
       component.error = 'SEARCH.ERRORS.EMPTY_QUERY';
       fixture.detectChanges();
-      const errorEl = fixture.nativeElement.querySelector('.app-search-error');
+      const errorEl = testingUtils.getByCSS('.app-search-error');
       expect(errorEl).toBeTruthy();
     });
 
     it('should not show error message when error is empty', () => {
       component.error = '';
       fixture.detectChanges();
-      const errorEl = fixture.nativeElement.querySelector('.app-search-error');
+      const errorEl = testingUtils.getByCSS('.app-search-error');
       expect(errorEl).toBeFalsy();
     });
   });
