@@ -57,12 +57,14 @@ runs:
         kubectl create secret generic regcred
         --from-file=.dockerconfigjson=$HOME/.docker/config.json
         --type=kubernetes.io/dockerconfigjson
+        --dry-run=client -o yaml | kubectl apply -f -
 
     - name: Add dependency chart repos
       shell: bash
       run: |
         helm repo add self https://alfresco.github.io/alfresco-helm-charts/
         helm repo add elastic https://helm.elastic.co/
+        helm repo update
 
     - name: Get latest ACS deployment version
       id: get-acs-version
@@ -91,9 +93,59 @@ runs:
       run: >-
         helm dep build acs-deployment/helm/alfresco-content-services &&
         helm install acs acs-deployment/helm/alfresco-content-services
+        --wait --timeout 15m
         --set global.search.sharedSecret="$(openssl rand -hex 24)"
         --values acs-deployment/test/enterprise-integration-test-values.yaml
         --values .github/acs-deployment-values-override.yaml
 
     - name: Wait for pods to be ready
       uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-wait@v12.1.0
+
+    - name: Wait for ACS endpoints and API readiness
+      shell: bash
+      run: |
+        set -euo pipefail
+
+        echo "Waiting for acs-alfresco-repository endpoints..."
+        end=$((SECONDS+900))
+        while [ $SECONDS -lt $end ]; do
+          ip=$(kubectl get endpoints acs-alfresco-repository -o jsonpath='{.subsets[0].addresses[0].ip}' 2>/dev/null || true)
+          if [ -n "$ip" ]; then
+            echo "Repository endpoint is ready: $ip"
+            break
+          fi
+          sleep 10
+        done
+
+        if [ -z "${ip:-}" ]; then
+          echo "Repository endpoint did not become ready in time."
+          kubectl get endpoints acs-alfresco-repository -o yaml
+          exit 1
+        fi
+
+        echo "Waiting for ACS discovery API..."
+        end=$((SECONDS+600))
+        while [ $SECONDS -lt $end ]; do
+          if curl -fsS "http://localhost/alfresco/api/discovery" >/dev/null; then
+            echo "Discovery API is ready."
+            break
+          fi
+          sleep 5
+        done
+
+        echo "Waiting for ACS search API..."
+        end=$((SECONDS+600))
+        while [ $SECONDS -lt $end ]; do
+          if curl -fsS -u admin:admin \
+            -H "Content-Type: application/json" \
+            -d '{"query":{"query":"*"}}' \
+            "http://localhost/alfresco/api/-default-/public/search/versions/1/search" \
+            >/dev/null; then
+            echo "Search API is ready."
+            exit 0
+          fi
+          sleep 5
+        done
+
+        echo "Search API did not become ready in time."
+        exit 1
