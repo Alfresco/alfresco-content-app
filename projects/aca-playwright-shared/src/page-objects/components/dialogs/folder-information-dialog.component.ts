@@ -45,6 +45,6 @@ export class FolderInformationDialogComponent extends BaseComponent {
     if (!textContent) {
       throw new Error('Folder size text content is null or undefined');
     }
-    return parseInt(textContent.split(' ')[0].replace(/,/g, ''), 10);
+    return parseFloat(textContent.trim().split(/\s+/)[0].replace(/,/g, ''));
   }
 }
