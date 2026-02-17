@@ -73,12 +73,40 @@ describe('SearchInMenuComponent', () => {
     expect(component.foldersChecked).toBeTrue();
   });
 
-  it('should reset both checkboxes to true if both unchecked', () => {
+  it('should check folders when unchecking files and both would be unchecked', () => {
+    component.filesChecked = false;
+    component.foldersChecked = true;
+    component.onFilesCheckedChange();
+    expect(component.foldersChecked).toBeTrue();
+
+    component.foldersChecked = false;
+    component.filesChecked = false;
+    component.onFilesCheckedChange();
+    expect(component.foldersChecked).toBeTrue();
+  });
+
+  it('should check files when unchecking folders and both would be unchecked', () => {
+    component.foldersChecked = false;
+    component.filesChecked = true;
+    component.onFoldersCheckedChange();
+    expect(component.filesChecked).toBeTrue();
+
     component.filesChecked = false;
     component.foldersChecked = false;
-    component.onContentFilterChange();
+    component.onFoldersCheckedChange();
     expect(component.filesChecked).toBeTrue();
+  });
+
+  it('should not change other checkbox when at least one remains checked', () => {
+    component.filesChecked = false;
+    component.foldersChecked = true;
+    component.onFilesCheckedChange();
     expect(component.foldersChecked).toBeTrue();
+
+    component.filesChecked = true;
+    component.foldersChecked = false;
+    component.onFoldersCheckedChange();
+    expect(component.filesChecked).toBeTrue();
   });
 
   it('should commit state to service and emit on apply', () => {

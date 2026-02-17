@@ -46,14 +46,14 @@
                         <mat-checkbox
                                 [id]="SearchOptionIds.Files"
                                 [(ngModel)]="filesChecked"
-                                (change)="onContentFilterChange()"
+                                (change)="onFilesCheckedChange()"
                         >
                             {{ 'SEARCH.INPUT.FILES' | translate }}
                         </mat-checkbox>
                         <mat-checkbox
                                 [id]="SearchOptionIds.Folders"
                                 [(ngModel)]="foldersChecked"
-                                (change)="onContentFilterChange()"
+                                (change)="onFoldersCheckedChange()"
                         >
                             {{ 'SEARCH.INPUT.FOLDERS' | translate }}
                         </mat-checkbox>

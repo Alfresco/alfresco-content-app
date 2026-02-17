@@ -58,7 +58,9 @@ export class SearchInMenuComponent implements OnInit {
   readonly SearchOptionIds = SearchOptionIds;
 
   @Output() readonly filtersApplied = new EventEmitter<void>();
+
   @ViewChild('searchInPanel') searchInPanel: ElementRef;
+  @ViewChild('overlayOrigin', { read: ElementRef }) triggerButton: ElementRef;
 
   isOpen = false;
   searchInMode: 'content' | 'libraries' = 'content';
@@ -101,6 +103,7 @@ export class SearchInMenuComponent implements OnInit {
     this.foldersChecked = this.pendingFoldersChecked;
     this.destroyFocusTrap();
     this.isOpen = false;
+    this.focusTrigger();
   }
 
   onPanelDetached() {
@@ -118,10 +121,15 @@ export class SearchInMenuComponent implements OnInit {
     }
   }
 
-  onContentFilterChange() {
+  onFilesCheckedChange() {
+    if (!this.filesChecked && !this.foldersChecked) {
+      this.foldersChecked = true;
+    }
+  }
+
+  onFoldersCheckedChange() {
     if (!this.filesChecked && !this.foldersChecked) {
       this.filesChecked = true;
-      this.foldersChecked = true;
     }
   }
 
@@ -132,6 +140,7 @@ export class SearchInMenuComponent implements OnInit {
     this.pendingFoldersChecked = this.foldersChecked;
     this.destroyFocusTrap();
     this.isOpen = false;
+    this.focusTrigger();
     this.filtersApplied.emit();
   }
 
@@ -161,5 +170,9 @@ export class SearchInMenuComponent implements OnInit {
     this.filterService.searchInMode = this.searchInMode;
     this.filterService.filesChecked = this.filesChecked;
     this.filterService.foldersChecked = this.foldersChecked;
+  }
+
+  private focusTrigger() {
+    setTimeout(() => this.triggerButton?.nativeElement?.focus());
   }
 }

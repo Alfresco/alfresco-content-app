@@ -26,7 +26,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { SearchInputComponent } from './search-input.component';
 import { Subject } from 'rxjs';
-import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { ActivatedRoute, Event, NavigationStart, Params, Router } from '@angular/router';
 import { SearchConfiguration, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SearchNavigationService } from '../search-navigation.service';
@@ -44,9 +44,9 @@ describe('SearchInputComponent', () => {
   let searchNavigationService: jasmine.SpyObj<SearchNavigationService>;
   let testingUtils: UnitTestingUtils;
 
-  const routerEventsSubject = new Subject<any>();
+  const routerEventsSubject = new Subject<Event>();
   const configUpdatedSubject = new Subject<SearchConfiguration>();
-  const queryParamsSubject = new Subject<any>();
+  const queryParamsSubject = new Subject<Params>();
   const library400ErrorSubject = new Subject<void>();
 
   beforeEach(async () => {
