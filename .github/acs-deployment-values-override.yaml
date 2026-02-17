@@ -24,3 +24,9 @@ global:
     - name: regcred
   alfrescoRegistryPullSecrets: regcred
   known_urls: http://localhost
+elasticsearch:
+  elasticsearch:
+    resources:
+      limits:
+        cpu: "2"
+        memory: "1.5Gi"
