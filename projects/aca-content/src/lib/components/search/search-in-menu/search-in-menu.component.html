@@ -1,66 +1,76 @@
 <button
-  mat-stroked-button
-  class="aca-search-input--search-in-button"
-  [matMenuTriggerFor]="searchInMenu"
-  #searchInTrigger="matMenuTrigger"
-  (menuOpened)="onMenuOpened()"
-  [title]="'SEARCH.INPUT.SEARCH_IN' | translate"
-  [attr.aria-label]="'SEARCH.INPUT.SEARCH_IN' | translate"
+        mat-stroked-button
+        class="aca-search-input--search-in-button"
+        cdkOverlayOrigin
+        #overlayOrigin="cdkOverlayOrigin"
+        (click)="toggle()"
+        [title]="'SEARCH.INPUT.SEARCH_IN' | translate"
+        [attr.aria-label]="'SEARCH.INPUT.SEARCH_IN' | translate"
+        [attr.aria-expanded]="isOpen"
+        aria-haspopup="dialog"
 >
-  {{ 'SEARCH.INPUT.IN_PREFIX' | translate }}: {{ filterService.getSearchInLabel() | translate }}
-  <mat-icon iconPositionEnd>keyboard_arrow_down</mat-icon>
+    {{ 'SEARCH.INPUT.IN_PREFIX' | translate }}: {{ filterService.getSearchInLabel() | translate }}
+    <mat-icon iconPositionEnd>keyboard_arrow_down</mat-icon>
 </button>
 
-<mat-menu #searchInMenu="matMenu" class="aca-search-in-menu" (closed)="onMenuClosed()">
+<ng-template
+        cdkConnectedOverlay
+        [cdkConnectedOverlayOrigin]="overlayOrigin"
+        [cdkConnectedOverlayOpen]="isOpen"
+        [cdkConnectedOverlayHasBackdrop]="true"
+        cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+        (backdropClick)="close()"
+        (detach)="onPanelDetached()">
     <fieldset
         #searchInPanel
         class="aca-search-in-panel"
-        role="presentation"
-        (click)="$event.stopPropagation()"
-        (keydown.tab)="$event.stopPropagation()">
-    <div class="aca-search-in-panel__header">
-      <span class="aca-search-in-panel__title">{{ 'SEARCH.INPUT.SEARCH_IN' | translate }}</span>
-      <button mat-icon-button (click)="close()" [title]="'COMMON.CLOSE' | translate" [attr.aria-label]="'COMMON.CLOSE' | translate">
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
+        role="group"
+        [attr.aria-label]="'SEARCH.INPUT.SEARCH_IN' | translate"
+        (keydown.escape)="close()"
+        (click)="$event.stopPropagation()">
+        <div class="aca-search-in-panel__header">
+            <span class="aca-search-in-panel__title" id="searchInTitle">{{ 'SEARCH.INPUT.SEARCH_IN' | translate }}</span>
+            <button mat-icon-button (click)="close()" [title]="'COMMON.CLOSE' | translate" [attr.aria-label]="'COMMON.CLOSE' | translate">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
 
-    <div class="aca-search-in-panel__content">
-      <mat-radio-group [(ngModel)]="searchInMode" (change)="onSearchInModeChange()">
-        <mat-radio-button value="content" class="aca-search-in-panel__radio">
-          {{ 'SEARCH.INPUT.FILES_AND_FOLDERS' | translate }}
-        </mat-radio-button>
+        <div class="aca-search-in-panel__content">
+            <mat-radio-group [(ngModel)]="searchInMode" (change)="onSearchInModeChange()">
+                <mat-radio-button value="content" class="aca-search-in-panel__radio">
+                    {{ 'SEARCH.INPUT.FILES_AND_FOLDERS' | translate }}
+                </mat-radio-button>
 
-        @if (searchInMode === 'content') {
-          <div class="aca-search-in-panel__checkboxes">
-            <mat-checkbox
-              [id]="SearchOptionIds.Files"
-              [(ngModel)]="filesChecked"
-              (change)="onContentFilterChange()"
-            >
-              {{ 'SEARCH.INPUT.FILES' | translate }}
-            </mat-checkbox>
-            <mat-checkbox
-              [id]="SearchOptionIds.Folders"
-              [(ngModel)]="foldersChecked"
-              (change)="onContentFilterChange()"
-            >
-              {{ 'SEARCH.INPUT.FOLDERS' | translate }}
-            </mat-checkbox>
-          </div>
-        }
+                @if (searchInMode === 'content') {
+                    <div class="aca-search-in-panel__checkboxes">
+                        <mat-checkbox
+                                [id]="SearchOptionIds.Files"
+                                [(ngModel)]="filesChecked"
+                                (change)="onContentFilterChange()"
+                        >
+                            {{ 'SEARCH.INPUT.FILES' | translate }}
+                        </mat-checkbox>
+                        <mat-checkbox
+                                [id]="SearchOptionIds.Folders"
+                                [(ngModel)]="foldersChecked"
+                                (change)="onContentFilterChange()"
+                        >
+                            {{ 'SEARCH.INPUT.FOLDERS' | translate }}
+                        </mat-checkbox>
+                    </div>
+                }
 
-        <mat-radio-button [value]="SearchOptionIds.Libraries" class="aca-search-in-panel__radio">
-          {{ 'SEARCH.INPUT.LIBRARIES' | translate }}
-        </mat-radio-button>
-      </mat-radio-group>
-    </div>
+                <mat-radio-button [value]="SearchOptionIds.Libraries" class="aca-search-in-panel__radio">
+                    {{ 'SEARCH.INPUT.LIBRARIES' | translate }}
+                </mat-radio-button>
+            </mat-radio-group>
+        </div>
 
-    <mat-divider />
+        <mat-divider />
 
-    <div class="aca-search-in-panel__actions">
-      <button mat-button (click)="reset()">{{ 'SEARCH.INPUT.RESET' | translate }}</button>
-      <button mat-flat-button color="primary" (click)="apply()">{{ 'SEARCH.FILTER.BUTTONS.APPLY' | translate }}</button>
-    </div>
+        <div class="aca-search-in-panel__actions">
+            <button mat-button (click)="reset()">{{ 'SEARCH.INPUT.RESET' | translate }}</button>
+            <button mat-flat-button color="primary" (click)="apply()">{{ 'SEARCH.FILTER.BUTTONS.APPLY' | translate }}</button>
+        </div>
     </fieldset>
-</mat-menu>
+</ng-template>

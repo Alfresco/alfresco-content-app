@@ -26,7 +26,7 @@ import { Component, ElementRef, EventEmitter, inject, OnInit, Output, ViewChild,
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
-import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
+import { OverlayModule } from '@angular/cdk/overlay';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -43,7 +43,7 @@ import { ConfigurableFocusTrap, ConfigurableFocusTrapFactory } from '@angular/cd
     CommonModule,
     FormsModule,
     TranslatePipe,
-    MatMenuModule,
+    OverlayModule,
     MatButtonModule,
     MatIconModule,
     MatCheckboxModule,
@@ -57,14 +57,10 @@ import { ConfigurableFocusTrap, ConfigurableFocusTrapFactory } from '@angular/cd
 export class SearchInMenuComponent implements OnInit {
   readonly SearchOptionIds = SearchOptionIds;
 
-  /** Emitted when user clicks "Apply" and filters should trigger a new search. */
   @Output() readonly filtersApplied = new EventEmitter<void>();
-
-  @ViewChild('searchInTrigger')
-  menuTrigger: MatMenuTrigger;
-
   @ViewChild('searchInPanel') searchInPanel: ElementRef;
 
+  isOpen = false;
   searchInMode: 'content' | 'libraries' = 'content';
   filesChecked = true;
   foldersChecked = true;
@@ -81,18 +77,35 @@ export class SearchInMenuComponent implements OnInit {
     this.initializeSavedValues();
   }
 
-  onMenuOpened() {
-    if (this.searchInPanel && !this.focusTrap) {
-      this.focusTrap = this.focusTrapFactory.create(this.searchInPanel.nativeElement);
-      this.focusTrap.focusInitialElement();
+  toggle(): void {
+    if (this.isOpen) {
+      this.close();
+    } else {
+      this.open();
     }
   }
 
-  onMenuClosed() {
-    if (this.focusTrap) {
-      this.focusTrap.destroy();
-      this.focusTrap = null;
-    }
+  open() {
+    this.isOpen = true;
+    setTimeout(() => {
+      if (this.searchInPanel) {
+        this.focusTrap = this.focusTrapFactory.create(this.searchInPanel.nativeElement);
+        this.focusTrap.focusInitialElement();
+      }
+    });
+  }
+
+  close() {
+    this.searchInMode = this.pendingSearchInMode;
+    this.filesChecked = this.pendingFilesChecked;
+    this.foldersChecked = this.pendingFoldersChecked;
+    this.destroyFocusTrap();
+    this.isOpen = false;
+  }
+
+  onPanelDetached() {
+    this.destroyFocusTrap();
+    this.isOpen = false;
   }
 
   onSearchInModeChange() {
@@ -117,7 +130,8 @@ export class SearchInMenuComponent implements OnInit {
     this.pendingSearchInMode = this.searchInMode;
     this.pendingFilesChecked = this.filesChecked;
     this.pendingFoldersChecked = this.foldersChecked;
-    this.menuTrigger?.closeMenu();
+    this.destroyFocusTrap();
+    this.isOpen = false;
     this.filtersApplied.emit();
   }
 
@@ -127,11 +141,11 @@ export class SearchInMenuComponent implements OnInit {
     this.foldersChecked = true;
   }
 
-  close() {
-    this.searchInMode = this.pendingSearchInMode;
-    this.filesChecked = this.pendingFilesChecked;
-    this.foldersChecked = this.pendingFoldersChecked;
-    this.menuTrigger?.closeMenu();
+  private destroyFocusTrap() {
+    if (this.focusTrap) {
+      this.focusTrap.destroy();
+      this.focusTrap = null;
+    }
   }
 
   private initializeSavedValues() {

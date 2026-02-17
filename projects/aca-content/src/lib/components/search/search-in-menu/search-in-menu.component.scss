@@ -23,13 +23,13 @@ aca-search-in-menu {
   }
 }
 
-.aca-search-in-menu {
-  min-width: 512px;
-}
-
 .aca-search-in-panel {
   padding: 0;
   border: none;
+  background-color: white;
+  min-width: 512px;
+  box-shadow: 0 2px 4px var(--theme-grey-divider-color);
+  border-radius: 12px;
 
   &__header {
     display: flex;
