@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, EventEmitter, inject, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, EventEmitter, inject, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -34,6 +34,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatDividerModule } from '@angular/material/divider';
 import { SearchOptionIds } from '@alfresco/aca-shared/store';
 import { SearchFilterService } from '../search-filter.service';
+import { ConfigurableFocusTrap, ConfigurableFocusTrapFactory } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'aca-search-in-menu',
@@ -62,18 +63,36 @@ export class SearchInMenuComponent implements OnInit {
   @ViewChild('searchInTrigger')
   menuTrigger: MatMenuTrigger;
 
+  @ViewChild('searchInPanel') searchInPanel: ElementRef;
+
   searchInMode: 'content' | 'libraries' = 'content';
   filesChecked = true;
   foldersChecked = true;
 
   readonly filterService = inject(SearchFilterService);
+  private readonly focusTrapFactory = inject(ConfigurableFocusTrapFactory);
 
+  private focusTrap: ConfigurableFocusTrap;
   private pendingSearchInMode: 'content' | 'libraries' = 'content';
   private pendingFilesChecked = true;
   private pendingFoldersChecked = true;
 
   ngOnInit() {
     this.initializeSavedValues();
+  }
+
+  onMenuOpened() {
+    if (this.searchInPanel && !this.focusTrap) {
+      this.focusTrap = this.focusTrapFactory.create(this.searchInPanel.nativeElement);
+      this.focusTrap.focusInitialElement();
+    }
+  }
+
+  onMenuClosed() {
+    if (this.focusTrap) {
+      this.focusTrap.destroy();
+      this.focusTrap = null;
+    }
   }
 
   onSearchInModeChange() {

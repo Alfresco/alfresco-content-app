@@ -3,6 +3,7 @@
   class="aca-search-input--search-in-button"
   [matMenuTriggerFor]="searchInMenu"
   #searchInTrigger="matMenuTrigger"
+  (menuOpened)="onMenuOpened()"
   [title]="'SEARCH.INPUT.SEARCH_IN' | translate"
   [attr.aria-label]="'SEARCH.INPUT.SEARCH_IN' | translate"
 >
@@ -10,15 +11,13 @@
   <mat-icon iconPositionEnd>keyboard_arrow_down</mat-icon>
 </button>
 
-<mat-menu #searchInMenu="matMenu" class="aca-search-in-menu">
-  <fieldset
-    class="aca-search-in-panel"
-    role="group"
-    tabindex="-1"
-    [attr.aria-label]="'SEARCH.INPUT.SEARCH_IN' | translate"
-    (click)="$event.stopPropagation()"
-    (keydown)="$event.stopPropagation()"
-  >
+<mat-menu #searchInMenu="matMenu" class="aca-search-in-menu" (closed)="onMenuClosed()">
+    <fieldset
+        #searchInPanel
+        class="aca-search-in-panel"
+        role="presentation"
+        (click)="$event.stopPropagation()"
+        (keydown.tab)="$event.stopPropagation()">
     <div class="aca-search-in-panel__header">
       <span class="aca-search-in-panel__title">{{ 'SEARCH.INPUT.SEARCH_IN' | translate }}</span>
       <button mat-icon-button (click)="close()" [title]="'COMMON.CLOSE' | translate" [attr.aria-label]="'COMMON.CLOSE' | translate">
@@ -63,5 +62,5 @@
       <button mat-button (click)="reset()">{{ 'SEARCH.INPUT.RESET' | translate }}</button>
       <button mat-flat-button color="primary" (click)="apply()">{{ 'SEARCH.FILTER.BUTTONS.APPLY' | translate }}</button>
     </div>
-  </fieldset>
+    </fieldset>
 </mat-menu>
