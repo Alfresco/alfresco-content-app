@@ -247,6 +247,12 @@ jobs:
         run: |
             kubectl logs -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx --tail=-1
 
+      - name: Spit cluster status after integration tests
+        if: always()
+        run: |
+          kubectl get all --all-namespaces
+          kubectl describe pod
+
   finalize:
     if: ${{ always() }}
     needs: [lint, build, unit-tests, e2es-playwright]
