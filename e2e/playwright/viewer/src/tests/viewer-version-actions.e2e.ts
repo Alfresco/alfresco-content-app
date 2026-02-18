@@ -194,9 +194,7 @@ test.describe('Version actions', () => {
   test.describe('on Search', () => {
     test.beforeEach(async ({ loginPage, searchPage }) => {
       await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
-      await searchPage.navigate();
-      await searchPage.clickSearchButton();
-      await searchPage.searchOverlay.searchFor(filenameAfterUpdate);
+      await searchPage.searchWithin(filenameAfterUpdate, 'files');
       await viewFirstFileVersion(searchPage);
     });
 

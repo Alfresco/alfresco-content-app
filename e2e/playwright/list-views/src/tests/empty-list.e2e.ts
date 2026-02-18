@@ -99,10 +99,7 @@ test.describe('Empty list views', () => {
   });
 
   test('[XAT-4590] Search Page - Pagination control is not displayed on empty page load', async ({ personalFiles, searchPage }) => {
-    await personalFiles.acaHeader.searchButton.click();
-    await searchPage.clickSearchButton();
-    await searchPage.searchOverlay.checkFilesAndFolders();
-    await searchPage.searchOverlay.searchFor('InvalidText');
+    await searchPage.searchWithin('InvalidText', 'filesAndFolders');
     await searchPage.reload({ waitUntil: 'domcontentloaded' });
     await searchPage.dataTable.spinnerWaitForReload();
 

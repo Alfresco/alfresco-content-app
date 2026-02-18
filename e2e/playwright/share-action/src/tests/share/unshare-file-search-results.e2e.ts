@@ -114,10 +114,7 @@ test.describe('Unshare a file from Search Results', () => {
   });
 
   test('[XAT-5197] Unshare dialog UI', async ({ personalFiles, searchPage }) => {
-    await personalFiles.acaHeader.searchButton.click();
-    await searchPage.clickSearchButton();
-    await searchPage.searchOverlay.checkFilesAndFolders();
-    await searchPage.searchOverlay.searchFor(file1);
+    await searchPage.searchWithin(file1, 'filesAndFolders');
 
     await personalFiles.dataTable.selectItems(file1);
     await personalFiles.acaHeader.shareButton.click();
@@ -135,10 +132,7 @@ test.describe('Unshare a file from Search Results', () => {
   });
 
   test('[XAT-5198] Unshare a file', async ({ personalFiles, searchPage, nodesApiAction, page }) => {
-    await personalFiles.acaHeader.searchButton.click();
-    await searchPage.clickSearchButton();
-    await searchPage.searchOverlay.checkFilesAndFolders();
-    await searchPage.searchOverlay.searchFor(file2);
+    await searchPage.searchWithin(file2, 'filesAndFolders');
 
     await personalFiles.dataTable.selectItems(file2);
     await personalFiles.acaHeader.shareButton.click();
@@ -154,10 +148,7 @@ test.describe('Unshare a file from Search Results', () => {
   });
 
   test('[XAT-5199] Cancel the Unshare action', async ({ personalFiles, searchPage }) => {
-    await personalFiles.acaHeader.searchButton.click();
-    await searchPage.clickSearchButton();
-    await searchPage.searchOverlay.checkFilesAndFolders();
-    await searchPage.searchOverlay.searchFor(file3);
+    await searchPage.searchWithin(file3, 'filesAndFolders');
 
     await personalFiles.dataTable.selectItems(file3);
     await personalFiles.acaHeader.shareButton.click();
@@ -172,10 +163,7 @@ test.describe('Unshare a file from Search Results', () => {
   });
 
   test('[XAT-5200] Unshare a file from the context menu', async ({ personalFiles, searchPage, nodesApiAction, page }) => {
-    await personalFiles.acaHeader.searchButton.click();
-    await searchPage.clickSearchButton();
-    await searchPage.searchOverlay.checkFilesAndFolders();
-    await searchPage.searchOverlay.searchFor(file4);
+    await searchPage.searchWithin(file4, 'filesAndFolders');
 
     await personalFiles.dataTable.rightClickOnItem(file4);
     await personalFiles.matMenu.clickMenuItem('Shared Link Settings');
@@ -191,10 +179,7 @@ test.describe('Unshare a file from Search Results', () => {
   });
 
   test('[XAT-5227] Unshare a file as consumer - file shared by other user - Search Page', async ({ personalFiles, searchPage, nodesApiAction }) => {
-    await personalFiles.acaHeader.searchButton.click();
-    await searchPage.clickSearchButton();
-    await searchPage.searchOverlay.checkFilesAndFolders();
-    await searchPage.searchOverlay.searchFor(fileSite1);
+    await searchPage.searchWithin(fileSite1, 'filesAndFolders');
 
     await personalFiles.dataTable.selectItems(fileSite1);
     await personalFiles.acaHeader.shareButton.click();
@@ -211,10 +196,7 @@ test.describe('Unshare a file from Search Results', () => {
     nodesApiAction,
     page
   }) => {
-    await personalFiles.acaHeader.searchButton.click();
-    await searchPage.clickSearchButton();
-    await searchPage.searchOverlay.checkFilesAndFolders();
-    await searchPage.searchOverlay.searchFor(fileSite2);
+    await searchPage.searchWithin(fileSite2, 'filesAndFolders');
 
     await personalFiles.dataTable.selectItems(fileSite2);
     await personalFiles.acaHeader.shareButton.click();

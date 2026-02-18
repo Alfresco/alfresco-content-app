@@ -120,12 +120,8 @@ test.describe('Special permissions', () => {
       await expect(sharedPage.dataTable.getRowByName(sitePrivate)).toHaveCount(0);
     });
 
-    test('[XAT-17775] Search - File is not displayed if the user no longer has permissions on it', async ({ personalFiles, searchPage }) => {
-      await personalFiles.acaHeader.searchButton.click();
-      await searchPage.clickSearchButton();
-      await searchPage.searchOverlay.checkFilesAndFolders();
-      await searchPage.searchOverlay.searchFor(fileName);
-      await searchPage.dataTable.spinnerWaitForReload();
+    test('[XAT-17775] Search - File is not displayed if the user no longer has permissions on it', async ({ searchPage }) => {
+      await searchPage.searchWithin(fileName, 'filesAndFolders');
 
       expect(await searchPage.dataTable.getRowsCount(), 'Incorrect number of items').toBe(1);
 
@@ -204,14 +200,9 @@ test.describe('Special permissions', () => {
     });
 
     test(`[XAT-5612] Search Page - Location column is empty if the user doesn't have permissions on the file's parent folder`, async ({
-      personalFiles,
       searchPage
     }) => {
-      await personalFiles.acaHeader.searchButton.click();
-      await searchPage.clickSearchButton();
-      await searchPage.searchOverlay.checkFilesAndFolders();
-      await searchPage.searchOverlay.searchFor(fileName);
-      await searchPage.dataTable.spinnerWaitForReload();
+      await searchPage.searchWithin(fileName, 'filesAndFolders');
 
       expect(await searchPage.dataTable.getRowsCount(), 'Incorrect number of items').toBe(1);
       expect(await searchPage.dataTable.getItemLocationText(fileName)).toContain('You do not have permission to view the location of this document.');

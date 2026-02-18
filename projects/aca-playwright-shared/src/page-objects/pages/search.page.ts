@@ -29,7 +29,7 @@ import {
   MatMenuComponent,
   ViewerComponent,
   SearchInputComponent,
-  SearchOverlayComponent,
+  SearchInDialogComponent,
   SidenavComponent,
   SearchSortingPicker,
   SearchFilters,
@@ -59,8 +59,8 @@ export class SearchPage extends BasePage {
   public folderDialog = new AdfFolderDialogComponent(this.page);
   public dataTable = new DataTableComponent(this.page);
   public viewer = new ViewerComponent(this.page);
-  public searchInput = new SearchInputComponent(this.page);
-  public searchOverlay = new SearchOverlayComponent(this.page);
+  public searchInputComponent = new SearchInputComponent(this.page);
+  public searchInDialog = new SearchInDialogComponent(this.page);
   public searchSortingPicker = new SearchSortingPicker(this.page);
   public searchFilters = new SearchFilters(this.page);
   public searchFiltersTags = new SearchFiltersTags(this.page);
@@ -77,29 +77,33 @@ export class SearchPage extends BasePage {
   public searchMenuCard = new SearchMenuCard(this.page);
 
   async searchWithin(searchText: string, searchType?: SearchType): Promise<void> {
-    await this.acaHeader.searchButton.click();
-    await this.clickSearchButton();
+    if (!(await this.searchInputComponent.searchInput.isVisible())) {
+      await this.acaHeader.searchButton.click();
+    }
+    await this.searchInputComponent.searchInButton.click();
     switch (searchType) {
       case 'files':
-        await this.searchOverlay.checkOnlyFiles();
+        await this.searchInDialog.checkOnlyFiles();
         break;
       case 'folders':
-        await this.searchOverlay.checkOnlyFolders();
+        await this.searchInDialog.checkOnlyFolders();
         break;
       case 'filesAndFolders':
-        await this.searchOverlay.checkFilesAndFolders();
+        await this.searchInDialog.checkFilesAndFolders();
         break;
       case 'libraries':
-        await this.searchOverlay.checkLibraries();
+        await this.searchInDialog.checkLibraries();
         break;
       default:
         break;
     }
-    await this.searchOverlay.searchFor(searchText);
+    await this.searchInDialog.applyButton.click();
+    await this.clickSearchButton();
+    await this.searchInputComponent.searchFor(searchText);
     await this.dataTable.progressBarWaitForReload();
   }
 
   async clickSearchButton() {
-    await this.searchInput.searchButton.click({ force: true });
+    await this.searchInputComponent.searchButton.click({ force: true });
   }
 }

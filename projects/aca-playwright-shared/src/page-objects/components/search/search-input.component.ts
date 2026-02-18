@@ -28,8 +28,10 @@ import { timeouts } from '../../../utils';
 
 export class SearchInputComponent extends BaseComponent {
   private static rootElement = 'aca-page-layout';
+  public searchInput = this.getChild('aca-search-input input');
   public searchButton = this.page.locator('.aca-search-input--search-button');
   public searchCloseButton = this.page.locator('.aca-search-input--close-button');
+  public searchInButton = this.getChild('aca-search-in-menu button');
 
   /**
    * Method used in cases where user have possibility to navigate "inside" the element (it's clickable and has link attribute).
@@ -47,5 +49,10 @@ export class SearchInputComponent extends BaseComponent {
     await this.getCellLinkByName(name).waitFor({ state: 'visible', timeout: timeouts.medium });
     await this.getCellLinkByName(name).dblclick();
     await this.spinnerWaitForReload();
+  }
+
+  async searchFor(searchText: string): Promise<void> {
+    await this.searchInput.fill(searchText);
+    await this.searchButton.click();
   }
 }
