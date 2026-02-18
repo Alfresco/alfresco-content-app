@@ -26,14 +26,14 @@ import { Page } from '@playwright/test';
 import { BaseComponent } from '../base.component';
 
 export class SearchInDialogComponent extends BaseComponent {
-  private static rootElement = '.aca-search-in-panel';
+  private static readonly rootElement = '.aca-search-in-panel';
 
   public filesAndFoldersRadioButton = this.getChild('[type="radio"]').getByLabel('Files and Folders');
   public librariesRadioButton = this.getChild('[type="radio"]').getByLabel('Libraries');
   public filesCheckbox = this.getChild('.aca-search-in-panel__checkboxes').getByLabel('Files');
   public foldersCheckbox = this.getChild('.aca-search-in-panel__checkboxes').getByLabel('Folders');
   public applyButton = this.getChild('button', { hasText: 'Apply' });
-  private resetButton = this.getChild('button', { hasText: 'Reset' });
+  readonly resetButton = this.getChild('button', { hasText: 'Reset' });
 
   constructor(page: Page, rootElement = SearchInDialogComponent.rootElement) {
     super(page, rootElement);
