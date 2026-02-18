@@ -90,7 +90,9 @@ test.describe('Trash', () => {
     });
 
     test('[XAT-4475] Location column is empty if parent folder no longer exists', async ({ trashPage }) => {
-      expect(await trashPage.dataTable.getItemLocationText(fileDeleted)).toEqual('');
+      expect(await trashPage.dataTable.getItemLocationText(fileDeleted)).toContain(
+        'You do not have permission to view the location of this document.'
+      );
     });
 
     test(`[XAT-4470] Clicking on the location link redirects to parent folder - item in User's Home`, async ({ trashPage }) => {
