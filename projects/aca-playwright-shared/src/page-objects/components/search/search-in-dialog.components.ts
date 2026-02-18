@@ -28,8 +28,8 @@ import { BaseComponent } from '../base.component';
 export class SearchInDialogComponent extends BaseComponent {
   private static readonly rootElement = '.aca-search-in-panel';
 
-  public filesAndFoldersRadioButton = this.getChild('[type="radio"]').getByLabel('Files and Folders');
-  public librariesRadioButton = this.getChild('[type="radio"]').getByLabel('Libraries');
+  public filesAndFoldersRadioButton = this.getChild('.aca-search-in-panel__radio label').getByText('Files and folders');
+  public librariesRadioButton = this.getChild('.aca-search-in-panel__radio label').getByText('Libraries');
   public filesCheckbox = this.getChild('.aca-search-in-panel__checkboxes').getByLabel('Files');
   public foldersCheckbox = this.getChild('.aca-search-in-panel__checkboxes').getByLabel('Folders');
   public applyButton = this.getChild('button', { hasText: 'Apply' });

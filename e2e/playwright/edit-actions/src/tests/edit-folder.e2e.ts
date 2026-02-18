@@ -92,7 +92,7 @@ test.describe('Edit folder', () => {
       await personalFiles.editDialog.updateButton.click();
 
       await expect(personalFiles.editDialog.editDialog).toBeHidden();
-      expect(await personalFiles.dataTable.isItemPresent(folderNameEdited)).toBeTruthy();
+      expect(await personalFiles.dataTable.isItemPresent(folderNameEdited)).toBe(true);
       const description = await nodesApi.getNodeProperty(folderNameToEditId, 'cm:description');
       expect(description).toEqual(folderDescriptionEdited);
     });
@@ -159,7 +159,7 @@ test.describe('Edit folder', () => {
       await personalFiles.editDialog.updateButton.click();
 
       await expect(personalFiles.editDialog.editDialog).toBeHidden();
-      expect(await personalFiles.dataTable.isItemPresent(folderName)).toBeTruthy();
+      expect(await personalFiles.dataTable.isItemPresent(folderName)).toBe(true);
     });
   });
 });

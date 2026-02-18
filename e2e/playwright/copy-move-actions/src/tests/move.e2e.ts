@@ -80,9 +80,9 @@ test.describe('Move actions', () => {
     const msg = await personalFiles.snackBar.message.innerText();
     expect.soft(msg).toContain('Moved 1 item.');
     await personalFiles.snackBar.closeIcon.click();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeFalsy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(false);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
-    expect(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
+    expect(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
   });
 
   test('[XAT-4998] Move multiple items', async ({ personalFiles }) => {
@@ -91,11 +91,11 @@ test.describe('Move actions', () => {
     const msg = await personalFiles.snackBar.message.innerText();
     expect.soft(msg).toContain('Moved 2 items.');
     await personalFiles.snackBar.closeIcon.click();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeFalsy();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeFalsy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(false);
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(false);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
   });
 
   test('[XAT-4999] Move a file with a name that already exists on the destination', async ({ personalFiles }) => {
@@ -106,10 +106,10 @@ test.describe('Move actions', () => {
     const msg = await personalFiles.snackBar.message.innerText();
     expect.soft(msg).toContain('Move unsuccessful, a file with the same name already exists.');
     await personalFiles.snackBar.closeIcon.click();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
-    expect(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
-    expect(await personalFiles.dataTable.isItemPresent(expectedNameForCopiedFile)).toBeFalsy();
+    expect(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
+    expect(await personalFiles.dataTable.isItemPresent(expectedNameForCopiedFile)).toBe(false);
   });
 
   test('[XAT-5000] Move a folder with a name that already exists on the destination', async ({ personalFiles }) => {
@@ -121,12 +121,12 @@ test.describe('Move actions', () => {
     const msg = await personalFiles.snackBar.message.innerText();
     expect.soft(msg).toContain('Move unsuccessful, a file with the same name already exists.');
     await personalFiles.snackBar.closeIcon.click();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
-    expect(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
+    expect(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(sourceFolder);
-    expect(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolder)).toBeTruthy();
-    expect(await personalFiles.dataTable.isItemPresent(expectedNameForCopiedFile)).toBeFalsy();
+    expect(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolder)).toBe(true);
+    expect(await personalFiles.dataTable.isItemPresent(expectedNameForCopiedFile)).toBe(false);
   });
 
   test('[XAT-4989] Move locked file', async ({ personalFiles }) => {
@@ -137,9 +137,9 @@ test.describe('Move actions', () => {
     const msg = await personalFiles.snackBar.message.innerText();
     expect.soft(msg).toContain('Moved 1 item.');
     await personalFiles.snackBar.closeIcon.click();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeFalsy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(false);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
   });
 
   test('[XAT-4992] Undo move files', async ({ personalFiles, trashPage }) => {
@@ -147,11 +147,11 @@ test.describe('Move actions', () => {
     await moveContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     await personalFiles.snackBar.actionButton.click();
     await personalFiles.spinner.waitForReload();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeFalsy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(false);
     await trashPage.navigate();
-    expect(await trashPage.dataTable.isItemPresent(sourceFile)).toBeFalsy();
+    expect(await trashPage.dataTable.isItemPresent(sourceFile)).toBe(false);
   });
 
   test('[XAT-4993] Undo move folder', async ({ personalFiles, trashPage }) => {
@@ -159,11 +159,11 @@ test.describe('Move actions', () => {
     await moveContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
     await personalFiles.snackBar.actionButton.click();
     await personalFiles.spinner.waitForReload();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeFalsy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(false);
     await trashPage.navigate();
-    expect(await trashPage.dataTable.isItemPresent(sourceFolder)).toBeFalsy();
+    expect(await trashPage.dataTable.isItemPresent(sourceFolder)).toBe(false);
   });
 
   async function moveFolderWithContent(personalFiles: PersonalFilesPage, lockedFile: boolean) {
@@ -176,11 +176,11 @@ test.describe('Move actions', () => {
     const msg = await personalFiles.snackBar.message.innerText();
     expect.soft(msg).toContain('Moved 1 item.');
     await personalFiles.snackBar.closeIcon.click();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeFalsy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(false);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(sourceFolder);
-    expect(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolder)).toBeTruthy();
+    expect(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolder)).toBe(true);
   }
 
   [

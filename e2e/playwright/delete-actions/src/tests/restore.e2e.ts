@@ -88,25 +88,25 @@ test.describe('Restore from Trash', () => {
       await trashPage.snackBar.verifySnackBarActionText(`${nodeName} restored`);
       const action = await trashPage.snackBar.getSnackBarActionText();
       expect(action).toContain('View');
-      expect(await trashPage.dataTable.isItemPresent(nodeName)).toBeFalsy();
+      expect(await trashPage.dataTable.isItemPresent(nodeName)).toBe(false);
     }
 
     test('[XAT-5109] Restore file', async ({ trashPage, personalFiles }) => {
       await restoreNode(trashPage, file1);
       await personalFiles.navigate();
-      expect(await personalFiles.dataTable.isItemPresent(file1)).toBeTruthy();
+      expect(await personalFiles.dataTable.isItemPresent(file1)).toBe(true);
     });
 
     test('[XAT-5110] Restore folder', async ({ trashPage, personalFiles }) => {
       await restoreNode(trashPage, folder1);
       await personalFiles.navigate();
-      expect(await personalFiles.dataTable.isItemPresent(folder1)).toBeTruthy();
+      expect(await personalFiles.dataTable.isItemPresent(folder1)).toBe(true);
     });
 
     test('[XAT-5117] Restore library', async ({ trashPage, myLibrariesPage }) => {
       await restoreNode(trashPage, site1);
       await myLibrariesPage.navigate();
-      expect(await myLibrariesPage.dataTable.isItemPresent(site1)).toBeTruthy();
+      expect(await myLibrariesPage.dataTable.isItemPresent(site1)).toBe(true);
     });
 
     test('[XAT-5111] Restore multiple items', async ({ trashPage, personalFiles }) => {
@@ -115,11 +115,11 @@ test.describe('Restore from Trash', () => {
       await trashPage.snackBar.verifySnackBarActionText(`Restore successful`);
       const action = await trashPage.snackBar.getSnackBarActionText();
       expect(action).not.toContain('View');
-      expect(await trashPage.dataTable.isItemPresent(file2)).toBeFalsy();
-      expect(await trashPage.dataTable.isItemPresent(folder2)).toBeFalsy();
+      expect(await trashPage.dataTable.isItemPresent(file2)).toBe(false);
+      expect(await trashPage.dataTable.isItemPresent(folder2)).toBe(false);
       await personalFiles.navigate();
-      expect(await personalFiles.dataTable.isItemPresent(file2)).toBeTruthy();
-      expect(await personalFiles.dataTable.isItemPresent(folder2)).toBeTruthy();
+      expect(await personalFiles.dataTable.isItemPresent(file2)).toBe(true);
+      expect(await personalFiles.dataTable.isItemPresent(folder2)).toBe(true);
     });
 
     test('[XAT-5112] Restore file - View from notification', async ({ trashPage, personalFiles }) => {
@@ -127,7 +127,7 @@ test.describe('Restore from Trash', () => {
       await trashPage.acaHeader.restoreButton.click();
       await trashPage.snackBar.clickSnackBarAction();
       await trashPage.dataTable.spinnerWaitForReload();
-      expect(await trashPage.sidenav.isActive('Personal Files')).toBeTruthy();
+      expect(await trashPage.sidenav.isActive('Personal Files')).toBe(true);
       expect(personalFiles.page.url()).toContain(APP_ROUTES.PERSONAL_FILES);
     });
   });

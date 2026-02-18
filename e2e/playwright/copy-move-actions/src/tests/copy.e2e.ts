@@ -85,34 +85,34 @@ test.describe('Copy actions', () => {
   test('[XAT-4941] Copy a file', async ({ personalFiles }) => {
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
     await copyContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
     await personalFiles.spinner.waitForReload();
-    expect(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
+    expect(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
   });
 
   test('[XAT-4942] Copy a folder with content', async ({ personalFiles }) => {
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
     await copyContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
     await personalFiles.spinner.waitForReload();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(sourceFolder);
     await personalFiles.spinner.waitForReload();
-    expect(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolder)).toBeTruthy();
+    expect(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolder)).toBe(true);
   });
 
   test('[XAT-4943] Copy multiple items', async ({ personalFiles }) => {
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
     await copyContentInPersonalFiles(personalFiles, [sourceFolder, sourceFile], destinationFolder);
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
     await personalFiles.spinner.waitForReload();
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
-    expect(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
+    expect(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
   });
 
   test('[XAT-4944] Copy a file with a name that already exists on the destination', async ({ personalFiles }) => {
@@ -120,11 +120,11 @@ test.describe('Copy actions', () => {
     const expectedNameForCopiedFile = sourceFile.replace('.', '-1.');
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
     await copyContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
     await personalFiles.spinner.waitForReload();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
-    expect(await personalFiles.dataTable.isItemPresent(expectedNameForCopiedFile)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
+    expect(await personalFiles.dataTable.isItemPresent(expectedNameForCopiedFile)).toBe(true);
   });
 
   test('[XAT-4945] Copy a folder with a name that already exists on the destination', async ({ personalFiles }) => {
@@ -133,14 +133,14 @@ test.describe('Copy actions', () => {
     const expectedNameForCopiedFile = sourceFileInsideFolder.replace('.', '-1.');
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
     await copyContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
     await personalFiles.spinner.waitForReload();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(sourceFolder);
     await personalFiles.spinner.waitForReload();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolder)).toBeTruthy();
-    expect(await personalFiles.dataTable.isItemPresent(expectedNameForCopiedFile)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolder)).toBe(true);
+    expect(await personalFiles.dataTable.isItemPresent(expectedNameForCopiedFile)).toBe(true);
   });
 
   test('[XAT-4947] Copy locked file', async ({ personalFiles }) => {
@@ -148,10 +148,10 @@ test.describe('Copy actions', () => {
     await nodesApi.lockNodes([sourceFileId], lockType);
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
     await copyContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
     await personalFiles.spinner.waitForReload();
-    expect(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
+    expect(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
   });
 
   test('[XAT-4948] Copy folder that contains locked file', async ({ personalFiles }) => {
@@ -159,33 +159,33 @@ test.describe('Copy actions', () => {
     await nodesApi.lockNodes([sourceFileInsideFolderId], lockType);
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
     await copyContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
     await personalFiles.spinner.waitForReload();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(sourceFolder);
     await personalFiles.spinner.waitForReload();
-    expect(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolder)).toBeTruthy();
+    expect(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolder)).toBe(true);
   });
 
   test('[XAT-4949] Undo copy of files', async ({ personalFiles }) => {
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
     await copyContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     await personalFiles.snackBar.actionButton.click();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
     await personalFiles.spinner.waitForReload();
-    expect(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeFalsy();
+    expect(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(false);
   });
 
   test('[XAT-4950] Undo copy of folders', async ({ personalFiles }) => {
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
     await copyContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
     await personalFiles.snackBar.actionButton.click();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
     await personalFiles.spinner.waitForReload();
-    expect(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeFalsy();
+    expect(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(false);
   });
 
   test('[XAT-4951] Undo copy of a file when a file with same name already exists on the destination', async ({ personalFiles }) => {
@@ -194,11 +194,11 @@ test.describe('Copy actions', () => {
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
     await copyContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     await personalFiles.snackBar.actionButton.click();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
     await personalFiles.spinner.waitForReload();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
-    expect(await personalFiles.dataTable.isItemPresent(expectedNameForCopiedFile)).toBeFalsy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
+    expect(await personalFiles.dataTable.isItemPresent(expectedNameForCopiedFile)).toBe(false);
   });
 
   test('[XAT-4952] Undo copy of a folder when a folder with same name already exists on the destination', async ({ personalFiles }) => {
@@ -208,13 +208,13 @@ test.describe('Copy actions', () => {
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
     await copyContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
     await personalFiles.snackBar.actionButton.click();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
     await personalFiles.spinner.waitForReload();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(sourceFolder);
     await personalFiles.spinner.waitForReload();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolder)).toBeTruthy();
-    expect(await personalFiles.dataTable.isItemPresent(expectedNameForCopiedFile)).toBeFalsy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolder)).toBe(true);
+    expect(await personalFiles.dataTable.isItemPresent(expectedNameForCopiedFile)).toBe(false);
   });
 });

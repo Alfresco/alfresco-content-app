@@ -63,15 +63,15 @@ test.describe('Search Results - General', () => {
   test('[XAT-17734] Search with Folders options are checked', async ({ searchPage }) => {
     await searchPage.searchWithin(`*${random}`, 'filesAndFolders');
 
-    expect(await searchPage.dataTable.isItemPresent(file)).toBeTruthy();
-    expect(await searchPage.dataTable.isItemPresent(folder)).toBeTruthy();
-    expect(await searchPage.dataTable.isItemPresent(site)).toBeFalsy();
+    expect(await searchPage.dataTable.isItemPresent(file)).toBe(true);
+    expect(await searchPage.dataTable.isItemPresent(folder)).toBe(true);
+    expect(await searchPage.dataTable.isItemPresent(site)).toBe(false);
   });
 
   test('[XAT-17735] Search with an URL containing a search query', async ({ searchPage, personalFiles }) => {
     await searchPage.searchWithin(site, 'libraries');
 
-    expect(await searchPage.dataTable.isItemPresent(site)).toBeTruthy();
+    expect(await searchPage.dataTable.isItemPresent(site)).toBe(true);
 
     const url = searchPage.page.url();
 
@@ -79,6 +79,6 @@ test.describe('Search Results - General', () => {
     await personalFiles.page.goto(url);
     await searchPage.dataTable.progressBarWaitForReload();
 
-    expect(await searchPage.dataTable.isItemPresent(site)).toBeTruthy();
+    expect(await searchPage.dataTable.isItemPresent(site)).toBe(true);
   });
 });
