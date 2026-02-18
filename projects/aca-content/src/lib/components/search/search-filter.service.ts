@@ -76,7 +76,7 @@ export class SearchFilterService {
     if (this.searchInMode === SearchOptionIds.Libraries) {
       return 'SEARCH.INPUT.LIBRARIES';
     }
-    if ((this.filesChecked && this.foldersChecked) || (!this.filesChecked && !this.foldersChecked)) {
+    if (this.filesChecked === this.foldersChecked) {
       return 'SEARCH.INPUT.FILES_AND_FOLDERS';
     }
     if (this.filesChecked) {
