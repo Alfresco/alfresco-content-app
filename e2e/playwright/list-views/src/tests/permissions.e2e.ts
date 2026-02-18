@@ -181,7 +181,9 @@ test.describe('Special permissions', () => {
     }) => {
       await recentFilesPage.navigate();
       expect(await recentFilesPage.dataTable.isItemPresent(fileName)).toBe(true);
-      expect(await recentFilesPage.dataTable.getItemLocationText(fileName)).toEqual('Unknown');
+      expect(await recentFilesPage.dataTable.getItemLocationText(fileName)).toContain(
+        'You do not have permission to view the location of this document.'
+      );
     });
 
     test(`[XAT-4464] Favorites - Location column is empty if the user doesn't have permissions on the file's parent folder`, async ({
@@ -189,14 +191,16 @@ test.describe('Special permissions', () => {
     }) => {
       await favoritePage.navigate();
       expect(await favoritePage.dataTable.getRowsCount(), 'Incorrect number of items').toBe(1);
-      expect(await favoritePage.dataTable.getItemLocationText(fileName)).toEqual('Unknown');
+      expect(await favoritePage.dataTable.getItemLocationText(fileName)).toContain(
+        'You do not have permission to view the location of this document.'
+      );
     });
 
     test(`[XAT-4441] Shared Files - Location column is empty if the user doesn't have permissions on the file's parent folder`, async ({
       sharedPage
     }) => {
       await sharedPage.navigate();
-      expect(await sharedPage.dataTable.getItemLocationText(fileName)).toEqual('Unknown');
+      expect(await sharedPage.dataTable.getItemLocationText(fileName)).toContain('You do not have permission to view the location of this document.');
     });
 
     test(`[XAT-5612] Search Page - Location column is empty if the user doesn't have permissions on the file's parent folder`, async ({
@@ -210,7 +214,7 @@ test.describe('Special permissions', () => {
       await searchPage.dataTable.spinnerWaitForReload();
 
       expect(await searchPage.dataTable.getRowsCount(), 'Incorrect number of items').toBe(1);
-      expect(await searchPage.dataTable.getItemLocationText(fileName)).toEqual('Unknown');
+      expect(await searchPage.dataTable.getItemLocationText(fileName)).toContain('You do not have permission to view the location of this document.');
     });
   });
 });

@@ -253,7 +253,7 @@ export class DataTableComponent extends BaseComponent {
   }
 
   async getItemLocationText(name: string): Promise<string> {
-    await this.getItemLocationEl(name).locator('a').waitFor({ state: 'attached' });
+    await this.getItemLocationEl(name).waitFor({ state: 'attached' });
     return this.getItemLocationEl(name).innerText();
   }
 
