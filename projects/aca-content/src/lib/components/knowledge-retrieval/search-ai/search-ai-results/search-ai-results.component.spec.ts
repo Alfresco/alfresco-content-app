@@ -27,25 +27,18 @@ import { SearchAiResultsComponent } from './search-ai-results.component';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable, of, Subject, throwError } from 'rxjs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import {
-  ClipboardService,
-  EmptyContentComponent,
-  NotificationService,
-  UnitTestingUtils,
-  UnsavedChangesGuard,
-  UserPreferencesService
-} from '@alfresco/adf-core';
+import { ClipboardService, EmptyContentComponent, UnitTestingUtils, UnsavedChangesGuard, UserPreferencesService } from '@alfresco/adf-core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AppTestingModule } from '../../../../testing/app-testing.module';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
-import { AgentService, NodesApiService, SearchAiService } from '@alfresco/adf-content-services';
-import { By } from '@angular/platform-browser';
+import { AgentService, SearchAiService } from '@alfresco/adf-content-services';
 import { ModalAiService } from '../../../../services/modal-ai.service';
 import { delay } from 'rxjs/operators';
-import { AiAnswerEntry, Node, QuestionModel } from '@alfresco/js-api/typings';
+import { AiAnswerEntry, Node, QuestionModel, ResultSetPaging } from '@alfresco/js-api/typings';
 import { SearchAiInputComponent } from '../search-ai-input/search-ai-input.component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { getAppSelection, getCurrentFolder, ViewNodeAction } from '@alfresco/aca-shared/store';
+import { ContentApiService } from '@alfresco/aca-shared';
 import { ViewerService } from '@alfresco/aca-content/viewer';
 import { DebugElement } from '@angular/core';
 import { MarkdownComponent, MarkdownModule, MARKED_OPTIONS } from 'ngx-markdown';
@@ -75,9 +68,8 @@ describe('SearchAiResultsComponent', () => {
   let viewerService: ViewerService;
   let unsavedChangesGuard: UnsavedChangesGuard;
   let unitTestingUtils: UnitTestingUtils;
-  let nodesApiService: NodesApiService;
-  let notificationService: NotificationService;
   let clipboardService: ClipboardService;
+  let contentApiService: ContentApiService;
 
   afterEach(() => {
     store.resetSelectors();
@@ -114,9 +106,8 @@ describe('SearchAiResultsComponent', () => {
     userPreferencesService = TestBed.inject(UserPreferencesService);
     viewerService = TestBed.inject(ViewerService);
     unsavedChangesGuard = TestBed.inject(UnsavedChangesGuard);
-    nodesApiService = TestBed.inject(NodesApiService);
-    notificationService = TestBed.inject(NotificationService);
     clipboardService = TestBed.inject(ClipboardService);
+    contentApiService = TestBed.inject(ContentApiService);
     store = TestBed.inject(MockStore);
     store.overrideSelector(getAppSelection, {
       nodes: [],
@@ -133,7 +124,7 @@ describe('SearchAiResultsComponent', () => {
   });
 
   describe('query params change', () => {
-    const getEmptyContentElement = (): DebugElement => fixture.debugElement.query(By.directive(EmptyContentComponent));
+    const getEmptyContentElement = (): DebugElement => unitTestingUtils.getByDirective(EmptyContentComponent);
 
     it('should perform ai search and sets agents on query params change', () => {
       spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
@@ -294,7 +285,7 @@ describe('SearchAiResultsComponent', () => {
         mockQueryParams.next(params);
 
         fixture.detectChanges();
-        expect(fixture.debugElement.query(By.directive(SearchAiInputComponent))).toBeNull();
+        expect(unitTestingUtils.getByDirective(SearchAiInputComponent)).toBeNull();
       });
 
       it('should not render empty content', () => {
@@ -310,7 +301,7 @@ describe('SearchAiResultsComponent', () => {
         mockQueryParams.next(params);
 
         fixture.detectChanges();
-        expect(fixture.debugElement.query(By.css(`[data-automation-id="aca-search-ai-results-query"]`)).nativeElement.textContent.trim()).toBe('');
+        expect(unitTestingUtils.getByDataAutomationId('aca-search-ai-results-query').nativeElement.textContent.trim()).toBe('');
       });
 
       it('should not call searchAiService.ask', () => {
@@ -365,7 +356,7 @@ describe('SearchAiResultsComponent', () => {
 
       fixture.detectChanges();
 
-      fixture.debugElement.query(By.css(`[data-automation-id="aca-search-ai-results-regeneration-button"]`)).nativeElement.click();
+      unitTestingUtils.getByDataAutomationId('aca-search-ai-results-regeneration-button').nativeElement.click();
       expect(modalAiSpy).toHaveBeenCalledWith(jasmine.any(Function));
       expect(component.displayedAnswer).toEqual('Some answer');
     });
@@ -533,21 +524,30 @@ describe('SearchAiResultsComponent', () => {
   });
 
   describe('References', () => {
-    let documentElement: HTMLDivElement;
+    let documentElement: DebugElement;
 
     const nodeId = 'someId';
+    const secondNodeId = 'someId1';
     const url = 'some-url';
-    const node1 = of({ id: nodeId, isFolder: true } as Node).pipe(delay(50));
-    const node2 = of({ id: nodeId + '1', isFolder: false } as Node).pipe(delay(50));
-    const nodeError = throwError(() => 'error').pipe(delay(50));
 
-    const setupReferencesTest = (nodeResponses: Observable<Node>[] = [node1]) => {
-      spyOn(nodesApiService, 'getNode').and.returnValues(...nodeResponses);
+    const node1 = { id: nodeId, isFolder: true } as Node;
+    const node2 = { id: secondNodeId, isFolder: false } as Node;
+    const nodeError = throwError(() => 'error');
+
+    const toSearchResult = (nodes: Node[]) =>
+      of({
+        list: {
+          entries: nodes.map((node) => ({ entry: node }))
+        }
+      } as ResultSetPaging).pipe(delay(50));
+
+    const setupReferencesTest = (objectIds: string[] = [], searchResult: Observable<ResultSetPaging>[] = []) => {
+      spyOn(contentApiService, 'search').and.returnValues(...searchResult);
       spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
 
       const answer = getAiAnswerEntry();
-      answer.entry.objectReferences = nodeResponses.map((_, index) => ({
-        objectId: `${nodeId}${index}`,
+      answer.entry.objectReferences = objectIds.map((id) => ({
+        objectId: id,
         references: []
       }));
 
@@ -555,19 +555,20 @@ describe('SearchAiResultsComponent', () => {
         throwError(() => 'error'),
         of(answer)
       );
+
       mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
 
       tick(3051);
       fixture.detectChanges();
-      documentElement = fixture.debugElement.query(By.css(`[data-automation-id="aca-search-ai-results-${nodeId}-document"]`))?.nativeElement;
+      documentElement = unitTestingUtils.getByDataAutomationId(`aca-search-ai-results-${nodeId}-document`);
       spyOnProperty(TestBed.inject(Router), 'url').and.returnValue(url);
     };
 
     it('should dispatch ViewNodeAction on store when clicked', fakeAsync(() => {
       spyOn(store, 'dispatch');
-      setupReferencesTest();
+      setupReferencesTest([nodeId], [toSearchResult([node1])]);
 
-      documentElement.click();
+      documentElement.nativeElement.click();
       expect(store.dispatch).toHaveBeenCalledWith(
         jasmine.objectContaining({
           ...new ViewNodeAction(nodeId, {
@@ -579,9 +580,9 @@ describe('SearchAiResultsComponent', () => {
 
     it('should dispatch ViewNodeAction on store when pressed enter', fakeAsync(() => {
       spyOn(store, 'dispatch');
-      setupReferencesTest();
+      setupReferencesTest([nodeId], [toSearchResult([node1])]);
 
-      documentElement.dispatchEvent(
+      documentElement.nativeElement.dispatchEvent(
         new KeyboardEvent('keyup', {
           key: 'Enter'
         })
@@ -598,55 +599,84 @@ describe('SearchAiResultsComponent', () => {
     it('should assign nodes ids to customNodesOrder for ViewerService', fakeAsync(() => {
       let nodesOrder: string[];
       spyOnProperty(viewerService, 'customNodesOrder', 'set').and.callFake((passedNodesOrder) => (nodesOrder ??= passedNodesOrder));
-      setupReferencesTest();
+      setupReferencesTest([nodeId], [toSearchResult([node1])]);
 
       expect(nodesOrder).toEqual([nodeId]);
     }));
 
     it('should call set on userPreferencesService with correct parameters', fakeAsync(() => {
       spyOn(userPreferencesService, 'set');
-      setupReferencesTest();
+      setupReferencesTest([nodeId], [toSearchResult([node1])]);
 
       expect(userPreferencesService.set).toHaveBeenCalledWith('aiReferences', JSON.stringify([nodeId]));
     }));
 
-    it('should display answer and all reference nodes', fakeAsync(() => {
-      setupReferencesTest([node1, node2]);
+    it('should display answer and reference nodes when all are fetched', fakeAsync(() => {
+      setupReferencesTest([nodeId, secondNodeId], [toSearchResult([node1, node2])]);
       const firstNode = unitTestingUtils.getByDataAutomationId(`aca-search-ai-results-${nodeId}-document`);
-      const secondNode = unitTestingUtils.getByDataAutomationId(`aca-search-ai-results-${nodeId}1-document`);
+      const secondNodeElement = unitTestingUtils.getByDataAutomationId(`aca-search-ai-results-${secondNodeId}-document`);
 
       expect(component.displayedAnswer).toEqual('Some answer');
       expect(component.nodes.length).toBe(2);
+      expect(component.hasReferencesLoadingError).toBeFalse();
       expect(firstNode).not.toBeNull();
-      expect(secondNode).not.toBeNull();
+      expect(secondNodeElement).not.toBeNull();
     }));
 
-    it('should display answer even when fetching nodes fails', fakeAsync(() => {
-      setupReferencesTest([nodeError]);
+    describe('Reload References', () => {
+      const getReloadButton = (): DebugElement =>
+        unitTestingUtils.getByDataAutomationId('aca-search-ai-response-container-body-references-container-retry-references-loading-button');
 
-      expect(component.displayedAnswer).toEqual('Some answer');
-      expect(component.hasAnsweringError).toBeFalse();
-      expect(component.nodes).toEqual([]);
-    }));
+      it('should set hasReferencesLoadingError and display reload button when not all references are fetched', fakeAsync(() => {
+        setupReferencesTest([nodeId, secondNodeId], [toSearchResult([node1])]);
+        const reloadButton = getReloadButton();
 
-    it('should notify about node fetching error', fakeAsync(() => {
-      spyOn(notificationService, 'showWarning');
-      setupReferencesTest([node1, nodeError]);
+        expect(component.hasReferencesLoadingError).toBeTrue();
+        expect(component.nodes).toEqual([]);
+        expect(reloadButton).toBeTruthy();
+      }));
 
-      expect(notificationService.showWarning).toHaveBeenCalledWith('KNOWLEDGE_RETRIEVAL.SEARCH.ERRORS.REFERENCES_LOADING_WARNING');
-    }));
+      it('should set hasReferencesLoadingError and display reload button when search request fails', fakeAsync(() => {
+        setupReferencesTest([nodeId], [nodeError]);
+        const reloadButton = getReloadButton();
 
-    it('should display answer and partial nodes when some getNode calls fail', fakeAsync(() => {
-      setupReferencesTest([node1, nodeError, node2]);
-      const firstNode = unitTestingUtils.getByDataAutomationId(`aca-search-ai-results-${nodeId}-document`);
-      const secondNode = unitTestingUtils.getByDataAutomationId(`aca-search-ai-results-${nodeId}1-document`);
+        expect(component.hasReferencesLoadingError).toBeTrue();
+        expect(component.nodes).toEqual([]);
+        expect(reloadButton).toBeTruthy();
+      }));
 
-      expect(component.displayedAnswer).toEqual('Some answer');
-      expect(component.hasAnsweringError).toBeFalse();
-      expect(component.nodes.length).toBe(2);
-      expect(firstNode).not.toBeNull();
-      expect(secondNode).not.toBeNull();
-    }));
+      it('should call search api when reload references button is clicked', fakeAsync(() => {
+        setupReferencesTest([nodeId, secondNodeId], [toSearchResult([node1])]);
+        getReloadButton().nativeElement.click();
+
+        expect(contentApiService.search).toHaveBeenCalledWith(
+          jasmine.objectContaining({
+            query: {
+              query: `ID:"${nodeId}" OR ID:"${secondNodeId}"`,
+              language: 'afts'
+            }
+          })
+        );
+      }));
+
+      it('should not display reload button after references are successfully reloaded', fakeAsync(() => {
+        setupReferencesTest([nodeId, secondNodeId], [toSearchResult([]), toSearchResult([node1, node2])]);
+        const reloadButton = getReloadButton();
+        reloadButton.nativeElement.click();
+        tick(51);
+        fixture.detectChanges();
+
+        expect(getReloadButton()).toBeNull();
+      }));
+
+      it('should not display reload button when there are no references', fakeAsync(() => {
+        setupReferencesTest();
+
+        expect(component.hasReferencesLoadingError).toBeFalse();
+        expect(component.nodes).toEqual([]);
+        expect(getReloadButton()).toBeNull();
+      }));
+    });
   });
 
   describe('ngOnInit', () => {

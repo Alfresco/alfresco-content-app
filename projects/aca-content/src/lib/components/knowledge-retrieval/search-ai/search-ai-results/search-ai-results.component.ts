@@ -24,15 +24,14 @@
 
 import { Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PageComponent, PageLayoutComponent } from '@alfresco/aca-shared';
-import { catchError, delay, filter, finalize, map, retry, switchMap } from 'rxjs/operators';
-import { ClipboardService, EmptyContentComponent, NotificationService, ThumbnailService, UnsavedChangesGuard } from '@alfresco/adf-core';
+import { PageComponent, PageLayoutComponent, ContentApiService } from '@alfresco/aca-shared';
+import { catchError, delay, filter, finalize, map, retry, switchMap, tap } from 'rxjs/operators';
+import { ClipboardService, EmptyContentComponent, ThumbnailService, UnsavedChangesGuard } from '@alfresco/adf-core';
 import { AiAnswer, Node } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
 import { SearchAiInputContainerComponent } from '../search-ai-input-container/search-ai-input-container.component';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { NodesApiService } from '@alfresco/adf-content-services';
-import { forkJoin, Observable, of, throwError } from 'rxjs';
+import { from, Observable, of, throwError } from 'rxjs';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -89,7 +88,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
   private _searchQuery = '';
   private queryAnswer: AiAnswer;
   private _displayedAnswer: string;
-  private hasReferencesLoadingError = false;
+  private _hasReferencesLoadingError = false;
 
   get agentId(): string {
     return this._agentId;
@@ -123,17 +122,20 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
     return this._displayedAnswer;
   }
 
+  get hasReferencesLoadingError(): boolean {
+    return this._hasReferencesLoadingError;
+  }
+
   constructor(
     private readonly route: ActivatedRoute,
     private readonly clipboardService: ClipboardService,
     private readonly thumbnailService: ThumbnailService,
-    private readonly nodesApiService: NodesApiService,
     private readonly translateService: TranslateService,
     private readonly unsavedChangesGuard: UnsavedChangesGuard,
     private readonly modalAiService: ModalAiService,
     private readonly viewerService: ViewerService,
     private readonly elementRef: ElementRef,
-    private readonly notificationService: NotificationService
+    private readonly contentApi: ContentApiService
   ) {
     super();
   }
@@ -184,7 +186,6 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
 
   performAiSearch(): void {
     this._loading = true;
-    this.hasReferencesLoadingError = false;
 
     this.searchAiService
       .ask({
@@ -194,44 +195,23 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
       })
       .pipe(
         switchMap((response) => this.searchAiService.getAnswer(response.questionId)),
-        switchMap((response) => {
+        tap((response) => {
           if (!response.entry?.answer) {
-            return throwError(() => new Error());
+            throw new Error();
           }
           this.queryAnswer = response.entry;
           this._displayedAnswer = this.preprocessMarkdownFormat(response.entry.answer);
-          return forkJoin(
-            this.queryAnswer.objectReferences.map((reference) =>
-              this.nodesApiService.getNode(reference.objectId).pipe(
-                catchError(() => {
-                  this.hasReferencesLoadingError = true;
-                  return of(null);
-                })
-              )
-            )
-          ).pipe(map((nodes) => nodes.filter((node): node is Node => node !== null)));
+          this.loadReferences();
         }),
         retry({
           delay: (error: Error, retryCount: number) => this.aiSearchRetryDelay(error, retryCount)
         }),
         finalize(() => {
           this._loading = false;
-          if (this.hasReferencesLoadingError) {
-            this.notificationService.showWarning('KNOWLEDGE_RETRIEVAL.SEARCH.ERRORS.REFERENCES_LOADING_WARNING');
-          }
         }),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe({
-        next: (nodes) => {
-          nodes.forEach((node) => {
-            this._mimeTypeIconsByNodeId[node.id] = this.thumbnailService.getMimeTypeIcon(node.content?.mimeType);
-          });
-          this._nodes = nodes;
-          const nodesIds = nodes.map((node) => node.id);
-          this.viewerService.customNodesOrder = nodesIds;
-          this.userPreferencesService.set('aiReferences', JSON.stringify(nodesIds));
-        },
         error: () => (this._hasAnsweringError = true)
       });
   }
@@ -247,6 +227,12 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
   addSourceCodeTooltips(): void {
     this.setTooltip(SearchAiResultsComponent.MERMAID_BLOCK_REGEX, '.mermaid');
     this.setTooltip(SearchAiResultsComponent.LATEX_BLOCK_REGEX, '.katex');
+  }
+
+  loadReferences(): void {
+    this.fetchReferences()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((nodes) => this.updateNodes(nodes));
   }
 
   private setTooltip(codeBlockRegexp: RegExp, targetElementsSelector: string): void {
@@ -294,5 +280,50 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
 
   private transformLatex(answer: string): string {
     return answer.replace(SearchAiResultsComponent.LATEX_BLOCK_REGEX, (_, latexContent: string) => `$$${latexContent.trim()}$$`);
+  }
+
+  private fetchReferences(): Observable<Node[]> {
+    this._hasReferencesLoadingError = false;
+
+    const objectIds = this.queryAnswer?.objectReferences?.map((reference) => reference.objectId);
+
+    if (!objectIds?.length) {
+      return of([]);
+    }
+
+    const query = objectIds.map((id) => `ID:"${id}"`).join(' OR ');
+
+    return from(
+      this.contentApi.search({
+        query: {
+          query,
+          language: 'afts'
+        }
+      })
+    ).pipe(
+      map((result) => {
+        const nodes = result.list.entries.map((entry) => entry.entry as Node);
+        if (nodes.length !== objectIds.length) {
+          this._hasReferencesLoadingError = true;
+          return [];
+        }
+        this._hasReferencesLoadingError = false;
+        return nodes;
+      }),
+      catchError(() => {
+        this._hasReferencesLoadingError = true;
+        return of([]);
+      })
+    );
+  }
+
+  private updateNodes(nodes: Node[]): void {
+    nodes.forEach((node) => {
+      this._mimeTypeIconsByNodeId[node.id] = this.thumbnailService.getMimeTypeIcon(node.content?.mimeType);
+    });
+    this._nodes = nodes;
+    const nodesIds = nodes.map((node) => node.id);
+    this.viewerService.customNodesOrder = nodesIds;
+    this.userPreferencesService.set('aiReferences', JSON.stringify(nodesIds));
   }
 }
