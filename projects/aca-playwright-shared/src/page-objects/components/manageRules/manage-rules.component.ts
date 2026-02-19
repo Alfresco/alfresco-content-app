@@ -34,7 +34,7 @@ export class ManageRules extends BaseComponent {
   public ruleDetailsDeleteButton = this.getChild('#delete-rule-btn');
   public ruleDetailsEditButton = this.getChild('#edit-rule-btn');
   public ruleDetailsPerformActionsDiv = this.getChild('adf-card-view-selectitem [data-automation-id="select-box"]');
-  public rulesEmptyListTitle = this.getChild('.adf-empty-content__title');
+  public rulesEmptyList = this.getChild('adf-empty-content');
   public ruleActions = this.getChild('aca-rule-action');
   public ruleConditionsInGroup = this.getChild('aca-rule-composite-condition aca-rule-simple-condition');
   public ruleDescription = this.getChild('.aca-manage-rules__container__rule-details__header__title__description');
@@ -51,7 +51,7 @@ export class ManageRules extends BaseComponent {
   }
 
   async checkIfRuleListEmpty(): Promise<boolean> {
-    return this.rulesEmptyListTitle.isVisible();
+    return this.rulesEmptyList.isVisible();
   }
 
   async checkIfRuleIsOnTheList(ruleName: string): Promise<void> {
