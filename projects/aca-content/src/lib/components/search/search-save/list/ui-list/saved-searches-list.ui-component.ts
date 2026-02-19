@@ -35,7 +35,6 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import {
-  AppConfigService,
   DataCellEvent,
   DATATABLE_DIRECTIVES,
   DataTableComponent,
@@ -101,13 +100,12 @@ export class SavedSearchesListUiComponent extends DataTableSchema implements Aft
     }
   ];
 
-  constructor(
-    protected appConfig: AppConfigService,
-    private readonly clipboard: Clipboard,
-    private readonly router: Router,
-    private readonly hostElement: ElementRef<HTMLElement>
-  ) {
-    super(appConfig, '', savedSearchesListSchema);
+  private readonly clipboard = inject(Clipboard);
+  private readonly router = inject(Router);
+  private readonly hostElement: ElementRef<HTMLElement> = inject(ElementRef);
+
+  constructor() {
+    super('', savedSearchesListSchema);
   }
 
   ngAfterContentInit() {
@@ -115,7 +113,7 @@ export class SavedSearchesListUiComponent extends DataTableSchema implements Aft
     this.contextMenuAction$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((action) => this.executeMenuOption(action.key, action.data));
   }
 
-  @HostListener('document:keydown.escape', ['$event'])
+  @HostListener('document:keydown.escape')
   onEscapeKeydown() {
     const contextMenu = document.querySelector<HTMLElement>('.adf-context-menu');
     if (contextMenu) {
