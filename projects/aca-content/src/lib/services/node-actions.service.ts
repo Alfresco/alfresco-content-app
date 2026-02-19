@@ -40,7 +40,7 @@ import { NodeEntry, Node, SitePaging, NodeChildAssociationPaging, NodeChildAssoc
 import { ContentApiService } from '@alfresco/aca-shared';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
-type BatchOperationType = Extract<NodeAction, NodeAction.COPY | NodeAction.MOVE>;
+type BatchOperationType = Extract<NodeAction, 'COPY' | 'MOVE'>;
 
 @Injectable({
   providedIn: 'root'

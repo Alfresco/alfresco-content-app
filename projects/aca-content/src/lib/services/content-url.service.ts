@@ -22,24 +22,19 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { AppStore, getRepositoryStatus } from '@alfresco/aca-shared/store';
 import { take, map, catchError, mergeMap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { DirectAccessUrlEntry } from '@alfresco/js-api';
-import { AlfrescoApiService, ContentVersionService } from '@alfresco/adf-content-services';
+import { ContentVersionService } from '@alfresco/adf-content-services';
 
 @Injectable({ providedIn: 'root' })
 export class ContentUrlService extends ContentVersionService {
-  constructor(
-    private store: Store<AppStore>,
-    private contentApiService: ContentApiService,
-    alfrescoApiService: AlfrescoApiService
-  ) {
-    super(alfrescoApiService);
-  }
+  private readonly store = inject(Store<AppStore>);
+  private readonly contentApiService = inject(ContentApiService);
 
   getNodeContentUrl(nodeId: string, attachment = true): Observable<string> {
     return this.isDirectAccessUrlEnabled().pipe(

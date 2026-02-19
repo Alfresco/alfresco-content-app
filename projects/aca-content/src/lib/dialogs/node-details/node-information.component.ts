@@ -24,7 +24,7 @@
 
 import { Component, DestroyRef, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { DIALOG_COMPONENT_DATA, LocalizedDatePipe, TimeAgoPipe, IconComponent, FileSizePipe, TranslationService } from '@alfresco/adf-core';
+import { DIALOG_COMPONENT_DATA, LocalizedDatePipe, TimeAgoPipe, IconComponent, FileSizePipe } from '@alfresco/adf-core';
 import { Node, SizeDetails } from '@alfresco/js-api';
 import { MatDividerModule } from '@angular/material/divider';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
@@ -47,6 +47,7 @@ class NodeDetails {
 @Component({
   selector: 'app-node-info',
   imports: [CommonModule, MatDividerModule, TimeAgoPipe, TranslatePipe, LocalizedDatePipe, IconComponent, NgOptimizedImage],
+  providers: [FileSizePipe],
   templateUrl: './node-information.component.html',
   styleUrls: ['./node-information.component.scss'],
   encapsulation: ViewEncapsulation.None,
@@ -56,10 +57,9 @@ export class NodeInformationComponent implements OnInit {
   readonly contentService = inject(ContentService);
   readonly nodesService = inject(NodesApiService);
   readonly translateService = inject(TranslateService);
-  readonly translationService = inject(TranslationService);
 
   private readonly destroyRef = inject(DestroyRef);
-  private readonly fileSizePipe = new FileSizePipe(this.translationService);
+  private readonly fileSizePipe = inject(FileSizePipe);
 
   node: Node = inject(DIALOG_COMPONENT_DATA);
   nodeDetails = new NodeDetails();
