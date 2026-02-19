@@ -6,6 +6,7 @@ applyTo: "**/*.html"
 
 * Simple Templates: Keep templates as simple as possible, avoiding complex logic directly in the template. Delegate complex logic to the component's TypeScript code.
 * Native Control Flow: Use the new built-in control flow syntax (`@if`, `@for`, `@switch`) instead of the older structural directives (`*ngIf`, `*ngFor`, `*ngSwitch`).
+* NgOptimizedImage: Use `NgOptimizedImage` for all static images to automatically optimize image loading and performance.
 * Async Pipe: Use the `async` pipe to handle observables in templates. This automatically subscribes and unsubscribes, preventing memory leaks.
 * Prefer pipes over functions in templates for performance reasons, as pipes are only re-evaluated when their inputs change.
 

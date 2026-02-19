@@ -41,7 +41,7 @@ When performing a code review, check for:
 * Single Responsibility Principle: each function/class does one thing well
 * DRY (Don't Repeat Yourself): no code duplication
 * Functions should be small and focused (ideally < 20-30 lines)
-* Avoid deeply nested code (max 3-4 levels)
+* Avoid deeply nested code (max 3-4 levels), unit tests should be an exception from this rule
 * Avoid magic numbers and strings (use constants)
 * Code should be self-documenting; comments only when necessary
 * Code follows consistent style and conventions

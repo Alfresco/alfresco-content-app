@@ -1,5 +1,5 @@
 ---
-applyTo: "**/*.ts,**/*.tsx"
+applyTo: "**/*.ts"
 ---
 
 # TypeScript Development Standards
@@ -30,24 +30,30 @@ applyTo: "**/*.ts,**/*.tsx"
 * Standalone Components: Always use standalone components, directives, and pipes. Avoid using `NgModules` for new features or refactoring existing ones.
 * Implicit Standalone: When creating standalone components, you do not need to explicitly set `standalone: true` inside the `@Component`, `@Directive` and `@Pipe` decorators, as it is implied by default.
 * Lazy Loading: Implement lazy loading for feature routes to improve initial load times of your application.
-* NgOptimizedImage: Use `NgOptimizedImage` for all static images to automatically optimize image loading and performance.
 * Use Angular Material or other modern UI libraries for consistent styling and UI components.
 * Implement proper error handling with RxJS operators (e.g., catchError)
+* Verify if newly added functionalities can utilize Angular Signals for fine-grained reactivity, reducing change detection overhead.
+* Utilize AOT (Ahead-of-Time) compilation and tree-shaking for efficient, smaller bundle sizes.
+* Prefer class binding over `ngClass` and `ngStyle` for better performance.
+* Use protected on class members that are only used by a component's template, as it allows for better encapsulation while still being accessible to the template.
+* Use readonly for properties that shouldn't change.
 * Use `takeUntilDestroyed` & `destroyRef`: The `takeUntilDestroyed` and `destroyRef` have been introduced with Angular 16 and help to reduce boilerplate code related to unsubscribing on the `OnDestroy` hook.
 * Organize the order of properties and methods in Angular components for readability and maintainability. Recommended order is:
   1. **Injected services** Whether they are public or private, it's clear they are dependencies of the class.
   2. **Inputs**: Properties that receive data from outside.
   3. **Outputs**: Events that the component can trigger.
   4. **ViewChild/ContentChild**: References to HTML elements.
-  5. **Readonly properties**: Immutable public properties.
-  6. **Public properties**: Data and functions available to everyone.
-  7. **Private readonly properties**: Immutable private properties.
-  8. **Private properties**: Data and functions used only inside the component.
-  9. **Setters and Getters**: Methods for accessing and modifying properties.
-  10. **Constructor**: Used to initialize the component.
-  11. **Lifecycle Hooks**: Methods that run at specific times in the component’s lifecycle.
-  12. **Public methods**: Functions available to everyone.
-  13. **Private methods**: Functions used only inside the component.
+  5. **Public static properties**: Constants and static members that are accessible to everyone.
+  6. **Readonly properties**: Immutable public properties.
+  7. **Public properties**: Data and functions available to everyone.
+  8. **Private static properties**: Constants and static members that are only accessible within the class.
+  9. **Private readonly properties**: Immutable private properties.
+  10. **Private properties**: Data and functions used only inside the component.
+  11. **Setters and Getters**: Methods for accessing and modifying properties.
+  12. **Constructor**: Used to initialize the component.
+  13. **Lifecycle Hooks**: Methods that run at specific times in the component’s lifecycle.
+  14. **Public methods**: Functions available to everyone.
+  15. **Private methods**: Functions used only inside the component.
 
 ## Components
 
@@ -63,7 +69,8 @@ applyTo: "**/*.ts,**/*.tsx"
 
 ## Unit testing
 
-* Write unit tests for components, services, and pipes using Jasmine and Karm
+* Write unit tests for components, services, and pipes using Jasmine and Karma.
+* Test cases should be reasonably groupped based on tested functionality/behaviour using describe blocks.
 * Use plain English test names based on the should <expectedBehavior> when <stateUnderTest> pattern as a guideline.
 * Use Angular's TestBed for component testing with mocked dependencies
 * Avoid Direct Calls to Component Lifecycle Hooks: Instead of directly invoking lifecycle hooks like `ngOnInit()`, use Angular's testing utilities to trigger them naturally. For example, use `fixture.detectChanges()` to trigger change detection, which will automatically call `ngOnInit()` and other lifecycle hooks in the correct order.
@@ -74,6 +81,8 @@ applyTo: "**/*.ts,**/*.tsx"
 * Avoid NO_ERRORS_SCHEMA and CUSTOM_ELEMENTS_SCHEMA in tests to ensure proper error detection
 * Do not verify mocked methods
 * Avoid mocking component methods unless necessary; prefer testing actual behavior
+* Avoid testing private methods directly; test them through public methods instead
+* Avoid testing methods or behaviours of children components; use shallow testing or mock child components instead
 * Use the overrideProviders API to replace components, directives, pipes, or services declared deep within the module hierarchy
 * Avoid async/await in synchronous unit tests
 * Prefer data-automation-id over CSS class when possible
