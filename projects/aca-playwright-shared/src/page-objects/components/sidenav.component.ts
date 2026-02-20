@@ -74,7 +74,7 @@ export class SidenavComponent extends BaseComponent {
     }
   }
 
-  async isSidenavExpanded(): Promise<boolean> {
+  private async isSidenavExpanded(): Promise<boolean> {
     await this.page.waitForTimeout(timeouts.tiny);
     return this.expandedSidenav.isVisible();
   }
