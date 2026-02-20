@@ -39,7 +39,7 @@ export class AdfInfoDrawerComponent extends BaseComponent {
     this.getChild(`[data-automation-id="library-name-properties-wrapper"] input[placeholder='${labelText}']`);
   public getIdField = (labelText: string) => this.getChild(`[data-automation-id="library-id-properties-wrapper"] input[placeholder='${labelText}']`);
   public getVisibilityField = (labelText: string): Locator =>
-    this.getChild(`[data-automation-id="library-visibility-properties-wrapper"]`).getByPlaceholder(labelText);
+    this.getChild(`[data-automation-id="library-visibility-properties-wrapper"]`).getByLabel(labelText);
   public getDescriptionField = this.getChild('[data-automation-id="library-description-properties-wrapper"] textarea');
   public propertiesTab = this.page.getByRole('tab', { name: 'Properties' });
   public commentsTab = this.page.getByRole('tab', { name: 'Comments' });
