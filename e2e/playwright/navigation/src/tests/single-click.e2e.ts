@@ -71,7 +71,7 @@ test.describe('Single click on item name', () => {
 
   test('[XAT-4897] Navigate inside the folder when clicking the hyperlink - on Personal Files', async ({ personalFiles }) => {
     await personalFiles.navigate();
-    await personalFiles.dataTable.setPaginationTo50();
+    await personalFiles.dataTable.goThroughPagesLookingForRowWithName(folder1);
     await personalFiles.dataTable.getCellLinkByName(folder1).click();
     await personalFiles.dataTable.spinnerWaitForReload();
     while ((await personalFiles.breadcrumb.currentItem.innerText()) === 'Personal Files') {

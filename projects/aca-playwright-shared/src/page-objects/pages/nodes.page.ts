@@ -27,7 +27,7 @@ import {
   ConditionComponent,
   ManageRules,
   ManageRulesDialogComponent,
-  ToolbarComponent,
+  RulesToolbarComponent,
   ActionsDropdownComponent,
   ContentNodeSelectorDialog,
   LinkRulesDialog
@@ -41,7 +41,7 @@ export class NodesPage extends BasePage {
     super(page, NodesPage.pageUrl);
   }
 
-  public toolbar = new ToolbarComponent(this.page);
+  public rulesToolbar = new RulesToolbarComponent(this.page);
   public manageRulesDialog = new ManageRulesDialogComponent(this.page);
   public actionsDropdown = new ActionsDropdownComponent(this.page);
   public conditionsDropdown = new ConditionComponent(this.page);

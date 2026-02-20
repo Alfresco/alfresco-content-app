@@ -24,4 +24,3 @@
 
 export * from './data-table.component';
 export * from './mat-menu.component';
-export * from './toolbar.component';

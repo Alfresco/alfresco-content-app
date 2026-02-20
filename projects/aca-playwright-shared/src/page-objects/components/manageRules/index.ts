@@ -24,3 +24,4 @@
 
 export * from './manage-rules-dialog.component';
 export * from './manage-rules.component';
+export * from './manage-rules-toolbar.component';

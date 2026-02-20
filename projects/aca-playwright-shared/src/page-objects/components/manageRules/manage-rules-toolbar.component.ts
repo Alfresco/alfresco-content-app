@@ -25,11 +25,11 @@
 import { BaseComponent } from '../base.component';
 import { Page } from '@playwright/test';
 
-export class ToolbarComponent extends BaseComponent {
+export class RulesToolbarComponent extends BaseComponent {
   private static rootElement = 'adf-toolbar';
 
   constructor(page: Page) {
-    super(page, ToolbarComponent.rootElement);
+    super(page, RulesToolbarComponent.rootElement);
   }
 
   async clickCreateRuleButton(): Promise<void> {
