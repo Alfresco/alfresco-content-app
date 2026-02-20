@@ -35,7 +35,7 @@ export class DateTimePicker extends BaseComponent {
   }
 
   async isCalendarOpen(): Promise<boolean> {
-    const element = this.getChild('');
+    const element = this.page.locator(DateTimePicker.rootElement);
     return element.isVisible();
   }
 
