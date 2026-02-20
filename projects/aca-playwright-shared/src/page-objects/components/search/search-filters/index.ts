@@ -22,21 +22,9 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Page } from '@playwright/test';
-import { BaseComponent } from '../base.component';
-
-export class EditDialog extends BaseComponent {
-  private static rootElement = 'adf-folder-dialog';
-
-  public editDialog = this.page.locator(EditDialog.rootElement);
-  public titleInput = this.getChild('[data-automation-id="adf-folder-dialog-title"]');
-  public cancelButton = this.getChild('#adf-folder-cancel-button');
-  public updateButton = this.getChild('#adf-folder-create-button');
-  public descriptionInput = this.getChild('#adf-folder-description-input');
-  public nameInput = this.getChild('#adf-folder-name-input');
-  public fieldHint = this.getChild('[aria-atomic="true"] span');
-
-  constructor(page: Page) {
-    super(page, EditDialog.rootElement);
-  }
-}
+export * from './search-filters-categories.component';
+export * from './search-filters-date.component';
+export * from './search-filters-location.component';
+export * from './search-filters-logic.component';
+export * from './search-filters-properties.component';
+export * from './search-filters-tags.component';

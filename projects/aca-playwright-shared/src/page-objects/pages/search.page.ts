@@ -39,7 +39,8 @@ import {
   SearchFiltersLocation,
   SearchFiltersLogic,
   SearchFiltersProperties,
-  FolderInformationDialogComponent
+  FolderInformationDialogComponent,
+  SearchMenuCard
 } from '../components';
 import { AcaHeader } from '../components/aca-header.component';
 import { AdfConfirmDialogComponent, AdfFolderDialogComponent, UploadNewVersionDialog, ManageVersionsDialog } from '../components/dialogs';
@@ -73,6 +74,7 @@ export class SearchPage extends BasePage {
   public uploadNewVersionDialog = new UploadNewVersionDialog(this.page);
   public manageVersionsDialog = new ManageVersionsDialog(this.page);
   public folderInformationDialog = new FolderInformationDialogComponent(this.page);
+  public searchMenuCard = new SearchMenuCard(this.page);
 
   async searchWithin(searchText: string, searchType?: SearchType): Promise<void> {
     await this.acaHeader.searchButton.click();

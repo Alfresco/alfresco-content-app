@@ -22,21 +22,20 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Page } from '@playwright/test';
 import { BaseComponent } from '../base.component';
+import { Page } from '@playwright/test';
 
-export class EditDialog extends BaseComponent {
-  private static rootElement = 'adf-folder-dialog';
+export class SearchMenuCard extends BaseComponent {
+  private static readonly rootElement = '.adf-search-filter-menu-card';
 
-  public editDialog = this.page.locator(EditDialog.rootElement);
-  public titleInput = this.getChild('[data-automation-id="adf-folder-dialog-title"]');
-  public cancelButton = this.getChild('#adf-folder-cancel-button');
-  public updateButton = this.getChild('#adf-folder-create-button');
-  public descriptionInput = this.getChild('#adf-folder-description-input');
-  public nameInput = this.getChild('#adf-folder-name-input');
-  public fieldHint = this.getChild('[aria-atomic="true"] span');
+  public resetButton = this.getChild('button', { hasText: 'Reset' });
+  public menuCardTitle = this.getChild('.adf-search-filter-title');
+  public menuCardClose = this.getChild('.adf-search-filter-title-action');
+  public menuCardClear = this.getChild('#cancel-filter-button');
+  public menuCardApply = this.getChild('#apply-filter-button');
+  public dropdownOptions = this.page.locator(`[role="option"]`);
 
   constructor(page: Page) {
-    super(page, EditDialog.rootElement);
+    super(page, SearchMenuCard.rootElement);
   }
 }

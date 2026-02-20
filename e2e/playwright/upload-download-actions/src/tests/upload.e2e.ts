@@ -66,14 +66,14 @@ test.describe('Upload files', () => {
   test('[XAT-17778] The upload dialog can be closed', async ({ personalFiles }) => {
     await expect(personalFiles.uploadDialog.closeButton, 'Close button was not visible').toBeVisible();
     await personalFiles.uploadDialog.closeButton.click();
-    await expect(personalFiles.uploadDialog.uploadDialog, 'Upload Dialog was visible').toBeHidden();
+    await expect(personalFiles.uploadDialog.uploadDialogContent, 'Upload Dialog was visible').toBeHidden();
   });
 
   test('[XAT-17779] The upload dialog can be minimized and maximized', async ({ personalFiles }) => {
     await personalFiles.uploadDialog.minimizeButton.click();
     await expect(personalFiles.uploadDialog.uploadDialogMinimized, 'Upload Dialog was not minimized').toBeVisible();
     await personalFiles.uploadDialog.minimizeButton.click();
-    await expect(personalFiles.uploadDialog.uploadDialog, 'Upload Dialog was not maximized').toBeVisible();
+    await expect(personalFiles.uploadDialog.uploadDialogContent, 'Upload Dialog was not maximized').toBeVisible();
   });
 
   test('[XAT-5278] Upload history is expunged on browser refresh / close tab / close browser / log out', async ({ personalFiles, loginPage }) => {
@@ -88,6 +88,6 @@ test.describe('Upload files', () => {
     myLibrariesPage
   }) => {
     await myLibrariesPage.navigate();
-    await expect(personalFiles.uploadDialog.uploadDialog, 'Upload Dialog was not visible').toBeVisible();
+    await expect(personalFiles.uploadDialog.uploadDialogContent, 'Upload Dialog was not visible').toBeVisible();
   });
 });

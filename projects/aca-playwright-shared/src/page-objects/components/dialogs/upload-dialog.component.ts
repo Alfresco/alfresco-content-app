@@ -26,12 +26,12 @@ import { Page } from '@playwright/test';
 import { BaseComponent } from '../base.component';
 
 export class UploadDialog extends BaseComponent {
-  private static rootElement = '.adf-upload-dialog';
+  private static rootElement = 'aca-upload-files-dialog';
 
-  public uploadDialog = this.page.locator('.adf-upload-dialog');
+  public uploadDialogContent = this.getChild('.adf-upload-dialog__content');
   public closeButton = this.getChild('#adf-upload-dialog-close');
-  public minimizeButton = this.page.locator('[data-automation-id="adf-upload-dialog__toggle-minimize"]');
-  public uploadDialogMinimized = this.page.locator('.adf-upload-dialog--minimized');
+  public minimizeButton = this.getChild('[data-automation-id="adf-upload-dialog__toggle-minimize"]');
+  public uploadDialogMinimized = this.getChild('.adf-upload-dialog--minimized');
 
   constructor(page: Page) {
     super(page, UploadDialog.rootElement);

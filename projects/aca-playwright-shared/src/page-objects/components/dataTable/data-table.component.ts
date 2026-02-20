@@ -50,12 +50,10 @@ export class DataTableComponent extends BaseComponent {
   emptyListSubtitle = this.getChild('.adf-empty-content__subtitle');
   emptySearchText = this.getChild('.empty-search__text');
   emptyListTest = this.getChild('adf-custom-empty-content-template');
-  paginationButton = this.page.locator('.adf-pagination__block button').nth(0);
-  paginationOptions = this.page.locator('#cdk-overlay-0 button');
-  sitesVisibility = this.page.locator('.adf-datatable-body [data-automation-id*="datatable-row"] [aria-label="Visibility"]');
-  sitesName = this.page.locator('.adf-datatable-body [data-automation-id*="datatable-row"] [aria-label="Name"]');
-  sitesRole = this.page.locator('.adf-datatable-body [data-automation-id*="datatable-row"] [aria-label="My Role"]');
-  lockOwner = this.page.locator('.aca-locked-by--name');
+  sitesVisibility = this.getChild('.adf-datatable-body [data-automation-id*="datatable-row"] [aria-label="Visibility"]');
+  sitesName = this.getChild('.adf-datatable-body [data-automation-id*="datatable-row"] [aria-label="Name"]');
+  sitesRole = this.getChild('.adf-datatable-body [data-automation-id*="datatable-row"] [aria-label="My Role"]');
+  lockOwner = '.aca-locked-by--name';
   highlightedText = '.aca-highlight';
   searchFileName = '.search-file-name';
   searchFileDescription = '[data-automation-id="search-results-entry-description"]';
@@ -308,11 +306,6 @@ export class DataTableComponent extends BaseComponent {
 
   async rightClickOnItem(itemName: string): Promise<void> {
     await this.getCellByColumnNameAndRowItem(itemName, 'Name').click({ button: 'right' });
-  }
-
-  async setPaginationTo50(): Promise<void> {
-    await this.paginationButton.click();
-    await this.paginationOptions.getByText('50').click();
   }
 
   /**

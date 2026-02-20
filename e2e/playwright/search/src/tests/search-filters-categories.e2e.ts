@@ -76,7 +76,7 @@ test.describe('Search - Filters - Categories', () => {
     await searchPage.searchFilters.categoriesFilter.click();
     await searchPage.searchFiltersCategories.addOptionInput.fill(newSubcategories[0].name);
     await searchPage.searchFilters.dropdownOptions.first().click();
-    await searchPage.searchFilters.menuCardApply.click();
+    await searchPage.searchMenuCard.menuCardApply.click();
 
     await expect(searchPage.dataTable.getRowByName(fileNamePdf)).toBeHidden();
     await expect(searchPage.dataTable.getRowByName(fileNameJpg)).toBeVisible();

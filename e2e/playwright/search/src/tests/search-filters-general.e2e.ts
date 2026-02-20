@@ -46,10 +46,10 @@ test.describe('Search - Filters - General', () => {
   test('[XAT-5575] Search Filters Menu cards have proper titles', async ({ searchPage }) => {
     async function checkMenuCardTitle(page: SearchPage, filterLocator: Locator, expectText: string): Promise<void> {
       await filterLocator.click();
-      await expect(page.searchFilters.menuCardTitle).toContainText(expectText);
-      await page.searchFilters.menuCardClose.click();
-      await page.searchFilters.menuCardClose.waitFor({ state: 'hidden' });
-      await expect(page.searchFilters.menuCardClose).toBeHidden();
+      await expect(page.searchMenuCard.menuCardTitle).toContainText(expectText);
+      await page.searchMenuCard.menuCardClose.click();
+      await page.searchMenuCard.menuCardClose.waitFor({ state: 'hidden' });
+      await expect(page.searchMenuCard.menuCardClose).toBeHidden();
     }
 
     const testCases = [
@@ -88,12 +88,12 @@ test.describe('Search - Filters - General', () => {
     const filterTextBefore = await searchPage.searchFilters.propertiesFilter.textContent();
     await searchPage.searchFilters.propertiesFilter.click();
     await searchPage.searchFiltersProperties.fileSizeInput.fill('1000');
-    await searchPage.searchFilters.menuCardApply.click();
+    await searchPage.searchMenuCard.menuCardApply.click();
     await searchPage.dataTable.progressBarWaitForReload();
     const filterTextAfter = await searchPage.searchFilters.propertiesFilter.textContent();
 
     await searchPage.searchFilters.propertiesFilter.click();
-    await searchPage.searchFilters.menuCardClear.click();
+    await searchPage.searchMenuCard.menuCardClear.click();
     await searchPage.searchFiltersProperties.fileSizeInput.waitFor({ state: 'hidden' });
     const filterTextCleared = await searchPage.searchFilters.propertiesFilter.textContent();
 
@@ -105,14 +105,14 @@ test.describe('Search - Filters - General', () => {
     const propertiesFilterTextBefore = await searchPage.searchFilters.propertiesFilter.textContent();
     await searchPage.searchFilters.propertiesFilter.click();
     await searchPage.searchFiltersProperties.fileSizeInput.fill('1000');
-    await searchPage.searchFilters.menuCardApply.click();
+    await searchPage.searchMenuCard.menuCardApply.click();
     await searchPage.dataTable.progressBarWaitForReload();
     const propertiesFilterTextAfter = await searchPage.searchFilters.propertiesFilter.textContent();
 
     const logicFilterTextBefore = await searchPage.searchFilters.logicFilter.textContent();
     await searchPage.searchFilters.logicFilter.click();
     await searchPage.searchFiltersLogic.matchAllInput.fill('test');
-    await searchPage.searchFilters.menuCardApply.click();
+    await searchPage.searchMenuCard.menuCardApply.click();
     await searchPage.dataTable.progressBarWaitForReload();
     const logicFilterTextAfter = await searchPage.searchFilters.logicFilter.textContent();
 

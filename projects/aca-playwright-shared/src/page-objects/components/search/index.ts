@@ -22,23 +22,9 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BaseComponent } from '../base.component';
-import { Page } from '@playwright/test';
-
-export class ToolbarComponent extends BaseComponent {
-  private static rootElement = 'adf-toolbar';
-
-  constructor(page: Page) {
-    super(page, ToolbarComponent.rootElement);
-  }
-
-  async clickCreateRuleButton(): Promise<void> {
-    const button = this.page.locator('[data-automation-id="manage-rules-create-button"]');
-    await button.click();
-  }
-
-  async clickLinkRulesButton(): Promise<void> {
-    const button = this.page.locator('[data-automation-id="manage-rules-link-button"]');
-    await button.click();
-  }
-}
+export * from './search-filters';
+export * from './search-filters.component';
+export * from './search-input.component';
+export * from './search-menu-card.component';
+export * from './search-overlay.components';
+export * from './search-sorting-picker.components';
