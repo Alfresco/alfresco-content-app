@@ -268,6 +268,7 @@
                     "SIZE": "Størrelse"
                 },
                 "UNKNOWN_LOCATION": "Ukjent",
+                "VIEW_ADDITIONAL_LOCATIONS": "View additional references locations",
                 "NO_RESULTS": "Ditt søk ga 0 resultater",
                 "EMPTY_SEARCH": "Søkeord kreves",
                 "NO_FILTER_RESULTS": "Ditt filter ga 0 resultater",
@@ -312,7 +313,7 @@
             "EDIT_OFFLINE_CANCEL": "Avbryt redigering",
             "CHANGE_ASPECT": "Rediger aspekter",
             "ADD_ASPECTS": "Legg til aspekter",
-            "FOLDER_INFO": "Mappe informasjon"
+            "NODE_INFO": "Information"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -480,19 +481,24 @@
             "CANCEL": "Avbryt",
             "SAVE": "Lagre"
         },
-        "FOLDER_INFO": {
-            "ICON": "Mappe ikon",
-            "TITLE": "Mappe informasjon",
-            "SIZE": "Størrelse",
-            "NUMBER_OF_FILES": "Antall filer",
-            "CALCULATING": "Beregner...",
-            "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} på disk) for {{count}} filer",
-            "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes for {{count}} filer",
-            "LOCATION": "Lokalisering",
-            "CREATED": "Opprettet",
-            "MODIFIED": "Endret",
-            "DONE": "Ferdig",
-            "ERROR": "Noe gikk galt, lukk denne dialogboksen og prøv igjen"
+        "NODE_INFO": {
+            "ICON": "Node Icon",
+            "TITLE": "Information",
+            "SIZE": "Size",
+            "NUMBER_OF_FILES": "Number of files",
+            "CALCULATING": "Calculating...",
+            "LOCATION": "Location",
+            "REFERENCED": "Referenced",
+            "CREATED": "Created",
+            "MODIFIED": "Modified",
+            "DONE": "Done",
+            "ERROR": "Something went wrong, please close this dialog and try again"
+        },
+        "ADDITIONAL_REFERENCES_DIALOG": {
+            "TITLE": "Additional Reference Locations",
+            "NO_LOCATIONS": "{{ name }} is not referenced in any locations.",
+            "DESCRIPTION": "{{ name }} is currently referenced in these locations.",
+            "CLOSE": "Close"
         }
     },
     "NODE_SELECTOR": {

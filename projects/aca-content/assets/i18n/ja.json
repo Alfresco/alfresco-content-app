@@ -268,6 +268,7 @@
                     "SIZE": "サイズ"
                 },
                 "UNKNOWN_LOCATION": "不明",
+                "VIEW_ADDITIONAL_LOCATIONS": "View additional references locations",
                 "NO_RESULTS": "検索結果は 0 件です",
                 "EMPTY_SEARCH": "検索語句が必要",
                 "NO_FILTER_RESULTS": "フィルタによる検索結果は 0 件です",
@@ -312,7 +313,7 @@
             "EDIT_OFFLINE_CANCEL": "編集のキャンセル",
             "CHANGE_ASPECT": "アスペクトを編集",
             "ADD_ASPECTS": "アスペクトを追加",
-            "FOLDER_INFO": "フォルダ情報"
+            "NODE_INFO": "Information"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -480,19 +481,24 @@
             "CANCEL": "キャンセル",
             "SAVE": "保存"
         },
-        "FOLDER_INFO": {
-            "ICON": "フォルダアイコン",
-            "TITLE": "フォルダ情報",
-            "SIZE": "サイズ",
-            "NUMBER_OF_FILES": "ファイル数",
-            "CALCULATING": "計算中...",
-            "CALCULATED_SIZE_LARGE": "{{count}} ファイルあたり{{sizeInBytes}} バイト (ディスク上に{{sizeInLargeUnit}} {{unit}})",
-            "CALCULATED_SIZE_NORMAL": "{{count}} ファイルあたり{{sizeInBytes}}バイト",
-            "LOCATION": "場所",
-            "CREATED": "作成日",
-            "MODIFIED": "修正日",
-            "DONE": "完了",
-            "ERROR": "何か問題が発生しました。このダイアログを閉じて操作をやり直してください"
+        "NODE_INFO": {
+            "ICON": "Node Icon",
+            "TITLE": "Information",
+            "SIZE": "Size",
+            "NUMBER_OF_FILES": "Number of files",
+            "CALCULATING": "Calculating...",
+            "LOCATION": "Location",
+            "REFERENCED": "Referenced",
+            "CREATED": "Created",
+            "MODIFIED": "Modified",
+            "DONE": "Done",
+            "ERROR": "Something went wrong, please close this dialog and try again"
+        },
+        "ADDITIONAL_REFERENCES_DIALOG": {
+            "TITLE": "Additional Reference Locations",
+            "NO_LOCATIONS": "{{ name }} is not referenced in any locations.",
+            "DESCRIPTION": "{{ name }} is currently referenced in these locations.",
+            "CLOSE": "Close"
         }
     },
     "NODE_SELECTOR": {

@@ -268,6 +268,7 @@
                     "SIZE": "Størrelse"
                 },
                 "UNKNOWN_LOCATION": "Ukendt",
+                "VIEW_ADDITIONAL_LOCATIONS": "View additional references locations",
                 "NO_RESULTS": "Der blev ikke fundet nogen søgeresultater",
                 "EMPTY_SEARCH": "Søgeord er obligatorisk",
                 "NO_FILTER_RESULTS": "Der blev ikke fundet nogen filterresultater",
@@ -312,7 +313,7 @@
             "EDIT_OFFLINE_CANCEL": "Annuller redigering",
             "CHANGE_ASPECT": "Rediger udseende",
             "ADD_ASPECTS": "Tilføj aspekter",
-            "FOLDER_INFO": "Mappe Information"
+            "NODE_INFO": "Information"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -480,19 +481,24 @@
             "CANCEL": "Annuller",
             "SAVE": "Gem"
         },
-        "FOLDER_INFO": {
-            "ICON": "Mappe-ikon",
-            "TITLE": "Mappe Information",
-            "SIZE": "Størrelse",
-            "NUMBER_OF_FILES": "Antal filer",
-            "CALCULATING": "Beregner...",
-            "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} på disk) for {{count}} filer",
-            "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes for {{count}} filer",
-            "LOCATION": "Placering",
-            "CREATED": "Oprettet",
-            "MODIFIED": "Modificeret",
-            "DONE": "Færdig",
-            "ERROR": "Noget gik galt, luk venligst denne dialog og prøv igen"
+        "NODE_INFO": {
+            "ICON": "Node Icon",
+            "TITLE": "Information",
+            "SIZE": "Size",
+            "NUMBER_OF_FILES": "Number of files",
+            "CALCULATING": "Calculating...",
+            "LOCATION": "Location",
+            "REFERENCED": "Referenced",
+            "CREATED": "Created",
+            "MODIFIED": "Modified",
+            "DONE": "Done",
+            "ERROR": "Something went wrong, please close this dialog and try again"
+        },
+        "ADDITIONAL_REFERENCES_DIALOG": {
+            "TITLE": "Additional Reference Locations",
+            "NO_LOCATIONS": "{{ name }} is not referenced in any locations.",
+            "DESCRIPTION": "{{ name }} is currently referenced in these locations.",
+            "CLOSE": "Close"
         }
     },
     "NODE_SELECTOR": {

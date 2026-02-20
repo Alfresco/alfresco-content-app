@@ -268,6 +268,7 @@
                     "SIZE": "الحجم"
                 },
                 "UNKNOWN_LOCATION": "غير معروف",
+                "VIEW_ADDITIONAL_LOCATIONS": "View additional references locations",
                 "NO_RESULTS": "أرجع البحث 0 نتائج",
                 "EMPTY_SEARCH": "مصطلح البحث مطلوب",
                 "NO_FILTER_RESULTS": "أعاد الفلتر 0 نتيجة",
@@ -312,7 +313,7 @@
             "EDIT_OFFLINE_CANCEL": "إلغاء التحرير",
             "CHANGE_ASPECT": "تحرير الجوانب",
             "ADD_ASPECTS": "إضافة جوانب",
-            "FOLDER_INFO": "معلومات المجلد"
+            "NODE_INFO": "Information"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -480,19 +481,24 @@
             "CANCEL": "إلغاء",
             "SAVE": "حفظ"
         },
-        "FOLDER_INFO": {
-            "ICON": "أيقونة المجلد",
-            "TITLE": "معلومات المجلد",
-            "SIZE": "الحجم",
-            "NUMBER_OF_FILES": "عدد الملفات",
-            "CALCULATING": "حساب...",
-            "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} بايت ({{sizeInLargeUnit}} {{unit}} على القرص) ل {{count}} الملفات",
-            "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} بايت  لـ {{count}} الملفات",
-            "LOCATION": "مكان",
-            "CREATED": "تم الإنشاء",
-            "MODIFIED": "تم التعديل",
-            "DONE": "تم",
-            "ERROR": "حدث خطأ ما، يرجى إغلاق مربع الحوار هذا والمحاولة مرة أخرى"
+        "NODE_INFO": {
+            "ICON": "Node Icon",
+            "TITLE": "Information",
+            "SIZE": "Size",
+            "NUMBER_OF_FILES": "Number of files",
+            "CALCULATING": "Calculating...",
+            "LOCATION": "Location",
+            "REFERENCED": "Referenced",
+            "CREATED": "Created",
+            "MODIFIED": "Modified",
+            "DONE": "Done",
+            "ERROR": "Something went wrong, please close this dialog and try again"
+        },
+        "ADDITIONAL_REFERENCES_DIALOG": {
+            "TITLE": "Additional Reference Locations",
+            "NO_LOCATIONS": "{{ name }} is not referenced in any locations.",
+            "DESCRIPTION": "{{ name }} is currently referenced in these locations.",
+            "CLOSE": "Close"
         }
     },
     "NODE_SELECTOR": {

@@ -268,6 +268,7 @@
                     "SIZE": "Tamaño"
                 },
                 "UNKNOWN_LOCATION": "Desconocido",
+                "VIEW_ADDITIONAL_LOCATIONS": "View additional references locations",
                 "NO_RESULTS": "Su búsqueda ha devuelto 0 resultados",
                 "EMPTY_SEARCH": "Se requiere un término de búsqueda",
                 "NO_FILTER_RESULTS": "Su filtro ha devuelto 0 resultados",
@@ -312,7 +313,7 @@
             "EDIT_OFFLINE_CANCEL": "Cancelar edición",
             "CHANGE_ASPECT": "Editar aspectos",
             "ADD_ASPECTS": "Añadir aspectos",
-            "FOLDER_INFO": "Información de la carpeta"
+            "NODE_INFO": "Information"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -480,19 +481,24 @@
             "CANCEL": "Cancelar",
             "SAVE": "Guardar"
         },
-        "FOLDER_INFO": {
-            "ICON": "Icono de carpeta",
-            "TITLE": "Información de la carpeta",
-            "SIZE": "Tamaño",
-            "NUMBER_OF_FILES": "Número de archivos",
-            "CALCULATING": "Calculando...",
-            "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} bytes ({{sizeInLargeUnit}} {{unit}} en el disco) para {{count}} archivos",
-            "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} bytes para {{count}} archivos",
-            "LOCATION": "Ubicación",
-            "CREATED": "Creado",
-            "MODIFIED": "Modificado",
-            "DONE": "Hecho",
-            "ERROR": "Algo ha ido mal, cierre este cuadro de diálogo e inténtelo de nuevo"
+        "NODE_INFO": {
+            "ICON": "Node Icon",
+            "TITLE": "Information",
+            "SIZE": "Size",
+            "NUMBER_OF_FILES": "Number of files",
+            "CALCULATING": "Calculating...",
+            "LOCATION": "Location",
+            "REFERENCED": "Referenced",
+            "CREATED": "Created",
+            "MODIFIED": "Modified",
+            "DONE": "Done",
+            "ERROR": "Something went wrong, please close this dialog and try again"
+        },
+        "ADDITIONAL_REFERENCES_DIALOG": {
+            "TITLE": "Additional Reference Locations",
+            "NO_LOCATIONS": "{{ name }} is not referenced in any locations.",
+            "DESCRIPTION": "{{ name }} is currently referenced in these locations.",
+            "CLOSE": "Close"
         }
     },
     "NODE_SELECTOR": {
