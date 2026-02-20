@@ -43,13 +43,13 @@ export class SearchFiltersTags extends BaseComponent {
     await page.searchFilters.tagsFilter.click();
     await page.searchFiltersTags.addOptionInput.fill(tag);
     await this.searchOption(tag).click();
-    await page.searchFilters.menuCardApply.click();
+    await page.searchMenuCard.menuCardApply.click();
     await page.dataTable.progressBarWaitForReload();
   }
 
   async clearTagFilter(page: SearchPage): Promise<void> {
     await page.searchFilters.tagsFilter.click();
-    await page.searchFilters.menuCardClear.click();
+    await page.searchMenuCard.menuCardClear.click();
     await page.dataTable.progressBarWaitForReload();
   }
 }
