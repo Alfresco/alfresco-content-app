@@ -26,19 +26,19 @@ import { BaseComponent } from '../base.component';
 import { Page } from '@playwright/test';
 
 export class RulesToolbarComponent extends BaseComponent {
-  private static rootElement = 'adf-toolbar';
+  private static readonly rootElement = '.aca-manage-rules__actions-bar';
 
   constructor(page: Page) {
     super(page, RulesToolbarComponent.rootElement);
   }
 
   async clickCreateRuleButton(): Promise<void> {
-    const button = this.page.locator('[data-automation-id="manage-rules-create-button"]');
+    const button = this.getChild('[data-automation-id="manage-rules-create-button"]');
     await button.click();
   }
 
   async clickLinkRulesButton(): Promise<void> {
-    const button = this.page.locator('[data-automation-id="manage-rules-link-button"]');
+    const button = this.getChild('[data-automation-id="manage-rules-link-button"]');
     await button.click();
   }
 }
