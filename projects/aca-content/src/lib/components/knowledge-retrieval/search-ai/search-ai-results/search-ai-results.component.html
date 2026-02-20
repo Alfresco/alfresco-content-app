@@ -45,51 +45,53 @@
                   <mat-icon>copy</mat-icon>
                 </button>
 
-                @if (nodes?.length || hasReferencesLoadingError) {
-                  <mat-divider
-                    class="aca-search-ai-response-container-body-divider"
-                    [class.aca-search-ai-response-container-body-divider-error]="hasReferencesLoadingError"
-                    aria-hidden="true"
-                  />
-                  <div class="aca-search-ai-response-container-body-references-container">
-                    <p class="aca-search-ai-response-container-body-references-container-header">
-                      {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.REFERENCED_DOCUMENTS_HEADER' | translate }}
-                    </p>
+                @if (references$ | async; as refs) {
+                  @if (refs?.length || hasReferencesLoadingError) {
+                    <mat-divider
+                      class="aca-search-ai-response-container-body-divider"
+                      [class.aca-search-ai-response-container-body-divider-error]="hasReferencesLoadingError"
+                      aria-hidden="true"
+                    />
+                    <div class="aca-search-ai-response-container-body-references-container">
+                      <p class="aca-search-ai-response-container-body-references-container-header">
+                        {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.REFERENCED_DOCUMENTS_HEADER' | translate }}
+                      </p>
 
-                    @if (hasReferencesLoadingError) {
-                      <div class="aca-search-ai-response-container-body-references-container-loading-error">
-                        {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.ERRORS.REFERENCES_LOADING_ERROR' | translate }}
-                        <button
-                          mat-flat-button
-                          (click)="loadReferences()"
-                          class="aca-search-ai-response-container-error-message-regeneration-button"
-                          data-automation-id="aca-search-ai-response-container-body-references-container-retry-references-loading-button">
-                          <mat-icon class="aca-search-ai-response-container-error-message-regeneration-button-icon">cached</mat-icon>
-                          {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.RELOAD_REFERENCES_BUTTON_LABEL' | translate }}
-                        </button>
-                      </div>
-                    } @else {
-                      <div class="aca-search-ai-response-container-body-references-container-documents">
-                        @for (node of nodes; track node.id) {
-                          <a
-                            class="aca-search-ai-response-container-body-references-container-documents-document"
-                            [attr.data-automation-id]="'aca-search-ai-results-' + node.id + '-document'"
-                            (click)="openFile(node.id)"
-                            (keyup.enter)="openFile(node.id)"
-                            tabindex="0">
-                            <mat-icon
-                              mat-list-icon
-                              class="aca-search-ai-response-container-body-references-container-documents-document-icon">
-                              <img [alt]="node.content?.mimeType" [src]="mimeTypeIconsByNodeId[node.id]" />
-                            </mat-icon>
-                            <div class="aca-search-ai-response-container-body-references-container-documents-document-name">
-                              {{ node.name }}
-                            </div>
-                          </a>
-                        }
-                      </div>
-                    }
-                  </div>
+                      @if (hasReferencesLoadingError) {
+                        <div class="aca-search-ai-response-container-body-references-container-loading-error">
+                          {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.ERRORS.REFERENCES_LOADING_ERROR' | translate }}
+                          <button
+                            mat-flat-button
+                            (click)="loadReferences()"
+                            class="aca-search-ai-response-container-error-message-regeneration-button"
+                            data-automation-id="aca-search-ai-response-container-body-references-container-retry-references-loading-button">
+                            <mat-icon class="aca-search-ai-response-container-error-message-regeneration-button-icon">cached</mat-icon>
+                            {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.RELOAD_REFERENCES_BUTTON_LABEL' | translate }}
+                          </button>
+                        </div>
+                      } @else {
+                        <div class="aca-search-ai-response-container-body-references-container-documents">
+                          @for (node of refs; track node.id) {
+                            <a
+                              class="aca-search-ai-response-container-body-references-container-documents-document"
+                              [attr.data-automation-id]="'aca-search-ai-results-' + node.id + '-document'"
+                              (click)="openFile(node.id)"
+                              (keyup.enter)="openFile(node.id)"
+                              tabindex="0">
+                              <mat-icon
+                                mat-list-icon
+                                class="aca-search-ai-response-container-body-references-container-documents-document-icon">
+                                <img [alt]="node.content?.mimeType" [src]="mimeTypeIconsByNodeId[node.id]" />
+                              </mat-icon>
+                              <div class="aca-search-ai-response-container-body-references-container-documents-document-name">
+                                {{ node.name }}
+                              </div>
+                            </a>
+                          }
+                        </div>
+                      }
+                    </div>
+                  }
                 }
               </div>
             } @else {

@@ -534,7 +534,7 @@ describe('SearchAiResultsComponent', () => {
     const node2 = { id: secondNodeId, isFolder: false } as Node;
     const nodeError = throwError(() => 'error');
 
-    const toSearchResult = (nodes: Node[]) =>
+    const toSearchResult = (nodes: Node[]): Observable<ResultSetPaging> =>
       of({
         list: {
           entries: nodes.map((node) => ({ entry: node }))
@@ -560,6 +560,10 @@ describe('SearchAiResultsComponent', () => {
 
       tick(3051);
       fixture.detectChanges();
+
+      tick(51);
+      fixture.detectChanges();
+
       documentElement = unitTestingUtils.getByDataAutomationId(`aca-search-ai-results-${nodeId}-document`);
       spyOnProperty(TestBed.inject(Router), 'url').and.returnValue(url);
     };
@@ -598,7 +602,7 @@ describe('SearchAiResultsComponent', () => {
 
     it('should assign nodes ids to customNodesOrder for ViewerService', fakeAsync(() => {
       let nodesOrder: string[];
-      spyOnProperty(viewerService, 'customNodesOrder', 'set').and.callFake((passedNodesOrder) => (nodesOrder ??= passedNodesOrder));
+      spyOnProperty(viewerService, 'customNodesOrder', 'set').and.callFake((passedNodesOrder) => (nodesOrder = passedNodesOrder));
       setupReferencesTest([nodeId], [toSearchResult([node1])]);
 
       expect(nodesOrder).toEqual([nodeId]);
@@ -613,14 +617,11 @@ describe('SearchAiResultsComponent', () => {
 
     it('should display answer and reference nodes when all are fetched', fakeAsync(() => {
       setupReferencesTest([nodeId, secondNodeId], [toSearchResult([node1, node2])]);
-      const firstNode = unitTestingUtils.getByDataAutomationId(`aca-search-ai-results-${nodeId}-document`);
-      const secondNodeElement = unitTestingUtils.getByDataAutomationId(`aca-search-ai-results-${secondNodeId}-document`);
 
       expect(component.displayedAnswer).toEqual('Some answer');
-      expect(component.nodes.length).toBe(2);
       expect(component.hasReferencesLoadingError).toBeFalse();
-      expect(firstNode).not.toBeNull();
-      expect(secondNodeElement).not.toBeNull();
+      expect(unitTestingUtils.getByDataAutomationId(`aca-search-ai-results-${nodeId}-document`)).toBeTruthy();
+      expect(unitTestingUtils.getByDataAutomationId(`aca-search-ai-results-${secondNodeId}-document`)).toBeTruthy();
     }));
 
     describe('Reload References', () => {
@@ -632,7 +633,8 @@ describe('SearchAiResultsComponent', () => {
         const reloadButton = getReloadButton();
 
         expect(component.hasReferencesLoadingError).toBeTrue();
-        expect(component.nodes).toEqual([]);
+        expect(unitTestingUtils.getByDataAutomationId(`aca-search-ai-results-${nodeId}-document`)).toBeFalsy();
+        expect(unitTestingUtils.getByDataAutomationId(`aca-search-ai-results-${secondNodeId}-document`)).toBeFalsy();
         expect(reloadButton).toBeTruthy();
       }));
 
@@ -641,7 +643,7 @@ describe('SearchAiResultsComponent', () => {
         const reloadButton = getReloadButton();
 
         expect(component.hasReferencesLoadingError).toBeTrue();
-        expect(component.nodes).toEqual([]);
+        expect(unitTestingUtils.getByDataAutomationId(`aca-search-ai-results-${nodeId}-document`)).toBeFalsy();
         expect(reloadButton).toBeTruthy();
       }));
 
@@ -673,7 +675,6 @@ describe('SearchAiResultsComponent', () => {
         setupReferencesTest();
 
         expect(component.hasReferencesLoadingError).toBeFalse();
-        expect(component.nodes).toEqual([]);
         expect(getReloadButton()).toBeNull();
       }));
     });

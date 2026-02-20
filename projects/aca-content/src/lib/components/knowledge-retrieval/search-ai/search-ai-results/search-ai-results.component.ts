@@ -82,13 +82,14 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
   private _hasError = false;
   private _loading = false;
   private _mimeTypeIconsByNodeId: { [key: string]: string } = {};
-  private _nodes: Node[] = [];
   private openedViewer = false;
   private _selectedNodesState: SelectionState;
   private _searchQuery = '';
   private queryAnswer: AiAnswer;
   private _displayedAnswer: string;
   private _hasReferencesLoadingError = false;
+
+  references$: Observable<Node[]> = of([]);
 
   get agentId(): string {
     return this._agentId;
@@ -108,10 +109,6 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
 
   get mimeTypeIconsByNodeId(): { [key: string]: string } {
     return this._mimeTypeIconsByNodeId;
-  }
-
-  get nodes(): Node[] {
-    return this._nodes;
   }
 
   get searchQuery(): string {
@@ -204,7 +201,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
           this.loadReferences();
         }),
         retry({
-          delay: (error: Error, retryCount: number) => this.aiSearchRetryDelay(error, retryCount)
+          delay: (error: Error, retryCount) => this.aiSearchRetryDelay(error, retryCount)
         }),
         finalize(() => {
           this._loading = false;
@@ -230,9 +227,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
   }
 
   loadReferences(): void {
-    this.fetchReferences()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((nodes) => this.updateNodes(nodes));
+    this.references$ = this.fetchReferences(this.queryAnswer).pipe(tap((nodes) => this.updateNodes(nodes)));
   }
 
   private setTooltip(codeBlockRegexp: RegExp, targetElementsSelector: string): void {
@@ -282,10 +277,10 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
     return answer.replace(SearchAiResultsComponent.LATEX_BLOCK_REGEX, (_, latexContent: string) => `$$${latexContent.trim()}$$`);
   }
 
-  private fetchReferences(): Observable<Node[]> {
+  private fetchReferences(answer?: AiAnswer): Observable<Node[]> {
     this._hasReferencesLoadingError = false;
 
-    const objectIds = this.queryAnswer?.objectReferences?.map((reference) => reference.objectId);
+    const objectIds = answer?.objectReferences?.map((reference) => reference.objectId);
 
     if (!objectIds?.length) {
       return of([]);
@@ -321,7 +316,6 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
     nodes.forEach((node) => {
       this._mimeTypeIconsByNodeId[node.id] = this.thumbnailService.getMimeTypeIcon(node.content?.mimeType);
     });
-    this._nodes = nodes;
     const nodesIds = nodes.map((node) => node.id);
     this.viewerService.customNodesOrder = nodesIds;
     this.userPreferencesService.set('aiReferences', JSON.stringify(nodesIds));
