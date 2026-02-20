@@ -23,7 +23,7 @@
  */
 
 import { BaseComponent } from './base.component';
-import { Page } from '@playwright/test';
+import { Locator, Page } from '@playwright/test';
 
 export class AdfInfoDrawerComponent extends BaseComponent {
   private static rootElement = 'adf-info-drawer';
@@ -38,8 +38,8 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   public getNameField = (labelText: string) =>
     this.getChild(`[data-automation-id="library-name-properties-wrapper"] input[placeholder='${labelText}']`);
   public getIdField = (labelText: string) => this.getChild(`[data-automation-id="library-id-properties-wrapper"] input[placeholder='${labelText}']`);
-  public getVisibilityField = (labelText: string) =>
-    this.getChild(`[data-automation-id="library-visibility-properties-wrapper"] [role="combobox"][ng-reflect-placeholder='${labelText}']`);
+  public getVisibilityField = (labelText: string): Locator =>
+    this.getChild(`[data-automation-id="library-visibility-properties-wrapper"]`).getByLabel(labelText);
   public getDescriptionField = this.getChild('[data-automation-id="library-description-properties-wrapper"] textarea');
   public propertiesTab = this.page.getByRole('tab', { name: 'Properties' });
   public commentsTab = this.page.getByRole('tab', { name: 'Comments' });

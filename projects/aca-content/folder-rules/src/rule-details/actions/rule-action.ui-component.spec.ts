@@ -69,9 +69,9 @@ describe('RuleActionUiComponent', () => {
     unitTestingUtils.getByCSS('.adf-textitem-action').nativeElement.click();
   };
 
-  const changeMatSelectValue = async (value: string) => {
+  const changeMatSelectValue = async (optionText: string) => {
     const matSelect = await loader.getHarness(MatSelectHarness);
-    await matSelect.clickOptions({ selector: `[ng-reflect-value="${value}"]` });
+    await matSelect.clickOptions({ text: optionText });
     fixture.detectChanges();
   };
 
@@ -95,7 +95,7 @@ describe('RuleActionUiComponent', () => {
     component.parameterConstraints = dummyConstraints;
     fixture.detectChanges();
 
-    await changeMatSelectValue('mock-action-1-definition');
+    await changeMatSelectValue('Action 1 title');
 
     await unitTestingUtils.fillMatInput('test');
     await fixture.whenStable();
@@ -125,7 +125,7 @@ describe('RuleActionUiComponent', () => {
     component.parameterConstraints = dummyConstraints;
     fixture.detectChanges();
 
-    await changeMatSelectValue('mock-action-1-definition');
+    await changeMatSelectValue('Action 1 title');
 
     const cardView = getPropertiesCardView();
 
@@ -209,7 +209,7 @@ describe('RuleActionUiComponent', () => {
       spyOn(tagService, 'areTagsEnabled').and.returnValue(true);
       fixture.detectChanges();
 
-      await changeMatSelectValue('mock-action-1-definition');
+      await changeMatSelectValue('Action 1 title');
       expect(tagService.areTagsEnabled).toHaveBeenCalled();
       (getPropertiesCardView().properties[2] as CardViewSelectItemModel<string>).options$.subscribe((options) => {
         expect(options).toEqual(
@@ -227,7 +227,7 @@ describe('RuleActionUiComponent', () => {
       spyOn(tagService, 'areTagsEnabled').and.returnValue(false);
       fixture.detectChanges();
 
-      await changeMatSelectValue('mock-action-1-definition');
+      await changeMatSelectValue('Action 1 title');
       expect(tagService.areTagsEnabled).toHaveBeenCalled();
       (getPropertiesCardView().properties[2] as CardViewSelectItemModel<string>).options$.subscribe((options) => {
         expect(options).toEqual([
@@ -245,7 +245,7 @@ describe('RuleActionUiComponent', () => {
       spyOn(categoriesService, 'areCategoriesEnabled').and.returnValue(true);
       fixture.detectChanges();
 
-      await changeMatSelectValue('mock-action-1-definition');
+      await changeMatSelectValue('Action 1 title');
       expect(categoriesService.areCategoriesEnabled).toHaveBeenCalled();
       (getPropertiesCardView().properties[2] as CardViewSelectItemModel<string>).options$.subscribe((options) => {
         expect(options).toEqual(
@@ -263,7 +263,7 @@ describe('RuleActionUiComponent', () => {
       spyOn(categoryService, 'areCategoriesEnabled').and.returnValue(false);
       fixture.detectChanges();
 
-      await changeMatSelectValue('mock-action-1-definition');
+      await changeMatSelectValue('Action 1 title');
       expect(categoryService.areCategoriesEnabled).toHaveBeenCalled();
       (getPropertiesCardView().properties[2] as CardViewSelectItemModel<string>).options$.subscribe((options) => {
         expect(options).toEqual([

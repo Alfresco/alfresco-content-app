@@ -299,7 +299,14 @@
         "space-before-function-paren": "off",
         "space-in-parens": ["off", "never"],
         "unicorn/filename-case": "error",
-        "@typescript-eslint/no-extra-semi": "error"
+        "@typescript-eslint/no-extra-semi": "error",
+        "no-restricted-syntax": [
+          "error",
+          {
+            "selector": ":matches(Literal[value=/ng-reflect-/], TemplateElement[value.cooked=/ng-reflect-/])",
+            "message": "*ng-reflect-* attributes should not be used. Consider alternatives for proper selectors."
+          }
+        ]
       }
     },
     {
