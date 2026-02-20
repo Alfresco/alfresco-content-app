@@ -37,7 +37,7 @@ export class SidenavComponent extends BaseComponent {
   private favorites = this.getChild(`[data-automation-id='app.navbar.favorites']`);
   private trash = this.getChild(`[data-automation-id='app.navbar.trashcan']`);
   private sidenavToggle = this.getChild(`.aca-sidenav-header-title-logo`);
-  private sidenavExpand = this.getChild(`[title='Expand navigation menu']`);
+  private sidenavExpand = this.page.locator(`[title='Expand navigation menu']`);
   public expandedSidenav = this.getChild(`[data-automation-id='expanded']`);
 
   constructor(page: Page) {

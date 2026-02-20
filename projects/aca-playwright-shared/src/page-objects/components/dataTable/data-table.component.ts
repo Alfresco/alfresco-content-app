@@ -53,7 +53,7 @@ export class DataTableComponent extends BaseComponent {
   sitesVisibility = this.getChild('.adf-datatable-body [data-automation-id*="datatable-row"] [aria-label="Visibility"]');
   sitesName = this.getChild('.adf-datatable-body [data-automation-id*="datatable-row"] [aria-label="Name"]');
   sitesRole = this.getChild('.adf-datatable-body [data-automation-id*="datatable-row"] [aria-label="My Role"]');
-  lockOwner = this.getChild('.aca-locked-by--name');
+  lockOwner = '.aca-locked-by--name';
   highlightedText = '.aca-highlight';
   searchFileName = '.search-file-name';
   searchFileDescription = '[data-automation-id="search-results-entry-description"]';

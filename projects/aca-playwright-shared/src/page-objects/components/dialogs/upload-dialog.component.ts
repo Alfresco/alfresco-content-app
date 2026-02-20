@@ -28,7 +28,7 @@ import { BaseComponent } from '../base.component';
 export class UploadDialog extends BaseComponent {
   private static rootElement = 'aca-upload-files-dialog';
 
-  public uploadDialog = this.getChild('');
+  public uploadDialogContent = this.getChild('.adf-upload-dialog__content');
   public closeButton = this.getChild('#adf-upload-dialog-close');
   public minimizeButton = this.getChild('[data-automation-id="adf-upload-dialog__toggle-minimize"]');
   public uploadDialogMinimized = this.getChild('.adf-upload-dialog--minimized');

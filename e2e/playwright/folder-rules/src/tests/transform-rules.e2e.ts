@@ -60,7 +60,7 @@ async function setupTransformationTest(
   await nodesApi.createFolder(destinationFolderName);
 
   await personalFiles.navigate({ remoteUrl: `#/nodes/${parentFolderId}/rules` });
-  await nodesPage.toolbar.clickCreateRuleButton();
+  await nodesPage.rulesToolbar.clickCreateRuleButton();
   await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(testString);
   await nodesPage.manageRulesDialog.ruleDescriptionInputLocator.fill(testString);
   await nodesPage.actionsDropdown.selectAction(ActionType.TransformAndCopyContent, 0);

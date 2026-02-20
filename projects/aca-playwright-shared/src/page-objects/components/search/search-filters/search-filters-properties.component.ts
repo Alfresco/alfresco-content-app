@@ -94,7 +94,7 @@ export class SearchFiltersProperties extends BaseComponent {
       await this.dropdownOptions.getByText(fileTypeInputText).click();
     }
 
-    await page.searchFilters.menuCardApply.click();
+    await page.searchMenuCard.menuCardApply.click();
     await page.dataTable.progressBarWaitForReload();
   }
 }

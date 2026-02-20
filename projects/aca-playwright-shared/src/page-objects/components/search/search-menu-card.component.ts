@@ -22,28 +22,20 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SearchPage } from '../../../pages';
-import { BaseComponent } from '../../base.component';
-import { Page, Locator } from '@playwright/test';
+import { BaseComponent } from '../base.component';
+import { Page } from '@playwright/test';
 
-export class SearchFiltersLocation extends BaseComponent {
-  private static rootElement = '.adf-search-filter-menu-card';
+export class SearchMenuCard extends BaseComponent {
+  private static rootElement = 'adf-search-filter-menu-card';
 
   constructor(page: Page) {
-    super(page, SearchFiltersLocation.rootElement);
+    super(page, SearchMenuCard.rootElement);
   }
 
-  public addOptionInput = this.getChild(`[data-automation-id$='adf-search-chip-autocomplete-input']`);
-
-  private searchOption(value: string): Locator {
-    return this.page.locator(`[data-automation-id="option-${value}"]`);
-  }
-
-  async filterByLocation(page: SearchPage, location: string): Promise<void> {
-    await page.searchFilters.locationFilter.click();
-    await page.searchFiltersLocation.addOptionInput.fill(location);
-    await page.searchFiltersLocation.searchOption(location).click();
-    await page.searchMenuCard.menuCardApply.click();
-    await page.dataTable.progressBarWaitForReload();
-  }
+  public resetButton = this.getChild('button', { hasText: 'Reset' });
+  public menuCardTitle = this.getChild('.adf-search-filter-title');
+  public menuCardClose = this.getChild('.adf-search-filter-title-action');
+  public menuCardClear = this.getChild('#cancel-filter-button');
+  public menuCardApply = this.getChild('#apply-filter-button');
+  public dropdownOptions = this.page.locator(`[role="option"]`);
 }

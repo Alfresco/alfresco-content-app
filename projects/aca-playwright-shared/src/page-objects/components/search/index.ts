@@ -22,28 +22,9 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SearchPage } from '../../../pages';
-import { BaseComponent } from '../../base.component';
-import { Page, Locator } from '@playwright/test';
-
-export class SearchFiltersLocation extends BaseComponent {
-  private static rootElement = '.adf-search-filter-menu-card';
-
-  constructor(page: Page) {
-    super(page, SearchFiltersLocation.rootElement);
-  }
-
-  public addOptionInput = this.getChild(`[data-automation-id$='adf-search-chip-autocomplete-input']`);
-
-  private searchOption(value: string): Locator {
-    return this.page.locator(`[data-automation-id="option-${value}"]`);
-  }
-
-  async filterByLocation(page: SearchPage, location: string): Promise<void> {
-    await page.searchFilters.locationFilter.click();
-    await page.searchFiltersLocation.addOptionInput.fill(location);
-    await page.searchFiltersLocation.searchOption(location).click();
-    await page.searchMenuCard.menuCardApply.click();
-    await page.dataTable.progressBarWaitForReload();
-  }
-}
+export * from './search-filters';
+export * from './search-filters.component';
+export * from './search-input.component';
+export * from './search-menu-card.component';
+export * from './search-overlay.components';
+export * from './search-sorting-picker.components';
