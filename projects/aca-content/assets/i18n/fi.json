@@ -268,6 +268,7 @@
                     "SIZE": "Koko"
                 },
                 "UNKNOWN_LOCATION": "Tuntematon",
+                "VIEW_ADDITIONAL_LOCATIONS": "View additional references locations",
                 "NO_RESULTS": "Hakusi ei tuottanut yhtään tulosta",
                 "EMPTY_SEARCH": "Hakutermi on pakollinen",
                 "NO_FILTER_RESULTS": "Suodatin ei tuottanut yhtään tulosta",
@@ -312,7 +313,7 @@
             "EDIT_OFFLINE_CANCEL": "Peruuta muokkaus",
             "CHANGE_ASPECT": "Muokkaa ominaisuusjoukkoja",
             "ADD_ASPECTS": "Lisää näkymiä",
-            "FOLDER_INFO": "Kansion Tiedot"
+            "NODE_INFO": "Information"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -480,19 +481,24 @@
             "CANCEL": "Peruuta",
             "SAVE": "Tallenna"
         },
-        "FOLDER_INFO": {
-            "ICON": "Kansion Kuvake",
-            "TITLE": "Kansion Tiedot",
-            "SIZE": "Koko",
-            "NUMBER_OF_FILES": "Tiedostojen määrä",
-            "CALCULATING": "Lasketaan...",
-            "CALCULATED_SIZE_LARGE": "{{sizeInBytes}} tavuja ({{sizeInLargeUnit}} {{unit}} levyllä) {{count}}-tiedostoille {{count}}",
-            "CALCULATED_SIZE_NORMAL": "{{sizeInBytes}} tavua {{count}}-tiedostoille {{count}}",
-            "LOCATION": "Sijainti",
-            "CREATED": "Luotu",
-            "MODIFIED": "Muokattu",
-            "DONE": "Valmis",
-            "ERROR": "Jokin meni pieleen, sulje tämä valintaikkuna ja yritä uudestaan"
+        "NODE_INFO": {
+            "ICON": "Node Icon",
+            "TITLE": "Information",
+            "SIZE": "Size",
+            "NUMBER_OF_FILES": "Number of files",
+            "CALCULATING": "Calculating...",
+            "LOCATION": "Location",
+            "REFERENCED": "Referenced",
+            "CREATED": "Created",
+            "MODIFIED": "Modified",
+            "DONE": "Done",
+            "ERROR": "Something went wrong, please close this dialog and try again"
+        },
+        "ADDITIONAL_REFERENCES_DIALOG": {
+            "TITLE": "Additional Reference Locations",
+            "NO_LOCATIONS": "{{ name }} is not referenced in any locations.",
+            "DESCRIPTION": "{{ name }} is currently referenced in these locations.",
+            "CLOSE": "Close"
         }
     },
     "NODE_SELECTOR": {
