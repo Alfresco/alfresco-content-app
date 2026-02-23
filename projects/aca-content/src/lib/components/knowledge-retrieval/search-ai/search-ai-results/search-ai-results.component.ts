@@ -184,6 +184,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
 
   performAiSearch(): void {
     this._loading = true;
+    this._hasAnsweringError = false;
 
     this.searchAiService
       .ask({
@@ -251,18 +252,17 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
     }
   }
 
-  private aiSearchRetryDelay(error: Error, retryCount: number): Observable<Error> {
+  private aiSearchRetryDelay(error: Error, retryCount: number): Observable<void> {
     this._hasAnsweringError = false;
     const delayBetweenRetries = 3000;
     const maxRetries = 9;
 
     if (retryCount > maxRetries) {
       this._hasAnsweringError = true;
-      this._loading = false;
       return throwError(() => error);
     }
 
-    return of(null).pipe(delay(delayBetweenRetries));
+    return of(undefined).pipe(delay(delayBetweenRetries));
   }
 
   private preprocessMarkdownFormat(answer: string): string {
