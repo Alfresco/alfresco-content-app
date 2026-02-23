@@ -25,7 +25,7 @@
 import { Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PageComponent, PageLayoutComponent, ContentApiService } from '@alfresco/aca-shared';
-import { catchError, delay, filter, finalize, map, retry, switchMap, tap } from 'rxjs/operators';
+import { catchError, delay, filter, finalize, map, retry, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { ClipboardService, EmptyContentComponent, ThumbnailService, UnsavedChangesGuard } from '@alfresco/adf-core';
 import { AiAnswer, Node } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
@@ -77,6 +77,8 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
   private static readonly MERMAID_BLOCK_REGEX = /```mermaid([\s\S]*?)```/g;
   private static readonly LATEX_BLOCK_REGEX = /```latex([\s\S]*?)```/g;
 
+  references$: Observable<Node[]> = of([]);
+
   private _agentId: string;
   private _hasAnsweringError = false;
   private _hasError = false;
@@ -88,8 +90,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
   private queryAnswer: AiAnswer;
   private _displayedAnswer: string;
   private _hasReferencesLoadingError = false;
-
-  references$: Observable<Node[]> = of([]);
+  private _referencesLoading = false;
 
   get agentId(): string {
     return this._agentId;
@@ -227,7 +228,19 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
   }
 
   loadReferences(): void {
-    this.references$ = this.fetchReferences(this.queryAnswer).pipe(tap((nodes) => this.updateNodes(nodes)));
+    if (this._referencesLoading) {
+      return;
+    }
+
+    this._referencesLoading = true;
+
+    this.references$ = this.fetchReferences(this.queryAnswer).pipe(
+      tap((nodes) => this.updateNodes(nodes)),
+      finalize(() => {
+        this._referencesLoading = false;
+      }),
+      shareReplay({ bufferSize: 1, refCount: true })
+    );
   }
 
   private setTooltip(codeBlockRegexp: RegExp, targetElementsSelector: string): void {
@@ -302,7 +315,6 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
           this._hasReferencesLoadingError = true;
           return [];
         }
-        this._hasReferencesLoadingError = false;
         return nodes;
       }),
       catchError(() => {

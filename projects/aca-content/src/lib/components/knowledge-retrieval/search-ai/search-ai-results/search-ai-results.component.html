@@ -58,11 +58,12 @@
                       </p>
 
                       @if (hasReferencesLoadingError) {
-                        <div class="aca-search-ai-response-container-body-references-container-loading-error">
+                        <div class="aca-search-ai-response-container-body-references-container-loading-error" role="alert">
                           {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.ERRORS.REFERENCES_LOADING_ERROR' | translate }}
                           <button
                             mat-flat-button
                             (click)="loadReferences()"
+                            [attr.aria-label]="'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.RELOAD_REFERENCES_BUTTON_LABEL' | translate"
                             class="aca-search-ai-response-container-error-message-regeneration-button"
                             data-automation-id="aca-search-ai-response-container-body-references-container-retry-references-loading-button">
                             <mat-icon class="aca-search-ai-response-container-error-message-regeneration-button-icon">cached</mat-icon>
@@ -95,7 +96,7 @@
                 }
               </div>
             } @else {
-              <div class="aca-search-ai-response-container-error-message">
+              <div class="aca-search-ai-response-container-error-message" role="alert">
                 {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.ERRORS.LOADING_ERROR' | translate }}
                 <button
                   mat-flat-button

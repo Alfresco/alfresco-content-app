@@ -35,6 +35,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import {
+  AppConfigService,
   DataCellEvent,
   DATATABLE_DIRECTIVES,
   DataTableComponent,
@@ -105,7 +106,7 @@ export class SavedSearchesListUiComponent extends DataTableSchema implements Aft
   private readonly hostElement: ElementRef<HTMLElement> = inject(ElementRef);
 
   constructor() {
-    super('', savedSearchesListSchema);
+    super(new AppConfigService(), '', savedSearchesListSchema);
   }
 
   ngAfterContentInit() {
