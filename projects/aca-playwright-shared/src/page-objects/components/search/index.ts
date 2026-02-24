@@ -26,5 +26,4 @@ export * from './search-filters';
 export * from './search-filters.component';
 export * from './search-input.component';
 export * from './search-menu-card.component';
-export * from './search-overlay.components';
 export * from './search-sorting-picker.components';

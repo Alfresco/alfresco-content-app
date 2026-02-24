@@ -26,24 +26,24 @@ import { Page } from '@playwright/test';
 import { BasePage } from './base.page';
 import {
   DataTableComponent,
+  FolderInformationDialogComponent,
   MatMenuComponent,
-  ViewerComponent,
-  SearchInputComponent,
-  SearchInDialogComponent,
-  SidenavComponent,
-  SearchSortingPicker,
   SearchFilters,
-  SearchFiltersTags,
   SearchFiltersCategories,
   SearchFiltersDate,
   SearchFiltersLocation,
   SearchFiltersLogic,
   SearchFiltersProperties,
-  FolderInformationDialogComponent,
-  SearchMenuCard
+  SearchFiltersTags,
+  SearchInputComponent,
+  SearchMenuCard,
+  SearchSortingPicker,
+  SidenavComponent,
+  ViewerComponent
 } from '../components';
 import { AcaHeader } from '../components/aca-header.component';
-import { AdfConfirmDialogComponent, AdfFolderDialogComponent, UploadNewVersionDialog, ManageVersionsDialog } from '../components/dialogs';
+import { AdfConfirmDialogComponent, AdfFolderDialogComponent, ManageVersionsDialog, UploadNewVersionDialog } from '../components/dialogs';
+import { SearchInDialogComponent } from '../components/search/search-in-dialog.components';
 
 export type SearchType = 'files' | 'folders' | 'filesAndFolders' | 'libraries';
 
