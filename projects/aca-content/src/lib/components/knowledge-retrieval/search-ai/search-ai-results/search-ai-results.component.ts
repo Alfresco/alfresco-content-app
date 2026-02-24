@@ -325,10 +325,11 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
   }
 
   private updateNodes(nodes: Node[]): void {
+    const nodesIds: string[] = [];
     nodes.forEach((node) => {
+      nodesIds.push(node.id);
       this._mimeTypeIconsByNodeId[node.id] = this.thumbnailService.getMimeTypeIcon(node.content?.mimeType);
     });
-    const nodesIds = nodes.map((node) => node.id);
     this.viewerService.customNodesOrder = nodesIds;
     this.userPreferencesService.set('aiReferences', JSON.stringify(nodesIds));
   }
