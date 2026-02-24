@@ -24,15 +24,14 @@
 
 import { Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PageComponent, PageLayoutComponent } from '@alfresco/aca-shared';
-import { concatMap, delay, filter, finalize, retryWhen, skipWhile, switchMap } from 'rxjs/operators';
+import { PageComponent, PageLayoutComponent, ContentApiService } from '@alfresco/aca-shared';
+import { catchError, delay, filter, finalize, map, retry, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { ClipboardService, EmptyContentComponent, ThumbnailService, UnsavedChangesGuard } from '@alfresco/adf-core';
 import { AiAnswer, Node } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
 import { SearchAiInputContainerComponent } from '../search-ai-input-container/search-ai-input-container.component';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { NodesApiService } from '@alfresco/adf-content-services';
-import { forkJoin, Observable, of, throwError } from 'rxjs';
+import { from, Observable, of, throwError } from 'rxjs';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -78,17 +77,20 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
   private static readonly MERMAID_BLOCK_REGEX = /```mermaid([\s\S]*?)```/g;
   private static readonly LATEX_BLOCK_REGEX = /```latex([\s\S]*?)```/g;
 
+  references$: Observable<Node[]> = of([]);
+
   private _agentId: string;
   private _hasAnsweringError = false;
   private _hasError = false;
   private _loading = false;
   private _mimeTypeIconsByNodeId: { [key: string]: string } = {};
-  private _nodes: Node[] = [];
   private openedViewer = false;
   private _selectedNodesState: SelectionState;
   private _searchQuery = '';
   private queryAnswer: AiAnswer;
   private _displayedAnswer: string;
+  private _hasReferencesLoadingError = false;
+  private _referencesLoading = false;
 
   get agentId(): string {
     return this._agentId;
@@ -110,10 +112,6 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
     return this._mimeTypeIconsByNodeId;
   }
 
-  get nodes(): Node[] {
-    return this._nodes;
-  }
-
   get searchQuery(): string {
     return this._searchQuery;
   }
@@ -122,16 +120,20 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
     return this._displayedAnswer;
   }
 
+  get hasReferencesLoadingError(): boolean {
+    return this._hasReferencesLoadingError;
+  }
+
   constructor(
     private readonly route: ActivatedRoute,
     private readonly clipboardService: ClipboardService,
     private readonly thumbnailService: ThumbnailService,
-    private readonly nodesApiService: NodesApiService,
     private readonly translateService: TranslateService,
     private readonly unsavedChangesGuard: UnsavedChangesGuard,
     private readonly modalAiService: ModalAiService,
     private readonly viewerService: ViewerService,
-    private readonly elementRef: ElementRef
+    private readonly elementRef: ElementRef,
+    private readonly contentApi: ContentApiService
   ) {
     super();
   }
@@ -182,6 +184,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
 
   performAiSearch(): void {
     this._loading = true;
+    this._hasAnsweringError = false;
 
     this.searchAiService
       .ask({
@@ -191,30 +194,25 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
       })
       .pipe(
         switchMap((response) => this.searchAiService.getAnswer(response.questionId)),
-        switchMap((response) => {
+        tap((response) => {
           if (!response.entry?.answer) {
-            return throwError((e) => e);
+            throw new Error();
           }
           this.queryAnswer = response.entry;
           this._displayedAnswer = this.preprocessMarkdownFormat(response.entry.answer);
-          return forkJoin(this.queryAnswer.objectReferences.map((reference) => this.nodesApiService.getNode(reference.objectId)));
+          this.loadReferences();
         }),
-        retryWhen((errors: Observable<Error>) => this.aiSearchRetryWhen(errors)),
-        finalize(() => (this._loading = false)),
+        retry({
+          delay: (error: Error, retryCount) => this.aiSearchRetryDelay(error, retryCount)
+        }),
+        finalize(() => {
+          this._loading = false;
+        }),
         takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe(
-        (nodes) => {
-          nodes.forEach((node) => {
-            this._mimeTypeIconsByNodeId[node.id] = this.thumbnailService.getMimeTypeIcon(node.content?.mimeType);
-          });
-          this._nodes = nodes;
-          const nodesIds = nodes.map((node) => node.id);
-          this.viewerService.customNodesOrder = nodesIds;
-          this.userPreferencesService.set('aiReferences', JSON.stringify(nodesIds));
-        },
-        () => (this._hasAnsweringError = true)
-      );
+      .subscribe({
+        error: () => (this._hasAnsweringError = true)
+      });
   }
 
   openFile(id: string): void {
@@ -230,6 +228,22 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
     this.setTooltip(SearchAiResultsComponent.LATEX_BLOCK_REGEX, '.katex');
   }
 
+  loadReferences(): void {
+    if (this._referencesLoading) {
+      return;
+    }
+
+    this._referencesLoading = true;
+
+    this.references$ = this.fetchReferences(this.queryAnswer).pipe(
+      tap((nodes) => this.updateNodes(nodes)),
+      finalize(() => {
+        this._referencesLoading = false;
+      }),
+      shareReplay({ bufferSize: 1, refCount: true })
+    );
+  }
+
   private setTooltip(codeBlockRegexp: RegExp, targetElementsSelector: string): void {
     const codeBlocks = [...this.queryAnswer.answer.matchAll(codeBlockRegexp)].map((match) => match[0].trim());
     const elements: HTMLElement[] = this.elementRef.nativeElement.querySelectorAll(targetElementsSelector);
@@ -238,23 +252,17 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
     }
   }
 
-  private aiSearchRetryWhen(errors: Observable<Error>): Observable<Error> {
+  private aiSearchRetryDelay(error: Error, retryCount: number): Observable<void> {
     this._hasAnsweringError = false;
     const delayBetweenRetries = 3000;
     const maxRetries = 9;
 
-    return errors.pipe(
-      skipWhile(() => this.hasAnsweringError),
-      delay(delayBetweenRetries),
-      concatMap((e, index) => {
-        if (index === maxRetries) {
-          this._hasAnsweringError = true;
-          this._loading = false;
-          return throwError(e);
-        }
-        return of(null);
-      })
-    );
+    if (retryCount > maxRetries) {
+      this._hasAnsweringError = true;
+      return throwError(() => error);
+    }
+
+    return of(undefined).pipe(delay(delayBetweenRetries));
   }
 
   private preprocessMarkdownFormat(answer: string): string {
@@ -280,5 +288,49 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
 
   private transformLatex(answer: string): string {
     return answer.replace(SearchAiResultsComponent.LATEX_BLOCK_REGEX, (_, latexContent: string) => `$$${latexContent.trim()}$$`);
+  }
+
+  private fetchReferences(answer?: AiAnswer): Observable<Node[]> {
+    this._hasReferencesLoadingError = false;
+
+    const objectIds = answer?.objectReferences?.map((reference) => reference.objectId);
+
+    if (!objectIds?.length) {
+      return of([]);
+    }
+
+    const query = objectIds.map((id) => `ID:"${id}"`).join(' OR ');
+
+    return from(
+      this.contentApi.search({
+        query: {
+          query,
+          language: 'afts'
+        }
+      })
+    ).pipe(
+      map((result) => {
+        const nodes = result.list.entries.map((entry) => entry.entry as Node);
+        if (nodes.length !== objectIds.length) {
+          this._hasReferencesLoadingError = true;
+          return [];
+        }
+        return nodes;
+      }),
+      catchError(() => {
+        this._hasReferencesLoadingError = true;
+        return of([]);
+      })
+    );
+  }
+
+  private updateNodes(nodes: Node[]): void {
+    const nodesIds: string[] = [];
+    nodes.forEach((node) => {
+      nodesIds.push(node.id);
+      this._mimeTypeIconsByNodeId[node.id] = this.thumbnailService.getMimeTypeIcon(node.content?.mimeType);
+    });
+    this.viewerService.customNodesOrder = nodesIds;
+    this.userPreferencesService.set('aiReferences', JSON.stringify(nodesIds));
   }
 }

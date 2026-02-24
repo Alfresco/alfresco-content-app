@@ -155,6 +155,10 @@
 
           &-divider {
             margin-top: 9px;
+
+            &-error {
+              border-color: var(--adf-error-color);
+            }
           }
 
           &-references-container {
@@ -166,6 +170,14 @@
               color: var(--theme-text-light-color);
               font-weight: 400;
               margin-bottom: 3px;
+            }
+
+            &-loading-error {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              padding-top: 12px;
+              padding-bottom: 3px;
             }
 
             &-documents {

@@ -710,7 +710,8 @@
           "REFERENCED_DOCUMENTS_HEADER": "Referenced documents",
           "REGENERATION_BUTTON_LABEL": "Regenerate",
           "COPY_BUTTON_LABEL": "Copy",
-          "COPY_MESSAGE": "Copied response to clipboard"
+          "COPY_MESSAGE": "Copied response to clipboard",
+          "RELOAD_REFERENCES_BUTTON_LABEL": "Reload"
         },
         "AGENTS_BUTTON": {
           "LABEL": "Ask Discovery",
@@ -726,7 +727,8 @@
           "AGENTS_FETCHING": "Error while fetching agents.",
           "HX_INSIGHT_URL_FETCHING": "Error while fetching HX Insight URL.",
           "LOADING_ERROR": "Hmm... something seems to have gone wrong.",
-          "PAGE_NOT_AVAILABLE_ERROR": "Page is not available for these conditions."
+          "PAGE_NOT_AVAILABLE_ERROR": "Page is not available for these conditions.",
+          "REFERENCES_LOADING_ERROR": "Something went wrong while loading the references."
         },
         "DISCARD_CHANGES": {
           "WARNING": "Warning!",
