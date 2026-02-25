@@ -8,9 +8,6 @@ inputs:
   github_token:
     description: 'Github token'
     required: true
-  npm_registry_token:
-    description: 'NPM registry token'
-    required: true
   npm_tag:
     description: 'NPM tag'
     required: true
@@ -29,9 +26,11 @@ runs:
 
     - name: Build Libraries
       shell: bash
-      run: npm ci && npx nx run-many --target=build
+      run: |
+        npm ci
+        npm run ci:build:many
 
-    - uses: actions/setup-node@v4
+    - uses: actions/setup-node@v6
       name: setup GH registry
       with:
         node-version-file: '.nvmrc'
@@ -46,7 +45,7 @@ runs:
         TAG: ${{ inputs.npm_tag }}
         DRY_RUN: ${{ inputs.dry-run }}
 
-    - uses: actions/setup-node@v4
+    - uses: actions/setup-node@v6
       name: setup NPM registry
       with:
         node-version-file: '.nvmrc'
@@ -57,6 +56,5 @@ runs:
       shell: bash
       run: ${{ github.action_path }}/npm-publish.sh "$TAG" "$DRY_RUN"
       env:
-        NODE_AUTH_TOKEN: ${{ inputs.npm_registry_token }}
         TAG: ${{ inputs.npm_tag }}
         DRY_RUN: ${{ inputs.dry-run }}
