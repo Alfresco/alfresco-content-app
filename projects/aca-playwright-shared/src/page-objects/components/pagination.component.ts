@@ -51,15 +51,6 @@ export class PaginationComponent extends BaseComponent {
   public totalPageLocator = this.getChild('.adf-pagination__total-pages');
   public getArrowLocatorFor = (action: PaginationActionsType) => this.getChild(`[aria-label="${action}"]`);
 
-  async spinnerWaitForReload(): Promise<void> {
-    try {
-      await this.page.locator('[role="progressbar"]').waitFor({ state: 'attached', timeout: 2000 });
-      await this.page.locator('[role="progressbar"]').waitFor({ state: 'detached', timeout: 2000 });
-    } catch (e) {
-      this.logger.info('Spinner was not present');
-    }
-  }
-
   async getRange(): Promise<string> {
     return this.range.innerText();
   }
