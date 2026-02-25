@@ -24,7 +24,6 @@
 
 import { BaseComponent } from './base.component';
 import { Locator, Page } from '@playwright/test';
-import { MatMenuComponent } from './dataTable/mat-menu.component';
 import { timeouts } from '../../utils';
 
 export enum PaginationActionsType {
@@ -48,32 +47,9 @@ export class PaginationComponent extends BaseComponent {
   private nextButton = this.getChild('.adf-pagination__next-button');
   private maxItemsButton = this.getChild('.adf-pagination__max-items + button[mat-icon-button]');
 
-  private itemsPerPageMenu = new MatMenuComponent(this.page);
-
   public currentPageLocator = this.getChild('.adf-pagination__current-page');
   public totalPageLocator = this.getChild('.adf-pagination__total-pages');
   public getArrowLocatorFor = (action: PaginationActionsType) => this.getChild(`[aria-label="${action}"]`);
-
-  async setItemsPerPage(amount: number): Promise<void> {
-    await this.getArrowLocatorFor(PaginationActionsType.PageSizeSelector).click();
-    await this.itemsPerPageMenu.getButtonByText(amount.toString()).click();
-    await this.spinnerWaitForReload();
-  }
-
-  async navigateToPage(pageNumber: number): Promise<void> {
-    await this.getArrowLocatorFor(PaginationActionsType.CurrentPageSelector).click();
-    await this.itemsPerPageMenu.getButtonByText(pageNumber.toString()).click();
-    await this.spinnerWaitForReload();
-  }
-
-  async spinnerWaitForReload(): Promise<void> {
-    try {
-      await this.page.locator('[role="progressbar"]').waitFor({ state: 'attached', timeout: 2000 });
-      await this.page.locator('[role="progressbar"]').waitFor({ state: 'detached', timeout: 2000 });
-    } catch (e) {
-      this.logger.info('Spinner was not present');
-    }
-  }
 
   async getRange(): Promise<string> {
     return this.range.innerText();

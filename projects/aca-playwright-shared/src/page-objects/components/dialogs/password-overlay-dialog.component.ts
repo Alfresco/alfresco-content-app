@@ -57,10 +57,6 @@ export class PasswordOverlayDialogComponent extends BaseComponent {
     return this.closeButton.isVisible();
   }
 
-  async isSubmitHidden(): Promise<boolean> {
-    return this.submitButton.isHidden();
-  }
-
   async isPasswordInputDisplayed(): Promise<boolean> {
     return this.passwordInput.isVisible();
   }

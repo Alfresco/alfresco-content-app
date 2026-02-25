@@ -28,7 +28,6 @@ import { timeouts } from '../../utils';
 
 export abstract class BaseComponent extends PlaywrightBase {
   private readonly rootElement: string;
-  private overlayElement = this.page.locator('.cdk-overlay-backdrop-showing');
   private progressBar = this.page.locator('[role="progressbar"]');
 
   protected constructor(page: Page, rootElement: string) {
@@ -46,13 +45,6 @@ export abstract class BaseComponent extends PlaywrightBase {
    */
   getChild(cssLocator: string, options?: { hasText?: string | RegExp; has?: Locator }): Locator {
     return this.page.locator(`${this.rootElement} ${cssLocator}`, options);
-  }
-
-  async closeAdditionalOverlayElementIfVisible(): Promise<void> {
-    if (await this.overlayElement.isVisible()) {
-      await this.page.keyboard.press('Escape');
-      await this.overlayElement.waitFor({ state: 'detached', timeout: timeouts.medium });
-    }
   }
 
   async spinnerWaitForReload(): Promise<void> {

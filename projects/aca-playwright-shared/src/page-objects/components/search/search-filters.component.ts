@@ -32,7 +32,6 @@ export class SearchFilters extends BaseComponent {
     super(page, SearchFilters.rootElement);
   }
 
-  public filtersButtons = this.getChild('adf-search-widget-chip');
   public logicFilter = this.getChild('adf-search-widget-chip', { hasText: 'Logic' });
   public propertiesFilter = this.getChild('adf-search-widget-chip', { hasText: 'Properties' });
   public dateFilter = this.getChild('adf-search-widget-chip', { hasText: 'Date' });
@@ -40,9 +39,5 @@ export class SearchFilters extends BaseComponent {
   public tagsFilter = this.getChild('adf-search-widget-chip', { hasText: 'Tags' });
   public categoriesFilter = this.getChild('adf-search-widget-chip', { hasText: 'Categories' });
   public resetButton = this.getChild('button', { hasText: 'Reset' });
-  public menuCardTitle = this.getChild('.adf-search-filter-title');
-  public menuCardClose = this.getChild('.adf-search-filter-title-action');
-  public menuCardClear = this.getChild('#cancel-filter-button');
-  public menuCardApply = this.getChild('#apply-filter-button');
   public dropdownOptions = this.page.locator(`[role="option"]`);
 }

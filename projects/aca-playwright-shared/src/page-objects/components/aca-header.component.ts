@@ -41,7 +41,6 @@ export class AcaHeader extends BaseComponent {
   public sharedDownloadButton = this.getChild('button[id="app.viewer.shared.download"]');
   public uploadButton = this.getChild('button[id="app.toolbar.upload"]');
   public uploadFileButton = this.page.locator('button[id="app.create.uploadFile"]');
-  public uploadInput = this.page.locator('input[id="app-upload-files"]');
   public uploadNewVersionButton = this.page.locator('#app-upload-file-version');
   public permanentlyDeleteButton = this.getChild('button[id="app.toolbar.purgeDeletedNodes"]');
   public restoreButton = this.getChild('button[id="app.toolbar.restoreDeletedNodes"]');
