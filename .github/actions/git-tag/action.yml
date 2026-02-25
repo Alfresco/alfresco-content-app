@@ -17,8 +17,11 @@ runs:
   steps:
     - name: publish tag
       shell: bash
+      env:
+        BRANCH_NAME: ${{ inputs.branch_name }}
+        GITHUB_TOKEN: ${{ inputs.github_token }}
       run: |
-        if [[  "${{ inputs.branch_name }}" == "master" ]] || [[ "${{ inputs.branch_name }}" == release/* ]]; then
+        if [[  "$BRANCH_NAME" == "master" ]] || [[ "$BRANCH_NAME" == release/* ]]; then
           VERSION=$(jq -cr '.version' < package.json)
           echo "git tag -a ${VERSION} -m ${VERSION}"
 
@@ -28,7 +31,7 @@ runs:
               if [[ "${{ inputs.dry-run }}" != "true" ]]; then
                 git tag -a ${VERSION} -m "${VERSION} [ci skip] "
                 git remote rm origin
-                GITHUB_REPO=https://${{ inputs.github_token }}:x-oauth-basic@github.com/Alfresco/alfresco-content-app.git
+                GITHUB_REPO=https://$GITHUB_TOKEN:x-oauth-basic@github.com/Alfresco/alfresco-content-app.git
                 git remote add origin $GITHUB_REPO
                 git push origin --tags
               fi

@@ -22,7 +22,8 @@
     "print-affected:build": "nx print-affected --target=build --select=tasks.target.project",
     "print-affected:test": "nx print-affected --target=test --select=tasks.target.project",
     "print-affected:lint": "nx print-affected --target=lint --select=tasks.target.project",
-    "lintfix": "nx affected:lint --fix"
+    "lintfix": "nx affected:lint --fix",
+    "ci:build:many": "nx run-many --target=build"
   },
   "repository": {
     "type": "git",
