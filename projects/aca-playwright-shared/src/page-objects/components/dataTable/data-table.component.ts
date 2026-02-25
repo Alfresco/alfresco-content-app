@@ -37,10 +37,7 @@ export class DataTableComponent extends BaseComponent {
   }
 
   public pagination = new PaginationComponent(this.page);
-  body = this.getChild('.adf-datatable-body');
   getEmptyFolderLocator = this.getChild('.adf-empty-folder');
-  getEmptyContentTitleLocator = this.getChild('adf-empty-content .adf-empty-content__title');
-  getEmptyContentSubTitleLocator = this.getChild('adf-empty-content .adf-empty-content__subtitle');
   getSelectedRow = this.getChild('.adf-datatable-row.adf-is-selected');
   sortedColumnHeader = this.getChild(`.adf-datatable__header--sorted-asc .adf-datatable-cell-header-content .adf-datatable-cell-value,
                                       .adf-datatable__header--sorted-desc .adf-datatable-cell-header-content .adf-datatable-cell-value`);
@@ -73,15 +70,6 @@ export class DataTableComponent extends BaseComponent {
   getRowByName = (name: string | number): Locator => this.getChild(`adf-datatable-row`, { hasText: name.toString() });
 
   /**
-   * Method used in cases where we want to check that some record is visible in the datatable.
-   * But we want to check it by column header title and value of this column.
-   *
-   * @returns reference to cell element which contains text.
-   */
-  getRowByColumnTitleAndItsCellValue = (columnTitle: string, cellValue: string | number): Locator =>
-    this.page.locator(`//div[contains(@title, '${columnTitle}')]//span[contains(text(), '${cellValue}')]/ancestor::adf-datatable-row`);
-
-  /**
    * Method used in cases where we want to retrieve a row from the datatable based on its numerical order within the array.
    *
    * @returns reference to cell element which contains text.
@@ -97,28 +85,6 @@ export class DataTableComponent extends BaseComponent {
   getCellLinkByName = (name: string): Locator => this.getChild('.adf-cell-value span[role="link"]', { hasText: name });
 
   /**
-   * Method used in cases where we want to localize the element by [aria-label]
-   *
-   * @returns reference to cell element.
-   */
-  getByAriaLabelTitle = (title: string): Locator => this.getChild(`[aria-label="${title}"]`);
-
-  /**
-   * Method used in cases where we want to get the edit button and there is no hamburger menu
-   *
-   * @returns reference to edit button placed in row localized by the name
-   */
-  getEditButtonByName = (name: string): Locator => this.getRowByName(name).locator('button#editButton');
-
-  /**
-   * Method used in cases where we want to get the button and there is no hamburger menu
-   *
-   * @returns reference to button placed in row localized by the name
-   */
-  getButtonByNameForSpecificRow = (elementTitleInRow: string, buttonTitle: string): Locator =>
-    this.getRowByName(elementTitleInRow).locator('button', { hasText: buttonTitle });
-
-  /**
    * Method used in cases where you want to get some specific cell (by column name) for row which contains some name/title/etc.
    *
    * @returns reference to cell element
@@ -131,10 +97,6 @@ export class DataTableComponent extends BaseComponent {
    * @returns reference to checkbox placed in row localized by the name
    */
   getCheckboxForElement = (item: string): Locator => this.getRowByName(item).locator('[type="checkbox"]');
-
-  getColumnHeaderByTitleLocator = (headerTitle: string): Locator => this.getChild('[role="columnheader"]', { hasText: headerTitle });
-
-  getSearchResultLinkByName = (name: string): Locator => this.getChild('.aca-search-results-row span[role="link"]', { hasText: name });
 
   getColumnValuesByName = (name: string): Locator => this.getChild(`div[title="${name}"] span`);
 
@@ -185,11 +147,6 @@ export class DataTableComponent extends BaseComponent {
   async getActionLocatorFromExpandableMenu(name: string | number, action: string): Promise<Locator> {
     await this.getRowByName(name).click({ button: 'right' });
     return this.contextMenuActions.getButtonByText(action);
-  }
-
-  async performActionInExpandableMenu(name: string | number, action: string): Promise<void> {
-    await this.getRowByName(name).click({ button: 'right' });
-    await this.contextMenuActions.getButtonByText(action).click();
   }
 
   async goThroughPagesLookingForRowWithName(name: string | number): Promise<void> {
@@ -342,11 +299,6 @@ export class DataTableComponent extends BaseComponent {
       sitesInfo[siteNameText] = siteRoleText;
     }
     return sitesInfo;
-  }
-
-  async hasLockIcon(itemName: string): Promise<boolean> {
-    const row = this.getRowByName(itemName);
-    return row.locator('img[src*="lock"]').isVisible();
   }
 
   async getLockOwner(itemName: string): Promise<string> {

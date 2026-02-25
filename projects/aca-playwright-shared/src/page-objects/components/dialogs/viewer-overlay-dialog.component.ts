@@ -29,10 +29,6 @@ import { timeouts } from '../../../utils';
 export class ViewerOverlayDialogComponent extends BaseComponent {
   private static rootElement = '.cdk-overlay-pane';
 
-  public closeButton = this.getChild('[data-automation-id="adf-password-dialog-close"]');
-  public submitButton = this.getChild('[data-automation-id="adf-password-dialog-submit"]');
-  public passwordInput = this.getChild('[data-automation-id="adf-password-dialog-input"]');
-  public errorMessage = this.getChild('[data-automation-id="adf-password-dialog-error"]');
   public copyDialog = this.getChild('[data-automation-id="content-node-selector-title"]');
   public copyMenuButton = this.getChild('[id="app.viewer.copy"]');
   public deleteMenuButton = this.getChild('[id="app.viewer.delete"]');

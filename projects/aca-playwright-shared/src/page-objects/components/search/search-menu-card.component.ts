@@ -28,12 +28,10 @@ import { Page } from '@playwright/test';
 export class SearchMenuCard extends BaseComponent {
   private static readonly rootElement = '.adf-search-filter-menu-card';
 
-  public resetButton = this.getChild('button', { hasText: 'Reset' });
   public menuCardTitle = this.getChild('.adf-search-filter-title');
   public menuCardClose = this.getChild('.adf-search-filter-title-action');
   public menuCardClear = this.getChild('#cancel-filter-button');
   public menuCardApply = this.getChild('#apply-filter-button');
-  public dropdownOptions = this.page.locator(`[role="option"]`);
 
   constructor(page: Page) {
     super(page, SearchMenuCard.rootElement);

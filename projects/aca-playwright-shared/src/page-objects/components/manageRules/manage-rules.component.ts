@@ -31,10 +31,8 @@ export class ManageRules extends BaseComponent {
   public getGroupsList = (optionName: string): Locator => this.getChild('.aca-rule-list-item__header', { hasText: optionName });
   public ruleToggle = this.getChild('.aca-manage-rules__container [role="switch"]').first();
   public ruleToggleFalse = this.getChild('aca-rule-list-grouping aca-rule-list-item [role="switch"][aria-checked="false"]').first();
-  public ruleDetailsTitle = this.getChild('.aca-manage-rules__container__rule-details__header__title__name');
   public ruleDetailsDeleteButton = this.getChild('#delete-rule-btn');
   public ruleDetailsEditButton = this.getChild('#edit-rule-btn');
-  public ruleDetailsWhenText = this.getChild('[data-automation-id="rule-details-triggers-component"]');
   public ruleDetailsPerformActionsDiv = this.getChild('adf-card-view-selectitem [data-automation-id="select-box"]');
   public rulesEmptyListTitle = this.getChild('.adf-empty-content__title');
   public ruleActions = this.getChild('aca-rule-action');

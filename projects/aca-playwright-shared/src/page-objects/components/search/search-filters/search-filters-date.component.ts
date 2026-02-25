@@ -37,17 +37,10 @@ export class SearchFiltersDate extends BaseComponent {
 
   public createdTab = this.getChild(`[role='tab']`, { hasText: 'Created' });
   public modifiedTab = this.getChild(`[role='tab']`, { hasText: 'Modified' });
-  public createdTabTitle = this.createdTab.locator(`div`);
-  public modifiedTabTitle = this.modifiedTab.locator(`div`);
   public anytimeButton = this.getChild(`[data-automation-id$='date-range-anytime']`);
   public anytimeRadioButton = this.anytimeButton.locator(`input`);
-  public inTheLastButton = this.getChild(`[data-automation-id$='date-range-in-last']`);
-  public inTheLastInput = this.getChild(`[data-automation-id$='date-range-in-last-input']`);
-  public inTheLastDropdown = this.getChild(`[data-automation-id$='date-range-in-last-dropdown']`);
   public betweenButton = this.getChild(`[data-automation-id$='date-range-between']`);
   public betweenRadioButton = this.betweenButton.locator(`input`);
-  public betweenStartDate = this.getChild(`[data-automation-id$='date-range-between-start-input']`);
-  public betweenEndDate = this.getChild(`[data-automation-id$='date-range-between-end-input']`);
 
   async openCreatedModifiedTab(page: SearchPage, tab: FilterTab): Promise<void> {
     switch (tab) {

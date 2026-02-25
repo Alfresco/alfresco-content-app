@@ -54,18 +54,6 @@ export class PaginationComponent extends BaseComponent {
   public totalPageLocator = this.getChild('.adf-pagination__total-pages');
   public getArrowLocatorFor = (action: PaginationActionsType) => this.getChild(`[aria-label="${action}"]`);
 
-  async setItemsPerPage(amount: number): Promise<void> {
-    await this.getArrowLocatorFor(PaginationActionsType.PageSizeSelector).click();
-    await this.itemsPerPageMenu.getButtonByText(amount.toString()).click();
-    await this.spinnerWaitForReload();
-  }
-
-  async navigateToPage(pageNumber: number): Promise<void> {
-    await this.getArrowLocatorFor(PaginationActionsType.CurrentPageSelector).click();
-    await this.itemsPerPageMenu.getButtonByText(pageNumber.toString()).click();
-    await this.spinnerWaitForReload();
-  }
-
   async spinnerWaitForReload(): Promise<void> {
     try {
       await this.page.locator('[role="progressbar"]').waitFor({ state: 'attached', timeout: 2000 });

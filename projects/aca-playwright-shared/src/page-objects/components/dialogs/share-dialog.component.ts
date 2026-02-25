@@ -37,7 +37,6 @@ export class ShareDialogComponent extends BaseComponent {
   closeButton = this.getChild('[data-automation-id="adf-share-dialog-close"]');
   dialogTitle = this.getChild('[data-automation-id="adf-share-dialog-title"]');
   infoText = this.getChild('.adf-share-link__info').first();
-  labels = '.adf-share-link__label';
   shareToggle = this.getChild(`[data-automation-id='adf-share-toggle']`);
   url = this.getChild(`[data-automation-id='adf-share-link']`);
   urlAction = this.getChild('.adf-input-action');
@@ -48,8 +47,6 @@ export class ShareDialogComponent extends BaseComponent {
   clockIcon = this.getChild('[adf-icon="timer"]');
 
   dateTimePicker = new DateTimePicker(this.page);
-
-  getDialogLabel = () => this.getChild('label').innerText();
 
   async getLabels(): Promise<Array<string>> {
     return this.page.$$eval('.adf-share-link__label', (elements) => elements.map((element) => element.textContent));

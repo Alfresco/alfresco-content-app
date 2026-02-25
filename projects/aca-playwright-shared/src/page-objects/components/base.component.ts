@@ -48,13 +48,6 @@ export abstract class BaseComponent extends PlaywrightBase {
     return this.page.locator(`${this.rootElement} ${cssLocator}`, options);
   }
 
-  async closeAdditionalOverlayElementIfVisible(): Promise<void> {
-    if (await this.overlayElement.isVisible()) {
-      await this.page.keyboard.press('Escape');
-      await this.overlayElement.waitFor({ state: 'detached', timeout: timeouts.medium });
-    }
-  }
-
   async spinnerWaitForReload(): Promise<void> {
     try {
       await this.page.locator('[role="progressbar"]').waitFor({ state: 'attached', timeout: timeouts.medium });
