@@ -24,7 +24,6 @@
 
 import { BaseComponent } from './base.component';
 import { Locator, Page } from '@playwright/test';
-import { MatMenuComponent } from './dataTable/mat-menu.component';
 import { timeouts } from '../../utils';
 
 export enum PaginationActionsType {
@@ -47,8 +46,6 @@ export class PaginationComponent extends BaseComponent {
   private previousButton = this.getChild('.adf-pagination__previous-button');
   private nextButton = this.getChild('.adf-pagination__next-button');
   private maxItemsButton = this.getChild('.adf-pagination__max-items + button[mat-icon-button]');
-
-  private itemsPerPageMenu = new MatMenuComponent(this.page);
 
   public currentPageLocator = this.getChild('.adf-pagination__current-page');
   public totalPageLocator = this.getChild('.adf-pagination__total-pages');
