@@ -541,13 +541,14 @@ describe('SearchAiResultsComponent', () => {
         }
       } as ResultSetPaging).pipe(delay(50));
 
-    const setupReferencesTest = (objectIds: string[] = [], searchResult: Observable<ResultSetPaging>[] = []) => {
+    const setupReferencesTest = (objectIds: string[] = [], searchResult: Observable<ResultSetPaging>[] = [], hasNodeId: boolean = false) => {
       spyOn(contentApiService, 'search').and.returnValues(...searchResult);
       spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
 
       const answer = getAiAnswerEntry();
       answer.entry.objectReferences = objectIds.map((id) => ({
-        objectId: id,
+        objectId: `sourceId__${id}`,
+        nodeId: hasNodeId ? `plain-${id}` : undefined,
         references: []
       }));
 
@@ -622,6 +623,18 @@ describe('SearchAiResultsComponent', () => {
       expect(component.hasReferencesLoadingError).toBeFalse();
       expect(unitTestingUtils.getByDataAutomationId(`aca-search-ai-results-${nodeId}-document`)).toBeTruthy();
       expect(unitTestingUtils.getByDataAutomationId(`aca-search-ai-results-${secondNodeId}-document`)).toBeTruthy();
+    }));
+
+    it('should use nodeId when available when fetching references', fakeAsync(() => {
+      setupReferencesTest([nodeId], [toSearchResult([node1])], true);
+      expect(contentApiService.search).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          query: {
+            query: `ID:"plain-${nodeId}"`,
+            language: 'afts'
+          }
+        })
+      );
     }));
 
     describe('Reload References', () => {
