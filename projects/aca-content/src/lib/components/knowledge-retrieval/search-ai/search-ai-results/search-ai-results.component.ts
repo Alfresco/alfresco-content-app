@@ -293,7 +293,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
   private fetchReferences(answer?: AiAnswer): Observable<Node[]> {
     this._hasReferencesLoadingError = false;
 
-    const objectIds = answer?.objectReferences?.map((reference) => reference.objectId);
+    const objectIds = answer?.objectReferences?.map((reference) => reference.nodeId ?? reference.objectId.split('__')[1]);
 
     if (!objectIds?.length) {
       return of([]);
