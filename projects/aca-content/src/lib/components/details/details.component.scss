@@ -1,4 +1,12 @@
+@use '@angular/material' as mat;
+
 app-details-manager {
+  @include mat.progress-bar-overrides(
+    (
+      active-indicator-color: var(--theme-primary-color)
+    )
+  );
+
   .aca-details-buttons {
     display: flex;
 
