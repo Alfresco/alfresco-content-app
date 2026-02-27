@@ -541,7 +541,7 @@ describe('SearchAiResultsComponent', () => {
         }
       } as ResultSetPaging).pipe(delay(50));
 
-    const setupReferencesTest = (objectIds: string[] = [], searchResult: Observable<ResultSetPaging>[] = [], hasNodeId: boolean = false) => {
+    const setupReferencesTest = (objectIds: string[] = [], searchResult: Observable<ResultSetPaging>[] = [], hasNodeId = false) => {
       spyOn(contentApiService, 'search').and.returnValues(...searchResult);
       spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
 
