@@ -18,7 +18,7 @@
 
   <div class="aca-rule-set-picker__content__rule-list" [ngClass]="{ 'aca-justify': rulesLoading$ | async }">
     <ng-container *ngIf="rulesLoading$ | async; else rulesLoaded">
-      <mat-progress-spinner color="primary" mode="indeterminate" />
+      <mat-progress-spinner mode="indeterminate" />
     </ng-container>
 
     <ng-template #rulesLoaded>
@@ -48,7 +48,8 @@
   </button>
 
   <button
-    mat-flat-button color="primary"
+    mat-flat-button
+    class="aca-rule-set-picker__submit-button"
     [disabled]="!hasOwnedRules || isBusy"
     (click)="onSubmit()">
     {{ 'ACA_FOLDER_RULES.LINK_RULES_DIALOG.SUBMIT' | translate }}

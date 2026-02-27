@@ -2,9 +2,16 @@
 @use '@angular/material' as mat;
 
 .aca-manage-rules {
+  @include mat.progress-bar-overrides(
+    (
+      active-indicator-color: var(--theme-primary-color)
+    )
+  );
   @include mat.button-overrides(
     (
-      outlined-outline-color: var(--adf-theme-foreground-text-color-064)
+      outlined-outline-color: var(--adf-theme-foreground-text-color-064),
+      filled-container-color: var(--theme-primary-color),
+      filled-label-text-color: var(--theme-primary-color-default-contrast)
     )
   );
 

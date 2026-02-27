@@ -1,6 +1,18 @@
+@use '@angular/material' as mat;
+
 app-library-metadata-form {
   .app-library-metadata-form-field {
     width: 100%;
     margin-bottom: 15px;
+  }
+
+  .app-library-metadata-form__primary-action {
+    @include mat.button-overrides(
+      (
+        text-label-text-color: var(--theme-primary-color),
+        text-ripple-color: var(--theme-primary-color),
+        text-state-layer-color: var(--theme-primary-color)
+      )
+    );
   }
 }

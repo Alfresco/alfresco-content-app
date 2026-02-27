@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 .aca-save-search-dialog {
   .aca-save-search-dialog__form-field {
     width: 100%;
@@ -15,5 +17,14 @@
     font-size: large;
     font-weight: 200;
     margin: 0;
+  }
+
+  .aca-save-search-dialog__save-button {
+    @include mat.button-overrides(
+      (
+        filled-container-color: var(--theme-primary-color),
+        filled-label-text-color: var(--theme-primary-color-default-contrast)
+      )
+    );
   }
 }

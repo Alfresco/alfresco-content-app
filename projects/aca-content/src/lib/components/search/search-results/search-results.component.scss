@@ -1,9 +1,16 @@
+@use '@angular/material' as mat;
 @import '../../../ui/mixins';
 
 aca-search-results {
   .aca-content-header {
     overflow-x: auto;
   }
+
+  @include mat.progress-bar-overrides(
+    (
+      active-indicator-color: var(--theme-primary-color)
+    )
+  );
 
   .aca-search-results-active-search-ai-input {
     .aca-header-container,
@@ -120,6 +127,12 @@ aca-search-results {
     &--visibility_button {
       margin-right: 8px;
       cursor: default;
+
+      @include mat.icon-button-overrides(
+        (
+          icon-color: var(--theme-primary-color)
+        )
+      );
     }
 
     .adf-search-filter {
