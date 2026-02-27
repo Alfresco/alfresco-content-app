@@ -11,7 +11,7 @@
     <div class="aca-main-content">
 
       <ng-container *ngIf="((ruleSetsLoading$ | async) && (inheritedRuleSets$ | async).length === 0) || (actionsLoading$ | async); else onLoaded">
-        <mat-progress-bar color="primary" mode="indeterminate" />
+        <mat-progress-bar mode="indeterminate" />
       </ng-container>
 
       <ng-template #onLoaded>
@@ -47,7 +47,7 @@
               <button
                 *ngIf="canEditMainRule"
                 data-automation-id="manage-rules-create-button"
-                mat-flat-button color="primary"
+                mat-flat-button
                 (click)="openCreateUpdateRuleDialog()">
                 {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.CREATE_RULE' | translate }}
               </button>

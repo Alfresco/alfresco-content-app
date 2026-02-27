@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 .aca-rule-simple-condition {
   &__form {
     display: flex;
@@ -21,5 +23,11 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+
+    @include mat.progress-spinner-overrides(
+      (
+        active-indicator-color: var(--theme-primary-color)
+      )
+    );
   }
 }

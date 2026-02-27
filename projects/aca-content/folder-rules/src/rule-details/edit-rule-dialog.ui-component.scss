@@ -1,4 +1,5 @@
 @use '../styles/mat-selectors' as ms;
+@use '@angular/material' as mat;
 
 .aca-edit-rule-dialog-container {
   --edit-rule-dialog-padding: 8px 20px;
@@ -53,5 +54,14 @@
     padding: var(--edit-rule-dialog-padding);
     box-sizing: border-box;
     border-top: 1px solid var(--theme-border-color);
+
+    .aca-edit-rule-dialog__submit-button {
+      @include mat.button-overrides(
+        (
+          filled-container-color: var(--theme-primary-color),
+          filled-label-text-color: var(--theme-primary-color-default-contrast)
+        )
+      );
+    }
   }
 }
