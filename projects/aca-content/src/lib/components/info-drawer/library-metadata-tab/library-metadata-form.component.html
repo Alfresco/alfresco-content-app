@@ -60,13 +60,13 @@
       (click)="cancel()">
       {{ 'LIBRARY.DIALOG.CANCEL' | translate }}
     </button>
-    <button mat-button color="primary" [disabled]="form.invalid || form.pristine" (click)="update()">
+    <button mat-button class="app-library-metadata-form__primary-action" [disabled]="form.invalid || form.pristine" (click)="update()">
       {{ 'LIBRARY.DIALOG.UPDATE' | translate }}
     </button>
     } @else {
     <button
       mat-button
-      color="primary"
+      class="app-library-metadata-form__primary-action"
       (click)="toggleEdit()"
       data-automation-id="app-library-metadata-form-edit-button">
       {{ 'LIBRARY.DIALOG.EDIT' | translate }}
