@@ -1,7 +1,7 @@
-@import '../../styles/mixins';
+@use '../../styles/mixins' as mixins;
 
 .aca-page-layout {
-  @include flex-column;
+  @include mixins.flex-column;
 
   .aca-content-header {
     background: var(--theme-page-layout-header-background-color);
@@ -35,17 +35,17 @@
   }
 
   .aca-page-layout-content {
-    @include flex-row;
+    @include mixins.flex-row;
 
     border-top: 1px solid var(--theme-metadata-property-panel-border-color);
   }
 
   .aca-page-layout-error {
-    @include flex-row;
+    @include mixins.flex-row;
   }
 
   .aca-main-content {
-    @include flex-column;
+    @include mixins.flex-column;
   }
 
   .aca-scrollable {

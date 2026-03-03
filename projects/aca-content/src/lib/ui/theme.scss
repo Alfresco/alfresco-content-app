@@ -1,9 +1,9 @@
 @use '@angular/material' as mat;
 @use './mat-selectors' as ms;
 @use '@alfresco/adf-core/theming' as adf-core;
-@import './custom-theme';
-@import './variables/variables';
-@include custom-theme($custom-theme);
+@use './custom-theme' as custom-theme;
+@use './variables/variables';
+@include custom-theme.custom-theme(custom-theme.$custom-theme);
 /* stylelint-disable-next-line */
 @include mat.elevation-classes();
 /* stylelint-disable-next-line */
@@ -328,7 +328,7 @@ mat-snack-bar-container {
 #{ms.$mat-tab-list} {
   #{ms.$mat-tab-labels} {
     #{ms.$mat-tab-label-active} {
-      color: var($selected-text-color);
+      color: var(--theme-selected-text-color);
     }
   }
 }

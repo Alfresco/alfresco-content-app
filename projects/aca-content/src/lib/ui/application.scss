@@ -1,13 +1,14 @@
 /* stylelint-disable scss/no-global-function-names */
 @use '@angular/material' as mat;
-@import './mixins';
-@import './theme';
+@use './mixins' as mixins;
+@use './theme';
+@use './custom-theme' as custom;
 
-$foreground: map-get($custom-theme, foreground);
+$foreground: map-get(custom.$custom-theme, foreground);
 
 html,
 body {
-  @include flex-column;
+  @include mixins.flex-column;
 
   font-size: 14px;
   font-family: 'Open Sans', serif;
@@ -15,7 +16,7 @@ body {
   margin: 0;
 
   & > main {
-    @include flex-column;
+    @include mixins.flex-column;
   }
 }
 
@@ -34,7 +35,7 @@ app-about,
 adf-layout-container,
 aca-search-results,
 ng-component {
-  @include flex-column;
+  @include mixins.flex-column;
 }
 
 @media screen and (max-width: 600px) {
