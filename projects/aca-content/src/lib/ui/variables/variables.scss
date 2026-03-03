@@ -1,9 +1,10 @@
 /* stylelint-disable scss/no-global-function-names */
 @use '@angular/material' as mat;
 @use 'sass:color';
+@use '../custom-theme' as custom;
 
-$foreground: map-get($custom-theme, foreground);
-$background: map-get($custom-theme, background);
+$foreground: map-get(custom.$custom-theme, foreground);
+$background: map-get(custom.$custom-theme, background);
 $background-color: mat.m2-get-color-from-palette($background, background);
 $background-card-color: mat.m2-get-color-from-palette($background, card);
 $text-color: mat.m2-get-color-from-palette($foreground, text);
