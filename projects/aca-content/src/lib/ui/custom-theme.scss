@@ -1,16 +1,16 @@
 /* stylelint-disable value-keyword-case */
 @use '@angular/material' as mat;
 @use '@mat-datetimepicker/core/datetimepicker/datetimepicker-theme' as datetimepicker-theme;
-@import './overrides/adf-style-fixes.theme';
-@import './overrides/adf-pagination.theme';
-@import './overrides/ay11';
-@import './overrides/adf-about.theme';
-@import './overrides/adf-variables';
-@import './colors';
+@use './overrides/adf-style-fixes.theme' as adf-style-fixes;
+@use './overrides/adf-pagination.theme' as adf-pagination;
+@use './overrides/ay11' as ay11;
+@use './overrides/adf-about.theme' as adf-about;
+@use './overrides/adf-variables' as adf-variables;
+@use './colors' as colors;
 
-$mat-primary-palette: mat.m2-define-palette($aca-primary-blue, A100);
-$mat-accent-palette: mat.m2-define-palette($aca-accent-green, A200);
-$mat-warn-palette: mat.m2-define-palette($aca-warn, A100);
+$mat-primary-palette: mat.m2-define-palette(colors.$aca-primary-blue, A100);
+$mat-accent-palette: mat.m2-define-palette(colors.$aca-accent-green, A200);
+$mat-warn-palette: mat.m2-define-palette(colors.$aca-warn, A100);
 $app-typography: mat.m2-define-typography-config(
   $font-family: 'Open Sans',
   $headline-1: mat.m2-define-typography-level(112px, 112px, 300),
@@ -39,10 +39,10 @@ $custom-theme: mat.m2-define-light-theme(
 
 @mixin custom-theme($theme) {
   @include mat.all-component-themes($theme);
-  @include provide-adf-variables($theme);
+  @include adf-variables.provide-adf-variables($theme);
   @include datetimepicker-theme.mat-datetimepicker-theme($theme);
-  @include adf-style-fixes($theme);
-  @include adf-pagination-theme($theme);
-  @include ay11-theme;
-  @include adf-about-theme($theme);
+  @include adf-style-fixes.adf-style-fixes($theme);
+  @include adf-pagination.adf-pagination-theme($theme);
+  @include ay11.ay11-theme;
+  @include adf-about.adf-about-theme($theme);
 }

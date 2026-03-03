@@ -1,5 +1,5 @@
 @use '@angular/material' as mat;
-@import '../../../ui/mixins';
+@use '../../../ui/mixins' as mixins;
 
 aca-search-results {
   .aca-content-header {
@@ -24,7 +24,7 @@ aca-search-results {
   }
 
   .adf-search-results {
-    @include flex-row;
+    @include mixins.flex-row;
 
     &__facets {
       display: flex;
@@ -34,7 +34,7 @@ aca-search-results {
     }
 
     &__content {
-      @include flex-column;
+      @include mixins.flex-column;
 
       border-left: 1px solid var(--theme-border-color);
     }
