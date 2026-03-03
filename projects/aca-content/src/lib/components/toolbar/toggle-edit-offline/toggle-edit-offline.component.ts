@@ -23,7 +23,7 @@
  */
 
 import { AppStore, DownloadNodesAction, EditOfflineAction, SetSelectedNodesAction, getAppSelection } from '@alfresco/aca-shared/store';
-import { NodeEntry, SharedLinkEntry, Node, NodesApi } from '@alfresco/js-api';
+import { NodeEntry, SharedLinkEntry, Node, NodesApi, LazyApi } from '@alfresco/js-api';
 import { Component, inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppExtensionService, isLocked } from '@alfresco/aca-shared';
@@ -52,7 +52,9 @@ export class ToggleEditOfflineComponent implements OnInit {
 
   private notificationService = inject(NotificationService);
 
-  private nodesApi: NodesApi;
+  @LazyApi((self: ToggleEditOfflineComponent) => new NodesApi(self.alfrescoApiService.getInstance()))
+  nodesApi: NodesApi;
+
   selection: NodeEntry;
   nodeTitle = '';
   isNodeLocked = false;
@@ -61,9 +63,7 @@ export class ToggleEditOfflineComponent implements OnInit {
     private store: Store<AppStore>,
     private alfrescoApiService: AlfrescoApiService,
     private extensions: AppExtensionService
-  ) {
-    this.nodesApi = new NodesApi(this.alfrescoApiService.getInstance());
-  }
+  ) {}
 
   ngOnInit() {
     this.store.select(getAppSelection).subscribe(({ file }) => {

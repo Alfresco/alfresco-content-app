@@ -23,7 +23,7 @@
  */
 
 import { AlfrescoApiService } from '@alfresco/adf-content-services';
-import { PeopleApi, Person } from '@alfresco/js-api';
+import { PeopleApi, Person, LazyApi } from '@alfresco/js-api';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -57,6 +57,7 @@ import { MatInputModule } from '@angular/material/input';
   encapsulation: ViewEncapsulation.None
 })
 export class ViewProfileComponent implements OnInit {
+  @LazyApi((self: ViewProfileComponent) => new PeopleApi(self.apiService.getInstance()))
   peopleApi: PeopleApi;
   profileForm = new FormGroup({
     firstName: new FormControl(''),
@@ -93,7 +94,6 @@ export class ViewProfileComponent implements OnInit {
     private readonly appService: AppService,
     private readonly extensionService: AppExtensionService
   ) {
-    this.peopleApi = new PeopleApi(this.apiService.getInstance());
     this.appNavNarMode$ = appService.appNavNarMode$.pipe(takeUntilDestroyed());
   }
 

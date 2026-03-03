@@ -43,7 +43,7 @@ import {
   ViewNodeAction
 } from '@alfresco/aca-shared/store';
 import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
-import { Node, VersionEntry, VersionsApi } from '@alfresco/js-api';
+import { Node, VersionEntry, VersionsApi, LazyApi } from '@alfresco/js-api';
 import { Component, DestroyRef, HostListener, inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, PRIMARY_OUTLET, Router } from '@angular/router';
 import { ViewerOpenWithComponent, ViewerSidebarComponent, ViewerToolbarActionsComponent } from '@alfresco/adf-core';
@@ -78,12 +78,8 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
 
   private documentListService = inject(DocumentListService);
 
-  private _versionsApi: VersionsApi;
-  get versionsApi(): VersionsApi {
-    this._versionsApi = this._versionsApi ?? new VersionsApi(this.apiService.getInstance());
-    return this._versionsApi;
-  }
-
+  @LazyApi((self: AcaViewerComponent) => new VersionsApi(self.apiService.getInstance()))
+  versionsApi: VersionsApi;
   fileName: string;
   folderId: string = null;
   infoDrawerOpened$: Observable<boolean>;
