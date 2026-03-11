@@ -13,6 +13,7 @@ Please refer to the public [documentation](https://alfresco-content-app.netlify.
 
 | ACA   | ADF           | ACS        | Node | Angular |
 |-------|---------------|------------|------|---------|
+| 7.3.x | 8.3.1         | 26.x       | 24.x | 19.x    |
 | 7.2.x | 8.2.1         | 23.x, 25.x | 22.x | 19.x    |
 | 7.1.x | 8.1.1         | 25.2       | 22.x | 19.x    |
 | 7.0.x | 8.0.0         | 25.2       | 22.x | 19.x    |
