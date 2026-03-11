@@ -46,6 +46,7 @@ export * from './lib/directives/pagination.directive';
 
 export * from './lib/models/types';
 export * from './lib/models/viewer.rules';
+export * from './lib/models/external-nodes-permission-comments.interface';
 
 export * from './lib/routing/shared.guard';
 export * from './lib/routing/plugin-enabled.guard';
@@ -64,6 +65,7 @@ export * from './lib/services/navigation-history.service';
 export * from './lib/testing/lib-testing-module';
 
 export * from './lib/utils/node.utils';
+export * from './lib/utils/external-node-comments-permissions.token';
 
 export * from './lib/validators/no-whitespace.validator';
 export * from './lib/validators/no-leading-trailing-operators.validator';
