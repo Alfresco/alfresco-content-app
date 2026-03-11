@@ -987,7 +987,8 @@
                 "!app.navigation.isTrashcan",
                 "!app.navigation.isLibraries",
                 "app.selection.notEmpty",
-                "app.selection.canDelete"
+                "app.selection.canDelete",
+                "!app.selection.isRmaSystemContainer"
           ]
         }
       },
@@ -1003,7 +1004,8 @@
           "visible": [
             "app.selection.notEmpty",
             "!app.navigation.isTrashcan",
-            "!app.navigation.isLibraries"
+            "!app.navigation.isLibraries",
+            "!app.selection.isRmaSystemContainer"
           ]
         }
       },
