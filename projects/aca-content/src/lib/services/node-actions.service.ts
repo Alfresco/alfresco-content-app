@@ -37,7 +37,7 @@ import {
   ContentService
 } from '@alfresco/adf-content-services';
 import { NodeEntry, Node, SitePaging, NodeChildAssociationPaging, NodeChildAssociationEntry, NodesApi, Site, SitePagingList } from '@alfresco/js-api';
-import { ContentApiService } from '@alfresco/aca-shared';
+import { ContentApiService, isRmaContent, isRmaSystemFolder } from '@alfresco/aca-shared';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
 type BatchOperationType = Extract<NodeAction, 'COPY' | 'MOVE'>;
@@ -170,6 +170,7 @@ export class NodeActionsService {
 
   getContentNodeSelection(action: NodeAction, contentEntities: NodeEntry[], focusedElementOnCloseSelector?: string): Subject<Node[]> {
     const currentParentFolderId = this.getEntryParentId(contentEntities[0].entry);
+    const isRmaRelated = contentEntities.some((node) => isRmaContent(node.entry));
 
     const customDropdown = new SitePaging({
       list: {
@@ -205,7 +206,9 @@ export class NodeActionsService {
       isSelectionValid: this.canCopyMoveInsideIt.bind(this),
       breadcrumbTransform: this.customizeBreadcrumb.bind(this),
       select: new Subject<Node[]>(),
-      excludeSiteContent: ContentNodeDialogService.nonDocumentSiteContent
+      excludeSiteContent: ContentNodeDialogService.nonDocumentSiteContent,
+      showSearch: !isRmaRelated,
+      showDropdownSiteList: !isRmaRelated
     };
 
     this.dialog
@@ -239,7 +242,7 @@ export class NodeActionsService {
   }
 
   private canCopyMoveInsideIt(entry: Node): boolean {
-    return this.hasEntityCreatePermission(entry) && !this.isSite(entry);
+    return this.hasEntityCreatePermission(entry) && !this.isSite(entry) && !isRmaSystemFolder(entry);
   }
 
   private hasEntityCreatePermission(entry: Node): boolean {
