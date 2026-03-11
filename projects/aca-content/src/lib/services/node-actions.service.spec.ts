@@ -118,7 +118,7 @@ describe('NodeActionsService', () => {
       spyOn(dialog, 'open').and.returnValue({
         afterClosed: of
       } as unknown as MatDialogRef<any>);
-      const contentEntities = [new TestNode(), { entry: { nodeId: '1234' } }];
+      const contentEntities = [new TestNode(), { entry: { nodeId: '1234', nodeType: 'cm:content' } }];
       service.getContentNodeSelection(NodeAction.CHOOSE, contentEntities as NodeEntry[]);
 
       const isSelectionValid = dialog.open['calls'].argsFor(0)[1].data.isSelectionValid({
@@ -136,7 +136,7 @@ describe('NodeActionsService', () => {
       spyOn(dialog, 'open').and.returnValue({
         afterClosed: of
       } as unknown as MatDialogRef<any>);
-      const contentEntities = [new TestNode(), { entry: { nodeId: '1234' } }];
+      const contentEntities = [new TestNode(), { entry: { nodeId: '1234', nodeType: 'cm:content' } }];
       service.getContentNodeSelection(NodeAction.CHOOSE, contentEntities as NodeEntry[]);
 
       const isSelectionValid = dialog.open['calls'].argsFor(0)[1].data.isSelectionValid({
@@ -154,7 +154,7 @@ describe('NodeActionsService', () => {
       spyOn(dialog, 'open').and.returnValue({
         afterClosed: of
       } as unknown as MatDialogRef<any>);
-      const contentEntities = [new TestNode(), { entry: { nodeId: '1234' } }];
+      const contentEntities = [new TestNode(), { entry: { nodeId: '1234', nodeType: 'cm:content' } }];
       service.getContentNodeSelection(NodeAction.CHOOSE, contentEntities as NodeEntry[]);
 
       const isSelectionValid = dialog.open['calls'].argsFor(0)[1].data.isSelectionValid({
@@ -173,7 +173,7 @@ describe('NodeActionsService', () => {
       spyOn(dialog, 'open').and.returnValue({
         afterClosed: of
       } as unknown as MatDialogRef<any>);
-      const contentEntities = [new TestNode(), { entry: { nodeId: '1234' } }];
+      const contentEntities = [new TestNode(), { entry: { nodeId: '1234', nodeType: 'cm:content' } }];
       service.getContentNodeSelection(NodeAction.CHOOSE, contentEntities as NodeEntry[]);
 
       const isSelectionValid = dialog.open['calls'].argsFor(0)[1].data.isSelectionValid({
@@ -186,6 +186,51 @@ describe('NodeActionsService', () => {
       });
 
       expect(isSelectionValid).toBe(true);
+    });
+
+    it('should invalidate selection if destination is an RMA system folder', () => {
+      spyOn(dialog, 'open').and.returnValue({
+        afterClosed: of
+      } as unknown as MatDialogRef<any>);
+      const contentEntities = [new TestNode(), { entry: { nodeId: '1234', nodeType: 'rma:holdContainer' } }];
+      service.getContentNodeSelection(NodeAction.CHOOSE, contentEntities as NodeEntry[]);
+
+      const isSelectionValid = dialog.open['calls'].argsFor(0)[1].data.isSelectionValid({
+        name: 'rma-hold-container',
+        isFile: false,
+        isFolder: true,
+        path: { elements: [{}, {}] },
+        nodeType: 'rma:holdContainer',
+        allowableOperations: ['create']
+      });
+
+      expect(isSelectionValid).toBe(false);
+    });
+
+    it('should hide search and site dropdown when at least one selected node is RMA-related', () => {
+      spyOn(dialog, 'open').and.returnValue({
+        afterClosed: of
+      } as unknown as MatDialogRef<any>);
+
+      const contentEntities = [new TestNode('regular-folder-id', false), new TestNode('rma-folder-id', false, 'rma-folder', [], 'rma:holdContainer')];
+      service.getContentNodeSelection(NodeAction.CHOOSE, contentEntities as NodeEntry[]);
+
+      const dialogConfig = dialog.open['calls'].argsFor(0)[1].data;
+      expect(dialogConfig.showSearch).toBe(false);
+      expect(dialogConfig.showDropdownSiteList).toBe(false);
+    });
+
+    it('should show search and site dropdown when selected nodes are not RMA-related', () => {
+      spyOn(dialog, 'open').and.returnValue({
+        afterClosed: of
+      } as unknown as MatDialogRef<any>);
+
+      const contentEntities = [new TestNode('folder-a-id', false), new TestNode('folder-b-id', false)];
+      service.getContentNodeSelection(NodeAction.CHOOSE, contentEntities as NodeEntry[]);
+
+      const dialogConfig = dialog.open['calls'].argsFor(0)[1].data;
+      expect(dialogConfig.showSearch).toBe(true);
+      expect(dialogConfig.showDropdownSiteList).toBe(true);
     });
   });
 
@@ -399,7 +444,7 @@ describe('NodeActionsService', () => {
         return { componentInstance: {}, afterClosed: of } as unknown as MatDialogRef<any>;
       });
 
-      service.copyNodes([{ entry: { id: 'entry-id', name: 'entry-name' } }]);
+      service.copyNodes([{ entry: { id: 'entry-id', name: 'entry-name', nodeType: 'cm:content' } }]);
 
       expect(spyOnBatchOperation).toHaveBeenCalled();
       expect(dialogData).toBeDefined();
@@ -421,7 +466,7 @@ describe('NodeActionsService', () => {
         return { componentInstance: {}, afterClosed: of } as unknown as MatDialogRef<any>;
       });
 
-      service.copyNodes([{ entry: { id: 'entry-id' } }]);
+      service.copyNodes([{ entry: { id: 'entry-id', nodeType: 'cm:content' } }]);
 
       expect(spyOnBatchOperation).toHaveBeenCalled();
       expect(dialogData).toBeDefined();
