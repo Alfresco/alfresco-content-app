@@ -22,12 +22,16 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnInit, Optional, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Node } from '@alfresco/js-api';
-import { isLocked, NodePermissionService } from '@alfresco/aca-shared';
+import {
+  EXTERNAL_NODE_PERMISSION_COMMENTS_TAB_SERVICE,
+  ExternalNodePermissionCommentsTabService,
+  isLocked,
+  NodePermissionService
+} from '@alfresco/aca-shared';
 import { MatCardModule } from '@angular/material/card';
 import { NodeCommentsComponent } from '@alfresco/adf-content-services';
-import { ExternalNodePermissionCommentsTabService } from './external-node-permission-comments-tab.service';
 
 @Component({
   imports: [MatCardModule, NodeCommentsComponent],
@@ -47,7 +51,8 @@ export class CommentsTabComponent implements OnInit {
 
   constructor(
     private readonly permission: NodePermissionService,
-    @Optional() private readonly externalPermissionNodeService: ExternalNodePermissionCommentsTabService
+    @Inject(EXTERNAL_NODE_PERMISSION_COMMENTS_TAB_SERVICE)
+    private readonly externalPermissionNodeService: ExternalNodePermissionCommentsTabService[]
   ) {}
 
   ngOnInit(): void {
@@ -56,8 +61,8 @@ export class CommentsTabComponent implements OnInit {
     }
     if (this.node.isFolder || (this.node.isFile && !isLocked({ entry: this.node }))) {
       this.canUpdateNode = this.permission.check(this.node, ['update']);
-      if (this.externalPermissionNodeService) {
-        this.canUpdateNode &&= this.externalPermissionNodeService.canAddComments(this.node);
+      if (this.externalPermissionNodeService?.length) {
+        this.canUpdateNode &&= this.externalPermissionNodeService.every((service) => service.canAddComments(this.node));
       }
     }
   }

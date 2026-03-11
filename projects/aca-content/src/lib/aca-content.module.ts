@@ -33,7 +33,12 @@ import {
   LibraryStatusColumnComponent,
   TrashcanNameColumnComponent
 } from '@alfresco/adf-content-services';
-import { DocumentBasePageService, ExtensionsDataLoaderGuard, provideContentAppExtensions } from '@alfresco/aca-shared';
+import {
+  DocumentBasePageService,
+  ExtensionsDataLoaderGuard,
+  EXTERNAL_NODE_PERMISSION_COMMENTS_TAB_SERVICE,
+  provideContentAppExtensions
+} from '@alfresco/aca-shared';
 import * as rules from '@alfresco/aca-shared/rules';
 import { AppStoreModule } from './store/app-store.module';
 import { provideAppExtensions, provideExtensions } from '@alfresco/adf-extensions';
@@ -66,6 +71,7 @@ import { SHELL_NAVBAR_MIN_WIDTH, ShellLayoutComponent } from '@alfresco/adf-core
 import { UserMenuComponent } from './components/sidenav/user-menu/user-menu.component';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { SearchResultsRowComponent } from './components/search/search-results-row/search-results-row.component';
+import { AcaNodePermissionCommentsService } from './services/aca-node-permission-comments.service';
 import { BulkActionsDropdownComponent } from './components/bulk-actions-dropdown/bulk-actions-dropdown.component';
 import { AgentsButtonComponent } from './components/knowledge-retrieval/search-ai/agents-button/agents-button.component';
 import { SaveSearchSidenavComponent } from './components/search/search-save/sidenav/save-search-sidenav.component';
@@ -85,6 +91,11 @@ import { IsFeatureSupportedInCurrentAcsPipe } from './pipes/is-feature-supported
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
       useValue: { closeOnNavigation: true, hasBackdrop: true, autoFocus: true }
+    },
+    {
+      provide: EXTERNAL_NODE_PERMISSION_COMMENTS_TAB_SERVICE,
+      useClass: AcaNodePermissionCommentsService,
+      multi: true
     },
     provideExtensions({
       authGuards: {
