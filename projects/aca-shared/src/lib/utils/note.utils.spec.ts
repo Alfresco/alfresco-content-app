@@ -22,9 +22,12 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { isLibrary, isLocked } from './node.utils';
+import { isLibrary, isLocked, isRmaContent, isRmaSystemFolder } from './node.utils';
+import { Node } from '@alfresco/js-api';
 
 describe('NodeUtils', () => {
+  const prepareNode = (nodeType: string): Node => ({ nodeType }) as Node;
+
   describe('isLocked', () => {
     it('should return [false] if entry is not defined', () => {
       expect(isLocked(null)).toBeFalse();
@@ -109,6 +112,46 @@ describe('NodeUtils', () => {
           }
         })
       ).toBeTrue();
+    });
+  });
+
+  describe('isRmaSystemFolder', () => {
+    it('should return [true] for rma:holdContainer', () => {
+      expect(isRmaSystemFolder(prepareNode('rma:holdContainer'))).toBeTrue();
+    });
+
+    it('should return [true] for rma:transferContainer', () => {
+      expect(isRmaSystemFolder(prepareNode('rma:transferContainer'))).toBeTrue();
+    });
+
+    it('should return [true] for rma:unfiledRecordContainer', () => {
+      expect(isRmaSystemFolder(prepareNode('rma:unfiledRecordContainer'))).toBeTrue();
+    });
+
+    it('should return [false] for non RMA system folder node type', () => {
+      expect(isRmaSystemFolder(prepareNode('rma:hold'))).toBeFalse();
+    });
+
+    it('should return [false] for unknown node type', () => {
+      expect(isRmaSystemFolder(prepareNode('unknown'))).toBeFalse();
+    });
+  });
+
+  describe('isRmaContent', () => {
+    it('should return [true] for node type starting with rma:', () => {
+      expect(isRmaContent(prepareNode('rma:hold'))).toBeTrue();
+      expect(isRmaContent(prepareNode('rma:holdContainer'))).toBeTrue();
+      expect(isRmaContent(prepareNode('rma:transferContainer'))).toBeTrue();
+      expect(isRmaContent(prepareNode('rma:unfiledRecordContainer'))).toBeTrue();
+      expect(isRmaContent(prepareNode('rma:whatever'))).toBeTrue();
+    });
+
+    it('should return [false] for node type not starting with rma:', () => {
+      expect(isRmaContent(prepareNode('cm:content'))).toBeFalse();
+    });
+
+    it('should return false when nodeType is missing', () => {
+      expect(isRmaContent({} as any)).toBeFalse();
     });
   });
 });
