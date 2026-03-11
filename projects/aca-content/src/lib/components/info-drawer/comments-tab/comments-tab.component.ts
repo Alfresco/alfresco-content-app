@@ -58,12 +58,9 @@ export class CommentsTabComponent implements OnInit {
   ngOnInit(): void {
     if (!this.node) {
       this.canUpdateNode = false;
-    }
-    if (this.node.isFolder || (this.node.isFile && !isLocked({ entry: this.node }))) {
-      this.canUpdateNode = this.permission.check(this.node, ['update']);
-      if (this.externalPermissionNodeService?.length) {
-        this.canUpdateNode &&= this.externalPermissionNodeService.every((service) => service.canAddComments(this.node));
-      }
+    } else if (this.node.isFolder || (this.node.isFile && !isLocked({ entry: this.node }))) {
+      this.canUpdateNode =
+        this.permission.check(this.node, ['update']) && this.externalPermissionNodeService.every((service) => service.canAddComments(this.node));
     }
   }
 }

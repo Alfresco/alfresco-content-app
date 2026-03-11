@@ -42,7 +42,7 @@ describe('CommentsTabComponent', () => {
       imports: [NoopTranslateModule, CommentsTabComponent],
       providers: [
         { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
-        { provide: EXTERNAL_NODE_PERMISSION_COMMENTS_TAB_SERVICE, useValue: [{ canAddComments: () => canAddComment }] },
+        { provide: EXTERNAL_NODE_PERMISSION_COMMENTS_TAB_SERVICE, useValue: { canAddComments: () => canAddComment }, multi: true },
         { provide: AuthenticationService, useValue: { onLogout: of({}) } }
       ]
     });

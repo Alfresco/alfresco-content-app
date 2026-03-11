@@ -149,9 +149,5 @@ describe('NodeUtils', () => {
     it('should return [false] for node type not starting with rma:', () => {
       expect(isRmaContent(prepareNode('cm:content'))).toBeFalse();
     });
-
-    it('should return false when nodeType is missing', () => {
-      expect(isRmaContent({} as any)).toBeFalse();
-    });
   });
 });

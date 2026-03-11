@@ -26,5 +26,9 @@ import { InjectionToken } from '@angular/core';
 import { ExternalNodePermissionCommentsTabService } from '../models/external-nodes-permission-comments.interface';
 
 export const EXTERNAL_NODE_PERMISSION_COMMENTS_TAB_SERVICE = new InjectionToken<ExternalNodePermissionCommentsTabService[]>(
-  'ExternalNodePermissionCommentsTabService'
+  'ExternalNodePermissionCommentsTabService',
+  {
+    providedIn: 'root',
+    factory: () => []
+  }
 );
