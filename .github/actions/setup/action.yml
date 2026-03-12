@@ -49,3 +49,9 @@ runs:
           fi
         fi
         echo "TAG_NPM=${TAG_NPM}" >> $GITHUB_ENV
+
+    - name: node
+      uses: actions/setup-node@v6
+      with:
+        node-version-file: '.nvmrc'
+        cache: 'npm'
