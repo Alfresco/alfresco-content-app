@@ -22,14 +22,26 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Public API Surface of aca-content
- */
+import { Node } from '@alfresco/js-api';
+import { ExternalNodePermissionCommentsTabService } from '@alfresco/aca-shared';
 
-export * from './lib/aca-content.module';
-export * from './lib/aca-content.routes';
-export * from './lib/store/initial-state';
-export * from './lib/services/content-url.service';
-export * from './lib/services/content-management.service';
-export * from './lib/utils/aca-search-utils';
-export * from './lib/pipes/is-feature-supported.pipe';
+type DenyRule = (node: Node) => boolean;
+
+export class AcaNodePermissionCommentsService implements ExternalNodePermissionCommentsTabService {
+  private readonly blacklistedTypes = new Set<string>(['rma:hold']);
+  private readonly blacklistedAspects = new Set<string>(['rma:frozen']);
+
+  private readonly denyRules: ReadonlyArray<DenyRule> = [(node) => this.hasBlacklistedAspect(node), (node) => this.hasBlacklistedType(node)];
+
+  canAddComments(node: Node): boolean {
+    return this.denyRules.every((rule) => !rule(node));
+  }
+
+  private hasBlacklistedAspect(node: Node): boolean {
+    return (node.aspectNames ?? []).some((aspect) => this.blacklistedAspects.has(aspect));
+  }
+
+  private hasBlacklistedType(node: Node): boolean {
+    return this.blacklistedTypes.has(node.nodeType ?? '');
+  }
+}

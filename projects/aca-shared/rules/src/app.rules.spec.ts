@@ -23,7 +23,14 @@
  */
 
 import * as app from './app.rules';
-import { createVersionRule, getFileExtension, isPreferencesApiAvailable, isNodeInfoAvailable, isBulkActionsAvailable } from './app.rules';
+import {
+  createVersionRule,
+  getFileExtension,
+  isPreferencesApiAvailable,
+  isNodeInfoAvailable,
+  isBulkActionsAvailable,
+  isRmaSystemContainer
+} from './app.rules';
 import { TestRuleContext } from './test-rule-context';
 import { NodeEntry, RepositoryInfo, StatusInfo } from '@alfresco/js-api';
 import { ProfileState, RuleContext } from '@alfresco/adf-extensions';
@@ -858,42 +865,39 @@ describe('app.evaluators', () => {
   });
 
   describe('canCreateFolder', () => {
-    it('should return false when content service is disabled', () => {
-      context.appConfig = { get: () => false } as any;
-      expect(app.canCreateFolder(context)).toBeFalse();
-    });
-
     it('should return false when user is outside personal files or libraries', () => {
-      context.appConfig = { get: () => true } as any;
       context.navigation.url = '/favorite/test';
       expect(app.canCreateFolder(context)).toBeFalse();
     });
 
     it('should return false when current folder does not exist', () => {
-      context.appConfig = { get: () => true } as any;
       context.navigation.url = '/personal-files/test';
       context.navigation.currentFolder = null;
       expect(app.canCreateFolder(context)).toBeFalse();
     });
 
     it('should return false when permission check fails', () => {
-      context.appConfig = { get: () => true } as any;
       context.navigation.url = '/personal-files/test';
       context.navigation.currentFolder = {} as any;
       context.permissions = { check: () => false };
       expect(app.canCreateFolder(context)).toBeFalse();
     });
 
-    it('should return true when permission requirements are met', () => {
-      context.appConfig = { get: () => true } as any;
+    it('should return true when permission requirements are met and current folder is not rma restricted one', () => {
       context.navigation.url = '/personal-files/test';
-      context.navigation.currentFolder = {} as any;
+      context.navigation.currentFolder = { nodeType: 'rma:filePlan' } as any;
       context.permissions = { check: () => true };
       expect(app.canCreateFolder(context)).toBeTrue();
     });
 
+    it('should return false when permission requirements are met BUT current folder is rma restricted one', () => {
+      context.navigation.url = '/personal-files/test';
+      context.navigation.currentFolder = { nodeType: 'rma:hold' } as any;
+      context.permissions = { check: () => true };
+      expect(app.canCreateFolder(context)).toBeFalse();
+    });
+
     it('should verify is user has create permission on current folder', () => {
-      context.appConfig = { get: () => true } as any;
       context.navigation.url = '/personal-files/test';
       context.navigation.currentFolder = { allowableOperations: ['create'] } as any;
       spyOn(context.permissions, 'check');
@@ -1313,6 +1317,31 @@ describe('Versions compatibility', () => {
       expect(rule(makeContext('25.1.1'))).toBe(true);
       expect(rule(makeContext('25.1.0.1-beta'))).toBe(true);
       expect(rule(makeContext('25.0.1.1-rc'))).toBe(false);
+    });
+  });
+
+  describe('isRmaSystemContainer', () => {
+    const prepareRuleContext = (nodeType: string | string[]): RuleContext => {
+      const nodes = Array.isArray(nodeType) ? nodeType.map((type) => ({ entry: { nodeType: type } })) : [{ entry: { nodeType } }];
+      return {
+        selection: {
+          nodes
+        }
+      } as RuleContext;
+    };
+
+    it('should return false when node is not rma system container', () => {
+      expect(isRmaSystemContainer(prepareRuleContext('rma:filePlan'))).toBeFalse();
+    });
+
+    it('should return true when node is rma system container', () => {
+      expect(isRmaSystemContainer(prepareRuleContext('rma:holdContainer'))).toBeTrue();
+      expect(isRmaSystemContainer(prepareRuleContext('rma:transferContainer'))).toBeTrue();
+      expect(isRmaSystemContainer(prepareRuleContext('rma:unfiledRecordContainer'))).toBeTrue();
+    });
+
+    it('should return true when at least one selected node is an rma system container', () => {
+      expect(isRmaSystemContainer(prepareRuleContext(['cm:folder', 'rma:transferContainer']))).toBeTrue();
     });
   });
 });

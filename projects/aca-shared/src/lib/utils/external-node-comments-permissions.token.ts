@@ -22,14 +22,13 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Public API Surface of aca-content
- */
+import { InjectionToken } from '@angular/core';
+import { ExternalNodePermissionCommentsTabService } from '../models/external-nodes-permission-comments.interface';
 
-export * from './lib/aca-content.module';
-export * from './lib/aca-content.routes';
-export * from './lib/store/initial-state';
-export * from './lib/services/content-url.service';
-export * from './lib/services/content-management.service';
-export * from './lib/utils/aca-search-utils';
-export * from './lib/pipes/is-feature-supported.pipe';
+export const EXTERNAL_NODE_PERMISSION_COMMENTS_TAB_SERVICE = new InjectionToken<ExternalNodePermissionCommentsTabService[]>(
+  'ExternalNodePermissionCommentsTabService',
+  {
+    providedIn: 'root',
+    factory: () => []
+  }
+);

@@ -24,11 +24,10 @@
 
 import { CommentsTabComponent } from './comments-tab.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NodePermissionService } from '@alfresco/aca-shared';
+import { EXTERNAL_NODE_PERMISSION_COMMENTS_TAB_SERVICE, NodePermissionService } from '@alfresco/aca-shared';
 import { Node } from '@alfresco/js-api';
 import { of } from 'rxjs';
 import { AuthenticationService, NoopTranslateModule } from '@alfresco/adf-core';
-import { ExternalNodePermissionCommentsTabService } from '@alfresco/aca-content';
 import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
 
 describe('CommentsTabComponent', () => {
@@ -43,7 +42,7 @@ describe('CommentsTabComponent', () => {
       imports: [NoopTranslateModule, CommentsTabComponent],
       providers: [
         { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
-        { provide: ExternalNodePermissionCommentsTabService, useValue: { canAddComments: () => canAddComment } },
+        { provide: EXTERNAL_NODE_PERMISSION_COMMENTS_TAB_SERVICE, useValue: { canAddComments: () => canAddComment }, multi: true },
         { provide: AuthenticationService, useValue: { onLogout: of({}) } }
       ]
     });

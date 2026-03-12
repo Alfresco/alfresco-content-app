@@ -24,6 +24,15 @@
 
 import { Node } from '@alfresco/js-api';
 
+const RMA_NODE_TYPES = {
+  hold: 'rma:hold',
+  holdContainer: 'rma:holdContainer',
+  transferContainer: 'rma:transferContainer',
+  unfiledRecordContainer: 'rma:unfiledRecordContainer'
+} as const;
+
+type RmaNodeType = (typeof RMA_NODE_TYPES)[keyof typeof RMA_NODE_TYPES];
+
 export function isLocked(node: { entry: Node }): boolean {
   if (node?.entry) {
     const { entry } = node;
@@ -43,3 +52,22 @@ export function isLibrary(node: { entry: Node | any }): boolean {
     return false;
   }
 }
+
+const hasNodeType =
+  (type: RmaNodeType) =>
+  (node: Node): boolean =>
+    node.nodeType === type;
+
+const isRmaHoldsContainer = hasNodeType(RMA_NODE_TYPES.holdContainer);
+const isRmaHold = hasNodeType(RMA_NODE_TYPES.hold);
+const isRmaTransferContainer = hasNodeType(RMA_NODE_TYPES.transferContainer);
+const isRmaUnfiledRecordsContainer = hasNodeType(RMA_NODE_TYPES.unfiledRecordContainer);
+
+export const isRmaSystemFolder = (node: Node): boolean =>
+  isRmaHoldsContainer(node) || isRmaTransferContainer(node) || isRmaUnfiledRecordsContainer(node);
+
+export const isRmaRestrictedCreateFolder = (node: Node): boolean => isRmaHold(node) || isRmaTransferContainer(node) || isRmaHoldsContainer(node);
+
+export const isRmaContent = (node: Node): boolean => {
+  return node.nodeType.startsWith('rma:');
+};

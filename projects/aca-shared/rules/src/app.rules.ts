@@ -27,6 +27,7 @@ import { RuleContext } from '@alfresco/adf-extensions';
 import * as navigation from './navigation.rules';
 import * as repository from './repository.rules';
 import { isAdmin } from './user.rules';
+import { isRmaRestrictedCreateFolder, isRmaSystemFolder } from '@alfresco/aca-shared';
 
 /* cspell:disable */
 export const supportedExtensions = {
@@ -197,7 +198,7 @@ export function canCreateFolder(context: AcaRuleContext): boolean {
     const { currentFolder } = context.navigation;
 
     if (currentFolder) {
-      return context.permissions.check(currentFolder, ['create']);
+      return context.permissions.check(currentFolder, ['create']) && !isRmaRestrictedCreateFolder(currentFolder);
     }
   }
   return false;
@@ -364,7 +365,7 @@ export function canUploadVersion(context: RuleContext): boolean {
 export const canPrintFile = (context: RuleContext): boolean => {
   const nodeEntry = context.selection.file.entry;
   const mediaMimeTypes = ['video/mp4', 'video/webm', 'video/ogg', 'audio/mpeg', 'audio/mp3', 'audio/ogg', 'audio/wav'];
-  return !mediaMimeTypes.includes(nodeEntry.content.mimeType);
+  return !mediaMimeTypes.includes(nodeEntry.content?.mimeType);
 };
 
 /**
@@ -511,6 +512,14 @@ export function createVersionRule(minimalVersion: string): (context: RuleContext
     return isVersionCompatible(acsVersion, minimalVersion);
   };
 }
+
+/**
+ * Checks if the folder is a Records Management site's system folder
+ * JSON ref: `app.selection.isRmaSystemContainer`
+ */
+export const isRmaSystemContainer = (context: RuleContext): boolean => {
+  return context.selection.nodes.some((node) => isRmaSystemFolder(node.entry));
+};
 
 function isVersionCompatible(currentVersion: string, minimalVersion: string): boolean {
   if (!currentVersion || !minimalVersion) {
