@@ -104,6 +104,14 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
 
+      - name: node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - uses: ./.github/actions/before-install
+      - run: npm ci
+
       - name: Check Search Indexing
         run: npm run ci:check-search-indexing -- --host "$BASE_URL" -u "$HR_USER" -p "$HR_USER_PASSWORD" --admin-username "$ADMIN_EMAIL" --admin-password "$ADMIN_PASSWORD"
 
@@ -139,7 +147,7 @@ jobs:
         run: npm run ci:test -- $TEST_OPTS
 
   e2es-playwright:
-    needs: [lint, build, unit-tests]
+    needs: [lint, build, unit-tests, check-search-indexing]
     name: E2E | ${{ matrix.browser || 'chromium' }} | ${{ matrix.e2e-suites.name }} | Playwright
     runs-on: ubuntu-24.04
     env:
