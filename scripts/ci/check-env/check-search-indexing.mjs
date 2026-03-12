@@ -9,8 +9,7 @@
  */
 
 import { AlfrescoApi, NodesApi, SearchApi, PeopleApi, GroupsApi, CategoriesApi } from '@alfresco/js-api';
-import { argv, exit } from 'node:process';
-import { program } from 'commander';
+import { exit } from 'node:process';
 
 const INDEXING_TIMEOUT_SECONDS = 80;
 const RETRY_INTERVAL_SECONDS = 2;
@@ -25,21 +24,11 @@ let groupsApi;
 let categoriesApi;
 
 async function main() {
-    program
-        .version('0.1.0')
-        .option('--host [type]', 'Remote environment host')
-        .option('-p, --password [type]', 'password')
-        .option('-u, --username [type]', 'username')
-        .option('--admin-username [type]', 'admin username')
-        .option('--admin-password [type]', 'admin password')
-        .parse(argv);
-
-    const options = program.opts();
-    const host = options.host || process.env.BASE_URL;
-    const username = options.username || process.env.HR_USER;
-    const password = options.password || process.env.HR_USER_PASSWORD;
-    const adminUsername = options.adminUsername || process.env.ADMIN_EMAIL;
-    const adminPassword = options.adminPassword || process.env.ADMIN_PASSWORD_SCRIPT;
+    const host = process.env.BASE_URL;
+    const username = process.env.HR_USER;
+    const password = process.env.HR_USER_PASSWORD;
+    const adminUsername = process.env.ADMIN_EMAIL;
+    const adminPassword = process.env.ADMIN_PASSWORD_SCRIPT;
 
     if (!host || !username || !password) {
         console.error('[ 🔍 Search Indexing Check ] Missing required parameters: host, username, or password');
