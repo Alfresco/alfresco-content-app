@@ -33,7 +33,8 @@
     "ci:audit": "adf-cli audit -d docs/audit",
     "ci:licenses": "adf-cli licenses -d docs/licences",
     "ci:changelog": "adf-cli changelog -o docs/changelog --exclude=\"bot\\|Alfresco Build User\\|alfresco-build\"",
-    "ci:check-env": "adf-cli check-cs-env --host $BASE_URL -u $ADMIN_EMAIL -p $ADMIN_PASSWORD"
+    "ci:check-env": "adf-cli check-cs-env --host $BASE_URL -u $ADMIN_EMAIL -p $ADMIN_PASSWORD",
+    "ci:check-search-indexing": "node ./scripts/ci/check-env/check-search-indexing.mjs"
   },
   "repository": {
     "type": "git",

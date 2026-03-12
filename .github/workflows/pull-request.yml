@@ -90,6 +90,23 @@ jobs:
           path: ./dist/content-ce
           key: cache-dist-${{ github.run_id }}
 
+  check-search-indexing:
+    needs: [lint]
+    name: 'Search Indexing Status Check'
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Check Search Indexing
+        run: npm run ci:check-search-indexing -- --host "$BASE_URL" -u "$HR_USER" -p "$HR_USER_PASSWORD" --admin-username "$ADMIN_EMAIL" --admin-password "$ADMIN_PASSWORD"
+
   unit-tests:
     needs: [lint, build]
     name: "Unit tests"
@@ -255,7 +272,7 @@ jobs:
 
   finalize:
     if: ${{ always() }}
-    needs: [lint, build, unit-tests, e2es-playwright]
+    needs: [lint, build, unit-tests, e2es-playwright, check-search-indexing]
     name: 'Finalize'
     runs-on: ubuntu-latest
     steps:
