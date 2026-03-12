@@ -113,7 +113,9 @@ jobs:
       - run: npm ci
 
       - name: Check Search Indexing
-        run: npm run ci:check-search-indexing -- --host "$BASE_URL" -u "$HR_USER" -p "$HR_USER_PASSWORD" --admin-username "$ADMIN_EMAIL" --admin-password "$ADMIN_PASSWORD"
+        run: npm run ci:check-search-indexing
+        env:
+          ADMIN_PASSWORD_SCRIPT: ${{ env.ADMIN_PASSWORD }}
 
   unit-tests:
     needs: [lint, build]
@@ -147,7 +149,7 @@ jobs:
         run: npm run ci:test -- $TEST_OPTS
 
   e2es-playwright:
-    needs: [lint, build, unit-tests, check-search-indexing]
+    needs: [lint, build, unit-tests]
     name: E2E | ${{ matrix.browser || 'chromium' }} | ${{ matrix.e2e-suites.name }} | Playwright
     runs-on: ubuntu-24.04
     env:
