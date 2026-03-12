@@ -34,7 +34,7 @@ export class UserProfileService {
   private groupService = inject(GroupService);
 
   @LazyApi((self: UserProfileService) => new PeopleApi(self.api.getInstance()))
-  peopleApi: PeopleApi;
+  private peopleApi: PeopleApi;
 
   private userProfile = new BehaviorSubject<ProfileState>(null);
   userProfile$ = this.userProfile.asObservable();

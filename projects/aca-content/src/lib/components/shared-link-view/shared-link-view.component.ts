@@ -49,7 +49,7 @@ export class SharedLinkViewComponent implements OnInit {
   viewerToolbarActions: Array<ContentActionRef> = [];
 
   @LazyApi((self: SharedLinkViewComponent) => new SharedlinksApi(self.alfrescoApiService.getInstance()))
-  sharedLinksApi: SharedlinksApi;
+  private sharedLinksApi: SharedlinksApi;
 
   private readonly destroyRef = inject(DestroyRef);
 
