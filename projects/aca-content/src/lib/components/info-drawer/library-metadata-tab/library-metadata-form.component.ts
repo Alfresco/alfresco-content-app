@@ -34,7 +34,7 @@ import {
   ValidationErrors,
   Validators
 } from '@angular/forms';
-import { QueriesApi, SiteEntry, SitePaging } from '@alfresco/js-api';
+import { QueriesApi, SiteEntry, SitePaging, LazyApi } from '@alfresco/js-api';
 import { Store } from '@ngrx/store';
 import { AppStore, isAdmin, UpdateLibraryAction } from '@alfresco/aca-shared/store';
 import { AppHookService } from '@alfresco/aca-shared';
@@ -77,13 +77,10 @@ export class InstantErrorStateMatcher implements ErrorStateMatcher {
   encapsulation: ViewEncapsulation.None
 })
 export class LibraryMetadataFormComponent implements OnInit, OnChanges {
-  private _queriesApi: QueriesApi;
   private _titleErrorTranslationKey: string;
 
-  get queriesApi(): QueriesApi {
-    this._queriesApi = this._queriesApi ?? new QueriesApi(this.alfrescoApiService.getInstance());
-    return this._queriesApi;
-  }
+  @LazyApi((self: LibraryMetadataFormComponent) => new QueriesApi(self.alfrescoApiService.getInstance()))
+  queriesApi: QueriesApi;
 
   get titleErrorTranslationKey(): string {
     return this._titleErrorTranslationKey;

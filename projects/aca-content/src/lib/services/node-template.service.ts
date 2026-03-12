@@ -26,7 +26,7 @@ import { inject, Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CreateFromTemplateDialogComponent } from '../dialogs/node-template/create-from-template.dialog';
 import { Subject, from, of } from 'rxjs';
-import { Node, ResultNode, PathElement, SearchApi } from '@alfresco/js-api';
+import { Node, ResultNode, PathElement, SearchApi, LazyApi } from '@alfresco/js-api';
 import { TranslationService, NotificationService } from '@alfresco/adf-core';
 import { switchMap, catchError } from 'rxjs/operators';
 import {
@@ -54,11 +54,8 @@ export class NodeTemplateService {
   private currentTemplateConfig: TemplateDialogConfig = null;
   private rootNode: ResultNode;
 
-  private _searchApi: SearchApi;
-  get searchApi(): SearchApi {
-    this._searchApi = this._searchApi ?? new SearchApi(this.alfrescoApiService.getInstance());
-    return this._searchApi;
-  }
+  @LazyApi((self: NodeTemplateService) => new SearchApi(self.alfrescoApiService.getInstance()))
+  searchApi: SearchApi;
 
   selectTemplateDialog(config: TemplateDialogConfig): Subject<Node[]> {
     this.currentTemplateConfig = config;

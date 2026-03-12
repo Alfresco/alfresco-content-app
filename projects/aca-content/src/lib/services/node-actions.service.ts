@@ -36,7 +36,17 @@ import {
   NodeAction,
   ContentService
 } from '@alfresco/adf-content-services';
-import { NodeEntry, Node, SitePaging, NodeChildAssociationPaging, NodeChildAssociationEntry, NodesApi, Site, SitePagingList } from '@alfresco/js-api';
+import {
+  NodeEntry,
+  Node,
+  SitePaging,
+  NodeChildAssociationPaging,
+  NodeChildAssociationEntry,
+  NodesApi,
+  Site,
+  SitePagingList,
+  LazyApi
+} from '@alfresco/js-api';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
@@ -51,11 +61,8 @@ export class NodeActionsService {
   moveDeletedEntries: any[] = [];
   isSitesDestinationAvailable = false;
 
-  _nodesApi: NodesApi;
-  get nodesApi(): NodesApi {
-    this._nodesApi = this._nodesApi ?? new NodesApi(this.apiService.getInstance());
-    return this._nodesApi;
-  }
+  @LazyApi((self: NodeActionsService) => new NodesApi(self.apiService.getInstance()))
+  nodesApi: NodesApi;
 
   constructor(
     private contentService: ContentService,

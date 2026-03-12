@@ -25,7 +25,7 @@
 import { AppStore, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { ViewerModule } from '@alfresco/adf-core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import { SharedLinkEntry, SharedlinksApi } from '@alfresco/js-api';
+import { SharedLinkEntry, SharedlinksApi, LazyApi } from '@alfresco/js-api';
 import { Component, DestroyRef, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -48,6 +48,7 @@ export class SharedLinkViewComponent implements OnInit {
   sharedLinkId: string = null;
   viewerToolbarActions: Array<ContentActionRef> = [];
 
+  @LazyApi((self: SharedLinkViewComponent) => new SharedlinksApi(self.alfrescoApiService.getInstance()))
   private sharedLinksApi: SharedlinksApi;
 
   private readonly destroyRef = inject(DestroyRef);
@@ -58,9 +59,7 @@ export class SharedLinkViewComponent implements OnInit {
     private extensions: AppExtensionService,
     private alfrescoApiService: AlfrescoApiService,
     private appService: AppService
-  ) {
-    this.sharedLinksApi = new SharedlinksApi(this.alfrescoApiService.getInstance());
-  }
+  ) {}
 
   ngOnInit() {
     this.route.params
