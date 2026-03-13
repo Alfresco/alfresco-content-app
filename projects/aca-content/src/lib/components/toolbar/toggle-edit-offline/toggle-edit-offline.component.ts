@@ -53,7 +53,7 @@ export class ToggleEditOfflineComponent implements OnInit {
   private notificationService = inject(NotificationService);
 
   @LazyApi((self: ToggleEditOfflineComponent) => new NodesApi(self.alfrescoApiService.getInstance()))
-  private nodesApi: NodesApi;
+  declare private nodesApi: NodesApi;
 
   selection: NodeEntry;
   nodeTitle = '';

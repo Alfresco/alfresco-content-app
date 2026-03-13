@@ -62,7 +62,7 @@ export class NodeActionsService {
   isSitesDestinationAvailable = false;
 
   @LazyApi((self: NodeActionsService) => new NodesApi(self.apiService.getInstance()))
-  nodesApi: NodesApi;
+  declare nodesApi: NodesApi;
 
   constructor(
     private contentService: ContentService,

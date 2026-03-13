@@ -79,7 +79,7 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
   private documentListService = inject(DocumentListService);
 
   @LazyApi((self: AcaViewerComponent) => new VersionsApi(self.apiService.getInstance()))
-  versionsApi: VersionsApi;
+  declare versionsApi: VersionsApi;
   fileName: string;
   folderId: string = null;
   infoDrawerOpened$: Observable<boolean>;
