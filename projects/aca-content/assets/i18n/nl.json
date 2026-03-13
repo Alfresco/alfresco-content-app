@@ -1,6 +1,6 @@
 {
     "APP": {
-        "COPYRIGHT": "© 2005-2025 Hyland, Inc. en haar gelieerde bedrijven. Alle rechten voorbehouden.",
+        "COPYRIGHT": "© 2005-2025 Hyland Software, Inc. and its affiliates. All rights reserved.",
         "TITLE": "Workspace",
         "ABOUT": {
             "VERSION": "Versie:",
@@ -267,8 +267,8 @@
                     "LOCATION": "Locatie",
                     "SIZE": "Grootte"
                 },
-                "UNKNOWN_LOCATION": "Onbekend",
-                "VIEW_ADDITIONAL_LOCATIONS": "View additional references locations",
+                "UNKNOWN_LOCATION": "You do not have permission to view the location of this document.",
+                "VIEW_ADDITIONAL_LOCATIONS": "Aanvullende referentielocaties weergeven",
                 "NO_RESULTS": "Uw zoekopdracht heeft 0 resultaten opgeleverd",
                 "EMPTY_SEARCH": "Zoekterm vereist",
                 "NO_FILTER_RESULTS": "Uw filter heeft 0 resultaten opgeleverd",
@@ -313,7 +313,7 @@
             "EDIT_OFFLINE_CANCEL": "Bewerken annuleren",
             "CHANGE_ASPECT": "Aspecten bewerken",
             "ADD_ASPECTS": "Aspecten toevoegen",
-            "NODE_INFO": "Information"
+            "NODE_INFO": "Informatie"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -483,22 +483,22 @@
         },
         "NODE_INFO": {
             "ICON": "Node Icon",
-            "TITLE": "Information",
-            "SIZE": "Size",
-            "NUMBER_OF_FILES": "Number of files",
-            "CALCULATING": "Calculating...",
-            "LOCATION": "Location",
-            "REFERENCED": "Referenced",
-            "CREATED": "Created",
-            "MODIFIED": "Modified",
-            "DONE": "Done",
-            "ERROR": "Something went wrong, please close this dialog and try again"
+            "TITLE": "Informatie",
+            "SIZE": "Grootte",
+            "NUMBER_OF_FILES": "Aantal bestanden",
+            "CALCULATING": "Wordt berekend...",
+            "LOCATION": "Locatie",
+            "REFERENCED": "Gerefereerd",
+            "CREATED": "Aangemaakt",
+            "MODIFIED": "Gewijzigd",
+            "DONE": "Klaar",
+            "ERROR": "Er is iets fout gegaan. Sluit dit dialoogvenster en probeer het opnieuw"
         },
         "ADDITIONAL_REFERENCES_DIALOG": {
-            "TITLE": "Additional Reference Locations",
-            "NO_LOCATIONS": "{{ name }} is not referenced in any locations.",
-            "DESCRIPTION": "{{ name }} is currently referenced in these locations.",
-            "CLOSE": "Close"
+            "TITLE": "Aanvullende referentielocatie",
+            "NO_LOCATIONS": "{{ name }} wordt op geen enkele locatie gerefereerd.",
+            "DESCRIPTION": "{{ name }} wordt momenteel op deze locaties gerefereerd.",
+            "CLOSE": "Sluiten"
         }
     },
     "NODE_SELECTOR": {
@@ -589,7 +589,7 @@
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
             "LABEL": "Bulk acties",
-            "TITLE": "Bulkacties ({{ count }} items)",
+            "TITLE": "Select an action for all {{ count }} results",
             "BULK_NOT_AVAILABLE": "Bulkacties (niet beschikbaar)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "Bulkacties kunnen niet gebruikt worden zonder zoekresultaten"
         },
@@ -601,7 +601,11 @@
             "MIN_LENGTH": "Invoer voor een zoekopdracht moet uit minstens 2 alfanumerieke tekens bestaan.",
             "REQUIRED": "Zoekinvoer is vereist.",
             "WHITESPACE": "Zoekinvoer kan niet alleen witruimte zijn.",
-            "OPERATORS": "Zoekinvoer mag niet beginnen of eindigen met, of uitsluitend uit operatoren bestaan"
+            "OPERATORS": "Zoekinvoer mag niet beginnen of eindigen met, of uitsluitend uit operatoren bestaan",
+            "IN_PREFIX": "In",
+            "FILES_AND_FOLDERS": "Files and folders",
+            "RESET": "Reset",
+            "SEARCH_IN": "Search in"
         },
         "SORT": {
             "SORTING_OPTION": "Sorteren op",
@@ -710,7 +714,8 @@
                 "REFERENCED_DOCUMENTS_HEADER": "Referentiedocumenten",
                 "REGENERATION_BUTTON_LABEL": "Regenereren",
                 "COPY_BUTTON_LABEL": "Kopiëren",
-                "COPY_MESSAGE": "Antwoord gekopieerd naar klembord"
+                "COPY_MESSAGE": "Antwoord gekopieerd naar klembord",
+                "RELOAD_REFERENCES_BUTTON_LABEL": "Opnieuw laden"
             },
             "AGENTS_BUTTON": {
                 "LABEL": "Vraag Discovery",
@@ -726,7 +731,8 @@
                 "AGENTS_FETCHING": "Fout bij het ophalen van agenten.",
                 "HX_INSIGHT_URL_FETCHING": "Fout bij het ophalen van HX Insight URL.",
                 "LOADING_ERROR": "Hmm... er lijkt iets te zijn misgegaan.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Pagina is niet beschikbaar voor deze voorwaarden."
+                "PAGE_NOT_AVAILABLE_ERROR": "Pagina is niet beschikbaar voor deze voorwaarden.",
+                "REFERENCES_LOADING_ERROR": "Er is iets misgegaan tijdens het laden van de referenties."
             },
             "DISCARD_CHANGES": {
                 "WARNING": "Waarschuwing!",
