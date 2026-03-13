@@ -55,7 +55,7 @@ export class NodeTemplateService {
   private rootNode: ResultNode;
 
   @LazyApi((self: NodeTemplateService) => new SearchApi(self.alfrescoApiService.getInstance()))
-  searchApi: SearchApi;
+  declare searchApi: SearchApi;
 
   selectTemplateDialog(config: TemplateDialogConfig): Subject<Node[]> {
     this.currentTemplateConfig = config;

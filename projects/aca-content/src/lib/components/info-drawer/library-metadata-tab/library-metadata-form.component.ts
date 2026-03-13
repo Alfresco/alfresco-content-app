@@ -80,7 +80,7 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges {
   private _titleErrorTranslationKey: string;
 
   @LazyApi((self: LibraryMetadataFormComponent) => new QueriesApi(self.alfrescoApiService.getInstance()))
-  queriesApi: QueriesApi;
+  declare queriesApi: QueriesApi;
 
   get titleErrorTranslationKey(): string {
     return this._titleErrorTranslationKey;

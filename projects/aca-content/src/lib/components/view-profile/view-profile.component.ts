@@ -58,7 +58,7 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class ViewProfileComponent implements OnInit {
   @LazyApi((self: ViewProfileComponent) => new PeopleApi(self.apiService.getInstance()))
-  peopleApi: PeopleApi;
+  declare peopleApi: PeopleApi;
   profileForm = new FormGroup({
     firstName: new FormControl(''),
     lastName: new FormControl(''),

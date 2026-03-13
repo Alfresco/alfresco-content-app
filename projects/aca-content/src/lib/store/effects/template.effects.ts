@@ -48,7 +48,7 @@ export class TemplateEffects {
   private documentListService = inject(DocumentListService);
 
   @LazyApi((self: TemplateEffects) => new NodesApi(self.apiService.getInstance()))
-  nodesApi: NodesApi;
+  declare nodesApi: NodesApi;
 
   matDialog = inject(MatDialog);
   store = inject(Store<AppStore>);

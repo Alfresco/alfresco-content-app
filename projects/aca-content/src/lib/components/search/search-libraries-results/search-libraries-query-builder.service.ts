@@ -42,7 +42,7 @@ export class SearchLibrariesQueryBuilderService {
   private _userQuery = '';
 
   @LazyApi((self: SearchLibrariesQueryBuilderService) => new QueriesApi(self.alfrescoApiService.getInstance()))
-  queriesApi: QueriesApi;
+  declare queriesApi: QueriesApi;
 
   updated: Subject<any> = new Subject();
   executed: Subject<any> = new Subject();

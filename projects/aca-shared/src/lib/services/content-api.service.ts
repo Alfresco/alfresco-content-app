@@ -62,34 +62,34 @@ import { map } from 'rxjs/operators';
 })
 export class ContentApiService {
   @LazyApi((self: ContentApiService) => new NodesApi(self.api.getInstance()))
-  nodesApi: NodesApi;
+  declare nodesApi: NodesApi;
 
   @LazyApi((self: ContentApiService) => new TrashcanApi(self.api.getInstance()))
-  trashcanApi: TrashcanApi;
+  declare trashcanApi: TrashcanApi;
 
   @LazyApi((self: ContentApiService) => new SharedlinksApi(self.api.getInstance()))
-  sharedLinksApi: SharedlinksApi;
+  declare sharedLinksApi: SharedlinksApi;
 
   @LazyApi((self: ContentApiService) => new DiscoveryApi(self.api.getInstance()))
-  discoveryApi: DiscoveryApi;
+  declare discoveryApi: DiscoveryApi;
 
   @LazyApi((self: ContentApiService) => new FavoritesApi(self.api.getInstance()))
-  favoritesApi: FavoritesApi;
+  declare favoritesApi: FavoritesApi;
 
   @LazyApi((self: ContentApiService) => new ContentApi(self.api.getInstance()))
-  contentApi: ContentApi;
+  declare contentApi: ContentApi;
 
   @LazyApi((self: ContentApiService) => new SitesApi(self.api.getInstance()))
-  sitesApi: SitesApi;
+  declare sitesApi: SitesApi;
 
   @LazyApi((self: ContentApiService) => new SearchApi(self.api.getInstance()))
-  searchApi: SearchApi;
+  declare searchApi: SearchApi;
 
   @LazyApi((self: ContentApiService) => new PeopleApi(self.api.getInstance()))
-  peopleApi: PeopleApi;
+  declare peopleApi: PeopleApi;
 
   @LazyApi((self: ContentApiService) => new VersionsApi(self.api.getInstance()))
-  versionsApi: VersionsApi;
+  declare versionsApi: VersionsApi;
 
   constructor(
     private readonly api: AlfrescoApiService,
