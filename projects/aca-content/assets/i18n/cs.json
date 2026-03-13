@@ -1,6 +1,6 @@
 {
     "APP": {
-        "COPYRIGHT": "2005-2025 Hyland, Inc. a její přidružené společnosti. Všechna práva vyhrazena.",
+        "COPYRIGHT": "© 2005-2025 Hyland Software, Inc. and its affiliates. All rights reserved.",
         "TITLE": "Pracovní prostor",
         "ABOUT": {
             "VERSION": "Verze:",
@@ -267,8 +267,8 @@
                     "LOCATION": "Umístění",
                     "SIZE": "Velikost"
                 },
-                "UNKNOWN_LOCATION": "Neznámé",
-                "VIEW_ADDITIONAL_LOCATIONS": "View additional references locations",
+                "UNKNOWN_LOCATION": "You do not have permission to view the location of this document.",
+                "VIEW_ADDITIONAL_LOCATIONS": "Zobrazit další umístění odkazů",
                 "NO_RESULTS": "Parametrům hledání odpovídá 0 výsledků",
                 "EMPTY_SEARCH": "Požadován hledaný výraz",
                 "NO_FILTER_RESULTS": "K vašemu filtru je 0 výsledků",
@@ -313,7 +313,7 @@
             "EDIT_OFFLINE_CANCEL": "Zrušit úpravu",
             "CHANGE_ASPECT": "Upravit aspekty",
             "ADD_ASPECTS": "Přidat aspekty",
-            "NODE_INFO": "Information"
+            "NODE_INFO": "Informace"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -482,23 +482,23 @@
             "SAVE": "Uložit"
         },
         "NODE_INFO": {
-            "ICON": "Node Icon",
-            "TITLE": "Information",
-            "SIZE": "Size",
-            "NUMBER_OF_FILES": "Number of files",
-            "CALCULATING": "Calculating...",
-            "LOCATION": "Location",
-            "REFERENCED": "Referenced",
-            "CREATED": "Created",
-            "MODIFIED": "Modified",
-            "DONE": "Done",
-            "ERROR": "Something went wrong, please close this dialog and try again"
+            "ICON": "Ikona uzlu",
+            "TITLE": "Informace",
+            "SIZE": "Velikost",
+            "NUMBER_OF_FILES": "Počet souborů",
+            "CALCULATING": "Probíhá výpočet…",
+            "LOCATION": "Umístění",
+            "REFERENCED": "Odkazováno",
+            "CREATED": "Vytvořeno",
+            "MODIFIED": "Upraveno",
+            "DONE": "Dokončeno",
+            "ERROR": "Něco se nepovedlo, zavřete toto okno a zkuste to znovu"
         },
         "ADDITIONAL_REFERENCES_DIALOG": {
-            "TITLE": "Additional Reference Locations",
-            "NO_LOCATIONS": "{{ name }} is not referenced in any locations.",
-            "DESCRIPTION": "{{ name }} is currently referenced in these locations.",
-            "CLOSE": "Close"
+            "TITLE": "Další umístění odkazu",
+            "NO_LOCATIONS": "{{ name }} není odkazován na žádném umístění.",
+            "DESCRIPTION": "{{ name }} je aktuálně odkazován na těchto umístěních.",
+            "CLOSE": "Zavřít"
         }
     },
     "NODE_SELECTOR": {
@@ -589,7 +589,7 @@
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
             "LABEL": "Hromadné akce",
-            "TITLE": "Hromadné akce (počet položek: {{ count }})",
+            "TITLE": "Select an action for all {{ count }} results",
             "BULK_NOT_AVAILABLE": "Hromadné akce (nedostupné)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "Hromadné akce nelze použít bez výsledků vyhledávání"
         },
@@ -601,7 +601,11 @@
             "MIN_LENGTH": "Hledaný výraz musí obsahovat kombinaci alespoň 2 písmen a číslic.",
             "REQUIRED": "Je vyžadován vstup pro vyhledávání.",
             "WHITESPACE": "Zadání hledání nemůže být pouze mezera.",
-            "OPERATORS": "Vyhledávací výraz nesmí začínat, končit nebo být tvořen pouze operátory."
+            "OPERATORS": "Vyhledávací výraz nesmí začínat, končit nebo být tvořen pouze operátory.",
+            "IN_PREFIX": "In",
+            "FILES_AND_FOLDERS": "Files and folders",
+            "RESET": "Reset",
+            "SEARCH_IN": "Search in"
         },
         "SORT": {
             "SORTING_OPTION": "Řadit podle",
@@ -710,7 +714,8 @@
                 "REFERENCED_DOCUMENTS_HEADER": "Odkazované dokumenty",
                 "REGENERATION_BUTTON_LABEL": "Regenerovat",
                 "COPY_BUTTON_LABEL": "Kopírovat",
-                "COPY_MESSAGE": "Kopírovat odezvu do schránky"
+                "COPY_MESSAGE": "Kopírovat odezvu do schránky",
+                "RELOAD_REFERENCES_BUTTON_LABEL": "Znovu načíst"
             },
             "AGENTS_BUTTON": {
                 "LABEL": "Zjistit v aplikaci Discovery",
@@ -726,7 +731,8 @@
                 "AGENTS_FETCHING": "Chyba při získávání agentů.",
                 "HX_INSIGHT_URL_FETCHING": "Chyba při získávání URL adresy HX Insight.",
                 "LOADING_ERROR": "Hmm... zřejmě se něco nepovedlo.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Stránka není pro tyto podmínky dostupná."
+                "PAGE_NOT_AVAILABLE_ERROR": "Stránka není pro tyto podmínky dostupná.",
+                "REFERENCES_LOADING_ERROR": "Při načítání odkazů došlo k chybě."
             },
             "DISCARD_CHANGES": {
                 "WARNING": "Výstraha!",

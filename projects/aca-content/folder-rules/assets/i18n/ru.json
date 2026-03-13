@@ -131,7 +131,7 @@
       "LOAD_MORE_RULE_SETS": "Загрузить правила из других папок",
       "LOAD_MORE_RULES": "Загрузить другие правила",
       "LOADING_RULES": "Загрузка правил",
-      "TOGGLE_RULE_STATE": "Переключить состояние включенного правила",
+      "TOGGLE_RULE_STATE": "Toggle {{ name }} rule",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "Унаследованные правила будут выполняться в первую очередь",
       "ALL_LINKED_RULES_ARE_DISABLED": "Все правила, привязанные из этого набора правил, отключены",
       "EDIT_LINK_LABEL": "Правила ссылки из другой папки"

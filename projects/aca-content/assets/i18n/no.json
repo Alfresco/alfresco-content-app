@@ -1,6 +1,6 @@
 {
     "APP": {
-        "COPYRIGHT": "© 2005-2025 Hyland, Inc. og samarbeidspartnere. Med enerett.",
+        "COPYRIGHT": "© 2005-2025 Hyland Software, Inc. and its affiliates. All rights reserved.",
         "TITLE": "Workspace",
         "ABOUT": {
             "VERSION": "Versjon:",
@@ -267,8 +267,8 @@
                     "LOCATION": "Lokalisering",
                     "SIZE": "Størrelse"
                 },
-                "UNKNOWN_LOCATION": "Ukjent",
-                "VIEW_ADDITIONAL_LOCATIONS": "View additional references locations",
+                "UNKNOWN_LOCATION": "You do not have permission to view the location of this document.",
+                "VIEW_ADDITIONAL_LOCATIONS": "Vis flere referanseplasseringer",
                 "NO_RESULTS": "Ditt søk ga 0 resultater",
                 "EMPTY_SEARCH": "Søkeord kreves",
                 "NO_FILTER_RESULTS": "Ditt filter ga 0 resultater",
@@ -313,7 +313,7 @@
             "EDIT_OFFLINE_CANCEL": "Avbryt redigering",
             "CHANGE_ASPECT": "Rediger aspekter",
             "ADD_ASPECTS": "Legg til aspekter",
-            "NODE_INFO": "Information"
+            "NODE_INFO": "Informasjon"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -482,23 +482,23 @@
             "SAVE": "Lagre"
         },
         "NODE_INFO": {
-            "ICON": "Node Icon",
-            "TITLE": "Information",
-            "SIZE": "Size",
-            "NUMBER_OF_FILES": "Number of files",
-            "CALCULATING": "Calculating...",
-            "LOCATION": "Location",
-            "REFERENCED": "Referenced",
-            "CREATED": "Created",
-            "MODIFIED": "Modified",
-            "DONE": "Done",
-            "ERROR": "Something went wrong, please close this dialog and try again"
+            "ICON": "Node-ikon",
+            "TITLE": "Informasjon",
+            "SIZE": "Størrelse",
+            "NUMBER_OF_FILES": "Antall filer",
+            "CALCULATING": "Beregner...",
+            "LOCATION": "Lokalisering",
+            "REFERENCED": "Referert",
+            "CREATED": "Opprettet",
+            "MODIFIED": "Endret",
+            "DONE": "Ferdig",
+            "ERROR": "Noe gikk galt, lukk denne dialogboksen og prøv igjen"
         },
         "ADDITIONAL_REFERENCES_DIALOG": {
-            "TITLE": "Additional Reference Locations",
-            "NO_LOCATIONS": "{{ name }} is not referenced in any locations.",
-            "DESCRIPTION": "{{ name }} is currently referenced in these locations.",
-            "CLOSE": "Close"
+            "TITLE": "Ekstra referanseplassering",
+            "NO_LOCATIONS": "{{ name }} er ikke referert på noen plasseringer.",
+            "DESCRIPTION": "{{ name }} er for øyeblikket referert på disse plasseringene.",
+            "CLOSE": "Lukk"
         }
     },
     "NODE_SELECTOR": {
@@ -589,7 +589,7 @@
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
             "LABEL": "Handlinger for flere",
-            "TITLE": "Massehandlinger ({{ count }} elementer)",
+            "TITLE": "Select an action for all {{ count }} results",
             "BULK_NOT_AVAILABLE": "Massehandlinger (ikke tilgjengelig)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "Massehandlinger kan ikke brukes uten søkeresultater"
         },
@@ -601,7 +601,11 @@
             "MIN_LENGTH": "Søketeksten må bestå av minst 2 alfanumeriske tegn.",
             "REQUIRED": "Søk i inndata er påkrevd.",
             "WHITESPACE": "Søkeinndata kan ikke bare være i blanke rom.",
-            "OPERATORS": "Søkefeltet kan ikke starte med, slutte med eller kun bestå av operatorer"
+            "OPERATORS": "Søkefeltet kan ikke starte med, slutte med eller kun bestå av operatorer",
+            "IN_PREFIX": "In",
+            "FILES_AND_FOLDERS": "Files and folders",
+            "RESET": "Reset",
+            "SEARCH_IN": "Search in"
         },
         "SORT": {
             "SORTING_OPTION": "Sorter etter",
@@ -710,7 +714,8 @@
                 "REFERENCED_DOCUMENTS_HEADER": "Refererte dokumenter",
                 "REGENERATION_BUTTON_LABEL": "Regenerer",
                 "COPY_BUTTON_LABEL": "Kopier",
-                "COPY_MESSAGE": "Svaret er kopiert til utklippstavlen"
+                "COPY_MESSAGE": "Svaret er kopiert til utklippstavlen",
+                "RELOAD_REFERENCES_BUTTON_LABEL": "Last inn på nytt"
             },
             "AGENTS_BUTTON": {
                 "LABEL": "Spør dokumentbevis",
@@ -726,7 +731,8 @@
                 "AGENTS_FETCHING": "Feil under henting av agenter.",
                 "HX_INSIGHT_URL_FETCHING": "Feil under henting av HX Insight URL.",
                 "LOADING_ERROR": "Hmm... noe ser ut til å ha gått galt.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Siden er ikke tilgjengelig for disse betingelsene."
+                "PAGE_NOT_AVAILABLE_ERROR": "Siden er ikke tilgjengelig for disse betingelsene.",
+                "REFERENCES_LOADING_ERROR": "Noe gikk galt under lasting av referanser."
             },
             "DISCARD_CHANGES": {
                 "WARNING": "Advarsel!",

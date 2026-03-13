@@ -131,7 +131,7 @@
       "LOAD_MORE_RULE_SETS": "Indlæs regler fra andre mapper",
       "LOAD_MORE_RULES": "Indlæs flere regler",
       "LOADING_RULES": "Indlæser regler",
-      "TOGGLE_RULE_STATE": "Skift regelaktiveret tilstand",
+      "TOGGLE_RULE_STATE": "Toggle {{ name }} rule",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "Overtagede regler køres først",
       "ALL_LINKED_RULES_ARE_DISABLED": "Alle regler, der er forbundet af dette indstillede regelsæt, er deaktiveret",
       "EDIT_LINK_LABEL": "Link regler fra en anden mappe"
