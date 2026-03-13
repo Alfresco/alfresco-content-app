@@ -180,13 +180,10 @@ test.describe('viewer file', () => {
     expect(await recentFilesPage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
   });
 
-  test('[XAT-5482] Viewer opens for a file from Search Results', async ({ personalFiles, searchPage }) => {
-    await personalFiles.acaHeader.searchButton.click();
-    await searchPage.clickSearchButton();
-    await searchPage.searchOverlay.checkFilesAndFolders();
-    await searchPage.searchOverlay.searchFor(randomDocxName);
+  test('[XAT-5482] Viewer opens for a file from Search Results', async ({ searchPage }) => {
+    await searchPage.searchWithin(randomDocxName, 'filesAndFolders');
     await searchPage.dataTable.goThroughPagesLookingForRowWithName(randomDocxName);
-    await searchPage.searchInput.performDoubleClickFolderOrFileToOpen(randomDocxName);
+    await searchPage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
     expect(await searchPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     expect(await searchPage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
     expect(await searchPage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);

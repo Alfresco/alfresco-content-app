@@ -1,65 +1,45 @@
-<div class="app-search-container"
-  role="search"
-  [matMenuTriggerFor]="searchOptionsMenu"
-  (menuOpened)="onMenuOpened()"
-  (menuClosed)="syncInputValues()"
->
+<div class="app-search-container" role="search">
   <mat-form-field class="app-input-form-field">
-    <button class="aca-search-input--search-button" mat-icon-button matPrefix (click)="searchByOption()" [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
+    <button
+      class="aca-search-input--search-button"
+      mat-icon-button
+      matPrefix
+      (click)="executeSearch()"
+      [title]="'SEARCH.BUTTON.TOOLTIP' | translate"
+    >
       <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
     </button>
 
     <input
-      class="app-search-input"
       matInput
+      #searchInputField
+      class="app-search-input"
       [attr.aria-label]="'SEARCH.INPUT.ARIA-LABEL' | translate"
-      [type]="'text'"
-      [readonly]="true"
-      [value]="searchedWord"
+      type="text"
+      [(ngModel)]="searchedWord"
+      (keydown.enter)="onSearchSubmit(searchedWord)"
       [placeholder]="'SEARCH.INPUT.PLACEHOLDER' | translate"
+      autocomplete="off"
     />
 
-    <div matSuffix>
-      <mat-icon class="app-suffix-icon">arrow_drop_down</mat-icon>
+    <div matSuffix class="aca-search-input--suffix">
+      <aca-search-in-menu (filtersApplied)="onFiltersApplied()" />
 
       <button
         class="aca-search-input--close-button"
         mat-icon-button
         [attr.aria-label]="'SEARCH.CLOSE_BUTTON.ARIA_LABEL' | translate"
         [attr.title]="'SEARCH.CLOSE_BUTTON.ARIA_LABEL' | translate"
-        (click)="exitSearch()">
-        <mat-icon class="app-suffix-icon">close</mat-icon>
+        (click)="exitSearch()"
+      >
+        <mat-icon>close</mat-icon>
       </button>
     </div>
   </mat-form-field>
-</div>
 
-<mat-menu #searchOptionsMenu="matMenu" [overlapTrigger]="true" class="app-search-options-menu">
-  <div (keydown.tab)="$event.stopPropagation()" (keydown.shift.tab)="$event.stopPropagation()" tabindex=0>
-    <div cdkTrapFocus>
-      <app-search-input-control
-        #searchInputControl
-        (click)="$event.stopPropagation()"
-        (submit)="onSearchSubmit($event)"
-        (searchChange)="onSearchChange($event)"
-        (validationError)="error = $event"
-        [hasLibrariesConstraint]="hasLibrariesConstraint"
-      />
-      <mat-error *ngIf="error" class="app-search-error" role="alert" aria-live="assertive">
-        {{ error | translate }}
-      </mat-error>
-      <div id="search-options" class="app-search-options">
-        <mat-checkbox *ngFor="let option of searchOptions"
-          id="{{ option.id }}"
-          [(ngModel)]="option.value"
-          [disabled]="option.shouldDisable()"
-          (change)="searchByOption()"
-          (keyup.enter)="$event.stopPropagation()"
-          (click)="$event.stopPropagation()"
-        >
-          {{ option.key | translate }}
-        </mat-checkbox>
-      </div>
-    </div>
-  </div>
-</mat-menu>
+  @if (error) {
+    <mat-error class="app-search-error" role="alert" aria-live="assertive">
+      {{ error | translate }}
+    </mat-error>
+  }
+</div>

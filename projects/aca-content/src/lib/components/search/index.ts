@@ -27,7 +27,6 @@ import { SearchLibrariesResultsComponent } from './search-libraries-results/sear
 import { SearchResultsComponent } from './search-results/search-results.component';
 import { SearchResultsRowComponent } from './search-results-row/search-results-row.component';
 import { SearchInputComponent } from './search-input/search-input.component';
-import { SearchInputControlComponent } from './search-input-control/search-input-control.component';
 
 /* @deprecated import standalone components instead */
 export const APP_SEARCH_DIRECTIVES = [
@@ -35,6 +34,5 @@ export const APP_SEARCH_DIRECTIVES = [
   SearchLibrariesResultsComponent,
   SearchResultsComponent,
   SearchResultsRowComponent,
-  SearchInputComponent,
-  SearchInputControlComponent
+  SearchInputComponent
 ] as const;

@@ -143,29 +143,29 @@ test.describe('Search Results - General', () => {
   test('[XAT-5594] Search library - full name match', async ({ searchPage }) => {
     await searchPage.searchWithin(site1.name, 'libraries');
 
-    expect(await searchPage.dataTable.isItemPresent(site1.name)).toBeTruthy();
-    expect(await searchPage.dataTable.isItemPresent(site2.name)).toBeFalsy();
-    expect(await searchPage.dataTable.isItemPresent(site3.name)).toBeFalsy();
-    expect(await searchPage.dataTable.isItemPresent(site4.name)).toBeFalsy();
+    expect(await searchPage.dataTable.isItemPresent(site1.name)).toBe(true);
+    expect(await searchPage.dataTable.isItemPresent(site2.name)).toBe(false);
+    expect(await searchPage.dataTable.isItemPresent(site3.name)).toBe(false);
+    expect(await searchPage.dataTable.isItemPresent(site4.name)).toBe(false);
   });
 
   test('[XAT-5595] Search library - partial name match', async ({ searchPage }) => {
     await fileActionsApi.waitForNodes(site3.id, { expect: 1 });
     await searchPage.searchWithin(`lib-${random}`, 'libraries');
 
-    expect(await searchPage.dataTable.isItemPresent(site1.name)).toBeTruthy();
-    expect(await searchPage.dataTable.isItemPresent(site2.name)).toBeFalsy();
-    expect(await searchPage.dataTable.isItemPresent(site3.name)).toBeTruthy();
-    expect(await searchPage.dataTable.isItemPresent(site4.name)).toBeFalsy();
+    expect(await searchPage.dataTable.isItemPresent(site1.name)).toBe(true);
+    expect(await searchPage.dataTable.isItemPresent(site2.name)).toBe(false);
+    expect(await searchPage.dataTable.isItemPresent(site3.name)).toBe(true);
+    expect(await searchPage.dataTable.isItemPresent(site4.name)).toBe(false);
   });
 
   test('[XAT-5596] Search library - description match', async ({ searchPage }) => {
     await searchPage.searchWithin(site4.description, 'libraries');
 
-    expect(await searchPage.dataTable.isItemPresent(site1.name)).toBeFalsy();
-    expect(await searchPage.dataTable.isItemPresent(site2.name)).toBeFalsy();
-    expect(await searchPage.dataTable.isItemPresent(site3.name)).toBeFalsy();
-    expect(await searchPage.dataTable.isItemPresent(site4.name)).toBeTruthy();
+    expect(await searchPage.dataTable.isItemPresent(site1.name)).toBe(false);
+    expect(await searchPage.dataTable.isItemPresent(site2.name)).toBe(false);
+    expect(await searchPage.dataTable.isItemPresent(site3.name)).toBe(false);
+    expect(await searchPage.dataTable.isItemPresent(site4.name)).toBe(true);
   });
 
   test('[XAT-5598] Libraries Results page columns', async ({ searchPage }) => {
@@ -209,13 +209,13 @@ test.describe('Search Results - General', () => {
   test('[XAT-5601] Private sites are not displayed when user is not a member', async ({ searchPage }) => {
     await searchPage.searchWithin(`admin-${random}-site`, 'libraries');
 
-    expect(await searchPage.dataTable.isItemPresent(adminPrivate)).toBeFalsy();
+    expect(await searchPage.dataTable.isItemPresent(adminPrivate)).toBe(false);
   });
 
   test('[XAT-5602] Search libraries with special characters', async ({ searchPage }) => {
     await searchPage.searchWithin(siteRussian.name, 'libraries');
 
-    expect(await searchPage.dataTable.isItemPresent(siteRussian.name)).toBeTruthy();
+    expect(await searchPage.dataTable.isItemPresent(siteRussian.name)).toBe(true);
   });
 
   test('[XAT-5591] Empty Search results - Libraries', async ({ searchPage }) => {
@@ -223,7 +223,7 @@ test.describe('Search Results - General', () => {
     /* cspell:disable-next-line */
     await searchPage.searchWithin('qwertyuiop', 'files');
 
-    expect(await searchPage.dataTable.isEmpty()).toBeTruthy();
+    expect(await searchPage.dataTable.isEmpty()).toBe(true);
     expect(await searchPage.dataTable.emptySearchText.textContent()).toContain('Your search returned 0 results');
   });
 });

@@ -167,7 +167,7 @@ export const getGlobalConfig: PlaywrightTestConfig = {
   testMatch: ['**/*.e2e.ts'],
   use: {
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
-    actionTimeout: 0,
+    actionTimeout: 40 * 1000,
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: env.PLAYWRIGHT_E2E_HOST,
     headless: env.PLAYWRIGHT_HEADLESS === 'true' || !!env.CI,

@@ -46,11 +46,11 @@ test.describe('Sidebar', () => {
     expect(await myLibrariesPage.sidenav.isActive(SIDEBAR_LABELS.MY_LIBRARIES), 'My Libraries link not active').toBe(true);
   });
 
-  test('[XAT-5387] The sidenav can be expanded when search results page is displayed', async ({ personalFiles }) => {
+  test('[XAT-5387] The sidenav can be collapsed when search results page is displayed', async ({ personalFiles }) => {
     await personalFiles.navigate({ remoteUrl: `#/search;q=test` });
-    await expect(personalFiles.sidenav.expandedSidenav, 'Sidebar expanded').toBeHidden();
-    await personalFiles.sidenav.expandSideNav();
-    await expect(personalFiles.sidenav.expandedSidenav, 'Sidebar not expanded').toBeVisible();
+    await expect(personalFiles.sidenav.expandedSidenav, 'Sidebar expanded').toBeVisible();
+    await personalFiles.sidenav.collapseSideNav();
+    await expect(personalFiles.sidenav.expandedSidenav, 'Sidebar not collapsed').toBeHidden();
   });
 
   test('[XAT-5384] Sidenav state is preserved on page refresh', async ({ personalFiles }) => {
@@ -79,7 +79,7 @@ test.describe('Sidebar', () => {
     searchPage
   }) => {
     await personalFiles.navigate({ remoteUrl: `#/search;q=test` });
-    await searchPage.searchInput.searchCloseButton.click();
+    await searchPage.searchInputComponent.searchCloseButton.click();
     await searchPage.sidenav.expandedSidenav.waitFor({ state: 'attached' });
     await expect(personalFiles.sidenav.expandedSidenav, 'Sidebar not expanded').toBeVisible();
   });

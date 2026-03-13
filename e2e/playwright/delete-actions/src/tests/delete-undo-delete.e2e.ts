@@ -128,11 +128,11 @@ test.describe('Delete and undo delete', () => {
       const action = await personalFiles.snackBar.getSnackBarActionText();
       expect(action).toContain('Undo');
       await personalFiles.snackBar.closeIcon.click();
-      expect(await personalFiles.dataTable.isItemPresent(file1)).toBeFalsy();
+      expect(await personalFiles.dataTable.isItemPresent(file1)).toBe(false);
       items--;
       expect(await personalFiles.pagination.getMaxRange()).toEqual(` Showing 1-${items} of ${items} `);
       await trashPage.navigate();
-      expect(await personalFiles.dataTable.isItemPresent(file1)).toBeTruthy();
+      expect(await personalFiles.dataTable.isItemPresent(file1)).toBe(true);
     });
 
     test('[XAT-5017] Delete multiple files and check snackbar notification', async ({ personalFiles, trashPage }) => {
@@ -147,11 +147,11 @@ test.describe('Delete and undo delete', () => {
       await personalFiles.matMenu.clickMenuItem('Delete');
       await personalFiles.snackBar.verifySnackBarActionText(`Deleted 2 items`);
       await personalFiles.snackBar.closeIcon.click();
-      expect(await personalFiles.dataTable.isItemPresent(file2)).toBeFalsy();
-      expect(await personalFiles.dataTable.isItemPresent(file3)).toBeFalsy();
+      expect(await personalFiles.dataTable.isItemPresent(file2)).toBe(false);
+      expect(await personalFiles.dataTable.isItemPresent(file3)).toBe(false);
       await trashPage.navigate();
-      expect(await personalFiles.dataTable.isItemPresent(file2)).toBeTruthy();
-      expect(await personalFiles.dataTable.isItemPresent(file3)).toBeTruthy();
+      expect(await personalFiles.dataTable.isItemPresent(file2)).toBe(true);
+      expect(await personalFiles.dataTable.isItemPresent(file3)).toBe(true);
     });
 
     test('[XAT-5018] Delete a folder with content', async ({ personalFiles, trashPage }) => {
@@ -160,12 +160,12 @@ test.describe('Delete and undo delete', () => {
       await personalFiles.acaHeader.clickMoreActions();
       await personalFiles.matMenu.clickMenuItem('Delete');
       await personalFiles.snackBar.closeIcon.click();
-      expect(await personalFiles.dataTable.isItemPresent(folder1)).toBeFalsy();
+      expect(await personalFiles.dataTable.isItemPresent(folder1)).toBe(false);
       items--;
       expect(await personalFiles.pagination.getMaxRange()).toEqual(` Showing 1-${items} of ${items} `);
       await trashPage.navigate();
-      expect(await personalFiles.dataTable.isItemPresent(folder1)).toBeTruthy();
-      expect(await personalFiles.dataTable.isItemPresent(file1InFolder)).toBeFalsy();
+      expect(await personalFiles.dataTable.isItemPresent(folder1)).toBe(true);
+      expect(await personalFiles.dataTable.isItemPresent(file1InFolder)).toBe(false);
     });
 
     test(`[XAT-5019] Delete a folder containing files that can't be deleted (e.g. locked files)`, async ({ personalFiles, trashPage }) => {
@@ -174,10 +174,10 @@ test.describe('Delete and undo delete', () => {
       await personalFiles.matMenu.clickMenuItem('Delete');
       await personalFiles.snackBar.verifySnackBarActionText(`${folder2} couldn't be deleted`);
       await expect(personalFiles.snackBar.actionButton).toBeHidden();
-      expect(await personalFiles.dataTable.isItemPresent(folder2)).toBeTruthy();
+      expect(await personalFiles.dataTable.isItemPresent(folder2)).toBe(true);
       await trashPage.navigate();
-      expect(await personalFiles.dataTable.isItemPresent(folder2)).toBeFalsy();
-      expect(await personalFiles.dataTable.isItemPresent(fileLocked1)).toBeFalsy();
+      expect(await personalFiles.dataTable.isItemPresent(folder2)).toBe(false);
+      expect(await personalFiles.dataTable.isItemPresent(fileLocked1)).toBe(false);
     });
 
     test('[XAT-5020] Notification on unsuccessful multiple items deletion - some items fail to delete', async ({ personalFiles }) => {
@@ -206,7 +206,7 @@ test.describe('Delete and undo delete', () => {
 
       await personalFiles.snackBar.clickSnackBarAction();
       await personalFiles.dataTable.spinnerWaitForReload();
-      expect(await personalFiles.dataTable.isItemPresent(file5)).toBeTruthy();
+      expect(await personalFiles.dataTable.isItemPresent(file5)).toBe(true);
       expect(await personalFiles.pagination.getRange()).toContain(`1-${items} of ${items}`);
     });
 
@@ -216,10 +216,10 @@ test.describe('Delete and undo delete', () => {
       await personalFiles.matMenu.clickMenuItem('Delete');
       await personalFiles.snackBar.clickSnackBarAction();
       await personalFiles.dataTable.spinnerWaitForReload();
-      expect(await personalFiles.dataTable.isItemPresent(folder6)).toBeTruthy();
+      expect(await personalFiles.dataTable.isItemPresent(folder6)).toBe(true);
       await personalFiles.dataTable.performClickFolderOrFileToOpen(folder6);
       await personalFiles.dataTable.spinnerWaitForReload();
-      expect(await personalFiles.dataTable.isItemPresent(file2InFolder)).toBeTruthy();
+      expect(await personalFiles.dataTable.isItemPresent(file2InFolder)).toBe(true);
     });
 
     test('[XAT-5023] Undo delete of multiple files restores all of the files', async ({ personalFiles }) => {
@@ -228,8 +228,8 @@ test.describe('Delete and undo delete', () => {
       await personalFiles.matMenu.clickMenuItem('Delete');
       await personalFiles.snackBar.clickSnackBarAction();
       await personalFiles.dataTable.spinnerWaitForReload();
-      expect(await personalFiles.dataTable.isItemPresent(file6)).toBeTruthy();
-      expect(await personalFiles.dataTable.isItemPresent(file7)).toBeTruthy();
+      expect(await personalFiles.dataTable.isItemPresent(file6)).toBe(true);
+      expect(await personalFiles.dataTable.isItemPresent(file7)).toBe(true);
     });
   });
 });

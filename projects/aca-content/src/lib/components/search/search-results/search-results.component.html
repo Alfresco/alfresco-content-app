@@ -4,8 +4,7 @@
     <div class="aca-header-container">
       <aca-search-input />
       <aca-bulk-actions-dropdown *ngIf="bulkActions && ('isBulkActionsAvailable' | isFeatureSupportedInCurrentAcs | async)" [items]="bulkActions" />
-      <div class="aca-search-toolbar-spacer"></div>
-      <aca-toolbar [items]="actions" />
+      <aca-toolbar class="aca-search-results__toolbar-actions" [items]="actions" />
     </div>
   </div>
 

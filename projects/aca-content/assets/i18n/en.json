@@ -601,7 +601,11 @@
           "MIN_LENGTH": "Search input must have at least 2 alphanumeric characters.",
           "REQUIRED": "Search input is required.",
           "WHITESPACE": "Search input cannot be only whitespace.",
-          "OPERATORS": "Search input cannot begin with, end with or contain only operators."
+          "OPERATORS": "Search input cannot begin with, end with or contain only operators.",
+          "IN_PREFIX": "In",
+          "FILES_AND_FOLDERS": "Files and folders",
+          "RESET": "Reset",
+          "SEARCH_IN": "Search in"
         },
         "SORT": {
             "SORTING_OPTION": "Sort by",

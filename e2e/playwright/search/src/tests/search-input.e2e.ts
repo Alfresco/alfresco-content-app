@@ -44,50 +44,31 @@ test.describe('Search - Input', () => {
 
   test('[XAT-5563] Search icon is displayed in toolbar and clicking on it displays search input container', async ({ searchPage }) => {
     await searchPage.acaHeader.searchButton.click();
-    await searchPage.clickSearchButton();
-
-    await expect(searchPage.searchOverlay.searchInputControl).toBeVisible();
+    await expect(searchPage.searchInputComponent.searchInput).toBeVisible();
   });
 
   test('[XAT-5564] Search options are displayed when clicking in the search input', async ({ searchPage }) => {
     await searchPage.acaHeader.searchButton.click();
-    await searchPage.clickSearchButton();
+    await searchPage.searchInputComponent.searchInButton.click();
 
-    await expect(searchPage.searchOverlay.searchOptions).toBeVisible();
-    await expect(searchPage.searchOverlay.searchFilesOption).toBeEnabled();
-    await expect(searchPage.searchOverlay.searchFoldersOption).toBeEnabled();
-    await expect(searchPage.searchOverlay.searchLibrariesOption).toBeEnabled();
-    await expect(searchPage.searchOverlay.searchFilesOption).not.toBeChecked();
-    await expect(searchPage.searchOverlay.searchFoldersOption).not.toBeChecked();
-    await expect(searchPage.searchOverlay.searchLibrariesOption).not.toBeChecked();
+    await expect(searchPage.searchInDialog.filesAndFoldersRadioButton).toBeVisible();
+    await expect(searchPage.searchInDialog.filesCheckbox).toBeVisible();
+    await expect(searchPage.searchInDialog.foldersCheckbox).toBeVisible();
+    await expect(searchPage.searchInDialog.librariesRadioButton).toBeVisible();
   });
 
   test('[XAT-5565] Search options are correctly enabled / disabled', async ({ searchPage }) => {
     await searchPage.acaHeader.searchButton.click();
-    await searchPage.clickSearchButton();
+    await searchPage.searchInputComponent.searchInButton.click();
 
-    await searchPage.searchOverlay.searchFilesOption.click();
-    await expect(searchPage.searchOverlay.searchFoldersOption).toBeEnabled();
-    await expect(searchPage.searchOverlay.searchLibrariesOption).toBeDisabled();
+    await searchPage.searchInDialog.filesAndFoldersRadioButton.click();
+    await expect(searchPage.searchInDialog.filesCheckbox).toBeChecked();
+    await expect(searchPage.searchInDialog.foldersCheckbox).toBeChecked();
+    await expect(searchPage.searchInDialog.librariesRadioButton).not.toBeChecked();
 
-    await searchPage.searchOverlay.searchFilesOption.click();
-    await expect(searchPage.searchOverlay.searchFoldersOption).toBeEnabled();
-    await expect(searchPage.searchOverlay.searchLibrariesOption).toBeEnabled();
-
-    await searchPage.searchOverlay.searchFoldersOption.click();
-    await expect(searchPage.searchOverlay.searchFilesOption).toBeEnabled();
-    await expect(searchPage.searchOverlay.searchLibrariesOption).toBeDisabled();
-
-    await searchPage.searchOverlay.searchFoldersOption.click();
-    await expect(searchPage.searchOverlay.searchFilesOption).toBeEnabled();
-    await expect(searchPage.searchOverlay.searchLibrariesOption).toBeEnabled();
-
-    await searchPage.searchOverlay.searchLibrariesOption.click();
-    await expect(searchPage.searchOverlay.searchFilesOption).toBeDisabled();
-    await expect(searchPage.searchOverlay.searchFoldersOption).toBeDisabled();
-
-    await searchPage.searchOverlay.searchLibrariesOption.click();
-    await expect(searchPage.searchOverlay.searchFilesOption).toBeEnabled();
-    await expect(searchPage.searchOverlay.searchFoldersOption).toBeEnabled();
+    await searchPage.searchInDialog.librariesRadioButton.click();
+    await expect(searchPage.searchInDialog.foldersCheckbox).toBeHidden();
+    await expect(searchPage.searchInDialog.filesCheckbox).toBeHidden();
+    await expect(searchPage.searchInDialog.filesAndFoldersRadioButton).not.toBeChecked();
   });
 });

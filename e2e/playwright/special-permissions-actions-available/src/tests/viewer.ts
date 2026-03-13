@@ -331,7 +331,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         await loginPage.navigate();
         await loginPage.loginUser({ username: userConsumer, password: userConsumer });
         await searchPage.searchWithin(item, 'filesAndFolders');
-        await searchPage.searchInput.performDoubleClickFolderOrFileToOpen(item);
+        await searchPage.dataTable.performClickFolderOrFileToOpen(item);
         expect(await searchPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
         await searchPage.viewer.verifyViewerPrimaryActions(expectedToolbarPrimary);
         await searchPage.acaHeader.clickViewerMoreActions();

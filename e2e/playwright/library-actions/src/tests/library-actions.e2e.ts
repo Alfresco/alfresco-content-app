@@ -380,10 +380,7 @@ test.describe('Library actions ', () => {
       const myLibrariesHeader = myLibrariesPage.acaHeader;
       const libraryMenu = myLibrariesPage.matMenu;
 
-      await myLibrariesHeader.searchButton.click();
-      await searchPage.clickSearchButton();
-      await searchPage.searchOverlay.searchLibrariesOption.click();
-      await searchPage.searchOverlay.searchFor(adminLibrary4);
+      await searchPage.searchWithin(adminLibrary4, 'libraries');
 
       await expect(libraryTable.getRowByName(adminLibrary4)).toBeVisible();
       await libraryTable.getRowByName(adminLibrary4).click();
@@ -397,10 +394,7 @@ test.describe('Library actions ', () => {
       const searchHeader = searchPage.acaHeader;
       const libraryMenu = searchPage.matMenu;
 
-      await searchHeader.searchButton.click();
-      await searchPage.clickSearchButton();
-      await searchPage.searchOverlay.searchLibrariesOption.click();
-      await searchPage.searchOverlay.searchFor(user2Library4);
+      await searchPage.searchWithin(user2Library4, 'libraries');
       await expect(libraryTable.getRowByName(user2Library4)).toBeVisible();
       await searchPage.reload({ waitUntil: domContentLoadedString });
       await libraryTable.getRowByName(user2Library4).click();

@@ -29,7 +29,6 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { SearchLibrariesQueryBuilderService } from './search-libraries-query-builder.service';
 import {
   AppHookService,
-  AppService,
   ContextActionsDirective,
   InfoDrawerComponent,
   PageComponent,
@@ -81,10 +80,9 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
   columns: DocumentListPresetRef[] = [];
 
   constructor(
-    private librariesQueryBuilder: SearchLibrariesQueryBuilderService,
-    private route: ActivatedRoute,
-    private appHookService: AppHookService,
-    private appService: AppService
+    private readonly librariesQueryBuilder: SearchLibrariesQueryBuilderService,
+    private readonly route: ActivatedRoute,
+    private readonly appHookService: AppHookService
   ) {
     super();
 
@@ -95,7 +93,6 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
   }
 
   ngOnInit() {
-    this.appService.setAppNavbarMode('collapsed');
     super.ngOnInit();
 
     this.columns = this.extensions.documentListPresets.searchLibraries || [];

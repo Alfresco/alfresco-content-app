@@ -51,12 +51,12 @@ test.describe('Empty list views', () => {
 
   async function checkPaginationForTabs(searchPage: SearchPage, tab: string, personalFiles: PersonalFilesPage) {
     await searchPage.sidenav.openPanel(tab);
-    expect(await personalFiles.pagination.isRangePresent()).toBeFalsy();
-    expect(await personalFiles.pagination.isMaxItemsPresent()).toBeFalsy();
-    expect(await personalFiles.pagination.isCurrentPagePresent()).toBeFalsy();
-    expect(await personalFiles.pagination.isTotalPagesPresent()).toBeFalsy();
-    expect(await personalFiles.pagination.isPreviousButtonPresent()).toBeFalsy();
-    expect(await personalFiles.pagination.isNextButtonPresent()).toBeFalsy();
+    expect(await personalFiles.pagination.isRangePresent()).toBe(false);
+    expect(await personalFiles.pagination.isMaxItemsPresent()).toBe(false);
+    expect(await personalFiles.pagination.isCurrentPagePresent()).toBe(false);
+    expect(await personalFiles.pagination.isTotalPagesPresent()).toBe(false);
+    expect(await personalFiles.pagination.isPreviousButtonPresent()).toBe(false);
+    expect(await personalFiles.pagination.isNextButtonPresent()).toBe(false);
   }
 
   test('[XAT-4402] Empty My Libraries', async ({ myLibrariesPage }) => {
@@ -99,10 +99,7 @@ test.describe('Empty list views', () => {
   });
 
   test('[XAT-4590] Search Page - Pagination control is not displayed on empty page load', async ({ personalFiles, searchPage }) => {
-    await personalFiles.acaHeader.searchButton.click();
-    await searchPage.clickSearchButton();
-    await searchPage.searchOverlay.checkFilesAndFolders();
-    await searchPage.searchOverlay.searchFor('InvalidText');
+    await searchPage.searchWithin('InvalidText', 'filesAndFolders');
     await searchPage.reload({ waitUntil: 'domcontentloaded' });
     await searchPage.dataTable.spinnerWaitForReload();
 

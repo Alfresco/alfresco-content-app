@@ -117,7 +117,7 @@ test.describe('Folder Rules Actions', () => {
     await nodesPage.rulesToolbar.clickCreateRuleButton();
     await expect(nodesPage.manageRulesDialog.createRuleButton).toBeDisabled();
     await nodesPage.manageRulesDialog.cancelRuleButton.click();
-    expect(nodesPage.manageRules.checkIfRuleListEmpty()).toBeTruthy();
+    expect(await nodesPage.manageRules.checkIfRuleListEmpty()).toBe(true);
   });
 
   test('[XAT-887] Create a disabled rule', async ({ personalFiles, nodesPage }) => {

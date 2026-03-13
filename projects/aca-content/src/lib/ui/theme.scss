@@ -30,6 +30,17 @@
       subscript-text-size: 12px
     )
   );
+
+  #{ms.$mat-radio-button} {
+    @include mat.radio-overrides(
+      (
+        selected-icon-color: var(--theme-blue-checkbox-color),
+        selected-hover-icon-color: var(--theme-blue-checkbox-color),
+        selected-focus-icon-color: var(--theme-blue-checkbox-color),
+        selected-pressed-icon-color: var(--theme-blue-checkbox-color)
+      )
+    );
+  }
 }
 
 .adf-search-properties-form,

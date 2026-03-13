@@ -82,9 +82,7 @@ test.describe('Search Results - General', () => {
     expect(await searchPage.dataTable.isItemPresent(file)).toBe(true);
     expect(await searchPage.dataTable.isItemPresent(folder)).toBe(false);
 
-    await searchPage.clickSearchButton();
-    await searchPage.searchOverlay.searchFor(folder);
-    await searchPage.dataTable.progressBarWaitForReload();
+    await searchPage.searchWithin(folder, 'filesAndFolders');
 
     expect(await searchPage.dataTable.isItemPresent(file)).toBe(false);
     expect(await searchPage.dataTable.isItemPresent(folder)).toBe(true);
