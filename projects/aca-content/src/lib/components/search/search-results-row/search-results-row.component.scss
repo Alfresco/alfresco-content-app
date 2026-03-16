@@ -5,6 +5,10 @@
   padding: 10px 0;
   width: inherit;
 
+  .aca-search-results-text {
+    overflow: hidden;
+  }
+
   .aca-highlight {
     background: var(--theme-search-highlight-background-color);
   }
@@ -15,7 +19,6 @@
   }
 
   .aca-result-location {
-    height: 15px;
     padding-top: 3px;
   }
 
