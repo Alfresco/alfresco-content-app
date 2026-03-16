@@ -40,7 +40,7 @@ runs:
         password: ${{ inputs.quay_password }}
 
     - name: Setup cluster
-      uses: Alfresco/alfresco-build-tools/.github/actions/setup-kind@v14.1.1
+      uses: Alfresco/alfresco-build-tools/.github/actions/setup-kind@v15.6.2
       with:
         ingress-nginx-ref: controller-v1.8.2
         ingress-creation-timeout: 180s
@@ -126,4 +126,4 @@ runs:
         --values .github/acs-deployment-values-override.yaml
 
     - name: Wait for pods to be ready
-      uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-wait@v14.1.1
+      uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-wait@v15.6.2
