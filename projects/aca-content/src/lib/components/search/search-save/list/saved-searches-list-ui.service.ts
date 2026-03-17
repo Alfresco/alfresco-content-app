@@ -55,7 +55,9 @@ export class SavedSearchesListUiService {
   }
 
   private focusAfterClose(name: string, fromContextMenu: boolean): void {
-    const row = document.querySelector<HTMLElement>(`[data-automation-id="${name}"]`)?.closest<HTMLElement>('adf-datatable-row');
+    const row = Array.from(document.querySelectorAll<HTMLElement>('.adf-datatable-cell'))
+      .find((el) => el.getAttribute('data-automation-id') === name)
+      ?.closest<HTMLElement>('adf-datatable-row');
 
     row?.focus();
     if (!fromContextMenu) {

@@ -110,9 +110,7 @@ export class SavedSearchesListUiComponent extends DataTableSchema implements Aft
 
   ngAfterContentInit() {
     this.createDatatableSchema();
-    this.contextMenuAction$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((action) => {
-      return this.executeMenuOption(action.key, action.data, true);
-    });
+    this.contextMenuAction$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((action) => this.executeMenuOption(action.key, action.data, true));
   }
 
   @HostListener('document:keydown.escape')

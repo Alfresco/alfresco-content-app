@@ -80,15 +80,11 @@ describe('NodeTemplateService', () => {
       mockRow = jasmine.createSpyObj<HTMLElement>('adf-datatable-row', ['focus', 'querySelector']);
       mockRow.querySelector.and.returnValue(mockButton);
 
-      mockCell = jasmine.createSpyObj<HTMLElement>('cell', ['closest']);
+      mockCell = jasmine.createSpyObj<HTMLElement>('cell', ['closest', 'getAttribute']);
+      mockCell.getAttribute.and.returnValue(mockedSearch.name);
       mockCell.closest.and.returnValue(mockRow);
 
-      spyOn(document, 'querySelector').and.returnValue(mockCell);
-    });
-
-    it('should query the correct data-automation-id selector (for exact match)', () => {
-      savedSearchesListUiService.openEditSavedSearch(mockedSearch);
-      expect(document.querySelector).toHaveBeenCalledWith(`[data-automation-id="${mockedSearch.name}"]`);
+      spyOn(document, 'querySelectorAll').and.returnValue([mockCell] as unknown as NodeListOf<HTMLElement>);
     });
 
     it('should focus the actions button when edit dialog closes from actions button', () => {
