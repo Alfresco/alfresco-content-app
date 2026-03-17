@@ -214,7 +214,7 @@ describe('SavedSearchesListUiComponent ', () => {
         });
 
         it('should call openEditSavedSearch when selected edit option', () => {
-          expect(savedSearchesListUiService.openEditSavedSearch).toHaveBeenCalledWith(editAction.data);
+          expect(savedSearchesListUiService.openEditSavedSearch).toHaveBeenCalledWith(editAction.data, true);
         });
       });
 
@@ -227,7 +227,7 @@ describe('SavedSearchesListUiComponent ', () => {
         });
 
         it('should call confirmDeleteSavedSearch when selected delete option', () => {
-          expect(savedSearchesListUiService.confirmDeleteSavedSearch).toHaveBeenCalledWith(deleteAction.data);
+          expect(savedSearchesListUiService.confirmDeleteSavedSearch).toHaveBeenCalledWith(deleteAction.data, true);
         });
       });
 

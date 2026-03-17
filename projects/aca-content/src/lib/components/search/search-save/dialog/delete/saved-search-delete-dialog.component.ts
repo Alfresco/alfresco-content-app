@@ -23,7 +23,7 @@
  */
 
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
-import { SavedSearch } from '@alfresco/adf-content-services';
+import { AutoFocusDirective, SavedSearch } from '@alfresco/adf-content-services';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
 import { NotificationService } from '@alfresco/adf-core';
@@ -34,7 +34,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { SavedSearchesContextService } from '../../../../../services/saved-searches-context.service';
 
 @Component({
-  imports: [TranslatePipe, TitleCasePipe, MatIconModule, MatButtonModule, MatDialogModule],
+  imports: [TranslatePipe, TitleCasePipe, MatIconModule, MatButtonModule, MatDialogModule, AutoFocusDirective],
   selector: 'aca-saved-search-delete-dialog',
   templateUrl: './saved-search-delete-dialog.component.html',
   styleUrls: ['./saved-search-delete-dialog.component.scss'],

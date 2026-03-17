@@ -110,7 +110,9 @@ export class SavedSearchesListUiComponent extends DataTableSchema implements Aft
 
   ngAfterContentInit() {
     this.createDatatableSchema();
-    this.contextMenuAction$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((action) => this.executeMenuOption(action.key, action.data));
+    this.contextMenuAction$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((action) => {
+      return this.executeMenuOption(action.key, action.data, true);
+    });
   }
 
   @HostListener('document:keydown.escape')
@@ -129,13 +131,13 @@ export class SavedSearchesListUiComponent extends DataTableSchema implements Aft
     this.savedSearchOrderChanged.next(event);
   }
 
-  executeMenuOption(optionKey: string, savedSearchData: SavedSearch): void {
+  executeMenuOption(optionKey: string, savedSearchData: SavedSearch, fromContextMenu = false): void {
     switch (optionKey) {
       case this.editSavedSearchOptionKey:
-        this.openEditSavedSearchDialog(savedSearchData);
+        this.openEditSavedSearchDialog(savedSearchData, fromContextMenu);
         break;
       case this.deleteSavedSearchOptionKey:
-        this.openDeleteSavedSearchDialog(savedSearchData);
+        this.openDeleteSavedSearchDialog(savedSearchData, fromContextMenu);
         break;
       case this.copyToClipboardUrlOptionKey:
         this.copyToClipboard(savedSearchData);
@@ -146,12 +148,12 @@ export class SavedSearchesListUiComponent extends DataTableSchema implements Aft
     }
   }
 
-  openEditSavedSearchDialog(savedSearch: SavedSearch): void {
-    this.savedSearchesListUiService.openEditSavedSearch(savedSearch);
+  openEditSavedSearchDialog(savedSearch: SavedSearch, fromContextMenu = false): void {
+    this.savedSearchesListUiService.openEditSavedSearch(savedSearch, fromContextMenu);
   }
 
-  openDeleteSavedSearchDialog(savedSearch: SavedSearch): void {
-    this.savedSearchesListUiService.confirmDeleteSavedSearch(savedSearch);
+  openDeleteSavedSearchDialog(savedSearch: SavedSearch, fromContextMenu = false): void {
+    this.savedSearchesListUiService.confirmDeleteSavedSearch(savedSearch, fromContextMenu);
   }
 
   copyToClipboard(savedSearch: SavedSearch): void {

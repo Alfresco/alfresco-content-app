@@ -32,29 +32,34 @@ import { SavedSearchEditDialogComponent } from '../dialog/edit/saved-search-edit
 export class SavedSearchesListUiService {
   private readonly dialog = inject(MatDialog);
 
-  openEditSavedSearch(savedSearch: SavedSearch): void {
+  openEditSavedSearch(savedSearch: SavedSearch, fromContextMenu = false): void {
     this.dialog
       .open(SavedSearchEditDialogComponent, {
         data: savedSearch,
-        width: '600px'
+        width: '600px',
+        restoreFocus: false
       })
       .afterClosed()
-      .subscribe(() => this.focusAfterClose(`.adf-datatable-cell--${savedSearch.name}`));
+      .subscribe(() => this.focusAfterClose(savedSearch.name, fromContextMenu));
   }
 
-  confirmDeleteSavedSearch(savedSearch: SavedSearch): void {
+  confirmDeleteSavedSearch(savedSearch: SavedSearch, fromContextMenu = false): void {
     this.dialog
       .open(SavedSearchDeleteDialogComponent, {
         data: savedSearch,
-        minWidth: '500px'
+        minWidth: '500px',
+        restoreFocus: false
       })
       .afterClosed()
-      .subscribe(() => this.focusAfterClose(`.adf-datatable-cell--${savedSearch.name}`));
+      .subscribe(() => this.focusAfterClose(savedSearch.name, fromContextMenu));
   }
 
-  private focusAfterClose(focusedElementSelector: string): void {
-    if (focusedElementSelector) {
-      document.querySelector<HTMLElement>(focusedElementSelector)?.closest<HTMLElement>('adf-datatable-row').focus();
+  private focusAfterClose(name: string, fromContextMenu: boolean): void {
+    const row = document.querySelector<HTMLElement>(`[data-automation-id="${name}"]`)?.closest<HTMLElement>('adf-datatable-row');
+
+    row?.focus();
+    if (!fromContextMenu) {
+      row?.querySelector<HTMLElement>('.adf-datatable-actions-menu button')?.focus();
     }
   }
 }
