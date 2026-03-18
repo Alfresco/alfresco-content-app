@@ -1,11 +1,11 @@
 /* stylelint-disable value-keyword-case */
 @use '@angular/material' as mat;
-@use '@mat-datetimepicker/core/datetimepicker/datetimepicker-theme' as datetimepicker-theme;
 @use './overrides/adf-style-fixes.theme' as adf-style-fixes;
 @use './overrides/adf-pagination.theme' as adf-pagination;
 @use './overrides/ay11' as ay11;
 @use './overrides/adf-about.theme' as adf-about;
 @use './overrides/adf-variables' as adf-variables;
+@use './overrides/datetimepicker.theme' as datetimepicker-theme;
 @use './colors' as colors;
 
 $mat-primary-palette: mat.m2-define-palette(colors.$aca-primary-blue, A100);
@@ -40,7 +40,7 @@ $custom-theme: mat.m2-define-light-theme(
 @mixin custom-theme($theme) {
   @include mat.all-component-themes($theme);
   @include adf-variables.provide-adf-variables($theme);
-  @include datetimepicker-theme.mat-datetimepicker-theme($theme);
+  @include datetimepicker-theme.datetimepicker-theme($theme);
   @include adf-style-fixes.adf-style-fixes($theme);
   @include adf-pagination.adf-pagination-theme($theme);
   @include ay11.ay11-theme;
