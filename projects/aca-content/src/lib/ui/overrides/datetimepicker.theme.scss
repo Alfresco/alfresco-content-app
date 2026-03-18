@@ -1,0 +1,54 @@
+@use 'sass:color';
+@use 'sass:map';
+@use '../colors' as colors;
+
+/* stylelint-disable scss/no-global-function-names */
+$datetimepicker-primary-color: map-get(colors.$aca-primary-blue, 500);
+
+/* stylelint-disable selector-class-pattern */
+@mixin datetimepicker-theme($theme) {
+  $box-shadow-width: 1px;
+
+  .mat-datetimepicker-calendar-header {
+    background-color: $datetimepicker-primary-color;
+  }
+
+  .mat-datetimepicker-calendar-body-cell-content {
+    &.mat-datetimepicker-calendar-body-selected {
+      background-color: $datetimepicker-primary-color;
+      color: white;
+    }
+
+    &.mat-datetimepicker-calendar-body-disabled > .mat-datetimepicker-calendar-body-selected {
+      background-color: rgba($datetimepicker-primary-color, 0.4);
+    }
+
+    &.mat-datetimepicker-calendar-body-today {
+      &:not(.mat-datetimepicker-calendar-body-selected) {
+        border-color: $datetimepicker-primary-color;
+      }
+
+      &.mat-datetimepicker-calendar-body-selected {
+        box-shadow: inset 0 0 0 $box-shadow-width white;
+      }
+    }
+  }
+
+  .mat-datetimepicker-clock-center {
+    background-color: $datetimepicker-primary-color;
+  }
+
+  .mat-datetimepicker-clock-hand {
+    background-color: $datetimepicker-primary-color;
+
+    &::before {
+      background-color: $datetimepicker-primary-color;
+    }
+  }
+
+  .mat-datetimepicker-clock-cell {
+    &.mat-datetimepicker-clock-cell-selected {
+      background-color: color.adjust($datetimepicker-primary-color, $lightness: 5%);
+    }
+  }
+}
