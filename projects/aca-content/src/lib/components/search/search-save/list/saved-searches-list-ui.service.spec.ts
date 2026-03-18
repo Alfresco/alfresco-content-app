@@ -53,12 +53,72 @@ describe('NodeTemplateService', () => {
   it('should open edit save search dialog with proper params', fakeAsync(() => {
     savedSearchesListUiService.openEditSavedSearch(mockedSearch);
 
-    expect(dialog.open).toHaveBeenCalledWith(SavedSearchEditDialogComponent, { data: mockedSearch, width: '600px' });
+    expect(dialog.open).toHaveBeenCalledWith(SavedSearchEditDialogComponent, {
+      data: mockedSearch,
+      width: '600px',
+      restoreFocus: false
+    });
   }));
 
   it('should open delete save search dialog with proper params', fakeAsync(() => {
     savedSearchesListUiService.confirmDeleteSavedSearch(mockedSearch);
 
-    expect(dialog.open).toHaveBeenCalledWith(SavedSearchDeleteDialogComponent, { data: mockedSearch, minWidth: '500px' });
+    expect(dialog.open).toHaveBeenCalledWith(SavedSearchDeleteDialogComponent, {
+      data: mockedSearch,
+      minWidth: '500px',
+      restoreFocus: false
+    });
   }));
+
+  describe('focusAfterClose', () => {
+    let mockRow: jasmine.SpyObj<HTMLElement>;
+    let mockButton: jasmine.SpyObj<HTMLElement>;
+    let mockCell: jasmine.SpyObj<HTMLElement>;
+
+    beforeEach(() => {
+      mockButton = jasmine.createSpyObj<HTMLElement>('button', ['focus']);
+      mockRow = jasmine.createSpyObj<HTMLElement>('adf-datatable-row', ['focus', 'querySelector']);
+      mockRow.querySelector.and.returnValue(mockButton);
+
+      mockCell = jasmine.createSpyObj<HTMLElement>('cell', ['closest', 'getAttribute']);
+      mockCell.getAttribute.and.returnValue(mockedSearch.name);
+      mockCell.closest.and.returnValue(mockRow);
+
+      spyOn(document, 'querySelectorAll').and.returnValue([mockCell] as unknown as NodeListOf<HTMLElement>);
+    });
+
+    it('should focus the actions button when edit dialog closes from actions button', () => {
+      savedSearchesListUiService.openEditSavedSearch(mockedSearch, false);
+      expect(mockRow.focus).toHaveBeenCalled();
+      expect(mockButton.focus).toHaveBeenCalled();
+    });
+
+    it('should focus row when edit dialog closes from context menu', () => {
+      savedSearchesListUiService.openEditSavedSearch(mockedSearch, true);
+      expect(mockRow.focus).toHaveBeenCalled();
+      expect(mockButton.focus).not.toHaveBeenCalled();
+    });
+
+    it('should focus the row before the actions button', () => {
+      const callOrder: string[] = [];
+      mockRow.focus.and.callFake(() => callOrder.push('row'));
+      mockButton.focus.and.callFake(() => callOrder.push('button'));
+
+      savedSearchesListUiService.openEditSavedSearch(mockedSearch, false);
+
+      expect(callOrder).toEqual(['row', 'button']);
+    });
+
+    it('should focus the actions button when delete dialog closes from actions button', () => {
+      savedSearchesListUiService.confirmDeleteSavedSearch(mockedSearch, false);
+      expect(mockRow.focus).toHaveBeenCalled();
+      expect(mockButton.focus).toHaveBeenCalled();
+    });
+
+    it('should focus row when delete dialog closes from context menu', () => {
+      savedSearchesListUiService.confirmDeleteSavedSearch(mockedSearch, true);
+      expect(mockRow.focus).toHaveBeenCalled();
+      expect(mockButton.focus).not.toHaveBeenCalled();
+    });
+  });
 });
