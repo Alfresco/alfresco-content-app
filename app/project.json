@@ -24,7 +24,7 @@
             "output": "/"
           },
           "app/src/assets",
-          "app/src/favicon-96x96.png",
+          "app/src/favicon-96x96.svg",
           {
             "glob": "app.config.json",
             "input": "app/src",

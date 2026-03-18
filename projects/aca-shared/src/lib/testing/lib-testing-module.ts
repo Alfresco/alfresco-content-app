@@ -39,7 +39,7 @@ import { DocumentBasePageService } from '../../public-api';
 export const initialState = {
   app: {
     appName: 'Alfresco Content Application',
-    logoPath: 'assets/images/alfresco-logo-white.svg',
+    logoPath: 'assets/images/updated-alfresco-logo.svg',
     sharedUrl: '',
     user: {
       isAdmin: null,
