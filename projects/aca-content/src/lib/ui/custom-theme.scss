@@ -6,43 +6,33 @@
 @use './overrides/adf-about.theme' as adf-about;
 @use './overrides/adf-variables' as adf-variables;
 @use './overrides/datetimepicker.theme' as datetimepicker-theme;
-@use './colors' as colors;
 
-$mat-primary-palette: mat.m2-define-palette(colors.$aca-primary-blue, A100);
-$mat-accent-palette: mat.m2-define-palette(colors.$aca-accent-green, A200);
-$mat-warn-palette: mat.m2-define-palette(colors.$aca-warn, A100);
-$app-typography: mat.m2-define-typography-config(
-  $font-family: 'Open Sans',
-  $headline-1: mat.m2-define-typography-level(112px, 112px, 300),
-  $headline-2: mat.m2-define-typography-level(56px, 56px, 400),
-  $headline-3: mat.m2-define-typography-level(45px, 48px, 400),
-  $headline-4: mat.m2-define-typography-level(34px, 40px, 400),
-  $headline-5: mat.m2-define-typography-level(24px, 32px, 400),
-  $headline-6: mat.m2-define-typography-level(20px, 32px, 400),
-  $subtitle-1: mat.m2-define-typography-level(16px, 28px, 400),
-  $subtitle-2: mat.m2-define-typography-level(14px, 24px, 500),
-  $body-2: mat.m2-define-typography-level(14px, 24px, 500),
-  $body-1: mat.m2-define-typography-level(14px, 20px, 400),
-  $caption: mat.m2-define-typography-level(12px, 20px, 400),
-  $button: mat.m2-define-typography-level(14px, 14px, 500)
-);
-$custom-theme: mat.m2-define-light-theme(
+$custom-theme: mat.define-theme(
   (
     color: (
-      primary: $mat-primary-palette,
-      accent: $mat-accent-palette,
-      warn: $mat-warn-palette
+      theme-type: light,
+      primary: mat.$azure-palette,
+      tertiary: mat.$green-palette
     ),
-    typography: $app-typography
+    typography: (
+      plain-family: 'Open Sans',
+      brand-family: 'Open Sans'
+    ),
+    density: (
+      scale: 0
+    )
   )
 );
 
 @mixin custom-theme($theme) {
   @include mat.all-component-themes($theme);
-  @include adf-variables.provide-adf-variables($theme);
-  @include datetimepicker-theme.datetimepicker-theme($theme);
-  @include adf-style-fixes.adf-style-fixes($theme);
-  @include adf-pagination.adf-pagination-theme($theme);
+}
+
+@mixin custom-theme-overrides() {
+  @include adf-variables.provide-adf-variables;
+  @include datetimepicker-theme.datetimepicker-theme;
+  @include adf-style-fixes.adf-style-fixes;
+  @include adf-pagination.adf-pagination-theme;
   @include ay11.ay11-theme;
-  @include adf-about.adf-about-theme($theme);
+  @include adf-about.adf-about-theme;
 }

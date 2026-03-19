@@ -1,6 +1,6 @@
 @use '../mat-selectors' as ms;
 
-@mixin adf-about-theme($theme) {
+@mixin adf-about-theme() {
   adf-about {
     /* custom ADF About Component Theme */
 
