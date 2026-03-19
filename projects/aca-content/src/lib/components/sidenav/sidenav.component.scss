@@ -61,9 +61,9 @@
         display: flex;
         align-items: center;
         border: none;
-
-        span::after {
-          transform: rotate(226deg);
+        /* stylelint-disable-next-line */
+        .mat-expansion-indicator svg {
+          transform: rotate(180deg);
         }
 
         &-title {

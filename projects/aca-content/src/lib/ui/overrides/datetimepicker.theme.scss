@@ -2,11 +2,10 @@
 @use 'sass:map';
 @use '../colors' as colors;
 
-/* stylelint-disable scss/no-global-function-names */
-$datetimepicker-primary-color: map-get(colors.$aca-primary-blue, 500);
+$datetimepicker-primary-color: map.get(colors.$aca-primary-blue, 500);
 
 /* stylelint-disable selector-class-pattern */
-@mixin datetimepicker-theme($theme) {
+@mixin datetimepicker-theme() {
   $box-shadow-width: 1px;
 
   .mat-datetimepicker-calendar-header {

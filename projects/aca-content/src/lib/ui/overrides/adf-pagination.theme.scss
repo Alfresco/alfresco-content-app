@@ -1,5 +1,5 @@
 /* stylelint-disable selector-class-pattern */
-@mixin adf-pagination-theme($theme) {
+@mixin adf-pagination-theme() {
   adf-pagination {
     &.adf-pagination {
       height: 32px;

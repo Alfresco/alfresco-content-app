@@ -1,14 +1,10 @@
-/* stylelint-disable scss/no-global-function-names */
-@use '@angular/material' as mat;
 @use 'sass:color';
-@use '../custom-theme' as custom;
 
-$foreground: map-get(custom.$custom-theme, foreground);
-$background: map-get(custom.$custom-theme, background);
-$background-color: mat.m2-get-color-from-palette($background, background);
-$background-card-color: mat.m2-get-color-from-palette($background, card);
-$text-color: mat.m2-get-color-from-palette($foreground, text);
-$secondary-text: mat.m2-get-color-from-palette($foreground, secondary-text);
+// Resolved from MD2 light theme foreground/background maps
+$background-color: #fafafa;
+$background-card-color: white;
+$text-color: rgba(0, 0, 0, 0.87);
+$secondary-text: rgba(0, 0, 0, 0.54);
 $login-button-bg-color: #5654ac;
 
 // Custom variables - ACA specific styling:
@@ -31,8 +27,8 @@ $blue-checkbox-background: rgb(10, 96, 206);
 $blue-active-table-row: rgb(10, 96, 206, 0.24);
 $black-heading: #4e4c4c;
 $light-grey-content: #4b5563;
-$theme-dropdown-background: darken($background-color, 5%);
-$theme-dropdown-background-hover: darken($background-color, 10%);
+$theme-dropdown-background: color.adjust($background-color, $lightness: -5%);
+$theme-dropdown-background-hover: color.adjust($background-color, $lightness: -10%);
 $grey-divider: rgba(0, 0, 0, 0.22);
 $datetimepicker-font-color: rgba(black, 0.87);
 $datetimepicker-selected-date-background: #2254b2;
@@ -42,11 +38,11 @@ $sidenav-background-color: $background-color;
 $selected-text-color: #212121;
 $selected-text-background: rgba($selected-text-color, 0.12);
 $selected-background-color: rgba(31, 116, 219, 0.24);
-$action-button-text-color: lighten($text-color, 35%);
+$action-button-text-color: color.adjust($text-color, $lightness: 35%);
 $page-layout-header-background-color: $background-card-color;
 $search-chip-icon-color: #757575;
 $disabled-chip-background-color: #f5f5f5;
-$contrast-gray: mat.m2-get-color-from-palette($foreground, 'secondary-tex');
+$contrast-gray: rgba(0, 0, 0, 0.54);
 $search-highlight-background-color: #ffd180;
 $info-snackbar-background: #1f74db;
 $warning-snackbar-background: #8c7012;
@@ -61,19 +57,19 @@ $app-blue-folder: #2a7de1;
 // CSS Variables
 $defaults: (
   --theme-background-color: $background-color,
-  --theme-text-color: mat.m2-get-color-from-palette($foreground, text, 0.54),
-  --theme-sidenav-text-color: mat.m2-get-color-from-palette($foreground, text),
-  --theme-sidenav-hovered-text-color: mat.m2-get-color-from-palette($foreground, text),
-  --theme-tab-active-text-color: mat.m2-get-color-from-palette($foreground, text),
-  --theme-text-bold-color: mat.m2-get-color-from-palette($foreground, text, 0.87),
-  --theme-title-color: mat.m2-get-color-from-palette($foreground, text, 0.87),
-  --theme-border-color: mat.m2-get-color-from-palette($foreground, text, 0.07),
-  --theme-card-background-color: mat.m2-get-color-from-palette($background, card),
-  --theme-foreground-text-color: mat.m2-get-color-from-palette($foreground, text, 0.72),
-  --theme-foreground-text-bold-color: mat.m2-get-color-from-palette($foreground, text, 0.87),
-  --theme-secondary-text-color: mat.m2-get-color-from-palette($foreground, secondary-text),
-  --theme-dialog-background-color: mat.m2-get-color-from-palette($background, dialog),
-  --theme-header-text-color: mat.m2-get-color-from-palette($foreground, text, 0.87),
+  --theme-text-color: rgba(0, 0, 0, 0.54),
+  --theme-sidenav-text-color: rgba(0, 0, 0, 0.87),
+  --theme-sidenav-hovered-text-color: rgba(0, 0, 0, 0.87),
+  --theme-tab-active-text-color: rgba(0, 0, 0, 0.87),
+  --theme-text-bold-color: rgba(0, 0, 0, 0.87),
+  --theme-title-color: rgba(0, 0, 0, 0.87),
+  --theme-border-color: rgba(0, 0, 0, 0.07),
+  --theme-card-background-color: white,
+  --theme-foreground-text-color: rgba(0, 0, 0, 0.72),
+  --theme-foreground-text-bold-color: rgba(0, 0, 0, 0.87),
+  --theme-secondary-text-color: rgba(0, 0, 0, 0.54),
+  --theme-dialog-background-color: white,
+  --theme-header-text-color: rgba(0, 0, 0, 0.87),
   --new-button-font-size: 0.9rem,
   --theme-grey-text-background-color: $grey-text-background,
   --theme-grey-background-color: $grey-background,
@@ -87,10 +83,10 @@ $defaults: (
   --theme-dropdown-color: $theme-dropdown-background,
   --theme-dropdown-background-hover: $theme-dropdown-background-hover,
   --theme-grey-divider-color: $grey-divider,
-  --theme-pagination-background-color: mat.m2-get-color-from-palette($background, background),
+  --theme-pagination-background-color: #fafafa,
   --theme-about-panel-border-color: $grey-background,
-  --theme-about-panel-background-color: mat.m2-get-color-from-palette($background, card),
-  --theme-about-panel-title-color: mat.m2-get-color-from-palette($foreground, text),
+  --theme-about-panel-background-color: white,
+  --theme-about-panel-title-color: rgba(0, 0, 0, 0.87),
   --theme-datetimepicker-font-color: $datetimepicker-font-color,
   --theme-datetimepicker-selected-date-background: $datetimepicker-selected-date-background,
   --theme-white-background: $white-background,
