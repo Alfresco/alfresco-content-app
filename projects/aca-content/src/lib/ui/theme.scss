@@ -3,7 +3,12 @@
 @use '@alfresco/adf-core/theming' as adf-core;
 @use './custom-theme' as custom-theme;
 @use './variables/variables';
-@include custom-theme.custom-theme(custom-theme.$custom-theme);
+
+html {
+  @include custom-theme.custom-theme(custom-theme.$custom-theme);
+}
+
+@include custom-theme.custom-theme-overrides;
 /* stylelint-disable-next-line */
 @include mat.elevation-classes();
 /* stylelint-disable-next-line */
@@ -12,13 +17,25 @@
 :root {
   --mdc-filled-text-field-container-color: transparent;
   --mdc-text-button-label-text-color: inherit;
-  --mat-toolbar-container-text-color: inherit;
   --mat-form-field-container-height: 47.5px;
-  --mdc-checkbox-selected-icon-color: var(--theme-blue-checkbox-color);
-  --mdc-checkbox-selected-hover-icon-color: var(--theme-blue-checkbox-color);
-  --mdc-checkbox-selected-focus-icon-color: var(--theme-blue-checkbox-color);
-  --mat-dialog-container-max-width: 100%;
 
+  @include mat.toolbar-overrides(
+    (
+      container-text-color: inherit
+    )
+  );
+  @include mat.checkbox-overrides(
+    (
+      selected-icon-color: var(--theme-blue-checkbox-color),
+      selected-hover-icon-color: var(--theme-blue-checkbox-color),
+      selected-focus-icon-color: var(--theme-blue-checkbox-color)
+    )
+  );
+  @include mat.dialog-overrides(
+    (
+      container-max-width: 100%
+    )
+  );
   @include mat.form-field-overrides(
     (
       outlined-label-text-populated-size: 18px,
@@ -28,6 +45,31 @@
       outlined-disabled-label-text-color: var(--adf-theme-foreground-text-color-040),
       outlined-disabled-outline-color: var(--adf-theme-foreground-text-color-040),
       subscript-text-size: 12px
+    )
+  );
+  @include mat.sidenav-overrides(
+    (
+      container-shape: 0
+    )
+  );
+  @include mat.button-overrides(
+    (
+      text-label-text-tracking: normal,
+      filled-label-text-tracking: normal,
+      outlined-label-text-tracking: normal,
+      outlined-label-text-color: rgba(0, 0, 0, 0.87),
+      protected-label-text-tracking: normal
+    )
+  );
+  @include mat.chips-overrides(
+    (
+      container-shape-radius: 16px,
+      outline-width: 0
+    )
+  );
+  @include mat.icon-button-overrides(
+    (
+      icon-color: rgba(0, 0, 0, 0.54)
     )
   );
 
@@ -136,10 +178,12 @@ mat-slide-toggle {
 
 #{ms.$mat-chip}#{ms.$mat-evolution-chip}#{ms.$mat-standard-chip} {
   height: auto;
+  align-items: center;
 
   #{ms.$mat-evolution-chip-text-label} {
     white-space: normal;
     display: flex;
+    align-items: center;
   }
 
   #{ms.$mat-evolution-chip-action}#{ms.$mat-chip-action} {
@@ -283,21 +327,38 @@ mat-snack-bar-container {
 .adf-warning-snackbar,
 .adf-info-snackbar,
 .adf-error-snackbar {
-  --mat-mdc-snack-bar-button-color: var(--theme-white-background);
-  --mdc-snackbar-supporting-text-color: var(--theme-white-background);
   --mdc-text-button-label-text-color: var(--theme-white-background);
+
+  @include mat.snack-bar-overrides(
+    (
+      button-color: var(--theme-white-background),
+      supporting-text-color: var(--theme-white-background)
+    )
+  );
 }
 
 .adf-warning-snackbar {
-  --mdc-snackbar-container-color: var(--theme-warning-snackbar-background);
+  @include mat.snack-bar-overrides(
+    (
+      container-color: var(--theme-warning-snackbar-background)
+    )
+  );
 }
 
 .adf-info-snackbar {
-  --mdc-snackbar-container-color: var(--theme-info-snackbar-background);
+  @include mat.snack-bar-overrides(
+    (
+      container-color: var(--theme-info-snackbar-background)
+    )
+  );
 }
 
 .adf-error-snackbar {
-  --mdc-snackbar-container-color: var(--theme-warn-color);
+  @include mat.snack-bar-overrides(
+    (
+      container-color: var(--theme-warn-color)
+    )
+  );
 }
 
 #{ms.$mat-calendar} {
