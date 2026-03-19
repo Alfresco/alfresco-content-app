@@ -22,13 +22,6 @@ aca-search-ai-input {
   }
 
   .aca-search-ai-asking-button {
-    @include mat.button-overrides(
-      (
-        filled-container-color: var(--theme-primary-color),
-        filled-label-text-color: var(--theme-primary-color-default-contrast)
-      )
-    );
-
     display: flex;
     align-items: center;
     padding-left: 0;
@@ -37,6 +30,13 @@ aca-search-ai-input {
     border-radius: 6px;
     width: 92px;
     font-weight: 600;
+
+    @include mat.button-overrides(
+      (
+        filled-container-color: var(--theme-primary-color),
+        filled-label-text-color: var(--theme-primary-color-default-contrast)
+      )
+    );
 
     &-label {
       vertical-align: super;
