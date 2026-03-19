@@ -84,7 +84,7 @@ The default logo displayed in the top left corner of the Alfresco Content Applic
 ```json
 {
     "application": {
-        "logo": "/assets/images/alfresco-logo-white.svg"
+        "logo": "/assets/images/updated-alfresco-logo.svg"
     }
 }
 ```
