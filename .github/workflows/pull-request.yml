@@ -192,7 +192,6 @@ jobs:
         run: npm ci
 
       - name: Check Search Indexing
-        if: matrix.e2e-suites.id == 1
         continue-on-error: true
         run: npm run ci:check-search-indexing
         env:

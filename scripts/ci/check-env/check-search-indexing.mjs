@@ -11,6 +11,15 @@
 import { AlfrescoApi, NodesApi, SearchApi, PeopleApi, GroupsApi, CategoriesApi } from '@alfresco/js-api';
 import { exit } from 'node:process';
 
+function generateRandomString(length = 8) {
+    const charSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let text = '';
+    for (let i = 0; i < length; i++) {
+        text += charSet.charAt(Math.floor(Math.random() * charSet.length));
+    }
+    return text;
+}
+
 const INDEXING_TIMEOUT_SECONDS = 80;
 const RETRY_INTERVAL_SECONDS = 2;
 const TEST_PREFIX = 'search-indexing-check';
@@ -194,17 +203,21 @@ async function waitForFileIndexing(fileName) {
 }
 
 async function checkUserIndexing(uniqueId) {
-    const testUsername = `${TEST_PREFIX}-user-${uniqueId}`;
+    const testUsername = `${generateRandomString(5)}-${uniqueId}`;
+    const email = `${generateRandomString(5)}`;
+    const firstName = `${generateRandomString(5)}`;
+    const lastName = `${generateRandomString(5)}`;
+    const password = `${generateRandomString(5)}`;
     let indexed = false;
 
     try {
         console.info(`[ 🔍 User ] Creating test user: ${testUsername}`);
         await peopleApi.createPerson({
             id: testUsername,
-            email: `${testUsername}@test.com`,
-            firstName: 'SearchCheck',
-            lastName: `User${uniqueId}`,
-            password: 'SearchCheck123!'
+            email,
+            firstName,
+            lastName,
+            password
         });
         console.info(`[ 🔍 User ] User "${testUsername}" created successfully.`);
 
