@@ -45,17 +45,11 @@ async function main() {
     console.info(`[ 🔍 Search Indexing Check ] Checking search indexing on: ${host}`);
 
     const oauthConfig = {
-        provider: 'ALL',
+        authType: 'BASIC',
         hostBpm: host,
         hostEcm: host,
-        authType: 'OAUTH',
-        contextRoot: 'alfresco',
-        oauth2: {
-            host: `${host}/auth/realms/alfresco`,
-            clientId: 'alfresco',
-            scope: 'openid',
-            redirectUri: '/'
-        }
+        provider: 'ECM',
+        contextRoot: 'alfresco'
     };
 
     try {
