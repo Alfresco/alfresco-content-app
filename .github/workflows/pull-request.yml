@@ -191,12 +191,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Check Search Indexing
-        continue-on-error: true
-        run: npm run ci:check-search-indexing
-        env:
-          ADMIN_PASSWORD_SCRIPT: ${{ env.ADMIN_PASSWORD }}
-
       - name: Restore dist cache
         uses: actions/cache/restore@v5
         id: cache
@@ -206,6 +200,12 @@ jobs:
 
       - name: Before e2e
         uses: ./.github/actions/before-e2e
+
+      - name: Check Search Indexing
+        continue-on-error: true
+        run: npm run ci:check-search-indexing
+        env:
+          ADMIN_PASSWORD_SCRIPT: ${{ env.ADMIN_PASSWORD }}
 
       - name: Before playwright (Chromium for PR)
         if: ${{ github.event_name == 'pull_request' }}

@@ -13,11 +13,9 @@ import { exit } from 'node:process';
 
 function generateRandomString(length = 8) {
     const charSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let text = '';
-    for (let i = 0; i < length; i++) {
-        text += charSet.charAt(Math.floor(Math.random() * charSet.length));
-    }
-    return text;
+    const randomBytes = new Uint32Array(length);
+    crypto.getRandomValues(randomBytes);
+    return Array.from(randomBytes, (byte) => charSet[byte % charSet.length]).join('');
 }
 
 const INDEXING_TIMEOUT_SECONDS = 80;
@@ -146,7 +144,14 @@ async function checkFileIndexing(uniqueId) {
         createdNodeId = createdNode.entry.id;
         console.info(`[ 🔍 File ] File created with id: ${createdNodeId}`);
 
-        indexed = await waitForFileIndexing(testFileName);
+        indexed = await waitForIndexing('File', testFileName, async () => {
+            const result = await searchApi.search({
+                query: { query: `cm:name:"${testFileName}"`, language: 'afts' },
+                paging: { skipCount: 0, maxItems: 5 }
+            });
+            const entries = result?.list?.entries || [];
+            return entries.some((entry) => entry.entry?.name === testFileName);
+        });
     } catch (error) {
         console.error(`[ 🔍 File ] Error during file indexing check: ${error?.message || error}`);
     } finally {
@@ -165,35 +170,25 @@ async function checkFileIndexing(uniqueId) {
     return { name: testFileName, indexed };
 }
 
-async function waitForFileIndexing(fileName) {
+async function waitForIndexing(label, name, searchFn) {
     const maxRetries = Math.ceil(INDEXING_TIMEOUT_SECONDS / RETRY_INTERVAL_SECONDS);
     const startTime = Date.now();
 
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
         try {
-            const result = await searchApi.search({
-                query: {
-                    query: `cm:name:"${fileName}"`,
-                    language: 'afts'
-                },
-                paging: { skipCount: 0, maxItems: 5 }
-            });
-
-            const entries = result?.list?.entries || [];
-            const found = entries.some((entry) => entry.entry?.name === fileName);
-
+            const found = await searchFn();
             if (found) {
                 const elapsedSeconds = ((Date.now() - startTime) / 1000).toFixed(1);
-                console.info(`[ 🔍 File ] File indexed after ${elapsedSeconds}s (attempt ${attempt}/${maxRetries}).`);
+                console.info(`[ 🔍 ${label} ] "${name}" indexed after ${elapsedSeconds}s (attempt ${attempt}/${maxRetries}).`);
                 return true;
             }
         } catch (error) {
-            console.warn(`[ 🔍 File ] Search query failed on attempt ${attempt}: ${error?.message || error}`);
+            console.warn(`[ 🔍 ${label} ] Search query failed on attempt ${attempt}: ${error?.message || error}`);
         }
 
         if (attempt % 10 === 0) {
             const elapsedSeconds = ((Date.now() - startTime) / 1000).toFixed(1);
-            console.info(`[ 🔍 File ] Still waiting... ${elapsedSeconds}s elapsed (attempt ${attempt}/${maxRetries}).`);
+            console.info(`[ 🔍 ${label} ] Still waiting for "${name}"... ${elapsedSeconds}s elapsed (attempt ${attempt}/${maxRetries}).`);
         }
 
         await delayInSeconds(RETRY_INTERVAL_SECONDS);
@@ -221,7 +216,20 @@ async function checkUserIndexing(uniqueId) {
         });
         console.info(`[ 🔍 User ] User "${testUsername}" created successfully.`);
 
-        indexed = await waitForUserOrGroupIndexing(testUsername);
+        const adminSearchApiUser = new SearchApi(adminAlfrescoJsApi);
+        indexed = await waitForIndexing('User/Group', testUsername, async () => {
+            const result = await adminSearchApiUser.search({
+                query: {
+                    query: `(userName:*${testUsername}* OR email:*${testUsername}* OR firstName:*${testUsername}* OR lastName:*${testUsername}* OR authorityName:*${testUsername}* OR authorityDisplayName:*${testUsername}*) AND PATH:"//cm:APP.DEFAULT/*"`,
+                    language: 'afts'
+                },
+                include: ['properties', 'aspectNames'],
+                paging: { skipCount: 0, maxItems: 20 },
+                filterQueries: [{ query: "TYPE:'cm:authority'" }]
+            });
+            const entries = result?.list?.entries || [];
+            return entries.length > 0;
+        });
     } catch (error) {
         console.error(`[ 🔍 User ] Error during user indexing check: ${error?.message || error}`);
     }
@@ -244,7 +252,20 @@ async function checkGroupIndexing(uniqueId) {
         created = true;
         console.info(`[ 🔍 Group ] Group "${testGroupDisplayName}" created successfully.`);
 
-        indexed = await waitForUserOrGroupIndexing(testGroupId);
+        const adminSearchApiGroup = new SearchApi(adminAlfrescoJsApi);
+        indexed = await waitForIndexing('User/Group', testGroupId, async () => {
+            const result = await adminSearchApiGroup.search({
+                query: {
+                    query: `(userName:*${testGroupId}* OR email:*${testGroupId}* OR firstName:*${testGroupId}* OR lastName:*${testGroupId}* OR authorityName:*${testGroupId}* OR authorityDisplayName:*${testGroupId}*) AND PATH:"//cm:APP.DEFAULT/*"`,
+                    language: 'afts'
+                },
+                include: ['properties', 'aspectNames'],
+                paging: { skipCount: 0, maxItems: 20 },
+                filterQueries: [{ query: "TYPE:'cm:authority'" }]
+            });
+            const entries = result?.list?.entries || [];
+            return entries.length > 0;
+        });
     } catch (error) {
         console.error(`[ 🔍 Group ] Error during group indexing check: ${error?.message || error}`);
     } finally {
@@ -263,43 +284,7 @@ async function checkGroupIndexing(uniqueId) {
     return { name: testGroupDisplayName, indexed };
 }
 
-async function waitForUserOrGroupIndexing(searchTerm) {
-    const adminSearchApi = new SearchApi(adminAlfrescoJsApi);
-    const maxRetries = Math.ceil(INDEXING_TIMEOUT_SECONDS / RETRY_INTERVAL_SECONDS);
-    const startTime = Date.now();
 
-    for (let attempt = 1; attempt <= maxRetries; attempt++) {
-        try {
-            const result = await adminSearchApi.search({
-                query: {
-                    query: `(userName:*${searchTerm}* OR email:*${searchTerm}* OR firstName:*${searchTerm}* OR lastName:*${searchTerm}* OR authorityName:*${searchTerm}* OR authorityDisplayName:*${searchTerm}*) AND PATH:"//cm:APP.DEFAULT/*"`,
-                    language: 'afts'
-                },
-                include: ['properties', 'aspectNames'],
-                paging: { skipCount: 0, maxItems: 20 },
-                filterQueries: [{ query: "TYPE:'cm:authority'" }]
-            });
-
-            const entries = result?.list?.entries || [];
-            if (entries.length > 0) {
-                const elapsedSeconds = ((Date.now() - startTime) / 1000).toFixed(1);
-                console.info(`[ 🔍 User/Group ] "${searchTerm}" indexed after ${elapsedSeconds}s (attempt ${attempt}/${maxRetries}).`);
-                return true;
-            }
-        } catch (error) {
-            console.warn(`[ 🔍 User/Group ] Search query failed on attempt ${attempt}: ${error?.message || error}`);
-        }
-
-        if (attempt % 10 === 0) {
-            const elapsedSeconds = ((Date.now() - startTime) / 1000).toFixed(1);
-            console.info(`[ 🔍 User/Group ] Still waiting for "${searchTerm}"... ${elapsedSeconds}s elapsed (attempt ${attempt}/${maxRetries}).`);
-        }
-
-        await delayInSeconds(RETRY_INTERVAL_SECONDS);
-    }
-
-    return false;
-}
 
 async function checkCategoryIndexing(uniqueId) {
     const testCategoryName = `${TEST_PREFIX}-category-${uniqueId}`;
@@ -311,7 +296,19 @@ async function checkCategoryIndexing(uniqueId) {
         createdCategoryId = (await categoriesApi.createSubcategories('-root-', [{ name: testCategoryName }])).entry?.id;
         console.info(`[ 🔍 Category ] Category "${testCategoryName}" created with id: ${createdCategoryId}`);
 
-        indexed = await waitForCategoryIndexing(testCategoryName);
+        const adminSearchApiCategory = new SearchApi(adminAlfrescoJsApi);
+        indexed = await waitForIndexing('Category', testCategoryName, async () => {
+            const result = await adminSearchApiCategory.search({
+                query: {
+                    query: `cm:name:"*${testCategoryName}*" AND TYPE:'cm:category' AND PATH:"/cm:categoryRoot/cm:generalclassifiable//*"`,
+                    language: 'afts'
+                },
+                paging: { skipCount: 0, maxItems: 25 },
+                include: ['path']
+            });
+            const entries = result?.list?.entries || [];
+            return entries.some((entry) => entry.entry?.name === testCategoryName);
+        });
     } catch (error) {
         console.error(`[ 🔍 Category ] Error during category indexing check: ${error?.message || error}`);
     } finally {
@@ -330,44 +327,7 @@ async function checkCategoryIndexing(uniqueId) {
     return { name: testCategoryName, indexed };
 }
 
-async function waitForCategoryIndexing(categoryName) {
-    const adminSearchApi = new SearchApi(adminAlfrescoJsApi);
-    const maxRetries = Math.ceil(INDEXING_TIMEOUT_SECONDS / RETRY_INTERVAL_SECONDS);
-    const startTime = Date.now();
 
-    for (let attempt = 1; attempt <= maxRetries; attempt++) {
-        try {
-            const result = await adminSearchApi.search({
-                query: {
-                    query: `cm:name:"*${categoryName}*" AND TYPE:'cm:category' AND PATH:"/cm:categoryRoot/cm:generalclassifiable//*"`,
-                    language: 'afts'
-                },
-                paging: { skipCount: 0, maxItems: 25 },
-                include: ['path']
-            });
-
-            const entries = result?.list?.entries || [];
-            const found = entries.some((entry) => entry.entry?.name === categoryName);
-
-            if (found) {
-                const elapsedSeconds = ((Date.now() - startTime) / 1000).toFixed(1);
-                console.info(`[ 🔍 Category ] Category indexed after ${elapsedSeconds}s (attempt ${attempt}/${maxRetries}).`);
-                return true;
-            }
-        } catch (error) {
-            console.warn(`[ 🔍 Category ] Search query failed on attempt ${attempt}: ${error?.message || error}`);
-        }
-
-        if (attempt % 10 === 0) {
-            const elapsedSeconds = ((Date.now() - startTime) / 1000).toFixed(1);
-            console.info(`[ 🔍 Category ] Still waiting... ${elapsedSeconds}s elapsed (attempt ${attempt}/${maxRetries}).`);
-        }
-
-        await delayInSeconds(RETRY_INTERVAL_SECONDS);
-    }
-
-    return false;
-}
 
 async function delayInSeconds(seconds) {
     await new Promise((resolve) => setTimeout(resolve, seconds * 1000));
