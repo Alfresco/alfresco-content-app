@@ -63,8 +63,8 @@ export class RouterExtensionService {
       return {
         path: route.path,
         component: this.getComponentById(route.layout ?? this.defaults.layout),
-        canActivateChild: guards,
-        canActivate: guards,
+        canActivateChild: guards as any,
+        canActivate: guards as any,
         parentRoute: route.parentRoute,
         children: [
           ...(route['children']

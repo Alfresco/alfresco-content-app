@@ -25,7 +25,7 @@
 import { Component, DestroyRef, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { DIALOG_COMPONENT_DATA, LocalizedDatePipe, TimeAgoPipe, IconComponent, FileSizePipe } from '@alfresco/adf-core';
-import { Node, SizeDetails } from '@alfresco/js-api';
+import { Node as MinimalNode, SizeDetails } from '@alfresco/js-api';
 import { MatDividerModule } from '@angular/material/divider';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ContentService, NodesApiService } from '@alfresco/adf-content-services';
@@ -61,7 +61,7 @@ export class NodeInformationComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly fileSizePipe = inject(FileSizePipe);
 
-  node: Node = inject(DIALOG_COMPONENT_DATA);
+  node: MinimalNode = inject<MinimalNode>(DIALOG_COMPONENT_DATA);
   nodeDetails = new NodeDetails();
 
   ngOnInit() {
