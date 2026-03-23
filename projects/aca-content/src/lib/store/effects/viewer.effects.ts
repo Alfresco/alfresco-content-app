@@ -114,7 +114,7 @@ export class ViewerEffects {
                   const { id, nodeId, isFile } = result.selection.file.entry as any;
 
                   if (this.extensions.canPreviewNode(action.payload) && (isFile || nodeId)) {
-                    const parentId = result.folder ? (result.folder as any).id : null;
+                    const parentId = result.folder ? result.folder.id : null;
                     this.displayPreview(nodeId || id, parentId);
                   }
                 }
