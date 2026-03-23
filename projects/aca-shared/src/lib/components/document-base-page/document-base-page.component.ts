@@ -147,7 +147,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
       .select(getCurrentFolder)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((node) => {
-        this.canUpload = node && this.content.canUploadContent(node as any);
+        this.canUpload = node && this.content.canUploadContent(node);
       });
 
     this.breakpointObserver
