@@ -36,11 +36,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: node
-        uses: actions/setup-node@v6
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
+      - uses: ./.github/actions/setup
+
       - run: npm ci
 
       - name: upload npm logs
@@ -67,11 +64,6 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: node
-        uses: actions/setup-node@v6
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
       - uses: ./.github/actions/before-install
       - run: npm ci
       - name: upload npm logs
@@ -99,11 +91,6 @@ jobs:
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
-      - name: node
-        uses: actions/setup-node@v6
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
       - uses: ./.github/actions/before-install
       - run: npm ci
       - name: upload npm logs
@@ -181,12 +168,6 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: node
-        uses: actions/setup-node@v6
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-
       - name: Deploy local ACS
         id: deploy-local-acs
         uses: ./.github/actions/deploy-local-acs
@@ -219,6 +200,12 @@ jobs:
 
       - name: Before e2e
         uses: ./.github/actions/before-e2e
+
+      - name: Check Search Indexing
+        continue-on-error: true
+        run: npm run ci:check-search-indexing
+        env:
+          ADMIN_PASSWORD_SCRIPT: ${{ env.ADMIN_PASSWORD }}
 
       - name: Before playwright (Chromium for PR)
         if: ${{ github.event_name == 'pull_request' }}
