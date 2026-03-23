@@ -64,15 +64,19 @@ async function main() {
     nodesApi = new NodesApi(alfrescoJsApi);
     searchApi = new SearchApi(alfrescoJsApi);
 
+    let adminSkipReason = null;
+
     if (adminUsername && adminPassword) {
         try {
             adminAlfrescoJsApi = new AlfrescoApi(oauthConfig);
             await adminAlfrescoJsApi.login(adminUsername, adminPassword);
             console.info('[ 🔍 Search Indexing Check ] Successfully logged in as admin user.');
         } catch (error) {
+            adminSkipReason = 'admin login failed';
             console.warn('[ 🔍 Search Indexing Check ] Admin login failed, skipping user/group/category checks:', error?.message || error);
         }
     } else {
+        adminSkipReason = 'admin credentials not provided';
         console.warn('[ 🔍 Search Indexing Check ] Admin credentials not provided, skipping user/group/category checks.');
     }
 
@@ -85,9 +89,9 @@ async function main() {
     const uniqueId = Date.now();
     const results = {
         file: await checkFileIndexing(uniqueId),
-        user: adminAlfrescoJsApi ? await checkUserIndexing(uniqueId) : null,
-        group: adminAlfrescoJsApi ? await checkGroupIndexing(uniqueId) : null,
-        category: adminAlfrescoJsApi ? await checkCategoryIndexing(uniqueId) : null
+        user: adminAlfrescoJsApi ? await checkUserIndexing(uniqueId) : { skipped: adminSkipReason },
+        group: adminAlfrescoJsApi ? await checkGroupIndexing(uniqueId) : { skipped: adminSkipReason },
+        category: adminAlfrescoJsApi ? await checkCategoryIndexing(uniqueId) : { skipped: adminSkipReason }
     };
 
     printSummary(results);
@@ -106,8 +110,8 @@ function printSummary(results) {
     let hasFailure = false;
 
     for (const [key, result] of Object.entries(results)) {
-        if (result === null) {
-            console.info(`[ 🔍 Search Indexing Check ] ⏭️  ${labels[key]}: skipped (admin credentials not provided).`);
+        if (result?.skipped) {
+            console.info(`[ 🔍 Search Indexing Check ] ⏭️  ${labels[key]}: skipped (${result.skipped}).`);
         } else if (result.indexed) {
             console.info(`[ 🔍 Search Indexing Check ] ✅ ${labels[key]} "${result.name}" was indexed within ${INDEXING_TIMEOUT_SECONDS}s.`);
         } else {
@@ -185,7 +189,9 @@ async function waitForIndexing(label, name, searchFn) {
             console.info(`[ 🔍 ${label} ] Still waiting for "${name}"... ${elapsedSeconds}s elapsed (attempt ${attempt}/${maxRetries}).`);
         }
 
-        await delayInSeconds(RETRY_INTERVAL_SECONDS);
+        if (attempt < maxRetries) {
+            await delayInSeconds(RETRY_INTERVAL_SECONDS);
+        }
     }
 
     return false;
@@ -217,7 +223,6 @@ async function checkUserIndexing(uniqueId) {
                     query: `(userName:*${testUsername}* OR email:*${testUsername}* OR firstName:*${testUsername}* OR lastName:*${testUsername}* OR authorityName:*${testUsername}* OR authorityDisplayName:*${testUsername}*) AND PATH:"//cm:APP.DEFAULT/*"`,
                     language: 'afts'
                 },
-                include: ['properties', 'aspectNames'],
                 paging: { skipCount: 0, maxItems: 20 },
                 filterQueries: [{ query: "TYPE:'cm:authority'" }]
             });
@@ -253,7 +258,6 @@ async function checkGroupIndexing(uniqueId) {
                     query: `(userName:*${testGroupId}* OR email:*${testGroupId}* OR firstName:*${testGroupId}* OR lastName:*${testGroupId}* OR authorityName:*${testGroupId}* OR authorityDisplayName:*${testGroupId}*) AND PATH:"//cm:APP.DEFAULT/*"`,
                     language: 'afts'
                 },
-                include: ['properties', 'aspectNames'],
                 paging: { skipCount: 0, maxItems: 20 },
                 filterQueries: [{ query: "TYPE:'cm:authority'" }]
             });
@@ -297,8 +301,7 @@ async function checkCategoryIndexing(uniqueId) {
                     query: `cm:name:"*${testCategoryName}*" AND TYPE:'cm:category' AND PATH:"/cm:categoryRoot/cm:generalclassifiable//*"`,
                     language: 'afts'
                 },
-                paging: { skipCount: 0, maxItems: 25 },
-                include: ['path']
+                paging: { skipCount: 0, maxItems: 25 }
             });
             const entries = result?.list?.entries || [];
             return entries.some((entry) => entry.entry?.name === testCategoryName);
