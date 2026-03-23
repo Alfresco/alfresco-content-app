@@ -26,7 +26,7 @@ import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NodesApiService } from '@alfresco/adf-content-services';
 import { DIALOG_COMPONENT_DATA, IconComponent } from '@alfresco/adf-core';
-import { Node, NodeAssociation } from '@alfresco/js-api';
+import { Node as MinimalNode, NodeAssociation } from '@alfresco/js-api';
 import { Router } from '@angular/router';
 import { catchError, of, take } from 'rxjs';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -39,7 +39,7 @@ import { TranslatePipe } from '@ngx-translate/core';
   encapsulation: ViewEncapsulation.None
 })
 export class NodeLocationReferencesComponent implements OnInit {
-  node: Node = inject(DIALOG_COMPONENT_DATA);
+  node: MinimalNode = inject<MinimalNode>(DIALOG_COMPONENT_DATA);
   additionalReferenceLocations: NodeAssociation[] = [];
 
   private readonly nodesService = inject(NodesApiService);

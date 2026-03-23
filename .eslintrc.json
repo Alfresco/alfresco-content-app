@@ -165,15 +165,6 @@
             "ignoreParameters": true
           }
         ],
-        "@typescript-eslint/quotes": [
-          "error",
-          "single",
-          {
-            "avoidEscape": true,
-            "allowTemplateLiterals": true
-          }
-        ],
-        "@typescript-eslint/type-annotation-spacing": "error",
         "arrow-parents": ["off", "always"],
         "brace-style": [
           "error",

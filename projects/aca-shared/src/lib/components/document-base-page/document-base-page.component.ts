@@ -34,7 +34,7 @@ import { ShowHeaderMode, UserPreferencesService } from '@alfresco/adf-core';
 import { ContentActionRef, DocumentListPresetRef, SelectionState } from '@alfresco/adf-extensions';
 import { DestroyRef, Directive, HostListener, inject, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Node, NodeEntry, NodePaging } from '@alfresco/js-api';
+import { Node as MinimalNode, NodeEntry, NodePaging } from '@alfresco/js-api';
 import { Observable, Subscription } from 'rxjs';
 import { DocumentBasePageService } from './document-base-page.service';
 import {
@@ -63,7 +63,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
 
   title = 'Page';
   infoDrawerOpened$: Observable<boolean>;
-  node: Node;
+  node: MinimalNode;
   selection: SelectionState;
   actions: Array<ContentActionRef> = [];
   viewerToolbarActions: Array<ContentActionRef> = [];
@@ -147,7 +147,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
       .select(getCurrentFolder)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((node) => {
-        this.canUpload = node && this.content.canUploadContent(node);
+        this.canUpload = node && this.content.canUploadContent(node as any);
       });
 
     this.breakpointObserver
