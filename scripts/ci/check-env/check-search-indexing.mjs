@@ -38,7 +38,7 @@ async function main() {
     const adminPassword = process.env.ADMIN_PASSWORD_SCRIPT;
 
     if (!host || !username || !password) {
-        console.error('[ 🔍 Search Indexing Check ] Missing required parameters: host, username, or password');
+        console.error('[ 🔍 Search Indexing Check ] Missing required environment variables: BASE_URL, HR_USER, HR_USER_PASSWORD');
         exit(1);
     }
 
@@ -220,7 +220,7 @@ async function checkUserIndexing(uniqueId) {
         indexed = await waitForIndexing('User/Group', testUsername, async () => {
             const result = await adminSearchApiUser.search({
                 query: {
-                    query: `(userName:*${testUsername}* OR email:*${testUsername}* OR firstName:*${testUsername}* OR lastName:*${testUsername}* OR authorityName:*${testUsername}* OR authorityDisplayName:*${testUsername}*) AND PATH:"//cm:APP.DEFAULT/*"`,
+                    query: `(userName:*${testUsername}* OR authorityName:*${testUsername}*) AND PATH:"//cm:APP.DEFAULT/*"`,
                     language: 'afts'
                 },
                 paging: { skipCount: 0, maxItems: 20 },
@@ -255,7 +255,7 @@ async function checkGroupIndexing(uniqueId) {
         indexed = await waitForIndexing('User/Group', testGroupId, async () => {
             const result = await adminSearchApiGroup.search({
                 query: {
-                    query: `(userName:*${testGroupId}* OR email:*${testGroupId}* OR firstName:*${testGroupId}* OR lastName:*${testGroupId}* OR authorityName:*${testGroupId}* OR authorityDisplayName:*${testGroupId}*) AND PATH:"//cm:APP.DEFAULT/*"`,
+                    query: `(authorityName:*${testGroupId}* OR authorityDisplayName:*${testGroupId}*) AND PATH:"//cm:APP.DEFAULT/*"`,
                     language: 'afts'
                 },
                 paging: { skipCount: 0, maxItems: 20 },
