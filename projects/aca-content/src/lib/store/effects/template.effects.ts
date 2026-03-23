@@ -92,7 +92,7 @@ export class TemplateEffects {
           this.store
             .select(getCurrentFolder)
             .pipe(
-              switchMap((folder: any) => this.copyNode(action.payload, folder.id)),
+              switchMap((folder) => this.copyNode(action.payload, folder.id)),
               take(1)
             )
             .subscribe((node: NodeEntry | null) => {

@@ -204,7 +204,7 @@ export class NodeEffects {
             this.store
               .select(getCurrentFolder)
               .pipe(take(1))
-              .subscribe((node: any) => {
+              .subscribe((node) => {
                 if (node?.id) {
                   this.contentService.createFolder(node.id);
                 }

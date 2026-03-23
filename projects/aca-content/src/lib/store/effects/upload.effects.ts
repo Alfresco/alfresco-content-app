@@ -149,7 +149,7 @@ export class UploadEffects {
     this.store
       .select(getCurrentFolder)
       .pipe(take(1))
-      .subscribe((node: any) => {
+      .subscribe((node) => {
         if (node?.id) {
           const input = event.currentTarget as HTMLInputElement;
           const files = FileUtils.toFileArray(input.files).map(

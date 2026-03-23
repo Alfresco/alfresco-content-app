@@ -185,7 +185,7 @@ export class ContentManagementService {
       const dialogConfig: MatDialogConfig = { width: '600px' };
 
       this.newVersionUploaderService.openUploadNewVersionDialog(newVersionUploaderDialogData, dialogConfig).subscribe(
-        (data: any) => {
+        (data) => {
           if (data.action === NewVersionUploaderDataAction.upload) {
             if (data.newVersion.value.entry.properties['cm:lockType'] === 'WRITE_LOCK') {
               this.store.dispatch(new UnlockWriteAction(data.newVersion.value));
