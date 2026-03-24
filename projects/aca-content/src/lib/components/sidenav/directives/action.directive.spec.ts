@@ -37,12 +37,12 @@ describe('ActionDirective', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ActionDirective],
-      providers: [provideRouter([]), provideMockStore()]
+      providers: [ActionDirective, provideRouter([]), provideMockStore()]
     });
 
     store = TestBed.inject(Store);
     router = TestBed.inject(Router);
-    directive = new ActionDirective(router, store);
+    directive = TestBed.inject(ActionDirective);
   });
 
   it('should navigate if action is route', () => {

@@ -27,7 +27,6 @@ import { ContextMenu, CustomContextMenu } from '@alfresco/aca-shared/store';
 import { ContentActionRef, ContentActionType } from '@alfresco/adf-extensions';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
-import { Injector, runInInjectionContext } from '@angular/core';
 
 const customActionsMock: ContentActionRef[] = [
   {
@@ -50,11 +49,9 @@ describe('ContextActionsDirective', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ContextActionsDirective],
-      providers: [{ provide: Store, useValue: storeMock }]
+      providers: [ContextActionsDirective, { provide: Store, useValue: storeMock }]
     });
-    runInInjectionContext(TestBed.inject(Injector), () => {
-      directive = new ContextActionsDirective(storeMock);
-    });
+    directive = TestBed.inject(ContextActionsDirective);
   });
 
   it('should not render context menu when `enabled` property is false', () => {

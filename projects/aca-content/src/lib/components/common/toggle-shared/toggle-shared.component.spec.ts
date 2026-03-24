@@ -25,9 +25,11 @@
 import { ToggleSharedComponent } from './toggle-shared.component';
 import { of } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
+import { Store } from '@ngrx/store';
+import { SelectionState } from '@alfresco/adf-extensions';
 
 describe('ToggleSharedComponent', () => {
-  let component;
+  let component: ToggleSharedComponent;
   let entry;
 
   const storeMock: any = {
@@ -36,15 +38,21 @@ describe('ToggleSharedComponent', () => {
   };
 
   beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [ToggleSharedComponent],
+      providers: [
+        {
+          provide: Store,
+          useValue: storeMock
+        }
+      ]
+    });
     entry = {
       properties: {
         'qshare:sharedId': null
       }
     };
-
-    TestBed.runInInjectionContext(() => {
-      component = new ToggleSharedComponent(storeMock);
-    });
+    component = TestBed.createComponent(ToggleSharedComponent).componentInstance;
   });
 
   it('should get Store selection entry on initialization', (done) => {
@@ -71,7 +79,7 @@ describe('ToggleSharedComponent', () => {
 
   it('should dispatch `SHARE_NODE` action on share', () => {
     component.ngOnInit();
-    component.editSharedNode({ first: { entry } });
+    component.editSharedNode({ first: { entry } } as SelectionState, undefined);
     expect(storeMock.dispatch).toHaveBeenCalled();
   });
 

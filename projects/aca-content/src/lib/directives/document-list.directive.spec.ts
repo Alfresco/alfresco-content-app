@@ -26,6 +26,10 @@ import { DocumentListDirective } from './document-list.directive';
 import { Subject } from 'rxjs';
 import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { TestBed } from '@angular/core/testing';
+import { Store } from '@ngrx/store';
+import { DocumentListComponent, DocumentListService } from '@alfresco/adf-content-services';
+import { UserPreferencesService } from '@alfresco/adf-core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 describe('DocumentListDirective', () => {
   let documentListDirective: DocumentListDirective;
@@ -77,16 +81,37 @@ describe('DocumentListDirective', () => {
   };
 
   beforeEach(() => {
-    TestBed.runInInjectionContext(() => {
-      documentListDirective = new DocumentListDirective(
-        storeMock,
-        documentListMock,
-        userPreferencesServiceMock,
-        mockRoute,
-        mockRouter,
-        documentListServiceMock as any
-      );
+    TestBed.configureTestingModule({
+      imports: [DocumentListDirective],
+      providers: [
+        DocumentListDirective,
+        {
+          provide: Store,
+          useValue: storeMock
+        },
+        {
+          provide: DocumentListComponent,
+          useValue: documentListMock
+        },
+        {
+          provide: UserPreferencesService,
+          useValue: userPreferencesServiceMock
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: mockRoute
+        },
+        {
+          provide: Router,
+          useValue: mockRouter
+        },
+        {
+          provide: DocumentListService,
+          useValue: documentListServiceMock
+        }
+      ]
     });
+    documentListDirective = TestBed.inject(DocumentListDirective);
   });
 
   afterEach(() => {
