@@ -43,9 +43,9 @@ export interface OpenInAppDialogOptions {
 })
 export class OpenInAppComponent {
   data = inject<OpenInAppDialogOptions>(MAT_DIALOG_DATA);
-  private dialog = inject<MatDialogRef<OpenInAppComponent>>(MatDialogRef);
+  private readonly dialog = inject<MatDialogRef<OpenInAppComponent>>(MatDialogRef);
 
-  private redirectUrl: string;
+  private readonly redirectUrl: string;
   public appStoreUrl: string;
   public window: Window & typeof globalThis = window;
 

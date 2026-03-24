@@ -37,9 +37,9 @@ export interface IAosEditOnlineService {
   providedIn: 'root'
 })
 export class AosEditOnlineService implements IAosEditOnlineService {
-  private authenticationService = inject(AuthenticationService);
-  private appSettings = inject(AppSettingsService);
-  private notificationService = inject(NotificationService);
+  private readonly authenticationService = inject(AuthenticationService);
+  private readonly appSettings = inject(AppSettingsService);
+  private readonly notificationService = inject(NotificationService);
 
   onActionEditOnlineAos(node: Node): void {
     if (node && this.isFile(node) && node.properties) {

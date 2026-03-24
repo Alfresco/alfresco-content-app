@@ -46,12 +46,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   host: { class: 'aca-search-results-row' }
 })
 export class SearchResultsRowComponent implements OnInit {
-  private store = inject<Store<any>>(Store);
-  private nodesApiService = inject(NodesApiService);
-  private router = inject(Router);
-  private autoDownloadService = inject(AutoDownloadService);
+  private readonly store = inject<Store<any>>(Store);
+  private readonly nodesApiService = inject(NodesApiService);
+  private readonly router = inject(Router);
+  private readonly autoDownloadService = inject(AutoDownloadService);
 
-  private settings = inject(AppSettingsService);
+  private readonly settings = inject(AppSettingsService);
 
   private readonly highlightPrefix = `<span class="aca-highlight">`;
   private readonly highlightPostfix = `</span>`;

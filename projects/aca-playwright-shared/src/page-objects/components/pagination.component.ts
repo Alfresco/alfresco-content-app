@@ -33,19 +33,19 @@ export enum PaginationActionsType {
 }
 
 export class PaginationComponent extends BaseComponent {
-  private static rootElement = 'adf-pagination';
+  private static readonly rootElement = 'adf-pagination';
 
   constructor(page: Page) {
     super(page, PaginationComponent.rootElement);
   }
 
-  private range = this.getChild('.adf-pagination__range');
-  private maxItems = this.getChild('.adf-pagination__max-items');
-  private currentPage = this.getChild('.adf-pagination__current-page');
-  private totalPages = this.getChild('.adf-pagination__total-pages');
-  private previousButton = this.getChild('.adf-pagination__previous-button');
-  private nextButton = this.getChild('.adf-pagination__next-button');
-  private maxItemsButton = this.getChild('.adf-pagination__max-items + button[mat-icon-button]');
+  private readonly range = this.getChild('.adf-pagination__range');
+  private readonly maxItems = this.getChild('.adf-pagination__max-items');
+  private readonly currentPage = this.getChild('.adf-pagination__current-page');
+  private readonly totalPages = this.getChild('.adf-pagination__total-pages');
+  private readonly previousButton = this.getChild('.adf-pagination__previous-button');
+  private readonly nextButton = this.getChild('.adf-pagination__next-button');
+  private readonly maxItemsButton = this.getChild('.adf-pagination__max-items + button[mat-icon-button]');
 
   public currentPageLocator = this.getChild('.adf-pagination__current-page');
   public totalPageLocator = this.getChild('.adf-pagination__total-pages');

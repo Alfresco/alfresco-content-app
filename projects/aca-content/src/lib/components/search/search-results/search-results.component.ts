@@ -138,7 +138,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit, OnD
   private readonly translationService = inject(TranslationService);
   private readonly savedSearchesService = inject(SavedSearchesContextService);
 
-  private notificationService = inject(NotificationService);
+  private readonly notificationService = inject(NotificationService);
 
   infoDrawerPreview$ = this.store.select(infoDrawerPreview);
 

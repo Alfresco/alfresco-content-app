@@ -37,9 +37,9 @@ import { LibrariesBaseComponent } from '../libraries-base/libraries-base.compone
   encapsulation: ViewEncapsulation.None
 })
 export class FavoriteLibrariesComponent extends LibrariesBaseComponent implements OnInit {
-  private contentApiService = inject(ContentApiService);
-  private preferences = inject(UserPreferencesService);
-  private changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly contentApiService = inject(ContentApiService);
+  private readonly preferences = inject(UserPreferencesService);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
   pagination: Pagination = new Pagination({
     skipCount: 0,

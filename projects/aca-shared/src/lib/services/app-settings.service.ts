@@ -28,7 +28,7 @@ import { AlfrescoMimeType, DefaultMimeTypes } from '../constants/mime-types';
 
 @Injectable({ providedIn: 'root' })
 export class AppSettingsService {
-  private appConfig = inject(AppConfigService);
+  private readonly appConfig = inject(AppConfigService);
 
   /**
    * Get the application copyright text from the app settings.

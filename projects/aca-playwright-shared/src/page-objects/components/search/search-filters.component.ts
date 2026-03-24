@@ -26,7 +26,7 @@ import { BaseComponent } from '../base.component';
 import { Page } from '@playwright/test';
 
 export class SearchFilters extends BaseComponent {
-  private static rootElement = '.aca-content__advanced-filters';
+  private static readonly rootElement = '.aca-content__advanced-filters';
 
   constructor(page: Page) {
     super(page, SearchFilters.rootElement);

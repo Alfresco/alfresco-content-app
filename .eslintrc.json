@@ -307,7 +307,8 @@
             "message": "*ng-reflect-* attributes should not be used. Consider alternatives for proper selectors."
           }
         ],
-        "@angular-eslint/prefer-inject": "error"
+        "@angular-eslint/prefer-inject": "error",
+        "@typescript-eslint/prefer-readonly": "error"
       }
     },
     {

@@ -52,13 +52,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   host: { class: 'app-preview' }
 })
 export class PreviewComponent extends PageComponent implements OnInit {
-  private actions$ = inject(Actions);
-  private appHookService = inject(AppHookService);
-  private contentApi = inject(ContentApiService);
-  private location = inject(Location);
-  private nodesApiService = inject(NodesApiService);
-  private route = inject(ActivatedRoute);
-  private viewerService = inject(ViewerService);
+  private readonly actions$ = inject(Actions);
+  private readonly appHookService = inject(AppHookService);
+  private readonly contentApi = inject(ContentApiService);
+  private readonly location = inject(Location);
+  private readonly nodesApiService = inject(NodesApiService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly viewerService = inject(ViewerService);
 
   folderId: string = null;
   navigateBackAsClose = false;
@@ -74,7 +74,7 @@ export class PreviewComponent extends PageComponent implements OnInit {
   showRightSide = false;
   simplestMode = false;
 
-  private containersSkipNavigation = ['adf-viewer__sidebar', 'cdk-overlay-container', 'adf-image-viewer'];
+  private readonly containersSkipNavigation = ['adf-viewer__sidebar', 'cdk-overlay-container', 'adf-image-viewer'];
 
   ngOnInit() {
     super.ngOnInit();

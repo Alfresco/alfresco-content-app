@@ -39,7 +39,7 @@ export interface PermissionOptions {
 export class NodePermissionService implements NodePermissions {
   static readonly DEFAULT_OPERATION = 'OR';
 
-  private defaultOptions: PermissionOptions = {
+  private readonly defaultOptions: PermissionOptions = {
     operation: NodePermissionService.DEFAULT_OPERATION,
     target: null
   };

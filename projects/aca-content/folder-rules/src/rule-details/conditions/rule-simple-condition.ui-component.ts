@@ -75,9 +75,9 @@ const AUTOCOMPLETE_OPTIONS_DEBOUNCE_TIME = 500;
   ]
 })
 export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAccessor, OnChanges {
-  private appSettings = inject(AppSettingsService);
-  private categoryService = inject(CategoryService);
-  private tagService = inject(TagService);
+  private readonly appSettings = inject(AppSettingsService);
+  private readonly categoryService = inject(CategoryService);
+  private readonly tagService = inject(TagService);
 
   form = new FormGroup({
     field: new FormControl('cm:name'),

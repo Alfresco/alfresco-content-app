@@ -28,7 +28,7 @@ import { AcaHeader } from './aca-header.component';
 import { timeouts } from '../../utils';
 
 export class ViewerComponent extends BaseComponent {
-  private static rootElement = 'adf-viewer';
+  private static readonly rootElement = 'adf-viewer';
 
   public viewerLocator = this.getChild('adf-viewer-render');
   public closeButtonLocator = this.getChild('.adf-viewer-close-button');

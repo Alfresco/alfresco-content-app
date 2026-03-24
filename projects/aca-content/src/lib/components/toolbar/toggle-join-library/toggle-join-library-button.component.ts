@@ -61,10 +61,10 @@ export class ToggleJoinLibraryButtonComponent {
   @ViewChild(MatMenuItem)
   menuItem: MatMenuItem;
 
-  private userProfileService = inject(UserProfileService);
-  private notificationService = inject(NotificationService);
-  private appHookService = inject(AppHookService);
-  private store = inject(Store<AppStore>);
+  private readonly userProfileService = inject(UserProfileService);
+  private readonly notificationService = inject(NotificationService);
+  private readonly appHookService = inject(AppHookService);
+  private readonly store = inject(Store<AppStore>);
 
   selection$: Observable<SelectionState>;
   profile$ = this.userProfileService.userProfile$;

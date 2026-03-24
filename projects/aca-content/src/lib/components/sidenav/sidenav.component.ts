@@ -46,10 +46,10 @@ import { TranslatePipe } from '@ngx-translate/core';
   host: { class: 'app-sidenav' }
 })
 export class SidenavComponent implements OnInit {
-  private store = inject<Store<AppStore>>(Store);
-  private extensions = inject(AppExtensionService);
-  private appService = inject(AppService);
-  private navigationHistoryService = inject(NavigationHistoryService);
+  private readonly store = inject<Store<AppStore>>(Store);
+  private readonly extensions = inject(AppExtensionService);
+  private readonly appService = inject(AppService);
+  private readonly navigationHistoryService = inject(NavigationHistoryService);
 
   @Input()
   data: {

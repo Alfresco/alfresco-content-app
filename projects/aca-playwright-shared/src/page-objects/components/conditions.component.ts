@@ -43,7 +43,8 @@ export enum Comparator {
 }
 
 export class ConditionComponent extends ManageRulesDialogComponent {
-  private getOptionLocator = (optionName: string): Locator => this.page.locator('[role=listbox] [role=option]', { hasText: optionName }).first();
+  private readonly getOptionLocator = (optionName: string): Locator =>
+    this.page.locator('[role=listbox] [role=option]', { hasText: optionName }).first();
 
   private async selectField(fields: Partial<Field>, index: number): Promise<void> {
     await this.fieldDropDown.nth(index).click();

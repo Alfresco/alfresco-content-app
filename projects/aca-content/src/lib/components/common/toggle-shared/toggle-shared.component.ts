@@ -41,7 +41,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   encapsulation: ViewEncapsulation.None
 })
 export class ToggleSharedComponent implements OnInit {
-  private store = inject<Store<AppStore>>(Store);
+  private readonly store = inject<Store<AppStore>>(Store);
 
   @Input()
   data: {

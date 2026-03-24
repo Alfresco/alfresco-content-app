@@ -29,7 +29,7 @@ import { PaginationActionsType, PaginationComponent } from '../pagination.compon
 import { timeouts } from '../../../utils';
 
 export class DataTableComponent extends BaseComponent {
-  private static rootElement = 'adf-datatable';
+  private static readonly rootElement = 'adf-datatable';
   contextMenuActions = new MatMenuComponent(this.page);
 
   constructor(page: Page, rootElement = DataTableComponent.rootElement) {

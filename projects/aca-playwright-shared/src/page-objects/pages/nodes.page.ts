@@ -35,7 +35,7 @@ import {
 import { BasePage } from './base.page';
 
 export class NodesPage extends BasePage {
-  private static pageUrl = 'nodes';
+  private static readonly pageUrl = 'nodes';
 
   constructor(page: Page) {
     super(page, NodesPage.pageUrl);

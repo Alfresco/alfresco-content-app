@@ -47,7 +47,7 @@ export enum ToolbarButtonType {
   host: { class: 'app-toolbar-button' }
 })
 export class ToolbarButtonComponent {
-  private extensions = inject(AppExtensionService);
+  private readonly extensions = inject(AppExtensionService);
 
   @Input()
   data: {

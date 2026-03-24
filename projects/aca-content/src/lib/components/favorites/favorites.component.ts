@@ -72,7 +72,7 @@ import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-a
   selector: 'aca-favorites'
 })
 export class FavoritesComponent extends PageComponent implements OnInit {
-  private contentApi = inject(ContentApiService);
+  private readonly contentApi = inject(ContentApiService);
 
   columns: DocumentListPresetRef[] = [];
 

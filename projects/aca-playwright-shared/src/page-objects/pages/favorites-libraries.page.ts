@@ -29,7 +29,7 @@ import { AcaHeader } from '../components/aca-header.component';
 import { AdfConfirmDialogComponent, AdfFolderDialogComponent, ViewerOverlayDialogComponent } from '../components/dialogs';
 
 export class FavoritesLibrariesPage extends BasePage {
-  private static pageUrl = 'favorite/libraries';
+  private static readonly pageUrl = 'favorite/libraries';
 
   constructor(page: Page) {
     super(page, FavoritesLibrariesPage.pageUrl);

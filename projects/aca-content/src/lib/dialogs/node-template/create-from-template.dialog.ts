@@ -43,10 +43,10 @@ import { MatButtonModule } from '@angular/material/button';
   encapsulation: ViewEncapsulation.None
 })
 export class CreateFromTemplateDialogComponent implements OnInit {
-  private translationService = inject(TranslationService);
-  private store = inject<Store<AppStore>>(Store);
-  private formBuilder = inject(UntypedFormBuilder);
-  private dialogRef = inject<MatDialogRef<CreateFromTemplateDialogComponent>>(MatDialogRef);
+  private readonly translationService = inject(TranslationService);
+  private readonly store = inject<Store<AppStore>>(Store);
+  private readonly formBuilder = inject(UntypedFormBuilder);
+  private readonly dialogRef = inject<MatDialogRef<CreateFromTemplateDialogComponent>>(MatDialogRef);
   data = inject<Node>(MAT_DIALOG_DATA);
 
   public form: UntypedFormGroup;

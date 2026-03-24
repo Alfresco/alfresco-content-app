@@ -34,8 +34,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   exportAs: 'acaMenuPanel'
 })
 export class MenuPanelDirective implements OnInit {
-  private store = inject<Store<any>>(Store);
-  private router = inject(Router);
+  private readonly store = inject<Store<any>>(Store);
+  private readonly router = inject(Router);
 
   @Input() acaMenuPanel;
   hasActiveChildren = false;

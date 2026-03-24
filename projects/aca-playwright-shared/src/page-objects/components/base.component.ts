@@ -28,7 +28,7 @@ import { timeouts } from '../../utils';
 
 export abstract class BaseComponent extends PlaywrightBase {
   private readonly rootElement: string;
-  private progressBar = this.page.locator('[role="progressbar"]');
+  private readonly progressBar = this.page.locator('[role="progressbar"]');
 
   protected constructor(page: Page, rootElement: string) {
     super(page);

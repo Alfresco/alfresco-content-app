@@ -34,10 +34,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   exportAs: 'acaActiveLink'
 })
 export class ActiveLinkDirective implements OnInit, AfterContentInit {
-  private router = inject(Router);
-  private element = inject(ElementRef);
-  private renderer = inject(Renderer2);
-  private action = inject(ActionDirective, { optional: true });
+  private readonly router = inject(Router);
+  private readonly element = inject(ElementRef);
+  private readonly renderer = inject(Renderer2);
+  private readonly action = inject(ActionDirective, { optional: true });
 
   @Input() acaActiveLink;
   @ContentChildren(ActionDirective, { descendants: true })

@@ -73,12 +73,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   ]
 })
 export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnChanges {
-  private cardViewUpdateService = inject(CardViewUpdateService);
-  private dialog = inject(MatDialog);
-  private translate = inject(TranslateService);
-  private tagService = inject(TagService);
-  private categoryService = inject(CategoryService);
-  private securityControlsService = inject(SecurityControlsService);
+  private readonly cardViewUpdateService = inject(CardViewUpdateService);
+  private readonly dialog = inject(MatDialog);
+  private readonly translate = inject(TranslateService);
+  private readonly tagService = inject(TagService);
+  private readonly categoryService = inject(CategoryService);
+  private readonly securityControlsService = inject(SecurityControlsService);
 
   @Input()
   nodeId = '';

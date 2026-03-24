@@ -38,7 +38,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   encapsulation: ViewEncapsulation.None
 })
 export class UploadFilesDialogComponent {
-  private store = inject<Store<AppStore>>(Store);
+  private readonly store = inject<Store<AppStore>>(Store);
 
   showFileUploadingDialog$: Observable<boolean>;
 

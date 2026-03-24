@@ -26,7 +26,7 @@ import { expect, Page } from '@playwright/test';
 import { BaseComponent } from '../base.component';
 
 export class MatMenuComponent extends BaseComponent {
-  private static rootElement = '[role="menu"]';
+  private static readonly rootElement = '[role="menu"]';
 
   constructor(page: Page) {
     super(page, MatMenuComponent.rootElement);

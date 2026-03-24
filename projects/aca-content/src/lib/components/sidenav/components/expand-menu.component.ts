@@ -40,7 +40,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
   host: { class: 'app-expand-menu' }
 })
 export class ExpandMenuComponent implements OnInit {
-  private cd = inject(ChangeDetectorRef);
+  private readonly cd = inject(ChangeDetectorRef);
 
   @Input({ required: true })
   item: NavBarLinkRef;

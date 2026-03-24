@@ -26,8 +26,8 @@ import { Locator, Page, expect } from '@playwright/test';
 import { BaseComponent } from '../base.component';
 
 export class LinkRulesDialog extends BaseComponent {
-  private static rootElement = 'aca-rule-set-picker';
-  private getRowByName = (name: string | number): Locator => this.getChild(`adf-datatable-row`, { hasText: name.toString() });
+  private static readonly rootElement = 'aca-rule-set-picker';
+  private readonly getRowByName = (name: string | number): Locator => this.getChild(`adf-datatable-row`, { hasText: name.toString() });
 
   selectFolderButton = this.getChild('button', { hasText: ' Select folder ' });
   getOptionLocator = (optionName: string): Locator => this.page.locator('[role=listbox] [role=option]', { hasText: optionName }).first();

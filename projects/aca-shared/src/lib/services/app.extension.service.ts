@@ -81,7 +81,7 @@ export class AppExtensionService implements RuleContext {
   protected sanitizer = inject(DomSanitizer);
   protected logger = inject(LogService);
 
-  private _references = new BehaviorSubject<ExtensionRef[]>([]);
+  private readonly _references = new BehaviorSubject<ExtensionRef[]>([]);
   bulkActionExecuted$ = new Subject<void>();
 
   navbar: Array<NavBarGroupRef> = [];
@@ -90,18 +90,18 @@ export class AppExtensionService implements RuleContext {
   search: any;
   viewerRules: ViewerRules = {};
 
-  private _headerActions = new BehaviorSubject<Array<ContentActionRef>>([]);
-  private _toolbarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
-  private _viewerToolbarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
-  private _sharedLinkViewerToolbarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
-  private _contextMenuActions = new BehaviorSubject<Array<ContentActionRef>>([]);
-  private _openWithActions = new BehaviorSubject<Array<ContentActionRef>>([]);
-  private _createActions = new BehaviorSubject<Array<ContentActionRef>>([]);
-  private _sidebarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
-  private _badges = new BehaviorSubject<Array<Badge>>([]);
-  private _filesDocumentListPreset = new BehaviorSubject<Array<DocumentListPresetRef>>([]);
-  private _customMetadataPanels = new BehaviorSubject<Array<ContentActionRef>>([]);
-  private _bulkActions = new BehaviorSubject<Array<ContentActionRef>>([]);
+  private readonly _headerActions = new BehaviorSubject<Array<ContentActionRef>>([]);
+  private readonly _toolbarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
+  private readonly _viewerToolbarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
+  private readonly _sharedLinkViewerToolbarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
+  private readonly _contextMenuActions = new BehaviorSubject<Array<ContentActionRef>>([]);
+  private readonly _openWithActions = new BehaviorSubject<Array<ContentActionRef>>([]);
+  private readonly _createActions = new BehaviorSubject<Array<ContentActionRef>>([]);
+  private readonly _sidebarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
+  private readonly _badges = new BehaviorSubject<Array<Badge>>([]);
+  private readonly _filesDocumentListPreset = new BehaviorSubject<Array<DocumentListPresetRef>>([]);
+  private readonly _customMetadataPanels = new BehaviorSubject<Array<ContentActionRef>>([]);
+  private readonly _bulkActions = new BehaviorSubject<Array<ContentActionRef>>([]);
   private readonly _userProfileSections = new BehaviorSubject<Array<UserProfileSection>>([]);
 
   documentListPresets: {

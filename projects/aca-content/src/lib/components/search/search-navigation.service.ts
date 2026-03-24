@@ -30,7 +30,7 @@ import { extractSearchedWordFromEncodedQuery } from '../../utils/aca-search-util
   providedIn: 'root'
 })
 export class SearchNavigationService {
-  private router = inject(Router);
+  private readonly router = inject(Router);
 
   private _previousRoute = '';
 

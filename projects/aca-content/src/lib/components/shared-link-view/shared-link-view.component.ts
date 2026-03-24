@@ -45,17 +45,17 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   host: { class: 'app-shared-link-view' }
 })
 export class SharedLinkViewComponent implements OnInit {
-  private route = inject(ActivatedRoute);
-  private store = inject<Store<AppStore>>(Store);
-  private extensions = inject(AppExtensionService);
-  private alfrescoApiService = inject(AlfrescoApiService);
-  private appService = inject(AppService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly store = inject<Store<AppStore>>(Store);
+  private readonly extensions = inject(AppExtensionService);
+  private readonly alfrescoApiService = inject(AlfrescoApiService);
+  private readonly appService = inject(AppService);
 
   sharedLinkId: string = null;
   viewerToolbarActions: Array<ContentActionRef> = [];
 
   @LazyApi((self: SharedLinkViewComponent) => new SharedlinksApi(self.alfrescoApiService.getInstance()))
-  declare private sharedLinksApi: SharedlinksApi;
+  declare private readonly sharedLinksApi: SharedlinksApi;
 
   private readonly destroyRef = inject(DestroyRef);
 

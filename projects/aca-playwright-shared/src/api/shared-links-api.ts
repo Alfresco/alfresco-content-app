@@ -27,7 +27,7 @@ import { SharedLinkEntry, SharedLinkPaging } from '@alfresco/js-api';
 import { Utils } from '../utils';
 
 export class SharedLinksApi {
-  private apiService: ApiClientFactory;
+  private readonly apiService: ApiClientFactory;
 
   constructor() {
     this.apiService = new ApiClientFactory();

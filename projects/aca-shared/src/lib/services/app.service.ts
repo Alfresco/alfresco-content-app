@@ -59,30 +59,30 @@ import { MatDialog } from '@angular/material/dialog';
 // After moving shell to ADF to core, AppService will implement ShellAppService
 export class AppService implements ShellAppService {
   preferencesService = inject(UserPreferencesService);
-  private authenticationService = inject(AuthenticationService);
-  private store = inject<Store<AppStore>>(Store);
-  private router = inject(Router);
-  private activatedRoute = inject(ActivatedRoute);
-  private config = inject(AppConfigService);
-  private pageTitle = inject(PageTitleService);
-  private alfrescoApiService = inject(AlfrescoApiService);
-  private uploadService = inject(UploadService);
-  private routerExtensionService = inject(RouterExtensionService);
-  private contentApi = inject(ContentApiService);
-  private sharedLinksApiService = inject(SharedLinksApiService);
-  private overlayContainer = inject(OverlayContainer);
-  private acaMobileAppSwitcherService = inject(AcaMobileAppSwitcherService);
-  private appSettingsService = inject(AppSettingsService);
+  private readonly authenticationService = inject(AuthenticationService);
+  private readonly store = inject<Store<AppStore>>(Store);
+  private readonly router = inject(Router);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly config = inject(AppConfigService);
+  private readonly pageTitle = inject(PageTitleService);
+  private readonly alfrescoApiService = inject(AlfrescoApiService);
+  private readonly uploadService = inject(UploadService);
+  private readonly routerExtensionService = inject(RouterExtensionService);
+  private readonly contentApi = inject(ContentApiService);
+  private readonly sharedLinksApiService = inject(SharedLinksApiService);
+  private readonly overlayContainer = inject(OverlayContainer);
+  private readonly acaMobileAppSwitcherService = inject(AcaMobileAppSwitcherService);
+  private readonly appSettingsService = inject(AppSettingsService);
   private readonly userProfileService = inject(UserProfileService);
   private readonly storage = inject(StorageService);
 
-  private notificationService = inject(NotificationService);
-  private matDialog = inject(MatDialog);
-  private ready: BehaviorSubject<boolean>;
+  private readonly notificationService = inject(NotificationService);
+  private readonly matDialog = inject(MatDialog);
+  private readonly ready: BehaviorSubject<boolean>;
 
   ready$: Observable<boolean>;
 
-  private pageHeading = new BehaviorSubject('');
+  private readonly pageHeading = new BehaviorSubject('');
   /** @deprecated page title is updated automatically */
   pageHeading$ = this.pageHeading.asObservable();
 

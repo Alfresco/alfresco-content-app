@@ -28,8 +28,8 @@ import { SearchAiService } from '@alfresco/adf-content-services';
 
 @Injectable({ providedIn: 'root' })
 export class SearchAiNavigationService {
-  private router = inject(Router);
-  private searchAiService = inject(SearchAiService);
+  private readonly router = inject(Router);
+  private readonly searchAiService = inject(SearchAiService);
 
   private readonly knowledgeRetrievalRoute = '/knowledge-retrieval';
 

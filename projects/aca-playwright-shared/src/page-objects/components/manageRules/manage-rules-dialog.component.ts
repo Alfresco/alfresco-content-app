@@ -26,7 +26,7 @@ import { BaseComponent } from '../base.component';
 import { Page } from '@playwright/test';
 
 export class ManageRulesDialogComponent extends BaseComponent {
-  private static rootElement = 'aca-edit-rule-dialog';
+  private static readonly rootElement = 'aca-edit-rule-dialog';
 
   public createRuleButton = this.getChild('[data-automation-id="edit-rule-dialog-submit"]');
   public cancelRuleButton = this.getChild('.aca-edit-rule-dialog__footer button').filter({ hasText: 'Cancel' });

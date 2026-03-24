@@ -42,7 +42,7 @@ import { LogoutDirective } from '@alfresco/adf-core';
   encapsulation: ViewEncapsulation.None
 })
 export class LogoutComponent {
-  private store = inject(Store);
+  private readonly store = inject(Store);
 
   @ViewChild(MatMenuItem)
   menuItem: MatMenuItem;

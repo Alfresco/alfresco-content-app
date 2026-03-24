@@ -57,7 +57,7 @@ import { MatInputModule } from '@angular/material/input';
   encapsulation: ViewEncapsulation.None
 })
 export class ViewProfileComponent implements OnInit {
-  private router = inject(Router);
+  private readonly router = inject(Router);
   private readonly apiService = inject(AlfrescoApiService);
   private readonly appService = inject(AppService);
   private readonly extensionService = inject(AppExtensionService);

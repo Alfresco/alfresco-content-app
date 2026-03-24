@@ -88,8 +88,8 @@ export class FolderRulesService {
     return value;
   }
 
-  private selectedRuleSource = new BehaviorSubject<Rule>(null);
-  private deletedRuleIdSource = new BehaviorSubject<string>(null);
+  private readonly selectedRuleSource = new BehaviorSubject<Rule>(null);
+  private readonly deletedRuleIdSource = new BehaviorSubject<string>(null);
 
   selectedRule$ = this.selectedRuleSource.asObservable();
   deletedRuleId$: Observable<string> = this.deletedRuleIdSource.asObservable();

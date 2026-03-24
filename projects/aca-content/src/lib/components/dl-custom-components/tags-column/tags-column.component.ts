@@ -36,7 +36,7 @@ import { TagNodeListComponent } from '@alfresco/adf-content-services';
   }
 })
 export class TagsColumnComponent implements OnInit {
-  private cd = inject(ChangeDetectorRef);
+  private readonly cd = inject(ChangeDetectorRef);
 
   @Input()
   context: any;

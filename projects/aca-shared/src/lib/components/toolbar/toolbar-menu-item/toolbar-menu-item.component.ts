@@ -40,7 +40,7 @@ import { IconComponent } from '@alfresco/adf-core';
   host: { class: 'app-toolbar-menu-item' }
 })
 export class ToolbarMenuItemComponent implements AfterViewInit {
-  private extensions = inject(AppExtensionService);
+  private readonly extensions = inject(AppExtensionService);
 
   @Input()
   actionRef: ContentActionRef;

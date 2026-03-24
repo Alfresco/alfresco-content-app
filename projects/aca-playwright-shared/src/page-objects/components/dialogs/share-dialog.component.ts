@@ -28,7 +28,7 @@ import { timeouts } from '../../../utils';
 import { DateTimePicker } from '../datetime-picker/datetime-picker.component';
 
 export class ShareDialogComponent extends BaseComponent {
-  private static rootElement = 'adf-share-dialog';
+  private static readonly rootElement = 'adf-share-dialog';
 
   constructor(page: Page) {
     super(page, ShareDialogComponent.rootElement);

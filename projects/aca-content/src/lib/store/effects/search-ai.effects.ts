@@ -32,9 +32,9 @@ import { Params } from '@angular/router';
 
 @Injectable()
 export class SearchAiEffects {
-  private actions$ = inject(Actions);
-  private searchNavigationService = inject(SearchAiNavigationService);
-  private searchAiService = inject(SearchAiService);
+  private readonly actions$ = inject(Actions);
+  private readonly searchNavigationService = inject(SearchAiNavigationService);
+  private readonly searchAiService = inject(SearchAiService);
   searchByTerm$ = createEffect(
     () =>
       this.actions$.pipe(

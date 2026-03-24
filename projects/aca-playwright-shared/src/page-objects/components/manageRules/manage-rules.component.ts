@@ -26,7 +26,7 @@ import { Locator, Page, expect } from '@playwright/test';
 import { BaseComponent } from '../base.component';
 
 export class ManageRules extends BaseComponent {
-  private static rootElement = '.aca-manage-rules';
+  private static readonly rootElement = '.aca-manage-rules';
 
   public getGroupsList = (optionName: string): Locator => this.getChild('.aca-rule-list-item__header', { hasText: optionName });
   public ruleToggle = this.getChild('.aca-manage-rules__container [role="switch"]').first();

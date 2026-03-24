@@ -38,7 +38,7 @@ import { MatButtonModule } from '@angular/material/button';
   encapsulation: ViewEncapsulation.None
 })
 export class SearchActionMenuComponent implements OnInit {
-  private queryBuilder = inject(SearchQueryBuilderService);
+  private readonly queryBuilder = inject(SearchQueryBuilderService);
 
   @Output()
   sortingSelected: EventEmitter<SearchSortingDefinition> = new EventEmitter();

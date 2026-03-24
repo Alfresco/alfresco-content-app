@@ -26,7 +26,7 @@ import { Page } from '@playwright/test';
 import { BaseComponent } from './base.component';
 
 export class ErrorComponent extends BaseComponent {
-  private static rootElement = 'aca-page-layout';
+  private static readonly rootElement = 'aca-page-layout';
   genericError = this.getChild('aca-generic-error');
   genericErrorTitle = this.getChild('.generic-error__title');
 

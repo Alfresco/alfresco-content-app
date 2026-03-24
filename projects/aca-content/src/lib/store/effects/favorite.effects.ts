@@ -31,9 +31,9 @@ import { ContentManagementService } from '../../services/content-management.serv
 
 @Injectable()
 export class FavoriteEffects {
-  private store = inject(Store<AppStore>);
-  private actions$ = inject(Actions);
-  private content = inject(ContentManagementService);
+  private readonly store = inject(Store<AppStore>);
+  private readonly actions$ = inject(Actions);
+  private readonly content = inject(ContentManagementService);
 
   addFavorite$ = createEffect(
     () =>

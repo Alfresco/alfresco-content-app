@@ -40,7 +40,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   host: { class: 'aca-page-layout' }
 })
 export class PageLayoutComponent {
-  private appService = inject(AppService);
+  private readonly appService = inject(AppService);
 
   @Input()
   hasError = false;

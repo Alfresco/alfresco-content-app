@@ -26,7 +26,7 @@ import { ApiClientFactory } from './api-client-factory';
 import * as crypto from 'crypto';
 
 export class RulesApi {
-  private apiService: ApiClientFactory;
+  private readonly apiService: ApiClientFactory;
 
   constructor() {
     this.apiService = new ApiClientFactory();

@@ -29,7 +29,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class NavigationHistoryService {
-  private router = inject(Router);
+  private readonly router = inject(Router);
 
   history: string[] = [];
 

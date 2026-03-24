@@ -26,7 +26,7 @@ import { Page } from '@playwright/test';
 import { BaseComponent } from '../base.component';
 
 export class UploadDialog extends BaseComponent {
-  private static rootElement = 'aca-upload-files-dialog';
+  private static readonly rootElement = 'aca-upload-files-dialog';
 
   public uploadDialogContent = this.getChild('.adf-upload-dialog__content');
   public closeButton = this.getChild('#adf-upload-dialog-close');

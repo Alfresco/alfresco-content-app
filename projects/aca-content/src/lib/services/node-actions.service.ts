@@ -56,13 +56,13 @@ type BatchOperationType = Extract<NodeAction, 'COPY' | 'MOVE'>;
   providedIn: 'root'
 })
 export class NodeActionsService {
-  private contentService = inject(ContentService);
-  private contentApi = inject(ContentApiService);
-  private dialog = inject(MatDialog);
-  private documentListService = inject(DocumentListService);
-  private apiService = inject(AlfrescoApiService);
-  private translation = inject(TranslationService);
-  private thumbnailService = inject(ThumbnailService);
+  private readonly contentService = inject(ContentService);
+  private readonly contentApi = inject(ContentApiService);
+  private readonly dialog = inject(MatDialog);
+  private readonly documentListService = inject(DocumentListService);
+  private readonly apiService = inject(AlfrescoApiService);
+  private readonly translation = inject(TranslationService);
+  private readonly thumbnailService = inject(ThumbnailService);
 
   contentCopied: Subject<NodeEntry[]> = new Subject<NodeEntry[]>();
   contentMoved: Subject<any> = new Subject<any>();

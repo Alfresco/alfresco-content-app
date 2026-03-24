@@ -72,7 +72,7 @@ import { DocumentListComponent } from '@alfresco/adf-content-services';
   selector: 'aca-shared-files'
 })
 export class SharedFilesComponent extends PageComponent implements OnInit {
-  private appHookService = inject(AppHookService);
+  private readonly appHookService = inject(AppHookService);
 
   columns: DocumentListPresetRef[] = [];
 

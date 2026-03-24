@@ -35,9 +35,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   exportAs: 'acaExpansionPanel'
 })
 export class ExpansionPanelDirective implements OnInit {
-  private store = inject<Store<any>>(Store);
-  private router = inject(Router);
-  private expansionPanel = inject(MatExpansionPanel);
+  private readonly store = inject<Store<any>>(Store);
+  private readonly router = inject(Router);
+  private readonly expansionPanel = inject(MatExpansionPanel);
 
   @Input() acaExpansionPanel;
   public hasActiveChildren = false;

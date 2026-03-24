@@ -35,7 +35,7 @@ import {
 } from '@alfresco/js-api';
 
 export class SitesApi {
-  private apiService: ApiClientFactory;
+  private readonly apiService: ApiClientFactory;
 
   constructor() {
     this.apiService = new ApiClientFactory();

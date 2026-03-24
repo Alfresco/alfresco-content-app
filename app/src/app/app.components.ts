@@ -36,7 +36,7 @@ import { RouterOutlet } from '@angular/router';
   imports: [RouterOutlet]
 })
 export class AppComponent {
-  private appService = inject(AppService);
+  private readonly appService = inject(AppService);
 
   constructor() {
     const matIconRegistry = inject(MatIconRegistry);

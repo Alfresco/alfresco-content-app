@@ -36,8 +36,8 @@ interface AdjacentFiles {
   providedIn: 'root'
 })
 export class ViewerService {
-  private preferences = inject(UserPreferencesService);
-  private contentApi = inject(ContentApiService);
+  private readonly preferences = inject(UserPreferencesService);
+  private readonly contentApi = inject(ContentApiService);
 
   private _customNodesOrder: string[] = [];
 

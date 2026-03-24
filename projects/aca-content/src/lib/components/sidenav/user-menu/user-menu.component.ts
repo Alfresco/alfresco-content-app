@@ -39,7 +39,7 @@ import { ToolbarMenuItemComponent, UserProfileService } from '@alfresco/aca-shar
   host: { class: 'aca-user-menu' }
 })
 export class UserMenuComponent implements OnInit, AfterViewInit {
-  private userProfileService = inject(UserProfileService);
+  private readonly userProfileService = inject(UserProfileService);
 
   user$ = this.userProfileService.userProfile$;
 

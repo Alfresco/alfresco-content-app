@@ -60,7 +60,7 @@ import { MatIconModule } from '@angular/material/icon';
   host: { class: 'app-toggle-info-drawer' }
 })
 export class ToggleInfoDrawerComponent {
-  private store = inject<Store<any>>(Store);
+  private readonly store = inject<Store<any>>(Store);
 
   infoDrawerOpened$: Observable<boolean>;
 

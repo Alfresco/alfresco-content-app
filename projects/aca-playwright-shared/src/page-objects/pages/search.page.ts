@@ -48,7 +48,7 @@ import { SearchInDialogComponent } from '../components/search/search-in-dialog.c
 export type SearchType = 'files' | 'folders' | 'filesAndFolders' | 'libraries';
 
 export class SearchPage extends BasePage {
-  private static pageUrl = 'search';
+  private static readonly pageUrl = 'search';
 
   constructor(page: Page) {
     super(page, SearchPage.pageUrl);

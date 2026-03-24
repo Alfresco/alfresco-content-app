@@ -35,8 +35,8 @@ import { NavBarLinkRef } from '@alfresco/adf-extensions';
   exportAs: 'action'
 })
 export class ActionDirective {
-  private router = inject(Router);
-  private store = inject<Store<AppStore>>(Store);
+  private readonly router = inject(Router);
+  private readonly store = inject<Store<AppStore>>(Store);
 
   @Input() action;
 

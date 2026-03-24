@@ -33,8 +33,8 @@ import { OpenInAppComponent } from '../components/open-in-app/open-in-app.compon
 export class AcaMobileAppSwitcherService {
   public redirectUrl: string;
   private dialogRef: MatDialogRef<OpenInAppComponent>;
-  private config = inject(AppConfigService);
-  private dialog = inject(MatDialog);
+  private readonly config = inject(AppConfigService);
+  private readonly dialog = inject(MatDialog);
 
   get appStoreUrl(): string {
     const defaultValue = 'https://apps.apple.com/us/app/alfresco-mobile-workspace/id1514434480';

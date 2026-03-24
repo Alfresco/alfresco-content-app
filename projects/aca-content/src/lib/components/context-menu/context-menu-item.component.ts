@@ -39,7 +39,7 @@ import { IconComponent } from '@alfresco/adf-core';
   host: { class: 'app-context-menu-item' }
 })
 export class ContextMenuItemComponent {
-  private extensions = inject(AppExtensionService);
+  private readonly extensions = inject(AppExtensionService);
 
   @Input()
   actionRef: ContentActionRef;

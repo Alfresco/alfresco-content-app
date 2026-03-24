@@ -26,7 +26,7 @@ import { BaseComponent } from '../base.component';
 import { Page } from '@playwright/test';
 
 export class AdfFolderDialogComponent extends BaseComponent {
-  private static rootElement = 'adf-folder-dialog';
+  private static readonly rootElement = 'adf-folder-dialog';
 
   public folderNameInputLocator = this.getChild('[id="adf-folder-name-input"]');
   public folderNameInputHint = this.getChild('[aria-atomic="true"] span');

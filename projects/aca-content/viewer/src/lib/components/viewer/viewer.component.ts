@@ -74,21 +74,21 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   host: { class: 'app-viewer' }
 })
 export class AcaViewerComponent implements OnInit, OnDestroy {
-  private actions$ = inject(Actions);
-  private apiService = inject(AlfrescoApiService);
-  private appHookService = inject(AppHookService);
-  private contentApi = inject(ContentApiService);
-  private extensions = inject(AppExtensionService);
-  private nodesApiService = inject(NodesApiService);
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
-  private store = inject<Store<AppStore>>(Store);
-  private uploadService = inject(UploadService);
-  private viewerService = inject(ViewerService);
+  private readonly actions$ = inject(Actions);
+  private readonly apiService = inject(AlfrescoApiService);
+  private readonly appHookService = inject(AppHookService);
+  private readonly contentApi = inject(ContentApiService);
+  private readonly extensions = inject(AppExtensionService);
+  private readonly nodesApiService = inject(NodesApiService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly store = inject<Store<AppStore>>(Store);
+  private readonly uploadService = inject(UploadService);
+  private readonly viewerService = inject(ViewerService);
 
   settings = inject(AppSettingsService);
 
-  private documentListService = inject(DocumentListService);
+  private readonly documentListService = inject(DocumentListService);
 
   @LazyApi((self: AcaViewerComponent) => new VersionsApi(self.apiService.getInstance()))
   declare versionsApi: VersionsApi;
@@ -110,7 +110,7 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
 
   private navigationPath: string;
   private previewLocation: string;
-  private containersSkipNavigation = ['adf-viewer__sidebar', 'cdk-overlay-container', 'adf-image-viewer'];
+  private readonly containersSkipNavigation = ['adf-viewer__sidebar', 'cdk-overlay-container', 'adf-image-viewer'];
 
   private readonly destroyRef = inject(DestroyRef);
 

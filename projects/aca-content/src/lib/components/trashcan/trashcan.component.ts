@@ -65,7 +65,7 @@ import { DocumentListComponent } from '@alfresco/adf-content-services';
   encapsulation: ViewEncapsulation.None
 })
 export class TrashcanComponent extends PageComponent implements OnInit {
-  private userProfileService = inject(UserProfileService);
+  private readonly userProfileService = inject(UserProfileService);
 
   user$ = this.userProfileService.userProfile$;
   columns: DocumentListPresetRef[] = [];

@@ -40,7 +40,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   imports: [CommonModule, TranslatePipe, DynamicExtensionComponent, IconComponent]
 })
 export class DatatableCellBadgesComponent implements OnInit {
-  private appExtensionService = inject(AppExtensionService);
+  private readonly appExtensionService = inject(AppExtensionService);
 
   @Input({ required: true }) node: NodeEntry;
 

@@ -31,7 +31,7 @@ interface LoginOptions {
   withNavigation?: boolean;
 }
 export class LoginPage extends BasePage {
-  private static pageUrl = 'login';
+  private static readonly pageUrl = 'login';
 
   constructor(page: Page) {
     super(page, LoginPage.pageUrl);

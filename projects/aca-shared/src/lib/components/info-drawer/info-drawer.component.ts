@@ -54,11 +54,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   encapsulation: ViewEncapsulation.None
 })
 export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
-  private store = inject<Store<any>>(Store);
-  private contentApi = inject(ContentApiService);
-  private extensions = inject(AppExtensionService);
-  private nodesService = inject(NodesApiService);
-  private contentService = inject(ContentService);
+  private readonly store = inject<Store<any>>(Store);
+  private readonly contentApi = inject(ContentApiService);
+  private readonly extensions = inject(AppExtensionService);
+  private readonly nodesService = inject(NodesApiService);
+  private readonly contentService = inject(ContentService);
 
   @Input()
   nodeId: string;

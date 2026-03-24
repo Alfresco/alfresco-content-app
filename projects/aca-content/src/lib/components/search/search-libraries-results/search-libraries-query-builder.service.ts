@@ -39,7 +39,7 @@ export interface LibrarySearchQuery {
   providedIn: 'root'
 })
 export class SearchLibrariesQueryBuilderService {
-  private alfrescoApiService = inject(AlfrescoApiService);
+  private readonly alfrescoApiService = inject(AlfrescoApiService);
 
   private _userQuery = '';
 

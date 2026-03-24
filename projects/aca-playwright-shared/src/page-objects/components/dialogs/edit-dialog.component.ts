@@ -26,7 +26,7 @@ import { Page } from '@playwright/test';
 import { BaseComponent } from '../base.component';
 
 export class EditDialog extends BaseComponent {
-  private static rootElement = 'adf-folder-dialog';
+  private static readonly rootElement = 'adf-folder-dialog';
 
   public editDialog = this.page.locator(EditDialog.rootElement);
   public titleInput = this.getChild('[data-automation-id="adf-folder-dialog-title"]');

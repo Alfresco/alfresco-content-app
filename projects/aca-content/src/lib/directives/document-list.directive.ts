@@ -37,12 +37,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   selector: '[acaDocumentList]'
 })
 export class DocumentListDirective implements OnInit {
-  private store = inject<Store<any>>(Store);
-  private documentList = inject(DocumentListComponent);
-  private preferences = inject(UserPreferencesService);
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
-  private documentListService = inject(DocumentListService);
+  private readonly store = inject<Store<any>>(Store);
+  private readonly documentList = inject(DocumentListComponent);
+  private readonly preferences = inject(UserPreferencesService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly documentListService = inject(DocumentListService);
 
   private isLibrary = false;
   selectedNode: NodeEntry;

@@ -29,7 +29,7 @@ import { AcaHeader } from '../components/aca-header.component';
 import { AdfFolderDialogComponent, ContentNodeSelectorDialog, ManageVersionsDialog } from '../components/dialogs';
 
 export class RecentFilesPage extends BasePage {
-  private static pageUrl = 'recent-files';
+  private static readonly pageUrl = 'recent-files';
 
   constructor(page: Page) {
     super(page, RecentFilesPage.pageUrl);

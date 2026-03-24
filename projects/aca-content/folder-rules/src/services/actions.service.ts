@@ -32,13 +32,13 @@ import { ActionParameterConstraint, ConstraintValue } from '../model/action-para
 
 @Injectable({ providedIn: 'root' })
 export class ActionsService {
-  private apiService = inject(AlfrescoApiService);
+  private readonly apiService = inject(AlfrescoApiService);
 
-  private actionDefinitionsListingSource = new BehaviorSubject<ActionDefinitionTransformed[]>([]);
+  private readonly actionDefinitionsListingSource = new BehaviorSubject<ActionDefinitionTransformed[]>([]);
   actionDefinitionsListing$ = this.actionDefinitionsListingSource.asObservable();
-  private loadingSource = new BehaviorSubject<boolean>(false);
+  private readonly loadingSource = new BehaviorSubject<boolean>(false);
   loading$ = this.loadingSource.asObservable();
-  private parameterConstraintsSource = new BehaviorSubject<ActionParameterConstraint[]>([]);
+  private readonly parameterConstraintsSource = new BehaviorSubject<ActionParameterConstraint[]>([]);
   parameterConstraints$: Observable<ActionParameterConstraint[]> = this.parameterConstraintsSource.asObservable();
 
   private _actionsApi: ActionsApi;

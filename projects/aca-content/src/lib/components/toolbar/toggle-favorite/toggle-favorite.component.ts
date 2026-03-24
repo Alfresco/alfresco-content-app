@@ -47,10 +47,10 @@ import { MatMenuItem, MatMenuModule } from '@angular/material/menu';
   host: { class: 'app-toggle-favorite' }
 })
 export class ToggleFavoriteComponent implements OnInit {
-  private store = inject<Store<AppStore>>(Store);
-  private router = inject(Router);
+  private readonly store = inject<Store<AppStore>>(Store);
+  private readonly router = inject(Router);
 
-  private documentListService = inject(DocumentListService);
+  private readonly documentListService = inject(DocumentListService);
 
   @Input() data: any;
   selection$: Observable<SelectionState>;

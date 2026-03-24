@@ -39,7 +39,7 @@ import { ToolbarMenuComponent } from '../toolbar-menu/toolbar-menu.component';
   host: { class: 'aca-toolbar-action' }
 })
 export class ToolbarActionComponent implements DoCheck {
-  private cd = inject(ChangeDetectorRef);
+  private readonly cd = inject(ChangeDetectorRef);
 
   @Input()
   data: {

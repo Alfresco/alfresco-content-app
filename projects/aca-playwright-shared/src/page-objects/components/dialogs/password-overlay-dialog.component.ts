@@ -27,7 +27,7 @@ import { BaseComponent } from '../base.component';
 import { timeouts } from '../../../utils';
 
 export class PasswordOverlayDialogComponent extends BaseComponent {
-  private static rootElement = '.cdk-overlay-pane';
+  private static readonly rootElement = '.cdk-overlay-pane';
 
   public closeButton = this.getChild('[data-automation-id="adf-password-dialog-close"]');
   public submitButton = this.getChild('[data-automation-id="adf-password-dialog-submit"]');

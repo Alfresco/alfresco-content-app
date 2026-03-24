@@ -42,10 +42,10 @@ import { MatButtonModule } from '@angular/material/button';
   encapsulation: ViewEncapsulation.None
 })
 export class AboutComponent implements OnInit {
-  private authService = inject(AuthenticationService);
-  private appExtensions = inject(AppExtensionService);
-  private appSettings = inject(AppSettingsService);
-  private discovery = inject(DiscoveryApiService);
+  private readonly authService = inject(AuthenticationService);
+  private readonly appExtensions = inject(AppExtensionService);
+  private readonly appSettings = inject(AppSettingsService);
+  private readonly discovery = inject(DiscoveryApiService);
   public packageJson? = inject(PACKAGE_JSON, { optional: true });
   public dev = inject(DEV_MODE_TOKEN);
 

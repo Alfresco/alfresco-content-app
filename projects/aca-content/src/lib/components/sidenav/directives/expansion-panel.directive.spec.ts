@@ -29,7 +29,7 @@ import { TestBed } from '@angular/core/testing';
 
 class RouterStub {
   url;
-  private subject = new Subject();
+  private readonly subject = new Subject();
   events = this.subject.asObservable();
 
   constructor(url = 'some-url') {

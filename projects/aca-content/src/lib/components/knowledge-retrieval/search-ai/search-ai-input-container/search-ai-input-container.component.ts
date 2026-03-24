@@ -43,8 +43,8 @@ import { Router } from '@angular/router';
 })
 export class SearchAiInputContainerComponent implements OnInit {
   private readonly searchAiService = inject(SearchAiService);
-  private searchNavigationService = inject(SearchAiNavigationService);
-  private router = inject(Router);
+  private readonly searchNavigationService = inject(SearchAiNavigationService);
+  private readonly router = inject(Router);
 
   @Input()
   placeholder = 'KNOWLEDGE_RETRIEVAL.SEARCH.SEARCH_INPUT.DEFAULT_PLACEHOLDER';

@@ -54,9 +54,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   host: { class: 'app-toggle-favorite-library' }
 })
 export class ToggleFavoriteLibraryComponent implements OnInit {
-  private store = inject<Store<AppStore>>(Store);
-  private appHookService = inject(AppHookService);
-  private router = inject(Router);
+  private readonly store = inject<Store<AppStore>>(Store);
+  private readonly appHookService = inject(AppHookService);
+  private readonly router = inject(Router);
 
   library;
 

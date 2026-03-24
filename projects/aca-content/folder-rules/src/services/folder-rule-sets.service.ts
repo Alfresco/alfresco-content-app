@@ -61,11 +61,11 @@ export class FolderRuleSetsService {
   private inheritedRuleSets: RuleSet[] = [];
   private hasMoreRuleSets = true;
 
-  private mainRuleSetSource = new BehaviorSubject<RuleSet>(null);
-  private inheritedRuleSetsSource = new BehaviorSubject<RuleSet[]>([]);
-  private hasMoreRuleSetsSource = new BehaviorSubject<boolean>(true);
-  private folderInfoSource = new BehaviorSubject<NodeInfo>(null);
-  private isLoadingSource = new BehaviorSubject<boolean>(false);
+  private readonly mainRuleSetSource = new BehaviorSubject<RuleSet>(null);
+  private readonly inheritedRuleSetsSource = new BehaviorSubject<RuleSet[]>([]);
+  private readonly hasMoreRuleSetsSource = new BehaviorSubject<boolean>(true);
+  private readonly folderInfoSource = new BehaviorSubject<NodeInfo>(null);
+  private readonly isLoadingSource = new BehaviorSubject<boolean>(false);
 
   mainRuleSet$: Observable<RuleSet> = this.mainRuleSetSource.asObservable();
   inheritedRuleSets$: Observable<RuleSet[]> = this.inheritedRuleSetsSource.asObservable();

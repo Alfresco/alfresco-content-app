@@ -47,12 +47,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   host: { class: 'aca-agents-button' }
 })
 export class AgentsButtonComponent implements OnInit {
-  private store = inject<Store<AppStore>>(Store);
-  private notificationService = inject(NotificationService);
-  private searchAiService = inject(SearchAiService);
-  private agentService = inject(AgentService);
-  private translateService = inject(TranslateService);
-  private cd = inject(ChangeDetectorRef);
+  private readonly store = inject<Store<AppStore>>(Store);
+  private readonly notificationService = inject(NotificationService);
+  private readonly searchAiService = inject(SearchAiService);
+  private readonly agentService = inject(AgentService);
+  private readonly translateService = inject(TranslateService);
+  private readonly cd = inject(ChangeDetectorRef);
 
   @Input()
   data: { trigger: string };

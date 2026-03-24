@@ -41,7 +41,7 @@ import {
 } from '../components';
 
 export class MyLibrariesPage extends BasePage {
-  private static pageUrl = 'libraries';
+  private static readonly pageUrl = 'libraries';
 
   constructor(page: Page) {
     super(page, MyLibrariesPage.pageUrl);

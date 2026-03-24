@@ -42,7 +42,7 @@ class TestComponent {
 }
 
 class MockRouter {
-  private subject = new Subject();
+  private readonly subject = new Subject();
   events = this.subject.asObservable();
   url = '';
 

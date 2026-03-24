@@ -76,13 +76,13 @@ import { MatToolbar } from '@angular/material/toolbar';
   host: { class: 'aca-manage-rules' }
 })
 export class ManageRulesSmartComponent implements OnInit {
-  private location = inject(Location);
-  private folderRulesService = inject(FolderRulesService);
-  private route = inject(ActivatedRoute);
-  private matDialogService = inject(MatDialog);
-  private notificationService = inject(NotificationService);
-  private actionsService = inject(ActionsService);
-  private folderRuleSetsService = inject(FolderRuleSetsService);
+  private readonly location = inject(Location);
+  private readonly folderRulesService = inject(FolderRulesService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly matDialogService = inject(MatDialog);
+  private readonly notificationService = inject(NotificationService);
+  private readonly actionsService = inject(ActionsService);
+  private readonly folderRuleSetsService = inject(FolderRuleSetsService);
 
   nodeId = '';
   isInheritanceEnabled = true;

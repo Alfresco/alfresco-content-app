@@ -27,7 +27,7 @@ import { BaseComponent } from '../base.component';
 import { timeouts } from '../../../utils';
 
 export class CreateFromTemplateDialogComponent extends BaseComponent {
-  private static rootElement = '.aca-create-from-template-dialog';
+  private static readonly rootElement = '.aca-create-from-template-dialog';
 
   constructor(page: Page) {
     super(page, CreateFromTemplateDialogComponent.rootElement);

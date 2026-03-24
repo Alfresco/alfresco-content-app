@@ -37,7 +37,7 @@ import { UserProfileService } from '@alfresco/aca-shared';
   encapsulation: ViewEncapsulation.None
 })
 export class UserInfoComponent {
-  private userProfileService = inject(UserProfileService);
+  private readonly userProfileService = inject(UserProfileService);
 
   @ViewChild(MatMenuItem)
   menuItem: MatMenuItem;

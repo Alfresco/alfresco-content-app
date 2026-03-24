@@ -61,7 +61,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   host: { class: 'aca-rule-details' }
 })
 export class RuleDetailsUiComponent implements OnInit {
-  private categoryService = inject(CategoryService);
+  private readonly categoryService = inject(CategoryService);
 
   @Input()
   readOnly: boolean;
