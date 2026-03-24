@@ -257,7 +257,14 @@
         "no-var": "error",
         "prefer-const": "error",
         "quote-props": "off",
-        "quotes": "off",
+        "quotes": [
+          "error",
+          "single",
+          {
+            "avoidEscape": true,
+            "allowTemplateLiterals": true
+          }
+        ],
         "radix": "error",
         "rxjs/no-create": "error",
         "rxjs/no-subject-unsubscribe": "error",
