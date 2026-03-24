@@ -66,9 +66,6 @@
     "@ngrx/store": "~19.2.0",
     "@ngrx/store-devtools": "~19.2.0",
     "@ngx-translate/core": "^17.0.0",
-    "angular-oauth2-oidc": "17.0.2",
-    "angular-oauth2-oidc-jwks": "17.0.2",
-    "cropperjs": "1.6.2",
     "date-fns": "^4.1.0",
     "katex": "^0.16.21",
     "material-icons": "^1.13.12",
@@ -78,7 +75,6 @@
     "pdfjs-dist": "5.1.91",
     "prismjs": "^1.30.0",
     "rxjs": "7.8.2",
-    "superagent": "9.0.1",
     "tslib": "2.8.1",
     "zone.js": "0.15.0"
   },
