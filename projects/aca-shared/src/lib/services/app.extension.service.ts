@@ -71,15 +71,15 @@ export function provideContentAppExtensions(): EnvironmentProviders[] {
   providedIn: 'root'
 })
 export class AppExtensionService implements RuleContext {
-  auth = inject(AuthenticationService);
-  protected store = inject<Store<AppStore>>(Store);
-  protected loader = inject(ExtensionLoaderService);
-  protected extensions = inject(ExtensionService);
-  permissions = inject(NodePermissionService);
-  appConfig = inject(AppConfigService);
-  protected matIconRegistry = inject(MatIconRegistry);
-  protected sanitizer = inject(DomSanitizer);
-  protected logger = inject(LogService);
+  readonly auth = inject(AuthenticationService);
+  protected readonly store = inject<Store<AppStore>>(Store);
+  protected readonly loader = inject(ExtensionLoaderService);
+  protected readonly extensions = inject(ExtensionService);
+  readonly permissions = inject(NodePermissionService);
+  readonly appConfig = inject(AppConfigService);
+  protected readonly matIconRegistry = inject(MatIconRegistry);
+  protected readonly sanitizer = inject(DomSanitizer);
+  protected readonly logger = inject(LogService);
 
   private readonly _references = new BehaviorSubject<ExtensionRef[]>([]);
   bulkActionExecuted$ = new Subject<void>();

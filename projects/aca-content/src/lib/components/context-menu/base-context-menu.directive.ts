@@ -32,9 +32,9 @@ import { AppExtensionService } from '@alfresco/aca-shared';
 
 @Directive()
 export class BaseContextMenuDirective {
-  protected contextMenuOverlayRef = inject(ContextMenuOverlayRef);
-  protected extensions = inject(AppExtensionService);
-  direction = inject<Direction>(CONTEXT_MENU_DIRECTION);
+  protected readonly contextMenuOverlayRef = inject(ContextMenuOverlayRef);
+  protected readonly extensions = inject(AppExtensionService);
+  readonly direction = inject<Direction>(CONTEXT_MENU_DIRECTION);
 
   actions: Array<ContentActionRef> = [];
 
