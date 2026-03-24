@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActionDefinition, ActionDefinitionEntry, ActionDefinitionList, ActionsApi } from '@alfresco/js-api';
 import { AlfrescoApiService } from '@alfresco/adf-content-services';
 import { BehaviorSubject, forkJoin, from, Observable, of } from 'rxjs';
@@ -32,6 +32,8 @@ import { ActionParameterConstraint, ConstraintValue } from '../model/action-para
 
 @Injectable({ providedIn: 'root' })
 export class ActionsService {
+  private apiService = inject(AlfrescoApiService);
+
   private actionDefinitionsListingSource = new BehaviorSubject<ActionDefinitionTransformed[]>([]);
   actionDefinitionsListing$ = this.actionDefinitionsListingSource.asObservable();
   private loadingSource = new BehaviorSubject<boolean>(false);
@@ -46,8 +48,6 @@ export class ActionsService {
     }
     return this._actionsApi;
   }
-
-  constructor(private apiService: AlfrescoApiService) {}
 
   loadActionDefinitions() {
     this.loadingSource.next(true);

@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { Directive, EventEmitter, HostListener, Input, Output, inject } from '@angular/core';
 import { Params, PRIMARY_OUTLET, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppStore } from '@alfresco/aca-shared/store';
@@ -35,6 +35,9 @@ import { NavBarLinkRef } from '@alfresco/adf-extensions';
   exportAs: 'action'
 })
 export class ActionDirective {
+  private router = inject(Router);
+  private store = inject<Store<AppStore>>(Store);
+
   @Input() action;
 
   @Output() actionClicked = new EventEmitter<NavBarLinkRef>();
@@ -51,11 +54,6 @@ export class ActionDirective {
     }
     this.actionClicked.next(this.action);
   }
-
-  constructor(
-    private router: Router,
-    private store: Store<AppStore>
-  ) {}
   private getNavigationCommands(url: string): any[] {
     const urlTree = this.router.parseUrl(url);
     const urlSegmentGroup = urlTree.root.children[PRIMARY_OUTLET];

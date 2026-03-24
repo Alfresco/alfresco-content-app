@@ -71,6 +71,16 @@ export function provideContentAppExtensions(): EnvironmentProviders[] {
   providedIn: 'root'
 })
 export class AppExtensionService implements RuleContext {
+  auth = inject(AuthenticationService);
+  protected store = inject<Store<AppStore>>(Store);
+  protected loader = inject(ExtensionLoaderService);
+  protected extensions = inject(ExtensionService);
+  permissions = inject(NodePermissionService);
+  appConfig = inject(AppConfigService);
+  protected matIconRegistry = inject(MatIconRegistry);
+  protected sanitizer = inject(DomSanitizer);
+  protected logger = inject(LogService);
+
   private _references = new BehaviorSubject<ExtensionRef[]>([]);
   bulkActionExecuted$ = new Subject<void>();
 
@@ -125,17 +135,7 @@ export class AppExtensionService implements RuleContext {
 
   config: ExtensionConfig;
 
-  constructor(
-    public auth: AuthenticationService,
-    protected store: Store<AppStore>,
-    protected loader: ExtensionLoaderService,
-    protected extensions: ExtensionService,
-    public permissions: NodePermissionService,
-    public appConfig: AppConfigService,
-    protected matIconRegistry: MatIconRegistry,
-    protected sanitizer: DomSanitizer,
-    protected logger: LogService
-  ) {
+  constructor() {
     this.references$ = this._references.asObservable();
 
     this.store.select(getRuleContext).subscribe((result) => {

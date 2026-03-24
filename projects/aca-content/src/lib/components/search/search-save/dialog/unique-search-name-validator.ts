@@ -22,14 +22,14 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { AbstractControl, AsyncValidator, ValidationErrors } from '@angular/forms';
 import { catchError, map, Observable, of } from 'rxjs';
 import { SavedSearchesContextService } from '../../../../services/saved-searches-context.service';
 
 @Injectable({ providedIn: 'root' })
 export class UniqueSearchNameValidator implements AsyncValidator {
-  constructor(private readonly savedSearchesService: SavedSearchesContextService) {}
+  private readonly savedSearchesService = inject(SavedSearchesContextService);
 
   validate(control: AbstractControl): Observable<ValidationErrors | null> {
     return this.savedSearchesService.getSavedSearches().pipe(

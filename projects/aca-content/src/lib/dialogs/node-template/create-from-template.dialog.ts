@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, Inject, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { Node } from '@alfresco/js-api';
 import { UntypedFormBuilder, UntypedFormGroup, Validators, UntypedFormControl, ValidationErrors, ReactiveFormsModule } from '@angular/forms';
@@ -43,17 +43,15 @@ import { MatButtonModule } from '@angular/material/button';
   encapsulation: ViewEncapsulation.None
 })
 export class CreateFromTemplateDialogComponent implements OnInit {
+  private translationService = inject(TranslationService);
+  private store = inject<Store<AppStore>>(Store);
+  private formBuilder = inject(UntypedFormBuilder);
+  private dialogRef = inject<MatDialogRef<CreateFromTemplateDialogComponent>>(MatDialogRef);
+  data = inject<Node>(MAT_DIALOG_DATA);
+
   public form: UntypedFormGroup;
 
   title = '';
-
-  constructor(
-    private translationService: TranslationService,
-    private store: Store<AppStore>,
-    private formBuilder: UntypedFormBuilder,
-    private dialogRef: MatDialogRef<CreateFromTemplateDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Node
-  ) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({

@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, PRIMARY_OUTLET, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
 import { debounceTime, map } from 'rxjs/operators';
@@ -52,6 +52,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   host: { class: 'app-preview' }
 })
 export class PreviewComponent extends PageComponent implements OnInit {
+  private actions$ = inject(Actions);
+  private appHookService = inject(AppHookService);
+  private contentApi = inject(ContentApiService);
+  private location = inject(Location);
+  private nodesApiService = inject(NodesApiService);
+  private route = inject(ActivatedRoute);
+  private viewerService = inject(ViewerService);
+
   folderId: string = null;
   navigateBackAsClose = false;
   navigateMultiple = false;
@@ -67,18 +75,6 @@ export class PreviewComponent extends PageComponent implements OnInit {
   simplestMode = false;
 
   private containersSkipNavigation = ['adf-viewer__sidebar', 'cdk-overlay-container', 'adf-image-viewer'];
-
-  constructor(
-    private actions$: Actions,
-    private appHookService: AppHookService,
-    private contentApi: ContentApiService,
-    private location: Location,
-    private nodesApiService: NodesApiService,
-    private route: ActivatedRoute,
-    private viewerService: ViewerService
-  ) {
-    super();
-  }
 
   ngOnInit() {
     super.ngOnInit();

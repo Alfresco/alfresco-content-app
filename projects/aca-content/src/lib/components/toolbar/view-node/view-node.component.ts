@@ -59,19 +59,17 @@ import { MatDialogModule } from '@angular/material/dialog';
   host: { class: 'app-view-node' }
 })
 export class ViewNodeComponent {
+  private store = inject<Store<AppStore>>(Store);
+  private router = inject(Router);
+  private autoDownloadService = inject(AutoDownloadService);
+  private activatedRoute = inject(ActivatedRoute);
+
   private settings = inject(AppSettingsService);
 
   @Input() data: { title?: string; menuButton?: boolean; iconButton?: boolean };
 
   @ViewChild(MatMenuItem)
   menuItem: MatMenuItem;
-
-  constructor(
-    private store: Store<AppStore>,
-    private router: Router,
-    private autoDownloadService: AutoDownloadService,
-    private activatedRoute: ActivatedRoute
-  ) {}
 
   onClick() {
     this.store

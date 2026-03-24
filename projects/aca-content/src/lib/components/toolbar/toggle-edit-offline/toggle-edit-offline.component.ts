@@ -47,6 +47,10 @@ import { MatIconModule } from '@angular/material/icon';
   host: { class: 'app-toggle-edit-offline' }
 })
 export class ToggleEditOfflineComponent implements OnInit {
+  private store = inject<Store<AppStore>>(Store);
+  private alfrescoApiService = inject(AlfrescoApiService);
+  private extensions = inject(AppExtensionService);
+
   @ViewChild(MatMenuItem)
   menuItem: MatMenuItem;
 
@@ -58,12 +62,6 @@ export class ToggleEditOfflineComponent implements OnInit {
   selection: NodeEntry;
   nodeTitle = '';
   isNodeLocked = false;
-
-  constructor(
-    private store: Store<AppStore>,
-    private alfrescoApiService: AlfrescoApiService,
-    private extensions: AppExtensionService
-  ) {}
 
   ngOnInit() {
     this.store.select(getAppSelection).subscribe(({ file }) => {

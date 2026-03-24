@@ -58,6 +58,24 @@ import { MatDialog } from '@angular/material/dialog';
 })
 // After moving shell to ADF to core, AppService will implement ShellAppService
 export class AppService implements ShellAppService {
+  preferencesService = inject(UserPreferencesService);
+  private authenticationService = inject(AuthenticationService);
+  private store = inject<Store<AppStore>>(Store);
+  private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
+  private config = inject(AppConfigService);
+  private pageTitle = inject(PageTitleService);
+  private alfrescoApiService = inject(AlfrescoApiService);
+  private uploadService = inject(UploadService);
+  private routerExtensionService = inject(RouterExtensionService);
+  private contentApi = inject(ContentApiService);
+  private sharedLinksApiService = inject(SharedLinksApiService);
+  private overlayContainer = inject(OverlayContainer);
+  private acaMobileAppSwitcherService = inject(AcaMobileAppSwitcherService);
+  private appSettingsService = inject(AppSettingsService);
+  private readonly userProfileService = inject(UserProfileService);
+  private readonly storage = inject(StorageService);
+
   private notificationService = inject(NotificationService);
   private matDialog = inject(MatDialog);
   private ready: BehaviorSubject<boolean>;
@@ -82,26 +100,10 @@ export class AppService implements ShellAppService {
     return this.config.get<boolean>('auth.withCredentials', false);
   }
 
-  constructor(
-    public preferencesService: UserPreferencesService,
-    private authenticationService: AuthenticationService,
-    private store: Store<AppStore>,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private config: AppConfigService,
-    private pageTitle: PageTitleService,
-    private alfrescoApiService: AlfrescoApiService,
-    private uploadService: UploadService,
-    private routerExtensionService: RouterExtensionService,
-    private contentApi: ContentApiService,
-    private sharedLinksApiService: SharedLinksApiService,
-    private overlayContainer: OverlayContainer,
-    searchQueryBuilderService: SearchQueryBuilderService,
-    private acaMobileAppSwitcherService: AcaMobileAppSwitcherService,
-    private appSettingsService: AppSettingsService,
-    private readonly userProfileService: UserProfileService,
-    private readonly storage: StorageService
-  ) {
+  constructor() {
+    const searchQueryBuilderService = inject(SearchQueryBuilderService);
+    const acaMobileAppSwitcherService = this.acaMobileAppSwitcherService;
+
     this.ready = new BehaviorSubject(this.authenticationService.isLoggedIn() || this.withCredentials);
     this.ready$ = this.ready.asObservable();
 

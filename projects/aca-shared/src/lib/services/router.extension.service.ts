@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable, Type } from '@angular/core';
+import { Injectable, Type, inject } from '@angular/core';
 import { ExtensionService } from '@alfresco/adf-extensions';
 import { ExtensionRoute } from '../models/types';
 import { Router } from '@angular/router';
@@ -31,15 +31,13 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class RouterExtensionService {
+  private readonly router = inject(Router);
+  protected readonly extensions = inject(ExtensionService);
+
   defaults = {
     layout: 'app.layout.main',
     auth: ['app.auth', 'app.extensions.dataLoaderGuard']
   };
-
-  constructor(
-    private readonly router: Router,
-    protected readonly extensions: ExtensionService
-  ) {}
 
   mapExtensionRoutes() {
     const routesWithoutParent = [];

@@ -52,6 +52,15 @@ import { extractSearchedWordFromEncodedQuery } from '../../../utils/aca-search-u
   host: { class: 'aca-search-input' }
 })
 export class SearchInputComponent implements OnInit, OnDestroy {
+  private readonly queryBuilder = inject(SearchQueryBuilderService);
+  private readonly config = inject(AppConfigService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly appHookService = inject(AppHookService);
+  private readonly filterService = inject(SearchFilterService);
+  private readonly searchExecutionService = inject(SearchExecutionService);
+  readonly searchNavigationService = inject(SearchNavigationService);
+
   has400LibraryError = false;
   searchOnChange: boolean;
   searchedWord: string = null;
@@ -62,16 +71,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
 
   private readonly destroyRef = inject(DestroyRef);
 
-  constructor(
-    private readonly queryBuilder: SearchQueryBuilderService,
-    private readonly config: AppConfigService,
-    private readonly router: Router,
-    private readonly route: ActivatedRoute,
-    private readonly appHookService: AppHookService,
-    private readonly filterService: SearchFilterService,
-    private readonly searchExecutionService: SearchExecutionService,
-    public readonly searchNavigationService: SearchNavigationService
-  ) {
+  constructor() {
     this.searchOnChange = this.config.get<boolean>('search.aca:triggeredOnChange', true);
   }
 

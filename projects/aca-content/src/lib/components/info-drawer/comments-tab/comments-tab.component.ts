@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnInit, Optional, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { Node } from '@alfresco/js-api';
 import { isLocked, NodePermissionService } from '@alfresco/aca-shared';
 import { MatCardModule } from '@angular/material/card';
@@ -40,15 +40,13 @@ import { ExternalNodePermissionCommentsTabService } from './external-node-permis
   styleUrls: ['./comments-tab.component.scss']
 })
 export class CommentsTabComponent implements OnInit {
+  private readonly permission = inject(NodePermissionService);
+  private readonly externalPermissionNodeService = inject(ExternalNodePermissionCommentsTabService, { optional: true });
+
   @Input()
   node: Node;
 
   canUpdateNode = false;
-
-  constructor(
-    private readonly permission: NodePermissionService,
-    @Optional() private readonly externalPermissionNodeService: ExternalNodePermissionCommentsTabService
-  ) {}
 
   ngOnInit(): void {
     if (!this.node) {

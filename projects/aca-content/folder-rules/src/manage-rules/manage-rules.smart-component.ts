@@ -76,6 +76,14 @@ import { MatToolbar } from '@angular/material/toolbar';
   host: { class: 'aca-manage-rules' }
 })
 export class ManageRulesSmartComponent implements OnInit {
+  private location = inject(Location);
+  private folderRulesService = inject(FolderRulesService);
+  private route = inject(ActivatedRoute);
+  private matDialogService = inject(MatDialog);
+  private notificationService = inject(NotificationService);
+  private actionsService = inject(ActionsService);
+  private folderRuleSetsService = inject(FolderRuleSetsService);
+
   nodeId = '';
   isInheritanceEnabled = true;
   isInheritanceToggleDisabled = false;
@@ -97,16 +105,6 @@ export class ManageRulesSmartComponent implements OnInit {
   isInheritedRuleSetsNotEmpty = false;
 
   private readonly destroyRef = inject(DestroyRef);
-
-  constructor(
-    private location: Location,
-    private folderRulesService: FolderRulesService,
-    private route: ActivatedRoute,
-    private matDialogService: MatDialog,
-    private notificationService: NotificationService,
-    private actionsService: ActionsService,
-    private folderRuleSetsService: FolderRuleSetsService
-  ) {}
 
   ngOnInit() {
     this.mainRuleSet$ = this.folderRuleSetsService.mainRuleSet$;

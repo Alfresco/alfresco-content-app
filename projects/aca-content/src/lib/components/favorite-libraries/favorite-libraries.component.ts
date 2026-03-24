@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { FavoritePaging, Pagination } from '@alfresco/js-api';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { UserPreferencesService } from '@alfresco/adf-core';
@@ -37,6 +37,10 @@ import { LibrariesBaseComponent } from '../libraries-base/libraries-base.compone
   encapsulation: ViewEncapsulation.None
 })
 export class FavoriteLibrariesComponent extends LibrariesBaseComponent implements OnInit {
+  private contentApiService = inject(ContentApiService);
+  private preferences = inject(UserPreferencesService);
+  private changeDetectorRef = inject(ChangeDetectorRef);
+
   pagination: Pagination = new Pagination({
     skipCount: 0,
     maxItems: 25,
@@ -45,14 +49,6 @@ export class FavoriteLibrariesComponent extends LibrariesBaseComponent implement
   isLoading = false;
   list: FavoritePaging = null;
   columns: DocumentListPresetRef[] = [];
-
-  constructor(
-    private contentApiService: ContentApiService,
-    private preferences: UserPreferencesService,
-    private changeDetectorRef: ChangeDetectorRef
-  ) {
-    super();
-  }
 
   ngOnInit() {
     super.ngOnInit();

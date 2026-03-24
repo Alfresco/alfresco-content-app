@@ -34,6 +34,8 @@ import { SaveSearchDirectiveDialogData } from '../dialog/save-search-directive-d
   standalone: true
 })
 export class SaveSearchDirective {
+  private readonly overlayContainer = inject(OverlayContainer);
+
   /** Encoded search query */
   @Input()
   acaSaveSearchQuery: string;
@@ -45,8 +47,6 @@ export class SaveSearchDirective {
   private readonly destroyRef = inject(DestroyRef);
   private readonly dialogRef = inject(MatDialog);
   private readonly elementRef = inject(ElementRef<HTMLElement>);
-
-  constructor(private readonly overlayContainer: OverlayContainer) {}
 
   @HostListener('click', ['$event'])
   onClick(event: MouseEvent) {

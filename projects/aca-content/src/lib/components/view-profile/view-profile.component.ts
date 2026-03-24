@@ -24,7 +24,7 @@
 
 import { AlfrescoApiService } from '@alfresco/adf-content-services';
 import { PeopleApi, Person, LazyApi } from '@alfresco/js-api';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, take, throwError } from 'rxjs';
@@ -57,6 +57,11 @@ import { MatInputModule } from '@angular/material/input';
   encapsulation: ViewEncapsulation.None
 })
 export class ViewProfileComponent implements OnInit {
+  private router = inject(Router);
+  private readonly apiService = inject(AlfrescoApiService);
+  private readonly appService = inject(AppService);
+  private readonly extensionService = inject(AppExtensionService);
+
   @LazyApi((self: ViewProfileComponent) => new PeopleApi(self.apiService.getInstance()))
   declare peopleApi: PeopleApi;
   profileForm = new FormGroup({
@@ -88,12 +93,9 @@ export class ViewProfileComponent implements OnInit {
     return `APP.TOOLTIPS.${this.contactSectionExpanded ? 'COLLAPSE' : 'EXPAND'}_SECTION`;
   }
 
-  constructor(
-    private router: Router,
-    private readonly apiService: AlfrescoApiService,
-    private readonly appService: AppService,
-    private readonly extensionService: AppExtensionService
-  ) {
+  constructor() {
+    const appService = this.appService;
+
     this.appNavNarMode$ = appService.appNavNarMode$.pipe(takeUntilDestroyed());
   }
 

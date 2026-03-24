@@ -41,6 +41,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   encapsulation: ViewEncapsulation.None
 })
 export class ToggleSharedComponent implements OnInit {
+  private store = inject<Store<AppStore>>(Store);
+
   @Input()
   data: {
     iconButton?: string;
@@ -55,8 +57,6 @@ export class ToggleSharedComponent implements OnInit {
   isShared = false;
 
   private readonly destroyRef = inject(DestroyRef);
-
-  constructor(private store: Store<AppStore>) {}
 
   ngOnInit() {
     this.selection$ = this.store.select(getAppSelection);

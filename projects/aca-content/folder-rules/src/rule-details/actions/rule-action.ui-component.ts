@@ -73,6 +73,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   ]
 })
 export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnChanges {
+  private cardViewUpdateService = inject(CardViewUpdateService);
+  private dialog = inject(MatDialog);
+  private translate = inject(TranslateService);
+  private tagService = inject(TagService);
+  private categoryService = inject(CategoryService);
+  private securityControlsService = inject(SecurityControlsService);
+
   @Input()
   nodeId = '';
 
@@ -120,15 +127,6 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
   onTouch: () => void = () => undefined;
 
   private readonly destroyRef = inject(DestroyRef);
-
-  constructor(
-    private cardViewUpdateService: CardViewUpdateService,
-    private dialog: MatDialog,
-    private translate: TranslateService,
-    private tagService: TagService,
-    private categoryService: CategoryService,
-    private securityControlsService: SecurityControlsService
-  ) {}
 
   writeValue(action: RuleAction) {
     this.form.setValue({

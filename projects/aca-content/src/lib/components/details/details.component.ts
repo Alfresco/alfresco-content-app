@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AppHookService, ContentApiService, PageComponent, PageLayoutComponent, ToolbarComponent } from '@alfresco/aca-shared';
 import { NavigateToFolder, NavigateToPreviousPage, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
@@ -63,23 +63,19 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   encapsulation: ViewEncapsulation.None
 })
 export class DetailsComponent extends PageComponent implements OnInit, OnDestroy {
+  private readonly route = inject(ActivatedRoute);
+  private readonly contentApi = inject(ContentApiService);
+  private readonly contentService = inject(ContentService);
+  private readonly nodesApiService = inject(NodesApiService);
+  private readonly appHookService = inject(AppHookService);
+  private readonly location = inject(Location);
+
   nodeId: string;
   isLoading: boolean;
   activeTab = 1;
   aspectActions: Array<ContentActionRef> = [];
   nodeIcon: string;
   canManagePermissions = true;
-
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly contentApi: ContentApiService,
-    private readonly contentService: ContentService,
-    private readonly nodesApiService: NodesApiService,
-    private readonly appHookService: AppHookService,
-    private readonly location: Location
-  ) {
-    super();
-  }
 
   ngOnInit(): void {
     super.ngOnInit();

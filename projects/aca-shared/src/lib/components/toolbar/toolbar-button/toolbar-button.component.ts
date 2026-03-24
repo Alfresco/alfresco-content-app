@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation, inject } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { AppExtensionService } from '../../../services/app.extension.service';
 import { ThemePalette } from '@angular/material/core';
@@ -47,6 +47,8 @@ export enum ToolbarButtonType {
   host: { class: 'app-toolbar-button' }
 })
 export class ToolbarButtonComponent {
+  private extensions = inject(AppExtensionService);
+
   @Input()
   data: {
     buttonType?: ToolbarButtonType;
@@ -61,8 +63,6 @@ export class ToolbarButtonComponent {
 
   @Input()
   actionRef: ContentActionRef;
-
-  constructor(private extensions: AppExtensionService) {}
 
   runAction() {
     if (this.hasClickAction(this.actionRef)) {

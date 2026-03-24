@@ -61,6 +61,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   host: { class: 'aca-rule-details' }
 })
 export class RuleDetailsUiComponent implements OnInit {
+  private categoryService = inject(CategoryService);
+
   @Input()
   readOnly: boolean;
 
@@ -137,8 +139,6 @@ export class RuleDetailsUiComponent implements OnInit {
   }
 
   private readonly destroyRef = inject(DestroyRef);
-
-  constructor(private categoryService: CategoryService) {}
 
   ngOnInit() {
     const disabledCategory = !this.categoryService.areCategoriesEnabled();

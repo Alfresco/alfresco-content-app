@@ -47,6 +47,9 @@ import { MatMenuItem, MatMenuModule } from '@angular/material/menu';
   host: { class: 'app-toggle-favorite' }
 })
 export class ToggleFavoriteComponent implements OnInit {
+  private store = inject<Store<AppStore>>(Store);
+  private router = inject(Router);
+
   private documentListService = inject(DocumentListService);
 
   @Input() data: any;
@@ -56,10 +59,7 @@ export class ToggleFavoriteComponent implements OnInit {
   @ViewChild(MatMenuItem)
   menuItem: MatMenuItem;
 
-  constructor(
-    private store: Store<AppStore>,
-    private router: Router
-  ) {
+  constructor() {
     this.selection$ = this.store.select(getAppSelection);
   }
 

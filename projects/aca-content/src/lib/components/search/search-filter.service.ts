@@ -22,13 +22,15 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { SearchOptionIds, SearchOptionModel } from '@alfresco/aca-shared/store';
 import { isOperator } from '../../utils/aca-search-utils';
 
 @Injectable({ providedIn: 'root' })
 export class SearchFilterService {
+  private readonly queryBuilder = inject(SearchQueryBuilderService);
+
   searchInMode: 'content' | 'libraries' = 'content';
   filesChecked = true;
   foldersChecked = true;
@@ -53,8 +55,6 @@ export class SearchFilterService {
       shouldDisable: () => this.isContentChecked()
     }
   ];
-
-  constructor(private readonly queryBuilder: SearchQueryBuilderService) {}
 
   isFilesChecked(): boolean {
     return this.getOptionValue(SearchOptionIds.Files);

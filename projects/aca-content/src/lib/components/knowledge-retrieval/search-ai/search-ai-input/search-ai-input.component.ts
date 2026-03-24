@@ -77,6 +77,14 @@ const MatTooltipOptions: MatTooltipDefaultOptions = {
   providers: [{ provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: MatTooltipOptions }]
 })
 export class SearchAiInputComponent implements OnInit {
+  private store = inject<Store<AppStore>>(Store);
+  private searchAiService = inject(SearchAiService);
+  private notificationService = inject(NotificationService);
+  private agentService = inject(AgentService);
+  private userPreferencesService = inject(UserPreferencesService);
+  private translateService = inject(TranslateService);
+  private modalAiService = inject(ModalAiService);
+
   @Input()
   placeholder: string;
 
@@ -114,16 +122,6 @@ export class SearchAiInputComponent implements OnInit {
   }
 
   private readonly destroyRef = inject(DestroyRef);
-
-  constructor(
-    private store: Store<AppStore>,
-    private searchAiService: SearchAiService,
-    private notificationService: NotificationService,
-    private agentService: AgentService,
-    private userPreferencesService: UserPreferencesService,
-    private translateService: TranslateService,
-    private modalAiService: ModalAiService
-  ) {}
 
   ngOnInit(): void {
     const queryValue = this.usedInAiResultsPage ? '' : this.searchTerm || '';

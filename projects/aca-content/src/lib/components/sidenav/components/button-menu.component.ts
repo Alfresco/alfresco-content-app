@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { NavBarLinkRef } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
@@ -42,13 +42,13 @@ import { MenuPanelDirective } from '../directives/menu-panel.directive';
   encapsulation: ViewEncapsulation.None
 })
 export class ButtonMenuComponent implements OnInit {
+  private readonly cd = inject(ChangeDetectorRef);
+  private readonly overlayContainer = inject(OverlayContainer);
+
   @Input({ required: true })
   item: NavBarLinkRef;
 
-  constructor(
-    private readonly cd: ChangeDetectorRef,
-    private readonly overlayContainer: OverlayContainer
-  ) {
+  constructor() {
     this.overlayContainer.getContainerElement().classList.add('aca-menu-panel');
   }
 

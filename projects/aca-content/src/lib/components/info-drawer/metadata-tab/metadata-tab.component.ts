@@ -61,6 +61,17 @@ import { ExtensionService } from '@alfresco/adf-extensions';
   host: { class: 'app-metadata-tab' }
 })
 export class MetadataTabComponent implements OnInit {
+  private readonly permission = inject(NodePermissionService);
+  protected readonly extensions = inject(AppExtensionService);
+  private readonly appConfig = inject(AppConfigService);
+  private readonly notificationService = inject(NotificationService);
+  private readonly contentMetadataService = inject(ContentMetadataService);
+  private readonly actions$ = inject(Actions);
+  private readonly tagService = inject(TagService);
+  private readonly categoryService = inject(CategoryService);
+  private readonly store = inject<Store<AppStore>>(Store);
+  private readonly extensionService = inject(ExtensionService);
+
   private _displayCategories = true;
   private _displayTags = true;
 
@@ -80,18 +91,7 @@ export class MetadataTabComponent implements OnInit {
 
   private readonly destroyRef = inject(DestroyRef);
 
-  constructor(
-    private readonly permission: NodePermissionService,
-    protected readonly extensions: AppExtensionService,
-    private readonly appConfig: AppConfigService,
-    private readonly notificationService: NotificationService,
-    private readonly contentMetadataService: ContentMetadataService,
-    private readonly actions$: Actions,
-    private readonly tagService: TagService,
-    private readonly categoryService: CategoryService,
-    private readonly store: Store<AppStore>,
-    private readonly extensionService: ExtensionService
-  ) {
+  constructor() {
     if (this.extensions.contentMetadata) {
       this.appConfig.config['content-metadata'].presets = this.extensions.contentMetadata.presets;
     }

@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { SearchAiInputComponent } from '../search-ai-input/search-ai-input.component';
@@ -42,6 +42,10 @@ import { Router } from '@angular/router';
   encapsulation: ViewEncapsulation.None
 })
 export class SearchAiInputContainerComponent implements OnInit {
+  private readonly searchAiService = inject(SearchAiService);
+  private searchNavigationService = inject(SearchAiNavigationService);
+  private router = inject(Router);
+
   @Input()
   placeholder = 'KNOWLEDGE_RETRIEVAL.SEARCH.SEARCH_INPUT.DEFAULT_PLACEHOLDER';
   @Input()
@@ -51,12 +55,6 @@ export class SearchAiInputContainerComponent implements OnInit {
 
   inputState$: Observable<SearchAiInputState>;
   isKnowledgeRetrievalPage = false;
-
-  constructor(
-    private readonly searchAiService: SearchAiService,
-    private searchNavigationService: SearchAiNavigationService,
-    private router: Router
-  ) {}
 
   ngOnInit(): void {
     this.isKnowledgeRetrievalPage = this.router.url.startsWith('/knowledge-retrieval');

@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { PRIMARY_OUTLET, Router, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
 import { extractSearchedWordFromEncodedQuery } from '../../utils/aca-search-utils';
 
@@ -30,6 +30,8 @@ import { extractSearchedWordFromEncodedQuery } from '../../utils/aca-search-util
   providedIn: 'root'
 })
 export class SearchNavigationService {
+  private router = inject(Router);
+
   private _previousRoute = '';
 
   get previousRoute(): string {
@@ -43,8 +45,6 @@ export class SearchNavigationService {
   get onSearchResults(): boolean {
     return !this.onLibrariesSearchResults && this.router?.url.indexOf('/search') === 0;
   }
-
-  constructor(private router: Router) {}
 
   saveRoute(route: string): void {
     this._previousRoute = route;

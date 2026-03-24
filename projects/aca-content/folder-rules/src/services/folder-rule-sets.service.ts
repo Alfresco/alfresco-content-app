@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { AlfrescoApiService } from '@alfresco/adf-content-services';
 import { BehaviorSubject, combineLatest, from, Observable, of, startWith } from 'rxjs';
 import { NodeInfo } from '@alfresco/aca-shared/store';
@@ -37,6 +37,10 @@ import { Rule } from '../model/rule.model';
   providedIn: 'root'
 })
 export class FolderRuleSetsService {
+  private readonly apiService = inject(AlfrescoApiService);
+  private readonly contentApi = inject(ContentApiService);
+  private readonly folderRulesService = inject(FolderRulesService);
+
   public static readonly MAX_RULE_SETS_PER_GET = 100;
 
   static isOwnedRuleSet(ruleSet: RuleSet, nodeId: string): boolean {
@@ -70,11 +74,7 @@ export class FolderRuleSetsService {
   isLoading$: Observable<boolean> = this.isLoadingSource.asObservable();
   selectedRuleSet$: Observable<RuleSet>;
 
-  constructor(
-    private readonly apiService: AlfrescoApiService,
-    private readonly contentApi: ContentApiService,
-    private readonly folderRulesService: FolderRulesService
-  ) {
+  constructor() {
     this.selectedRuleSet$ = this.folderRulesService.selectedRule$.pipe(
       startWith(null),
       map((rule: Rule) => {

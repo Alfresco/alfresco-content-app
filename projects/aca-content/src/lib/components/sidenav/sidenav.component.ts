@@ -46,6 +46,11 @@ import { TranslatePipe } from '@ngx-translate/core';
   host: { class: 'app-sidenav' }
 })
 export class SidenavComponent implements OnInit {
+  private store = inject<Store<AppStore>>(Store);
+  private extensions = inject(AppExtensionService);
+  private appService = inject(AppService);
+  private navigationHistoryService = inject(NavigationHistoryService);
+
   @Input()
   data: {
     layout?: SidenavLayoutComponent;
@@ -55,13 +60,6 @@ export class SidenavComponent implements OnInit {
   groups: Array<NavBarGroupRef> = [];
 
   private readonly destroyRef = inject(DestroyRef);
-
-  constructor(
-    private store: Store<AppStore>,
-    private extensions: AppExtensionService,
-    private appService: AppService,
-    private navigationHistoryService: NavigationHistoryService
-  ) {}
 
   ngOnInit() {
     this.store

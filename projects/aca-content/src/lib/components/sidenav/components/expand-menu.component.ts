@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation, inject } from '@angular/core';
 import { NavBarLinkRef } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -40,13 +40,13 @@ import { MatExpansionModule } from '@angular/material/expansion';
   host: { class: 'app-expand-menu' }
 })
 export class ExpandMenuComponent implements OnInit {
+  private cd = inject(ChangeDetectorRef);
+
   @Input({ required: true })
   item: NavBarLinkRef;
 
   @Output()
   actionClicked = new EventEmitter<NavBarLinkRef>();
-
-  constructor(private cd: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.cd.detectChanges();

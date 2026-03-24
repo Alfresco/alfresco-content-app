@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, EventEmitter, Inject, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Output, ViewEncapsulation, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { Rule } from '../model/rule.model';
 import { Observable } from 'rxjs';
@@ -50,6 +50,8 @@ export interface EditRuleDialogOptions {
   host: { class: 'aca-edit-rule-dialog' }
 })
 export class EditRuleDialogUiComponent {
+  data = inject<EditRuleDialogOptions>(MAT_DIALOG_DATA);
+
   formValid = false;
   model: Partial<Rule>;
   nodeId = '';
@@ -60,7 +62,7 @@ export class EditRuleDialogUiComponent {
   formValue: Partial<Rule>;
   @Output() submitted = new EventEmitter<Partial<Rule>>();
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: EditRuleDialogOptions) {
+  constructor() {
     this.model = this.data?.model || {};
     this.nodeId = this.data?.nodeId;
     this.actionDefinitions$ = this.data?.actionDefinitions$;

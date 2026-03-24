@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation, inject } from '@angular/core';
 import { ContentActionRef, DynamicExtensionComponent } from '@alfresco/adf-extensions';
 import { AppExtensionService } from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
@@ -39,10 +39,10 @@ import { IconComponent } from '@alfresco/adf-core';
   host: { class: 'app-context-menu-item' }
 })
 export class ContextMenuItemComponent {
+  private extensions = inject(AppExtensionService);
+
   @Input()
   actionRef: ContentActionRef;
-
-  constructor(private extensions: AppExtensionService) {}
 
   runAction() {
     if (this.hasClickAction(this.actionRef)) {

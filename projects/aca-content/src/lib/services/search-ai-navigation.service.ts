@@ -22,20 +22,18 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Params, Router } from '@angular/router';
 import { SearchAiService } from '@alfresco/adf-content-services';
 
 @Injectable({ providedIn: 'root' })
 export class SearchAiNavigationService {
+  private router = inject(Router);
+  private searchAiService = inject(SearchAiService);
+
   private readonly knowledgeRetrievalRoute = '/knowledge-retrieval';
 
   private previousRoute = '';
-
-  constructor(
-    private router: Router,
-    private searchAiService: SearchAiService
-  ) {}
 
   navigateToPreviousRouteOrCloseInput(): void {
     if (this.router.url.includes(this.knowledgeRetrievalRoute)) {

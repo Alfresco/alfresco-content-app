@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Inject, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { AutoFocusDirective, SavedSearch } from '@alfresco/adf-content-services';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
@@ -42,14 +42,12 @@ import { SavedSearchesContextService } from '../../../../../services/saved-searc
   host: { class: 'aca-saved-search-delete-dialog' }
 })
 export class SavedSearchDeleteDialogComponent {
-  isLoading = false;
+  private readonly dialog = inject<MatDialogRef<SavedSearchDeleteDialogComponent>>(MatDialogRef);
+  private readonly notificationService = inject(NotificationService);
+  private readonly savedSearchesService = inject(SavedSearchesContextService);
+  private readonly data = inject<SavedSearch>(MAT_DIALOG_DATA);
 
-  constructor(
-    private readonly dialog: MatDialogRef<SavedSearchDeleteDialogComponent>,
-    private readonly notificationService: NotificationService,
-    private readonly savedSearchesService: SavedSearchesContextService,
-    @Inject(MAT_DIALOG_DATA) private readonly data: SavedSearch
-  ) {}
+  isLoading = false;
 
   onSubmit() {
     if (this.isLoading) {

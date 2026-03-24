@@ -306,7 +306,8 @@
             "selector": ":matches(Literal[value=/ng-reflect-/], TemplateElement[value.cooked=/ng-reflect-/])",
             "message": "*ng-reflect-* attributes should not be used. Consider alternatives for proper selectors."
           }
-        ]
+        ],
+        "@angular-eslint/prefer-inject": "error"
       }
     },
     {

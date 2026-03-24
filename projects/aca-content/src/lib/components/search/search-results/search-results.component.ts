@@ -132,6 +132,12 @@ import { SavedSearchesContextService } from '../../../services/saved-searches-co
   styleUrls: ['./search-results.component.scss']
 })
 export class SearchResultsComponent extends PageComponent implements OnInit, OnDestroy {
+  private readonly queryBuilder = inject(SearchQueryBuilderService);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly route = inject(ActivatedRoute);
+  private readonly translationService = inject(TranslationService);
+  private readonly savedSearchesService = inject(SavedSearchesContextService);
+
   private notificationService = inject(NotificationService);
 
   infoDrawerPreview$ = this.store.select(infoDrawerPreview);
@@ -156,15 +162,11 @@ export class SearchResultsComponent extends PageComponent implements OnInit, OnD
     this.isSmallScreen = window.innerWidth < 320;
   };
 
-  constructor(
-    tagsService: TagService,
-    private readonly queryBuilder: SearchQueryBuilderService,
-    private readonly changeDetectorRef: ChangeDetectorRef,
-    private readonly route: ActivatedRoute,
-    private readonly translationService: TranslationService,
-    private readonly savedSearchesService: SavedSearchesContextService
-  ) {
+  constructor() {
+    const tagsService = inject(TagService);
+
     super();
+    const queryBuilder = this.queryBuilder;
 
     this.isTagsEnabled = tagsService.areTagsEnabled();
 

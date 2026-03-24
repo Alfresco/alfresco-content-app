@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
@@ -38,9 +38,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   encapsulation: ViewEncapsulation.None
 })
 export class UploadFilesDialogComponent {
+  private store = inject<Store<AppStore>>(Store);
+
   showFileUploadingDialog$: Observable<boolean>;
 
-  constructor(private store: Store<AppStore>) {
+  constructor() {
     this.showFileUploadingDialog$ = this.store.select(getFileUploadingDialog).pipe(delay(0), takeUntilDestroyed());
   }
 }

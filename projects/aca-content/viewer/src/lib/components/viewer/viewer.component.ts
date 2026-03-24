@@ -74,6 +74,18 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   host: { class: 'app-viewer' }
 })
 export class AcaViewerComponent implements OnInit, OnDestroy {
+  private actions$ = inject(Actions);
+  private apiService = inject(AlfrescoApiService);
+  private appHookService = inject(AppHookService);
+  private contentApi = inject(ContentApiService);
+  private extensions = inject(AppExtensionService);
+  private nodesApiService = inject(NodesApiService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private store = inject<Store<AppStore>>(Store);
+  private uploadService = inject(UploadService);
+  private viewerService = inject(ViewerService);
+
   settings = inject(AppSettingsService);
 
   private documentListService = inject(DocumentListService);
@@ -101,20 +113,6 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
   private containersSkipNavigation = ['adf-viewer__sidebar', 'cdk-overlay-container', 'adf-image-viewer'];
 
   private readonly destroyRef = inject(DestroyRef);
-
-  constructor(
-    private actions$: Actions,
-    private apiService: AlfrescoApiService,
-    private appHookService: AppHookService,
-    private contentApi: ContentApiService,
-    private extensions: AppExtensionService,
-    private nodesApiService: NodesApiService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private store: Store<AppStore>,
-    private uploadService: UploadService,
-    private viewerService: ViewerService
-  ) {}
 
   ngOnInit() {
     this.infoDrawerOpened$ = this.store.select(isInfoDrawerOpened);

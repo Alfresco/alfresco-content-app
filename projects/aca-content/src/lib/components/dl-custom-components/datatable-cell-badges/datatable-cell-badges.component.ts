@@ -40,13 +40,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   imports: [CommonModule, TranslatePipe, DynamicExtensionComponent, IconComponent]
 })
 export class DatatableCellBadgesComponent implements OnInit {
+  private appExtensionService = inject(AppExtensionService);
+
   @Input({ required: true }) node: NodeEntry;
 
   badges: Badge[];
 
   private readonly destroyRef = inject(DestroyRef);
-
-  constructor(private appExtensionService: AppExtensionService) {}
 
   ngOnInit() {
     this.appExtensionService

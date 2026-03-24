@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ComponentRef, Injectable, Injector } from '@angular/core';
+import { ComponentRef, Injectable, Injector, inject } from '@angular/core';
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { ContextMenuOverlayRef } from './context-menu-overlay';
@@ -39,13 +39,13 @@ import { CustomContextMenuComponent } from './custom-context-menu.component';
   providedIn: 'root'
 })
 export class ContextMenuService {
+  private readonly injector = inject(Injector);
+  private readonly overlay = inject(Overlay);
+  private readonly userPreferenceService = inject(UserPreferencesService);
+
   private direction: Directionality;
 
-  constructor(
-    private readonly injector: Injector,
-    private readonly overlay: Overlay,
-    private readonly userPreferenceService: UserPreferencesService
-  ) {
+  constructor() {
     this.userPreferenceService.select('textOrientation').subscribe((textOrientation) => {
       this.direction = textOrientation;
     });

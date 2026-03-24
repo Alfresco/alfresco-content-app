@@ -22,19 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  AfterContentInit,
-  ContentChildren,
-  DestroyRef,
-  Directive,
-  ElementRef,
-  inject,
-  Input,
-  OnInit,
-  Optional,
-  QueryList,
-  Renderer2
-} from '@angular/core';
+import { AfterContentInit, ContentChildren, DestroyRef, Directive, ElementRef, inject, Input, OnInit, QueryList, Renderer2 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ActionDirective } from './action.directive';
@@ -46,19 +34,17 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   exportAs: 'acaActiveLink'
 })
 export class ActiveLinkDirective implements OnInit, AfterContentInit {
+  private router = inject(Router);
+  private element = inject(ElementRef);
+  private renderer = inject(Renderer2);
+  private action = inject(ActionDirective, { optional: true });
+
   @Input() acaActiveLink;
   @ContentChildren(ActionDirective, { descendants: true })
   links: QueryList<ActionDirective>;
   isLinkActive = false;
 
   private readonly destroyRef = inject(DestroyRef);
-
-  constructor(
-    private router: Router,
-    private element: ElementRef,
-    private renderer: Renderer2,
-    @Optional() private action?: ActionDirective
-  ) {}
 
   ngOnInit() {
     this.router.events

@@ -22,16 +22,16 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class NavigationHistoryService {
-  history: string[] = [];
+  private router = inject(Router);
 
-  constructor(private router: Router) {}
+  history: string[] = [];
 
   listenToRouteChanges(): Observable<NavigationEnd> {
     return this.router.events.pipe(

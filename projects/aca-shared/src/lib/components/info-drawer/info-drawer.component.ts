@@ -54,6 +54,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   encapsulation: ViewEncapsulation.None
 })
 export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
+  private store = inject<Store<any>>(Store);
+  private contentApi = inject(ContentApiService);
+  private extensions = inject(AppExtensionService);
+  private nodesService = inject(NodesApiService);
+  private contentService = inject(ContentService);
+
   @Input()
   nodeId: string;
 
@@ -74,14 +80,6 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   private readonly destroyRef = inject(DestroyRef);
-
-  constructor(
-    private store: Store<any>,
-    private contentApi: ContentApiService,
-    private extensions: AppExtensionService,
-    private nodesService: NodesApiService,
-    private contentService: ContentService
-  ) {}
 
   ngOnInit() {
     this.tabs = this.extensions.getSidebarTabs();
