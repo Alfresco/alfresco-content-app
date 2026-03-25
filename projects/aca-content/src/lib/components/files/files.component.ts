@@ -275,7 +275,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     }
 
     // check the child nodes to show dropped folder
-    if (event && event.file.options.parentId === this.getParentNodeId()) {
+    if (event?.file.options.parentId === this.getParentNodeId()) {
       this.displayFolderParent(0, event.file.options.path);
       return;
     }

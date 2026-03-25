@@ -157,7 +157,7 @@ export class TemplateEffects {
 
     try {
       statusCode = JSON.parse(error.message).error.statusCode;
-    } catch (e) {
+    } catch {
       statusCode = null;
     }
 
