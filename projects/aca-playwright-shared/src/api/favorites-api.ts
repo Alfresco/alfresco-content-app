@@ -90,7 +90,7 @@ export class FavoritesPageApi {
         }
       };
       return await Utils.retryCall(favorite);
-    } catch (error) {}
+    } catch {}
     return isFavorite;
   }
 

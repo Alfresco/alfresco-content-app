@@ -155,7 +155,7 @@ export class PreviewComponent extends PageComponent implements OnInit {
         }
         await this.router.navigate([this.previewLocation, id]);
       } catch (err) {
-        if (!err || err.status !== 401) {
+        if (err?.status !== 401) {
           await this.router.navigate([this.previewLocation, id]);
         }
       }

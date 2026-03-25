@@ -387,7 +387,7 @@ export class NodeActionsService {
             error: { statusCode }
           } = JSON.parse(err.message);
           errStatusCode = statusCode;
-        } catch (e) {
+        } catch {
           //
         }
 
@@ -513,7 +513,7 @@ export class NodeActionsService {
             error: { statusCode }
           } = JSON.parse(err.message);
           errStatusCode = statusCode;
-        } catch (e) {
+        } catch {
           //
         }
 

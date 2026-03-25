@@ -122,7 +122,7 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
           if (statusCode === 400) {
             this.appHookService.library400Error.next();
           }
-        } catch (e) {}
+        } catch {}
       })
     );
 
