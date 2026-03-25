@@ -31,7 +31,7 @@ type LaunchOptions = Parameters<typeof chromium.launch>[0];
 
 try {
   loadEnvFile();
-} catch (error) {
+} catch {
   // .env file is optional, continue without it
 }
 

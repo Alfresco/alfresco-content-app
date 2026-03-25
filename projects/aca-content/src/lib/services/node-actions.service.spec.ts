@@ -75,7 +75,7 @@ describe('NodeActionsService', () => {
         new Promise((resolve, reject) => {
           if (isForbidden) {
             reject(permissionError);
-          } else if (nameExistingOnDestination && options && options.name === nameExistingOnDestination) {
+          } else if (nameExistingOnDestination && options?.name === nameExistingOnDestination) {
             reject(conflictError);
           } else {
             resolve('');

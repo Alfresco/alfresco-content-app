@@ -152,7 +152,7 @@ export class FileActionsApi {
     const apiCall = async () => {
       try {
         return (await this.queryNodesNames(searchTerm)).list.pagination.totalItems;
-      } catch (error) {
+      } catch {
         return 0;
       }
     };
