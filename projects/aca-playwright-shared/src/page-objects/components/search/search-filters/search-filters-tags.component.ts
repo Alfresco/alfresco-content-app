@@ -27,7 +27,7 @@ import { BaseComponent } from '../../base.component';
 import { Page, Locator } from '@playwright/test';
 
 export class SearchFiltersTags extends BaseComponent {
-  private static rootElement = '.adf-search-filter-menu-card';
+  private static readonly rootElement = '.adf-search-filter-menu-card';
 
   constructor(page: Page) {
     super(page, SearchFiltersTags.rootElement);

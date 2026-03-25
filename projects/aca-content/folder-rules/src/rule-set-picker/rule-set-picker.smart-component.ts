@@ -72,7 +72,7 @@ export class RuleSetPickerSmartComponent implements OnInit {
   hasOwnedRules = false;
 
   private selectedNodeId = '';
-  private folderLoading$ = new BehaviorSubject<boolean>(true);
+  private readonly folderLoading$ = new BehaviorSubject<boolean>(true);
 
   public readonly data: RuleSetPickerOptions = inject(MAT_DIALOG_DATA);
   public readonly folderRuleSetsService = inject(FolderRuleSetsService);

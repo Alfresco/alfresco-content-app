@@ -27,17 +27,17 @@ import { BaseComponent } from './base.component';
 import { Locator, Page } from '@playwright/test';
 
 export class SidenavComponent extends BaseComponent {
-  private static rootElement = '.adf-layout-container-sidenav';
+  private static readonly rootElement = '.adf-layout-container-sidenav';
 
-  private personalFiles = this.getChild(`[data-automation-id='app.navbar.personalFiles']`);
-  private myLibraries = this.getChild(`[data-automation-id='app.navbar.libraries.files']`);
-  private favoriteLibraries = this.getChild(`[data-automation-id='app.navbar.libraries.favorite']`);
-  private shared = this.getChild(`[data-automation-id='app.navbar.shared']`);
-  private recentFiles = this.getChild(`[data-automation-id='app.navbar.recentFiles']`);
-  private favorites = this.getChild(`[data-automation-id='app.navbar.favorites']`);
-  private trash = this.getChild(`[data-automation-id='app.navbar.trashcan']`);
-  private sidenavToggle = this.getChild(`.aca-sidenav-header-title-logo`);
-  private sidenavExpand = this.page.locator(`[title='Expand navigation menu']`);
+  private readonly personalFiles = this.getChild(`[data-automation-id='app.navbar.personalFiles']`);
+  private readonly myLibraries = this.getChild(`[data-automation-id='app.navbar.libraries.files']`);
+  private readonly favoriteLibraries = this.getChild(`[data-automation-id='app.navbar.libraries.favorite']`);
+  private readonly shared = this.getChild(`[data-automation-id='app.navbar.shared']`);
+  private readonly recentFiles = this.getChild(`[data-automation-id='app.navbar.recentFiles']`);
+  private readonly favorites = this.getChild(`[data-automation-id='app.navbar.favorites']`);
+  private readonly trash = this.getChild(`[data-automation-id='app.navbar.trashcan']`);
+  private readonly sidenavToggle = this.getChild(`.aca-sidenav-header-title-logo`);
+  private readonly sidenavExpand = this.page.locator(`[title='Expand navigation menu']`);
   public expandedSidenav = this.getChild(`[data-automation-id='expanded']`);
 
   constructor(page: Page) {

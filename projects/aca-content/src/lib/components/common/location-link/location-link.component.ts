@@ -48,9 +48,9 @@ import { NodeLocationReferencesComponent } from '../../../dialogs/node-location-
   }
 })
 export class LocationLinkComponent implements OnInit {
-  private store = inject(Store);
-  private contentApi = inject(ContentApiService);
-  private translationService = inject(TranslationService);
+  private readonly store = inject(Store);
+  private readonly contentApi = inject(ContentApiService);
+  private readonly translationService = inject(TranslationService);
   private _path: PathInfo;
 
   private readonly dialogRef = inject(MatDialog);

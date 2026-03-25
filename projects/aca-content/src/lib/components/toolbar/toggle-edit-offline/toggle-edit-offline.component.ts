@@ -47,23 +47,21 @@ import { MatIconModule } from '@angular/material/icon';
   host: { class: 'app-toggle-edit-offline' }
 })
 export class ToggleEditOfflineComponent implements OnInit {
+  private readonly store = inject<Store<AppStore>>(Store);
+  private readonly alfrescoApiService = inject(AlfrescoApiService);
+  private readonly extensions = inject(AppExtensionService);
+
   @ViewChild(MatMenuItem)
   menuItem: MatMenuItem;
 
-  private notificationService = inject(NotificationService);
+  private readonly notificationService = inject(NotificationService);
 
   @LazyApi((self: ToggleEditOfflineComponent) => new NodesApi(self.alfrescoApiService.getInstance()))
-  declare private nodesApi: NodesApi;
+  declare private readonly nodesApi: NodesApi;
 
   selection: NodeEntry;
   nodeTitle = '';
   isNodeLocked = false;
-
-  constructor(
-    private store: Store<AppStore>,
-    private alfrescoApiService: AlfrescoApiService,
-    private extensions: AppExtensionService
-  ) {}
 
   ngOnInit() {
     this.store.select(getAppSelection).subscribe(({ file }) => {

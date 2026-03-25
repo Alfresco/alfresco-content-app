@@ -48,11 +48,11 @@ export const fileToPreview = createSelector(getAppSelection, getCurrentFolder, (
 
 @Injectable()
 export class ViewerEffects {
-  private store = inject(Store<AppStore>);
-  private actions$ = inject(Actions);
-  private router = inject(Router);
-  private extensions = inject(AppExtensionService);
-  private dialog = inject(MatDialog);
+  private readonly store = inject(Store<AppStore>);
+  private readonly actions$ = inject(Actions);
+  private readonly router = inject(Router);
+  private readonly extensions = inject(AppExtensionService);
+  private readonly dialog = inject(MatDialog);
 
   fullscreenViewer$ = createEffect(
     () =>

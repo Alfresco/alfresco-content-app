@@ -29,7 +29,7 @@ import { AcaHeader } from '../components/aca-header.component';
 import { AdfFolderDialogComponent, ViewerOverlayDialogComponent, AdfDeleteTrashComponent } from '../components/dialogs';
 
 export class TrashPage extends BasePage {
-  private static pageUrl = 'trashcan';
+  private static readonly pageUrl = 'trashcan';
 
   constructor(page: Page) {
     super(page, TrashPage.pageUrl);

@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, ReplaySubject, switchMap, take } from 'rxjs';
 import { NodeEntry } from '@alfresco/js-api';
 import { SavedSearch, SavedSearchesLegacyService, SavedSearchesService, SavedSearchStrategy } from '@alfresco/adf-content-services';
@@ -33,15 +33,16 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   providedIn: 'root'
 })
 export class SavedSearchesContextService implements SavedSearchStrategy {
+  private readonly legacyService = inject(SavedSearchesLegacyService);
+  private readonly modernService = inject(SavedSearchesService);
+
   currentContextSavedSearch: SavedSearch;
 
   private readonly strategy$ = new ReplaySubject<SavedSearchStrategy>(1);
 
-  constructor(
-    private readonly legacyService: SavedSearchesLegacyService,
-    private readonly modernService: SavedSearchesService,
-    isFeatureSupported: IsFeatureSupportedInCurrentAcsPipe
-  ) {
+  constructor() {
+    const isFeatureSupported = inject(IsFeatureSupportedInCurrentAcsPipe);
+
     isFeatureSupported
       .transform('isPreferencesApiAvailable')
       .pipe(takeUntilDestroyed())

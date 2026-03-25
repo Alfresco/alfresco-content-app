@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { isInfoDrawerOpened, ToggleInfoDrawerAction } from '@alfresco/aca-shared/store';
@@ -60,9 +60,11 @@ import { MatIconModule } from '@angular/material/icon';
   host: { class: 'app-toggle-info-drawer' }
 })
 export class ToggleInfoDrawerComponent {
+  private readonly store = inject<Store<any>>(Store);
+
   infoDrawerOpened$: Observable<boolean>;
 
-  constructor(private store: Store<any>) {
+  constructor() {
     this.infoDrawerOpened$ = this.store.select(isInfoDrawerOpened);
   }
 

@@ -34,10 +34,10 @@ import { NotificationService } from '@alfresco/adf-core';
 
 @Injectable()
 export class RouterEffects {
-  private notificationService = inject(NotificationService);
-  private actions$ = inject(Actions);
-  private router = inject(Router);
-  private location = inject(Location);
+  private readonly notificationService = inject(NotificationService);
+  private readonly actions$ = inject(Actions);
+  private readonly router = inject(Router);
+  private readonly location = inject(Location);
 
   navigateUrl$ = createEffect(
     () =>

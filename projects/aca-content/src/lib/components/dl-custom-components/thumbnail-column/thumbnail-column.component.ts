@@ -34,7 +34,7 @@ import { MatIconModule } from '@angular/material/icon';
   encapsulation: ViewEncapsulation.None
 })
 export class ThumbnailColumnComponent implements OnChanges {
-  private translation = inject(TranslationService);
+  private readonly translation = inject(TranslationService);
 
   @Input()
   context: any;

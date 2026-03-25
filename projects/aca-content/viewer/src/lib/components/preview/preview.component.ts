@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, PRIMARY_OUTLET, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
 import { debounceTime, map } from 'rxjs/operators';
@@ -52,6 +52,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   host: { class: 'app-preview' }
 })
 export class PreviewComponent extends PageComponent implements OnInit {
+  private readonly actions$ = inject(Actions);
+  private readonly appHookService = inject(AppHookService);
+  private readonly contentApi = inject(ContentApiService);
+  private readonly location = inject(Location);
+  private readonly nodesApiService = inject(NodesApiService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly viewerService = inject(ViewerService);
+
   folderId: string = null;
   navigateBackAsClose = false;
   navigateMultiple = false;
@@ -66,19 +74,7 @@ export class PreviewComponent extends PageComponent implements OnInit {
   showRightSide = false;
   simplestMode = false;
 
-  private containersSkipNavigation = ['adf-viewer__sidebar', 'cdk-overlay-container', 'adf-image-viewer'];
-
-  constructor(
-    private actions$: Actions,
-    private appHookService: AppHookService,
-    private contentApi: ContentApiService,
-    private location: Location,
-    private nodesApiService: NodesApiService,
-    private route: ActivatedRoute,
-    private viewerService: ViewerService
-  ) {
-    super();
-  }
+  private readonly containersSkipNavigation = ['adf-viewer__sidebar', 'cdk-overlay-container', 'adf-image-viewer'];
 
   ngOnInit() {
     super.ngOnInit();

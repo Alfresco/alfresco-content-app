@@ -37,6 +37,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   selector: '[acaDocumentList]'
 })
 export class DocumentListDirective implements OnInit {
+  private readonly store = inject<Store<any>>(Store);
+  private readonly documentList = inject(DocumentListComponent);
+  private readonly preferences = inject(UserPreferencesService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly documentListService = inject(DocumentListService);
+
   private isLibrary = false;
   selectedNode: NodeEntry;
 
@@ -45,15 +52,6 @@ export class DocumentListDirective implements OnInit {
   }
 
   private readonly destroyRef = inject(DestroyRef);
-
-  constructor(
-    private store: Store<any>,
-    private documentList: DocumentListComponent,
-    private preferences: UserPreferencesService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private documentListService: DocumentListService
-  ) {}
 
   ngOnInit() {
     this.documentList.stickyHeader = true;

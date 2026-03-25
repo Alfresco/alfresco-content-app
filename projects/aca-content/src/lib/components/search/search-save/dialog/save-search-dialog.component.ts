@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Inject, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -63,16 +63,18 @@ import { SavedSearchesContextService } from '../../../../services/saved-searches
   host: { class: 'aca-save-search-dialog' }
 })
 export class SaveSearchDialogComponent {
+  private readonly dialog = inject<MatDialogRef<SaveSearchDialogComponent>>(MatDialogRef);
+  private readonly notificationService = inject(NotificationService);
+  private readonly savedSearchesService = inject(SavedSearchesContextService);
+  private readonly uniqueSearchNameValidator = inject(UniqueSearchNameValidator);
+  private readonly data = inject<{
+    searchUrl: string;
+  }>(MAT_DIALOG_DATA);
+
   form: FormGroup<SavedSearchForm>;
   disableSubmitButton = false;
 
-  constructor(
-    private readonly dialog: MatDialogRef<SaveSearchDialogComponent>,
-    private readonly notificationService: NotificationService,
-    private readonly savedSearchesService: SavedSearchesContextService,
-    private readonly uniqueSearchNameValidator: UniqueSearchNameValidator,
-    @Inject(MAT_DIALOG_DATA) private readonly data: { searchUrl: string }
-  ) {
+  constructor() {
     this.form = new FormGroup({
       name: new FormControl('', {
         validators: [Validators.required, forbidOnlySpaces],

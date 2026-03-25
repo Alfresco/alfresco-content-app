@@ -43,7 +43,7 @@ import { FileModel, UploadService } from '@alfresco/adf-content-services';
 
 @Injectable()
 export class UploadEffects {
-  private notificationService = inject(NotificationService);
+  private readonly notificationService = inject(NotificationService);
 
   private readonly fileInput: HTMLInputElement;
   private readonly folderInput: HTMLInputElement;

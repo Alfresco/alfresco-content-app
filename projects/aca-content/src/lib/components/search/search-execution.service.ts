@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppStore, SearchByTermAction } from '@alfresco/aca-shared/store';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
@@ -32,13 +32,11 @@ import { SearchLibrariesQueryBuilderService } from './search-libraries-results/s
 
 @Injectable({ providedIn: 'root' })
 export class SearchExecutionService {
-  constructor(
-    private readonly store: Store<AppStore>,
-    private readonly queryBuilder: SearchQueryBuilderService,
-    private readonly queryLibrariesBuilder: SearchLibrariesQueryBuilderService,
-    private readonly filterService: SearchFilterService,
-    private readonly searchNavigationService: SearchNavigationService
-  ) {}
+  private readonly store = inject<Store<AppStore>>(Store);
+  private readonly queryBuilder = inject(SearchQueryBuilderService);
+  private readonly queryLibrariesBuilder = inject(SearchLibrariesQueryBuilderService);
+  private readonly filterService = inject(SearchFilterService);
+  private readonly searchNavigationService = inject(SearchNavigationService);
 
   execute(searchedWord: string) {
     if (!searchedWord?.trim()) {

@@ -30,13 +30,13 @@ import { PeopleApi, LazyApi } from '@alfresco/js-api';
 
 @Injectable({ providedIn: 'root' })
 export class UserProfileService {
-  private api = inject(AlfrescoApiService);
-  private groupService = inject(GroupService);
+  private readonly api = inject(AlfrescoApiService);
+  private readonly groupService = inject(GroupService);
 
   @LazyApi((self: UserProfileService) => new PeopleApi(self.api.getInstance()))
-  declare private peopleApi: PeopleApi;
+  declare private readonly peopleApi: PeopleApi;
 
-  private userProfile = new BehaviorSubject<ProfileState>(null);
+  private readonly userProfile = new BehaviorSubject<ProfileState>(null);
   userProfile$ = this.userProfile.asObservable();
 
   /**

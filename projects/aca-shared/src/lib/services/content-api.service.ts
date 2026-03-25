@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { UserPreferencesService } from '@alfresco/adf-core';
 import { AlfrescoApiService } from '@alfresco/adf-content-services';
 import { Observable, from } from 'rxjs';
@@ -61,6 +61,9 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ContentApiService {
+  private readonly api = inject(AlfrescoApiService);
+  private readonly preferences = inject(UserPreferencesService);
+
   @LazyApi((self: ContentApiService) => new NodesApi(self.api.getInstance()))
   declare nodesApi: NodesApi;
 
@@ -90,11 +93,6 @@ export class ContentApiService {
 
   @LazyApi((self: ContentApiService) => new VersionsApi(self.api.getInstance()))
   declare versionsApi: VersionsApi;
-
-  constructor(
-    private readonly api: AlfrescoApiService,
-    private readonly preferences: UserPreferencesService
-  ) {}
 
   /**
    * Moves a node to the trashcan.

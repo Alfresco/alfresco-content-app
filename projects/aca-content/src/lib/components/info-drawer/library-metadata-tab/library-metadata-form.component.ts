@@ -77,6 +77,10 @@ export class InstantErrorStateMatcher implements ErrorStateMatcher {
   encapsulation: ViewEncapsulation.None
 })
 export class LibraryMetadataFormComponent implements OnInit, OnChanges {
+  private readonly alfrescoApiService = inject(AlfrescoApiService);
+  protected readonly store = inject<Store<AppStore>>(Store);
+  private readonly appHookService = inject(AppHookService);
+
   private _titleErrorTranslationKey: string;
 
   @LazyApi((self: LibraryMetadataFormComponent) => new QueriesApi(self.alfrescoApiService.getInstance()))
@@ -111,12 +115,6 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges {
   @ViewChild('libraryNameInput')
   private readonly libraryNameInput: ElementRef<HTMLInputElement>;
   private readonly destroyRef = inject(DestroyRef);
-
-  constructor(
-    private readonly alfrescoApiService: AlfrescoApiService,
-    protected readonly store: Store<AppStore>,
-    private readonly appHookService: AppHookService
-  ) {}
 
   toggleEdit() {
     if (this.form.enabled) {

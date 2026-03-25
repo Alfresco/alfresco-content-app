@@ -60,19 +60,20 @@ export enum MimeType {
 }
 
 export class ActionsDropdownComponent extends BaseComponent {
-  private static rootElement = 'aca-edit-rule-dialog aca-rule-action-list';
+  private static readonly rootElement = 'aca-edit-rule-dialog aca-rule-action-list';
 
-  private getOptionLocator = (optionName: string): Locator => this.page.locator('[role=listbox] [role=option]', { hasText: optionName }).first();
-  private ruleActionLocator = this.getChild('aca-rule-action');
-  private addActionButtonLocator = this.getChild('[data-automation-id="rule-action-list-add-action-button"]');
-  private actionDropdownLocator = this.getChild('[data-automation-id="rule-action-select"]');
-  private actionAspectNameLocator = '[data-automation-id="header-aspect-name"] .adf-property-field';
-  private actionCheckInInputLocator = '[data-automation-id="header-description"] input';
-  private actionSimpleWorkflowStepInputLocator = '[data-automation-id="header-approve-step"] input';
-  private actionSimpleWorkflowActionChoiceLocator = '[data-automation-id="content-node-selector-actions-choose"]';
-  private actionSimpleWorkflowLabelApproveLocator = `[data-automation-id="card-boolean-label-approve-move"]`;
-  private actionSimpleWorkflowSRejectStepLocator = '[data-automation-id="header-reject-step"] input';
-  private actionSimpleWorkflowRejectFolderLocator = `[data-automation-id="header-reject-folder"] input`;
+  private readonly getOptionLocator = (optionName: string): Locator =>
+    this.page.locator('[role=listbox] [role=option]', { hasText: optionName }).first();
+  private readonly ruleActionLocator = this.getChild('aca-rule-action');
+  private readonly addActionButtonLocator = this.getChild('[data-automation-id="rule-action-list-add-action-button"]');
+  private readonly actionDropdownLocator = this.getChild('[data-automation-id="rule-action-select"]');
+  private readonly actionAspectNameLocator = '[data-automation-id="header-aspect-name"] .adf-property-field';
+  private readonly actionCheckInInputLocator = '[data-automation-id="header-description"] input';
+  private readonly actionSimpleWorkflowStepInputLocator = '[data-automation-id="header-approve-step"] input';
+  private readonly actionSimpleWorkflowActionChoiceLocator = '[data-automation-id="content-node-selector-actions-choose"]';
+  private readonly actionSimpleWorkflowLabelApproveLocator = `[data-automation-id="card-boolean-label-approve-move"]`;
+  private readonly actionSimpleWorkflowSRejectStepLocator = '[data-automation-id="header-reject-step"] input';
+  private readonly actionSimpleWorkflowRejectFolderLocator = `[data-automation-id="header-reject-folder"] input`;
   private readonly actionSimpleWorkflowApproveFolderLocator = `[data-automation-id="header-approve-folder"] [role="img"]`;
   private readonly actionSpecialiseTypeLocator = '[data-automation-id="header-type-name"] [role="combobox"]';
   private readonly mimeTypeDropdownLocator = this.getChild('[data-automation-id="select-box"][aria-label="Mimetype *"]');

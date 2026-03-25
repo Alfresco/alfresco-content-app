@@ -38,8 +38,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   host: { class: 'app-sidenav-header' }
 })
 export class SidenavHeaderComponent implements OnInit {
-  private appSettings = inject(AppSettingsService);
-  private appExtensions = inject(AppExtensionService);
+  private readonly appSettings = inject(AppSettingsService);
+  private readonly appExtensions = inject(AppExtensionService);
 
   private readonly destroyRef = inject(DestroyRef);
 

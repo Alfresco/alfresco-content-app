@@ -26,7 +26,7 @@ import { Locator, Page } from '@playwright/test';
 import { BaseComponent } from '.././base.component';
 
 export class SearchInputComponent extends BaseComponent {
-  private static rootElement = 'aca-page-layout';
+  private static readonly rootElement = 'aca-page-layout';
   public searchInput = this.getChild('aca-search-input input');
   public searchButton = this.page.locator('.aca-search-input--search-button');
   public searchCloseButton = this.page.locator('.aca-search-input--close-button');

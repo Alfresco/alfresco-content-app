@@ -29,7 +29,7 @@ import { AcaHeader } from '../components/aca-header.component';
 import { AdfFolderDialogComponent, ViewerOverlayDialogComponent, ManageVersionsDialog } from '../components/dialogs';
 
 export class SharedPage extends BasePage {
-  private static pageUrl = 'shared';
+  private static readonly pageUrl = 'shared';
 
   constructor(page: Page) {
     super(page, SharedPage.pageUrl);

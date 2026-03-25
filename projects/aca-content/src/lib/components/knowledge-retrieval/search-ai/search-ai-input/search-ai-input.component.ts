@@ -77,6 +77,14 @@ const MatTooltipOptions: MatTooltipDefaultOptions = {
   providers: [{ provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: MatTooltipOptions }]
 })
 export class SearchAiInputComponent implements OnInit {
+  private readonly store = inject<Store<AppStore>>(Store);
+  private readonly searchAiService = inject(SearchAiService);
+  private readonly notificationService = inject(NotificationService);
+  private readonly agentService = inject(AgentService);
+  private readonly userPreferencesService = inject(UserPreferencesService);
+  private readonly translateService = inject(TranslateService);
+  private readonly modalAiService = inject(ModalAiService);
+
   @Input()
   placeholder: string;
 
@@ -91,10 +99,10 @@ export class SearchAiInputComponent implements OnInit {
 
   private readonly storedNodesKey = 'knowledgeRetrievalNodes';
 
-  private _agentControl = new FormControl<Agent>(null);
+  private readonly _agentControl = new FormControl<Agent>(null);
   private _agents: Agent[] = [];
   private selectedNodesState: SelectionState;
-  private _queryControl = new FormControl('');
+  private readonly _queryControl = new FormControl('');
   private _initialsByAgentId: { [key: string]: string } = {};
 
   get agentControl(): FormControl<Agent> {
@@ -114,16 +122,6 @@ export class SearchAiInputComponent implements OnInit {
   }
 
   private readonly destroyRef = inject(DestroyRef);
-
-  constructor(
-    private store: Store<AppStore>,
-    private searchAiService: SearchAiService,
-    private notificationService: NotificationService,
-    private agentService: AgentService,
-    private userPreferencesService: UserPreferencesService,
-    private translateService: TranslateService,
-    private modalAiService: ModalAiService
-  ) {}
 
   ngOnInit(): void {
     const queryValue = this.usedInAiResultsPage ? '' : this.searchTerm || '';

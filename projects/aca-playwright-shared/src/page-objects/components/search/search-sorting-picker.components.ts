@@ -29,7 +29,7 @@ export type SortByType = 'Relevance' | 'Title' | 'Filename' | 'Modified date' | 
 export type SortByDirection = 'asc' | 'desc';
 
 export class SearchSortingPicker extends BaseComponent {
-  private static rootElement = '#aca-button-action-menu';
+  private static readonly rootElement = '#aca-button-action-menu';
 
   public actionMenu = this.page.locator('[data-automation-id="auto_header_content_id_$thumbnail"]');
   public sortOrderButton = this.page.locator('#aca-button-sorting-menu');

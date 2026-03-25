@@ -29,9 +29,9 @@ import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({ providedIn: 'root' })
 export class ModalAiService {
-  private route = inject(ActivatedRoute);
-  private dialog = inject(MatDialog);
-  private userPreferencesService = inject(UserPreferencesService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly dialog = inject(MatDialog);
+  private readonly userPreferencesService = inject(UserPreferencesService);
 
   openUnsavedChangesModal(callback: () => void): void {
     const hasPreviousSearch = this.route.snapshot?.queryParams?.query?.length > 0;

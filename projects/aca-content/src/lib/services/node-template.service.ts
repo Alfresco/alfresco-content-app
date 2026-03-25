@@ -46,10 +46,10 @@ export interface TemplateDialogConfig {
   providedIn: 'root'
 })
 export class NodeTemplateService {
-  private alfrescoApiService = inject(AlfrescoApiService);
-  private notificationService = inject(NotificationService);
-  private translation = inject(TranslationService);
-  private dialog = inject(MatDialog);
+  private readonly alfrescoApiService = inject(AlfrescoApiService);
+  private readonly notificationService = inject(NotificationService);
+  private readonly translation = inject(TranslationService);
+  private readonly dialog = inject(MatDialog);
 
   private currentTemplateConfig: TemplateDialogConfig = null;
   private rootNode: ResultNode;

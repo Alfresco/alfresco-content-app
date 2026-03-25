@@ -24,7 +24,6 @@
 
 import { TestBed } from '@angular/core/testing';
 import { Overlay } from '@angular/cdk/overlay';
-import { Injector } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { NoopTranslateModule, UserPreferencesService, provideCoreAuthTesting } from '@alfresco/adf-core';
@@ -35,8 +34,6 @@ import { ContentActionRef, ContentActionType } from '@alfresco/adf-extensions';
 
 describe('ContextMenuService', () => {
   let contextMenuService: ContextMenuService;
-  let overlay: Overlay;
-  let injector: Injector;
   let userPreferencesService: UserPreferencesService;
 
   const customActionMock: ContentActionRef[] = [
@@ -66,31 +63,25 @@ describe('ContextMenuService', () => {
       imports: [NoopTranslateModule, ContextMenuComponent],
       providers: [provideCoreAuthTesting(), Overlay, { provide: Store, useValue: { select: () => of() } }, UserPreferencesService]
     });
-
-    injector = TestBed.inject(Injector);
-    overlay = TestBed.inject(Overlay);
     userPreferencesService = TestBed.inject(UserPreferencesService);
   });
 
   it('should create a custom overlay', () => {
-    contextMenuService = new ContextMenuService(injector, overlay, userPreferencesService);
-
+    contextMenuService = TestBed.inject(ContextMenuService);
     contextMenuService.open(overlayConfig);
 
     expect(document.querySelector('.test-panel')).not.toBe(null);
   });
 
   it('should render component', () => {
-    contextMenuService = new ContextMenuService(injector, overlay, userPreferencesService);
-
+    contextMenuService = TestBed.inject(ContextMenuService);
     contextMenuService.open(overlayConfig);
 
     expect(document.querySelector('aca-context-menu')).not.toBe(null);
   });
 
   it('should have default LTR direction value', () => {
-    contextMenuService = new ContextMenuService(injector, overlay, userPreferencesService);
-
+    contextMenuService = TestBed.inject(ContextMenuService);
     contextMenuService.open(overlayConfig);
 
     expect(document.body.querySelector('div[dir="ltr"]')).not.toEqual(null);
@@ -98,8 +89,7 @@ describe('ContextMenuService', () => {
 
   it('should change direction on textOrientation event', () => {
     spyOn(userPreferencesService, 'select').and.returnValue(of('rtl'));
-
-    contextMenuService = new ContextMenuService(injector, overlay, userPreferencesService);
+    contextMenuService = TestBed.inject(ContextMenuService);
 
     contextMenuService.open(overlayConfig);
 
@@ -107,16 +97,14 @@ describe('ContextMenuService', () => {
   });
 
   it('should render custom context menu component', () => {
-    contextMenuService = new ContextMenuService(injector, overlay, userPreferencesService);
-
+    contextMenuService = TestBed.inject(ContextMenuService);
     contextMenuService.open(overlayConfig, customActionMock);
 
     expect(document.querySelector('aca-custom-context-menu')).not.toBe(null);
   });
 
   it('should not render custom context menu when no custom actions are provided', () => {
-    contextMenuService = new ContextMenuService(injector, overlay, userPreferencesService);
-
+    contextMenuService = TestBed.inject(ContextMenuService);
     contextMenuService.open(overlayConfig, []);
 
     expect(document.querySelector('aca-custom-context-menu')).toBe(null);

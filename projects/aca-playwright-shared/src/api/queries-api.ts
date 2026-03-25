@@ -27,7 +27,7 @@ import { Utils } from '../utils';
 import { ApiClientFactory } from './api-client-factory';
 
 export class QueriesApi {
-  private apiService: ApiClientFactory;
+  private readonly apiService: ApiClientFactory;
 
   constructor() {
     this.apiService = new ApiClientFactory();

@@ -91,8 +91,8 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
 
   protected readonly destroyRef = inject(DestroyRef);
 
-  private autoDownloadService = inject(AutoDownloadService, { optional: true });
-  private navigationHistoryService = inject(NavigationHistoryService);
+  private readonly autoDownloadService = inject(AutoDownloadService, { optional: true });
+  private readonly navigationHistoryService = inject(NavigationHistoryService);
 
   protected subscriptions: Subscription[] = [];
 

@@ -46,7 +46,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   host: { class: 'aca-search-results-row' }
 })
 export class SearchResultsRowComponent implements OnInit {
-  private settings = inject(AppSettingsService);
+  private readonly store = inject<Store<any>>(Store);
+  private readonly nodesApiService = inject(NodesApiService);
+  private readonly router = inject(Router);
+  private readonly autoDownloadService = inject(AutoDownloadService);
+
+  private readonly settings = inject(AppSettingsService);
 
   private readonly highlightPrefix = `<span class="aca-highlight">`;
   private readonly highlightPostfix = `</span>`;
@@ -79,13 +84,6 @@ export class SearchResultsRowComponent implements OnInit {
   isFile = false;
 
   private readonly destroyRef = inject(DestroyRef);
-
-  constructor(
-    private store: Store<any>,
-    private nodesApiService: NodesApiService,
-    private router: Router,
-    private autoDownloadService: AutoDownloadService
-  ) {}
 
   ngOnInit() {
     this.updateValues();

@@ -50,7 +50,7 @@ import {
 } from '../components';
 
 export class PersonalFilesPage extends BasePage {
-  private static pageUrl = 'personal-files';
+  private static readonly pageUrl = 'personal-files';
 
   constructor(page: Page) {
     super(page, PersonalFilesPage.pageUrl);

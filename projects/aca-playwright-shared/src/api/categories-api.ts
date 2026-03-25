@@ -26,7 +26,7 @@ import { ApiClientFactory } from './api-client-factory';
 import { CategoryEntry, CategoryBody, CategoryQuery, CategoryPaging, CategoryLinkBody } from '@alfresco/js-api';
 
 export class CategoriesApi {
-  private apiService: ApiClientFactory;
+  private readonly apiService: ApiClientFactory;
 
   constructor() {
     this.apiService = new ApiClientFactory();

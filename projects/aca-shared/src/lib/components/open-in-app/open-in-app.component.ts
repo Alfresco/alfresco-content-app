@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Inject, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -42,15 +42,16 @@ export interface OpenInAppDialogOptions {
   encapsulation: ViewEncapsulation.None
 })
 export class OpenInAppComponent {
-  private redirectUrl: string;
+  data = inject<OpenInAppDialogOptions>(MAT_DIALOG_DATA);
+  private readonly dialog = inject<MatDialogRef<OpenInAppComponent>>(MatDialogRef);
+
+  private readonly redirectUrl: string;
   public appStoreUrl: string;
   public window: Window & typeof globalThis = window;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA)
-    public data: OpenInAppDialogOptions,
-    private dialog: MatDialogRef<OpenInAppComponent>
-  ) {
+  constructor() {
+    const data = this.data;
+
     if (data) {
       this.redirectUrl = data.redirectUrl;
       this.appStoreUrl = data.appStoreUrl;

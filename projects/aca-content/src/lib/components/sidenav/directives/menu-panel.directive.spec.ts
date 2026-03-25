@@ -22,14 +22,15 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NavigationEnd } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { MenuPanelDirective } from './menu-panel.directive';
 import { Subject } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
+import { Store } from '@ngrx/store';
 
 class RouterStub {
   url;
-  private subject = new Subject();
+  private readonly subject = new Subject();
   events = this.subject.asObservable();
 
   constructor(url = 'some-url') {
@@ -59,16 +60,27 @@ describe('MenuPanelDirective', () => {
     children: []
   };
 
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [MenuPanelDirective],
+      providers: [
+        MenuPanelDirective,
+        {
+          provide: Store,
+          useValue: mockStore
+        }
+      ]
+    });
+  });
+
   describe('hasActiveLinks()', () => {
     it('should return true if child is active route', () => {
       const router: any = new RouterStub('dummy-route-2');
       const item = {
         children: [{ url: 'dummy-route-1' }, { url: 'dummy-route-2' }]
       };
-      let directive: MenuPanelDirective;
-      TestBed.runInInjectionContext(() => {
-        directive = new MenuPanelDirective(mockStore, router);
-      });
+      TestBed.overrideProvider(Router, { useValue: router });
+      const directive = TestBed.inject(MenuPanelDirective);
 
       directive.acaMenuPanel = item;
 
@@ -79,10 +91,8 @@ describe('MenuPanelDirective', () => {
       const item = {
         children: [{ url: 'dummy-route-1' }, { url: 'dummy-route-2' }]
       };
-      let directive: MenuPanelDirective;
-      TestBed.runInInjectionContext(() => {
-        directive = new MenuPanelDirective(mockStore, router);
-      });
+      TestBed.overrideProvider(Router, { useValue: router });
+      const directive = TestBed.inject(MenuPanelDirective);
 
       directive.acaMenuPanel = item;
 
@@ -100,10 +110,8 @@ describe('MenuPanelDirective', () => {
 
       mockMatExpansionPanel.expanded = true;
 
-      let directive: MenuPanelDirective;
-      TestBed.runInInjectionContext(() => {
-        directive = new MenuPanelDirective(mockStore, router);
-      });
+      TestBed.overrideProvider(Router, { useValue: router });
+      const directive = TestBed.inject(MenuPanelDirective);
 
       directive.acaMenuPanel = item;
 
@@ -119,10 +127,8 @@ describe('MenuPanelDirective', () => {
         children: [{ url: 'dummy-route-1' }, { url: 'dummy-route-2' }]
       };
 
-      let directive: MenuPanelDirective;
-      TestBed.runInInjectionContext(() => {
-        directive = new MenuPanelDirective(mockStore, router);
-      });
+      TestBed.overrideProvider(Router, { useValue: router });
+      const directive = TestBed.inject(MenuPanelDirective);
 
       directive.acaMenuPanel = item;
       mockMatExpansionPanel.expanded = true;

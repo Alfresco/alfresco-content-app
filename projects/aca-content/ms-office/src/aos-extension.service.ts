@@ -24,7 +24,7 @@
 
 /* cspell:disable */
 import { AuthenticationService, NotificationService } from '@alfresco/adf-core';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Node } from '@alfresco/js-api';
 import { getFileExtension, supportedExtensions } from '@alfresco/aca-shared/rules';
 import { AppSettingsService } from '@alfresco/aca-shared';
@@ -37,11 +37,9 @@ export interface IAosEditOnlineService {
   providedIn: 'root'
 })
 export class AosEditOnlineService implements IAosEditOnlineService {
-  constructor(
-    private authenticationService: AuthenticationService,
-    private appSettings: AppSettingsService,
-    private notificationService: NotificationService
-  ) {}
+  private readonly authenticationService = inject(AuthenticationService);
+  private readonly appSettings = inject(AppSettingsService);
+  private readonly notificationService = inject(NotificationService);
 
   onActionEditOnlineAos(node: Node): void {
     if (node && this.isFile(node) && node.properties) {

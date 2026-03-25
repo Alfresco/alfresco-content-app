@@ -27,7 +27,7 @@ import { BaseComponent } from '../base.component';
 import { timeouts } from '../../../utils';
 
 export class ViewerOverlayDialogComponent extends BaseComponent {
-  private static rootElement = '.cdk-overlay-pane';
+  private static readonly rootElement = '.cdk-overlay-pane';
 
   public copyDialog = this.getChild('[data-automation-id="content-node-selector-title"]');
   public copyMenuButton = this.getChild('[id="app.viewer.copy"]');

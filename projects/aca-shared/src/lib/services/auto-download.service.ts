@@ -33,7 +33,7 @@ const BYTES_TO_MB_CONVERSION_VALUE = 1048576;
   providedIn: 'root'
 })
 export class AutoDownloadService {
-  private dialog = inject(MatDialog);
+  private readonly dialog = inject(MatDialog);
 
   private shouldDownload(node: NodeEntry, threshold: number): boolean {
     const fileSizeInBytes = node?.entry?.content?.sizeInBytes || 0;

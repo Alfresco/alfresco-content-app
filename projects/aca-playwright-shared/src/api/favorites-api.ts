@@ -27,7 +27,7 @@ import { FavoriteEntry, FavoritePaging } from '@alfresco/js-api';
 import { Utils } from '../utils';
 
 export class FavoritesPageApi {
-  private apiService: ApiClientFactory;
+  private readonly apiService: ApiClientFactory;
 
   constructor() {
     this.apiService = new ApiClientFactory();

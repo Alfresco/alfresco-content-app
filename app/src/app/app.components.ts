@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { AppService } from '@alfresco/aca-shared';
 import { MatIconRegistry } from '@angular/material/icon';
 import { RouterOutlet } from '@angular/router';
@@ -36,10 +36,11 @@ import { RouterOutlet } from '@angular/router';
   imports: [RouterOutlet]
 })
 export class AppComponent {
-  constructor(
-    private appService: AppService,
-    matIconRegistry: MatIconRegistry
-  ) {
+  private readonly appService = inject(AppService);
+
+  constructor() {
+    const matIconRegistry = inject(MatIconRegistry);
+
     this.appService.init();
     matIconRegistry.setDefaultFontSetClass('material-icons-outlined');
   }

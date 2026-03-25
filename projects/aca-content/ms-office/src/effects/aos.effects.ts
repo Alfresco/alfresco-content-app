@@ -31,8 +31,8 @@ import { AosEditOnlineService } from '../aos-extension.service';
 
 @Injectable()
 export class AosEffects {
-  private actions$ = inject(Actions);
-  private aosEditOnlineService = inject(AosEditOnlineService);
+  private readonly actions$ = inject(Actions);
+  private readonly aosEditOnlineService = inject(AosEditOnlineService);
 
   openOffice$ = createEffect(
     () =>

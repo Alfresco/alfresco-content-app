@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActionDefinition, ActionDefinitionEntry, ActionDefinitionList, ActionsApi } from '@alfresco/js-api';
 import { AlfrescoApiService } from '@alfresco/adf-content-services';
 import { BehaviorSubject, forkJoin, from, Observable, of } from 'rxjs';
@@ -32,11 +32,13 @@ import { ActionParameterConstraint, ConstraintValue } from '../model/action-para
 
 @Injectable({ providedIn: 'root' })
 export class ActionsService {
-  private actionDefinitionsListingSource = new BehaviorSubject<ActionDefinitionTransformed[]>([]);
+  private readonly apiService = inject(AlfrescoApiService);
+
+  private readonly actionDefinitionsListingSource = new BehaviorSubject<ActionDefinitionTransformed[]>([]);
   actionDefinitionsListing$ = this.actionDefinitionsListingSource.asObservable();
-  private loadingSource = new BehaviorSubject<boolean>(false);
+  private readonly loadingSource = new BehaviorSubject<boolean>(false);
   loading$ = this.loadingSource.asObservable();
-  private parameterConstraintsSource = new BehaviorSubject<ActionParameterConstraint[]>([]);
+  private readonly parameterConstraintsSource = new BehaviorSubject<ActionParameterConstraint[]>([]);
   parameterConstraints$: Observable<ActionParameterConstraint[]> = this.parameterConstraintsSource.asObservable();
 
   private _actionsApi: ActionsApi;
@@ -46,8 +48,6 @@ export class ActionsService {
     }
     return this._actionsApi;
   }
-
-  constructor(private apiService: AlfrescoApiService) {}
 
   loadActionDefinitions() {
     this.loadingSource.next(true);

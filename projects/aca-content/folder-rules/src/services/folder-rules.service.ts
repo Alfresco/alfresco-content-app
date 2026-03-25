@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { AlfrescoApiService } from '@alfresco/adf-content-services';
 import { BehaviorSubject, from, Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
@@ -41,6 +41,9 @@ interface GetRulesResult {
   providedIn: 'root'
 })
 export class FolderRulesService {
+  private readonly apiService = inject(AlfrescoApiService);
+  private readonly notificationService = inject(NotificationService);
+
   public static readonly MAX_RULES_PER_GET = 100;
 
   public static get emptyCompositeCondition(): RuleCompositeCondition {
@@ -85,16 +88,11 @@ export class FolderRulesService {
     return value;
   }
 
-  private selectedRuleSource = new BehaviorSubject<Rule>(null);
-  private deletedRuleIdSource = new BehaviorSubject<string>(null);
+  private readonly selectedRuleSource = new BehaviorSubject<Rule>(null);
+  private readonly deletedRuleIdSource = new BehaviorSubject<string>(null);
 
   selectedRule$ = this.selectedRuleSource.asObservable();
   deletedRuleId$: Observable<string> = this.deletedRuleIdSource.asObservable();
-
-  constructor(
-    private readonly apiService: AlfrescoApiService,
-    private readonly notificationService: NotificationService
-  ) {}
 
   private callApi(path: string, httpMethod: string, body: object = {}): Promise<any> {
     // APIs used by this service are still private and not yet available for public use

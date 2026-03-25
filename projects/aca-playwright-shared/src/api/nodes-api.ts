@@ -27,7 +27,7 @@ import { NodeChildAssociationPaging, NodeEntry, NodePaging, NodesIncludeQuery, N
 import { NodeContentTree, flattenNodeContentTree } from './node-content-tree';
 
 export class NodesApi {
-  private apiService: ApiClientFactory;
+  private readonly apiService: ApiClientFactory;
 
   constructor() {
     this.apiService = new ApiClientFactory();

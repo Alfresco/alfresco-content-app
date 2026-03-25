@@ -27,7 +27,7 @@ import { BaseComponent } from '../base.component';
 import { Locator, Page } from '@playwright/test';
 
 export class AdfLibraryDialogComponent extends BaseComponent {
-  private static rootElement = 'adf-library-dialog';
+  private static readonly rootElement = 'adf-library-dialog';
 
   public createButton = this.getChild('[data-automation-id="create-library-id"]');
   public cancelButton = this.getChild('[data-automation-id="cancel-library-id"]');

@@ -24,7 +24,7 @@
 
 import { ObjectUtils, UserPreferencesService } from '@alfresco/adf-core';
 import { FavoritePaging, Node, NodePaging, SearchRequest, ResultSetPaging, SharedLink, SharedLinkPaging } from '@alfresco/js-api';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ContentApiService } from '@alfresco/aca-shared';
 
 interface AdjacentFiles {
@@ -36,16 +36,14 @@ interface AdjacentFiles {
   providedIn: 'root'
 })
 export class ViewerService {
+  private readonly preferences = inject(UserPreferencesService);
+  private readonly contentApi = inject(ContentApiService);
+
   private _customNodesOrder: string[] = [];
 
   set customNodesOrder(customNodesOrder: string[]) {
     this._customNodesOrder = customNodesOrder;
   }
-
-  constructor(
-    private preferences: UserPreferencesService,
-    private contentApi: ContentApiService
-  ) {}
 
   recentFileFilters = [
     'TYPE:"content"',

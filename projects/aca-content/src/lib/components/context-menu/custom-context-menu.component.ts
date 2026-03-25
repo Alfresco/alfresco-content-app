@@ -22,11 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AfterViewInit, Component, Inject, ViewEncapsulation } from '@angular/core';
-import { Direction } from '@angular/cdk/bidi';
-import { ContextMenuOverlayRef } from './context-menu-overlay';
-import { AppExtensionService } from '@alfresco/aca-shared';
-import { CONTEXT_MENU_DIRECTION } from './direction.token';
+import { AfterViewInit, Component, ViewEncapsulation, inject } from '@angular/core';
 import { ContentActionRef, DynamicExtensionComponent } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -58,13 +54,9 @@ import { BaseContextMenuDirective } from './base-context-menu.directive';
   encapsulation: ViewEncapsulation.None
 })
 export class CustomContextMenuComponent extends BaseContextMenuDirective implements AfterViewInit {
-  constructor(
-    contextMenuOverlayRef: ContextMenuOverlayRef,
-    extensions: AppExtensionService,
-    @Inject(CONTEXT_MENU_DIRECTION) direction: Direction,
-    @Inject(CONTEXT_MENU_CUSTOM_ACTIONS) customActions: ContentActionRef[]
-  ) {
-    super(contextMenuOverlayRef, extensions, direction);
+  constructor() {
+    super();
+    const customActions = inject(CONTEXT_MENU_CUSTOM_ACTIONS) as ContentActionRef[];
     this.actions = customActions;
   }
 

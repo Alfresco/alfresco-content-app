@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { debounceTime } from 'rxjs/operators';
 import { NodeEntry } from '@alfresco/js-api';
 import {
@@ -72,11 +72,9 @@ import { DocumentListComponent } from '@alfresco/adf-content-services';
   selector: 'aca-shared-files'
 })
 export class SharedFilesComponent extends PageComponent implements OnInit {
-  columns: DocumentListPresetRef[] = [];
+  private readonly appHookService = inject(AppHookService);
 
-  constructor(private appHookService: AppHookService) {
-    super();
-  }
+  columns: DocumentListPresetRef[] = [];
 
   ngOnInit() {
     super.ngOnInit();

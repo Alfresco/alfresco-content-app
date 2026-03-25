@@ -71,7 +71,17 @@ export function provideContentAppExtensions(): EnvironmentProviders[] {
   providedIn: 'root'
 })
 export class AppExtensionService implements RuleContext {
-  private _references = new BehaviorSubject<ExtensionRef[]>([]);
+  readonly auth = inject(AuthenticationService);
+  protected readonly store = inject<Store<AppStore>>(Store);
+  protected readonly loader = inject(ExtensionLoaderService);
+  protected readonly extensions = inject(ExtensionService);
+  readonly permissions = inject(NodePermissionService);
+  readonly appConfig = inject(AppConfigService);
+  protected readonly matIconRegistry = inject(MatIconRegistry);
+  protected readonly sanitizer = inject(DomSanitizer);
+  protected readonly logger = inject(LogService);
+
+  private readonly _references = new BehaviorSubject<ExtensionRef[]>([]);
   bulkActionExecuted$ = new Subject<void>();
 
   navbar: Array<NavBarGroupRef> = [];
@@ -80,18 +90,18 @@ export class AppExtensionService implements RuleContext {
   search: any;
   viewerRules: ViewerRules = {};
 
-  private _headerActions = new BehaviorSubject<Array<ContentActionRef>>([]);
-  private _toolbarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
-  private _viewerToolbarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
-  private _sharedLinkViewerToolbarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
-  private _contextMenuActions = new BehaviorSubject<Array<ContentActionRef>>([]);
-  private _openWithActions = new BehaviorSubject<Array<ContentActionRef>>([]);
-  private _createActions = new BehaviorSubject<Array<ContentActionRef>>([]);
-  private _sidebarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
-  private _badges = new BehaviorSubject<Array<Badge>>([]);
-  private _filesDocumentListPreset = new BehaviorSubject<Array<DocumentListPresetRef>>([]);
-  private _customMetadataPanels = new BehaviorSubject<Array<ContentActionRef>>([]);
-  private _bulkActions = new BehaviorSubject<Array<ContentActionRef>>([]);
+  private readonly _headerActions = new BehaviorSubject<Array<ContentActionRef>>([]);
+  private readonly _toolbarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
+  private readonly _viewerToolbarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
+  private readonly _sharedLinkViewerToolbarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
+  private readonly _contextMenuActions = new BehaviorSubject<Array<ContentActionRef>>([]);
+  private readonly _openWithActions = new BehaviorSubject<Array<ContentActionRef>>([]);
+  private readonly _createActions = new BehaviorSubject<Array<ContentActionRef>>([]);
+  private readonly _sidebarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
+  private readonly _badges = new BehaviorSubject<Array<Badge>>([]);
+  private readonly _filesDocumentListPreset = new BehaviorSubject<Array<DocumentListPresetRef>>([]);
+  private readonly _customMetadataPanels = new BehaviorSubject<Array<ContentActionRef>>([]);
+  private readonly _bulkActions = new BehaviorSubject<Array<ContentActionRef>>([]);
   private readonly _userProfileSections = new BehaviorSubject<Array<UserProfileSection>>([]);
 
   documentListPresets: {
@@ -125,17 +135,7 @@ export class AppExtensionService implements RuleContext {
 
   config: ExtensionConfig;
 
-  constructor(
-    public auth: AuthenticationService,
-    protected store: Store<AppStore>,
-    protected loader: ExtensionLoaderService,
-    protected extensions: ExtensionService,
-    public permissions: NodePermissionService,
-    public appConfig: AppConfigService,
-    protected matIconRegistry: MatIconRegistry,
-    protected sanitizer: DomSanitizer,
-    protected logger: LogService
-  ) {
+  constructor() {
     this.references$ = this._references.asObservable();
 
     this.store.select(getRuleContext).subscribe((result) => {

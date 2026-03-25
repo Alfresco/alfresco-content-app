@@ -28,7 +28,7 @@ import { Utils, waitForApi } from '../utils';
 import { NodeBodyCreate, NodeEntry, ResultSetPaging, SearchRequest } from '@alfresco/js-api';
 
 export class FileActionsApi {
-  private apiService: ApiClientFactory;
+  private readonly apiService: ApiClientFactory;
 
   constructor() {
     this.apiService = new ApiClientFactory();

@@ -26,7 +26,7 @@ import { Page, expect } from '@playwright/test';
 import { BaseComponent } from '../base.component';
 
 export class SnackBarComponent extends BaseComponent {
-  private static rootElement = 'adf-snackbar-content';
+  private static readonly rootElement = 'adf-snackbar-content';
 
   public message = this.getChild('[data-automation-id="adf-snackbar-message-content"]').first();
 

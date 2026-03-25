@@ -44,8 +44,8 @@ import { AlfrescoApiService, DocumentListService } from '@alfresco/adf-content-s
 
 @Injectable()
 export class TemplateEffects {
-  private notificationService = inject(NotificationService);
-  private documentListService = inject(DocumentListService);
+  private readonly notificationService = inject(NotificationService);
+  private readonly documentListService = inject(DocumentListService);
 
   @LazyApi((self: TemplateEffects) => new NodesApi(self.apiService.getInstance()))
   declare nodesApi: NodesApi;

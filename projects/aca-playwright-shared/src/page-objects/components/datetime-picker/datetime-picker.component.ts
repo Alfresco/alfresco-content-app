@@ -26,7 +26,7 @@ import { Page } from '@playwright/test';
 import { BaseComponent } from '../base.component';
 
 export class DateTimePicker extends BaseComponent {
-  private static rootElement = '[role="dialog"]';
+  private static readonly rootElement = '[role="dialog"]';
   dayPicker = this.getChild('[role="grid"]');
   nextMonthBtn = this.getChild('[aria-label="Next month"]');
 

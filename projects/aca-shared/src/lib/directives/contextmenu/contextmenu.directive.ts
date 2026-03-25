@@ -36,6 +36,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   exportAs: 'acaContextActions'
 })
 export class ContextActionsDirective implements OnInit {
+  private readonly store = inject<Store<AppStore>>(Store);
+
   // eslint-disable-next-line
   @Input('acaContextEnable')
   enabled = true;
@@ -57,11 +59,9 @@ export class ContextActionsDirective implements OnInit {
     }
   }
 
-  private execute$: Subject<any> = new Subject();
+  private readonly execute$: Subject<any> = new Subject();
 
   private readonly destroyRef = inject(DestroyRef);
-
-  constructor(private store: Store<AppStore>) {}
 
   ngOnInit() {
     this.execute$.pipe(debounceTime(300), takeUntilDestroyed(this.destroyRef)).subscribe((event: MouseEvent) => {

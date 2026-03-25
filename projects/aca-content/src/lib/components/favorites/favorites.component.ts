@@ -32,7 +32,7 @@ import {
   ToolbarComponent
 } from '@alfresco/aca-shared';
 import { Node, NodeEntry, PathElement, PathInfo } from '@alfresco/js-api';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { debounceTime, map } from 'rxjs/operators';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
@@ -72,11 +72,9 @@ import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-a
   selector: 'aca-favorites'
 })
 export class FavoritesComponent extends PageComponent implements OnInit {
-  columns: DocumentListPresetRef[] = [];
+  private readonly contentApi = inject(ContentApiService);
 
-  constructor(private contentApi: ContentApiService) {
-    super();
-  }
+  columns: DocumentListPresetRef[] = [];
 
   ngOnInit() {
     super.ngOnInit();

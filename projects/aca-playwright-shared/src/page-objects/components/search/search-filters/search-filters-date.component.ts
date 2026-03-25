@@ -29,7 +29,7 @@ import { SearchPage } from '../../../pages';
 type FilterTab = 'Created' | 'Modified';
 
 export class SearchFiltersDate extends BaseComponent {
-  private static rootElement = '.adf-search-filter-menu-card';
+  private static readonly rootElement = '.adf-search-filter-menu-card';
 
   constructor(page: Page) {
     super(page, SearchFiltersDate.rootElement);

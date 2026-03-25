@@ -26,7 +26,7 @@ import { BaseComponent } from '../../base.component';
 import { Page } from '@playwright/test';
 
 export class SearchFiltersLogic extends BaseComponent {
-  private static rootElement = '.adf-search-filter-menu-card';
+  private static readonly rootElement = '.adf-search-filter-menu-card';
 
   constructor(page: Page) {
     super(page, SearchFiltersLogic.rootElement);

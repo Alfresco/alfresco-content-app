@@ -27,9 +27,9 @@ import { MatMenuComponent } from './dataTable';
 import { BaseComponent } from './base.component';
 
 export class AcaHeader extends BaseComponent {
-  private static rootElement = 'aca-toolbar';
-  private moreActionsButton = this.getChild('button[id="app.viewer.toolbar.more"]');
-  private toolbarMoreActions = this.getChild('button[id="app.toolbar.more"]');
+  private static readonly rootElement = 'aca-toolbar';
+  private readonly moreActionsButton = this.getChild('button[id="app.viewer.toolbar.more"]');
+  private readonly toolbarMoreActions = this.getChild('button[id="app.toolbar.more"]');
   public createButton = this.getChild('[id="app.toolbar.create"]');
   public viewDetails = this.getChild('[title="View Details"]');
   public viewButton = this.getChild('button[title="View"]');

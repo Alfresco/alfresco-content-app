@@ -35,11 +35,11 @@ import { ContentUrlService } from '../../services/content-url.service';
 
 @Injectable()
 export class DownloadEffects {
-  private store = inject(Store<AppStore>);
-  private actions$ = inject(Actions);
-  private contentApi = inject(ContentApiService);
-  private dialog = inject(MatDialog);
-  private contentUrlService = inject(ContentUrlService);
+  private readonly store = inject(Store<AppStore>);
+  private readonly actions$ = inject(Actions);
+  private readonly contentApi = inject(ContentApiService);
+  private readonly dialog = inject(MatDialog);
+  private readonly contentUrlService = inject(ContentUrlService);
 
   downloadNode$ = createEffect(
     () =>

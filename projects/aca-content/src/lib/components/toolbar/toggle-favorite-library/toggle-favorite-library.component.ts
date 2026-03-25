@@ -54,6 +54,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   host: { class: 'app-toggle-favorite-library' }
 })
 export class ToggleFavoriteLibraryComponent implements OnInit {
+  private readonly store = inject<Store<AppStore>>(Store);
+  private readonly appHookService = inject(AppHookService);
+  private readonly router = inject(Router);
+
   library;
 
   @Input() data: { focusAfterClosed?: string };
@@ -62,12 +66,6 @@ export class ToggleFavoriteLibraryComponent implements OnInit {
   menuItem: MatMenuItem;
 
   private readonly destroyRef = inject(DestroyRef);
-
-  constructor(
-    private store: Store<AppStore>,
-    private appHookService: AppHookService,
-    private router: Router
-  ) {}
 
   ngOnInit() {
     const isFavoriteLibraries = this.router.url.startsWith('/favorite/libraries');

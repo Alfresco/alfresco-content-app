@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { HostListener, ViewChild, Inject, Directive } from '@angular/core';
+import { HostListener, ViewChild, Directive, inject } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { ContextMenuOverlayRef } from './context-menu-overlay';
@@ -32,6 +32,10 @@ import { AppExtensionService } from '@alfresco/aca-shared';
 
 @Directive()
 export class BaseContextMenuDirective {
+  protected readonly contextMenuOverlayRef = inject(ContextMenuOverlayRef);
+  protected readonly extensions = inject(AppExtensionService);
+  readonly direction = inject<Direction>(CONTEXT_MENU_DIRECTION);
+
   actions: Array<ContentActionRef> = [];
 
   @ViewChild(MatMenuTrigger)
@@ -43,12 +47,6 @@ export class BaseContextMenuDirective {
       this.contextMenuOverlayRef.close();
     }
   }
-
-  constructor(
-    private readonly contextMenuOverlayRef: ContextMenuOverlayRef,
-    protected extensions: AppExtensionService,
-    @Inject(CONTEXT_MENU_DIRECTION) public direction: Direction
-  ) {}
 
   onClickOutsideEvent() {
     if (this.contextMenuOverlayRef) {

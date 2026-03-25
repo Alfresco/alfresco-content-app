@@ -26,7 +26,7 @@ import { Page } from '@playwright/test';
 import { BaseComponent } from '../base.component';
 
 export class UploadNewVersionDialog extends BaseComponent {
-  private static rootElement = 'adf-new-version-uploader-dialog';
+  private static readonly rootElement = 'adf-new-version-uploader-dialog';
 
   public cancelButton = this.getChild('#adf-new-version-cancel');
   public uploadButton = this.getChild('[data-automation-id="adf-new-version-file-upload"]');

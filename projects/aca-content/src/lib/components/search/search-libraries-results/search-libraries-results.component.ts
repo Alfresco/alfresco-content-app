@@ -24,7 +24,7 @@
 
 import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
 import { NodePaging, Pagination, SiteEntry } from '@alfresco/js-api';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { SearchLibrariesQueryBuilderService } from './search-libraries-query-builder.service';
 import {
@@ -72,6 +72,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   encapsulation: ViewEncapsulation.None
 })
 export class SearchLibrariesResultsComponent extends PageComponent implements OnInit {
+  private readonly librariesQueryBuilder = inject(SearchLibrariesQueryBuilderService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly appHookService = inject(AppHookService);
+
   searchedWord: string;
   queryParamName = 'q';
   data: NodePaging;
@@ -79,12 +83,9 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
   isLoading = false;
   columns: DocumentListPresetRef[] = [];
 
-  constructor(
-    private readonly librariesQueryBuilder: SearchLibrariesQueryBuilderService,
-    private readonly route: ActivatedRoute,
-    private readonly appHookService: AppHookService
-  ) {
+  constructor() {
     super();
+    const librariesQueryBuilder = this.librariesQueryBuilder;
 
     librariesQueryBuilder.paging = {
       skipCount: 0,

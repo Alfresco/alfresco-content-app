@@ -40,7 +40,7 @@ describe('SearchLibrariesQueryBuilderService', () => {
 
     apiService = TestBed.inject(AlfrescoApiService);
     apiService.reset();
-    builder = new SearchLibrariesQueryBuilderService(apiService);
+    builder = TestBed.inject(SearchLibrariesQueryBuilderService);
     queriesApi = builder['queriesApi'];
   });
 

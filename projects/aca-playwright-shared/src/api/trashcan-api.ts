@@ -25,7 +25,7 @@
 import { ApiClientFactory } from './api-client-factory';
 
 export class TrashcanApi {
-  private apiService = new ApiClientFactory();
+  private readonly apiService = new ApiClientFactory();
 
   static async initialize(userName: string, password?: string): Promise<TrashcanApi> {
     const classObj = new TrashcanApi();

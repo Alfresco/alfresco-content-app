@@ -58,13 +58,31 @@ import { MatDialog } from '@angular/material/dialog';
 })
 // After moving shell to ADF to core, AppService will implement ShellAppService
 export class AppService implements ShellAppService {
-  private notificationService = inject(NotificationService);
-  private matDialog = inject(MatDialog);
-  private ready: BehaviorSubject<boolean>;
+  preferencesService = inject(UserPreferencesService);
+  private readonly authenticationService = inject(AuthenticationService);
+  private readonly store = inject<Store<AppStore>>(Store);
+  private readonly router = inject(Router);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly config = inject(AppConfigService);
+  private readonly pageTitle = inject(PageTitleService);
+  private readonly alfrescoApiService = inject(AlfrescoApiService);
+  private readonly uploadService = inject(UploadService);
+  private readonly routerExtensionService = inject(RouterExtensionService);
+  private readonly contentApi = inject(ContentApiService);
+  private readonly sharedLinksApiService = inject(SharedLinksApiService);
+  private readonly overlayContainer = inject(OverlayContainer);
+  private readonly acaMobileAppSwitcherService = inject(AcaMobileAppSwitcherService);
+  private readonly appSettingsService = inject(AppSettingsService);
+  private readonly userProfileService = inject(UserProfileService);
+  private readonly storage = inject(StorageService);
+
+  private readonly notificationService = inject(NotificationService);
+  private readonly matDialog = inject(MatDialog);
+  private readonly ready: BehaviorSubject<boolean>;
 
   ready$: Observable<boolean>;
 
-  private pageHeading = new BehaviorSubject('');
+  private readonly pageHeading = new BehaviorSubject('');
   /** @deprecated page title is updated automatically */
   pageHeading$ = this.pageHeading.asObservable();
 
@@ -82,26 +100,10 @@ export class AppService implements ShellAppService {
     return this.config.get<boolean>('auth.withCredentials', false);
   }
 
-  constructor(
-    public preferencesService: UserPreferencesService,
-    private authenticationService: AuthenticationService,
-    private store: Store<AppStore>,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private config: AppConfigService,
-    private pageTitle: PageTitleService,
-    private alfrescoApiService: AlfrescoApiService,
-    private uploadService: UploadService,
-    private routerExtensionService: RouterExtensionService,
-    private contentApi: ContentApiService,
-    private sharedLinksApiService: SharedLinksApiService,
-    private overlayContainer: OverlayContainer,
-    searchQueryBuilderService: SearchQueryBuilderService,
-    private acaMobileAppSwitcherService: AcaMobileAppSwitcherService,
-    private appSettingsService: AppSettingsService,
-    private readonly userProfileService: UserProfileService,
-    private readonly storage: StorageService
-  ) {
+  constructor() {
+    const searchQueryBuilderService = inject(SearchQueryBuilderService);
+    const acaMobileAppSwitcherService = this.acaMobileAppSwitcherService;
+
     this.ready = new BehaviorSubject(this.authenticationService.isLoggedIn() || this.withCredentials);
     this.ready$ = this.ready.asObservable();
 

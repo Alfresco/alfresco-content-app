@@ -22,13 +22,9 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AfterViewInit, Component, DestroyRef, inject, Inject, OnInit, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, inject, OnInit, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { MatMenu, MatMenuItem, MatMenuModule } from '@angular/material/menu';
 import { ContentActionType, DynamicExtensionComponent } from '@alfresco/adf-extensions';
-import { ContextMenuOverlayRef } from './context-menu-overlay';
-import { CONTEXT_MENU_DIRECTION } from './direction.token';
-import { Direction } from '@angular/cdk/bidi';
-import { AppExtensionService } from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatDividerModule } from '@angular/material/divider';
@@ -68,10 +64,6 @@ export class ContextMenuComponent extends BaseContextMenuDirective implements On
   matMenuItems: QueryList<MatMenuItem>;
 
   private readonly destroyRef = inject(DestroyRef);
-
-  constructor(contextMenuOverlayRef: ContextMenuOverlayRef, extensions: AppExtensionService, @Inject(CONTEXT_MENU_DIRECTION) direction: Direction) {
-    super(contextMenuOverlayRef, extensions, direction);
-  }
 
   ngOnInit() {
     this.extensions

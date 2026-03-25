@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, Subject, of, zip, from } from 'rxjs';
 import { ThumbnailService, TranslationService } from '@alfresco/adf-core';
@@ -56,6 +56,14 @@ type BatchOperationType = Extract<NodeAction, 'COPY' | 'MOVE'>;
   providedIn: 'root'
 })
 export class NodeActionsService {
+  private readonly contentService = inject(ContentService);
+  private readonly contentApi = inject(ContentApiService);
+  private readonly dialog = inject(MatDialog);
+  private readonly documentListService = inject(DocumentListService);
+  private readonly apiService = inject(AlfrescoApiService);
+  private readonly translation = inject(TranslationService);
+  private readonly thumbnailService = inject(ThumbnailService);
+
   contentCopied: Subject<NodeEntry[]> = new Subject<NodeEntry[]>();
   contentMoved: Subject<any> = new Subject<any>();
   moveDeletedEntries: any[] = [];
@@ -63,16 +71,6 @@ export class NodeActionsService {
 
   @LazyApi((self: NodeActionsService) => new NodesApi(self.apiService.getInstance()))
   declare nodesApi: NodesApi;
-
-  constructor(
-    private contentService: ContentService,
-    private contentApi: ContentApiService,
-    private dialog: MatDialog,
-    private documentListService: DocumentListService,
-    private apiService: AlfrescoApiService,
-    private translation: TranslationService,
-    private thumbnailService: ThumbnailService
-  ) {}
 
   /**
    * Copy node list

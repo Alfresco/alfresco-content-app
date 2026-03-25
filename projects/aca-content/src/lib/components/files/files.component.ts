@@ -29,7 +29,7 @@ import {
   PaginationComponent,
   ShowHeaderMode
 } from '@alfresco/adf-core';
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Node, NodeEntry, PathElement } from '@alfresco/js-api';
 import { NodeActionsService } from '../../services/node-actions.service';
@@ -92,6 +92,11 @@ import { extractFiltersFromEncodedQuery } from '../../utils/aca-search-utils';
   selector: 'aca-files'
 })
 export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
+  private readonly contentApi = inject(ContentApiService);
+  private readonly nodeActionsService = inject(NodeActionsService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly queryBuilderService = inject(SearchHeaderQueryBuilderService);
+
   isValidPath = true;
   isAdmin = false;
   selectedNode: NodeEntry;
@@ -105,15 +110,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
   get errorTranslationKey(): string {
     return this._errorTranslationKey;
-  }
-
-  constructor(
-    private readonly contentApi: ContentApiService,
-    private readonly nodeActionsService: NodeActionsService,
-    private readonly route: ActivatedRoute,
-    private readonly queryBuilderService: SearchHeaderQueryBuilderService
-  ) {
-    super();
   }
 
   ngOnInit() {

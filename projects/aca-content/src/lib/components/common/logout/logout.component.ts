@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -42,7 +42,7 @@ import { LogoutDirective } from '@alfresco/adf-core';
   encapsulation: ViewEncapsulation.None
 })
 export class LogoutComponent {
-  constructor(private store: Store) {}
+  private readonly store = inject(Store);
 
   @ViewChild(MatMenuItem)
   menuItem: MatMenuItem;

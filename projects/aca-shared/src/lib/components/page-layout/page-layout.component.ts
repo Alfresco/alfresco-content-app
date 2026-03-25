@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AppService } from '../../services/app.service';
 import { CommonModule } from '@angular/common';
@@ -40,12 +40,16 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   host: { class: 'aca-page-layout' }
 })
 export class PageLayoutComponent {
+  private readonly appService = inject(AppService);
+
   @Input()
   hasError = false;
 
   appNavNarMode$: Observable<'collapsed' | 'expanded'>;
 
-  constructor(private appService: AppService) {
+  constructor() {
+    const appService = this.appService;
+
     this.appNavNarMode$ = appService.appNavNarMode$.pipe(takeUntilDestroyed());
   }
 

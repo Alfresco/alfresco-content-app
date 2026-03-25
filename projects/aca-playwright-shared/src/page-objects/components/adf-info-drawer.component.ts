@@ -26,7 +26,7 @@ import { BaseComponent } from './base.component';
 import { Locator, Page } from '@playwright/test';
 
 export class AdfInfoDrawerComponent extends BaseComponent {
-  private static rootElement = 'adf-info-drawer';
+  private static readonly rootElement = 'adf-info-drawer';
 
   constructor(page: Page) {
     super(page, AdfInfoDrawerComponent.rootElement);

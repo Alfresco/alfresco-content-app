@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { Pagination, SitePaging } from '@alfresco/js-api';
 import { UserPreferencesService } from '@alfresco/adf-core';
 import { SitesService } from '@alfresco/adf-content-services';
@@ -36,6 +36,10 @@ import { LibrariesBaseComponent } from '../libraries-base/libraries-base.compone
   encapsulation: ViewEncapsulation.None
 })
 export class LibraryListComponent extends LibrariesBaseComponent implements OnInit {
+  private readonly preferences = inject(UserPreferencesService);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly sitesService = inject(SitesService);
+
   pagination = new Pagination({
     skipCount: 0,
     maxItems: 25,
@@ -43,14 +47,6 @@ export class LibraryListComponent extends LibrariesBaseComponent implements OnIn
   });
   isLoading = false;
   list: SitePaging = null;
-
-  constructor(
-    private readonly preferences: UserPreferencesService,
-    private readonly changeDetectorRef: ChangeDetectorRef,
-    private readonly sitesService: SitesService
-  ) {
-    super();
-  }
 
   ngOnInit() {
     super.ngOnInit();

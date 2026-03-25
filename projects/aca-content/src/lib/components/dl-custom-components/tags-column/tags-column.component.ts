@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { TagNodeListComponent } from '@alfresco/adf-content-services';
 
 @Component({
@@ -36,12 +36,12 @@ import { TagNodeListComponent } from '@alfresco/adf-content-services';
   }
 })
 export class TagsColumnComponent implements OnInit {
+  private readonly cd = inject(ChangeDetectorRef);
+
   @Input()
   context: any;
 
   nodeId: string;
-
-  constructor(private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.nodeId = this.context?.row?.id;

@@ -25,25 +25,30 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ToolbarActionComponent } from './toolbar-action.component';
 import { ToolbarButtonType } from '../toolbar-button/toolbar-button.component';
-import { ChangeDetectorRef } from '@angular/core';
 import { ContentActionType } from '@alfresco/adf-extensions';
 import { LibTestingModule } from '@alfresco/aca-shared';
+import { ChangeDetectorRef } from '@angular/core';
 
 describe('ToolbarActionComponent', () => {
   let fixture: ComponentFixture<ToolbarActionComponent>;
   let component: ToolbarActionComponent;
-  let changeDetectorRef: ChangeDetectorRef;
+  let mockChangeDetectorRef: jasmine.SpyObj<ChangeDetectorRef>;
 
   beforeEach(() => {
+    mockChangeDetectorRef = jasmine.createSpyObj('ChangeDetectorRef', ['markForCheck', 'detectChanges']);
+
     TestBed.configureTestingModule({
-      imports: [LibTestingModule, ToolbarActionComponent],
-      providers: [{ provide: ChangeDetectorRef, useValue: { markForCheck() {} } }]
+      imports: [LibTestingModule, ToolbarActionComponent]
     });
 
     fixture = TestBed.createComponent(ToolbarActionComponent);
     component = fixture.componentInstance;
 
-    changeDetectorRef = TestBed.inject(ChangeDetectorRef);
+    Object.defineProperty(component, 'cd', {
+      value: mockChangeDetectorRef,
+      writable: false,
+      configurable: true
+    });
   });
 
   it('should be icon button by default', () => {
@@ -51,9 +56,6 @@ describe('ToolbarActionComponent', () => {
   });
 
   it('should force update UI on check for the viewer', () => {
-    component = new ToolbarActionComponent(changeDetectorRef);
-    const markForCheck = spyOn(changeDetectorRef, 'markForCheck');
-
     component.actionRef = {
       id: '-app.viewer',
       type: ContentActionType.button,
@@ -63,6 +65,6 @@ describe('ToolbarActionComponent', () => {
     };
 
     component.ngDoCheck();
-    expect(markForCheck).toHaveBeenCalled();
+    expect(mockChangeDetectorRef.markForCheck).toHaveBeenCalled();
   });
 });

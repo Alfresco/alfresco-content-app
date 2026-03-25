@@ -26,7 +26,7 @@ import { TagBody, TagEntry, TagPaging } from '@alfresco/js-api';
 import { ApiClientFactory } from './api-client-factory';
 
 export class TagsApi {
-  private apiService: ApiClientFactory;
+  private readonly apiService: ApiClientFactory;
 
   constructor() {
     this.apiService = new ApiClientFactory();

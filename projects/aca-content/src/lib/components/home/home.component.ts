@@ -32,8 +32,8 @@ import { AppSettingsService } from '@alfresco/aca-shared';
   encapsulation: ViewEncapsulation.None
 })
 export class HomeComponent implements OnInit {
-  private appSettings = inject(AppSettingsService);
-  private router = inject(Router);
+  private readonly appSettings = inject(AppSettingsService);
+  private readonly router = inject(Router);
 
   ngOnInit() {
     this.router.navigateByUrl(this.appSettings.landingPage);

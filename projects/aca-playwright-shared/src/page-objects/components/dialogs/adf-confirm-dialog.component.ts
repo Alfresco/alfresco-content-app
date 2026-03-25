@@ -26,7 +26,7 @@ import { Page } from '@playwright/test';
 import { BaseComponent } from '../base.component';
 
 export class AdfConfirmDialogComponent extends BaseComponent {
-  private static rootElement = 'adf-confirm-dialog';
+  private static readonly rootElement = 'adf-confirm-dialog';
 
   constructor(page: Page) {
     super(page, AdfConfirmDialogComponent.rootElement);

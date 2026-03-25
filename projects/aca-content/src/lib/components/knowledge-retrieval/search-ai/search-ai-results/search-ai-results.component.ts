@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PageComponent, PageLayoutComponent, ContentApiService } from '@alfresco/aca-shared';
 import { catchError, delay, filter, finalize, map, retry, shareReplay, switchMap, tap } from 'rxjs/operators';
@@ -74,6 +74,16 @@ import { searchAiMarkedOptions } from './search-ai-marked-options';
   host: { class: 'aca-search-ai-results' }
 })
 export class SearchAiResultsComponent extends PageComponent implements OnInit {
+  private readonly route = inject(ActivatedRoute);
+  private readonly clipboardService = inject(ClipboardService);
+  private readonly thumbnailService = inject(ThumbnailService);
+  private readonly translateService = inject(TranslateService);
+  private readonly unsavedChangesGuard = inject(UnsavedChangesGuard);
+  private readonly modalAiService = inject(ModalAiService);
+  private readonly viewerService = inject(ViewerService);
+  private readonly elementRef = inject(ElementRef);
+  private readonly contentApi = inject(ContentApiService);
+
   private static readonly MERMAID_BLOCK_REGEX = /```mermaid([\s\S]*?)```/g;
   private static readonly LATEX_BLOCK_REGEX = /```latex([\s\S]*?)```/g;
 
@@ -122,20 +132,6 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit {
 
   get hasReferencesLoadingError(): boolean {
     return this._hasReferencesLoadingError;
-  }
-
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly clipboardService: ClipboardService,
-    private readonly thumbnailService: ThumbnailService,
-    private readonly translateService: TranslateService,
-    private readonly unsavedChangesGuard: UnsavedChangesGuard,
-    private readonly modalAiService: ModalAiService,
-    private readonly viewerService: ViewerService,
-    private readonly elementRef: ElementRef,
-    private readonly contentApi: ContentApiService
-  ) {
-    super();
   }
 
   ngOnInit(): void {

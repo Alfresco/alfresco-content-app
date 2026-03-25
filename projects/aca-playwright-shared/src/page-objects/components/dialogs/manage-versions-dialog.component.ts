@@ -26,7 +26,7 @@ import { Page } from '@playwright/test';
 import { BaseComponent } from '../base.component';
 
 export class ManageVersionsDialog extends BaseComponent {
-  private static rootElement = '.adf-new-version-uploader-dialog';
+  private static readonly rootElement = '.adf-new-version-uploader-dialog';
 
   async viewFileVersion(version: string): Promise<void> {
     const versionActionsButton = this.getChild(`[id="adf-version-list-action-menu-button-${version}"]`);

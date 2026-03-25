@@ -23,7 +23,7 @@
  */
 
 import { AppExtensionService } from '@alfresco/aca-shared';
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, inject } from '@angular/core';
 import { AppStore, getRepositoryStatus } from '@alfresco/aca-shared/store';
 import { Store } from '@ngrx/store';
 import { filter, map, Observable } from 'rxjs';
@@ -32,10 +32,8 @@ import { filter, map, Observable } from 'rxjs';
   name: 'isFeatureSupportedInCurrentAcs'
 })
 export class IsFeatureSupportedInCurrentAcsPipe implements PipeTransform {
-  constructor(
-    private readonly appExtensionsService: AppExtensionService,
-    private readonly store: Store<AppStore>
-  ) {}
+  private readonly appExtensionsService = inject(AppExtensionService);
+  private readonly store = inject<Store<AppStore>>(Store);
 
   transform(evaluatorId: string): Observable<boolean> {
     return this.store.select(getRepositoryStatus).pipe(
