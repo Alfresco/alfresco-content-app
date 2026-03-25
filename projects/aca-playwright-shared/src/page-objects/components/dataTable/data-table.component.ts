@@ -55,6 +55,7 @@ export class DataTableComponent extends BaseComponent {
   searchFileName = '.search-file-name';
   searchFileDescription = '[data-automation-id="search-results-entry-description"]';
   searchFileContent = '.aca-result-content';
+  noPermissionsView = this.page.locator('aca-generic-error');
 
   /** Locator for row (or rows) */
   getRowLocator = this.page.getByRole('rowgroup').nth(1).locator('adf-datatable-row');

@@ -26,10 +26,14 @@ import { expect } from '@playwright/test';
 import { ApiClientFactory, NodesApi, Utils, test, SitesApi, FavoritesPageApi, timeouts, TrashcanApi } from '@alfresco/aca-playwright-shared';
 import { Site } from '@alfresco/js-api';
 
-test.describe('Favorites Files', () => {
+test.describe.serial('Favorites Files', () => {
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
   let siteActionsAdmin: SitesApi;
+  let favoritesActions: FavoritesPageApi;
+  let nodesApiAdmin: NodesApi;
+  let apiClientFactory: ApiClientFactory;
+  let parentId: string;
   const username = `user-${Utils.random()}`;
   const siteName = `site-${Utils.random()}`;
   const favFolderName = `favFolder-${Utils.random()}`;
@@ -42,36 +46,16 @@ test.describe('Favorites Files', () => {
   test.beforeAll(async () => {
     try {
       test.setTimeout(timeouts.extendedTest);
-      const apiClientFactory = new ApiClientFactory();
+      apiClientFactory = new ApiClientFactory();
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
-      const nodesApiAdmin = await NodesApi.initialize('admin');
+      nodesApiAdmin = await NodesApi.initialize('admin');
       siteActionsAdmin = await SitesApi.initialize('admin');
-      const favoritesActions = await FavoritesPageApi.initialize(username, username);
-      const consumerFavoritesTotalItems = await favoritesActions.getFavoritesTotalItems(username);
-      const folderFavId = (await nodesApi.createFolder(favFolderName)).entry.id;
-      const parentId = (await nodesApi.createFolder(parentFolder)).entry.id;
-      await siteActionsAdmin.createSite(siteName, Site.VisibilityEnum.PUBLIC);
-      const docLibId = await siteActionsAdmin.getDocLibId(siteName);
-      await siteActionsAdmin.addSiteMember(siteName, username, Site.RoleEnum.SiteManager);
-      await favoritesActions.addFavoritesByIds('folder', [folderFavId]);
-      const file1Id = (await nodesApiAdmin.createFile(fileName1, docLibId)).entry.id;
-      const file2Id = (await nodesApi.createFile(fileName2, parentId)).entry.id;
-      const file3Id = (await nodesApi.createFile(fileName3, parentId)).entry.id;
-      const file4Id = (await nodesApi.createFile(fileName4, parentId)).entry.id;
+      favoritesActions = await FavoritesPageApi.initialize(username, username);
 
-      await favoritesActions.addFavoritesByIds('file', [file1Id]);
-      await favoritesActions.addFavoriteById('file', file2Id);
-      await favoritesActions.addFavoriteById('file', file3Id);
-      await favoritesActions.addFavoriteById('file', file4Id);
-      await nodesApi.deleteNodes([file3Id, file4Id], false);
-      await apiClientFactory.trashCan.restoreDeletedNode(file4Id);
-      await Promise.all([
-        favoritesActions.isFavoriteWithRetry(username, folderFavId, { expect: true }),
-        favoritesActions.waitForApi(username, { expect: consumerFavoritesTotalItems + 4 })
-      ]);
+      parentId = (await nodesApi.createFolder(parentFolder)).entry.id;
     } catch (error) {
       console.error(`beforeAll failed : ${error}`);
     }
@@ -85,7 +69,48 @@ test.describe('Favorites Files', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActionsAdmin, [siteName]);
   });
 
+  test.describe(`Deleted favorite files in data list`, () => {
+    test.beforeAll(async () => {
+      const file3Id = (await nodesApi.createFile(fileName3, parentId)).entry.id;
+      const file4Id = (await nodesApi.createFile(fileName4, parentId)).entry.id;
+      await favoritesActions.addFavoriteById('file', file3Id);
+      await favoritesActions.addFavoriteById('file', file4Id);
+      await nodesApi.deleteNodes([file3Id, file4Id], false);
+      await apiClientFactory.trashCan.restoreDeletedNode(file4Id);
+    });
+
+    test.beforeEach(async ({ loginPage, favoritePage }) => {
+      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+      await favoritePage.navigate();
+    });
+
+    test(`[XAT-4456] Deleted favorite files and folders do not appear in the list`, async ({ favoritePage }) => {
+      expect(await favoritePage.dataTable.getRowByName(fileName3).isHidden(), `${fileName3} is displayed`).toBe(true);
+    });
+
+    test(`[XAT-4457] Favorite files and folders restored from trashcan are displayed in the list`, async ({ favoritePage }) => {
+      expect(await favoritePage.dataTable.isItemPresent(fileName4), `${fileName4} not displayed`).toBe(true);
+    });
+  });
+
   test.describe(`Regular user's Favorites files`, () => {
+    test.beforeAll(async () => {
+      const consumerFavoritesTotalItems = await favoritesActions.getFavoritesTotalItems(username);
+      const folderFavId = (await nodesApi.createFolder(favFolderName)).entry.id;
+      await siteActionsAdmin.createSite(siteName, Site.VisibilityEnum.PUBLIC);
+      const docLibId = await siteActionsAdmin.getDocLibId(siteName);
+      await siteActionsAdmin.addSiteMember(siteName, username, Site.RoleEnum.SiteManager);
+      await favoritesActions.addFavoritesByIds('folder', [folderFavId]);
+      const file1Id = (await nodesApiAdmin.createFile(fileName1, docLibId)).entry.id;
+      const file2Id = (await nodesApi.createFile(fileName2, parentId)).entry.id;
+      await favoritesActions.addFavoritesByIds('file', [file1Id]);
+      await favoritesActions.addFavoriteById('file', file2Id);
+      await Promise.all([
+        favoritesActions.isFavoriteWithRetry(username, folderFavId, { expect: true }),
+        favoritesActions.waitForApi(username, { expect: consumerFavoritesTotalItems + 4 })
+      ]);
+    });
+
     test.beforeEach(async ({ favoritePage }) => {
       await favoritePage.navigate();
     });
@@ -94,14 +119,6 @@ test.describe('Favorites Files', () => {
       const expectedColumns = ['Name', 'Location', 'Size', 'Modified', 'Modified by', 'Tags'];
       const actualColumns = Utils.trimArrayElements(await favoritePage.dataTable.getColumnHeaders());
       expect(actualColumns).toEqual(expectedColumns);
-    });
-
-    test(`[XAT-4456] Deleted favorite files and folders do not appear in the list`, async ({ favoritePage }) => {
-      expect(await favoritePage.dataTable.isItemPresent(fileName3), `${fileName3} is displayed`).not.toBe(true);
-    });
-
-    test(`[XAT-4457] Favorite files and folders restored from trashcan are displayed in the list`, async ({ favoritePage }) => {
-      expect(await favoritePage.dataTable.isItemPresent(fileName4), `${fileName4} not displayed`).toBe(true);
     });
 
     test('[XAT-4459] Location column displays the parent folder of the file as link', async ({ favoritePage }) => {

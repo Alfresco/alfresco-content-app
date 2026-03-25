@@ -39,194 +39,573 @@ import {
 import { Site } from '@alfresco/js-api';
 
 test.describe('viewer file', () => {
-  const username = `user-${Utils.random()}`;
-  const randomDocxName = `${TEST_FILES.DOCX.name}-${Utils.random()}`;
-  const randomJpgName = `${TEST_FILES.JPG_FILE.name}-${Utils.random()}`;
-  const siteUser = `siteUser-${Utils.random()}`;
-  const fileInSite = TEST_FILES.DOCX.name;
-  const siteAdmin = `siteAdmin-${Utils.random()}`;
-  const fileAdmin = TEST_FILES.XLSX.name;
-  let fileAdminId: string;
-  let docLibId: string;
-  let docLibSiteUserId: string;
-  let folderId: string;
-  let fileDocxId: string;
-  let fileJpgId: string;
-  let nodesApi: NodesApi;
-  let trashcanApi: TrashcanApi;
-  let siteActionsAdmin: SitesApi;
-  let siteActionsUser: SitesApi;
+  test.describe('Open viewer from Personal Files', () => {
+    const username = `user-${Utils.random()}`;
+    const randomDocxName = `${TEST_FILES.DOCX.name}-${Utils.random()}`;
+    let folderId: string;
+    let nodesApi: NodesApi;
+    let trashcanApi: TrashcanApi;
 
-  test.beforeAll(async () => {
-    test.setTimeout(timeouts.extendedTest);
-    const randomFolderName = `viewer-${Utils.random()}`;
-    const apiClientFactory = new ApiClientFactory();
-    await apiClientFactory.setUpAcaBackend('admin');
-    try {
-      await apiClientFactory.createUser({ username });
-    } catch (exception) {
-      if (JSON.parse(exception.message).error.statusCode !== 409) {
-        throw new Error(`----- beforeAll failed : ${exception}`);
+    test.beforeAll(async () => {
+      test.setTimeout(timeouts.extendedTest);
+      const randomFolderName = `viewer-${Utils.random()}`;
+      const apiClientFactory = new ApiClientFactory();
+      await apiClientFactory.setUpAcaBackend('admin');
+      try {
+        await apiClientFactory.createUser({ username });
+      } catch (exception) {
+        if (JSON.parse(exception.message).error.statusCode !== 409) {
+          throw new Error(`----- beforeAll failed : ${exception}`);
+        }
       }
-    }
-    nodesApi = await NodesApi.initialize(username, username);
-    const fileActionApi = await FileActionsApi.initialize(username, username);
-    trashcanApi = await TrashcanApi.initialize(username, username);
-    const shareActions = await SharedLinksApi.initialize(username, username);
-    const favoritesActions = await FavoritesPageApi.initialize(username, username);
-    siteActionsUser = await SitesApi.initialize(username, username);
-    siteActionsAdmin = await SitesApi.initialize('admin');
-    const fileActionApiAdmin = await FileActionsApi.initialize('admin');
-    const node = await nodesApi.createFolder(randomFolderName);
-    folderId = node.entry.id;
-    const fileDoc = await fileActionApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
-    fileDocxId = fileDoc.entry.id;
-    const fileJpg = await fileActionApi.uploadFile(TEST_FILES.JPG_FILE.path, randomJpgName, folderId);
-    fileJpgId = fileJpg.entry.id;
-    const consumerFavoritesTotalItems = await favoritesActions.getFavoritesTotalItems(username);
-    await shareActions.shareFileById(fileDocxId);
-    await favoritesActions.addFavoriteById('file', fileDocxId);
+      nodesApi = await NodesApi.initialize(username, username);
+      trashcanApi = await TrashcanApi.initialize(username, username);
+      const fileActionApi = await FileActionsApi.initialize(username, username);
+      const node = await nodesApi.createFolder(randomFolderName);
+      folderId = node.entry.id;
+      await fileActionApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
+      await fileActionApi.waitForNodes(randomDocxName, { expect: 1 });
+    });
 
-    try {
-      await siteActionsAdmin.createSite(siteAdmin, Site.VisibilityEnum.PRIVATE);
-    } catch (exception) {
-      if (JSON.parse(exception.message).error.statusCode !== 409) {
-        throw new Error(`----- beforeAll failed : ${exception}`);
+    test.beforeEach(async ({ personalFiles, loginPage }) => {
+      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+      await personalFiles.navigate({ remoteUrl: `#/personal-files/${folderId}` });
+    });
+
+    test.afterAll(async () => {
+      await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
+    });
+
+    test('[XAT-5471] Viewer opens on double clicking on a file from Personal Files', async ({ personalFiles }) => {
+      await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
+      expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    });
+
+    test('[XAT-5472] Viewer opens when clicking the View action for a file', async ({ personalFiles }) => {
+      await personalFiles.dataTable.getRowByName(randomDocxName).click();
+      await personalFiles.acaHeader.viewButton.click();
+      await personalFiles.dataTable.spinnerWaitForReload();
+      expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    });
+
+    test('[XAT-5473] The viewer general elements are displayed correctly', async ({ personalFiles }) => {
+      await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
+      expect(await personalFiles.viewer.isViewerOpened()).toBe(true);
+      await personalFiles.dataTable.spinnerWaitForReload();
+      expect(await personalFiles.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
+      expect(await personalFiles.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
+    });
+
+    test('[XAT-5474] Close the viewer', async ({ personalFiles }) => {
+      await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
+      expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+      expect(await personalFiles.viewer.getCloseButtonTooltip()).toEqual('Close');
+      await personalFiles.viewer.closeButtonLocator.click();
+      await expect(personalFiles.dataTable.getCellLinkByName(randomDocxName), 'Viewer did not close').toBeVisible();
+    });
+  });
+
+  test.describe('Navigate between files', () => {
+    const username = `user-${Utils.random()}`;
+    const file1 = `file-${Utils.random()}.txt`;
+    const file2 = `file2-${Utils.random()}.txt`;
+    const file3 = `file3-${Utils.random()}.txt`;
+    let folder2Id: string;
+    let folder3Id: string;
+    let nodesApi: NodesApi;
+    let trashcanApi: TrashcanApi;
+
+    test.beforeAll(async () => {
+      test.setTimeout(timeouts.extendedTest);
+      const randomFolderName2 = `viewer2-${Utils.random()}`;
+      const randomFolderName3 = `viewer3-${Utils.random()}`;
+      const apiClientFactory = new ApiClientFactory();
+      await apiClientFactory.setUpAcaBackend('admin');
+      try {
+        await apiClientFactory.createUser({ username });
+      } catch (exception) {
+        if (JSON.parse(exception.message).error.statusCode !== 409) {
+          throw new Error(`----- beforeAll failed : ${exception}`);
+        }
       }
-    }
+      nodesApi = await NodesApi.initialize(username, username);
+      trashcanApi = await TrashcanApi.initialize(username, username);
+      folder2Id = (await nodesApi.createFolder(randomFolderName2)).entry.id;
+      folder3Id = (await nodesApi.createFolder(randomFolderName3)).entry.id;
+      await nodesApi.createFile(file1, folder2Id);
+      await nodesApi.createFile(file2, folder2Id);
+      await nodesApi.createFile(file3, folder3Id);
+    });
 
-    docLibId = await siteActionsAdmin.getDocLibId(siteAdmin);
+    test.beforeEach(async ({ loginPage }) => {
+      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+    });
 
-    try {
-      fileAdminId = (await fileActionApiAdmin.uploadFile(TEST_FILES.DOCX.path, fileAdmin, docLibId)).entry.id;
-    } catch (exception) {
-      if (JSON.parse(exception.message).error.statusCode !== 409) {
-        throw new Error(`----- beforeAll failed : ${exception}`);
+    test.afterAll(async () => {
+      await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
+    });
+
+    test('[XAT-5408] Next / Previous File buttons are displayed and work when viewer is opened for a file from a list of files', async ({
+      personalFiles
+    }) => {
+      await personalFiles.navigate({ remoteUrl: `#/personal-files/${folder2Id}` });
+      await personalFiles.dataTable.performClickFolderOrFileToOpen(file1);
+      expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+      expect(await personalFiles.viewer.fileTitleButtonLocator.textContent()).toContain(file1);
+      await personalFiles.viewer.nextFileButton.click();
+      await personalFiles.viewer.waitForViewerLoaderToFinish();
+      expect(await personalFiles.viewer.fileTitleButtonLocator.textContent()).not.toContain(file1);
+      await personalFiles.viewer.previousFileButton.click();
+      await personalFiles.viewer.waitForViewerLoaderToFinish();
+      expect(await personalFiles.viewer.fileTitleButtonLocator.textContent()).toContain(file1);
+    });
+
+    test('[XAT-5409] Previous File button is not displayed when file is first in the list', async ({ personalFiles }) => {
+      await personalFiles.navigate({ remoteUrl: `#/personal-files/${folder2Id}` });
+      await personalFiles.dataTable.performClickFolderOrFileToOpen(file1);
+      expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+      if (await personalFiles.viewer.previousFileButton.isVisible()) {
+        await personalFiles.viewer.previousFileButton.click();
+        await personalFiles.viewer.waitForViewerLoaderToFinish();
       }
-    }
+      await expect(personalFiles.viewer.nextFileButton).toBeVisible();
+      await expect(personalFiles.viewer.previousFileButton).toBeHidden();
+    });
 
-    try {
-      await siteActionsUser.createSite(siteUser, Site.VisibilityEnum.PUBLIC);
-    } catch (exception) {
-      if (JSON.parse(exception.message).error.statusCode !== 409) {
-        throw new Error(`----- beforeAll failed : ${exception}`);
+    test('[XAT-5410] Next File button is not displayed when file is last in the list view', async ({ personalFiles }) => {
+      await personalFiles.navigate({ remoteUrl: `#/personal-files/${folder2Id}` });
+      await personalFiles.dataTable.performClickFolderOrFileToOpen(file1);
+      expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+      if (await personalFiles.viewer.nextFileButton.isVisible()) {
+        await personalFiles.viewer.nextFileButton.click();
+        await personalFiles.viewer.waitForViewerLoaderToFinish();
       }
-    }
+      await expect(personalFiles.viewer.previousFileButton).toBeVisible();
+      await expect(personalFiles.viewer.nextFileButton).toBeHidden();
+    });
 
-    docLibSiteUserId = await siteActionsUser.getDocLibId(siteUser);
+    test('[XAT-5411] Next / Previous File buttons are not displayed when no other files', async ({ personalFiles }) => {
+      await personalFiles.navigate({ remoteUrl: `#/personal-files/${folder3Id}` });
+      await personalFiles.dataTable.performClickFolderOrFileToOpen(file3);
+      expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+      await expect(personalFiles.viewer.fileTitleButtonLocator).toBeVisible();
+      await expect(personalFiles.viewer.previousFileButton).toBeHidden();
+      await expect(personalFiles.viewer.nextFileButton).toBeHidden();
+    });
+  });
 
-    try {
-      await fileActionApi.uploadFile(TEST_FILES.DOCX.path, fileInSite, docLibSiteUserId);
-    } catch (exception) {
-      if (JSON.parse(exception.message).error.statusCode !== 409) {
-        throw new Error(`----- beforeAll failed : ${exception}`);
+  test.describe('Navigate between files - permissions', () => {
+    const username1 = `user1-${Utils.random()}`;
+    const username2 = `user2-${Utils.random()}`;
+    const file1 = `file-${Utils.random()}.txt`;
+    const file2 = `file2-${Utils.random()}.txt`;
+    const file3 = `file3-${Utils.random()}.txt`;
+    let folderId: string;
+    let nodesApi1: NodesApi;
+    let trashcanApi1: TrashcanApi;
+    let sitesApi1: SitesApi;
+    let site1Id: string;
+    let user2Id: string;
+
+    test.beforeAll(async () => {
+      test.setTimeout(timeouts.extendedTest);
+      const randomFolderName2 = `viewer-permissions-${Utils.random()}`;
+      const apiClientFactory = new ApiClientFactory();
+      await apiClientFactory.setUpAcaBackend('admin');
+      try {
+        await apiClientFactory.createUser({ username: username1 });
+        user2Id = (await apiClientFactory.createUser({ username: username2 })).entry.id;
+      } catch (exception) {
+        if (JSON.parse(exception.message).error.statusCode !== 409) {
+          throw new Error(`----- beforeAll failed : ${exception}`);
+        }
       }
-    }
+      nodesApi1 = await NodesApi.initialize(username1, username1);
+      trashcanApi1 = await TrashcanApi.initialize(username1, username1);
+      sitesApi1 = await SitesApi.initialize(username1, username1);
+      site1Id = (await sitesApi1.createSite(`viewer-site-${Utils.random()}`, 'PRIVATE')).entry.id;
+      const site1DocLibId = await sitesApi1.getDocLibId(site1Id);
+      await sitesApi1.addSiteMember(site1Id, user2Id, 'SiteConsumer');
+      folderId = (await nodesApi1.createFolder(randomFolderName2, site1DocLibId)).entry.id;
+      await nodesApi1.createFile(file1, folderId);
+      await nodesApi1.createFile(file2, folderId);
+      await nodesApi1.createFile(file3, folderId);
+    });
 
-    await Promise.all([
-      favoritesActions.isFavoriteWithRetry(username, fileDocxId, { expect: true }),
-      favoritesActions.waitForApi(username, { expect: consumerFavoritesTotalItems + 2 })
-    ]);
-    await shareActions.waitForFilesToBeShared([fileDocxId]);
-    await fileActionApi.waitForNodes(randomDocxName, { expect: 1 });
+    test.beforeEach(async ({ loginPage }) => {
+      await Utils.tryLoginUser(loginPage, username2, username2, 'beforeEach failed');
+    });
+
+    test.afterAll(async () => {
+      await Utils.deleteNodesSitesEmptyTrashcan(nodesApi1, trashcanApi1, 'afterAll failed');
+      await sitesApi1.deleteSites([site1Id]);
+    });
+
+    test('[XAT-5412] Next/Previous File buttons when user has insufficient permissions', async ({ personalFiles }) => {
+      await personalFiles.navigate({ remoteUrl: `#/libraries/${folderId}` });
+      await personalFiles.dataTable.performClickFolderOrFileToOpen(file2);
+      expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+      await expect(personalFiles.viewer.fileTitleButtonLocator).toBeVisible();
+      await expect(personalFiles.viewer.previousFileButton.or(personalFiles.viewer.nextFileButton).first()).toBeVisible();
+      await sitesApi1.deleteSiteMember(site1Id, user2Id);
+      await personalFiles.viewer.previousFileButton.or(personalFiles.viewer.nextFileButton).first().click();
+      await expect(personalFiles.viewer.noPermissionsView.or(personalFiles.dataTable.noPermissionsView)).toBeVisible();
+    });
   });
 
-  test.beforeEach(async ({ personalFiles, loginPage }) => {
-    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
-    await personalFiles.navigate({ remoteUrl: `#/personal-files/${folderId}` });
+  test.describe('Open viewer via preview URL', () => {
+    const username = `user-${Utils.random()}`;
+    const randomJpgName = `${TEST_FILES.JPG_FILE.name}-${Utils.random()}`;
+    let folderId: string;
+    let fileJpgId: string;
+    let nodesApi: NodesApi;
+    let trashcanApi: TrashcanApi;
+
+    test.beforeAll(async () => {
+      test.setTimeout(timeouts.extendedTest);
+      const randomFolderName = `viewer-${Utils.random()}`;
+      const apiClientFactory = new ApiClientFactory();
+      await apiClientFactory.setUpAcaBackend('admin');
+      try {
+        await apiClientFactory.createUser({ username });
+      } catch (exception) {
+        if (JSON.parse(exception.message).error.statusCode !== 409) {
+          throw new Error(`----- beforeAll failed : ${exception}`);
+        }
+      }
+      nodesApi = await NodesApi.initialize(username, username);
+      trashcanApi = await TrashcanApi.initialize(username, username);
+      const fileActionApi = await FileActionsApi.initialize(username, username);
+      const node = await nodesApi.createFolder(randomFolderName);
+      folderId = node.entry.id;
+      const fileJpg = await fileActionApi.uploadFile(TEST_FILES.JPG_FILE.path, randomJpgName, folderId);
+      fileJpgId = fileJpg.entry.id;
+    });
+
+    test.beforeEach(async ({ loginPage }) => {
+      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+    });
+
+    test.afterAll(async () => {
+      await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
+    });
+
+    test('[XAT-5476] Viewer opens when accessing the preview URL for a file', async ({ personalFiles }) => {
+      const previewURL = `#/personal-files/${folderId}/(viewer:view/${fileJpgId})`;
+      await personalFiles.navigate({ remoteUrl: previewURL });
+      await personalFiles.viewer.waitForViewerLoaderToFinish(timeouts.fortySeconds);
+      await expect(personalFiles.viewer.fileTitleButtonLocator).toContainText(randomJpgName);
+    });
   });
 
-  test.afterAll(async () => {
-    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActionsUser, [docLibSiteUserId]);
-    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActionsAdmin, [docLibId]);
+  test.describe('Open viewer from Recent Files', () => {
+    const username = `user-${Utils.random()}`;
+    const randomDocxName = `${TEST_FILES.DOCX.name}-${Utils.random()}`;
+    let folderId: string;
+    let nodesApi: NodesApi;
+    let trashcanApi: TrashcanApi;
+
+    test.beforeAll(async () => {
+      test.setTimeout(timeouts.extendedTest);
+      const randomFolderName = `viewer-${Utils.random()}`;
+      const apiClientFactory = new ApiClientFactory();
+      await apiClientFactory.setUpAcaBackend('admin');
+      try {
+        await apiClientFactory.createUser({ username });
+      } catch (exception) {
+        if (JSON.parse(exception.message).error.statusCode !== 409) {
+          throw new Error(`----- beforeAll failed : ${exception}`);
+        }
+      }
+      nodesApi = await NodesApi.initialize(username, username);
+      trashcanApi = await TrashcanApi.initialize(username, username);
+      const fileActionApi = await FileActionsApi.initialize(username, username);
+      const node = await nodesApi.createFolder(randomFolderName);
+      folderId = node.entry.id;
+      await fileActionApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
+      await fileActionApi.waitForNodes(randomDocxName, { expect: 1 });
+    });
+
+    test.beforeEach(async ({ personalFiles, loginPage }) => {
+      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+      await personalFiles.navigate({ remoteUrl: `#/personal-files/${folderId}` });
+    });
+
+    test.afterAll(async () => {
+      await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
+    });
+
+    test('[XAT-5479] Viewer opens for a file from Recent Files', async ({ personalFiles, recentFilesPage }) => {
+      await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
+      expect(await personalFiles.viewer.getCloseButtonTooltip()).toEqual('Close');
+      await recentFilesPage.navigate();
+      await recentFilesPage.reload();
+      await recentFilesPage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
+      expect(await recentFilesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+      expect(await recentFilesPage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
+      expect(await recentFilesPage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
+    });
   });
 
-  test('[XAT-5471] Viewer opens on double clicking on a file from Personal Files', async ({ personalFiles }) => {
-    await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
-    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+  test.describe('Open viewer from Search Results', () => {
+    const username = `user-${Utils.random()}`;
+    const randomDocxName = `${TEST_FILES.DOCX.name}-${Utils.random()}`;
+    let nodesApi: NodesApi;
+    let trashcanApi: TrashcanApi;
+
+    test.beforeAll(async () => {
+      test.setTimeout(timeouts.extendedTest);
+      const randomFolderName = `viewer-${Utils.random()}`;
+      const apiClientFactory = new ApiClientFactory();
+      await apiClientFactory.setUpAcaBackend('admin');
+      try {
+        await apiClientFactory.createUser({ username });
+      } catch (exception) {
+        if (JSON.parse(exception.message).error.statusCode !== 409) {
+          throw new Error(`----- beforeAll failed : ${exception}`);
+        }
+      }
+      nodesApi = await NodesApi.initialize(username, username);
+      trashcanApi = await TrashcanApi.initialize(username, username);
+      const fileActionApi = await FileActionsApi.initialize(username, username);
+      const node = await nodesApi.createFolder(randomFolderName);
+      const folderId = node.entry.id;
+      await fileActionApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
+      await fileActionApi.waitForNodes(randomDocxName, { expect: 1 });
+    });
+
+    test.beforeEach(async ({ loginPage }) => {
+      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+    });
+
+    test.afterAll(async () => {
+      await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
+    });
+
+    test('[XAT-5482] Viewer opens for a file from Search Results', async ({ searchPage }) => {
+      await searchPage.searchWithin(randomDocxName, 'filesAndFolders');
+      await searchPage.dataTable.goThroughPagesLookingForRowWithName(randomDocxName);
+      await searchPage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
+      expect(await searchPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+      expect(await searchPage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
+      expect(await searchPage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
+    });
   });
 
-  test('[XAT-5472] Viewer opens when clicking the View action for a file', async ({ personalFiles }) => {
-    await personalFiles.dataTable.getRowByName(randomDocxName).click();
-    await personalFiles.acaHeader.viewButton.click();
-    await personalFiles.dataTable.spinnerWaitForReload();
-    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+  test.describe('Open viewer from Shared Files', () => {
+    const username = `user-${Utils.random()}`;
+    const randomDocxName = `${TEST_FILES.DOCX.name}-${Utils.random()}`;
+    let nodesApi: NodesApi;
+    let trashcanApi: TrashcanApi;
+
+    test.beforeAll(async () => {
+      test.setTimeout(timeouts.extendedTest);
+      const randomFolderName = `viewer-${Utils.random()}`;
+      const apiClientFactory = new ApiClientFactory();
+      await apiClientFactory.setUpAcaBackend('admin');
+      try {
+        await apiClientFactory.createUser({ username });
+      } catch (exception) {
+        if (JSON.parse(exception.message).error.statusCode !== 409) {
+          throw new Error(`----- beforeAll failed : ${exception}`);
+        }
+      }
+      nodesApi = await NodesApi.initialize(username, username);
+      trashcanApi = await TrashcanApi.initialize(username, username);
+      const fileActionApi = await FileActionsApi.initialize(username, username);
+      const shareActions = await SharedLinksApi.initialize(username, username);
+      const node = await nodesApi.createFolder(randomFolderName);
+      const folderId = node.entry.id;
+      const fileDoc = await fileActionApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
+      const fileDocxId = fileDoc.entry.id;
+      await shareActions.shareFileById(fileDocxId);
+      await shareActions.waitForFilesToBeShared([fileDocxId]);
+    });
+
+    test.beforeEach(async ({ loginPage }) => {
+      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+    });
+
+    test.afterAll(async () => {
+      await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
+    });
+
+    test('[XAT-5480] Viewer opens for a file from Shared Files', async ({ sharedPage }) => {
+      await sharedPage.navigate();
+      await sharedPage.reload({ waitUntil: 'domcontentloaded' });
+      await sharedPage.dataTable.goThroughPagesLookingForRowWithName(randomDocxName);
+      await sharedPage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
+      expect(await sharedPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+      expect(await sharedPage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
+      expect(await sharedPage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
+    });
   });
 
-  test('[XAT-5473] The viewer general elements are displayed correctly', async ({ personalFiles }) => {
-    await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
-    expect(await personalFiles.viewer.isViewerOpened()).toBe(true);
-    await personalFiles.dataTable.spinnerWaitForReload();
-    expect(await personalFiles.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
-    expect(await personalFiles.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
+  test.describe('Open viewer from Favorites', () => {
+    const username = `user-${Utils.random()}`;
+    const randomDocxName = `${TEST_FILES.DOCX.name}-${Utils.random()}`;
+    let nodesApi: NodesApi;
+    let trashcanApi: TrashcanApi;
+
+    test.beforeAll(async () => {
+      test.setTimeout(timeouts.extendedTest);
+      const randomFolderName = `viewer-${Utils.random()}`;
+      const apiClientFactory = new ApiClientFactory();
+      await apiClientFactory.setUpAcaBackend('admin');
+      try {
+        await apiClientFactory.createUser({ username });
+      } catch (exception) {
+        if (JSON.parse(exception.message).error.statusCode !== 409) {
+          throw new Error(`----- beforeAll failed : ${exception}`);
+        }
+      }
+      nodesApi = await NodesApi.initialize(username, username);
+      trashcanApi = await TrashcanApi.initialize(username, username);
+      const fileActionApi = await FileActionsApi.initialize(username, username);
+      const favoritesActions = await FavoritesPageApi.initialize(username, username);
+      const node = await nodesApi.createFolder(randomFolderName);
+      const folderId = node.entry.id;
+      const fileDoc = await fileActionApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
+      const fileDocxId = fileDoc.entry.id;
+      const consumerFavoritesTotalItems = await favoritesActions.getFavoritesTotalItems(username);
+      await favoritesActions.addFavoriteById('file', fileDocxId);
+      await Promise.all([
+        favoritesActions.isFavoriteWithRetry(username, fileDocxId, { expect: true }),
+        favoritesActions.waitForApi(username, { expect: consumerFavoritesTotalItems + 1 })
+      ]);
+    });
+
+    test.beforeEach(async ({ loginPage }) => {
+      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+    });
+
+    test.afterAll(async () => {
+      await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
+    });
+
+    test('[XAT-5481] Viewer opens for a file from Favorites', async ({ favoritePage }) => {
+      await favoritePage.navigate({ waitUntil: 'domcontentloaded' });
+      await favoritePage.dataTable.goThroughPagesLookingForRowWithName(randomDocxName);
+      await favoritePage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
+      expect(await favoritePage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+      expect(await favoritePage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
+      expect(await favoritePage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
+    });
   });
 
-  test('[XAT-5474] Close the viewer', async ({ personalFiles }) => {
-    await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
-    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-    expect(await personalFiles.viewer.getCloseButtonTooltip()).toEqual('Close');
-    await personalFiles.viewer.closeButtonLocator.click();
-    await expect(personalFiles.dataTable.getCellLinkByName(randomDocxName), 'Viewer did not close').toBeVisible();
+  test.describe('Viewer does not open without permissions', () => {
+    const username = `user-${Utils.random()}`;
+    const siteAdmin = `siteAdmin-${Utils.random()}`;
+    const fileAdmin = TEST_FILES.XLSX.name;
+    let docLibId: string;
+    let fileAdminId: string;
+    let nodesApi: NodesApi;
+    let trashcanApi: TrashcanApi;
+    let siteActionsAdmin: SitesApi;
+
+    test.beforeAll(async () => {
+      test.setTimeout(timeouts.extendedTest);
+      const apiClientFactory = new ApiClientFactory();
+      await apiClientFactory.setUpAcaBackend('admin');
+      try {
+        await apiClientFactory.createUser({ username });
+      } catch (exception) {
+        if (JSON.parse(exception.message).error.statusCode !== 409) {
+          throw new Error(`----- beforeAll failed : ${exception}`);
+        }
+      }
+      nodesApi = await NodesApi.initialize(username, username);
+      trashcanApi = await TrashcanApi.initialize(username, username);
+      siteActionsAdmin = await SitesApi.initialize('admin');
+      const fileActionApiAdmin = await FileActionsApi.initialize('admin');
+      try {
+        await siteActionsAdmin.createSite(siteAdmin, Site.VisibilityEnum.PRIVATE);
+      } catch (exception) {
+        if (JSON.parse(exception.message).error.statusCode !== 409) {
+          throw new Error(`----- beforeAll failed : ${exception}`);
+        }
+      }
+      docLibId = await siteActionsAdmin.getDocLibId(siteAdmin);
+      try {
+        fileAdminId = (await fileActionApiAdmin.uploadFile(TEST_FILES.DOCX.path, fileAdmin, docLibId)).entry.id;
+      } catch (exception) {
+        if (JSON.parse(exception.message).error.statusCode !== 409) {
+          throw new Error(`----- beforeAll failed : ${exception}`);
+        }
+      }
+    });
+
+    test.beforeEach(async ({ loginPage }) => {
+      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+    });
+
+    test.afterAll(async () => {
+      await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActionsAdmin, [docLibId]);
+    });
+
+    test('[XAT-5477] Viewer does not open when accessing the preview URL for a file without permissions', async ({ personalFiles }) => {
+      const previewURL = `#/libraries/${docLibId}/(viewer:view/${fileAdminId})`;
+      await personalFiles.navigate({ remoteUrl: `${previewURL}` });
+      await expect(personalFiles.viewer.viewerLocator, 'Viewer should not be opened!').toBeHidden();
+    });
   });
 
-  test('[XAT-5479] Viewer opens for a file from Recent Files', async ({ personalFiles, recentFilesPage }) => {
-    await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
-    expect(await personalFiles.viewer.getCloseButtonTooltip()).toEqual('Close');
-    await recentFilesPage.navigate();
-    await recentFilesPage.reload();
-    await recentFilesPage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
-    expect(await recentFilesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-    expect(await recentFilesPage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
-    expect(await recentFilesPage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
-  });
+  test.describe('Open viewer from File Libraries', () => {
+    const username = `user-${Utils.random()}`;
+    const siteUser = `siteUser-${Utils.random()}`;
+    const fileInSite = TEST_FILES.DOCX.name;
+    let docLibSiteUserId: string;
+    let nodesApi: NodesApi;
+    let trashcanApi: TrashcanApi;
+    let siteActionsUser: SitesApi;
 
-  test('[XAT-5482] Viewer opens for a file from Search Results', async ({ searchPage }) => {
-    await searchPage.searchWithin(randomDocxName, 'filesAndFolders');
-    await searchPage.dataTable.goThroughPagesLookingForRowWithName(randomDocxName);
-    await searchPage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
-    expect(await searchPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-    expect(await searchPage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
-    expect(await searchPage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
-  });
+    test.beforeAll(async () => {
+      test.setTimeout(timeouts.extendedTest);
+      const apiClientFactory = new ApiClientFactory();
+      await apiClientFactory.setUpAcaBackend('admin');
+      try {
+        await apiClientFactory.createUser({ username });
+      } catch (exception) {
+        if (JSON.parse(exception.message).error.statusCode !== 409) {
+          throw new Error(`----- beforeAll failed : ${exception}`);
+        }
+      }
+      nodesApi = await NodesApi.initialize(username, username);
+      trashcanApi = await TrashcanApi.initialize(username, username);
+      siteActionsUser = await SitesApi.initialize(username, username);
+      const fileActionApi = await FileActionsApi.initialize(username, username);
+      try {
+        await siteActionsUser.createSite(siteUser, Site.VisibilityEnum.PUBLIC);
+      } catch (exception) {
+        if (JSON.parse(exception.message).error.statusCode !== 409) {
+          throw new Error(`----- beforeAll failed : ${exception}`);
+        }
+      }
+      docLibSiteUserId = await siteActionsUser.getDocLibId(siteUser);
+      try {
+        await fileActionApi.uploadFile(TEST_FILES.DOCX.path, fileInSite, docLibSiteUserId);
+      } catch (exception) {
+        if (JSON.parse(exception.message).error.statusCode !== 409) {
+          throw new Error(`----- beforeAll failed : ${exception}`);
+        }
+      }
+    });
 
-  test('[XAT-5476] Viewer opens when accessing the preview URL for a file', async ({ personalFiles }) => {
-    const previewURL = `#/personal-files/${folderId}/(viewer:view/${fileJpgId})`;
-    await personalFiles.navigate({ remoteUrl: previewURL });
-    await personalFiles.viewer.waitForViewerLoaderToFinish(timeouts.fortySeconds);
-    await expect(personalFiles.viewer.fileTitleButtonLocator).toContainText(randomJpgName);
-  });
+    test.beforeEach(async ({ loginPage }) => {
+      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+    });
 
-  test('[XAT-5480] Viewer opens for a file from Shared Files', async ({ sharedPage }) => {
-    await sharedPage.navigate();
-    await sharedPage.reload({ waitUntil: 'domcontentloaded' });
-    await sharedPage.dataTable.goThroughPagesLookingForRowWithName(randomDocxName);
-    await sharedPage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
-    expect(await sharedPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-    expect(await sharedPage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
-    expect(await sharedPage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
-  });
+    test.afterAll(async () => {
+      await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActionsUser, [docLibSiteUserId]);
+    });
 
-  test('[XAT-5481] Viewer opens for a file from Favorites', async ({ favoritePage }) => {
-    await favoritePage.navigate({ waitUntil: 'domcontentloaded' });
-    await favoritePage.dataTable.goThroughPagesLookingForRowWithName(randomDocxName);
-    await favoritePage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
-    expect(await favoritePage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-    expect(await favoritePage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
-    expect(await favoritePage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
-  });
-
-  test('[XAT-5477] Viewer does not open when accessing the preview URL for a file without permissions', async ({ personalFiles }) => {
-    const previewURL = `#/libraries/${docLibId}/(viewer:view/${fileAdminId})`;
-    await personalFiles.navigate({ remoteUrl: `${previewURL}` });
-    await expect(personalFiles.viewer.viewerLocator, 'Viewer should not be opened!').toBeHidden();
-  });
-
-  test('[XAT-5478] Viewer opens for a file from File Libraries', async ({ myLibrariesPage }) => {
-    await myLibrariesPage.navigate();
-    await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(siteUser);
-    await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(fileInSite);
-    expect(await myLibrariesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-    expect(await myLibrariesPage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
-    expect(await myLibrariesPage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
+    test('[XAT-5478] Viewer opens for a file from File Libraries', async ({ myLibrariesPage }) => {
+      await myLibrariesPage.navigate();
+      await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(siteUser);
+      await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(fileInSite);
+      expect(await myLibrariesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+      expect(await myLibrariesPage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
+      expect(await myLibrariesPage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
+    });
   });
 });

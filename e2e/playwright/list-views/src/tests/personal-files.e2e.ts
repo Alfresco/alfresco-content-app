@@ -23,11 +23,12 @@
  */
 
 import { expect } from '@playwright/test';
-import { APP_ROUTES, ApiClientFactory, NodesApi, SIDEBAR_LABELS, Utils, test, TrashcanApi } from '@alfresco/aca-playwright-shared';
+import { APP_ROUTES, ApiClientFactory, NodesApi, SIDEBAR_LABELS, Utils, test, TrashcanApi, SearchApi } from '@alfresco/aca-playwright-shared';
 
 test.describe('Personal Files', () => {
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
+  let searchApi: SearchApi;
   const username = `user-${Utils.random()}`;
   const userFolder = `user-folder-${Utils.random()}`;
 
@@ -38,6 +39,7 @@ test.describe('Personal Files', () => {
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
+      searchApi = await SearchApi.initialize(username, username);
       await nodesApi.createFolder(userFolder);
     } catch (error) {
       console.error(`beforeAll failed : ${error}`);
@@ -75,6 +77,70 @@ test.describe('Personal Files', () => {
     test('[XAT-4412] Personal Files - List reloads on browser Refresh', async ({ personalFiles }) => {
       await personalFiles.reload();
       expect(personalFiles.page.url()).toContain(APP_ROUTES.PERSONAL_FILES);
+    });
+
+    test('[XAT-4518] Invalid URL', async ({ personalFiles }) => {
+      await personalFiles.navigate({ remoteUrl: `#/personal-files/nonexistentpage-${Utils.random()}` });
+      await expect(personalFiles.dataTable.noPermissionsView).toBeVisible();
+    });
+  });
+
+  test.describe(`Folder name abbreviation`, () => {
+    const abbreviateFolderMain = `XAT-4385-folder-${Utils.random()}`;
+    const abbreviateFolder2 = `XAT-4385-folder-${Utils.random()}-2`;
+    const abbreviateFolder3 = `XAT-4385-folder-${Utils.random()}-3`;
+    const abbreviateFolder4 = `XAT-4385-folder-${Utils.random()}-4`;
+    const abbreviateFolder5 = `XAT-4385-folder-${Utils.random()}-5`;
+
+    let abbreviateFolder5Id: string;
+
+    test.beforeAll(async () => {
+      const abbreviateFolderMainId = (await nodesApi.createFolder(abbreviateFolderMain)).entry.id;
+      const abbreviateFolder2Id = (await nodesApi.createFolder(abbreviateFolder2, abbreviateFolderMainId)).entry.id;
+      const abbreviateFolder3Id = (await nodesApi.createFolder(abbreviateFolder3, abbreviateFolder2Id)).entry.id;
+      const abbreviateFolder4Id = (await nodesApi.createFolder(abbreviateFolder4, abbreviateFolder3Id)).entry.id;
+      abbreviateFolder5Id = (await nodesApi.createFolder(abbreviateFolder5, abbreviateFolder4Id)).entry.id;
+    });
+
+    test.beforeEach(async ({ loginPage }) => {
+      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+    });
+
+    test('[XAT-4385] Folder names abbreviate when path is too long to fit the screen', async ({ personalFiles }) => {
+      await personalFiles.navigate({ remoteUrl: `#/personal-files/${abbreviateFolder5Id}` });
+      await personalFiles.breadcrumb.currentItem.waitFor();
+      const hasOverflow = await personalFiles.breadcrumb.currentItem.evaluate(
+        (folderNameElement) => folderNameElement.scrollWidth > folderNameElement.clientWidth
+      );
+      expect(hasOverflow).toBe(true);
+    });
+  });
+
+  test.describe(`Navigate to parent folder after pagination`, () => {
+    const abbreviateFolderMain = `XAT-4527-folder-${Utils.random()}`;
+    const abbreviateFolder2 = `XAT-4527-folder-${Utils.random()}-2`;
+
+    let abbreviateFolder2Id: string;
+
+    test.beforeAll(async () => {
+      const abbreviateFolderMainId = (await nodesApi.createFolder(abbreviateFolderMain)).entry.id;
+      abbreviateFolder2Id = (await nodesApi.createFolder(abbreviateFolder2, abbreviateFolderMainId)).entry.id;
+      await nodesApi.createMultipleFiles(30, abbreviateFolder2Id);
+      await searchApi.waitForFolderPathIndexing(abbreviateFolder2Id, { nodesExpected: 30 });
+    });
+
+    test.beforeEach(async ({ loginPage }) => {
+      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+    });
+
+    test('[XAT-4527] Should be able to navigate to the parent folder when pagination is set to 25', async ({ personalFiles }) => {
+      await personalFiles.navigate({ remoteUrl: `#/personal-files/${abbreviateFolder2Id}` });
+      await personalFiles.breadcrumb.currentItem.waitFor();
+      await personalFiles.pagination.clickOnNextPage();
+      expect(await personalFiles.pagination.getCurrentPage()).toBe('Page 2');
+      await personalFiles.breadcrumb.clickItem(abbreviateFolderMain);
+      await personalFiles.spinner.spinnerWaitForReload();
+      expect(await personalFiles.pagination.getRange()).toContain('Showing 1-1');
     });
   });
 });

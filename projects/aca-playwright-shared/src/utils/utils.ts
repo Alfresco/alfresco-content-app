@@ -194,4 +194,8 @@ export class Utils {
   ) {
     await contentPage.page.waitForResponse((response) => response.url().includes(urlSubstring) && response.status() === statusCode);
   }
+
+  static async delayInSeconds(seconds: number): Promise<void> {
+    await new Promise((resolve) => setTimeout(resolve, seconds * 1000));
+  }
 }

@@ -32,7 +32,7 @@ export class ViewerComponent extends BaseComponent {
 
   public viewerLocator = this.getChild('adf-viewer-render');
   public closeButtonLocator = this.getChild('.adf-viewer-close-button');
-  public fileTitleButtonLocator = this.getChild('.adf-viewer__file-title');
+  public fileTitleButtonLocator = this.getChild('#adf-viewer-display-name');
   public pdfViewerContentPages = this.getChild('.adf-pdf-viewer__content .page');
   public shareButton = this.getChild('button[id="share-action-button"]');
   public downloadButton = this.getChild('button[id="app.viewer.download"]');
@@ -50,6 +50,9 @@ export class ViewerComponent extends BaseComponent {
   public zoomScale = this.getChild('[data-automation-id="adf-page-scale"]');
   public zoomResetButton = this.getChild('#viewer-reset-button');
   public fitToPageButton = this.getChild('#viewer-scale-page-button');
+  public nextFileButton = this.getChild('[data-automation-id="adf-toolbar-next-file"]');
+  public previousFileButton = this.getChild('[data-automation-id="adf-toolbar-pref-file"]');
+  public noPermissionsView = this.getChild('aca-generic-error');
 
   toolbar = new AcaHeader(this.page);
 
@@ -67,10 +70,8 @@ export class ViewerComponent extends BaseComponent {
     return this.viewerLocator.isVisible();
   }
 
-  async waitForViewerToOpen(waitForViewerContent?: 'wait for viewer content'): Promise<void> {
-    if (waitForViewerContent) {
-      await this.waitForViewerLoaderToFinish();
-    }
+  async waitForViewerToOpen(): Promise<void> {
+    await this.waitForViewerLoaderToFinish();
     await this.viewerLocator.waitFor({ state: 'visible', timeout: timeouts.large });
   }
 

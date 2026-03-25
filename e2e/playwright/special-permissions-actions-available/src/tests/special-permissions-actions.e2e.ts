@@ -34,7 +34,7 @@ import {
   SitesApi,
   test,
   SharedLinksApi,
-  SearchPageApi,
+  SearchApi,
   timeouts,
   Utils
 } from '@alfresco/aca-playwright-shared';
@@ -78,7 +78,7 @@ test.describe('Special permissions : ', () => {
   let consumerShareActions: SharedLinksApi;
   let managerSiteActions: SitesApi;
   let managerFileActions: FileActionsApi;
-  let managerSearchActions: SearchPageApi;
+  let managerSearchActions: SearchApi;
 
   test.beforeAll(async () => {
     test.setTimeout(timeouts.extendedLongTest);
@@ -94,7 +94,7 @@ test.describe('Special permissions : ', () => {
     collaboratorFavoritesActions = await FavoritesPageApi.initialize(userCollaborator, userCollaborator);
     demotedUserFavoritesActions = await FavoritesPageApi.initialize(userDemoted, userDemoted);
     managerFavoritesActions = await FavoritesPageApi.initialize(userManager, userManager);
-    managerSearchActions = await SearchPageApi.initialize(userManager, userManager);
+    managerSearchActions = await SearchApi.initialize(userManager, userManager);
     managerSiteActions = await SitesApi.initialize(userManager, userManager);
     managerFileActions = await FileActionsApi.initialize(userManager, userManager);
     managerUserShareActions = await SharedLinksApi.initialize(userManager, userManager);

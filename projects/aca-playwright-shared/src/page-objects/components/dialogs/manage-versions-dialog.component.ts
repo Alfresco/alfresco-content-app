@@ -29,8 +29,16 @@ export class ManageVersionsDialog extends BaseComponent {
   private static readonly rootElement = '.adf-new-version-uploader-dialog';
 
   async viewFileVersion(version: string): Promise<void> {
-    const versionActionsButton = this.getChild(`[id="adf-version-list-action-menu-button-${version}"]`);
-    await versionActionsButton.click();
+    await this.getChild(`[id="adf-version-list-action-menu-button-${version}"]`).click();
+  }
+
+  async isVersionPresent(version: string): Promise<boolean> {
+    return this.getChild(`[id="adf-version-list-item-version-${version}"]`).isVisible();
+  }
+
+  async waitForProgressBarToDisappear(): Promise<void> {
+    await this.getChild('[data-automation-id="version-history-loading-bar"]').waitFor({ state: 'attached' });
+    await this.getChild('[data-automation-id="version-history-loading-bar"]').waitFor({ state: 'detached' });
   }
 
   constructor(page: Page) {

@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, NodesApi, SearchPageApi, SitesApi, TrashcanApi, Utils, test, timeouts } from '@alfresco/aca-playwright-shared';
+import { ApiClientFactory, NodesApi, SearchApi, SitesApi, TrashcanApi, Utils, test, timeouts } from '@alfresco/aca-playwright-shared';
 import { Site } from '@alfresco/js-api';
 
 test.describe('Recent Files', () => {
@@ -69,7 +69,7 @@ test.describe('Recent Files', () => {
     const folderSiteId = (await nodeActionsUser.createFolder(folderSite, docLibId)).entry.id;
     await nodeActionsUser.createFile(fileSite, folderSiteId);
 
-    const searchApi = await SearchPageApi.initialize(username, username);
+    const searchApi = await SearchApi.initialize(username, username);
     await searchApi.waitForApi(username, { expect: 3 });
   });
 
