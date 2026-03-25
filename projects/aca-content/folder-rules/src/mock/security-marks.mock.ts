@@ -22,8 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SecurityControlsMarkResponse } from '@alfresco/adf-content-services/lib/security/services/models/security-controls-mark-response.interface';
 import { UpdateNotification } from '@alfresco/adf-core';
+import { SecurityControlsMarkResponse } from '@alfresco/adf-content-services';
 
 export const securityMarksResponseMock: SecurityControlsMarkResponse = {
   pagination: {

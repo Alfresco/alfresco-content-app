@@ -82,7 +82,7 @@ describe('SaveSearchDirective', () => {
     });
 
     it('should open the dialog with the correct configuration', () => {
-      spyOn(dialog, 'open');
+      spyOn(dialog, 'open').and.callThrough();
       element.nativeElement.click();
 
       const expectedConfig: MatDialogConfig<SaveSearchDirectiveDialogData> = {
@@ -105,7 +105,7 @@ describe('SaveSearchDirective', () => {
     });
 
     it('should open the dialog with the correct configuration', () => {
-      spyOn(dialog, 'open');
+      spyOn(dialog, 'open').and.callThrough();
       element.nativeElement.click();
 
       const expectedConfig: MatDialogConfig<SaveSearchDirectiveDialogData> = {
