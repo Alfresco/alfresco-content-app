@@ -100,7 +100,7 @@ export class LocationLinkComponent implements OnInit {
   }
 
   openAdditionalLocationReferencesDialog() {
-    if (this.context.row.node) {
+    if (this.context?.row.node) {
       this.dialogRef.open(DialogComponent, {
         data: {
           title: 'APP.ADDITIONAL_REFERENCES_DIALOG.TITLE',
