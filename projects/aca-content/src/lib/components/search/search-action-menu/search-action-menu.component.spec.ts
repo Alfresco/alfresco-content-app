@@ -22,8 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
-import { SearchSortingDefinition } from '@alfresco/adf-content-services/lib/search/models/search-sorting-definition.interface';
+import { SearchSortingDefinition, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { SearchActionMenuComponent } from './search-action-menu.component';
