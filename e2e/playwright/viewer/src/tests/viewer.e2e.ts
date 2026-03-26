@@ -52,18 +52,18 @@ test.describe('viewer file', () => {
   test.describe('Open viewer from Personal Files', () => {
     const username = `user-${Utils.random()}`;
     const randomDocxName = `${TEST_FILES.DOCX.name}-${Utils.random()}`;
-    let folderId: string;
-    let nodesApi: NodesApi;
-    let trashcanApi: TrashcanApi;
+    let folderViewerId: string;
+    let nodesApi_viewer: NodesApi;
+    let trashcanApi_viewer: TrashcanApi;
 
     test.beforeAll(async () => {
       try {
         const apis = await initializeApis(username);
-        nodesApi = apis.nodesApi;
-        trashcanApi = apis.trashcanApi;
+        nodesApi_viewer = apis.nodesApi;
+        trashcanApi_viewer = apis.trashcanApi;
         const { fileActionsApi } = apis;
-        folderId = (await nodesApi.createFolder(`viewer-${Utils.random()}`)).entry.id;
-        await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
+        folderViewerId = (await nodesApi_viewer.createFolder(`viewer-${Utils.random()}`)).entry.id;
+        await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderViewerId);
         await fileActionsApi.waitForNodes(randomDocxName, { expect: 1 });
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
@@ -72,11 +72,11 @@ test.describe('viewer file', () => {
 
     test.beforeEach(async ({ personalFiles, loginPage }) => {
       await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
-      await personalFiles.navigate({ remoteUrl: `#/personal-files/${folderId}` });
+      await personalFiles.navigate({ remoteUrl: `#/personal-files/${folderViewerId}` });
     });
 
     test.afterAll(async () => {
-      await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
+      await Utils.deleteNodesSitesEmptyTrashcan(nodesApi_viewer, trashcanApi_viewer, 'afterAll failed');
     });
 
     test('[XAT-5471] Viewer opens on double clicking on a file from Personal Files', async ({ personalFiles }) => {
@@ -285,18 +285,18 @@ test.describe('viewer file', () => {
   test.describe('Open viewer from Recent Files', () => {
     const username = `user-${Utils.random()}`;
     const randomDocxName = `${TEST_FILES.DOCX.name}-${Utils.random()}`;
-    let folderId: string;
-    let nodesApi: NodesApi;
-    let trashcanApi: TrashcanApi;
+    let folderRecentId: string;
+    let nodesApi_recent: NodesApi;
+    let trashcanApi_recent: TrashcanApi;
 
     test.beforeAll(async () => {
       try {
         const apis = await initializeApis(username);
-        nodesApi = apis.nodesApi;
-        trashcanApi = apis.trashcanApi;
+        nodesApi_recent = apis.nodesApi;
+        trashcanApi_recent = apis.trashcanApi;
         const { fileActionsApi } = apis;
-        folderId = (await nodesApi.createFolder(`viewer-${Utils.random()}`)).entry.id;
-        await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
+        folderRecentId = (await nodesApi_recent.createFolder(`viewer-${Utils.random()}`)).entry.id;
+        await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderRecentId);
         await fileActionsApi.waitForNodes(randomDocxName, { expect: 1 });
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
@@ -305,11 +305,11 @@ test.describe('viewer file', () => {
 
     test.beforeEach(async ({ personalFiles, loginPage }) => {
       await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
-      await personalFiles.navigate({ remoteUrl: `#/personal-files/${folderId}` });
+      await personalFiles.navigate({ remoteUrl: `#/personal-files/${folderRecentId}` });
     });
 
     test.afterAll(async () => {
-      await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
+      await Utils.deleteNodesSitesEmptyTrashcan(nodesApi_recent, trashcanApi_recent, 'afterAll failed');
     });
 
     test('[XAT-5479] Viewer opens for a file from Recent Files', async ({ personalFiles, recentFilesPage }) => {
