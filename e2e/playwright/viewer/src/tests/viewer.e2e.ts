@@ -53,16 +53,16 @@ test.describe('viewer file', () => {
     const username = `user-${Utils.random()}`;
     const randomDocxName = `${TEST_FILES.DOCX.name}-${Utils.random()}`;
     let folderViewerId: string;
-    let nodesApi_viewer: NodesApi;
-    let trashcanApi_viewer: TrashcanApi;
+    let nodesApiViewer: NodesApi;
+    let trashcanApiViewer: TrashcanApi;
 
     test.beforeAll(async () => {
       try {
         const apis = await initializeApis(username);
-        nodesApi_viewer = apis.nodesApi;
-        trashcanApi_viewer = apis.trashcanApi;
+        nodesApiViewer = apis.nodesApi;
+        trashcanApiViewer = apis.trashcanApi;
         const { fileActionsApi } = apis;
-        folderViewerId = (await nodesApi_viewer.createFolder(`viewer-${Utils.random()}`)).entry.id;
+        folderViewerId = (await nodesApiViewer.createFolder(`viewer-${Utils.random()}`)).entry.id;
         await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderViewerId);
         await fileActionsApi.waitForNodes(randomDocxName, { expect: 1 });
       } catch (error) {
@@ -76,7 +76,7 @@ test.describe('viewer file', () => {
     });
 
     test.afterAll(async () => {
-      await Utils.deleteNodesSitesEmptyTrashcan(nodesApi_viewer, trashcanApi_viewer, 'afterAll failed');
+      await Utils.deleteNodesSitesEmptyTrashcan(nodesApiViewer, trashcanApiViewer, 'afterAll failed');
     });
 
     test('[XAT-5471] Viewer opens on double clicking on a file from Personal Files', async ({ personalFiles }) => {
@@ -286,16 +286,16 @@ test.describe('viewer file', () => {
     const username = `user-${Utils.random()}`;
     const randomDocxName = `${TEST_FILES.DOCX.name}-${Utils.random()}`;
     let folderRecentId: string;
-    let nodesApi_recent: NodesApi;
-    let trashcanApi_recent: TrashcanApi;
+    let nodesApiRecent: NodesApi;
+    let trashcanApiRecent: TrashcanApi;
 
     test.beforeAll(async () => {
       try {
         const apis = await initializeApis(username);
-        nodesApi_recent = apis.nodesApi;
-        trashcanApi_recent = apis.trashcanApi;
+        nodesApiRecent = apis.nodesApi;
+        trashcanApiRecent = apis.trashcanApi;
         const { fileActionsApi } = apis;
-        folderRecentId = (await nodesApi_recent.createFolder(`viewer-${Utils.random()}`)).entry.id;
+        folderRecentId = (await nodesApiRecent.createFolder(`viewer-${Utils.random()}`)).entry.id;
         await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderRecentId);
         await fileActionsApi.waitForNodes(randomDocxName, { expect: 1 });
       } catch (error) {
@@ -309,7 +309,7 @@ test.describe('viewer file', () => {
     });
 
     test.afterAll(async () => {
-      await Utils.deleteNodesSitesEmptyTrashcan(nodesApi_recent, trashcanApi_recent, 'afterAll failed');
+      await Utils.deleteNodesSitesEmptyTrashcan(nodesApiRecent, trashcanApiRecent, 'afterAll failed');
     });
 
     test('[XAT-5479] Viewer opens for a file from Recent Files', async ({ personalFiles, recentFilesPage }) => {
