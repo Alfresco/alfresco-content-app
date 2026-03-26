@@ -27,7 +27,7 @@ import { Utils } from '../utils';
 import { ResultSetPaging, SearchRequest } from '@alfresco/js-api';
 
 export class SearchApi {
-  private apiService: ApiClientFactory;
+  private readonly apiService: ApiClientFactory;
 
   constructor() {
     this.apiService = new ApiClientFactory();
