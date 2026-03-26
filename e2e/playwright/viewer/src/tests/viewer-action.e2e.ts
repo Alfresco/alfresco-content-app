@@ -28,6 +28,7 @@ import {
   FavoritesPageApi,
   FileActionsApi,
   NodesApi,
+  PersonalFilesPage,
   SharedLinksApi,
   TrashcanApi,
   test,
@@ -35,6 +36,47 @@ import {
   timeouts,
   Utils
 } from '@alfresco/aca-playwright-shared';
+
+async function initializeApis(username: string): Promise<{ nodesApi: NodesApi; trashcanApi: TrashcanApi; fileActionsApi: FileActionsApi }> {
+  const apiClientFactory = new ApiClientFactory();
+  await apiClientFactory.setUpAcaBackend('admin');
+  await apiClientFactory.createUser({ username });
+  const nodesApi = await NodesApi.initialize(username, username);
+  const trashcanApi = await TrashcanApi.initialize(username, username);
+  const fileActionsApi = await FileActionsApi.initialize(username, username);
+  return { nodesApi, trashcanApi, fileActionsApi };
+}
+
+async function openFileInViewer(page: PersonalFilesPage, fileName: string): Promise<void> {
+  await page.dataTable.performClickFolderOrFileToOpen(fileName);
+  await page.viewer.waitForViewerToOpen();
+}
+
+async function uploadMajorVersionAndVerify(page: PersonalFilesPage, newVersionName: string, description?: string): Promise<void> {
+  await Utils.uploadFileNewVersion(page, newVersionName, 'jpg');
+  await page.uploadNewVersionDialog.majorOption.click();
+  if (description) {
+    await page.uploadNewVersionDialog.description.fill(description);
+  }
+  await page.uploadNewVersionDialog.uploadButton.click();
+  await page.uploadNewVersionDialog.uploadButton.waitFor({ state: 'detached' });
+  await expect(page.uploadNewVersionDialog.cancelButton).toHaveCount(0);
+  await Utils.waitForApiResponse(page, 'content', 200);
+  expect(await page.viewer.isViewerOpened(), 'Viewer is not open').toBe(true);
+  expect(await page.viewer.getFileTitle()).toContain(newVersionName);
+}
+
+async function navigateAndOpenFile(page: PersonalFilesPage, folderId: string, fileName: string): Promise<void> {
+  await page.navigate({ remoteUrl: `#/personal-files/${folderId}` });
+  await openFileInViewer(page, fileName);
+}
+
+async function uploadVersionAndOpenHistory(page: PersonalFilesPage, newVersionName: string, description?: string): Promise<void> {
+  await uploadMajorVersionAndVerify(page, newVersionName, description);
+  await page.acaHeader.clickViewerMoreActions();
+  await page.matMenu.clickMenuItem('Manage Versions');
+  await page.manageVersionsDialog.viewFileVersion('1.0');
+}
 
 test.describe('viewer action file', () => {
   test.describe('Personal Files - general viewer actions', () => {
@@ -46,12 +88,10 @@ test.describe('viewer action file', () => {
 
     test.beforeAll(async () => {
       try {
-        const apiClientFactory = new ApiClientFactory();
-        await apiClientFactory.setUpAcaBackend('admin');
-        await apiClientFactory.createUser({ username });
-        nodesApi = await NodesApi.initialize(username, username);
-        trashcanApi = await TrashcanApi.initialize(username, username);
-        const fileActionsApi = await FileActionsApi.initialize(username, username);
+        const apis = await initializeApis(username);
+        nodesApi = apis.nodesApi;
+        trashcanApi = apis.trashcanApi;
+        const { fileActionsApi } = apis;
         folderId = (await nodesApi.createFolder(`viewer-action-5415-5416-5417-${Utils.random()}`)).entry.id;
         await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
       } catch (error) {
@@ -69,8 +109,7 @@ test.describe('viewer action file', () => {
     });
 
     test('[XAT-5417] Viewer - Download action - Personal Files', async ({ personalFiles }) => {
-      await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
-      await personalFiles.viewer.waitForViewerToOpen();
+      await openFileInViewer(personalFiles, randomDocxName);
       const downloadPromise = personalFiles.page.waitForEvent('download');
       await personalFiles.acaHeader.downloadButtonViewer.click();
       const download = await downloadPromise;
@@ -78,15 +117,13 @@ test.describe('viewer action file', () => {
     });
 
     test('[XAT-5415] Full screen action', async ({ personalFiles }) => {
-      await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
-      await personalFiles.viewer.waitForViewerToOpen();
+      await openFileInViewer(personalFiles, randomDocxName);
       await personalFiles.acaHeader.fullScreenButton.click();
       expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is closed after pressing Full screen').toBe(true);
     });
 
     test('[XAT-5416] Pressing ESC in the viewer closes only the action dialog', async ({ personalFiles }) => {
-      await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
-      await personalFiles.viewer.waitForViewerToOpen();
+      await openFileInViewer(personalFiles, randomDocxName);
       await personalFiles.acaHeader.clickViewerMoreActions();
       await personalFiles.viewerDialog.clickActionsCopy();
       expect(await personalFiles.viewerDialog.isCopyDialogOpen(), 'Dialog is not open').toBe(true);
@@ -106,12 +143,10 @@ test.describe('viewer action file', () => {
 
     test.beforeAll(async () => {
       try {
-        const apiClientFactory = new ApiClientFactory();
-        await apiClientFactory.setUpAcaBackend('admin');
-        await apiClientFactory.createUser({ username });
-        nodesApi = await NodesApi.initialize(username, username);
-        trashcanApi = await TrashcanApi.initialize(username, username);
-        const fileActionsApi = await FileActionsApi.initialize(username, username);
+        const apis = await initializeApis(username);
+        nodesApi = apis.nodesApi;
+        trashcanApi = apis.trashcanApi;
+        const { fileActionsApi } = apis;
         folderId = (await nodesApi.createFolder(`viewer-action-5421-${Utils.random()}`)).entry.id;
         await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
         await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxDelete, folderId);
@@ -130,8 +165,7 @@ test.describe('viewer action file', () => {
     });
 
     test('[XAT-5421] Viewer - Delete action - Personal Files', async ({ personalFiles, trashPage }) => {
-      await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxDelete);
-      await personalFiles.viewer.waitForViewerToOpen();
+      await openFileInViewer(personalFiles, randomDocxDelete);
       await personalFiles.acaHeader.clickViewerMoreActions();
       await personalFiles.viewerDialog.deleteMenuButton.click();
       await personalFiles.snackBar.getByMessageLocator(randomDocxDelete).waitFor({ state: 'attached' });
@@ -153,12 +187,10 @@ test.describe('viewer action file', () => {
 
     test.beforeAll(async () => {
       try {
-        const apiClientFactory = new ApiClientFactory();
-        await apiClientFactory.setUpAcaBackend('admin');
-        await apiClientFactory.createUser({ username });
-        nodesApi = await NodesApi.initialize(username, username);
-        trashcanApi = await TrashcanApi.initialize(username, username);
-        const fileActionsApi = await FileActionsApi.initialize(username, username);
+        const apis = await initializeApis(username);
+        nodesApi = apis.nodesApi;
+        trashcanApi = apis.trashcanApi;
+        const { fileActionsApi } = apis;
         folderId = (await nodesApi.createFolder(`viewer-action-5423-${Utils.random()}`)).entry.id;
         await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, fileForEditOffline, folderId);
       } catch (error) {
@@ -176,8 +208,7 @@ test.describe('viewer action file', () => {
     });
 
     test('[XAT-5423] Viewer - Edit Offline action - Personal Files', async ({ personalFiles }) => {
-      await personalFiles.dataTable.performClickFolderOrFileToOpen(fileForEditOffline);
-      await personalFiles.viewer.waitForViewerToOpen();
+      await openFileInViewer(personalFiles, fileForEditOffline);
       await personalFiles.acaHeader.clickViewerMoreActions();
       await personalFiles.matMenu.clickMenuItem('Edit Offline');
       const downloadPromise = personalFiles.page.waitForEvent('download');
@@ -199,12 +230,10 @@ test.describe('viewer action file', () => {
 
     test.beforeAll(async () => {
       try {
-        const apiClientFactory = new ApiClientFactory();
-        await apiClientFactory.setUpAcaBackend('admin');
-        await apiClientFactory.createUser({ username });
-        nodesApi = await NodesApi.initialize(username, username);
-        trashcanApi = await TrashcanApi.initialize(username, username);
-        const fileActionsApi = await FileActionsApi.initialize(username, username);
+        const apis = await initializeApis(username);
+        nodesApi = apis.nodesApi;
+        trashcanApi = apis.trashcanApi;
+        const { fileActionsApi } = apis;
         folderId = (await nodesApi.createFolder(`viewer-action-5424-${Utils.random()}`)).entry.id;
         const fileForCancelEditingId = (await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, fileForCancelEditing, folderId)).entry.id;
         await fileActionsApi.lockNodes([fileForCancelEditingId]);
@@ -224,8 +253,7 @@ test.describe('viewer action file', () => {
     });
 
     test('[XAT-5424] Viewer - Cancel Editing action - Personal Files', async ({ personalFiles }) => {
-      await personalFiles.dataTable.performClickFolderOrFileToOpen(fileForCancelEditing);
-      await personalFiles.viewer.waitForViewerToOpen();
+      await openFileInViewer(personalFiles, fileForCancelEditing);
       await personalFiles.acaHeader.clickViewerMoreActions();
       await personalFiles.matMenu.clickMenuItem('Cancel Editing');
       await personalFiles.acaHeader.clickViewerMoreActions();
@@ -243,38 +271,47 @@ test.describe('viewer action file', () => {
     const file5714NewVersion = TEST_FILES.JPG_FILE.name;
     const file17781 = `file-17781-${Utils.random()}.jpg`;
     const file17781NewVersion = TEST_FILES.JPG_FILE.name;
+    const file5717 = `file-5717-${Utils.random()}.jpg`;
+    const file5717NewVersion = TEST_FILES.JPG_FILE.name;
+    const file5720 = `file-5720-${Utils.random()}.jpg`;
+    const file5720NewVersion = TEST_FILES.JPG_FILE.name;
     let file5465Id: string;
     let file17781Id: string;
-    let folderId: string;
+    let folder5465Id: string;
     let folder5713Id: string;
     let folder5714Id: string;
+    let folder5717Id: string;
+    let folder17781Id: string;
+    let folder5720Id: string;
     let nodesApi: NodesApi;
     let trashcanApi: TrashcanApi;
 
     test.beforeAll(async () => {
       try {
-        const apiClientFactory = new ApiClientFactory();
-        await apiClientFactory.setUpAcaBackend('admin');
-        await apiClientFactory.createUser({ username });
-        nodesApi = await NodesApi.initialize(username, username);
-        trashcanApi = await TrashcanApi.initialize(username, username);
-        const fileActionsApi = await FileActionsApi.initialize(username, username);
-        folderId = (await nodesApi.createFolder(`viewer-action-5465-17781-${Utils.random()}`)).entry.id;
+        const apis = await initializeApis(username);
+        nodesApi = apis.nodesApi;
+        trashcanApi = apis.trashcanApi;
+        const { fileActionsApi } = apis;
+        folder5465Id = (await nodesApi.createFolder(`viewer-action-5465-${Utils.random()}`)).entry.id;
+        folder17781Id = (await nodesApi.createFolder(`viewer-action-17781-${Utils.random()}`)).entry.id;
         folder5713Id = (await nodesApi.createFolder(`viewer-action-5713-${Utils.random()}`)).entry.id;
         folder5714Id = (await nodesApi.createFolder(`viewer-action-5714-${Utils.random()}`)).entry.id;
-        file5465Id = (await fileActionsApi.uploadFile(TEST_FILES.JPG_FILE.path, file5465, folderId)).entry.id;
-        file17781Id = (await fileActionsApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, file17781, folderId)).entry.id;
+        folder5717Id = (await nodesApi.createFolder(`viewer-action-5717-${Utils.random()}`)).entry.id;
+        folder5720Id = (await nodesApi.createFolder(`viewer-action-5720-${Utils.random()}`)).entry.id;
+        file5465Id = (await fileActionsApi.uploadFile(TEST_FILES.JPG_FILE.path, file5465, folder5465Id)).entry.id;
+        file17781Id = (await fileActionsApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, file17781, folder17781Id)).entry.id;
         await fileActionsApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, file5713, folder5713Id);
         await fileActionsApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, file5714, folder5714Id);
+        await fileActionsApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, file5717, folder5717Id);
+        await fileActionsApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, file5720, folder5720Id);
         await fileActionsApi.lockNodes([file17781Id]);
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
       }
     });
 
-    test.beforeEach(async ({ personalFiles, loginPage }) => {
+    test.beforeEach(async ({ loginPage }) => {
       await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
-      await personalFiles.navigate({ remoteUrl: `#/personal-files/${folderId}` });
     });
 
     test.afterAll(async () => {
@@ -282,24 +319,14 @@ test.describe('viewer action file', () => {
     });
 
     test('[XAT-5465] Upload new version action - major', async ({ personalFiles, nodesApiAction }) => {
-      await personalFiles.dataTable.performClickFolderOrFileToOpen(file5465);
-      await personalFiles.viewer.waitForViewerToOpen();
-      await Utils.uploadFileNewVersion(personalFiles, file5465NewVersion, 'jpg');
-      await personalFiles.uploadNewVersionDialog.majorOption.click();
-      await personalFiles.uploadNewVersionDialog.description.fill('new major version description');
-      await personalFiles.uploadNewVersionDialog.uploadButton.click();
-      await personalFiles.uploadNewVersionDialog.uploadButton.waitFor({ state: 'detached' });
-      await expect(personalFiles.uploadNewVersionDialog.cancelButton).toHaveCount(0);
-      await Utils.waitForApiResponse(personalFiles, 'content', 200);
-      expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not open').toBe(true);
-      expect(await personalFiles.viewer.getFileTitle()).toContain(file5465NewVersion);
+      await navigateAndOpenFile(personalFiles, folder5465Id, file5465);
+      await uploadMajorVersionAndVerify(personalFiles, file5465NewVersion, 'new major version description');
       expect(await nodesApiAction.getNodeProperty(file5465Id, 'cm:versionType'), 'File has incorrect version type').toEqual('MAJOR');
       expect(await nodesApiAction.getNodeProperty(file5465Id, 'cm:versionLabel'), 'File has incorrect version label').toEqual('2.0');
     });
 
     test('[XAT-17781] Upload new version action when node is locked', async ({ personalFiles }) => {
-      await personalFiles.dataTable.performClickFolderOrFileToOpen(file17781);
-      await personalFiles.viewer.waitForViewerToOpen();
+      await navigateAndOpenFile(personalFiles, folder17781Id, file17781);
       await Utils.uploadFileNewVersion(personalFiles, file17781NewVersion, 'jpg');
       await personalFiles.uploadNewVersionDialog.uploadButton.click();
       await personalFiles.uploadNewVersionDialog.uploadButton.waitFor({ state: 'detached' });
@@ -313,43 +340,36 @@ test.describe('viewer action file', () => {
     });
 
     test('[XAT-5713] Viewer: User can download a previous version of a file', async ({ personalFiles }) => {
-      await personalFiles.navigate({ remoteUrl: `#/personal-files/${folder5713Id}` });
-      await personalFiles.dataTable.performClickFolderOrFileToOpen(file5713);
-      await personalFiles.viewer.waitForViewerToOpen();
-      await Utils.uploadFileNewVersion(personalFiles, file5713NewVersion, 'jpg');
-      await personalFiles.uploadNewVersionDialog.majorOption.click();
-      await personalFiles.uploadNewVersionDialog.uploadButton.click();
-      await personalFiles.uploadNewVersionDialog.uploadButton.waitFor({ state: 'detached' });
-      await expect(personalFiles.uploadNewVersionDialog.cancelButton).toHaveCount(0);
-      await Utils.waitForApiResponse(personalFiles, 'content', 200);
-      expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not open').toBe(true);
-      expect(await personalFiles.viewer.getFileTitle()).toContain(file5713NewVersion);
-      await personalFiles.acaHeader.clickViewerMoreActions();
-      await personalFiles.matMenu.clickMenuItem('Manage Versions');
-      await personalFiles.manageVersionsDialog.viewFileVersion('1.0');
+      await navigateAndOpenFile(personalFiles, folder5713Id, file5713);
+      await uploadVersionAndOpenHistory(personalFiles, file5713NewVersion);
       const [download] = await Promise.all([personalFiles.page.waitForEvent('download'), personalFiles.matMenu.clickMenuItem('Download')]);
       expect(download.suggestedFilename()).toBe(file5713);
     });
 
     test('[XAT-5714] Viewer: User can restore the current version of a file to a previous version  with permissions', async ({ personalFiles }) => {
-      await personalFiles.navigate({ remoteUrl: `#/personal-files/${folder5714Id}` });
-      await personalFiles.dataTable.performClickFolderOrFileToOpen(file5714);
-      await personalFiles.viewer.waitForViewerToOpen();
-      await Utils.uploadFileNewVersion(personalFiles, file5714NewVersion, 'jpg');
-      await personalFiles.uploadNewVersionDialog.majorOption.click();
-      await personalFiles.uploadNewVersionDialog.uploadButton.click();
-      await personalFiles.uploadNewVersionDialog.uploadButton.waitFor({ state: 'detached' });
-      await expect(personalFiles.uploadNewVersionDialog.cancelButton).toHaveCount(0);
-      await Utils.waitForApiResponse(personalFiles, 'content', 200);
-      expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not open').toBe(true);
-      expect(await personalFiles.viewer.getFileTitle()).toContain(file5714NewVersion);
-      await personalFiles.acaHeader.clickViewerMoreActions();
-      await personalFiles.matMenu.clickMenuItem('Manage Versions');
-      await personalFiles.manageVersionsDialog.viewFileVersion('1.0');
+      await navigateAndOpenFile(personalFiles, folder5714Id, file5714);
+      await uploadVersionAndOpenHistory(personalFiles, file5714NewVersion);
       await personalFiles.matMenu.clickMenuItem('Restore');
       await Utils.waitForApiResponse(personalFiles, 'revert', 200);
       await personalFiles.manageVersionsDialog.waitForProgressBarToDisappear();
       expect(await personalFiles.manageVersionsDialog.isVersionPresent('3.0')).toBe(true);
+    });
+
+    test('[XAT-5717] Viewer: User can delete a version of a file with permissions', async ({ personalFiles }) => {
+      await navigateAndOpenFile(personalFiles, folder5717Id, file5717);
+      await uploadVersionAndOpenHistory(personalFiles, file5717NewVersion);
+      await personalFiles.matMenu.clickMenuItem('Delete');
+      await personalFiles.confirmDialog.okButton.click();
+      await Utils.waitForApiResponse(personalFiles, '1.0', 204);
+      await personalFiles.manageVersionsDialog.waitForProgressBarToDisappear();
+      expect(await personalFiles.manageVersionsDialog.isVersionPresent('2.0')).toBe(true);
+      expect(await personalFiles.manageVersionsDialog.isVersionPresent('1.0')).toBe(false);
+    });
+
+    test('[XAT-5720] Viewer: User can write comments when user is uploading a new version for a file', async ({ personalFiles }) => {
+      await navigateAndOpenFile(personalFiles, folder5720Id, file5720);
+      await uploadVersionAndOpenHistory(personalFiles, file5720NewVersion, 'version with comment');
+      expect(await personalFiles.manageVersionsDialog.isDescriptionPresent('2.0')).toBe(true);
     });
   });
 
@@ -362,12 +382,10 @@ test.describe('viewer action file', () => {
 
     test.beforeAll(async () => {
       try {
-        const apiClientFactory = new ApiClientFactory();
-        await apiClientFactory.setUpAcaBackend('admin');
-        await apiClientFactory.createUser({ username });
-        nodesApi = await NodesApi.initialize(username, username);
-        trashcanApi = await TrashcanApi.initialize(username, username);
-        const fileActionsApi = await FileActionsApi.initialize(username, username);
+        const apis = await initializeApis(username);
+        nodesApi = apis.nodesApi;
+        trashcanApi = apis.trashcanApi;
+        const { fileActionsApi } = apis;
         const shareActions = await SharedLinksApi.initialize(username, username);
         folderId = (await nodesApi.createFolder(`viewer-action-5442-${Utils.random()}`)).entry.id;
         const fileDocxShareId = (await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxNameShare, folderId)).entry.id;
@@ -411,12 +429,10 @@ test.describe('viewer action file', () => {
 
     test.beforeAll(async () => {
       try {
-        const apiClientFactory = new ApiClientFactory();
-        await apiClientFactory.setUpAcaBackend('admin');
-        await apiClientFactory.createUser({ username });
-        nodesApi = await NodesApi.initialize(username, username);
-        trashcanApi = await TrashcanApi.initialize(username, username);
-        const fileActionsApi = await FileActionsApi.initialize(username, username);
+        const apis = await initializeApis(username);
+        nodesApi = apis.nodesApi;
+        trashcanApi = apis.trashcanApi;
+        const { fileActionsApi } = apis;
         const favoritesActions = await FavoritesPageApi.initialize(username, username);
         folderId = (await nodesApi.createFolder(`viewer-action-5462-${Utils.random()}`)).entry.id;
         const randomDocxNameFavoriteId = (await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxNameFavorite, folderId)).entry.id;
@@ -460,12 +476,10 @@ test.describe('viewer action file', () => {
 
     test.beforeAll(async () => {
       try {
-        const apiClientFactory = new ApiClientFactory();
-        await apiClientFactory.setUpAcaBackend('admin');
-        await apiClientFactory.createUser({ username });
-        nodesApi = await NodesApi.initialize(username, username);
-        trashcanApi = await TrashcanApi.initialize(username, username);
-        const fileActionsApi = await FileActionsApi.initialize(username, username);
+        const apis = await initializeApis(username);
+        nodesApi = apis.nodesApi;
+        trashcanApi = apis.trashcanApi;
+        const { fileActionsApi } = apis;
         folderId = (await nodesApi.createFolder(`viewer-action-5448-${Utils.random()}`)).entry.id;
         destinationId = (await nodesApi.createFolder(destination)).entry.id;
         await fileActionsApi.uploadFileWithRename(TEST_FILES.DOCX.path, docxRecentFiles, folderId);

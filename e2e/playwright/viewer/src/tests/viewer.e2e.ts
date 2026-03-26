@@ -38,6 +38,16 @@ import {
 } from '@alfresco/aca-playwright-shared';
 import { Site } from '@alfresco/js-api';
 
+async function initializeApis(username: string): Promise<{ nodesApi: NodesApi; trashcanApi: TrashcanApi; fileActionsApi: FileActionsApi }> {
+  const apiClientFactory = new ApiClientFactory();
+  await apiClientFactory.setUpAcaBackend('admin');
+  await apiClientFactory.createUser({ username });
+  const nodesApi = await NodesApi.initialize(username, username);
+  const trashcanApi = await TrashcanApi.initialize(username, username);
+  const fileActionsApi = await FileActionsApi.initialize(username, username);
+  return { nodesApi, trashcanApi, fileActionsApi };
+}
+
 test.describe('viewer file', () => {
   test.describe('Open viewer from Personal Files', () => {
     const username = `user-${Utils.random()}`;
@@ -47,24 +57,17 @@ test.describe('viewer file', () => {
     let trashcanApi: TrashcanApi;
 
     test.beforeAll(async () => {
-      test.setTimeout(timeouts.extendedTest);
-      const randomFolderName = `viewer-${Utils.random()}`;
-      const apiClientFactory = new ApiClientFactory();
-      await apiClientFactory.setUpAcaBackend('admin');
       try {
-        await apiClientFactory.createUser({ username });
-      } catch (exception) {
-        if (JSON.parse(exception.message).error.statusCode !== 409) {
-          throw new Error(`----- beforeAll failed : ${exception}`);
-        }
+        const apis = await initializeApis(username);
+        nodesApi = apis.nodesApi;
+        trashcanApi = apis.trashcanApi;
+        const { fileActionsApi } = apis;
+        folderId = (await nodesApi.createFolder(`viewer-${Utils.random()}`)).entry.id;
+        await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
+        await fileActionsApi.waitForNodes(randomDocxName, { expect: 1 });
+      } catch (error) {
+        console.error(`beforeAll failed: ${error}`);
       }
-      nodesApi = await NodesApi.initialize(username, username);
-      trashcanApi = await TrashcanApi.initialize(username, username);
-      const fileActionApi = await FileActionsApi.initialize(username, username);
-      const node = await nodesApi.createFolder(randomFolderName);
-      folderId = node.entry.id;
-      await fileActionApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
-      await fileActionApi.waitForNodes(randomDocxName, { expect: 1 });
     });
 
     test.beforeEach(async ({ personalFiles, loginPage }) => {
@@ -116,25 +119,18 @@ test.describe('viewer file', () => {
     let trashcanApi: TrashcanApi;
 
     test.beforeAll(async () => {
-      test.setTimeout(timeouts.extendedTest);
-      const randomFolderName2 = `viewer2-${Utils.random()}`;
-      const randomFolderName3 = `viewer3-${Utils.random()}`;
-      const apiClientFactory = new ApiClientFactory();
-      await apiClientFactory.setUpAcaBackend('admin');
       try {
-        await apiClientFactory.createUser({ username });
-      } catch (exception) {
-        if (JSON.parse(exception.message).error.statusCode !== 409) {
-          throw new Error(`----- beforeAll failed : ${exception}`);
-        }
+        const apis = await initializeApis(username);
+        nodesApi = apis.nodesApi;
+        trashcanApi = apis.trashcanApi;
+        folder2Id = (await nodesApi.createFolder(`viewer2-${Utils.random()}`)).entry.id;
+        folder3Id = (await nodesApi.createFolder(`viewer3-${Utils.random()}`)).entry.id;
+        await nodesApi.createFile(file1, folder2Id);
+        await nodesApi.createFile(file2, folder2Id);
+        await nodesApi.createFile(file3, folder3Id);
+      } catch (error) {
+        console.error(`beforeAll failed: ${error}`);
       }
-      nodesApi = await NodesApi.initialize(username, username);
-      trashcanApi = await TrashcanApi.initialize(username, username);
-      folder2Id = (await nodesApi.createFolder(randomFolderName2)).entry.id;
-      folder3Id = (await nodesApi.createFolder(randomFolderName3)).entry.id;
-      await nodesApi.createFile(file1, folder2Id);
-      await nodesApi.createFile(file2, folder2Id);
-      await nodesApi.createFile(file3, folder3Id);
     });
 
     test.beforeEach(async ({ loginPage }) => {
@@ -208,28 +204,24 @@ test.describe('viewer file', () => {
     let user2Id: string;
 
     test.beforeAll(async () => {
-      test.setTimeout(timeouts.extendedTest);
-      const randomFolderName2 = `viewer-permissions-${Utils.random()}`;
-      const apiClientFactory = new ApiClientFactory();
-      await apiClientFactory.setUpAcaBackend('admin');
       try {
+        const apiClientFactory = new ApiClientFactory();
+        await apiClientFactory.setUpAcaBackend('admin');
         await apiClientFactory.createUser({ username: username1 });
         user2Id = (await apiClientFactory.createUser({ username: username2 })).entry.id;
-      } catch (exception) {
-        if (JSON.parse(exception.message).error.statusCode !== 409) {
-          throw new Error(`----- beforeAll failed : ${exception}`);
-        }
+        nodesApi1 = await NodesApi.initialize(username1, username1);
+        trashcanApi1 = await TrashcanApi.initialize(username1, username1);
+        sitesApi1 = await SitesApi.initialize(username1, username1);
+        site1Id = (await sitesApi1.createSite(`viewer-site-${Utils.random()}`, 'PRIVATE')).entry.id;
+        const site1DocLibId = await sitesApi1.getDocLibId(site1Id);
+        await sitesApi1.addSiteMember(site1Id, user2Id, 'SiteConsumer');
+        folderId = (await nodesApi1.createFolder(`viewer-permissions-${Utils.random()}`, site1DocLibId)).entry.id;
+        await nodesApi1.createFile(file1, folderId);
+        await nodesApi1.createFile(file2, folderId);
+        await nodesApi1.createFile(file3, folderId);
+      } catch (error) {
+        console.error(`beforeAll failed: ${error}`);
       }
-      nodesApi1 = await NodesApi.initialize(username1, username1);
-      trashcanApi1 = await TrashcanApi.initialize(username1, username1);
-      sitesApi1 = await SitesApi.initialize(username1, username1);
-      site1Id = (await sitesApi1.createSite(`viewer-site-${Utils.random()}`, 'PRIVATE')).entry.id;
-      const site1DocLibId = await sitesApi1.getDocLibId(site1Id);
-      await sitesApi1.addSiteMember(site1Id, user2Id, 'SiteConsumer');
-      folderId = (await nodesApi1.createFolder(randomFolderName2, site1DocLibId)).entry.id;
-      await nodesApi1.createFile(file1, folderId);
-      await nodesApi1.createFile(file2, folderId);
-      await nodesApi1.createFile(file3, folderId);
     });
 
     test.beforeEach(async ({ loginPage }) => {
@@ -262,24 +254,16 @@ test.describe('viewer file', () => {
     let trashcanApi: TrashcanApi;
 
     test.beforeAll(async () => {
-      test.setTimeout(timeouts.extendedTest);
-      const randomFolderName = `viewer-${Utils.random()}`;
-      const apiClientFactory = new ApiClientFactory();
-      await apiClientFactory.setUpAcaBackend('admin');
       try {
-        await apiClientFactory.createUser({ username });
-      } catch (exception) {
-        if (JSON.parse(exception.message).error.statusCode !== 409) {
-          throw new Error(`----- beforeAll failed : ${exception}`);
-        }
+        const apis = await initializeApis(username);
+        nodesApi = apis.nodesApi;
+        trashcanApi = apis.trashcanApi;
+        const { fileActionsApi } = apis;
+        folderId = (await nodesApi.createFolder(`viewer-${Utils.random()}`)).entry.id;
+        fileJpgId = (await fileActionsApi.uploadFile(TEST_FILES.JPG_FILE.path, randomJpgName, folderId)).entry.id;
+      } catch (error) {
+        console.error(`beforeAll failed: ${error}`);
       }
-      nodesApi = await NodesApi.initialize(username, username);
-      trashcanApi = await TrashcanApi.initialize(username, username);
-      const fileActionApi = await FileActionsApi.initialize(username, username);
-      const node = await nodesApi.createFolder(randomFolderName);
-      folderId = node.entry.id;
-      const fileJpg = await fileActionApi.uploadFile(TEST_FILES.JPG_FILE.path, randomJpgName, folderId);
-      fileJpgId = fileJpg.entry.id;
     });
 
     test.beforeEach(async ({ loginPage }) => {
@@ -306,24 +290,17 @@ test.describe('viewer file', () => {
     let trashcanApi: TrashcanApi;
 
     test.beforeAll(async () => {
-      test.setTimeout(timeouts.extendedTest);
-      const randomFolderName = `viewer-${Utils.random()}`;
-      const apiClientFactory = new ApiClientFactory();
-      await apiClientFactory.setUpAcaBackend('admin');
       try {
-        await apiClientFactory.createUser({ username });
-      } catch (exception) {
-        if (JSON.parse(exception.message).error.statusCode !== 409) {
-          throw new Error(`----- beforeAll failed : ${exception}`);
-        }
+        const apis = await initializeApis(username);
+        nodesApi = apis.nodesApi;
+        trashcanApi = apis.trashcanApi;
+        const { fileActionsApi } = apis;
+        folderId = (await nodesApi.createFolder(`viewer-${Utils.random()}`)).entry.id;
+        await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
+        await fileActionsApi.waitForNodes(randomDocxName, { expect: 1 });
+      } catch (error) {
+        console.error(`beforeAll failed: ${error}`);
       }
-      nodesApi = await NodesApi.initialize(username, username);
-      trashcanApi = await TrashcanApi.initialize(username, username);
-      const fileActionApi = await FileActionsApi.initialize(username, username);
-      const node = await nodesApi.createFolder(randomFolderName);
-      folderId = node.entry.id;
-      await fileActionApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
-      await fileActionApi.waitForNodes(randomDocxName, { expect: 1 });
     });
 
     test.beforeEach(async ({ personalFiles, loginPage }) => {
@@ -354,24 +331,17 @@ test.describe('viewer file', () => {
     let trashcanApi: TrashcanApi;
 
     test.beforeAll(async () => {
-      test.setTimeout(timeouts.extendedTest);
-      const randomFolderName = `viewer-${Utils.random()}`;
-      const apiClientFactory = new ApiClientFactory();
-      await apiClientFactory.setUpAcaBackend('admin');
       try {
-        await apiClientFactory.createUser({ username });
-      } catch (exception) {
-        if (JSON.parse(exception.message).error.statusCode !== 409) {
-          throw new Error(`----- beforeAll failed : ${exception}`);
-        }
+        const apis = await initializeApis(username);
+        nodesApi = apis.nodesApi;
+        trashcanApi = apis.trashcanApi;
+        const { fileActionsApi } = apis;
+        const folderId = (await nodesApi.createFolder(`viewer-${Utils.random()}`)).entry.id;
+        await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
+        await fileActionsApi.waitForNodes(randomDocxName, { expect: 1 });
+      } catch (error) {
+        console.error(`beforeAll failed: ${error}`);
       }
-      nodesApi = await NodesApi.initialize(username, username);
-      trashcanApi = await TrashcanApi.initialize(username, username);
-      const fileActionApi = await FileActionsApi.initialize(username, username);
-      const node = await nodesApi.createFolder(randomFolderName);
-      const folderId = node.entry.id;
-      await fileActionApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
-      await fileActionApi.waitForNodes(randomDocxName, { expect: 1 });
     });
 
     test.beforeEach(async ({ loginPage }) => {
@@ -399,27 +369,19 @@ test.describe('viewer file', () => {
     let trashcanApi: TrashcanApi;
 
     test.beforeAll(async () => {
-      test.setTimeout(timeouts.extendedTest);
-      const randomFolderName = `viewer-${Utils.random()}`;
-      const apiClientFactory = new ApiClientFactory();
-      await apiClientFactory.setUpAcaBackend('admin');
       try {
-        await apiClientFactory.createUser({ username });
-      } catch (exception) {
-        if (JSON.parse(exception.message).error.statusCode !== 409) {
-          throw new Error(`----- beforeAll failed : ${exception}`);
-        }
+        const apis = await initializeApis(username);
+        nodesApi = apis.nodesApi;
+        trashcanApi = apis.trashcanApi;
+        const { fileActionsApi } = apis;
+        const shareActions = await SharedLinksApi.initialize(username, username);
+        const folderId = (await nodesApi.createFolder(`viewer-${Utils.random()}`)).entry.id;
+        const fileDocxId = (await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId)).entry.id;
+        await shareActions.shareFileById(fileDocxId);
+        await shareActions.waitForFilesToBeShared([fileDocxId]);
+      } catch (error) {
+        console.error(`beforeAll failed: ${error}`);
       }
-      nodesApi = await NodesApi.initialize(username, username);
-      trashcanApi = await TrashcanApi.initialize(username, username);
-      const fileActionApi = await FileActionsApi.initialize(username, username);
-      const shareActions = await SharedLinksApi.initialize(username, username);
-      const node = await nodesApi.createFolder(randomFolderName);
-      const folderId = node.entry.id;
-      const fileDoc = await fileActionApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
-      const fileDocxId = fileDoc.entry.id;
-      await shareActions.shareFileById(fileDocxId);
-      await shareActions.waitForFilesToBeShared([fileDocxId]);
     });
 
     test.beforeEach(async ({ loginPage }) => {
@@ -448,31 +410,23 @@ test.describe('viewer file', () => {
     let trashcanApi: TrashcanApi;
 
     test.beforeAll(async () => {
-      test.setTimeout(timeouts.extendedTest);
-      const randomFolderName = `viewer-${Utils.random()}`;
-      const apiClientFactory = new ApiClientFactory();
-      await apiClientFactory.setUpAcaBackend('admin');
       try {
-        await apiClientFactory.createUser({ username });
-      } catch (exception) {
-        if (JSON.parse(exception.message).error.statusCode !== 409) {
-          throw new Error(`----- beforeAll failed : ${exception}`);
-        }
+        const apis = await initializeApis(username);
+        nodesApi = apis.nodesApi;
+        trashcanApi = apis.trashcanApi;
+        const { fileActionsApi } = apis;
+        const favoritesActions = await FavoritesPageApi.initialize(username, username);
+        const folderId = (await nodesApi.createFolder(`viewer-${Utils.random()}`)).entry.id;
+        const fileDocxId = (await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId)).entry.id;
+        const consumerFavoritesTotalItems = await favoritesActions.getFavoritesTotalItems(username);
+        await favoritesActions.addFavoriteById('file', fileDocxId);
+        await Promise.all([
+          favoritesActions.isFavoriteWithRetry(username, fileDocxId, { expect: true }),
+          favoritesActions.waitForApi(username, { expect: consumerFavoritesTotalItems + 1 })
+        ]);
+      } catch (error) {
+        console.error(`beforeAll failed: ${error}`);
       }
-      nodesApi = await NodesApi.initialize(username, username);
-      trashcanApi = await TrashcanApi.initialize(username, username);
-      const fileActionApi = await FileActionsApi.initialize(username, username);
-      const favoritesActions = await FavoritesPageApi.initialize(username, username);
-      const node = await nodesApi.createFolder(randomFolderName);
-      const folderId = node.entry.id;
-      const fileDoc = await fileActionApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
-      const fileDocxId = fileDoc.entry.id;
-      const consumerFavoritesTotalItems = await favoritesActions.getFavoritesTotalItems(username);
-      await favoritesActions.addFavoriteById('file', fileDocxId);
-      await Promise.all([
-        favoritesActions.isFavoriteWithRetry(username, fileDocxId, { expect: true }),
-        favoritesActions.waitForApi(username, { expect: consumerFavoritesTotalItems + 1 })
-      ]);
     });
 
     test.beforeEach(async ({ loginPage }) => {
@@ -504,34 +458,17 @@ test.describe('viewer file', () => {
     let siteActionsAdmin: SitesApi;
 
     test.beforeAll(async () => {
-      test.setTimeout(timeouts.extendedTest);
-      const apiClientFactory = new ApiClientFactory();
-      await apiClientFactory.setUpAcaBackend('admin');
       try {
-        await apiClientFactory.createUser({ username });
-      } catch (exception) {
-        if (JSON.parse(exception.message).error.statusCode !== 409) {
-          throw new Error(`----- beforeAll failed : ${exception}`);
-        }
-      }
-      nodesApi = await NodesApi.initialize(username, username);
-      trashcanApi = await TrashcanApi.initialize(username, username);
-      siteActionsAdmin = await SitesApi.initialize('admin');
-      const fileActionApiAdmin = await FileActionsApi.initialize('admin');
-      try {
+        const apis = await initializeApis(username);
+        nodesApi = apis.nodesApi;
+        trashcanApi = apis.trashcanApi;
+        siteActionsAdmin = await SitesApi.initialize('admin');
+        const fileActionsApiAdmin = await FileActionsApi.initialize('admin');
         await siteActionsAdmin.createSite(siteAdmin, Site.VisibilityEnum.PRIVATE);
-      } catch (exception) {
-        if (JSON.parse(exception.message).error.statusCode !== 409) {
-          throw new Error(`----- beforeAll failed : ${exception}`);
-        }
-      }
-      docLibId = await siteActionsAdmin.getDocLibId(siteAdmin);
-      try {
-        fileAdminId = (await fileActionApiAdmin.uploadFile(TEST_FILES.DOCX.path, fileAdmin, docLibId)).entry.id;
-      } catch (exception) {
-        if (JSON.parse(exception.message).error.statusCode !== 409) {
-          throw new Error(`----- beforeAll failed : ${exception}`);
-        }
+        docLibId = await siteActionsAdmin.getDocLibId(siteAdmin);
+        fileAdminId = (await fileActionsApiAdmin.uploadFile(TEST_FILES.DOCX.path, fileAdmin, docLibId)).entry.id;
+      } catch (error) {
+        console.error(`beforeAll failed: ${error}`);
       }
     });
 
@@ -560,34 +497,17 @@ test.describe('viewer file', () => {
     let siteActionsUser: SitesApi;
 
     test.beforeAll(async () => {
-      test.setTimeout(timeouts.extendedTest);
-      const apiClientFactory = new ApiClientFactory();
-      await apiClientFactory.setUpAcaBackend('admin');
       try {
-        await apiClientFactory.createUser({ username });
-      } catch (exception) {
-        if (JSON.parse(exception.message).error.statusCode !== 409) {
-          throw new Error(`----- beforeAll failed : ${exception}`);
-        }
-      }
-      nodesApi = await NodesApi.initialize(username, username);
-      trashcanApi = await TrashcanApi.initialize(username, username);
-      siteActionsUser = await SitesApi.initialize(username, username);
-      const fileActionApi = await FileActionsApi.initialize(username, username);
-      try {
+        const apis = await initializeApis(username);
+        nodesApi = apis.nodesApi;
+        trashcanApi = apis.trashcanApi;
+        const { fileActionsApi } = apis;
+        siteActionsUser = await SitesApi.initialize(username, username);
         await siteActionsUser.createSite(siteUser, Site.VisibilityEnum.PUBLIC);
-      } catch (exception) {
-        if (JSON.parse(exception.message).error.statusCode !== 409) {
-          throw new Error(`----- beforeAll failed : ${exception}`);
-        }
-      }
-      docLibSiteUserId = await siteActionsUser.getDocLibId(siteUser);
-      try {
-        await fileActionApi.uploadFile(TEST_FILES.DOCX.path, fileInSite, docLibSiteUserId);
-      } catch (exception) {
-        if (JSON.parse(exception.message).error.statusCode !== 409) {
-          throw new Error(`----- beforeAll failed : ${exception}`);
-        }
+        docLibSiteUserId = await siteActionsUser.getDocLibId(siteUser);
+        await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, fileInSite, docLibSiteUserId);
+      } catch (error) {
+        console.error(`beforeAll failed: ${error}`);
       }
     });
 

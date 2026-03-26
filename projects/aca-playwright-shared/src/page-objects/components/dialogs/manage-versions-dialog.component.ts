@@ -36,6 +36,10 @@ export class ManageVersionsDialog extends BaseComponent {
     return this.getChild(`[id="adf-version-list-item-version-${version}"]`).isVisible();
   }
 
+  async isDescriptionPresent(version: string): Promise<boolean> {
+    return this.getChild(`[id="adf-version-list-item-comment-${version}"]`).isVisible();
+  }
+
   async waitForProgressBarToDisappear(): Promise<void> {
     await this.getChild('[data-automation-id="version-history-loading-bar"]').waitFor({ state: 'attached' });
     await this.getChild('[data-automation-id="version-history-loading-bar"]').waitFor({ state: 'detached' });
