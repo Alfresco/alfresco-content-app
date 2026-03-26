@@ -44,11 +44,11 @@ export const getReportPortalConfig = () => {
     apiKey: env.REPORT_PORTAL_TOKEN,
     project: 'alfresco-content-app',
     launch,
-    includeTestSteps: true,
+    includeTestSteps: false,
     skipPassed: true,
     restClientConfig: {
       timeout: timeouts.sixtySeconds,
-      retry: 1
+      retry: 0
     },
     attributes,
     description: `[Run ${env.GITHUB_RUN_ID}](${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}) - ${browser} - Failures only`
