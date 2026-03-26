@@ -90,8 +90,8 @@ test.describe('viewer action file', () => {
       try {
         const apis = await initializeApis(username);
         nodesApi = apis.nodesApi;
-        trashcanApi = apis.trashcanApi;
         const { fileActionsApi } = apis;
+        trashcanApi = apis.trashcanApi;
         folderId = (await nodesApi.createFolder(`viewer-action-5415-5416-5417-${Utils.random()}`)).entry.id;
         await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
       } catch (error) {
@@ -144,9 +144,9 @@ test.describe('viewer action file', () => {
     test.beforeAll(async () => {
       try {
         const apis = await initializeApis(username);
-        nodesApi = apis.nodesApi;
         trashcanApi = apis.trashcanApi;
         const { fileActionsApi } = apis;
+        nodesApi = apis.nodesApi;
         folderId = (await nodesApi.createFolder(`viewer-action-5421-${Utils.random()}`)).entry.id;
         await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
         await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxDelete, folderId);
@@ -188,9 +188,10 @@ test.describe('viewer action file', () => {
     test.beforeAll(async () => {
       try {
         const apis = await initializeApis(username);
+        const { fileActionsApi } = apis;
+
         nodesApi = apis.nodesApi;
         trashcanApi = apis.trashcanApi;
-        const { fileActionsApi } = apis;
         folderId = (await nodesApi.createFolder(`viewer-action-5423-${Utils.random()}`)).entry.id;
         await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, fileForEditOffline, folderId);
       } catch (error) {
@@ -233,6 +234,7 @@ test.describe('viewer action file', () => {
         const apis = await initializeApis(username);
         nodesApi = apis.nodesApi;
         trashcanApi = apis.trashcanApi;
+
         const { fileActionsApi } = apis;
         folderId = (await nodesApi.createFolder(`viewer-action-5424-${Utils.random()}`)).entry.id;
         const fileForCancelEditingId = (await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, fileForCancelEditing, folderId)).entry.id;
