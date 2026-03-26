@@ -1,5 +1,5 @@
 ---
-applyTo: "**/**/i18n/*.json"
+applyTo: "**/i18n/*.json"
 ---
 
 # I18n rules
