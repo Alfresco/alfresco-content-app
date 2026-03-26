@@ -521,7 +521,7 @@ describe('app.evaluators', () => {
       },
       {
         pageName: 'repository view',
-        pageUrl: '/repository-view'
+        pageUrl: '/repository'
       }
     ].forEach((testCase) => {
       testCanDisplayKnowledgeRetrievalButton(
@@ -895,7 +895,7 @@ describe('app.evaluators', () => {
       context.permissions = { check: () => true };
       expect(app.canCreateFolder(context)).toBeTrue();
 
-      context.navigation.url = '/repository-view/test';
+      context.navigation.url = '/repository/test';
       expect(app.canCreateFolder(context)).toBeTrue();
     });
 

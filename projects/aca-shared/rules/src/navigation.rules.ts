@@ -75,7 +75,7 @@ export function isPersonalFiles(context: RuleContext): boolean {
  */
 export function isRepositoryView(context: RuleContext): boolean {
   const { url } = context.navigation;
-  return url?.startsWith('/repository-view');
+  return url?.startsWith('/repository');
 }
 
 /**

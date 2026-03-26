@@ -126,20 +126,20 @@ describe('navigation.evaluators', () => {
   });
 
   describe('isRepositoryView', () => {
-    it('should return [true] if url starts with `/repository-view`', () => {
+    it('should return [true] if url starts with `/repository`', () => {
       const context: any = {
         navigation: {
-          url: '/repository-view'
+          url: '/repository'
         }
       };
 
       expect(app.isRepositoryView(context)).toBe(true);
     });
 
-    it('should return [false] if url does not start with `/repository-view`', () => {
+    it('should return [false] if url does not start with `/repository`', () => {
       const context: any = {
         navigation: {
-          url: '/path/repository-view'
+          url: '/path/repository'
         }
       };
 
