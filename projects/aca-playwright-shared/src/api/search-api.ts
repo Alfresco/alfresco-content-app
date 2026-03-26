@@ -115,7 +115,7 @@ export class SearchApi {
       return result.list.pagination.count;
     } catch (error) {
       console.error(`waitForFolderPathIndexing failed for folderId "${folderId}": ${error}`);
-      return 0;
+      throw error;
     }
   }
 }

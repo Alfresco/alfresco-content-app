@@ -82,7 +82,7 @@ test.describe('viewer action file', () => {
   test.describe('Personal Files - general viewer actions', () => {
     const username = `user-${Utils.random()}`;
     const randomDocxName = `${TEST_FILES.DOCX.name}-${Utils.random()}`;
-    let folderId_actions: string;
+    let folderIdActions: string;
     let nodesApi: NodesApi;
     let trashcanApi: TrashcanApi;
 
@@ -92,16 +92,17 @@ test.describe('viewer action file', () => {
         nodesApi = apis.nodesApi;
         const { fileActionsApi } = apis;
         trashcanApi = apis.trashcanApi;
-        folderId_actions = (await nodesApi.createFolder(`viewer-action-5415-5416-5417-${Utils.random()}`)).entry.id;
-        await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId_actions);
+        folderIdActions = (await nodesApi.createFolder(`viewer-action-5415-5416-5417-${Utils.random()}`)).entry.id;
+        await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderIdActions);
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
+        throw error;
       }
     });
 
     test.beforeEach(async ({ personalFiles, loginPage }) => {
       await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
-      await personalFiles.navigate({ remoteUrl: `#/personal-files/${folderId_actions}` });
+      await personalFiles.navigate({ remoteUrl: `#/personal-files/${folderIdActions}` });
     });
 
     test.afterAll(async () => {
@@ -152,6 +153,7 @@ test.describe('viewer action file', () => {
         await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxDelete, folderId);
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
+        throw error;
       }
     });
 
@@ -181,7 +183,7 @@ test.describe('viewer action file', () => {
   test.describe('Personal Files - Edit Offline action', () => {
     const username = `user-${Utils.random()}`;
     const fileForEditOffline = `playwright-file1-${Utils.random()}.docx`;
-    let folderId_offline: string;
+    let folderIdOffline: string;
     let nodesApi: NodesApi;
     let trashcanApi: TrashcanApi;
 
@@ -192,16 +194,17 @@ test.describe('viewer action file', () => {
 
         nodesApi = apis.nodesApi;
         trashcanApi = apis.trashcanApi;
-        folderId_offline = (await nodesApi.createFolder(`viewer-action-5423-${Utils.random()}`)).entry.id;
-        await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, fileForEditOffline, folderId_offline);
+        folderIdOffline = (await nodesApi.createFolder(`viewer-action-5423-${Utils.random()}`)).entry.id;
+        await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, fileForEditOffline, folderIdOffline);
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
+        throw error;
       }
     });
 
     test.beforeEach(async ({ personalFiles, loginPage }) => {
       await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
-      await personalFiles.navigate({ remoteUrl: `#/personal-files/${folderId_offline}` });
+      await personalFiles.navigate({ remoteUrl: `#/personal-files/${folderIdOffline}` });
     });
 
     test.afterAll(async () => {
@@ -225,7 +228,7 @@ test.describe('viewer action file', () => {
   test.describe('Personal Files - Cancel Editing action', () => {
     const username = `user-${Utils.random()}`;
     const fileForCancelEditing = `playwright-file2-${Utils.random()}.docx`;
-    let folderId_cancelEdit: string;
+    let folderIdCancelEdit: string;
     let nodesApi: NodesApi;
     let trashcanApi: TrashcanApi;
 
@@ -236,18 +239,19 @@ test.describe('viewer action file', () => {
         trashcanApi = apis.trashcanApi;
 
         const { fileActionsApi } = apis;
-        folderId_cancelEdit = (await nodesApi.createFolder(`viewer-action-5424-${Utils.random()}`)).entry.id;
-        const fileForCancelEditingId = (await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, fileForCancelEditing, folderId_cancelEdit)).entry.id;
+        folderIdCancelEdit = (await nodesApi.createFolder(`viewer-action-5424-${Utils.random()}`)).entry.id;
+        const fileForCancelEditingId = (await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, fileForCancelEditing, folderIdCancelEdit)).entry.id;
         await fileActionsApi.lockNodes([fileForCancelEditingId]);
         await fileActionsApi.isFileLockedWriteWithRetry(fileForCancelEditingId, true);
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
+        throw error;
       }
     });
 
     test.beforeEach(async ({ personalFiles, loginPage }) => {
       await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
-      await personalFiles.navigate({ remoteUrl: `#/personal-files/${folderId_cancelEdit}` });
+      await personalFiles.navigate({ remoteUrl: `#/personal-files/${folderIdCancelEdit}` });
     });
 
     test.afterAll(async () => {
@@ -309,6 +313,7 @@ test.describe('viewer action file', () => {
         await fileActionsApi.lockNodes([file17781Id]);
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
+        throw error;
       }
     });
 
@@ -394,6 +399,7 @@ test.describe('viewer action file', () => {
         await shareActions.shareFileById(fileDocxShareId);
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
+        throw error;
       }
     });
 
@@ -442,6 +448,7 @@ test.describe('viewer action file', () => {
         await favoritesActions.isFavoriteWithRetry(username, randomDocxNameFavoriteId, { expect: true });
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
+        throw error;
       }
     });
 
@@ -487,6 +494,7 @@ test.describe('viewer action file', () => {
         await fileActionsApi.uploadFileWithRename(TEST_FILES.DOCX.path, docxRecentFiles, folderId);
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
+        throw error;
       }
     });
 

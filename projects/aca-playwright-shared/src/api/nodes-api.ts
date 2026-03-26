@@ -25,7 +25,7 @@
 import { ApiClientFactory } from './api-client-factory';
 import { NodeChildAssociationPaging, NodeEntry, NodePaging, NodesIncludeQuery, NodeBodyUpdate } from '@alfresco/js-api';
 import { NodeContentTree, flattenNodeContentTree } from './node-content-tree';
-import { Utils } from '../public-api';
+import { Utils } from '../utils';
 
 export class NodesApi {
   private readonly apiService: ApiClientFactory;
