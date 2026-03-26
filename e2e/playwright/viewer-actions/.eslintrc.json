@@ -1,0 +1,22 @@
+{
+  "extends": "../../../.eslintrc.json",
+  "ignorePatterns": [
+    "!**/*"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ],
+      "extends": ["../../../.eslintrc.e2e.json"],
+      "parserOptions": {
+        "project": [
+          "e2e/playwright/viewer-actions/tsconfig.e2e.json"
+        ]
+      },
+      "rules": {
+        "@typescript-eslint/no-floating-promises": "off"
+      }
+    }
+  ]
+}

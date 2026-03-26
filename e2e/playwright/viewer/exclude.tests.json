@@ -8,7 +8,6 @@
         "XAT-17182": "https://hyland.atlassian.net/browse/ACS-9889"
     },
     "firefox": {
-        "XAT-5417": "https://hyland.atlassian.net/browse/ACS-10917",
         "XAT-17177": "https://hyland.atlassian.net/browse/ACS-10917",
         "XAT-17178": "https://hyland.atlassian.net/browse/ACS-10917",
         "XAT-17179": "https://hyland.atlassian.net/browse/ACS-10917",
@@ -24,7 +23,6 @@
         "XAT-5510": "https://hyland.atlassian.net/browse/ACS-10917"
     },
     "webkit": {
-        "XAT-5417": "https://hyland.atlassian.net/browse/ACS-10917",
         "XAT-17177": "https://hyland.atlassian.net/browse/ACS-10917",
         "XAT-17178": "https://hyland.atlassian.net/browse/ACS-10917",
         "XAT-17179": "https://hyland.atlassian.net/browse/ACS-10917",
