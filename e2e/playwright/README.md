@@ -163,7 +163,7 @@ When tests run in CI, results are available in two places: **GitHub Actions** an
 
 CI e2e test results are automatically reported to Report Portal for analysis and historical tracking. The Report Portal URL is available in the GitHub Actions workflow run under "Run e2e Playwright" section.
 
-**Sample URL format**: `https://reportportal.envalfresco.com/ui/#alfresco-content-app/launches/all/<launch-id>`
+**Sample URL format**: `https://reportportal-dev.studio.dev.experience.hyland.com/ui/#alfresco-content-app/launches/all/<launch-id>`
 
 - Project name: `alfresco-content-app`
 - Tests are reported only in CI environments (not locally)

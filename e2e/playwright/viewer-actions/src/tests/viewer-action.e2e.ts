@@ -58,10 +58,12 @@ async function uploadMajorVersionAndVerify(page: PersonalFilesPage, newVersionNa
   if (description) {
     await page.uploadNewVersionDialog.description.fill(description);
   }
-  await page.uploadNewVersionDialog.uploadButton.click();
+  await Promise.all([
+    page.page.waitForResponse((response) => response.url().includes('content') && response.status() === 200),
+    page.uploadNewVersionDialog.uploadButton.click()
+  ]);
   await page.uploadNewVersionDialog.uploadButton.waitFor({ state: 'detached' });
   await expect(page.uploadNewVersionDialog.cancelButton).toHaveCount(0);
-  await Utils.waitForApiResponse(page, 'content', 200);
   expect(await page.viewer.isViewerOpened(), 'Viewer is not open').toBe(true);
   expect(await page.viewer.getFileTitle()).toContain(newVersionName);
 }
@@ -335,10 +337,12 @@ test.describe('viewer action file', () => {
     test('[XAT-17781] Upload new version action when node is locked', async ({ personalFiles }) => {
       await navigateAndOpenFile(personalFiles, folder17781Id, file17781);
       await Utils.uploadFileNewVersion(personalFiles, file17781NewVersion, 'jpg');
-      await personalFiles.uploadNewVersionDialog.uploadButton.click();
+      await Promise.all([
+        personalFiles.page.waitForResponse((response) => response.url().includes('content') && response.status() === 200),
+        personalFiles.uploadNewVersionDialog.uploadButton.click()
+      ]);
       await personalFiles.uploadNewVersionDialog.uploadButton.waitFor({ state: 'detached' });
       await expect(personalFiles.uploadNewVersionDialog.cancelButton).toHaveCount(0);
-      await Utils.waitForApiResponse(personalFiles, 'content', 200);
       expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not open').toBe(true);
       expect(await personalFiles.viewer.getFileTitle()).toContain(file17781NewVersion);
       await personalFiles.acaHeader.clickViewerMoreActions();
@@ -356,8 +360,10 @@ test.describe('viewer action file', () => {
     test('[XAT-5714] Viewer: User can restore the current version of a file to a previous version  with permissions', async ({ personalFiles }) => {
       await navigateAndOpenFile(personalFiles, folder5714Id, file5714);
       await uploadVersionAndOpenHistory(personalFiles, file5714NewVersion);
-      await personalFiles.matMenu.clickMenuItem('Restore');
-      await Utils.waitForApiResponse(personalFiles, 'revert', 200);
+      await Promise.all([
+        personalFiles.page.waitForResponse((response) => response.url().includes('revert') && response.status() === 200),
+        personalFiles.matMenu.clickMenuItem('Restore')
+      ]);
       await personalFiles.manageVersionsDialog.waitForProgressBarToDisappear();
       expect(await personalFiles.manageVersionsDialog.isVersionPresent('3.0')).toBe(true);
     });
@@ -366,8 +372,10 @@ test.describe('viewer action file', () => {
       await navigateAndOpenFile(personalFiles, folder5717Id, file5717);
       await uploadVersionAndOpenHistory(personalFiles, file5717NewVersion);
       await personalFiles.matMenu.clickMenuItem('Delete');
-      await personalFiles.confirmDialog.okButton.click();
-      await Utils.waitForApiResponse(personalFiles, '1.0', 204);
+      await Promise.all([
+        personalFiles.page.waitForResponse((response) => response.url().includes('1.0') && response.status() === 204),
+        personalFiles.confirmDialog.okButton.click()
+      ]);
       await personalFiles.manageVersionsDialog.waitForProgressBarToDisappear();
       expect(await personalFiles.manageVersionsDialog.isVersionPresent('2.0')).toBe(true);
       expect(await personalFiles.manageVersionsDialog.isVersionPresent('1.0')).toBe(false);
