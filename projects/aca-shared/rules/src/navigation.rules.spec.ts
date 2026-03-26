@@ -125,6 +125,28 @@ describe('navigation.evaluators', () => {
     });
   });
 
+  describe('isRepositoryView', () => {
+    it('should return [true] if url starts with `/repository-view`', () => {
+      const context: any = {
+        navigation: {
+          url: '/repository-view'
+        }
+      };
+
+      expect(app.isRepositoryView(context)).toBe(true);
+    });
+
+    it('should return [false] if url does not start with `/repository-view`', () => {
+      const context: any = {
+        navigation: {
+          url: '/path/repository-view'
+        }
+      };
+
+      expect(app.isRepositoryView(context)).toBe(false);
+    });
+  });
+
   describe('isLibraries', () => {
     it('should return [true] if url ends with `/libraries`', () => {
       const context: any = {

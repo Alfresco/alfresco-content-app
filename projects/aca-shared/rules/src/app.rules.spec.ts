@@ -518,6 +518,10 @@ describe('app.evaluators', () => {
       {
         pageName: 'library content',
         pageUrl: '/libraries/some-id'
+      },
+      {
+        pageName: 'repository view',
+        pageUrl: '/repository-view'
       }
     ].forEach((testCase) => {
       testCanDisplayKnowledgeRetrievalButton(
@@ -863,7 +867,7 @@ describe('app.evaluators', () => {
       expect(app.canCreateFolder(context)).toBeFalse();
     });
 
-    it('should return false when user is outside personal files or libraries', () => {
+    it('should return false when user is outside personal files, libraries or repository view', () => {
       context.appConfig = { get: () => true } as any;
       context.navigation.url = '/favorite/test';
       expect(app.canCreateFolder(context)).toBeFalse();
@@ -889,6 +893,9 @@ describe('app.evaluators', () => {
       context.navigation.url = '/personal-files/test';
       context.navigation.currentFolder = {} as any;
       context.permissions = { check: () => true };
+      expect(app.canCreateFolder(context)).toBeTrue();
+
+      context.navigation.url = '/repository-view/test';
       expect(app.canCreateFolder(context)).toBeTrue();
     });
 

@@ -70,6 +70,15 @@ export function isPersonalFiles(context: RuleContext): boolean {
 }
 
 /**
+ * Checks if a **Repository View** route is activated.
+ * JSON ref: `app.navigation.isRepositoryView`
+ */
+export function isRepositoryView(context: RuleContext): boolean {
+  const { url } = context.navigation;
+  return url?.startsWith('/repository-view');
+}
+
+/**
  * Checks if a **Library Files** or **Library Search Result** route is activated.
  * JSON ref: `app.navigation.isLibraryFiles`
  */

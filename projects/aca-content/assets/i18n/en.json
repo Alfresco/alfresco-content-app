@@ -114,6 +114,13 @@
                     "TITLE": "Permissions"
                 }
             },
+            "REPOSITORY_VIEW": {
+              "TITLE": "Repository",
+              "SIDENAV_LINK": {
+                "LABEL": "Repository",
+                "TOOLTIP": "View the repository"
+              }
+            },
             "LIBRARIES": {
                 "TITLE": "File Libraries",
                 "DESCRIPTION": "Access File Libraries",

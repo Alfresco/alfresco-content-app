@@ -193,7 +193,7 @@ export const hasSelection = (context: RuleContext): boolean => !context.selectio
  * JSON ref: `app.navigation.folder.canCreate`
  */
 export function canCreateFolder(context: AcaRuleContext): boolean {
-  if (navigation.isPersonalFiles(context) || navigation.isLibraryContent(context)) {
+  if (navigation.isPersonalFiles(context) || navigation.isLibraryContent(context) || navigation.isRepositoryView(context)) {
     const { currentFolder } = context.navigation;
 
     if (currentFolder) {
@@ -556,6 +556,7 @@ export const areCategoriesEnabled = (context: AcaRuleContext): boolean => contex
 export const canDisplayKnowledgeRetrievalButton = (context: AcaRuleContext): boolean =>
   context.appConfig.get('plugins.knowledgeRetrievalEnabled', false) &&
   (navigation.isPersonalFiles(context) ||
+    navigation.isRepositoryView(context) ||
     navigation.isSharedFiles(context) ||
     navigation.isRecentFiles(context) ||
     navigation.isFavorites(context) ||
