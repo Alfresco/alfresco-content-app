@@ -29,7 +29,7 @@ import {
   PaginationComponent,
   ShowHeaderMode
 } from '@alfresco/adf-core';
-import { Component, OnDestroy, OnInit, ViewEncapsulation, inject } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Node, NodeEntry, PathElement } from '@alfresco/js-api';
 import { NodeActionsService } from '../../services/node-actions.service';
@@ -108,6 +108,9 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   private nodePath: PathElement[];
   private _errorTranslationKey = 'APP.MESSAGES.ERRORS.MISSING_CONTENT';
 
+  @Input()
+  navigationPath = '/personal-files';
+
   get errorTranslationKey(): string {
     return this._errorTranslationKey;
   }
@@ -139,7 +142,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
             if (node?.entry?.isFolder) {
               void this.updateCurrentNode(node.entry);
             } else {
-              void this.router.navigate(['/personal-files', node.entry.parentId], {
+              void this.router.navigate([this.navigationPath, node.entry.parentId], {
                 replaceUrl: true
               });
             }
