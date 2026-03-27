@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 @mixin adf-style-fixes() {
   //  add here all ADF style overrides
   //  and create a task to move them to ADF
@@ -10,5 +12,86 @@
     .adf-content-selector-modifier-cell {
       display: none;
     }
+  }
+
+  .adf-document-list .adf-datatable-list {
+    background-color: var(--adf-theme-background-card-color);
+    border: 1px solid var(--adf-theme-foreground-text-color-007);
+    border-top: none;
+
+    &.adf-datatable--empty {
+      border-top: 1px solid var(--adf-theme-foreground-text-color-007);
+    }
+
+    .adf-datatable-header {
+      border-top: 1px solid var(--adf-theme-foreground-text-color-007);
+      border-bottom: 1px solid transparent;
+    }
+
+    .adf-datatable-body {
+      .adf-datatable-row {
+        border-top: 1px solid var(--adf-theme-foreground-text-color-007);
+        min-height: 56px;
+
+        &:hover,
+        &:focus {
+          background-color: var(--adf-theme-foreground-text-color-007);
+        }
+
+        &:last-child {
+          border-bottom: 1px solid var(--adf-theme-foreground-text-color-007);
+        }
+      }
+    }
+  }
+
+  .adf-datatable-list .adf-datatable-cell-header {
+    min-height: 56px;
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--adf-theme-foreground-text-color-087);
+
+    .adf-datatable-checkbox {
+      @include mat.checkbox-overrides(
+        (
+          unselected-icon-color: rgba(0, 0, 0, 0.87)
+        )
+      );
+    }
+
+    .adf-filter-icon {
+      color: rgba(0, 0, 0, 0.54);
+    }
+
+    .adf-filter-button {
+      --mdc-icon-button-state-layer-size: 48px;
+    }
+
+    .adf-datatable__header--sorted-asc,
+    .adf-datatable__header--sorted-desc {
+      padding-right: 3.5px;
+
+      &::after {
+        font-size: 16px;
+        line-height: 24px;
+        left: 5px;
+        right: 5px;
+      }
+    }
+  }
+
+  .adf-datatable-list [data-automation-id='adf-datatable-main-menu-button'] {
+    --mdc-icon-button-icon-color: var(--adf-theme-foreground-text-color-087);
+    --mdc-icon-button-state-layer-size: 48px;
+  }
+
+  adf-pagination.adf-pagination {
+    background-color: var(--theme-pagination-background-color);
+    border: none;
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  adf-layout-container .mat-drawer-side.adf-layout-container-sidenav {
+    border-right: 1px solid var(--adf-theme-foreground-text-color-007);
   }
 }
