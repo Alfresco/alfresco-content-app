@@ -15,6 +15,7 @@ html {
 @include mat.app-background();
 
 :root {
+  --mat-sys-on-surface: var(--adf-theme-foreground-text-color-087);
   --mdc-filled-text-field-container-color: transparent;
   --mdc-text-button-label-text-color: inherit;
   --mat-form-field-container-height: 47.5px;
@@ -26,9 +27,11 @@ html {
   );
   @include mat.checkbox-overrides(
     (
+      label-text-color: var(--adf-theme-foreground-text-color-087),
       selected-icon-color: var(--theme-blue-checkbox-color),
       selected-hover-icon-color: var(--theme-blue-checkbox-color),
-      selected-focus-icon-color: var(--theme-blue-checkbox-color)
+      selected-focus-icon-color: var(--theme-blue-checkbox-color),
+      unselected-icon-color: var(--adf-theme-foreground-icon-color)
     )
   );
   @include mat.dialog-overrides(
@@ -41,24 +44,40 @@ html {
       outlined-label-text-populated-size: 18px,
       outlined-label-text-color: var(--theme-selected-text-color),
       outlined-hover-label-text-color: var(--adf-theme-foreground-text-color),
+      outlined-input-text-color: var(--adf-theme-foreground-text-color-087),
       outlined-disabled-input-text-color: var(--adf-theme-foreground-text-color-040),
       outlined-disabled-label-text-color: var(--adf-theme-foreground-text-color-040),
       outlined-disabled-outline-color: var(--adf-theme-foreground-text-color-040),
+      filled-input-text-color: var(--adf-theme-foreground-text-color-087),
       subscript-text-size: 12px
     )
   );
   @include mat.sidenav-overrides(
     (
-      container-shape: 0
+      container-shape: 0,
+      container-divider-color: var(--adf-theme-foreground-divider-color)
     )
   );
   @include mat.button-overrides(
     (
       text-label-text-tracking: normal,
+      text-horizontal-padding: 16px,
       filled-label-text-tracking: normal,
+      filled-container-shape: 4px,
+      filled-container-height: 36px,
+      filled-horizontal-padding: 16px,
       outlined-label-text-tracking: normal,
       outlined-label-text-color: rgba(0, 0, 0, 0.87),
-      protected-label-text-tracking: normal
+      outlined-container-shape: 4px,
+      outlined-container-height: 36px,
+      outlined-outline-color: rgba(0, 0, 0, 0.12),
+      outlined-horizontal-padding: 15px,
+      protected-label-text-tracking: normal,
+      protected-container-shape: 4px,
+      protected-container-height: 36px,
+      protected-horizontal-padding: 16px,
+      text-container-shape: 4px,
+      text-container-height: 36px
     )
   );
   @include mat.chips-overrides(
@@ -70,6 +89,34 @@ html {
   @include mat.icon-button-overrides(
     (
       icon-color: rgba(0, 0, 0, 0.54)
+    )
+  );
+  @include mat.menu-overrides(
+    (
+      container-color: #fff,
+      container-elevation-shadow: (
+        rgba(0, 0, 0, 0.2) 0 5px 5px -3px,
+        rgba(0, 0, 0, 0.14) 0 8px 10px 1px,
+        rgba(0, 0, 0, 0.12) 0 3px 14px 2px
+      ),
+      divider-color: var(--adf-theme-foreground-divider-color),
+      divider-bottom-spacing: 0,
+      divider-top-spacing: 0,
+      item-focus-state-layer-color: var(--adf-theme-background-hover-color),
+      item-hover-state-layer-color: var(--adf-theme-background-hover-color),
+      item-icon-color: var(--adf-theme-foreground-text-color-087),
+      item-label-text-tracking: normal,
+      item-label-text-weight: 400,
+      item-leading-spacing: 16px,
+      item-trailing-spacing: 16px,
+      item-spacing: 16px,
+      item-with-icon-leading-spacing: 16px,
+      item-with-icon-trailing-spacing: 16px
+    )
+  );
+  @include mat.divider-overrides(
+    (
+      color: var(--adf-theme-foreground-divider-color)
     )
   );
 
