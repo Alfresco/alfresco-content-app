@@ -60,6 +60,7 @@ async function uploadMajorVersionAndVerify(page: PersonalFilesPage, newVersionNa
   }
   await Promise.all([
     page.page.waitForResponse((response) => response.url().includes('content') && response.status() === 200),
+    page.page.waitForResponse((response) => response.url().includes('attachment') && response.status() === 200),
     page.uploadNewVersionDialog.uploadButton.click()
   ]);
   await page.uploadNewVersionDialog.uploadButton.waitFor({ state: 'detached' });
@@ -359,10 +360,10 @@ test.describe('viewer action file', () => {
 
     test('[XAT-5714] Viewer: User can restore the current version of a file to a previous version  with permissions', async ({ personalFiles }) => {
       await navigateAndOpenFile(personalFiles, folder5714Id, file5714);
-      await uploadVersionAndOpenHistory(personalFiles, file5714NewVersion);
+      await Utils.uploadFileNewVersion(personalFiles, file5714NewVersion, 'jpg');
       await Promise.all([
-        personalFiles.page.waitForResponse((response) => response.url().includes('revert') && response.status() === 200),
-        personalFiles.matMenu.clickMenuItem('Restore')
+        personalFiles.page.waitForResponse((response) => response.url().includes('content') && response.status() === 200),
+        personalFiles.uploadNewVersionDialog.uploadButton.click()
       ]);
       await personalFiles.manageVersionsDialog.waitForProgressBarToDisappear();
       expect(await personalFiles.manageVersionsDialog.isVersionPresent('3.0')).toBe(true);
@@ -370,7 +371,13 @@ test.describe('viewer action file', () => {
 
     test('[XAT-5717] Viewer: User can delete a version of a file with permissions', async ({ personalFiles }) => {
       await navigateAndOpenFile(personalFiles, folder5717Id, file5717);
-      await uploadVersionAndOpenHistory(personalFiles, file5717NewVersion);
+      await Promise.all([
+        personalFiles.page.waitForResponse((response) => response.url().includes('content') && response.status() === 200),
+        await uploadMajorVersionAndVerify(personalFiles, file5717NewVersion)
+      ]);
+      await personalFiles.acaHeader.clickViewerMoreActions();
+      await personalFiles.matMenu.clickMenuItem('Manage Versions');
+      await personalFiles.manageVersionsDialog.viewFileVersion('1.0');
       await personalFiles.matMenu.clickMenuItem('Delete');
       await Promise.all([
         personalFiles.page.waitForResponse((response) => response.url().includes('1.0') && response.status() === 204),
