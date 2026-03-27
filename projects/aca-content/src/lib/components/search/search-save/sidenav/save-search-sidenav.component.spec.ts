@@ -22,13 +22,14 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SaveSearchSidenavComponent } from './save-search-sidenav.component';
 import { AppTestingModule } from '../../../../testing/app-testing.module';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { SavedSearchesContextService } from '../../../../services/saved-searches-context.service';
 import { SavedSearch } from '@alfresco/adf-content-services';
 import { NavBarLinkRef } from '@alfresco/adf-extensions';
+import { TranslationService } from '@alfresco/adf-core';
 
 describe('SaveSearchSidenavComponent', () => {
   let fixture: ComponentFixture<SaveSearchSidenavComponent>;
@@ -81,11 +82,11 @@ describe('SaveSearchSidenavComponent', () => {
     });
   });
 
-  it('should set navbar object with children is searches are saved', fakeAsync(() => {
+  it('should set navbar object with children if searches are saved', () => {
     spyOnProperty(savedSearchesService, 'savedSearches$', 'get').and.returnValue(of([{ name: '1', order: 0, encodedUrl: 'abc' }]));
     component.ngOnInit();
     fixture.detectChanges();
-    tick(100);
+
     expect(component.item.children[0]).toEqual({
       icon: '',
       title: '1',
@@ -94,7 +95,26 @@ describe('SaveSearchSidenavComponent', () => {
       url: 'search?q=abc',
       id: 'search1'
     });
-  }));
+  });
+
+  it('should update title when language changes', () => {
+    const langChangeSubject = new Subject<any>();
+    const translationService = TestBed.inject(TranslationService);
+
+    Object.defineProperty(translationService.translate, 'onLangChange', {
+      get: () => langChangeSubject.asObservable()
+    });
+
+    spyOnProperty(savedSearchesService, 'savedSearches$', 'get').and.returnValue(of([{ name: '1', order: 0, encodedUrl: 'abc' }]));
+    spyOn(translationService, 'instant').and.returnValue('Translated Title (1)');
+
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    langChangeSubject.next({ lang: 'de', translations: {} });
+
+    expect(component.item.title).toBe('Translated Title (1)');
+  });
 
   describe('onActionClicked', () => {
     beforeEach(() => {
