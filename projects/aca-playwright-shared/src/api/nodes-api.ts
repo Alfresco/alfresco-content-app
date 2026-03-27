@@ -82,7 +82,7 @@ export class NodesApi {
     }
   }
 
-  async createMultipleFiles(count: number, parentId: string = '-my-'): Promise<NodeEntry[]> {
+  async createMultipleFiles(count: number, parentId = '-my-'): Promise<NodeEntry[]> {
     const createdFiles: NodeEntry[] = [];
     for (let i = 0; i < count; i++) {
       const file = await this.createFile(`file-${Utils.random()}-${i}`, parentId);

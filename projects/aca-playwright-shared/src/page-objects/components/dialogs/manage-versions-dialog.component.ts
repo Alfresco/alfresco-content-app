@@ -28,7 +28,7 @@ import { BaseComponent } from '../base.component';
 export class ManageVersionsDialog extends BaseComponent {
   private static readonly rootElement = '.adf-new-version-uploader-dialog';
 
-  async viewFileVersion(version: string): Promise<void> {
+  async clickListActionButtonForVersion(version: string): Promise<void> {
     await this.getChild(`[id="adf-version-list-action-menu-button-${version}"]`).click();
   }
 
@@ -43,6 +43,10 @@ export class ManageVersionsDialog extends BaseComponent {
   async waitForProgressBarToDisappear(): Promise<void> {
     await this.getChild('[data-automation-id="version-history-loading-bar"]').waitFor({ state: 'attached' });
     await this.getChild('[data-automation-id="version-history-loading-bar"]').waitFor({ state: 'detached' });
+  }
+
+  async waitForDialog(): Promise<void> {
+    await this.page.locator('[data-automation-id="new-version-uploader-dialog-title"]').waitFor();
   }
 
   constructor(page: Page) {

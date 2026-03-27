@@ -44,7 +44,7 @@ export const getReportPortalConfig = () => {
     apiKey: env.REPORT_PORTAL_TOKEN,
     project: 'alfresco-content-app',
     launch,
-    includeTestSteps: false,
+    includeTestSteps: true,
     skipPassed: true,
     restClientConfig: {
       timeout: timeouts.sixtySeconds,

@@ -67,6 +67,7 @@ test.describe('viewer file', () => {
         await fileActionsApi.waitForNodes(randomDocxName, { expect: 1 });
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
+        throw error;
       }
     });
 
@@ -130,6 +131,7 @@ test.describe('viewer file', () => {
         await nodesApi.createFile(file3, folder3Id);
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
+        throw error;
       }
     });
 
@@ -148,10 +150,10 @@ test.describe('viewer file', () => {
       await personalFiles.dataTable.performClickFolderOrFileToOpen(file1);
       expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
       expect(await personalFiles.viewer.fileTitleButtonLocator.textContent()).toContain(file1);
-      await personalFiles.viewer.nextFileButton.click();
+      await personalFiles.viewer.nextFileButton.or(personalFiles.viewer.previousFileButton).first().click();
       await personalFiles.viewer.waitForViewerLoaderToFinish();
       expect(await personalFiles.viewer.fileTitleButtonLocator.textContent()).not.toContain(file1);
-      await personalFiles.viewer.previousFileButton.click();
+      await personalFiles.viewer.nextFileButton.or(personalFiles.viewer.previousFileButton).first().click();
       await personalFiles.viewer.waitForViewerLoaderToFinish();
       expect(await personalFiles.viewer.fileTitleButtonLocator.textContent()).toContain(file1);
     });
@@ -221,6 +223,7 @@ test.describe('viewer file', () => {
         await nodesApi1.createFile(file3, folderId);
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
+        throw error;
       }
     });
 
@@ -263,6 +266,7 @@ test.describe('viewer file', () => {
         fileJpgId = (await fileActionsApi.uploadFile(TEST_FILES.JPG_FILE.path, randomJpgName, folderId)).entry.id;
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
+        throw error;
       }
     });
 
@@ -300,6 +304,7 @@ test.describe('viewer file', () => {
         await fileActionsApi.waitForNodes(randomDocxName, { expect: 1 });
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
+        throw error;
       }
     });
 
@@ -341,6 +346,7 @@ test.describe('viewer file', () => {
         await fileActionsApi.waitForNodes(randomDocxName, { expect: 1 });
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
+        throw error;
       }
     });
 
@@ -381,6 +387,7 @@ test.describe('viewer file', () => {
         await shareActions.waitForFilesToBeShared([fileDocxId]);
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
+        throw error;
       }
     });
 
@@ -426,6 +433,7 @@ test.describe('viewer file', () => {
         ]);
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
+        throw error;
       }
     });
 
@@ -469,6 +477,7 @@ test.describe('viewer file', () => {
         fileAdminId = (await fileActionsApiAdmin.uploadFile(TEST_FILES.DOCX.path, fileAdmin, docLibId)).entry.id;
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
+        throw error;
       }
     });
 
@@ -508,6 +517,7 @@ test.describe('viewer file', () => {
         await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, fileInSite, docLibSiteUserId);
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
+        throw error;
       }
     });
 

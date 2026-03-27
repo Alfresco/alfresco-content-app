@@ -26,7 +26,7 @@ import { expect } from '@playwright/test';
 import { ApiClientFactory, NodesApi, Utils, test, SitesApi, FavoritesPageApi, timeouts, TrashcanApi } from '@alfresco/aca-playwright-shared';
 import { Site } from '@alfresco/js-api';
 
-test.describe.serial('Favorites Files', () => {
+test.describe('Favorites Files', () => {
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
   let siteActionsAdmin: SitesApi;
@@ -79,8 +79,7 @@ test.describe.serial('Favorites Files', () => {
       await apiClientFactory.trashCan.restoreDeletedNode(file4Id);
     });
 
-    test.beforeEach(async ({ loginPage, favoritePage }) => {
-      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+    test.beforeEach(async ({ favoritePage }) => {
       await favoritePage.navigate();
     });
 
