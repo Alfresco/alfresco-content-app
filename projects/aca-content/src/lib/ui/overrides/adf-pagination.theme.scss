@@ -20,6 +20,9 @@
       }
 
       .adf-pagination__perpage-block {
+        --mdc-icon-button-state-layer-size: 48px;
+        --mdc-icon-button-icon-color: var(--adf-theme-foreground-text-color-087);
+
         flex: auto;
         padding-right: 24px;
       }
@@ -29,10 +32,16 @@
       }
 
       .adf-pagination__previous-button {
+        --mdc-icon-button-state-layer-size: 48px;
+        --mdc-icon-button-icon-color: var(--adf-theme-foreground-text-color-087);
+
         margin: 0 12px 0 0;
       }
 
       .adf-pagination__next-button {
+        --mdc-icon-button-state-layer-size: 48px;
+        --mdc-icon-button-icon-color: var(--adf-theme-foreground-text-color-087);
+
         margin: 0;
       }
 

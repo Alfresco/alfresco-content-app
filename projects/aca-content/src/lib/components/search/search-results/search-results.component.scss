@@ -11,6 +11,11 @@ aca-search-results {
       active-indicator-color: var(--theme-primary-color)
     )
   );
+  @include mat.divider-overrides(
+    (
+      color: rgba(0, 0, 0, 0.12)
+    )
+  );
 
   .aca-search-results-active-search-ai-input {
     .aca-header-container,
