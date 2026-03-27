@@ -60,7 +60,7 @@ test.describe('Version actions', () => {
     await page.dataTable.selectItems(filenameAfterUpdate);
     await page.acaHeader.clickMoreActions();
     await page.matMenu.clickMenuItem('Manage Versions');
-    await page.manageVersionsDialog.viewFileVersion('1.0');
+    await page.manageVersionsDialog.clickListActionButtonForVersion('1.0');
     await page.matMenu.clickMenuItem('View');
   }
 

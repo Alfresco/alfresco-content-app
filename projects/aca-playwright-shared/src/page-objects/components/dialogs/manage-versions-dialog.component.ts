@@ -40,9 +40,14 @@ export class ManageVersionsDialog extends BaseComponent {
     return this.getChild(`[id="adf-version-list-item-comment-${version}"]`).isVisible();
   }
 
-  async waitForProgressBarToDisappear(): Promise<void> {
-    await this.getChild('[data-automation-id="version-history-loading-bar"]').waitFor({ state: 'attached' });
-    await this.getChild('[data-automation-id="version-history-loading-bar"]').waitFor({ state: 'detached' });
+  async waitForProgressBarToDisappear(attachedTimeout = 5000): Promise<void> {
+    const loadingBar = this.getChild('[data-automation-id="version-history-loading-bar"]');
+    try {
+      await loadingBar.waitFor({ state: 'attached', timeout: attachedTimeout });
+    } catch {
+      return;
+    }
+    await loadingBar.waitFor({ state: 'detached' });
   }
 
   async waitForDialog(): Promise<void> {
