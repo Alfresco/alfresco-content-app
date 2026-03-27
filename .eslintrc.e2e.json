@@ -1,8 +1,7 @@
 {
   "extends": ["plugin:playwright/playwright-test"],
-  "plugins": ["@alfresco/eslint-angular", "@angular-eslint/eslint-plugin"],
+  "plugins": ["@alfresco/eslint-angular"],
   "rules": {
-    "@angular-eslint/prefer-inject": "off",
     "@typescript-eslint/no-floating-promises": "warn",
     "@typescript-eslint/no-misused-promises": "warn",
     "max-lines": "off",
