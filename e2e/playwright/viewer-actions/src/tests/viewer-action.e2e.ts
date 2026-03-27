@@ -379,7 +379,7 @@ test.describe('viewer action file', () => {
       await Promise.all([
         Utils.waitForApiResponse(personalFiles, 'content', 200),
         Utils.waitForApiResponse(personalFiles, 'attachment', 200),
-        await uploadMajorVersionAndVerify(personalFiles, file5717NewVersion)
+        uploadMajorVersionAndVerify(personalFiles, file5717NewVersion)
       ]);
       await openManageVersionDialog(personalFiles);
       await personalFiles.manageVersionsDialog.clickListActionButtonForVersion('1.0');
