@@ -25,16 +25,27 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SaveSearchSidenavComponent } from './save-search-sidenav.component';
 import { AppTestingModule } from '../../../../testing/app-testing.module';
-import { Observable, of, Subject } from 'rxjs';
+import { EventEmitter } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import { SavedSearchesContextService } from '../../../../services/saved-searches-context.service';
 import { SavedSearch } from '@alfresco/adf-content-services';
 import { NavBarLinkRef } from '@alfresco/adf-extensions';
 import { TranslationService } from '@alfresco/adf-core';
+import { LangChangeEvent } from '@ngx-translate/core';
+
+interface TranslationServiceMock {
+  instant: jasmine.Spy<(key: string) => string>;
+  translate: {
+    onLangChange: EventEmitter<LangChangeEvent>;
+  };
+}
 
 describe('SaveSearchSidenavComponent', () => {
   let fixture: ComponentFixture<SaveSearchSidenavComponent>;
   let component: SaveSearchSidenavComponent;
   let savedSearchesService: SavedSearchesContextService;
+  let translationServiceMock: TranslationServiceMock;
+  const langChangeEmitter = new EventEmitter<LangChangeEvent>();
 
   beforeEach(() => {
     const mockService: Partial<SavedSearchesContextService> = {
@@ -44,12 +55,24 @@ describe('SaveSearchSidenavComponent', () => {
         return of([]);
       }
     };
+
+    translationServiceMock = {
+      instant: jasmine.createSpy('instant').and.callFake((key: string) => key),
+      translate: {
+        onLangChange: langChangeEmitter
+      }
+    };
+
     TestBed.configureTestingModule({
       imports: [AppTestingModule, SaveSearchSidenavComponent],
       providers: [
         {
           provide: SavedSearchesContextService,
           useValue: mockService
+        },
+        {
+          provide: TranslationService,
+          useValue: translationServiceMock
         }
       ]
     });
@@ -98,20 +121,13 @@ describe('SaveSearchSidenavComponent', () => {
   });
 
   it('should update title when language changes', () => {
-    const langChangeSubject = new Subject<any>();
-    const translationService = TestBed.inject(TranslationService);
-
-    Object.defineProperty(translationService.translate, 'onLangChange', {
-      get: () => langChangeSubject.asObservable()
-    });
-
     spyOnProperty(savedSearchesService, 'savedSearches$', 'get').and.returnValue(of([{ name: '1', order: 0, encodedUrl: 'abc' }]));
-    spyOn(translationService, 'instant').and.returnValue('Translated Title (1)');
+    translationServiceMock.instant.and.returnValue('Translated Title (1)');
 
     component.ngOnInit();
     fixture.detectChanges();
 
-    langChangeSubject.next({ lang: 'de', translations: {} });
+    langChangeEmitter.emit({ lang: 'de', translations: {} });
 
     expect(component.item.title).toBe('Translated Title (1)');
   });
