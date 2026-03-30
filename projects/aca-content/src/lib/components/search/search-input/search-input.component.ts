@@ -24,7 +24,7 @@
 
 import { AppHookService } from '@alfresco/aca-shared';
 import { AppConfigService } from '@alfresco/adf-core';
-import { Component, DestroyRef, ElementRef, inject, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, ElementRef, inject, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, NavigationSkipped, NavigationStart, Params, Router } from '@angular/router';
 import { SearchNavigationService } from '../search-navigation.service';
 import { SearchFilterService } from '../search-filter.service';
@@ -51,7 +51,7 @@ import { extractSearchedWordFromEncodedQuery } from '../../../utils/aca-search-u
   encapsulation: ViewEncapsulation.None,
   host: { class: 'aca-search-input' }
 })
-export class SearchInputComponent implements OnInit, OnDestroy {
+export class SearchInputComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly queryBuilder = inject(SearchQueryBuilderService);
   private readonly config = inject(AppConfigService);
   private readonly router = inject(Router);
@@ -75,12 +75,18 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     this.searchOnChange = this.config.get<boolean>('search.aca:triggeredOnChange', true);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.initSearchState();
     this.subscribeToRouteParams();
 
     this.appHookService.library400Error.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.has400LibraryError = true;
+    });
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.searchInputField.nativeElement.focus();
     });
   }
 

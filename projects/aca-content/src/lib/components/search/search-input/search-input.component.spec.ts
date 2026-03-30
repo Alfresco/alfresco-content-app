@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { SearchInputComponent } from './search-input.component';
 import { Subject } from 'rxjs';
@@ -123,6 +123,14 @@ describe('SearchInputComponent', () => {
     const searchButton = testingUtils.getByCSS('.aca-search-input--search-button');
     expect(searchButton).toBeTruthy();
   });
+
+  it('should focus the search input field after view init', fakeAsync(() => {
+    const input = testingUtils.getInputByCSS('.app-search-input');
+    spyOn(input, 'focus');
+    component.ngAfterViewInit();
+    tick();
+    expect(input.focus).toHaveBeenCalled();
+  }));
 
   describe('onSearchSubmit', () => {
     it('should execute search on submit with valid term', () => {
