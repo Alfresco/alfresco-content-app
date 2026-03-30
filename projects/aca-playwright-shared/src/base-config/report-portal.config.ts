@@ -47,7 +47,8 @@ export const getReportPortalConfig = () => {
     includeTestSteps: true,
     skipPassed: true,
     restClientConfig: {
-      timeout: timeouts.extendedTest
+      timeout: timeouts.sixtySeconds,
+      retry: 0
     },
     attributes,
     description: `[Run ${env.GITHUB_RUN_ID}](${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}) - ${browser} - Failures only`

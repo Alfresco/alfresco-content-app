@@ -25,6 +25,7 @@
 import { ApiClientFactory } from './api-client-factory';
 import { NodeChildAssociationPaging, NodeEntry, NodePaging, NodesIncludeQuery, NodeBodyUpdate } from '@alfresco/js-api';
 import { NodeContentTree, flattenNodeContentTree } from './node-content-tree';
+import { Utils } from '../utils';
 
 export class NodesApi {
   private readonly apiService: ApiClientFactory;
@@ -79,6 +80,17 @@ export class NodesApi {
       console.error(`${this.constructor.name} ${this.createFiles.name}: ${error}`);
       return null;
     }
+  }
+
+  async createMultipleFiles(count: number, parentId = '-my-'): Promise<NodeEntry[]> {
+    const createdFiles: NodeEntry[] = [];
+    for (let i = 0; i < count; i++) {
+      const file = await this.createFile(`file-${Utils.random()}-${i}`, parentId);
+      if (file) {
+        createdFiles.push(file);
+      }
+    }
+    return createdFiles;
   }
 
   async createFolders(names: string[], relativePath = '/'): Promise<NodePaging> {

@@ -60,7 +60,7 @@ test.describe('Version actions', () => {
     await page.dataTable.selectItems(filenameAfterUpdate);
     await page.acaHeader.clickMoreActions();
     await page.matMenu.clickMenuItem('Manage Versions');
-    await page.manageVersionsDialog.viewFileVersion('1.0');
+    await page.manageVersionsDialog.clickListActionButtonForVersion('1.0');
     await page.matMenu.clickMenuItem('View');
   }
 
@@ -109,7 +109,7 @@ test.describe('Version actions', () => {
     test('[XAT-5497] Previous document version title should be the same in Preview mode as in Version Manager - Personal Files', async ({
       personalFiles
     }) => {
-      await personalFiles.viewer.waitForViewerToOpen('wait for viewer content');
+      await personalFiles.viewer.waitForViewerToOpen();
       expect(await personalFiles.viewer.getFileTitle()).toContain(filenameBeforeUpdate);
     });
 
@@ -133,7 +133,7 @@ test.describe('Version actions', () => {
     test('[XAT-5500] Previous document version title should be the same in Preview mode as in Version Manager - Recent Files', async ({
       recentFilesPage
     }) => {
-      await recentFilesPage.viewer.waitForViewerToOpen('wait for viewer content');
+      await recentFilesPage.viewer.waitForViewerToOpen();
       expect(await recentFilesPage.viewer.getFileTitle()).toContain(filenameBeforeUpdate);
     });
 
@@ -157,7 +157,7 @@ test.describe('Version actions', () => {
     test('[XAT-5503] Previous document version title should be the same in Preview mode as in Version Manager - Favorites', async ({
       favoritePage
     }) => {
-      await favoritePage.viewer.waitForViewerToOpen('wait for viewer content');
+      await favoritePage.viewer.waitForViewerToOpen();
       expect(await favoritePage.viewer.getFileTitle()).toContain(filenameBeforeUpdate);
     });
 
@@ -205,7 +205,7 @@ test.describe('Version actions', () => {
     test('[XAT-5509] Previous document version title should be the same in Preview mode as in Version Manager - Search Results', async ({
       searchPage
     }) => {
-      await searchPage.viewer.waitForViewerToOpen('wait for viewer content');
+      await searchPage.viewer.waitForViewerToOpen();
       expect(await searchPage.viewer.getFileTitle()).toContain(filenameBeforeUpdate);
     });
 

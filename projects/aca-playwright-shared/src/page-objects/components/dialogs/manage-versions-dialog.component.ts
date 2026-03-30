@@ -28,9 +28,30 @@ import { BaseComponent } from '../base.component';
 export class ManageVersionsDialog extends BaseComponent {
   private static readonly rootElement = '.adf-new-version-uploader-dialog';
 
-  async viewFileVersion(version: string): Promise<void> {
-    const versionActionsButton = this.getChild(`[id="adf-version-list-action-menu-button-${version}"]`);
-    await versionActionsButton.click();
+  async clickListActionButtonForVersion(version: string): Promise<void> {
+    await this.getChild(`[id="adf-version-list-action-menu-button-${version}"]`).click();
+  }
+
+  async isVersionPresent(version: string): Promise<boolean> {
+    return this.getChild(`[id="adf-version-list-item-version-${version}"]`).isVisible();
+  }
+
+  async isDescriptionPresent(version: string): Promise<boolean> {
+    return this.getChild(`[id="adf-version-list-item-comment-${version}"]`).isVisible();
+  }
+
+  async waitForProgressBarToDisappear(attachedTimeout = 5000): Promise<void> {
+    const loadingBar = this.getChild('[data-automation-id="version-history-loading-bar"]');
+    try {
+      await loadingBar.waitFor({ state: 'attached', timeout: attachedTimeout });
+    } catch {
+      return;
+    }
+    await loadingBar.waitFor({ state: 'detached' });
+  }
+
+  async waitForDialog(): Promise<void> {
+    await this.page.locator('[data-automation-id="new-version-uploader-dialog-title"]').waitFor();
   }
 
   constructor(page: Page) {
