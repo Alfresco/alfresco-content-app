@@ -27,7 +27,7 @@ aca-search-in-menu {
   padding: 0;
   border: none;
   background-color: var(--theme-white-background);
-  min-width: 512px;
+  width: min(512px, 100vw);
   box-shadow: 0 2px 4px var(--theme-grey-divider-color);
   border-radius: 12px;
 
@@ -66,5 +66,13 @@ aca-search-in-menu {
     display: flex;
     justify-content: space-between;
     padding: 8px 16px;
+  }
+
+  @media screen and (max-width: 599px) {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100vw - 16px);
+    max-height: calc(100vh - 16px);
   }
 }

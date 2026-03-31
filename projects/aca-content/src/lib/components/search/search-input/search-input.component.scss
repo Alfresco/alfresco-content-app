@@ -53,14 +53,8 @@ $search-border-radius: 4px;
 }
 
 @media screen and (max-width: 599px) {
-  $search-width-xsmall: 220px;
-
   .aca-search-input {
-    max-width: $search-width-xsmall;
-  }
-
-  .app-search-container {
-    max-width: $search-width-xsmall;
+    max-width: 220px;
   }
 }
 

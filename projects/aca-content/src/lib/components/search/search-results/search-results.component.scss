@@ -1,6 +1,10 @@
 @import '../../../ui/mixins';
 
 aca-search-results {
+  .aca-content-header {
+    overflow-x: auto;
+  }
+
   .aca-search-results-active-search-ai-input {
     .aca-header-container,
     .adf-search-results__content-header.aca-content {
