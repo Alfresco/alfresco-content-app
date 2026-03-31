@@ -71,8 +71,15 @@ aca-search-in-menu {
   @media screen and (max-width: 599px) {
     position: fixed;
     left: 50%;
+    top: 65px;
     transform: translateX(-50%);
     width: calc(100vw - 16px);
-    max-height: calc(100vh - 16px);
+    max-height: calc(100vh - 65px);
+    overflow-y: auto;
+  }
+
+  @media screen and (max-width: 320px) {
+    top: 0;
+    max-height: 100vh;
   }
 }
