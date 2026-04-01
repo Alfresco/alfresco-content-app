@@ -91,7 +91,7 @@
     "@angular/compiler-cli": "19.2.19",
     "@angular/language-service": "19.2.18",
     "@cspell/eslint-plugin": "^9.2.1",
-    "@nx/angular": "22.5.4",
+    "@nx/angular": "22.6.3",
     "@nx/eslint-plugin": "22.5.4",
     "@nx/workspace": "22.5.4",
     "@playwright/test": "^1.56.1",
