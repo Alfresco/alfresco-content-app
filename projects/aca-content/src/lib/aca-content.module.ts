@@ -153,6 +153,7 @@ import { IsFeatureSupportedInCurrentAcsPipe } from './pipes/is-feature-supported
         'app.selection.folder': rules.hasFolderSelected,
         'app.selection.folder.canUpdate': rules.canUpdateSelectedFolder,
         'app.selection.displayedKnowledgeRetrievalButton': rules.canDisplayKnowledgeRetrievalButton,
+        'app.selection.isCheckedOut': rules.isCheckedOut,
 
         'app.navigation.folder.canCreate': rules.canCreateFolder,
         'app.navigation.isTrashcan': rules.isTrashcan,
