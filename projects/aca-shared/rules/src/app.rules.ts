@@ -566,7 +566,7 @@ export const isSSOEnabled = (context: AcaRuleContext): boolean => context.appCon
 
 /**
  * Checks if node contains checked out aspect.
- * JSON ref: `isCheckedOut`
+ * JSON ref: `app.selection.isCheckedOut`
  *
  * @param context Rule execution context
  */
