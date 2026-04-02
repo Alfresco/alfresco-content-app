@@ -63,6 +63,7 @@ html {
       text-label-text-tracking: normal,
       text-horizontal-padding: 16px,
       filled-label-text-tracking: normal,
+      filled-container-color: var(--theme-primary-color),
       filled-container-shape: 4px,
       filled-container-height: 36px,
       filled-horizontal-padding: 16px,
@@ -89,6 +90,11 @@ html {
   @include mat.icon-button-overrides(
     (
       icon-color: rgba(0, 0, 0, 0.54)
+    )
+  );
+  @include mat.icon-overrides(
+    (
+      color: var(--adf-theme-foreground-text-color-087)
     )
   );
   @include mat.menu-overrides(
@@ -353,6 +359,10 @@ mat-toolbar#{ms.$mat-toolbar}#{ms.$mat-toolbar-single-row} {
 
 .adf-property-field.adf-card-textitem-field:hover .adf-property-clear-value {
   color: var(--theme-secondary-text);
+}
+
+.adf-empty-content {
+  color: var(--adf-theme-foreground-text-color-064);
 }
 
 .adf-empty-content__icon {
