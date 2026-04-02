@@ -1204,6 +1204,25 @@ describe('app.evaluators', () => {
     });
   });
 
+  describe('isCheckedOut', () => {
+    it('should return false when there is no selection', () => {
+      context.selection.isEmpty = true;
+      expect(app.isCheckedOut(context)).toBeFalse();
+    });
+
+    it('should return false when selected node does not have checked out aspect', () => {
+      context.selection.isEmpty = false;
+      context.selection.first = { entry: { aspectNames: ['test'] } } as any;
+      expect(app.isCheckedOut(context)).toBeFalse();
+    });
+
+    it('should return true when selected node contains checked out aspect', () => {
+      context.selection.isEmpty = false;
+      context.selection.first = { entry: { aspectNames: ['cm:checkedOut'] } } as any;
+      expect(app.isCheckedOut(context)).toBeTrue();
+    });
+  });
+
   describe('isSSOEnabled', () => {
     it('should return true if sso is enabled', () => {
       context.appConfig = { get: () => 'OAUTH' } as any;

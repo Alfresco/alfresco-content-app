@@ -563,3 +563,17 @@ export const canDisplayKnowledgeRetrievalButton = (context: AcaRuleContext): boo
     ((navigation.isSearchResults(context) || navigation.isLibraryContent(context)) && !navigation.isLibraries(context)));
 
 export const isSSOEnabled = (context: AcaRuleContext): boolean => context.appConfig.get('authType') === 'OAUTH';
+
+/**
+ * Checks if node contains checked out aspect.
+ * JSON ref: `app.selection.isCheckedOut`
+ *
+ * @param context Rule execution context
+ */
+export const isCheckedOut = (context: RuleContext): boolean => {
+  if (!context.selection?.isEmpty) {
+    const nodeAspects = context.selection.first.entry?.aspectNames ?? [];
+    return nodeAspects.includes('cm:checkedOut');
+  }
+  return false;
+};

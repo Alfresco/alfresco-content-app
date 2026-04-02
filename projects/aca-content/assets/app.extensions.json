@@ -535,7 +535,8 @@
               "visible": [
                 "app.selection.file",
                 "!app.navigation.isTrashcan",
-                "canToggleFileLock"
+                "canToggleFileLock",
+                "!app.selection.isCheckedOut"
               ]
             }
           },
@@ -873,7 +874,8 @@
           "visible": [
             "app.selection.file",
             "!app.navigation.isTrashcan",
-            "canToggleFileLock"
+            "canToggleFileLock",
+            "!app.selection.isCheckedOut"
           ]
         }
       },
@@ -1297,7 +1299,8 @@
                 "visible": [
                   "app.selection.file",
                   "!app.navigation.isTrashcan",
-                  "canToggleFileLock"
+                  "canToggleFileLock",
+                  "!app.selection.isCheckedOut"
                 ]
               }
             },
