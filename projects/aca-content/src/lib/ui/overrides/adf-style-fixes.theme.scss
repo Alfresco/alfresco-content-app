@@ -26,6 +26,10 @@
     .adf-datatable-header {
       border-top: 1px solid var(--adf-theme-foreground-text-color-007);
       border-bottom: 1px solid transparent;
+
+      [data-automation-id='datatable-row-header']:hover {
+        background-color: var(--adf-theme-background-hover-color);
+      }
     }
 
     .adf-datatable-body {
@@ -39,7 +43,7 @@
         }
 
         &:last-child {
-          border-bottom: 1px solid var(--adf-theme-foreground-text-color-007);
+          border-bottom: none;
         }
       }
     }
@@ -50,6 +54,27 @@
     font-size: 12px;
     font-weight: bold;
     color: var(--adf-theme-foreground-text-color-087);
+
+    .adf-datatable__resize-handle {
+      width: 2px;
+      min-height: 50px;
+    }
+
+    &:hover .adf-datatable-cell-header-content {
+      background-color: var(--adf-theme-background-hover-color);
+    }
+
+    &:hover .adf-datatable__resize-handle {
+      opacity: 1;
+
+      .adf-datatable__resize-handle--divider {
+        border-color: var(--adf-theme-background-hover-color);
+      }
+    }
+
+    .adf-resizable {
+      border-color: var(--adf-theme-background-hover-color);
+    }
 
     .adf-datatable-checkbox {
       @include mat.checkbox-overrides(
@@ -70,10 +95,11 @@
     .adf-datatable__header--sorted-asc,
     .adf-datatable__header--sorted-desc {
       padding-right: 3.5px;
+      line-height: 24px;
 
       &::after {
         font-size: 16px;
-        line-height: 24px;
+        line-height: 16px;
         left: 5px;
         right: 5px;
       }
@@ -93,5 +119,39 @@
   /* stylelint-disable-next-line selector-class-pattern */
   adf-layout-container .mat-drawer-side.adf-layout-container-sidenav {
     border-right: 1px solid var(--adf-theme-foreground-text-color-007);
+    color: var(--adf-theme-foreground-text-color-087);
+  }
+
+  .adf-columns-selector .adf-columns-selector-search-input-form {
+    --mdc-outlined-text-field-outline-color: var(--adf-theme-foreground-disabled-text-color);
+    --mdc-outlined-text-field-focus-outline-color: var(--theme-primary-color);
+    --mdc-outlined-text-field-focus-label-text-color: var(--theme-primary-color);
+    --mdc-outlined-text-field-label-text-tracking: normal;
+
+    font-size: 14px;
+    letter-spacing: normal;
+    line-height: 20px;
+  }
+
+  .adf-columns-selector-header {
+    height: 48px;
+
+    [data-automation-id='adf-columns-selector-close-button'] {
+      --mdc-icon-button-state-layer-size: 48px;
+    }
+  }
+
+  adf-datatable-column-selector {
+    --mdc-list-list-item-label-text-color: var(--adf-theme-foreground-icon-color);
+    --mdc-checkbox-selected-icon-color: var(--theme-primary-color);
+    --mdc-checkbox-selected-hover-icon-color: var(--theme-primary-color);
+    --mdc-checkbox-selected-focus-icon-color: var(--theme-primary-color);
+    --mdc-checkbox-selected-pressed-icon-color: var(--theme-primary-color);
+  }
+
+  .adf-columns-selector-list-content {
+    font-size: 14px;
+    letter-spacing: normal;
+    line-height: 20px;
   }
 }
