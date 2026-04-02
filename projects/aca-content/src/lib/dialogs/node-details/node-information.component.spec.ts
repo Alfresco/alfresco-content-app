@@ -115,8 +115,8 @@ describe('NodeInformationComponent', () => {
       expect(getNumberOfFiles()).toBe('APP.NODE_INFO.CALCULATING');
       expect(getNodeSize()).toBe('APP.NODE_INFO.CALCULATING');
       expect(getNodeLocation()).toBe('mock-folder-path');
-      expect(getNodeCreationDate()).toBe('01/02/2024 11:11');
-      expect(getNodeModifyDate()).toBe('02/03/2024 22:22');
+      expect(getNodeCreationDate()).toBe('2/1/24, 11:11 AM');
+      expect(getNodeModifyDate()).toBe('3/2/24, 10:22 PM');
     });
 
     it('should make API call on init to start folder size calculation', () => {
@@ -220,8 +220,8 @@ describe('NodeInformationComponent', () => {
       expect(getNodeName()).toBe('mock-file');
       expect(getNodeSize()).toBe('1000 CORE.FILE_SIZE.BYTES');
       expect(getNodeLocation()).toBe('mock-file-path');
-      expect(getNodeCreationDate()).toBe('01/02/2024 11:11');
-      expect(getNodeModifyDate()).toBe('02/03/2024 22:22');
+      expect(getNodeCreationDate()).toBe('2/1/24, 11:11 AM');
+      expect(getNodeModifyDate()).toBe('3/2/24, 10:22 PM');
     });
 
     it('should call API to fetch secondary parent paths', () => {
