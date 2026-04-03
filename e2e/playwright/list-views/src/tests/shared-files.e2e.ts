@@ -113,19 +113,19 @@ test.describe('Shared Files', () => {
 
   test(`[XAT-4437] Clicking on the location link redirects to parent folder - item in User's Home`, async ({ sharedPage }) => {
     await sharedPage.dataTable.clickItemLocation(file4User);
-    await sharedPage.dataTable.spinner.spinnerWaitForReload();
+    await sharedPage.dataTable.spinnerWaitForReload();
     expect(await sharedPage.breadcrumb.getAllItems()).toEqual(['Personal Files']);
   });
 
   test('[XAT-4438] Clicking on the location link redirects to parent folder - item in a folder', async ({ sharedPage }) => {
     await sharedPage.dataTable.clickItemLocation(file1User);
-    await sharedPage.dataTable.spinner.spinnerWaitForReload();
+    await sharedPage.dataTable.spinnerWaitForReload();
     expect(await sharedPage.breadcrumb.getAllItems()).toEqual(['Personal Files', folderUser]);
   });
 
   test('[XAT-4439] Clicking on the location link redirects to parent folder - item in a site', async ({ sharedPage }) => {
     await sharedPage.dataTable.clickItemLocation(fileAdmin);
-    await sharedPage.dataTable.spinner.spinnerWaitForReload();
+    await sharedPage.dataTable.spinnerWaitForReload();
     expect(await sharedPage.breadcrumb.getAllItems()).toEqual(['My Libraries', siteName]);
   });
 });

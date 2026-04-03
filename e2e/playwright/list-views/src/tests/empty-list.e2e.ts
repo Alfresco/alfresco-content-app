@@ -40,7 +40,7 @@ test.describe('Empty list views', () => {
 
   async function openEmptyTab(searchPage: SearchPage, tab: string, emptyStateTitle: string, emptyStateSubtitle: string) {
     await searchPage.sidenav.openPanel(tab);
-    await searchPage.dataTable.spinner.spinnerWaitForReload();
+    await searchPage.dataTable.spinnerWaitForReload();
     if (await searchPage.dataTable.isEmpty()) {
       expect(await searchPage.dataTable.getEmptyStateTitle()).toContain(emptyStateTitle);
       expect(await searchPage.dataTable.getEmptyStateSubtitle()).toContain(emptyStateSubtitle);
@@ -101,7 +101,7 @@ test.describe('Empty list views', () => {
   test('[XAT-4590] Search Page - Pagination control is not displayed on empty page load', async ({ personalFiles, searchPage }) => {
     await searchPage.searchWithin('InvalidText', 'filesAndFolders');
     await searchPage.reload({ waitUntil: 'domcontentloaded' });
-    await searchPage.dataTable.spinner.spinnerWaitForReload();
+    await searchPage.dataTable.spinnerWaitForReload();
 
     expect(await personalFiles.pagination.isRangePresent(), 'Range is present').toBe(false);
     expect(await personalFiles.pagination.isMaxItemsPresent(), 'Max items is present').toBe(false);

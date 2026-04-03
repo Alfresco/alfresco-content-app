@@ -128,7 +128,7 @@ test.describe('Special permissions', () => {
       await siteApiAdmin.deleteSiteMember(sitePrivate, username);
 
       await searchPage.reload();
-      await searchPage.dataTable.spinner.spinnerWaitForReload();
+      await searchPage.dataTable.spinnerWaitForReload();
 
       expect(await searchPage.dataTable.getRowsCount(), 'Incorrect number of items').toBe(0);
     });

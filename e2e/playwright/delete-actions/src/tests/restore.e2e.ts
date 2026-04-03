@@ -126,7 +126,7 @@ test.describe('Restore from Trash', () => {
       await trashPage.dataTable.selectItems(file3);
       await trashPage.acaHeader.restoreButton.click();
       await trashPage.snackBar.clickSnackBarAction();
-      await trashPage.dataTable.spinner.spinnerWaitForReload();
+      await trashPage.dataTable.spinnerWaitForReload();
       expect(await trashPage.sidenav.isActive('Personal Files')).toBe(true);
       expect(personalFiles.page.url()).toContain(APP_ROUTES.PERSONAL_FILES);
     });

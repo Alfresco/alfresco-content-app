@@ -133,7 +133,7 @@ test.describe('Create Libraries ', () => {
       await expect(libraryBreadcrumb.getItemByTitle(randomLibraryName)).toBeVisible();
 
       await myLibrariesPage.navigate();
-      await libraryTable.spinner.spinnerWaitForReload();
+      await libraryTable.spinnerWaitForReload();
       await expect(libraryTable.getCellByColumnNameAndRowItem(randomLibraryName, moderatedVisibility)).toBeVisible();
 
       createdLibrariesIds.push(randomLibraryId);

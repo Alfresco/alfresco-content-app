@@ -41,7 +41,7 @@ test.describe('Sidebar', () => {
   test('[XAT-5368] Navigate to My Libraries', async ({ personalFiles, myLibrariesPage }) => {
     await personalFiles.navigate();
     await personalFiles.sidenav.openPanel(SIDEBAR_LABELS.MY_LIBRARIES);
-    await personalFiles.dataTable.spinner.spinnerWaitForReload();
+    await personalFiles.dataTable.spinnerWaitForReload();
     expect(myLibrariesPage.page.url()).toContain(APP_ROUTES.MY_LIBRARIES);
     expect(await myLibrariesPage.sidenav.isActive(SIDEBAR_LABELS.MY_LIBRARIES), 'My Libraries link not active').toBe(true);
   });

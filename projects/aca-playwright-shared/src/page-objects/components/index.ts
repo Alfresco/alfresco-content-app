@@ -27,7 +27,6 @@ export * from './dataTable';
 export * from './dialogs';
 export * from './manageRules';
 export * from './base.component';
-export * from './spinner.component';
 export * from './actions-dropdown.component';
 export * from './conditions.component';
 export * from './pagination.component';

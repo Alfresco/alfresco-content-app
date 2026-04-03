@@ -24,7 +24,8 @@
 
 import { Page } from '@playwright/test';
 import { PlaywrightBase } from '../playwright-base';
-import { SnackBarComponent, SpinnerComponent } from '../components';
+import { SnackBarComponent } from '../components';
+import { timeouts } from '../../utils';
 
 export interface NavigateOptions {
   query?: string;
@@ -36,14 +37,12 @@ export abstract class BasePage extends PlaywrightBase {
   private readonly pageUrl: string;
   private readonly urlRequest: RegExp;
   public snackBar: SnackBarComponent;
-  public spinner: SpinnerComponent;
 
   protected constructor(page: Page, pageUrl: string, urlRequest?: RegExp) {
     super(page);
     this.pageUrl = pageUrl;
     this.urlRequest = urlRequest;
     this.snackBar = new SnackBarComponent(this.page);
-    this.spinner = new SpinnerComponent(this.page);
   }
 
   /**
@@ -81,7 +80,7 @@ export abstract class BasePage extends PlaywrightBase {
         timeout: 60000
       });
     }
-    await this.spinner.spinnerWaitForReload();
+    await this.spinnerWaitForReload();
   }
 
   async reload(options?: Pick<NavigateOptions, 'waitUntil'>): Promise<void> {
@@ -90,5 +89,23 @@ export abstract class BasePage extends PlaywrightBase {
       ...options
     };
     await this.page.reload(actualOptions);
+  }
+
+  async spinnerWaitForReload(): Promise<void> {
+    try {
+      await this.page.locator('[role="progressbar"]').waitFor({ state: 'attached', timeout: timeouts.medium });
+      await this.page.locator('[role="progressbar"]').waitFor({ state: 'detached', timeout: timeouts.normal });
+    } catch (e) {
+      this.logger.info(`Spinner was not present: ${e}`);
+    }
+  }
+
+  async progressBarWaitForReload(): Promise<void> {
+    try {
+      await this.page.locator('[role="progressbar"]').waitFor({ state: 'visible', timeout: timeouts.medium });
+      await this.page.locator('[role="progressbar"]').waitFor({ state: 'hidden', timeout: timeouts.normal });
+    } catch (e) {
+      this.logger.info(`Progress bar was not present: ${e}`);
+    }
   }
 }

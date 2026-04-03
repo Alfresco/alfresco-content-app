@@ -97,19 +97,19 @@ test.describe('Trash', () => {
 
     test(`[XAT-4470] Clicking on the location link redirects to parent folder - item in User's Home`, async ({ trashPage }) => {
       await trashPage.dataTable.clickItemLocation(fileUser);
-      await trashPage.dataTable.spinner.spinnerWaitForReload();
+      await trashPage.dataTable.spinnerWaitForReload();
       expect(await trashPage.breadcrumb.getAllItems()).toEqual(['Personal Files']);
     });
 
     test('[XAT-4471] Clicking on the location link redirects to parent folder - item in a folder', async ({ trashPage }) => {
       await trashPage.dataTable.clickItemLocation(fileInFolder);
-      await trashPage.dataTable.spinner.spinnerWaitForReload();
+      await trashPage.dataTable.spinnerWaitForReload();
       expect(await trashPage.breadcrumb.getAllItems()).toEqual(['Personal Files', folderNotDeleted]);
     });
 
     test('[XAT-4472] Clicking on the location link redirects to parent folder - item in a site', async ({ trashPage }) => {
       await trashPage.dataTable.clickItemLocation(fileSite);
-      await trashPage.dataTable.spinner.spinnerWaitForReload();
+      await trashPage.dataTable.spinnerWaitForReload();
       expect(await trashPage.breadcrumb.getAllItems()).toEqual(['My Libraries', siteName]);
     });
   });

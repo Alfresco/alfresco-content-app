@@ -25,7 +25,6 @@
 import { Locator, Page } from '@playwright/test';
 import { BaseComponent } from '../base.component';
 import { MatMenuComponent } from './mat-menu.component';
-import { SpinnerComponent } from '../spinner.component';
 import { PaginationActionsType, PaginationComponent } from '../pagination.component';
 import { timeouts } from '../../../utils';
 
@@ -38,7 +37,6 @@ export class DataTableComponent extends BaseComponent {
   }
 
   public pagination = new PaginationComponent(this.page);
-  public spinner = new SpinnerComponent(this.page);
   getEmptyFolderLocator = this.getChild('.adf-empty-folder');
   getSelectedRow = this.getChild('.adf-datatable-row.adf-is-selected');
   sortedColumnHeader = this.getChild(`.adf-datatable__header--sorted-asc .adf-datatable-cell-header-content .adf-datatable-cell-value,
@@ -129,7 +127,7 @@ export class DataTableComponent extends BaseComponent {
     await this.goThroughPagesLookingForRowWithName(name);
     const actionButtonLocator = await this.getActionLocatorFromExpandableMenu(name, action);
     await actionButtonLocator.click();
-    await this.spinner.spinnerWaitForReload();
+    await this.spinnerWaitForReload();
   }
 
   /**
@@ -139,7 +137,7 @@ export class DataTableComponent extends BaseComponent {
    */
   async performClickFolderOrFileToOpen(name: string): Promise<void> {
     await this.getCellLinkByName(name).click();
-    await this.spinner.spinnerWaitForReload();
+    await this.spinnerWaitForReload();
   }
 
   async isItemPresent(name: string): Promise<boolean> {
@@ -153,7 +151,7 @@ export class DataTableComponent extends BaseComponent {
   }
 
   async goThroughPagesLookingForRowWithName(name: string | number): Promise<void> {
-    await this.spinner.spinnerWaitForReload();
+    await this.spinnerWaitForReload();
     if (await this.getRowByName(name).isVisible()) {
       return;
     }
@@ -172,7 +170,7 @@ export class DataTableComponent extends BaseComponent {
         if (await this.pagination.getArrowLocatorFor(PaginationActionsType.NextPageSelector).isEnabled()) {
           await this.pagination.getArrowLocatorFor(PaginationActionsType.NextPageSelector).click();
         }
-        await this.spinner.spinnerWaitForReload();
+        await this.spinnerWaitForReload();
       }
     }
   }

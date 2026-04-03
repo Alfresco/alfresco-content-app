@@ -205,7 +205,7 @@ test.describe('Delete and undo delete', () => {
       await personalFiles.matMenu.clickMenuItem('Delete');
 
       await personalFiles.snackBar.clickSnackBarAction();
-      await personalFiles.dataTable.spinner.spinnerWaitForReload();
+      await personalFiles.dataTable.spinnerWaitForReload();
       expect(await personalFiles.dataTable.isItemPresent(file5)).toBe(true);
       expect(await personalFiles.pagination.getRange()).toContain(`1-${items} of ${items}`);
     });
@@ -215,10 +215,10 @@ test.describe('Delete and undo delete', () => {
       await personalFiles.acaHeader.clickMoreActions();
       await personalFiles.matMenu.clickMenuItem('Delete');
       await personalFiles.snackBar.clickSnackBarAction();
-      await personalFiles.dataTable.spinner.spinnerWaitForReload();
+      await personalFiles.dataTable.spinnerWaitForReload();
       expect(await personalFiles.dataTable.isItemPresent(folder6)).toBe(true);
       await personalFiles.dataTable.performClickFolderOrFileToOpen(folder6);
-      await personalFiles.dataTable.spinner.spinnerWaitForReload();
+      await personalFiles.dataTable.spinnerWaitForReload();
       expect(await personalFiles.dataTable.isItemPresent(file2InFolder)).toBe(true);
     });
 
@@ -227,7 +227,7 @@ test.describe('Delete and undo delete', () => {
       await personalFiles.acaHeader.clickMoreActions();
       await personalFiles.matMenu.clickMenuItem('Delete');
       await personalFiles.snackBar.clickSnackBarAction();
-      await personalFiles.dataTable.spinner.spinnerWaitForReload();
+      await personalFiles.dataTable.spinnerWaitForReload();
       expect(await personalFiles.dataTable.isItemPresent(file6)).toBe(true);
       expect(await personalFiles.dataTable.isItemPresent(file7)).toBe(true);
     });

@@ -88,14 +88,14 @@ test.describe('viewer file', () => {
     test('[XAT-5472] Viewer opens when clicking the View action for a file', async ({ personalFiles }) => {
       await personalFiles.dataTable.getRowByName(randomDocxName).click();
       await personalFiles.acaHeader.viewButton.click();
-      await personalFiles.dataTable.spinner.spinnerWaitForReload();
+      await personalFiles.dataTable.spinnerWaitForReload();
       expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     });
 
     test('[XAT-5473] The viewer general elements are displayed correctly', async ({ personalFiles }) => {
       await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
       expect(await personalFiles.viewer.isViewerOpened()).toBe(true);
-      await personalFiles.dataTable.spinner.spinnerWaitForReload();
+      await personalFiles.dataTable.spinnerWaitForReload();
       expect(await personalFiles.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
       expect(await personalFiles.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
     });

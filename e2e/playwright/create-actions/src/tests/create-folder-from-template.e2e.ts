@@ -420,7 +420,7 @@ test.describe('Create folder from template', () => {
         toolbar = myLibrariesPage.acaHeader;
         await dataTable.goThroughPagesLookingForRowWithName(randomLibraryName);
         await dataTable.getRowByName(randomLibraryName).dblclick();
-        await dataTable.spinner.spinnerWaitForReload();
+        await dataTable.spinnerWaitForReload();
         await toolbar.clickCreateFolderFromTemplate();
         await selectFolderTemplateDialog.loadMoreNodes();
         await dataTable.getRowByName(templateFolder1).click();

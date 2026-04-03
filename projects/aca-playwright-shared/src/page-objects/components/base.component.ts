@@ -24,6 +24,7 @@
 
 import { Locator, Page } from '@playwright/test';
 import { PlaywrightBase } from '../playwright-base';
+import { timeouts } from '../../utils';
 
 export abstract class BaseComponent extends PlaywrightBase {
   private readonly rootElement: string;
@@ -43,5 +44,23 @@ export abstract class BaseComponent extends PlaywrightBase {
    */
   getChild(cssLocator: string, options?: { hasText?: string | RegExp; has?: Locator }): Locator {
     return this.page.locator(`${this.rootElement} ${cssLocator}`, options);
+  }
+
+  async spinnerWaitForReload(): Promise<void> {
+    try {
+      await this.page.locator('[role="progressbar"]').waitFor({ state: 'attached', timeout: timeouts.medium });
+      await this.page.locator('[role="progressbar"]').waitFor({ state: 'detached', timeout: timeouts.normal });
+    } catch (e) {
+      this.logger.info(`Spinner was not present: ${e}`);
+    }
+  }
+
+  async progressBarWaitForReload(): Promise<void> {
+    try {
+      await this.page.locator('[role="progressbar"]').waitFor({ state: 'visible', timeout: timeouts.medium });
+      await this.page.locator('[role="progressbar"]').waitFor({ state: 'hidden', timeout: timeouts.normal });
+    } catch (e) {
+      this.logger.info(`Progress bar was not present: ${e}`);
+    }
   }
 }

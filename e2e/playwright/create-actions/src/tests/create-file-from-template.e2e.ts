@@ -384,7 +384,7 @@ test.describe('Create file from template', () => {
         dataTable = myLibrariesPage.dataTable;
         toolbar = myLibrariesPage.acaHeader;
         await dataTable.getRowByName(randomLibraryName).dblclick();
-        await dataTable.spinner.spinnerWaitForReload();
+        await dataTable.spinnerWaitForReload();
         await toolbar.clickCreateFileFromTemplate();
         await selectFileTemplateDialog.loadMoreNodes();
         await dataTable.getRowByName(template1InRoot).click();

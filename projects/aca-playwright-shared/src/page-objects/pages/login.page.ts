@@ -53,7 +53,7 @@ export class LoginPage extends BasePage {
     await this.submitButton.click();
 
     if (options?.waitForLoading) {
-      await Promise.all([this.page.waitForLoadState('domcontentloaded'), this.spinner.spinnerWaitForReload()]);
+      await Promise.all([this.page.waitForLoadState('domcontentloaded'), this.spinnerWaitForReload()]);
     }
   }
 

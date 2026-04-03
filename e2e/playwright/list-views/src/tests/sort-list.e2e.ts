@@ -111,7 +111,7 @@ test.describe('Remember sorting', () => {
       }
     );
     await personalFiles.dataTable.sortBy('Name', 'asc');
-    await personalFiles.dataTable.spinner.spinnerWaitForReload();
+    await personalFiles.dataTable.spinnerWaitForReload();
     await personalFiles.page.waitForTimeout(1000);
     initialSortState = await getSortState(personalFiles);
   });
@@ -125,7 +125,7 @@ test.describe('Remember sorting', () => {
 
   test('[XAT-4519] Sort order is retained when navigating to another part of the app', async ({ personalFiles, favoritePage }) => {
     await personalFiles.dataTable.sortBy('Name', 'desc');
-    await personalFiles.dataTable.spinner.spinnerWaitForReload();
+    await personalFiles.dataTable.spinnerWaitForReload();
 
     const expectedSortData = await getSortState(personalFiles);
     expect(expectedSortData).not.toEqual(initialSortState);
@@ -145,7 +145,7 @@ test.describe('Remember sorting', () => {
     expect(firstExpectedSortState).toEqual(initialSortState);
 
     await personalFiles.dataTable.sortBy('Size', 'desc');
-    await personalFiles.dataTable.spinner.spinnerWaitForReload();
+    await personalFiles.dataTable.spinnerWaitForReload();
     await personalFiles.page.waitForTimeout(1000);
     const secondExpectedSortData = await getSortState(personalFiles);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(secondExpectedSortData.firstElement);
@@ -157,12 +157,12 @@ test.describe('Remember sorting', () => {
 
   test('[XAT-4525] Sort order should be remembered separately on each list view', async ({ personalFiles, favoritePage }) => {
     await personalFiles.dataTable.sortBy('Size', 'desc');
-    await personalFiles.dataTable.spinner.spinnerWaitForReload();
+    await personalFiles.dataTable.spinnerWaitForReload();
     const personalFilesSortData = await getSortState(personalFiles);
 
     await favoritePage.navigate();
     await favoritePage.dataTable.sortBy('Name', 'asc');
-    await favoritePage.dataTable.spinner.spinnerWaitForReload();
+    await favoritePage.dataTable.spinnerWaitForReload();
 
     const favouritesSortData = await getSortState(personalFiles);
     expect(favouritesSortData).not.toEqual(personalFilesSortData);
@@ -177,7 +177,7 @@ test.describe('Remember sorting', () => {
     const firstFileInArray = testData.user1.files.pdf[0];
 
     await personalFiles.pagination.clickOnNextPage();
-    await personalFiles.dataTable.spinner.spinnerWaitForReload();
+    await personalFiles.dataTable.spinnerWaitForReload();
 
     let expectedPersonalFilesSortDataPage2 = {
       sortingColumn: 'Name',
@@ -189,7 +189,7 @@ test.describe('Remember sorting', () => {
     expect(currentPersonalFilesSortDataPage2).toEqual(expectedPersonalFilesSortDataPage2);
 
     await personalFiles.dataTable.sortBy('Name', 'desc');
-    await personalFiles.dataTable.spinner.spinnerWaitForReload();
+    await personalFiles.dataTable.spinnerWaitForReload();
     expectedPersonalFilesSortDataPage2 = {
       sortingColumn: 'Name',
       sortingOrder: 'desc',
@@ -209,7 +209,7 @@ test.describe('Remember sorting', () => {
 
     test('[XAT-4521] Sort order is retained when creating a new folder', async ({ personalFiles }) => {
       await personalFiles.dataTable.sortBy('Name', 'desc');
-      await personalFiles.dataTable.spinner.spinnerWaitForReload();
+      await personalFiles.dataTable.spinnerWaitForReload();
 
       const expectedSortData = {
         sortingColumn: await personalFiles.dataTable.getSortedColumnHeaderText(),
@@ -232,7 +232,7 @@ test.describe('Remember sorting', () => {
         firstElement: folderToContain
       };
       await personalFiles.copyOrMoveContentInDatatable([folderToMove], folderToContain, 'Move');
-      await personalFiles.dataTable.spinner.spinnerWaitForReload();
+      await personalFiles.dataTable.spinnerWaitForReload();
       const actualSortData = await getSortState(personalFiles);
       expect(actualSortData).toEqual(expectedSortData);
     });
@@ -243,7 +243,7 @@ test.describe('Remember sorting', () => {
 
     test('[XAT-4520] Size sort order is retained when user logs out and logs back in', async ({ personalFiles, loginPage }) => {
       await personalFiles.dataTable.sortBy('Name', 'desc');
-      await personalFiles.dataTable.spinner.spinnerWaitForReload();
+      await personalFiles.dataTable.spinnerWaitForReload();
       const expectedSortData = await getSortState(personalFiles);
       expect(expectedSortData).not.toEqual(initialSortState);
 
@@ -258,7 +258,7 @@ test.describe('Remember sorting', () => {
 
     test('[XAT-4524] Sort order is retained per user', async ({ personalFiles, loginPage }) => {
       await personalFiles.dataTable.sortBy('Size', 'asc');
-      await personalFiles.dataTable.spinner.spinnerWaitForReload();
+      await personalFiles.dataTable.spinnerWaitForReload();
       const expectedSortData = await getSortState(personalFiles);
 
       await loginPage.logoutUser();
