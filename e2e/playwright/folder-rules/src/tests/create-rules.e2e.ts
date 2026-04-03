@@ -36,6 +36,7 @@ test.describe('Folder Rules Actions', () => {
   const folder884 = `folder-884-${Utils.random()}`;
   const folder884_2 = `folder-884-2-${Utils.random()}`;
   const folder885 = `folder-885-${Utils.random()}`;
+  const folder885_child = `folder-885-child-${Utils.random()}`;
   const folder886 = `folder-886-${Utils.random()}`;
   const folder887 = `folder-887-${Utils.random()}`;
   const folder888 = `folder-888-${Utils.random()}`;
@@ -59,6 +60,7 @@ test.describe('Folder Rules Actions', () => {
   let folder884Id: string;
   let folder884_2Id: string;
   let folder885Id: string;
+  let folder885ChildId: string;
   let folder886Id: string;
   let folder887Id: string;
   let folder888Id: string;
@@ -87,6 +89,7 @@ test.describe('Folder Rules Actions', () => {
     folder884Id = (await nodesApi.createFolder(folder884)).entry.id;
     folder884_2Id = (await nodesApi.createFolder(folder884_2)).entry.id;
     folder885Id = (await nodesApi.createFolder(folder885)).entry.id;
+    folder885ChildId = (await nodesApi.createFolder(folder885_child, folder885Id)).entry.id;
     folder886Id = (await nodesApi.createFolder(folder886)).entry.id;
     folder887Id = (await nodesApi.createFolder(folder887)).entry.id;
     folder888Id = (await nodesApi.createFolder(folder888)).entry.id;
@@ -150,7 +153,7 @@ test.describe('Folder Rules Actions', () => {
     await nodesPage.manageRulesDialog.ruleSubfoldersCheckbox.click();
     await nodesPage.manageRulesDialog.createRuleButton.click();
 
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folder885Id}/rules` });
+    await personalFiles.navigate({ remoteUrl: `#/nodes/${folder885ChildId}/rules` });
     await nodesPage.manageRules.checkIfRuleIsOnTheList(randomRuleName);
   });
 

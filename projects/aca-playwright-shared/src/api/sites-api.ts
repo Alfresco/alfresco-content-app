@@ -112,7 +112,14 @@ export class SitesApi {
     try {
       return this.apiService.sites.createSiteMembership(siteId, memberBody);
     } catch (error) {
-      if (String(error).includes('409')) {
+      const isConflict =
+        (typeof error === 'object' && error !== null && 'status' in error && (error as { status: number }).status === 409) ||
+        (typeof error === 'object' &&
+          error !== null &&
+          'response' in error &&
+          (error as { response: { status: number } }).response?.status === 409) ||
+        String(error).includes('409');
+      if (isConflict) {
         return this.updateSiteMember(siteId, userId, role);
       } else {
         console.error(`SitesApi addSiteMember : catch : `, error);

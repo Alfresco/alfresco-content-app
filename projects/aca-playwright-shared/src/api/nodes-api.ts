@@ -49,7 +49,7 @@ export class NodesApi {
     aspectNames: string[] = []
   ): Promise<NodeEntry> {
     try {
-      return await this.createNode('cm:folder', name, parentId, title, description, null, author, undefined, aspectNames);
+      return await this.createNode('cm:folder', name, parentId, title, description, null, author, true, aspectNames);
     } catch (error) {
       throw new Error(`${this.constructor.name} ${this.createFolder.name}: ${error}`);
     }
