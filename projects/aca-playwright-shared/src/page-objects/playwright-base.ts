@@ -23,7 +23,7 @@
  */
 
 import { Page } from '@playwright/test';
-import { logger, LoggerLike } from '../utils';
+import { logger, LoggerLike, timeouts } from '../utils';
 
 export abstract class PlaywrightBase {
   public page: Page;
@@ -32,5 +32,14 @@ export abstract class PlaywrightBase {
   protected constructor(page: Page) {
     this.page = page;
     this.logger = logger;
+  }
+
+  async spinnerWaitForReload(): Promise<void> {
+    try {
+      await this.page.locator('[role="progressbar"]').waitFor({ state: 'attached', timeout: timeouts.medium });
+      await this.page.locator('[role="progressbar"]').waitFor({ state: 'detached', timeout: timeouts.normal });
+    } catch (e) {
+      this.logger.info(`Spinner was not present: ${e}`);
+    }
   }
 }

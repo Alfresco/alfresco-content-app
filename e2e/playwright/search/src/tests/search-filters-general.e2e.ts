@@ -89,7 +89,7 @@ test.describe('Search - Filters - General', () => {
     await searchPage.searchFilters.propertiesFilter.click();
     await searchPage.searchFiltersProperties.fileSizeInput.fill('1000');
     await searchPage.searchMenuCard.menuCardApply.click();
-    await searchPage.dataTable.progressBarWaitForReload();
+    await searchPage.dataTable.spinnerWaitForReload();
     const filterTextAfter = await searchPage.searchFilters.propertiesFilter.textContent();
 
     await searchPage.searchFilters.propertiesFilter.click();
@@ -106,14 +106,14 @@ test.describe('Search - Filters - General', () => {
     await searchPage.searchFilters.propertiesFilter.click();
     await searchPage.searchFiltersProperties.fileSizeInput.fill('1000');
     await searchPage.searchMenuCard.menuCardApply.click();
-    await searchPage.dataTable.progressBarWaitForReload();
+    await searchPage.dataTable.spinnerWaitForReload();
     const propertiesFilterTextAfter = await searchPage.searchFilters.propertiesFilter.textContent();
 
     const logicFilterTextBefore = await searchPage.searchFilters.logicFilter.textContent();
     await searchPage.searchFilters.logicFilter.click();
     await searchPage.searchFiltersLogic.matchAllInput.fill('test');
     await searchPage.searchMenuCard.menuCardApply.click();
-    await searchPage.dataTable.progressBarWaitForReload();
+    await searchPage.dataTable.spinnerWaitForReload();
     const logicFilterTextAfter = await searchPage.searchFilters.logicFilter.textContent();
 
     await searchPage.searchFilters.resetButton.click();

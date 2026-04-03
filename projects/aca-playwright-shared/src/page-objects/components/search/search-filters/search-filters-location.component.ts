@@ -44,6 +44,6 @@ export class SearchFiltersLocation extends BaseComponent {
     await page.searchFiltersLocation.addOptionInput.fill(location);
     await page.searchFiltersLocation.searchOption(location).click();
     await page.searchMenuCard.menuCardApply.click();
-    await page.dataTable.progressBarWaitForReload();
+    await page.dataTable.spinnerWaitForReload();
   }
 }

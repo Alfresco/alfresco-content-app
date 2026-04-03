@@ -122,7 +122,7 @@ test.describe('Search sorting', () => {
       await searchPage.searchWithin(`*${random}*`, 'files');
     }
     await searchPage.searchSortingPicker.sortBy(sortBy, sortOrder);
-    await searchPage.dataTable.progressBarWaitForReload();
+    await searchPage.dataTable.spinnerWaitForReload();
     expect(await searchPage.dataTable.getNthRow(0).textContent()).toContain(expectedFirstFile);
     expect(await searchPage.dataTable.getNthRow(1).textContent()).toContain(expectedSecondFile);
   }

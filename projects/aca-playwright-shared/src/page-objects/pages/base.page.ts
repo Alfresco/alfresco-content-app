@@ -25,7 +25,6 @@
 import { Page } from '@playwright/test';
 import { PlaywrightBase } from '../playwright-base';
 import { SnackBarComponent } from '../components';
-import { timeouts } from '../../utils';
 
 export interface NavigateOptions {
   query?: string;
@@ -89,23 +88,5 @@ export abstract class BasePage extends PlaywrightBase {
       ...options
     };
     await this.page.reload(actualOptions);
-  }
-
-  async spinnerWaitForReload(): Promise<void> {
-    try {
-      await this.page.locator('[role="progressbar"]').waitFor({ state: 'attached', timeout: timeouts.medium });
-      await this.page.locator('[role="progressbar"]').waitFor({ state: 'detached', timeout: timeouts.normal });
-    } catch (e) {
-      this.logger.info(`Spinner was not present: ${e}`);
-    }
-  }
-
-  async progressBarWaitForReload(): Promise<void> {
-    try {
-      await this.page.locator('[role="progressbar"]').waitFor({ state: 'visible', timeout: timeouts.medium });
-      await this.page.locator('[role="progressbar"]').waitFor({ state: 'hidden', timeout: timeouts.normal });
-    } catch (e) {
-      this.logger.info(`Progress bar was not present: ${e}`);
-    }
   }
 }
