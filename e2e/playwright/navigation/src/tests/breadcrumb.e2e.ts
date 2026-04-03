@@ -109,7 +109,7 @@ test.describe('viewer action file', () => {
   test('[XAT-4396] User can navigate to any location by clicking on any step from the breadcrumb', async ({ personalFiles }) => {
     await personalFiles.navigate({ remoteUrl: `#/personal-files/${subFolder2Id}` });
     await personalFiles.breadcrumb.clickItem(subFolder1);
-    await personalFiles.dataTable.spinnerWaitForReload();
+    await personalFiles.dataTable.spinner.spinnerWaitForReload();
     const expectedBreadcrumb = ['Personal Files', parent, subFolder1];
     expect(await personalFiles.breadcrumb.getAllItems()).toEqual(expectedBreadcrumb);
   });
@@ -124,7 +124,7 @@ test.describe('viewer action file', () => {
     await nodesApiAction.renameNode(folder1Id, folder1Renamed);
     await personalFiles.navigate({ remoteUrl: `#/personal-files/${folder1Id}` });
     await personalFiles.page.reload();
-    await personalFiles.dataTable.spinnerWaitForReload();
+    await personalFiles.dataTable.spinner.spinnerWaitForReload();
     await expect(personalFiles.breadcrumb.currentItem).toHaveText(folder1Renamed);
   });
 
@@ -132,7 +132,7 @@ test.describe('viewer action file', () => {
     await personalFiles.navigate({ remoteUrl: `#/personal-files/${subFolder2Id}` });
     await trashPage.navigate();
     await personalFiles.page.goBack();
-    await personalFiles.dataTable.spinnerWaitForReload();
+    await personalFiles.dataTable.spinner.spinnerWaitForReload();
     const expectedBreadcrumb = ['Personal Files', parent, subFolder1, subFolder2];
     expect(await personalFiles.breadcrumb.getAllItems()).toEqual(expectedBreadcrumb);
   });

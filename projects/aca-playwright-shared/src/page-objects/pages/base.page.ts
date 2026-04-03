@@ -81,7 +81,7 @@ export abstract class BasePage extends PlaywrightBase {
         timeout: 60000
       });
     }
-    await this.spinner.waitForReload();
+    await this.spinner.spinnerWaitForReload();
   }
 
   async reload(options?: Pick<NavigateOptions, 'waitUntil'>): Promise<void> {

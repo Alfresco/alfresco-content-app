@@ -48,13 +48,13 @@ export function favoritesTests(username: string) {
       await favoritePage.pagination.openMaxItemsMenu();
       expect(await favoritePage.pagination.getItemsCount()).toBe(3);
       await favoritePage.pagination.clickMenuItem('25');
-      await favoritePage.dataTable.spinnerWaitForReload();
+      await favoritePage.dataTable.spinner.spinnerWaitForReload();
       expect(await favoritePage.pagination.getMaxItems()).toContain('25');
       expect(await favoritePage.pagination.getTotalPages()).toContain('of 3');
 
       await favoritePage.pagination.openMaxItemsMenu();
       await favoritePage.pagination.clickMenuItem('50');
-      await favoritePage.dataTable.spinnerWaitForReload();
+      await favoritePage.dataTable.spinner.spinnerWaitForReload();
       expect(await favoritePage.pagination.getMaxItems()).toContain('50');
       expect(await favoritePage.pagination.getTotalPages()).toContain('of 2');
 
@@ -62,7 +62,7 @@ export function favoritesTests(username: string) {
 
       await favoritePage.pagination.openMaxItemsMenu();
       await favoritePage.pagination.clickMenuItem('100');
-      await favoritePage.dataTable.spinnerWaitForReload();
+      await favoritePage.dataTable.spinner.spinnerWaitForReload();
       expect(await favoritePage.pagination.getMaxItems()).toContain('100');
       expect(await favoritePage.pagination.getTotalPages()).toContain('of 1');
 
@@ -83,10 +83,10 @@ export function favoritesTests(username: string) {
       await favoritePage.pagination.clickMenuItem('25');
       expect(await favoritePage.pagination.getMaxItems()).toContain('25');
       await favoritePage.pagination.clickOnNextPage();
-      await favoritePage.dataTable.spinnerWaitForReload();
+      await favoritePage.dataTable.spinner.spinnerWaitForReload();
       expect(await favoritePage.pagination.getRange()).toContain('Showing 26-50 of 51');
       await favoritePage.pagination.clickOnPreviousPage();
-      await favoritePage.dataTable.spinnerWaitForReload();
+      await favoritePage.dataTable.spinner.spinnerWaitForReload();
       expect(await favoritePage.pagination.getRange()).toContain('Showing 1-25 of 51');
     });
 

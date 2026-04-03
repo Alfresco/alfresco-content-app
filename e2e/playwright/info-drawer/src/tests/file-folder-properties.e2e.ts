@@ -86,13 +86,8 @@ test.describe('Info Drawer - file folder Properties', () => {
   }
 
   async function createTagGetId(): Promise<string> {
-    const createdTag = await tagsApi.createTags([tagBody]);
-    if ('entry' in createdTag) {
-      return (createdTag as { entry: { id: string } }).entry.id;
-    } else {
-      console.error('Unexpected response format:', createdTag);
-      return null;
-    }
+    const [createdTag] = await tagsApi.createTags(tagBody);
+    return createdTag.entry.id;
   }
 
   async function checkNodeFields(personalFiles: PersonalFilesPage, isFolder?: 'isFolder'): Promise<void> {

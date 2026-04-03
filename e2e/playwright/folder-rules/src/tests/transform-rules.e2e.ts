@@ -97,7 +97,7 @@ async function verifyTransformation(
 
   await personalFiles.navigate();
   await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolderName);
-  await personalFiles.spinner.waitForReload();
+  await personalFiles.spinner.spinnerWaitForReload();
   for (const file of files) {
     const transformedFileName = `${file.name}.${expectedExtension}`;
     const exists = await personalFiles.dataTable.isItemPresent(transformedFileName);

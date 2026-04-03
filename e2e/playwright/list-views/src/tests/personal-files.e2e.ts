@@ -69,7 +69,7 @@ test.describe('Personal Files', () => {
     test('[XAT-4411] User is redirected to Home page on selecting <Personal Files> from any folder location', async ({ personalFiles }) => {
       await personalFiles.dataTable.performClickFolderOrFileToOpen(userFolder);
       await personalFiles.sidenav.openPanel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await personalFiles.dataTable.spinnerWaitForReload();
+      await personalFiles.dataTable.spinner.spinnerWaitForReload();
       expect(personalFiles.page.url()).toContain(APP_ROUTES.PERSONAL_FILES);
       expect(await personalFiles.sidenav.isActive(SIDEBAR_LABELS.PERSONAL_FILES), 'My Libraries link not active').toBe(true);
     });

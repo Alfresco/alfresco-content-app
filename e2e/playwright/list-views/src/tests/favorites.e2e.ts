@@ -132,25 +132,25 @@ test.describe('Favorites Files', () => {
 
     test(`[XAT-4460] Clicking on the location link redirects to parent folder - item in User's Home`, async ({ favoritePage }) => {
       await favoritePage.dataTable.clickItemLocation(favFolderName);
-      await favoritePage.dataTable.spinnerWaitForReload();
+      await favoritePage.dataTable.spinner.spinnerWaitForReload();
       expect(await favoritePage.breadcrumb.getAllItems()).toEqual(['Personal Files']);
     });
 
     test('[XAT-4461] Clicking on the location link redirects to parent folder - item in a folder', async ({ favoritePage }) => {
       await favoritePage.dataTable.clickItemLocation(fileName2);
-      await favoritePage.dataTable.spinnerWaitForReload();
+      await favoritePage.dataTable.spinner.spinnerWaitForReload();
       expect(await favoritePage.breadcrumb.getAllItems()).toEqual(['Personal Files', parentFolder]);
     });
 
     test('[XAT-4462] Clicking on the location link redirects to parent folder - item in a site', async ({ favoritePage }) => {
       await favoritePage.dataTable.clickItemLocation(fileName1);
-      await favoritePage.dataTable.spinnerWaitForReload();
+      await favoritePage.dataTable.spinner.spinnerWaitForReload();
       expect(await favoritePage.breadcrumb.getAllItems()).toEqual(['My Libraries', siteName]);
     });
 
     test('[XAT-4458] Navigate into a folder from Favorites', async ({ favoritePage }) => {
       await favoritePage.dataTable.performClickFolderOrFileToOpen(favFolderName);
-      await favoritePage.dataTable.spinnerWaitForReload();
+      await favoritePage.dataTable.spinner.spinnerWaitForReload();
       await expect(favoritePage.breadcrumb.currentItem).toHaveText(favFolderName);
     });
   });

@@ -25,6 +25,7 @@
 import { Locator, Page } from '@playwright/test';
 import { BaseComponent } from '../base.component';
 import { MatMenuComponent } from './mat-menu.component';
+import { SpinnerComponent } from '../spinner.component';
 import { PaginationActionsType, PaginationComponent } from '../pagination.component';
 import { timeouts } from '../../../utils';
 
@@ -37,6 +38,7 @@ export class DataTableComponent extends BaseComponent {
   }
 
   public pagination = new PaginationComponent(this.page);
+  public spinner = new SpinnerComponent(this.page);
   getEmptyFolderLocator = this.getChild('.adf-empty-folder');
   getSelectedRow = this.getChild('.adf-datatable-row.adf-is-selected');
   sortedColumnHeader = this.getChild(`.adf-datatable__header--sorted-asc .adf-datatable-cell-header-content .adf-datatable-cell-value,
@@ -127,7 +129,7 @@ export class DataTableComponent extends BaseComponent {
     await this.goThroughPagesLookingForRowWithName(name);
     const actionButtonLocator = await this.getActionLocatorFromExpandableMenu(name, action);
     await actionButtonLocator.click();
-    await this.spinnerWaitForReload();
+    await this.spinner.spinnerWaitForReload();
   }
 
   /**
@@ -137,7 +139,7 @@ export class DataTableComponent extends BaseComponent {
    */
   async performClickFolderOrFileToOpen(name: string): Promise<void> {
     await this.getCellLinkByName(name).click();
-    await this.spinnerWaitForReload();
+    await this.spinner.spinnerWaitForReload();
   }
 
   async isItemPresent(name: string): Promise<boolean> {
@@ -151,18 +153,18 @@ export class DataTableComponent extends BaseComponent {
   }
 
   async goThroughPagesLookingForRowWithName(name: string | number): Promise<void> {
-    await this.spinnerWaitForReload();
+    await this.spinner.spinnerWaitForReload();
     if (await this.getRowByName(name).isVisible()) {
-      return null;
+      return;
     }
 
     if (await this.pagination.currentPageLocator.isVisible()) {
       if ((await this.pagination.currentPageLocator.textContent()) === ' of 1 ') {
-        return null;
+        return;
       }
     }
     if (await this.pagination.totalPageLocator.isVisible()) {
-      const maxPages = (await this.pagination.totalPageLocator?.textContent())?.match(/\d/)[0];
+      const maxPages = (await this.pagination.totalPageLocator?.textContent())?.match(/\d/)?.[0];
       for (let page = 1; page <= Number(maxPages); page++) {
         if (await this.getRowByName(name).isVisible()) {
           break;
@@ -170,7 +172,7 @@ export class DataTableComponent extends BaseComponent {
         if (await this.pagination.getArrowLocatorFor(PaginationActionsType.NextPageSelector).isEnabled()) {
           await this.pagination.getArrowLocatorFor(PaginationActionsType.NextPageSelector).click();
         }
-        await this.spinnerWaitForReload();
+        await this.spinner.spinnerWaitForReload();
       }
     }
   }
@@ -216,7 +218,7 @@ export class DataTableComponent extends BaseComponent {
   async getItemLocationTooltip(name: string): Promise<string> {
     const location = this.getItemLocationEl(name);
     await location.hover();
-    return location.locator('a').getAttribute('title', { timeout: timeouts.normal });
+    return (await location.locator('a').getAttribute('title', { timeout: timeouts.normal })) ?? '';
   }
 
   async clickItemLocation(name: string): Promise<void> {
@@ -224,7 +226,7 @@ export class DataTableComponent extends BaseComponent {
   }
 
   async getSortingOrder(): Promise<string> {
-    const str = await this.sortedColumnHeader.locator('../..').getAttribute('class');
+    const str = (await this.sortedColumnHeader.locator('../..').getAttribute('class')) ?? '';
     if (str.includes('asc')) {
       return 'asc';
     } else if (str.includes('desc')) {
@@ -275,10 +277,8 @@ export class DataTableComponent extends BaseComponent {
     const rowsCount = await this.sitesName.count();
     const sitesInfo: { [siteName: string]: string } = {};
     for (let i = 0; i < rowsCount; i++) {
-      let siteVisibilityText = await this.sitesVisibility.nth(i).textContent();
-      let siteNameText = await this.sitesName.nth(i).textContent();
-      siteVisibilityText = siteVisibilityText.trim().toUpperCase();
-      siteNameText = siteNameText.trim();
+      const siteVisibilityText = ((await this.sitesVisibility.nth(i).textContent()) ?? '').trim().toUpperCase();
+      const siteNameText = ((await this.sitesName.nth(i).textContent()) ?? '').trim();
       sitesInfo[siteNameText] = siteVisibilityText;
     }
     return sitesInfo;
@@ -293,10 +293,8 @@ export class DataTableComponent extends BaseComponent {
     const rowsCount = await this.sitesName.count();
     const sitesInfo: { [siteName: string]: string } = {};
     for (let i = 0; i < rowsCount; i++) {
-      let siteNameText = await this.sitesName.nth(i).textContent();
-      let siteRoleText = await this.sitesRole.nth(i).textContent();
-      siteNameText = siteNameText.trim();
-      siteRoleText = siteRoleText.trim();
+      const siteNameText = ((await this.sitesName.nth(i).textContent()) ?? '').trim();
+      const siteRoleText = ((await this.sitesRole.nth(i).textContent()) ?? '').trim();
       sitesInfo[siteNameText] = siteRoleText;
     }
     return sitesInfo;

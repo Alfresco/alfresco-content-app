@@ -94,7 +94,7 @@ test.describe('viewer file', () => {
   test('[XAT-17736] Open viewer with click action', async ({ personalFiles }) => {
     await personalFiles.dataTable.getRowByName(randomDocxName).click();
     await personalFiles.acaHeader.viewButton.click();
-    await personalFiles.dataTable.spinnerWaitForReload();
+    await personalFiles.dataTable.spinner.spinnerWaitForReload();
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
   });
 

@@ -40,10 +40,10 @@ export function personalFilesTests(userName: string, parentName: string) {
       await personalFiles.pagination.clickMenuItem('25');
       expect(await personalFiles.pagination.getMaxItems()).toContain('25');
       await personalFiles.pagination.clickOnNextPage();
-      await personalFiles.dataTable.spinnerWaitForReload();
+      await personalFiles.dataTable.spinner.spinnerWaitForReload();
       expect(await personalFiles.pagination.getRange()).toContain('Showing 26-50 of 51');
       await personalFiles.pagination.clickOnPreviousPage();
-      await personalFiles.dataTable.spinnerWaitForReload();
+      await personalFiles.dataTable.spinner.spinnerWaitForReload();
       expect(await personalFiles.pagination.getRange()).toContain('Showing 1-25 of 51');
     });
   });

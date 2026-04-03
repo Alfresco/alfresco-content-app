@@ -129,18 +129,18 @@ test.describe('Create Libraries ', () => {
     });
 
     test('[XAT-5120] Create a moderated library', async ({ myLibrariesPage }) => {
-      await libraryDialog.createLibraryWithNameAndId(randomLibraryName, randomLibraryId, null, moderatedVisibility);
+      await libraryDialog.createLibraryWithNameAndId(randomLibraryName, randomLibraryId, undefined, moderatedVisibility);
       await expect(libraryBreadcrumb.getItemByTitle(randomLibraryName)).toBeVisible();
 
       await myLibrariesPage.navigate();
-      await libraryTable.spinnerWaitForReload();
+      await libraryTable.spinner.spinnerWaitForReload();
       await expect(libraryTable.getCellByColumnNameAndRowItem(randomLibraryName, moderatedVisibility)).toBeVisible();
 
       createdLibrariesIds.push(randomLibraryId);
     });
 
     test('[XAT-5121] Create a private library', async ({ myLibrariesPage }) => {
-      await libraryDialog.createLibraryWithNameAndId(randomLibraryName, randomLibraryId, null, privateVisibility);
+      await libraryDialog.createLibraryWithNameAndId(randomLibraryName, randomLibraryId, undefined, privateVisibility);
       await expect(libraryBreadcrumb.getItemByTitle(randomLibraryName)).toBeVisible();
 
       await myLibrariesPage.navigate();
@@ -149,7 +149,7 @@ test.describe('Create Libraries ', () => {
       createdLibrariesIds.push(randomLibraryId);
     });
 
-    test('[XAT-5122] Create a library with a given ID and description', async ({ myLibrariesPage }) => {
+    test('[XAT-5122] [XAT-863] Create a library with a given ID and description', async ({ myLibrariesPage }) => {
       const libraryViewDetails = myLibrariesPage.acaHeader.viewDetails;
       const libraryDetails = myLibrariesPage.libraryDetails;
 

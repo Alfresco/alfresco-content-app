@@ -87,7 +87,7 @@ test.describe('Copy actions', () => {
     await copyContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
-    await personalFiles.spinner.waitForReload();
+    await personalFiles.spinner.spinnerWaitForReload();
     expect(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
   });
 
@@ -96,10 +96,10 @@ test.describe('Copy actions', () => {
     await copyContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
-    await personalFiles.spinner.waitForReload();
+    await personalFiles.spinner.spinnerWaitForReload();
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(sourceFolder);
-    await personalFiles.spinner.waitForReload();
+    await personalFiles.spinner.spinnerWaitForReload();
     expect(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolder)).toBe(true);
   });
 
@@ -109,7 +109,7 @@ test.describe('Copy actions', () => {
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
-    await personalFiles.spinner.waitForReload();
+    await personalFiles.spinner.spinnerWaitForReload();
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
     expect(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
@@ -122,7 +122,7 @@ test.describe('Copy actions', () => {
     await copyContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
-    await personalFiles.spinner.waitForReload();
+    await personalFiles.spinner.spinnerWaitForReload();
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
     expect(await personalFiles.dataTable.isItemPresent(expectedNameForCopiedFile)).toBe(true);
   });
@@ -135,10 +135,10 @@ test.describe('Copy actions', () => {
     await copyContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
-    await personalFiles.spinner.waitForReload();
+    await personalFiles.spinner.spinnerWaitForReload();
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(sourceFolder);
-    await personalFiles.spinner.waitForReload();
+    await personalFiles.spinner.spinnerWaitForReload();
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolder)).toBe(true);
     expect(await personalFiles.dataTable.isItemPresent(expectedNameForCopiedFile)).toBe(true);
   });
@@ -150,7 +150,7 @@ test.describe('Copy actions', () => {
     await copyContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
-    await personalFiles.spinner.waitForReload();
+    await personalFiles.spinner.spinnerWaitForReload();
     expect(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
   });
 
@@ -161,10 +161,10 @@ test.describe('Copy actions', () => {
     await copyContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
-    await personalFiles.spinner.waitForReload();
+    await personalFiles.spinner.spinnerWaitForReload();
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(sourceFolder);
-    await personalFiles.spinner.waitForReload();
+    await personalFiles.spinner.spinnerWaitForReload();
     expect(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolder)).toBe(true);
   });
 
@@ -174,7 +174,7 @@ test.describe('Copy actions', () => {
     await personalFiles.snackBar.actionButton.click();
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
-    await personalFiles.spinner.waitForReload();
+    await personalFiles.spinner.spinnerWaitForReload();
     expect(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(false);
   });
 
@@ -184,7 +184,7 @@ test.describe('Copy actions', () => {
     await personalFiles.snackBar.actionButton.click();
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
-    await personalFiles.spinner.waitForReload();
+    await personalFiles.spinner.spinnerWaitForReload();
     expect(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(false);
   });
 
@@ -196,7 +196,7 @@ test.describe('Copy actions', () => {
     await personalFiles.snackBar.actionButton.click();
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
-    await personalFiles.spinner.waitForReload();
+    await personalFiles.spinner.spinnerWaitForReload();
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
     expect(await personalFiles.dataTable.isItemPresent(expectedNameForCopiedFile)).toBe(false);
   });
@@ -210,10 +210,10 @@ test.describe('Copy actions', () => {
     await personalFiles.snackBar.actionButton.click();
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
-    await personalFiles.spinner.waitForReload();
+    await personalFiles.spinner.spinnerWaitForReload();
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(sourceFolder);
-    await personalFiles.spinner.waitForReload();
+    await personalFiles.spinner.spinnerWaitForReload();
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolder)).toBe(true);
     expect(await personalFiles.dataTable.isItemPresent(expectedNameForCopiedFile)).toBe(false);
   });

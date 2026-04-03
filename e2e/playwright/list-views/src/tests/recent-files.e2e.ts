@@ -100,19 +100,19 @@ test.describe('Recent Files', () => {
 
   test(`[XAT-4448] Clicking on the location link redirects to parent folder - item in User's Home`, async ({ recentFilesPage }) => {
     await recentFilesPage.dataTable.clickItemLocation(fileName2);
-    await recentFilesPage.dataTable.spinnerWaitForReload();
+    await recentFilesPage.dataTable.spinner.spinnerWaitForReload();
     expect(await recentFilesPage.breadcrumb.getAllItems()).toEqual(['Personal Files']);
   });
 
   test('[XAT-4449] Clicking on the location link redirects to parent folder - item in a folder', async ({ recentFilesPage }) => {
     await recentFilesPage.dataTable.clickItemLocation(fileName1);
-    await recentFilesPage.dataTable.spinnerWaitForReload();
+    await recentFilesPage.dataTable.spinner.spinnerWaitForReload();
     expect(await recentFilesPage.breadcrumb.getAllItems()).toEqual(['Personal Files', folderName]);
   });
 
   test('[XAT-4450] Clicking on the location link redirects to parent folder - item in a site', async ({ recentFilesPage }) => {
     await recentFilesPage.dataTable.clickItemLocation(fileSite);
-    await recentFilesPage.dataTable.spinnerWaitForReload();
+    await recentFilesPage.dataTable.spinner.spinnerWaitForReload();
     expect(await recentFilesPage.breadcrumb.getAllItems()).toEqual(['My Libraries', siteName, folderSite]);
   });
 });

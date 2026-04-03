@@ -73,7 +73,7 @@ test.describe('Single click on item name', () => {
     await personalFiles.navigate();
     await personalFiles.dataTable.goThroughPagesLookingForRowWithName(folder1);
     await personalFiles.dataTable.getCellLinkByName(folder1).click();
-    await personalFiles.dataTable.spinnerWaitForReload();
+    await personalFiles.dataTable.spinner.spinnerWaitForReload();
     while ((await personalFiles.breadcrumb.currentItem.innerText()) === 'Personal Files') {
       await personalFiles.breadcrumb.currentItem.innerText();
     }
@@ -84,7 +84,7 @@ test.describe('Single click on item name', () => {
     await myLibrariesPage.navigate();
     await myLibrariesPage.dataTable.goThroughPagesLookingForRowWithName(siteName);
     await myLibrariesPage.dataTable.getCellLinkByName(siteName).click();
-    await myLibrariesPage.dataTable.spinnerWaitForReload();
+    await myLibrariesPage.dataTable.spinner.spinnerWaitForReload();
     await expect(myLibrariesPage.breadcrumb.currentItem).toHaveText(siteName);
     await expect(myLibrariesPage.dataTable.getCellLinkByName(fileSite), `${fileSite} not displayed`).toBeVisible();
   });
