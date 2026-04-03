@@ -68,6 +68,7 @@ test.describe('Edit Mode - Tags and Categories', () => {
       tagsApi = await TagsApi.initialize('admin');
     } catch (error) {
       console.error(`beforeAll failed : ${error}`);
+      throw error;
     }
   });
 
@@ -91,6 +92,7 @@ test.describe('Edit Mode - Tags and Categories', () => {
         await fileActionsApi.waitForNodes(folder919, { expect: 1 });
       } catch (error) {
         console.error(`beforeAll failed : ${error}`);
+        throw error;
       }
     });
 
@@ -114,6 +116,7 @@ test.describe('Edit Mode - Tags and Categories', () => {
         await fileActionsApi.waitForNodes(folder938, { expect: 1 });
       } catch (error) {
         console.error(`beforeAll failed : ${error}`);
+        throw error;
       }
     });
 
@@ -143,6 +146,7 @@ test.describe('Edit Mode - Tags and Categories', () => {
         await fileActionsApi.waitForNodes(folder939, { expect: 1 });
       } catch (error) {
         console.error(`beforeAll failed : ${error}`);
+        throw error;
       }
     });
 
@@ -170,6 +174,7 @@ test.describe('Edit Mode - Tags and Categories', () => {
         await fileActionsApi.waitForNodes(folder942, { expect: 1 });
       } catch (error) {
         console.error(`beforeAll failed : ${error}`);
+        throw error;
       }
     });
 

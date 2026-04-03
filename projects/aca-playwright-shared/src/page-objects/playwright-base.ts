@@ -39,7 +39,7 @@ export abstract class PlaywrightBase {
       await this.page.locator('[role="progressbar"]').waitFor({ state: 'attached', timeout: timeouts.medium });
       await this.page.locator('[role="progressbar"]').waitFor({ state: 'detached', timeout: timeouts.normal });
     } catch (e) {
-      this.logger.info(`Spinner was not present: ${e}`);
+      this.logger.info(`Spinner was not present: ${e instanceof Error ? e.message : String(e)}`);
     }
   }
 }

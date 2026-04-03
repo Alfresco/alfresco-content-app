@@ -44,7 +44,18 @@ export class TagsApi {
       const results: TagEntry[] = [];
       for (const tag of tagNames) {
         const result = await this.apiService.tagsApi.createTags([{ tag }]);
-        const created = result as TagEntry;
+        let created: TagEntry;
+        if ('entry' in result) {
+          created = result as TagEntry;
+        } else if ('list' in result) {
+          const firstEntry = (result as TagPaging).list?.entries?.[0];
+          if (!firstEntry) {
+            throw new Error(`createTags returned a paging result with no entries for tag "${tag}"`);
+          }
+          created = firstEntry;
+        } else {
+          throw new Error(`createTags returned an unexpected response format for tag "${tag}"`);
+        }
         logger.info(`Tag created: "${created.entry.tag}" (id: ${created.entry.id})`);
         results.push(created);
       }

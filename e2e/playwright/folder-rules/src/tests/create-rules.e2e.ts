@@ -83,6 +83,7 @@ test.describe('Folder Rules Actions', () => {
       trashcanApi = await TrashcanApi.initialize(username, username);
     } catch (error) {
       console.error(`beforeAll failed : ${error}`);
+      throw error;
     }
 
     folder883Id = (await nodesApi.createFolder(folder883)).entry.id;
