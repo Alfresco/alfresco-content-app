@@ -217,7 +217,7 @@ export class NodesApi {
     }
   }
 
-  async getNodeById(id: string): Promise<NodeEntry | null> {
+  async getNodeById(id: string): Promise<NodeEntry> {
     try {
       return this.apiService.nodes.getNode(id);
     } catch (error) {
@@ -374,7 +374,7 @@ export class NodesApi {
   }
 
   async createFileLink(originalNodeId: string, destinationId: string): Promise<NodeEntry | null> {
-    const name = (await this.getNodeById(originalNodeId))?.entry.name;
+    const name = (await this.getNodeById(originalNodeId)).entry.name;
     const nodeBody = {
       name: `Link to ${name}.url`,
       nodeType: 'app:filelink',
@@ -394,7 +394,7 @@ export class NodesApi {
   }
 
   async createFolderLink(originalNodeId: string, destinationId: string): Promise<NodeEntry | null> {
-    const name = (await this.getNodeById(originalNodeId))?.entry.name;
+    const name = (await this.getNodeById(originalNodeId)).entry.name;
     const nodeBody = {
       name: `Link to ${name}.url`,
       nodeType: 'app:folderlink',
@@ -442,7 +442,7 @@ export class NodesApi {
   async getNodeProperty(nodeId: string, property: string): Promise<string> {
     try {
       const node = await this.getNodeById(nodeId);
-      return node?.entry.properties?.[property] ?? '';
+      return node.entry.properties?.[property] ?? '';
     } catch (error) {
       throw new Error(`${this.constructor.name} ${this.getNodeProperty.name}: ${error}`);
     }

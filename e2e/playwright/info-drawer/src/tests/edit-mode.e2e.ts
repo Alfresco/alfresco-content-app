@@ -52,9 +52,9 @@ test.describe('Edit Mode - Tags and Categories', () => {
   const testRunId = Utils.random();
   const tag938 = `xat-938-${Utils.random()}`;
   const tag939SharedName = `xat-939-${testRunId}`;
-  const tag939_1 = `${tag939SharedName}-1-${Utils.random()}`;
-  const tag939_2 = `${tag939SharedName}-2-${Utils.random()}`;
-  const tag939_3 = `${tag939SharedName}-3-${Utils.random()}`;
+  const tag939One = `${tag939SharedName}-1-${Utils.random()}`;
+  const tag939Two = `${tag939SharedName}-2-${Utils.random()}`;
+  const tag939Three = `${tag939SharedName}-3-${Utils.random()}`;
   const tag942 = `xat-942-${Utils.random()}`;
   const username = `edit-mode-${Utils.random()}`;
 
@@ -78,7 +78,7 @@ test.describe('Edit Mode - Tags and Categories', () => {
 
   test.afterAll(async () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
-    for (const tag of [tag938, tag939_1, tag939_2, tag939_3]) {
+    for (const tag of [tag938, tag939One, tag939Two, tag939Three]) {
       await tagsApi.deleteTagsByTagName(tag);
     }
   });
@@ -141,7 +141,7 @@ test.describe('Edit Mode - Tags and Categories', () => {
       try {
         folder939 = `folder-939-${Utils.random()}`;
         await nodesApi.createFolder(folder939);
-        await tagsApi.createTags(tag939_1, tag939_2, tag939_3);
+        await tagsApi.createTags(tag939One, tag939Two, tag939Three);
 
         await fileActionsApi.waitForNodes(folder939, { expect: 1 });
       } catch (error) {
@@ -151,7 +151,7 @@ test.describe('Edit Mode - Tags and Categories', () => {
     });
 
     test.afterAll(async () => {
-      for (const tag of [tag939_1, tag939_2, tag939_3]) {
+      for (const tag of [tag939One, tag939Two, tag939Three]) {
         await tagsApi.deleteTagsByTagName(tag);
       }
     });

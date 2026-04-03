@@ -34,14 +34,14 @@ test.describe('Folder Rules Actions', () => {
   const username = `user-e2e-${Utils.random()}`;
   const folder883 = `folder-883-${Utils.random()}`;
   const folder884 = `folder-884-${Utils.random()}`;
-  const folder884_2 = `folder-884-2-${Utils.random()}`;
+  const folder884Second = `folder-884-2-${Utils.random()}`;
   const folder885 = `folder-885-${Utils.random()}`;
-  const folder885_child = `folder-885-child-${Utils.random()}`;
+  const folder885Child = `folder-885-child-${Utils.random()}`;
   const folder886 = `folder-886-${Utils.random()}`;
   const folder887 = `folder-887-${Utils.random()}`;
   const folder888 = `folder-888-${Utils.random()}`;
   const folder889 = `folder-889-${Utils.random()}`;
-  const folder889_2 = `folder-889-2-${Utils.random()}`;
+  const folder889Second = `folder-889-2-${Utils.random()}`;
   const folder890 = `folder-890-${Utils.random()}`;
   const folder891 = `folder-891-${Utils.random()}`;
   const folder892 = `folder-892-${Utils.random()}`;
@@ -58,14 +58,14 @@ test.describe('Folder Rules Actions', () => {
 
   let folder883Id: string;
   let folder884Id: string;
-  let folder884_2Id: string;
+  let folder884SecondId: string;
   let folder885Id: string;
   let folder885ChildId: string;
   let folder886Id: string;
   let folder887Id: string;
   let folder888Id: string;
   let folder889Id: string;
-  let folder889_2Id: string;
+  let folder889SecondId: string;
   let folder890Id: string;
   let folder891Id: string;
   let folder892Id: string;
@@ -88,14 +88,14 @@ test.describe('Folder Rules Actions', () => {
 
     folder883Id = (await nodesApi.createFolder(folder883)).entry.id;
     folder884Id = (await nodesApi.createFolder(folder884)).entry.id;
-    folder884_2Id = (await nodesApi.createFolder(folder884_2)).entry.id;
+    folder884SecondId = (await nodesApi.createFolder(folder884Second)).entry.id;
     folder885Id = (await nodesApi.createFolder(folder885)).entry.id;
-    folder885ChildId = (await nodesApi.createFolder(folder885_child, folder885Id)).entry.id;
+    folder885ChildId = (await nodesApi.createFolder(folder885Child, folder885Id)).entry.id;
     folder886Id = (await nodesApi.createFolder(folder886)).entry.id;
     folder887Id = (await nodesApi.createFolder(folder887)).entry.id;
     folder888Id = (await nodesApi.createFolder(folder888)).entry.id;
     folder889Id = (await nodesApi.createFolder(folder889)).entry.id;
-    folder889_2Id = (await nodesApi.createFolder(folder889_2)).entry.id;
+    folder889SecondId = (await nodesApi.createFolder(folder889Second)).entry.id;
     folder890Id = (await nodesApi.createFolder(folder890)).entry.id;
     folder891Id = (await nodesApi.createFolder(folder891)).entry.id;
     folder892Id = (await nodesApi.createFolder(folder892)).entry.id;
@@ -135,7 +135,7 @@ test.describe('Folder Rules Actions', () => {
     await nodesPage.actionsDropdown.selectAction(ActionType.IncrementCounter, 0);
     await nodesPage.manageRulesDialog.createRuleButton.click();
 
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folder884_2Id}/rules` });
+    await personalFiles.navigate({ remoteUrl: `#/nodes/${folder884SecondId}/rules` });
     await nodesPage.rulesToolbar.clickLinkRulesButton();
     await nodesPage.linkRulesDialog.waitForLinkRules();
     await nodesPage.linkRulesDialog.getFolderIcon.click();
@@ -211,7 +211,7 @@ test.describe('Folder Rules Actions', () => {
     await nodesPage.manageRulesDialog.destinationFolderButton.click();
     await nodesPage.contentNodeSelectorDialog.getFolderIcon.click();
     await nodesPage.contentNodeSelectorDialog.getOptionLocator(username).click();
-    await nodesPage.contentNodeSelectorDialog.selectDestination(folder889_2);
+    await nodesPage.contentNodeSelectorDialog.selectDestination(folder889Second);
     await nodesPage.contentNodeSelectorDialog.actionButton.click();
     await nodesPage.manageRulesDialog.createRuleButton.click();
     await nodesPage.manageRules.checkIfRuleIsOnTheList(randomRuleName);
@@ -222,7 +222,7 @@ test.describe('Folder Rules Actions', () => {
     await personalFiles.acaHeader.matMenu.clickMenuItem('Delete');
     await personalFiles.snackBar.message.waitFor({ state: 'visible' });
 
-    await personalFiles.navigate({ remoteUrl: `#/personal-files/${folder889_2Id}` });
+    await personalFiles.navigate({ remoteUrl: `#/personal-files/${folder889SecondId}` });
     await expect(personalFiles.dataTable.getRowByName(copyFileName)).toBeVisible();
   });
 
