@@ -66,7 +66,8 @@ export class TagsApi {
     try {
       for (const { id, tag } of tags) {
         await this.apiService.tagsApi.deleteTag(id);
-        logger.info(`Tag deleted: ${tag ? `"${tag}" ` : ''}(id: ${id})`);
+        const tagLabel = tag ? `"${tag}" ` : '';
+        logger.info(`Tag deleted: ${tagLabel}(id: ${id})`);
       }
     } catch (error) {
       throw new Error(`Failed to delete tags: ${error}`);

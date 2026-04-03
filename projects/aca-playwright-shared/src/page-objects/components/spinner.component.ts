@@ -38,7 +38,7 @@ export class SpinnerComponent extends BaseComponent {
       await this.page.locator(SpinnerComponent.rootElement).waitFor({ state: 'attached', timeout: timeouts.medium });
       await this.page.locator(SpinnerComponent.rootElement).waitFor({ state: 'detached', timeout: timeouts.normal });
     } catch (e) {
-      this.logger.info('Spinner was not present');
+      this.logger.info(`Spinner was not present: ${e}`);
     }
   }
 
@@ -47,7 +47,7 @@ export class SpinnerComponent extends BaseComponent {
       await this.page.locator(SpinnerComponent.rootElement).waitFor({ state: 'visible', timeout: timeouts.medium });
       await this.page.locator(SpinnerComponent.rootElement).waitFor({ state: 'hidden', timeout: timeouts.normal });
     } catch (e) {
-      this.logger.info('Progress bar was not present');
+      this.logger.info(`Progress bar was not present: ${e}`);
     }
   }
 }
