@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TagBody, TagEntry, TagPaging } from '@alfresco/js-api';
+import { TagBody, TagEntry, TagPaging, Tag } from '@alfresco/js-api';
 import { ApiClientFactory } from './api-client-factory';
 import { logger } from '../utils';
 
@@ -48,7 +48,7 @@ export class TagsApi {
         if ('entry' in result) {
           created = result as TagEntry;
         } else if ('list' in result) {
-          const firstEntry = (result as TagPaging).list?.entries?.[0];
+          const firstEntry = result.list?.entries?.[0];
           if (!firstEntry) {
             throw new Error(`createTags returned a paging result with no entries for tag "${tag}"`);
           }
@@ -73,7 +73,7 @@ export class TagsApi {
     }
   }
 
-  async deleteTags(...tags: { id: string; tag?: string }[]): Promise<void> {
+  async deleteTags(...tags: Tag[]): Promise<void> {
     try {
       for (const { id, tag } of tags) {
         await this.apiService.tagsApi.deleteTag(id);
@@ -101,10 +101,10 @@ export class TagsApi {
     }
   }
 
-  async deleteTagsByTagName(tagName: string): Promise<void> {
+  async deleteTagByTagName(tagName: string): Promise<void> {
     try {
       const response = await this.listTags({ tag: tagName, matching: true });
-      const tags = response.list?.entries.map((entry) => ({ id: entry.entry.id, tag: entry.entry.tag })) || [];
+      const tags = response.list?.entries.map((entry) => entry.entry) || [];
       await this.deleteTags(...tags);
     } catch (error) {
       throw new Error(`Failed to delete tags by tag name: ${error}`);

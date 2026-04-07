@@ -117,9 +117,6 @@ export class NodesApi {
     majorVersion: boolean = true,
     aspectNames: string[] = []
   ): Promise<NodeEntry> {
-    if (aspectNames.length === 0) {
-      aspectNames = ['cm:versionable']; // workaround for REPO-4772
-    }
     const nodeBody = {
       name,
       nodeType,

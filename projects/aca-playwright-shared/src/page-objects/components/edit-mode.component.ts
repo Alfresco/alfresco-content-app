@@ -28,10 +28,6 @@ import { Page } from '@playwright/test';
 export class EditModeComponent extends BaseComponent {
   private static readonly rootElement = '.aca-details-container';
 
-  constructor(page: Page) {
-    super(page, EditModeComponent.rootElement);
-  }
-
   public tagsAccordion = this.page.locator('[data-automation-id="adf-content-metadata-tags-panel"]');
   public tagsAccordionPenButton = this.tagsAccordion.locator('[data-automation-id="showing-tag-input-button"]');
   public tagsInput = this.tagsAccordion.locator('input');
@@ -43,4 +39,8 @@ export class EditModeComponent extends BaseComponent {
   public categoriesAccordion = this.page.locator('[data-automation-id="adf-content-metadata-categories-panel"]');
   public categoriesAccordionPenButton = this.categoriesAccordion.locator('[data-automation-id="meta-data-categories-edit"]');
   public categoriesInput = this.categoriesAccordion.locator('input');
+
+  constructor(page: Page) {
+    super(page, EditModeComponent.rootElement);
+  }
 }

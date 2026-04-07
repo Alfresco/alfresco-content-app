@@ -79,7 +79,7 @@ test.describe('Edit Mode - Tags and Categories', () => {
   test.afterAll(async () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
     for (const tag of [tag938, tag939One, tag939Two, tag939Three]) {
-      await tagsApi.deleteTagsByTagName(tag);
+      await tagsApi.deleteTagByTagName(tag);
     }
   });
 
@@ -121,9 +121,7 @@ test.describe('Edit Mode - Tags and Categories', () => {
     });
 
     test.afterAll(async () => {
-      for (const tag of [tag938]) {
-        await tagsApi.deleteTagsByTagName(tag);
-      }
+      await tagsApi.deleteTagByTagName(tag938);
     });
 
     test('[XAT-938] Select an existing tag', async ({ personalFiles }) => {
@@ -152,7 +150,7 @@ test.describe('Edit Mode - Tags and Categories', () => {
 
     test.afterAll(async () => {
       for (const tag of [tag939One, tag939Two, tag939Three]) {
-        await tagsApi.deleteTagsByTagName(tag);
+        await tagsApi.deleteTagByTagName(tag);
       }
     });
 
@@ -179,9 +177,7 @@ test.describe('Edit Mode - Tags and Categories', () => {
     });
 
     test.afterAll(async () => {
-      for (const tag of [tag942]) {
-        await tagsApi.deleteTagsByTagName(tag);
-      }
+      await tagsApi.deleteTagByTagName(tag942);
     });
 
     test('[XAT-942] Creating tags in edit mode', async ({ personalFiles }) => {

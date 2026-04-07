@@ -24,6 +24,7 @@
 
 import { expect } from '@playwright/test';
 import { ApiClientFactory, Utils, test, NodesApi, TrashcanApi, TagsApi, FileActionsApi } from '@alfresco/aca-playwright-shared';
+import { TagEntry } from '@alfresco/js-api';
 
 test.describe('Search - Filters - Tags', () => {
   let nodesApi: NodesApi;
@@ -32,7 +33,7 @@ test.describe('Search - Filters - Tags', () => {
   let fileActionsApi: FileActionsApi;
   let file1Id: string;
   let file2Id: string;
-  let createdTags: { entry: { id: string; tag: string } }[];
+  let createdTags: TagEntry[];
 
   const random = Utils.random();
   const username = `user1-${random}`;

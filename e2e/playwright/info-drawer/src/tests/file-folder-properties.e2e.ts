@@ -169,7 +169,7 @@ test.describe('Info Drawer - file folder Properties', () => {
   test.afterAll(async () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
     await categoriesApi.deleteCategory(responseCategoryId);
-    await tagsApi.deleteTagsByTagName(tagsPhraseForDeletion);
+    await tagsApi.deleteTagByTagName(tagsPhraseForDeletion);
   });
 
   test('[XAT-5512] View properties - Default tabs', async ({ personalFiles }) => {
