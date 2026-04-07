@@ -23,7 +23,7 @@
  */
 
 import { Page } from '@playwright/test';
-import { GenericLogger, LoggerLike } from '../utils';
+import { logger, LoggerLike, timeouts } from '../utils';
 
 export abstract class PlaywrightBase {
   public page: Page;
@@ -31,6 +31,12 @@ export abstract class PlaywrightBase {
 
   protected constructor(page: Page) {
     this.page = page;
-    this.logger = new GenericLogger(process.env.PLAYWRIGHT_CUSTOM_LOG_LEVEL);
+    this.logger = logger;
+  }
+
+  async spinnerWaitForReload(): Promise<void> {
+    const spinner = this.page.locator('[role="progressbar"]');
+    await spinner.waitFor({ state: 'attached', timeout: timeouts.medium }).catch(() => {});
+    await spinner.waitFor({ state: 'detached', timeout: timeouts.normal }).catch(() => {});
   }
 }

@@ -24,7 +24,7 @@
 
 import { Page } from '@playwright/test';
 import { PlaywrightBase } from '../playwright-base';
-import { SnackBarComponent, SpinnerComponent } from '../components';
+import { SnackBarComponent } from '../components';
 
 export interface NavigateOptions {
   query?: string;
@@ -36,14 +36,12 @@ export abstract class BasePage extends PlaywrightBase {
   private readonly pageUrl: string;
   private readonly urlRequest: RegExp;
   public snackBar: SnackBarComponent;
-  public spinner: SpinnerComponent;
 
   protected constructor(page: Page, pageUrl: string, urlRequest?: RegExp) {
     super(page);
     this.pageUrl = pageUrl;
     this.urlRequest = urlRequest;
     this.snackBar = new SnackBarComponent(this.page);
-    this.spinner = new SpinnerComponent(this.page);
   }
 
   /**
@@ -81,7 +79,7 @@ export abstract class BasePage extends PlaywrightBase {
         timeout: 60000
       });
     }
-    await this.spinner.waitForReload();
+    await this.spinnerWaitForReload();
   }
 
   async reload(options?: Pick<NavigateOptions, 'waitUntil'>): Promise<void> {

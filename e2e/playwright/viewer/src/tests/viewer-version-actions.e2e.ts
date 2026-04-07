@@ -98,7 +98,7 @@ test.describe('Version actions', () => {
       await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
       await personalFiles.navigate();
       await personalFiles.dataTable.performClickFolderOrFileToOpen(parentFolder);
-      await personalFiles.dataTable.progressBarWaitForReload();
+      await personalFiles.dataTable.spinnerWaitForReload();
       await viewFirstFileVersion(personalFiles);
     });
 

@@ -24,65 +24,29 @@
 
 /* eslint-disable @typescript-eslint/naming-convention */
 
-export const infoColor = '\x1b[36m%s\x1b[0m';
-export const logColor = '\x1b[35m%s\x1b[0m';
-export const warnColor = '\x1b[33m%s\x1b[0m';
-export const errorColor = '\x1b[31m%s\x1b[0m';
-
-export type LOG_LEVEL = 'TRACE' | 'DEBUG' | 'INFO' | 'WARN' | 'ERROR' | 'SILENT';
-
-export class LogLevelsEnum extends Number {
-  public static readonly TRACE: number = 5;
-  public static readonly DEBUG: number = 4;
-  public static readonly INFO: number = 3;
-  public static readonly WARN: number = 2;
-  public static readonly ERROR: number = 1;
-  public static readonly SILENT: number = 0;
-}
-
-export const logLevels: { level: LogLevelsEnum; name: LOG_LEVEL }[] = [
-  { level: LogLevelsEnum.TRACE, name: 'TRACE' },
-  { level: LogLevelsEnum.DEBUG, name: 'DEBUG' },
-  { level: LogLevelsEnum.INFO, name: 'INFO' },
-  { level: LogLevelsEnum.WARN, name: 'WARN' },
-  { level: LogLevelsEnum.ERROR, name: 'ERROR' },
-  { level: LogLevelsEnum.SILENT, name: 'SILENT' }
-];
-
 export interface LoggerLike {
-  info(...messages: string[]): void;
-  log(...messages: string[]): void;
-  warn(...messages: string[]): void;
-  error(...messages: string[]): void;
+  info(message: string): void;
+  log(message: string): void;
+  warn(message: string): void;
+  error(message: string): void;
+  table(message: object): void;
 }
 
-/* eslint-disable no-console */
-export class GenericLogger implements LoggerLike {
-  private readonly level: LogLevelsEnum;
+const reset = '\x1b[0m';
+const red = '\x1b[31m';
+const yellow = '\x1b[33m';
+const blue = '\x1b[34m';
+const cyan = '\x1b[36m';
 
-  constructor(logLevel: string) {
-    this.level = logLevels.find(({ name }) => name === logLevel)?.level || LogLevelsEnum.ERROR;
-  }
-
-  info(...messages: string[]): void {
-    if (Number(this.level) >= LogLevelsEnum.INFO) {
-      console.log(infoColor, messages.join(''));
-    }
-  }
-
-  log(...messages: string[]): void {
-    if (Number(this.level) >= LogLevelsEnum.TRACE) {
-      console.log(logColor, messages.join(''));
-    }
-  }
-
-  warn(...messages: string[]): void {
-    if (Number(this.level) >= LogLevelsEnum.WARN) {
-      console.log(warnColor, messages.join(''));
-    }
-  }
-
-  error(...messages: string[]): void {
-    console.log(errorColor, messages.join(''));
-  }
-}
+export const logger: LoggerLike = {
+  // eslint-disable-next-line no-console,no-restricted-syntax
+  info: (message: string) => console.info(`${blue}[INFO]${reset}`, message),
+  // eslint-disable-next-line no-console,no-restricted-syntax
+  log: (message: string) => console.log(`${cyan}[LOG]${reset}`, message),
+  // eslint-disable-next-line no-console,no-restricted-syntax
+  error: (message: string) => console.error(`${red}[ERROR]${reset}`, message),
+  // eslint-disable-next-line no-console,no-restricted-syntax
+  warn: (message: string) => console.warn(`${yellow}[WARN]${reset}`, message),
+  // eslint-disable-next-line no-console,no-restricted-syntax
+  table: (message: object) => console.table(message)
+};

@@ -95,6 +95,6 @@ export class SearchFiltersProperties extends BaseComponent {
     }
 
     await page.searchMenuCard.menuCardApply.click();
-    await page.dataTable.progressBarWaitForReload();
+    await page.dataTable.spinnerWaitForReload();
   }
 }

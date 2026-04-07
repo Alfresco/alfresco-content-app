@@ -71,7 +71,7 @@ test.describe('Move actions', () => {
 
   const moveContentInPersonalFiles = async (personalFilesPage: PersonalFilesPage, sourceFileList: string[], destinationName: string) => {
     await personalFilesPage.copyOrMoveContentInDatatable(sourceFileList, destinationName, 'Move');
-    await personalFilesPage.spinner.waitForReload();
+    await personalFilesPage.spinnerWaitForReload();
   };
 
   test('[XAT-4996] Move a file', async ({ personalFiles }) => {
@@ -146,7 +146,7 @@ test.describe('Move actions', () => {
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
     await moveContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     await personalFiles.snackBar.actionButton.click();
-    await personalFiles.spinner.waitForReload();
+    await personalFiles.spinnerWaitForReload();
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(false);
@@ -158,7 +158,7 @@ test.describe('Move actions', () => {
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
     await moveContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
     await personalFiles.snackBar.actionButton.click();
-    await personalFiles.spinner.waitForReload();
+    await personalFiles.spinnerWaitForReload();
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(false);

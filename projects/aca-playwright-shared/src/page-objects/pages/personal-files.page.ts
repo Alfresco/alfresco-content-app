@@ -46,7 +46,8 @@ import {
   UploadDialog,
   SnackBarComponent,
   EditDialog,
-  FolderInformationDialogComponent
+  FolderInformationDialogComponent,
+  EditModeComponent
 } from '../components';
 
 export class PersonalFilesPage extends BasePage {
@@ -72,6 +73,7 @@ export class PersonalFilesPage extends BasePage {
   public shareDialog = new ShareDialogComponent(this.page);
   public confirmDialog = new AdfConfirmDialogComponent(this.page);
   public infoDrawer = new AdfInfoDrawerComponent(this.page);
+  public nodeInfoEditMode = new EditModeComponent(this.page);
   public uploadNewVersionDialog = new UploadNewVersionDialog(this.page);
   public manageVersionsDialog = new ManageVersionsDialog(this.page);
   public uploadDialog = new UploadDialog(this.page);

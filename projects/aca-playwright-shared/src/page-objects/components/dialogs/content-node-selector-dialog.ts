@@ -60,6 +60,7 @@ export class ContentNodeSelectorDialog extends BaseComponent {
 
   async selectDestination(folderName: string): Promise<void> {
     const row = this.getRowByName(folderName);
+    await row.scrollIntoViewIfNeeded();
 
     await expect(row).toBeVisible();
     await row.click({ trial: true });

@@ -139,7 +139,7 @@ test.describe('Personal Files', () => {
       await personalFiles.pagination.clickOnNextPage();
       expect(await personalFiles.pagination.getCurrentPage()).toBe('Page 2');
       await personalFiles.breadcrumb.clickItem(abbreviateFolderMain);
-      await personalFiles.spinner.spinnerWaitForReload();
+      await personalFiles.spinnerWaitForReload();
       expect(await personalFiles.pagination.getRange()).toContain('Showing 1-1');
     });
   });

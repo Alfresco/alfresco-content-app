@@ -102,10 +102,9 @@ export class AdfInfoDrawerComponent extends BaseComponent {
 
   async checkCommentsHeaderCount(): Promise<number> {
     const commentsCountTextContent = await this.commentsHeader.textContent();
-    const commentsCountString = commentsCountTextContent.match(/\d+/g)[0];
-    return parseInt(commentsCountString, 10);
+    const commentsCountString = commentsCountTextContent?.match(/\d+/g)?.[0];
+    return parseInt(commentsCountString ?? '0', 10);
   }
-
   async getCommentsCountFromList(): Promise<number> {
     return this.commentsList.count();
   }
@@ -121,9 +120,8 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   }
 
   async getHeaderTitle(): Promise<string> {
-    return this.headerTitle.textContent();
+    return (await this.headerTitle.textContent()) ?? '';
   }
-
   async getTabsCount(): Promise<number> {
     return this.infoDrawerTabs.count();
   }

@@ -80,6 +80,6 @@ export class SearchSortingPicker extends BaseComponent {
     await elem.click();
     const directionSortElement = this.page.locator(`[id="${optionId}-${direction.toLocaleLowerCase()}"]`);
     await directionSortElement.click();
-    await this.progressBarWaitForReload();
+    await this.spinnerWaitForReload();
   }
 }

@@ -46,7 +46,7 @@ export class SitesApi {
     return classObj;
   }
 
-  async createSite(title: string, visibility?: string, description?: string, siteId?: string): Promise<SiteEntry | null> {
+  async createSite(title: string, visibility?: string, description?: string, siteId?: string): Promise<SiteEntry> {
     const site = {
       title,
       visibility: visibility || Site.VisibilityEnum.PUBLIC,
@@ -57,17 +57,19 @@ export class SitesApi {
     try {
       return this.apiService.sites.createSite(site);
     } catch (error) {
-      console.error(`SitesApi createSite : catch : `, error);
-      return null;
+      throw new Error(`SitesApi ${this.createSite.name}: ${error}`);
     }
   }
 
   async getDocLibId(siteId: string): Promise<string> {
     try {
-      return (await this.apiService.sites.listSiteContainers(siteId)).list.entries[0].entry.id;
+      const id = (await this.apiService.sites.listSiteContainers(siteId)).list?.entries?.[0]?.entry?.id;
+      if (!id) {
+        throw new Error(`Document library not found for site ${siteId}`);
+      }
+      return id;
     } catch (error) {
-      console.error(`SitesApi getDocLibId : catch : `, error);
-      return null;
+      throw new Error(`Failed to get document library ID for site ${siteId}: ${error}`);
     }
   }
 
@@ -110,12 +112,10 @@ export class SitesApi {
     try {
       return this.apiService.sites.createSiteMembership(siteId, memberBody);
     } catch (error) {
-      if (error.status === 409) {
+      if (String(error).includes('409')) {
         return this.updateSiteMember(siteId, userId, role);
-      } else {
-        console.error(`SitesApi addSiteMember : catch : `, error);
-        return new SiteMemberEntry();
       }
+      throw error;
     }
   }
 
@@ -127,8 +127,7 @@ export class SitesApi {
     try {
       return this.apiService.sites.createSiteMembershipRequestForPerson(personId, body);
     } catch (error) {
-      console.error(`SitesApi createSiteMembershipRequestForPerson : catch : `, error);
-      return null;
+      throw new Error(`Failed to create site membership request for person ${personId} and site ${siteId}: ${error}`);
     }
   }
 
@@ -136,18 +135,17 @@ export class SitesApi {
     try {
       return this.apiService.sites.approveSiteMembershipRequest(siteId, inviteeId);
     } catch (error) {
-      console.error(`SitesApi approveSiteMembershipRequest : catch : `, error);
-      return null;
+      throw new Error(`Failed to approve site membership request for invitee ${inviteeId} and site ${siteId}: ${error}`);
     }
   }
 
   async hasMembershipRequest(personId: string, siteId: string): Promise<boolean> {
     try {
-      const requests = (await this.apiService.sites.listSiteMembershipRequestsForPerson(personId)).list.entries.map((e) => e.entry.id);
+      const entries = (await this.apiService.sites.listSiteMembershipRequestsForPerson(personId)).list?.entries ?? [];
+      const requests = entries.map((e) => e.entry?.id).filter((id): id is string => !!id);
       return requests.includes(siteId);
     } catch (error) {
-      console.error(`SitesApi hasMembershipRequest : catch : `, error);
-      return null;
+      throw new Error(`Failed to check site membership request for person ${personId} and site ${siteId}: ${error}`);
     }
   }
 
@@ -163,8 +161,7 @@ export class SitesApi {
     try {
       return this.apiService.sites.getSite(siteId);
     } catch (error) {
-      console.error(`SitesApi getSite : catch : `, error);
-      return null;
+      throw new Error(`Failed to get site ${siteId}: ${error}`);
     }
   }
 }

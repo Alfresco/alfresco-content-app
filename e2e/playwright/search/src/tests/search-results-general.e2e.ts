@@ -97,7 +97,7 @@ test.describe('Search Results - General', () => {
 
     await personalFiles.navigate();
     await personalFiles.page.goto(url);
-    await searchPage.dataTable.progressBarWaitForReload();
+    await searchPage.dataTable.spinnerWaitForReload();
 
     expect(await searchPage.dataTable.isItemPresent(site)).toBe(true);
   });

@@ -44,7 +44,6 @@ test.describe('Info Drawer - file folder Properties', () => {
   let tagsApi: TagsApi;
   let categoriesApi: CategoriesApi;
   let responseCategoryId: string;
-  let responseTagsId: string;
   let folder17240Id: string;
   let folder17242Id: string;
   let folder5513Id: string;
@@ -80,19 +79,13 @@ test.describe('Info Drawer - file folder Properties', () => {
     if ('entry' in createdCategory) {
       return createdCategory.entry.id;
     } else {
-      console.error('Unexpected response format:', createdCategory);
-      return null;
+      throw new Error(`Unexpected response format: ${JSON.stringify(createdCategory)}`);
     }
   }
 
   async function createTagGetId(): Promise<string> {
-    const createdTag = await tagsApi.createTags([tagBody]);
-    if ('entry' in createdTag) {
-      return (createdTag as { entry: { id: string } }).entry.id;
-    } else {
-      console.error('Unexpected response format:', createdTag);
-      return null;
-    }
+    const [createdTag] = await tagsApi.createTags(tagBody.tag);
+    return createdTag.entry.id;
   }
 
   async function checkNodeFields(personalFiles: PersonalFilesPage, isFolder?: 'isFolder'): Promise<void> {
@@ -135,11 +128,7 @@ test.describe('Info Drawer - file folder Properties', () => {
       tagsApi = await TagsApi.initialize('admin');
       categoriesApi = await CategoriesApi.initialize('admin');
       responseCategoryId = await createCategoryGetId();
-      responseTagsId = await createTagGetId();
-
-      if (responseCategoryId === null || responseTagsId === null) {
-        throw new Error('Failed to create category or tag - check API manually');
-      }
+      await createTagGetId();
 
       await nodesApi.createFolder(folder5512);
       folder5513Id = (await nodesApi.createFolder(folder5513)).entry.id;
@@ -180,7 +169,7 @@ test.describe('Info Drawer - file folder Properties', () => {
   test.afterAll(async () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
     await categoriesApi.deleteCategory(responseCategoryId);
-    await tagsApi.deleteTagsByTagName(tagsPhraseForDeletion);
+    await tagsApi.deleteTagByTagName(tagsPhraseForDeletion);
   });
 
   test('[XAT-5512] View properties - Default tabs', async ({ personalFiles }) => {
@@ -295,7 +284,7 @@ test.describe('Info Drawer - file folder Properties', () => {
     await fileActionsApi.waitForNodes(folder17240, { expect: 1 });
     await tagsApi.assignTagToNode(folder17240Id, tagBody);
     await expect(async () => {
-      expect((await tagsApi.listTagsForNode(folder17240Id)).list.entries.length).toEqual(1);
+      expect((await tagsApi.listTagsForNode(folder17240Id)).list?.entries.length).toEqual(1);
     }).toPass({
       intervals: [1_000],
       timeout: timeouts.large
