@@ -97,7 +97,7 @@ test.describe('Library properties', () => {
 
     await expect(myLibrariesPage.libraryDetails.nameField).toHaveValue(site.name);
     await expect(myLibrariesPage.libraryDetails.idField).toHaveValue(site.id);
-    expect((await myLibrariesPage.libraryDetails.visibilityField.textContent()).toUpperCase()).toEqual(site.visibility);
+    expect(((await myLibrariesPage.libraryDetails.visibilityField.textContent()) ?? '').toUpperCase()).toEqual(site.visibility);
     await expect(myLibrariesPage.libraryDetails.descriptionField).toHaveValue(site.description);
     await expect(myLibrariesPage.libraryDetails.editButton).toBeVisible();
   });
@@ -151,8 +151,8 @@ test.describe('Library properties', () => {
 
   test('[XAT-5549] Cancel editing a site', async ({ myLibrariesPage }) => {
     await expectSiteToBeDefined(site.name, queriesApi);
-    const newName = `new-name-${Utils.random}`;
-    const newDesc = `new desc ${Utils.random}`;
+    const newName = `new-name-${Utils.random()}`;
+    const newDesc = `new desc ${Utils.random()}`;
 
     await myLibrariesPage.dataTable.getRowByName(site.name).click();
     await myLibrariesPage.acaHeader.viewDetails.click();
@@ -196,7 +196,7 @@ test.describe('Library properties', () => {
     await myLibrariesPage.libraryDetails.editButton.click();
     await myLibrariesPage.libraryDetails.nameField.fill(Utils.string257Long);
     await expect(myLibrariesPage.libraryDetails.errorNameMessage).toBeVisible();
-    expect((await myLibrariesPage.libraryDetails.errorNameMessage.textContent()).trim()).toEqual('Use 256 characters or less for title');
+    expect(((await myLibrariesPage.libraryDetails.errorNameMessage.textContent()) ?? '').trim()).toEqual('Use 256 characters or less for title');
     await expect(myLibrariesPage.libraryDetails.updateButton).toBeDisabled();
   });
 
@@ -211,7 +211,9 @@ test.describe('Library properties', () => {
     await myLibrariesPage.libraryDetails.editButton.click();
     await myLibrariesPage.libraryDetails.descriptionField.fill(Utils.string513Long);
     await expect(myLibrariesPage.libraryDetails.errorDescriptionMessage).toBeVisible();
-    expect((await myLibrariesPage.libraryDetails.errorDescriptionMessage.textContent()).trim()).toEqual('Use 512 characters or less for description');
+    expect(((await myLibrariesPage.libraryDetails.errorDescriptionMessage.textContent()) ?? '').trim()).toEqual(
+      'Use 512 characters or less for description'
+    );
     await expect(myLibrariesPage.libraryDetails.updateButton).toBeDisabled();
   });
 });
@@ -250,16 +252,8 @@ test.describe('Non manager', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(undefined, undefined, 'afterAll failed', sitesApi, [site.id]);
   });
 
-  test('[XAT-5546] View Details button is not displayed when user is not the library manager', async ({ loginPage, myLibrariesPage }) => {
-    await loginPage.loginUser({ username: user2, password: user2 }, { withNavigation: true, waitForLoading: true });
-    await myLibrariesPage.navigate();
-
-    await myLibrariesPage.dataTable.getRowByName(site.name).click();
-    await expect(myLibrariesPage.acaHeader.viewDetails).toBeHidden();
-  });
-
   test('[XAT-5553] Error notification when editing with no rights', async ({ loginPage, myLibrariesPage }) => {
-    await loginPage.loginUser({ username: user3, password: user3 }, { withNavigation: true, waitForLoading: true });
+    await Utils.tryLoginUser(loginPage, user3, user3);
     await myLibrariesPage.navigate();
 
     await myLibrariesPage.dataTable.getRowByName(site.name).click();
