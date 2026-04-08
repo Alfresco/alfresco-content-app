@@ -1,4 +1,5 @@
 name: "Run e2e with Env"
+run-name: "Run e2e with Env - ${{ inputs.url }}"
 description: "Run e2e tests with environment variables"
 
 on:
