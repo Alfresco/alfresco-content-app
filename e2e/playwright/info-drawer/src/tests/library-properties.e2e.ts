@@ -222,7 +222,6 @@ test.describe('Non manager', () => {
   let sitesApi: SitesApi;
 
   const username = `user1-${Utils.random()}`;
-  const user2 = `user2-${Utils.random()}`;
   const user3 = `user3-${Utils.random()}`;
   const site = {
     name: `site1-${Utils.random()}`,
@@ -236,12 +235,10 @@ test.describe('Non manager', () => {
       const apiClientFactory = new ApiClientFactory();
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username });
-      await apiClientFactory.createUser({ username: user2 });
       await apiClientFactory.createUser({ username: user3 });
 
       sitesApi = await SitesApi.initialize(username, username);
       await sitesApi.createSite(site.name, site.visibility, site.description, site.id);
-      await sitesApi.addSiteMember(site.id, user2, SITE_ROLES.SITE_COLLABORATOR.ROLE);
       await sitesApi.addSiteMember(site.id, user3, SITE_ROLES.SITE_MANAGER.ROLE);
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
