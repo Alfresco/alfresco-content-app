@@ -64,7 +64,7 @@ export class Utils {
     try {
       await loginPage.loginUser({ username, password }, { withNavigation: true, waitForLoading: true });
     } catch (error) {
-      console.error(`${errorMessage}: ${error}`);
+      throw new Error(`${errorMessage}: ${error}`);
     }
   }
 
@@ -88,7 +88,7 @@ export class Utils {
     try {
       await nodesApi?.deleteCurrentUserNodes();
       await trashcanApi?.emptyTrashcan();
-      if (sitesToDelete?.length > 0) {
+      if (sitesToDelete && sitesToDelete.length > 0) {
         await sitesApi?.deleteSites(sitesToDelete);
       }
     } catch (error) {
@@ -98,7 +98,7 @@ export class Utils {
 
   static async uploadFileNewVersion(personalFilesPage: PersonalFilesPage, fileFromOS: string, fileType: string): Promise<void> {
     const fileInput = await personalFilesPage.page.$('#app-upload-file-version');
-    await fileInput.setInputFiles(path.join(__dirname, `../resources/test-files/${fileFromOS}.${fileType}`));
+    await fileInput?.setInputFiles(path.join(__dirname, `../resources/test-files/${fileFromOS}.${fileType}`));
   }
 
   static async reloadPageIfRowNotVisible(
@@ -120,7 +120,7 @@ export class Utils {
     errorMessage = 'reloadPageIfDatatableEmpty Error '
   ): Promise<void> {
     try {
-      if ((await pageContext.dataTable.getEmptyFolderLocator.isVisible()) || (await pageContext.dataTable.emptyListTitle.isVisible())) {
+      if ((await pageContext.dataTable.getEmptyFolderLocator?.isVisible()) || (await pageContext.dataTable.emptyListTitle?.isVisible())) {
         await pageContext.page.reload({ waitUntil: 'load' });
       }
     } catch (error) {
