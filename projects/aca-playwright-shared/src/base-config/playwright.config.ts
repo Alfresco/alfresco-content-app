@@ -58,7 +58,6 @@ function getBrowsersToUse(): string[] {
 
 function getBrowserConfig(browser: string): BrowserConfig {
   const launchOptions: LaunchOptions = {
-    devtools: false,
     slowMo: 300
   };
 
