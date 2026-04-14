@@ -46,7 +46,7 @@
         "OUTBOUND": "Items are deleted or leave this folder"
       },
       "OPTIONS": {
-        "IS_INHERITABLE":  "Rule applies to subfolders",
+        "IS_INHERITABLE": "Rule applies to subfolders",
         "IS_ASYNCHRONOUS": "Run rule in the background",
         "DISABLE_RULE": "Disable rule",
         "ERROR_SCRIPT": "If errors occur run script",

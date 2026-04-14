@@ -131,7 +131,7 @@
       "LOAD_MORE_RULE_SETS": "قواعد التحميل من المجلدات الأخرى",
       "LOAD_MORE_RULES": "تحميل المزيد من القواعد",
       "LOADING_RULES": "قواعد التحميل",
-      "TOGGLE_RULE_STATE": "تبادل حالة تفعيل القاعدة",
+      "TOGGLE_RULE_STATE": "تبديل القاعدة {{ name }}",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "سيتم تشغيل القواعد الموروثة أولاً",
       "ALL_LINKED_RULES_ARE_DISABLED": "تم تعطيل جميع القواعد المرتبطة من مجموعة القواعد هذه",
       "EDIT_LINK_LABEL": "ربط القواعد من مجلد آخر"

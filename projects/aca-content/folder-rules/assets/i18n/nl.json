@@ -131,7 +131,7 @@
       "LOAD_MORE_RULE_SETS": "Regels laden uit andere mappen",
       "LOAD_MORE_RULES": "Meer regels laden",
       "LOADING_RULES": "Regels worden geladen",
-      "TOGGLE_RULE_STATE": "Toestand schakelregel geactiveerd",
+      "TOGGLE_RULE_STATE": "{{ name }} regel in-/uitschakelen",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "Overgenomen regels worden als eerste uitgevoerd",
       "ALL_LINKED_RULES_ARE_DISABLED": "Alle regels die vanuit deze regelset zijn gekoppeld worden uitgeschakeld",
       "EDIT_LINK_LABEL": "Koppel regels van een andere map"

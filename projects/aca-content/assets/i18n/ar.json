@@ -1,6 +1,6 @@
 {
     "APP": {
-        "COPYRIGHT": "© 2005-2025 Hyland, Inc. والشركات التابعة لها. جميع الحقوق محفوظة.",
+        "COPYRIGHT": "© 2005-2025 Hyland Software, Inc. والشركات التابعة لها. كل الحقوق محفوظة.",
         "TITLE": "مساحة العمل",
         "ABOUT": {
             "VERSION": "الإصدار:",
@@ -112,6 +112,13 @@
                 },
                 "PERMISSIONS": {
                     "TITLE": "أذونات"
+                }
+            },
+            "REPOSITORY_VIEW": {
+                "TITLE": "Repository",
+                "SIDENAV_LINK": {
+                    "LABEL": "Repository",
+                    "TOOLTIP": "View the repository"
                 }
             },
             "LIBRARIES": {
@@ -267,8 +274,8 @@
                     "LOCATION": "مكان",
                     "SIZE": "الحجم"
                 },
-                "UNKNOWN_LOCATION": "غير معروف",
-                "VIEW_ADDITIONAL_LOCATIONS": "View additional references locations",
+                "UNKNOWN_LOCATION": "ليس لديك إذنٌ لعرض موقع هذا المستند.",
+                "VIEW_ADDITIONAL_LOCATIONS": "عرض مواقع المراجع الإضافية",
                 "NO_RESULTS": "أرجع البحث 0 نتائج",
                 "EMPTY_SEARCH": "مصطلح البحث مطلوب",
                 "NO_FILTER_RESULTS": "أعاد الفلتر 0 نتيجة",
@@ -313,7 +320,7 @@
             "EDIT_OFFLINE_CANCEL": "إلغاء التحرير",
             "CHANGE_ASPECT": "تحرير الجوانب",
             "ADD_ASPECTS": "إضافة جوانب",
-            "NODE_INFO": "Information"
+            "NODE_INFO": "معلومات"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -482,23 +489,23 @@
             "SAVE": "حفظ"
         },
         "NODE_INFO": {
-            "ICON": "Node Icon",
-            "TITLE": "Information",
-            "SIZE": "Size",
-            "NUMBER_OF_FILES": "Number of files",
-            "CALCULATING": "Calculating...",
-            "LOCATION": "Location",
-            "REFERENCED": "Referenced",
-            "CREATED": "Created",
-            "MODIFIED": "Modified",
-            "DONE": "Done",
-            "ERROR": "Something went wrong, please close this dialog and try again"
+            "ICON": "أيقونة العقدة",
+            "TITLE": "معلومات",
+            "SIZE": "الحجم",
+            "NUMBER_OF_FILES": "عدد الملفات",
+            "CALCULATING": "حساب...",
+            "LOCATION": "مكان",
+            "REFERENCED": "مُشار إليه",
+            "CREATED": "تم الإنشاء",
+            "MODIFIED": "تم التعديل",
+            "DONE": "تم",
+            "ERROR": "حدث خطأ ما، يرجى إغلاق مربع الحوار هذا والمحاولة مرة أخرى"
         },
         "ADDITIONAL_REFERENCES_DIALOG": {
-            "TITLE": "Additional Reference Locations",
-            "NO_LOCATIONS": "{{ name }} is not referenced in any locations.",
-            "DESCRIPTION": "{{ name }} is currently referenced in these locations.",
-            "CLOSE": "Close"
+            "TITLE": "موقع مرجع إضافي",
+            "NO_LOCATIONS": "‏{{ name }} غير مُشار إليه في أي مواقع.",
+            "DESCRIPTION": "‏{{ name }} مُشار إليه حاليًا في هذه المواقع.",
+            "CLOSE": "إغلاق"
         }
     },
     "NODE_SELECTOR": {
@@ -589,7 +596,7 @@
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
             "LABEL": "الإجراءات الشاملة",
-            "TITLE": "الإجراءات المجمعة ({{ count }} من العناصر)",
+            "TITLE": "حدِّد إجراءً لجميع نتائج {{ count }}",
             "BULK_NOT_AVAILABLE": "الإجراءات المجمعة (غير متاحة)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "لا يمكن استخدام الإجراءات المجمعة بدون نتائج البحث"
         },
@@ -601,7 +608,11 @@
             "MIN_LENGTH": "يجب أن يحتوي إدخال البحث على حرفين أبجديين رقميين على الأقل.",
             "REQUIRED": "إدخال البحث مطلوب.",
             "WHITESPACE": "لا يمكن لمدخلات البحث أن تكون مساحة بيضاء فقط.",
-            "OPERATORS": "لا يمكن أن يبدأ إدخال البحث أو ينتهي أو يتكون فقط من عوامل تشغيل"
+            "OPERATORS": "لا يمكن أن يبدأ إدخال البحث أو ينتهي أو يتكون فقط من عوامل تشغيل",
+            "IN_PREFIX": "في",
+            "FILES_AND_FOLDERS": "الملفات والمجلدات",
+            "RESET": "إعادة تعيين",
+            "SEARCH_IN": "البحث في"
         },
         "SORT": {
             "SORTING_OPTION": "صنف حسب",
@@ -710,7 +721,8 @@
                 "REFERENCED_DOCUMENTS_HEADER": "المستندات المرجعية",
                 "REGENERATION_BUTTON_LABEL": "إعادة إنشاء",
                 "COPY_BUTTON_LABEL": "نسخ",
-                "COPY_MESSAGE": "تم نسخ الرد إلى الحافظة"
+                "COPY_MESSAGE": "تم نسخ الرد إلى الحافظة",
+                "RELOAD_REFERENCES_BUTTON_LABEL": "إعادة التحميل"
             },
             "AGENTS_BUTTON": {
                 "LABEL": "اسأل Discovery",
@@ -726,7 +738,8 @@
                 "AGENTS_FETCHING": "حدث خطأ أثناء جلب الوكلاء.",
                 "HX_INSIGHT_URL_FETCHING": "خطأ أثناء جلب رابط HX Insight.",
                 "LOADING_ERROR": "معذرة، يبدو أن هناك خطأ ما.",
-                "PAGE_NOT_AVAILABLE_ERROR": "الصفحة غير متاحة لهذه الشروط."
+                "PAGE_NOT_AVAILABLE_ERROR": "الصفحة غير متاحة لهذه الشروط.",
+                "REFERENCES_LOADING_ERROR": "حدث خطأ أثناء تحميل المراجع."
             },
             "DISCARD_CHANGES": {
                 "WARNING": "تحذير!",

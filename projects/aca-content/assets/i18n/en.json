@@ -1,42 +1,42 @@
 {
     "APP": {
-      "COPYRIGHT": "© 2005-2025 Hyland Software, Inc. and its affiliates. All rights reserved.",
-      "TITLE": "Workspace",
-      "ABOUT": {
-        "VERSION": "Version:",
-        "PLUGINS": {
-          "TITLE": "Extensions",
-          "ID": "ID",
-          "NAME": "Name",
-          "VERSION": "Version",
-          "VENDOR": "Vendor",
-          "LICENSE": "License",
-          "RUNTIME": "Runtime",
-          "DESCRIPTION": "Description"
+        "COPYRIGHT": "© 2005-2025 Hyland Software, Inc. and its affiliates. All rights reserved.",
+        "TITLE": "Workspace",
+        "ABOUT": {
+            "VERSION": "Version:",
+            "PLUGINS": {
+                "TITLE": "Extensions",
+                "ID": "ID",
+                "NAME": "Name",
+                "VERSION": "Version",
+                "VENDOR": "Vendor",
+                "LICENSE": "License",
+                "RUNTIME": "Runtime",
+                "DESCRIPTION": "Description"
+            },
+            "LICENSE": {
+                "TITLE": "License",
+                "PROPERTY": "Property",
+                "VALUE": "Value"
+            },
+            "STATUS": {
+                "TITLE": "Status",
+                "PROPERTY": "Property",
+                "VALUE": "Value"
+            },
+            "MODULES": {
+                "TITLE": "Alfresco platform modules",
+                "ID": "ID",
+                "NAME": "Name",
+                "VERSION": "Version"
+            },
+            "PACKAGES": {
+                "TITLE": "Packages",
+                "NAME": "Name",
+                "VERSION": "Version"
+            },
+            "BACK_BUTTON_LABEL": "Go back"
         },
-        "LICENSE": {
-          "TITLE": "License",
-          "PROPERTY": "Property",
-          "VALUE": "Value"
-        },
-        "STATUS": {
-          "TITLE": "Status",
-          "PROPERTY": "Property",
-          "VALUE": "Value"
-        },
-        "MODULES": {
-          "TITLE": "Alfresco platform modules",
-          "ID": "ID",
-          "NAME": "Name",
-          "VERSION": "Version"
-        },
-        "PACKAGES": {
-          "TITLE": "Packages",
-          "NAME": "Name",
-          "VERSION": "Version"
-        },
-        "BACK_BUTTON_LABEL": "Go back"
-      },
         "LANGUAGE": "Language",
         "SIGN_IN": "Sign in",
         "SIGN_OUT": "Sign out",
@@ -115,11 +115,11 @@
                 }
             },
             "REPOSITORY_VIEW": {
-              "TITLE": "Repository",
-              "SIDENAV_LINK": {
-                "LABEL": "Repository",
-                "TOOLTIP": "View the repository"
-              }
+                "TITLE": "Repository",
+                "SIDENAV_LINK": {
+                    "LABEL": "Repository",
+                    "TOOLTIP": "View the repository"
+                }
             },
             "LIBRARIES": {
                 "TITLE": "File Libraries",
@@ -138,8 +138,8 @@
                         "TEXT": "Favorite a library that you want to find easily later."
                     },
                     "ALL_LIBRARIES": {
-                      "TITLE": "No library found",
-                      "TEXT": "Create a new library to get started."
+                        "TITLE": "No library found",
+                        "TEXT": "Create a new library to get started."
                     }
                 },
                 "MENU": {
@@ -166,8 +166,8 @@
                     }
                 },
                 "ERRORS": {
-                  "LIBRARY_NOT_FOUND": "This library no longer exists.",
-                  "LIBRARY_LOADING_ERROR": "There was some problem during loading this library."
+                    "LIBRARY_NOT_FOUND": "This library no longer exists.",
+                    "LIBRARY_LOADING_ERROR": "There was some problem during loading this library."
                 },
                 "LIBRARY_NO_PERMISSIONS_WARNING": "You do not have permission to view this library."
             },
@@ -220,52 +220,52 @@
                 "TITLE": "About"
             },
             "SEARCH": {
-              "DEFAULT_SEARCH": "Default",
-              "DUBLIN_CORE": "Dublin core",
-              "EFFECTIVITY": "Effectivity",
-              "TITLE": "Search Results",
-              "FILTER_SET": "Filter Set:",
-              "ADVANCED_FILTERS": "Advanced Filters:",
-              "RESET": "Reset",
-              "RESET_ACTION": "Reset search filters",
-              "SAVE_SEARCH": {
-                "ACTION_BUTTON": "Save Search",
-                "SAVE_CHANGES": "Save changes",
-                "SAVE_AS_NEW": "Save as new",
-                "MODAL_HEADER": "Save this search",
-                "NAME_LABEL": "Name",
-                "NAME_REQUIRED_ERROR": "This field is required",
-                "DESCRIPTION_LABEL": "Description",
-                "SAVE_SUCCESS": "Search Saved",
-                "SAVE_ERROR": "Error occurred. Search could not be saved.",
-                "SEARCH_NAME_NOT_UNIQUE_ERROR": "Saved Search with '{{ name }}' name already exists.",
-                "NAVBAR": {
-                  "TITLE": "Saved Searches ({{ number }})",
-                  "MANAGE_BUTTON": "Manage searches"
+                "DEFAULT_SEARCH": "Default",
+                "DUBLIN_CORE": "Dublin core",
+                "EFFECTIVITY": "Effectivity",
+                "TITLE": "Search Results",
+                "FILTER_SET": "Filter Set:",
+                "ADVANCED_FILTERS": "Advanced Filters:",
+                "RESET": "Reset",
+                "RESET_ACTION": "Reset search filters",
+                "SAVE_SEARCH": {
+                    "ACTION_BUTTON": "Save Search",
+                    "SAVE_CHANGES": "Save changes",
+                    "SAVE_AS_NEW": "Save as new",
+                    "MODAL_HEADER": "Save this search",
+                    "NAME_LABEL": "Name",
+                    "NAME_REQUIRED_ERROR": "This field is required",
+                    "DESCRIPTION_LABEL": "Description",
+                    "SAVE_SUCCESS": "Search Saved",
+                    "SAVE_ERROR": "Error occurred. Search could not be saved.",
+                    "SEARCH_NAME_NOT_UNIQUE_ERROR": "Saved Search with '{{ name }}' name already exists.",
+                    "NAVBAR": {
+                        "TITLE": "Saved Searches ({{ number }})",
+                        "MANAGE_BUTTON": "Manage searches"
+                    },
+                    "EDIT_DIALOG": {
+                        "CONTEXT_OPTION": "Edit Search",
+                        "TITLE": "Edit Saved Search",
+                        "SUCCESS_MESSAGE": "Saved Search edited successfully",
+                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be edited."
+                    },
+                    "DELETE_DIALOG": {
+                        "CONTEXT_OPTION": "Delete Search",
+                        "TITLE": "Delete Saved Search",
+                        "CONTENT": "Are you sure you want to delete this search",
+                        "SUCCESS_MESSAGE": "Saved Search deleted successfully",
+                        "ERROR_MESSAGE": "Error occurred. Saved Search could not be deleted."
+                    },
+                    "LIST": {
+                        "TITLE": "Saved Searches",
+                        "NAME": "Name",
+                        "DESCRIPTION": "Description",
+                        "EMPTY_LIST": "No saved searches",
+                        "COPY_TO_CLIPBOARD": "Copy to clipboard",
+                        "COPY_TO_CLIPBOARD_SUCCESS": "Search copied to clipboard",
+                        "EXECUTE_SEARCH": "Execute Search"
+                    }
                 },
-                "EDIT_DIALOG": {
-                  "CONTEXT_OPTION": "Edit Search",
-                  "TITLE": "Edit Saved Search",
-                  "SUCCESS_MESSAGE": "Saved Search edited successfully",
-                  "ERROR_MESSAGE": "Error occurred. Saved Search could not be edited."
-                },
-                "DELETE_DIALOG": {
-                  "CONTEXT_OPTION": "Delete Search",
-                  "TITLE": "Delete Saved Search",
-                  "CONTENT": "Are you sure you want to delete this search",
-                  "SUCCESS_MESSAGE": "Saved Search deleted successfully",
-                  "ERROR_MESSAGE": "Error occurred. Saved Search could not be deleted."
-                },
-                "LIST": {
-                  "TITLE": "Saved Searches",
-                  "NAME": "Name",
-                  "DESCRIPTION": "Description",
-                  "EMPTY_LIST": "No saved searches",
-                  "COPY_TO_CLIPBOARD": "Copy to clipboard",
-                  "COPY_TO_CLIPBOARD_SUCCESS": "Search copied to clipboard",
-                  "EXECUTE_SEARCH": "Execute Search"
-                }
-              },
                 "FOUND_RESULTS": "{{ number }} results found",
                 "FOUND_ONE_RESULT": "{{ number }} result found",
                 "CUSTOM_ROW": {
@@ -285,8 +285,8 @@
                 }
             },
             "SEARCH_LIBRARIES": {
-              "FOUND_RESULTS": "{{ number }} results",
-              "FOUND_ONE_RESULT": "{{ number }} result"
+                "FOUND_RESULTS": "{{ number }} results",
+                "FOUND_ONE_RESULT": "{{ number }} result"
             }
         },
         "ACTIONS": {
@@ -336,9 +336,9 @@
                 "NO_LABEL": "Cancel"
             },
             "MOBILE_APP": {
-              "MOBILE_APP_BUTTON_LABEL": "Open in App",
-              "DOWNLOAD_APP_BUTTON_LABEL": "Don't have the app? Download now.",
-              "OPEN_ALFRESCO_MOBILE_APP": "Open using Alfresco Mobile application?"
+                "MOBILE_APP_BUTTON_LABEL": "Open in App",
+                "DOWNLOAD_APP_BUTTON_LABEL": "Don't have the app? Download now.",
+                "OPEN_ALFRESCO_MOBILE_APP": "Open using Alfresco Mobile application?"
             }
         },
         "DOCUMENT_LIST": {
@@ -360,7 +360,7 @@
             }
         },
         "MESSAGES": {
-            "ERRORS":{
+            "ERRORS": {
                 "CANNOT_NAVIGATE_LOCATION": "Cannot open this location",
                 "MISSING_CONTENT": "This item no longer exists or you don't have permission to view it.",
                 "GENERIC": "The action was unsuccessful. Try again or contact your IT Team.",
@@ -436,8 +436,8 @@
                     }
                 },
                 "NODE_CREATE": {
-                  "FILE_FROM_TEMPLATE_SUCCESS": "File {{ name }} created from template",
-                  "FOLDER_FROM_TEMPLATE_SUCCESS": "Folder {{ name }} created from template"
+                    "FILE_FROM_TEMPLATE_SUCCESS": "File {{ name }} created from template",
+                    "FOLDER_FROM_TEMPLATE_SUCCESS": "Folder {{ name }} created from template"
                 },
                 "LIBRARY_DELETED": "Library deleted",
                 "LEFT_LIBRARY": "You have left the library",
@@ -487,25 +487,25 @@
             "EDIT": "Edit",
             "CANCEL": "Cancel",
             "SAVE": "Save"
-          },
+        },
         "NODE_INFO": {
-          "ICON": "Node Icon",
-          "TITLE": "Information",
-          "SIZE" : "Size",
-          "NUMBER_OF_FILES": "Number of files",
-          "CALCULATING": "Calculating...",
-          "LOCATION": "Location",
-          "REFERENCED": "Referenced",
-          "CREATED": "Created",
-          "MODIFIED": "Modified",
-          "DONE": "Done",
-          "ERROR": "Something went wrong, please close this dialog and try again"
+            "ICON": "Node Icon",
+            "TITLE": "Information",
+            "SIZE": "Size",
+            "NUMBER_OF_FILES": "Number of files",
+            "CALCULATING": "Calculating...",
+            "LOCATION": "Location",
+            "REFERENCED": "Referenced",
+            "CREATED": "Created",
+            "MODIFIED": "Modified",
+            "DONE": "Done",
+            "ERROR": "Something went wrong, please close this dialog and try again"
         },
         "ADDITIONAL_REFERENCES_DIALOG": {
-          "TITLE": "Additional Reference Locations",
-          "NO_LOCATIONS": "{{ name }} is not referenced in any locations.",
-          "DESCRIPTION": "{{ name }} is currently referenced in these locations.",
-          "CLOSE": "Close"
+            "TITLE": "Additional Reference Locations",
+            "NO_LOCATIONS": "{{ name }} is not referenced in any locations.",
+            "DESCRIPTION": "{{ name }} is currently referenced in these locations.",
+            "CLOSE": "Close"
         }
     },
     "NODE_SELECTOR": {
@@ -595,24 +595,24 @@
     },
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
-          "LABEL": "Bulk Actions",
-          "TITLE": "Select an action for all {{ count }} results",
-          "BULK_NOT_AVAILABLE": "Bulk Actions (Not Available)",
-          "BULK_NOT_AVAILABLE_TOOLTIP": "Bulk Actions cannot be used without search results"
+            "LABEL": "Bulk Actions",
+            "TITLE": "Select an action for all {{ count }} results",
+            "BULK_NOT_AVAILABLE": "Bulk Actions (Not Available)",
+            "BULK_NOT_AVAILABLE_TOOLTIP": "Bulk Actions cannot be used without search results"
         },
         "INPUT": {
-          "PLACEHOLDER": "Search",
-          "FILES": "Files",
-          "FOLDERS": "Folders",
-          "LIBRARIES": "Libraries",
-          "MIN_LENGTH": "Search input must have at least 2 alphanumeric characters.",
-          "REQUIRED": "Search input is required.",
-          "WHITESPACE": "Search input cannot be only whitespace.",
-          "OPERATORS": "Search input cannot begin with, end with or contain only operators.",
-          "IN_PREFIX": "In",
-          "FILES_AND_FOLDERS": "Files and folders",
-          "RESET": "Reset",
-          "SEARCH_IN": "Search in"
+            "PLACEHOLDER": "Search",
+            "FILES": "Files",
+            "FOLDERS": "Folders",
+            "LIBRARIES": "Libraries",
+            "MIN_LENGTH": "Search input must have at least 2 alphanumeric characters.",
+            "REQUIRED": "Search input is required.",
+            "WHITESPACE": "Search input cannot be only whitespace.",
+            "OPERATORS": "Search input cannot begin with, end with or contain only operators.",
+            "IN_PREFIX": "In",
+            "FILES_AND_FOLDERS": "Files and folders",
+            "RESET": "Reset",
+            "SEARCH_IN": "Search in"
         },
         "SORT": {
             "SORTING_OPTION": "Sort by",
@@ -628,7 +628,7 @@
             "CREATE_DATE": "Created date"
         },
         "CLOSE_BUTTON": {
-          "ARIA_LABEL": "Close search"
+            "ARIA_LABEL": "Close search"
         },
         "FACET_FIELDS": {
             "CREATOR": "Creator",
@@ -639,41 +639,41 @@
         "CATEGORIES": {
             "DATE": "Date",
             "DATE_TABS": {
-              "CREATED": "Created",
-              "MODIFIED": "Modified"
+                "CREATED": "Created",
+                "MODIFIED": "Modified"
             },
             "EFFECTIVITY_FROM": "Effectivity from",
             "EFFECTIVITY_TO": "Effectivity to",
             "LOGIC": "Logic",
             "PROPERTIES": "Properties"
         },
-        "SEARCH_HEADER" : {
-          "TITLE":"Filter",
-          "TYPE": "Type",
-          "FILTER_BY": "Filter by {{ category }}",
-          "CLEAR": "Clear",
-          "APPLY": "Apply",
-          "FILTERS" : {
-            "NAME" : {
-              "TITLE": "Name",
-              "PLACEHOLDER": "Enter the name"
-            },
-            "TYPE": {
-              "TITLE": "Check type",
-              "FOLDER": "Folder",
-              "DOCUMENT": "Document"
-            },
-            "SIZE": {
-              "TITLE" : "Content Size (range)",
-              "SMALL": "Small",
-              "MEDIUM": "Medium",
-              "LARGE": "Large",
-              "HUGE": "Huge"
-            },
-            "DATE" :{
-              "TITLE" : "Created Date (range)"
+        "SEARCH_HEADER": {
+            "TITLE": "Filter",
+            "TYPE": "Type",
+            "FILTER_BY": "Filter by {{ category }}",
+            "CLEAR": "Clear",
+            "APPLY": "Apply",
+            "FILTERS": {
+                "NAME": {
+                    "TITLE": "Name",
+                    "PLACEHOLDER": "Enter the name"
+                },
+                "TYPE": {
+                    "TITLE": "Check type",
+                    "FOLDER": "Folder",
+                    "DOCUMENT": "Document"
+                },
+                "SIZE": {
+                    "TITLE": "Content Size (range)",
+                    "SMALL": "Small",
+                    "MEDIUM": "Medium",
+                    "LARGE": "Large",
+                    "HUGE": "Huge"
+                },
+                "DATE": {
+                    "TITLE": "Created Date (range)"
+                }
             }
-          }
         }
     },
     "CORE": {
@@ -715,40 +715,40 @@
         }
     },
     "KNOWLEDGE_RETRIEVAL": {
-      "SEARCH": {
-        "RESULTS_PAGE": {
-          "QUERY_INPUT_PLACEHOLDER": "Would you like to ask anything else?",
-          "REFERENCED_DOCUMENTS_HEADER": "Referenced documents",
-          "REGENERATION_BUTTON_LABEL": "Regenerate",
-          "COPY_BUTTON_LABEL": "Copy",
-          "COPY_MESSAGE": "Copied response to clipboard",
-          "RELOAD_REFERENCES_BUTTON_LABEL": "Reload"
-        },
-        "AGENTS_BUTTON": {
-          "LABEL": "Ask Discovery",
-          "TITLE": "Knowledge Retrieval"
-        },
-        "SEARCH_INPUT": {
-          "ASK_BUTTON_LABEL": "Ask",
-          "DEFAULT_PLACEHOLDER": "Please ask your question with as much detail as possible...",
-          "HIDE_INPUT": "Hide input",
-          "HIDE_ANSWER": "Hide answer"
-        },
-        "ERRORS": {
-          "AGENTS_FETCHING": "Error while fetching agents.",
-          "HX_INSIGHT_URL_FETCHING": "Error while fetching HX Insight URL.",
-          "LOADING_ERROR": "Hmm... something seems to have gone wrong.",
-          "PAGE_NOT_AVAILABLE_ERROR": "Page is not available for these conditions.",
-          "REFERENCES_LOADING_ERROR": "Something went wrong while loading the references."
-        },
-        "DISCARD_CHANGES": {
-          "WARNING": "Warning!",
-          "ASK_AI": "Ask AI",
-          "DO_NOT_SHOW_MESSAGE": "Don't show this message again",
-          "DISCARD_CONVERSATION": "Discard Conversation",
-          "CONVERSATION_DISCARDED": "This conversation will be discarded",
-          "LOSE_RESPONSE": "By asking another question you will lose your previous response"
+        "SEARCH": {
+            "RESULTS_PAGE": {
+                "QUERY_INPUT_PLACEHOLDER": "Would you like to ask anything else?",
+                "REFERENCED_DOCUMENTS_HEADER": "Referenced documents",
+                "REGENERATION_BUTTON_LABEL": "Regenerate",
+                "COPY_BUTTON_LABEL": "Copy",
+                "COPY_MESSAGE": "Copied response to clipboard",
+                "RELOAD_REFERENCES_BUTTON_LABEL": "Reload"
+            },
+            "AGENTS_BUTTON": {
+                "LABEL": "Ask Discovery",
+                "TITLE": "Knowledge Retrieval"
+            },
+            "SEARCH_INPUT": {
+                "ASK_BUTTON_LABEL": "Ask",
+                "DEFAULT_PLACEHOLDER": "Please ask your question with as much detail as possible...",
+                "HIDE_INPUT": "Hide input",
+                "HIDE_ANSWER": "Hide answer"
+            },
+            "ERRORS": {
+                "AGENTS_FETCHING": "Error while fetching agents.",
+                "HX_INSIGHT_URL_FETCHING": "Error while fetching HX Insight URL.",
+                "LOADING_ERROR": "Hmm... something seems to have gone wrong.",
+                "PAGE_NOT_AVAILABLE_ERROR": "Page is not available for these conditions.",
+                "REFERENCES_LOADING_ERROR": "Something went wrong while loading the references."
+            },
+            "DISCARD_CHANGES": {
+                "WARNING": "Warning!",
+                "ASK_AI": "Ask AI",
+                "DO_NOT_SHOW_MESSAGE": "Don't show this message again",
+                "DISCARD_CONVERSATION": "Discard Conversation",
+                "CONVERSATION_DISCARDED": "This conversation will be discarded",
+                "LOSE_RESPONSE": "By asking another question you will lose your previous response"
+            }
         }
-      }
     }
 }

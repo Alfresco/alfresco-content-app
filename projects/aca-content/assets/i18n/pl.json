@@ -1,6 +1,6 @@
 {
     "APP": {
-        "COPYRIGHT": "© 2005-2025 Hyland, Inc. i jej podmioty stowarzyszone. Wszelkie prawa zastrzeżone.",
+        "COPYRIGHT": "© 2005-2025 Hyland Software, Inc. i jej podmioty stowarzyszone. Wszelkie prawa zastrzeżone.",
         "TITLE": "Workspace",
         "ABOUT": {
             "VERSION": "Wersja:",
@@ -112,6 +112,13 @@
                 },
                 "PERMISSIONS": {
                     "TITLE": "Uprawnienia"
+                }
+            },
+            "REPOSITORY_VIEW": {
+                "TITLE": "Repository",
+                "SIDENAV_LINK": {
+                    "LABEL": "Repository",
+                    "TOOLTIP": "View the repository"
                 }
             },
             "LIBRARIES": {
@@ -267,8 +274,8 @@
                     "LOCATION": "Lokalizacja",
                     "SIZE": "Rozmiar"
                 },
-                "UNKNOWN_LOCATION": "Nieznane",
-                "VIEW_ADDITIONAL_LOCATIONS": "View additional references locations",
+                "UNKNOWN_LOCATION": "Nie masz uprawnień do wyświetlania lokalizacji tego dokumentu.",
+                "VIEW_ADDITIONAL_LOCATIONS": "Wyświetl dodatkowe lokalizacje odwołań",
                 "NO_RESULTS": "Wyszukiwanie nie zwróciło żadnych wyników",
                 "EMPTY_SEARCH": "Wymagana fraza wyszukiwania",
                 "NO_FILTER_RESULTS": "Filtr nie zwróciło żadnych wyników",
@@ -313,7 +320,7 @@
             "EDIT_OFFLINE_CANCEL": "Anuluj edytowanie",
             "CHANGE_ASPECT": "Edytuj aspekty",
             "ADD_ASPECTS": "Dodaj aspekty",
-            "NODE_INFO": "Information"
+            "NODE_INFO": "Informacje"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -482,23 +489,23 @@
             "SAVE": "Zapisz"
         },
         "NODE_INFO": {
-            "ICON": "Node Icon",
-            "TITLE": "Information",
-            "SIZE": "Size",
-            "NUMBER_OF_FILES": "Number of files",
-            "CALCULATING": "Calculating...",
-            "LOCATION": "Location",
-            "REFERENCED": "Referenced",
-            "CREATED": "Created",
-            "MODIFIED": "Modified",
-            "DONE": "Done",
-            "ERROR": "Something went wrong, please close this dialog and try again"
+            "ICON": "Ikona węzła",
+            "TITLE": "Informacje",
+            "SIZE": "Rozmiar",
+            "NUMBER_OF_FILES": "Liczba plików",
+            "CALCULATING": "Obliczanie...",
+            "LOCATION": "Lokalizacja",
+            "REFERENCED": "Odwołane",
+            "CREATED": "Utworzono",
+            "MODIFIED": "Zmodyfikowane",
+            "DONE": "Gotowe",
+            "ERROR": "Coś poszło nie tak, zamknij to okno dialogowe i spróbuj ponownie"
         },
         "ADDITIONAL_REFERENCES_DIALOG": {
-            "TITLE": "Additional Reference Locations",
-            "NO_LOCATIONS": "{{ name }} is not referenced in any locations.",
-            "DESCRIPTION": "{{ name }} is currently referenced in these locations.",
-            "CLOSE": "Close"
+            "TITLE": "Dodatkowa lokalizacja odwołania",
+            "NO_LOCATIONS": "{{ name }} nie jest używany w żadnych lokalizacjach.",
+            "DESCRIPTION": "{{ name }} jest obecnie używany w następujących lokalizacjach.",
+            "CLOSE": "Zamknij"
         }
     },
     "NODE_SELECTOR": {
@@ -589,7 +596,7 @@
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
             "LABEL": "Operacje zbiorcze",
-            "TITLE": "Czynności zbiorcze (liczba elementów: {{ count }})",
+            "TITLE": "Wybierz działanie dla wszystkich {{ count }} wyników",
             "BULK_NOT_AVAILABLE": "Czynności zbiorcze (niedostępne)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "Nie można użyć czynności zbiorczych bez wyników wyszukiwania"
         },
@@ -601,7 +608,11 @@
             "MIN_LENGTH": "Tekst do wyszukiwania musi mieć co najmniej 2 znaki alfanumeryczne.",
             "REQUIRED": "Wymagane jest wyszukiwanie.",
             "WHITESPACE": "Pole wyszukiwania nie może być tylko spacją białą.",
-            "OPERATORS": "Wyszukiwanie nie może zaczynać się, kończyć ani składać się wyłącznie z operatorów"
+            "OPERATORS": "Wyszukiwanie nie może zaczynać się, kończyć ani składać się wyłącznie z operatorów",
+            "IN_PREFIX": "W",
+            "FILES_AND_FOLDERS": "Pliki i foldery",
+            "RESET": "Resetuj",
+            "SEARCH_IN": "Wyszukaj w"
         },
         "SORT": {
             "SORTING_OPTION": "Sortuj wg",
@@ -710,7 +721,8 @@
                 "REFERENCED_DOCUMENTS_HEADER": "Dokumenty referencyjne",
                 "REGENERATION_BUTTON_LABEL": "Regeneruj",
                 "COPY_BUTTON_LABEL": "Kopiuj",
-                "COPY_MESSAGE": "Odpowiedź została skopiowana do schowka"
+                "COPY_MESSAGE": "Odpowiedź została skopiowana do schowka",
+                "RELOAD_REFERENCES_BUTTON_LABEL": "Odśwież"
             },
             "AGENTS_BUTTON": {
                 "LABEL": "Spytaj Discovery",
@@ -726,7 +738,8 @@
                 "AGENTS_FETCHING": "Błąd podczas pobierania agentów.",
                 "HX_INSIGHT_URL_FETCHING": "Błąd podczas pobierania HX Insight URL.",
                 "LOADING_ERROR": "Hmm... chyba coś poszło nie tak.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Strona jest niedostępna dla podanych warunków."
+                "PAGE_NOT_AVAILABLE_ERROR": "Strona jest niedostępna dla podanych warunków.",
+                "REFERENCES_LOADING_ERROR": "Wystąpił błąd podczas ładowania odnośników."
             },
             "DISCARD_CHANGES": {
                 "WARNING": "Ostrzeżenie!",
