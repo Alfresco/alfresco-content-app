@@ -114,6 +114,13 @@
                     "TITLE": "Berechtigungen"
                 }
             },
+            "REPOSITORY_VIEW": {
+                "TITLE": "Depot",
+                "SIDENAV_LINK": {
+                    "LABEL": "Depot",
+                    "TOOLTIP": "Depot ansehen"
+                }
+            },
             "LIBRARIES": {
                 "TITLE": "Dateibibliotheken",
                 "DESCRIPTION": "Auf Dateibibliotheken zugreifen",
@@ -267,7 +274,7 @@
                     "LOCATION": "Speicherort",
                     "SIZE": "Größe"
                 },
-                "UNKNOWN_LOCATION": "Unbekannt",
+                "UNKNOWN_LOCATION": "Sie haben keine Berechtigung, den Standort dieses Dokuments anzuzeigen.",
                 "VIEW_ADDITIONAL_LOCATIONS": "Weitere Referenzstandorte anzeigen",
                 "NO_RESULTS": "Es wurden 0 Suchergebnisse gefunden",
                 "EMPTY_SEARCH": "Suchbegriff erforderlich",
@@ -482,23 +489,23 @@
             "SAVE": "Speichern"
         },
         "NODE_INFO": {
-            "ICON": "Node Icon",
+            "ICON": "Knotensymbol",
             "TITLE": "Information",
-            "SIZE": "Size",
-            "NUMBER_OF_FILES": "Number of files",
-            "CALCULATING": "Calculating...",
-            "LOCATION": "Location",
+            "SIZE": "Größe",
+            "NUMBER_OF_FILES": "Anzahl von Dateien",
+            "CALCULATING": "Berechnen...",
+            "LOCATION": "Speicherort",
             "REFERENCED": "Verwiesen",
-            "CREATED": "Created",
-            "MODIFIED": "Modified",
-            "DONE": "Done",
-            "ERROR": "Something went wrong, please close this dialog and try again"
+            "CREATED": "Erstellt",
+            "MODIFIED": "Geändert",
+            "DONE": "Fertig",
+            "ERROR": "Etwas ist schiefgelaufen. Bitte schließen Sie diesen Dialog und versuchen Sie es erneut"
         },
         "ADDITIONAL_REFERENCES_DIALOG": {
             "TITLE": "Weitere Referenzstandorte",
             "NO_LOCATIONS": "{{ name }} wird an keinen Orten referenziert.",
             "DESCRIPTION": "{{ name }} wird zurzeit an diesen Orten referenziert.",
-            "CLOSE": "Close"
+            "CLOSE": "Schließen"
         }
     },
     "NODE_SELECTOR": {
@@ -589,7 +596,7 @@
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
             "LABEL": "Massenaktionen",
-            "TITLE": "Bulk-Aktionen ({{ count }} Elemente)",
+            "TITLE": "Wählen Sie eine Aktion für alle {{ count }} Ergebnisse aus.",
             "BULK_NOT_AVAILABLE": "Bulk-Aktionen (Nicht verfügbar)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "Bulk-Aktionen können nicht ohne Suchergebnisse verwendet werden"
         },
@@ -601,7 +608,11 @@
             "MIN_LENGTH": "Die Sucheingabe muss mindestens zwei alphanumerische Zeichen umfassen.",
             "REQUIRED": "Sucheingabe ist erforderlich.",
             "WHITESPACE": "Sucheingabe darf nicht nur Leerzeichen sein.",
-            "OPERATORS": "Die Sucheingabe darf nicht mit Operatoren beginnen, mit Operatoren enden oder ausschließlich Operatoren enthalten."
+            "OPERATORS": "Die Sucheingabe darf nicht mit Operatoren beginnen, mit Operatoren enden oder ausschließlich Operatoren enthalten.",
+            "IN_PREFIX": "In",
+            "FILES_AND_FOLDERS": "Dateien und Ordner",
+            "RESET": "Zurücksetzen",
+            "SEARCH_IN": "Suchen in"
         },
         "SORT": {
             "SORTING_OPTION": "Sortieren nach",
@@ -710,7 +721,8 @@
                 "REFERENCED_DOCUMENTS_HEADER": "Referenzdokumente",
                 "REGENERATION_BUTTON_LABEL": "Neu erstellen",
                 "COPY_BUTTON_LABEL": "Kopieren",
-                "COPY_MESSAGE": "Antwort in Zwischenablage kopiert"
+                "COPY_MESSAGE": "Antwort in Zwischenablage kopiert",
+                "RELOAD_REFERENCES_BUTTON_LABEL": "Neu laden"
             },
             "AGENTS_BUTTON": {
                 "LABEL": "Erkennung abfragen",
@@ -726,7 +738,8 @@
                 "AGENTS_FETCHING": "Fehler beim Abrufen von Mitarbeitern.",
                 "HX_INSIGHT_URL_FETCHING": "Fehler beim Abrufen von HX Insight URL.",
                 "LOADING_ERROR": "Hmm...scheinbar ist etwas schief gelaufen.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Die Seite ist unter diesen Bedingungen nicht verfügbar."
+                "PAGE_NOT_AVAILABLE_ERROR": "Die Seite ist unter diesen Bedingungen nicht verfügbar.",
+                "REFERENCES_LOADING_ERROR": "Beim Laden der Referenzen ist etwas schiefgelaufen."
             },
             "DISCARD_CHANGES": {
                 "WARNING": "Warnung!",

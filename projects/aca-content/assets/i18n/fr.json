@@ -1,6 +1,6 @@
 {
     "APP": {
-        "COPYRIGHT": "© 2005-2025 Hyland, Inc. et ses filiales. Tous droits réservés.",
+        "COPYRIGHT": "© 2005-2025 Hyland Software, Inc. et ses filiales. Tous droits réservés.",
         "TITLE": "Workspace",
         "ABOUT": {
             "VERSION": "Version :",
@@ -112,6 +112,13 @@
                 },
                 "PERMISSIONS": {
                     "TITLE": "Autorisations"
+                }
+            },
+            "REPOSITORY_VIEW": {
+                "TITLE": "Repository",
+                "SIDENAV_LINK": {
+                    "LABEL": "Repository",
+                    "TOOLTIP": "View the repository"
                 }
             },
             "LIBRARIES": {
@@ -267,8 +274,8 @@
                     "LOCATION": "Emplacement",
                     "SIZE": "Taille"
                 },
-                "UNKNOWN_LOCATION": "Inconnu",
-                "VIEW_ADDITIONAL_LOCATIONS": "View additional references locations",
+                "UNKNOWN_LOCATION": "Vous n’avez pas la permission de voir l’emplacement de ce document.",
+                "VIEW_ADDITIONAL_LOCATIONS": "Afficher les emplacements de référence supplémentaires",
                 "NO_RESULTS": "Votre recherche a renvoyé 0 résultat",
                 "EMPTY_SEARCH": "Saisir un terme à rechercher",
                 "NO_FILTER_RESULTS": "Votre filtre a renvoyé 0 résultat",
@@ -313,7 +320,7 @@
             "EDIT_OFFLINE_CANCEL": "Annuler l'édition",
             "CHANGE_ASPECT": "Modifier les aspects",
             "ADD_ASPECTS": "Ajouter des aspects",
-            "NODE_INFO": "Information"
+            "NODE_INFO": "Informations"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -482,23 +489,23 @@
             "SAVE": "Enregistrer"
         },
         "NODE_INFO": {
-            "ICON": "Node Icon",
-            "TITLE": "Information",
-            "SIZE": "Size",
-            "NUMBER_OF_FILES": "Number of files",
-            "CALCULATING": "Calculating...",
-            "LOCATION": "Location",
-            "REFERENCED": "Referenced",
-            "CREATED": "Created",
-            "MODIFIED": "Modified",
-            "DONE": "Done",
-            "ERROR": "Something went wrong, please close this dialog and try again"
+            "ICON": "Symbole de nœud",
+            "TITLE": "Informations",
+            "SIZE": "Taille",
+            "NUMBER_OF_FILES": "Nombre de fichiers",
+            "CALCULATING": "Calcul en cours…",
+            "LOCATION": "Lieu",
+            "REFERENCED": "Référencé",
+            "CREATED": "Créé",
+            "MODIFIED": "Modifié",
+            "DONE": "Terminé",
+            "ERROR": "Une erreur s’est produite, veuillez fermer cette boîte de dialogue et réessayer ultérieurement"
         },
         "ADDITIONAL_REFERENCES_DIALOG": {
-            "TITLE": "Additional Reference Locations",
-            "NO_LOCATIONS": "{{ name }} is not referenced in any locations.",
-            "DESCRIPTION": "{{ name }} is currently referenced in these locations.",
-            "CLOSE": "Close"
+            "TITLE": "Emplacements de référence supplémentaires",
+            "NO_LOCATIONS": "{{ name }} n’est référencé dans aucun emplacement.",
+            "DESCRIPTION": "{{ name }} est actuellement référencé dans ces emplacements.",
+            "CLOSE": "Fermer"
         }
     },
     "NODE_SELECTOR": {
@@ -589,7 +596,7 @@
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
             "LABEL": "Actions groupées",
-            "TITLE": "Actions en bloc ({{ count }} éléments)",
+            "TITLE": "Sélectionner une action pour voir tous les {{ count }} résultats",
             "BULK_NOT_AVAILABLE": "Actions en bloc (non disponible)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "Les actions en bloc ne peuvent pas être utilisées sans résultats de recherche"
         },
@@ -601,7 +608,11 @@
             "MIN_LENGTH": "L'élément de recherche doit comporter au moins 2 caractères alphanumériques.",
             "REQUIRED": "La recherche est obligatoire.",
             "WHITESPACE": "L'entrée de recherche ne peut pas être uniquement un espace.",
-            "OPERATORS": "La saisie de recherche ne peut pas commencer, se terminer ou être composée uniquement d’opérateurs"
+            "OPERATORS": "La saisie de recherche ne peut pas commencer, se terminer ou être composée uniquement d’opérateurs",
+            "IN_PREFIX": "Dans",
+            "FILES_AND_FOLDERS": "Fichiers et dossiers",
+            "RESET": "Réinitialiser",
+            "SEARCH_IN": "Rechercher dans"
         },
         "SORT": {
             "SORTING_OPTION": "Trier par",
@@ -710,7 +721,8 @@
                 "REFERENCED_DOCUMENTS_HEADER": "Documents mentionnés",
                 "REGENERATION_BUTTON_LABEL": "Regénérer",
                 "COPY_BUTTON_LABEL": "Copier",
-                "COPY_MESSAGE": "Réponse copiée dans le presse-papiers"
+                "COPY_MESSAGE": "Réponse copiée dans le presse-papiers",
+                "RELOAD_REFERENCES_BUTTON_LABEL": "Recharger"
             },
             "AGENTS_BUTTON": {
                 "LABEL": "Demandez à Discovery",
@@ -726,7 +738,8 @@
                 "AGENTS_FETCHING": "Erreur lors de la récupération des agents",
                 "HX_INSIGHT_URL_FETCHING": "Erreur lors de la récupération de l’URL HX Insight.",
                 "LOADING_ERROR": "Il semblerait qu’une erreur soit survenue.",
-                "PAGE_NOT_AVAILABLE_ERROR": "La page n’est pas disponible pour ces conditions."
+                "PAGE_NOT_AVAILABLE_ERROR": "La page n’est pas disponible pour ces conditions.",
+                "REFERENCES_LOADING_ERROR": "Une erreur s'est produite lors du chargement des références."
             },
             "DISCARD_CHANGES": {
                 "WARNING": "Avertissement !",

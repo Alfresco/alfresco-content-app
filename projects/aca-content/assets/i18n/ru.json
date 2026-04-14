@@ -1,6 +1,6 @@
 {
     "APP": {
-        "COPYRIGHT": "© 2005-2025 Hyland, Inc. и ее филиалы. Все права защищены.",
+        "COPYRIGHT": "© 2005-2025 Hyland Software, Inc. и ее филиалы. Все права защищены.",
         "TITLE": "Workspace",
         "ABOUT": {
             "VERSION": "Версия:",
@@ -112,6 +112,13 @@
                 },
                 "PERMISSIONS": {
                     "TITLE": "Разрешения"
+                }
+            },
+            "REPOSITORY_VIEW": {
+                "TITLE": "Repository",
+                "SIDENAV_LINK": {
+                    "LABEL": "Repository",
+                    "TOOLTIP": "View the repository"
                 }
             },
             "LIBRARIES": {
@@ -267,8 +274,8 @@
                     "LOCATION": "Местоположение",
                     "SIZE": "Размер"
                 },
-                "UNKNOWN_LOCATION": "Неизвестно",
-                "VIEW_ADDITIONAL_LOCATIONS": "View additional references locations",
+                "UNKNOWN_LOCATION": "У вас нет прав на просмотр местоположения этого документа.",
+                "VIEW_ADDITIONAL_LOCATIONS": "Просмотреть дополнительные места ссылок",
                 "NO_RESULTS": "Ваш поиск вернул 0 результатов",
                 "EMPTY_SEARCH": "Ключевое слово обязательно",
                 "NO_FILTER_RESULTS": "Ваш фильтр вернул 0 результатов",
@@ -313,7 +320,7 @@
             "EDIT_OFFLINE_CANCEL": "Отменить редактирование",
             "CHANGE_ASPECT": "Редактировать аспекты",
             "ADD_ASPECTS": "Добавить аспекты",
-            "NODE_INFO": "Information"
+            "NODE_INFO": "Информация"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -482,23 +489,23 @@
             "SAVE": "Сохранить"
         },
         "NODE_INFO": {
-            "ICON": "Node Icon",
-            "TITLE": "Information",
-            "SIZE": "Size",
-            "NUMBER_OF_FILES": "Number of files",
-            "CALCULATING": "Calculating...",
-            "LOCATION": "Location",
-            "REFERENCED": "Referenced",
-            "CREATED": "Created",
-            "MODIFIED": "Modified",
-            "DONE": "Done",
-            "ERROR": "Something went wrong, please close this dialog and try again"
+            "ICON": "Значок узла",
+            "TITLE": "Информация",
+            "SIZE": "Размер",
+            "NUMBER_OF_FILES": "Количество файлов",
+            "CALCULATING": "Вычисление...",
+            "LOCATION": "Местоположение",
+            "REFERENCED": "Используется в ссылках",
+            "CREATED": "Создано",
+            "MODIFIED": "Изменено",
+            "DONE": "Готово",
+            "ERROR": "Что-то пошло не так. Закройте этот диалог и повторите попытку"
         },
         "ADDITIONAL_REFERENCES_DIALOG": {
-            "TITLE": "Additional Reference Locations",
-            "NO_LOCATIONS": "{{ name }} is not referenced in any locations.",
-            "DESCRIPTION": "{{ name }} is currently referenced in these locations.",
-            "CLOSE": "Close"
+            "TITLE": "Дополнительное место ссылки",
+            "NO_LOCATIONS": "{{ name }} не используется ни в одном месте.",
+            "DESCRIPTION": "{{ name }} в настоящее время используется в следующих местах.",
+            "CLOSE": "Закрыть"
         }
     },
     "NODE_SELECTOR": {
@@ -589,7 +596,7 @@
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
             "LABEL": "Массовые действия",
-            "TITLE": "Массовые операции (объектов: {{ count }})",
+            "TITLE": "Выбрать действие для всех результатов {{ count }}",
             "BULK_NOT_AVAILABLE": "Массовые операции (недоступно)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "Массовые операции невозможно использовать без результатов поиска"
         },
@@ -601,7 +608,11 @@
             "MIN_LENGTH": "Поисковый запрос должен содержать как минимум два буквенно-цифровых символа.",
             "REQUIRED": "Требуется ввести введенный поиск.",
             "WHITESPACE": "Поисковый запрос не может быть только пробелов.",
-            "OPERATORS": "Поисковый запрос не может начинаться, заканчиваться или состоять только из операторов"
+            "OPERATORS": "Поисковый запрос не может начинаться, заканчиваться или состоять только из операторов",
+            "IN_PREFIX": "В",
+            "FILES_AND_FOLDERS": "Файлы и папки",
+            "RESET": "Сброс",
+            "SEARCH_IN": "Поиск в"
         },
         "SORT": {
             "SORTING_OPTION": "Сортировать по",
@@ -710,7 +721,8 @@
                 "REFERENCED_DOCUMENTS_HEADER": "Справочные документы",
                 "REGENERATION_BUTTON_LABEL": "Восстановить",
                 "COPY_BUTTON_LABEL": "Копировать",
-                "COPY_MESSAGE": "Скопировать ответ в буфер обмена"
+                "COPY_MESSAGE": "Скопировать ответ в буфер обмена",
+                "RELOAD_REFERENCES_BUTTON_LABEL": "Перезагрузить"
             },
             "AGENTS_BUTTON": {
                 "LABEL": "Спросить Discovery",
@@ -726,7 +738,8 @@
                 "AGENTS_FETCHING": "Возникла ошибка при поиске агентов.",
                 "HX_INSIGHT_URL_FETCHING": "Возникла ошибка при поиске ссылки на HX Insight.",
                 "LOADING_ERROR": "Хм... похоже, что-то пошло не так.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Для этих условий страница недоступна."
+                "PAGE_NOT_AVAILABLE_ERROR": "Для этих условий страница недоступна.",
+                "REFERENCES_LOADING_ERROR": "Произошла ошибка при загрузке ссылок."
             },
             "DISCARD_CHANGES": {
                 "WARNING": "Внимание!",

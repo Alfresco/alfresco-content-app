@@ -131,7 +131,7 @@
       "LOAD_MORE_RULE_SETS": "Načíst pravidla z jiných složek",
       "LOAD_MORE_RULES": "Načíst více pravidel",
       "LOADING_RULES": "Načítání pravidel",
-      "TOGGLE_RULE_STATE": "Přepnout stav povolení pravidla",
+      "TOGGLE_RULE_STATE": "Přepnout {{ name }} pravidlo",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "Jako první budou spuštěna zděděná pravidla",
       "ALL_LINKED_RULES_ARE_DISABLED": "Všechna pravidla, na která byl vytvořen odkaz z tohoto souboru pravidel, jsou zakázaná",
       "EDIT_LINK_LABEL": "Pravidla odkazů z jiné složky"

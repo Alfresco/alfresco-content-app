@@ -1,6 +1,6 @@
 {
     "APP": {
-        "COPYRIGHT": "© 2005-2025 Hyland, Inc. および関連会社。無断転載禁止",
+        "COPYRIGHT": "© 2005-2025 Hyland Software, Inc. および関連会社。無断転載禁止。",
         "TITLE": "Workspace",
         "ABOUT": {
             "VERSION": "バージョン:",
@@ -112,6 +112,13 @@
                 },
                 "PERMISSIONS": {
                     "TITLE": "権限"
+                }
+            },
+            "REPOSITORY_VIEW": {
+                "TITLE": "Repository",
+                "SIDENAV_LINK": {
+                    "LABEL": "Repository",
+                    "TOOLTIP": "View the repository"
                 }
             },
             "LIBRARIES": {
@@ -267,8 +274,8 @@
                     "LOCATION": "場所",
                     "SIZE": "サイズ"
                 },
-                "UNKNOWN_LOCATION": "不明",
-                "VIEW_ADDITIONAL_LOCATIONS": "View additional references locations",
+                "UNKNOWN_LOCATION": "このドキュメントのロケーションを閲覧する権限がありません。",
+                "VIEW_ADDITIONAL_LOCATIONS": "追加の参照場所を表示",
                 "NO_RESULTS": "検索結果は 0 件です",
                 "EMPTY_SEARCH": "検索語句が必要",
                 "NO_FILTER_RESULTS": "フィルタによる検索結果は 0 件です",
@@ -313,7 +320,7 @@
             "EDIT_OFFLINE_CANCEL": "編集のキャンセル",
             "CHANGE_ASPECT": "アスペクトを編集",
             "ADD_ASPECTS": "アスペクトを追加",
-            "NODE_INFO": "Information"
+            "NODE_INFO": "情報"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -482,23 +489,23 @@
             "SAVE": "保存"
         },
         "NODE_INFO": {
-            "ICON": "Node Icon",
-            "TITLE": "Information",
-            "SIZE": "Size",
-            "NUMBER_OF_FILES": "Number of files",
-            "CALCULATING": "Calculating...",
-            "LOCATION": "Location",
-            "REFERENCED": "Referenced",
-            "CREATED": "Created",
-            "MODIFIED": "Modified",
-            "DONE": "Done",
-            "ERROR": "Something went wrong, please close this dialog and try again"
+            "ICON": "ノードアイコン",
+            "TITLE": "情報",
+            "SIZE": "サイズ",
+            "NUMBER_OF_FILES": "ファイル数",
+            "CALCULATING": "計算中...",
+            "LOCATION": "場所",
+            "REFERENCED": "参照済み",
+            "CREATED": "作成済み",
+            "MODIFIED": "修正日",
+            "DONE": "完了",
+            "ERROR": "何か問題が発生しました。このダイアログを閉じて操作をやり直してください"
         },
         "ADDITIONAL_REFERENCES_DIALOG": {
-            "TITLE": "Additional Reference Locations",
-            "NO_LOCATIONS": "{{ name }} is not referenced in any locations.",
-            "DESCRIPTION": "{{ name }} is currently referenced in these locations.",
-            "CLOSE": "Close"
+            "TITLE": "追加の参照場所",
+            "NO_LOCATIONS": "{{ name }} はどの場所からも参照されていません。",
+            "DESCRIPTION": "{{ name }} は現在、次の場所から参照されています。",
+            "CLOSE": "閉じる"
         }
     },
     "NODE_SELECTOR": {
@@ -589,7 +596,7 @@
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
             "LABEL": "一括操作",
-            "TITLE": "バルクアクション ({{ count }} 項目)",
+            "TITLE": "すべての {{ count }} の結果に対するアクションの選択",
             "BULK_NOT_AVAILABLE": "バルクアクション (利用不可)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "バルクアクションは検索結果なしでは使用できません"
         },
@@ -601,7 +608,11 @@
             "MIN_LENGTH": "検索する語句は、2 文字以上の英数字で入力してください。",
             "REQUIRED": "検索入力が必要です。",
             "WHITESPACE": "検索入力は空白にはできません。",
-            "OPERATORS": "検索入力は演算子で開始・終了、または演算子のみで構成することはできません"
+            "OPERATORS": "検索入力は演算子で開始・終了、または演算子のみで構成することはできません",
+            "IN_PREFIX": "対象",
+            "FILES_AND_FOLDERS": "ファイルとフォルダー",
+            "RESET": "リセット",
+            "SEARCH_IN": "検索先"
         },
         "SORT": {
             "SORTING_OPTION": "並べ替え",
@@ -710,7 +721,8 @@
                 "REFERENCED_DOCUMENTS_HEADER": "参照文書",
                 "REGENERATION_BUTTON_LABEL": "再生成",
                 "COPY_BUTTON_LABEL": "コピー",
-                "COPY_MESSAGE": "回答をクリップボードにコピー済み"
+                "COPY_MESSAGE": "回答をクリップボードにコピー済み",
+                "RELOAD_REFERENCES_BUTTON_LABEL": "再読み込み"
             },
             "AGENTS_BUTTON": {
                 "LABEL": "デモディスカバリ",
@@ -726,7 +738,8 @@
                 "AGENTS_FETCHING": "エージェント取得中にエラーが発生しました。",
                 "HX_INSIGHT_URL_FETCHING": "HX Insight URL取得中にエラーが発生しました。",
                 "LOADING_ERROR": "どうやら、何か問題が起こったようです。",
-                "PAGE_NOT_AVAILABLE_ERROR": "これらの条件ではページは利用できません。"
+                "PAGE_NOT_AVAILABLE_ERROR": "これらの条件ではページは利用できません。",
+                "REFERENCES_LOADING_ERROR": "参考文献を読み込む際に問題が発生しました。"
             },
             "DISCARD_CHANGES": {
                 "WARNING": "警告!",

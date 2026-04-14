@@ -1,6 +1,6 @@
 {
     "APP": {
-        "COPYRIGHT": "© 2005-2025 Hyland, Inc. och dess dotterbolag. Alla rättigheter förbehålles.",
+        "COPYRIGHT": "© 2005-2025 Hyland Software, Inc. och dess dotterbolag. Alla rättigheter förbehålles.",
         "TITLE": "Workspace",
         "ABOUT": {
             "VERSION": "Version:",
@@ -112,6 +112,13 @@
                 },
                 "PERMISSIONS": {
                     "TITLE": "Behörigheter"
+                }
+            },
+            "REPOSITORY_VIEW": {
+                "TITLE": "Repository",
+                "SIDENAV_LINK": {
+                    "LABEL": "Repository",
+                    "TOOLTIP": "View the repository"
                 }
             },
             "LIBRARIES": {
@@ -267,8 +274,8 @@
                     "LOCATION": "Plats",
                     "SIZE": "Storlek"
                 },
-                "UNKNOWN_LOCATION": "Okänd",
-                "VIEW_ADDITIONAL_LOCATIONS": "View additional references locations",
+                "UNKNOWN_LOCATION": "Du har inte behörighet att se mappen med detta dokument.",
+                "VIEW_ADDITIONAL_LOCATIONS": "Visa ytterligare referensplatser",
                 "NO_RESULTS": "Din sökning gav inga resultat",
                 "EMPTY_SEARCH": "Sökord krävs",
                 "NO_FILTER_RESULTS": "Ditt filter gav inga resultat",
@@ -482,23 +489,23 @@
             "SAVE": "Spara"
         },
         "NODE_INFO": {
-            "ICON": "Node Icon",
+            "ICON": "Nodikon",
             "TITLE": "Information",
-            "SIZE": "Size",
-            "NUMBER_OF_FILES": "Number of files",
-            "CALCULATING": "Calculating...",
-            "LOCATION": "Location",
-            "REFERENCED": "Referenced",
-            "CREATED": "Created",
-            "MODIFIED": "Modified",
-            "DONE": "Done",
-            "ERROR": "Something went wrong, please close this dialog and try again"
+            "SIZE": "Storlek",
+            "NUMBER_OF_FILES": "Antal filer",
+            "CALCULATING": "Beräknar...",
+            "LOCATION": "Plats",
+            "REFERENCED": "Refererad",
+            "CREATED": "Skapad",
+            "MODIFIED": "Ändrad",
+            "DONE": "Klar",
+            "ERROR": "Något gick fel, stäng denna dialogruta och försök igen"
         },
         "ADDITIONAL_REFERENCES_DIALOG": {
-            "TITLE": "Additional Reference Locations",
-            "NO_LOCATIONS": "{{ name }} is not referenced in any locations.",
-            "DESCRIPTION": "{{ name }} is currently referenced in these locations.",
-            "CLOSE": "Close"
+            "TITLE": "Ytterligare referensplats",
+            "NO_LOCATIONS": "{{ name }} refereras inte på någon plats.",
+            "DESCRIPTION": "{{ name }} refereras för närvarande på dessa platser.",
+            "CLOSE": "Stäng"
         }
     },
     "NODE_SELECTOR": {
@@ -589,7 +596,7 @@
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
             "LABEL": "Massåtgärder",
-            "TITLE": "Gruppåtgärder ({{ count }} objekt)",
+            "TITLE": "Välj en åtgärd för alla {{ count }} resultat",
             "BULK_NOT_AVAILABLE": "Gruppåtgärder (inte tillgängligt)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "Gruppåtgärder kan inte användas utan sökresultat"
         },
@@ -601,7 +608,11 @@
             "MIN_LENGTH": "Sökindata måste ha minst 2 alfanumeriska tecken.",
             "REQUIRED": "Sökindata måste fyllas i.",
             "WHITESPACE": "Sökinmatningen kan inte bara vara blankt.",
-            "OPERATORS": "Sökfältet får inte börja eller sluta med, eller enbart bestå av operatorer"
+            "OPERATORS": "Sökfältet får inte börja eller sluta med, eller enbart bestå av operatorer",
+            "IN_PREFIX": "I",
+            "FILES_AND_FOLDERS": "Filer och mappar",
+            "RESET": "Återställ",
+            "SEARCH_IN": "Sök i"
         },
         "SORT": {
             "SORTING_OPTION": "Sortera efter",
@@ -710,7 +721,8 @@
                 "REFERENCED_DOCUMENTS_HEADER": "Referensdokument",
                 "REGENERATION_BUTTON_LABEL": "Generera på nytt",
                 "COPY_BUTTON_LABEL": "Kopiera",
-                "COPY_MESSAGE": "Svar kopierat till urklipp"
+                "COPY_MESSAGE": "Svar kopierat till urklipp",
+                "RELOAD_REFERENCES_BUTTON_LABEL": "Ladda om"
             },
             "AGENTS_BUTTON": {
                 "LABEL": "Fråga Discovery",
@@ -726,7 +738,8 @@
                 "AGENTS_FETCHING": "Det gick inte att hämta agenter.",
                 "HX_INSIGHT_URL_FETCHING": "Det gick inte att hämta HX Insight-URL.",
                 "LOADING_ERROR": "Hmm... något verkar ha gått fel.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Sidan är inte tillgänglig för dessa villkor."
+                "PAGE_NOT_AVAILABLE_ERROR": "Sidan är inte tillgänglig för dessa villkor.",
+                "REFERENCES_LOADING_ERROR": "Något gick fel när referenserna laddades."
             },
             "DISCARD_CHANGES": {
                 "WARNING": "Varning!",

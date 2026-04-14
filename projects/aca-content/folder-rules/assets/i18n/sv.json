@@ -131,7 +131,7 @@
       "LOAD_MORE_RULE_SETS": "Läs in regler från andra mappar",
       "LOAD_MORE_RULES": "Ladda fler regler",
       "LOADING_RULES": "Laddar regler",
-      "TOGGLE_RULE_STATE": "Växla status för aktiverad regel",
+      "TOGGLE_RULE_STATE": "Växla {{ name }}-regel",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "Ärvda regler körs först",
       "ALL_LINKED_RULES_ARE_DISABLED": "Alla regler som är länkade från den här regeluppsättningen är inaktiverade",
       "EDIT_LINK_LABEL": "Länk regler från en annan mapp"
