@@ -14,10 +14,6 @@ on:
         required: false
         default: 'http://localhost:4200'
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 env:
   BASE_URL: ${{ inputs.url || secrets.PIPELINE_ENV_URL }}
   ADMIN_EMAIL: ${{ secrets.PIPELINE_ADMIN_USERNAME }}
