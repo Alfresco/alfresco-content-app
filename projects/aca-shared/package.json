@@ -14,9 +14,9 @@
     "@ngrx/router-store": "^19.2.0",
     "@ngrx/store": "^19.2.0",
     "@ngx-translate/core": "^17.0.0",
-    "rxjs": ">=6.6.6",
+    "rxjs": "^7.4.0",
     "tslib": ">=2.0.0",
-    "zone.js": ">=0.11.8"
+    "zone.js": "^0.14.0 || ^0.15.0"
   },
   "repository": {
     "type": "git",
