@@ -3,15 +3,17 @@
   "version": "0.0.1",
   "license": "LGPL-3.0",
   "peerDependencies": {
-    "@angular/common": ">=15.2",
-    "@angular/core": ">=15.2",
-    "@angular/animations": ">=15.2",
-    "@angular/cdk": ">=15.2",
-    "@angular/forms": ">=15.2",
-    "@angular/material": ">=15.2",
+    "@angular/animations": "^19.2.0",
+    "@angular/cdk": "^19.2.0",
+    "@angular/common": "^19.2.0",
+    "@angular/core": "^19.2.0",
+    "@angular/forms": "^19.2.0",
+    "@angular/material": "^19.2.0",
+    "@angular/platform-browser": "^19.2.0",
+    "@angular/router": "^19.2.0",
     "@ngx-translate/core": "^17.0.0",
-    "rxjs": ">=6.6.6",
-    "zone.js": ">=0.11.8"
+    "rxjs": "^7.4.0",
+    "zone.js": "^0.14.0 || ^0.15.0"
   },
   "dependencies": {
     "tslib": ">=2.3.0",
