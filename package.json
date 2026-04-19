@@ -90,7 +90,7 @@
     "@angular-eslint/template-parser": "19.8.1",
     "@angular/compiler-cli": "19.2.20",
     "@angular/language-service": "19.2.20",
-    "@cspell/eslint-plugin": "^9.2.1",
+    "@cspell/eslint-plugin": "^10.0.0",
     "@nx/angular": "22.5.4",
     "@nx/eslint-plugin": "22.5.4",
     "@nx/workspace": "22.5.4",
