@@ -161,7 +161,9 @@ export class FileActionsApi {
       await waitForApi(apiCall, predicate, 30, 2500);
     } catch {
       const actual = await apiCall();
-      throw new Error(`waitForNodes: Timed out waiting for "${searchTerm}" — expected ${data.expect} nodes, found ${actual}`);
+      const message = `waitForNodes: Timed out waiting for "${searchTerm}" — expected ${data.expect} nodes, found ${actual}`;
+      logger.error(message);
+      throw new Error(message);
     }
   }
 

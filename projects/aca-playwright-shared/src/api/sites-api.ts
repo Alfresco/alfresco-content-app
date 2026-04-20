@@ -58,7 +58,9 @@ export class SitesApi {
     try {
       return this.apiService.sites.createSite(site);
     } catch (error) {
-      throw new Error(`SitesApi ${this.createSite.name}: ${error}`);
+      const message = `SitesApi ${this.createSite.name}: ${error}`;
+      logger.error(message);
+      throw new Error(message);
     }
   }
 
@@ -66,11 +68,15 @@ export class SitesApi {
     try {
       const id = (await this.apiService.sites.listSiteContainers(siteId)).list?.entries?.[0]?.entry?.id;
       if (!id) {
-        throw new Error(`Document library not found for site ${siteId}`);
+        const message = `Document library not found for site ${siteId}`;
+        logger.error(message);
+        throw new Error(message);
       }
       return id;
     } catch (error) {
-      throw new Error(`Failed to get document library ID for site ${siteId}: ${error}`);
+      const message = `Failed to get document library ID for site ${siteId}: ${error}`;
+      logger.error(message);
+      throw new Error(message);
     }
   }
 
@@ -128,7 +134,9 @@ export class SitesApi {
     try {
       return this.apiService.sites.createSiteMembershipRequestForPerson(personId, body);
     } catch (error) {
-      throw new Error(`Failed to create site membership request for person ${personId} and site ${siteId}: ${error}`);
+      const message = `Failed to create site membership request for person ${personId} and site ${siteId}: ${error}`;
+      logger.error(message);
+      throw new Error(message);
     }
   }
 
@@ -136,7 +144,9 @@ export class SitesApi {
     try {
       return this.apiService.sites.approveSiteMembershipRequest(siteId, inviteeId);
     } catch (error) {
-      throw new Error(`Failed to approve site membership request for invitee ${inviteeId} and site ${siteId}: ${error}`);
+      const message = `Failed to approve site membership request for invitee ${inviteeId} and site ${siteId}: ${error}`;
+      logger.error(message);
+      throw new Error(message);
     }
   }
 
@@ -146,7 +156,9 @@ export class SitesApi {
       const requests = entries.map((e) => e.entry?.id).filter((id): id is string => !!id);
       return requests.includes(siteId);
     } catch (error) {
-      throw new Error(`Failed to check site membership request for person ${personId} and site ${siteId}: ${error}`);
+      const message = `Failed to check site membership request for person ${personId} and site ${siteId}: ${error}`;
+      logger.error(message);
+      throw new Error(message);
     }
   }
 
@@ -162,7 +174,9 @@ export class SitesApi {
     try {
       return this.apiService.sites.getSite(siteId);
     } catch (error) {
-      throw new Error(`Failed to get site ${siteId}: ${error}`);
+      const message = `Failed to get site ${siteId}: ${error}`;
+      logger.error(message);
+      throw new Error(message);
     }
   }
 }

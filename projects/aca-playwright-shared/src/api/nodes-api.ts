@@ -51,7 +51,9 @@ export class NodesApi {
     try {
       return await this.createNode('cm:folder', name, parentId, title, description, null, author, true, aspectNames);
     } catch (error) {
-      throw new Error(`${this.constructor.name} ${this.createFolder.name}: ${error}`);
+      const message = `${this.constructor.name} ${this.createFolder.name}: ${error}`;
+      logger.error(message);
+      throw new Error(message);
     }
   }
 
@@ -67,7 +69,9 @@ export class NodesApi {
     try {
       return await this.createNode('cm:content', name, parentId, title, description, null, author, majorVersion, aspectNames);
     } catch (error) {
-      throw new Error(`${this.constructor.name} ${this.createFile.name}: ${error}`);
+      const message = `${this.constructor.name} ${this.createFile.name}: ${error}`;
+      logger.error(message);
+      throw new Error(message);
     }
   }
 
@@ -75,7 +79,9 @@ export class NodesApi {
     try {
       return await this.createContent({ files: names }, relativePath);
     } catch (error) {
-      throw new Error(`${this.constructor.name} ${this.createFiles.name}: ${error}`);
+      const message = `${this.constructor.name} ${this.createFiles.name}: ${error}`;
+      logger.error(message);
+      throw new Error(message);
     }
   }
 
@@ -87,6 +93,9 @@ export class NodesApi {
         createdFiles.push(file);
       }
     }
+    logger.info(
+      `${this.constructor.name} ${this.createMultipleFiles.name}: created ${createdFiles.length} of ${count} files in parent "${parentId}"`
+    );
     return createdFiles;
   }
 
@@ -94,7 +103,9 @@ export class NodesApi {
     try {
       return await this.createContent({ folders: names }, relativePath);
     } catch (error) {
-      throw new Error(`${this.constructor.name} ${this.createFolders.name}: ${error}`);
+      const message = `${this.constructor.name} ${this.createFolders.name}: ${error}`;
+      logger.error(message);
+      throw new Error(message);
     }
   }
 
@@ -137,7 +148,9 @@ export class NodesApi {
         majorVersion
       });
     } catch (error) {
-      throw new Error(`${this.constructor.name} ${this.createNode.name}: ${error}`);
+      const message = `${this.constructor.name} ${this.createNode.name}: ${error}`;
+      logger.error(message);
+      throw new Error(message);
     }
   }
 
@@ -210,7 +223,9 @@ export class NodesApi {
     try {
       return this.apiService.nodes.createNode('-my-', flattenNodeContentTree(content, relativePath) as any);
     } catch (error) {
-      throw new Error(`${this.constructor.name} ${this.createContent.name}: ${error}`);
+      const message = `${this.constructor.name} ${this.createContent.name}: ${error}`;
+      logger.error(message);
+      throw new Error(message);
     }
   }
 
@@ -218,7 +233,9 @@ export class NodesApi {
     try {
       return this.apiService.nodes.getNode(id);
     } catch (error) {
-      throw new Error(`${this.constructor.name} ${this.getNodeById.name}: ${error}`);
+      const message = `${this.constructor.name} ${this.getNodeById.name}: ${error}`;
+      logger.error(message);
+      throw new Error(message);
     }
   }
 
@@ -421,7 +438,9 @@ export class NodesApi {
 
       return this.createFileLink(nodeId, destinationParentId);
     } catch (error) {
-      throw new Error(`Admin Actions - createLinkToFileName failed : ${error}`);
+      const message = `Admin Actions - createLinkToFileName failed : ${error}`;
+      logger.error(message);
+      throw new Error(message);
     }
   }
 
@@ -432,7 +451,9 @@ export class NodesApi {
       const nodeId = await this.getNodeIdFromParent(originalFolderName, originalFolderParentId);
       return this.createFolderLink(nodeId, destinationParentId);
     } catch (error) {
-      throw new Error(`Admin Actions - createLinkToFolderName failed : ${error}`);
+      const message = `Admin Actions - createLinkToFolderName failed : ${error}`;
+      logger.error(message);
+      throw new Error(message);
     }
   }
 
@@ -441,7 +462,9 @@ export class NodesApi {
       const node = await this.getNodeById(nodeId);
       return node.entry.properties?.[property] ?? '';
     } catch (error) {
-      throw new Error(`${this.constructor.name} ${this.getNodeProperty.name}: ${error}`);
+      const message = `${this.constructor.name} ${this.getNodeProperty.name}: ${error}`;
+      logger.error(message);
+      throw new Error(message);
     }
   }
 
@@ -450,7 +473,9 @@ export class NodesApi {
       const sharedId = await this.getNodeProperty(nodeId, 'qshare:sharedId');
       return sharedId !== '';
     } catch (error) {
-      throw new Error(`${this.constructor.name} ${this.isFileShared.name}: ${error}`);
+      const message = `${this.constructor.name} ${this.isFileShared.name}: ${error}`;
+      logger.error(message);
+      throw new Error(message);
     }
   }
 
@@ -459,7 +484,9 @@ export class NodesApi {
       const lockType = await this.getNodeProperty(nodeId, 'cm:lockType');
       return lockType || '';
     } catch (error) {
-      throw new Error(`${this.constructor.name} ${this.getLockType.name}: ${error}`);
+      const message = `${this.constructor.name} ${this.getLockType.name}: ${error}`;
+      logger.error(message);
+      throw new Error(message);
     }
   }
 
@@ -467,7 +494,9 @@ export class NodesApi {
     try {
       return (await this.getLockType(nodeId)) === 'WRITE_LOCK';
     } catch (error) {
-      throw new Error(`${this.constructor.name} ${this.isFileLockedWrite.name}: ${error}`);
+      const message = `${this.constructor.name} ${this.isFileLockedWrite.name}: ${error}`;
+      logger.error(message);
+      throw new Error(message);
     }
   }
 }

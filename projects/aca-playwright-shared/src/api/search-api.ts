@@ -104,7 +104,9 @@ export class SearchApi {
           }
 
           if (retryCount >= retryLimit) {
-            throw new Error(`Expected ${options.nodesExpected} nodes but found ${currentCount} after ${retryLimit} retries`);
+            const message = `Expected ${options.nodesExpected} nodes but found ${currentCount} after ${retryLimit} retries`;
+            logger.error(message);
+            throw new Error(message);
           }
 
           await Utils.delayInSeconds(1);
