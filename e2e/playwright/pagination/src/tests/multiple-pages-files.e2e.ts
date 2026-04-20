@@ -22,9 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ApiClientFactory, FavoritesPageApi, NodesApi, test, timeouts, Utils, TrashcanApi } from '@alfresco/aca-playwright-shared';
-import { personalFilesTests } from './personal-files';
-import { favoritesTests } from './favorites';
+import { ApiClientFactory, FavoritesPageApi, NodesApi, SearchApi, test, timeouts, Utils, TrashcanApi } from '@alfresco/aca-playwright-shared';
+import { expect } from '@playwright/test';
 
 test.describe('Pagination on multiple pages : ', () => {
   const random = Utils.random();
@@ -32,9 +31,11 @@ test.describe('Pagination on multiple pages : ', () => {
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
   let favoritesApi: FavoritesPageApi;
+  let searchApi: SearchApi;
 
   const parent = `parent-multi-${random}`;
-  let initialFavoritesTotalItems: number;
+  let parentId: string;
+  let filesIds: string[];
 
   const apiClientFactory = new ApiClientFactory();
 
@@ -43,17 +44,18 @@ test.describe('Pagination on multiple pages : ', () => {
     await apiClientFactory.setUpAcaBackend('admin');
     await apiClientFactory.createUser({ username });
     nodesApi = await NodesApi.initialize(username, username);
+    trashcanApi = await TrashcanApi.initialize(username, username);
     favoritesApi = await FavoritesPageApi.initialize(username, username);
+    searchApi = await SearchApi.initialize(username, username);
 
     const files = Array(51)
       .fill('my-file')
       .map((name, index): string => `${name}-${index + 1}-${random}.txt`);
 
-    await nodesApi.createFolder(parent);
-    const filesIds = (await nodesApi.createFiles(files, parent)).list.entries.map((entries) => entries.entry.id);
-    initialFavoritesTotalItems = await favoritesApi.getFavoritesTotalItems(username);
+    parentId = (await nodesApi.createFolder(parent)).entry.id;
+    filesIds = (await nodesApi.createFiles(files, parent)).list?.entries?.map((entries) => entries.entry.id) ?? [];
 
-    await favoritesApi.addFavoritesByIds('file', filesIds);
+    expect(filesIds.length).toBe(51);
   });
 
   test.afterAll(async () => {
@@ -61,14 +63,161 @@ test.describe('Pagination on multiple pages : ', () => {
   });
 
   test.describe('on Personal Files', () => {
-    personalFilesTests(username, parent);
+    test.beforeAll(async () => {
+      await searchApi.waitForFolderPathIndexing(parentId, { nodesExpected: 51 });
+    });
+
+    test.describe('Pagination controls : ', () => {
+      test.beforeEach(async ({ loginPage, personalFiles, page }) => {
+        await loginPage.navigate();
+        await loginPage.loginUser({ username: username, password: username });
+        await personalFiles.waitForPageLoad();
+        await personalFiles.dataTable.getRowByName(parent).dblclick();
+        await page.waitForTimeout(timeouts.tiny);
+      });
+
+      test('[XAT-4530] Pagination control default items', async ({ personalFiles }) => {
+        expect(await personalFiles.pagination.getRange()).toContain('Showing 1-25 of 51');
+        expect(await personalFiles.pagination.getMaxItems()).toContain('25');
+        expect(await personalFiles.pagination.getCurrentPage()).toContain('Page 1');
+        expect(await personalFiles.pagination.getTotalPages()).toContain('of 3');
+        expect(await personalFiles.pagination.isPreviousEnabled()).toBe(false);
+        expect(await personalFiles.pagination.isNextEnabled()).toBe(true);
+      });
+
+      test('[XAT-4531] Items per page values', async ({ personalFiles }) => {
+        await personalFiles.pagination.openMaxItemsMenu();
+        expect(await personalFiles.pagination.getItemsCount()).toBe(3);
+        await personalFiles.pagination.clickMenuItem('25');
+        await personalFiles.dataTable.spinnerWaitForReload();
+        expect(await personalFiles.pagination.getMaxItems()).toContain('25');
+        expect(await personalFiles.pagination.getTotalPages()).toContain('of 3');
+
+        await personalFiles.pagination.openMaxItemsMenu();
+        await personalFiles.pagination.clickMenuItem('50');
+        expect(await personalFiles.pagination.getMaxItems()).toContain('50');
+        expect(await personalFiles.pagination.getTotalPages()).toContain('of 2');
+
+        await personalFiles.pagination.openMaxItemsMenu();
+        await personalFiles.pagination.clickMenuItem('100');
+        expect(await personalFiles.pagination.getMaxItems()).toContain('100');
+        expect(await personalFiles.pagination.getTotalPages()).toContain('of 1');
+
+        await personalFiles.pagination.resetToDefaultPageSize();
+      });
+
+      test('[XAT-4533] Change the current page from the page selector', async ({ personalFiles }) => {
+        await personalFiles.pagination.clickOnNextPage();
+        expect(await personalFiles.pagination.getRange()).toContain('Showing 26-50 of 51');
+        expect(await personalFiles.pagination.getCurrentPage()).toContain('Page 2');
+        expect(await personalFiles.pagination.isPreviousEnabled()).toBe(true);
+        expect(await personalFiles.pagination.isNextEnabled()).toBe(true);
+        await personalFiles.pagination.resetToDefaultPageSize();
+      });
+
+      test('[XAT-4536] Next and Previous buttons navigation', async ({ personalFiles }) => {
+        await personalFiles.pagination.openMaxItemsMenu();
+        await personalFiles.pagination.clickMenuItem('25');
+        expect(await personalFiles.pagination.getMaxItems()).toContain('25');
+        await personalFiles.pagination.clickOnNextPage();
+        await personalFiles.dataTable.spinnerWaitForReload();
+        expect(await personalFiles.pagination.getRange()).toContain('Showing 26-50 of 51');
+        await personalFiles.pagination.clickOnPreviousPage();
+        await personalFiles.dataTable.spinnerWaitForReload();
+        expect(await personalFiles.pagination.getRange()).toContain('Showing 1-25 of 51');
+      });
+
+      test('[XAT-4534] Previous button is disabled on first page', async ({ personalFiles }) => {
+        expect(await personalFiles.pagination.getCurrentPage()).toContain('Page 1');
+        expect(await personalFiles.pagination.isPreviousEnabled()).toBe(false);
+      });
+
+      test('[XAT-4535] Next button is disabled on last page', async ({ personalFiles }) => {
+        await personalFiles.pagination.openMaxItemsMenu();
+        await personalFiles.pagination.clickNthItem(3);
+        expect(await personalFiles.pagination.getCurrentPage()).toContain('Page 1');
+        expect(await personalFiles.pagination.isNextEnabled()).toBe(false);
+      });
+    });
   });
 
   test.describe('on Favorites', () => {
     test.beforeAll(async () => {
+      const initialFavoritesTotalItems = await favoritesApi.getFavoritesTotalItems(username);
+      await favoritesApi.addFavoritesByIds('file', filesIds);
       await favoritesApi.waitForApi(username, { expect: initialFavoritesTotalItems + 51 });
     });
 
-    favoritesTests(username);
+    test.describe('Pagination controls : ', () => {
+      test.beforeEach(async ({ loginPage, favoritePage }) => {
+        await loginPage.navigate();
+        await loginPage.loginUser({ username: username, password: username });
+
+        await favoritePage.navigate();
+        await favoritePage.waitForPageLoad();
+      });
+
+      test('[XAT-4575] Pagination control default items', async ({ favoritePage }) => {
+        expect(await favoritePage.pagination.getRange()).toContain('1-25 of 51');
+        expect(await favoritePage.pagination.getMaxItems()).toContain('25');
+        expect(await favoritePage.pagination.getCurrentPage()).toContain('Page 1');
+        expect(await favoritePage.pagination.getTotalPages()).toContain('of 3');
+        expect(await favoritePage.pagination.isPreviousEnabled()).toBe(false);
+        expect(await favoritePage.pagination.isNextEnabled()).toBe(true);
+      });
+
+      test('[XAT-4576] Items per page values', async ({ favoritePage }) => {
+        await favoritePage.pagination.openMaxItemsMenu();
+        expect(await favoritePage.pagination.getItemsCount()).toBe(3);
+        await favoritePage.pagination.clickMenuItem('25');
+        await favoritePage.dataTable.spinnerWaitForReload();
+        expect(await favoritePage.pagination.getMaxItems()).toContain('25');
+        expect(await favoritePage.pagination.getTotalPages()).toContain('of 3');
+
+        await favoritePage.pagination.openMaxItemsMenu();
+        await favoritePage.pagination.clickMenuItem('50');
+        await favoritePage.dataTable.spinnerWaitForReload();
+        expect(await favoritePage.pagination.getMaxItems()).toContain('50');
+        expect(await favoritePage.pagination.getTotalPages()).toContain('of 2');
+
+        await favoritePage.pagination.closeMenu();
+
+        await favoritePage.pagination.openMaxItemsMenu();
+        await favoritePage.pagination.clickMenuItem('100');
+        await favoritePage.dataTable.spinnerWaitForReload();
+        expect(await favoritePage.pagination.getMaxItems()).toContain('100');
+        expect(await favoritePage.pagination.getTotalPages()).toContain('of 1');
+
+        await favoritePage.pagination.resetToDefaultPageSize();
+      });
+
+      test('[XAT-4578] Change the current page from the page selector', async ({ favoritePage }) => {
+        await favoritePage.pagination.clickOnNextPage();
+        expect(await favoritePage.pagination.getRange()).toContain('Showing 26-50 of 51');
+        expect(await favoritePage.pagination.getCurrentPage()).toContain('Page 2');
+        expect(await favoritePage.pagination.isPreviousEnabled()).toBe(true);
+        expect(await favoritePage.pagination.isNextEnabled()).toBe(true);
+        await favoritePage.pagination.resetToDefaultPageSize();
+      });
+
+      test('[XAT-4580] Next and Previous buttons navigation', async ({ favoritePage }) => {
+        await favoritePage.pagination.openMaxItemsMenu();
+        await favoritePage.pagination.clickMenuItem('25');
+        expect(await favoritePage.pagination.getMaxItems()).toContain('25');
+        await favoritePage.pagination.clickOnNextPage();
+        await favoritePage.dataTable.spinnerWaitForReload();
+        expect(await favoritePage.pagination.getRange()).toContain('Showing 26-50 of 51');
+        await favoritePage.pagination.clickOnPreviousPage();
+        await favoritePage.dataTable.spinnerWaitForReload();
+        expect(await favoritePage.pagination.getRange()).toContain('Showing 1-25 of 51');
+      });
+
+      test('[XAT-4579] Next button is disabled on last page', async ({ favoritePage }) => {
+        await favoritePage.pagination.openMaxItemsMenu();
+        await favoritePage.pagination.clickNthItem(3);
+        expect(await favoritePage.pagination.getCurrentPage()).toContain('Page 1');
+        expect(await favoritePage.pagination.isNextEnabled()).toBe(false);
+      });
+    });
   });
 });

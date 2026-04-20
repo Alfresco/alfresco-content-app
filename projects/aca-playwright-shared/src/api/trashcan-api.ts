@@ -23,6 +23,7 @@
  */
 
 import { ApiClientFactory } from './api-client-factory';
+import { logger } from '../utils';
 
 export class TrashcanApi {
   private readonly apiService = new ApiClientFactory();
@@ -50,7 +51,7 @@ export class TrashcanApi {
         }
       }
     } catch (error) {
-      console.error('User Actions - emptyTrashcan failed : ', error);
+      logger.error(`User Actions - emptyTrashcan failed: ${error}`);
     }
   }
 }

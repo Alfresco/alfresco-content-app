@@ -23,6 +23,7 @@
  */
 
 import { ApiClientFactory } from './api-client-factory';
+import { logger } from '../utils';
 import {
   Site,
   SiteBodyCreate,
@@ -86,7 +87,7 @@ export class SitesApi {
         }
       }
     } catch (error) {
-      console.error(`${this.constructor.name} ${this.deleteSites.name}`, error);
+      logger.error(`${this.constructor.name} ${this.deleteSites.name}: ${error}`);
     }
   }
 
@@ -98,7 +99,7 @@ export class SitesApi {
     try {
       return this.apiService.sites.updateSiteMembership(siteId, userId, siteRole);
     } catch (error) {
-      console.error(`SitesApi updateSiteMember : catch : `, error);
+      logger.error(`SitesApi updateSiteMember : catch : ${error}`);
       return new SiteMemberEntry();
     }
   }
@@ -153,7 +154,7 @@ export class SitesApi {
     try {
       return this.apiService.sites.deleteSiteMembership(siteId, userId);
     } catch (error) {
-      console.error(`SitesApi deleteSiteMember : catch : `, error);
+      logger.error(`SitesApi deleteSiteMember : catch : ${error}`);
     }
   }
 

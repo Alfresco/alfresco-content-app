@@ -24,7 +24,7 @@
 
 import * as fs from 'fs';
 import { ApiClientFactory } from './api-client-factory';
-import { Utils, waitForApi } from '../utils';
+import { logger, Utils, waitForApi } from '../utils';
 import { NodeBodyCreate, NodeEntry, ResultSetPaging, SearchRequest } from '@alfresco/js-api';
 
 export class FileActionsApi {
@@ -208,16 +208,16 @@ export class FileActionsApi {
       try {
         return (await this.queryNodesSearchHighlight(searchTerm)).list.pagination.totalItems;
       } catch (error) {
-        console.warn(`queryNodesSearchHighlight failed for "${searchTerm}":`, error);
+        logger.warn(`queryNodesSearchHighlight failed for "${searchTerm}": ${error}`);
         return 0;
       }
     };
 
     try {
       await waitForApi(apiCall, predicate, 30, 2500);
-      console.log(`waitForNodesSearchHighlight: Found ${data.expect} nodes with search term "${searchTerm}"`);
+      logger.log(`waitForNodesSearchHighlight: Found ${data.expect} nodes with search term "${searchTerm}"`);
     } catch (error) {
-      console.error(`Error: ${error}`);
+      logger.error(`Error: ${error}`);
     }
   }
 
@@ -230,7 +230,7 @@ export class FileActionsApi {
       };
       return this.apiService.nodes.updateNodeContent(nodeId, content, opts);
     } catch (error) {
-      console.error(`${this.constructor.name} ${this.updateNodeContent.name}`, error);
+      logger.error(`${this.constructor.name} ${this.updateNodeContent.name}: ${error}`);
       return Promise.reject(error);
     }
   }

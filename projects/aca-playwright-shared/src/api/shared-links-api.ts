@@ -24,7 +24,7 @@
 
 import { ApiClientFactory } from './api-client-factory';
 import { SharedLinkEntry, SharedLinkPaging } from '@alfresco/js-api';
-import { Utils } from '../utils';
+import { logger, Utils } from '../utils';
 
 export class SharedLinksApi {
   private readonly apiService: ApiClientFactory;
@@ -60,7 +60,7 @@ export class SharedLinksApi {
         }
       }
     } catch (error) {
-      console.error(`SharedLinksApi shareFilesByIds : catch : `, error);
+      logger.error(`SharedLinksApi shareFilesByIds : catch : ${error}`);
     }
     return sharedLinks;
   }
@@ -72,7 +72,7 @@ export class SharedLinksApi {
       };
       return this.apiService.share.listSharedLinks(opts);
     } catch (error) {
-      console.error(`SharedLinksApi getSharedLinks : catch : `, error);
+      logger.error(`SharedLinksApi getSharedLinks : catch : ${error}`);
       return new SharedLinkPaging();
     }
   }
@@ -91,8 +91,7 @@ export class SharedLinksApi {
 
       return await Utils.retryCall(sharedFile);
     } catch (error) {
-      console.error(`SharedLinksApi waitForFilesToBeShared :  catch : ${error}`);
-      console.error(`\tWait timeout reached waiting for files to be shared`);
+      logger.error(`SharedLinksApi waitForFilesToBeShared : catch : ${error} - Wait timeout reached waiting for files to be shared`);
     }
   }
 
@@ -102,7 +101,7 @@ export class SharedLinksApi {
       const found = sharedLinksEntries.find((sharedLink) => sharedLink.entry.nodeId === fileId);
       return found?.entry.id;
     } catch (error) {
-      console.error(`SharedLinksApi getSharedIdOfNode : catch : `, error);
+      logger.error(`SharedLinksApi getSharedIdOfNode : catch : ${error}`);
       return null;
     }
   }
@@ -112,7 +111,7 @@ export class SharedLinksApi {
       const sharedId = await this.getSharedIdOfNode(fileId);
       return this.apiService.share.deleteSharedLink(sharedId);
     } catch (error) {
-      console.error(`SharedLinksApi unshareFileById : catch : `, error);
+      logger.error(`SharedLinksApi unshareFileById : catch : ${error}`);
     }
   }
 
@@ -134,8 +133,7 @@ export class SharedLinksApi {
 
       return await Utils.retryCall(sharedFile);
     } catch (error) {
-      console.error(`SharedLinksApi waitForFilesToNotBeShared :  catch : ${error}`);
-      console.error(`\tWait timeout reached waiting for files to no longer be shared`);
+      logger.error(`SharedLinksApi waitForFilesToNotBeShared : catch : ${error} - Wait timeout reached waiting for files to no longer be shared`);
     }
   }
 }

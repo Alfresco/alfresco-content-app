@@ -24,7 +24,7 @@
 
 import { ApiClientFactory } from './api-client-factory';
 import { FavoriteEntry, FavoritePaging } from '@alfresco/js-api';
-import { Utils } from '../utils';
+import { logger, Utils } from '../utils';
 
 export class FavoritesPageApi {
   private readonly apiService: ApiClientFactory;
@@ -124,7 +124,7 @@ export class FavoritesPageApi {
         }
       }
     } catch (error) {
-      console.error('FavoritesApi: removeFavoritesByIds failed ', error);
+      logger.error(`FavoritesApi: removeFavoritesByIds failed: ${error}`);
     }
   }
 }

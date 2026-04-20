@@ -45,6 +45,7 @@ import {
   TagsApi
 } from '@alfresco/js-api';
 import { users } from '../base-config';
+import { logger } from '../utils';
 import { Person, PersonModel } from './people-api-models';
 
 export interface AcaBackend {
@@ -133,7 +134,7 @@ export class ApiClientFactory {
     try {
       e = await this.alfrescoApi.login(user, userPassword);
     } catch (error) {
-      console.error(`[API Client Factory] Log in user ${user} failed ${e}`);
+      logger.error(`[API Client Factory] Log in user ${user} failed ${e}`);
       throw error;
     }
   }
@@ -143,7 +144,7 @@ export class ApiClientFactory {
     try {
       e = await this.alfrescoApi.login(user.username, user.password);
     } catch (error) {
-      console.error(`[API Client Factory] Log in user ${user.username} failed ${e}`);
+      logger.error(`[API Client Factory] Log in user ${user.username} failed ${e}`);
       throw error;
     }
   }
@@ -155,7 +156,7 @@ export class ApiClientFactory {
     try {
       return peopleApi.createPerson(person);
     } catch (error) {
-      console.error('[API Client Factory] createUser failed : ', error);
+      logger.error(`[API Client Factory] createUser failed: ${error}`);
       return null;
     }
   }
@@ -166,7 +167,7 @@ export class ApiClientFactory {
     try {
       return peopleApi.updatePerson(username, { password: newPassword });
     } catch (error) {
-      console.error('[API Client Factory] changePassword failed : ', error);
+      logger.error(`[API Client Factory] changePassword failed: ${error}`);
       return null;
     }
   }
