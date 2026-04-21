@@ -125,9 +125,9 @@ export class ApiClientFactory {
   }
 
   async login(userName: string, password?: string) {
-    const predefinedUserKey = Object.keys(users).find((user) => user === userName || users[user as keyof typeof users].username === userName) as
-      | keyof typeof users
-      | undefined;
+    const predefinedUserKey = Object.keys(users).find(
+      (userAlias) => userAlias === userName || users[userAlias as keyof typeof users].username === userName
+    ) as keyof typeof users | undefined;
     const userToLog = predefinedUserKey ? users[predefinedUserKey] : undefined;
 
     const user = userToLog?.username ?? userName;
