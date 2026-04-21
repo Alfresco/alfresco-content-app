@@ -1,5 +1,5 @@
 ---
-Title: Changelog for alfresco-content-app v7.4.0
+Title: Changelog for alfresco-content-app v7.4.1
 ---
 
 # Changelog

@@ -155,6 +155,8 @@ jobs:
     needs: [lint, unit-tests]
     name: "Publish Git Tag"
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Check previous jobs status
         if: ${{ inputs.publish-git-tag == 'false' || contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
