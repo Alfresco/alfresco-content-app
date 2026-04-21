@@ -1,8 +1,8 @@
 ---
-Title: Audit info, alfresco-content-app 7.4.0
+Title: Audit info, alfresco-content-app 7.4.1
 ---
 
-# Audit information for alfresco-content-app 7.4.0
+# Audit information for alfresco-content-app 7.4.1
 
 This page lists the security audit of the dependencies this project depends on.
 

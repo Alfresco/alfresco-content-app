@@ -1,8 +1,8 @@
 ---
-Title: License info, alfresco-content-app 7.4.0
+Title: License info, alfresco-content-app 7.4.1
 ---
 
-# License information for alfresco-content-app 7.4.0
+# License information for alfresco-content-app 7.4.1
 
 This page lists all third party libraries the project depends on.
 
