@@ -56,7 +56,9 @@ export class SharedLinksApi {
       if (ids && ids.length > 0) {
         for (const id of ids) {
           const sharedLink = await this.shareFileById(id, expireDate);
-          sharedLinks.push(sharedLink);
+          if (sharedLink) {
+            sharedLinks.push(sharedLink);
+          }
         }
       }
     } catch (error) {

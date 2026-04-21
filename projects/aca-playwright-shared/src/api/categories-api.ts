@@ -48,8 +48,8 @@ export class CategoriesApi {
     }
   }
 
-  async deleteCategory(categoryId: string): Promise<void> {
-    if (categoryId === null) {
+  async deleteCategory(categoryId?: string): Promise<void> {
+    if (!categoryId) {
       logger.error('categoryId is null, skipping deletion');
       return;
     }

@@ -73,7 +73,7 @@ export class TagsApi {
 
   async assignTagToNode(nodeId: string, tag: TagBody): Promise<TagEntry> {
     try {
-      return this.apiService.tagsApi.assignTagToNode(nodeId, tag);
+      return await this.apiService.tagsApi.assignTagToNode(nodeId, tag);
     } catch (error) {
       const message = `Failed to assign tag to node: ${error}`;
       logger.error(message);

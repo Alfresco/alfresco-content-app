@@ -106,7 +106,7 @@ test.describe('Pagination on multiple pages : ', () => {
 
   const parent = `parent-multi-${random}`;
   let parentId: string;
-  let filesIds: string[];
+  let fileIds: string[];
 
   const apiClientFactory = new ApiClientFactory();
 
@@ -124,9 +124,9 @@ test.describe('Pagination on multiple pages : ', () => {
       .map((name, index): string => `${name}-${index + 1}-${random}.txt`);
 
     parentId = (await nodesApi.createFolder(parent)).entry.id;
-    filesIds = (await nodesApi.createFiles(files, parent)).list?.entries?.map((entries) => entries.entry.id) ?? [];
+    fileIds = (await nodesApi.createFiles(files, parent)).list?.entries?.map((entries) => entries.entry.id) ?? [];
 
-    expect(filesIds.length).toBe(51);
+    expect(fileIds.length).toBe(51);
   });
 
   test.afterAll(async () => {
@@ -177,7 +177,7 @@ test.describe('Pagination on multiple pages : ', () => {
   test.describe('on Favorites', () => {
     test.beforeAll(async () => {
       const initialFavoritesTotalItems = await favoritesApi.getFavoritesTotalItems(username);
-      await favoritesApi.addFavoritesByIds('file', filesIds);
+      await favoritesApi.addFavoritesByIds('file', fileIds);
       await favoritesApi.waitForApi(username, { expect: initialFavoritesTotalItems + 51 });
     });
 

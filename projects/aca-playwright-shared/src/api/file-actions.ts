@@ -230,7 +230,7 @@ export class FileActionsApi {
         comment: comment,
         name: newName
       };
-      return this.apiService.nodes.updateNodeContent(nodeId, content, opts);
+      return await this.apiService.nodes.updateNodeContent(nodeId, content, opts);
     } catch (error) {
       logger.error(`${this.constructor.name} ${this.updateNodeContent.name}: ${error}`);
       return Promise.reject(error);

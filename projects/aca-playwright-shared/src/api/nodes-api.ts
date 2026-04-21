@@ -144,7 +144,7 @@ export class NodesApi {
     }
 
     try {
-      return this.apiService.nodes.createNode(parentId, nodeBody, {
+      return await this.apiService.nodes.createNode(parentId, nodeBody, {
         majorVersion
       });
     } catch (error) {

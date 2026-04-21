@@ -56,7 +56,7 @@ export class SitesApi {
     } as SiteBodyCreate;
 
     try {
-      return this.apiService.sites.createSite(site);
+      return await this.apiService.sites.createSite(site);
     } catch (error) {
       const message = `SitesApi ${this.createSite.name}: ${error}`;
       logger.error(message);
@@ -103,7 +103,7 @@ export class SitesApi {
     } as SiteMembershipBodyUpdate;
 
     try {
-      return this.apiService.sites.updateSiteMembership(siteId, userId, siteRole);
+      return await this.apiService.sites.updateSiteMembership(siteId, userId, siteRole);
     } catch (error) {
       logger.error(`SitesApi updateSiteMember : catch : ${error}`);
       return new SiteMemberEntry();

@@ -160,7 +160,7 @@ export class ApiClientFactory {
     const peopleApi = new PeopleApi(this.alfrescoApi);
 
     try {
-      return peopleApi.createPerson(person);
+      return await peopleApi.createPerson(person);
     } catch (error) {
       logger.error(`[API Client Factory] createUser failed: ${error}`);
       return null;
@@ -171,7 +171,7 @@ export class ApiClientFactory {
     const peopleApi = new PeopleApi(this.alfrescoApi);
 
     try {
-      return peopleApi.updatePerson(username, { password: newPassword });
+      return await peopleApi.updatePerson(username, { password: newPassword });
     } catch (error) {
       logger.error(`[API Client Factory] changePassword failed: ${error}`);
       return null;
