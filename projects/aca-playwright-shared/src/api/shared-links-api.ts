@@ -84,10 +84,10 @@ export class SharedLinksApi {
       const sharedFile = async () => {
         const sharedFiles = (await this.getSharedLinks()).list?.entries?.map((link) => link.entry.nodeId) ?? [];
         const foundItems = fileIds.every((id) => sharedFiles.includes(id));
-        if (foundItems) {
-          return Promise.resolve(foundItems);
-        } else {
-          return Promise.reject(foundItems);
+        if (!foundItems) {
+          const message = 'Not all files are shared yet';
+          logger.error(message);
+          throw new Error(message);
         }
       };
 
@@ -117,19 +117,17 @@ export class SharedLinksApi {
     }
   }
 
-  async waitForFilesToNotBeShared(fileIds: string[]): Promise<any> {
+  async waitForFilesToNotBeShared(fileIds: string[]): Promise<void> {
     try {
       const sharedFile = async () => {
         const sharedFiles = (await this.getSharedLinks()).list?.entries?.map((link) => link.entry.nodeId) ?? [];
 
-        const foundItems = fileIds.some((id) => {
-          return sharedFiles.includes(id);
-        });
+        const foundItems = fileIds.some((id) => sharedFiles.includes(id));
 
         if (foundItems) {
-          return Promise.reject(foundItems);
-        } else {
-          return Promise.resolve(foundItems);
+          const message = 'Some files are still shared';
+          logger.error(message);
+          throw new Error(message);
         }
       };
 
