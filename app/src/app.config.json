@@ -34,7 +34,7 @@
   "locale": "en",
   "application": {
     "name": "Workspace",
-    "version": "7.3.0",
+    "version": "7.4.0",
     "logo": "assets/images/app-logo.svg",
     "copyright": "APP.COPYRIGHT"
   },
