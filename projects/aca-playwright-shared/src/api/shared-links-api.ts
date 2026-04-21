@@ -91,7 +91,7 @@ export class SharedLinksApi {
         }
       };
 
-      return await Utils.retryCall(sharedFile);
+      await Utils.retryCall(sharedFile);
     } catch (error) {
       logger.error(`SharedLinksApi waitForFilesToBeShared : catch : ${error} - Wait timeout reached waiting for files to be shared`);
     }
@@ -111,7 +111,7 @@ export class SharedLinksApi {
   async unshareFileById(fileId: string): Promise<void> {
     try {
       const sharedId = await this.getSharedIdOfNode(fileId);
-      return await this.apiService.share.deleteSharedLink(sharedId);
+      await this.apiService.share.deleteSharedLink(sharedId);
     } catch (error) {
       logger.error(`SharedLinksApi unshareFileById : catch : ${error}`);
     }
@@ -131,7 +131,7 @@ export class SharedLinksApi {
         }
       };
 
-      return await Utils.retryCall(sharedFile);
+      await Utils.retryCall(sharedFile);
     } catch (error) {
       logger.error(`SharedLinksApi waitForFilesToNotBeShared : catch : ${error} - Wait timeout reached waiting for files to no longer be shared`);
     }
