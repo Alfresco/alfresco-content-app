@@ -107,5 +107,9 @@ export const TEST_FILES = {
     name: 'file-protected',
     data: 'Lorem ipsum dolor sit amet',
     password: '0000'
+  },
+  AZW3_FILE: {
+    path: resolve(__dirname, 'file-azw3.azw3'),
+    name: 'file-azw3'
   }
 };

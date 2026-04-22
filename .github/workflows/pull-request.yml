@@ -109,7 +109,7 @@ jobs:
         run: npm run ci:test -- $TEST_OPTS
 
   e2es-playwright:
-    if: ${{ !contains(github.event.pull_request.labels.*.name, 'override-ci') }}
+    if: ${{ !contains(github.event.pull_request.labels.*.name, 'ci:skip-e2e') }}
     needs: [lint, build, unit-tests]
     name: E2E | ${{ matrix.browser || 'chromium' }} | ${{ matrix.e2e-suites.name }} | Playwright
     runs-on: ubuntu-24.04
@@ -258,8 +258,8 @@ jobs:
         run: exit 1
 
       - name: Check e2e skipped
-        if: ${{ contains(github.event.pull_request.labels.*.name, 'override-ci') }}
-        run: echo "E2E tests were skipped due to override-ci label"
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'ci:skip-e2e') }}
+        run: echo "E2E tests were skipped due to ci:skip-e2e label"
 
       - name: Checkout
         uses: actions/checkout@v6

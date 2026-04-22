@@ -32,7 +32,8 @@ import {
   Utils,
   TrashcanApi,
   PersonalFilesPage,
-  timeouts
+  timeouts,
+  logger
 } from '@alfresco/aca-playwright-shared';
 
 test.use({ channel: 'chrome' });
@@ -49,6 +50,7 @@ test.describe('viewer file types', () => {
   const randomMp3Name = `${TEST_FILES.MP3_FILE.name}-${randomString}.mp3`;
   const randomMp4Name = `${TEST_FILES.MP4_FILE.name}-${randomString}.mp4`;
   const randomWebmName = `${TEST_FILES.WEBM_FILE.name}-${randomString}.webm`;
+  const randomAzw3Name = `${TEST_FILES.AZW3_FILE.name}-${randomString}.azw3`;
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
   let fileActionApi: FileActionsApi;
@@ -61,7 +63,9 @@ test.describe('viewer file types', () => {
       await apiClientFactory.createUser({ username });
     } catch (exception) {
       if (JSON.parse(exception.message).error.statusCode !== 409) {
-        throw new Error(`----- beforeAll failed : ${exception}`);
+        const errorMessage = `----- beforeAll failed : ${exception}`;
+        logger.error(errorMessage);
+        throw new Error(errorMessage);
       }
     }
 
@@ -78,7 +82,8 @@ test.describe('viewer file types', () => {
       { path: TEST_FILES.PPTX_FILE.path, name: randomPptxName },
       { path: TEST_FILES.MP3_FILE.path, name: randomMp3Name },
       { path: TEST_FILES.MP4_FILE.path, name: randomMp4Name },
-      { path: TEST_FILES.WEBM_FILE.path, name: randomWebmName }
+      { path: TEST_FILES.WEBM_FILE.path, name: randomWebmName },
+      { path: TEST_FILES.AZW3_FILE.path, name: randomAzw3Name }
     ];
 
     for (const file of filesToUpload) {
@@ -86,6 +91,7 @@ test.describe('viewer file types', () => {
     }
 
     await fileActionApi.waitForNodes(randomWebmName, { expect: 1 });
+    await fileActionApi.waitForNodes(randomAzw3Name, { expect: 1 });
   });
 
   test.beforeEach(async ({ loginPage }) => {
@@ -96,14 +102,25 @@ test.describe('viewer file types', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
+  async function openFileInViewer(page: PersonalFilesPage, fileName: string) {
+    await page.dataTable.performClickFolderOrFileToOpen(fileName);
+    expect(await page.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    await page.viewer.waitForViewerLoaderToFinish(timeouts.fortySeconds);
+    await Utils.delayInSeconds(1);
+  }
+
   async function checkViewerDisplay(
     page: PersonalFilesPage,
     fileName: string,
     fileType: 'viewerImage' | 'viewerDocument' | 'viewerMedia' = 'viewerImage'
   ) {
-    await page.dataTable.performClickFolderOrFileToOpen(fileName);
-    expect(await page.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-    await page.viewer.waitForViewerLoaderToFinish(timeouts.fortySeconds);
+    await openFileInViewer(page, fileName);
+
+    if (await page.viewer.unknownFormat.isVisible()) {
+      const unknownFormatErrorMessage = `File ${fileName} is not displayed in the viewer. Unknown format message is shown instead.`;
+      logger.error(unknownFormatErrorMessage);
+      throw new Error(unknownFormatErrorMessage);
+    }
 
     const viewerElements = {
       viewerImage: page.viewer.viewerImage,
@@ -113,10 +130,17 @@ test.describe('viewer file types', () => {
 
     const viewerElement = viewerElements[fileType];
     if (!viewerElement) {
-      throw new Error(`Wrong viewer file type: ${fileType}`);
+      const errorMessage = `Wrong viewer file type: ${fileType}`;
+      logger.error(errorMessage);
+      throw new Error(errorMessage);
     }
 
     await expect(viewerElement).toBeVisible();
+  }
+
+  async function checkViewerDisplayUnknownFormat(page: PersonalFilesPage, fileName: string) {
+    await openFileInViewer(page, fileName);
+    await expect(page.viewer.unknownFormat).toBeVisible();
   }
 
   test('[XAT-17177] Image files are properly displayed in the viewer - JPG', async ({ personalFiles }) => {
@@ -153,6 +177,10 @@ test.describe('viewer file types', () => {
 
   test('[XAT-17185] Video files are properly displayed in the viewer - WEBM', async ({ personalFiles }) => {
     await checkViewerDisplay(personalFiles, randomWebmName, 'viewerMedia');
+  });
+
+  test('[XAT-19318] Unsupported file types have proper fallback', async ({ personalFiles }) => {
+    await checkViewerDisplayUnknownFormat(personalFiles, randomAzw3Name);
   });
 
   test('[XAT-5485] User can select a document page through the thumbnail pane', async ({ personalFiles }) => {
