@@ -23,7 +23,7 @@
  */
 
 import { ApiClientFactory } from './api-client-factory';
-import { Utils } from '../utils';
+import { logger, Utils } from '../utils';
 import { ResultSetPaging, SearchRequest } from '@alfresco/js-api';
 
 export class SearchApi {
@@ -59,7 +59,7 @@ export class SearchApi {
   }
 
   async getTotalItems(username: string): Promise<number> {
-    return (await this.querySearchFiles(username)).list.pagination.totalItems;
+    return (await this.querySearchFiles(username)).list?.pagination?.totalItems ?? 0;
   }
 
   async waitForApi(username: string, data: { expect: number }) {
@@ -92,29 +92,31 @@ export class SearchApi {
 
       do {
         result = await this.apiService.search.search(query);
-        const currentCount = result.list.pagination.count;
+        const currentCount = result.list?.pagination?.count ?? 0;
 
         if (currentCount !== options.nodesExpected) {
           retryCount++;
 
           if (retryCount % 30 === 0) {
-            console.info(
+            logger.info(
               `waitForFolderPathIndexing: After ${retryCount} seconds, expected ${options.nodesExpected} nodes but found ${currentCount} in folder ${folderId}`
             );
           }
 
           if (retryCount >= retryLimit) {
-            throw new Error(`Expected ${options.nodesExpected} nodes but found ${currentCount} after ${retryLimit} retries`);
+            const message = `Expected ${options.nodesExpected} nodes but found ${currentCount} after ${retryLimit} retries`;
+            logger.error(message);
+            throw new Error(message);
           }
 
           await Utils.delayInSeconds(1);
         }
-      } while (result.list.pagination.count !== options.nodesExpected);
+      } while (result.list?.pagination?.count !== options.nodesExpected);
 
-      console.info(`waitForFolderPathIndexing: Found expected ${options.nodesExpected} nodes in folder ${folderId}`);
-      return result.list.pagination.count;
+      logger.info(`waitForFolderPathIndexing: Found expected ${options.nodesExpected} nodes in folder ${folderId}`);
+      return result.list?.pagination?.count ?? 0;
     } catch (error) {
-      console.error(`waitForFolderPathIndexing failed for folderId "${folderId}": ${error}`);
+      logger.error(`waitForFolderPathIndexing failed for folderId "${folderId}": ${error}`);
       throw error;
     }
   }

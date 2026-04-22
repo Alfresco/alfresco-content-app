@@ -24,7 +24,7 @@
 
 import * as fs from 'fs';
 import { ApiClientFactory } from './api-client-factory';
-import { Utils, waitForApi } from '../utils';
+import { logger, Utils, waitForApi } from '../utils';
 import { NodeBodyCreate, NodeEntry, ResultSetPaging, SearchRequest } from '@alfresco/js-api';
 
 export class FileActionsApi {
@@ -161,7 +161,9 @@ export class FileActionsApi {
       await waitForApi(apiCall, predicate, 30, 2500);
     } catch {
       const actual = await apiCall();
-      throw new Error(`waitForNodes: Timed out waiting for "${searchTerm}" — expected ${data.expect} nodes, found ${actual}`);
+      const message = `waitForNodes: Timed out waiting for "${searchTerm}" — expected ${data.expect} nodes, found ${actual}`;
+      logger.error(message);
+      throw new Error(message);
     }
   }
 
@@ -208,16 +210,16 @@ export class FileActionsApi {
       try {
         return (await this.queryNodesSearchHighlight(searchTerm)).list.pagination.totalItems;
       } catch (error) {
-        console.warn(`queryNodesSearchHighlight failed for "${searchTerm}":`, error);
+        logger.warn(`queryNodesSearchHighlight failed for "${searchTerm}": ${error}`);
         return 0;
       }
     };
 
     try {
       await waitForApi(apiCall, predicate, 30, 2500);
-      console.log(`waitForNodesSearchHighlight: Found ${data.expect} nodes with search term "${searchTerm}"`);
+      logger.log(`waitForNodesSearchHighlight: Found ${data.expect} nodes with search term "${searchTerm}"`);
     } catch (error) {
-      console.error(`Error: ${error}`);
+      logger.error(`Error: ${error}`);
     }
   }
 
@@ -228,9 +230,9 @@ export class FileActionsApi {
         comment: comment,
         name: newName
       };
-      return this.apiService.nodes.updateNodeContent(nodeId, content, opts);
+      return await this.apiService.nodes.updateNodeContent(nodeId, content, opts);
     } catch (error) {
-      console.error(`${this.constructor.name} ${this.updateNodeContent.name}`, error);
+      logger.error(`${this.constructor.name} ${this.updateNodeContent.name}: ${error}`);
       return Promise.reject(error);
     }
   }

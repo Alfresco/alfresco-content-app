@@ -23,6 +23,7 @@
  */
 
 import { ApiClientFactory } from './api-client-factory';
+import { logger } from '../utils';
 import { CategoryEntry, CategoryBody, CategoryQuery, CategoryPaging, CategoryLinkBody } from '@alfresco/js-api';
 
 export class CategoriesApi {
@@ -42,21 +43,21 @@ export class CategoriesApi {
     try {
       return this.apiService.categoriesApi.createSubcategories(categoryId, categoryBodyCreate, opts);
     } catch (error) {
-      console.error(error);
+      logger.error(`${error}`);
       return null;
     }
   }
 
-  async deleteCategory(categoryId: string): Promise<void> {
-    if (categoryId === null) {
-      console.error('categoryId is null, skipping deletion');
+  async deleteCategory(categoryId?: string): Promise<void> {
+    if (!categoryId) {
+      logger.error('categoryId is null, skipping deletion');
       return;
     }
 
     try {
       await this.apiService.categoriesApi.deleteCategory(categoryId);
     } catch (error) {
-      console.error(`${this.constructor.name} ${this.deleteCategory.name}: ${error}`);
+      logger.error(`${this.constructor.name} ${this.deleteCategory.name}: ${error}`);
     }
   }
 
@@ -68,7 +69,7 @@ export class CategoriesApi {
     try {
       return this.apiService.categoriesApi.linkNodeToCategory(nodeId, categoryLinkBodyCreate, opts);
     } catch (error) {
-      console.error(`${this.constructor.name} ${this.linkNodeToCategory.name}: ${error}`);
+      logger.error(`${this.constructor.name} ${this.linkNodeToCategory.name}: ${error}`);
       return null;
     }
   }

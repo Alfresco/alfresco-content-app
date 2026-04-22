@@ -23,7 +23,7 @@
  */
 
 import { FindQuery } from '@alfresco/js-api';
-import { Utils } from '../utils';
+import { logger, Utils } from '../utils';
 import { ApiClientFactory } from './api-client-factory';
 
 export class QueriesApi {
@@ -52,8 +52,7 @@ export class QueriesApi {
 
       return await Utils.retryCall(sites);
     } catch (error) {
-      console.error(`QueriesApi waitForSites : catch : `);
-      console.error(`\tExpected: ${data.expect} items, but found ${error}`);
+      logger.error(`QueriesApi waitForSites : catch : Expected: ${data.expect} items, but found ${error}`);
       return null;
     }
   }
@@ -68,7 +67,7 @@ export class QueriesApi {
       const sites = await this.apiService.queries.findSites(searchTerm, opts);
       return sites.list.pagination.totalItems;
     } catch (error) {
-      console.error(`QueriesApi findSitesTotalItems : catch :`, error);
+      logger.error(`QueriesApi findSitesTotalItems : catch : ${error}`);
       return null;
     }
   }

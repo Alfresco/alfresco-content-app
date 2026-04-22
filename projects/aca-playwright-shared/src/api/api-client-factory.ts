@@ -45,6 +45,7 @@ import {
   TagsApi
 } from '@alfresco/js-api';
 import { users } from '../base-config';
+import { logger } from '../utils';
 import { Person, PersonModel } from './people-api-models';
 
 export interface AcaBackend {
@@ -89,13 +90,9 @@ export class ApiClientFactory {
   public queriesApi: QueriesApi;
   public categoriesApi: CategoriesApi;
   public tagsApi: TagsApi;
+
   constructor() {
     this.alfrescoApi = new AlfrescoApi(config);
-  }
-
-  public async setUpAcaBackend(userName: string, password?: string): Promise<AcaBackend> {
-    await this.login(userName, password);
-
     this.sites = new SitesApi(this.alfrescoApi);
     this.upload = new UploadApi(this.alfrescoApi);
     this.nodes = new NodesApi(this.alfrescoApi);
@@ -107,6 +104,7 @@ export class ApiClientFactory {
     this.search = new SearchApi(this.alfrescoApi);
     this.securityGroupsApi = new SecurityGroupsApi(this.alfrescoApi);
     this.securityMarksApi = new SecurityMarksApi(this.alfrescoApi);
+    this.contentClient = new ContentClient(config, '/alfresco');
     this.share = new SharedlinksApi(this.alfrescoApi);
     this.favorites = new FavoritesApi(this.alfrescoApi);
     this.trashCan = new TrashcanApi(this.alfrescoApi);
@@ -114,7 +112,10 @@ export class ApiClientFactory {
     this.queriesApi = new QueriesApi(this.alfrescoApi);
     this.categoriesApi = new CategoriesApi(this.alfrescoApi);
     this.tagsApi = new TagsApi(this.alfrescoApi);
+  }
 
+  public async setUpAcaBackend(userName: string, password?: string): Promise<AcaBackend> {
+    await this.login(userName, password);
     return this;
   }
 
@@ -124,49 +125,55 @@ export class ApiClientFactory {
   }
 
   async login(userName: string, password?: string) {
-    const predefinedUserKey = Object.keys(users).find((user) => user === userName || users[user].username === userName);
+    const predefinedUserKey = Object.keys(users).find(
+      (userAlias) => userAlias === userName || users[userAlias as keyof typeof users].username === userName
+    ) as keyof typeof users | undefined;
     const userToLog = predefinedUserKey ? users[predefinedUserKey] : undefined;
-    let e: any;
 
     const user = userToLog?.username ?? userName;
     const userPassword = userToLog?.password ?? password;
+    if (!userPassword) {
+      throw new Error(`[API Client Factory] No password provided for user ${user}`);
+    }
     try {
-      e = await this.alfrescoApi.login(user, userPassword);
+      await this.alfrescoApi.login(user, userPassword);
     } catch (error) {
-      console.error(`[API Client Factory] Log in user ${user} failed ${e}`);
+      logger.error(`[API Client Factory] Log in user ${user} failed ${error}`);
       throw error;
     }
   }
 
   async loginUser(user: PersonModel) {
-    let e: any;
+    if (!user.username || !user.password) {
+      throw new Error(`[API Client Factory] No username or password provided`);
+    }
     try {
-      e = await this.alfrescoApi.login(user.username, user.password);
+      await this.alfrescoApi.login(user.username, user.password);
     } catch (error) {
-      console.error(`[API Client Factory] Log in user ${user.username} failed ${e}`);
+      logger.error(`[API Client Factory] Log in user ${user.username} failed ${error}`);
       throw error;
     }
   }
 
-  async createUser(user: PersonModel): Promise<PersonEntry> {
+  async createUser(user: PersonModel): Promise<PersonEntry | null> {
     const person = new Person(user);
     const peopleApi = new PeopleApi(this.alfrescoApi);
 
     try {
-      return peopleApi.createPerson(person);
+      return await peopleApi.createPerson(person);
     } catch (error) {
-      console.error('[API Client Factory] createUser failed : ', error);
+      logger.error(`[API Client Factory] createUser failed: ${error}`);
       return null;
     }
   }
 
-  async changePassword(username: string, newPassword: string): Promise<PersonEntry> {
+  async changePassword(username: string, newPassword: string): Promise<PersonEntry | null> {
     const peopleApi = new PeopleApi(this.alfrescoApi);
 
     try {
-      return peopleApi.updatePerson(username, { password: newPassword });
+      return await peopleApi.updatePerson(username, { password: newPassword });
     } catch (error) {
-      console.error('[API Client Factory] changePassword failed : ', error);
+      logger.error(`[API Client Factory] changePassword failed: ${error}`);
       return null;
     }
   }

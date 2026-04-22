@@ -50,26 +50,34 @@ export class TagsApi {
         } else if ('list' in result) {
           const firstEntry = result.list?.entries?.[0];
           if (!firstEntry) {
-            throw new Error(`createTags returned a paging result with no entries for tag "${tag}"`);
+            const message = `createTags returned a paging result with no entries for tag "${tag}"`;
+            logger.error(message);
+            throw new Error(message);
           }
           created = firstEntry;
         } else {
-          throw new Error(`createTags returned an unexpected response format for tag "${tag}"`);
+          const message = `createTags returned an unexpected response format for tag "${tag}"`;
+          logger.error(message);
+          throw new Error(message);
         }
         logger.info(`Tag created: "${created.entry.tag}" (id: ${created.entry.id})`);
         results.push(created);
       }
       return results;
     } catch (error) {
-      throw new Error(`Failed to create tags: ${error}`);
+      const message = `Failed to create tags: ${error}`;
+      logger.error(message);
+      throw new Error(message);
     }
   }
 
   async assignTagToNode(nodeId: string, tag: TagBody): Promise<TagEntry> {
     try {
-      return this.apiService.tagsApi.assignTagToNode(nodeId, tag);
+      return await this.apiService.tagsApi.assignTagToNode(nodeId, tag);
     } catch (error) {
-      throw new Error(`Failed to assign tag to node: ${error}`);
+      const message = `Failed to assign tag to node: ${error}`;
+      logger.error(message);
+      throw new Error(message);
     }
   }
 
@@ -81,7 +89,9 @@ export class TagsApi {
         logger.info(`Tag deleted: ${tagLabel}(id: ${id})`);
       }
     } catch (error) {
-      throw new Error(`Failed to delete tags: ${error}`);
+      const message = `Failed to delete tags: ${error}`;
+      logger.error(message);
+      throw new Error(message);
     }
   }
 
@@ -89,7 +99,9 @@ export class TagsApi {
     try {
       return this.apiService.tagsApi.listTagsForNode(nodeId);
     } catch (error) {
-      throw new Error(`Failed to list tags for node: ${error}`);
+      const message = `Failed to list tags for node: ${error}`;
+      logger.error(message);
+      throw new Error(message);
     }
   }
 
@@ -97,7 +109,9 @@ export class TagsApi {
     try {
       return this.apiService.tagsApi.listTags(params);
     } catch (error) {
-      throw new Error(`Failed to list tags: ${error}`);
+      const message = `Failed to list tags: ${error}`;
+      logger.error(message);
+      throw new Error(message);
     }
   }
 
@@ -107,7 +121,9 @@ export class TagsApi {
       const tags = response.list?.entries.map((entry) => entry.entry) || [];
       await this.deleteTags(...tags);
     } catch (error) {
-      throw new Error(`Failed to delete tags by tag name: ${error}`);
+      const message = `Failed to delete tags by tag name: ${error}`;
+      logger.error(message);
+      throw new Error(message);
     }
   }
 }
