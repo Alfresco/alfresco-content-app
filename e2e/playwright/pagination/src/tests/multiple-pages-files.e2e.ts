@@ -126,7 +126,7 @@ test.describe('Pagination on multiple pages : ', () => {
     parentId = (await nodesApi.createFolder(parent)).entry.id;
     fileIds = (await nodesApi.createFiles(files, parent)).list?.entries?.map((entries) => entries.entry.id) ?? [];
 
-    expect(fileIds.length).toBe(51);
+    expect(fileIds).toHaveLength(51);
   });
 
   test.afterAll(async () => {
