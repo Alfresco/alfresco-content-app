@@ -10,11 +10,19 @@ aca-search-in-menu {
     background-color: var(--theme-dropdown-color);
     border: none;
 
-    &#{ms.$mat-icon-no-color} {
-      font-size: 18px;
-      width: 18px;
-      height: 18px;
-      margin-left: 2px;
+    --mdc-outlined-button-label-text-color: var(--adf-theme-foreground-text-color);
+    --mat-outlined-button-icon-offset: -4px;
+    --mat-outlined-button-icon-spacing: 8px;
+
+    color: var(--adf-theme-foreground-text-color);
+
+    #{ms.$mat-icon} {
+      font-size: 15.75px;
+      width: 15.75px;
+      height: 15.75px;
+      line-height: 15.75px;
+
+      --mat-icon-color: var(--adf-theme-foreground-text-color);
     }
 
     &:hover {
