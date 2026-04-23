@@ -48,6 +48,15 @@
 
         .adf-notification-history-menu_button-icon {
           color: var(--adf-theme-foreground-icon-color);
+
+          /* stylelint-disable-next-line selector-class-pattern */
+          .mat-badge-content {
+            width: 16px;
+            height: 16px;
+            margin: -8px;
+            border-radius: 50%;
+            background-color: var(--theme-accent-color);
+          }
         }
       }
     }

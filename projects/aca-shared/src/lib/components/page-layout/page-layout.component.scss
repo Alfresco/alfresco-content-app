@@ -10,6 +10,8 @@
     display: flex;
     align-items: center;
 
+    --mat-icon-color: var(--adf-theme-foreground-icon-color);
+
     &-button {
       margin-top: -1px;
     }
