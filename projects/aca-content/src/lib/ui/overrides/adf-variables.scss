@@ -1,7 +1,7 @@
-@use '@alfresco/adf-core/theming' as adf-core;
 @use 'sass:map';
 @use '../colors' as colors;
 @use '../typography' as typo;
+@use './globals' as globals;
 
 @mixin provide-adf-variables() {
   $typography: typo.$app-typography;
@@ -100,4 +100,6 @@
       #{$name}: #{$value};
     }
   }
+
+  @include globals.globals;
 }
