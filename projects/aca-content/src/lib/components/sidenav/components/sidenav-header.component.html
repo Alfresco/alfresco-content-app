@@ -4,7 +4,8 @@
       class="aca-sidenav-header-title-logo"
       data-automation-id="app-sidenav-header-title-logo"
       (click)="toggleNavBar.emit()"
-      [attr.aria-label]="'APP.TOOLTIPS.COLLAPSE_NAVIGATION' | translate">
+      [attr.aria-label]="'APP.TOOLTIPS.COLLAPSE_NAVIGATION' | translate"
+      #toggleNavbarButton>
       <img
         src="{{ logoUrl }}"
         title="{{ 'APP.TOOLTIPS.COLLAPSE_NAVIGATION' | translate }}"

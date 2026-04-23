@@ -22,9 +22,9 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, DestroyRef, EventEmitter, inject, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { Component, DestroyRef, ElementRef, EventEmitter, inject, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import { AppExtensionService, AppSettingsService, ToolbarComponent } from '@alfresco/aca-shared';
+import { AppExtensionService, AppService, AppSettingsService, ToolbarComponent } from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
@@ -38,6 +38,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   host: { class: 'app-sidenav-header' }
 })
 export class SidenavHeaderComponent implements OnInit {
+  private readonly appService = inject(AppService);
   private readonly appSettings = inject(AppSettingsService);
   private readonly appExtensions = inject(AppExtensionService);
 
@@ -51,6 +52,9 @@ export class SidenavHeaderComponent implements OnInit {
   @Output()
   toggleNavBar = new EventEmitter();
 
+  @ViewChild('toggleNavbarButton')
+  private readonly toggleNavbarButton: ElementRef;
+
   ngOnInit() {
     this.appExtensions
       .getHeaderActions()
@@ -58,5 +62,10 @@ export class SidenavHeaderComponent implements OnInit {
       .subscribe((actions) => {
         this.actions = actions;
       });
+    this.appService.toggleAppNavBar$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+      setTimeout(() => {
+        this.toggleNavbarButton.nativeElement.focus();
+      });
+    });
   }
 }

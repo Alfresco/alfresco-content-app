@@ -26,10 +26,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PageLayoutComponent } from './page-layout.component';
 import { AppService } from '../../services/app.service';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { NoopTranslateModule, UnitTestingUtils } from '@alfresco/adf-core';
+import { AutoFocusDirective } from '@alfresco/adf-content-services';
+import { DebugElement } from '@angular/core';
 
 describe('PageLayoutComponent', () => {
   let fixture: ComponentFixture<PageLayoutComponent>;
-  let component: PageLayoutComponent;
+  let unitTestingUtils: UnitTestingUtils;
+
   const appServiceMock = {
     toggleAppNavBar$: new Subject(),
     appNavNarMode$: new BehaviorSubject<'collapsed' | 'expanded'>('expanded')
@@ -37,7 +41,7 @@ describe('PageLayoutComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [PageLayoutComponent],
+      imports: [PageLayoutComponent, NoopTranslateModule],
       providers: [
         {
           provide: AppService,
@@ -46,12 +50,28 @@ describe('PageLayoutComponent', () => {
       ]
     });
     fixture = TestBed.createComponent(PageLayoutComponent);
-    component = fixture.componentInstance;
+    unitTestingUtils = new UnitTestingUtils(fixture.debugElement);
   });
 
-  it('should toggle the appService toggleAppNavBar$ Subject', () => {
-    spyOn(appServiceMock.toggleAppNavBar$, 'next');
-    component.toggleClick();
-    expect(appServiceMock.toggleAppNavBar$.next).toHaveBeenCalled();
+  describe('Collapse button', () => {
+    let collapseButton: DebugElement;
+
+    beforeEach(() => {
+      appServiceMock.appNavNarMode$.next('collapsed');
+      fixture.detectChanges();
+      collapseButton = unitTestingUtils.getByCSS('.aca-content-header-button');
+    });
+
+    it('should toggle the appService toggleAppNavBar$ Subject', () => {
+      spyOn(appServiceMock.toggleAppNavBar$, 'next');
+
+      collapseButton.nativeElement.click();
+      expect(appServiceMock.toggleAppNavBar$.next).toHaveBeenCalled();
+    });
+
+    it('should have AutoFocusDirective', () => {
+      fixture.detectChanges();
+      expect(collapseButton.injector.get(AutoFocusDirective, null)).not.toBeNull();
+    });
   });
 });
