@@ -75,3 +75,46 @@ ng-component {
   align-items: center;
   width: 100%;
 }
+
+/* stylelint-disable selector-class-pattern */
+.mat-mdc-menu-panel.adf-notification-history-menu .adf-notification-history-list-header {
+  .adf-notification-history-mark-as-read {
+    width: 44px;
+    height: 48px;
+
+    --mdc-icon-button-icon-size: 24px;
+
+    .adf-notification-history-mark-as-read-icon {
+      color: var(--adf-theme-foreground-text-color-087);
+    }
+  }
+}
+
+.mat-mdc-menu-panel.adf-notification-history-menu .adf-notification-history-item-list {
+  .adf-notification-initiator-pic {
+    background: var(--theme-accent-color);
+    color: var(--adf-theme-mat-grey-color-a200);
+    font-size: 16px;
+  }
+
+  .adf-notification-history-menu-date {
+    color: var(--adf-theme-foreground-text-color-087);
+    font-size: 12px;
+  }
+}
+
+.adf-datatable-actions-menu .mat-mdc-icon-button.mat-mdc-button-base {
+  --mdc-icon-button-icon-size: 24px;
+  --mdc-icon-button-state-layer-size: 48px;
+
+  padding: 12px;
+  color: var(--adf-theme-foreground-text-color-087);
+}
+
+aca-saved-searches-ui-list .adf-datatable-header .adf-datatable-row:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+
+  .adf-datatable-cell-header-content--hovered {
+    background-color: transparent;
+  }
+}

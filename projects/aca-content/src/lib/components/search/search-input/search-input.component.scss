@@ -3,6 +3,13 @@ $search-border-radius: 4px;
 
 .app-search-container {
   color: var(--theme-foreground-text-color);
+
+  --mat-icon-color: var(--theme-foreground-text-color);
+  --mdc-icon-button-icon-color: var(--theme-foreground-text-color);
+  --mat-form-field-container-text-tracking: -0.7px;
+  --mdc-filled-text-field-input-text-placeholder-color: rgba(0, 0, 0, 0.59);
+  --mdc-outlined-text-field-input-text-placeholder-color: rgba(0, 0, 0, 0.59);
+
   width: 100%;
   height: $search-height;
   border: none;
@@ -12,6 +19,10 @@ $search-border-radius: 4px;
   .app-search-input {
     font-size: 16px;
     letter-spacing: -0.7px;
+
+    &::placeholder {
+      letter-spacing: -0.7px;
+    }
   }
 
   /* stylelint-disable-next-line selector-class-pattern */
