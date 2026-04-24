@@ -53,7 +53,7 @@ export class SidenavHeaderComponent implements OnInit {
   toggleNavBar = new EventEmitter();
 
   @ViewChild('toggleNavbarButton')
-  private readonly toggleNavbarButton: ElementRef;
+  private readonly toggleNavbarButton!: ElementRef<HTMLButtonElement>;
 
   ngOnInit() {
     this.appExtensions
