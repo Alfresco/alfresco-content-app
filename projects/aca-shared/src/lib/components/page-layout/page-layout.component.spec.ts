@@ -53,25 +53,25 @@ describe('PageLayoutComponent', () => {
     unitTestingUtils = new UnitTestingUtils(fixture.debugElement);
   });
 
-  describe('Collapse button', () => {
-    let collapseButton: DebugElement;
+  describe('Expand button', () => {
+    let expandButton: DebugElement;
 
     beforeEach(() => {
       appServiceMock.appNavNarMode$.next('collapsed');
       fixture.detectChanges();
-      collapseButton = unitTestingUtils.getByCSS('.aca-content-header-button');
+      expandButton = unitTestingUtils.getByCSS('.aca-content-header-button');
     });
 
     it('should toggle the appService toggleAppNavBar$ Subject', () => {
       spyOn(appServiceMock.toggleAppNavBar$, 'next');
 
-      collapseButton.nativeElement.click();
+      expandButton.nativeElement.click();
       expect(appServiceMock.toggleAppNavBar$.next).toHaveBeenCalled();
     });
 
     it('should have AutoFocusDirective', () => {
       fixture.detectChanges();
-      expect(collapseButton.injector.get(AutoFocusDirective, null)).not.toBeNull();
+      expect(expandButton.injector.get(AutoFocusDirective, null)).not.toBeNull();
     });
   });
 });
