@@ -64,6 +64,7 @@ describe('SidenavHeaderComponent', () => {
     let toggleSidenavButton: Element;
 
     beforeEach(() => {
+      document.body.focus();
       fixture.detectChanges();
       toggleSidenavButton = unitTestingUtils.getByCSS('.aca-sidenav-header-title-logo').nativeElement;
     });
