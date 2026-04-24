@@ -80,7 +80,7 @@
   },
   "devDependencies": {
     "@alfresco/adf-cli": "8.6.0-24885084080",
-    "@angular-devkit/build-angular": "19.2.22",
+    "@angular-devkit/build-angular": "21.2.8",
     "@angular-devkit/core": "19.2.20",
     "@angular-devkit/schematics": "19.2.20",
     "@angular-eslint/builder": "19.8.1",
@@ -91,7 +91,7 @@
     "@angular/compiler-cli": "19.2.20",
     "@angular/language-service": "19.2.20",
     "@cspell/eslint-plugin": "^9.2.1",
-    "@nx/angular": "22.5.4",
+    "@nx/angular": "22.6.5",
     "@nx/eslint-plugin": "22.5.4",
     "@nx/workspace": "22.5.4",
     "@playwright/test": "^1.56.1",
