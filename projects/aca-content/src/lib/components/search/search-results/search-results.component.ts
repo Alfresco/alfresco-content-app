@@ -33,6 +33,7 @@ import {
   SearchConfiguration,
   SearchFilterChipsComponent,
   SearchFormComponent,
+  SearchSortingDefinition,
   SearchQueryBuilderService,
   TagService
 } from '@alfresco/adf-content-services';
@@ -62,7 +63,6 @@ import {
   PaginationDirective,
   ToolbarComponent
 } from '@alfresco/aca-shared';
-import { SearchSortingDefinition } from '@alfresco/adf-content-services/lib/search/models/search-sorting-definition.interface';
 import { filter, first, map, startWith, switchMap, take, tap, toArray } from 'rxjs/operators';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';

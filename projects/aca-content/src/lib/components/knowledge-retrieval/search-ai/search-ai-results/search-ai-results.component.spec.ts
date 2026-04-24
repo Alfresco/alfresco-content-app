@@ -661,7 +661,7 @@ describe('SearchAiResultsComponent', () => {
       }));
 
       it('should call search api when reload references button is clicked', fakeAsync(() => {
-        setupReferencesTest([nodeId, secondNodeId], [toSearchResult([node1])]);
+        setupReferencesTest([nodeId, secondNodeId], [toSearchResult([node1]), toSearchResult([node1, node2])]);
         getReloadButton().nativeElement.click();
 
         expect(contentApiService.search).toHaveBeenCalledWith(

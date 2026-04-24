@@ -488,7 +488,7 @@ export class ContentManagementService {
       } else if (statusCode === 403) {
         i18nMessageString = 'APP.MESSAGES.ERRORS.PERMISSION';
       }
-    } catch (err) {
+    } catch {
       /* Do nothing, keep the original message */
     }
 
