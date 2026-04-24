@@ -30,9 +30,10 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AutoFocusDirective } from '@alfresco/adf-content-services';
 
 @Component({
-  imports: [CommonModule, TranslatePipe, MatButtonModule, MatIconModule],
+  imports: [CommonModule, TranslatePipe, MatButtonModule, MatIconModule, AutoFocusDirective],
   selector: 'aca-page-layout',
   templateUrl: './page-layout.component.html',
   styleUrls: ['./page-layout.component.scss'],
