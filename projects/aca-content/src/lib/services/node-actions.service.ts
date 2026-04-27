@@ -174,6 +174,27 @@ export class NodeActionsService {
   }
 
   getContentNodeSelection(action: NodeAction, contentEntities: NodeEntry[], focusedElementOnCloseSelector?: string): Subject<Node[]> {
+    this.isSitesDestinationAvailable = false;
+    const data = this.buildContentNodeSelectorData(action, contentEntities);
+
+    this.dialog
+      .open(ContentNodeSelectorComponent, {
+        data,
+        panelClass: 'adf-content-node-selector-dialog',
+        width: '630px',
+        role: 'dialog'
+      })
+      .afterClosed()
+      .subscribe(() => this.focusAfterClose(focusedElementOnCloseSelector));
+
+    data.select.subscribe({
+      complete: this.close.bind(this)
+    });
+
+    return data.select;
+  }
+
+  protected buildContentNodeSelectorData(action: NodeAction, contentEntities: NodeEntry[]): ContentNodeSelectorComponentData {
     const currentParentFolderId = this.getEntryParentId(contentEntities[0].entry);
 
     const customDropdown = new SitePaging({
@@ -195,12 +216,9 @@ export class NodeActionsService {
       } as SitePagingList
     });
 
-    const title = this.getTitleTranslation(action, contentEntities);
-
-    this.isSitesDestinationAvailable = false;
-    const data: ContentNodeSelectorComponentData = {
+    return {
       selectionMode: 'single',
-      title,
+      title: this.getTitleTranslation(action, contentEntities),
       currentFolderId: currentParentFolderId,
       actionName: action,
       dropdownHideMyFiles: true,
@@ -212,22 +230,6 @@ export class NodeActionsService {
       select: new Subject<Node[]>(),
       excludeSiteContent: ContentNodeDialogService.nonDocumentSiteContent
     };
-
-    this.dialog
-      .open(ContentNodeSelectorComponent, {
-        data,
-        panelClass: 'adf-content-node-selector-dialog',
-        width: '630px',
-        role: 'dialog'
-      })
-      .afterClosed()
-      .subscribe(() => this.focusAfterClose(focusedElementOnCloseSelector));
-
-    data.select.subscribe({
-      complete: this.close.bind(this)
-    });
-
-    return data.select;
   }
 
   getTitleTranslation(action: string, nodes: NodeEntry[] = []): string {
@@ -243,7 +245,7 @@ export class NodeActionsService {
     return this.translation.instant(`NODE_SELECTOR.${action.toUpperCase()}_${keyPrefix}`, { name, number });
   }
 
-  private canCopyMoveInsideIt(entry: Node): boolean {
+  protected canCopyMoveInsideIt(entry: Node): boolean {
     return this.hasEntityCreatePermission(entry) && !this.isSite(entry);
   }
 
