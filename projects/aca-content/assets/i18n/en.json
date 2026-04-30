@@ -10,12 +10,12 @@
                 "NAME": "Name",
                 "VERSION": "Version",
                 "VENDOR": "Vendor",
-                "LICENSE": "License",
+                "LICENSE": "Licence",
                 "RUNTIME": "Runtime",
                 "DESCRIPTION": "Description"
             },
             "LICENSE": {
-                "TITLE": "License",
+                "TITLE": "Licence",
                 "PROPERTY": "Property",
                 "VALUE": "Value"
             },
@@ -134,8 +134,8 @@
                         "TEXT": "Join libraries to upload, view, and share files."
                     },
                     "FAVORITE_LIBRARIES": {
-                        "TITLE": "No Favorite Libraries",
-                        "TEXT": "Favorite a library that you want to find easily later."
+                        "TITLE": "No Favourite Libraries",
+                        "TEXT": "Favourite a library that you want to find easily later."
                     },
                     "ALL_LIBRARIES": {
                         "TITLE": "No library found",
@@ -151,10 +151,10 @@
                         }
                     },
                     "FAVORITE_LIBRARIES": {
-                        "TITLE": "Favorite Libraries",
+                        "TITLE": "Favourite Libraries",
                         "SIDENAV_LINK": {
-                            "LABEL": "Favorite Libraries",
-                            "TOOLTIP": "Access my favorite libraries"
+                            "LABEL": "Favourite Libraries",
+                            "TOOLTIP": "Access my favourite libraries"
                         }
                     },
                     "ALL_LIBRARIES": {
@@ -194,14 +194,14 @@
                 }
             },
             "FAVORITES": {
-                "TITLE": "Favorites",
+                "TITLE": "Favourites",
                 "SIDENAV_LINK": {
-                    "LABEL": "Favorites",
-                    "TOOLTIP": "View your favorite files and folders"
+                    "LABEL": "Favourites",
+                    "TOOLTIP": "View your favourite files and folders"
                 },
                 "EMPTY_STATE": {
-                    "TITLE": "No favorite files or folders",
-                    "TEXT": "Favorite items that you want to easily find later."
+                    "TITLE": "No favourite files or folders",
+                    "TEXT": "Favourite items that you want to easily find later."
                 }
             },
             "TRASHCAN": {
@@ -301,9 +301,9 @@
             "UNDO": "Undo",
             "PERMISSIONS": "Permissions",
             "RESTORE": "Restore",
-            "FAVORITE": "Favorite",
-            "ADD_FAVORITE": "Add Favorite",
-            "REMOVE_FAVORITE": "Remove Favorite",
+            "FAVORITE": "Favourite",
+            "ADD_FAVORITE": "Add Favourite",
+            "REMOVE_FAVORITE": "Remove Favourite",
             "UNSHARE": "Unshare",
             "DETAILS": "View Details",
             "VERSIONS": "Manage Versions",
@@ -441,11 +441,11 @@
                 },
                 "LIBRARY_DELETED": "Library deleted",
                 "LEFT_LIBRARY": "You have left the library",
-                "FAVORITE_NODE_ADDED": "Added {{ name }} to favorites",
-                "FAVORITE_NODES_ADDED": "Added {{ number }} items to favorites",
-                "FAVORITE_NODE_REMOVED": "Removed {{ name }} from favorites",
-                "FAVORITE_NODES_REMOVED": "Removed {{ number }} items from favorites",
-                "FAVORITE_NODE_NOT_FOUND": "{{ name }} is not favorite"
+                "FAVORITE_NODE_ADDED": "Added {{ name }} to favourites",
+                "FAVORITE_NODES_ADDED": "Added {{ number }} items to favourites",
+                "FAVORITE_NODE_REMOVED": "Removed {{ name }} from favourites",
+                "FAVORITE_NODES_REMOVED": "Removed {{ number }} items from favourites",
+                "FAVORITE_NODE_NOT_FOUND": "{{ name }} is not favourite"
             }
         },
         "CONTENT_METADATA": {
@@ -499,7 +499,7 @@
             "CREATED": "Created",
             "MODIFIED": "Modified",
             "DONE": "Done",
-            "ERROR": "Something went wrong, please close this dialog and try again"
+            "ERROR": "Something went wrong, please close this dialogue and try again"
         },
         "ADDITIONAL_REFERENCES_DIALOG": {
             "TITLE": "Additional Reference Locations",

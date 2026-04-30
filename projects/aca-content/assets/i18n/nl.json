@@ -115,10 +115,10 @@
                 }
             },
             "REPOSITORY_VIEW": {
-                "TITLE": "Repository",
+                "TITLE": "Opslagplaats",
                 "SIDENAV_LINK": {
-                    "LABEL": "Repository",
-                    "TOOLTIP": "View the repository"
+                    "LABEL": "Opslagplaats",
+                    "TOOLTIP": "Bekijk de repository"
                 }
             },
             "LIBRARIES": {
