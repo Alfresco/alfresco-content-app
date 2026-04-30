@@ -115,10 +115,10 @@
                 }
             },
             "REPOSITORY_VIEW": {
-                "TITLE": "Repository",
+                "TITLE": "リポジトリ",
                 "SIDENAV_LINK": {
-                    "LABEL": "Repository",
-                    "TOOLTIP": "View the repository"
+                    "LABEL": "リポジトリ",
+                    "TOOLTIP": "リポジトリを表示"
                 }
             },
             "LIBRARIES": {

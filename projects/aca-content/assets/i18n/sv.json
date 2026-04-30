@@ -115,10 +115,10 @@
                 }
             },
             "REPOSITORY_VIEW": {
-                "TITLE": "Repository",
+                "TITLE": "Lagringsplats",
                 "SIDENAV_LINK": {
-                    "LABEL": "Repository",
-                    "TOOLTIP": "View the repository"
+                    "LABEL": "Lagringsplats",
+                    "TOOLTIP": "Visa förvaret"
                 }
             },
             "LIBRARIES": {

@@ -115,10 +115,10 @@
                 }
             },
             "REPOSITORY_VIEW": {
-                "TITLE": "Repository",
+                "TITLE": "Arkiv",
                 "SIDENAV_LINK": {
-                    "LABEL": "Repository",
-                    "TOOLTIP": "View the repository"
+                    "LABEL": "Arkiv",
+                    "TOOLTIP": "Vis depotet"
                 }
             },
             "LIBRARIES": {
@@ -274,7 +274,7 @@
                     "LOCATION": "Lokalisering",
                     "SIZE": "Størrelse"
                 },
-                "UNKNOWN_LOCATION": "You do not have permission to view the location of this document.",
+                "UNKNOWN_LOCATION": "Du har ikke tillatelse til å vise plasseringen til dette dokumentet.",
                 "VIEW_ADDITIONAL_LOCATIONS": "Vis flere referanseplasseringer",
                 "NO_RESULTS": "Ditt søk ga 0 resultater",
                 "EMPTY_SEARCH": "Søkeord kreves",
@@ -596,7 +596,7 @@
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
             "LABEL": "Handlinger for flere",
-            "TITLE": "Select an action for all {{ count }} results",
+            "TITLE": "Velg en handling for alle {{ count }} resultater",
             "BULK_NOT_AVAILABLE": "Massehandlinger (ikke tilgjengelig)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "Massehandlinger kan ikke brukes uten søkeresultater"
         },
@@ -609,10 +609,10 @@
             "REQUIRED": "Søk i inndata er påkrevd.",
             "WHITESPACE": "Søkeinndata kan ikke bare være i blanke rom.",
             "OPERATORS": "Søkefeltet kan ikke starte med, slutte med eller kun bestå av operatorer",
-            "IN_PREFIX": "In",
-            "FILES_AND_FOLDERS": "Files and folders",
+            "IN_PREFIX": "I",
+            "FILES_AND_FOLDERS": "Filer og mapper",
             "RESET": "Tilbakestill",
-            "SEARCH_IN": "Search in"
+            "SEARCH_IN": "Søk i"
         },
         "SORT": {
             "SORTING_OPTION": "Sorter etter",
