@@ -31,7 +31,7 @@ jobs:
           fetch-depth: 1
       - id: fetchLatestPkg
         name: Fetch the latest package version
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
           script: |
@@ -67,7 +67,7 @@ jobs:
       - id: checkPrAlreadyExist
         name: Check if PR with latest already exist
         if: ${{ steps.fetchLatestPkg.outputs.hasNewVersion == 'true' }}
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           HAS_NEW_ADF_VERSION: ${{ steps.fetchLatestPkg.outputs.hasNewADFVersion }}
           LATEST_ADF_VERSION: ${{ steps.fetchLatestPkg.outputs.latestADFVersion }}
@@ -158,7 +158,7 @@ jobs:
           create_branch: true
 
       - name: Create a Pull request
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           PACKAGE_VERSION_ADF: ${{ needs.upstream.outputs.latestADFVersion }}
           PACKAGE_VERSION_JS: ${{ needs.upstream.outputs.latestJSVersion }}
