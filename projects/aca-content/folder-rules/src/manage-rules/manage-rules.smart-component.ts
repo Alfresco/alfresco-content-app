@@ -281,7 +281,7 @@ export class ManageRulesSmartComponent implements OnInit {
           try {
             await this.folderRuleSetsService.deleteRuleSetLink(this.nodeId, linkedRuleSet.id);
             this.folderRuleSetsService.refreshMainRuleSet();
-          } catch (error) {
+          } catch {
             this.notificationService.showError('ACA_FOLDER_RULES.ERRORS.DELETE_RULE_SET_LINK_FAILED');
           }
         }

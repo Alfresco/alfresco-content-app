@@ -40,7 +40,7 @@ $search-border-radius: 4px;
   gap: 4px;
 }
 
-@media screen and (max-width: 959px) {
+@media screen and (width <= 959px) {
   $search-width-small: 400px;
 
   .aca-search-input {
@@ -52,13 +52,13 @@ $search-border-radius: 4px;
   }
 }
 
-@media screen and (max-width: 599px) {
+@media screen and (width <= 599px) {
   .aca-search-input {
     max-width: 220px;
   }
 }
 
-@media screen and (max-width: 380px) {
+@media screen and (width <= 380px) {
   .aca-search-input {
     max-width: 148px;
   }

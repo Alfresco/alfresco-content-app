@@ -197,7 +197,7 @@ aca-search-results {
     }
   }
 
-  @media (max-width: 320px) {
+  @media (width <= 320px) {
     .adf-search-results__content-header {
       flex-direction: column;
     }

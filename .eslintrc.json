@@ -131,7 +131,9 @@
         "@typescript-eslint/no-unused-expressions": "error",
         "@typescript-eslint/no-var-requires": "off",
         "@typescript-eslint/no-explicit-any": "off",
-        "@typescript-eslint/ban-types": "error",
+        "@typescript-eslint/no-wrapper-object-types": "error",
+        "@typescript-eslint/no-unsafe-function-type": "error",
+        "@typescript-eslint/no-empty-object-type": "error",
         "@typescript-eslint/explicit-member-accessibility": [
           "off",
           {
@@ -151,7 +153,7 @@
             }
           }
         ],
-        "@typescript-eslint/semi": ["error", "always"],
+        "semi": ["error", "always"],
         "@typescript-eslint/naming-convention": [
           "error",
           {
@@ -165,15 +167,6 @@
             "ignoreParameters": true
           }
         ],
-        "@typescript-eslint/quotes": [
-          "error",
-          "single",
-          {
-            "avoidEscape": true,
-            "allowTemplateLiterals": true
-          }
-        ],
-        "@typescript-eslint/type-annotation-spacing": "error",
         "arrow-parents": ["off", "always"],
         "brace-style": [
           "error",
@@ -206,7 +199,6 @@
           }
         ],
         "no-duplicate-imports": "error",
-        "no-extra-semi": "off",
         "no-empty": "off",
         "no-empty-function": "off",
         "no-irregular-whitespace": "error",
@@ -265,7 +257,14 @@
         "no-var": "error",
         "prefer-const": "error",
         "quote-props": "off",
-        "quotes": "off",
+        "quotes": [
+          "error",
+          "single",
+          {
+            "avoidEscape": true,
+            "allowTemplateLiterals": true
+          }
+        ],
         "radix": "error",
         "rxjs/no-create": "error",
         "rxjs/no-subject-unsubscribe": "error",
@@ -286,7 +285,6 @@
             "observable": "action(s|\\$)?"
           }
         ],
-        "semi": "error",
         "use-isnan": "error",
         "spaced-comment": [
           "error",
@@ -299,7 +297,7 @@
         "space-before-function-paren": "off",
         "space-in-parens": ["off", "never"],
         "unicorn/filename-case": "error",
-        "@typescript-eslint/no-extra-semi": "error",
+        "no-extra-semi": "error",
         "no-restricted-syntax": [
           "error",
           {
@@ -315,8 +313,7 @@
       "files": ["*.js"],
       "extends": ["plugin:@nx/javascript"],
       "rules": {
-        "@typescript-eslint/no-extra-semi": "error",
-        "no-extra-semi": "off"
+        "no-extra-semi": "error"
       }
     },
     {
