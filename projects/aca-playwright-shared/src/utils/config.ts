@@ -41,7 +41,8 @@ export const SIDEBAR_LABELS = {
   SHARED_FILES: 'Shared',
   RECENT_FILES: 'Recent Files',
   FAVORITES: 'Favorites',
-  TRASH: 'Trash'
+  TRASH: 'Trash',
+  REPOSITORY: 'Repository'
 };
 
 export const SITE_ROLES = {

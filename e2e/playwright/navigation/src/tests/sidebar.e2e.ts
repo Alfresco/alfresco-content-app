@@ -83,4 +83,12 @@ test.describe('Sidebar', () => {
     await searchPage.sidenav.expandedSidenav.waitFor({ state: 'attached' });
     await expect(personalFiles.sidenav.expandedSidenav, 'Sidebar not expanded').toBeVisible();
   });
+
+  test('[XAT-19271] Repository / Company Home button is accessible for all users on the sidebar', async ({ personalFiles }) => {
+    await personalFiles.navigate();
+    await personalFiles.sidenav.openPanel(SIDEBAR_LABELS.REPOSITORY);
+    expect(await personalFiles.sidenav.isActive(SIDEBAR_LABELS.REPOSITORY), 'Repository tab not active').toBe(true);
+    await personalFiles.dataTable.spinnerWaitForReload();
+    expect(await personalFiles.dataTable.isEmpty()).toBe(false);
+  });
 });
