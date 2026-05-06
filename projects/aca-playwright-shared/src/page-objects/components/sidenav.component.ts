@@ -36,6 +36,7 @@ export class SidenavComponent extends BaseComponent {
   private readonly recentFiles = this.getChild(`[data-automation-id='app.navbar.recentFiles']`);
   private readonly favorites = this.getChild(`[data-automation-id='app.navbar.favorites']`);
   private readonly trash = this.getChild(`[data-automation-id='app.navbar.trashcan']`);
+  private readonly repository = this.getChild(`[data-automation-id="app.navbar.repositoryView"]`);
   private readonly sidenavToggle = this.getChild(`.aca-sidenav-header-title-logo`);
   private readonly sidenavExpand = this.page.locator(`[title='Expand navigation menu']`);
   public expandedSidenav = this.getChild(`[data-automation-id='expanded']`);
@@ -69,6 +70,8 @@ export class SidenavComponent extends BaseComponent {
         return this.favorites;
       case SIDEBAR_LABELS.TRASH:
         return this.trash;
+      case SIDEBAR_LABELS.REPOSITORY:
+        return this.repository;
       default:
         return this.personalFiles;
     }
