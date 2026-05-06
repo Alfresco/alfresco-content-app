@@ -35,7 +35,9 @@ html {
   );
   @include mat.dialog-overrides(
     (
-      container-max-width: 100%
+      container-max-width: 100%,
+      container-color: var(--adf-theme-background-card-color),
+      container-shape: 4px
     )
   );
   @include mat.form-field-overrides(
