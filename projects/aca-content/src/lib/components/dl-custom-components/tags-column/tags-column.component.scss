@@ -5,6 +5,15 @@
   adf-tag-node-list {
     width: inherit;
 
+    adf-dynamic-chip-list .adf-dynamic-chip-list-container mat-chip-set {
+      /* stylelint-disable-next-line selector-class-pattern */
+      .mdc-evolution-chip__text-label.mat-mdc-chip-action-label {
+        line-height: 24px;
+        letter-spacing: normal;
+        color: var(--adf-theme-foreground-text-color-064);
+      }
+    }
+
     .adf-dynamic-chip-list-chip {
       background-color: var(--theme-background-card-colour);
       border: 1px solid var(--theme-text-color);

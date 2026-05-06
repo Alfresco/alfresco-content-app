@@ -1,9 +1,37 @@
 @use '@angular/material' as mat;
 
+.aca-save-search-dialog-panel {
+  @include mat.dialog-overrides(
+    (
+      container-elevation-shadow: (
+        rgba(0, 0, 0, 0.2) 0 11px 15px -7px,
+        rgba(0, 0, 0, 0.14) 0 24px 38px 3px,
+        rgba(0, 0, 0, 0.12) 0 9px 46px 8px
+      )
+    )
+  );
+}
+
 .aca-save-search-dialog {
+  @include mat.dialog-overrides(
+    (
+      with-actions-content-padding: 20px 24px
+    )
+  );
+
   .aca-save-search-dialog__form-field {
     width: 100%;
     margin-bottom: 15px;
+  }
+
+  mat-dialog-content mat-form-field {
+    font-size: 14px;
+    letter-spacing: normal;
+    line-height: 20px;
+
+    mat-label {
+      letter-spacing: normal;
+    }
   }
 
   .aca-save-search-dialog__header {
@@ -11,12 +39,35 @@
     align-items: center;
     padding-left: 20px;
     justify-content: space-between;
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    .mat-mdc-icon-button.mat-mdc-button-base {
+      @include mat.icon-button-overrides(
+        (
+          state-layer-size: 48px,
+          icon-color: var(--adf-theme-foreground-text-color-087)
+        )
+      );
+
+      padding: 12px;
+    }
   }
 
   .aca-save-search-dialog__title {
     font-size: large;
     font-weight: 200;
     margin: 0;
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  #aca-save-search-dialog-cancel-button.mat-mdc-button-base {
+    @include mat.button-overrides(
+      (
+        text-horizontal-padding: 8px,
+        text-state-layer-color: var(--adf-theme-foreground-text-color-087),
+        text-hover-state-layer-opacity: 0.04
+      )
+    );
   }
 
   .aca-save-search-dialog__save-button {
