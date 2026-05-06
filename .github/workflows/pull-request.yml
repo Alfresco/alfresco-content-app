@@ -28,7 +28,7 @@ env:
 
 jobs:
   lint:
-    name: 'Validate / Lint'
+    name: 'lint'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -84,7 +84,7 @@ jobs:
           fi
 
   build:
-    name: 'Build / Content CE'
+    name: 'build'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
