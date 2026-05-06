@@ -88,7 +88,8 @@ describe('SaveSearchDirective', () => {
       const expectedConfig: MatDialogConfig<SaveSearchDirectiveDialogData> = {
         data: { searchUrl: 'encodedQuery' },
         restoreFocus: true,
-        ariaLabelledBy: 'aca-save-search-dialog-title'
+        ariaLabelledBy: 'aca-save-search-dialog-title',
+        panelClass: 'aca-save-search-dialog-panel'
       };
 
       expect(dialog.open).toHaveBeenCalledWith(SaveSearchDialogComponent, expectedConfig);
@@ -111,7 +112,8 @@ describe('SaveSearchDirective', () => {
       const expectedConfig: MatDialogConfig<SaveSearchDirectiveDialogData> = {
         data: { searchUrl: 'encodedQuery' },
         restoreFocus: true,
-        ariaLabelledBy: 'aca-save-search-dialog-title'
+        ariaLabelledBy: 'aca-save-search-dialog-title',
+        panelClass: 'aca-save-search-dialog-panel'
       };
 
       expect(dialog.open).toHaveBeenCalledWith(SaveSearchDialogComponent, expectedConfig);
