@@ -76,7 +76,7 @@ jobs:
           CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
           echo "Changed files:"
           echo "$CHANGED_FILES"
-          NON_E2E_FILES=$(echo "$CHANGED_FILES" | grep -v -E "^(e2e/playwright/|projects/aca-playwright-shared/|\.github/)" || true)
+          NON_E2E_FILES=$(echo "$CHANGED_FILES" | grep -v -E "^(e2e/playwright/|projects/aca-playwright-shared/|\.github/workflows/pull-request\.yml|\.github/workflows/run-e2e-with-env\.yml)" || true)
           if [ -z "$CHANGED_FILES" ] || [ -n "$NON_E2E_FILES" ]; then
             echo "only-e2e-changes=false" >> $GITHUB_OUTPUT
           else
