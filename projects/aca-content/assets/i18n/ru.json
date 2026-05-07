@@ -115,10 +115,10 @@
                 }
             },
             "REPOSITORY_VIEW": {
-                "TITLE": "Repository",
+                "TITLE": "Репозиторий",
                 "SIDENAV_LINK": {
-                    "LABEL": "Repository",
-                    "TOOLTIP": "View the repository"
+                    "LABEL": "Репозиторий",
+                    "TOOLTIP": "Просмотреть репозиторий"
                 }
             },
             "LIBRARIES": {
