@@ -55,6 +55,34 @@ jobs:
         run: npm run ci:lint
       - run: npm run stylelint
 
+  detect-e2e-only-changes:
+    name: 'Validate / Detect E2E Only Changes'
+    runs-on: ubuntu-latest
+    outputs:
+      only-e2e-changes: ${{ steps.check.outputs.only-e2e-changes }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Check if only E2E files changed
+        id: check
+        run: |
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            echo "only-e2e-changes=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+          echo "Changed files:"
+          echo "$CHANGED_FILES"
+          NON_E2E_FILES=$(echo "$CHANGED_FILES" | grep -v -E "^(e2e/playwright/|projects/aca-playwright-shared/|\.github/workflows/pull-request\.yml|\.github/workflows/run-e2e-with-env\.yml)" || true)
+          if [ -z "$CHANGED_FILES" ] || [ -n "$NON_E2E_FILES" ]; then
+            echo "only-e2e-changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "only-e2e-changes=true" >> $GITHUB_OUTPUT
+          fi
+
   build:
     name: 'build'
     runs-on: ubuntu-latest
@@ -83,8 +111,9 @@ jobs:
           key: cache-dist-${{ github.run_id }}
 
   unit-tests:
-    needs: [lint, build]
-    name: "Unit tests"
+    needs: [lint, build, detect-e2e-only-changes]
+    if: ${{ needs.detect-e2e-only-changes.outputs.only-e2e-changes != 'true' }}
+    name: 'Validate / Unit Tests'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -110,7 +139,7 @@ jobs:
 
   e2es-playwright:
     if: ${{ !contains(github.event.pull_request.labels.*.name, 'ci:skip-e2e') }}
-    needs: [lint, build, unit-tests]
+    needs: [lint, build]
     name: E2E | ${{ matrix.browser || 'chromium' }} | ${{ matrix.e2e-suites.name }} | Playwright
     runs-on: ubuntu-24.04
     env:
@@ -245,7 +274,7 @@ jobs:
 
   finalize:
     if: ${{ always() }}
-    needs: [lint, build, unit-tests, e2es-playwright]
+    needs: [lint, build, detect-e2e-only-changes, unit-tests, e2es-playwright]
     name: 'Finalize'
     runs-on: ubuntu-latest
     steps:
