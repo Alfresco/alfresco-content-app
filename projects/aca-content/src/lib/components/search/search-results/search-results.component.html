@@ -12,7 +12,7 @@
     <div class="aca-main-content">
       <div class="adf-search-results">
         <div class="adf-search-results__content">
-          <mat-progress-bar *ngIf="isLoading" color="primary" mode="indeterminate" aria-live="polite" />
+          <mat-progress-bar *ngIf="isLoading" mode="indeterminate" aria-live="polite" />
           <div class="adf-search-results__content-header aca-content">
             <div class="aca-content__filter-set">
               <p>{{ 'APP.BROWSE.SEARCH.FILTER_SET' | translate }}</p>
@@ -198,7 +198,6 @@
               <button
                 mat-icon-button
                 title="{{ 'ADF_VIEWER.ACTIONS.PREVIEW' | translate }}"
-                color="accent"
                 class="adf-search-results--visibility_button"
               >
                 <mat-icon>visibility</mat-icon>

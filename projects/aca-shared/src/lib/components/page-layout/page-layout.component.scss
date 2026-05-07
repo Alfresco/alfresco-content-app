@@ -1,7 +1,7 @@
-@import '../../styles/mixins';
+@use '../../styles/mixins' as mixins;
 
 .aca-page-layout {
-  @include flex-column;
+  @include mixins.flex-column;
 
   .aca-content-header {
     background: var(--theme-page-layout-header-background-color);
@@ -9,6 +9,8 @@
     padding: 0 24px;
     display: flex;
     align-items: center;
+
+    --mat-icon-color: var(--adf-theme-foreground-icon-color);
 
     &-button {
       margin-top: -1px;
@@ -27,6 +29,10 @@
       letter-spacing: 0.15px;
     }
 
+    .adf-breadcrumb-item-current {
+      line-height: 33px;
+    }
+
     .aca-toolbar-action {
       button {
         border-radius: 6px;
@@ -35,17 +41,17 @@
   }
 
   .aca-page-layout-content {
-    @include flex-row;
+    @include mixins.flex-row;
 
     border-top: 1px solid var(--theme-metadata-property-panel-border-color);
   }
 
   .aca-page-layout-error {
-    @include flex-row;
+    @include mixins.flex-row;
   }
 
   .aca-main-content {
-    @include flex-column;
+    @include mixins.flex-column;
   }
 
   .aca-scrollable {

@@ -7,6 +7,8 @@
 
     .adf-datatable-header {
       padding: 0 20px;
+      border-top: 1px solid var(--adf-theme-foreground-text-color-007);
+      border-bottom: 1px solid transparent;
 
       .adf-datatable-row {
         margin-right: 15px;
@@ -17,8 +19,15 @@
 
     .adf-datatable-body {
       .adf-datatable-row {
+        color: var(--adf-theme-foreground-text-color-087);
+        min-height: 56px;
         border-top: 0;
         margin: 0 20px;
+
+        &:hover,
+        &:focus {
+          background-color: var(--adf-theme-background-hover-color);
+        }
 
         &:last-child {
           border: 0;

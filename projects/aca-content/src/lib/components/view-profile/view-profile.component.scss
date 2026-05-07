@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 app-view-profile {
   letter-spacing: 0.5px;
 
@@ -47,6 +49,14 @@ app-view-profile {
     display: flex;
     align-items: center;
     width: 100%;
+
+    .app-general-save-btn {
+      @include mat.icon-button-overrides(
+        (
+          icon-color: var(--theme-primary-color)
+        )
+      );
+    }
 
     .app-general-edit {
       color: var(--adf-theme-foreground-text-color-064);

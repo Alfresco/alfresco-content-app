@@ -1,15 +1,22 @@
-@import '../../../ui/mixins';
+@use '../../../ui/mixins' as mixins;
+@use '@angular/material' as mat;
 
 aca-search-results {
+  @include mat.progress-bar-overrides(
+    (
+      active-indicator-color: var(--theme-primary-color)
+    )
+  );
+
   .aca-search-results__toolbar-actions {
     margin-left: 8px;
   }
 
   .adf-search-results {
-    @include flex-row;
+    @include mixins.flex-row;
 
     &__content {
-      @include flex-column;
+      @include mixins.flex-column;
 
       border-left: 1px solid var(--theme-border-color);
     }
@@ -30,7 +37,7 @@ aca-search-results {
     }
 
     .aca-content-lib {
-      @include flex-row;
+      @include mixins.flex-row;
 
       flex: unset;
       height: unset;
@@ -40,7 +47,7 @@ aca-search-results {
       background-color: var(--theme-card-background-color);
 
       &__side--left {
-        @include flex-column;
+        @include mixins.flex-column;
 
         height: unset;
       }

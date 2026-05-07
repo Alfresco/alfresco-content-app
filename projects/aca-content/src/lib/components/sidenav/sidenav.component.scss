@@ -40,6 +40,25 @@
         font-size: var(--theme-body-1-font-size);
         cursor: pointer;
       }
+
+      .adf-notification-history-menu_button {
+        --mat-text-button-with-icon-horizontal-padding: 8px;
+        --mat-text-button-icon-offset: 0;
+        --mat-text-button-icon-spacing: 0;
+
+        .adf-notification-history-menu_button-icon {
+          color: var(--adf-theme-foreground-icon-color);
+
+          /* stylelint-disable-next-line selector-class-pattern */
+          .mat-badge-content {
+            width: 16px;
+            height: 16px;
+            margin: -8px;
+            border-radius: 50%;
+            background-color: var(--theme-accent-color);
+          }
+        }
+      }
     }
   }
 
@@ -57,14 +76,42 @@
       border-radius: 0;
 
       &-header {
+        --mat-expansion-header-indicator-display: none;
+        --mat-expansion-legacy-header-indicator-display: inline-block;
+
         padding: 0 32px 0 0;
         display: flex;
         align-items: center;
         border: none;
 
-        span::after {
-          transform: rotate(226deg);
+        /* stylelint-disable selector-class-pattern */
+        .mat-expansion-indicator {
+          height: 19px;
+          color: var(--adf-theme-foreground-text-color-087);
+          font-size: 14px;
+          letter-spacing: normal;
+          line-height: normal;
+          transform: rotate(180deg);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-top: -4px;
+
+          svg {
+            fill: var(--adf-theme-foreground-icon-color);
+          }
+
+          &::after {
+            color: var(--adf-theme-foreground-icon-color);
+          }
         }
+        /* stylelint-enable selector-class-pattern */
+
+        /* stylelint-disable selector-class-pattern */
+        &.mat-expanded .mat-expansion-indicator {
+          transform: rotate(0deg);
+        }
+        /* stylelint-enable selector-class-pattern */
 
         &-title {
           display: flex;
@@ -90,6 +137,7 @@
 
         .aca-action-button__label {
           color: var(--theme-text-light-color);
+          letter-spacing: normal;
         }
 
         &:hover .aca-action-button__label {

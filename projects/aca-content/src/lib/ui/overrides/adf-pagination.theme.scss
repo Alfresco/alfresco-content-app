@@ -1,5 +1,5 @@
 /* stylelint-disable selector-class-pattern */
-@mixin adf-pagination-theme($theme) {
+@mixin adf-pagination-theme() {
   adf-pagination {
     &.adf-pagination {
       height: 32px;
@@ -20,24 +20,44 @@
       }
 
       .adf-pagination__perpage-block {
+        --mdc-icon-button-state-layer-size: 48px;
+        --mdc-icon-button-icon-color: var(--adf-theme-foreground-text-color-087);
+
         flex: auto;
         padding-right: 24px;
       }
 
       .adf-pagination__actualinfo-block {
         padding-right: 12px;
+
+        button {
+          --mdc-icon-button-state-layer-size: 48px;
+          --mdc-icon-button-icon-size: 24px;
+        }
       }
 
       .adf-pagination__previous-button {
+        --mdc-icon-button-state-layer-size: 48px;
+        --mdc-icon-button-icon-color: var(--adf-theme-foreground-text-color-087);
+        --mdc-icon-button-disabled-icon-color: var(--adf-theme-foreground-disabled-text-color);
+
         margin: 0 12px 0 0;
       }
 
       .adf-pagination__next-button {
+        --mdc-icon-button-state-layer-size: 48px;
+        --mdc-icon-button-icon-color: var(--adf-theme-foreground-text-color-087);
+        --mdc-icon-button-disabled-icon-color: var(--adf-theme-foreground-disabled-text-color);
+
         margin: 0;
       }
 
       .adf-pagination__controls-block {
         padding-right: 24px;
+
+        button[disabled] mat-icon {
+          color: var(--adf-theme-foreground-disabled-text-color);
+        }
       }
     }
   }

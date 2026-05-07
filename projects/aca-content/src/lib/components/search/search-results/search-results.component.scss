@@ -1,9 +1,47 @@
-@import '../../../ui/mixins';
+@use '@angular/material' as mat;
+@use '../../../ui/mixins' as mixins;
+
+/* stylelint-disable selector-class-pattern */
+body:has(aca-search-results) {
+  .cdk-drag-preview .adf-datatable-cell-header-content,
+  .cdk-drag-preview .adf-datatable-cell-header-content--hovered {
+    background-color: transparent;
+  }
+
+  .cdk-drag-preview.adf-datatable-cell-header {
+    background-color: var(--adf-theme-background-card-color);
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 0;
+    color: var(--adf-theme-foreground-text-color-087);
+  }
+}
+/* stylelint-enable selector-class-pattern */
 
 aca-search-results {
   .aca-content-header {
     overflow-x: auto;
+
+    @include mat.icon-button-overrides(
+      (
+        icon-color: var(--theme-foreground-text-color),
+        state-layer-size: 48px
+      )
+    );
+
+    --mat-icon-color: var(--theme-foreground-text-color);
   }
+
+  @include mat.progress-bar-overrides(
+    (
+      active-indicator-color: var(--theme-primary-color)
+    )
+  );
+  @include mat.divider-overrides(
+    (
+      color: rgba(0, 0, 0, 0.12)
+    )
+  );
 
   .aca-search-results-active-search-ai-input {
     .aca-header-container,
@@ -17,7 +55,7 @@ aca-search-results {
   }
 
   .adf-search-results {
-    @include flex-row;
+    @include mixins.flex-row;
 
     &__facets {
       display: flex;
@@ -27,9 +65,27 @@ aca-search-results {
     }
 
     &__content {
-      @include flex-column;
+      @include mixins.flex-column;
 
       border-left: 1px solid var(--theme-border-color);
+
+      .adf-datatable-header adf-datatable-row {
+        height: 68px;
+
+        .adf-datatable-cell-header-content {
+          height: 68px;
+
+          &:hover {
+            background-color: transparent;
+          }
+        }
+
+        /* stylelint-disable-next-line selector-class-pattern */
+        .mat-mdc-icon-button {
+          padding: 12px;
+          height: 48px;
+        }
+      }
     }
 
     &__content-header {
@@ -40,16 +96,27 @@ aca-search-results {
       border-top: 1px solid var(--theme-border-color);
       border-bottom: 1px solid var(--theme-border-color);
 
+      .adf-search-form-button {
+        --mat-text-button-icon-offset: 0;
+
+        .adf-search-form-icon {
+          font-size: 24px;
+          line-height: 24px;
+          width: 24px;
+          height: 24px;
+        }
+      }
+
       .aca-content__advanced-filters {
+        /* stylelint-disable-next-line selector-class-pattern */
+        .mat-mdc-chip-set {
+          margin-top: -4px;
+        }
+
         /* stylelint-disable-next-line */
         .mat-mdc-chip-action {
           padding-left: 12px;
           padding-right: 12px;
-        }
-
-        /* stylelint-disable-next-line */
-        .mdc-evolution-chip__text-label {
-          color: var(--theme-selected-text-color);
         }
 
         .adf-search-filter-chip,
@@ -60,6 +127,14 @@ aca-search-results {
           margin-top: 4px;
           margin-bottom: 4px;
           box-sizing: border-box;
+
+          /* stylelint-disable-next-line */
+          .mdc-evolution-chip__text-label {
+            color: var(--theme-selected-text-color);
+            letter-spacing: normal;
+            line-height: 24px;
+            align-items: unset;
+          }
 
           &:hover,
           &:focus {
@@ -78,6 +153,14 @@ aca-search-results {
 
         .adf-search-filter-placeholder {
           color: var(--theme-selected-text-color);
+          letter-spacing: normal;
+          line-height: 24px;
+          opacity: 1;
+        }
+
+        .adf-search-filter-ellipsis {
+          letter-spacing: normal;
+          line-height: 24px;
         }
       }
     }
@@ -120,6 +203,12 @@ aca-search-results {
     &--visibility_button {
       margin-right: 8px;
       cursor: default;
+
+      @include mat.icon-button-overrides(
+        (
+          icon-color: var(--theme-primary-color)
+        )
+      );
     }
 
     .adf-search-filter {
@@ -176,6 +265,19 @@ aca-search-results {
         margin-right: 2px;
         line-height: 33px;
         font-weight: lighter;
+
+        --mat-text-button-horizontal-padding: 8px;
+        --mat-text-button-with-icon-horizontal-padding: 8px;
+        --mat-text-button-icon-offset: 0;
+        --mdc-text-button-disabled-label-text-color: var(--adf-theme-foreground-disabled-text-color);
+
+        /* stylelint-disable-next-line selector-class-pattern */
+        .mat-icon {
+          font-size: 15.75px;
+          line-height: 15.75px;
+          width: 15.75px;
+          height: 15.75px;
+        }
       }
 
       &__sort-picker {

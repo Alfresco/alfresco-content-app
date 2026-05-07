@@ -1,6 +1,231 @@
-@mixin adf-style-fixes($theme) {
+@use '@angular/material' as mat;
+
+@mixin adf-style-fixes() {
   //  add here all ADF style overrides
   //  and create a task to move them to ADF
+
+  adf-search-chip-autocomplete-input mat-form-field {
+    @include mat.form-field-overrides(
+      (
+        container-height: 44px,
+        container-vertical-padding: 14px,
+        outlined-outline-color: var(--adf-theme-foreground-disabled-text-color),
+        outlined-hover-outline-color: var(--adf-theme-foreground-disabled-text-color)
+      )
+    );
+
+    /* stylelint-disable selector-class-pattern */
+    mat-label,
+    .mdc-floating-label {
+      letter-spacing: normal;
+    }
+    /* stylelint-enable selector-class-pattern */
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-floating-label {
+      top: 23.75px;
+      bottom: -23.75px;
+    }
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mdc-notched-outline--upgraded .mdc-floating-label--float-above {
+      --mat-mdc-form-field-label-transform: translateY(-30.5px) scale(0.75);
+    }
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    .mat-mdc-form-field-infix {
+      mat-chip-grid {
+        margin-top: -4px;
+        font-size: 14px;
+        letter-spacing: normal;
+        line-height: 20px;
+      }
+
+      mat-autocomplete {
+        font-size: 14px;
+        letter-spacing: normal;
+      }
+    }
+  }
+
+  adf-search-properties .adf-search-properties-form fieldset .adf-search-properties-file-size-container mat-form-field {
+    @include mat.form-field-overrides(
+      (
+        outlined-outline-color: var(--adf-theme-foreground-disabled-text-color),
+        outlined-hover-outline-color: var(--adf-theme-foreground-disabled-text-color)
+      )
+    );
+
+    font-size: 14px;
+    letter-spacing: normal;
+
+    /* stylelint-disable selector-class-pattern */
+    .mat-mdc-select,
+    .mat-mdc-select-value {
+      font-size: 14px;
+      letter-spacing: normal;
+    }
+    /* stylelint-enable selector-class-pattern */
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    .mat-mdc-input-element {
+      line-height: 20px;
+    }
+
+    /* stylelint-disable selector-class-pattern */
+    mat-label,
+    .mdc-floating-label {
+      letter-spacing: normal;
+    }
+    /* stylelint-enable selector-class-pattern */
+  }
+
+  adf-search-logical-filter .adf-search-logical-filter-container .adf-search-input input {
+    width: 284px;
+    height: 25px;
+    padding: 5px;
+    border: 1px solid var(--adf-theme-mat-grey-color-400);
+    border-radius: 5px;
+    margin: 5px 0 0;
+    font-size: 14px;
+  }
+
+  /* stylelint-disable selector-class-pattern */
+  adf-search-filter-menu-card .adf-search-filter-menu-card .adf-search-filter-title,
+  .mat-mdc-menu-content adf-search-filter-menu-card .adf-search-filter-menu-card .adf-search-filter-title {
+    /* stylelint-enable selector-class-pattern */
+    color: var(--adf-theme-foreground-text-color-064);
+    font-weight: 700;
+    letter-spacing: 0.15px;
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    .adf-search-filter-title-action.mat-mdc-icon-button.mat-mdc-button-base {
+      @include mat.icon-button-overrides(
+        (
+          state-layer-size: 48px
+        )
+      );
+
+      padding: 12px;
+    }
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  .adf-search-action-button.mat-mdc-button.mat-mdc-button-base {
+    @include mat.button-overrides(
+      (
+        text-horizontal-padding: 8px,
+        text-container-height: 36px,
+        filled-horizontal-padding: 8px,
+        filled-container-height: 36px
+      )
+    );
+
+    min-width: 64px;
+    width: 64px;
+  }
+
+  .aca-content__advanced-filters adf-search-filter-chips mat-chip-set adf-search-widget-chip mat-chip.adf-search-filter-chip[aria-expanded='true'] {
+    border: 2px solid var(--theme-primary-color);
+  }
+
+  mat-form-field.adf-search-date-range-form-field.adf-search-date-range-input-field,
+  mat-form-field.adf-search-date-range-form-field.adf-search-date-range-form-field-select {
+    font-size: 14px;
+    letter-spacing: normal;
+    line-height: 20px;
+  }
+
+  mat-form-field.adf-search-date-range-form-field.adf-search-date-range-form-field-select {
+    height: 52px;
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  adf-search-date-range .adf-search-date-range-container .adf-search-date-range-container-row mat-radio-button .mdc-form-field {
+    font-weight: 500;
+    letter-spacing: normal;
+    line-height: 24px;
+    color: var(--adf-theme-foreground-text-color-087);
+  }
+
+  adf-search-filter-tabbed mat-tab-group mat-tab-header {
+    @include mat.tabs-overrides(
+      (
+        active-indicator-height: 3px,
+        divider-height: 0,
+        divider-color: var(--adf-theme-foreground-text-color-007),
+        label-text-tracking: normal,
+        label-text-weight: 500,
+        label-text-size: 14px,
+        active-label-text-color: var(--adf-theme-foreground-text-color-087),
+        active-hover-label-text-color: var(--adf-theme-foreground-text-color-087),
+        active-focus-label-text-color: var(--adf-theme-foreground-text-color-087),
+        inactive-label-text-color: var(--adf-theme-foreground-text-color-064),
+        inactive-hover-label-text-color: var(--adf-theme-foreground-text-color-064),
+        inactive-focus-label-text-color: var(--adf-theme-foreground-text-color-064)
+      )
+    );
+  }
+
+  adf-login .adf-login-content .adf-ie11FixerParent .adf-ie11FixerChild mat-card.adf-login-card-wide {
+    background-color: var(--adf-theme-background-card-color);
+    box-shadow: rgba(0, 0, 0, 0.24) 0 2px 2px 0;
+    border-color: var(--adf-theme-background-card-color);
+  }
+
+  adf-login .adf-login-content .adf-ie11FixerParent .adf-ie11FixerChild .adf-copyright {
+    font-size: 12px;
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  adf-login mat-card .mat-mdc-card-content .adf-login__field mat-form-field {
+    @include mat.form-field-overrides(
+      (
+        outlined-outline-color: var(--adf-theme-foreground-disabled-text-color),
+        outlined-hover-outline-color: var(--adf-theme-foreground-disabled-text-color)
+      )
+    );
+
+    font-size: 14px;
+    letter-spacing: normal;
+    line-height: 20px;
+    height: 52.5px;
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    .mat-mdc-text-field-wrapper {
+      height: 52.5px;
+    }
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    .mat-mdc-input-element {
+      font-size: 16px;
+      line-height: 24px;
+    }
+
+    /* stylelint-disable selector-class-pattern */
+    mat-label,
+    .mdc-floating-label {
+      letter-spacing: normal;
+    }
+    /* stylelint-enable selector-class-pattern */
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  adf-login button.adf-login-button.mat-mdc-button-base {
+    box-shadow: rgba(0, 0, 0, 0.2) 0 0 0 0;
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    &.mat-mdc-button-disabled {
+      /* stylelint-disable-line selector-class-pattern */
+      background-color: var(--adf-disabled-button-background);
+      border-color: var(--adf-theme-foreground-disabled-text-color);
+    }
+
+    .adf-login-button-label {
+      color: var(--adf-theme-background-card-color);
+      font-weight: 700;
+    }
+  }
 
   .adf-content-node-selector-content-list {
     .adf-content-selector-modified-cell {
@@ -10,5 +235,208 @@
     .adf-content-selector-modifier-cell {
       display: none;
     }
+  }
+
+  .adf-document-list .adf-datatable-list {
+    background-color: var(--adf-theme-background-card-color);
+    border: 1px solid var(--adf-theme-foreground-text-color-007);
+    border-top: none;
+
+    &.adf-datatable--empty {
+      border-top: 1px solid var(--adf-theme-foreground-text-color-007);
+    }
+
+    .adf-datatable-header {
+      border-top: 1px solid var(--adf-theme-foreground-text-color-007);
+      border-bottom: 1px solid transparent;
+
+      [data-automation-id='datatable-row-header']:hover {
+        background-color: var(--adf-theme-background-hover-color);
+      }
+    }
+
+    .adf-datatable-body {
+      .adf-datatable-row {
+        border-top: 1px solid var(--adf-theme-foreground-text-color-007);
+        min-height: 56px;
+
+        &:hover,
+        &:focus {
+          background-color: var(--adf-theme-foreground-text-color-007);
+        }
+
+        &:last-child {
+          border-bottom: 1px solid var(--adf-theme-foreground-text-color-007);
+        }
+
+        &:has(.adf-no-content-container) {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+
+  /* stylelint-disable selector-class-pattern */
+  .cdk-drag-preview.adf-datatable-cell-header {
+    background-color: var(--adf-theme-background-card-color);
+    border-top: none;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 0;
+    color: var(--adf-theme-foreground-text-color-087);
+
+    .adf-filter-icon {
+      color: var(--adf-theme-foreground-icon-color);
+    }
+
+    .adf-filter-button {
+      @include mat.icon-button-overrides(
+        (
+          state-layer-size: 48px
+        )
+      );
+    }
+
+    .adf-datatable__header--sorted-asc,
+    .adf-datatable__header--sorted-desc {
+      padding-right: 3.5px;
+      line-height: 24px;
+
+      &::after {
+        font-size: 16px;
+        line-height: 16px;
+        left: 5px;
+        right: 5px;
+      }
+    }
+  }
+
+  .cdk-drag-preview .adf-datatable-cell-header-content {
+    background-color: var(--adf-theme-background-hover-color);
+  }
+
+  .cdk-drag-preview .adf-datatable__resize-handle {
+    opacity: 1;
+    visibility: visible;
+
+    .adf-datatable__resize-handle--divider {
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+  }
+  /* stylelint-enable selector-class-pattern */
+
+  .adf-datatable-list .adf-datatable-cell-header {
+    min-height: 56px;
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--adf-theme-foreground-text-color-087);
+
+    .adf-datatable__resize-handle {
+      width: 2px;
+      min-height: 50px;
+    }
+
+    .adf-datatable__resize-handle--divider {
+      border: 1px solid var(--adf-theme-foreground-text-color-007);
+    }
+
+    &:hover .adf-datatable-cell-header-content {
+      background-color: var(--adf-theme-background-hover-color);
+    }
+
+    &:hover > .adf-datatable__resize-handle {
+      opacity: 1;
+      visibility: visible;
+
+      .adf-datatable__resize-handle--divider {
+        border: 1px solid rgba(0, 0, 0, 0.08);
+      }
+    }
+
+    .adf-resizable {
+      border-color: var(--adf-theme-background-hover-color);
+    }
+
+    .adf-datatable-checkbox {
+      @include mat.checkbox-overrides(
+        (
+          unselected-icon-color: rgba(0, 0, 0, 0.87)
+        )
+      );
+    }
+
+    .adf-filter-icon {
+      color: rgba(0, 0, 0, 0.54);
+    }
+
+    .adf-filter-button {
+      --mdc-icon-button-state-layer-size: 48px;
+    }
+
+    .adf-datatable__header--sorted-asc,
+    .adf-datatable__header--sorted-desc {
+      padding-right: 3.5px;
+      line-height: 24px;
+
+      &::after {
+        font-size: 16px;
+        line-height: 16px;
+        left: 5px;
+        right: 5px;
+      }
+    }
+
+    .adf-datatable-cell-header-drag-icon {
+      margin-right: -7px;
+    }
+  }
+
+  .adf-datatable-list [data-automation-id='adf-datatable-main-menu-button'] {
+    --mdc-icon-button-icon-color: var(--adf-theme-foreground-text-color-087);
+    --mdc-icon-button-state-layer-size: 48px;
+  }
+
+  adf-pagination.adf-pagination {
+    background-color: var(--theme-pagination-background-color);
+    border: none;
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  adf-layout-container .mat-drawer-side.adf-layout-container-sidenav {
+    border-right: 1px solid var(--adf-theme-foreground-text-color-007);
+    color: var(--adf-theme-foreground-text-color-087);
+  }
+
+  .adf-columns-selector .adf-columns-selector-search-input-form {
+    --mdc-outlined-text-field-outline-color: var(--adf-theme-foreground-disabled-text-color);
+    --mdc-outlined-text-field-focus-outline-color: var(--theme-primary-color);
+    --mdc-outlined-text-field-focus-label-text-color: var(--theme-primary-color);
+    --mdc-outlined-text-field-label-text-tracking: normal;
+
+    font-size: 14px;
+    letter-spacing: normal;
+    line-height: 20px;
+  }
+
+  .adf-columns-selector-header {
+    height: 48px;
+
+    [data-automation-id='adf-columns-selector-close-button'] {
+      --mdc-icon-button-state-layer-size: 48px;
+    }
+  }
+
+  adf-datatable-column-selector {
+    --mdc-list-list-item-label-text-color: var(--adf-theme-foreground-icon-color);
+    --mdc-checkbox-selected-icon-color: var(--theme-primary-color);
+    --mdc-checkbox-selected-hover-icon-color: var(--theme-primary-color);
+    --mdc-checkbox-selected-focus-icon-color: var(--theme-primary-color);
+    --mdc-checkbox-selected-pressed-icon-color: var(--theme-primary-color);
+  }
+
+  .adf-columns-selector-list-content {
+    font-size: 14px;
+    letter-spacing: normal;
+    line-height: 20px;
   }
 }
