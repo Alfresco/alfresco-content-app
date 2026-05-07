@@ -115,10 +115,10 @@
                 }
             },
             "REPOSITORY_VIEW": {
-                "TITLE": "Repository",
+                "TITLE": "Repositório",
                 "SIDENAV_LINK": {
-                    "LABEL": "Repository",
-                    "TOOLTIP": "View the repository"
+                    "LABEL": "Repositório",
+                    "TOOLTIP": "Visualizar o repositório"
                 }
             },
             "LIBRARIES": {

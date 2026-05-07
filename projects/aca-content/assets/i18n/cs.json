@@ -115,10 +115,10 @@
                 }
             },
             "REPOSITORY_VIEW": {
-                "TITLE": "Repository",
+                "TITLE": "Úložiště",
                 "SIDENAV_LINK": {
-                    "LABEL": "Repository",
-                    "TOOLTIP": "View the repository"
+                    "LABEL": "Úložiště",
+                    "TOOLTIP": "Zobrazit úložiště"
                 }
             },
             "LIBRARIES": {
