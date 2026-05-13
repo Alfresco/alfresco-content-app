@@ -9,6 +9,23 @@ on:
       browser:
         required: true
         type: string
+    secrets:
+      SCREENSHOT_USERNAME:
+        required: true
+      SCREENSHOT_PASSWORD:
+        required: true
+      REPORT_PORTAL_URL:
+        required: true
+      REPORT_PORTAL_TOKEN:
+        required: true
+      DOCKER_USERNAME:
+        required: true
+      DOCKER_PASSWORD:
+        required: true
+      QUAY_USERNAME:
+        required: true
+      QUAY_PASSWORD:
+        required: true
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
