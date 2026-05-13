@@ -4,8 +4,11 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     branches: [master, develop]
-  schedule:
-    - cron: '0 12 * * 1-5' #At 12:00 on every day-of-week from Monday through Friday.
+  workflow_call:
+    inputs:
+      browser:
+        required: true
+        type: string
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -148,8 +151,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # For scheduled runs, include all browsers; for PR runs, only Chromium
-        browser: ${{ github.event_name != 'pull_request' && fromJSON('["chrome", "firefox", "webkit", "msedge"]') || fromJSON('["chromium"]') }}
+        # For workflow_call (cron) runs, use the specified browser; for PR runs, only Chromium
+        browser: ${{ github.event_name == 'pull_request' && fromJSON('["chromium"]') || fromJSON(format('["{0}"]', inputs.browser)) }}
         e2e-suites:
           - name: "create-actions"
             id: 1

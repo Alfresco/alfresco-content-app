@@ -1,0 +1,29 @@
+name: "Cron multibrowser E2E runs"
+
+on:
+  schedule:
+    - cron: '0 0 * * 1-5' #At 00:00 on every day-of-week from Monday through Friday.
+
+jobs:
+  chrome:
+    name: "Cron browser E2E run - chrome"
+    uses: ./.github/workflows/pull-request.yml
+    with:
+      browser: chrome
+    secrets: inherit
+
+  firefox:
+    name: "Cron browser E2E run - firefox"
+    needs: chrome
+    uses: ./.github/workflows/pull-request.yml
+    with:
+      browser: firefox
+    secrets: inherit
+
+  webkit:
+    name: "Cron browser E2E run - webkit"
+    needs: firefox
+    uses: ./.github/workflows/pull-request.yml
+    with:
+      browser: webkit
+    secrets: inherit
