@@ -213,6 +213,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
         label: paramDef.displayLabel + (paramDef.mandatory ? ' *' : ''),
         key: paramDef.name,
         editable: true,
+        multivalued: paramDef.multiValued,
         ...(paramDef.mandatory
           ? {
               validators: [

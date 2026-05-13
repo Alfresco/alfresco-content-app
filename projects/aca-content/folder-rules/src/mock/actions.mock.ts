@@ -46,6 +46,13 @@ export const actionDefListMock = {
             displayLabel: 'Mock action parameter text'
           },
           {
+            name: 'mock-action-parameter-text-multi',
+            type: 'd:text',
+            multiValued: true,
+            mandatory: false,
+            displayLabel: 'Mock action parameter text multi'
+          },
+          {
             name: 'mock-action-parameter-boolean',
             type: 'd:boolean',
             multiValued: false,
@@ -97,6 +104,15 @@ const actionParam1TransformedMock: ActionParameterDefinitionTransformed = {
 };
 
 const actionParam2TransformedMock: ActionParameterDefinitionTransformed = {
+  name: 'mock-action-parameter-text-multi',
+  type: 'd:text',
+  multiValued: true,
+  mandatory: false,
+  displayLabel: 'Mock action parameter text multi',
+  parameterConstraintName: ''
+};
+
+const actionParam3TransformedMock: ActionParameterDefinitionTransformed = {
   name: 'mock-action-parameter-boolean',
   type: 'd:boolean',
   multiValued: false,
@@ -105,7 +121,7 @@ const actionParam2TransformedMock: ActionParameterDefinitionTransformed = {
   parameterConstraintName: ''
 };
 
-const actionParam3TransformedMock: ActionParameterDefinitionTransformed = {
+const actionParam4TransformedMock: ActionParameterDefinitionTransformed = {
   name: 'aspect-name',
   type: 'd:qname',
   multiValued: false,
@@ -114,7 +130,7 @@ const actionParam3TransformedMock: ActionParameterDefinitionTransformed = {
   parameterConstraintName: 'ac-aspects'
 };
 
-const actionParam4TransformedMock: ActionParameterDefinitionTransformed = {
+const actionParam5TransformedMock: ActionParameterDefinitionTransformed = {
   name: 'mock-action-parameter-noderef',
   type: 'd:noderef',
   multiValued: false,
@@ -123,7 +139,7 @@ const actionParam4TransformedMock: ActionParameterDefinitionTransformed = {
   parameterConstraintName: ''
 };
 
-const actionParam5TransformedMock: ActionParameterDefinitionTransformed = {
+const actionParam6TransformedMock: ActionParameterDefinitionTransformed = {
   name: 'aspect-name',
   type: 'd:noderef',
   multiValued: false,
@@ -168,7 +184,8 @@ const action1TransformedMock: ActionDefinitionTransformed = {
     actionParam2TransformedMock,
     actionParam3TransformedMock,
     actionParam4TransformedMock,
-    actionParam5TransformedMock
+    actionParam5TransformedMock,
+    actionParam6TransformedMock
   ]
 };
 
@@ -209,7 +226,7 @@ export const actionNodeTransformedMock: ActionDefinitionTransformed = {
   title: 'mock-action-5-definition',
   applicableTypes: [],
   trackStatus: false,
-  parameterDefinitions: [actionParam5TransformedMock]
+  parameterDefinitions: [actionParam6TransformedMock]
 };
 
 export const actionsTransformedListMock: ActionDefinitionTransformed[] = [action1TransformedMock, action2TransformedMock];

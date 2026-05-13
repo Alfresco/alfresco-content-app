@@ -128,13 +128,17 @@ describe('RuleActionUiComponent', () => {
     await changeMatSelectValue('Action 1 title');
 
     const cardView = getPropertiesCardView();
+    const multiValuedProperties = cardView.properties.filter((property: CardViewTextItemModel) => property.multivalued);
 
-    expect(cardView.properties.length).toBe(5);
+    expect(cardView.properties.length).toBe(6);
     expect(cardView.properties[0]).toBeInstanceOf(CardViewTextItemModel);
-    expect(cardView.properties[1]).toBeInstanceOf(CardViewBoolItemModel);
-    expect(cardView.properties[2]).toBeInstanceOf(CardViewSelectItemModel);
-    expect(cardView.properties[3]).toBeInstanceOf(CardViewTextItemModel);
-    expect(cardView.properties[4]).toBeInstanceOf(CardViewSelectItemModel);
+    expect(cardView.properties[1]).toBeInstanceOf(CardViewTextItemModel);
+    expect(cardView.properties[2]).toBeInstanceOf(CardViewBoolItemModel);
+    expect(cardView.properties[3]).toBeInstanceOf(CardViewSelectItemModel);
+    expect(cardView.properties[4]).toBeInstanceOf(CardViewTextItemModel);
+    expect(cardView.properties[5]).toBeInstanceOf(CardViewSelectItemModel);
+    expect(multiValuedProperties.length).toBe(1);
+    expect(multiValuedProperties[0].key).toBe('mock-action-parameter-text-multi');
 
     await changeMatSelectValue('mock-action-2-definition');
     expect(unitTestingUtils.getByDirective(CardViewComponent)).toBeNull();
@@ -211,7 +215,7 @@ describe('RuleActionUiComponent', () => {
 
       await changeMatSelectValue('Action 1 title');
       expect(tagService.areTagsEnabled).toHaveBeenCalled();
-      (getPropertiesCardView().properties[2] as CardViewSelectItemModel<string>).options$.subscribe((options) => {
+      (getPropertiesCardView().properties[3] as CardViewSelectItemModel<string>).options$.subscribe((options) => {
         expect(options).toEqual(
           dummyTagsConstraints[0].constraints.map((constraint) => ({
             key: constraint.value,
@@ -229,7 +233,7 @@ describe('RuleActionUiComponent', () => {
 
       await changeMatSelectValue('Action 1 title');
       expect(tagService.areTagsEnabled).toHaveBeenCalled();
-      (getPropertiesCardView().properties[2] as CardViewSelectItemModel<string>).options$.subscribe((options) => {
+      (getPropertiesCardView().properties[3] as CardViewSelectItemModel<string>).options$.subscribe((options) => {
         expect(options).toEqual([
           {
             key: 'cm:notTagRelated',
@@ -247,7 +251,7 @@ describe('RuleActionUiComponent', () => {
 
       await changeMatSelectValue('Action 1 title');
       expect(categoriesService.areCategoriesEnabled).toHaveBeenCalled();
-      (getPropertiesCardView().properties[2] as CardViewSelectItemModel<string>).options$.subscribe((options) => {
+      (getPropertiesCardView().properties[3] as CardViewSelectItemModel<string>).options$.subscribe((options) => {
         expect(options).toEqual(
           dummyCategoriesConstraints[0].constraints.map((constraint) => ({
             key: constraint.value,
@@ -265,7 +269,7 @@ describe('RuleActionUiComponent', () => {
 
       await changeMatSelectValue('Action 1 title');
       expect(categoryService.areCategoriesEnabled).toHaveBeenCalled();
-      (getPropertiesCardView().properties[2] as CardViewSelectItemModel<string>).options$.subscribe((options) => {
+      (getPropertiesCardView().properties[3] as CardViewSelectItemModel<string>).options$.subscribe((options) => {
         expect(options).toEqual([
           {
             key: 'cm:notCategoryRelated',
