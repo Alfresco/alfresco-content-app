@@ -4,28 +4,6 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     branches: [master, develop]
-  workflow_call:
-    inputs:
-      browser:
-        required: true
-        type: string
-    secrets:
-      SCREENSHOT_USERNAME:
-        required: true
-      SCREENSHOT_PASSWORD:
-        required: true
-      REPORT_PORTAL_URL:
-        required: true
-      REPORT_PORTAL_TOKEN:
-        required: true
-      DOCKER_USERNAME:
-        required: true
-      DOCKER_PASSWORD:
-        required: true
-      QUAY_USERNAME:
-        required: true
-      QUAY_PASSWORD:
-        required: true
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -168,8 +146,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # For workflow_call (cron) runs, use the specified browser; for PR runs, only Chromium
-        browser: ${{ github.event_name == 'pull_request' && fromJSON('["chromium"]') || fromJSON(format('["{0}"]', inputs.browser)) }}
+        # For PR runs, only Chromium
+        browser: ["chromium"]
         e2e-suites:
           - name: "create-actions"
             id: 1
@@ -259,18 +237,8 @@ jobs:
         env:
           ADMIN_PASSWORD_SCRIPT: ${{ env.ADMIN_PASSWORD }}
 
-      - name: Before playwright (Chromium for PR)
-        if: ${{ github.event_name == 'pull_request' }}
+      - name: Before playwright
         run: npm run ci:playwright:install
-
-      - name: Before playwright (all browsers)
-        if: ${{ github.event_name != 'pull_request' }}
-        run: npm run ci:playwright:install:all
-
-      - name: Install Playwright system dependencies
-        # Install system dependencies required for all browsers (especially WebKit on Linux)
-        if: ${{ github.event_name != 'pull_request' }}
-        run: npx playwright install-deps
 
       - name: Run e2e playwright
         uses: ./.github/actions/run-e2e-playwright

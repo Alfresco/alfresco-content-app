@@ -1,0 +1,194 @@
+name: "E2E Playwright (Reusable)"
+
+on:
+  workflow_call:
+    inputs:
+      browser:
+        required: true
+        type: string
+    secrets:
+      SCREENSHOT_USERNAME:
+        required: true
+      SCREENSHOT_PASSWORD:
+        required: true
+      REPORT_PORTAL_URL:
+        required: true
+      REPORT_PORTAL_TOKEN:
+        required: true
+      DOCKER_USERNAME:
+        required: true
+      DOCKER_PASSWORD:
+        required: true
+      QUAY_USERNAME:
+        required: true
+      QUAY_PASSWORD:
+        required: true
+
+env:
+  BASE_URL: http://localhost
+  ADMIN_EMAIL: admin
+  ADMIN_PASSWORD: admin
+  HR_USER: admin
+  HR_USER_PASSWORD: admin
+  SCREENSHOT_USERNAME: ${{ secrets.SCREENSHOT_USERNAME }}
+  SCREENSHOT_PASSWORD: ${{ secrets.SCREENSHOT_PASSWORD }}
+  PLAYWRIGHT_E2E_HOST: http://localhost:4200
+  GH_BUILD_NUMBER: ${{ github.run_id }}
+  REPORT_PORTAL_URL: ${{ secrets.REPORT_PORTAL_URL }}
+  REPORT_PORTAL_TOKEN: ${{ secrets.REPORT_PORTAL_TOKEN }}
+  MAXINSTANCES: 2
+  RETRY_COUNT: 2
+
+jobs:
+  build:
+    name: 'build'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 2
+
+      - uses: ./.github/actions/before-install
+      - run: npm ci
+      - name: upload npm logs
+        uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: npm-logs
+          path: /home/runner/.npm/_logs/
+      - run: npm run ci:build -- aca-playwright-shared
+      - run: npm run build -- $BUILD_OPTS
+
+      - name: dist cache
+        if: ${{ success() }}
+        uses: actions/cache/save@v5
+        with:
+          path: ./dist/content-ce
+          key: cache-dist-${{ github.run_id }}
+
+  e2es-playwright:
+    needs: [build]
+    name: E2E | ${{ matrix.browser }} | ${{ matrix.e2e-suites.name }} | Playwright
+    runs-on: ubuntu-24.04
+    env:
+      NODE_OPTIONS: --dns-result-order=ipv4first
+      PLAYWRIGHT_BROWSER: ${{ matrix.browser }}
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: ${{ fromJSON(format('["{0}"]', inputs.browser)) }}
+        e2e-suites:
+          - name: "create-actions"
+            id: 1
+          - name: "folder-rules"
+            id: 2
+          - name: "viewer"
+            id: 3
+          - name: "authentication"
+            id: 4
+          - name: "navigation"
+            id: 5
+          - name: "special-permissions"
+            id: 6
+          - name: "pagination"
+            id: 7
+          - name: "list-views"
+            id: 8
+          - name: "share-action"
+            id: 9
+          - name: "copy-move-actions"
+            id: 10
+          - name: "library-actions"
+            id: 11
+          - name: "info-drawer"
+            id: 12
+          - name: "search"
+            id: 13
+          - name: "upload-download-actions"
+            id: 14
+          - name: "favorite-actions"
+            id: 15
+          - name: "delete-actions"
+            id: 16
+          - name: "edit-actions"
+            id: 17
+          - name: "smoke-test"
+            id: 18
+          - name: "folder-information-actions"
+            id: 19
+          - name: "viewer-actions"
+            id: 20
+    steps:
+      - name: Free hosted runner disk space
+        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@f95467b62527ce087c9a1b7e55c467061cf827a0 # v17.6.1
+
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 2
+
+      - name: Deploy local ACS
+        id: deploy-local-acs
+        uses: ./.github/actions/deploy-local-acs
+        with:
+          docker_username: ${{ secrets.DOCKER_USERNAME }}
+          docker_password: ${{ secrets.DOCKER_PASSWORD }}
+          quay_username: ${{ secrets.QUAY_USERNAME }}
+          quay_password: ${{ secrets.QUAY_PASSWORD }}
+          acs_deployment_version: 'latest'
+
+      - name: Collect and push logs as artifact
+        if: always()
+        uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-keep-nslogs@f95467b62527ce087c9a1b7e55c467061cf827a0 # v17.6.1
+        with:
+          log_retention: 7
+          log_name_identifier: "logs-${{ matrix.browser }}-${{ matrix.e2e-suites.name }}"
+
+      - name: Before install
+        uses: ./.github/actions/before-install
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Restore dist cache
+        uses: actions/cache/restore@v5
+        id: cache
+        with:
+          path: ./dist/content-ce
+          key: cache-dist-${{ github.run_id }}
+
+      - name: Before e2e
+        uses: ./.github/actions/before-e2e
+
+      - name: Check Search Indexing
+        continue-on-error: true
+        run: npm run ci:check-search-indexing
+        env:
+          ADMIN_PASSWORD_SCRIPT: ${{ env.ADMIN_PASSWORD }}
+
+      - name: Before playwright
+        run: npm run ci:playwright:install:all
+
+      - name: Install Playwright system dependencies
+        run: npx playwright install-deps
+
+      - name: Run e2e playwright
+        uses: ./.github/actions/run-e2e-playwright
+        with:
+          options: "${{ matrix.e2e-suites.name }}"
+          artifact-name: "${{ matrix.browser }}-${{ matrix.e2e-suites.name }}"
+          test-runner: playwright
+        env:
+          PLAYWRIGHT_BROWSER: ${{ matrix.browser }}
+
+      - name: Debug Ingress Controller Logs
+        if: always() && steps.deploy-local-acs.outcome == 'success'
+        run: |
+            kubectl logs -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx --tail=-1
+
+      - name: Spit cluster status after integration tests
+        if: always()
+        run: |
+          kubectl get all --all-namespaces
+          kubectl describe pod

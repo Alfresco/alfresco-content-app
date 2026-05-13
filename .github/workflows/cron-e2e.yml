@@ -7,7 +7,7 @@ on:
 jobs:
   chrome:
     name: "Cron browser E2E run - chrome"
-    uses: ./.github/workflows/pull-request.yml
+    uses: ./.github/workflows/e2e-playwright-reusable.yml
     with:
       browser: chrome
     secrets:
@@ -24,7 +24,7 @@ jobs:
     name: "Cron browser E2E run - firefox"
     needs: chrome
     if: ${{ always() }}
-    uses: ./.github/workflows/pull-request.yml
+    uses: ./.github/workflows/e2e-playwright-reusable.yml
     with:
       browser: firefox
     secrets:
@@ -41,7 +41,7 @@ jobs:
     name: "Cron browser E2E run - webkit"
     needs: firefox
     if: ${{ always() }}
-    uses: ./.github/workflows/pull-request.yml
+    uses: ./.github/workflows/e2e-playwright-reusable.yml
     with:
       browser: webkit
     secrets:
@@ -58,7 +58,7 @@ jobs:
     name: "Cron browser E2E run - msedge"
     needs: webkit
     if: ${{ always() }}
-    uses: ./.github/workflows/pull-request.yml
+    uses: ./.github/workflows/e2e-playwright-reusable.yml
     with:
       browser: msedge
     secrets:
