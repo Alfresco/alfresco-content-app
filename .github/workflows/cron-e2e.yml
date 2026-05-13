@@ -2,7 +2,7 @@ name: "Cron multibrowser E2E runs"
 
 on:
   schedule:
-    - cron: '0 0 * * 1-5' #At 00:00 on every day-of-week from Monday through Friday.
+    - cron: '0 8 * * 1-5' #At 08:00 on every day-of-week from Monday through Friday.
 
 jobs:
   chrome:
@@ -23,6 +23,7 @@ jobs:
   firefox:
     name: "Cron browser E2E run - firefox"
     needs: chrome
+    if: ${{ always() }}
     uses: ./.github/workflows/pull-request.yml
     with:
       browser: firefox
@@ -39,9 +40,27 @@ jobs:
   webkit:
     name: "Cron browser E2E run - webkit"
     needs: firefox
+    if: ${{ always() }}
     uses: ./.github/workflows/pull-request.yml
     with:
       browser: webkit
+    secrets:
+      SCREENSHOT_USERNAME: ${{ secrets.SCREENSHOT_USERNAME }}
+      SCREENSHOT_PASSWORD: ${{ secrets.SCREENSHOT_PASSWORD }}
+      REPORT_PORTAL_URL: ${{ secrets.REPORT_PORTAL_URL }}
+      REPORT_PORTAL_TOKEN: ${{ secrets.REPORT_PORTAL_TOKEN }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+      QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+
+  msedge:
+    name: "Cron browser E2E run - msedge"
+    needs: webkit
+    if: ${{ always() }}
+    uses: ./.github/workflows/pull-request.yml
+    with:
+      browser: msedge
     secrets:
       SCREENSHOT_USERNAME: ${{ secrets.SCREENSHOT_USERNAME }}
       SCREENSHOT_PASSWORD: ${{ secrets.SCREENSHOT_PASSWORD }}
