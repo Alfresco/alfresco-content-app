@@ -57,6 +57,10 @@ ng-component {
   border-bottom: 1px solid var(--theme-metadata-property-panel-border-color);
 }
 
+aca-files aca-page-layout .aca-page-layout-content .aca-sidebar {
+  border-color: var(--adf-theme-foreground-text-color-087);
+}
+
 .aca-page-title {
   cursor: default;
   font-size: 20px;

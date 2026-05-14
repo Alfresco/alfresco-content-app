@@ -54,6 +54,10 @@ import { MatIconModule } from '@angular/material/icon';
         outline: none;
         background-color: var(--theme-selected-background-color);
       }
+
+      .app-toggle-info-drawer button.mat-primary mat-icon {
+        color: var(--theme-primary-color);
+      }
     `
   ],
   encapsulation: ViewEncapsulation.None,
