@@ -2,7 +2,7 @@ name: "Cron multibrowser E2E runs"
 
 on:
   schedule:
-    - cron: '0 8 * * 1-5' #At 08:00 on every day-of-week from Monday through Friday.
+    - cron: '0 6 * * 1-5' #At 06:00 on every day-of-week from Monday through Friday.
 
 jobs:
   chrome:
