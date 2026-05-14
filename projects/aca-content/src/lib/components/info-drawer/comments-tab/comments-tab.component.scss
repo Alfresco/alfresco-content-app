@@ -1,5 +1,8 @@
 .adf-comments-tab-container {
   padding: 16px;
+  background-color: var(--adf-theme-background-card-color);
+
+  --mdc-elevated-card-container-color: var(--adf-theme-background-card-color);
 }
 
 .adf-comments-form-field {
@@ -7,4 +10,16 @@
     background-color: transparent;
     padding: 0;
   }
+}
+
+.adf-comments-input-form-field {
+  --mat-form-field-container-height: 53.75px;
+  --mat-form-field-container-vertical-padding: 14.875px;
+
+  /* stylelint-disable selector-class-pattern */
+  mat-label,
+  .mdc-floating-label {
+    letter-spacing: normal;
+  }
+  /* stylelint-enable selector-class-pattern */
 }

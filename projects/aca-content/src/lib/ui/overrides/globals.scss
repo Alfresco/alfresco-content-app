@@ -41,8 +41,21 @@
     &#{ms.$mat-snack-bar-container} {
       margin: 24px;
 
+      --mat-snack-bar-button-color: var(--theme-header-text-color);
+
       #{ms.$mat-snackbar-label} {
         line-height: unset;
+      }
+
+      /* stylelint-disable-next-line selector-class-pattern */
+      .mat-mdc-snack-bar-surface {
+        border-radius: 4px;
+      }
+
+      .adf-snackbar-message-content-action-icon,
+      .adf-snackbar-message-content-action-icon mat-icon,
+      .adf-snackbar-message-content-action-button {
+        color: var(--theme-header-text-color);
       }
     }
   }
