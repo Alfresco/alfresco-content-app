@@ -111,5 +111,10 @@ export const TEST_FILES = {
   AZW3_FILE: {
     path: resolve(__dirname, 'file-azw3.azw3'),
     name: 'file-azw3'
+  },
+  PDF_JP2_FILE: {
+    path: resolve(__dirname, 'file-pdf-with-jp2.pdf'),
+    name: 'file-pdf-jp2',
+    data: 'Lorem ipsum dolor sit amet'
   }
 };

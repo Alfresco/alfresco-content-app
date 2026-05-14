@@ -51,6 +51,7 @@ test.describe('viewer file types', () => {
   const randomMp4Name = `${TEST_FILES.MP4_FILE.name}-${randomString}.mp4`;
   const randomWebmName = `${TEST_FILES.WEBM_FILE.name}-${randomString}.webm`;
   const randomAzw3Name = `${TEST_FILES.AZW3_FILE.name}-${randomString}.azw3`;
+  const randomPdfJp2Name = `${TEST_FILES.PDF_JP2_FILE.name}-${randomString}.pdf`;
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
   let fileActionApi: FileActionsApi;
@@ -58,16 +59,7 @@ test.describe('viewer file types', () => {
   test.beforeAll(async () => {
     const apiClientFactory = new ApiClientFactory();
     await apiClientFactory.setUpAcaBackend('admin');
-
-    try {
-      await apiClientFactory.createUser({ username });
-    } catch (exception) {
-      if (JSON.parse(exception.message).error.statusCode !== 409) {
-        const errorMessage = `----- beforeAll failed : ${exception}`;
-        logger.error(errorMessage);
-        throw new Error(errorMessage);
-      }
-    }
+    await apiClientFactory.createUser({ username });
 
     nodesApi = await NodesApi.initialize(username, username);
     fileActionApi = await FileActionsApi.initialize(username, username);
@@ -83,7 +75,8 @@ test.describe('viewer file types', () => {
       { path: TEST_FILES.MP3_FILE.path, name: randomMp3Name },
       { path: TEST_FILES.MP4_FILE.path, name: randomMp4Name },
       { path: TEST_FILES.WEBM_FILE.path, name: randomWebmName },
-      { path: TEST_FILES.AZW3_FILE.path, name: randomAzw3Name }
+      { path: TEST_FILES.AZW3_FILE.path, name: randomAzw3Name },
+      { path: TEST_FILES.PDF_JP2_FILE.path, name: randomPdfJp2Name }
     ];
 
     for (const file of filesToUpload) {
@@ -92,6 +85,7 @@ test.describe('viewer file types', () => {
 
     await fileActionApi.waitForNodes(randomWebmName, { expect: 1 });
     await fileActionApi.waitForNodes(randomAzw3Name, { expect: 1 });
+    await fileActionApi.waitForNodes(randomPdfJp2Name, { expect: 1 });
   });
 
   test.beforeEach(async ({ loginPage }) => {
@@ -200,5 +194,9 @@ test.describe('viewer file types', () => {
     await expect(personalFiles.viewer.thumbnailsPages.first()).toBeVisible();
     await personalFiles.viewer.thumbnailsCloseButton.click();
     await expect(personalFiles.viewer.thumbnailsPages.first()).toBeHidden();
+  });
+
+  test('[XAT-19373] PDFs containing JP2 images are displayed properly', async ({ personalFiles }) => {
+    await checkViewerDisplay(personalFiles, randomPdfJp2Name, 'viewerDocument');
   });
 });

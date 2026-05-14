@@ -42,11 +42,18 @@ export class FileActionsApi {
 
   async uploadFile(fileLocation: string, fileName: string, parentFolderId: string): Promise<NodeEntry> {
     const file = fs.createReadStream(fileLocation);
-    return this.apiService.upload.uploadFile(file, '', parentFolderId, null, {
-      name: fileName,
-      nodeType: 'cm:content',
-      renditions: 'doclib'
-    });
+    try {
+      const result = await this.apiService.upload.uploadFile(file, '', parentFolderId, undefined, {
+        name: fileName,
+        nodeType: 'cm:content',
+        renditions: 'doclib'
+      });
+      logger.info(`File uploaded successfully: ${fileName}`);
+      return result;
+    } catch (error) {
+      logger.error(`Failed to upload file: ${fileName}: ${error}`);
+      return Promise.reject(error);
+    }
   }
 
   async uploadFileWithRename(
@@ -70,8 +77,11 @@ export class FileActionsApi {
     };
 
     try {
-      return this.apiService.upload.uploadFile(file, '', parentId, nodeProps, opts);
+      const result = await this.apiService.upload.uploadFile(file, '', parentId, nodeProps, opts);
+      logger.info(`File uploaded successfully: ${newName}`);
+      return result;
     } catch (error) {
+      logger.error(`Failed to upload file: ${newName}: ${error}`);
       return Promise.reject(error);
     }
   }
@@ -95,7 +105,7 @@ export class FileActionsApi {
   async getNodeProperty(nodeId: string, property: string): Promise<string> {
     try {
       const node = await this.getNodeById(nodeId);
-      return node.entry.properties?.[property] || '';
+      return node?.entry?.properties?.[property] || '';
     } catch {
       return '';
     }
@@ -133,7 +143,7 @@ export class FileActionsApi {
   private async queryNodesNames(searchTerm: string): Promise<ResultSetPaging> {
     const data = {
       query: {
-        query: `cm:name:\"${searchTerm}*\"`,
+        query: `cm:name:"${searchTerm}*"`,
         language: 'afts'
       },
       filterQueries: [{ query: `+TYPE:'cm:folder' OR +TYPE:'cm:content'` }]
@@ -147,11 +157,17 @@ export class FileActionsApi {
   }
 
   async waitForNodes(searchTerm: string, data: { expect: number }): Promise<void> {
+    logger.info(`waitForNodes: Waiting for ${data.expect} node(s) matching "${searchTerm}"`);
     const predicate = (totalItems: number) => totalItems === data.expect;
+    let pollCount = 0;
 
     const apiCall = async () => {
       try {
-        return (await this.queryNodesNames(searchTerm)).list.pagination.totalItems;
+        const totalItems = (await this.queryNodesNames(searchTerm)).list?.pagination?.totalItems || 0;
+        if (pollCount++ % 4 === 0) {
+          logger.info(`waitForNodes: "${searchTerm}" — found ${totalItems}, expecting ${data.expect}`);
+        }
+        return totalItems;
       } catch (error) {
         return 0;
       }
@@ -208,7 +224,7 @@ export class FileActionsApi {
 
     const apiCall = async (): Promise<number> => {
       try {
-        return (await this.queryNodesSearchHighlight(searchTerm)).list.pagination.totalItems;
+        return (await this.queryNodesSearchHighlight(searchTerm)).list?.pagination?.totalItems || 0;
       } catch (error) {
         logger.warn(`queryNodesSearchHighlight failed for "${searchTerm}": ${error}`);
         return 0;
@@ -227,8 +243,8 @@ export class FileActionsApi {
     try {
       const opts: { [key: string]: string | boolean } = {
         majorVersion: majorVersion,
-        comment: comment,
-        name: newName
+        comment: comment ?? false,
+        name: newName ?? false
       };
       return await this.apiService.nodes.updateNodeContent(nodeId, content, opts);
     } catch (error) {
