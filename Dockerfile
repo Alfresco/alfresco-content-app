@@ -10,7 +10,7 @@ RUN mkdir -p ./licenses && \
 
 # 2. Generate image
 
-FROM nginxinc/nginx-unprivileged:1.21-alpine
+FROM nginxinc/nginx-unprivileged:1-alpine
 
 USER root
 RUN apk update && apk upgrade
