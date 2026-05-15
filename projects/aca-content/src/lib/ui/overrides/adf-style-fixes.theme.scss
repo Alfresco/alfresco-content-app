@@ -200,14 +200,193 @@
   }
 
   /* stylelint-disable-next-line selector-class-pattern */
+  .mat-mdc-dialog-title.adf-aspect-list-dialog h1.adf-aspect-list-dialog-title {
+    color: var(--adf-theme-foreground-text-color-087);
+    font-size: 18px;
+    font-weight: 200;
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  adf-aspect-list-dialog mat-dialog-content.mat-mdc-dialog-content.adf-aspect-dialog-content {
+    padding-bottom: 20px;
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  adf-aspect-list-dialog mat-dialog-actions .mat-mdc-button-base {
+    @include mat.button-overrides(
+      (
+        text-horizontal-padding: 8px,
+        filled-horizontal-padding: 8px
+      )
+    );
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  .mat-mdc-dialog-surface:has(adf-aspect-list-dialog) {
+    box-shadow:
+      rgba(0, 0, 0, 0.2) 0 11px 15px -7px,
+      rgba(0, 0, 0, 0.14) 0 24px 38px 3px,
+      rgba(0, 0, 0, 0.12) 0 9px 46px 8px;
+  }
+
+  p.adf-property-paragraph {
+    color: var(--adf-theme-foreground-text-color-087);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: normal;
+  }
+
+  adf-permission-list mat-card#adf-permission-manager-card {
+    --mdc-elevated-card-container-color: var(--adf-theme-background-card-color);
+
+    background-color: var(--adf-theme-background-card-color);
+
+    .adf-permission-container {
+      border: 1px solid var(--adf-theme-foreground-text-color-007);
+    }
+
+    mat-card-content.adf-local-permission-container {
+      padding-bottom: 0;
+
+      /* stylelint-disable-next-line selector-class-pattern */
+      section.adf-permission-content-header button.mat-mdc-icon-button {
+        @include mat.icon-button-overrides(
+          (
+            state-layer-size: 48px,
+            icon-size: 24px
+          )
+        );
+
+        padding: 12px;
+        color: var(--adf-theme-foreground-text-color-087);
+      }
+    }
+
+    adf-datatable.adf-datatable-permission .adf-datatable-list {
+      border: 1px solid var(--adf-theme-foreground-text-color-007);
+
+      &.adf-datatable--empty {
+        height: calc(100% - 16px);
+      }
+    }
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    button.adf-permission-visibility-toggle.mat-mdc-unelevated-button {
+      --mdc-filled-button-container-color: transparent;
+      --mdc-filled-button-label-text-color: var(--adf-theme-foreground-base-color);
+
+      background-color: transparent;
+      color: var(--adf-theme-foreground-base-color);
+
+      mat-icon {
+        width: 24px;
+        height: 24px;
+        font-size: 24px;
+        line-height: 24px;
+      }
+    }
+
+    mat-slide-toggle.adf-inherit-toggle {
+      @include mat.slide-toggle-overrides(
+        (
+          track-width: 36px,
+          track-height: 20px,
+          track-shape: 10px,
+          selected-handle-size: 14px,
+          unselected-handle-size: 14px,
+          pressed-handle-size: 14px,
+          with-icon-handle-size: 14px,
+          unselected-with-icon-handle-horizontal-margin: 0 3px 0 0,
+          selected-with-icon-handle-horizontal-margin: 0 0 0 15px,
+          selected-handle-color: var(--adf-theme-background-card-color),
+          selected-focus-handle-color: var(--adf-theme-background-card-color),
+          selected-hover-handle-color: var(--adf-theme-background-card-color),
+          selected-pressed-handle-color: var(--adf-theme-background-card-color),
+          selected-icon-color: var(--adf-theme-background-card-color),
+          handle-surface-color: var(--adf-theme-background-card-color),
+          unselected-handle-color: var(--adf-theme-foreground-text-color-087),
+          unselected-focus-handle-color: var(--adf-theme-foreground-text-color-087),
+          unselected-hover-handle-color: var(--adf-theme-foreground-text-color-087),
+          unselected-pressed-handle-color: var(--adf-theme-foreground-text-color-087)
+        )
+      );
+
+      /* stylelint-disable selector-class-pattern */
+      .mdc-switch__icon--on,
+      .mdc-switch--selected .mdc-switch__icon {
+        fill: var(--adf-theme-background-card-color);
+      }
+      /* stylelint-enable selector-class-pattern */
+    }
+  }
+
+  adf-aspect-list {
+    letter-spacing: normal;
+
+    #aspect-list-container {
+      border: 1px solid var(--adf-theme-foreground-text-color-007);
+    }
+
+    .adf-accordion-aspect-list .adf-accordion-aspect-list-item {
+      box-shadow: rgba(0, 0, 0, 0.07) 0 2px 2px -1px;
+    }
+
+    .adf-accordion-aspect-list .adf-accordion-aspect-list-item mat-expansion-panel {
+      @include mat.expansion-overrides(
+        (
+          container-shape: 0
+        )
+      );
+
+      background-color: transparent;
+      border-radius: 0;
+      box-shadow: none;
+
+      mat-expansion-panel-header mat-panel-title,
+      mat-expansion-panel-header mat-panel-description {
+        color: var(--adf-theme-foreground-icon-color);
+        font-size: 11.6667px;
+        font-weight: 500;
+        letter-spacing: normal;
+      }
+
+      /* stylelint-disable-next-line selector-class-pattern */
+      mat-expansion-panel-header .mat-expansion-indicator {
+        width: 8px;
+        height: 20px;
+        color: var(--adf-theme-foreground-text-color-087);
+      }
+
+      table.adf-aspect-property-table {
+        @include mat.table-overrides(
+          (
+            background-color: var(--adf-theme-background-card-color)
+          )
+        );
+
+        thead tr th {
+          color: var(--adf-theme-foreground-text-color-064);
+          font-size: 12px;
+          font-weight: 500;
+          letter-spacing: normal;
+          border-color: var(--adf-theme-foreground-divider-color);
+        }
+
+        tbody tr td {
+          color: var(--adf-theme-foreground-text-color-087);
+          font-size: 11.6667px;
+          font-weight: 500;
+          letter-spacing: normal;
+          border-color: var(--adf-theme-foreground-divider-color);
+        }
+      }
+    }
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
   .mat-mdc-dialog-title.adf-dialog-header {
     box-sizing: content-box;
     height: 48px;
-    border-bottom: 1px solid var(--adf-theme-foreground-divider-color);
-    margin-left: -24px;
-    margin-right: -24px;
-    padding-left: 24px;
-    padding-right: 24px;
 
     /* stylelint-disable-next-line selector-class-pattern */
     button.mat-mdc-icon-button {
@@ -220,15 +399,6 @@
 
       padding: 12px;
     }
-  }
-
-  /* stylelint-disable-next-line selector-class-pattern */
-  .mat-mdc-dialog-actions.adf-dialog-actions {
-    border-top: 1px solid var(--adf-theme-foreground-divider-color);
-    margin-left: -24px;
-    margin-right: -24px;
-    padding-left: 24px;
-    padding-right: 24px;
   }
 
   adf-card-view mat-form-field {
@@ -918,5 +1088,213 @@
       rgba(0, 0, 0, 0.2) 0 11px 15px -7px,
       rgba(0, 0, 0, 0.14) 0 24px 38px 3px,
       rgba(0, 0, 0, 0.12) 0 9px 46px 8px;
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  adf-version-upload .adf-version-upload-buttons button.mat-mdc-raised-button {
+    --mdc-protected-button-container-color: var(--adf-theme-background-card-color);
+    --mdc-protected-button-label-text-color: var(--adf-theme-foreground-base-color);
+
+    background-color: var(--adf-theme-background-card-color);
+    color: var(--adf-theme-foreground-base-color);
+    box-shadow:
+      rgba(0, 0, 0, 0.2) 0 3px 1px -2px,
+      rgba(0, 0, 0, 0.14) 0 2px 2px 0,
+      rgba(0, 0, 0, 0.12) 0 1px 5px 0;
+  }
+
+  adf-upload-version-button {
+    letter-spacing: normal;
+
+    label.adf-upload-button-label {
+      letter-spacing: normal;
+      box-shadow:
+        rgba(0, 0, 0, 0.2) 0 3px 1px -2px,
+        rgba(0, 0, 0, 0.14) 0 2px 2px 0,
+        rgba(0, 0, 0, 0.12) 0 1px 5px 0;
+    }
+  }
+
+  adf-version-upload .adf-new-version-max-width {
+    .adf-version-type-label {
+      letter-spacing: normal;
+    }
+
+    mat-form-field.adf-new-version-max-width {
+      @include mat.form-field-overrides(
+        (
+          container-height: 52px,
+          outlined-outline-color: var(--adf-theme-foreground-disabled-text-color),
+          outlined-hover-outline-color: var(--adf-theme-foreground-disabled-text-color)
+        )
+      );
+
+      height: 52px;
+      font-size: 14px;
+      letter-spacing: normal;
+      line-height: 20px;
+
+      /* stylelint-disable selector-class-pattern */
+      mat-label,
+      .mdc-floating-label,
+      .mat-mdc-form-field-label {
+        letter-spacing: normal;
+      }
+      /* stylelint-enable selector-class-pattern */
+    }
+
+    mat-radio-group.adf-new-version-radio-group mat-radio-button.adf-new-version-radio-button {
+      @include mat.radio-overrides(
+        (
+          unselected-icon-color: var(--adf-theme-foreground-text-color-054),
+          unselected-hover-icon-color: var(--adf-theme-foreground-text-color-054),
+          unselected-focus-icon-color: var(--adf-theme-foreground-text-color-054),
+          unselected-pressed-icon-color: var(--adf-theme-foreground-text-color-054)
+        )
+      );
+
+      /* stylelint-disable selector-class-pattern */
+      .mdc-form-field label,
+      .mdc-label {
+        color: var(--adf-theme-foreground-text-color-087);
+        font-weight: 500;
+        letter-spacing: normal;
+        line-height: 24px;
+      }
+      /* stylelint-enable selector-class-pattern */
+    }
+  }
+
+  adf-version-comparison .adf-version-comparison-content span.adf-version-arrow-icon {
+    width: 112px;
+    height: 112px;
+    font-size: 112px;
+    line-height: 112px;
+  }
+
+  adf-version-comparison .adf-version-comparison-content {
+    .adf-version-current p.adf-version-comparison-node-name,
+    .adf-version-new p.adf-version-comparison-file-name {
+      letter-spacing: normal;
+    }
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  .mat-mdc-dialog-surface:has(adf-new-version-uploader-dialog) {
+    box-shadow:
+      rgba(0, 0, 0, 0.2) 0 11px 15px -7px,
+      rgba(0, 0, 0, 0.14) 0 24px 38px 3px,
+      rgba(0, 0, 0, 0.12) 0 9px 46px 8px;
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  adf-new-version-uploader-dialog h1.mat-mdc-dialog-title.adf-new-version-uploader-dialog-title {
+    color: var(--adf-theme-foreground-text-color-087);
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    line-height: 32px;
+  }
+
+  adf-share-dialog .adf-share-link__title.adf-share-link__label.adf-share-link__heading {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    line-height: 32px;
+  }
+
+  adf-share-dialog .adf-share-link__form p.adf-share-link__info.adf-share-link__para {
+    letter-spacing: -0.4px;
+    line-height: 28px;
+  }
+
+  adf-share-dialog .adf-share-link__form mat-form-field {
+    @include mat.form-field-overrides(
+      (
+        outlined-outline-color: var(--adf-theme-foreground-disabled-text-color),
+        outlined-hover-outline-color: var(--adf-theme-foreground-disabled-text-color)
+      )
+    );
+
+    font-size: 14px;
+    letter-spacing: normal;
+    line-height: 20px;
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    .mat-mdc-form-field-icon-suffix mat-icon.adf-share-link__icon {
+      color: var(--adf-theme-foreground-text-color-060);
+    }
+  }
+
+  adf-share-dialog .adf-share-link__form .adf-share-link--row {
+    mat-icon.adf-share-link__icon {
+      color: var(--adf-theme-foreground-text-color-060);
+    }
+
+    p.adf-share-link__info.adf-sharable-link.adf-share-link__public-content.adf-share-link__para {
+      color: var(--adf-theme-foreground-text-color-064);
+      font-size: 12px;
+      letter-spacing: -0.4px;
+      line-height: 24px;
+    }
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  adf-share-dialog .mat-mdc-dialog-actions.adf-share-link__actions button.mat-mdc-button.mat-mdc-button-base {
+    --mdc-text-button-container-color: rgba(33, 33, 33, 0.05);
+
+    padding-right: 8px;
+    padding-left: 8px;
+    background-color: rgba(33, 33, 33, 0.05);
+  }
+
+  adf-share-dialog .adf-share-link--row.adf-share-link--row-sharable,
+  adf-share-dialog .adf-share-link--row.adf-share-link--sharable-container {
+    height: 30px;
+    letter-spacing: normal;
+
+    .adf-share-link__label.adf-sharable-link {
+      letter-spacing: -0.4px;
+      line-height: 28px;
+    }
+
+    mat-icon {
+      color: var(--adf-theme-foreground-text-color-060);
+    }
+
+    mat-slide-toggle {
+      @include mat.slide-toggle-overrides(
+        (
+          track-width: 36px,
+          track-height: 20px,
+          track-shape: 10px,
+          selected-handle-size: 14px,
+          unselected-handle-size: 14px,
+          pressed-handle-size: 14px,
+          with-icon-handle-size: 14px,
+          unselected-with-icon-handle-horizontal-margin: 0 3px 0 0,
+          selected-with-icon-handle-horizontal-margin: 0 0 0 16px,
+          selected-handle-color: var(--adf-theme-background-card-color),
+          selected-focus-handle-color: var(--adf-theme-background-card-color),
+          selected-hover-handle-color: var(--adf-theme-background-card-color),
+          selected-pressed-handle-color: var(--adf-theme-background-card-color),
+          selected-icon-color: var(--adf-theme-background-card-color),
+          handle-surface-color: var(--adf-theme-background-card-color),
+          unselected-handle-color: var(--adf-theme-foreground-text-color-087),
+          unselected-focus-handle-color: var(--adf-theme-foreground-text-color-087),
+          unselected-hover-handle-color: var(--adf-theme-foreground-text-color-087),
+          unselected-pressed-handle-color: var(--adf-theme-foreground-text-color-087),
+          track-outline-color: var(--adf-theme-foreground-disabled-text-color),
+          disabled-unselected-track-outline-color: var(--adf-theme-foreground-disabled-text-color)
+        )
+      );
+
+      /* stylelint-disable selector-class-pattern */
+      .mdc-switch__icon--on,
+      .mdc-switch--selected .mdc-switch__icon {
+        fill: var(--adf-theme-background-card-color);
+      }
+      /* stylelint-enable selector-class-pattern */
+    }
   }
 }
