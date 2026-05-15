@@ -27,6 +27,15 @@
       font-size: 20px;
       font-weight: 400;
       letter-spacing: 0.15px;
+
+      a,
+      mat-icon {
+        color: var(--adf-theme-foreground-text-color-064);
+      }
+
+      mat-icon.adf-breadcrumb-item-chevron {
+        margin-top: 6px;
+      }
     }
 
     .adf-breadcrumb-item-current {

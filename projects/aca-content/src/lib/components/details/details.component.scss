@@ -17,6 +17,15 @@ app-details-manager {
       outline: none;
       border-radius: 4px;
 
+      @include mat.icon-button-overrides(
+        (
+          state-layer-size: 48px,
+          icon-size: 24px
+        )
+      );
+
+      padding: 12px;
+
       &:focus {
         background-color: var(--theme-selected-background-color);
         outline: 2px solid var(--theme-blue-button-color);
@@ -34,6 +43,19 @@ app-details-manager {
 .aca-details-tabs {
   margin-top: 40px;
   height: calc(100% - 136px);
+
+  @include mat.tabs-overrides(
+    (
+      inactive-label-text-color: var(--adf-theme-foreground-text-color-060),
+      inactive-hover-label-text-color: var(--adf-theme-foreground-text-color-060),
+      inactive-focus-label-text-color: var(--adf-theme-foreground-text-color-060)
+    )
+  );
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  .mat-mdc-tab-label-container {
+    border-bottom: 0;
+  }
 
   > div {
     height: 100%;
