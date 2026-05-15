@@ -24,7 +24,9 @@
     --theme-accent-color: map.get(colors.$aca-accent-green, A200),
     --theme-accent-color-a200: map.get(colors.$aca-accent-green, A200),
     --theme-accent-color-default-contrast: white,
+    --theme-accent-300: map.get(colors.$aca-accent-green, 300),
     --theme-accent-500: map.get(colors.$aca-accent-green, 500),
+    --theme-accent-900: map.get(colors.$aca-accent-green, 900),
     // foreground colors (MD2 light theme resolved values)
     --adf-theme-foreground-base-color: black,
     --adf-theme-foreground-base-color-065: rgba(0, 0, 0, 0.65),

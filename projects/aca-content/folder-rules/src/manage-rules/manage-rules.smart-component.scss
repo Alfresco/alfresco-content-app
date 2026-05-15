@@ -28,9 +28,29 @@
     height: 64px;
     font-size: var(--theme-body-1-font-size);
     white-space: normal;
-    background-color: inherit;
+    background-color: var(--theme-background-color);
     border: none;
     padding: 0;
+  }
+
+  adf-empty-content {
+    background-color: var(--theme-background-color);
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  aca-page-layout .aca-content-header .aca-page-layout-header button.mat-mdc-icon-button {
+    @include mat.icon-button-overrides(
+      (
+        state-layer-size: 48px,
+        icon-size: 24px
+      )
+    );
+
+    padding: 12px;
+
+    mat-icon {
+      color: var(--adf-theme-foreground-text-color-087);
+    }
   }
 
   &__actions-bar {
@@ -47,17 +67,66 @@
       align-items: center;
       flex: 1;
       font-size: var(--theme-body-1-font-size);
+
+      /* stylelint-disable no-descending-specificity */
+      mat-icon {
+        color: var(--adf-theme-foreground-text-color-054);
+      }
+      /* stylelint-enable no-descending-specificity */
     }
 
     &__buttons {
       display: flex;
       align-items: stretch;
       gap: 12px;
+
+      /* stylelint-disable-next-line selector-class-pattern */
+      .mat-mdc-outlined-button {
+        --mdc-outlined-button-label-text-color: var(--adf-theme-foreground-text-color-054);
+
+        color: var(--adf-theme-foreground-text-color-054);
+      }
     }
 
     &__toggle {
       font-weight: 600;
       font-size: 14px;
+
+      @include mat.slide-toggle-overrides(
+        (
+          track-width: 36px,
+          track-height: 20px,
+          track-shape: 10px,
+          label-text-tracking: normal,
+          selected-handle-size: 14px,
+          unselected-handle-size: 14px,
+          pressed-handle-size: 14px,
+          with-icon-handle-size: 14px,
+          unselected-with-icon-handle-horizontal-margin: 0 3px 0 0,
+          selected-with-icon-handle-horizontal-margin: 0 0 0 16px,
+          selected-track-color: var(--theme-accent-300),
+          selected-focus-track-color: var(--theme-accent-300),
+          selected-hover-track-color: var(--theme-accent-300),
+          selected-pressed-track-color: var(--theme-accent-300),
+          selected-handle-color: var(--theme-accent-900),
+          selected-focus-handle-color: var(--theme-accent-900),
+          selected-hover-handle-color: var(--theme-accent-900),
+          selected-pressed-handle-color: var(--theme-accent-900),
+          selected-icon-color: var(--theme-accent-900),
+          handle-surface-color: var(--theme-accent-900),
+          unselected-handle-color: var(--adf-theme-foreground-text-color-087),
+          unselected-focus-handle-color: var(--adf-theme-foreground-text-color-087),
+          unselected-hover-handle-color: var(--adf-theme-foreground-text-color-087),
+          unselected-pressed-handle-color: var(--adf-theme-foreground-text-color-087)
+        )
+      );
+
+      /* stylelint-disable selector-class-pattern */
+      .mdc-switch__icon--on,
+      .mdc-switch--selected .mdc-switch__icon {
+        fill: var(--theme-accent-900);
+      }
+      /* stylelint-enable selector-class-pattern */
     }
 
     &__vertical-divider {
