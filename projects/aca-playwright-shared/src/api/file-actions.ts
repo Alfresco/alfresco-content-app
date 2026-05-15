@@ -241,11 +241,13 @@ export class FileActionsApi {
 
   async updateNodeContent(nodeId: string, content: string, majorVersion: boolean = true, comment?: string, newName?: string): Promise<NodeEntry> {
     try {
-      const opts: { [key: string]: string | boolean } = {
-        majorVersion: majorVersion,
-        comment: comment ?? false,
-        name: newName ?? false
-      };
+      const opts: { [key: string]: string | boolean } = { majorVersion };
+      if (comment !== undefined) {
+        opts['comment'] = comment;
+      }
+      if (newName !== undefined) {
+        opts['name'] = newName;
+      }
       return await this.apiService.nodes.updateNodeContent(nodeId, content, opts);
     } catch (error) {
       logger.error(`${this.constructor.name} ${this.updateNodeContent.name}: ${error}`);

@@ -162,8 +162,12 @@ export class ApiClientFactory {
     try {
       return await peopleApi.createPerson(person);
     } catch (error) {
+      if (String(error).includes('409')) {
+        logger.warn(`[API Client Factory] createUser: user "${user.username}" already exists, skipping creation`);
+        return null;
+      }
       logger.error(`[API Client Factory] createUser failed: ${error}`);
-      return null;
+      throw error;
     }
   }
 
