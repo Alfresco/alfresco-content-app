@@ -256,7 +256,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
           if (constraintsForDropdownBox) {
             return new CardViewSelectItemModel({
               ...cardViewPropertiesModel,
-              value: (this.parameters[paramDef.name] as string[]) ?? [''],
+              value: this.parameters[paramDef.name] ?? (paramDef.multiValued ? [''] : ''),
               options$: of(constraintsForDropdownBox.constraints).pipe(
                 map((options) => {
                   return options.filter(
