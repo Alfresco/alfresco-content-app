@@ -254,7 +254,7 @@ export class FileActionsApi {
       if (newName !== undefined) {
         opts['name'] = newName;
       }
-      return await this.apiService.nodes.updateNodeContent(nodeId, content as unknown as string, opts);
+      return await this.apiService.nodes.updateNodeContent(nodeId, content as unknown as string, opts); // NOSONAR
     } catch (error) {
       logger.error(`${this.constructor.name} ${this.updateNodeContent.name}: ${error}`);
       return Promise.reject(error);
@@ -268,7 +268,7 @@ export class FileActionsApi {
     comment?: string,
     newName?: string
   ): Promise<NodeEntry> {
-    const fileContent = fs.readFileSync(fileLocation);
+    const fileContent = await fs.promises.readFile(fileLocation);
     return this.updateNodeContent(nodeId, fileContent, majorVersion, comment, newName);
   }
 }
