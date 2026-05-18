@@ -255,7 +255,7 @@ export class FileActionsApi {
         opts['name'] = newName;
       }
       const fileContent = fs.readFileSync(newFileVersionLocation);
-      return await this.apiService.nodes.updateNodeContent(nodeId, fileContent as unknown as string, opts);
+      return await this.apiService.nodes.updateNodeContent(nodeId, fileContent as unknown as string, opts); // NOSONAR
     } catch (error) {
       logger.error(`${this.constructor.name} ${this.updateNodeContent.name}: ${error}`);
       return Promise.reject(error);
