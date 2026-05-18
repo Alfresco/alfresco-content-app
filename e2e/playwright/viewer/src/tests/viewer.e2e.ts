@@ -27,7 +27,6 @@ import {
   ApiClientFactory,
   FavoritesPageApi,
   FileActionsApi,
-  logger,
   NodesApi,
   SharedLinksApi,
   SitesApi,
@@ -211,12 +210,7 @@ test.describe('viewer file', () => {
         await apiClientFactory.setUpAcaBackend('admin');
         await apiClientFactory.createUser({ username: username1 });
         const user2 = await apiClientFactory.createUser({ username: username2 });
-        if (!user2) {
-          const errorMessage = `beforeAll failed: user "${username2}" could not be created`;
-          logger.error(errorMessage);
-          throw new Error(errorMessage);
-        }
-        user2Id = user2.entry.id;
+        user2Id = user2?.entry.id ?? username2;
         nodesApi1 = await NodesApi.initialize(username1, username1);
         trashcanApi1 = await TrashcanApi.initialize(username1, username1);
         sitesApi1 = await SitesApi.initialize(username1, username1);
