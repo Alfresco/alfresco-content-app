@@ -49,7 +49,7 @@ test.describe('Recent Files', () => {
     try {
       await apiClientFactory.createUser({ username });
     } catch (exception) {
-      if (JSON.parse(exception.message).error.statusCode !== 409) {
+      if (!String(exception).includes('409')) {
         throw new Error(`----- beforeAll failed : ${exception}`);
       }
     }

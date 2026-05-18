@@ -27,12 +27,12 @@ import {
   ApiClientFactory,
   FavoritesPageApi,
   FileActionsApi,
+  logger,
   NodesApi,
   SharedLinksApi,
   SitesApi,
   test,
   TEST_FILES,
-  timeouts,
   Utils,
   TrashcanApi
 } from '@alfresco/aca-playwright-shared';
@@ -210,7 +210,13 @@ test.describe('viewer file', () => {
         const apiClientFactory = new ApiClientFactory();
         await apiClientFactory.setUpAcaBackend('admin');
         await apiClientFactory.createUser({ username: username1 });
-        user2Id = (await apiClientFactory.createUser({ username: username2 })).entry.id;
+        const user2 = await apiClientFactory.createUser({ username: username2 });
+        if (!user2) {
+          const errorMessage = `beforeAll failed: user "${username2}" could not be created`;
+          logger.error(errorMessage);
+          throw new Error(errorMessage);
+        }
+        user2Id = user2.entry.id;
         nodesApi1 = await NodesApi.initialize(username1, username1);
         trashcanApi1 = await TrashcanApi.initialize(username1, username1);
         sitesApi1 = await SitesApi.initialize(username1, username1);
@@ -281,7 +287,7 @@ test.describe('viewer file', () => {
     test('[XAT-5476] Viewer opens when accessing the preview URL for a file', async ({ personalFiles }) => {
       const previewURL = `#/personal-files/${folderId}/(viewer:view/${fileJpgId})`;
       await personalFiles.navigate({ remoteUrl: previewURL });
-      await personalFiles.viewer.waitForViewerLoaderToFinish(timeouts.fortySeconds);
+      await personalFiles.viewer.waitForViewerLoaderToFinish();
       await expect(personalFiles.viewer.fileTitleButtonLocator).toContainText(randomJpgName);
     });
   });

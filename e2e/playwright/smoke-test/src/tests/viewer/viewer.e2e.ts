@@ -55,7 +55,7 @@ test.describe('viewer file', () => {
     try {
       await apiClientFactory.createUser({ username: usernameViewer });
     } catch (exception) {
-      if (JSON.parse(exception.message).error.statusCode !== 409) {
+      if (!String(exception).includes('409')) {
         throw new Error(`----- beforeAll failed : ${exception}`);
       }
     }
@@ -71,7 +71,7 @@ test.describe('viewer file', () => {
     try {
       await siteActionsAdmin.createSite(siteAdmin, Site.VisibilityEnum.PRIVATE);
     } catch (exception) {
-      if (JSON.parse(exception.message).error.statusCode !== 409) {
+      if (!String(exception).includes('409')) {
         throw new Error(`----- beforeAll failed : ${exception}`);
       }
     }
@@ -109,7 +109,7 @@ test.describe('viewer file', () => {
   test('[XAT-17738] Viewer with preview URL', async ({ personalFiles }) => {
     const previewURL = `#/personal-files/${folderId}/(viewer:view/${fileDocxId})`;
     await personalFiles.navigate({ remoteUrl: previewURL });
-    await personalFiles.viewer.waitForViewerLoaderToFinish(timeouts.sixtySeconds);
+    await personalFiles.viewer.waitForViewerLoaderToFinish();
     await expect(personalFiles.viewer.fileTitleButtonLocator).toHaveText(randomDocxName);
   });
 });

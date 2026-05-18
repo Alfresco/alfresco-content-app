@@ -63,7 +63,7 @@ test.describe('viewer zoom functionality and reset', () => {
     try {
       await apiClientFactory.createUser({ username });
     } catch (exception) {
-      if (JSON.parse(exception.message).error.statusCode !== 409) {
+      if (!String(exception).includes('409')) {
         throw new Error(`----- beforeAll failed : ${exception}`);
       }
     }
@@ -82,7 +82,7 @@ test.describe('viewer zoom functionality and reset', () => {
     try {
       await siteActionsUser.createSite(randomLibraryName, Site.VisibilityEnum.PRIVATE);
     } catch (exception) {
-      if (JSON.parse(exception.message).error.statusCode !== 409) {
+      if (!String(exception).includes('409')) {
         throw new Error(`----- beforeAll failed : ${exception}`);
       }
     }
@@ -106,7 +106,7 @@ test.describe('viewer zoom functionality and reset', () => {
       await shareActions.waitForFilesToBeShared([filePngId]);
       await fileActionApi.waitForNodes(randomPngName, { expect: 1 });
     } catch (exception) {
-      if (JSON.parse(exception.message).error.statusCode !== 409) {
+      if (!String(exception).includes('409')) {
         throw new Error(`----- beforeAll failed : ${exception}`);
       }
     }
@@ -186,7 +186,7 @@ test.describe('viewer zoom functionality and reset', () => {
     await myLibrariesPage.navigate();
     await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(randomLibraryName);
     await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
-    await myLibrariesPage.viewer.waitForViewerLoaderToFinish(timeouts.fortySeconds);
+    await myLibrariesPage.viewer.waitForViewerLoaderToFinish();
     expect(await myLibrariesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     await myLibrariesPage.viewer.waitForZoomPercentageToDisplay();
     await validateZoomScaleInViewer(myLibrariesPage);
@@ -224,7 +224,7 @@ test.describe('viewer zoom functionality and reset', () => {
     await myLibrariesPage.navigate();
     await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(randomLibraryName);
     await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
-    await myLibrariesPage.viewer.waitForViewerLoaderToFinish(timeouts.fortySeconds);
+    await myLibrariesPage.viewer.waitForViewerLoaderToFinish();
     expect(await myLibrariesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     await myLibrariesPage.viewer.waitForZoomPercentageToDisplay();
     await validateFitToPageButtonActivity(myLibrariesPage);

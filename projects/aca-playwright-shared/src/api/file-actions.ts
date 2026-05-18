@@ -239,9 +239,25 @@ export class FileActionsApi {
     }
   }
 
-  async updateNodeContent(
+  async updateNodeContent(nodeId: string, content: string, majorVersion: boolean = true, comment?: string, newName?: string): Promise<NodeEntry> {
+    try {
+      const opts: { [key: string]: string | boolean } = { majorVersion };
+      if (comment !== undefined) {
+        opts['comment'] = comment;
+      }
+      if (newName !== undefined) {
+        opts['name'] = newName;
+      }
+      return await this.apiService.nodes.updateNodeContent(nodeId, content, opts);
+    } catch (error) {
+      logger.error(`${this.constructor.name} ${this.updateNodeContent.name}: ${error}`);
+      return Promise.reject(error);
+    }
+  }
+
+  async updateNodeContentFromFile(
     nodeId: string,
-    newFileVersionLocation: string,
+    fileLocation: string,
     majorVersion: boolean = true,
     comment?: string,
     newName?: string
@@ -254,10 +270,10 @@ export class FileActionsApi {
       if (newName !== undefined) {
         opts['name'] = newName;
       }
-      const fileContent = fs.readFileSync(newFileVersionLocation);
+      const fileContent = fs.readFileSync(fileLocation);
       return await this.apiService.nodes.updateNodeContent(nodeId, fileContent as unknown as string, opts); // NOSONAR
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.updateNodeContent.name}: ${error}`);
+      logger.error(`${this.constructor.name} ${this.updateNodeContentFromFile.name}: ${error}`);
       return Promise.reject(error);
     }
   }
