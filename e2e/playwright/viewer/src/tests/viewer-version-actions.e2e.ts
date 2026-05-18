@@ -48,13 +48,12 @@ test.describe('Version actions', () => {
   let sharedLinksApi: SharedLinksApi;
   let favoritesApi: FavoritesPageApi;
   const random = Utils.random();
-  const filesToUpload = [TEST_FILES.PDF, TEST_FILES.DOCX];
-  const filenameBeforeUpdate = `${filesToUpload[0].name}-${random}`;
-  const filenameAfterUpdate = `${filesToUpload[1].name}-${random}`;
+  const filesToUpload = [TEST_FILES.PDF, TEST_FILES.JPG_FILE];
+  const filenameBeforeUpdate = `${filesToUpload[0].name}-${random}.pdf`;
+  const filenameAfterUpdate = `${filesToUpload[1].name}-${random}.jpg`;
   const username = `user-${random}`;
-  const parentFolder = `parent-version-${random}`;
-  let parentFolderId: string;
   let fileId: string;
+  let fileAfterUpdateId: string;
 
   async function viewFirstFileVersion(page: PersonalFilesPage | RecentFilesPage | FavoritesPage | SharedPage | SearchPage) {
     await page.dataTable.selectItems(filenameAfterUpdate);
@@ -75,10 +74,11 @@ test.describe('Version actions', () => {
       favoritesApi = await FavoritesPageApi.initialize(username, username);
       sharedLinksApi = await SharedLinksApi.initialize(username, username);
 
-      parentFolderId = (await nodesApi.createFolder(parentFolder)).entry.id;
-      fileId = (await fileActionsApi.uploadFile(filesToUpload[0].path, filenameBeforeUpdate, parentFolderId)).entry.id;
+      fileId = (await fileActionsApi.uploadFile(filesToUpload[0].path, filenameBeforeUpdate, '-my-')).entry.id;
 
-      await fileActionsApi.updateNodeContent(fileId, filesToUpload[1].path, true, 'new major version description', filenameAfterUpdate);
+      fileAfterUpdateId = (
+        await fileActionsApi.updateNodeContent(fileId, filesToUpload[1].path, true, 'new major version description', filenameAfterUpdate)
+      ).entry.id;
 
       await favoritesApi.addFavoritesByIds('file', [fileId]);
       await favoritesApi.waitForApi(username, { expect: 1 });
@@ -97,8 +97,6 @@ test.describe('Version actions', () => {
     test.beforeEach(async ({ loginPage, personalFiles }) => {
       await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
       await personalFiles.navigate();
-      await personalFiles.dataTable.performClickFolderOrFileToOpen(parentFolder);
-      await personalFiles.dataTable.spinnerWaitForReload();
       await viewFirstFileVersion(personalFiles);
     });
 
@@ -116,6 +114,20 @@ test.describe('Version actions', () => {
     test('[XAT-5498] Should be possible to download a previous document version - Personal Files', async ({ personalFiles }) => {
       const [download] = await Promise.all([personalFiles.page.waitForEvent('download'), await personalFiles.viewer.downloadButton.click()]);
       expect(download.suggestedFilename()).toBe(filenameBeforeUpdate);
+    });
+
+    test('[XAT-19377] Can view previous version of a document after a viewer is opened from Manage Versions dialog', async ({ personalFiles }) => {
+      await personalFiles.viewer.waitForViewerToOpen();
+      await personalFiles.viewer.waitForViewerLoaderToFinish();
+      await personalFiles.viewer.ellipsisButton.click();
+      await personalFiles.matMenu.clickMenuItem('Manage Versions');
+      await personalFiles.manageVersionsDialog.clickListActionButtonForVersion('2.0');
+      await personalFiles.matMenu.clickMenuItem('View');
+      await Utils.waitForApiResponse(personalFiles, '2.0', 200);
+      await personalFiles.viewer.waitForViewerLoaderToFinish();
+      await expect(personalFiles.viewer.unknownFormat).toBeHidden();
+      expect(await personalFiles.viewer.getFileTitle()).toContain(filenameAfterUpdate);
+      await expect(personalFiles.page).toHaveURL(fileAfterUpdateId);
     });
   });
 
