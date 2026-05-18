@@ -239,7 +239,13 @@ export class FileActionsApi {
     }
   }
 
-  async updateNodeContent(nodeId: string, content: string, majorVersion: boolean = true, comment?: string, newName?: string): Promise<NodeEntry> {
+  async updateNodeContent(
+    nodeId: string,
+    newFileVersionLocation: string,
+    majorVersion: boolean = true,
+    comment?: string,
+    newName?: string
+  ): Promise<NodeEntry> {
     try {
       const opts: { [key: string]: string | boolean } = { majorVersion };
       if (comment !== undefined) {
@@ -248,7 +254,8 @@ export class FileActionsApi {
       if (newName !== undefined) {
         opts['name'] = newName;
       }
-      return await this.apiService.nodes.updateNodeContent(nodeId, content, opts);
+      const fileContent = fs.readFileSync(newFileVersionLocation);
+      return await this.apiService.nodes.updateNodeContent(nodeId, fileContent as unknown as string, opts);
     } catch (error) {
       logger.error(`${this.constructor.name} ${this.updateNodeContent.name}: ${error}`);
       return Promise.reject(error);

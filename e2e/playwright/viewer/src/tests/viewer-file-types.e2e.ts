@@ -32,7 +32,6 @@ import {
   Utils,
   TrashcanApi,
   PersonalFilesPage,
-  timeouts,
   logger
 } from '@alfresco/aca-playwright-shared';
 
@@ -99,7 +98,7 @@ test.describe('viewer file types', () => {
   async function openFileInViewer(page: PersonalFilesPage, fileName: string) {
     await page.dataTable.performClickFolderOrFileToOpen(fileName);
     expect(await page.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-    await page.viewer.waitForViewerLoaderToFinish(timeouts.fortySeconds);
+    await page.viewer.waitForViewerLoaderToFinish();
     await Utils.delayInSeconds(1);
   }
 

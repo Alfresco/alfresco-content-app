@@ -37,8 +37,7 @@ import {
   PersonalFilesPage,
   FavoritesPage,
   SharedPage,
-  SearchPage,
-  timeouts
+  SearchPage
 } from '@alfresco/aca-playwright-shared';
 
 test.describe('Version actions', () => {
@@ -49,8 +48,8 @@ test.describe('Version actions', () => {
   let favoritesApi: FavoritesPageApi;
   const random = Utils.random();
   const filesToUpload = [TEST_FILES.PDF, TEST_FILES.JPG_FILE];
-  const filenameBeforeUpdate = `${filesToUpload[0].name}-${random}.pdf`;
-  const filenameAfterUpdate = `${filesToUpload[1].name}-${random}.jpg`;
+  const filenameBeforeUpdate = `${filesToUpload[0].name}-1-${random}.pdf`;
+  const filenameAfterUpdate = `${filesToUpload[1].name}-2-${random}.jpg`;
   const username = `user-${random}`;
   let fileId: string;
   let fileAfterUpdateId: string;
@@ -127,7 +126,7 @@ test.describe('Version actions', () => {
       await personalFiles.viewer.waitForViewerLoaderToFinish();
       await expect(personalFiles.viewer.unknownFormat).toBeHidden();
       expect(await personalFiles.viewer.getFileTitle()).toContain(filenameAfterUpdate);
-      await expect(personalFiles.page).toHaveURL(fileAfterUpdateId);
+      expect(personalFiles.page.url()).toContain(fileAfterUpdateId);
     });
   });
 
@@ -193,7 +192,7 @@ test.describe('Version actions', () => {
     test('[XAT-5506] Previous document version title should be the same in Preview mode as in Version Manager - Shared Files', async ({
       sharedPage
     }) => {
-      await sharedPage.viewer.waitForViewerLoaderToFinish(timeouts.fortySeconds);
+      await sharedPage.viewer.waitForViewerLoaderToFinish();
       expect(await sharedPage.viewer.getFileTitle()).toContain(filenameBeforeUpdate);
     });
 
