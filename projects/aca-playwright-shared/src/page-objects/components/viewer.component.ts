@@ -120,7 +120,7 @@ export class ViewerComponent extends BaseComponent {
     await this.fileTitleButtonLocator.waitFor({ state: 'visible', timeout: timeouts.normal });
     await this.waitForViewerLoaderToFinish();
     const title = await this.fileTitleButtonLocator.textContent();
-    if (title === null) {
+    if (!title) {
       const errorMessage = 'File title is not displayed in the viewer';
       this.logger.error(errorMessage);
       throw new Error(errorMessage);
@@ -131,7 +131,7 @@ export class ViewerComponent extends BaseComponent {
   async getCloseButtonTooltip(): Promise<string> {
     await this.closeButtonLocator.waitFor({ state: 'visible', timeout: timeouts.normal });
     const tooltip = await this.closeButtonLocator.getAttribute('title');
-    if (tooltip === null) {
+    if (!tooltip) {
       const errorMessage = 'Close button tooltip is not available';
       this.logger.error(errorMessage);
       throw new Error(errorMessage);

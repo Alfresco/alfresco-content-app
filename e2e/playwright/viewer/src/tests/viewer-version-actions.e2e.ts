@@ -117,7 +117,6 @@ test.describe('Version actions', () => {
 
     test('[XAT-19377] Can view previous version of a document after a viewer is opened from Manage Versions dialog', async ({ personalFiles }) => {
       await personalFiles.viewer.waitForViewerToOpen();
-      await personalFiles.viewer.waitForViewerLoaderToFinish();
       await personalFiles.viewer.toolbar.clickViewerMoreActions();
       await personalFiles.matMenu.clickMenuItem('Manage Versions');
       await personalFiles.manageVersionsDialog.clickListActionButtonForVersion('2.0');
