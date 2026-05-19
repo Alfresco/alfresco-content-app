@@ -120,8 +120,7 @@ test.describe('Version actions', () => {
       await personalFiles.viewer.toolbar.clickViewerMoreActions();
       await personalFiles.matMenu.clickMenuItem('Manage Versions');
       await personalFiles.manageVersionsDialog.clickListActionButtonForVersion('2.0');
-      await personalFiles.matMenu.clickMenuItem('View');
-      await Utils.waitForApiResponse(personalFiles, '2.0', 200);
+      await Promise.all([Utils.waitForApiResponse(personalFiles, '2.0', 200), personalFiles.matMenu.clickMenuItem('View')]);
       await personalFiles.viewer.waitForViewerLoaderToFinish();
       await expect(personalFiles.viewer.unknownFormat).toBeHidden();
       expect(await personalFiles.viewer.getFileTitle()).toContain(filenameAfterUpdate);
