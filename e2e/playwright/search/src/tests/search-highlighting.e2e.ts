@@ -52,7 +52,7 @@ test.describe('Search Highlighting', () => {
       trashcanApi = await TrashcanApi.initialize(username, username);
       fileActionsApi = await FileActionsApi.initialize(username, username);
       await nodesApi.createFile(fileNameHighlight, '-my-');
-      await nodesApi.createFile(fileDescriptionHighlight, '-my-', null, fileDescription);
+      await nodesApi.createFile(fileDescriptionHighlight, '-my-', undefined, fileDescription);
       await fileActionsApi.uploadFileWithRename(TEST_FILES.PDF.path, fileContentHighlight);
 
       await fileActionsApi.waitForNodesSearchHighlight(fileContentHighlight, { expect: 1 });

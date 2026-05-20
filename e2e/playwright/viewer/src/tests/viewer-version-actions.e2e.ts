@@ -137,6 +137,9 @@ test.describe('Version actions', () => {
 
     test('[XAT-5499] Should be possible to view a previous document version - Recent Files', async ({ recentFilesPage }) => {
       expect(recentFilesPage.page.url()).toContain('1.0');
+      await recentFilesPage.viewer.waitForViewerToOpen();
+      await expect(recentFilesPage.viewer.unknownFormat).toBeHidden();
+      expect(await recentFilesPage.viewer.getFileTitle()).toContain(filenameBeforeUpdate);
     });
 
     test('[XAT-5500] Previous document version title should be the same in Preview mode as in Version Manager - Recent Files', async ({

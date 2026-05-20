@@ -114,10 +114,10 @@ test.describe('Search Results - General', () => {
       nodesApi = await NodesApi.initialize(username, username);
       sitesAdminApi = await SitesApi.initialize('admin');
 
-      await sitesApi.createSite(site1.name, null, null, site1.id);
-      await sitesApi.createSite(site2.name, null, null, site2.id);
-      await sitesApi.createSite(site3.name, null, null, site3.id);
-      await sitesApi.createSite(site4.name, null, site4.description, site4.id);
+      await sitesApi.createSite(site1.name, undefined, undefined, site1.id);
+      await sitesApi.createSite(site2.name, undefined, undefined, site2.id);
+      await sitesApi.createSite(site3.name, undefined, undefined, site3.id);
+      await sitesApi.createSite(site4.name, undefined, site4.description, site4.id);
 
       await sitesApi.createSite(userSitePublic, SITE_VISIBILITY.PUBLIC);
       await sitesApi.createSite(userSiteModerated, SITE_VISIBILITY.MODERATED);

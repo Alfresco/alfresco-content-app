@@ -57,7 +57,7 @@ test.describe('File Libraries', () => {
       const siteDescription = 'my site description';
       await siteActionsUser.createSite(userSitePublic, Site.VisibilityEnum.PUBLIC);
       await siteActionsUser.createSite(userSiteModerated, Site.VisibilityEnum.MODERATED, siteDescription);
-      await siteActionsUser.createSite(userSitePrivate, Site.VisibilityEnum.PRIVATE, null);
+      await siteActionsUser.createSite(userSitePrivate, Site.VisibilityEnum.PRIVATE, undefined);
 
       await siteActionsAdmin.createSite(adminSite1, Site.VisibilityEnum.PUBLIC);
       await siteActionsAdmin.createSite(adminSite2, Site.VisibilityEnum.PUBLIC);
@@ -75,8 +75,8 @@ test.describe('File Libraries', () => {
       await favoritesActions.addFavoriteById('site', adminSite3);
       await favoritesActions.addFavoriteById('site', adminSite4);
 
-      await siteActionsUser.createSite(siteName, Site.VisibilityEnum.PUBLIC, null, siteId1);
-      await siteActionsUser.createSite(siteName, Site.VisibilityEnum.PUBLIC, null, siteId2);
+      await siteActionsUser.createSite(siteName, Site.VisibilityEnum.PUBLIC, undefined, siteId1);
+      await siteActionsUser.createSite(siteName, Site.VisibilityEnum.PUBLIC, undefined, siteId2);
     } catch (error) {
       console.error(`----- beforeAll failed : ${error}`);
     }

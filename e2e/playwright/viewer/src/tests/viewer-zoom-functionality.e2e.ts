@@ -224,7 +224,7 @@ test.describe('viewer zoom functionality and reset', () => {
     await myLibrariesPage.navigate();
     await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(randomLibraryName);
     await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
-    await myLibrariesPage.viewer.waitForViewerLoaderToFinish();
+    await myLibrariesPage.viewer.waitForViewerToOpen();
     expect(await myLibrariesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     await myLibrariesPage.viewer.waitForZoomPercentageToDisplay();
     await validateFitToPageButtonActivity(myLibrariesPage);

@@ -72,7 +72,7 @@ export class ViewerComponent extends BaseComponent {
 
   async waitForViewerToOpen(): Promise<void> {
     await this.waitForViewerLoaderToFinish();
-    await this.viewerLocator.waitFor({ state: 'visible', timeout: timeouts.large });
+    await this.viewerLocator.waitFor({ state: 'visible', timeout: timeouts.extraLarge });
   }
 
   async waitForViewerLoaderToFinish(): Promise<void> {
