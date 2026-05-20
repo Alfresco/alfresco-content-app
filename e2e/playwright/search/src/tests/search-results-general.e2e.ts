@@ -33,8 +33,8 @@ test.describe('Search Results - General', () => {
   const random = Utils.random();
   const username = `user1-${random}`;
   const file = `jsbwf-file-${random}.txt`;
-  const folder = `prnww-folder-${random}`;
   const site = `vbcmw-site-${random}`;
+  const folder = `prnww-folder-${random}`;
 
   test.beforeAll(async () => {
     try {
