@@ -159,11 +159,8 @@ test.describe('Info Drawer - Comments - Sites Privileges', () => {
   let fileActionsApi1: FileActionsApi;
   let sitesApi1: SitesApi;
   let siteEntry5522: Site;
-  let siteEntry5523: Site;
   const siteName5522 = `site-e2e-${Utils.random()}`;
-  const siteName5523 = `site-e2e-${Utils.random()}`;
   const folderName5522 = `folder-e2e-${Utils.random()}`;
-  const folderName5523 = `folder-e2e-${Utils.random()}`;
   const username1 = `user-e2e-${Utils.random()}`;
   const username2 = `user-e2e-${Utils.random()}`;
 
@@ -188,16 +185,9 @@ test.describe('Info Drawer - Comments - Sites Privileges', () => {
       siteEntry5522 = (await sitesApi1.createSite(siteName5522, Site.VisibilityEnum.PRIVATE)).entry;
       await sitesApi1.addSiteMember(siteEntry5522.id, username2, 'SiteConsumer');
 
-      siteEntry5523 = (await sitesApi1.createSite(siteName5523, Site.VisibilityEnum.PRIVATE)).entry;
-      await sitesApi1.addSiteMember(siteEntry5523.id, username2, 'SiteContributor');
-
       const documentLibraryId1 = await nodesApi1.getNodeIdFromParent('documentLibrary', siteEntry5522.guid);
       await nodesApi1.createFolder(folderName5522, documentLibraryId1);
       await fileActionsApi1.waitForNodes(folderName5522, { expect: 1 });
-
-      const documentLibraryId2 = await nodesApi1.getNodeIdFromParent('documentLibrary', siteEntry5523.guid);
-      await nodesApi1.createFolder(folderName5523, documentLibraryId2);
-      await fileActionsApi1.waitForNodes(folderName5523, { expect: 1 });
     } catch (error) {
       console.error(`beforeAll failed : ${error}`);
     }
