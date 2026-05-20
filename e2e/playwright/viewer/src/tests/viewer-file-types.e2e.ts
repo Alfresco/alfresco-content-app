@@ -97,7 +97,6 @@ test.describe('viewer file types', () => {
 
   async function openFileInViewer(page: PersonalFilesPage, fileName: string) {
     await page.dataTable.performClickFolderOrFileToOpen(fileName);
-    expect(await page.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     await page.viewer.waitForViewerToOpen();
     await Utils.delayInSeconds(1);
   }
