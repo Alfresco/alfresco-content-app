@@ -104,7 +104,7 @@ export class DocumentListDirective implements OnInit {
 
     this.appHookService.nodeToSelect$
       .pipe(
-        filter((node) => node !== null),
+        filter((node): node is NodeEntry => node !== null),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe((node) => {
@@ -163,7 +163,7 @@ export class DocumentListDirective implements OnInit {
     this.updateSelection();
     this.restoreSorting();
     if (this.pendingNode) {
-      const wasSelected = this.documentList.selection.some((node) => node.entry.id === this.pendingNode.entry.id);
+      const wasSelected = this.documentList.selection.some((node) => node.entry?.id === this.pendingNode.entry.id);
       if (wasSelected) {
         setTimeout(() => this.elementRef.nativeElement.querySelector('.adf-is-selected')?.focus());
         this.pendingNode = null;

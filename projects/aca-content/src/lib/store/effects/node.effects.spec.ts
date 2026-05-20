@@ -410,7 +410,7 @@ describe('NodeEffects', () => {
 
       tick(100);
 
-      store.dispatch(new LinkNodesAction(null));
+      store.dispatch(new LinkNodesAction([]));
 
       expect(contentService.linkNodes).toHaveBeenCalledWith([node], undefined);
     }));
@@ -418,7 +418,7 @@ describe('NodeEffects', () => {
     it('should do nothing if invoking link with no data', () => {
       spyOn(contentService, 'linkNodes').and.stub();
 
-      store.dispatch(new LinkNodesAction(null));
+      store.dispatch(new LinkNodesAction([]));
 
       expect(contentService.linkNodes).not.toHaveBeenCalled();
     });

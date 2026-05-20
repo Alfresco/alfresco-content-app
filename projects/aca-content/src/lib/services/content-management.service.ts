@@ -476,21 +476,23 @@ export class ContentManagementService {
   }
 
   linkNodes(nodes: NodeEntry[], focusedElementOnCloseSelector?: string) {
-    zip(this.nodeActionsService.createLinkNodes(nodes, focusedElementOnCloseSelector), this.nodeActionsService.contentLinked).subscribe({
-      next: ([, linkResponse]) => this.showLinkMessage(nodes, linkResponse),
-      error: (error) => {
-        let i18nMessageString = 'APP.MESSAGES.ERRORS.GENERIC';
-        try {
-          const {
-            error: { statusCode }
-          } = JSON.parse(error.message);
-          if (statusCode === 403) {
-            i18nMessageString = 'APP.MESSAGES.ERRORS.PERMISSION';
-          }
-        } catch {}
-        this.notificationService.openSnackMessageAction(this.translation.instant(i18nMessageString), null, { panelClass: 'adf-error-snackbar' });
+    zip(this.nodeActionsService.createLinkNodes(nodes, focusedElementOnCloseSelector), this.nodeActionsService.contentLinked.pipe(take(1))).subscribe(
+      {
+        next: ([, linkResponse]) => this.showLinkMessage(nodes, linkResponse),
+        error: (error) => {
+          let i18nMessageString = 'APP.MESSAGES.ERRORS.GENERIC';
+          try {
+            const {
+              error: { statusCode }
+            } = JSON.parse(error.message);
+            if (statusCode === 403) {
+              i18nMessageString = 'APP.MESSAGES.ERRORS.PERMISSION';
+            }
+          } catch {}
+          this.notificationService.openSnackMessageAction(this.translation.instant(i18nMessageString), null, { panelClass: 'adf-error-snackbar' });
+        }
       }
-    });
+    );
   }
 
   navigateToLinkTarget(linkNode: NodeEntry): void {

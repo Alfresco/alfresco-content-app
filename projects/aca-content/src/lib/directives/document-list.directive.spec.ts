@@ -341,15 +341,15 @@ describe('DocumentListDirective', () => {
       expect(documentListMock.preselectNodes).toEqual([pendingNode]);
       expect(latestNodeToSelect).toBe(pendingNode);
     }));
-
-    it('should not attempt to focus or clear preselectNodes when no node is pending', fakeAsync(() => {
-      documentListDirective.ngOnInit();
-
-      documentListDirective.onReady();
-      tick();
-
-      expect(elementRefMock.nativeElement.querySelector).not.toHaveBeenCalled();
-      expect(documentListMock.preselectNodes).toEqual([]);
-    }));
   });
+
+  it('should not attempt to focus or clear preselectNodes when no node is pending', fakeAsync(() => {
+    documentListDirective.ngOnInit();
+
+    documentListDirective.onReady();
+    tick();
+
+    expect(elementRefMock.nativeElement.querySelector).not.toHaveBeenCalled();
+    expect(documentListMock.preselectNodes).toEqual([]);
+  }));
 });

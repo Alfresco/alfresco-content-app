@@ -157,6 +157,8 @@ export class NodeActionsService {
           } else if (action === NodeAction.LINK) {
             this.contentLinked.next(processedData);
           }
+
+          observable.complete();
         }, observable.error.bind(observable));
       });
     } else {

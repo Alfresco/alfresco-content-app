@@ -27,7 +27,7 @@ import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dial
 import { of, throwError, Subject, Observable } from 'rxjs';
 import { TranslationService } from '@alfresco/adf-core';
 import { AlfrescoApiService, DocumentListService, NodeAction } from '@alfresco/adf-content-services';
-import { NodeActionsService } from './node-actions.service';
+import { LinkOperationResult, NodeActionsService } from './node-actions.service';
 import { Node, NodeChildAssociationEntry, NodeEntry } from '@alfresco/js-api';
 import { AppTestingModule } from '../testing/app-testing.module';
 import { ContentApiService } from '@alfresco/aca-shared';
@@ -1255,8 +1255,10 @@ describe('NodeActionsService', () => {
       spyOn(service, 'getContentNodeSelection').and.returnValue(subject);
       spyOn(service, 'linkNodeAction').and.returnValue(of({ entry: { id: 'new-link-id' } }));
 
-      service.contentLinked.subscribe((nodes: NodeEntry[]) => {
-        expect(nodes).toBeDefined();
+      service.contentLinked.subscribe((result: LinkOperationResult) => {
+        expect(result.succeeded.length).toBe(1);
+        expect(result.succeeded[0].entry.id).toBe('new-link-id');
+        expect(result.failed.length).toBe(0);
         done();
       });
 
