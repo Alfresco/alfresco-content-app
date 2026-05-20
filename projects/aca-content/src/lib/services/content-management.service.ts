@@ -55,7 +55,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { forkJoin, Observable, of, zip } from 'rxjs';
 import { catchError, map, mergeMap, take, tap } from 'rxjs/operators';
-import { NodeActionsService } from './node-actions.service';
+import { LinkOperationResult, NodeActionsService } from './node-actions.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NodeInformationComponent } from '../dialogs/node-details/node-information.component';
 
@@ -475,6 +475,43 @@ export class ContentManagementService {
     );
   }
 
+  linkNodes(nodes: NodeEntry[], focusedElementOnCloseSelector?: string) {
+    zip(this.nodeActionsService.createLinkNodes(nodes, focusedElementOnCloseSelector), this.nodeActionsService.contentLinked).subscribe({
+      next: ([, linkResponse]) => this.showLinkMessage(nodes, linkResponse),
+      error: (error) => {
+        let i18nMessageString = 'APP.MESSAGES.ERRORS.GENERIC';
+        try {
+          const {
+            error: { statusCode }
+          } = JSON.parse(error.message);
+          if (statusCode === 403) {
+            i18nMessageString = 'APP.MESSAGES.ERRORS.PERMISSION';
+          }
+        } catch {}
+        this.notificationService.openSnackMessageAction(this.translation.instant(i18nMessageString), null, { panelClass: 'adf-error-snackbar' });
+      }
+    });
+  }
+
+  navigateToLinkTarget(linkNode: NodeEntry): void {
+    const destinationId = linkNode.entry?.properties?.['cm:destination'];
+    if (!destinationId) {
+      this.notificationService.showError('APP.MESSAGES.ERRORS.GENERIC');
+      return;
+    }
+
+    this.contentApi.getNode(destinationId).subscribe({
+      next: (originalNode) => {
+        this.store.dispatch(new NavigateToParentFolder(originalNode));
+        this.appHookService.nodeToSelect$.next(originalNode);
+        this.documentListService.reload();
+      },
+      error: () => {
+        this.notificationService.showError('APP.MESSAGES.ERRORS.GENERIC');
+      }
+    });
+  }
+
   getErrorMessage(errorObject: { message: any }): string {
     let i18nMessageString = 'APP.MESSAGES.ERRORS.GENERIC';
 
@@ -516,61 +553,66 @@ export class ContentManagementService {
   }
 
   private showCopyMessage(info: any, nodes: Array<NodeEntry>, newItems?: Array<NodeEntry>) {
-    const numberOfCopiedItems = newItems ? newItems.length : 0;
-    const failedItems = nodes.length - numberOfCopiedItems;
-
+    const succeeded = newItems?.length ?? 0;
+    const failed = nodes.length - succeeded;
     let i18nMessageString = 'APP.MESSAGES.ERRORS.GENERIC';
 
-    if (typeof info === 'string') {
-      if (info.toLowerCase().indexOf('succes') !== -1) {
-        let i18MessageSuffix;
-
-        if (failedItems) {
-          if (numberOfCopiedItems) {
-            i18MessageSuffix = numberOfCopiedItems === 1 ? 'PARTIAL_SINGULAR' : 'PARTIAL_PLURAL';
-          } else {
-            i18MessageSuffix = failedItems === 1 ? 'FAIL_SINGULAR' : 'FAIL_PLURAL';
-          }
-        } else {
-          i18MessageSuffix = numberOfCopiedItems === 1 ? 'SINGULAR' : 'PLURAL';
-        }
-
-        i18nMessageString = `APP.MESSAGES.INFO.NODE_COPY.${i18MessageSuffix}`;
-      }
-    } else {
+    if (typeof info === 'string' && info.toLowerCase().includes('succes')) {
+      i18nMessageString = `APP.MESSAGES.INFO.NODE_COPY.${this.getOperationMessageSuffix(succeeded, failed)}`;
+    } else if (typeof info !== 'string') {
       try {
         const {
           error: { statusCode }
         } = JSON.parse(info.message);
-
         if (statusCode === 403) {
           i18nMessageString = 'APP.MESSAGES.ERRORS.PERMISSION';
         }
       } catch {}
     }
 
-    const undo = numberOfCopiedItems > 0 ? this.translation.instant('APP.ACTIONS.UNDO') : '';
-
-    const message = this.translation.instant(i18nMessageString, {
-      success: numberOfCopiedItems,
-      failed: failedItems
-    });
-
-    let messageType: string;
-    if (numberOfCopiedItems === 0) {
-      messageType = 'adf-error-snackbar';
-    } else if (failedItems > 0) {
-      messageType = 'adf-warning-snackbar';
-    } else {
-      messageType = 'adf-info-snackbar';
-    }
+    const undo = succeeded > 0 ? this.translation.instant('APP.ACTIONS.UNDO') : '';
+    const message = this.translation.instant(i18nMessageString, { success: succeeded, failed });
 
     this.notificationService
-      .openSnackMessageAction(message, undo, {
-        panelClass: messageType
-      })
+      .openSnackMessageAction(message, undo, { panelClass: this.getSnackbarPanelClass(succeeded, failed) })
       .onAction()
       .subscribe(() => this.undoCopyNodes(newItems));
+  }
+
+  private showLinkMessage(nodes: Array<NodeEntry>, { succeeded: newItems, failed }: LinkOperationResult) {
+    const succeeded = newItems.length;
+    const totalFailed = nodes.length - succeeded;
+
+    let isDuplicate = false;
+    if (nodes.length === 1 && succeeded === 0) {
+      try {
+        isDuplicate = JSON.parse(failed[0].message).error.statusCode === 409;
+      } catch {}
+    }
+
+    const i18nMessageString = isDuplicate
+      ? 'APP.MESSAGES.ERRORS.NODE_LINK_DUPLICATE'
+      : `APP.MESSAGES.INFO.NODE_LINK.${this.getOperationMessageSuffix(succeeded, totalFailed)}`;
+
+    const message = this.translation.instant(i18nMessageString, { success: succeeded, failed: totalFailed });
+    this.notificationService.openSnackMessageAction(message, null, { panelClass: this.getSnackbarPanelClass(succeeded, totalFailed) });
+  }
+
+  private getOperationMessageSuffix(succeeded: number, failed: number): string {
+    if (failed > 0 && succeeded > 0) {
+      return succeeded === 1 ? 'PARTIAL_SINGULAR' : 'PARTIAL_PLURAL';
+    }
+    if (failed > 0) {
+      return failed === 1 ? 'FAIL_SINGULAR' : 'FAIL_PLURAL';
+    }
+    return succeeded === 1 ? 'SINGULAR' : 'PLURAL';
+  }
+
+  private getSnackbarPanelClass(succeeded: number, failed: number): string {
+    if (succeeded === 0) {
+      return 'adf-error-snackbar';
+    }
+    return failed > 0 ? 'adf-warning-snackbar' : 'adf-info-snackbar';
   }
 
   private undoCopyNodes(nodes: NodeEntry[]) {

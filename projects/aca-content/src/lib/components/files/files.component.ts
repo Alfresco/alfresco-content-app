@@ -152,7 +152,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     });
 
     this.subscriptions = this.subscriptions.concat([
-      this.nodeActionsService.contentCopied.subscribe((nodes) => this.onContentCopied(nodes)),
+      this.nodeActionsService.contentCopied.subscribe((nodes) => this.onContentAdded(nodes)),
+      this.nodeActionsService.contentLinked.subscribe(({ succeeded }) => this.onContentAdded(succeeded)),
       this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file)),
       this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file))
     ]);
@@ -305,7 +306,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     this.reload(this.selectedNode);
   }
 
-  onContentCopied(nodes: NodeEntry[]) {
+  onContentAdded(nodes: NodeEntry[]) {
     const newNode = nodes.find((node) => node?.entry?.parentId === this.getParentNodeId());
     if (newNode) {
       this.reload(this.selectedNode);

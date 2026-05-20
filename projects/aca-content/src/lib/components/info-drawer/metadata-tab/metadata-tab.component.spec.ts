@@ -394,6 +394,15 @@ describe('MetadataTabComponent', () => {
         expect(getContentMetadata().displayCategories).toBeFalse();
       });
 
+      it('should have assigned displayCategories to false if node is a link even if areCategoriesEnabled returns true', () => {
+        const categoryService = TestBed.inject(CategoryService);
+        spyOn(categoryService, 'areCategoriesEnabled').and.returnValue(true);
+        component.node = { isLink: true, allowableOperations: [] } as Node;
+
+        component.ngOnInit();
+        expect(component.displayCategories).toBeFalse();
+      });
+
       it('should have assigned displayTags to true if tagService.areTagsEnabled returns true', () => {
         const tagService = TestBed.inject(TagService);
         spyOn(tagService, 'areTagsEnabled').and.returnValue(true);
@@ -410,6 +419,15 @@ describe('MetadataTabComponent', () => {
         fixture.detectChanges();
         expect(tagService.areTagsEnabled).toHaveBeenCalled();
         expect(getContentMetadata().displayTags).toBeFalse();
+      });
+
+      it('should have assigned displayTags to false if node is a link even if areTagsEnabled returns true', () => {
+        const tagService = TestBed.inject(TagService);
+        spyOn(tagService, 'areTagsEnabled').and.returnValue(true);
+        component.node = { isLink: true, allowableOperations: [] } as Node;
+
+        component.ngOnInit();
+        expect(component.displayTags).toBeFalse();
       });
     });
   });

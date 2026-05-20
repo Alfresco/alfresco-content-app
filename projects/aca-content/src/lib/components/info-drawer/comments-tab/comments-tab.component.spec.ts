@@ -138,4 +138,59 @@ describe('CommentsTabComponent', () => {
     await fixture.whenStable();
     expect(component.canUpdateNode).toBe(true);
   });
+
+  describe('link node (isLink)', () => {
+    it('should set destination to cm:destination property value', async () => {
+      component.node = {
+        id: 'link-node-id',
+        isFile: false,
+        isFolder: false,
+        isLink: true,
+        properties: { 'cm:destination': 'original-node-id' }
+      } as Node;
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(component.destination).toBe('original-node-id');
+    });
+
+    it('should set canUpdateNode based on permission check for link nodes', async () => {
+      component.node = {
+        id: 'link-node-id',
+        isFile: true,
+        isFolder: false,
+        isLink: true,
+        properties: { 'cm:destination': 'original-node-id' }
+      } as Node;
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(component.canUpdateNode).toBe(true);
+    });
+
+    it('should check permissions for link nodes', async () => {
+      component.node = {
+        id: 'link-node-id',
+        isFile: false,
+        isFolder: true,
+        isLink: true,
+        properties: { 'cm:destination': 'original-node-id' }
+      } as Node;
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(nodePermissionService.check).toHaveBeenCalled();
+      expect(checked).toContain('update');
+    });
+
+    it('should leave destination null if cm:destination property is missing', async () => {
+      component.node = {
+        id: 'link-node-id',
+        isFile: false,
+        isFolder: false,
+        isLink: true,
+        properties: {}
+      } as Node;
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(component.destination).toBeNull();
+    });
+  });
 });

@@ -28,6 +28,7 @@ import {
   AppStore,
   CopyNodesAction,
   DeleteNodesAction,
+  LinkNodesAction,
   MoveNodesAction,
   NavigateRouteAction,
   NavigateToParentFolder,
@@ -44,7 +45,7 @@ import { AppTestingModule } from '../testing/app-testing.module';
 import { AppHookService, AppSettingsService, ContentApiService } from '@alfresco/aca-shared';
 import { Store } from '@ngrx/store';
 import { ContentManagementService } from './content-management.service';
-import { NodeActionsService } from './node-actions.service';
+import { LinkOperationResult, NodeActionsService } from './node-actions.service';
 import { ConfirmDialogComponent, DialogComponent, DialogSize, NotificationService, TranslationService } from '@alfresco/adf-core';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarModule, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
@@ -2100,5 +2101,211 @@ describe('ContentManagementService', () => {
       expect(document.querySelector).toHaveBeenCalledWith('.some-button');
       expect(mockElement.focus).toHaveBeenCalled();
     }));
+  });
+
+  describe('Link node action', () => {
+    let subject: Subject<string>;
+
+    beforeEach(() => {
+      subject = new Subject<string>();
+      openSnackMessageActionSpy.and.callThrough();
+    });
+
+    afterEach(() => subject.complete());
+
+    it('notifies successful link of a single node', () => {
+      spyOn(nodeActions, 'createLinkNodes').and.returnValue(subject);
+      const selection = [{ entry: { id: 'node-to-link-id', name: 'name' } }] as NodeEntry[];
+      const linkedItems = [{ entry: { id: 'link-id', name: 'name' } }] as NodeEntry[];
+      const result: LinkOperationResult = { succeeded: linkedItems, failed: [] };
+
+      store.dispatch(new LinkNodesAction(selection));
+      nodeActions.contentLinked.next(result);
+      subject.next('OPERATION.SUCCESS.CONTENT.LINK');
+
+      const snackMessageCall = openSnackMessageActionSpy.calls.argsFor(0);
+      expect(nodeActions.createLinkNodes).toHaveBeenCalled();
+      expect(snackMessageCall[0]).toBe('APP.MESSAGES.INFO.NODE_LINK.SINGULAR');
+      expect(snackMessageCall[2].panelClass).toBe('adf-info-snackbar');
+    });
+
+    it('notifies successful link of multiple nodes', () => {
+      spyOn(nodeActions, 'createLinkNodes').and.returnValue(subject);
+      const selection = [{ entry: { id: 'node-to-link-1', name: 'name1' } }, { entry: { id: 'node-to-link-2', name: 'name2' } }] as NodeEntry[];
+      const linkedItems = [{ entry: { id: 'link-of-node-1', name: 'name1' } }, { entry: { id: 'link-of-node-2', name: 'name2' } }] as NodeEntry[];
+      const result: LinkOperationResult = { succeeded: linkedItems, failed: [] };
+
+      store.dispatch(new LinkNodesAction(selection));
+      nodeActions.contentLinked.next(result);
+      subject.next('OPERATION.SUCCESS.CONTENT.LINK');
+
+      const snackMessageCall = openSnackMessageActionSpy.calls.argsFor(0);
+      expect(nodeActions.createLinkNodes).toHaveBeenCalled();
+      expect(snackMessageCall[0]).toBe('APP.MESSAGES.INFO.NODE_LINK.PLURAL');
+      expect(snackMessageCall[2].panelClass).toBe('adf-info-snackbar');
+    });
+
+    it('notifies partial link of one node out of multiple selection', () => {
+      spyOn(nodeActions, 'createLinkNodes').and.returnValue(subject);
+      const selection = [{ entry: { id: 'node-to-link-1', name: 'name1' } }, { entry: { id: 'node-to-link-2', name: 'name2' } }] as NodeEntry[];
+      const linkedItems = [{ entry: { id: 'link-of-node-1', name: 'name1' } }] as NodeEntry[];
+      const result: LinkOperationResult = { succeeded: linkedItems, failed: [new Error('Server error')] };
+
+      store.dispatch(new LinkNodesAction(selection));
+      nodeActions.contentLinked.next(result);
+      subject.next('OPERATION.SUCCESS.CONTENT.LINK');
+
+      const snackMessageCall = openSnackMessageActionSpy.calls.argsFor(0);
+      expect(nodeActions.createLinkNodes).toHaveBeenCalled();
+      expect(snackMessageCall[0]).toBe('APP.MESSAGES.INFO.NODE_LINK.PARTIAL_SINGULAR');
+      expect(snackMessageCall[2].panelClass).toBe('adf-warning-snackbar');
+    });
+
+    it('notifies failed link of a single node with a generic error', () => {
+      spyOn(nodeActions, 'createLinkNodes').and.returnValue(subject);
+      const selection = [{ entry: { id: 'node-to-link-id', name: 'name' } }] as NodeEntry[];
+      const result: LinkOperationResult = { succeeded: [], failed: [new Error('Server error')] };
+
+      store.dispatch(new LinkNodesAction(selection));
+      nodeActions.contentLinked.next(result);
+      subject.next('OPERATION.SUCCESS.CONTENT.LINK');
+
+      const snackMessageCall = openSnackMessageActionSpy.calls.argsFor(0);
+      expect(nodeActions.createLinkNodes).toHaveBeenCalled();
+      expect(snackMessageCall[0]).toBe('APP.MESSAGES.INFO.NODE_LINK.FAIL_SINGULAR');
+      expect(snackMessageCall[2].panelClass).toBe('adf-error-snackbar');
+    });
+
+    it('notifies duplicate link error when single node link fails with 409', () => {
+      spyOn(nodeActions, 'createLinkNodes').and.returnValue(subject);
+      const selection = [{ entry: { id: 'node-to-link-id', name: 'name' } }] as NodeEntry[];
+      const result: LinkOperationResult = {
+        succeeded: [],
+        failed: [new Error(JSON.stringify({ error: { statusCode: 409 } }))]
+      };
+
+      store.dispatch(new LinkNodesAction(selection));
+      nodeActions.contentLinked.next(result);
+      subject.next('OPERATION.SUCCESS.CONTENT.LINK');
+
+      const snackMessageCall = openSnackMessageActionSpy.calls.argsFor(0);
+      expect(nodeActions.createLinkNodes).toHaveBeenCalled();
+      expect(snackMessageCall[0]).toBe('APP.MESSAGES.ERRORS.NODE_LINK_DUPLICATE');
+      expect(snackMessageCall[2].panelClass).toBe('adf-error-snackbar');
+    });
+
+    it('notifies failed link of multiple nodes', () => {
+      spyOn(nodeActions, 'createLinkNodes').and.returnValue(subject);
+      const selection = [{ entry: { id: 'node-to-link-0', name: 'name0' } }, { entry: { id: 'node-to-link-1', name: 'name1' } }] as NodeEntry[];
+      const result: LinkOperationResult = { succeeded: [], failed: [new Error('Server error'), new Error('Server error')] };
+
+      store.dispatch(new LinkNodesAction(selection));
+      nodeActions.contentLinked.next(result);
+      subject.next('OPERATION.SUCCESS.CONTENT.LINK');
+
+      const snackMessageCall = openSnackMessageActionSpy.calls.argsFor(0);
+      expect(nodeActions.createLinkNodes).toHaveBeenCalled();
+      expect(snackMessageCall[0]).toBe('APP.MESSAGES.INFO.NODE_LINK.FAIL_PLURAL');
+      expect(snackMessageCall[2].panelClass).toBe('adf-error-snackbar');
+    });
+
+    it('notifies permission error on link failure', () => {
+      spyOn(nodeActions, 'createLinkNodes').and.returnValue(subject);
+      const selection = [{ entry: { id: 'node-to-link-id', name: 'name' } }] as NodeEntry[];
+
+      store.dispatch(new LinkNodesAction(selection));
+      subject.error(new Error(JSON.stringify({ error: { statusCode: 403 } })));
+
+      const snackMessageCall = openSnackMessageActionSpy.calls.argsFor(0);
+      expect(nodeActions.createLinkNodes).toHaveBeenCalled();
+      expect(snackMessageCall[0]).toBe('APP.MESSAGES.ERRORS.PERMISSION');
+      expect(snackMessageCall[2].panelClass).toBe('adf-error-snackbar');
+    });
+  });
+
+  describe('navigateToLinkTarget', () => {
+    it('should dispatch NavigateToParentFolder when destination node is found', () => {
+      const originalNodeEntry: NodeEntry = {
+        entry: {
+          id: 'original-node-id',
+          name: 'original-file.txt',
+          nodeType: 'cm:content',
+          isFolder: false,
+          isFile: true,
+          modifiedAt: new Date(),
+          modifiedByUser: new UserInfo(),
+          createdAt: new Date(),
+          createdByUser: new UserInfo(),
+          parentId: 'parent-folder-id'
+        }
+      };
+
+      const linkNode: NodeEntry = {
+        entry: {
+          id: 'link-node-id',
+          name: 'Link to original-file.txt.url',
+          nodeType: 'app:filelink',
+          isFolder: false,
+          isFile: false,
+          modifiedAt: new Date(),
+          modifiedByUser: new UserInfo(),
+          createdAt: new Date(),
+          createdByUser: new UserInfo(),
+          properties: { 'cm:destination': 'original-node-id' }
+        }
+      };
+
+      spyOn(contentApi, 'getNode').and.returnValue(of(originalNodeEntry));
+      spyOn(store, 'dispatch').and.callThrough();
+
+      contentManagementService.navigateToLinkTarget(linkNode);
+
+      expect(contentApi.getNode).toHaveBeenCalledWith('original-node-id');
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new NavigateToParentFolder(originalNodeEntry) }));
+    });
+
+    it('should show error when cm:destination property is missing', () => {
+      const linkNode: NodeEntry = {
+        entry: {
+          id: 'link-node-id',
+          name: 'Link to file.url',
+          nodeType: 'app:filelink',
+          isFolder: false,
+          isFile: false,
+          modifiedAt: new Date(),
+          modifiedByUser: new UserInfo(),
+          createdAt: new Date(),
+          createdByUser: new UserInfo(),
+          properties: {}
+        }
+      };
+
+      contentManagementService.navigateToLinkTarget(linkNode);
+
+      expect(showErrorSpy).toHaveBeenCalledWith('APP.MESSAGES.ERRORS.GENERIC');
+    });
+
+    it('should show error when getNode API call fails', () => {
+      const linkNode: NodeEntry = {
+        entry: {
+          id: 'link-node-id',
+          name: 'Link to file.url',
+          nodeType: 'app:filelink',
+          isFolder: false,
+          isFile: false,
+          modifiedAt: new Date(),
+          modifiedByUser: new UserInfo(),
+          createdAt: new Date(),
+          createdByUser: new UserInfo(),
+          properties: { 'cm:destination': 'original-node-id' }
+        }
+      };
+
+      spyOn(contentApi, 'getNode').and.returnValue(throwError(() => new Error('Not found')));
+
+      contentManagementService.navigateToLinkTarget(linkNode);
+
+      expect(showErrorSpy).toHaveBeenCalledWith('APP.MESSAGES.ERRORS.GENERIC');
+    });
   });
 });

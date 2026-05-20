@@ -33,7 +33,7 @@ import { ExternalNodePermissionCommentsTabService } from './external-node-permis
   imports: [MatCardModule, NodeCommentsComponent],
   selector: 'app-comments-tab',
   template: ` <mat-card class="adf-comments-tab-container" appearance="raised"
-    ><adf-node-comments [readOnly]="!canUpdateNode" [nodeId]="node?.id"
+    ><adf-node-comments [readOnly]="!canUpdateNode" [nodeId]="destination ?? node?.id"
   /></mat-card>`,
   styles: ['app-comments-tab mat-card { padding: 16px }'],
   encapsulation: ViewEncapsulation.None,
@@ -47,11 +47,17 @@ export class CommentsTabComponent implements OnInit {
   node: Node;
 
   canUpdateNode = false;
+  destination: string | null = null;
 
   ngOnInit(): void {
     if (!this.node) {
       this.canUpdateNode = false;
     }
+
+    if (this.node.isLink) {
+      this.destination = this.node.properties?.['cm:destination'] ?? null;
+    }
+
     if (this.node.isFolder || (this.node.isFile && !isLocked({ entry: this.node }))) {
       this.canUpdateNode = this.permission.check(this.node, ['update']);
       if (this.externalPermissionNodeService) {

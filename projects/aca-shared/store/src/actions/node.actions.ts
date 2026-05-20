@@ -39,6 +39,8 @@ export enum NodeActionTypes {
   Unshare = 'UNSHARE_NODES',
   Copy = 'COPY_NODES',
   Move = 'MOVE_NODES',
+  Link = 'CREATE_LINK',
+  Locate = 'LOCATE_LINKED_ITEM',
   NodeInformation = 'NODE_INFORMATION',
   ManagePermissions = 'MANAGE_PERMISSIONS',
   PrintFile = 'PRINT_FILE',
@@ -147,6 +149,21 @@ export class MoveNodesAction implements Action {
     public payload: Array<NodeEntry>,
     public configuration?: ModalConfiguration
   ) {}
+}
+
+export class LinkNodesAction implements Action {
+  readonly type = NodeActionTypes.Link;
+
+  constructor(
+    public payload: Array<NodeEntry>,
+    public configuration?: ModalConfiguration
+  ) {}
+}
+
+export class LocateLinkedItemAction implements Action {
+  readonly type = NodeActionTypes.Locate;
+
+  constructor(public payload: Array<NodeEntry>) {}
 }
 
 export class ManagePermissionsAction implements Action {

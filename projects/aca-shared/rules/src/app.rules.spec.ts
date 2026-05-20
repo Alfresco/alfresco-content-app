@@ -71,6 +71,27 @@ describe('app.evaluators', () => {
 
       expect(app.canDownloadSelection(context)).toBe(false);
     });
+
+    it('should not allow downloading when selection contains a file link', () => {
+      context.selection.isEmpty = false;
+      context.selection.nodes = [{ entry: { nodeType: 'app:filelink', isFile: true } }] as NodeEntry[];
+
+      expect(app.canDownloadSelection(context)).toBe(false);
+    });
+
+    it('should not allow downloading when selection contains a folder link', () => {
+      context.selection.isEmpty = false;
+      context.selection.nodes = [{ entry: { nodeType: 'app:folderlink', isFolder: true } }] as NodeEntry[];
+
+      expect(app.canDownloadSelection(context)).toBe(false);
+    });
+
+    it('should not allow downloading when any node in multi-selection is a link', () => {
+      context.selection.isEmpty = false;
+      context.selection.nodes = [{ entry: { isFile: true } }, { entry: { nodeType: 'app:filelink', isFile: true } }] as NodeEntry[];
+
+      expect(app.canDownloadSelection(context)).toBe(false);
+    });
   });
 
   describe('isWriteLocked', () => {
@@ -211,6 +232,22 @@ describe('app.evaluators', () => {
       context.selection.file = {} as any;
 
       expect(app.canUploadVersion(context)).toBe(true);
+    });
+
+    it('should return [false] when any selected node is a file link', () => {
+      context.navigation.url = '/personal-files';
+      context.selection.isEmpty = false;
+      context.selection.nodes = [{ entry: { nodeType: 'app:filelink' } }] as NodeEntry[];
+
+      expect(app.canUploadVersion(context)).toBe(false);
+    });
+
+    it('should return [false] when any selected node is a folder link', () => {
+      context.navigation.url = '/personal-files';
+      context.selection.isEmpty = false;
+      context.selection.nodes = [{ entry: { nodeType: 'app:folderlink' } }] as NodeEntry[];
+
+      expect(app.canUploadVersion(context)).toBe(false);
     });
   });
 
@@ -396,6 +433,26 @@ describe('app.evaluators', () => {
       context.permissions = { check: () => true };
 
       expect(app.canOpenWithOffice(context)).toBeTruthy();
+    });
+
+    it('should return [false] when any selected node is a file link', () => {
+      context.appConfig = { get: () => true } as any;
+      context.selection.isEmpty = false;
+      context.selection.nodes = [{ entry: { nodeType: 'app:filelink' } }] as NodeEntry[];
+      context.selection.file = { entry: { name: 'document.docx', isLocked: false, properties: {} } } as NodeEntry;
+      context.permissions = { check: () => true };
+
+      expect(app.canOpenWithOffice(context)).toBeFalsy();
+    });
+
+    it('should return [false] when any selected node is a folder link', () => {
+      context.appConfig = { get: () => true } as any;
+      context.selection.isEmpty = false;
+      context.selection.nodes = [{ entry: { nodeType: 'app:folderlink' } }] as NodeEntry[];
+      context.selection.file = { entry: { name: 'document.docx', isLocked: false, properties: {} } } as NodeEntry;
+      context.permissions = { check: () => true };
+
+      expect(app.canOpenWithOffice(context)).toBeFalsy();
     });
   });
 
@@ -735,6 +792,22 @@ describe('app.evaluators', () => {
       context.navigation.url = '/personal-files';
       context.repository.status.isQuickShareEnabled = true;
       expect(app.canShareFile(context)).toBeTrue();
+    });
+
+    it('should return false when selection contains a file link node', () => {
+      context.selection.file = { entry: { properties: {} } } as NodeEntry;
+      context.selection.nodes = [{ entry: { nodeType: 'app:filelink' } }] as NodeEntry[];
+      context.navigation.url = '/personal-files';
+      context.repository.status.isQuickShareEnabled = true;
+      expect(app.canShareFile(context)).toBeFalse();
+    });
+
+    it('should return false when selection contains a folder link node', () => {
+      context.selection.file = { entry: { properties: {} } } as NodeEntry;
+      context.selection.nodes = [{ entry: { nodeType: 'app:folderlink' } }] as NodeEntry[];
+      context.navigation.url = '/personal-files';
+      context.repository.status.isQuickShareEnabled = true;
+      expect(app.canShareFile(context)).toBeFalse();
     });
   });
 
@@ -1133,6 +1206,22 @@ describe('app.evaluators', () => {
       context.permissions = { check: () => false };
       expect(app.canToggleFileLock(context)).toBeTrue();
     });
+
+    it('should return false when any selected node is a file link', () => {
+      context.selection.isEmpty = false;
+      context.selection.nodes = [{ entry: { nodeType: 'app:filelink' } }] as NodeEntry[];
+      context.selection.file = { entry: { properties: {} } } as NodeEntry;
+      context.permissions = { check: () => true };
+      expect(app.canToggleFileLock(context)).toBeFalse();
+    });
+
+    it('should return false when any selected node is a folder link', () => {
+      context.selection.isEmpty = false;
+      context.selection.nodes = [{ entry: { nodeType: 'app:folderlink' } }] as NodeEntry[];
+      context.selection.file = { entry: { properties: {} } } as NodeEntry;
+      context.permissions = { check: () => true };
+      expect(app.canToggleFileLock(context)).toBeFalse();
+    });
   });
 
   describe('canPrintFile', () => {
@@ -1220,6 +1309,49 @@ describe('app.evaluators', () => {
       context.selection.isEmpty = false;
       context.selection.first = { entry: { aspectNames: ['cm:checkedOut'] } } as any;
       expect(app.isCheckedOut(context)).toBeTrue();
+    });
+  });
+
+  describe('isNodeLink', () => {
+    it('should return false when selection is empty', () => {
+      context.selection.isEmpty = true;
+      expect(app.isNodeLink(context)).toBeFalse();
+    });
+
+    it('should return false when selected node has no nodeType', () => {
+      context.selection.isEmpty = false;
+      context.selection.nodes = [{ entry: { isFile: true } }] as NodeEntry[];
+      expect(app.isNodeLink(context)).toBeFalse();
+    });
+
+    it('should return false when selected node has an unrelated nodeType', () => {
+      context.selection.isEmpty = false;
+      context.selection.nodes = [{ entry: { nodeType: 'cm:content' } }] as NodeEntry[];
+      expect(app.isNodeLink(context)).toBeFalse();
+    });
+
+    it('should return true when selected node has nodeType app:filelink', () => {
+      context.selection.isEmpty = false;
+      context.selection.nodes = [{ entry: { nodeType: 'app:filelink' } }] as NodeEntry[];
+      expect(app.isNodeLink(context)).toBeTrue();
+    });
+
+    it('should return true when selected node has nodeType app:folderlink', () => {
+      context.selection.isEmpty = false;
+      context.selection.nodes = [{ entry: { nodeType: 'app:folderlink' } }] as NodeEntry[];
+      expect(app.isNodeLink(context)).toBeTrue();
+    });
+
+    it('should return true when any node in multi-selection is a link', () => {
+      context.selection.isEmpty = false;
+      context.selection.nodes = [{ entry: { nodeType: 'cm:content' } }, { entry: { nodeType: 'app:filelink' } }] as NodeEntry[];
+      expect(app.isNodeLink(context)).toBeTrue();
+    });
+
+    it('should return false when no node in multi-selection is a link', () => {
+      context.selection.isEmpty = false;
+      context.selection.nodes = [{ entry: { nodeType: 'cm:content' } }, { entry: { nodeType: 'cm:folder' } }] as NodeEntry[];
+      expect(app.isNodeLink(context)).toBeFalse();
     });
   });
 

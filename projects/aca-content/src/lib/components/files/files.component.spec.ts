@@ -248,7 +248,7 @@ describe('FilesComponent', () => {
       spyOn(component.documentList, 'loadFolder').and.callFake(() => {});
     });
 
-    it('should call refresh onContentCopied event if parent is the same', () => {
+    it('should call refresh onContentAdded event if parent is the same', () => {
       const nodes: any[] = [{ entry: { parentId: '1' } }, { entry: { parentId: '2' } }];
 
       component.node = { id: '1' } as any;
@@ -258,12 +258,32 @@ describe('FilesComponent', () => {
       expect(component.reload).toHaveBeenCalled();
     });
 
-    it('should not call refresh onContentCopied event when parent mismatch', () => {
+    it('should not call refresh onContentAdded event when parent mismatch', () => {
       const nodes: any[] = [{ entry: { parentId: '1' } }, { entry: { parentId: '2' } }];
 
       component.node = { id: '3' } as any;
 
       nodeActionsService.contentCopied.next(nodes);
+
+      expect(component.reload).not.toHaveBeenCalled();
+    });
+
+    it('should call reload when contentLinked emits a node in the current folder', () => {
+      const nodes = [{ entry: { parentId: '1' } }, { entry: { parentId: '2' } }] as NodeEntry[];
+
+      component.node = { id: '1' } as Node;
+
+      nodeActionsService.contentLinked.next({ succeeded: nodes, failed: [] });
+
+      expect(component.reload).toHaveBeenCalled();
+    });
+
+    it('should not call reload when contentLinked emits nodes outside the current folder', () => {
+      const nodes = [{ entry: { parentId: '1' } }, { entry: { parentId: '2' } }] as NodeEntry[];
+
+      component.node = { id: '3' } as Node;
+
+      nodeActionsService.contentLinked.next({ succeeded: nodes, failed: [] });
 
       expect(component.reload).not.toHaveBeenCalled();
     });

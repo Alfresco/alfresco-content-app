@@ -98,8 +98,8 @@ export class MetadataTabComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._displayTags = this.tagService.areTagsEnabled();
-    this._displayCategories = this.categoryService.areCategoriesEnabled();
+    this._displayTags = !this.node?.isLink && this.tagService.areTagsEnabled();
+    this._displayCategories = !this.node?.isLink && this.categoryService.areCategoriesEnabled();
 
     this.contentMetadataService.error.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((err: { message: string }) => {
       this.notificationService.showError(err.message);

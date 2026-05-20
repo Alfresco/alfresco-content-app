@@ -117,7 +117,7 @@ export class NodeInformationComponent implements OnInit {
           }
         });
     } else {
-      this.nodeDetails.size = this.fileSizePipe.transform(this.node.content.sizeInBytes);
+      this.nodeDetails.size = this.fileSizePipe.transform(this.node.content?.sizeInBytes);
     }
   }
 }
