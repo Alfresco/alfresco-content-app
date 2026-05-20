@@ -57,7 +57,7 @@ test.describe('File Libraries', () => {
       const siteDescription = 'my site description';
       await siteActionsUser.createSite(userSitePublic, Site.VisibilityEnum.PUBLIC);
       await siteActionsUser.createSite(userSiteModerated, Site.VisibilityEnum.MODERATED, siteDescription);
-      await siteActionsUser.createSite(userSitePrivate, Site.VisibilityEnum.PRIVATE, undefined);
+      await siteActionsUser.createSite(userSitePrivate, Site.VisibilityEnum.PRIVATE);
 
       await siteActionsAdmin.createSite(adminSite1, Site.VisibilityEnum.PUBLIC);
       await siteActionsAdmin.createSite(adminSite2, Site.VisibilityEnum.PUBLIC);
