@@ -138,7 +138,7 @@ test.describe('Create folders', () => {
 
     await folderDialog.createNewFolderDialog(commonFolderName);
 
-    await expect(folderSnackBar.getByMessageLocator(errorStrings.thereIsAlreadyAFolderWithThisName)).toBeVisible();
+    expect(await folderSnackBar.getSnackBarMessage()).toContain(errorStrings.thereIsAlreadyAFolderWithThisName);
   });
 
   test.describe('On Personal Files dataTable', () => {
@@ -167,7 +167,7 @@ test.describe('Create folders', () => {
     test('[XAT-17591] Duplicate folder name - can create folder with a new name', async ({ personalFiles }) => {
       const folderSnackBar = personalFiles.snackBar;
       await folderDialog.createNewFolderDialog(commonFolderName);
-      await expect(folderSnackBar.getByMessageLocator(errorStrings.thereIsAlreadyAFolderWithThisName)).toBeVisible();
+      expect(await folderSnackBar.getSnackBarMessage()).toContain(errorStrings.thereIsAlreadyAFolderWithThisName);
       await folderDialog.createNewFolderDialog(newFolderName);
       await expect(folderTable.getRowByName(newFolderName)).toBeVisible();
     });

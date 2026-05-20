@@ -164,7 +164,7 @@ test.describe('Share a file', () => {
         await personalFiles.shareDialog.urlAction.click();
 
         const shareSnackBar = personalFiles.snackBar;
-        await expect(shareSnackBar.getByMessageLocator('Link copied to the clipboard')).toBeVisible();
+        expect(await shareSnackBar.getSnackBarMessage()).toContain('Link copied to the clipboard');
 
         await page.goto(url);
         await personalFiles.viewer.waitForViewerToOpen();

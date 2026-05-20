@@ -317,7 +317,7 @@ test.describe('Create file from template', () => {
         const snackBar = personalFiles.snackBar;
 
         await createFileFromTemplateDialog.createFromTemplateAction(commonFileName);
-        await expect(snackBar.getByMessageLocator(errorStrings.nameAlreadyUsedError)).toBeVisible();
+        expect(await snackBar.getSnackBarMessage()).toContain(errorStrings.nameAlreadyUsedError);
         await expect(createFileFromTemplateDialog.getDialogTitle(createDialogTitle)).toBeVisible();
       });
 
@@ -414,7 +414,7 @@ test.describe('Create file from template', () => {
       const snackBar = myLibrariesPage.snackBar;
 
       await createFileFromTemplateDialog.createFromTemplateAction(commonFileName);
-      await expect(snackBar.getByMessageLocator(errorStrings.nameAlreadyUsedError)).toBeVisible();
+      expect(await snackBar.getSnackBarMessage()).toContain(errorStrings.nameAlreadyUsedError);
       await expect(createFileFromTemplateDialog.getDialogTitle(createDialogTitle)).toBeVisible();
     });
   });

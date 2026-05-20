@@ -181,8 +181,7 @@ test.describe('viewer action file', () => {
       await openFileInViewer(personalFiles, randomDocxDelete);
       await personalFiles.acaHeader.clickViewerMoreActions();
       await personalFiles.viewerDialog.deleteMenuButton.click();
-      await personalFiles.snackBar.getByMessageLocator(randomDocxDelete).waitFor({ state: 'attached' });
-      const deleteName = await personalFiles.snackBar.getByMessageLocator(randomDocxDelete).innerText();
+      const deleteName = await personalFiles.snackBar.getSnackBarMessage();
       expect(deleteName).toContain(`${randomDocxDelete} deleted`);
       await personalFiles.dataTable.getCellLinkByName(randomDocxName).waitFor({ state: 'attached' });
       await expect(personalFiles.dataTable.getCellLinkByName(randomDocxDelete), 'file should not visible').toBeHidden();

@@ -48,7 +48,7 @@ test.describe('Library actions ', () => {
   const libraryJoinedMessage = 'Library joined';
   const requestToJoinMessage = 'Request sent to join this library';
   const cancelJoinRequestButton = 'Cancel Join Request';
-  const cancelJoinRequestMessage = 'Canceled the request to join the library';
+  const cancelJoinRequestMessage = 'Cancelled the request to join the library';
   const leaveLibraryButton = 'Leave Library';
   const leftMessage = 'You have left the library';
   const favoriteButton = 'Favorite';
@@ -183,7 +183,7 @@ test.describe('Library actions ', () => {
       await expect.soft(confirmDialog.okButton).toBeVisible();
       await expect.soft(confirmDialog.cancelButton).toBeVisible();
       await confirmDialog.okButton.click();
-      await expect.soft(snackBar.getByMessageLocator(leftMessage)).toBeVisible();
+      expect.soft(await snackBar.getSnackBarMessage()).toContain(leftMessage);
       await expect(libraryTable.getRowByName(user1Library1)).toBeHidden();
     });
 
@@ -198,7 +198,7 @@ test.describe('Library actions ', () => {
       await expect(libraryTable.getCellByColumnNameAndRowItem(user2Library1, managerRole)).toBeVisible();
       await libraryTable.performActionFromExpandableMenu(user2Library1, leaveLibraryButton);
       await confirmDialog.okButton.click();
-      await expect.soft(snackBar.getByMessageLocator('Cannot leave this library')).toBeVisible();
+      expect.soft(await snackBar.getSnackBarMessage()).toContain('Cannot leave this library');
       await expect(libraryTable.getCellByColumnNameAndRowItem(user2Library1, managerRole)).toBeVisible();
     });
 
@@ -228,7 +228,7 @@ test.describe('Library actions ', () => {
       await libraryTable.getRowByName(user2Library5Delete).click();
       await myLibrariesHeader.clickMoreActions();
       await libraryMenu.clickMenuItem(deleteButton);
-      await expect.soft(snackBar.getByMessageLocator(libraryDeletedMessage)).toBeVisible();
+      expect.soft(await snackBar.getSnackBarMessage()).toContain(libraryDeletedMessage);
       await expect(libraryTable.getRowByName(user2Library5Delete)).toBeHidden();
       await trashPage.navigate({ waitUntil: loadString });
       await expect(trashTable.getRowByName(user2Library5Delete)).toBeVisible();
@@ -254,7 +254,7 @@ test.describe('Library actions ', () => {
       await favoritesApi.addFavoriteById(siteString, adminLibrary1);
       await favoriteLibrariesPage.navigate();
       await libraryTable.performActionFromExpandableMenu(adminLibrary1, joinButton);
-      await expect.soft(snackBar.getByMessageLocator(libraryJoinedMessage)).toBeVisible();
+      expect.soft(await snackBar.getSnackBarMessage()).toContain(libraryJoinedMessage);
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminLibrary1, consumerRole)).toBeVisible();
     });
 
@@ -263,7 +263,7 @@ test.describe('Library actions ', () => {
       await favoriteLibrariesPage.navigate();
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminModerateLibrary1, notMemberString)).toBeVisible();
       await libraryTable.performActionFromExpandableMenu(adminModerateLibrary1, joinButton);
-      await expect.soft(snackBar.getByMessageLocator(requestToJoinMessage)).toBeVisible();
+      expect.soft(await snackBar.getSnackBarMessage()).toContain(requestToJoinMessage);
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminModerateLibrary1, notMemberString)).toBeVisible();
       await adminSitesApi.approveSiteMembershipRequest(adminModerateLibrary1, username2);
       await favoriteLibrariesPage.page.reload({ waitUntil: 'load' });
@@ -277,7 +277,7 @@ test.describe('Library actions ', () => {
       await expect(libraryTable.getCellByColumnNameAndRowItem(user1Library2, contributorRole)).toBeVisible();
       await libraryTable.performActionFromExpandableMenu(user1Library2, leaveLibraryButton);
       await confirmDialog.okButton.click();
-      await expect.soft(snackBar.getByMessageLocator(leftMessage)).toBeVisible();
+      expect.soft(await snackBar.getSnackBarMessage()).toContain(leftMessage);
       await expect(libraryTable.getCellByColumnNameAndRowItem(user1Library2, notMemberString)).toBeVisible();
     });
 
@@ -288,7 +288,7 @@ test.describe('Library actions ', () => {
 
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminModerateLibrary3, notMemberString)).toBeVisible();
       await libraryTable.performActionFromExpandableMenu(adminModerateLibrary3, cancelJoinRequestButton);
-      await expect.soft(snackBar.getByMessageLocator(cancelJoinRequestMessage)).toBeVisible();
+      expect.soft(await snackBar.getSnackBarMessage()).toContain(cancelJoinRequestMessage);
       const hasJoinRequest = await user2SitesApi.hasMembershipRequest(username2, adminModerateLibrary3);
       expect(hasJoinRequest).toBe(false);
     });
@@ -315,7 +315,7 @@ test.describe('Library actions ', () => {
       await libraryTable.getRowByName(user2Library6Delete).click();
       await myLibrariesHeader.clickMoreActions();
       await libraryMenu.clickMenuItem(deleteButton);
-      await expect.soft(snackBar.getByMessageLocator(libraryDeletedMessage)).toBeVisible();
+      expect.soft(await snackBar.getSnackBarMessage()).toContain(libraryDeletedMessage);
       await expect(libraryTable.getRowByName(user2Library6Delete)).toBeHidden();
       await trashPage.navigate({ waitUntil: loadString });
       await expect(trashTable.getRowByName(user2Library6Delete)).toBeVisible();
@@ -324,12 +324,10 @@ test.describe('Library actions ', () => {
 
   test.describe('Search Page', () => {
     let libraryTable: DataTableComponent;
-    let snackBar: SnackBarComponent;
 
     test.beforeEach(async ({ searchPage }) => {
       try {
         libraryTable = searchPage.dataTable;
-        snackBar = searchPage.snackBar;
       } catch (error) {
         console.error(`Search Page, beforeEach failed : ${error}`);
       }
@@ -340,7 +338,7 @@ test.describe('Library actions ', () => {
       await searchPage.reload({ waitUntil: loadString });
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminLibrary2, notMemberString)).toBeVisible();
       await libraryTable.performActionFromExpandableMenu(adminLibrary2, joinButton);
-      await expect.soft(snackBar.getByMessageLocator(libraryJoinedMessage)).toBeVisible();
+      expect.soft(await searchPage.snackBar.getSnackBarMessage()).toContain(libraryJoinedMessage);
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminLibrary2, consumerRole)).toBeVisible();
     });
 
@@ -348,7 +346,7 @@ test.describe('Library actions ', () => {
       await searchPage.searchWithin(adminModerateLibrary2, 'libraries');
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminModerateLibrary2, notMemberString)).toBeVisible();
       await libraryTable.performActionFromExpandableMenu(adminModerateLibrary2, joinButton);
-      await expect.soft(snackBar.getByMessageLocator(requestToJoinMessage)).toBeVisible();
+      expect.soft(await searchPage.snackBar.getSnackBarMessage()).toContain(requestToJoinMessage);
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminModerateLibrary2, notMemberString)).toBeVisible();
       await adminSitesApi.approveSiteMembershipRequest(adminModerateLibrary2, username2);
       await myLibrariesPage.navigate();
@@ -362,7 +360,7 @@ test.describe('Library actions ', () => {
       await expect(libraryTable.getCellByColumnNameAndRowItem(user1Library3, 'Collaborator')).toBeVisible();
       await libraryTable.performActionFromExpandableMenu(user1Library3, leaveLibraryButton);
       await confirmDialog.okButton.click();
-      await expect.soft(snackBar.getByMessageLocator(leftMessage)).toBeVisible();
+      expect.soft(await searchPage.snackBar.getSnackBarMessage()).toContain(leftMessage);
       await expect(libraryTable.getCellByColumnNameAndRowItem(user1Library3, notMemberString)).toBeVisible();
     });
 
@@ -371,9 +369,8 @@ test.describe('Library actions ', () => {
       await searchPage.searchWithin(adminModerateLibrary4, 'libraries');
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminModerateLibrary4, notMemberString)).toBeVisible();
       await libraryTable.performActionFromExpandableMenu(adminModerateLibrary4, cancelJoinRequestButton);
-      await expect.soft(snackBar.getByMessageLocator(cancelJoinRequestMessage)).toBeVisible();
-      const hasJoinRequest = await user2SitesApi.hasMembershipRequest(username2, adminModerateLibrary4);
-      expect(hasJoinRequest).toBe(false);
+      expect.soft(await searchPage.snackBar.getSnackBarMessage()).toContain(cancelJoinRequestMessage);
+      expect(await user2SitesApi.hasMembershipRequest(username2, adminModerateLibrary4)).toBe(false);
     });
 
     test('[XAT-5141] Mark a library as favorite - from Search Results', async ({ myLibrariesPage, searchPage }) => {
@@ -415,7 +412,7 @@ test.describe('Library actions ', () => {
       await libraryTable.getRowByName(user2Library7Delete).click();
       await searchHeader.clickMoreActions();
       await libraryMenu.clickMenuItem(deleteButton);
-      await expect.soft(snackBar.getByMessageLocator(libraryDeletedMessage)).toBeVisible();
+      expect.soft(await searchPage.snackBar.getSnackBarMessage()).toContain(libraryDeletedMessage);
       await expect(libraryTable.getRowByName(user2Library7Delete)).toBeHidden();
       await trashPage.navigate({ waitUntil: loadString });
       await expect(trashTable.getRowByName(user2Library7Delete)).toBeVisible();

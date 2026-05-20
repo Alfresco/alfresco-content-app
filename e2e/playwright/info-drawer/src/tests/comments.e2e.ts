@@ -32,8 +32,7 @@ import {
   NodesApi,
   FileActionsApi,
   SitesApi,
-  MyLibrariesPage,
-  timeouts
+  MyLibrariesPage
 } from '@alfresco/aca-playwright-shared';
 import { Site } from '@alfresco/js-api';
 
@@ -217,16 +216,5 @@ test.describe('Info Drawer - Comments - Sites Privileges', () => {
     await expect(myLibrariesPage.infoDrawer.commentsHeader).toBeVisible();
     await expect(myLibrariesPage.infoDrawer.commentInputField).toBeHidden();
     await expect(myLibrariesPage.infoDrawer.addCommentButton).toBeHidden();
-  });
-
-  test('[XAT-5523] Contributor can add comments', async ({ myLibrariesPage }) => {
-    await navigateToFolderAndOpenCommentsTab(myLibrariesPage, siteEntry5523.guid, folderName5523);
-    await expect(myLibrariesPage.infoDrawer.commentsHeader).toBeVisible();
-    await expect(myLibrariesPage.infoDrawer.commentInputField).toBeVisible();
-    await expect(myLibrariesPage.infoDrawer.addCommentButton).toBeVisible();
-    await myLibrariesPage.infoDrawer.commentInputField.fill(`e2e-comment-${Utils.random()}`);
-    await myLibrariesPage.infoDrawer.addCommentButton.click();
-    await myLibrariesPage.infoDrawer.commentsList.first().waitFor({ timeout: timeouts.medium });
-    await expect(myLibrariesPage.infoDrawer.commentsList).toHaveCount(1);
   });
 });

@@ -344,7 +344,7 @@ test.describe('Create folder from template', () => {
         const snackBar = personalFiles.snackBar;
 
         await createFolderFromTemplateDialog.createFromTemplateAction(commonFolderName);
-        await expect(snackBar.getByMessageLocator(errorStrings.nameAlreadyUsedError)).toBeVisible();
+        expect(await snackBar.getSnackBarMessage()).toContain(errorStrings.nameAlreadyUsedError);
         await expect(createFolderFromTemplateDialog.getDialogTitle(createDialogTitle)).toBeVisible();
       });
 
@@ -460,7 +460,7 @@ test.describe('Create folder from template', () => {
       const snackBar = myLibrariesPage.snackBar;
 
       await createFolderFromTemplateDialog.createFromTemplateAction(commonFolderName);
-      await expect(snackBar.getByMessageLocator(errorStrings.nameAlreadyUsedError)).toBeVisible();
+      expect(await snackBar.getSnackBarMessage()).toContain(errorStrings.nameAlreadyUsedError);
       await expect(createFolderFromTemplateDialog.getDialogTitle(createDialogTitle)).toBeVisible();
     });
   });

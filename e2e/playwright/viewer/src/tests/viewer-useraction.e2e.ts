@@ -75,7 +75,7 @@ test.describe('from File Libraries', () => {
     await myLibrariesPage.copyMoveDialog.selectLocation('Personal Files');
     await myLibrariesPage.copyMoveDialog.selectDestination(destination);
     await myLibrariesPage.copyMoveDialog.actionButton.click();
-    await expect(myLibrariesPage.snackBar.getByMessageLocator('Moved 1 item')).toBeVisible();
+    expect(await myLibrariesPage.snackBar.getSnackBarMessage()).toContain('Moved 1 item');
 
     await myLibrariesPage.viewer.closeButtonLocator.click();
     await myLibrariesPage.dataTable.getRowByName(xlsxLibraries).waitFor({ state: 'detached' });

@@ -35,6 +35,7 @@ test.describe('Rules - Manage Rules', () => {
   const username = `user-e2e-${Utils.random()}`;
   const folderName897_1 = `folder-XAT-897-1-${Utils.random()}`;
   const folderName897_2 = `folder-XAT-897-2-${Utils.random()}`;
+  const folderName897_3 = `folder-XAT-897-3-${Utils.random()}`;
   const folderName898 = `folder-XAT-898-${Utils.random()}`;
   const folderName899 = `folder-XAT-899-${Utils.random()}`;
   const folderName900 = `folder-XAT-900-${Utils.random()}`;
@@ -72,6 +73,7 @@ test.describe('Rules - Manage Rules', () => {
     await apiClientFactory.setUpAcaBackend(username, username);
     folderName897Id1 = (await nodesApi.createFolder(folderName897_1)).entry.id;
     folderName897Id2 = (await nodesApi.createFolder(folderName897_2)).entry.id;
+    await nodesApi.createFolder(folderName897_3, folderName897Id1);
     folderId898 = (await nodesApi.createFolder(folderName898)).entry.id;
     folderId899 = (await nodesApi.createFolder(folderName899)).entry.id;
     folderId900 = (await nodesApi.createFolder(folderName900)).entry.id;
@@ -102,8 +104,14 @@ test.describe('Rules - Manage Rules', () => {
   test('[XAT-897] Update a rule which has an error in its action', async ({ personalFiles, nodesPage }) => {
     await personalFiles.dataTable.performActionFromExpandableMenu(folderName897_1, 'Manage rules');
     await nodesPage.manageRules.turnOffRuleToggle();
+    expect(await personalFiles.snackBar.getSnackBarMessage()).toContain('no longer exists');
     await nodesPage.manageRules.ruleDetailsEditButton.click();
-    await expect(nodesPage.manageRulesDialog.ruleDisableCheckbox).toBeChecked();
+    await nodesPage.manageRulesDialog.destinationFolderButton.click();
+    await nodesPage.contentNodeSelectorDialog.selectDestination(folderName897_3);
+    await nodesPage.contentNodeSelectorDialog.actionButton.click();
+    await nodesPage.manageRulesDialog.createRuleButton.click();
+    await Promise.all([nodesPage.manageRules.turnOffRuleToggle(), Utils.waitForApiResponse(personalFiles, 'rule-sets', 200)]);
+    await expect(nodesPage.manageRules.ruleToggleFalse).toBeVisible();
   });
 
   test('[XAT-898] Cancel updating rule dialog', async ({ personalFiles, nodesPage }) => {
