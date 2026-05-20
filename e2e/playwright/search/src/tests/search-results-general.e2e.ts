@@ -32,9 +32,9 @@ test.describe('Search Results - General', () => {
 
   const random = Utils.random();
   const username = `user1-${random}`;
-  const file = `test-file-${random}.txt`;
-  const folder = `test-folder-${random}`;
-  const site = `test-site-${random}`;
+  const file = `e2e-file-${random}.txt`;
+  const folder = `e2e-folder-${random}`;
+  const site = `e2e-site-${random}`;
 
   test.beforeAll(async () => {
     try {

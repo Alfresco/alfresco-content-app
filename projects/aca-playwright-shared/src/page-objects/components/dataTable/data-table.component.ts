@@ -151,7 +151,6 @@ export class DataTableComponent extends BaseComponent {
   }
 
   async goThroughPagesLookingForRowWithName(name: string | number): Promise<void> {
-    await this.spinnerWaitForReload();
     if (await this.getRowByName(name).isVisible()) {
       return;
     }

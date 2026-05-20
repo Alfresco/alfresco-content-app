@@ -30,8 +30,8 @@ export class SearchInDialogComponent extends BaseComponent {
 
   public filesAndFoldersRadioButton = this.getChild('.aca-search-in-panel__radio label').getByText('Files and folders');
   public librariesRadioButton = this.getChild('.aca-search-in-panel__radio label').getByText('Libraries');
-  public filesCheckbox = this.getChild('.aca-search-in-panel__checkboxes').getByLabel('Files');
-  public foldersCheckbox = this.getChild('.aca-search-in-panel__checkboxes').getByLabel('Folders');
+  public filesCheckbox = this.getChild('#content [type="checkbox"]');
+  public foldersCheckbox = this.getChild('#folder [type="checkbox"]');
   public applyButton = this.getChild('button', { hasText: 'Apply' });
   readonly resetButton = this.getChild('button', { hasText: 'Reset' });
 

@@ -47,6 +47,7 @@ export class ConditionComponent extends ManageRulesDialogComponent {
     this.page.locator('[role=listbox] [role=option]', { hasText: optionName }).first();
 
   private async selectField(fields: Partial<Field>, index: number): Promise<void> {
+    await this.fieldDropDown.nth(index).scrollIntoViewIfNeeded();
     await this.fieldDropDown.nth(index).click();
     const option = this.getOptionLocator(fields);
     await option.click();
@@ -64,7 +65,11 @@ export class ConditionComponent extends ManageRulesDialogComponent {
     if (comparators) {
       await this.selectComparator(comparators, index);
     }
-    await this.valueField.nth(index).fill(value);
+    if ((await this.valueField.count()) === 1) {
+      await this.valueField.last().fill(value);
+    } else {
+      await this.valueField.nth(index).fill(value);
+    }
   }
 
   async addConditionGroup(fields: Partial<Field>, value: string, index: number, comparators?: Partial<Comparator>): Promise<void> {

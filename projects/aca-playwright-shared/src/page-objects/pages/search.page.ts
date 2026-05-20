@@ -80,6 +80,7 @@ export class SearchPage extends BasePage {
     if (!(await this.searchInputComponent.searchInput.isVisible())) {
       await this.acaHeader.searchButton.click();
     }
+    await this.searchInputComponent.searchFor(searchText);
     await this.searchInputComponent.searchInButton.click();
     switch (searchType) {
       case 'files':
@@ -98,8 +99,6 @@ export class SearchPage extends BasePage {
         break;
     }
     await this.searchInDialog.applyButton.click();
-    await this.clickSearchButton();
-    await this.searchInputComponent.searchFor(searchText);
     await this.dataTable.spinnerWaitForReload();
   }
 

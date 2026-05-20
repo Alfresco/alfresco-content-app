@@ -103,7 +103,7 @@ test.describe('Rules - Manage Rules', () => {
 
   test('[XAT-897] Update a rule which has an error in its action', async ({ personalFiles, nodesPage }) => {
     await personalFiles.dataTable.performActionFromExpandableMenu(folderName897_1, 'Manage rules');
-    await nodesPage.manageRules.turnOffRuleToggle();
+    await nodesPage.manageRules.turnOffRuleToggle('skip expect');
     expect(await personalFiles.snackBar.getSnackBarMessage()).toContain('no longer exists');
     await nodesPage.manageRules.ruleDetailsEditButton.click();
     await nodesPage.manageRulesDialog.destinationFolderButton.click();

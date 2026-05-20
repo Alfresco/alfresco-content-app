@@ -45,6 +45,7 @@ export class SearchInputComponent extends BaseComponent {
   }
 
   async searchFor(searchText: string): Promise<void> {
+    await this.searchInput.click();
     await this.searchInput.fill(searchText);
     await this.searchButton.click();
   }

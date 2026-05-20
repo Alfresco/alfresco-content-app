@@ -62,11 +62,13 @@ export class ManageRules extends BaseComponent {
     return this.ruleConditionsInGroup.count();
   }
 
-  async turnOffRuleToggle(): Promise<void> {
+  async turnOffRuleToggle(skipExpect?: 'skip expect'): Promise<void> {
     await expect(async () => {
       await this.ruleToggle.hover({ timeout: 1000 });
       await this.ruleToggle.click();
-      await expect(this.ruleToggleFalse).toBeVisible();
+      if (skipExpect !== 'skip expect') {
+        await expect(this.ruleToggleFalse).toBeVisible();
+      }
     }).toPass({
       intervals: [2_000],
       timeout: 20_000
