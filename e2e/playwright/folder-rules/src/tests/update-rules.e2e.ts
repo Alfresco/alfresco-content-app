@@ -109,8 +109,8 @@ test.describe('Rules - Manage Rules', () => {
     await nodesPage.manageRulesDialog.destinationFolderButton.click();
     await nodesPage.contentNodeSelectorDialog.selectDestination(folderName897_3);
     await nodesPage.contentNodeSelectorDialog.actionButton.click();
-    await nodesPage.manageRulesDialog.createRuleButton.click();
     const waitForRuleSets = Utils.waitForApiResponse(personalFiles, 'rule-sets', 200);
+    await nodesPage.manageRulesDialog.createRuleButton.click();
     await Promise.all([waitForRuleSets, nodesPage.manageRules.turnOffRuleToggle()]);
     await expect(nodesPage.manageRules.ruleToggleFalse).toBeVisible();
   });
