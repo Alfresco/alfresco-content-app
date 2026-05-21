@@ -584,11 +584,14 @@ export class ContentManagementService {
       } catch {}
     }
 
-    const i18nMessageString = isDuplicate
-      ? 'APP.MESSAGES.ERRORS.NODE_LINK_DUPLICATE'
-      : isPermissionError
-        ? 'APP.MESSAGES.ERRORS.PERMISSION'
-        : `APP.MESSAGES.INFO.NODE_LINK.${this.getOperationMessageSuffix(succeeded, totalFailed)}`;
+    let i18nMessageString: string;
+    if (isDuplicate) {
+      i18nMessageString = 'APP.MESSAGES.ERRORS.NODE_LINK_DUPLICATE';
+    } else if (isPermissionError) {
+      i18nMessageString = 'APP.MESSAGES.ERRORS.PERMISSION';
+    } else {
+      i18nMessageString = `APP.MESSAGES.INFO.NODE_LINK.${this.getOperationMessageSuffix(succeeded, totalFailed)}`;
+    }
 
     const message = this.translation.instant(i18nMessageString, { success: succeeded, failed: totalFailed });
     this.notificationService.openSnackMessageAction(message, null, { panelClass: this.getSnackbarPanelClass(succeeded, totalFailed) });
