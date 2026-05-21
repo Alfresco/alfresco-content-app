@@ -119,7 +119,7 @@ test.describe('Search sorting', () => {
     if (searchTerm) {
       await searchPage.searchWithin(searchTerm, 'files');
     } else {
-      await searchPage.searchWithin(`*${random}*`, 'files');
+      await searchPage.searchWithin(`TEXT:${random}`, 'files');
     }
     await searchPage.searchSortingPicker.sortBy(sortBy, sortOrder);
     await searchPage.dataTable.spinnerWaitForReload();
