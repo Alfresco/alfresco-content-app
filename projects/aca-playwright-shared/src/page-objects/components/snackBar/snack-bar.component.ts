@@ -24,6 +24,7 @@
 
 import { Page, expect } from '@playwright/test';
 import { BaseComponent } from '../base.component';
+import { timeouts } from '../../../public-api';
 
 export class SnackBarComponent extends BaseComponent {
   private static readonly rootElement = 'adf-snackbar-content';
@@ -33,8 +34,6 @@ export class SnackBarComponent extends BaseComponent {
   public actionButton = this.getChild('[data-automation-id="adf-snackbar-message-content-action-button"]');
 
   public closeIcon = this.getChild('.adf-snackbar-message-content-action-icon');
-  public getByMessageLocator = (message: string) =>
-    this.getChild(`[data-automation-id='adf-snackbar-message-content']`, { hasText: message }).first();
 
   constructor(page: Page, rootElement = SnackBarComponent.rootElement) {
     super(page, rootElement);
@@ -45,11 +44,8 @@ export class SnackBarComponent extends BaseComponent {
   }
 
   async getSnackBarActionText(): Promise<string> {
-    if (await this.actionButton.isVisible()) {
-      return this.actionButton.textContent();
-    } else {
-      return '';
-    }
+    await this.actionButton.waitFor({ timeout: timeouts.medium });
+    return this.actionButton.innerText();
   }
 
   async verifySnackBarActionText(text: string): Promise<void> {
