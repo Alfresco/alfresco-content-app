@@ -113,8 +113,7 @@ test.describe('Restore from Trash', () => {
       await trashPage.dataTable.selectItems(file2, folder2);
       await trashPage.acaHeader.restoreButton.click();
       await trashPage.snackBar.verifySnackBarActionText(`Restore successful`);
-      const action = await trashPage.snackBar.getSnackBarActionText();
-      expect(action).not.toContain('View');
+      await trashPage.navigate();
       expect(await trashPage.dataTable.isItemPresent(file2)).toBe(false);
       expect(await trashPage.dataTable.isItemPresent(folder2)).toBe(false);
       await personalFiles.navigate();

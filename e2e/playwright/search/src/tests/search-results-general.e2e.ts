@@ -31,10 +31,10 @@ test.describe('Search Results - General', () => {
   let sitesApi: SitesApi;
 
   const random = Utils.random();
-  const username = `user1-${random}`;
-  const file = `jsbwf-file-${random}.txt`;
-  const site = `vbcmw-site-${random}`;
-  const folder = `prnww-folder-${random}`;
+  const username = `${random}-user1`;
+  const file = `${random}-jsbwf-file.txt`;
+  const site = `${random}-vbcmw-site`;
+  const folder = `${random}-prnww-folder`;
 
   test.beforeAll(async () => {
     try {
@@ -61,7 +61,7 @@ test.describe('Search Results - General', () => {
   });
 
   test('[XAT-5605] Files and folders are returned when both Files and Folders options are checked', async ({ searchPage }) => {
-    await searchPage.searchWithin(`*${random}`, 'filesAndFolders');
+    await searchPage.searchWithin(`${random}`, 'filesAndFolders');
 
     expect(await searchPage.dataTable.isItemPresent(file)).toBe(true);
     expect(await searchPage.dataTable.isItemPresent(folder)).toBe(true);
@@ -69,7 +69,7 @@ test.describe('Search Results - General', () => {
   });
 
   test('[XAT-5593] Only libraries are returned when Libraries option is checked', async ({ searchPage }) => {
-    await searchPage.searchWithin(`*${random}`, 'libraries');
+    await searchPage.searchWithin(`${random}`, 'libraries');
 
     expect(await searchPage.dataTable.isItemPresent(file)).toBe(false);
     expect(await searchPage.dataTable.isItemPresent(folder)).toBe(false);

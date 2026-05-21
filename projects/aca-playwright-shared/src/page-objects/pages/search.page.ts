@@ -101,8 +101,4 @@ export class SearchPage extends BasePage {
     await this.searchInDialog.applyButton.click();
     await this.dataTable.spinnerWaitForReload();
   }
-
-  async clickSearchButton() {
-    await this.searchInputComponent.searchButton.click({ force: true });
-  }
 }

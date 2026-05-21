@@ -52,6 +52,7 @@ test.describe('Upload files', () => {
       await personalFiles.acaHeader.uploadFileButton.click()
     ]);
     await fileChooserWindow.setFiles(TEST_FILES.JPG_FILE.path);
+    await personalFiles.page.waitForTimeout(1500);
   });
 
   test.afterAll(async () => {
