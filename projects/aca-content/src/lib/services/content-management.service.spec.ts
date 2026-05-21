@@ -2221,6 +2221,20 @@ describe('ContentManagementService', () => {
       expect(snackMessageCall[0]).toBe('APP.MESSAGES.ERRORS.PERMISSION');
       expect(snackMessageCall[2].panelClass).toBe('adf-error-snackbar');
     });
+
+    it('should never show Undo action for link notifications', () => {
+      spyOn(nodeActions, 'createLinkNodes').and.returnValue(subject);
+      const selection = [{ entry: { id: 'node-to-link', name: 'name' } }] as NodeEntry[];
+      const linkedItems = [{ entry: { id: 'link-id', name: 'name' } }] as NodeEntry[];
+      const result: LinkOperationResult = { succeeded: linkedItems, failed: [] };
+
+      store.dispatch(new LinkNodesAction(selection));
+      nodeActions.contentLinked.next(result);
+      subject.next('OPERATION.SUCCESS.CONTENT.LINK');
+
+      const snackMessageCall = openSnackMessageActionSpy.calls.argsFor(0);
+      expect(snackMessageCall[1]).toBeNull();
+    });
   });
 
   describe('navigateToLinkTarget', () => {

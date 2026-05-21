@@ -479,18 +479,7 @@ export class ContentManagementService {
     zip(this.nodeActionsService.createLinkNodes(nodes, focusedElementOnCloseSelector), this.nodeActionsService.contentLinked.pipe(take(1))).subscribe(
       {
         next: ([, linkResponse]) => this.showLinkMessage(nodes, linkResponse),
-        error: (error) => {
-          let i18nMessageString = 'APP.MESSAGES.ERRORS.GENERIC';
-          try {
-            const {
-              error: { statusCode }
-            } = JSON.parse(error.message);
-            if (statusCode === 403) {
-              i18nMessageString = 'APP.MESSAGES.ERRORS.PERMISSION';
-            }
-          } catch {}
-          this.notificationService.openSnackMessageAction(this.translation.instant(i18nMessageString), null, { panelClass: 'adf-error-snackbar' });
-        }
+        error: (error) => this.showLinkMessage(nodes, { succeeded: [], failed: [error] })
       }
     );
   }
@@ -586,15 +575,20 @@ export class ContentManagementService {
     const totalFailed = nodes.length - succeeded;
 
     let isDuplicate = false;
+    let isPermissionError = false;
     if (nodes.length === 1 && succeeded === 0) {
       try {
-        isDuplicate = JSON.parse(failed[0].message).error.statusCode === 409;
+        const statusCode = JSON.parse(failed[0].message).error.statusCode;
+        isDuplicate = statusCode === 409;
+        isPermissionError = statusCode === 403;
       } catch {}
     }
 
     const i18nMessageString = isDuplicate
       ? 'APP.MESSAGES.ERRORS.NODE_LINK_DUPLICATE'
-      : `APP.MESSAGES.INFO.NODE_LINK.${this.getOperationMessageSuffix(succeeded, totalFailed)}`;
+      : isPermissionError
+        ? 'APP.MESSAGES.ERRORS.PERMISSION'
+        : `APP.MESSAGES.INFO.NODE_LINK.${this.getOperationMessageSuffix(succeeded, totalFailed)}`;
 
     const message = this.translation.instant(i18nMessageString, { success: succeeded, failed: totalFailed });
     this.notificationService.openSnackMessageAction(message, null, { panelClass: this.getSnackbarPanelClass(succeeded, totalFailed) });
@@ -741,6 +735,7 @@ export class ContentManagementService {
 
   deleteNodes(items: NodeEntry[], allowUndo = true, focusedElementOnCloseSelector?: string): void {
     this.focusAfterClose(focusedElementOnCloseSelector);
+    const canUndo = allowUndo && !items.every((node) => node.entry.nodeType === 'app:filelink' || node.entry.nodeType === 'app:folderlink');
     const batch: Observable<DeletedNodeInfo>[] = [];
 
     items.forEach((node) => {
@@ -753,7 +748,7 @@ export class ContentManagementService {
 
       if (messageData && status.someSucceeded) {
         const translatedMessage: string = this.translation.instant(messageData.key, messageData.params);
-        const action: string | null = allowUndo ? this.translation.instant('APP.ACTIONS.UNDO') : null;
+        const action: string | null = canUndo ? this.translation.instant('APP.ACTIONS.UNDO') : null;
 
         const snackBarRef = this.notificationService.openSnackMessageAction(
           translatedMessage,

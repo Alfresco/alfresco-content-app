@@ -1267,19 +1267,15 @@ describe('NodeActionsService', () => {
     });
 
     it('should error if contentEntities is missing', (done) => {
-      service
-        .createLinkNodes(undefined)
-        .asObservable()
-        .toPromise()
-        .then(
-          () => spyOnSuccess(),
-          (error) => spyOnError(error)
-        )
-        .then(() => {
+      service.createLinkNodes(undefined).subscribe({
+        next: () => spyOnSuccess(),
+        error: (error: Error) => {
+          spyOnError(error);
           expect(spyOnSuccess).not.toHaveBeenCalled();
           expect(spyOnError).toHaveBeenCalled();
           done();
-        });
+        }
+      });
     });
   });
 

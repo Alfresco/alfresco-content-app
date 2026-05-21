@@ -39,6 +39,7 @@ import {
 import {
   NodeEntry,
   Node,
+  SharedLink,
   SitePaging,
   NodeChildAssociationPaging,
   NodeChildAssociationEntry,
@@ -54,7 +55,7 @@ type BatchOperationType = Extract<NodeAction, 'COPY' | 'MOVE' | 'LINK'>;
 
 export interface LinkOperationResult {
   succeeded: NodeEntry[];
-  failed: any[];
+  failed: Error[];
 }
 
 @Injectable({
@@ -359,13 +360,14 @@ export class NodeActionsService {
     }
   }
 
-  linkNodeAction(nodeEntry: any, destinationFolderId: string): Observable<NodeEntry> {
-    const sourceNodeId = nodeEntry.nodeId || nodeEntry.id;
+  linkNodeAction(nodeEntry: Node | SharedLink, destinationFolderId: string): Observable<NodeEntry> {
+    const sourceNodeId = (nodeEntry as SharedLink).nodeId || nodeEntry.id;
+    const isFolder = (nodeEntry as Node).isFolder ?? false;
     const baseName = this.translation.instant('NODE_SELECTOR.LINK_NAME', { name: nodeEntry.name });
     const linkName = baseName.endsWith('.url') ? baseName : `${baseName}.url`;
     const nodeBody = {
       name: linkName,
-      nodeType: nodeEntry.isFolder ? 'app:folderlink' : 'app:filelink',
+      nodeType: isFolder ? 'app:folderlink' : 'app:filelink',
       properties: { 'cm:destination': sourceNodeId, 'cm:description': linkName, 'cm:title': linkName }
     };
     return from(this.nodesApi.createNode(destinationFolderId, nodeBody)).pipe(catchError((err) => of(err)));
