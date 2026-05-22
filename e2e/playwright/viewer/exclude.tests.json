@@ -1,5 +1,7 @@
 {
-    "all": {},
+    "all": {
+        "XAT-19377": "https://hyland.atlassian.net/browse/ACS-11868"
+    },
     "firefox": {
         "XAT-17177": "https://hyland.atlassian.net/browse/ACS-10917",
         "XAT-17178": "https://hyland.atlassian.net/browse/ACS-10917",
