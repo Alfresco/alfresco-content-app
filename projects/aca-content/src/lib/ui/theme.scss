@@ -163,8 +163,7 @@ html {
   );
   @include mat.icon-overrides(
     (
-      color: var(--adf-theme-foreground-text-color-087),
-      font: 'Material Icons Outlined'
+      color: var(--adf-theme-foreground-text-color-087)
     )
   );
   @include mat.menu-overrides(
