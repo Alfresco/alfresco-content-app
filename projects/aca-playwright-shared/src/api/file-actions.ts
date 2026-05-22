@@ -23,9 +23,22 @@
  */
 
 import * as fs from 'fs';
+import * as path from 'path';
+import { File as NodeFile } from 'node:buffer';
 import { ApiClientFactory } from './api-client-factory';
 import { logger, Utils, waitForApi } from '../utils';
 import { NodeBodyCreate, NodeEntry, ResultSetPaging, SearchRequest } from '@alfresco/js-api';
+
+const fileFixtureCache = new Map<string, Buffer>();
+
+async function toUploadFile(fileLocation: string): Promise<NodeFile> {
+  let buffer = fileFixtureCache.get(fileLocation);
+  if (!buffer) {
+    buffer = await fs.promises.readFile(fileLocation);
+    fileFixtureCache.set(fileLocation, buffer);
+  }
+  return new NodeFile([buffer], path.basename(fileLocation));
+}
 
 export class FileActionsApi {
   private readonly apiService: ApiClientFactory;
@@ -41,7 +54,7 @@ export class FileActionsApi {
   }
 
   async uploadFile(fileLocation: string, fileName: string, parentFolderId: string): Promise<NodeEntry> {
-    const file = fs.createReadStream(fileLocation);
+    const file = await toUploadFile(fileLocation);
     try {
       const result = await this.apiService.upload.uploadFile(file, '', parentFolderId, undefined, {
         name: fileName,
@@ -63,7 +76,7 @@ export class FileActionsApi {
     title: string = '',
     description: string = ''
   ): Promise<NodeEntry> {
-    const file = fs.createReadStream(fileLocation);
+    const file = await toUploadFile(fileLocation);
     const nodeProps = {
       properties: {
         'cm:title': title,

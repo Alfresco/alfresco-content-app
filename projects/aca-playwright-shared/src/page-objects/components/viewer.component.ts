@@ -37,7 +37,7 @@ export class ViewerComponent extends BaseComponent {
   public shareButton = this.getChild('button[id="share-action-button"]');
   public downloadButton = this.getChild('button[id="app.viewer.download"]');
   public unknownFormat = this.getChild(`adf-viewer-unknown-format .adf-viewer__unknown-format-view`);
-  public viewerImage = this.viewerLocator.locator('.cropper-canvas img');
+  public viewerImage = this.viewerLocator.locator('#viewer-image');
   public viewerDocument = this.viewerLocator.locator('.adf-pdf-viewer__content [role="document"]');
   public documentThumbnailButton = this.getChild('[data-automation-id="adf-thumbnails-button"]');
   public thumbnailsPages = this.getChild('[data-automation-id="adf-thumbnails-content"] adf-pdf-thumb');
@@ -72,12 +72,24 @@ export class ViewerComponent extends BaseComponent {
 
   async waitForViewerToOpen(): Promise<void> {
     await this.waitForViewerLoaderToFinish();
-    await this.viewerLocator.waitFor({ state: 'visible', timeout: timeouts.extraLarge });
+    await this.viewerLocator.waitFor({ state: 'visible', timeout: timeouts.large });
   }
 
   async waitForViewerLoaderToFinish(): Promise<void> {
-    await this.viewerSpinner.waitFor({ state: 'attached', timeout: timeouts.medium }).catch(() => {});
-    await this.viewerSpinner.waitFor({ state: 'detached', timeout: timeouts.fortySeconds }).catch(() => {});
+    await this.viewerSpinner.waitFor({ state: 'attached', timeout: timeouts.short }).catch(() => {});
+    await this.viewerSpinner.waitFor({ state: 'detached', timeout: timeouts.extraLarge }).catch(() => {});
+  }
+
+  async waitForViewerContentToRender(type: 'document' | 'image' | 'media' = 'document'): Promise<void> {
+    if (type === 'image') {
+      await this.viewerImage.waitFor({ state: 'attached', timeout: timeouts.extraLarge });
+      return;
+    }
+    if (type === 'media') {
+      await this.viewerMedia.waitFor({ state: 'visible', timeout: timeouts.extraLarge });
+      return;
+    }
+    await this.pdfViewerContentPages.first().waitFor({ state: 'attached', timeout: timeouts.extraLarge });
   }
 
   async checkViewerActivePage(pageNumber: number): Promise<void> {
@@ -118,7 +130,6 @@ export class ViewerComponent extends BaseComponent {
 
   async getFileTitle(): Promise<string> {
     await this.fileTitleButtonLocator.waitFor({ state: 'visible', timeout: timeouts.normal });
-    await this.waitForViewerLoaderToFinish();
     const title = await this.fileTitleButtonLocator.textContent();
     if (!title) {
       const errorMessage = 'File title is not displayed in the viewer';
@@ -159,7 +170,8 @@ export class ViewerComponent extends BaseComponent {
   }
 
   async checkUnknownFormatIsDisplayed(): Promise<void> {
-    await this.unknownFormat.waitFor({ state: 'visible', timeout: timeouts.normal });
+    await this.waitForViewerLoaderToFinish();
+    await this.unknownFormat.waitFor({ state: 'visible', timeout: timeouts.fortySeconds });
   }
 
   async getUnknownFormatMessage(): Promise<string> {

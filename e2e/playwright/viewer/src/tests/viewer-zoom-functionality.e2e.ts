@@ -178,6 +178,7 @@ test.describe('viewer zoom functionality and reset', () => {
     await favoritePage.navigate();
     await favoritePage.dataTable.performClickFolderOrFileToOpen(randomPdfName);
     expect(await favoritePage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    await favoritePage.viewer.waitForViewerContentToRender('document');
     await favoritePage.viewer.waitForZoomPercentageToDisplay();
     await validateZoomScaleInViewer(favoritePage);
   });
@@ -188,6 +189,7 @@ test.describe('viewer zoom functionality and reset', () => {
     await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
     await myLibrariesPage.viewer.waitForViewerLoaderToFinish();
     expect(await myLibrariesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    await myLibrariesPage.viewer.waitForViewerContentToRender('document');
     await myLibrariesPage.viewer.waitForZoomPercentageToDisplay();
     await validateZoomScaleInViewer(myLibrariesPage);
   });
@@ -216,6 +218,7 @@ test.describe('viewer zoom functionality and reset', () => {
     await favoritePage.navigate();
     await favoritePage.dataTable.performClickFolderOrFileToOpen(randomPdfName);
     expect(await favoritePage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    await favoritePage.viewer.waitForViewerContentToRender('document');
     await favoritePage.viewer.waitForZoomPercentageToDisplay();
     await validateFitToPageButtonActivity(favoritePage);
   });
@@ -225,6 +228,7 @@ test.describe('viewer zoom functionality and reset', () => {
     await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(randomLibraryName);
     await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
     await myLibrariesPage.viewer.waitForViewerToOpen();
+    await myLibrariesPage.viewer.waitForViewerContentToRender('document');
     await myLibrariesPage.viewer.waitForZoomPercentageToDisplay();
     await validateFitToPageButtonActivity(myLibrariesPage);
   });

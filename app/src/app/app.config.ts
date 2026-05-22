@@ -25,6 +25,7 @@
 import { importProvidersFrom, ApplicationConfig } from '@angular/core';
 import { provideNoopAnimations, provideAnimations } from '@angular/platform-browser/animations';
 import { AuthGuard, provideAppConfig, provideCoreAuth, provideI18N } from '@alfresco/adf-core';
+import { providePdfViewer } from '@alfresco/adf-core/viewer/pdf';
 import { AppService, provideContentAppExtensions } from '@alfresco/aca-shared';
 import { provideApplicationExtensions } from './extensions.module';
 import { environment } from '../environments/environment';
@@ -73,6 +74,7 @@ export const AppConfig: ApplicationConfig = {
   providers: [
     provideCoreAuth({ useHash: true }),
     provideAppConfig(),
+    providePdfViewer(),
     importProvidersFrom(ContentServiceExtensionModule),
     provideI18N({
       assets: [['app', 'assets']]

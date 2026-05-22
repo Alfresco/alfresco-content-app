@@ -30,7 +30,7 @@ test.describe('Upload files', () => {
   let nodesApi: NodesApi;
 
   const random = Utils.random();
-  const username = `user-${random}`;
+  const username = `user-${Date.now()}-${random}`;
   const folder1 = `folder1-${Utils.random()}`;
 
   test.beforeAll(async () => {

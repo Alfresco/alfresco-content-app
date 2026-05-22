@@ -84,7 +84,7 @@ test.describe('Version actions', () => {
       await sharedLinksApi.shareFilesByIds([fileId]);
       await sharedLinksApi.waitForFilesToBeShared([fileId]);
     } catch (error) {
-      console.error(`beforeAll failed: ${error}`);
+      throw new Error(`beforeAll failed: ${error}`);
     }
   });
 
@@ -107,6 +107,7 @@ test.describe('Version actions', () => {
       personalFiles
     }) => {
       await personalFiles.viewer.waitForViewerToOpen();
+      await personalFiles.viewer.waitForViewerContentToRender('document');
       expect(await personalFiles.viewer.getFileTitle()).toContain(filenameBeforeUpdate);
     });
 
@@ -138,6 +139,7 @@ test.describe('Version actions', () => {
     test('[XAT-5499] Should be possible to view a previous document version - Recent Files', async ({ recentFilesPage }) => {
       expect(recentFilesPage.page.url()).toContain('1.0');
       await recentFilesPage.viewer.waitForViewerToOpen();
+      await recentFilesPage.viewer.waitForViewerContentToRender('document');
       await expect(recentFilesPage.viewer.unknownFormat).toBeHidden();
       expect(await recentFilesPage.viewer.getFileTitle()).toContain(filenameBeforeUpdate);
     });
@@ -146,6 +148,7 @@ test.describe('Version actions', () => {
       recentFilesPage
     }) => {
       await recentFilesPage.viewer.waitForViewerToOpen();
+      await recentFilesPage.viewer.waitForViewerContentToRender('document');
       expect(await recentFilesPage.viewer.getFileTitle()).toContain(filenameBeforeUpdate);
     });
 
@@ -170,6 +173,7 @@ test.describe('Version actions', () => {
       favoritePage
     }) => {
       await favoritePage.viewer.waitForViewerToOpen();
+      await favoritePage.viewer.waitForViewerContentToRender('document');
       expect(await favoritePage.viewer.getFileTitle()).toContain(filenameBeforeUpdate);
     });
 
@@ -194,6 +198,7 @@ test.describe('Version actions', () => {
       sharedPage
     }) => {
       await sharedPage.viewer.waitForViewerLoaderToFinish();
+      await sharedPage.viewer.waitForViewerContentToRender('document');
       expect(await sharedPage.viewer.getFileTitle()).toContain(filenameBeforeUpdate);
     });
 
@@ -218,6 +223,7 @@ test.describe('Version actions', () => {
       searchPage
     }) => {
       await searchPage.viewer.waitForViewerToOpen();
+      await searchPage.viewer.waitForViewerContentToRender('document');
       expect(await searchPage.viewer.getFileTitle()).toContain(filenameBeforeUpdate);
     });
 
