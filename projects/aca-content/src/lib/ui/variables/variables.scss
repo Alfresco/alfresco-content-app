@@ -42,7 +42,6 @@ $action-button-text-color: color.adjust($text-color, $lightness: 35%);
 $page-layout-header-background-color: $background-card-color;
 $search-chip-icon-color: #757575;
 $disabled-chip-background-color: #f5f5f5;
-$contrast-gray: rgba(0, 0, 0, 0.54);
 $search-highlight-background-color: #ffd180;
 $info-snackbar-background: #1f74db;
 $warning-snackbar-background: #8c7012;
@@ -56,6 +55,7 @@ $app-blue-folder: #2a7de1;
 $box-shadow-first-color: rgba(0, 0, 0, 0.2);
 $box-shadow-second-color: rgba(0, 0, 0, 0.14);
 $box-shadow-third-color: rgba(0, 0, 0, 0.12);
+$box-shadow-dark-color: rgba(0, 0, 0, 0.24);
 $gray-background-color: #f5f5f5;
 
 // CSS Variables
@@ -117,6 +117,7 @@ $defaults: (
   --theme-box-shadow-first-color: $box-shadow-first-color,
   --theme-box-shadow-second-color: $box-shadow-second-color,
   --theme-box-shadow-third-color: $box-shadow-third-color,
+  --theme-box-shadow-dark-color: $box-shadow-dark-color,
   --theme-gray-background-color: $gray-background-color
 );
 

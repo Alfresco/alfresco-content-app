@@ -31,8 +31,8 @@
     border-width: 0;
     border-radius: 2px;
     box-shadow:
-      0 2px 2px 0 rgba(0, 0, 0, 0.24),
-      0 0 2px 0 rgba(0, 0, 0, 0.12);
+      0 2px 2px 0 var(--theme-box-shadow-dark-color),
+      0 0 2px 0 var(--theme-box-shadow-third-color);
 
     .adf-image-viewer__toolbar-page-scale {
       --mat-sys-outline: var(--adf-theme-foreground-text-color-007);

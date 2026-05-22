@@ -60,7 +60,11 @@
 
       /* stylelint-disable-next-line selector-class-pattern */
       .mat-mdc-outlined-button {
-        --mdc-outlined-button-label-text-color: var(--adf-theme-foreground-text-color-054);
+        @include mat.button-overrides(
+          (
+            outlined-label-text-color: var(--adf-theme-foreground-text-color-054)
+          )
+        );
 
         color: var(--adf-theme-foreground-text-color-054);
       }

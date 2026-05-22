@@ -205,7 +205,7 @@
   }
 
   .adf-error-snackbar {
-    background-color: #ba1b1b;
+    background-color: var(--adf-error-color);
 
     .mat-mdc-simple-snack-bar,
     .mat-mdc-snack-bar-action {
