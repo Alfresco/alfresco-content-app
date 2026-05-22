@@ -19,10 +19,6 @@
     background: var(--mdc-switch-selected-track-color);
   }
 
-  #{ms.$mat-slide-toggle} #{ms.$mat-switch} #{ms.$mat-switch-handle}::before {
-    background: var(--mdc-switch-selected-pressed-handle-color);
-  }
-
   &__toolbar {
     color: var(--adf-theme-foreground-text-color-064);
     height: 64px;
@@ -102,13 +98,6 @@
           unselected-pressed-handle-color: var(--adf-theme-foreground-text-color-087)
         )
       );
-
-      /* stylelint-disable selector-class-pattern */
-      .mdc-switch__icon--on,
-      .mdc-switch--selected .mdc-switch__icon {
-        fill: var(--theme-accent-900);
-      }
-      /* stylelint-enable selector-class-pattern */
     }
 
     &__vertical-divider {
@@ -117,8 +106,7 @@
     }
   }
 
-  /* stylelint-disable-next-line selector-class-pattern */
-  aca-page-layout .aca-content-header .aca-page-layout-header button.mat-mdc-icon-button {
+  .aca-page-layout-header {
     @include mat.icon-button-overrides(
       (
         state-layer-size: 48px,
