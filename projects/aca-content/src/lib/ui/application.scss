@@ -119,11 +119,3 @@ aca-files aca-page-layout .aca-page-layout-content .aca-sidebar {
   padding: 12px;
   color: var(--adf-theme-foreground-text-color-087);
 }
-
-aca-saved-searches-ui-list .adf-datatable-header .adf-datatable-row:hover {
-  background-color: rgba(0, 0, 0, 0.04);
-
-  .adf-datatable-cell-header-content--hovered {
-    background-color: transparent;
-  }
-}
