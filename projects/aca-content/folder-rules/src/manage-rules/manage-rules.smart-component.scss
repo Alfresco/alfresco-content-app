@@ -37,22 +37,6 @@
     background-color: var(--theme-background-color);
   }
 
-  /* stylelint-disable-next-line selector-class-pattern */
-  aca-page-layout .aca-content-header .aca-page-layout-header button.mat-mdc-icon-button {
-    @include mat.icon-button-overrides(
-      (
-        state-layer-size: 48px,
-        icon-size: 24px
-      )
-    );
-
-    padding: 12px;
-
-    mat-icon {
-      color: var(--adf-theme-foreground-text-color-087);
-    }
-  }
-
   &__actions-bar {
     padding: 0 30px;
     display: flex;
@@ -68,11 +52,9 @@
       flex: 1;
       font-size: var(--theme-body-1-font-size);
 
-      /* stylelint-disable no-descending-specificity */
       mat-icon {
         color: var(--adf-theme-foreground-text-color-054);
       }
-      /* stylelint-enable no-descending-specificity */
     }
 
     &__buttons {
@@ -132,6 +114,22 @@
     &__vertical-divider {
       height: 50%;
       margin: 0 12px;
+    }
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  aca-page-layout .aca-content-header .aca-page-layout-header button.mat-mdc-icon-button {
+    @include mat.icon-button-overrides(
+      (
+        state-layer-size: 48px,
+        icon-size: 24px
+      )
+    );
+
+    padding: 12px;
+
+    mat-icon {
+      color: var(--adf-theme-foreground-text-color-087);
     }
   }
 

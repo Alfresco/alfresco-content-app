@@ -7,8 +7,7 @@ $search-border-radius: 4px;
   --mat-icon-color: var(--theme-foreground-text-color);
   --mdc-icon-button-icon-color: var(--theme-foreground-text-color);
   --mat-form-field-container-text-tracking: -0.7px;
-  --mdc-filled-text-field-input-text-placeholder-color: rgba(0, 0, 0, 0.59);
-  --mdc-outlined-text-field-input-text-placeholder-color: rgba(0, 0, 0, 0.59);
+  --mdc-outlined-text-field-input-text-placeholder-color: var(--adf-theme-foreground-text-color-060);
 
   width: 100%;
   height: $search-height;
