@@ -23,13 +23,16 @@
  */
 
 import { DocumentListDirective } from './document-list.directive';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { DocumentListComponent, DocumentListService } from '@alfresco/adf-content-services';
 import { UserPreferencesService } from '@alfresco/adf-core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ElementRef } from '@angular/core';
+import { AppHookService } from '@alfresco/aca-shared';
+import { NodeEntry } from '@alfresco/js-api';
 
 describe('DocumentListDirective', () => {
   let documentListDirective: DocumentListDirective;
@@ -45,6 +48,7 @@ describe('DocumentListDirective', () => {
       setSorting: jasmine.createSpy('setSorting')
     },
     selection: [],
+    preselectNodes: [],
     reload: jasmine.createSpy('reload'),
     resetSelection: jasmine.createSpy('resetSelection'),
     ready: new Subject<any>(),
@@ -80,35 +84,29 @@ describe('DocumentListDirective', () => {
     hasItem: jasmine.createSpy('hasItem')
   };
 
+  const nodeToSelect$ = new BehaviorSubject<NodeEntry | null>(null);
+  const appHookServiceMock = { nodeToSelect$ };
+
+  const mockSelectedElement = { focus: jasmine.createSpy('focus') };
+  const elementRefMock = {
+    nativeElement: {
+      querySelector: jasmine.createSpy('querySelector').and.returnValue(mockSelectedElement)
+    }
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [DocumentListDirective],
       providers: [
         DocumentListDirective,
-        {
-          provide: Store,
-          useValue: storeMock
-        },
-        {
-          provide: DocumentListComponent,
-          useValue: documentListMock
-        },
-        {
-          provide: UserPreferencesService,
-          useValue: userPreferencesServiceMock
-        },
-        {
-          provide: ActivatedRoute,
-          useValue: mockRoute
-        },
-        {
-          provide: Router,
-          useValue: mockRouter
-        },
-        {
-          provide: DocumentListService,
-          useValue: documentListServiceMock
-        }
+        { provide: Store, useValue: storeMock },
+        { provide: DocumentListComponent, useValue: documentListMock },
+        { provide: UserPreferencesService, useValue: userPreferencesServiceMock },
+        { provide: ActivatedRoute, useValue: mockRoute },
+        { provide: Router, useValue: mockRouter },
+        { provide: DocumentListService, useValue: documentListServiceMock },
+        { provide: AppHookService, useValue: appHookServiceMock },
+        { provide: ElementRef, useValue: elementRefMock }
       ]
     });
     documentListDirective = TestBed.inject(DocumentListDirective);
@@ -116,6 +114,11 @@ describe('DocumentListDirective', () => {
 
   afterEach(() => {
     storeMock.dispatch.calls.reset();
+    nodeToSelect$.next(null);
+    documentListMock.preselectNodes = [];
+    documentListMock.selection = [];
+    elementRefMock.nativeElement.querySelector.calls.reset();
+    mockSelectedElement.focus.calls.reset();
   });
 
   it('should not update store selection on `documentList.ready` if route includes `viewer:view`', () => {
@@ -278,4 +281,75 @@ describe('DocumentListDirective', () => {
       });
     });
   });
+
+  describe('nodeToSelect$', () => {
+    const pendingNode = { entry: { id: 'node-id', parentId: 'parent-id' } } as NodeEntry;
+
+    it('should set preselectNodes when a non-null node is emitted', () => {
+      documentListDirective.ngOnInit();
+      nodeToSelect$.next(pendingNode);
+
+      expect(documentListMock.preselectNodes).toEqual([pendingNode]);
+    });
+
+    it('should not set preselectNodes when null is emitted (initial BehaviorSubject value)', () => {
+      documentListDirective.ngOnInit();
+
+      expect(documentListMock.preselectNodes).toEqual([]);
+    });
+  });
+
+  describe('onReady with pending node', () => {
+    const pendingNode = { entry: { id: 'node-id', parentId: 'parent-id' } } as NodeEntry;
+    let latestNodeToSelect: NodeEntry | null;
+
+    beforeEach(() => {
+      latestNodeToSelect = null;
+      nodeToSelect$.subscribe((value) => (latestNodeToSelect = value));
+      documentListDirective.ngOnInit();
+      nodeToSelect$.next(pendingNode);
+    });
+
+    it('should focus the selected row when the pending node is in the current selection', fakeAsync(() => {
+      documentListMock.selection = [{ entry: { id: 'node-id' } }] as NodeEntry[];
+
+      documentListDirective.onReady();
+      tick();
+
+      expect(elementRefMock.nativeElement.querySelector).toHaveBeenCalledWith('.adf-is-selected');
+      expect(mockSelectedElement.focus).toHaveBeenCalled();
+    }));
+
+    it('should clear preselectNodes and reset nodeToSelect$ when node was selected', fakeAsync(() => {
+      documentListMock.selection = [{ entry: { id: 'node-id' } }] as NodeEntry[];
+
+      documentListDirective.onReady();
+      tick();
+
+      expect(documentListMock.preselectNodes).toEqual([]);
+      expect(latestNodeToSelect).toBeNull();
+    }));
+
+    it('should not focus or clear state when pending node is not in the current selection', fakeAsync(() => {
+      documentListMock.selection = [];
+
+      documentListDirective.onReady();
+      tick();
+
+      expect(elementRefMock.nativeElement.querySelector).not.toHaveBeenCalled();
+      expect(mockSelectedElement.focus).not.toHaveBeenCalled();
+      expect(documentListMock.preselectNodes).toEqual([pendingNode]);
+      expect(latestNodeToSelect).toBe(pendingNode);
+    }));
+  });
+
+  it('should not attempt to focus or clear preselectNodes when no node is pending', fakeAsync(() => {
+    documentListDirective.ngOnInit();
+
+    documentListDirective.onReady();
+    tick();
+
+    expect(elementRefMock.nativeElement.querySelector).not.toHaveBeenCalled();
+    expect(documentListMock.preselectNodes).toEqual([]);
+  }));
 });

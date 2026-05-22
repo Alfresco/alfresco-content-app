@@ -39,6 +39,7 @@ import {
 import {
   NodeEntry,
   Node,
+  SharedLink,
   SitePaging,
   NodeChildAssociationPaging,
   NodeChildAssociationEntry,
@@ -50,7 +51,12 @@ import {
 import { ContentApiService } from '@alfresco/aca-shared';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
-type BatchOperationType = Extract<NodeAction, 'COPY' | 'MOVE'>;
+type BatchOperationType = Extract<NodeAction, 'COPY' | 'MOVE' | 'LINK'>;
+
+export interface LinkOperationResult {
+  succeeded: NodeEntry[];
+  failed: Error[];
+}
 
 @Injectable({
   providedIn: 'root'
@@ -66,6 +72,7 @@ export class NodeActionsService {
 
   contentCopied: Subject<NodeEntry[]> = new Subject<NodeEntry[]>();
   contentMoved: Subject<any> = new Subject<any>();
+  contentLinked = new Subject<LinkOperationResult>();
   moveDeletedEntries: any[] = [];
   isSitesDestinationAvailable = false;
 
@@ -81,6 +88,16 @@ export class NodeActionsService {
    */
   copyNodes(contentEntities: any[], permission?: string, focusedElementOnCloseSelector?: string): Subject<string> {
     return this.doBatchOperation(NodeAction.COPY, contentEntities, permission, focusedElementOnCloseSelector);
+  }
+
+  /**
+   * Create links for node list
+   *
+   * @param contentEntities nodes to create links for
+   * @param focusedElementOnCloseSelector element's selector which should be autofocused after closing modal
+   */
+  createLinkNodes(contentEntities: any[], focusedElementOnCloseSelector?: string): Subject<string> {
+    return this.doBatchOperation(NodeAction.LINK, contentEntities, undefined, focusedElementOnCloseSelector);
   }
 
   /**
@@ -138,7 +155,11 @@ export class NodeActionsService {
             this.contentCopied.next(processedData.succeeded);
           } else if (action === NodeAction.MOVE) {
             this.contentMoved.next(processedData);
+          } else if (action === NodeAction.LINK) {
+            this.contentLinked.next(processedData);
           }
+
+          observable.complete();
         }, observable.error.bind(observable));
       });
     } else {
@@ -337,6 +358,19 @@ export class NodeActionsService {
       // any other type is treated as 'content'
       return this.copyContentAction(nodeEntry, selectionId);
     }
+  }
+
+  linkNodeAction(nodeEntry: Node | SharedLink, destinationFolderId: string): Observable<NodeEntry> {
+    const sourceNodeId = (nodeEntry as SharedLink).nodeId || nodeEntry.id;
+    const isFolder = (nodeEntry as Node).isFolder ?? false;
+    const baseName = this.translation.instant('NODE_SELECTOR.LINK_NAME', { name: nodeEntry.name });
+    const linkName = baseName.endsWith('.url') ? baseName : `${baseName}.url`;
+    const nodeBody = {
+      name: linkName,
+      nodeType: isFolder ? 'app:folderlink' : 'app:filelink',
+      properties: { 'cm:destination': sourceNodeId, 'cm:description': linkName, 'cm:title': linkName }
+    };
+    return from(this.nodesApi.createNode(destinationFolderId, nodeBody)).pipe(catchError((err) => of(err)));
   }
 
   copyContentAction(contentEntry: any, selectionId: string, oldName?: string): Observable<any> {
@@ -549,7 +583,7 @@ export class NodeActionsService {
   }
 
   private isActionAllowed(action: BatchOperationType, node: Node, permission?: string): boolean {
-    if (action === NodeAction.COPY) {
+    if (action === NodeAction.COPY || action === NodeAction.LINK) {
       return true;
     }
     return this.contentService.hasAllowableOperations(node, permission);

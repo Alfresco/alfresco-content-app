@@ -23,8 +23,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import { SiteEntry } from '@alfresco/js-api';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { NodeEntry, SiteEntry } from '@alfresco/js-api';
 
 @Injectable({
   providedIn: 'root'
@@ -84,4 +84,9 @@ export class AppHookService {
    * Gets emitted when user mark the favorite library
    */
   favoriteLibraryToggle = new Subject<void>();
+
+  /**
+   * Holds the node that should be pre-selected in the document list after navigation.
+   */
+  nodeToSelect$ = new BehaviorSubject<NodeEntry | null>(null);
 }

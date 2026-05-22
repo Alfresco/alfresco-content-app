@@ -51,7 +51,9 @@ import {
   ShowLoaderAction,
   UndoDeleteNodesAction,
   UnlockWriteAction,
-  UnshareNodesAction
+  UnshareNodesAction,
+  LinkNodesAction,
+  LocateLinkedItemAction
 } from '@alfresco/aca-shared/store';
 import { RenditionService } from '@alfresco/adf-content-services';
 import { ViewerEffects } from './viewer.effects';
@@ -387,6 +389,70 @@ describe('NodeEffects', () => {
       store.dispatch(new MoveNodesAction(null));
 
       expect(contentService.moveNodes).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('createLink$', () => {
+    it('should link nodes from the payload', () => {
+      spyOn(contentService, 'linkNodes').and.stub();
+
+      const node = { entry: { isFile: true } } as NodeEntry;
+      store.dispatch(new LinkNodesAction([node]));
+
+      expect(contentService.linkNodes).toHaveBeenCalledWith([node]);
+    });
+
+    it('should link nodes from the active selection', fakeAsync(() => {
+      spyOn(contentService, 'linkNodes').and.stub();
+
+      const node = { entry: { isFile: true } } as NodeEntry;
+      store.dispatch(new SetSelectedNodesAction([node]));
+
+      tick(100);
+
+      store.dispatch(new LinkNodesAction([]));
+
+      expect(contentService.linkNodes).toHaveBeenCalledWith([node], undefined);
+    }));
+
+    it('should do nothing if invoking link with no data', () => {
+      spyOn(contentService, 'linkNodes').and.stub();
+
+      store.dispatch(new LinkNodesAction([]));
+
+      expect(contentService.linkNodes).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('locateLinkedItem$', () => {
+    it('should navigate to link target from the payload', () => {
+      spyOn(contentService, 'navigateToLinkTarget').and.stub();
+
+      const node = { entry: { isFile: true, id: 'link-node-id' } } as NodeEntry;
+      store.dispatch(new LocateLinkedItemAction([node]));
+
+      expect(contentService.navigateToLinkTarget).toHaveBeenCalledWith(node);
+    });
+
+    it('should navigate to link target from the active selection', fakeAsync(() => {
+      spyOn(contentService, 'navigateToLinkTarget').and.stub();
+
+      const node = { entry: { isFile: true, id: 'link-node-id' } } as NodeEntry;
+      store.dispatch(new SetSelectedNodesAction([node]));
+
+      tick(100);
+
+      store.dispatch(new LocateLinkedItemAction(null));
+
+      expect(contentService.navigateToLinkTarget).toHaveBeenCalledWith(node);
+    }));
+
+    it('should do nothing if invoking locate with no data', () => {
+      spyOn(contentService, 'navigateToLinkTarget').and.stub();
+
+      store.dispatch(new LocateLinkedItemAction(null));
+
+      expect(contentService.navigateToLinkTarget).not.toHaveBeenCalled();
     });
   });
 

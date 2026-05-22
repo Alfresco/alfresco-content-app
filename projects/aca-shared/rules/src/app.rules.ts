@@ -121,7 +121,9 @@ export function canRemoveFavorite(context: RuleContext): boolean {
  * JSON ref: `app.selection.file.canShare`
  */
 export const canShareFile = (context: RuleContext): boolean =>
-  [context.selection.file, !navigation.isTrashcan(context), repository.hasQuickShareEnabled(context), !isShared(context)].every(Boolean);
+  [context.selection.file, !navigation.isTrashcan(context), repository.hasQuickShareEnabled(context), !isShared(context), !isNodeLink(context)].every(
+    Boolean
+  );
 
 /**
  * Checks if user can perform "Join" or "Cancel Join Request" on a library.
@@ -208,6 +210,9 @@ export function canCreateFolder(context: AcaRuleContext): boolean {
  * JSON ref: `app.selection.canDownload`
  */
 export function canDownloadSelection(context: RuleContext): boolean {
+  if (isNodeLink(context)) {
+    return false;
+  }
   return context.selection.nodes.every((node: any) => node.entry && (node.entry.isFile || node.entry.isFolder || !!node.entry.nodeId));
 }
 
@@ -344,6 +349,10 @@ export function canUnlockFile(context: RuleContext): boolean {
  * JSON ref: `app.selection.file.canUploadVersion`
  */
 export function canUploadVersion(context: RuleContext): boolean {
+  if (isNodeLink(context)) {
+    return false;
+  }
+
   if (navigation.isFavorites(context) || navigation.isSharedFiles(context)) {
     return hasFileSelected(context);
   }
@@ -363,6 +372,9 @@ export function canUploadVersion(context: RuleContext): boolean {
  */
 export const canPrintFile = (context: RuleContext): boolean => {
   const nodeEntry = context.selection.file.entry;
+  if (!nodeEntry?.content?.mimeType) {
+    return false;
+  }
   const mediaMimeTypes = ['video/mp4', 'video/webm', 'video/ogg', 'audio/mpeg', 'audio/mp3', 'audio/ogg', 'audio/wav'];
   return !mediaMimeTypes.includes(nodeEntry.content.mimeType);
 };
@@ -390,7 +402,8 @@ export const canEditAspects = (context: RuleContext): boolean =>
     repository.isMajorVersionAvailable(context, '7')
   ].every(Boolean);
 
-export const canToggleFileLock = (context: RuleContext): boolean => [canLockFile(context) || canUnlockFile(context)].some(Boolean);
+export const canToggleFileLock = (context: RuleContext): boolean =>
+  !isNodeLink(context) && [canLockFile(context) || canUnlockFile(context)].some(Boolean);
 
 /**
  * @deprecated Uses workarounds for for recent files and search api issues.
@@ -431,6 +444,10 @@ export function canOpenWithOffice(context: AcaRuleContext): boolean {
   const flag = `${context.appConfig.get<boolean | string>('plugins.aosPlugin', false)}`;
 
   if (flag !== 'true') {
+    return false;
+  }
+
+  if (isNodeLink(context)) {
     return false;
   }
 
@@ -577,3 +594,13 @@ export const isCheckedOut = (context: RuleContext): boolean => {
   }
   return false;
 };
+
+/**
+ * Checks if any of the selected nodes is a link node (app:filelink or app:folderlink).
+ * JSON ref: `app.selection.isNodeLink`
+ *
+ * @param context Rule execution context
+ */
+export const isNodeLink = (context: RuleContext): boolean =>
+  !context.selection?.isEmpty &&
+  context.selection.nodes.some((node) => node.entry?.nodeType === 'app:filelink' || node.entry?.nodeType === 'app:folderlink');

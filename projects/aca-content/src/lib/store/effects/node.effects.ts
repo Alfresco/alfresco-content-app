@@ -52,7 +52,9 @@ import {
   UndoDeleteNodesAction,
   UnlockWriteAction,
   UnshareNodesAction,
-  NodeInformationAction
+  NodeInformationAction,
+  LinkNodesAction,
+  LocateLinkedItemAction
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import { RenditionService } from '@alfresco/adf-content-services';
@@ -273,6 +275,50 @@ export class NodeEffects {
               .subscribe((selection) => {
                 if (selection && !selection.isEmpty) {
                   this.contentService.moveNodes(selection.nodes, action.configuration?.focusedElementOnCloseSelector);
+                }
+              });
+          }
+        })
+      ),
+    { dispatch: false }
+  );
+
+  createLink$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<LinkNodesAction>(NodeActionTypes.Link),
+        map((action) => {
+          if (action.payload?.length > 0) {
+            this.contentService.linkNodes(action.payload);
+          } else {
+            this.store
+              .select(getAppSelection)
+              .pipe(take(1))
+              .subscribe((selection) => {
+                if (selection && !selection.isEmpty) {
+                  this.contentService.linkNodes(selection.nodes, action.configuration?.focusedElementOnCloseSelector);
+                }
+              });
+          }
+        })
+      ),
+    { dispatch: false }
+  );
+
+  locateLinkedItem$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<LocateLinkedItemAction>(NodeActionTypes.Locate),
+        map((action) => {
+          if (action.payload?.length > 0) {
+            this.contentService.navigateToLinkTarget(action.payload[0]);
+          } else {
+            this.store
+              .select(getAppSelection)
+              .pipe(take(1))
+              .subscribe((selection) => {
+                if (selection && !selection.isEmpty) {
+                  this.contentService.navigateToLinkTarget(selection.nodes[0]);
                 }
               });
           }

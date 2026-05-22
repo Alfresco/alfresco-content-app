@@ -320,7 +320,9 @@
             "EDIT_OFFLINE_CANCEL": "Cancel Editing",
             "CHANGE_ASPECT": "Edit Aspects",
             "ADD_ASPECTS": "Add Aspects",
-            "NODE_INFO": "Information"
+            "NODE_INFO": "Information",
+            "LOCATE_LINKED_ITEM": "Locate Linked Item",
+            "CREATE_LINK": "Create Link"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -366,6 +368,7 @@
                 "GENERIC": "The action was unsuccessful. Try again or contact your IT Team.",
                 "CONFLICT": "This name is already in use, try a different name.",
                 "NODE_MOVE": "Move unsuccessful, a file with the same name already exists.",
+                "NODE_LINK_DUPLICATE": "Can't create a link, a link with the same name already exists in this location.",
                 "EXISTENT_FOLDER": "There's already a folder with this name. Try a different name.",
                 "NODE_DELETION": "{{ name }} couldn't be deleted",
                 "NODE_DELETION_PLURAL": "{{ number }} items couldn't be deleted",
@@ -425,6 +428,14 @@
                     "PARTIAL_PLURAL": "Copied {{ success }} items, {{ failed }} couldn't be copied.",
                     "FAIL_SINGULAR": "{{ failed }} item couldn't be copied.",
                     "FAIL_PLURAL": "{{ failed }} items couldn't be copied."
+                },
+                "NODE_LINK": {
+                    "SINGULAR": "Link created for {{ success }} item",
+                    "PLURAL": "Links created for {{ success }} items",
+                    "PARTIAL_SINGULAR": "Link created for {{ success }} item, couldn't create a link for {{ failed }}.",
+                    "PARTIAL_PLURAL": "Links created for {{ success }} items, couldn't create links for {{ failed }}.",
+                    "FAIL_SINGULAR": "Couldn't create a link for {{ failed }} item.",
+                    "FAIL_PLURAL": "Couldn't create links for {{ failed }} items."
                 },
                 "NODE_MOVE": {
                     "SINGULAR": "Moved {{ success }} item.",
@@ -513,10 +524,13 @@
         "COPY_ITEMS": "Copy {{ number }} items to...",
         "MOVE_ITEM": "Move '{{ name }}' to...",
         "MOVE_ITEMS": "Move {{ number }} items to...",
+        "LINK_ITEM": "Create link for '{{ name }}' in...",
+        "LINK_ITEMS": "Create links for {{ number }} items in...",
         "SEARCH": "Search",
         "NEXT": "Next",
         "SELECT_FILE_TEMPLATE_TITLE": "Select a document template",
-        "SELECT_FOLDER_TEMPLATE_TITLE": "Select a folder template"
+        "SELECT_FOLDER_TEMPLATE_TITLE": "Select a folder template",
+        "LINK_NAME": "Link to {{ name }}"
     },
     "NODE_FROM_TEMPLATE": {
         "CANCEL": "CANCEL",

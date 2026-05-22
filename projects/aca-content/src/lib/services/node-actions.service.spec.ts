@@ -27,7 +27,7 @@ import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dial
 import { of, throwError, Subject, Observable } from 'rxjs';
 import { TranslationService } from '@alfresco/adf-core';
 import { AlfrescoApiService, DocumentListService, NodeAction } from '@alfresco/adf-content-services';
-import { NodeActionsService } from './node-actions.service';
+import { LinkOperationResult, NodeActionsService } from './node-actions.service';
 import { Node, NodeChildAssociationEntry, NodeEntry } from '@alfresco/js-api';
 import { AppTestingModule } from '../testing/app-testing.module';
 import { ContentApiService } from '@alfresco/aca-shared';
@@ -1225,6 +1225,124 @@ describe('NodeActionsService', () => {
         const result = service.processResponse(response.data);
 
         expect(JSON.stringify(result)).toEqual(JSON.stringify(response.expected));
+      });
+    });
+  });
+
+  describe('createLinkNodes', () => {
+    let fileToLink: TestNode;
+    let destinationFolder: TestNode;
+
+    beforeEach(() => {
+      fileToLink = new TestNode(fileId, isFile, 'file-name');
+      destinationFolder = new TestNode(folderDestinationId);
+    });
+
+    it('should call doBatchOperation with NodeAction.LINK', () => {
+      const subject = new Subject<Node[]>();
+      const spyOnBatchOperation = spyOn(service, 'doBatchOperation').and.callThrough();
+      spyOn(service, 'getContentNodeSelection').and.returnValue(subject);
+      spyOn(service, 'linkNodeAction').and.returnValue(of({}));
+
+      service.createLinkNodes([fileToLink]);
+      subject.next([destinationFolder.entry]);
+
+      expect(spyOnBatchOperation).toHaveBeenCalledWith(NodeAction.LINK, [fileToLink], undefined, undefined);
+    });
+
+    it('should emit on contentLinked after successful link', (done) => {
+      const subject = new Subject<Node[]>();
+      spyOn(service, 'getContentNodeSelection').and.returnValue(subject);
+      spyOn(service, 'linkNodeAction').and.returnValue(of({ entry: { id: 'new-link-id' } }));
+
+      service.contentLinked.subscribe((result: LinkOperationResult) => {
+        expect(result.succeeded.length).toBe(1);
+        expect(result.succeeded[0].entry.id).toBe('new-link-id');
+        expect(result.failed.length).toBe(0);
+        done();
+      });
+
+      service.createLinkNodes([fileToLink]);
+      subject.next([destinationFolder.entry]);
+    });
+
+    it('should error if contentEntities is missing', (done) => {
+      service.createLinkNodes(undefined).subscribe({
+        next: () => spyOnSuccess(),
+        error: (error: Error) => {
+          spyOnError(error);
+          expect(spyOnSuccess).not.toHaveBeenCalled();
+          expect(spyOnError).toHaveBeenCalled();
+          done();
+        }
+      });
+    });
+  });
+
+  describe('linkNodeAction', () => {
+    let translationService: TranslationService;
+
+    beforeEach(() => {
+      translationService = TestBed.inject(TranslationService);
+      spyOn(translationService, 'instant').and.callFake((key) => key);
+    });
+
+    it('should call nodesApi.createNode with app:filelink type for a file', (done) => {
+      const fileEntry = new TestNode(fileId, isFile, 'my-file.txt').entry;
+      spyOn(nodesApi, 'createNode').and.returnValue(Promise.resolve({ entry: { id: 'link-id' } }));
+
+      service.linkNodeAction(fileEntry, folderDestinationId).subscribe(() => {
+        expect(nodesApi.createNode).toHaveBeenCalledWith(
+          folderDestinationId,
+          jasmine.objectContaining({
+            nodeType: 'app:filelink',
+            properties: jasmine.objectContaining({ 'cm:destination': fileId })
+          })
+        );
+        done();
+      });
+    });
+
+    it('should call nodesApi.createNode with app:folderlink type for a folder', (done) => {
+      const folderEntry = new TestNode('folder-id', !isFile, 'my-folder').entry;
+      spyOn(nodesApi, 'createNode').and.returnValue(Promise.resolve({ entry: { id: 'link-id' } } as NodeEntry));
+
+      service.linkNodeAction(folderEntry, folderDestinationId).subscribe(() => {
+        expect(nodesApi.createNode).toHaveBeenCalledWith(folderDestinationId, jasmine.objectContaining({ nodeType: 'app:folderlink' }));
+        done();
+      });
+    });
+
+    it('should append .url suffix to link name if not already present', (done) => {
+      const fileEntry = new TestNode(fileId, isFile, 'report').entry;
+      spyOn(nodesApi, 'createNode').and.returnValue(Promise.resolve({ entry: { id: 'link-id' } } as NodeEntry));
+
+      service.linkNodeAction(fileEntry, folderDestinationId).subscribe(() => {
+        const body = (nodesApi.createNode as jasmine.Spy).calls.mostRecent().args[1];
+        expect(body.name.endsWith('.url')).toBe(true);
+        done();
+      });
+    });
+
+    it('should not double-append .url suffix if name already ends with .url', (done) => {
+      const fileEntry = new TestNode(fileId, isFile, 'report').entry;
+      spyOn(nodesApi, 'createNode').and.returnValue(Promise.resolve({ entry: { id: 'link-id' } } as NodeEntry));
+
+      service.linkNodeAction(fileEntry, folderDestinationId).subscribe(() => {
+        const body = (nodesApi.createNode as jasmine.Spy).calls.mostRecent().args[1];
+        expect(body.name).toBe('NODE_SELECTOR.LINK_NAME.url');
+        done();
+      });
+    });
+
+    it('should use nodeId over id when building the link body', (done) => {
+      const sharedFileEntry: any = { id: 'original-id', nodeId: 'shared-node-id', name: 'shared.txt', isFile: true, isFolder: false };
+      spyOn(nodesApi, 'createNode').and.returnValue(Promise.resolve({ entry: { id: 'link-id' } } as NodeEntry));
+
+      service.linkNodeAction(sharedFileEntry, folderDestinationId).subscribe(() => {
+        const body = (nodesApi.createNode as jasmine.Spy).calls.mostRecent().args[1];
+        expect(body.properties['cm:destination']).toBe('shared-node-id');
+        done();
       });
     });
   });

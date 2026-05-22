@@ -555,6 +555,24 @@
             }
           },
           {
+            "id": "app.toolbar.locate",
+            "title": "APP.ACTIONS.LOCATE_LINKED_ITEM",
+            "order": 250,
+            "icon": "my_location",
+            "actions": {
+              "click": "LOCATE_LINKED_ITEM"
+            },
+            "rules": {
+              "visible": [
+                "app.selection.isNodeLink",
+                "app.selection.notEmpty",
+                "!app.navigation.isTrashcan",
+                "!app.navigation.isLibraries",
+                "!isMultiSelection"
+              ]
+            }
+          },
+          {
             "id": "app.toolbar.editFolder",
             "order": 300,
             "title": "APP.ACTIONS.EDIT",
@@ -611,7 +629,8 @@
                 "!app.navigation.isRecentFiles",
                 "!app.navigation.isSharedFiles",
                 "!app.navigation.isSearchResults",
-                "!app.navigation.isFavorites"
+                "!app.navigation.isFavorites",
+                "!app.selection.isNodeLink"
               ]
             }
           },
@@ -631,7 +650,8 @@
                 "!app.navigation.isRecentFiles",
                 "!app.navigation.isSharedFiles",
                 "!app.navigation.isSearchResults",
-                "!app.navigation.isFavorites"
+                "!app.navigation.isFavorites",
+                "!app.selection.isNodeLink"
               ]
             }
           },
@@ -670,6 +690,23 @@
                 "app.selection.notEmpty",
                 "!app.navigation.isTrashcan",
                 "!app.navigation.isLibraries"
+              ]
+            }
+          },
+          {
+            "id": "app.toolbar.link",
+            "title": "APP.ACTIONS.CREATE_LINK",
+            "order": 750,
+            "icon": "link",
+            "actions": {
+              "click": "CREATE_LINK"
+            },
+            "rules": {
+              "visible": [
+                "app.selection.notEmpty",
+                "!app.navigation.isTrashcan",
+                "!app.navigation.isLibraries",
+                "!app.selection.isNodeLink"
               ]
             }
           },
@@ -725,7 +762,8 @@
               "visible": [
                 "app.selection.file",
                 "!app.navigation.isTrashcan",
-                "!app.selection.file.isLocked"
+                "!app.selection.file.isLocked",
+                "!app.selection.isNodeLink"
               ]
             }
           },
@@ -775,7 +813,8 @@
                 "!app.navigation.isTrashcan",
                 "app.selection.folder",
                 "!app.navigation.isFavorites",
-                "!isSmartFolder"
+                "!isSmartFolder",
+                "!app.selection.isNodeLink"
               ]
             }
           },
@@ -813,6 +852,24 @@
       }
     ],
     "contextMenu": [
+      {
+        "id": "app.context.menu.locate",
+        "title": "APP.ACTIONS.LOCATE_LINKED_ITEM",
+        "order": 50,
+        "icon": "my_location",
+        "actions": {
+          "click": "LOCATE_LINKED_ITEM"
+        },
+        "rules": {
+          "visible": [
+            "app.selection.isNodeLink",
+            "app.selection.notEmpty",
+            "!app.navigation.isTrashcan",
+            "!app.navigation.isLibraries",
+            "!isMultiSelection"
+          ]
+        }
+      },
       {
         "id": "app.context.menu.share",
         "type": "custom",
@@ -923,7 +980,8 @@
             "!app.navigation.isRecentFiles",
             "!app.navigation.isSharedFiles",
             "!app.navigation.isSearchResults",
-            "!app.navigation.isFavorites"
+            "!app.navigation.isFavorites",
+            "!app.selection.isNodeLink"
           ]
         }
       },
@@ -943,7 +1001,8 @@
             "!app.navigation.isRecentFiles",
             "!app.navigation.isSharedFiles",
             "!app.navigation.isSearchResults",
-            "!app.navigation.isFavorites"
+            "!app.navigation.isFavorites",
+            "!app.selection.isNodeLink"
           ]
         }
       },
@@ -1017,6 +1076,23 @@
         }
       },
       {
+        "id": "app.context.menu.link",
+        "title": "APP.ACTIONS.CREATE_LINK",
+        "order": 1150,
+        "icon": "link",
+        "actions": {
+          "click": "CREATE_LINK"
+        },
+        "rules": {
+          "visible": [
+            "app.selection.notEmpty",
+            "!app.navigation.isTrashcan",
+            "!app.navigation.isLibraries",
+            "!app.selection.isNodeLink"
+          ]
+        }
+      },
+      {
         "id": "app.context.menu.delete",
         "title": "APP.ACTIONS.DELETE",
         "order": 1200,
@@ -1068,7 +1144,8 @@
           "visible": [
             "app.selection.file",
             "!app.navigation.isTrashcan",
-            "!app.selection.file.isLocked"
+            "!app.selection.file.isLocked",
+            "!app.selection.isNodeLink"
           ]
         }
       },
@@ -1118,7 +1195,8 @@
             "!app.navigation.isTrashcan",
             "app.selection.folder",
             "!app.navigation.isFavorites",
-            "!isSmartFolder"
+            "!isSmartFolder",
+            "!app.selection.isNodeLink"
           ]
         }
       },
@@ -1442,7 +1520,8 @@
                 "visible": [
                   "app.selection.file",
                   "!app.navigation.isTrashcan",
-                  "!app.selection.file.isLocked"
+                  "!app.selection.file.isLocked",
+                  "!app.selection.isNodeLink"
                 ]
               }
             },

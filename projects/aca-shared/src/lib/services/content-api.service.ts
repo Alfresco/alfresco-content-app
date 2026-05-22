@@ -114,7 +114,7 @@ export class ContentApiService {
    */
   getNode(nodeId: string, options: any = {}): Observable<NodeEntry> {
     const defaults = {
-      include: ['path', 'properties', 'allowableOperations', 'permissions', 'definition']
+      include: ['path', 'properties', 'allowableOperations', 'permissions', 'definition', 'isLink']
     };
     const queryOptions = Object.assign(defaults, options);
 
@@ -123,7 +123,7 @@ export class ContentApiService {
 
   getNodeInfo(nodeId: string, options?: any): Observable<Node> {
     const defaults = {
-      include: ['isFavorite', 'allowableOperations', 'path', 'definition']
+      include: ['isFavorite', 'allowableOperations', 'path', 'definition', 'isLink']
     };
     const queryOptions = Object.assign(defaults, options || {});
 

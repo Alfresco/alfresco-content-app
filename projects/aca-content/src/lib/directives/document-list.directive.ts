@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { DestroyRef, Directive, HostListener, inject, OnInit } from '@angular/core';
+import { DestroyRef, Directive, ElementRef, HostListener, inject, OnInit } from '@angular/core';
 import { DocumentListComponent, DocumentListService } from '@alfresco/adf-content-services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserPreferencesService } from '@alfresco/adf-core';
@@ -31,6 +31,7 @@ import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { filter } from 'rxjs/operators';
 import { NodeEntry } from '@alfresco/js-api';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AppHookService } from '@alfresco/aca-shared';
 
 @Directive({
   standalone: true,
@@ -43,8 +44,12 @@ export class DocumentListDirective implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly documentListService = inject(DocumentListService);
+  private readonly appHookService = inject(AppHookService);
+  private readonly elementRef = inject(ElementRef);
 
   private isLibrary = false;
+  private pendingNode: NodeEntry | null = null;
+
   selectedNode: NodeEntry;
 
   get sortingPreferenceKey(): string {
@@ -55,7 +60,7 @@ export class DocumentListDirective implements OnInit {
 
   ngOnInit() {
     this.documentList.stickyHeader = true;
-    this.documentList.includeFields = ['isFavorite', 'aspectNames', 'definition'];
+    this.documentList.includeFields = ['isFavorite', 'aspectNames', 'definition', 'isLink'];
     this.isLibrary =
       this.documentList.currentFolderId === '-mysites-' ||
       // workaround for custom node list
@@ -96,6 +101,16 @@ export class DocumentListDirective implements OnInit {
     this.documentListService.resetSelection$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.reset();
     });
+
+    this.appHookService.nodeToSelect$
+      .pipe(
+        filter((node): node is NodeEntry => node !== null),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe((node) => {
+        this.pendingNode = node;
+        this.documentList.preselectNodes = [node];
+      });
   }
 
   @HostListener('sorting-changed', ['$event'])
@@ -147,6 +162,15 @@ export class DocumentListDirective implements OnInit {
   onReady() {
     this.updateSelection();
     this.restoreSorting();
+    if (this.pendingNode) {
+      const wasSelected = this.documentList.selection.some((node) => node.entry?.id === this.pendingNode.entry.id);
+      if (wasSelected) {
+        setTimeout(() => this.elementRef.nativeElement.querySelector('.adf-is-selected')?.focus());
+        this.pendingNode = null;
+        this.documentList.preselectNodes = [];
+        this.appHookService.nodeToSelect$.next(null);
+      }
+    }
   }
 
   private updateSelection() {
