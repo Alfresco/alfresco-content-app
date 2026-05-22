@@ -221,14 +221,6 @@
     );
   }
 
-  /* stylelint-disable-next-line selector-class-pattern */
-  .mat-mdc-dialog-surface:has(adf-aspect-list-dialog) {
-    box-shadow:
-      rgba(0, 0, 0, 0.2) 0 11px 15px -7px,
-      rgba(0, 0, 0, 0.14) 0 24px 38px 3px,
-      rgba(0, 0, 0, 0.12) 0 9px 46px 8px;
-  }
-
   p.adf-property-paragraph {
     color: var(--adf-theme-foreground-text-color-087);
     font-size: 14px;
@@ -328,7 +320,7 @@
     }
 
     .adf-accordion-aspect-list .adf-accordion-aspect-list-item {
-      box-shadow: rgba(0, 0, 0, 0.07) 0 2px 2px -1px;
+      box-shadow: var(--theme-border-color) 0 2px 2px -1px;
     }
 
     .adf-accordion-aspect-list .adf-accordion-aspect-list-item mat-expansion-panel {
@@ -856,7 +848,7 @@
     visibility: visible;
 
     .adf-datatable__resize-handle--divider {
-      border: 1px solid rgba(0, 0, 0, 0.08);
+      border: 1px solid var(--theme-border-color);
     }
   }
   /* stylelint-enable selector-class-pattern */
@@ -873,7 +865,7 @@
     }
 
     .adf-datatable__resize-handle--divider {
-      border: 1px solid var(--adf-theme-foreground-text-color-007);
+      border: 1px solid var(--theme-border-color);
     }
 
     &:hover .adf-datatable-cell-header-content {
@@ -885,20 +877,12 @@
       visibility: visible;
 
       .adf-datatable__resize-handle--divider {
-        border: 1px solid rgba(0, 0, 0, 0.08);
+        border: 1px solid var(--theme-border-color);
       }
     }
 
     .adf-resizable {
       border-color: var(--adf-theme-background-hover-color);
-    }
-
-    .adf-datatable-checkbox {
-      @include mat.checkbox-overrides(
-        (
-          unselected-icon-color: rgba(0, 0, 0, 0.87)
-        )
-      );
     }
 
     .adf-filter-icon {
@@ -1004,15 +988,6 @@
     letter-spacing: -0.5px;
   }
 
-  /* stylelint-disable-next-line selector-class-pattern */
-  .mat-mdc-dialog-container:has(adf-content-node-selector) .mat-mdc-dialog-surface.mdc-dialog__surface {
-    padding-bottom: 0;
-    box-shadow:
-      rgba(0, 0, 0, 0.2) 0 11px 15px -7px,
-      rgba(0, 0, 0, 0.14) 0 24px 38px 3px,
-      rgba(0, 0, 0, 0.12) 0 9px 46px 8px;
-  }
-
   adf-content-node-selector .adf-content-node-selector-content-list {
     border-right: 1px solid var(--adf-theme-foreground-text-color-007);
     border-bottom: 1px solid var(--adf-theme-foreground-text-color-007);
@@ -1039,7 +1014,7 @@
   adf-content-node-selector-panel adf-toolbar mat-toolbar {
     @include mat.toolbar-overrides(
       (
-        container-background-color: #f5f5f5,
+        container-background-color: var(--theme-gray-background-color),
         standard-height: 47px
       )
     );
@@ -1082,12 +1057,16 @@
     height: 112px;
   }
 
-  /* stylelint-disable-next-line selector-class-pattern */
-  .mat-mdc-dialog-surface:has(adf-folder-dialog) {
-    box-shadow:
-      rgba(0, 0, 0, 0.2) 0 11px 15px -7px,
-      rgba(0, 0, 0, 0.14) 0 24px 38px 3px,
-      rgba(0, 0, 0, 0.12) 0 9px 46px 8px;
+  :root {
+    @include mat.dialog-overrides(
+      (
+        container-elevation-shadow: (
+          var(--theme-box-shadow-first-color) 0 11px 15px -7px,
+          var(--theme-box-shadow-second-color) 0 24px 38px 3px,
+          var(--theme-box-shadow-third-color) 0 9px 46px 8px
+        )
+      )
+    );
   }
 
   /* stylelint-disable-next-line selector-class-pattern */
@@ -1098,9 +1077,9 @@
     background-color: var(--adf-theme-background-card-color);
     color: var(--adf-theme-foreground-base-color);
     box-shadow:
-      rgba(0, 0, 0, 0.2) 0 3px 1px -2px,
-      rgba(0, 0, 0, 0.14) 0 2px 2px 0,
-      rgba(0, 0, 0, 0.12) 0 1px 5px 0;
+      var(--theme-box-shadow-first-color) 0 3px 1px -2px,
+      var(--theme-box-shadow-second-color) 0 2px 2px 0,
+      var(--theme-box-shadow-third-color) 0 1px 5px 0;
   }
 
   adf-upload-version-button {
@@ -1109,9 +1088,9 @@
     label.adf-upload-button-label {
       letter-spacing: normal;
       box-shadow:
-        rgba(0, 0, 0, 0.2) 0 3px 1px -2px,
-        rgba(0, 0, 0, 0.14) 0 2px 2px 0,
-        rgba(0, 0, 0, 0.12) 0 1px 5px 0;
+        var(--theme-box-shadow-first-color) 0 3px 1px -2px,
+        var(--theme-box-shadow-second-color) 0 2px 2px 0,
+        var(--theme-box-shadow-third-color) 0 1px 5px 0;
     }
   }
 
@@ -1180,14 +1159,6 @@
   }
 
   /* stylelint-disable-next-line selector-class-pattern */
-  .mat-mdc-dialog-surface:has(adf-new-version-uploader-dialog) {
-    box-shadow:
-      rgba(0, 0, 0, 0.2) 0 11px 15px -7px,
-      rgba(0, 0, 0, 0.14) 0 24px 38px 3px,
-      rgba(0, 0, 0, 0.12) 0 9px 46px 8px;
-  }
-
-  /* stylelint-disable-next-line selector-class-pattern */
   adf-new-version-uploader-dialog h1.mat-mdc-dialog-title.adf-new-version-uploader-dialog-title {
     color: var(--adf-theme-foreground-text-color-087);
     font-size: 20px;
@@ -1241,11 +1212,9 @@
 
   /* stylelint-disable-next-line selector-class-pattern */
   adf-share-dialog .mat-mdc-dialog-actions.adf-share-link__actions button.mat-mdc-button.mat-mdc-button-base {
-    --mdc-text-button-container-color: rgba(33, 33, 33, 0.05);
-
     padding-right: 8px;
     padding-left: 8px;
-    background-color: rgba(33, 33, 33, 0.05);
+    background-color: var(--theme-grey-text-background-color);
   }
 
   adf-share-dialog .adf-share-link--row.adf-share-link--row-sharable,
