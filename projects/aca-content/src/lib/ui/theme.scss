@@ -133,10 +133,10 @@ html {
       filled-container-height: 36px,
       filled-horizontal-padding: 16px,
       outlined-label-text-tracking: normal,
-      outlined-label-text-color: rgba(0, 0, 0, 0.87),
+      outlined-label-text-color: var(--adf-theme-foreground-text-color),
       outlined-container-shape: 4px,
       outlined-container-height: 36px,
-      outlined-outline-color: rgba(0, 0, 0, 0.12),
+      outlined-outline-color: var(--adf-theme-foreground-divider-color),
       outlined-horizontal-padding: 15px,
       protected-label-text-tracking: normal,
       protected-container-shape: 4px,
@@ -156,7 +156,7 @@ html {
   );
   @include mat.icon-button-overrides(
     (
-      icon-color: rgba(0, 0, 0, 0.54)
+      icon-color: var(--adf-theme-foreground-icon-color)
     )
   );
   @include mat.icon-overrides(
@@ -168,9 +168,9 @@ html {
     (
       container-color: #fff,
       container-elevation-shadow: (
-        rgba(0, 0, 0, 0.2) 0 5px 5px -3px,
-        rgba(0, 0, 0, 0.14) 0 8px 10px 1px,
-        rgba(0, 0, 0, 0.12) 0 3px 14px 2px
+        var(--theme-box-shadow-first-color) 0 5px 5px -3px,
+        var(--theme-box-shadow-second-color) 0 8px 10px 1px,
+        var(--theme-box-shadow-third-color) 0 3px 14px 2px
       ),
       divider-color: var(--adf-theme-foreground-divider-color),
       divider-bottom-spacing: 0,
