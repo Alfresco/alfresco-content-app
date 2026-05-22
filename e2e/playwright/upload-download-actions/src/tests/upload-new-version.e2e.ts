@@ -36,7 +36,7 @@ import {
 } from '@alfresco/aca-playwright-shared';
 
 test.describe('Upload new version', () => {
-  const username = `user-${Utils.random()}`;
+  const username = `user-${Date.now()}-${Utils.random()}`;
 
   const file1 = `file1-${Utils.random()}.docx`;
   let file1Id: string;

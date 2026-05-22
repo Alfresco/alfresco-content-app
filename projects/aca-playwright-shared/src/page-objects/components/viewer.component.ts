@@ -72,12 +72,17 @@ export class ViewerComponent extends BaseComponent {
 
   async waitForViewerToOpen(): Promise<void> {
     await this.waitForViewerLoaderToFinish();
-    await this.viewerLocator.waitFor({ state: 'visible', timeout: timeouts.extraLarge });
+    await this.viewerLocator.waitFor({ state: 'visible', timeout: timeouts.large });
   }
 
   async waitForViewerLoaderToFinish(): Promise<void> {
-    await this.viewerSpinner.waitFor({ state: 'attached', timeout: timeouts.medium }).catch(() => {});
-    await this.viewerSpinner.waitFor({ state: 'detached', timeout: timeouts.fortySeconds }).catch(() => {});
+    await this.viewerSpinner.waitFor({ state: 'attached', timeout: timeouts.short }).catch(() => {});
+    await this.viewerSpinner.waitFor({ state: 'detached', timeout: timeouts.extraLarge }).catch(() => {});
+  }
+
+  async waitForViewerContentToRender(type: 'document' | 'image' | 'media' = 'document'): Promise<void> {
+    const target = type === 'image' ? this.viewerImage : type === 'media' ? this.viewerMedia : this.viewerDocument;
+    await target.waitFor({ state: 'visible', timeout: timeouts.extraLarge });
   }
 
   async checkViewerActivePage(pageNumber: number): Promise<void> {
@@ -159,7 +164,8 @@ export class ViewerComponent extends BaseComponent {
   }
 
   async checkUnknownFormatIsDisplayed(): Promise<void> {
-    await this.unknownFormat.waitFor({ state: 'visible', timeout: timeouts.normal });
+    await this.waitForViewerLoaderToFinish();
+    await this.unknownFormat.waitFor({ state: 'visible', timeout: timeouts.medium });
   }
 
   async getUnknownFormatMessage(): Promise<string> {

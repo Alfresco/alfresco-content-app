@@ -127,7 +127,8 @@ test.describe('viewer file types', () => {
       throw new Error(errorMessage);
     }
 
-    await expect(viewerElement).toBeVisible();
+    const renderType = fileType === 'viewerImage' ? 'image' : fileType === 'viewerMedia' ? 'media' : 'document';
+    await page.viewer.waitForViewerContentToRender(renderType);
   }
 
   async function checkViewerDisplayUnknownFormat(page: PersonalFilesPage, fileName: string) {
@@ -178,6 +179,7 @@ test.describe('viewer file types', () => {
   test('[XAT-5485] User can select a document page through the thumbnail pane', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomPdfName);
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    await personalFiles.viewer.waitForViewerContentToRender('document');
     await personalFiles.viewer.documentThumbnailButton.click();
     await expect(personalFiles.viewer.thumbnailsPages.first()).toBeVisible();
     await personalFiles.viewer.checkViewerActivePage(1);
@@ -188,6 +190,7 @@ test.describe('viewer file types', () => {
   test('[XAT-5486] User can close the thumbnail pane', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomPdfName);
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    await personalFiles.viewer.waitForViewerContentToRender('document');
     await personalFiles.viewer.documentThumbnailButton.click();
     await expect(personalFiles.viewer.thumbnailsPages.first()).toBeVisible();
     await personalFiles.viewer.thumbnailsCloseButton.click();
