@@ -1,0 +1,9 @@
+@use '@angular/material' as mat;
+
+app-expand-menu {
+  @include mat.expansion-overrides(
+    (
+      header-indicator-color: var(--adf-theme-foreground-icon-color)
+    )
+  );
+}
