@@ -38,5 +38,13 @@
         }
       }
     }
+
+    .adf-datatable-header .adf-datatable-row:hover {
+      background-color: var(--adf-theme-background-hover-color);
+
+      .adf-datatable-cell-header-content {
+        background-color: transparent;
+      }
+    }
   }
 }
