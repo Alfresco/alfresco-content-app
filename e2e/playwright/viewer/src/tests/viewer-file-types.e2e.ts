@@ -127,7 +127,12 @@ test.describe('viewer file types', () => {
       throw new Error(errorMessage);
     }
 
-    const renderType = fileType === 'viewerImage' ? 'image' : fileType === 'viewerMedia' ? 'media' : 'document';
+    let renderType: 'image' | 'media' | 'document' = 'document';
+    if (fileType === 'viewerImage') {
+      renderType = 'image';
+    } else if (fileType === 'viewerMedia') {
+      renderType = 'media';
+    }
     await page.viewer.waitForViewerContentToRender(renderType);
   }
 
