@@ -1,4 +1,35 @@
+@use '@angular/material' as mat;
+
 .aca-rule-list-item {
+  @include mat.slide-toggle-overrides(
+    (
+      track-width: 36px,
+      track-height: 20px,
+      track-shape: 10px,
+      label-text-tracking: normal,
+      selected-handle-size: 14px,
+      unselected-handle-size: 14px,
+      pressed-handle-size: 14px,
+      with-icon-handle-size: 14px,
+      unselected-with-icon-handle-horizontal-margin: 0 3px 0 0,
+      selected-with-icon-handle-horizontal-margin: 0 0 0 16px,
+      selected-track-color: var(--theme-accent-300),
+      selected-focus-track-color: var(--theme-accent-300),
+      selected-hover-track-color: var(--theme-accent-300),
+      selected-pressed-track-color: var(--theme-accent-300),
+      selected-handle-color: var(--theme-accent-900),
+      selected-focus-handle-color: var(--theme-accent-900),
+      selected-hover-handle-color: var(--theme-accent-900),
+      selected-pressed-handle-color: var(--theme-accent-900),
+      selected-icon-color: var(--theme-accent-900),
+      handle-surface-color: var(--theme-accent-900),
+      unselected-handle-color: var(--adf-theme-mat-grey-color-a400),
+      unselected-focus-handle-color: var(--adf-theme-foreground-text-color-087),
+      unselected-hover-handle-color: var(--adf-theme-foreground-text-color-087),
+      unselected-pressed-handle-color: var(--adf-theme-foreground-text-color-087)
+    )
+  );
+
   display: flex;
   flex-direction: column;
   gap: 4px;
