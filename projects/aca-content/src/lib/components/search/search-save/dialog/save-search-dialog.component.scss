@@ -28,17 +28,11 @@
     padding-left: 20px;
     justify-content: space-between;
 
-    /* stylelint-disable-next-line selector-class-pattern */
-    .mat-mdc-icon-button.mat-mdc-button-base {
-      @include mat.icon-button-overrides(
-        (
-          state-layer-size: 48px,
-          icon-color: var(--adf-theme-foreground-text-color-087)
-        )
-      );
-
-      padding: 12px;
-    }
+    @include mat.icon-button-overrides(
+      (
+        state-layer-size: 48px
+      )
+    );
   }
 
   .aca-save-search-dialog__title {
@@ -47,13 +41,10 @@
     margin: 0;
   }
 
-  /* stylelint-disable-next-line selector-class-pattern */
-  #aca-save-search-dialog-cancel-button.mat-mdc-button-base {
+  #aca-save-search-dialog-cancel-button {
     @include mat.button-overrides(
       (
-        text-horizontal-padding: 8px,
-        text-state-layer-color: var(--adf-theme-foreground-text-color-087),
-        text-hover-state-layer-opacity: 0.04
+        text-horizontal-padding: 8px
       )
     );
   }
