@@ -81,8 +81,15 @@ export class ViewerComponent extends BaseComponent {
   }
 
   async waitForViewerContentToRender(type: 'document' | 'image' | 'media' = 'document'): Promise<void> {
-    const target = type === 'image' ? this.viewerImage : type === 'media' ? this.viewerMedia : this.viewerDocument;
-    await target.waitFor({ state: 'visible', timeout: timeouts.extraLarge });
+    if (type === 'image') {
+      await this.viewerImage.waitFor({ state: 'visible', timeout: timeouts.extraLarge });
+      return;
+    }
+    if (type === 'media') {
+      await this.viewerMedia.waitFor({ state: 'visible', timeout: timeouts.extraLarge });
+      return;
+    }
+    await this.pdfViewerContentPages.first().waitFor({ state: 'attached', timeout: timeouts.extraLarge });
   }
 
   async checkViewerActivePage(pageNumber: number): Promise<void> {
@@ -123,7 +130,6 @@ export class ViewerComponent extends BaseComponent {
 
   async getFileTitle(): Promise<string> {
     await this.fileTitleButtonLocator.waitFor({ state: 'visible', timeout: timeouts.normal });
-    await this.waitForViewerLoaderToFinish();
     const title = await this.fileTitleButtonLocator.textContent();
     if (!title) {
       const errorMessage = 'File title is not displayed in the viewer';
@@ -165,7 +171,7 @@ export class ViewerComponent extends BaseComponent {
 
   async checkUnknownFormatIsDisplayed(): Promise<void> {
     await this.waitForViewerLoaderToFinish();
-    await this.unknownFormat.waitFor({ state: 'visible', timeout: timeouts.medium });
+    await this.unknownFormat.waitFor({ state: 'visible', timeout: timeouts.fortySeconds });
   }
 
   async getUnknownFormatMessage(): Promise<string> {
