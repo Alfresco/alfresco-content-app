@@ -25,6 +25,11 @@ body {
 }
 
 /* stylelint-disable-next-line selector-class-pattern */
+mat-icon.mat-icon {
+  font-family: var(--mat-icon-font-family, 'Material Icons Outlined');
+}
+
+/* stylelint-disable-next-line selector-class-pattern */
 mat-icon.mat-icon.material-icons {
   font-family: 'Material Icons', 'Open Sans', sans-serif;
 }
