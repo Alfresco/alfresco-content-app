@@ -37,6 +37,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
   selector: 'app-expand-menu',
   encapsulation: ViewEncapsulation.None,
   templateUrl: './expand-menu.component.html',
+  styleUrls: ['./expand-menu.component.scss'],
   host: { class: 'app-expand-menu' }
 })
 export class ExpandMenuComponent implements OnInit {
