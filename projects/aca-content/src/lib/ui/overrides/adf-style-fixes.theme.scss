@@ -988,6 +988,11 @@
     letter-spacing: -0.5px;
   }
 
+  /* stylelint-disable-next-line selector-class-pattern */
+  .mat-mdc-dialog-container:has(adf-content-node-selector) .mat-mdc-dialog-surface.mdc-dialog__surface {
+    padding-bottom: 0;
+  }
+
   adf-content-node-selector .adf-content-node-selector-content-list {
     border-right: 1px solid var(--adf-theme-foreground-text-color-007);
     border-bottom: 1px solid var(--adf-theme-foreground-text-color-007);
