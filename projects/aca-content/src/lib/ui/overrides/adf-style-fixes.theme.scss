@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@use '../mixins' as mixins;
 
 /* stylelint-disable no-descending-specificity */
 
@@ -61,14 +62,7 @@
 
     /* stylelint-disable-next-line selector-class-pattern */
     button.mat-mdc-icon-button {
-      @include mat.icon-button-overrides(
-        (
-          state-layer-size: 48px,
-          icon-size: 24px
-        )
-      );
-
-      padding: 12px;
+      @include mixins.mat-icon-button-default;
     }
 
     mat-icon {
@@ -99,16 +93,26 @@
     border: 1px solid var(--adf-theme-foreground-text-color-007);
   }
 
-  /* stylelint-disable-next-line selector-class-pattern */
+  /* stylelint-disable selector-class-pattern */
   button.adf-choose-action.mat-mdc-button {
     color: var(--theme-primary-color);
+
+    &:disabled,
+    &.mat-mdc-button-disabled {
+      color: var(--adf-theme-foreground-text-color-054);
+
+      .mdc-button__label {
+        color: var(--adf-theme-foreground-text-color-054);
+      }
+    }
   }
+  /* stylelint-enable selector-class-pattern */
 
   adf-content-node-selector-panel .adf-content-node-selector-content mat-form-field,
   adf-sites-dropdown .adf-site-dropdown-container mat-form-field {
     @include mat.form-field-overrides(
       (
-        container-height: 52px
+        container-height: var(--theme-form-field-height-compact)
       )
     );
   }
@@ -116,7 +120,7 @@
   adf-sites-dropdown .adf-site-dropdown-container mat-form-field {
     @include mat.form-field-overrides(
       (
-        container-height: 56px
+        container-height: var(--theme-form-field-height-default)
       )
     );
 
@@ -164,7 +168,7 @@
     /* stylelint-disable-next-line selector-class-pattern */
     .mat-expansion-panel-body {
       color: var(--adf-theme-foreground-text-color-087);
-      font-size: 14px;
+      font-size: var(--mat-sys-body-medium-size);
       letter-spacing: normal;
     }
 
@@ -172,21 +176,14 @@
     .adf-metadata-no-item-added {
       margin-top: 16px;
       font-size: 15px;
-      font-weight: 500;
+      font-weight: var(--mat-sys-body-large-weight);
       letter-spacing: normal;
       line-height: 24px;
     }
 
     /* stylelint-disable-next-line selector-class-pattern */
     button.adf-edit-icon-buttons {
-      @include mat.icon-button-overrides(
-        (
-          state-layer-size: 48px,
-          icon-size: 24px
-        )
-      );
-
-      padding: 12px;
+      @include mixins.mat-icon-button-default;
 
       mat-icon {
         color: var(--adf-theme-foreground-text-color-064);
@@ -197,6 +194,42 @@
   adf-card-view {
     display: block;
     margin-top: 16px;
+  }
+
+  adf-content-metadata mat-form-field {
+    @include mat.form-field-overrides(
+      (
+        outlined-label-text-size: 19px,
+        outlined-label-text-populated-size: 19px,
+        outlined-disabled-label-text-color: var(--adf-theme-foreground-text-color-060),
+        filled-label-text-size: 19px,
+        filled-disabled-label-text-color: var(--adf-theme-foreground-text-color-060)
+      )
+    );
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  .adf-metadata-properties .adf-content-metadata-panel .adf-property-list .adf-property .adf-property-field label.mdc-floating-label {
+    font-size: 19px;
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  adf-content-metadata mat-form-field.adf-property-value.mat-mdc-form-field-type-mat-select {
+    @include mat.form-field-overrides(
+      (
+        container-height: var(--theme-form-field-height-default),
+        container-vertical-padding: 16px
+      )
+    );
+
+    height: 56px;
+
+    /* stylelint-disable selector-class-pattern */
+    .mat-mdc-select,
+    .mat-mdc-select-value {
+      font-size: var(--mat-sys-body-medium-size);
+    }
+    /* stylelint-enable selector-class-pattern */
   }
 
   /* stylelint-disable-next-line selector-class-pattern */
@@ -213,19 +246,344 @@
 
   /* stylelint-disable-next-line selector-class-pattern */
   adf-aspect-list-dialog mat-dialog-actions .mat-mdc-button-base {
-    @include mat.button-overrides(
-      (
-        text-horizontal-padding: 8px,
-        filled-horizontal-padding: 8px
-      )
-    );
+    @include mixins.mat-button-default-padding;
   }
 
   p.adf-property-paragraph {
     color: var(--adf-theme-foreground-text-color-087);
-    font-size: 14px;
-    font-weight: 500;
+    font-size: var(--mat-sys-body-medium-size);
+    font-weight: var(--mat-sys-body-large-weight);
     letter-spacing: normal;
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  adf-add-permission-dialog h2.mat-mdc-dialog-title.adf-add-permission-dialog-title {
+    color: var(--adf-theme-foreground-text-color-087);
+    font-size: 20px;
+    font-weight: var(--theme-font-weight-semi-bold);
+    letter-spacing: -0.5px;
+    line-height: 32px;
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  .adf-add-permission-dialog mat-dialog-actions.adf-add-permission-dialog-actions {
+    background-color: var(--theme-background-color);
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    .mat-mdc-button-base {
+      @include mat.button-overrides(
+        (
+          text-horizontal-padding: 8px
+        )
+      );
+    }
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  .mat-mdc-dialog-container:has(adf-add-permission-dialog) .mat-mdc-dialog-surface.mdc-dialog__surface {
+    padding-bottom: 0;
+    box-shadow:
+      var(--theme-box-shadow-first-color) 0 11px 15px -7px,
+      var(--theme-box-shadow-second-color) 0 24px 38px 3px,
+      var(--theme-box-shadow-third-color) 0 9px 46px 8px;
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  adf-add-permission-panel mat-form-field.adf-permission-search-input button.adf-permission-search-input-clear-button.mat-mdc-icon-button {
+    @include mixins.mat-icon-button-default;
+
+    mat-icon {
+      color: var(--adf-theme-foreground-text-color-060);
+    }
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  adf-add-permission-dialog mat-dialog-content.adf-add-permission-dialog-content button.adf-search-user-button.mat-mdc-button {
+    @include mat.button-overrides(
+      (
+        text-horizontal-padding: 8px,
+        text-container-height: 32px
+      )
+    );
+
+    box-sizing: border-box;
+    width: 704px;
+    height: 36px;
+    padding-right: 8px;
+    padding-left: 8px;
+
+    mat-icon {
+      color: var(--adf-theme-foreground-text-color-060);
+      width: 24px;
+      height: 24px;
+      font-size: 24px;
+      line-height: 24px;
+      margin: 0;
+    }
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    .mdc-button__label {
+      padding-right: 0;
+    }
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  adf-permission-container adf-user-role-column mat-form-field.adf-role-selector-field,
+  adf-add-permission-dialog adf-user-role-column mat-form-field {
+    @include mat.form-field-overrides(
+      (
+        outlined-outline-color: var(--adf-theme-foreground-text-color-060),
+        outlined-hover-outline-color: var(--adf-theme-foreground-text-color-060)
+      )
+    );
+    @include mat.select-overrides(
+      (
+        enabled-trigger-text-color: var(--adf-theme-foreground-text-color-087),
+        trigger-text-size: 14px,
+        trigger-text-tracking: normal,
+        trigger-text-line-height: 20px
+      )
+    );
+
+    /* stylelint-disable selector-class-pattern */
+    .mat-mdc-select-value-text,
+    .mat-mdc-select-min-line {
+      color: var(--adf-theme-foreground-text-color-087);
+      font-size: var(--mat-sys-body-medium-size);
+      letter-spacing: normal;
+      line-height: 20px;
+    }
+
+    .mat-mdc-select-placeholder {
+      color: var(--adf-theme-foreground-text-color-060);
+      font-size: var(--mat-sys-body-medium-size);
+      letter-spacing: normal;
+      line-height: 20px;
+    }
+    /* stylelint-enable selector-class-pattern */
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  adf-add-permission-dialog div.adf-delete-permission-column button.adf-add-member-action.mat-mdc-icon-button {
+    @include mat.icon-button-overrides(
+      (
+        state-layer-size: 48px,
+        icon-size: 18px
+      )
+    );
+
+    box-sizing: border-box;
+    width: 48px;
+    height: 48px;
+    padding: 0 15px;
+
+    mat-icon {
+      color: var(--adf-theme-foreground-text-color-087);
+      width: 24px;
+      height: 24px;
+      font-size: 24px;
+      line-height: 24px;
+    }
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  adf-permission-container div.adf-delete-permission-column button.mat-mdc-icon-button {
+    @include mixins.mat-icon-button-default;
+
+    box-sizing: border-box;
+    width: 48px;
+    height: 48px;
+
+    mat-icon {
+      color: var(--adf-theme-foreground-text-color-087);
+      width: 24px;
+      height: 24px;
+      font-size: 24px;
+      line-height: 24px;
+    }
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  div.adf-permission-pop-over div.adf-pop-over-card {
+    box-shadow: var(--theme-box-shadow-third-color) 0 8px 9px -5px;
+  }
+
+  adf-add-permission-dialog
+    mat-dialog-content
+    div.adf-new-permission-table
+    adf-datatable.adf-datatable-permission
+    div.adf-datatable-list.adf-sticky-header {
+    height: 492.695px;
+  }
+
+  adf-permission-container adf-datatable.adf-datatable-permission div.adf-datatable-list,
+  adf-add-permission-dialog mat-dialog-content div.adf-new-permission-table adf-datatable.adf-datatable-permission div.adf-datatable-list {
+    background-color: var(--adf-theme-background-card-color);
+    border: 1px solid var(--adf-theme-foreground-text-color-007);
+
+    &.adf-sticky-header {
+      border-top: 0;
+    }
+
+    &.adf-datatable--empty {
+      height: calc(100% - 16px);
+    }
+
+    div.adf-datatable-header {
+      border-top: 1px solid var(--adf-theme-foreground-text-color-007);
+      border-bottom: 1px solid transparent;
+
+      [data-automation-id='datatable-row-header']:hover {
+        background-color: var(--adf-theme-background-hover-color);
+      }
+    }
+
+    div.adf-datatable-body adf-datatable-row {
+      border-top: 1px solid var(--adf-theme-foreground-text-color-007);
+
+      &:last-of-type {
+        border-bottom: 1px solid var(--adf-theme-foreground-text-color-007);
+      }
+    }
+
+    adf-user-icon-column {
+      @include mat.icon-overrides(
+        (
+          color: var(--theme-primary-color-default-contrast)
+        )
+      );
+
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+
+      div.adf-cell-value {
+        width: 40px;
+        height: 40px;
+        min-height: unset;
+        font-size: var(--mat-sys-body-medium-size);
+        line-height: 20px;
+
+        div.adf-people-initial {
+          background-color: var(--theme-primary-color);
+          color: var(--theme-primary-color-default-contrast);
+          font-size: 16px;
+          font-weight: var(--theme-font-weight-bold);
+        }
+      }
+
+      mat-icon {
+        background-color: var(--theme-primary-color);
+        color: var(--theme-primary-color-default-contrast);
+        width: 20px;
+        height: 20px;
+        font-size: 20px;
+        font-weight: var(--theme-font-weight-bold);
+        padding: 10px;
+        box-sizing: content-box;
+      }
+    }
+
+    div.adf-datatable-cell-data div.adf-datatable-cell-container > div.adf-cell-value {
+      min-height: 56px;
+
+      adf-user-name-column {
+        font-weight: var(--theme-font-weight-semi-bold);
+
+        span.adf-user-name-column {
+          letter-spacing: normal;
+        }
+      }
+    }
+  }
+
+  adf-search div.adf-permission-result-list.adf-search-show {
+    height: 487.445px;
+    border: 2px solid var(--adf-theme-foreground-text-color-007);
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    mat-selection-list.adf-permission-result-list-elements {
+      letter-spacing: normal;
+
+      /* stylelint-disable-next-line selector-class-pattern */
+      mat-list-option {
+        --mdc-list-list-item-hover-state-layer-opacity: 0.04;
+      }
+
+      /* stylelint-disable-next-line selector-class-pattern */
+      mat-list-option .mdc-list-item__end {
+        display: none;
+      }
+
+      mat-list-option div.adf-list-option-item {
+        height: 40px;
+        font-size: var(--mat-sys-body-medium-size);
+        line-height: 20px;
+
+        p.adf-result-name {
+          color: var(--adf-theme-foreground-text-color-087);
+          font-size: var(--mat-sys-body-medium-size);
+          letter-spacing: normal;
+          line-height: 20px;
+        }
+
+        adf-user-icon-column {
+          @include mat.icon-overrides(
+            (
+              color: var(--theme-primary-color-default-contrast)
+            )
+          );
+
+          display: inline-block;
+          width: 40px;
+          height: 40px;
+
+          div.adf-cell-value {
+            width: 40px;
+            height: 40px;
+            min-height: unset;
+            font-size: var(--mat-sys-body-medium-size);
+            letter-spacing: normal;
+            line-height: 20px;
+
+            div.adf-people-initial {
+              background-color: var(--theme-primary-color);
+              color: var(--theme-primary-color-default-contrast);
+              font-size: 16px;
+              font-weight: var(--theme-font-weight-bold);
+            }
+          }
+
+          mat-icon {
+            background-color: var(--theme-primary-color);
+            color: var(--theme-primary-color-default-contrast);
+            width: 20px;
+            height: 20px;
+            font-size: 20px;
+            font-weight: var(--theme-font-weight-bold);
+            padding: 10px;
+            box-sizing: content-box;
+          }
+        }
+      }
+
+      mat-list-option[aria-selected='true'] div.adf-list-option-item adf-user-icon-column mat-icon {
+        background-color: transparent;
+        width: 40px;
+        height: 40px;
+        font-size: 40px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        svg {
+          width: 40px;
+          height: 40px;
+          fill: var(--theme-accent-color);
+        }
+      }
+    }
   }
 
   adf-permission-list mat-card#adf-permission-manager-card {
@@ -238,31 +596,21 @@
     }
 
     mat-card-content.adf-local-permission-container {
-      padding-bottom: 0;
+      padding-bottom: 16;
 
       /* stylelint-disable-next-line selector-class-pattern */
       section.adf-permission-content-header button.mat-mdc-icon-button {
-        @include mat.icon-button-overrides(
-          (
-            state-layer-size: 48px,
-            icon-size: 24px
-          )
-        );
+        @include mixins.mat-icon-button-default;
 
-        padding: 12px;
         color: var(--adf-theme-foreground-text-color-087);
+
+        &:disabled mat-icon {
+          color: var(--adf-theme-foreground-disabled-text-color);
+        }
       }
     }
 
-    adf-datatable.adf-datatable-permission .adf-datatable-list {
-      border: 1px solid var(--adf-theme-foreground-text-color-007);
-
-      &.adf-datatable--empty {
-        height: calc(100% - 16px);
-      }
-    }
-
-    /* stylelint-disable-next-line selector-class-pattern */
+    /* stylelint-disable selector-class-pattern */
     button.adf-permission-visibility-toggle.mat-mdc-unelevated-button {
       --mdc-filled-button-container-color: transparent;
       --mdc-filled-button-label-text-color: var(--adf-theme-foreground-base-color);
@@ -277,6 +625,7 @@
         line-height: 24px;
       }
     }
+    /* stylelint-enable selector-class-pattern */
 
     mat-slide-toggle.adf-inherit-toggle {
       @include mat.slide-toggle-overrides(
@@ -338,7 +687,7 @@
       mat-expansion-panel-header mat-panel-description {
         color: var(--adf-theme-foreground-icon-color);
         font-size: 11.6667px;
-        font-weight: 500;
+        font-weight: var(--mat-sys-body-large-weight);
         letter-spacing: normal;
       }
 
@@ -358,8 +707,8 @@
 
         thead tr th {
           color: var(--adf-theme-foreground-text-color-064);
-          font-size: 12px;
-          font-weight: 500;
+          font-size: var(--mat-sys-body-small-size);
+          font-weight: var(--mat-sys-body-large-weight);
           letter-spacing: normal;
           border-color: var(--adf-theme-foreground-divider-color);
         }
@@ -367,7 +716,7 @@
         tbody tr td {
           color: var(--adf-theme-foreground-text-color-087);
           font-size: 11.6667px;
-          font-weight: 500;
+          font-weight: var(--mat-sys-body-large-weight);
           letter-spacing: normal;
           border-color: var(--adf-theme-foreground-divider-color);
         }
@@ -375,47 +724,47 @@
     }
   }
 
-  /* stylelint-disable-next-line selector-class-pattern */
-  .mat-mdc-dialog-title.adf-dialog-header {
+  /* stylelint-disable selector-class-pattern */
+  .mat-mdc-dialog-container .mat-mdc-dialog-title.adf-dialog-header {
     box-sizing: content-box;
     height: 48px;
 
-    /* stylelint-disable-next-line selector-class-pattern */
-    button.mat-mdc-icon-button {
-      @include mat.icon-button-overrides(
-        (
-          state-layer-size: 48px,
-          icon-size: 24px
-        )
-      );
-
-      padding: 12px;
+    &::after {
+      border-bottom: 1px solid var(--adf-theme-foreground-divider-color);
     }
+
+    button.mat-mdc-icon-button {
+      @include mixins.mat-icon-button-default;
+    }
+  }
+  /* stylelint-enable selector-class-pattern */
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  .mat-mdc-dialog-container .mat-mdc-dialog-actions.adf-dialog-actions::after {
+    border-top: 1px solid var(--adf-theme-foreground-divider-color);
   }
 
   adf-card-view mat-form-field {
     @include mat.form-field-overrides(
       (
-        container-height: 52px,
-        container-vertical-padding: 14px
+        container-height: var(--theme-form-field-height-compact),
+        container-vertical-padding: 14px,
+        container-text-size: 14px,
+        container-text-tracking: normal,
+        outlined-label-text-size: 19px,
+        outlined-label-text-populated-size: 19px,
+        outlined-label-text-tracking: normal,
+        outlined-disabled-label-text-color: var(--adf-theme-foreground-text-color-060),
+        filled-label-text-size: 19px,
+        filled-label-text-tracking: normal,
+        filled-disabled-label-text-color: var(--adf-theme-foreground-text-color-060)
       )
     );
 
     /* stylelint-disable selector-class-pattern */
-    .mat-mdc-input-element,
-    .mat-mdc-select-value,
-    textarea.mat-mdc-input-element,
-    input.mat-mdc-form-field-input-control.mat-mdc-form-field-input-control,
-    textarea.mat-mdc-form-field-input-control.mat-mdc-form-field-input-control {
-      font-size: 14px;
-      letter-spacing: normal;
-    }
-
     mat-label,
     .mdc-floating-label,
     .mat-mdc-form-field-label {
-      font-size: 19px;
-      letter-spacing: normal;
       line-height: 24px;
     }
     /* stylelint-enable selector-class-pattern */
@@ -441,7 +790,7 @@
 
   /* stylelint-disable-next-line selector-class-pattern */
   adf-card-view .adf-dateitem-editable-controls {
-    font-size: 14px;
+    font-size: var(--mat-sys-body-medium-size);
     letter-spacing: normal;
   }
 
@@ -451,16 +800,11 @@
         container-height: 44px,
         container-vertical-padding: 14px,
         outlined-outline-color: var(--adf-theme-foreground-disabled-text-color),
-        outlined-hover-outline-color: var(--adf-theme-foreground-disabled-text-color)
+        outlined-hover-outline-color: var(--adf-theme-foreground-disabled-text-color),
+        outlined-label-text-tracking: normal,
+        filled-label-text-tracking: normal
       )
     );
-
-    /* stylelint-disable selector-class-pattern */
-    mat-label,
-    .mdc-floating-label {
-      letter-spacing: normal;
-    }
-    /* stylelint-enable selector-class-pattern */
 
     /* stylelint-disable-next-line selector-class-pattern */
     .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-floating-label {
@@ -477,13 +821,13 @@
     .mat-mdc-form-field-infix {
       mat-chip-grid {
         margin-top: -4px;
-        font-size: 14px;
+        font-size: var(--mat-sys-body-medium-size);
         letter-spacing: normal;
         line-height: 20px;
       }
 
       mat-autocomplete {
-        font-size: 14px;
+        font-size: var(--mat-sys-body-medium-size);
         letter-spacing: normal;
       }
     }
@@ -493,37 +837,87 @@
   adf-search-date-range mat-form-field,
   adf-folder-dialog mat-dialog-content mat-form-field.adf-folder-dialog-form-field,
   adf-content-node-selector-panel .adf-content-node-selector-content mat-form-field,
+  adf-add-permission-panel mat-form-field.adf-permission-search-input,
   adf-sites-dropdown .adf-site-dropdown-container mat-form-field {
     @include mat.form-field-overrides(
       (
         outlined-outline-color: var(--adf-theme-foreground-disabled-text-color),
-        outlined-hover-outline-color: var(--adf-theme-foreground-disabled-text-color)
+        outlined-hover-outline-color: var(--adf-theme-foreground-disabled-text-color),
+        container-text-size: 14px,
+        container-text-tracking: normal,
+        container-text-line-height: 20px,
+        outlined-label-text-tracking: normal,
+        filled-label-text-tracking: normal
       )
     );
 
-    font-size: 14px;
+    font-size: var(--mat-sys-body-medium-size);
     letter-spacing: normal;
 
     /* stylelint-disable selector-class-pattern */
     .mat-mdc-select,
     .mat-mdc-select-value {
-      font-size: 14px;
-      letter-spacing: normal;
-    }
-    /* stylelint-enable selector-class-pattern */
-
-    /* stylelint-disable-next-line selector-class-pattern */
-    .mat-mdc-input-element {
-      line-height: 20px;
-    }
-
-    /* stylelint-disable selector-class-pattern */
-    mat-label,
-    .mdc-floating-label {
+      font-size: var(--mat-sys-body-medium-size);
       letter-spacing: normal;
     }
     /* stylelint-enable selector-class-pattern */
   }
+
+  adf-sites-dropdown .adf-site-dropdown-container mat-form-field.adf-sites-dropdown-form-field {
+    @include mat.form-field-overrides(
+      (
+        container-height: var(--theme-form-field-height-default),
+        container-vertical-padding: 16px
+      )
+    );
+
+    height: 56px;
+
+    /* stylelint-disable selector-class-pattern */
+    .mat-mdc-text-field-wrapper {
+      height: 56px;
+    }
+
+    .mat-mdc-select-placeholder {
+      color: var(--adf-theme-foreground-text-color-060);
+    }
+    /* stylelint-enable selector-class-pattern */
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  .mat-mdc-select-panel {
+    --mat-select-panel-background-color: var(--adf-theme-background-card-color);
+    --mat-select-container-elevation-shadow:
+      var(--theme-box-shadow-first-color) 0 5px 5px -3px, var(--theme-box-shadow-second-color) 0 8px 10px 1px,
+      var(--theme-box-shadow-third-color) 0 3px 14px 2px;
+
+    @include mat.option-overrides(
+      (
+        focus-state-layer-color: var(--adf-theme-background-hover-color),
+        hover-state-layer-color: var(--adf-theme-background-hover-color),
+        selected-state-layer-color: var(--adf-theme-background-hover-color),
+        selected-state-label-text-color: var(--adf-theme-foreground-text-color-087),
+        label-text-color: var(--adf-theme-foreground-text-color-087),
+        label-text-size: 14px,
+        label-text-tracking: normal
+      )
+    );
+  }
+
+  /* stylelint-disable selector-class-pattern */
+  mat-option.mat-mdc-option.adf-dropdown-breadcrumb-path-option {
+    @include mat.option-overrides(
+      (
+        label-text-color: var(--adf-theme-foreground-text-color-087)
+      )
+    );
+
+    .mdc-list-item__primary-text {
+      color: var(--adf-theme-foreground-text-color-087);
+      font-size: var(--mat-sys-body-small-size);
+    }
+  }
+  /* stylelint-enable selector-class-pattern */
 
   adf-search-logical-filter .adf-search-logical-filter-container .adf-search-input input {
     width: 284px;
@@ -532,7 +926,7 @@
     border: 1px solid var(--adf-theme-mat-grey-color-400);
     border-radius: 5px;
     margin: 5px 0 0;
-    font-size: 14px;
+    font-size: var(--mat-sys-body-medium-size);
   }
 
   /* stylelint-disable selector-class-pattern */
@@ -540,7 +934,7 @@
   .mat-mdc-menu-content adf-search-filter-menu-card .adf-search-filter-menu-card .adf-search-filter-title {
     /* stylelint-enable selector-class-pattern */
     color: var(--adf-theme-foreground-text-color-064);
-    font-weight: 700;
+    font-weight: var(--theme-font-weight-bold);
     letter-spacing: 0.15px;
 
     /* stylelint-disable-next-line selector-class-pattern */
@@ -552,6 +946,77 @@
       );
 
       padding: 12px;
+    }
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  .mat-mdc-menu-panel.adf-search-filter-menu fieldset.adf-filter-container.adf-filter-fieldset {
+    width: 260px;
+    height: 164px;
+    padding: 0;
+
+    mat-dialog-actions.adf-filter-actions {
+      background-color: var(--adf-theme-background-hover-color);
+
+      /* stylelint-disable-next-line selector-class-pattern */
+      .mat-mdc-button-base {
+        font-size: 12.6px;
+        -webkit-font-smoothing: subpixel-antialiased;
+      }
+
+      /* stylelint-disable-next-line selector-class-pattern */
+      .adf-filter-apply-button.mat-mdc-button-base {
+        color: var(--theme-primary-color);
+      }
+    }
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  .mat-mdc-menu-panel.adf-search-filter-menu fieldset.adf-filter-container.adf-filter-fieldset legend.adf-filter-title {
+    width: 260px;
+    font-size: 15.4px;
+  }
+
+  adf-search-filter-container .adf-filter button.adf-filter-button mat-icon.adf-filter-icon.adf-filter-icon-active {
+    color: var(--theme-primary-color);
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  .mat-mdc-menu-panel.adf-search-filter-menu fieldset.adf-filter-container.adf-filter-fieldset[aria-labelledby='filter-legend-checkList'] {
+    height: 173.648px;
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  .mat-mdc-menu-panel.adf-search-filter-menu fieldset.adf-filter-container.adf-filter-fieldset[aria-labelledby='filter-legend-contentSize'] {
+    height: 227.648px;
+  }
+
+  adf-search-check-list fieldset.adf-search-checklist mat-checkbox.adf-facet-filter {
+    @include mat.checkbox-overrides(
+      (
+        label-text-weight: 500,
+        label-text-tracking: normal,
+        label-text-line-height: 24px
+      )
+    );
+  }
+
+  adf-search-widget-container {
+    display: block;
+    width: fit-content;
+    height: fit-content;
+
+    adf-search-text mat-form-field.adf-search-text-form-field {
+      @include mat.form-field-overrides(
+        (
+          container-height: var(--theme-form-field-height-compact),
+          container-vertical-padding: 14px,
+          outlined-label-text-tracking: normal,
+          filled-label-text-tracking: normal
+        )
+      );
+
+      height: 52px;
     }
   }
 
@@ -576,7 +1041,7 @@
 
   mat-form-field.adf-search-date-range-form-field.adf-search-date-range-input-field,
   mat-form-field.adf-search-date-range-form-field.adf-search-date-range-form-field-select {
-    font-size: 14px;
+    font-size: var(--mat-sys-body-medium-size);
     letter-spacing: normal;
     line-height: 20px;
   }
@@ -584,24 +1049,31 @@
   mat-form-field.adf-search-date-range-form-field.adf-search-date-range-form-field-select {
     @include mat.form-field-overrides(
       (
+        container-height: var(--theme-form-field-height-compact),
         container-vertical-padding: 14px
       )
     );
+
+    height: 52px;
   }
 
   mat-form-field.adf-search-date-range-form-field:not(.adf-search-date-range-form-field-select, .adf-search-date-range-input-field),
   adf-folder-dialog mat-dialog-content mat-form-field.adf-folder-dialog-form-field,
   adf-content-node-selector-panel .adf-content-node-selector-content mat-form-field,
+  adf-add-permission-panel mat-form-field.adf-permission-search-input,
   adf-sites-dropdown .adf-site-dropdown-container mat-form-field {
     @include mat.form-field-overrides(
       (
+        container-height: var(--theme-form-field-height-compact),
         container-vertical-padding: 14px
       )
     );
 
+    height: 52px;
+
     /* stylelint-disable-next-line selector-class-pattern */
     .mat-mdc-input-element {
-      font-size: 14px;
+      font-size: var(--mat-sys-body-medium-size);
       line-height: 20px;
       letter-spacing: normal;
     }
@@ -621,14 +1093,7 @@
 
     /* stylelint-disable-next-line selector-class-pattern */
     mat-datepicker-toggle .mat-mdc-icon-button {
-      @include mat.icon-button-overrides(
-        (
-          state-layer-size: 48px,
-          icon-size: 24px
-        )
-      );
-
-      padding: 12px;
+      @include mixins.mat-icon-button-default;
     }
   }
 
@@ -647,7 +1112,7 @@
 
   /* stylelint-disable-next-line selector-class-pattern */
   adf-search-date-range .adf-search-date-range-container .adf-search-date-range-container-row mat-radio-button .mdc-form-field {
-    font-weight: 500;
+    font-weight: var(--mat-sys-body-large-weight);
     letter-spacing: normal;
     line-height: 24px;
     color: var(--adf-theme-foreground-text-color-087);
@@ -674,12 +1139,12 @@
 
   adf-login .adf-login-content .adf-ie11FixerParent .adf-ie11FixerChild mat-card.adf-login-card-wide {
     background-color: var(--adf-theme-background-card-color);
-    box-shadow: rgba(0, 0, 0, 0.24) 0 2px 2px 0;
+    box-shadow: var(--theme-box-shadow-dark-color) 0 2px 2px 0;
     border-color: var(--adf-theme-background-card-color);
   }
 
   adf-login .adf-login-content .adf-ie11FixerParent .adf-ie11FixerChild .adf-copyright {
-    font-size: 12px;
+    font-size: var(--mat-sys-body-small-size);
   }
 
   /* stylelint-disable-next-line selector-class-pattern */
@@ -687,11 +1152,15 @@
     @include mat.form-field-overrides(
       (
         outlined-outline-color: var(--adf-theme-foreground-disabled-text-color),
-        outlined-hover-outline-color: var(--adf-theme-foreground-disabled-text-color)
+        outlined-hover-outline-color: var(--adf-theme-foreground-disabled-text-color),
+        container-text-size: 16px,
+        container-text-line-height: 24px,
+        outlined-label-text-tracking: normal,
+        filled-label-text-tracking: normal
       )
     );
 
-    font-size: 14px;
+    font-size: var(--mat-sys-body-medium-size);
     letter-spacing: normal;
     line-height: 20px;
     height: 52.5px;
@@ -700,24 +1169,11 @@
     .mat-mdc-text-field-wrapper {
       height: 52.5px;
     }
-
-    /* stylelint-disable-next-line selector-class-pattern */
-    .mat-mdc-input-element {
-      font-size: 16px;
-      line-height: 24px;
-    }
-
-    /* stylelint-disable selector-class-pattern */
-    mat-label,
-    .mdc-floating-label {
-      letter-spacing: normal;
-    }
-    /* stylelint-enable selector-class-pattern */
   }
 
   /* stylelint-disable-next-line selector-class-pattern */
   adf-login button.adf-login-button.mat-mdc-button-base {
-    box-shadow: rgba(0, 0, 0, 0.2) 0 0 0 0;
+    box-shadow: var(--theme-box-shadow-first-color) 0 0 0 0;
 
     /* stylelint-disable-next-line selector-class-pattern */
     &.mat-mdc-button-disabled {
@@ -728,7 +1184,7 @@
 
     .adf-login-button-label {
       color: var(--adf-theme-background-card-color);
-      font-weight: 700;
+      font-weight: var(--theme-font-weight-bold);
     }
   }
 
@@ -808,7 +1264,7 @@
   .cdk-drag-preview.adf-datatable-cell-header {
     background-color: var(--adf-theme-background-card-color);
     border-top: none;
-    font-size: 12px;
+    font-size: var(--mat-sys-body-small-size);
     font-weight: bold;
     letter-spacing: 0;
     color: var(--adf-theme-foreground-text-color-087);
@@ -855,7 +1311,7 @@
 
   .adf-datatable-list .adf-datatable-cell-header {
     min-height: 56px;
-    font-size: 12px;
+    font-size: var(--mat-sys-body-small-size);
     font-weight: bold;
     color: var(--adf-theme-foreground-text-color-087);
 
@@ -886,7 +1342,7 @@
     }
 
     .adf-filter-icon {
-      color: rgba(0, 0, 0, 0.54);
+      color: var(--adf-theme-foreground-icon-color);
     }
 
     .adf-filter-button {
@@ -933,7 +1389,7 @@
     --mdc-outlined-text-field-focus-label-text-color: var(--theme-primary-color);
     --mdc-outlined-text-field-label-text-tracking: normal;
 
-    font-size: 14px;
+    font-size: var(--mat-sys-body-medium-size);
     letter-spacing: normal;
     line-height: 20px;
   }
@@ -955,7 +1411,7 @@
   }
 
   .adf-columns-selector-list-content {
-    font-size: 14px;
+    font-size: var(--mat-sys-body-medium-size);
     letter-spacing: normal;
     line-height: 20px;
   }
@@ -984,7 +1440,7 @@
 
     color: var(--adf-theme-foreground-text-color-087);
     font-size: 20px;
-    font-weight: 600;
+    font-weight: var(--theme-font-weight-semi-bold);
     letter-spacing: -0.5px;
   }
 
@@ -1024,7 +1480,7 @@
       )
     );
 
-    background-color: #f5f5f5;
+    background-color: var(--theme-gray-background-color);
     border: 1px solid var(--adf-theme-foreground-text-color-007);
     height: 47px;
 
@@ -1035,7 +1491,7 @@
       .adf-current-folder {
         line-height: 24px;
         letter-spacing: -0.2px;
-        font-weight: 600;
+        font-weight: var(--theme-font-weight-semi-bold);
       }
     }
 
@@ -1049,6 +1505,18 @@
     }
   }
 
+  /* stylelint-disable selector-class-pattern */
+  .mat-mdc-dialog-container mat-dialog-actions .mat-mdc-button-base,
+  .mat-mdc-dialog-container .mat-mdc-dialog-actions .mat-mdc-button-base {
+    /* stylelint-enable selector-class-pattern */
+    @include mat.button-overrides(
+      (
+        text-state-layer-color: #000,
+        text-hover-state-layer-opacity: 0.04
+      )
+    );
+  }
+
   /* stylelint-disable-next-line selector-class-pattern */
   adf-folder-dialog mat-dialog-actions .mat-mdc-button-base {
     @include mat.button-overrides(
@@ -1056,6 +1524,11 @@
         text-horizontal-padding: 8px
       )
     );
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  adf-folder-dialog mat-dialog-actions button.adf-dialog-action-button.mat-mdc-button-base:not(:disabled) {
+    color: var(--theme-primary-color);
   }
 
   adf-folder-dialog mat-dialog-content mat-form-field.adf-folder-dialog-form-field:has(textarea) {
@@ -1107,24 +1580,18 @@
     mat-form-field.adf-new-version-max-width {
       @include mat.form-field-overrides(
         (
-          container-height: 52px,
+          container-height: var(--theme-form-field-height-compact),
           outlined-outline-color: var(--adf-theme-foreground-disabled-text-color),
-          outlined-hover-outline-color: var(--adf-theme-foreground-disabled-text-color)
+          outlined-hover-outline-color: var(--adf-theme-foreground-disabled-text-color),
+          container-text-size: 14px,
+          container-text-tracking: normal,
+          container-text-line-height: 20px,
+          outlined-label-text-tracking: normal,
+          filled-label-text-tracking: normal
         )
       );
 
       height: 52px;
-      font-size: 14px;
-      letter-spacing: normal;
-      line-height: 20px;
-
-      /* stylelint-disable selector-class-pattern */
-      mat-label,
-      .mdc-floating-label,
-      .mat-mdc-form-field-label {
-        letter-spacing: normal;
-      }
-      /* stylelint-enable selector-class-pattern */
     }
 
     mat-radio-group.adf-new-version-radio-group mat-radio-button.adf-new-version-radio-button {
@@ -1133,19 +1600,13 @@
           unselected-icon-color: var(--adf-theme-foreground-text-color-054),
           unselected-hover-icon-color: var(--adf-theme-foreground-text-color-054),
           unselected-focus-icon-color: var(--adf-theme-foreground-text-color-054),
-          unselected-pressed-icon-color: var(--adf-theme-foreground-text-color-054)
+          unselected-pressed-icon-color: var(--adf-theme-foreground-text-color-054),
+          label-text-color: var(--adf-theme-foreground-text-color-087),
+          label-text-weight: 500,
+          label-text-tracking: normal,
+          label-text-line-height: 24px
         )
       );
-
-      /* stylelint-disable selector-class-pattern */
-      .mdc-form-field label,
-      .mdc-label {
-        color: var(--adf-theme-foreground-text-color-087);
-        font-weight: 500;
-        letter-spacing: normal;
-        line-height: 24px;
-      }
-      /* stylelint-enable selector-class-pattern */
     }
   }
 
@@ -1167,14 +1628,14 @@
   adf-new-version-uploader-dialog h1.mat-mdc-dialog-title.adf-new-version-uploader-dialog-title {
     color: var(--adf-theme-foreground-text-color-087);
     font-size: 20px;
-    font-weight: 600;
+    font-weight: var(--theme-font-weight-semi-bold);
     letter-spacing: -0.5px;
     line-height: 32px;
   }
 
   adf-share-dialog .adf-share-link__title.adf-share-link__label.adf-share-link__heading {
     font-size: 16px;
-    font-weight: 700;
+    font-weight: var(--theme-font-weight-bold);
     letter-spacing: -0.4px;
     line-height: 32px;
   }
@@ -1188,18 +1649,13 @@
     @include mat.form-field-overrides(
       (
         outlined-outline-color: var(--adf-theme-foreground-disabled-text-color),
-        outlined-hover-outline-color: var(--adf-theme-foreground-disabled-text-color)
+        outlined-hover-outline-color: var(--adf-theme-foreground-disabled-text-color),
+        container-text-size: 14px,
+        container-text-tracking: normal,
+        container-text-line-height: 20px,
+        trailing-icon-color: var(--adf-theme-foreground-text-color-060)
       )
     );
-
-    font-size: 14px;
-    letter-spacing: normal;
-    line-height: 20px;
-
-    /* stylelint-disable-next-line selector-class-pattern */
-    .mat-mdc-form-field-icon-suffix mat-icon.adf-share-link__icon {
-      color: var(--adf-theme-foreground-text-color-060);
-    }
   }
 
   adf-share-dialog .adf-share-link__form .adf-share-link--row {
@@ -1209,7 +1665,7 @@
 
     p.adf-share-link__info.adf-sharable-link.adf-share-link__public-content.adf-share-link__para {
       color: var(--adf-theme-foreground-text-color-064);
-      font-size: 12px;
+      font-size: var(--mat-sys-body-small-size);
       letter-spacing: -0.4px;
       line-height: 24px;
     }

@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 @mixin flex-column {
   display: flex;
   flex-direction: column;
@@ -23,4 +25,24 @@
 @mixin rounded-border($border-color: var(--theme-blue-button-color), $thickness: 2px, $radius: 4px) {
   border: $thickness solid $border-color;
   border-radius: $radius;
+}
+
+@mixin mat-icon-button-default() {
+  @include mat.icon-button-overrides(
+    (
+      state-layer-size: 48px,
+      icon-size: 24px
+    )
+  );
+
+  padding: 12px;
+}
+
+@mixin mat-button-default-padding() {
+  @include mat.button-overrides(
+    (
+      text-horizontal-padding: 8px,
+      filled-horizontal-padding: 8px
+    )
+  );
 }

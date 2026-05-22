@@ -72,6 +72,8 @@ html {
   --mat-sys-label-large-size: 14px;
   --mat-sys-label-large-line-height: 14px;
   --mat-sys-label-large-weight: 500;
+  --theme-font-weight-semi-bold: 600;
+  --theme-font-weight-bold: 700;
 
   @include mat.autocomplete-overrides(
     (
@@ -161,12 +163,13 @@ html {
   );
   @include mat.icon-overrides(
     (
-      color: var(--adf-theme-foreground-text-color-087)
+      color: var(--adf-theme-foreground-text-color-087),
+      font: 'Material Icons Outlined'
     )
   );
   @include mat.menu-overrides(
     (
-      container-color: #fff,
+      container-color: var(--theme-white-background),
       container-elevation-shadow: (
         var(--theme-box-shadow-first-color) 0 5px 5px -3px,
         var(--theme-box-shadow-second-color) 0 8px 10px 1px,
@@ -332,7 +335,7 @@ mat-slide-toggle {
   }
 
   #{ms.$mat-data-table-row}:last-child #{ms.$mat-data-table-cell} {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    border-bottom: 1px solid var(--adf-theme-foreground-divider-color);
   }
 
   #{ms.$mat-dialog-content} {
