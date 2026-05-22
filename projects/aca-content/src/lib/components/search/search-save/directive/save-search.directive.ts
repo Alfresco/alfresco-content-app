@@ -60,8 +60,7 @@ export class SaveSearchDirective {
     const dialog = this.dialogRef.open(SaveSearchDialogComponent, {
       ...this.getDialogConfig(),
       restoreFocus: true,
-      ariaLabelledBy: 'aca-save-search-dialog-title',
-      panelClass: 'aca-save-search-dialog-panel'
+      ariaLabelledBy: 'aca-save-search-dialog-title'
     });
     dialog
       .afterClosed()
