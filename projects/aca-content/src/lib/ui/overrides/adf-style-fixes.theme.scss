@@ -214,8 +214,7 @@
     );
   }
 
-  /* stylelint-disable-next-line selector-class-pattern */
-  adf-aspect-list-dialog mat-dialog-actions .mat-mdc-button-base {
+  adf-aspect-list-dialog mat-dialog-actions {
     @include mixins.mat-button-default-padding;
   }
 
@@ -566,13 +565,10 @@
     }
 
     mat-card-content.adf-local-permission-container {
-      padding-bottom: 16;
+      padding-bottom: 0;
 
-      /* stylelint-disable-next-line selector-class-pattern */
-      section.adf-permission-content-header button.mat-mdc-icon-button {
+      section.adf-permission-content-header button {
         @include mixins.mat-icon-button-default;
-
-        color: var(--adf-theme-foreground-text-color-087);
 
         &:disabled mat-icon {
           color: var(--adf-theme-foreground-disabled-text-color);
@@ -585,7 +581,6 @@
       --mdc-filled-button-container-color: transparent;
       --mdc-filled-button-label-text-color: var(--adf-theme-foreground-base-color);
 
-      background-color: transparent;
       color: var(--adf-theme-foreground-base-color);
 
       mat-icon {
