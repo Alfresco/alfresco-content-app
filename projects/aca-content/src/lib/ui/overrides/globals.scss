@@ -28,11 +28,11 @@
 
     #{ms.$mat-datetimepicker-calendar-content} {
       #{ms.$mat-datetimepicker-calendar-table-header} th {
-        color: var(--mat-sys-on-surface);
+        color: var(--adf-theme-foreground-text-color-087);
       }
 
       #{ms.$mat-datetimepicker-calendar-body-disabled} > div {
-        color: var(--mat-sys-on-surface);
+        color: var(--adf-theme-foreground-text-color-087);
       }
     }
   }

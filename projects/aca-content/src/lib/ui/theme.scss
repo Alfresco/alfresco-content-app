@@ -158,7 +158,8 @@ html {
   );
   @include mat.icon-button-overrides(
     (
-      icon-color: var(--adf-theme-foreground-icon-color)
+      icon-color: var(--adf-theme-foreground-icon-color),
+      state-layer-size: 48px
     )
   );
   @include mat.icon-overrides(

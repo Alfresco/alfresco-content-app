@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 @use './mixins' as mixins;
 @use './theme';
 @use './custom-theme' as custom;
@@ -96,8 +97,6 @@ aca-files aca-page-layout .aca-page-layout-content .aca-sidebar {
     width: 44px;
     height: 48px;
 
-    --mdc-icon-button-icon-size: 24px;
-
     .adf-notification-history-mark-as-read-icon {
       color: var(--adf-theme-foreground-text-color-087);
     }
@@ -118,9 +117,9 @@ aca-files aca-page-layout .aca-page-layout-content .aca-sidebar {
 }
 
 .adf-datatable-actions-menu .mat-mdc-icon-button.mat-mdc-button-base {
-  --mdc-icon-button-icon-size: 24px;
-  --mdc-icon-button-state-layer-size: 48px;
-
-  padding: 12px;
-  color: var(--adf-theme-foreground-text-color-087);
+  @include mat.icon-button-overrides(
+    (
+      icon-color: var(--adf-theme-foreground-text-color-087)
+    )
+  );
 }
