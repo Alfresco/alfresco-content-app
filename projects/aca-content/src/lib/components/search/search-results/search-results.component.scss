@@ -22,12 +22,9 @@ aca-search-results {
 
     @include mat.icon-button-overrides(
       (
-        icon-color: var(--theme-foreground-text-color),
-        state-layer-size: 48px
+        icon-color: var(--theme-foreground-text-color)
       )
     );
-
-    --mat-icon-color: var(--theme-foreground-text-color);
   }
 
   @include mat.progress-bar-overrides(

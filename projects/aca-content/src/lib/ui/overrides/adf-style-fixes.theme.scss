@@ -11,13 +11,17 @@
     background-color: var(--adf-theme-background-card-color);
 
     .adf-info-drawer-layout-header {
-      .adf-info-drawer-layout-header-title [role='heading'] {
+      .adf-info-drawer-layout-header-title {
         color: var(--adf-theme-foreground-text-color-064);
         font-size: 20px;
       }
 
-      .adf-info-drawer-layout-header-buttons aca-toolbar mat-toolbar mat-icon {
-        color: var(--adf-theme-foreground-icon-color);
+      .adf-info-drawer-layout-header-buttons aca-toolbar {
+        @include mat.icon-overrides(
+          (
+            color: var(--adf-theme-foreground-icon-color)
+          )
+        );
       }
     }
 
@@ -42,19 +46,16 @@
         container-background-color: var(--adf-theme-background-card-color-087)
       )
     );
+    @include mat.icon-overrides(
+      (
+        color: var(--adf-theme-foreground-icon-color)
+      )
+    );
 
     background-color: var(--adf-theme-background-card-color-087);
     border: 1px solid var(--adf-theme-foreground-text-color-007);
 
     /* stylelint-disable-next-line selector-class-pattern */
-    button.mat-mdc-icon-button {
-      @include mixins.mat-icon-button-default;
-    }
-
-    mat-icon {
-      color: var(--adf-theme-foreground-icon-color);
-    }
-
     .adf-viewer__file-title .adf-viewer__display-name span {
       color: var(--adf-theme-foreground-text-color-087);
       font-size: 16px;
@@ -148,7 +149,6 @@
     }
 
     .adf-edit-icon-buttons {
-      @include mixins.mat-icon-button-default;
       @include mat.icon-overrides(
         (
           color: var(--adf-theme-foreground-text-color-064)
@@ -177,6 +177,22 @@
   /* stylelint-disable-next-line selector-class-pattern */
   .adf-metadata-properties .adf-content-metadata-panel .adf-property-list .adf-property .adf-property-field label.mdc-floating-label {
     font-size: 19px;
+  }
+
+  adf-content-metadata-header .adf-metadata-action-buttons {
+    @include mat.icon-overrides(
+      (
+        color: var(--adf-metadata-action-button-clear-color)
+      )
+    );
+
+    button[disabled] {
+      @include mat.icon-overrides(
+        (
+          color: var(--adf-theme-foreground-disabled-text-color)
+        )
+      );
+    }
   }
 
   /* stylelint-disable-next-line selector-class-pattern */
@@ -213,9 +229,14 @@
       )
     );
   }
-
-  adf-aspect-list-dialog mat-dialog-actions {
-    @include mixins.mat-button-default-padding;
+  /* stylelint-disable-next-line selector-class-pattern */
+  adf-aspect-list-dialog mat-dialog-actions .mat-mdc-button-base {
+    @include mat.button-overrides(
+      (
+        text-horizontal-padding: 8px,
+        filled-horizontal-padding: 8px
+      )
+    );
   }
 
   p.adf-property-paragraph {
@@ -259,8 +280,6 @@
 
   /* stylelint-disable-next-line selector-class-pattern */
   adf-add-permission-panel mat-form-field.adf-permission-search-input button.adf-permission-search-input-clear-button.mat-mdc-icon-button {
-    @include mixins.mat-icon-button-default;
-
     mat-icon {
       color: var(--adf-theme-foreground-text-color-060);
     }
@@ -336,7 +355,6 @@
   adf-add-permission-dialog div.adf-delete-permission-column button.adf-add-member-action.mat-mdc-icon-button {
     @include mat.icon-button-overrides(
       (
-        state-layer-size: 48px,
         icon-size: 18px
       )
     );
@@ -357,8 +375,6 @@
 
   /* stylelint-disable-next-line selector-class-pattern */
   adf-permission-container div.adf-delete-permission-column button.mat-mdc-icon-button {
-    @include mixins.mat-icon-button-default;
-
     box-sizing: border-box;
     width: 48px;
     height: 48px;
@@ -409,6 +425,7 @@
 
     div.adf-datatable-body adf-datatable-row {
       border-top: 1px solid var(--adf-theme-foreground-text-color-007);
+      min-height: 56px;
 
       &:last-of-type {
         border-bottom: 1px solid var(--adf-theme-foreground-text-color-007);
@@ -416,41 +433,7 @@
     }
 
     adf-user-icon-column {
-      @include mat.icon-overrides(
-        (
-          color: var(--theme-primary-color-default-contrast)
-        )
-      );
-
-      display: inline-block;
-      width: 40px;
-      height: 40px;
-
-      div.adf-cell-value {
-        width: 40px;
-        height: 40px;
-        min-height: unset;
-        font-size: var(--mat-sys-body-medium-size);
-        line-height: 20px;
-
-        div.adf-people-initial {
-          background-color: var(--theme-primary-color);
-          color: var(--theme-primary-color-default-contrast);
-          font-size: 16px;
-          font-weight: var(--theme-font-weight-bold);
-        }
-      }
-
-      mat-icon {
-        background-color: var(--theme-primary-color);
-        color: var(--theme-primary-color-default-contrast);
-        width: 20px;
-        height: 20px;
-        font-size: 20px;
-        font-weight: var(--theme-font-weight-bold);
-        padding: 10px;
-        box-sizing: content-box;
-      }
+      @include mixins.aca-user-icon-column;
     }
 
     div.adf-datatable-cell-data div.adf-datatable-cell-container > div.adf-cell-value {
@@ -497,42 +480,7 @@
         }
 
         adf-user-icon-column {
-          @include mat.icon-overrides(
-            (
-              color: var(--theme-primary-color-default-contrast)
-            )
-          );
-
-          display: inline-block;
-          width: 40px;
-          height: 40px;
-
-          div.adf-cell-value {
-            width: 40px;
-            height: 40px;
-            min-height: unset;
-            font-size: var(--mat-sys-body-medium-size);
-            letter-spacing: normal;
-            line-height: 20px;
-
-            div.adf-people-initial {
-              background-color: var(--theme-primary-color);
-              color: var(--theme-primary-color-default-contrast);
-              font-size: 16px;
-              font-weight: var(--theme-font-weight-bold);
-            }
-          }
-
-          mat-icon {
-            background-color: var(--theme-primary-color);
-            color: var(--theme-primary-color-default-contrast);
-            width: 20px;
-            height: 20px;
-            font-size: 20px;
-            font-weight: var(--theme-font-weight-bold);
-            padding: 10px;
-            box-sizing: content-box;
-          }
+          @include mixins.aca-user-icon-column;
         }
       }
 
@@ -589,29 +537,7 @@
     }
 
     mat-slide-toggle.adf-inherit-toggle {
-      @include mat.slide-toggle-overrides(
-        (
-          track-width: 36px,
-          track-height: 20px,
-          track-shape: 10px,
-          selected-handle-size: 14px,
-          unselected-handle-size: 14px,
-          pressed-handle-size: 14px,
-          with-icon-handle-size: 14px,
-          unselected-with-icon-handle-horizontal-margin: 0 3px 0 0,
-          selected-with-icon-handle-horizontal-margin: 0 0 0 15px,
-          selected-handle-color: var(--adf-theme-background-card-color),
-          selected-focus-handle-color: var(--adf-theme-background-card-color),
-          selected-hover-handle-color: var(--adf-theme-background-card-color),
-          selected-pressed-handle-color: var(--adf-theme-background-card-color),
-          selected-icon-color: var(--adf-theme-background-card-color),
-          handle-surface-color: var(--adf-theme-background-card-color),
-          unselected-handle-color: var(--adf-theme-foreground-text-color-075),
-          unselected-focus-handle-color: var(--adf-theme-foreground-text-color-087),
-          unselected-hover-handle-color: var(--adf-theme-foreground-text-color-087),
-          unselected-pressed-handle-color: var(--adf-theme-foreground-text-color-087)
-        )
-      );
+      @include mixins.aca-card-slide-toggle($selected-margin: 0 0 0 15px);
     }
   }
 
@@ -685,10 +611,6 @@
 
     &::after {
       border-bottom: 1px solid var(--adf-theme-foreground-divider-color);
-    }
-
-    button.mat-mdc-icon-button {
-      @include mixins.mat-icon-button-default;
     }
   }
   /* stylelint-enable selector-class-pattern */
@@ -890,17 +812,6 @@
     color: var(--adf-theme-foreground-text-color-064);
     font-weight: var(--theme-font-weight-bold);
     letter-spacing: 0.15px;
-
-    /* stylelint-disable-next-line selector-class-pattern */
-    .adf-search-filter-title-action.mat-mdc-icon-button.mat-mdc-button-base {
-      @include mat.icon-button-overrides(
-        (
-          state-layer-size: 48px
-        )
-      );
-
-      padding: 12px;
-    }
   }
 
   /* stylelint-disable-next-line selector-class-pattern */
@@ -957,8 +868,6 @@
 
   adf-search-widget-container {
     display: block;
-    width: fit-content;
-    height: fit-content;
 
     adf-search-text mat-form-field.adf-search-text-form-field {
       @include mat.form-field-overrides(
@@ -1043,11 +952,6 @@
       color: var(--theme-warn-color);
       letter-spacing: normal;
       line-height: 20px;
-    }
-
-    /* stylelint-disable-next-line selector-class-pattern */
-    mat-datepicker-toggle .mat-mdc-icon-button {
-      @include mixins.mat-icon-button-default;
     }
   }
 
@@ -1226,14 +1130,6 @@
       color: var(--adf-theme-foreground-icon-color);
     }
 
-    .adf-filter-button {
-      @include mat.icon-button-overrides(
-        (
-          state-layer-size: 48px
-        )
-      );
-    }
-
     .adf-datatable__header--sorted-asc,
     .adf-datatable__header--sorted-desc {
       padding-right: 3.5px;
@@ -1298,10 +1194,6 @@
       color: var(--adf-theme-foreground-icon-color);
     }
 
-    .adf-filter-button {
-      --mdc-icon-button-state-layer-size: 48px;
-    }
-
     .adf-datatable__header--sorted-asc,
     .adf-datatable__header--sorted-desc {
       padding-right: 3.5px;
@@ -1320,9 +1212,12 @@
     }
   }
 
-  .adf-datatable-list [data-automation-id='adf-datatable-main-menu-button'] {
-    --mdc-icon-button-icon-color: var(--adf-theme-foreground-text-color-087);
-    --mdc-icon-button-state-layer-size: 48px;
+  .adf-datatable-list {
+    @include mat.icon-button-overrides(
+      (
+        icon-color: var(--adf-theme-foreground-text-color-087)
+      )
+    );
   }
 
   adf-pagination.adf-pagination {
@@ -1349,10 +1244,6 @@
 
   .adf-columns-selector-header {
     height: 48px;
-
-    [data-automation-id='adf-columns-selector-close-button'] {
-      --mdc-icon-button-state-layer-size: 48px;
-    }
   }
 
   adf-datatable-column-selector {
@@ -1646,27 +1537,9 @@
     }
 
     mat-slide-toggle {
-      @include mat.slide-toggle-overrides(
-        (
-          track-width: 36px,
-          track-height: 20px,
-          track-shape: 10px,
-          selected-handle-size: 14px,
-          unselected-handle-size: 14px,
-          pressed-handle-size: 14px,
-          with-icon-handle-size: 14px,
-          unselected-with-icon-handle-horizontal-margin: 0 3px 0 0,
-          selected-with-icon-handle-horizontal-margin: 0 0 0 16px,
-          selected-handle-color: var(--adf-theme-background-card-color),
-          selected-focus-handle-color: var(--adf-theme-background-card-color),
-          selected-hover-handle-color: var(--adf-theme-background-card-color),
-          selected-pressed-handle-color: var(--adf-theme-background-card-color),
-          selected-icon-color: var(--adf-theme-background-card-color),
-          handle-surface-color: var(--adf-theme-background-card-color),
-          unselected-handle-color: var(--adf-theme-foreground-text-color-075),
-          unselected-focus-handle-color: var(--adf-theme-foreground-text-color-087),
-          unselected-hover-handle-color: var(--adf-theme-foreground-text-color-087),
-          unselected-pressed-handle-color: var(--adf-theme-foreground-text-color-087),
+      @include mixins.aca-card-slide-toggle(
+        $selected-margin: 0 0 0 16px,
+        $extra-overrides: (
           track-outline-color: var(--adf-theme-foreground-disabled-text-color),
           disabled-unselected-track-outline-color: var(--adf-theme-foreground-disabled-text-color)
         )
