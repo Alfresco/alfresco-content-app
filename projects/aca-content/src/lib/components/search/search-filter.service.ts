@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { SearchOptionIds, SearchOptionModel } from '@alfresco/aca-shared/store';
 import { isOperator } from '../../utils/aca-search-utils';
@@ -101,7 +101,7 @@ export class SearchFilterService {
       return 'SEARCH.INPUT.OPERATORS';
     }
 
-    if (/^[+\-|!(){}[\]^"~*?:\\/]/.test(term) || /[+\-|!(){}[\]^"~*?:\\/]$/.test(term)) {
+    if (/^[+\-|!(){}[\]^~*?:\\/]/.test(term) || /[+\-|!(){}[\]^~*?:\\/]$/.test(term)) {
       return 'SEARCH.INPUT.OPERATORS';
     }
     if (this.searchInMode === SearchOptionIds.Libraries && term.length < 2) {

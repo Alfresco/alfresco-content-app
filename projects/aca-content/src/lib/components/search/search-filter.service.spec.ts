@@ -85,6 +85,10 @@ describe('SearchFilterService', () => {
       expect(service.validateSearchTerm('+test')).toBe('SEARCH.INPUT.OPERATORS');
     });
 
+    it('should not return error for term starting with quotation marks', () => {
+      expect(service.validateSearchTerm('"test"')).toBeNull();
+    });
+
     it('should return error for single char in libraries mode', () => {
       service.searchInMode = 'libraries';
       expect(service.validateSearchTerm('a')).toBe('SEARCH.INPUT.MIN_LENGTH');
