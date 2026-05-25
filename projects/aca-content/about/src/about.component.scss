@@ -1,6 +1,28 @@
+@use '@angular/material' as mat;
+
 app-about-page {
   adf-about {
     padding: 10px;
     width: 100%;
+
+    @include mat.expansion-overrides(
+      (
+        container-background-color: var(--adf-theme-background-card-color),
+        container-text-size: 14px,
+        container-text-line-height: 24px,
+        container-text-tracking: normal
+      )
+    );
+    @include mat.card-overrides(
+      (
+        outlined-container-color: var(--adf-theme-background-card-color)
+      )
+    );
+    @include mat.table-overrides(
+      (
+        background-color: var(--adf-theme-background-card-color),
+        row-item-outline-color: var(--adf-theme-foreground-divider-color)
+      )
+    );
   }
 }

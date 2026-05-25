@@ -91,19 +91,15 @@ aca-files aca-page-layout .aca-page-layout-content .aca-sidebar {
   width: 100%;
 }
 
-/* stylelint-disable selector-class-pattern */
-.mat-mdc-menu-panel.adf-notification-history-menu .adf-notification-history-list-header {
-  .adf-notification-history-mark-as-read {
-    width: 44px;
-    height: 48px;
-
-    .adf-notification-history-mark-as-read-icon {
-      color: var(--adf-theme-foreground-text-color-087);
-    }
-  }
+.adf-notification-history-mark-as-read {
+  @include mat.icon-button-overrides(
+    (
+      icon-color: var(--adf-theme-foreground-text-color-087)
+    )
+  );
 }
 
-.mat-mdc-menu-panel.adf-notification-history-menu .adf-notification-history-item-list {
+.adf-notification-history-menu .adf-notification-history-item-list {
   .adf-notification-initiator-pic {
     background: var(--theme-accent-color);
     color: var(--adf-theme-mat-grey-color-a200);
@@ -114,12 +110,4 @@ aca-files aca-page-layout .aca-page-layout-content .aca-sidebar {
     color: var(--adf-theme-foreground-text-color-087);
     font-size: 12px;
   }
-}
-
-.adf-datatable-actions-menu .mat-mdc-icon-button.mat-mdc-button-base {
-  @include mat.icon-button-overrides(
-    (
-      icon-color: var(--adf-theme-foreground-text-color-087)
-    )
-  );
 }
