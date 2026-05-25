@@ -27,20 +27,68 @@
   border-radius: $radius;
 }
 
-@mixin mat-icon-button-default() {
-  @include mat.icon-button-overrides(
+@mixin aca-user-icon-column() {
+  @include mat.icon-overrides(
     (
-      state-layer-size: 48px,
-      icon-size: 24px
+      color: var(--theme-primary-color-default-contrast)
     )
   );
+
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+
+  .adf-cell-value {
+    width: 40px;
+    height: 40px;
+    min-height: unset;
+    font-size: var(--mat-sys-body-medium-size);
+    letter-spacing: normal;
+    line-height: 20px;
+
+    .adf-people-initial {
+      background-color: var(--theme-primary-color);
+      color: var(--theme-primary-color-default-contrast);
+      font-size: 16px;
+      font-weight: var(--theme-font-weight-bold);
+    }
+  }
+
+  mat-icon {
+    background-color: var(--theme-primary-color);
+    color: var(--theme-primary-color-default-contrast);
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+    font-weight: var(--theme-font-weight-bold);
+    padding: 10px;
+    box-sizing: content-box;
+  }
 }
 
-@mixin mat-button-default-padding() {
-  @include mat.button-overrides(
+@mixin aca-card-slide-toggle($selected-margin: 0 0 0 15px, $extra-overrides: ()) {
+  @include mat.slide-toggle-overrides(
     (
-      text-horizontal-padding: 8px,
-      filled-horizontal-padding: 8px
+      track-width: 36px,
+      track-height: 20px,
+      track-shape: 10px,
+      selected-handle-size: 14px,
+      unselected-handle-size: 14px,
+      pressed-handle-size: 14px,
+      with-icon-handle-size: 14px,
+      unselected-with-icon-handle-horizontal-margin: 0 3px 0 0,
+      selected-with-icon-handle-horizontal-margin: $selected-margin,
+      selected-handle-color: var(--adf-theme-background-card-color),
+      selected-focus-handle-color: var(--adf-theme-background-card-color),
+      selected-hover-handle-color: var(--adf-theme-background-card-color),
+      selected-pressed-handle-color: var(--adf-theme-background-card-color),
+      selected-icon-color: var(--adf-theme-background-card-color),
+      handle-surface-color: var(--adf-theme-background-card-color),
+      unselected-handle-color: var(--adf-theme-foreground-text-color-075),
+      unselected-focus-handle-color: var(--adf-theme-foreground-text-color-087),
+      unselected-hover-handle-color: var(--adf-theme-foreground-text-color-087),
+      unselected-pressed-handle-color: var(--adf-theme-foreground-text-color-087)
     )
   );
+  @include mat.slide-toggle-overrides($extra-overrides);
 }

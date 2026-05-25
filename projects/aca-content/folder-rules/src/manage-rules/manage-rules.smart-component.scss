@@ -92,13 +92,6 @@
   }
 
   .aca-page-layout-header {
-    @include mat.icon-button-overrides(
-      (
-        state-layer-size: 48px,
-        icon-size: 24px
-      )
-    );
-
     padding: 12px;
 
     mat-icon {
