@@ -576,12 +576,9 @@
       }
     }
 
-    /* stylelint-disable selector-class-pattern */
-    button.adf-permission-visibility-toggle.mat-mdc-unelevated-button {
+    .adf-permission-visibility-toggle {
       --mdc-filled-button-container-color: transparent;
       --mdc-filled-button-label-text-color: var(--adf-theme-foreground-base-color);
-
-      color: var(--adf-theme-foreground-base-color);
 
       mat-icon {
         width: 24px;
@@ -590,7 +587,6 @@
         line-height: 24px;
       }
     }
-    /* stylelint-enable selector-class-pattern */
 
     mat-slide-toggle.adf-inherit-toggle {
       @include mat.slide-toggle-overrides(
@@ -1675,13 +1671,6 @@
           disabled-unselected-track-outline-color: var(--adf-theme-foreground-disabled-text-color)
         )
       );
-
-      /* stylelint-disable selector-class-pattern */
-      .mdc-switch__icon--on,
-      .mdc-switch--selected .mdc-switch__icon {
-        fill: var(--adf-theme-background-card-color);
-      }
-      /* stylelint-enable selector-class-pattern */
     }
   }
 }
