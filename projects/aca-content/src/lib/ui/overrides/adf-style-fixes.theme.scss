@@ -123,13 +123,14 @@
     background-color: var(--adf-theme-background-card-color);
     box-shadow: none;
 
-    /* stylelint-disable selector-class-pattern */
     mat-expansion-panel-header {
       padding: 0 12px;
 
+      /* stylelint-disable selector-class-pattern */
       &.mat-expanded {
         border-bottom: 1px solid var(--adf-theme-foreground-divider-color);
       }
+      /* stylelint-enable selector-class-pattern */
 
       adf-content-metadata-header mat-panel-title {
         color: var(--adf-theme-foreground-text-color-087);
@@ -137,16 +138,7 @@
         line-height: normal;
       }
     }
-    /* stylelint-enable selector-class-pattern */
 
-    /* stylelint-disable-next-line selector-class-pattern */
-    .mat-expansion-panel-body {
-      color: var(--adf-theme-foreground-text-color-087);
-      font-size: var(--mat-sys-body-medium-size);
-      letter-spacing: normal;
-    }
-
-    /* stylelint-disable-next-line selector-class-pattern */
     .adf-metadata-no-item-added {
       margin-top: 16px;
       font-size: 15px;
@@ -155,13 +147,13 @@
       line-height: 24px;
     }
 
-    /* stylelint-disable-next-line selector-class-pattern */
-    button.adf-edit-icon-buttons {
+    .adf-edit-icon-buttons {
       @include mixins.mat-icon-button-default;
-
-      mat-icon {
-        color: var(--adf-theme-foreground-text-color-064);
-      }
+      @include mat.icon-overrides(
+        (
+          color: var(--adf-theme-foreground-text-color-064)
+        )
+      );
     }
   }
 
@@ -206,16 +198,20 @@
     /* stylelint-enable selector-class-pattern */
   }
 
-  /* stylelint-disable-next-line selector-class-pattern */
-  .mat-mdc-dialog-title.adf-aspect-list-dialog h1.adf-aspect-list-dialog-title {
-    color: var(--adf-theme-foreground-text-color-087);
-    font-size: 18px;
-    font-weight: 200;
+  .adf-aspect-list-dialog {
+    @include mat.dialog-overrides(
+      (
+        subhead-size: 18px
+      )
+    );
   }
 
-  /* stylelint-disable-next-line selector-class-pattern */
-  adf-aspect-list-dialog mat-dialog-content.mat-mdc-dialog-content.adf-aspect-dialog-content {
-    padding-bottom: 20px;
+  adf-aspect-list-dialog {
+    @include mat.dialog-overrides(
+      (
+        with-actions-content-padding: 20px
+      )
+    );
   }
 
   /* stylelint-disable-next-line selector-class-pattern */
