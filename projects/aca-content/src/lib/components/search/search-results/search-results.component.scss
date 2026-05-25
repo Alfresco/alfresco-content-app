@@ -1,7 +1,6 @@
 @use '@angular/material' as mat;
 @use '../../../ui/mixins' as mixins;
 
-/* stylelint-disable selector-class-pattern */
 body:has(aca-search-results) {
   .cdk-drag-preview .adf-datatable-cell-header-content,
   .cdk-drag-preview .adf-datatable-cell-header-content--hovered {
@@ -16,7 +15,6 @@ body:has(aca-search-results) {
     color: var(--adf-theme-foreground-text-color-087);
   }
 }
-/* stylelint-enable selector-class-pattern */
 
 aca-search-results {
   .aca-content-header {
@@ -79,12 +77,6 @@ aca-search-results {
             background-color: transparent;
           }
         }
-
-        /* stylelint-disable-next-line selector-class-pattern */
-        .mat-mdc-icon-button {
-          padding: 12px;
-          height: 48px;
-        }
       }
     }
 
@@ -108,15 +100,8 @@ aca-search-results {
       }
 
       .aca-content__advanced-filters {
-        /* stylelint-disable-next-line selector-class-pattern */
-        .mat-mdc-chip-set {
+        mat-chip-set {
           margin-top: -4px;
-        }
-
-        /* stylelint-disable-next-line */
-        .mat-mdc-chip-action {
-          padding-left: 12px;
-          padding-right: 12px;
         }
 
         .adf-search-filter-chip,
@@ -128,13 +113,13 @@ aca-search-results {
           margin-bottom: 4px;
           box-sizing: border-box;
 
-          /* stylelint-disable-next-line */
-          .mdc-evolution-chip__text-label {
-            color: var(--theme-selected-text-color);
-            letter-spacing: normal;
-            line-height: 24px;
-            align-items: unset;
-          }
+          @include mat.chips-overrides(
+            (
+              label-text-line-height: 24px,
+              label-text-tracking: normal,
+              label-text-color: var(--theme-selected-text-color)
+            )
+          );
 
           &:hover,
           &:focus {
@@ -270,14 +255,6 @@ aca-search-results {
         --mat-text-button-with-icon-horizontal-padding: 8px;
         --mat-text-button-icon-offset: 0;
         --mdc-text-button-disabled-label-text-color: var(--adf-theme-foreground-disabled-text-color);
-
-        /* stylelint-disable-next-line selector-class-pattern */
-        .mat-icon {
-          font-size: 15.75px;
-          line-height: 15.75px;
-          width: 15.75px;
-          height: 15.75px;
-        }
       }
 
       &__sort-picker {
@@ -286,10 +263,6 @@ aca-search-results {
     }
 
     .adf-datatable {
-      aca-search-action-menu button {
-        width: 0;
-      }
-
       .aca-location-link a {
         font-size: 12px;
         max-width: 350px;
