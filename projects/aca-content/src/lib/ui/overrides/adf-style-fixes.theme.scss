@@ -229,8 +229,8 @@
       )
     );
   }
-  /* stylelint-disable-next-line selector-class-pattern */
-  adf-aspect-list-dialog mat-dialog-actions .mat-mdc-button-base {
+
+  adf-aspect-list-dialog mat-dialog-actions {
     @include mat.button-overrides(
       (
         text-horizontal-padding: 8px,
@@ -515,12 +515,8 @@
     mat-card-content.adf-local-permission-container {
       padding-bottom: 0;
 
-      section.adf-permission-content-header button {
-        @include mixins.mat-icon-button-default;
-
-        &:disabled mat-icon {
-          color: var(--adf-theme-foreground-disabled-text-color);
-        }
+      section.adf-permission-content-header button:disabled mat-icon {
+        color: var(--adf-theme-foreground-disabled-text-color);
       }
     }
 
