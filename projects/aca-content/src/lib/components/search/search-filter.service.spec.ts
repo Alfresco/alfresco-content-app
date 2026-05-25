@@ -85,7 +85,7 @@ describe('SearchFilterService', () => {
       expect(service.validateSearchTerm('+test')).toBe('SEARCH.INPUT.OPERATORS');
     });
 
-    it('should not return error for term starting with quotation marks', () => {
+    it('should not return error when term is wrapped in quotation marks', () => {
       expect(service.validateSearchTerm('"test"')).toBeNull();
     });
 
