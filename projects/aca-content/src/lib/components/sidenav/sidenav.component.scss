@@ -1,4 +1,5 @@
-@use '../../ui/mat-selectors' as mat;
+@use '../../ui/mat-selectors' as ms;
+@use '@angular/material' as mat;
 
 .aca-sidenav {
   display: flex;
@@ -49,13 +50,17 @@
         .adf-notification-history-menu_button-icon {
           color: var(--adf-theme-foreground-icon-color);
 
+          @include mat.badge-overrides(
+            (
+              background-color: var(--theme-accent-color)
+            )
+          );
+
           /* stylelint-disable-next-line selector-class-pattern */
           .mat-badge-content {
             width: 16px;
             height: 16px;
             margin: -8px;
-            border-radius: 50%;
-            background-color: var(--theme-accent-color);
           }
         }
       }
@@ -65,7 +70,7 @@
   .aca-sidenav__section {
     overflow-y: auto;
 
-    #{mat.$mat-expansion-panel-body} {
+    #{ms.$mat-expansion-panel-body} {
       padding: 0;
     }
 
@@ -166,7 +171,7 @@
       line-height: 32px;
       justify-content: start;
 
-      #{mat.$mat-button-label} {
+      #{ms.$mat-button-label} {
         overflow: hidden;
         text-overflow: ellipsis;
       }
