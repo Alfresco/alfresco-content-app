@@ -52,16 +52,10 @@
 
           @include mat.badge-overrides(
             (
-              background-color: var(--theme-accent-color)
+              background-color: var(--theme-accent-color),
+              container-overlap-offset: -8px
             )
           );
-
-          /* stylelint-disable-next-line selector-class-pattern */
-          .mat-badge-content {
-            width: 16px;
-            height: 16px;
-            margin: -8px;
-          }
         }
       }
     }
@@ -81,9 +75,6 @@
       border-radius: 0;
 
       &-header {
-        --mat-expansion-header-indicator-display: none;
-        --mat-expansion-legacy-header-indicator-display: inline-block;
-
         padding: 0 32px 0 0;
         display: flex;
         align-items: center;
@@ -91,19 +82,9 @@
 
         /* stylelint-disable selector-class-pattern */
         .mat-expansion-indicator {
-          height: 19px;
-          font-size: 14px;
-          letter-spacing: normal;
-          line-height: normal;
           transform: rotate(180deg);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-top: -4px;
         }
-        /* stylelint-enable selector-class-pattern */
 
-        /* stylelint-disable selector-class-pattern */
         &.mat-expanded .mat-expansion-indicator {
           transform: rotate(0deg);
         }
