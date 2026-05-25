@@ -645,19 +645,12 @@
           selected-pressed-handle-color: var(--adf-theme-background-card-color),
           selected-icon-color: var(--adf-theme-background-card-color),
           handle-surface-color: var(--adf-theme-background-card-color),
-          unselected-handle-color: var(--adf-theme-foreground-text-color-087),
+          unselected-handle-color: var(--adf-theme-foreground-text-color-075),
           unselected-focus-handle-color: var(--adf-theme-foreground-text-color-087),
           unselected-hover-handle-color: var(--adf-theme-foreground-text-color-087),
           unselected-pressed-handle-color: var(--adf-theme-foreground-text-color-087)
         )
       );
-
-      /* stylelint-disable selector-class-pattern */
-      .mdc-switch__icon--on,
-      .mdc-switch--selected .mdc-switch__icon {
-        fill: var(--adf-theme-background-card-color);
-      }
-      /* stylelint-enable selector-class-pattern */
     }
   }
 
@@ -1710,7 +1703,7 @@
           selected-pressed-handle-color: var(--adf-theme-background-card-color),
           selected-icon-color: var(--adf-theme-background-card-color),
           handle-surface-color: var(--adf-theme-background-card-color),
-          unselected-handle-color: var(--adf-theme-foreground-text-color-087),
+          unselected-handle-color: var(--adf-theme-foreground-text-color-075),
           unselected-focus-handle-color: var(--adf-theme-foreground-text-color-087),
           unselected-hover-handle-color: var(--adf-theme-foreground-text-color-087),
           unselected-pressed-handle-color: var(--adf-theme-foreground-text-color-087),
