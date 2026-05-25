@@ -551,7 +551,8 @@
     .adf-accordion-aspect-list .adf-accordion-aspect-list-item mat-expansion-panel {
       @include mat.expansion-overrides(
         (
-          container-shape: 0
+          container-shape: 0,
+          header-indicator-color: var(--adf-theme-foreground-icon-color)
         )
       );
 
@@ -565,13 +566,6 @@
         font-size: 11.6667px;
         font-weight: var(--mat-sys-body-large-weight);
         letter-spacing: normal;
-      }
-
-      /* stylelint-disable-next-line selector-class-pattern */
-      mat-expansion-panel-header .mat-expansion-indicator {
-        width: 8px;
-        height: 20px;
-        color: var(--adf-theme-foreground-text-color-087);
       }
 
       table.adf-aspect-property-table {
@@ -600,16 +594,11 @@
     }
   }
 
-  /* stylelint-disable selector-class-pattern */
-  .mat-mdc-dialog-container .mat-mdc-dialog-title.adf-dialog-header {
-    box-sizing: content-box;
-    height: 48px;
-
+  .adf-dialog-container.adf-large .adf-dialog-header {
     &::after {
       border-bottom: 1px solid var(--adf-theme-foreground-divider-color);
     }
   }
-  /* stylelint-enable selector-class-pattern */
 
   /* stylelint-disable-next-line selector-class-pattern */
   .mat-mdc-dialog-container .mat-mdc-dialog-actions.adf-dialog-actions::after {
