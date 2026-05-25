@@ -46,16 +46,15 @@ app-details-manager {
 
   @include mat.tabs-overrides(
     (
+      active-label-text-color: var(--theme-primary-color),
+      active-focus-label-text-color: var(--theme-primary-color),
+      active-hover-label-text-color: var(--theme-primary-color),
       inactive-label-text-color: var(--adf-theme-foreground-text-color-060),
+      inactive-focus-label-text-color: var(--adf-theme-foreground-text-color-060),
       inactive-hover-label-text-color: var(--adf-theme-foreground-text-color-060),
-      inactive-focus-label-text-color: var(--adf-theme-foreground-text-color-060)
+      label-text-tracking: normal
     )
   );
-
-  /* stylelint-disable-next-line selector-class-pattern */
-  .mat-mdc-tab-label-container {
-    border-bottom: 0;
-  }
 
   > div {
     height: 100%;

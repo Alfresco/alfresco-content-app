@@ -508,22 +508,6 @@ mat-snack-bar-container {
   display: none;
 }
 
-#{ms.$mat-tab-labels} {
-  border-bottom: 1px solid var(--adf-theme-foreground-text-color-014);
-}
-
-#{ms.$mat-tab-list} {
-  #{ms.$mat-tab-labels} {
-    #{ms.$mat-tab-label-active} {
-      color: var(--theme-selected-text-color);
-    }
-  }
-}
-
-#{ms.$mat-tab-label}:not(#{ms.$mat-tab-disabled})#{ms.$mat-tab-label-active} #{ms.$mat-tab-label-text} {
-  color: var(--theme-tab-active-text-color);
-}
-
 adf-dynamic-component {
   mat-icon#{ms.$mat-icon}#{ms.$mat-submenu-icon} {
     color: var(--theme-text-color);
