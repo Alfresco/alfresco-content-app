@@ -63,6 +63,18 @@
     font-weight: var(--theme-font-weight-bold);
     padding: 10px;
     box-sizing: content-box;
+
+    &.adf-people-select-icon {
+      background-color: transparent;
+      width: 40px;
+      height: 40px;
+      font-size: 40px;
+      padding: 0;
+
+      svg {
+        fill: var(--theme-accent-color);
+      }
+    }
   }
 }
 

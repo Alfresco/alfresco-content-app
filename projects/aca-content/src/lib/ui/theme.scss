@@ -20,63 +20,91 @@ html {
   --mdc-filled-text-field-container-color: transparent;
   --mdc-text-button-label-text-color: inherit;
   --mat-form-field-container-height: 47.5px;
-  --mat-sys-display-large-font: $default-font-family;
+  --mat-sys-display-large-font: #{$default-font-family};
   --mat-sys-display-large-size: 112px;
   --mat-sys-display-large-line-height: 112px;
   --mat-sys-display-large-weight: 300;
-  --mat-sys-display-medium-font: $default-font-family;
+  --mat-sys-display-medium-font: #{$default-font-family};
   --mat-sys-display-medium-size: 56px;
   --mat-sys-display-medium-line-height: 56px;
   --mat-sys-display-medium-weight: 400;
-  --mat-sys-display-small-font: $default-font-family;
+  --mat-sys-display-small-font: #{$default-font-family};
   --mat-sys-display-small-size: 45px;
   --mat-sys-display-small-line-height: 48px;
   --mat-sys-display-small-weight: 400;
-  --mat-sys-headline-large-font: $default-font-family;
+  --mat-sys-headline-large-font: #{$default-font-family};
   --mat-sys-headline-large-size: 34px;
   --mat-sys-headline-large-line-height: 40px;
   --mat-sys-headline-large-weight: 400;
-  --mat-sys-headline-medium-font: $default-font-family;
+  --mat-sys-headline-medium-font: #{$default-font-family};
   --mat-sys-headline-medium-size: 24px;
   --mat-sys-headline-medium-line-height: 32px;
   --mat-sys-headline-medium-weight: 400;
-  --mat-sys-headline-small-font: $default-font-family;
-  --mat-sys-headline-small-size: 20px;
-  --mat-sys-headline-small-line-height: 32px;
+  --mat-sys-headline-small-font: #{$default-font-family};
+  --mat-sys-headline-small-size: 19px;
+  --mat-sys-headline-small-line-height: 24px;
   --mat-sys-headline-small-weight: 400;
-  --mat-sys-title-large-font: $default-font-family;
+  --mat-sys-title-large-font: #{$default-font-family};
   --mat-sys-title-large-size: 16px;
   --mat-sys-title-large-line-height: 28px;
   --mat-sys-title-large-weight: 400;
-  --mat-sys-title-medium-font: $default-font-family;
-  --mat-sys-title-medium-size: 16px;
-  --mat-sys-title-medium-line-height: 28px;
+  --mat-sys-title-medium-font: #{$default-font-family};
+  --mat-sys-title-medium-size: 20px;
+  --mat-sys-title-medium-line-height: 32px;
   --mat-sys-title-medium-weight: 400;
-  --mat-sys-title-small-font: $default-font-family;
-  --mat-sys-title-small-size: 14px;
+  --mat-sys-title-small-font: #{$default-font-family};
+  --mat-sys-title-small-size: 16px;
   --mat-sys-title-small-line-height: 24px;
   --mat-sys-title-small-weight: 500;
-  --mat-sys-body-large-font: $default-font-family;
+  --mat-sys-body-large-font: #{$default-font-family};
   --mat-sys-body-large-size: 14px;
   --mat-sys-body-large-line-height: 24px;
   --mat-sys-body-large-weight: 500;
-  --mat-sys-body-medium-font: $default-font-family;
+  --mat-sys-body-medium-font: #{$default-font-family};
   --mat-sys-body-medium-size: 14px;
   --mat-sys-body-medium-line-height: 20px;
   --mat-sys-body-medium-weight: 400;
-  --mat-sys-body-small-font: $default-font-family;
+  --mat-sys-body-small-font: #{$default-font-family};
   --mat-sys-body-small-size: 12px;
   --mat-sys-body-small-line-height: 20px;
   --mat-sys-body-small-weight: 400;
-  --mat-sys-label-large-font: $default-font-family;
+  --mat-sys-label-large-font: #{$default-font-family};
   --mat-sys-label-large-size: 14px;
   --mat-sys-label-large-line-height: 14px;
   --mat-sys-label-large-weight: 500;
+  --mat-sys-display-large: var(--mat-sys-display-large-weight) var(--mat-sys-display-large-size) / var(--mat-sys-display-large-line-height)
+    var(--mat-sys-display-large-font);
+  --mat-sys-display-medium: var(--mat-sys-display-medium-weight) var(--mat-sys-display-medium-size) / var(--mat-sys-display-medium-line-height)
+    var(--mat-sys-display-medium-font);
+  --mat-sys-display-small: var(--mat-sys-display-small-weight) var(--mat-sys-display-small-size) / var(--mat-sys-display-small-line-height)
+    var(--mat-sys-display-small-font);
+  --mat-sys-headline-large: var(--mat-sys-headline-large-weight) var(--mat-sys-headline-large-size) / var(--mat-sys-headline-large-line-height)
+    var(--mat-sys-headline-large-font);
+  --mat-sys-headline-medium: var(--mat-sys-headline-medium-weight) var(--mat-sys-headline-medium-size) / var(--mat-sys-headline-medium-line-height)
+    var(--mat-sys-headline-medium-font);
+  --mat-sys-headline-small: var(--mat-sys-headline-small-weight) var(--mat-sys-headline-small-size) / var(--mat-sys-headline-small-line-height)
+    var(--mat-sys-headline-small-font);
+  --mat-sys-title-large: var(--mat-sys-title-large-weight) var(--mat-sys-title-large-size) / var(--mat-sys-title-large-line-height)
+    var(--mat-sys-title-large-font);
+  --mat-sys-title-medium: var(--mat-sys-title-medium-weight) var(--mat-sys-title-medium-size) / var(--mat-sys-title-medium-line-height)
+    var(--mat-sys-title-medium-font);
+  --mat-sys-title-small: var(--mat-sys-title-small-weight) var(--mat-sys-title-small-size) / var(--mat-sys-title-small-line-height)
+    var(--mat-sys-title-small-font);
+  --mat-sys-body-large: var(--mat-sys-body-large-weight) var(--mat-sys-body-large-size) / var(--mat-sys-body-large-line-height)
+    var(--mat-sys-body-large-font);
+  --mat-sys-body-medium: var(--mat-sys-body-medium-weight) var(--mat-sys-body-medium-size) / var(--mat-sys-body-medium-line-height)
+    var(--mat-sys-body-medium-font);
+  --mat-sys-body-small: var(--mat-sys-body-small-weight) var(--mat-sys-body-small-size) / var(--mat-sys-body-small-line-height)
+    var(--mat-sys-body-small-font);
+  --mat-sys-label-large: var(--mat-sys-label-large-weight) var(--mat-sys-label-large-size) / var(--mat-sys-label-large-line-height)
+    var(--mat-sys-label-large-font);
   --theme-font-weight-semi-bold: 600;
   --theme-font-weight-bold: 700;
   --mat-sys-error: var(--theme-warn-color);
   --mat-sys-on-error: #fff;
   --mat-sys-outline-variant: var(--theme-grey-background-color);
+  --mat-sys-surface: var(--theme-background-color);
+  --mat-sys-level2: 0 8px 9px -5px var(--adf-theme-foreground-divider-color), 0 15px 22px 2px var(--adf-theme-foreground-divider-color);
 
   @include mat.autocomplete-overrides(
     (
