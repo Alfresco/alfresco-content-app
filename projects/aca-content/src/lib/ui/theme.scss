@@ -110,6 +110,8 @@ html {
   --mat-select-container-elevation-shadow:
     var(--theme-box-shadow-first-color) 0 5px 5px -3px, var(--theme-box-shadow-second-color) 0 8px 10px 1px,
     var(--theme-box-shadow-third-color) 0 3px 14px 2px;
+  --mdc-elevated-card-container-color: var(--adf-theme-background-card-color);
+  --mdc-elevated-card-container-shape: 0;
 
   @include mat.autocomplete-overrides(
     (
@@ -674,3 +676,10 @@ adf-dynamic-component {
     );
   }
 }
+
+@include mat.button-overrides(
+  (
+    text-state-layer-color: var(--adf-theme-foreground-base-color),
+    text-hover-state-layer-opacity: 0.04
+  )
+);
