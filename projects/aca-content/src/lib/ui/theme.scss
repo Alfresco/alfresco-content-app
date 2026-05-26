@@ -398,10 +398,36 @@ mat-toolbar#{ms.$mat-toolbar}#{ms.$mat-toolbar-single-row} {
   opacity: 1;
 }
 
-.adf-upload-dialog {
-  &__header,
-  &__content {
-    color: var(--theme-secondary-text);
+adf-file-uploading-dialog {
+  .adf-upload-dialog {
+    background: var(--adf-theme-background-dialog-color);
+
+    &__header,
+    &__content {
+      color: var(--theme-secondary-text);
+
+      .adf-file-uploading-row {
+        &:hover {
+          background: var(--adf-theme-mat-grey-color-a200);
+        }
+
+        &__group {
+          height: 40px;
+
+          .adf-file-uploading-row__status--done {
+            color: var(--theme-accent-color);
+          }
+        }
+      }
+    }
+
+    &__actions {
+      @include mat.button-overrides(
+        (
+          text-label-text-color: var(--theme-primary-color)
+        )
+      );
+    }
   }
 }
 
