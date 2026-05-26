@@ -388,9 +388,10 @@
     }
   }
 
-  /* stylelint-disable-next-line selector-class-pattern */
   div.adf-permission-pop-over div.adf-pop-over-card {
-    box-shadow: var(--theme-box-shadow-third-color) 0 8px 9px -5px;
+    box-shadow:
+      0 8px 9px -5px var(--adf-theme-foreground-divider-color),
+      0 15px 22px 2px var(--adf-theme-foreground-divider-color);
   }
 
   adf-add-permission-dialog
