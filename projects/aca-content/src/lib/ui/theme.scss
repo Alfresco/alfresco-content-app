@@ -102,9 +102,14 @@ html {
   --theme-font-weight-bold: 700;
   --mat-sys-error: var(--theme-warn-color);
   --mat-sys-on-error: #fff;
+  --mat-option-focus-state-layer-color: white;
   --mat-sys-outline-variant: var(--theme-grey-background-color);
   --mat-sys-surface: var(--theme-background-color);
   --mat-sys-level2: 0 8px 9px -5px var(--adf-theme-foreground-divider-color), 0 15px 22px 2px var(--adf-theme-foreground-divider-color);
+  --mat-select-panel-background-color: var(--adf-theme-background-card-color);
+  --mat-select-container-elevation-shadow:
+    var(--theme-box-shadow-first-color) 0 5px 5px -3px, var(--theme-box-shadow-second-color) 0 8px 10px 1px,
+    var(--theme-box-shadow-third-color) 0 3px 14px 2px;
 
   @include mat.autocomplete-overrides(
     (
@@ -113,7 +118,8 @@ html {
   );
   @include mat.select-overrides(
     (
-      panel-background-color: var(--theme-white-background)
+      panel-background-color: var(--theme-white-background),
+      trigger-text-size: var(--mat-sys-body-medium-size)
     )
   );
   @include mat.toolbar-overrides(
@@ -139,13 +145,22 @@ html {
   );
   @include mat.form-field-overrides(
     (
-      outlined-label-text-populated-size: 18px,
+      container-height: var(--theme-form-field-height-default),
+      container-vertical-padding: 16px,
+      container-text-size: 14px,
+      container-text-tracking: normal,
+      container-text-line-height: 20px,
+      outlined-label-text-size: 19px,
+      outlined-label-text-populated-size: 19px,
+      outlined-label-text-tracking: normal,
       outlined-label-text-color: var(--theme-selected-text-color),
       outlined-hover-label-text-color: var(--adf-theme-foreground-text-color),
       outlined-input-text-color: var(--adf-theme-foreground-text-color-087),
       outlined-disabled-input-text-color: var(--adf-theme-foreground-text-color-040),
       outlined-disabled-label-text-color: var(--adf-theme-foreground-text-color-040),
       outlined-disabled-outline-color: var(--adf-theme-foreground-text-color-040),
+      filled-label-text-size: 19px,
+      filled-label-text-tracking: normal,
       filled-input-text-color: var(--adf-theme-foreground-text-color-087),
       subscript-text-size: 12px
     )
@@ -225,6 +240,26 @@ html {
   @include mat.divider-overrides(
     (
       color: var(--adf-theme-foreground-divider-color)
+    )
+  );
+  @include mat.option-overrides(
+    (
+      focus-state-layer-color: var(--adf-theme-background-hover-color),
+      hover-state-layer-color: var(--adf-theme-background-hover-color),
+      selected-state-layer-color: var(--adf-theme-background-hover-color),
+      selected-state-label-text-color: var(--theme-primary-color),
+      label-text-color: var(--adf-theme-foreground-text-color-087),
+      label-text-size: 14px,
+      label-text-tracking: normal
+    )
+  );
+  @include mat.dialog-overrides(
+    (
+      container-elevation-shadow: (
+        var(--theme-box-shadow-first-color) 0 11px 15px -7px,
+        var(--theme-box-shadow-second-color) 0 24px 38px 3px,
+        var(--theme-box-shadow-third-color) 0 9px 46px 8px
+      )
     )
   );
 
