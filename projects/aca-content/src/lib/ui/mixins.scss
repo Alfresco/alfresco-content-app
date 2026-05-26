@@ -28,52 +28,45 @@
 }
 
 @mixin aca-user-icon-column() {
-  @include mat.icon-overrides(
-    (
-      color: var(--theme-primary-color-default-contrast)
-    )
-  );
+  adf-user-icon-column {
+    @include mat.icon-overrides(
+      (
+        color: var(--theme-primary-color-default-contrast)
+      )
+    );
 
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-
-  .adf-cell-value {
+    display: inline-block;
     width: 40px;
     height: 40px;
-    min-height: unset;
-    font-size: var(--mat-sys-body-medium-size);
-    letter-spacing: normal;
-    line-height: 20px;
 
-    .adf-people-initial {
-      background-color: var(--theme-primary-color);
-      color: var(--theme-primary-color-default-contrast);
-      font-size: 16px;
-      font-weight: var(--theme-font-weight-bold);
-    }
-  }
-
-  mat-icon {
-    background-color: var(--theme-primary-color);
-    color: var(--theme-primary-color-default-contrast);
-    width: 20px;
-    height: 20px;
-    font-size: 20px;
-    font-weight: var(--theme-font-weight-bold);
-    padding: 10px;
-    box-sizing: content-box;
-
-    &.adf-people-select-icon {
-      background-color: transparent;
+    .adf-cell-value {
       width: 40px;
       height: 40px;
-      font-size: 40px;
-      padding: 0;
+      min-height: unset;
+      font-size: var(--mat-sys-body-medium-size);
+      letter-spacing: normal;
+      line-height: 20px;
 
-      svg {
-        fill: var(--theme-accent-color);
+      .adf-people-initial,
+      .adf-group-icon {
+        background-color: var(--theme-primary-color);
+        color: var(--theme-primary-color-default-contrast);
+        font-size: 16px;
+        font-weight: var(--theme-font-weight-bold);
       }
+
+      .adf-group-icon {
+        height: 20px;
+        font-size: 20px;
+      }
+    }
+
+    .adf-people-select-icon {
+      @include mat.icon-overrides(
+        (
+          color: var(--theme-accent-color)
+        )
+      );
     }
   }
 }
