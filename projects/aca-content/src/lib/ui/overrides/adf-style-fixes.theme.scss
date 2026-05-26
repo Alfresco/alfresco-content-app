@@ -289,9 +289,7 @@
       }
     }
 
-    adf-user-icon-column {
-      @include mixins.aca-user-icon-column;
-    }
+    @include mixins.aca-user-icon-column;
   }
 
   adf-permission-container .adf-datatable-permission.adf-datatable {
@@ -314,9 +312,7 @@
     }
 
     .adf-list-option-item {
-      adf-user-icon-column {
-        @include mixins.aca-user-icon-column;
-      }
+      @include mixins.aca-user-icon-column;
     }
   }
 
