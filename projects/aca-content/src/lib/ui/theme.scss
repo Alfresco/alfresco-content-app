@@ -506,12 +506,21 @@ adf-file-uploading-dialog {
           background: var(--adf-theme-mat-grey-color-a200);
         }
 
-        &__group {
+        &__group,
+        .adf-file-uploading-row__file-version {
           height: 40px;
 
           .adf-file-uploading-row__status--done {
             color: var(--theme-accent-color);
           }
+        }
+
+        .adf-file-uploading-row__status--error {
+          @include mat.icon-overrides(
+            (
+              color: var(--theme-warn-color)
+            )
+          );
         }
       }
     }
