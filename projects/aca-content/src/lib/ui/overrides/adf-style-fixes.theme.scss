@@ -175,15 +175,6 @@
     );
   }
 
-  adf-aspect-list-dialog mat-dialog-actions {
-    @include mat.button-overrides(
-      (
-        text-horizontal-padding: 8px,
-        filled-horizontal-padding: 8px
-      )
-    );
-  }
-
   adf-add-permission-dialog {
     @include mat.dialog-overrides(
       (
@@ -194,19 +185,12 @@
 
     .adf-add-permission-dialog-actions {
       --mat-sys-surface: var(--theme-white-background);
-
-      @include mat.button-overrides(
-        (
-          text-horizontal-padding: 8px
-        )
-      );
     }
 
     // TODO get general designs from Shane and check styling for this part
     .adf-search-user-button {
       @include mat.button-overrides(
         (
-          text-horizontal-padding: 8px,
           text-container-height: 32px
         )
       );
@@ -749,14 +733,6 @@
     }
   }
 
-  adf-content-node-selector mat-dialog-actions {
-    @include mat.button-overrides(
-      (
-        text-horizontal-padding: 8px
-      )
-    );
-  }
-
   adf-content-node-selector-panel adf-toolbar mat-toolbar {
     --mat-sys-on-secondary-container: var(--adf-theme-foreground-text-color-054);
 
@@ -782,15 +758,7 @@
     }
   }
 
-  adf-folder-dialog mat-dialog-actions {
-    @include mat.button-overrides(
-      (
-        text-horizontal-padding: 8px
-      )
-    );
-  }
-
-  mat-dialog-actions .adf-dialog-action-button {
+  .adf-dialog-action-button {
     @include mat.button-overrides(
       (
         text-label-text-color: var(--theme-primary-color)
@@ -877,16 +845,8 @@
       line-height: 28px;
     }
 
-    .adf-share-link__actions {
-      @include mat.button-overrides(
-        (
-          text-horizontal-padding: 8px
-        )
-      );
-
-      button {
-        background-color: var(--theme-grey-text-background-color);
-      }
+    .adf-share-link__actions button {
+      background-color: var(--theme-grey-text-background-color);
     }
 
     .adf-share-link__label.adf-sharable-link {

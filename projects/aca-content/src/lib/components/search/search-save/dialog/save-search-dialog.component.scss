@@ -35,14 +35,6 @@
     margin: 0;
   }
 
-  #aca-save-search-dialog-cancel-button {
-    @include mat.button-overrides(
-      (
-        text-horizontal-padding: 8px
-      )
-    );
-  }
-
   .aca-save-search-dialog__save-button {
     @include mat.button-overrides(
       (
