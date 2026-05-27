@@ -923,4 +923,20 @@
       )
     );
   }
+
+  adf-pdf-viewer {
+    .adf-pdf-viewer__thumbnails {
+      background: var(--theme-gray-panel-background-color);
+
+      .adf-pdf-thumbnails__thumb {
+        &:hover {
+          box-shadow: 0 0 5px 0 var(--adf-theme-foreground-text-color-087);
+        }
+
+        &--selected {
+          border: 2px solid var(--theme-accent-color-a200);
+        }
+      }
+    }
+  }
 }
