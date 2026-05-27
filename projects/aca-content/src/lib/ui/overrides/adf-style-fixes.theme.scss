@@ -416,6 +416,10 @@
     );
   }
 
+  adf-content-node-selector-panel {
+    --mat-sys-on-surface: var(--adf-theme-foreground-text-color-087);
+  }
+
   .adf-search-logical-filter-container .adf-search-input input {
     width: 284px;
     height: 25px;
@@ -770,6 +774,7 @@
       line-height: 32px;
 
       .adf-current-folder {
+        width: unset;
         line-height: 24px;
         letter-spacing: -0.2px;
         font-weight: var(--theme-font-weight-semi-bold);
