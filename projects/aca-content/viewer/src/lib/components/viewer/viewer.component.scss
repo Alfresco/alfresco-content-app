@@ -20,6 +20,12 @@
   }
 
   .adf-viewer-render .adf-toolbar .adf-toolbar-container {
+    border-width: 0;
+    border-radius: 2px;
+    box-shadow:
+      0 2px 2px 0 var(--theme-box-shadow-dark-color),
+      0 0 2px 0 var(--theme-box-shadow-third-color);
+
     @include mat.toolbar-overrides(
       (
         standard-height: 48px,
@@ -27,12 +33,6 @@
         container-background-color: var(--adf-theme-background-card-color)
       )
     );
-
-    border-width: 0;
-    border-radius: 2px;
-    box-shadow:
-      0 2px 2px 0 var(--theme-box-shadow-dark-color),
-      0 0 2px 0 var(--theme-box-shadow-third-color);
 
     .adf-image-viewer__toolbar-page-scale {
       --mat-sys-outline: var(--adf-theme-foreground-text-color-007);

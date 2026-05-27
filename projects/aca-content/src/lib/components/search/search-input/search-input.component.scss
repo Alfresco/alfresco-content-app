@@ -5,6 +5,11 @@ $search-border-radius: 4px;
 
 .app-search-container {
   color: var(--theme-foreground-text-color);
+  width: 100%;
+  height: $search-height;
+  border: none;
+  background: none;
+  padding: 0;
 
   @include mat.icon-overrides(
     (
@@ -17,12 +22,6 @@ $search-border-radius: 4px;
       outlined-input-text-placeholder-color: var(--adf-theme-foreground-text-color-060)
     )
   );
-
-  width: 100%;
-  height: $search-height;
-  border: none;
-  background: none;
-  padding: 0;
 
   .app-search-input {
     font-size: 16px;

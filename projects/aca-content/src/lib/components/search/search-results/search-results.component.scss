@@ -260,9 +260,6 @@ aca-search-results {
             text-disabled-label-text-color: var(--adf-theme-foreground-disabled-text-color)
           )
         );
-
-        --mat-text-button-icon-offset: 0;
-        --mdc-text-button-disabled-label-text-color: var(--adf-theme-foreground-disabled-text-color);
       }
 
       &__sort-picker {

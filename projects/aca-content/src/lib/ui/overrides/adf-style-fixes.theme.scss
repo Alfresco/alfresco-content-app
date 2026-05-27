@@ -1,7 +1,6 @@
 @use '@angular/material' as mat;
+@use '../mat-selectors' as ms;
 @use '../mixins' as mixins;
-
-/* stylelint-disable no-descending-specificity */
 
 @mixin adf-style-fixes() {
   .adf-info-drawer-layout {
@@ -757,19 +756,26 @@
     );
   }
 
+  $version-upload-raised-shadow: (
+    var(--theme-box-shadow-first-color) 0 3px 1px -2px,
+    var(--theme-box-shadow-second-color) 0 2px 2px 0,
+    var(--theme-box-shadow-third-color) 0 1px 5px 0
+  );
+
   .adf-version-upload-buttons {
     @include mat.button-overrides(
       (
         protected-container-color: var(--adf-theme-background-card-color),
-        protected-label-text-color: var(--adf-theme-foreground-base-color)
+        protected-label-text-color: var(--adf-theme-foreground-base-color),
+        protected-container-elevation-shadow: $version-upload-raised-shadow,
+        protected-hover-container-elevation-shadow: $version-upload-raised-shadow,
+        protected-focus-container-elevation-shadow: $version-upload-raised-shadow,
+        protected-pressed-container-elevation-shadow: $version-upload-raised-shadow
       )
     );
 
-    button {
-      box-shadow:
-        var(--theme-box-shadow-first-color) 0 3px 1px -2px,
-        var(--theme-box-shadow-second-color) 0 2px 2px 0,
-        var(--theme-box-shadow-third-color) 0 1px 5px 0;
+    .adf-upload-button-label {
+      box-shadow: $version-upload-raised-shadow;
     }
   }
 
@@ -853,8 +859,10 @@
       line-height: 28px;
     }
 
-    .adf-share-link__actions button {
-      background-color: var(--theme-grey-text-background-color);
+    .adf-share-link__actions {
+      #{ms.$mat-button} {
+        background-color: var(--theme-grey-text-background-color);
+      }
     }
 
     .adf-share-link__label.adf-sharable-link {
@@ -895,7 +903,7 @@
     }
   }
 
-  adf-category-selector-dialog mat-dialog-actions button:last-child {
+  adf-category-selector-dialog mat-dialog-actions #{ms.$mat-button}:last-child {
     @include mat.button-overrides(
       (
         text-label-text-color: var(--theme-primary-color)

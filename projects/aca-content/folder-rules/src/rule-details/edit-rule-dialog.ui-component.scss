@@ -51,6 +51,10 @@
   }
 
   .aca-edit-rule-dialog__footer {
+    padding: var(--edit-rule-dialog-padding);
+    box-sizing: border-box;
+    border-top: 1px solid var(--theme-border-color);
+
     @include mat.button-overrides(
       (
         filled-container-color: transparent,
@@ -58,10 +62,6 @@
         filled-horizontal-padding: 16px
       )
     );
-
-    padding: var(--edit-rule-dialog-padding);
-    box-sizing: border-box;
-    border-top: 1px solid var(--theme-border-color);
 
     .aca-edit-rule-dialog__submit-button {
       @include mat.button-overrides(

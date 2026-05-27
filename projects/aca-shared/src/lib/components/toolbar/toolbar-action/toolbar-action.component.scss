@@ -2,17 +2,17 @@
 @use '@angular/material' as mat;
 
 aca-toolbar-action {
-  @include mat.button-overrides(
-    (
-      filled-horizontal-padding: 16px,
-      outlined-horizontal-padding: 16px
-    )
-  );
-
   font-size: 20px;
   line-height: 32px;
 
   #{ms.$mat-mdc-button}#{ms.$mat-button-base}#{ms.$mat-outlined-button}#{ms.$mat-unthemed} {
     --mdc-outlined-button-label-text-color: var(--theme-secondary-text);
   }
+
+  @include mat.button-overrides(
+    (
+      filled-horizontal-padding: 16px,
+      outlined-horizontal-padding: 16px
+    )
+  );
 }

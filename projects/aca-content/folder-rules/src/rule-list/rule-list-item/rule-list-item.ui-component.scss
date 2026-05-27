@@ -1,6 +1,12 @@
 @use '@angular/material' as mat;
 
 .aca-rule-list-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 20px;
+  cursor: pointer;
+
   @include mat.slide-toggle-overrides(
     (
       track-width: 36px,
@@ -25,12 +31,6 @@
       unselected-pressed-handle-color: var(--adf-theme-foreground-text-color-087)
     )
   );
-
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 12px 20px;
-  cursor: pointer;
 
   p {
     margin: 6px 0 0;

@@ -54,14 +54,14 @@
     }
 
     &__actions {
+      padding-left: 8px;
+
       @include mat.button-overrides(
         (
           filled-label-text-color: var(--adf-theme-foreground-base-color),
           filled-horizontal-padding: 16px
         )
       );
-
-      padding-left: 8px;
 
       button:not(:disabled) {
         background-color: unset;

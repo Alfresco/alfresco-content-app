@@ -198,6 +198,8 @@ html {
       protected-container-shape: 4px,
       protected-container-height: 36px,
       protected-horizontal-padding: 8px,
+      protected-state-layer-color: var(--adf-theme-foreground-base-color),
+      protected-hover-state-layer-opacity: 0.04,
       text-container-shape: 4px,
       text-container-height: 36px
     )

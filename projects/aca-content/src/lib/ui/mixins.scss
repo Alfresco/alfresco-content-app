@@ -29,15 +29,15 @@
 
 @mixin aca-user-icon-column() {
   adf-user-icon-column {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+
     @include mat.icon-overrides(
       (
         color: var(--theme-primary-color-default-contrast)
       )
     );
-
-    display: inline-block;
-    width: 40px;
-    height: 40px;
 
     .adf-cell-value {
       width: 40px;
