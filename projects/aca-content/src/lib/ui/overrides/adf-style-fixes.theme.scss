@@ -72,6 +72,7 @@
       (
         container-shape: 4px,
         container-background-color: var(--adf-theme-background-card-color),
+        container-text-color: var(--adf-theme-foreground-text-color-087),
         container-text-tracking: normal,
         container-text-line-height: 24px,
         container-text-weight: var(--mat-sys-body-large-weight),
@@ -904,6 +905,16 @@
   adf-tags-creator {
     --mat-sys-primary: var(--theme-primary-color);
     --mat-sys-on-surface-variant: var(--adf-theme-foreground-text-color-054);
+
+    @include mat.list-overrides(
+      (
+        list-item-label-text-color: var(--adf-theme-foreground-text-color-087)
+      )
+    );
+  }
+
+  adf-categories-management {
+    --mat-sys-on-secondary-container: var(--adf-theme-foreground-text-color-054);
 
     @include mat.list-overrides(
       (
