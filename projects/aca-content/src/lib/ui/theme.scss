@@ -271,6 +271,56 @@ html {
       )
     )
   );
+  @include mat.datepicker-overrides(
+    (
+      calendar-container-background-color: var(--theme-white-background),
+      calendar-container-text-color: var(--adf-theme-foreground-text-color-087),
+      calendar-container-shape: 4px,
+      calendar-container-elevation-shadow: (
+        var(--theme-box-shadow-first-color) 0 2px 4px -1px,
+        var(--theme-box-shadow-second-color) 0 4px 5px 0,
+        var(--theme-box-shadow-third-color) 0 1px 10px 0
+      ),
+      calendar-text-size: 13px,
+      calendar-header-text-size: 11px,
+      calendar-header-text-weight: 400,
+      calendar-header-text-color: var(--adf-theme-foreground-text-color-064),
+      calendar-header-divider-color: var(--adf-theme-foreground-divider-color),
+      calendar-body-label-text-size: 14px,
+      calendar-body-label-text-color: var(--adf-theme-foreground-text-color-054),
+      calendar-period-button-text-size: 14px,
+      calendar-period-button-text-color: var(--adf-theme-foreground-text-color-087),
+      calendar-period-button-icon-color: var(--adf-theme-foreground-text-color-054),
+      calendar-navigation-button-icon-color: var(--adf-theme-foreground-text-color-054),
+      calendar-date-text-color: var(--adf-theme-foreground-text-color-087),
+      calendar-date-today-outline-color: var(--adf-theme-foreground-text-color-040),
+      calendar-date-today-disabled-state-outline-color: var(--adf-theme-foreground-text-color-014),
+      calendar-date-today-selected-state-outline-color: var(--theme-primary-color-default-contrast),
+      calendar-date-disabled-state-text-color: var(--adf-theme-foreground-text-color-040),
+      calendar-date-selected-state-background-color: var(--theme-primary-color),
+      calendar-date-selected-state-text-color: var(--theme-primary-color-default-contrast),
+      calendar-date-hover-state-background-color: color-mix(in srgb, var(--theme-primary-color) 30%, transparent),
+      calendar-date-focus-state-background-color: color-mix(in srgb, var(--theme-primary-color) 30%, transparent),
+      calendar-date-in-range-state-background-color: color-mix(in srgb, var(--theme-primary-color) 20%, transparent)
+    )
+  );
+
+  #{ms.$mat-calendar-previous-button},
+  #{ms.$mat-calendar-next-button} {
+    @include mat.icon-button-overrides(
+      (
+        state-layer-size: 40px
+      )
+    );
+  }
+
+  #{ms.$mat-datepicker-toggle-active} {
+    @include mat.icon-button-overrides(
+      (
+        icon-color: var(--theme-primary-color)
+      )
+    );
+  }
 
   #{ms.$mat-radio-button} {
     @include mat.radio-overrides(
