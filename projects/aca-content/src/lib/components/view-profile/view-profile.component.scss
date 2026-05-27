@@ -51,19 +51,27 @@ app-view-profile {
     width: 100%;
 
     .app-general-save-btn {
-      @include mat.icon-button-overrides(
+      @include mat.icon-overrides(
         (
-          icon-color: var(--theme-primary-color)
+          color: var(--theme-primary-color)
         )
       );
     }
 
     .app-general-edit {
-      color: var(--adf-theme-foreground-text-color-064);
+      @include mat.icon-overrides(
+        (
+          color: var(--adf-theme-foreground-text-color-064)
+        )
+      );
     }
 
     .app-general-cancel-btn {
-      color: var(--adf-metadata-action-button-clear-color);
+      @include mat.icon-overrides(
+        (
+          color: var(--adf-metadata-action-button-clear-color)
+        )
+      );
     }
   }
 
