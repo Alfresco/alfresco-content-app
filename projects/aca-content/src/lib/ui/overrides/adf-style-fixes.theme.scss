@@ -903,4 +903,27 @@
       );
     }
   }
+
+  adf-comments {
+    .adf-comment-list {
+      .adf-comment-img-container {
+        .adf-comment-user-icon {
+          background-color: var(--theme-primary-color);
+          color: var(--theme-primary-color-default-contrast);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+
+    .adf-comments-input-actions {
+      @include mat.button-overrides(
+        (
+          text-label-text-color: var(--theme-primary-color),
+          text-state-layer-color: var(--theme-primary-color)
+        )
+      );
+    }
+  }
 }

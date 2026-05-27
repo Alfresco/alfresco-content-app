@@ -152,8 +152,8 @@ html {
       container-text-size: 14px,
       container-text-tracking: normal,
       container-text-line-height: 20px,
-      outlined-label-text-size: 19px,
-      outlined-label-text-populated-size: 19px,
+      outlined-label-text-size: 18px,
+      outlined-label-text-populated-size: 18px,
       outlined-label-text-tracking: normal,
       outlined-label-text-color: var(--theme-selected-text-color),
       outlined-hover-label-text-color: var(--adf-theme-foreground-text-color),
@@ -161,8 +161,9 @@ html {
       outlined-disabled-input-text-color: var(--adf-theme-foreground-text-color-040),
       outlined-disabled-label-text-color: var(--adf-theme-foreground-text-color-040),
       outlined-disabled-outline-color: var(--adf-theme-foreground-text-color-040),
-      filled-label-text-size: 19px,
+      filled-label-text-size: 18px,
       filled-label-text-tracking: normal,
+      subscript-text-tracking: normal,
       filled-input-text-color: var(--adf-theme-foreground-text-color-087),
       subscript-text-size: 12px
     )
@@ -681,5 +682,12 @@ adf-dynamic-component {
   (
     text-state-layer-color: var(--adf-theme-foreground-base-color),
     text-hover-state-layer-opacity: 0.04
+  )
+);
+@include mat.list-overrides(
+  (
+    list-item-label-text-size: 14px,
+    list-item-label-text-line-height: 20px,
+    list-item-label-text-tracking: normal
   )
 );
