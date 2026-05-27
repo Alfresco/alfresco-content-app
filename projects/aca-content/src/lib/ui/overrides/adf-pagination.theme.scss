@@ -43,6 +43,11 @@
             disabled-icon-color: var(--adf-theme-foreground-disabled-text-color)
           )
         );
+        @include mat.icon-overrides(
+          (
+            color: currentColor
+          )
+        );
 
         margin: 0 12px 0 0;
       }
@@ -54,16 +59,17 @@
             disabled-icon-color: var(--adf-theme-foreground-disabled-text-color)
           )
         );
+        @include mat.icon-overrides(
+          (
+            color: currentColor
+          )
+        );
 
         margin: 0;
       }
 
       .adf-pagination__controls-block {
         padding-right: 24px;
-
-        button[disabled] mat-icon {
-          color: var(--adf-theme-foreground-disabled-text-color);
-        }
       }
     }
   }

@@ -1,4 +1,4 @@
-@use '../../../ui/mat-selectors' as ms;
+@use '@angular/material' as mat;
 
 aca-search-in-menu {
   .aca-search-input--search-in-button {
@@ -10,20 +10,12 @@ aca-search-in-menu {
     background-color: var(--theme-dropdown-color);
     border: none;
 
-    --mdc-outlined-button-label-text-color: var(--adf-theme-foreground-text-color);
-    --mat-outlined-button-icon-offset: -4px;
-    --mat-outlined-button-icon-spacing: 8px;
-
-    color: var(--adf-theme-foreground-text-color);
-
-    #{ms.$mat-icon} {
-      font-size: 15.75px;
-      width: 15.75px;
-      height: 15.75px;
-      line-height: 15.75px;
-
-      --mat-icon-color: var(--adf-theme-foreground-text-color);
-    }
+    @include mat.button-overrides(
+      (
+        outlined-label-text-color: var(--adf-theme-foreground-base-color),
+        outlined-icon-offset: -4px
+      )
+    );
 
     &:hover {
       background-color: var(--theme-dropdown-background-hover, rgba(0, 0, 0, 0.04));

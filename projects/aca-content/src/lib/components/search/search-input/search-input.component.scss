@@ -1,13 +1,22 @@
+@use '@angular/material' as mat;
+
 $search-height: 48px;
 $search-border-radius: 4px;
 
 .app-search-container {
   color: var(--theme-foreground-text-color);
 
-  --mat-icon-color: var(--theme-foreground-text-color);
-  --mdc-icon-button-icon-color: var(--theme-foreground-text-color);
-  --mat-form-field-container-text-tracking: -0.7px;
-  --mdc-outlined-text-field-input-text-placeholder-color: var(--adf-theme-foreground-text-color-060);
+  @include mat.icon-overrides(
+    (
+      color: var(--theme-foreground-text-color)
+    )
+  );
+  @include mat.form-field-overrides(
+    (
+      container-text-tracking: -0.7px,
+      outlined-input-text-placeholder-color: var(--adf-theme-foreground-text-color-060)
+    )
+  );
 
   width: 100%;
   height: $search-height;

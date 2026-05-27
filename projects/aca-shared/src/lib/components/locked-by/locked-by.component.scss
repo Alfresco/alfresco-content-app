@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 .aca-locked-by {
   display: flex;
   align-items: center;
@@ -9,7 +11,11 @@
     height: 14px;
     min-width: 14px;
 
-    --mat-icon-color: var(--adf-theme-foreground-icon-color);
+    @include mat.icon-overrides(
+      (
+        color: var(--adf-theme-foreground-icon-color)
+      )
+    );
   }
 
   &--label,

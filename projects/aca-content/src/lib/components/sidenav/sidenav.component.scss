@@ -46,7 +46,14 @@
         --mat-text-button-icon-offset: 0;
         --mat-text-button-icon-spacing: 0;
 
+        @include mat.button-overrides(
+          (
+            text-with-icon-horizontal-padding: 8px
+          )
+        );
+
         .adf-notification-history-menu_button-icon {
+          margin: 0;
           color: var(--adf-theme-foreground-icon-color);
 
           @include mat.badge-overrides(
@@ -56,6 +63,10 @@
             )
           );
         }
+      }
+
+      .aca-toolbar {
+        column-gap: 10px;
       }
     }
   }

@@ -1,6 +1,5 @@
 @use 'sass:map';
 @use '../colors' as colors;
-@use './globals' as globals;
 
 @mixin provide-adf-variables() {
   // map SCSS variables to expose as CSS variables
@@ -102,6 +101,4 @@
       #{$name}: #{$value};
     }
   }
-
-  @include globals.globals;
 }

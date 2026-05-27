@@ -86,7 +86,11 @@ aca-search-results {
       border-bottom: 1px solid var(--theme-border-color);
 
       .adf-search-form-button {
-        --mat-text-button-icon-offset: 0;
+        @include mat.button-overrides(
+          (
+            text-icon-offset: 0
+          )
+        );
 
         .adf-search-form-icon {
           font-size: 24px;
@@ -247,6 +251,15 @@ aca-search-results {
         margin-right: 2px;
         line-height: 33px;
         font-weight: lighter;
+
+        @include mat.button-overrides(
+          (
+            text-horizontal-padding: 8px,
+            text-with-icon-horizontal-padding: 8px,
+            text-icon-offset: 0,
+            text-disabled-label-text-color: var(--adf-theme-foreground-disabled-text-color)
+          )
+        );
 
         --mat-text-button-icon-offset: 0;
         --mdc-text-button-disabled-label-text-color: var(--adf-theme-foreground-disabled-text-color);

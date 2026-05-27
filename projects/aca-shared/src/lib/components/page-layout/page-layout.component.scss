@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 @use '../../styles/mixins' as mixins;
 
 .aca-page-layout {
@@ -10,7 +11,11 @@
     display: flex;
     align-items: center;
 
-    --mat-icon-color: var(--adf-theme-foreground-icon-color);
+    @include mat.icon-overrides(
+      (
+        color: var(--adf-theme-foreground-icon-color)
+      )
+    );
 
     &-button {
       margin-top: -1px;
@@ -27,20 +32,23 @@
       font-size: 20px;
       font-weight: 400;
       letter-spacing: 0.15px;
+      line-height: 30px;
 
-      a,
-      mat-icon {
+      @include mat.icon-overrides(
+        (
+          color: var(--adf-theme-foreground-text-color-064)
+        )
+      );
+
+      .adf-breadcrumb-item-anchor {
         color: var(--adf-theme-foreground-text-color-064);
       }
 
-      mat-icon.adf-breadcrumb-item-chevron {
-        font-size: 24px;
+      .adf-breadcrumb-item-chevron {
+        font-size: var(--mat-sys-headline-medium-size);
+        font-family: var(--mat-icon-font-family, 'Material Icons Outlined');
         margin-top: 6px;
       }
-    }
-
-    .adf-breadcrumb-item-current {
-      line-height: 33px;
     }
 
     .aca-toolbar-action {

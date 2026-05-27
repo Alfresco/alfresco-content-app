@@ -543,23 +543,40 @@ adf-file-uploading-dialog {
   }
 }
 
-mat-snack-bar-container {
-  #{ms.$mat-button}#{ms.$mat-unthemed} {
-    --mdc-text-button-label-text-color: var(--theme-white-background);
-  }
-}
-
 .adf-warning-snackbar,
 .adf-info-snackbar,
 .adf-error-snackbar {
-  --mdc-text-button-label-text-color: var(--theme-white-background);
-
   @include mat.snack-bar-overrides(
     (
       button-color: var(--theme-white-background),
-      supporting-text-color: var(--theme-white-background)
+      supporting-text-color: var(--theme-white-background),
+      container-shape: 4px
     )
   );
+  @include mat.icon-overrides(
+    (
+      color: var(--theme-white-background)
+    )
+  );
+
+  .adf-snackbar-message-content-action {
+    @include mat.button-overrides(
+      (
+        text-label-text-color: var(--theme-header-text-color)
+      )
+    );
+    @include mat.icon-overrides(
+      (
+        color: var(--theme-header-text-color)
+      )
+    );
+  }
+}
+
+.adf-warning-snackbar.adf-warning-snackbar,
+.adf-info-snackbar.adf-info-snackbar,
+.adf-error-snackbar.adf-error-snackbar {
+  margin: 24px;
 }
 
 .adf-warning-snackbar {
@@ -687,6 +704,11 @@ adf-dynamic-component {
     list-item-label-text-tracking: normal
   )
 );
+
+#{ms.$mat-button-base} {
+  -webkit-font-smoothing: antialiased;
+}
+
 @include mat.card-overrides(
   (
     elevated-container-color: var(--adf-theme-background-card-color)
