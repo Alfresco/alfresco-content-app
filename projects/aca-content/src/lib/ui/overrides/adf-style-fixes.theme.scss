@@ -814,6 +814,23 @@
         supporting-text-tracking: normal
       )
     );
+
+    &.adf-new-version-uploader-dialog {
+      .adf-version-list-icon {
+        color: var(--adf-theme-foreground-base-color-065);
+      }
+
+      @include mat.button-overrides(
+        (
+          text-label-text-color: var(--theme-primary-color),
+          text-state-layer-color: var(--theme-primary-color)
+        )
+      );
+
+      .adf-new-version-uploader-dialog-title {
+        font-weight: var(--theme-font-weight-semi-bold);
+      }
+    }
   }
 
   adf-share-dialog {
