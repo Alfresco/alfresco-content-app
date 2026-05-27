@@ -468,60 +468,6 @@
     border: 2px solid var(--theme-primary-color);
   }
 
-  mat-form-field.adf-search-date-range-form-field.adf-search-date-range-input-field,
-  mat-form-field.adf-search-date-range-form-field.adf-search-date-range-form-field-select {
-    // font-size: var(--mat-sys-body-medium-size);
-    // letter-spacing: normal;
-    // line-height: 20px;
-  }
-
-  mat-form-field.adf-search-date-range-form-field:not(.adf-search-date-range-form-field-select, .adf-search-date-range-input-field),
-  adf-folder-dialog mat-dialog-content mat-form-field.adf-folder-dialog-form-field,
-  adf-content-node-selector-panel .adf-content-node-selector-content mat-form-field,
-  adf-add-permission-panel mat-form-field.adf-permission-search-input,
-  adf-sites-dropdown .adf-site-dropdown-container mat-form-field {
-    /* stylelint-disable-next-line selector-class-pattern */
-    // .mat-mdc-input-element {
-    //   font-size: var(--mat-sys-body-medium-size);
-    //   line-height: 20px;
-    //   letter-spacing: normal;
-    // }
-
-    // /* stylelint-disable-next-line selector-class-pattern */
-    // .mat-date-range-input-mirror {
-    //   position: relative;
-    //   top: 1px;
-    // }
-
-    // /* stylelint-disable-next-line selector-class-pattern */
-    // .mat-mdc-form-field-subscript-wrapper mat-error {
-    //   color: var(--theme-warn-color);
-    //   letter-spacing: normal;
-    //   line-height: 20px;
-    // }
-  }
-
-  /* stylelint-disable selector-class-pattern */
-  mat-form-field.adf-search-date-range-form-field.mat-form-field-invalid,
-  mat-form-field.adf-search-date-range-form-field.mat-form-field-invalid mat-label,
-  mat-form-field.adf-search-date-range-form-field.mat-form-field-invalid .mdc-floating-label,
-  mat-form-field.adf-search-date-range-form-field.mat-form-field-invalid .mat-mdc-input-element,
-  adf-folder-dialog mat-form-field.adf-folder-dialog-form-field.mat-form-field-invalid,
-  adf-folder-dialog mat-form-field.adf-folder-dialog-form-field.mat-form-field-invalid mat-label,
-  adf-folder-dialog mat-form-field.adf-folder-dialog-form-field.mat-form-field-invalid .mdc-floating-label,
-  adf-folder-dialog mat-form-field.adf-folder-dialog-form-field.mat-form-field-invalid .mat-mdc-input-element {
-    // color: var(--theme-warn-color);
-  }
-  /* stylelint-enable selector-class-pattern */
-
-  /* stylelint-disable-next-line selector-class-pattern */
-  adf-search-date-range .adf-search-date-range-container .adf-search-date-range-container-row mat-radio-button .mdc-form-field {
-    // font-weight: var(--mat-sys-body-large-weight);
-    // letter-spacing: normal;
-    // line-height: 24px;
-    // color: var(--adf-theme-foreground-text-color-087);
-  }
-
   adf-search-filter-tabbed {
     @include mat.tabs-overrides(
       (
@@ -600,6 +546,10 @@
     .adf-content-selector-modifier-cell {
       display: none;
     }
+  }
+
+  adf-datatable {
+    --mat-sys-surface: var(--theme-white-background);
   }
 
   .adf-document-list .adf-datatable-list {
