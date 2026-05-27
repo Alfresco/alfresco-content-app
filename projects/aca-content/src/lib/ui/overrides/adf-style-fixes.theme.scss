@@ -912,4 +912,15 @@
       )
     );
   }
+
+  adf-tags-creator {
+    --mat-sys-primary: var(--theme-primary-color);
+    --mat-sys-on-surface-variant: var(--adf-theme-foreground-text-color-054);
+
+    @include mat.list-overrides(
+      (
+        list-item-label-text-color: var(--adf-theme-foreground-text-color-087)
+      )
+    );
+  }
 }

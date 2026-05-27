@@ -204,8 +204,10 @@ html {
     (
       container-shape-radius: 16px,
       outline-width: 0,
+      outline-color: var(--adf-theme-foreground-disabled-text-color),
       label-text-line-height: 24px,
-      label-text-color: var(--theme-selected-text-color)
+      label-text-color: var(--adf-theme-foreground-text-color-064),
+      with-trailing-icon-trailing-icon-color: var(--adf-theme-foreground-disabled-text-color)
     )
   );
   @include mat.icon-button-overrides(
