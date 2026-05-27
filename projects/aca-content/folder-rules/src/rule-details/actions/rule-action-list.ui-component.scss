@@ -1,10 +1,19 @@
 @use '../../styles/mat-selectors' as ms;
+@use '@angular/material' as mat;
 
 /* stylelint-disable selector-class-pattern */
 .aca-rule-action-list {
   min-width: 0;
 
   .aca-rule-action-list-add-action-button {
+    @include mat.button-overrides(
+      (
+        filled-label-text-color: var(--adf-theme-foreground-base-color),
+        filled-container-color: transparent,
+        filled-horizontal-padding: 16px
+      )
+    );
+
     margin: 4px 0 20px;
 
     .aca-rule-action-list-add-action-button-icon {

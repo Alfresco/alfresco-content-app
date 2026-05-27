@@ -1,6 +1,14 @@
 @use '../../../styles/mat-selectors' as ms;
+@use '@angular/material' as mat;
 
 aca-toolbar-action {
+  @include mat.button-overrides(
+    (
+      filled-horizontal-padding: 16px,
+      outlined-horizontal-padding: 16px
+    )
+  );
+
   font-size: 20px;
   line-height: 32px;
 

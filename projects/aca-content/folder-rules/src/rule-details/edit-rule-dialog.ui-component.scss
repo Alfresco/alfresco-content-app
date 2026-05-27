@@ -51,6 +51,14 @@
   }
 
   .aca-edit-rule-dialog__footer {
+    @include mat.button-overrides(
+      (
+        filled-container-color: transparent,
+        filled-label-text-color: var(--adf-theme-foreground-base-color),
+        filled-horizontal-padding: 16px
+      )
+    );
+
     padding: var(--edit-rule-dialog-padding);
     box-sizing: border-box;
     border-top: 1px solid var(--theme-border-color);

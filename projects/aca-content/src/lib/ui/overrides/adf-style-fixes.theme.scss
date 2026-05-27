@@ -285,7 +285,8 @@
       @include mat.button-overrides(
         (
           filled-label-text-color: var(--adf-theme-foreground-base-color),
-          filled-container-color: transparent
+          filled-container-color: transparent,
+          filled-horizontal-padding: 16px
         )
       );
 
@@ -885,5 +886,13 @@
         )
       );
     }
+  }
+
+  adf-category-selector-dialog mat-dialog-actions button:last-child {
+    @include mat.button-overrides(
+      (
+        text-label-text-color: var(--theme-primary-color)
+      )
+    );
   }
 }

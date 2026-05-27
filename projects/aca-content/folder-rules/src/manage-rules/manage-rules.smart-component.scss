@@ -50,6 +50,13 @@
     }
 
     &__buttons {
+      @include mat.button-overrides(
+        (
+          filled-horizontal-padding: 16px,
+          outlined-horizontal-padding: 16px
+        )
+      );
+
       display: flex;
       align-items: stretch;
       gap: 12px;
