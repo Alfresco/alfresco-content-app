@@ -3,12 +3,6 @@
 .adf-comments-tab-container {
   padding: 16px;
   background-color: var(--adf-theme-background-card-color);
-
-  @include mat.card-overrides(
-    (
-      elevated-container-color: var(--adf-theme-background-card-color)
-    )
-  );
 }
 
 .adf-comments-form-field {
