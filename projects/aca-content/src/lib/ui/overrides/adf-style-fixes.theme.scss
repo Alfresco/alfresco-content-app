@@ -112,18 +112,6 @@
     }
   }
 
-  adf-content-metadata mat-form-field {
-    @include mat.form-field-overrides(
-      (
-        outlined-label-text-size: 19px,
-        outlined-label-text-populated-size: 19px,
-        outlined-disabled-label-text-color: var(--adf-theme-foreground-text-color-060),
-        filled-label-text-size: 19px,
-        filled-disabled-label-text-color: var(--adf-theme-foreground-text-color-060)
-      )
-    );
-  }
-
   .adf-metadata-action-buttons {
     @include mat.icon-overrides(
       (
