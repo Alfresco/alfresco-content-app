@@ -938,4 +938,8 @@
       }
     }
   }
+
+  app-comments-tab {
+    --mdc-elevated-card-container-elevation: none;
+  }
 }
