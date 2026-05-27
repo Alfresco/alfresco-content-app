@@ -15,4 +15,10 @@ app-library-metadata-form {
       )
     );
   }
+
+  @include mat.card-overrides(
+    (
+      elevated-container-shape: 0
+    )
+  );
 }
