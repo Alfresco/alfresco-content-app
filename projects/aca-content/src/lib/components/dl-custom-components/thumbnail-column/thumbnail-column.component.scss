@@ -1,0 +1,9 @@
+@use '@angular/material' as mat;
+
+aca-custom-thumbnail-column {
+  @include mat.icon-overrides(
+    (
+      color: var(--theme-accent-color)
+    )
+  );
+}

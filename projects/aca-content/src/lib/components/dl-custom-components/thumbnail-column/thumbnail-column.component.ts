@@ -31,6 +31,7 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [NgIf, MatIconModule],
   selector: 'aca-custom-thumbnail-column',
   templateUrl: './thumbnail-column.component.html',
+  styleUrls: ['./thumbnail-column.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class ThumbnailColumnComponent implements OnChanges {
