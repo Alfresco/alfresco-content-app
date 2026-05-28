@@ -72,6 +72,29 @@ describe('NodeInformationComponent', () => {
     createdAt: new Date(2024, 1, 1, 11, 11),
     modifiedAt: new Date(2024, 2, 2, 22, 22)
   } as Node;
+  const mockFileLink = {
+    name: 'mock-file-link',
+    id: 'mock-file-link-id',
+    nodeType: 'app:filelink',
+    path: {
+      name: 'mock-file-link-path'
+    },
+    isFolder: false,
+    isFile: true,
+    createdAt: new Date(2024, 1, 1, 11, 11),
+    modifiedAt: new Date(2024, 2, 2, 22, 22)
+  } as Node;
+  const mockFolderLink = {
+    name: 'mock-folder-link',
+    id: 'mock-folder-link-id',
+    nodeType: 'app:folderlink',
+    path: {
+      name: 'mock-folder-link-path'
+    },
+    isFolder: true,
+    createdAt: new Date(2024, 1, 1, 11, 11),
+    modifiedAt: new Date(2024, 2, 2, 22, 22)
+  } as Node;
   const mockSizeDetailsEntry: SizeDetailsEntry = {
     entry: {
       id: 'mock-id',
@@ -240,6 +263,42 @@ describe('NodeInformationComponent', () => {
       expect(locationLabels[1].nativeElement.innerText).toBe('APP.NODE_INFO.REFERENCED');
       expect(secondaryPaths[0].nativeElement.innerText).toBe('mock-secondary-parent-path');
       expect(secondaryPaths[1].nativeElement.innerText).toBe('mock-other-secondary-parent-path');
+    });
+  });
+
+  describe('link nodes', () => {
+    const setupLinkNode = (node: Node) => {
+      TestBed.overrideProvider(DIALOG_COMPONENT_DATA, { useValue: node });
+      fixture = TestBed.createComponent(NodeInformationComponent);
+      nodeService = TestBed.inject(NodesApiService);
+      unitTestingUtils = new UnitTestingUtils(fixture.debugElement);
+    };
+
+    it('should display N/A for size and not make size API calls for file link', () => {
+      setupLinkNode(mockFileLink);
+      spyOn(nodeService, 'listParents').and.returnValue(of({ list: { entries: [] } } as NodeAssociationPaging));
+      spyOn(nodeService, 'initiateFolderSizeCalculation');
+      fixture.detectChanges();
+      expect(getNodeName()).toBe('mock-file-link');
+      expect(getNodeSize()).toBe('APP.NODE_INFO.NOT_AVAILABLE');
+      expect(getNodeLocation()).toBe('mock-file-link-path');
+      expect(getNodeCreationDate()).toBe('2/1/24, 11:11 AM');
+      expect(getNodeModifyDate()).toBe('3/2/24, 10:22 PM');
+      expect(nodeService.initiateFolderSizeCalculation).not.toHaveBeenCalled();
+    });
+
+    it('should display N/A for size and number of files and not make size API calls for folder link', () => {
+      setupLinkNode(mockFolderLink);
+      spyOn(nodeService, 'listParents').and.returnValue(of({ list: { entries: [] } } as NodeAssociationPaging));
+      spyOn(nodeService, 'initiateFolderSizeCalculation');
+      fixture.detectChanges();
+      expect(getNodeName()).toBe('mock-folder-link');
+      expect(getNodeSize()).toBe('APP.NODE_INFO.NOT_AVAILABLE');
+      expect(getNumberOfFiles()).toBe('APP.NODE_INFO.NOT_AVAILABLE');
+      expect(getNodeLocation()).toBe('mock-folder-link-path');
+      expect(getNodeCreationDate()).toBe('2/1/24, 11:11 AM');
+      expect(getNodeModifyDate()).toBe('3/2/24, 10:22 PM');
+      expect(nodeService.initiateFolderSizeCalculation).not.toHaveBeenCalled();
     });
   });
 });
