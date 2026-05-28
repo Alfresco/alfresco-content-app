@@ -505,6 +505,7 @@
             "SIZE": "Size",
             "NUMBER_OF_FILES": "Number of files",
             "CALCULATING": "Calculating...",
+            "NOT_AVAILABLE": "N/A",
             "LOCATION": "Location",
             "REFERENCED": "Referenced",
             "CREATED": "Created",

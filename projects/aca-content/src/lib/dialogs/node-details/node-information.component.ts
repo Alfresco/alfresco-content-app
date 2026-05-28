@@ -79,6 +79,13 @@ export class NodeInformationComponent implements OnInit {
       .subscribe((parents) => {
         this.nodeDetails.secondaryParentsPaths = parents != null ? parents.list.entries.map((entry) => entry.entry.path.name) : [];
       });
+    if (this.node.nodeType === 'app:filelink' || this.node.nodeType === 'app:folderlink') {
+      this.nodeDetails.size = this.translateService.instant('APP.NODE_INFO.NOT_AVAILABLE');
+      if (this.node.isFolder) {
+        this.nodeDetails.numberOfFiles = this.translateService.instant('APP.NODE_INFO.NOT_AVAILABLE');
+      }
+      return;
+    }
     if (this.node.isFolder) {
       this.nodeDetails.size = this.translateService.instant('APP.NODE_INFO.CALCULATING');
       this.nodeDetails.numberOfFiles = this.translateService.instant('APP.NODE_INFO.CALCULATING');
