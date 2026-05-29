@@ -205,79 +205,102 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
     const disabledTags = !this.tagService.areTagsEnabled();
     const disabledCategories = !this.categoryService.areCategoriesEnabled();
     this.cardViewItems = (this.selectedActionDefinition?.parameterDefinitions ?? []).map((paramDef) => {
-      const constraintsForDropdownBox =
-        paramDef.name === 'securityMarkId'
-          ? { name: paramDef.name, constraints: securityMarkOptions || [] }
-          : this._parameterConstraints.find((obj) => obj.name === paramDef.name);
-      const cardViewPropertiesModel = {
-        label: paramDef.displayLabel + (paramDef.mandatory ? ' *' : ''),
-        key: paramDef.name,
-        editable: true,
-        multivalued: paramDef.multiValued,
-        ...(paramDef.mandatory
-          ? {
-              validators: [
-                {
-                  message: 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.REQUIRED',
-                  isValid: (value: unknown) => !!value
-                }
-              ]
-            }
-          : {})
-      };
-      switch (paramDef.type) {
-        case 'd:boolean':
-          return new CardViewBoolItemModel({
-            ...cardViewPropertiesModel,
-            value: this.parameters[paramDef.name] ?? false
-          });
-        case 'd:noderef':
-          if (!constraintsForDropdownBox && !this.readOnly && paramDef.name !== 'category-value') {
-            return new CardViewTextItemModel({
-              ...cardViewPropertiesModel,
-              icon: 'folder',
-              default: '',
-              clickable: true,
-              clickCallBack: this.openSelectorDialog.bind(this, paramDef.name),
-              value: this.parameters[paramDef.name]
-            });
-          } else if (paramDef.name === 'category-value' && !this.readOnly) {
-            return new CardViewTextItemModel({
-              ...cardViewPropertiesModel,
-              icon: 'library_add',
-              default: '',
-              clickable: true,
-              clickCallBack: this.openCatDialog.bind(this, paramDef.name),
-              value: this.parameters[paramDef.name]
-            });
+      const constraintsForDropdownBox = this.getConstraintsForParameter(paramDef, securityMarkOptions);
+      const cardViewPropertiesModel = this.buildBaseCardViewModel(paramDef);
+      return this.createCardViewItemByType(paramDef, cardViewPropertiesModel, constraintsForDropdownBox, disabledTags, disabledCategories);
+    });
+  }
+
+  private getConstraintsForParameter(
+    paramDef: ActionParameterDefinition,
+    securityMarkOptions?: CardViewSelectItemOption<string>[]
+  ): ActionParameterConstraint | { name: string; constraints: CardViewSelectItemOption<string>[] } | undefined {
+    return paramDef.name === 'securityMarkId'
+      ? { name: paramDef.name, constraints: securityMarkOptions || [] }
+      : this._parameterConstraints.find((obj) => obj.name === paramDef.name);
+  }
+
+  private buildBaseCardViewModel(paramDef: ActionParameterDefinition) {
+    return {
+      label: paramDef.displayLabel + (paramDef.mandatory ? ' *' : ''),
+      key: paramDef.name,
+      editable: true,
+      multivalued: paramDef.multiValued,
+      ...(paramDef.mandatory
+        ? {
+            validators: [
+              {
+                message: 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.REQUIRED',
+                isValid: (value: unknown) => !!value
+              }
+            ]
           }
-        //  falls through
-        default:
-          if (constraintsForDropdownBox) {
-            return new CardViewSelectItemModel({
-              ...cardViewPropertiesModel,
-              value: (this.parameters[paramDef.name] as string) ?? '',
-              options$: of(constraintsForDropdownBox.constraints).pipe(
-                map((options) => {
-                  return options.filter(
-                    (option) =>
-                      !(
-                        (disabledTags && this.tagsRelatedPropertiesAndAspects.includes(option.key)) ||
-                        (disabledCategories && this.categoriesRelatedPropertiesAndAspects.includes(option.key))
-                      )
-                  );
-                })
-              )
-            });
-          }
-          return new CardViewTextItemModel({
-            ...cardViewPropertiesModel,
-            value:
-              constraintsForDropdownBox && this.readOnly && this.paramsToFormatDisplayedValue.includes(paramDef.name)
-                ? (constraintsForDropdownBox.constraints.find((constraint) => constraint.key === this.parameters[paramDef.name])?.label ?? '')
-                : (this.parameters[paramDef.name] ?? '')
-          });
-      }
+        : {})
+    };
+  }
+
+  private createCardViewItemByType(
+    paramDef: ActionParameterDefinition,
+    cardViewPropertiesModel: any,
+    constraintsForDropdownBox: any,
+    disabledTags: boolean,
+    disabledCategories: boolean
+  ): CardViewItem {
+    if (paramDef.type === 'd:boolean') {
+      return new CardViewBoolItemModel({
+        ...cardViewPropertiesModel,
+        value: this.parameters[paramDef.name] ?? false
+      });
+    }
+
+    if (paramDef.type === 'd:noderef' && !constraintsForDropdownBox && !this.readOnly && paramDef.name !== 'category-value') {
+      return new CardViewTextItemModel({
+        ...cardViewPropertiesModel,
+        icon: 'folder',
+        default: '',
+        clickable: true,
+        clickCallBack: this.openSelectorDialog.bind(this, paramDef.name),
+        value: this.parameters[paramDef.name]
+      });
+    }
+
+    if (paramDef.type === 'd:noderef' && paramDef.name === 'category-value' && !this.readOnly) {
+      return new CardViewTextItemModel({
+        ...cardViewPropertiesModel,
+        icon: 'library_add',
+        default: '',
+        clickable: true,
+        clickCallBack: this.openCatDialog.bind(this, paramDef.name),
+        value: this.parameters[paramDef.name]
+      });
+    }
+
+    if (constraintsForDropdownBox) {
+      return new CardViewSelectItemModel({
+        ...cardViewPropertiesModel,
+        value: this.parameters[paramDef.name] ?? (paramDef.multiValued ? [''] : ''),
+        options$: of(constraintsForDropdownBox.constraints).pipe(
+          map((options) =>
+            options.filter(
+              (option) =>
+                !(
+                  (disabledTags && this.tagsRelatedPropertiesAndAspects.includes(option.key)) ||
+                  (disabledCategories && this.categoriesRelatedPropertiesAndAspects.includes(option.key))
+                )
+            )
+          )
+        )
+      });
+    }
+
+    const shouldFormatValue = constraintsForDropdownBox && this.readOnly && this.paramsToFormatDisplayedValue.includes(paramDef.name);
+    const formattedValue = shouldFormatValue
+      ? (constraintsForDropdownBox.constraints.find((constraint) => constraint.key === this.parameters[paramDef.name])?.label ?? '')
+      : (this.parameters[paramDef.name] ?? '');
+
+    return new CardViewTextItemModel({
+      ...cardViewPropertiesModel,
+      value: formattedValue
     });
   }
 
