@@ -254,7 +254,7 @@ describe('AppService', () => {
       const apiInstance = alfrescoApiService.getInstance();
       spyOn(apiInstance, 'on').and.callFake((eventName: string | symbol, listener: (...args: unknown[]) => void) => {
         if (eventName === 'error') {
-          apiErrorListener = listener as (error: ApiUnauthorizedError) => void;
+          apiErrorListener = listener;
         }
 
         return apiInstance;
