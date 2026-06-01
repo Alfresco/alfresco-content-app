@@ -2,28 +2,31 @@
 @use '@angular/material' as mat;
 
 .aca-manage-rules {
-  @include mat.button-overrides(
+  @include mat.progress-bar-overrides(
     (
-      outlined-outline-color: var(--adf-theme-foreground-text-color-064)
+      active-indicator-color: var(--theme-primary-color)
     )
   );
-
-  #{ms.$mat-slide-toggle}:is(mat-slide-toggle) #{ms.$mat-switch}:enabled #{ms.$mat-switch-track}::after {
-    background: var(--mdc-switch-selected-track-color);
-  }
-
-  #{ms.$mat-slide-toggle} #{ms.$mat-switch} #{ms.$mat-switch-handle}::before {
-    background: var(--mdc-switch-selected-pressed-handle-color);
-  }
+  @include mat.button-overrides(
+    (
+      outlined-outline-color: var(--adf-theme-foreground-text-color-064),
+      filled-container-color: var(--theme-primary-color),
+      filled-label-text-color: var(--theme-primary-color-default-contrast)
+    )
+  );
 
   &__toolbar {
     color: var(--adf-theme-foreground-text-color-064);
     height: 64px;
     font-size: var(--theme-body-1-font-size);
     white-space: normal;
-    background-color: inherit;
+    background-color: var(--theme-background-color);
     border: none;
     padding: 0;
+  }
+
+  adf-empty-content {
+    background-color: var(--theme-background-color);
   }
 
   &__actions-bar {
@@ -40,22 +43,66 @@
       align-items: center;
       flex: 1;
       font-size: var(--theme-body-1-font-size);
+
+      mat-icon {
+        color: var(--adf-theme-foreground-text-color-054);
+      }
     }
 
     &__buttons {
       display: flex;
       align-items: stretch;
       gap: 12px;
+
+      @include mat.button-overrides(
+        (
+          filled-horizontal-padding: 16px,
+          outlined-horizontal-padding: 16px
+        )
+      );
     }
 
     &__toggle {
       font-weight: 600;
       font-size: 14px;
+
+      @include mat.slide-toggle-overrides(
+        (
+          track-width: 36px,
+          track-height: 20px,
+          track-shape: 10px,
+          label-text-tracking: normal,
+          selected-handle-size: 14px,
+          unselected-handle-size: 14px,
+          pressed-handle-size: 14px,
+          with-icon-handle-size: 14px,
+          unselected-with-icon-handle-horizontal-margin: 0 3px 0 0,
+          selected-with-icon-handle-horizontal-margin: 0 0 0 16px,
+          selected-handle-color: var(--adf-theme-background-card-color),
+          selected-focus-handle-color: var(--adf-theme-background-card-color),
+          selected-hover-handle-color: var(--adf-theme-background-card-color),
+          selected-pressed-handle-color: var(--adf-theme-background-card-color),
+          selected-icon-color: var(--adf-theme-background-card-color),
+          handle-surface-color: var(--adf-theme-background-card-color),
+          unselected-handle-color: var(--adf-theme-foreground-text-color-075),
+          unselected-focus-handle-color: var(--adf-theme-foreground-text-color-087),
+          unselected-hover-handle-color: var(--adf-theme-foreground-text-color-087),
+          unselected-pressed-handle-color: var(--adf-theme-foreground-text-color-087)
+        )
+      );
     }
 
     &__vertical-divider {
       height: 50%;
       margin: 0 12px;
+    }
+  }
+
+  .aca-page-layout-header {
+    padding: 12px;
+
+    mat-icon {
+      color: var(--adf-theme-foreground-text-color-087);
     }
   }
 

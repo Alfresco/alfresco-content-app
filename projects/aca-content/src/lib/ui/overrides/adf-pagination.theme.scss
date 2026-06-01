@@ -1,5 +1,7 @@
+@use '@angular/material' as mat;
+
 /* stylelint-disable selector-class-pattern */
-@mixin adf-pagination-theme($theme) {
+@mixin adf-pagination-theme() {
   adf-pagination {
     &.adf-pagination {
       height: 32px;
@@ -20,6 +22,12 @@
       }
 
       .adf-pagination__perpage-block {
+        @include mat.icon-button-overrides(
+          (
+            icon-color: var(--adf-theme-foreground-text-color-087)
+          )
+        );
+
         flex: auto;
         padding-right: 24px;
       }
@@ -29,10 +37,34 @@
       }
 
       .adf-pagination__previous-button {
+        @include mat.icon-button-overrides(
+          (
+            icon-color: var(--adf-theme-foreground-text-color-087),
+            disabled-icon-color: var(--adf-theme-foreground-disabled-text-color)
+          )
+        );
+        @include mat.icon-overrides(
+          (
+            color: currentColor
+          )
+        );
+
         margin: 0 12px 0 0;
       }
 
       .adf-pagination__next-button {
+        @include mat.icon-button-overrides(
+          (
+            icon-color: var(--adf-theme-foreground-text-color-087),
+            disabled-icon-color: var(--adf-theme-foreground-disabled-text-color)
+          )
+        );
+        @include mat.icon-overrides(
+          (
+            color: currentColor
+          )
+        );
+
         margin: 0;
       }
 

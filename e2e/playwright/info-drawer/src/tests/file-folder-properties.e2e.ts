@@ -183,8 +183,6 @@ test.describe('Info Drawer - file folder Properties', () => {
   test('[XAT-5513] View file properties - General Info fields', async ({ personalFiles }) => {
     const generalInfoProperties = ['Name', 'Title', 'Creator', 'Created Date', 'Modifier', 'Modified Date', 'Author', 'Description', 'Content Type'];
     await navigateAndOpenInfoDrawer(personalFiles, folder5513);
-    await expect(personalFiles.infoDrawer.generalInfoProperties.first()).not.toBeInViewport();
-    await personalFiles.infoDrawer.generalInfoAccordion.click();
     await expect(personalFiles.infoDrawer.generalInfoProperties.first()).toBeInViewport();
     const getPropertiesText = (await personalFiles.infoDrawer.generalInfoProperties.allTextContents()).join('');
     for (const property of generalInfoProperties) {

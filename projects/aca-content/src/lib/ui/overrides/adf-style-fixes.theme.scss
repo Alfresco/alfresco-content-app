@@ -1,6 +1,520 @@
-@mixin adf-style-fixes($theme) {
-  //  add here all ADF style overrides
-  //  and create a task to move them to ADF
+@use '@angular/material' as mat;
+@use '../mat-selectors' as ms;
+@use '../mixins' as mixins;
+
+@mixin adf-style-fixes() {
+  .adf-info-drawer-layout {
+    background-color: var(--adf-theme-background-card-color);
+
+    .adf-info-drawer-layout-header {
+      .adf-info-drawer-layout-header-title {
+        color: var(--adf-theme-foreground-text-color-064);
+        font-size: 20px;
+      }
+
+      .adf-info-drawer-layout-header-buttons aca-toolbar {
+        @include mat.icon-overrides(
+          (
+            color: var(--adf-theme-foreground-icon-color)
+          )
+        );
+      }
+    }
+
+    .adf-info-drawer-layout-content mat-tab-group.adf-info-drawer-tabs {
+      @include mat.tabs-overrides(
+        (
+          active-label-text-color: var(--theme-primary-color),
+          active-focus-label-text-color: var(--theme-primary-color),
+          active-hover-label-text-color: var(--theme-primary-color),
+          inactive-label-text-color: var(--adf-theme-foreground-text-color-060),
+          inactive-focus-label-text-color: var(--adf-theme-foreground-text-color-060),
+          inactive-hover-label-text-color: var(--adf-theme-foreground-text-color-060),
+          label-text-tracking: normal
+        )
+      );
+    }
+  }
+
+  adf-viewer {
+    @include mat.toolbar-overrides(
+      (
+        container-background-color: var(--adf-theme-background-card-color-087)
+      )
+    );
+    @include mat.icon-overrides(
+      (
+        color: var(--adf-theme-foreground-icon-color)
+      )
+    );
+
+    mat-toolbar {
+      border: 1px solid var(--adf-theme-foreground-text-color-007);
+
+      .adf-viewer__display-name {
+        color: var(--adf-theme-foreground-text-color-087);
+      }
+    }
+  }
+
+  .adf-choose-action {
+    @include mat.button-overrides(
+      (
+        text-label-text-color: var(--theme-primary-color),
+        text-disabled-label-text-color: var(--adf-theme-foreground-text-color-054)
+      )
+    );
+  }
+
+  .adf-metadata-properties {
+    @include mat.expansion-overrides(
+      (
+        container-shape: 4px,
+        container-background-color: var(--adf-theme-background-card-color),
+        container-text-color: var(--adf-theme-foreground-text-color-087),
+        container-text-size: var(--mat-sys-body-medium-size),
+        container-text-tracking: normal,
+        container-text-line-height: 24px,
+        container-text-weight: var(--mat-sys-body-large-weight),
+        header-text-line-height: normal,
+        header-text-tracking: normal,
+        header-text-color: var(--adf-theme-foreground-text-color-087)
+      )
+    );
+
+    mat-expansion-panel.adf-content-metadata-panel {
+      border: 1px solid var(--adf-theme-foreground-divider-color);
+      /* stylelint-disable-next-line declaration-no-important */
+      border-radius: 4px !important;
+      box-shadow: none;
+
+      .adf-metadata-properties-header {
+        padding: 0 12px;
+
+        /* stylelint-disable selector-class-pattern */
+        &.mat-expanded {
+          border-bottom: 1px solid var(--adf-theme-foreground-divider-color);
+        }
+        /* stylelint-enable selector-class-pattern */
+      }
+
+      .adf-metadata-no-item-added {
+        margin-top: 16px;
+        font-size: 15px;
+      }
+
+      .adf-edit-icon-buttons {
+        @include mat.icon-overrides(
+          (
+            color: var(--adf-theme-foreground-text-color-064)
+          )
+        );
+      }
+    }
+  }
+
+  .adf-metadata-action-buttons {
+    @include mat.icon-overrides(
+      (
+        color: var(--adf-metadata-action-button-clear-color)
+      )
+    );
+
+    button:last-child {
+      @include mat.icon-overrides(
+        (
+          color: var(--theme-primary-color)
+        )
+      );
+
+      &[disabled] {
+        @include mat.icon-overrides(
+          (
+            color: var(--adf-theme-foreground-disabled-text-color)
+          )
+        );
+      }
+    }
+  }
+
+  .adf-aspect-list-dialog {
+    @include mat.dialog-overrides(
+      (
+        subhead-size: 18px
+      )
+    );
+
+    .adf-accordion-aspect-list-item {
+      @include mat.expansion-overrides(
+        (
+          container-text-color: var(--adf-theme-foreground-text-color-087),
+          container-text-size: var(--mat-sys-body-medium-size),
+          container-text-weight: var(--mat-sys-body-large-weight),
+          container-text-tracking: normal
+        )
+      );
+    }
+  }
+
+  adf-aspect-list-dialog {
+    @include mat.dialog-overrides(
+      (
+        with-actions-content-padding: 20px
+      )
+    );
+  }
+
+  adf-add-permission-dialog {
+    @include mat.dialog-overrides(
+      (
+        subhead-weight: var(--theme-font-weight-semi-bold),
+        subhead-tracking: -0.5px
+      )
+    );
+
+    .adf-add-permission-dialog-actions {
+      --mat-sys-surface: var(--theme-white-background);
+    }
+
+    // TODO get general designs from Shane and check styling for this part
+    .adf-search-user-button {
+      @include mat.button-overrides(
+        (
+          text-container-height: 32px
+        )
+      );
+    }
+  }
+
+  .adf-permission-search-input {
+    @include mat.icon-overrides(
+      (
+        color: var(--adf-theme-foreground-text-color-060)
+      )
+    );
+  }
+
+  .adf-user-role-column {
+    @include mat.form-field-overrides(
+      (
+        outlined-outline-color: var(--adf-theme-foreground-text-color-060),
+        outlined-hover-outline-color: var(--adf-theme-foreground-text-color-060),
+        outlined-label-text-size: var(--mat-sys-body-medium-size),
+        outlined-label-text-tracking: normal
+      )
+    );
+    @include mat.select-overrides(
+      (
+        enabled-trigger-text-color: var(--adf-theme-foreground-text-color-087),
+        placeholder-text-color: var(--adf-theme-foreground-text-color-060),
+        trigger-text-size: var(--mat-sys-body-medium-size),
+        trigger-text-tracking: normal,
+        trigger-text-line-height: 20px
+      )
+    );
+  }
+
+  .adf-datatable-permission.adf-datatable {
+    --mat-sys-surface: var(--theme-white-background);
+
+    height: calc(100% - 16px);
+
+    .adf-sticky-header {
+      border-top: 1px solid var(--mat-sys-outline-variant);
+    }
+
+    .adf-datatable-body adf-datatable-row {
+      border-top: 1px solid var(--adf-theme-foreground-text-color-007);
+      min-height: 56px;
+
+      &:last-of-type {
+        border-bottom: 1px solid var(--adf-theme-foreground-text-color-007);
+      }
+    }
+
+    @include mixins.aca-user-icon-column;
+  }
+
+  adf-permission-container .adf-datatable-permission.adf-datatable {
+    height: 100%;
+  }
+
+  .adf-search-show {
+    @include mat.list-overrides(
+      (
+        list-item-label-text-color: var(--adf-theme-foreground-text-color-087),
+        list-item-label-text-size: var(--mat-sys-body-medium-size),
+        list-item-label-text-tracking: normal,
+        list-item-label-text-line-height: 20px
+      )
+    );
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    mat-list-option .mdc-list-item__end {
+      display: none;
+    }
+
+    .adf-list-option-item {
+      @include mixins.aca-user-icon-column;
+    }
+  }
+
+  .adf-permission-card {
+    --mdc-elevated-card-container-color: var(--adf-theme-background-card-color);
+
+    .adf-local-permission-container .adf-permission-content-header button:disabled {
+      @include mat.icon-overrides(
+        (
+          color: var(--adf-theme-foreground-disabled-text-color)
+        )
+      );
+    }
+
+    .adf-permission-visibility-toggle {
+      @include mat.button-overrides(
+        (
+          filled-label-text-color: var(--adf-theme-foreground-base-color),
+          filled-container-color: transparent,
+          filled-horizontal-padding: 16px
+        )
+      );
+
+      mat-icon {
+        width: 24px;
+        height: 24px;
+        font-size: 24px;
+        line-height: 24px;
+      }
+    }
+
+    .adf-inherit-toggle {
+      @include mixins.aca-card-slide-toggle($selected-margin: 0 0 0 15px);
+    }
+  }
+
+  adf-aspect-list .adf-accordion-aspect-list .adf-accordion-aspect-list-item {
+    --mat-sys-level2: var(--theme-border-color) 0 2px 2px -1px;
+    --mat-sys-on-secondary-container: var(--adf-theme-foreground-text-color-064);
+
+    @include mat.expansion-overrides(
+      (
+        container-shape: 0,
+        header-text-tracking: normal,
+        header-description-color: var(--adf-theme-foreground-icon-color),
+        header-indicator-color: var(--adf-theme-foreground-text-color-054)
+      )
+    );
+
+    mat-expansion-panel {
+      background-color: transparent;
+      box-shadow: none;
+
+      .adf-aspect-property-table {
+        @include mat.table-overrides(
+          (
+            background-color: var(--adf-theme-background-card-color),
+            row-item-outline-color: var(--adf-theme-foreground-divider-color),
+            header-headline-color: var(--adf-theme-foreground-text-color-064),
+            row-item-label-text-color: var(--adf-theme-foreground-text-color-087),
+            header-headline-tracking: normal,
+            row-item-label-text-tracking: normal
+          )
+        );
+      }
+    }
+  }
+
+  adf-dialog {
+    @include mat.dialog-overrides(
+      (
+        supporting-text-tracking: normal
+      )
+    );
+  }
+
+  adf-card-view {
+    --mat-sys-on-surface: var(--adf-theme-foreground-text-color-087);
+
+    @include mat.chips-overrides(
+      (
+        elevated-container-color: rgb(224.4, 224.4, 224.4),
+        elevated-disabled-container-color: rgb(224.4, 224.4, 224.4),
+        disabled-label-text-color: var(--theme-selected-text-color),
+        disabled-container-opacity: 0.4
+      )
+    );
+
+    display: block;
+    margin-top: 16px;
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    .mat-form-field-disabled {
+      --mat-sys-on-surface: var(--adf-theme-foreground-text-color-040);
+    }
+  }
+
+  adf-search-chip-autocomplete-input {
+    @include mat.form-field-overrides(
+      (
+        container-height: 44px,
+        container-vertical-padding: 14px,
+        outlined-outline-color: var(--adf-theme-foreground-disabled-text-color),
+        outlined-hover-outline-color: var(--adf-theme-foreground-disabled-text-color),
+        outlined-label-text-tracking: normal,
+        filled-label-text-tracking: normal
+      )
+    );
+  }
+
+  adf-search-properties,
+  adf-search-date-range,
+  adf-folder-dialog,
+  adf-content-node-selector-panel,
+  adf-add-permission-panel,
+  adf-sites-dropdown {
+    --mat-sys-on-surface: var(--theme-text-color);
+
+    @include mat.form-field-overrides(
+      (
+        outlined-outline-color: var(--adf-theme-foreground-disabled-text-color),
+        outlined-hover-outline-color: var(--adf-theme-foreground-disabled-text-color)
+      )
+    );
+    @include mat.select-overrides(
+      (
+        trigger-text-size: var(--mat-sys-body-medium-size),
+        trigger-text-tracking: normal,
+        trigger-text-line-height: 20px,
+        placeholder-text-color: var(--adf-theme-foreground-text-color-060)
+      )
+    );
+  }
+
+  adf-content-node-selector-panel {
+    --mat-sys-on-surface: var(--adf-theme-foreground-text-color-087);
+  }
+
+  .adf-search-logical-filter-container .adf-search-input input {
+    width: 284px;
+    height: 25px;
+    padding: 5px;
+    border: 1px solid var(--adf-theme-mat-grey-color-400);
+    border-radius: 5px;
+    margin: 5px 0 0;
+    font-size: var(--mat-sys-body-medium-size);
+  }
+
+  adf-search-filter-menu-card .adf-search-filter-menu-card .adf-search-filter-title {
+    color: var(--adf-theme-foreground-text-color-064);
+    font-weight: var(--theme-font-weight-bold);
+  }
+
+  .adf-filter-fieldset {
+    .adf-filter-title {
+      font-size: 16px;
+      width: unset;
+    }
+
+    .adf-filter-apply-button {
+      @include mat.button-overrides(
+        (
+          text-label-text-color: var(--theme-primary-color)
+        )
+      );
+    }
+  }
+
+  .adf-filter-icon {
+    --mat-sys-on-surface: var(--adf-theme-foreground-icon-color);
+
+    &.adf-filter-icon-active {
+      --mat-sys-primary: var(--theme-primary-color);
+    }
+  }
+
+  .adf-search-checklist {
+    @include mat.checkbox-overrides(
+      (
+        label-text-weight: 500,
+        label-text-tracking: normal,
+        label-text-line-height: 24px
+      )
+    );
+  }
+
+  .aca-content__advanced-filters adf-search-filter-chips mat-chip-set adf-search-widget-chip mat-chip.adf-search-filter-chip[aria-expanded='true'] {
+    border: 2px solid var(--theme-primary-color);
+  }
+
+  adf-search-filter-tabbed {
+    @include mat.tabs-overrides(
+      (
+        active-indicator-height: 3px,
+        divider-color: var(--adf-theme-foreground-text-color-007),
+        label-text-tracking: normal,
+        label-text-weight: 500,
+        label-text-size: 14px,
+        active-label-text-color: var(--adf-theme-foreground-text-color-087),
+        active-hover-label-text-color: var(--adf-theme-foreground-text-color-087),
+        active-focus-label-text-color: var(--adf-theme-foreground-text-color-087),
+        inactive-label-text-color: var(--adf-theme-foreground-text-color-064),
+        inactive-hover-label-text-color: var(--adf-theme-foreground-text-color-064),
+        inactive-focus-label-text-color: var(--adf-theme-foreground-text-color-064)
+      )
+    );
+  }
+
+  adf-login .adf-login-content .adf-ie11FixerParent .adf-ie11FixerChild mat-card.adf-login-card-wide {
+    background-color: var(--adf-theme-background-card-color);
+    box-shadow: var(--theme-box-shadow-dark-color) 0 2px 2px 0;
+    border-color: var(--adf-theme-background-card-color);
+  }
+
+  adf-login .adf-login-content .adf-ie11FixerParent .adf-ie11FixerChild .adf-copyright {
+    font-size: var(--mat-sys-body-small-size);
+  }
+
+  adf-login .adf-login__field {
+    @include mat.form-field-overrides(
+      (
+        outlined-outline-color: var(--adf-theme-foreground-disabled-text-color),
+        outlined-hover-outline-color: var(--adf-theme-foreground-disabled-text-color)
+      )
+    );
+  }
+
+  adf-login .adf-login-button {
+    @include mat.button-overrides(
+      (
+        filled-label-text-weight: var(--theme-font-weight-bold)
+      )
+    );
+
+    box-shadow: var(--theme-box-shadow-first-color) 0 0 0 0;
+  }
+
+  adf-empty-list .adf-empty-list_template .adf-empty-folder {
+    .adf-empty-folder-this-space-is-empty {
+      color: var(--adf-theme-foreground-text-color-064);
+      font-size: 24px;
+      letter-spacing: -1px;
+      line-height: 32px;
+    }
+
+    .adf-empty-folder-drag-drop {
+      font-size: 53px;
+      line-height: 53px;
+      height: 56px;
+      min-height: 56px;
+      letter-spacing: -2px;
+    }
+
+    .adf-empty-folder-any-files-here-to-add {
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: -0.4px;
+    }
+  }
 
   .adf-content-node-selector-content-list {
     .adf-content-selector-modified-cell {
@@ -10,5 +524,431 @@
     .adf-content-selector-modifier-cell {
       display: none;
     }
+  }
+
+  adf-datatable {
+    --mat-sys-surface: var(--theme-white-background);
+  }
+
+  .adf-document-list .adf-datatable-list {
+    @include mat.icon-button-overrides(
+      (
+        icon-color: var(--adf-theme-foreground-text-color-087)
+      )
+    );
+
+    background-color: var(--adf-theme-background-card-color);
+    border: 1px solid var(--adf-theme-foreground-text-color-007);
+    border-top: none;
+
+    &.adf-datatable--empty {
+      --mat-sys-surface: var(--theme-white-background);
+
+      border-top: 1px solid var(--adf-theme-foreground-text-color-007);
+    }
+
+    .adf-datatable-header {
+      border-top: 1px solid var(--adf-theme-foreground-text-color-007);
+      border-bottom: 1px solid transparent;
+
+      [data-automation-id='datatable-row-header']:hover {
+        background-color: var(--adf-theme-background-hover-color);
+      }
+    }
+
+    .adf-datatable-body {
+      .adf-datatable-row {
+        border-top: 1px solid var(--adf-theme-foreground-text-color-007);
+        min-height: 56px;
+
+        &:hover,
+        &:focus {
+          background-color: var(--adf-theme-foreground-text-color-007);
+        }
+
+        &:last-child {
+          border-bottom: 1px solid var(--adf-theme-foreground-text-color-007);
+        }
+
+        &:has(.adf-no-content-container) {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+
+  /* stylelint-disable selector-class-pattern */
+  .cdk-drag-preview.adf-datatable-cell-header {
+    background-color: var(--adf-theme-background-card-color);
+    border-top: none;
+    font-size: var(--mat-sys-body-small-size);
+    font-weight: bold;
+    letter-spacing: 0;
+    color: var(--adf-theme-foreground-text-color-087);
+
+    .adf-datatable__header--sorted-asc,
+    .adf-datatable__header--sorted-desc {
+      padding-right: 3.5px;
+      line-height: 24px;
+
+      &::after {
+        font-size: 16px;
+        line-height: 16px;
+        left: 5px;
+        right: 5px;
+      }
+    }
+  }
+
+  .cdk-drag-preview .adf-datatable-cell-header-content {
+    background-color: var(--adf-theme-background-hover-color);
+  }
+
+  .cdk-drag-preview .adf-datatable__resize-handle {
+    opacity: 1;
+    visibility: visible;
+
+    .adf-datatable__resize-handle--divider {
+      border: 1px solid var(--theme-border-color);
+    }
+  }
+  /* stylelint-enable selector-class-pattern */
+
+  .adf-datatable-list .adf-datatable-cell-header {
+    min-height: 56px;
+    font-size: var(--mat-sys-body-small-size);
+    font-weight: bold;
+    color: var(--adf-theme-foreground-text-color-087);
+
+    .adf-datatable__resize-handle {
+      width: 2px;
+      min-height: 50px;
+    }
+
+    .adf-datatable__resize-handle--divider {
+      border: 1px solid var(--theme-border-color);
+    }
+
+    &:hover .adf-datatable-cell-header-content {
+      background-color: var(--adf-theme-background-hover-color);
+    }
+
+    &:hover > .adf-datatable__resize-handle {
+      opacity: 1;
+      visibility: visible;
+
+      .adf-datatable__resize-handle--divider {
+        border: 1px solid var(--theme-border-color);
+      }
+    }
+
+    .adf-resizable {
+      border-color: var(--adf-theme-background-hover-color);
+    }
+
+    .adf-datatable__header--sorted-asc,
+    .adf-datatable__header--sorted-desc {
+      padding-right: 3.5px;
+      line-height: 24px;
+
+      &::after {
+        font-size: 16px;
+        line-height: 16px;
+        left: 5px;
+        right: 5px;
+      }
+    }
+
+    .adf-datatable-cell-header-drag-icon {
+      margin-right: -7px;
+    }
+  }
+
+  adf-pagination.adf-pagination {
+    background-color: var(--theme-pagination-background-color);
+    border: none;
+  }
+
+  adf-datatable-column-selector {
+    @include mat.list-overrides(
+      (
+        list-item-label-text-color: var(--adf-theme-foreground-icon-color),
+        list-item-label-text-size: var(--mat-sys-body-medium-size),
+        list-item-label-text-tracking: normal,
+        list-item-label-text-line-height: 20px
+      )
+    );
+    @include mat.checkbox-overrides(
+      (
+        selected-icon-color: var(--theme-primary-color),
+        selected-hover-icon-color: var(--theme-primary-color),
+        selected-focus-icon-color: var(--theme-primary-color),
+        selected-pressed-icon-color: var(--theme-primary-color)
+      )
+    );
+  }
+
+  adf-folder-dialog h2.adf-folder-dialog-title {
+    @include mat.dialog-overrides(
+      (
+        subhead-color: var(--adf-theme-foreground-text-color-087),
+        subhead-size: 20px
+      )
+    );
+  }
+
+  adf-content-node-selector h1.adf-content-node-selector-dialog-title {
+    @include mat.dialog-overrides(
+      (
+        subhead-color: var(--adf-theme-foreground-text-color-087),
+        subhead-size: 20px,
+        subhead-weight: 600,
+        subhead-tracking: -0.5px
+      )
+    );
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  .mat-mdc-dialog-container:has(adf-content-node-selector) .mat-mdc-dialog-surface.mdc-dialog__surface {
+    padding-bottom: 0;
+  }
+
+  adf-content-node-selector .adf-content-node-selector-content-list {
+    border-right: 1px solid var(--adf-theme-foreground-text-color-007);
+    border-bottom: 1px solid var(--adf-theme-foreground-text-color-007);
+    border-left: 1px solid var(--adf-theme-foreground-text-color-007);
+
+    adf-document-list adf-datatable .adf-datatable-list.adf-datatable--empty {
+      border-top: 0;
+    }
+  }
+
+  adf-content-node-selector-panel adf-toolbar mat-toolbar {
+    --mat-sys-on-secondary-container: var(--adf-theme-foreground-text-color-054);
+
+    @include mat.toolbar-overrides(
+      (
+        container-background-color: var(--theme-gray-background-color),
+        standard-height: 47px
+      )
+    );
+
+    border: 1px solid var(--adf-theme-foreground-text-color-007);
+
+    .adf-toolbar-title {
+      color: var(--adf-theme-foreground-text-color-064);
+      line-height: 32px;
+
+      .adf-current-folder {
+        width: unset;
+        line-height: 24px;
+        letter-spacing: -0.2px;
+        font-weight: var(--theme-font-weight-semi-bold);
+      }
+    }
+  }
+
+  .adf-dialog-action-button {
+    @include mat.button-overrides(
+      (
+        text-label-text-color: var(--theme-primary-color)
+      )
+    );
+  }
+
+  $version-upload-raised-shadow: (
+    var(--theme-box-shadow-first-color) 0 3px 1px -2px,
+    var(--theme-box-shadow-second-color) 0 2px 2px 0,
+    var(--theme-box-shadow-third-color) 0 1px 5px 0
+  );
+
+  .adf-version-upload-buttons {
+    @include mat.button-overrides(
+      (
+        protected-container-color: var(--adf-theme-background-card-color),
+        protected-label-text-color: var(--adf-theme-foreground-base-color),
+        protected-container-elevation-shadow: $version-upload-raised-shadow,
+        protected-hover-container-elevation-shadow: $version-upload-raised-shadow,
+        protected-focus-container-elevation-shadow: $version-upload-raised-shadow,
+        protected-pressed-container-elevation-shadow: $version-upload-raised-shadow
+      )
+    );
+
+    .adf-upload-button-label {
+      box-shadow: $version-upload-raised-shadow;
+    }
+  }
+
+  adf-version-upload .adf-new-version-max-width {
+    .adf-version-type-label {
+      letter-spacing: normal;
+    }
+
+    .adf-new-version-radio-group {
+      @include mat.radio-overrides(
+        (
+          unselected-icon-color: var(--adf-theme-foreground-text-color-054),
+          unselected-hover-icon-color: var(--adf-theme-foreground-text-color-054),
+          unselected-focus-icon-color: var(--adf-theme-foreground-text-color-054),
+          unselected-pressed-icon-color: var(--adf-theme-foreground-text-color-054),
+          label-text-color: var(--adf-theme-foreground-text-color-087),
+          label-text-weight: 500,
+          label-text-tracking: normal,
+          label-text-line-height: 24px
+        )
+      );
+    }
+  }
+
+  adf-new-version-uploader-dialog {
+    @include mat.dialog-overrides(
+      (
+        subhead-color: var(--adf-theme-foreground-text-color-087),
+        subhead-size: 20px,
+        subhead-weight: var(--theme-font-weight-semi-bold),
+        subhead-tracking: -0.5px,
+        supporting-text-tracking: normal
+      )
+    );
+
+    &.adf-new-version-uploader-dialog {
+      .adf-version-list-icon {
+        color: var(--adf-theme-foreground-base-color-065);
+      }
+
+      @include mat.button-overrides(
+        (
+          text-label-text-color: var(--theme-primary-color),
+          text-state-layer-color: var(--theme-primary-color)
+        )
+      );
+
+      .adf-new-version-uploader-dialog-title {
+        font-weight: var(--theme-font-weight-semi-bold);
+      }
+    }
+  }
+
+  adf-share-dialog {
+    --mat-sys-surface: var(--theme-white-background);
+
+    @include mat.icon-overrides(
+      (
+        color: var(--adf-theme-foreground-text-color-060)
+      )
+    );
+
+    .adf-share-link__form {
+      @include mat.form-field-overrides(
+        (
+          outlined-outline-color: var(--adf-theme-foreground-disabled-text-color),
+          outlined-hover-outline-color: var(--adf-theme-foreground-disabled-text-color)
+        )
+      );
+    }
+
+    .adf-share-link__title.adf-share-link__label.adf-share-link__heading {
+      font-size: 16px;
+      font-weight: var(--theme-font-weight-bold);
+      letter-spacing: -0.4px;
+      line-height: 32px;
+    }
+
+    .adf-share-link__form p.adf-share-link__info.adf-share-link__para {
+      letter-spacing: -0.4px;
+      line-height: 28px;
+    }
+
+    .adf-share-link__actions {
+      #{ms.$mat-button} {
+        background-color: var(--theme-grey-text-background-color);
+      }
+    }
+
+    .adf-share-link__label.adf-sharable-link {
+      letter-spacing: -0.4px;
+      line-height: 28px;
+    }
+
+    mat-slide-toggle {
+      @include mixins.aca-card-slide-toggle(
+        $selected-margin: 0 0 0 16px,
+        $extra-overrides: (
+          disabled-unselected-track-outline-color: var(--adf-theme-foreground-disabled-text-color)
+        )
+      );
+    }
+  }
+
+  adf-comments {
+    .adf-comment-list {
+      .adf-comment-img-container {
+        .adf-comment-user-icon {
+          background-color: var(--theme-primary-color);
+          color: var(--theme-primary-color-default-contrast);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+
+    .adf-comments-input-actions {
+      @include mat.button-overrides(
+        (
+          text-label-text-color: var(--theme-primary-color),
+          text-state-layer-color: var(--theme-primary-color)
+        )
+      );
+    }
+  }
+
+  adf-category-selector-dialog mat-dialog-actions #{ms.$mat-button}:last-child {
+    @include mat.button-overrides(
+      (
+        text-label-text-color: var(--theme-primary-color)
+      )
+    );
+  }
+
+  adf-tags-creator {
+    --mat-sys-primary: var(--theme-primary-color);
+    --mat-sys-on-surface-variant: var(--adf-theme-foreground-text-color-054);
+
+    @include mat.list-overrides(
+      (
+        list-item-label-text-color: var(--adf-theme-foreground-text-color-087)
+      )
+    );
+  }
+
+  adf-categories-management {
+    --mat-sys-on-secondary-container: var(--adf-theme-foreground-text-color-054);
+
+    @include mat.list-overrides(
+      (
+        list-item-label-text-color: var(--adf-theme-foreground-text-color-087)
+      )
+    );
+  }
+
+  adf-pdf-viewer {
+    .adf-pdf-viewer__thumbnails {
+      background: var(--theme-gray-panel-background-color);
+
+      .adf-pdf-thumbnails__thumb {
+        &:hover {
+          box-shadow: 0 0 5px 0 var(--adf-theme-foreground-text-color-087);
+        }
+
+        &--selected {
+          border: 2px solid var(--theme-accent-color-a200);
+        }
+      }
+    }
+  }
+
+  app-comments-tab {
+    --mdc-elevated-card-container-elevation: none;
   }
 }

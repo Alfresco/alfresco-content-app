@@ -30,6 +30,7 @@
       flex-direction: column;
       flex: 1;
       padding: 10px 20px;
+      letter-spacing: normal;
 
       .aca-node-info-item {
         display: flex;
@@ -55,6 +56,11 @@
         &-value {
           display: flex;
           width: 70%;
+
+          adf-icon.aca-node-icon,
+          adf-icon.aca-node-icon mat-icon {
+            color: var(--theme-app-blue-folder);
+          }
         }
 
         .aca-node-info-location {

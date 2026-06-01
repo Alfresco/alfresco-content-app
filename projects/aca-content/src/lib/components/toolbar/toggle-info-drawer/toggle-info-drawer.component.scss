@@ -1,0 +1,18 @@
+@use '@angular/material' as mat;
+
+.app-toggle-info-drawer {
+  button:focus {
+    border: 2px solid var(--theme-blue-button-color);
+    border-radius: 6px;
+    outline: none;
+    background-color: var(--theme-selected-background-color);
+  }
+
+  button[aria-expanded='true'] {
+    @include mat.icon-overrides(
+      (
+        color: var(--theme-primary-color)
+      )
+    );
+  }
+}

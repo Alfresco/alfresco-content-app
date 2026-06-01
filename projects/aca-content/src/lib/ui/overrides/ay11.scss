@@ -1,5 +1,4 @@
 @use '../mixins' as mixins;
-@import '../colors';
 
 /* stylelint-disable selector-class-pattern */
 @mixin ay11-theme() {
@@ -206,7 +205,7 @@
   }
 
   .adf-error-snackbar {
-    background-color: #ba1b1b;
+    background-color: var(--adf-error-color);
 
     .mat-mdc-simple-snack-bar,
     .mat-mdc-snack-bar-action {

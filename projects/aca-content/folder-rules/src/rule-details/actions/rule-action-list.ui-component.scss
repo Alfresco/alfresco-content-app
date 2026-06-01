@@ -1,4 +1,5 @@
 @use '../../styles/mat-selectors' as ms;
+@use '@angular/material' as mat;
 
 /* stylelint-disable selector-class-pattern */
 .aca-rule-action-list {
@@ -6,6 +7,14 @@
 
   .aca-rule-action-list-add-action-button {
     margin: 4px 0 20px;
+
+    @include mat.button-overrides(
+      (
+        filled-label-text-color: var(--adf-theme-foreground-base-color),
+        filled-container-color: transparent,
+        filled-horizontal-padding: 16px
+      )
+    );
 
     .aca-rule-action-list-add-action-button-icon {
       width: 24px;

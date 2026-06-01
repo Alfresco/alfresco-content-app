@@ -1,35 +1,330 @@
 @use '@angular/material' as mat;
 @use './mat-selectors' as ms;
-@use '@alfresco/adf-core/theming' as adf-core;
-@import './custom-theme';
-@import './variables/variables';
-@include custom-theme($custom-theme);
+@use './custom-theme' as custom-theme;
+@use './variables/variables';
+
+$default-font-family: 'Open Sans';
+
+html {
+  @include custom-theme.custom-theme(custom-theme.$custom-theme);
+}
+
+@include custom-theme.custom-theme-overrides;
 /* stylelint-disable-next-line */
 @include mat.elevation-classes();
 /* stylelint-disable-next-line */
 @include mat.app-background();
 
 :root {
+  --mat-sys-on-surface: var(--adf-theme-foreground-text-color-087);
   --mdc-filled-text-field-container-color: transparent;
   --mdc-text-button-label-text-color: inherit;
-  --mat-toolbar-container-text-color: inherit;
   --mat-form-field-container-height: 47.5px;
-  --mdc-checkbox-selected-icon-color: var(--theme-blue-checkbox-color);
-  --mdc-checkbox-selected-hover-icon-color: var(--theme-blue-checkbox-color);
-  --mdc-checkbox-selected-focus-icon-color: var(--theme-blue-checkbox-color);
-  --mat-dialog-container-max-width: 100%;
+  --mat-sys-display-large-font: #{$default-font-family};
+  --mat-sys-display-large-size: 112px;
+  --mat-sys-display-large-line-height: 112px;
+  --mat-sys-display-large-weight: 300;
+  --mat-sys-display-medium-font: #{$default-font-family};
+  --mat-sys-display-medium-size: 56px;
+  --mat-sys-display-medium-line-height: 56px;
+  --mat-sys-display-medium-weight: 400;
+  --mat-sys-display-small-font: #{$default-font-family};
+  --mat-sys-display-small-size: 45px;
+  --mat-sys-display-small-line-height: 48px;
+  --mat-sys-display-small-weight: 400;
+  --mat-sys-headline-large-font: #{$default-font-family};
+  --mat-sys-headline-large-size: 34px;
+  --mat-sys-headline-large-line-height: 40px;
+  --mat-sys-headline-large-weight: 400;
+  --mat-sys-headline-medium-font: #{$default-font-family};
+  --mat-sys-headline-medium-size: 24px;
+  --mat-sys-headline-medium-line-height: 32px;
+  --mat-sys-headline-medium-weight: 400;
+  --mat-sys-headline-small-font: #{$default-font-family};
+  --mat-sys-headline-small-size: 19px;
+  --mat-sys-headline-small-line-height: 24px;
+  --mat-sys-headline-small-weight: 400;
+  --mat-sys-title-large-font: #{$default-font-family};
+  --mat-sys-title-large-size: 16px;
+  --mat-sys-title-large-line-height: 28px;
+  --mat-sys-title-large-weight: 400;
+  --mat-sys-title-medium-font: #{$default-font-family};
+  --mat-sys-title-medium-size: 20px;
+  --mat-sys-title-medium-line-height: 32px;
+  --mat-sys-title-medium-weight: 400;
+  --mat-sys-title-small-font: #{$default-font-family};
+  --mat-sys-title-small-size: 16px;
+  --mat-sys-title-small-line-height: 24px;
+  --mat-sys-title-small-weight: 500;
+  --mat-sys-body-large-font: #{$default-font-family};
+  --mat-sys-body-large-size: 14px;
+  --mat-sys-body-large-line-height: 24px;
+  --mat-sys-body-large-weight: 500;
+  --mat-sys-body-medium-font: #{$default-font-family};
+  --mat-sys-body-medium-size: 14px;
+  --mat-sys-body-medium-line-height: 20px;
+  --mat-sys-body-medium-weight: 400;
+  --mat-sys-body-small-font: #{$default-font-family};
+  --mat-sys-body-small-size: 12px;
+  --mat-sys-body-small-line-height: 20px;
+  --mat-sys-body-small-weight: 400;
+  --mat-sys-label-large-font: #{$default-font-family};
+  --mat-sys-label-large-size: 14px;
+  --mat-sys-label-large-line-height: 14px;
+  --mat-sys-label-large-weight: 500;
+  --mat-sys-display-large: var(--mat-sys-display-large-weight) var(--mat-sys-display-large-size) / var(--mat-sys-display-large-line-height)
+    var(--mat-sys-display-large-font);
+  --mat-sys-display-medium: var(--mat-sys-display-medium-weight) var(--mat-sys-display-medium-size) / var(--mat-sys-display-medium-line-height)
+    var(--mat-sys-display-medium-font);
+  --mat-sys-display-small: var(--mat-sys-display-small-weight) var(--mat-sys-display-small-size) / var(--mat-sys-display-small-line-height)
+    var(--mat-sys-display-small-font);
+  --mat-sys-headline-large: var(--mat-sys-headline-large-weight) var(--mat-sys-headline-large-size) / var(--mat-sys-headline-large-line-height)
+    var(--mat-sys-headline-large-font);
+  --mat-sys-headline-medium: var(--mat-sys-headline-medium-weight) var(--mat-sys-headline-medium-size) / var(--mat-sys-headline-medium-line-height)
+    var(--mat-sys-headline-medium-font);
+  --mat-sys-headline-small: var(--mat-sys-headline-small-weight) var(--mat-sys-headline-small-size) / var(--mat-sys-headline-small-line-height)
+    var(--mat-sys-headline-small-font);
+  --mat-sys-title-large: var(--mat-sys-title-large-weight) var(--mat-sys-title-large-size) / var(--mat-sys-title-large-line-height)
+    var(--mat-sys-title-large-font);
+  --mat-sys-title-medium: var(--mat-sys-title-medium-weight) var(--mat-sys-title-medium-size) / var(--mat-sys-title-medium-line-height)
+    var(--mat-sys-title-medium-font);
+  --mat-sys-title-small: var(--mat-sys-title-small-weight) var(--mat-sys-title-small-size) / var(--mat-sys-title-small-line-height)
+    var(--mat-sys-title-small-font);
+  --mat-sys-body-large: var(--mat-sys-body-large-weight) var(--mat-sys-body-large-size) / var(--mat-sys-body-large-line-height)
+    var(--mat-sys-body-large-font);
+  --mat-sys-body-medium: var(--mat-sys-body-medium-weight) var(--mat-sys-body-medium-size) / var(--mat-sys-body-medium-line-height)
+    var(--mat-sys-body-medium-font);
+  --mat-sys-body-small: var(--mat-sys-body-small-weight) var(--mat-sys-body-small-size) / var(--mat-sys-body-small-line-height)
+    var(--mat-sys-body-small-font);
+  --mat-sys-label-large: var(--mat-sys-label-large-weight) var(--mat-sys-label-large-size) / var(--mat-sys-label-large-line-height)
+    var(--mat-sys-label-large-font);
+  --theme-font-weight-semi-bold: 600;
+  --theme-font-weight-bold: 700;
+  --mat-sys-error: var(--theme-warn-color);
+  --mat-sys-on-error: #fff;
+  --mat-option-focus-state-layer-color: white;
+  --mat-sys-outline-variant: var(--theme-grey-background-color);
+  --mat-sys-surface: var(--theme-background-color);
+  --mat-sys-level2: 0 8px 9px -5px var(--adf-theme-foreground-divider-color), 0 15px 22px 2px var(--adf-theme-foreground-divider-color);
+  --mat-select-panel-background-color: var(--adf-theme-background-card-color);
+  --mat-select-container-elevation-shadow:
+    var(--theme-box-shadow-first-color) 0 5px 5px -3px, var(--theme-box-shadow-second-color) 0 8px 10px 1px,
+    var(--theme-box-shadow-third-color) 0 3px 14px 2px;
 
+  @include mat.autocomplete-overrides(
+    (
+      background-color: var(--theme-white-background)
+    )
+  );
+  @include mat.select-overrides(
+    (
+      panel-background-color: var(--theme-white-background),
+      trigger-text-size: var(--mat-sys-body-medium-size)
+    )
+  );
+  @include mat.toolbar-overrides(
+    (
+      container-text-color: inherit
+    )
+  );
+  @include mat.checkbox-overrides(
+    (
+      label-text-color: var(--adf-theme-foreground-text-color-087),
+      selected-icon-color: var(--theme-blue-checkbox-color),
+      selected-hover-icon-color: var(--theme-blue-checkbox-color),
+      selected-focus-icon-color: var(--theme-blue-checkbox-color),
+      unselected-icon-color: var(--adf-theme-foreground-icon-color)
+    )
+  );
+  @include mat.dialog-overrides(
+    (
+      container-max-width: 100%,
+      container-color: var(--adf-theme-background-card-color),
+      container-shape: 4px
+    )
+  );
   @include mat.form-field-overrides(
     (
+      container-height: var(--theme-form-field-height-default),
+      container-vertical-padding: 16px,
+      container-text-size: 14px,
+      container-text-tracking: normal,
+      container-text-line-height: 20px,
+      outlined-label-text-size: 18px,
       outlined-label-text-populated-size: 18px,
+      outlined-label-text-tracking: normal,
       outlined-label-text-color: var(--theme-selected-text-color),
       outlined-hover-label-text-color: var(--adf-theme-foreground-text-color),
+      outlined-input-text-color: var(--adf-theme-foreground-text-color-087),
       outlined-disabled-input-text-color: var(--adf-theme-foreground-text-color-040),
       outlined-disabled-label-text-color: var(--adf-theme-foreground-text-color-040),
       outlined-disabled-outline-color: var(--adf-theme-foreground-text-color-040),
+      filled-label-text-size: 18px,
+      filled-label-text-tracking: normal,
+      subscript-text-tracking: normal,
+      filled-input-text-color: var(--adf-theme-foreground-text-color-087),
       subscript-text-size: 12px
     )
   );
+  @include mat.sidenav-overrides(
+    (
+      container-shape: 0,
+      container-divider-color: var(--adf-theme-foreground-divider-color),
+      content-background-color: var(--theme-sidenav-background-color)
+    )
+  );
+  @include mat.button-overrides(
+    (
+      text-state-layer-color: var(--adf-theme-foreground-base-color),
+      text-hover-state-layer-opacity: 0.04,
+      filled-disabled-container-color: var(--adf-disabled-button-background),
+      text-label-text-tracking: normal,
+      text-horizontal-padding: 8px,
+      text-with-icon-horizontal-padding: 8px,
+      filled-label-text-tracking: normal,
+      filled-container-color: var(--theme-primary-color),
+      filled-container-shape: 4px,
+      filled-container-height: 36px,
+      filled-horizontal-padding: 8px,
+      outlined-label-text-tracking: normal,
+      outlined-label-text-color: var(--adf-theme-foreground-text-color),
+      outlined-container-shape: 4px,
+      outlined-container-height: 36px,
+      outlined-outline-color: var(--adf-theme-foreground-divider-color),
+      outlined-horizontal-padding: 8px,
+      outlined-state-layer-color: var(--adf-theme-foreground-base-color),
+      outlined-hover-state-layer-opacity: 0.04,
+      protected-label-text-tracking: normal,
+      protected-container-shape: 4px,
+      protected-container-height: 36px,
+      protected-horizontal-padding: 8px,
+      protected-container-color: var(--theme-primary-color),
+      protected-label-text-color: var(--theme-primary-color-default-contrast),
+      protected-state-layer-color: var(--theme-primary-color-default-contrast),
+      protected-hover-state-layer-opacity: 0.04,
+      text-container-shape: 4px,
+      text-container-height: 36px
+    )
+  );
+  @include mat.chips-overrides(
+    (
+      container-shape-radius: 16px,
+      outline-width: 0,
+      outline-color: var(--adf-theme-foreground-disabled-text-color),
+      label-text-line-height: 24px,
+      label-text-color: var(--adf-theme-foreground-text-color-064),
+      with-trailing-icon-trailing-icon-color: var(--adf-theme-foreground-disabled-text-color)
+    )
+  );
+  @include mat.icon-button-overrides(
+    (
+      icon-color: var(--adf-theme-foreground-icon-color),
+      state-layer-size: 48px
+    )
+  );
+  @include mat.icon-overrides(
+    (
+      color: var(--adf-theme-foreground-text-color-087)
+    )
+  );
+  @include mat.menu-overrides(
+    (
+      container-color: var(--theme-white-background),
+      container-elevation-shadow: (
+        var(--theme-box-shadow-first-color) 0 5px 5px -3px,
+        var(--theme-box-shadow-second-color) 0 8px 10px 1px,
+        var(--theme-box-shadow-third-color) 0 3px 14px 2px
+      ),
+      divider-color: var(--adf-theme-foreground-divider-color),
+      divider-bottom-spacing: 0,
+      divider-top-spacing: 0,
+      item-focus-state-layer-color: var(--adf-theme-background-hover-color),
+      item-hover-state-layer-color: var(--adf-theme-background-hover-color),
+      item-icon-color: var(--adf-theme-foreground-text-color-087),
+      item-label-text-tracking: normal,
+      item-label-text-weight: 400,
+      item-leading-spacing: 16px,
+      item-trailing-spacing: 16px,
+      item-spacing: 16px,
+      item-with-icon-leading-spacing: 16px,
+      item-with-icon-trailing-spacing: 16px
+    )
+  );
+  @include mat.divider-overrides(
+    (
+      color: var(--adf-theme-foreground-divider-color)
+    )
+  );
+  @include mat.option-overrides(
+    (
+      focus-state-layer-color: var(--adf-theme-background-hover-color),
+      hover-state-layer-color: var(--adf-theme-background-hover-color),
+      selected-state-layer-color: var(--adf-theme-background-hover-color),
+      selected-state-label-text-color: var(--theme-primary-color),
+      label-text-color: var(--adf-theme-foreground-text-color-087),
+      label-text-size: 14px,
+      label-text-tracking: normal
+    )
+  );
+  @include mat.dialog-overrides(
+    (
+      container-elevation-shadow: (
+        var(--theme-box-shadow-first-color) 0 11px 15px -7px,
+        var(--theme-box-shadow-second-color) 0 24px 38px 3px,
+        var(--theme-box-shadow-third-color) 0 9px 46px 8px
+      )
+    )
+  );
+  @include mat.datepicker-overrides(
+    (
+      calendar-container-background-color: var(--theme-white-background),
+      calendar-container-text-color: var(--adf-theme-foreground-text-color-087),
+      calendar-container-shape: 4px,
+      calendar-container-elevation-shadow: (
+        var(--theme-box-shadow-first-color) 0 2px 4px -1px,
+        var(--theme-box-shadow-second-color) 0 4px 5px 0,
+        var(--theme-box-shadow-third-color) 0 1px 10px 0
+      ),
+      calendar-text-size: 13px,
+      calendar-header-text-size: 11px,
+      calendar-header-text-weight: 400,
+      calendar-header-text-color: var(--adf-theme-foreground-text-color-064),
+      calendar-header-divider-color: var(--adf-theme-foreground-divider-color),
+      calendar-body-label-text-size: 14px,
+      calendar-body-label-text-color: var(--adf-theme-foreground-text-color-054),
+      calendar-period-button-text-size: 14px,
+      calendar-period-button-text-color: var(--adf-theme-foreground-text-color-087),
+      calendar-period-button-icon-color: var(--adf-theme-foreground-text-color-054),
+      calendar-navigation-button-icon-color: var(--adf-theme-foreground-text-color-054),
+      calendar-date-text-color: var(--adf-theme-foreground-text-color-087),
+      calendar-date-today-outline-color: var(--adf-theme-foreground-text-color-040),
+      calendar-date-today-disabled-state-outline-color: var(--adf-theme-foreground-text-color-014),
+      calendar-date-today-selected-state-outline-color: var(--theme-primary-color-default-contrast),
+      calendar-date-disabled-state-text-color: var(--adf-theme-foreground-text-color-040),
+      calendar-date-selected-state-background-color: var(--theme-primary-color),
+      calendar-date-selected-state-text-color: var(--theme-primary-color-default-contrast),
+      calendar-date-hover-state-background-color: color-mix(in srgb, var(--theme-primary-color) 30%, transparent),
+      calendar-date-focus-state-background-color: color-mix(in srgb, var(--theme-primary-color) 30%, transparent),
+      calendar-date-in-range-state-background-color: color-mix(in srgb, var(--theme-primary-color) 20%, transparent)
+    )
+  );
+
+  #{ms.$mat-calendar-previous-button},
+  #{ms.$mat-calendar-next-button} {
+    @include mat.icon-button-overrides(
+      (
+        state-layer-size: 40px
+      )
+    );
+  }
+
+  #{ms.$mat-datepicker-toggle-active} {
+    @include mat.icon-button-overrides(
+      (
+        icon-color: var(--theme-primary-color)
+      )
+    );
+  }
 
   #{ms.$mat-radio-button} {
     @include mat.radio-overrides(
@@ -136,10 +431,12 @@ mat-slide-toggle {
 
 #{ms.$mat-chip}#{ms.$mat-evolution-chip}#{ms.$mat-standard-chip} {
   height: auto;
+  align-items: center;
 
   #{ms.$mat-evolution-chip-text-label} {
     white-space: normal;
     display: flex;
+    align-items: center;
   }
 
   #{ms.$mat-evolution-chip-action}#{ms.$mat-chip-action} {
@@ -168,7 +465,7 @@ mat-slide-toggle {
   }
 
   #{ms.$mat-data-table-row}:last-child #{ms.$mat-data-table-cell} {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    border-bottom: 1px solid var(--adf-theme-foreground-divider-color);
   }
 
   #{ms.$mat-dialog-content} {
@@ -200,10 +497,45 @@ mat-toolbar#{ms.$mat-toolbar}#{ms.$mat-toolbar-single-row} {
   opacity: 1;
 }
 
-.adf-upload-dialog {
-  &__header,
-  &__content {
-    color: var(--theme-secondary-text);
+adf-file-uploading-dialog {
+  .adf-upload-dialog {
+    background: var(--adf-theme-background-dialog-color);
+
+    &__header,
+    &__content {
+      color: var(--theme-secondary-text);
+
+      .adf-file-uploading-row {
+        &:hover {
+          background: var(--adf-theme-mat-grey-color-a200);
+        }
+
+        &__group,
+        .adf-file-uploading-row__file-version {
+          height: 40px;
+
+          .adf-file-uploading-row__status--done {
+            color: var(--theme-accent-color);
+          }
+        }
+
+        .adf-file-uploading-row__status--error {
+          @include mat.icon-overrides(
+            (
+              color: var(--theme-warn-color)
+            )
+          );
+        }
+      }
+    }
+
+    &__actions {
+      @include mat.button-overrides(
+        (
+          text-label-text-color: var(--theme-primary-color)
+        )
+      );
+    }
   }
 }
 
@@ -264,6 +596,10 @@ mat-toolbar#{ms.$mat-toolbar}#{ms.$mat-toolbar-single-row} {
   color: var(--theme-secondary-text);
 }
 
+.adf-empty-content {
+  color: var(--adf-theme-foreground-text-color-064);
+}
+
 .adf-empty-content__icon {
   color: var(--theme-secondary-text);
 }
@@ -274,30 +610,64 @@ mat-toolbar#{ms.$mat-toolbar}#{ms.$mat-toolbar-single-row} {
   }
 }
 
-mat-snack-bar-container {
-  #{ms.$mat-button}#{ms.$mat-unthemed} {
-    --mdc-text-button-label-text-color: var(--theme-white-background);
-  }
-}
-
 .adf-warning-snackbar,
 .adf-info-snackbar,
 .adf-error-snackbar {
-  --mat-mdc-snack-bar-button-color: var(--theme-white-background);
-  --mdc-snackbar-supporting-text-color: var(--theme-white-background);
-  --mdc-text-button-label-text-color: var(--theme-white-background);
+  @include mat.snack-bar-overrides(
+    (
+      button-color: var(--theme-white-background),
+      supporting-text-color: var(--theme-white-background),
+      container-shape: 4px
+    )
+  );
+  @include mat.icon-overrides(
+    (
+      color: var(--theme-white-background)
+    )
+  );
+
+  .adf-snackbar-message-content-action {
+    @include mat.button-overrides(
+      (
+        text-label-text-color: var(--theme-header-text-color)
+      )
+    );
+    @include mat.icon-overrides(
+      (
+        color: var(--theme-header-text-color)
+      )
+    );
+  }
+}
+
+.adf-warning-snackbar.adf-warning-snackbar,
+.adf-info-snackbar.adf-info-snackbar,
+.adf-error-snackbar.adf-error-snackbar {
+  margin: 24px;
 }
 
 .adf-warning-snackbar {
-  --mdc-snackbar-container-color: var(--theme-warning-snackbar-background);
+  @include mat.snack-bar-overrides(
+    (
+      container-color: var(--theme-warning-snackbar-background)
+    )
+  );
 }
 
 .adf-info-snackbar {
-  --mdc-snackbar-container-color: var(--theme-info-snackbar-background);
+  @include mat.snack-bar-overrides(
+    (
+      container-color: var(--theme-info-snackbar-background)
+    )
+  );
 }
 
 .adf-error-snackbar {
-  --mdc-snackbar-container-color: var(--theme-warn-color);
+  @include mat.snack-bar-overrides(
+    (
+      container-color: var(--theme-warn-color)
+    )
+  );
 }
 
 #{ms.$mat-calendar} {
@@ -319,22 +689,6 @@ mat-snack-bar-container {
 
 #{ms.$mat-tab-ripple} {
   display: none;
-}
-
-#{ms.$mat-tab-labels} {
-  border-bottom: 1px solid var(--adf-theme-foreground-text-color-014);
-}
-
-#{ms.$mat-tab-list} {
-  #{ms.$mat-tab-labels} {
-    #{ms.$mat-tab-label-active} {
-      color: var($selected-text-color);
-    }
-  }
-}
-
-#{ms.$mat-tab-label}:not(#{ms.$mat-tab-disabled})#{ms.$mat-tab-label-active} #{ms.$mat-tab-label-text} {
-  color: var(--theme-tab-active-text-color);
 }
 
 adf-dynamic-component {
@@ -392,3 +746,39 @@ adf-dynamic-component {
   padding-left: 0 !important;
   color: var(--adf-theme-foreground-secondary-text-color);
 }
+
+.adf-confirm-dialog {
+  @include mat.dialog-overrides(
+    (
+      with-actions-content-padding: 20px 24px,
+      subhead-size: 20px
+    )
+  );
+
+  .adf-confirm-dialog-button#adf-confirm-accept {
+    @include mat.button-overrides(
+      (
+        text-label-text-color: var(--theme-primary-color)
+      )
+    );
+  }
+}
+
+@include mat.list-overrides(
+  (
+    list-item-label-text-size: 14px,
+    list-item-label-text-line-height: 20px,
+    list-item-label-text-tracking: normal
+  )
+);
+
+#{ms.$mat-button-base} {
+  -webkit-font-smoothing: antialiased;
+}
+
+@include mat.card-overrides(
+  (
+    elevated-container-color: var(--adf-theme-background-card-color),
+    outlined-container-color: var(--adf-theme-background-card-color)
+  )
+);

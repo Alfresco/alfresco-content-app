@@ -9,9 +9,15 @@
     gap: 20px;
 
     adf-card-view {
+      margin-top: 0;
+
       .adf-property-list .adf-property adf-card-view-item-dispatcher adf-card-view-textitem {
         display: inline-block;
         width: 100%;
+
+        .adf-card-textitem-field-container {
+          padding-top: 0;
+        }
 
         .adf-textitem-clickable {
           padding-top: 0;

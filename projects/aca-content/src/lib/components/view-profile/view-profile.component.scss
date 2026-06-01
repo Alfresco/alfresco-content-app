@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 app-view-profile {
   letter-spacing: 0.5px;
 
@@ -48,12 +50,28 @@ app-view-profile {
     align-items: center;
     width: 100%;
 
+    .app-general-save-btn {
+      @include mat.icon-overrides(
+        (
+          color: var(--theme-primary-color)
+        )
+      );
+    }
+
     .app-general-edit {
-      color: var(--adf-theme-foreground-text-color-064);
+      @include mat.icon-overrides(
+        (
+          color: var(--adf-theme-foreground-text-color-064)
+        )
+      );
     }
 
     .app-general-cancel-btn {
-      color: var(--adf-metadata-action-button-clear-color);
+      @include mat.icon-overrides(
+        (
+          color: var(--adf-metadata-action-button-clear-color)
+        )
+      );
     }
   }
 

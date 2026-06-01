@@ -1,4 +1,12 @@
+@use '@angular/material' as mat;
+
 app-details-manager {
+  @include mat.progress-bar-overrides(
+    (
+      active-indicator-color: var(--theme-primary-color)
+    )
+  );
+
   .aca-details-buttons {
     display: flex;
 
@@ -8,6 +16,7 @@ app-details-manager {
       margin-top: 12px;
       outline: none;
       border-radius: 4px;
+      padding: 12px;
 
       &:focus {
         background-color: var(--theme-selected-background-color);
@@ -26,6 +35,18 @@ app-details-manager {
 .aca-details-tabs {
   margin-top: 40px;
   height: calc(100% - 136px);
+
+  @include mat.tabs-overrides(
+    (
+      active-label-text-color: var(--theme-primary-color),
+      active-focus-label-text-color: var(--theme-primary-color),
+      active-hover-label-text-color: var(--theme-primary-color),
+      inactive-label-text-color: var(--adf-theme-foreground-text-color-060),
+      inactive-focus-label-text-color: var(--adf-theme-foreground-text-color-060),
+      inactive-hover-label-text-color: var(--adf-theme-foreground-text-color-060),
+      label-text-tracking: normal
+    )
+  );
 
   > div {
     height: 100%;

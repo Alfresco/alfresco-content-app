@@ -1,9 +1,17 @@
+@use '@angular/material' as mat;
+
 .aca-tags-name-column {
   display: flex;
   width: inherit;
 
   adf-tag-node-list {
     width: inherit;
+
+    @include mat.chips-overrides(
+      (
+        label-text-color: var(--adf-theme-foreground-text-color-064)
+      )
+    );
 
     .adf-dynamic-chip-list-chip {
       background-color: var(--theme-background-card-colour);

@@ -1,21 +1,23 @@
-/* stylelint-disable scss/no-global-function-names */
 @use '@angular/material' as mat;
-@import './mixins';
-@import './theme';
+@use './mixins' as mixins;
+@use './theme';
+@use './custom-theme' as custom;
 
-$foreground: map-get($custom-theme, foreground);
+html {
+  font-family: 'Open Sans', serif;
+  font-size: 16px;
+  color: var(--adf-theme-foreground-text-color-087);
+  letter-spacing: normal;
+}
 
-html,
 body {
-  @include flex-column;
+  @include mixins.flex-column;
 
   font-size: 14px;
-  font-family: 'Open Sans', serif;
-  color: mat.m2-get-color-from-palette($foreground, text, 0.87);
   margin: 0;
 
   & > main {
-    @include flex-column;
+    @include mixins.flex-column;
   }
 }
 
@@ -34,7 +36,7 @@ app-about,
 adf-layout-container,
 aca-search-results,
 ng-component {
-  @include flex-column;
+  @include mixins.flex-column;
 }
 
 @media screen and (max-width: 600px) {
@@ -56,6 +58,10 @@ ng-component {
   border-bottom: 1px solid var(--theme-metadata-property-panel-border-color);
 }
 
+aca-files aca-page-layout .aca-page-layout-content .aca-sidebar {
+  border-color: var(--adf-theme-foreground-text-color-087);
+}
+
 .aca-page-title {
   cursor: default;
   font-size: 20px;
@@ -73,4 +79,25 @@ ng-component {
   flex: 1;
   align-items: center;
   width: 100%;
+}
+
+.adf-notification-history-mark-as-read {
+  @include mat.icon-button-overrides(
+    (
+      icon-color: var(--adf-theme-foreground-text-color-087)
+    )
+  );
+}
+
+.adf-notification-history-menu .adf-notification-history-item-list {
+  .adf-notification-initiator-pic {
+    background: var(--theme-accent-color);
+    color: var(--adf-theme-mat-grey-color-a200);
+    font-size: 16px;
+  }
+
+  .adf-notification-history-menu-date {
+    color: var(--adf-theme-foreground-text-color-087);
+    font-size: 12px;
+  }
 }

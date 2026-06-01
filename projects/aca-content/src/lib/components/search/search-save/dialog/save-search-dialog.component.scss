@@ -1,7 +1,25 @@
+@use '@angular/material' as mat;
+
 .aca-save-search-dialog {
+  @include mat.dialog-overrides(
+    (
+      with-actions-content-padding: 20px 24px
+    )
+  );
+
   .aca-save-search-dialog__form-field {
     width: 100%;
     margin-bottom: 15px;
+  }
+
+  mat-dialog-content mat-form-field {
+    font-size: 14px;
+    letter-spacing: normal;
+    line-height: 20px;
+
+    mat-label {
+      letter-spacing: normal;
+    }
   }
 
   .aca-save-search-dialog__header {
@@ -15,5 +33,14 @@
     font-size: large;
     font-weight: 200;
     margin: 0;
+  }
+
+  .aca-save-search-dialog__save-button {
+    @include mat.button-overrides(
+      (
+        filled-container-color: var(--theme-primary-color),
+        filled-label-text-color: var(--theme-primary-color-default-contrast)
+      )
+    );
   }
 }

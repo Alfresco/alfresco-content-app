@@ -1,4 +1,12 @@
+@use '@angular/material' as mat;
+
 .aca-saved-search-delete-dialog {
+  @include mat.dialog-overrides(
+    (
+      with-actions-content-padding: 20px 24px
+    )
+  );
+
   .aca-saved-search-delete-dialog__header {
     display: flex;
     align-items: center;
@@ -10,5 +18,14 @@
     font-size: large;
     font-weight: 200;
     margin: 0;
+  }
+
+  mat-dialog-actions button[mat-flat-button] {
+    @include mat.button-overrides(
+      (
+        filled-container-color: var(--theme-primary-color),
+        filled-label-text-color: var(--theme-primary-color-default-contrast)
+      )
+    );
   }
 }

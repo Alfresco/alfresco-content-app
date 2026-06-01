@@ -54,7 +54,6 @@
           mat-dialog-close> {{ 'CANCEL' | titlecase | translate }} </button>
 
   <button mat-flat-button
-          color="primary"
           id="aca-saved-search-edit-dialog-submit-button"
           (click)="submit()"
           [disabled]="!form.valid || isLoading">{{ 'SAVE' | titlecase | translate}}</button>

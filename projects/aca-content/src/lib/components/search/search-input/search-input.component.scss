@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 $search-height: 48px;
 $search-border-radius: 4px;
 
@@ -9,9 +11,25 @@ $search-border-radius: 4px;
   background: none;
   padding: 0;
 
+  @include mat.icon-overrides(
+    (
+      color: var(--theme-foreground-text-color)
+    )
+  );
+  @include mat.form-field-overrides(
+    (
+      container-text-tracking: -0.7px,
+      outlined-input-text-placeholder-color: var(--adf-theme-foreground-text-color-060)
+    )
+  );
+
   .app-search-input {
     font-size: 16px;
     letter-spacing: -0.7px;
+
+    &::placeholder {
+      letter-spacing: -0.7px;
+    }
   }
 
   /* stylelint-disable-next-line selector-class-pattern */

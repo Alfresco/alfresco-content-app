@@ -42,6 +42,9 @@
     "size": 25,
     "supportedPageSizes": [25, 50, 100]
   },
+  "notification": {
+    "badgeSize": "medium"
+  },
   "files": {
     "excluded": [".DS_Store", "desktop.ini", "Thumbs.db", ".git"],
     "match-options": {

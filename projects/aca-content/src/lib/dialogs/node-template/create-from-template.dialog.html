@@ -42,11 +42,15 @@
   </form>
 </div>
 <div mat-dialog-actions class="app-create-from-template-footer">
-  <button mat-button mat-dialog-close data-automation-id="create-from-template-dialog-cancel-button">
+  <button
+    mat-button
+    mat-dialog-close
+    data-automation-id="create-from-template-dialog-cancel-button"
+    class="app-create-from-template-footer-button">
     {{ 'NODE_FROM_TEMPLATE.CANCEL' | translate }}
   </button>
   <button
-    class="app-create-from-template-footer-create-button"
+    class="app-create-from-template-footer-button app-create-from-template-footer-create-button"
     [disabled]="form.invalid"
     mat-button
     (click)="onSubmit()"

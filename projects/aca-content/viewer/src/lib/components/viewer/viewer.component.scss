@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 .app-viewer {
   width: 100%;
   height: 100%;
@@ -14,6 +16,38 @@
 
     .adf-toolbar-divider {
       display: inline;
+    }
+  }
+
+  .adf-viewer-render {
+    .adf-image-viewer__toolbar {
+      .adf-toolbar-container {
+        box-shadow:
+          0 2px 2px var(--theme-box-shadow-dark-color),
+          0 0 2px var(--theme-box-shadow-third-color);
+      }
+    }
+
+    .adf-toolbar .adf-toolbar-container {
+      --mat-sys-surface: var(--theme-white-background);
+
+      border-width: 0;
+      border-radius: 2px;
+
+      @include mat.toolbar-overrides(
+        (
+          standard-height: 48px,
+          container-text-color: var(--adf-theme-foreground-text-color-064)
+        )
+      );
+
+      .adf-image-viewer__toolbar-page-scale {
+        --mat-sys-outline: var(--adf-theme-foreground-text-color-007);
+      }
+
+      .adf-pdf-viewer__toolbar-page-scale {
+        --mat-sys-body-small-size: 14px;
+      }
     }
   }
 

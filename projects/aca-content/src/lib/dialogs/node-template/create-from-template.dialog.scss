@@ -1,61 +1,15 @@
 /* stylelint-disable selector-class-pattern */
 
 app-create-from-template-dialog {
-  overflow: visible;
-  display: block;
-  margin-left: -24px;
-  margin-right: -24px;
+  &.app-create-from-template-dialog {
+    overflow: visible;
+    display: block;
 
-  .app-create-from-template {
-    &-title {
-      margin-left: 24px;
-      margin-right: 24px;
-      font-size: 20px;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: 1.6;
-      letter-spacing: -0.5px;
-      color: var(--theme-text-bold-color);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    &-field {
-      width: 100%;
-      margin-bottom: 15px;
-    }
-
-    &-content {
-      margin: 0 2px;
-      overflow: hidden;
-
-      form:first-child {
-        margin-top: 5px;
-      }
-
-      .app-create-from-template-field {
-        .mdc-floating-label {
-          -webkit-font-smoothing: subpixel-antialiased;
-        }
-
-        .mat-mdc-form-field-error-wrapper {
-          font-size: 10.5px;
-          -webkit-font-smoothing: subpixel-antialiased;
-        }
-      }
-    }
-
-    &-footer {
-      padding: 8px 22px;
+    .app-create-from-template-footer {
+      padding: 8px 0 8px 22px;
       display: flex;
       justify-content: flex-end;
       color: var(--theme-secondary-text-color);
-
-      button {
-        text-transform: uppercase;
-        font-weight: normal;
-      }
 
       &-create-button[disabled] {
         opacity: 0.6;
@@ -63,6 +17,53 @@ app-create-from-template-dialog {
 
       &-create-button:enabled {
         color: var(--theme-accent-color);
+      }
+
+      .app-create-from-template-footer-button {
+        text-transform: uppercase;
+        font-weight: normal;
+        margin-left: 0;
+        padding-right: 9px;
+      }
+    }
+
+    .app-create-from-template {
+      &-title {
+        margin-left: 24px;
+        margin-right: 24px;
+        font-size: 20px;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.6;
+        color: var(--theme-text-bold-color);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      &-field {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+
+      &-content {
+        margin: 0 2px;
+        overflow: hidden;
+
+        form:first-child {
+          margin-top: 5px;
+        }
+
+        .app-create-from-template-field {
+          .mdc-floating-label {
+            -webkit-font-smoothing: subpixel-antialiased;
+          }
+
+          .mat-mdc-form-field-error-wrapper {
+            font-size: 10.5px;
+            -webkit-font-smoothing: subpixel-antialiased;
+          }
+        }
       }
     }
   }

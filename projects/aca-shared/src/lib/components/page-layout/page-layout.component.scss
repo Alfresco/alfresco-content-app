@@ -1,7 +1,8 @@
-@import '../../styles/mixins';
+@use '@angular/material' as mat;
+@use '../../styles/mixins' as mixins;
 
 .aca-page-layout {
-  @include flex-column;
+  @include mixins.flex-column;
 
   .aca-content-header {
     background: var(--theme-page-layout-header-background-color);
@@ -9,6 +10,12 @@
     padding: 0 24px;
     display: flex;
     align-items: center;
+
+    @include mat.icon-overrides(
+      (
+        color: var(--adf-theme-foreground-icon-color)
+      )
+    );
 
     &-button {
       margin-top: -1px;
@@ -25,6 +32,23 @@
       font-size: 20px;
       font-weight: 400;
       letter-spacing: 0.15px;
+      line-height: 30px;
+
+      @include mat.icon-overrides(
+        (
+          color: var(--adf-theme-foreground-text-color-064)
+        )
+      );
+
+      .adf-breadcrumb-item-anchor {
+        color: var(--adf-theme-foreground-text-color-064);
+      }
+
+      .adf-breadcrumb-item-chevron {
+        font-size: var(--mat-sys-headline-medium-size);
+        font-family: var(--mat-icon-font-family, 'Material Icons Outlined');
+        margin-top: 6px;
+      }
     }
 
     .aca-toolbar-action {
@@ -35,17 +59,17 @@
   }
 
   .aca-page-layout-content {
-    @include flex-row;
+    @include mixins.flex-row;
 
     border-top: 1px solid var(--theme-metadata-property-panel-border-color);
   }
 
   .aca-page-layout-error {
-    @include flex-row;
+    @include mixins.flex-row;
   }
 
   .aca-main-content {
-    @include flex-column;
+    @include mixins.flex-column;
   }
 
   .aca-scrollable {
