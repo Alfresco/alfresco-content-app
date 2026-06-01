@@ -169,7 +169,7 @@ jobs:
       - uses: ./.github/actions/setup
         with:
           npm_tag: ${{ inputs.npm-tag }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/configure-git-author@f95467b62527ce087c9a1b7e55c467061cf827a0 #v17.6.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/configure-git-author@a6a8be7429080c132815d0482a55ae4fd28f15ba #v18.7.0
         with:
           username: ${{ vars.BOT_GITHUB_USERNAME }}
           email: ${{ vars.BOT_GITHUB_EMAIL }}
