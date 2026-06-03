@@ -25,6 +25,7 @@
 import { AppService } from './app.service';
 import { TestBed } from '@angular/core/testing';
 import {
+  AppConfigService,
   AuthenticationService,
   NoopTranslateModule,
   NotificationService,
@@ -43,14 +44,23 @@ import {
   SharedLinksApiService,
   UploadService
 } from '@alfresco/adf-content-services';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { provideMockStore } from '@ngrx/store/testing';
 import { RepositoryInfo, VersionInfo } from '@alfresco/js-api';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { ContentApiService } from './content-api.service';
 import { AppSettingsService, UserProfileService } from '@alfresco/aca-shared';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+
+interface ApiUnauthorizedError {
+  status: number;
+  response: {
+    req?: {
+      url?: string;
+    };
+  };
+}
 
 describe('AppService', () => {
   let service: AppService;
@@ -95,7 +105,9 @@ describe('AppService', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            snapshot: {}
+            snapshot: {
+              queryParams: {}
+            }
           }
         },
         {
@@ -220,6 +232,63 @@ describe('AppService', () => {
     service.init();
     auth.onLogin.next(true);
     expect(contentApi.getRepositoryInformation).toHaveBeenCalled();
+  });
+
+  describe('Init with unauthorized api error', () => {
+    let appConfigService: AppConfigService;
+    let router: Router;
+    let matDialog: MatDialog;
+    let alfrescoApiService: AlfrescoApiService;
+    let navigateSpy: jasmine.Spy;
+    let closeAllSpy: jasmine.Spy;
+    let apiErrorListener: (error: ApiUnauthorizedError) => void;
+
+    const setupUnauthorizedErrorListener = (currentUrl: string): void => {
+      spyOn(auth, 'isLoggedIn').and.returnValue(false);
+      spyOn(alfrescoApiService, 'isExcludedErrorListener').and.returnValue(false);
+      spyOn(appConfigService, 'get').and.callFake((key: string, defaultValue?: any) => (key === 'oauth2.publicUrls' ? ['/public/**'] : defaultValue));
+      spyOnProperty(router, 'url', 'get').and.returnValue(currentUrl);
+      closeAllSpy = spyOn(matDialog, 'closeAll');
+      navigateSpy = spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
+
+      const apiInstance = alfrescoApiService.getInstance();
+      spyOn(apiInstance, 'on').and.callFake((eventName: string | symbol, listener: (...args: unknown[]) => void) => {
+        if (eventName === 'error') {
+          apiErrorListener = listener;
+        }
+
+        return apiInstance;
+      });
+
+      service.init();
+    };
+
+    beforeEach(() => {
+      appConfigService = TestBed.inject(AppConfigService);
+      router = TestBed.inject(Router);
+      matDialog = TestBed.inject(MatDialog);
+      alfrescoApiService = TestBed.inject(AlfrescoApiService);
+    });
+
+    it('should navigate to login on 401 for non-public url when user is logged out', () => {
+      setupUnauthorizedErrorListener('/private/page');
+
+      apiErrorListener({ status: 401, response: { req: { url: '/api/private' } } });
+
+      expect(closeAllSpy).toHaveBeenCalled();
+      expect(navigateSpy).toHaveBeenCalledWith(['/login'], {
+        queryParams: { redirectUrl: '/private/page' }
+      });
+    });
+
+    it('should not navigate to login on 401 for public url when user is logged out', () => {
+      setupUnauthorizedErrorListener('/public/home');
+
+      apiErrorListener({ status: 401, response: { req: { url: '/api/public' } } });
+
+      expect(closeAllSpy).not.toHaveBeenCalled();
+      expect(navigateSpy).not.toHaveBeenCalled();
+    });
   });
 
   it('should load user profile on login', async () => {
