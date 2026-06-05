@@ -11,6 +11,11 @@
     color: var(--theme-app-blue-folder);
   }
 
+  adf-icon.aca-node-icon,
+  adf-icon.aca-node-icon mat-icon {
+    color: var(--theme-app-blue-folder);
+  }
+
   .aca-node-info {
     &-header {
       display: flex;
@@ -56,11 +61,6 @@
         &-value {
           display: flex;
           width: 70%;
-
-          adf-icon.aca-node-icon,
-          adf-icon.aca-node-icon mat-icon {
-            color: var(--theme-app-blue-folder);
-          }
         }
 
         .aca-node-info-location {
