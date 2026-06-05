@@ -951,4 +951,14 @@
   app-comments-tab {
     --mdc-elevated-card-container-elevation: none;
   }
+
+  adf-library-dialog {
+    .adf-action-buttons button[data-automation-id='create-library-id'] {
+      @include mat.button-overrides(
+        (
+          text-label-text-color: var(--theme-primary-color)
+        )
+      );
+    }
+  }
 }
