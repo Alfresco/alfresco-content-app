@@ -1,8 +1,16 @@
-@use '../../ui/mat-selectors' as ms;
+@use '@angular/material' as mat;
 
 .aca-bulk-actions-form-field {
   margin-left: 24px;
   width: 295px;
+
+  @include mat.select-overrides(
+    (
+      placeholder-text-color: var(--adf-theme-foreground-text-color-060),
+      trigger-text-line-height: 20px,
+      trigger-text-tracking: normal
+    )
+  );
 }
 
 .aca-bulk-actions-option-content {
