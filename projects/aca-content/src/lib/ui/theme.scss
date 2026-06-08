@@ -336,6 +336,13 @@ html {
       )
     );
   }
+
+  @include mat.tooltip-overrides(
+    (
+      container-color: var(--adf-accessibility-tooltip-background-color),
+      supporting-text-size: 14px
+    )
+  );
 }
 
 .adf-search-properties-form,
