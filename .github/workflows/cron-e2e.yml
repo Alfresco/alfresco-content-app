@@ -11,8 +11,6 @@ jobs:
     with:
       browser: chrome
     secrets:
-      SCREENSHOT_USERNAME: ${{ secrets.SCREENSHOT_USERNAME }}
-      SCREENSHOT_PASSWORD: ${{ secrets.SCREENSHOT_PASSWORD }}
       REPORT_PORTAL_URL: ${{ secrets.REPORT_PORTAL_URL }}
       REPORT_PORTAL_TOKEN: ${{ secrets.REPORT_PORTAL_TOKEN }}
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -28,8 +26,6 @@ jobs:
     with:
       browser: firefox
     secrets:
-      SCREENSHOT_USERNAME: ${{ secrets.SCREENSHOT_USERNAME }}
-      SCREENSHOT_PASSWORD: ${{ secrets.SCREENSHOT_PASSWORD }}
       REPORT_PORTAL_URL: ${{ secrets.REPORT_PORTAL_URL }}
       REPORT_PORTAL_TOKEN: ${{ secrets.REPORT_PORTAL_TOKEN }}
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -45,8 +41,6 @@ jobs:
     with:
       browser: webkit
     secrets:
-      SCREENSHOT_USERNAME: ${{ secrets.SCREENSHOT_USERNAME }}
-      SCREENSHOT_PASSWORD: ${{ secrets.SCREENSHOT_PASSWORD }}
       REPORT_PORTAL_URL: ${{ secrets.REPORT_PORTAL_URL }}
       REPORT_PORTAL_TOKEN: ${{ secrets.REPORT_PORTAL_TOKEN }}
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -62,8 +56,6 @@ jobs:
     with:
       browser: msedge
     secrets:
-      SCREENSHOT_USERNAME: ${{ secrets.SCREENSHOT_USERNAME }}
-      SCREENSHOT_PASSWORD: ${{ secrets.SCREENSHOT_PASSWORD }}
       REPORT_PORTAL_URL: ${{ secrets.REPORT_PORTAL_URL }}
       REPORT_PORTAL_TOKEN: ${{ secrets.REPORT_PORTAL_TOKEN }}
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}

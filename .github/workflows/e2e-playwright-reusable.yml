@@ -7,10 +7,7 @@ on:
         required: true
         type: string
     secrets:
-      SCREENSHOT_USERNAME:
-        required: true
-      SCREENSHOT_PASSWORD:
-        required: true
+
       REPORT_PORTAL_URL:
         required: true
       REPORT_PORTAL_TOKEN:
@@ -30,8 +27,6 @@ env:
   ADMIN_PASSWORD: admin
   HR_USER: admin
   HR_USER_PASSWORD: admin
-  SCREENSHOT_USERNAME: ${{ secrets.SCREENSHOT_USERNAME }}
-  SCREENSHOT_PASSWORD: ${{ secrets.SCREENSHOT_PASSWORD }}
   PLAYWRIGHT_E2E_HOST: http://localhost:4200
   GH_BUILD_NUMBER: ${{ github.run_id }}
   REPORT_PORTAL_URL: ${{ secrets.REPORT_PORTAL_URL }}
