@@ -15,7 +15,7 @@ on:
         default: 'http://localhost:4200'
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}-${{ inputs.url || secrets.PIPELINE_ENV_URL }}-${{ inputs.playwright_e2e_host || inputs.url || secrets.PLAYWRIGHT_E2E_HOST }}
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ inputs.url }}-${{ inputs.playwright_e2e_host || inputs.url }}
   cancel-in-progress: true
 env:
   BASE_URL: ${{ inputs.url || secrets.PIPELINE_ENV_URL }}
