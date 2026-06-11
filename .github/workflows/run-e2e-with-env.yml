@@ -14,17 +14,12 @@ on:
         required: false
         default: 'http://localhost:4200'
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}-${{ inputs.url || secrets.PIPELINE_ENV_URL }}-${{ inputs.playwright_e2e_host || inputs.url || secrets.PLAYWRIGHT_E2E_HOST }}
-  cancel-in-progress: true
 env:
   BASE_URL: ${{ inputs.url || secrets.PIPELINE_ENV_URL }}
   ADMIN_EMAIL: ${{ secrets.PIPELINE_ADMIN_USERNAME }}
   ADMIN_PASSWORD: ${{ secrets.PIPELINE_ADMIN_PASSWORD }}
-  HR_USER: ${{ secrets.HR_USER }}
-  HR_USER_PASSWORD: ${{ secrets.HR_USER_PASSWORD }}
-  SCREENSHOT_USERNAME: ${{ secrets.SCREENSHOT_USERNAME }}
-  SCREENSHOT_PASSWORD: ${{ secrets.SCREENSHOT_PASSWORD}}
+  HR_USER: hruser
+  HR_USER_PASSWORD: ${{ secrets.FRONTEND_TEST_USER_PASSWORD }}
   PLAYWRIGHT_E2E_HOST: ${{ inputs.playwright_e2e_host || inputs.url || secrets.PLAYWRIGHT_E2E_HOST }}
   GH_BUILD_NUMBER: ${{ github.run_id }}
   REPORT_PORTAL_URL: ${{ secrets.REPORT_PORTAL_URL }}
