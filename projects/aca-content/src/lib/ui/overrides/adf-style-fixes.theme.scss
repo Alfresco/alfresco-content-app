@@ -33,6 +33,10 @@
           label-text-tracking: normal
         )
       );
+
+      .adf-info-drawer-tab:focus-visible {
+        --mat-sys-primary: var(--theme-primary-color);
+      }
     }
   }
 
