@@ -145,7 +145,7 @@ export class AppService implements ShellAppService {
           redirectUrl = this.router.url;
         }
 
-        void this.router.navigate(['/login'], {
+        this.router.navigate(['/login'], {
           queryParams: { redirectUrl }
         });
       }
@@ -177,7 +177,7 @@ export class AppService implements ShellAppService {
     this.ready$.subscribe((isReady) => {
       if (isReady) {
         this.loadRepositoryStatus();
-        void this.loadUserProfile();
+        this.loadUserProfile();
         setTimeout(() => {
           this.openMobileAppDialog();
         });
