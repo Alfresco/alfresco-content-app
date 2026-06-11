@@ -70,8 +70,6 @@
     "katex": "^0.16.21",
     "material-icons": "^1.13.12",
     "mermaid": "^11.15.0",
-    "minimatch": "^10.2.5",
-    "minimatch-browser": "^1.0.0",
     "ngx-markdown": "19.1.1",
     "pdfjs-dist": "5.1.91",
     "prismjs": "^1.30.0",

@@ -25,7 +25,6 @@
 import { AppService } from './app.service';
 import { TestBed } from '@angular/core/testing';
 import {
-  AppConfigService,
   AuthenticationService,
   NoopTranslateModule,
   NotificationService,
@@ -75,9 +74,12 @@ describe('AppService', () => {
   let appSettingsService: AppSettingsService;
   let userProfileService: UserProfileService;
   let notificationService: NotificationService;
+  let queryParams: { [key: string]: string };
   let loadUserProfileSpy: jasmine.Spy;
 
   beforeEach(() => {
+    queryParams = {};
+
     TestBed.configureTestingModule({
       imports: [NoopTranslateModule, MatDialogModule, MatSnackBarModule],
       providers: [
@@ -106,7 +108,7 @@ describe('AppService', () => {
           provide: ActivatedRoute,
           useValue: {
             snapshot: {
-              queryParams: {}
+              queryParams
             }
           }
         },
@@ -235,7 +237,6 @@ describe('AppService', () => {
   });
 
   describe('Init with unauthorized api error', () => {
-    let appConfigService: AppConfigService;
     let router: Router;
     let matDialog: MatDialog;
     let alfrescoApiService: AlfrescoApiService;
@@ -246,7 +247,6 @@ describe('AppService', () => {
     const setupUnauthorizedErrorListener = (currentUrl: string): void => {
       spyOn(auth, 'isLoggedIn').and.returnValue(false);
       spyOn(alfrescoApiService, 'isExcludedErrorListener').and.returnValue(false);
-      spyOn(appConfigService, 'get').and.callFake((key: string, defaultValue?: any) => (key === 'oauth2.publicUrls' ? ['/public/**'] : defaultValue));
       spyOnProperty(router, 'url', 'get').and.returnValue(currentUrl);
       closeAllSpy = spyOn(matDialog, 'closeAll');
       navigateSpy = spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
@@ -264,13 +264,12 @@ describe('AppService', () => {
     };
 
     beforeEach(() => {
-      appConfigService = TestBed.inject(AppConfigService);
       router = TestBed.inject(Router);
       matDialog = TestBed.inject(MatDialog);
       alfrescoApiService = TestBed.inject(AlfrescoApiService);
     });
 
-    it('should navigate to login on 401 for non-public url when user is logged out', () => {
+    it('should navigate to login on 401 when user is logged out', () => {
       setupUnauthorizedErrorListener('/private/page');
 
       apiErrorListener({ status: 401, response: { req: { url: '/api/private' } } });
@@ -281,13 +280,16 @@ describe('AppService', () => {
       });
     });
 
-    it('should not navigate to login on 401 for public url when user is logged out', () => {
-      setupUnauthorizedErrorListener('/public/home');
+    it('should navigate to login with redirectUrl from query params when provided', () => {
+      setupUnauthorizedErrorListener('/private/page');
+      queryParams['redirectUrl'] = '/from-query-param';
 
-      apiErrorListener({ status: 401, response: { req: { url: '/api/public' } } });
+      apiErrorListener({ status: 401, response: { req: { url: '/api/private' } } });
 
-      expect(closeAllSpy).not.toHaveBeenCalled();
-      expect(navigateSpy).not.toHaveBeenCalled();
+      expect(closeAllSpy).toHaveBeenCalled();
+      expect(navigateSpy).toHaveBeenCalledWith(['/login'], {
+        queryParams: { redirectUrl: '/from-query-param' }
+      });
     });
   });
 
