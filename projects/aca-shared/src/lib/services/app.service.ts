@@ -52,7 +52,6 @@ import { ShellAppService } from '@alfresco/adf-core/shell';
 import { AppSettingsService } from './app-settings.service';
 import { UserProfileService } from './user-profile.service';
 import { MatDialog } from '@angular/material/dialog';
-import { minimatch } from 'minimatch';
 
 @Injectable({
   providedIn: 'root'
@@ -133,22 +132,22 @@ export class AppService implements ShellAppService {
 
   init(): void {
     this.alfrescoApiService.getInstance().on('error', (error: { status: number; response: any }) => {
-      if (error.status === 401 && !this.alfrescoApiService.isExcludedErrorListener(error?.response?.req?.url)) {
-        const publicUrls: string[] = this.config.get('oauth2.publicUrls', []);
-        const isPublicUrl = publicUrls.some((pattern) => minimatch(this.router.url, pattern));
+      const shouldNavigateToLogin =
+        error.status === 401 &&
+        !this.alfrescoApiService.isExcludedErrorListener(error?.response?.req?.url) &&
+        !this.authenticationService.isLoggedIn();
 
-        if (!this.authenticationService.isLoggedIn() && !isPublicUrl) {
-          this.matDialog.closeAll();
+      if (shouldNavigateToLogin) {
+        this.matDialog.closeAll();
 
-          let redirectUrl = this.activatedRoute.snapshot.queryParams['redirectUrl'];
-          if (!redirectUrl) {
-            redirectUrl = this.router.url;
-          }
-
-          this.router.navigate(['/login'], {
-            queryParams: { redirectUrl }
-          });
+        let redirectUrl = this.activatedRoute.snapshot.queryParams['redirectUrl'];
+        if (!redirectUrl) {
+          redirectUrl = this.router.url;
         }
+
+        this.router.navigate(['/login'], {
+          queryParams: { redirectUrl }
+        });
       }
     });
 
