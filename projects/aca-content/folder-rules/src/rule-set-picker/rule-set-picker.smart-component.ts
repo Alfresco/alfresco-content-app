@@ -37,7 +37,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RuleListItemUiComponent } from '../rule-list/rule-list-item/rule-list-item.ui-component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ContentNodeSelectorPanelComponent } from '@alfresco/adf-content-services';
+import { ContentNodeSelectorPanelComponent, ShareDataRow } from '@alfresco/adf-content-services';
 
 export interface RuleSetPickerOptions {
   nodeId: string;
@@ -102,6 +102,10 @@ export class RuleSetPickerSmartComponent implements OnInit {
       this.selectedNodeId = nodes[0].id;
       this.folderRuleSetsService.loadRuleSets(this.selectedNodeId, false);
     }
+  }
+
+  rowFilter(row: ShareDataRow): boolean {
+    return row.node.entry.isFolder;
   }
 
   setFolderLoading(isLoading: boolean) {
