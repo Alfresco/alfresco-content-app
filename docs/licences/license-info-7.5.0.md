@@ -1,0 +1,121 @@
+---
+Title: License info, alfresco-content-app 7.5.0
+---
+
+# License information for alfresco-content-app 7.5.0
+
+This page lists all third party libraries the project depends on.
+
+## Libraries
+
+| Name | Version | License |
+| --- | --- | --- |
+| [@alfresco/adf-content-services](https://github.com/Alfresco/alfresco-ng2-components.git) | 8.5.0 | [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0) |
+| [@alfresco/adf-core](https://github.com/Alfresco/alfresco-ng2-components.git) | 8.5.0 | [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0) |
+| [@alfresco/adf-extensions](https://github.com/Alfresco/alfresco-ng2-components.git) | 8.5.0 | [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0) |
+| [@alfresco/eslint-plugin-eslint-angular](https://github.com/Alfresco/alfresco-ng2-components.git) | 8.5.0 | [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0) |
+| [@alfresco/js-api](https://github.com/Alfresco/alfresco-ng2-components.git) | 9.5.0 | [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0) |
+| [@angular/animations](https://github.com/angular/angular.git) | 19.2.20 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@angular/cdk](https://github.com/angular/components.git) | 19.2.19 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@angular/common](https://github.com/angular/angular.git) | 19.2.20 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@angular/compiler](https://github.com/angular/angular.git) | 19.2.20 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@angular/core](https://github.com/angular/angular.git) | 19.2.20 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@angular/forms](https://github.com/angular/angular.git) | 19.2.20 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@angular/material](https://github.com/angular/components.git) | 19.2.19 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@angular/material-date-fns-adapter](https://github.com/angular/components.git) | 19.2.19 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@angular/platform-browser](https://github.com/angular/angular.git) | 19.2.20 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@angular/platform-browser-dynamic](https://github.com/angular/angular.git) | 19.2.20 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@angular/router](git+https://github.com/angular/angular.git) | 19.2.20 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@babel/runtime](https://github.com/babel/babel.git) | 7.26.10 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@braintree/sanitize-url](git+https://github.com/braintree/sanitize-url.git) | 7.1.2 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@fontsource/open-sans](git+https://github.com/fontsource/font-files.git) | 5.2.7 | [OFL-1.1](http://scripts.sil.org/cms/scripts/page.php?item_id=OFL_web) |
+| [@iconify/types](https://github.com/iconify/iconify.git) | 2.0.0 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@iconify/utils](https://github.com/iconify/iconify.git) | 3.1.0 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@mat-datetimepicker/core](https://github.com/kuhnroyal/mat-datetimepicker.git) | 15.0.2 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@napi-rs/canvas](git+https://github.com/Brooooooklyn/canvas.git) | 0.1.97 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@napi-rs/canvas-darwin-arm64](git+https://github.com/Brooooooklyn/canvas.git) | 0.1.97 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@ngrx/effects](https://github.com/ngrx/platform.git) | 19.2.1 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@ngrx/operators](https://github.com/ngrx/platform.git) | 19.2.1 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@ngrx/router-store](git+https://github.com/ngrx/platform.git) | 19.2.1 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@ngrx/store](git+https://github.com/ngrx/platform.git) | 19.2.1 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@ngrx/store-devtools](git+https://github.com/ngrx/platform.git) | 19.2.1 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@ngx-translate/core](https://github.com/ngx-translate/core) | 17.0.0 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 7.4.3 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-array](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 3.2.2 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-axis](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 3.0.6 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-brush](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 3.0.6 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-chord](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 3.0.6 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-color](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 3.1.3 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-contour](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 3.0.6 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-delaunay](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 6.0.4 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-dispatch](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 3.0.7 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-drag](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 3.0.7 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-dsv](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 3.0.7 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-ease](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 3.0.2 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-fetch](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 3.0.7 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-force](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 3.0.10 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-format](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 3.0.4 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-geo](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 3.1.0 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-hierarchy](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 3.1.7 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-interpolate](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 3.0.4 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-path](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 3.1.1 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-polygon](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 3.0.2 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-quadtree](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 3.0.6 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-random](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 3.0.3 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-scale](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 4.0.9 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-scale-chromatic](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 3.1.0 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-selection](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 3.0.11 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-shape](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 3.1.8 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-time](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 3.0.4 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-time-format](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 4.0.3 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-timer](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 3.0.2 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-transition](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 3.0.9 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/d3-zoom](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 3.0.8 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@types/geojson](https://github.com/DefinitelyTyped/DefinitelyTyped.git) | 7946.0.16 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [angular-oauth2-oidc](https://github.com/manfredsteyer/angular-oauth2-oidc) | 19.0.0 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [clipboard](zenorocha/clipboard.js) | 2.0.11 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [commander](https://github.com/tj/commander.js.git) | 8.3.0 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [cose-base](git+https://github.com/iVis-at-Bilkent/cose-base.git) | 1.0.3 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [cose-base](git+https://github.com/iVis-at-Bilkent/cose-base.git) | 2.2.0 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [cropperjs](git+https://github.com/fengyuanchen/cropperjs.git) | 1.6.2 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [cytoscape-cose-bilkent](https://github.com/cytoscape/cytoscape.js-cose-bilkent.git) | 4.1.0 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [cytoscape-fcose](https://github.com/iVis-at-Bilkent/cytoscape.js-fcose.git) | 2.2.0 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [d3-array](https://github.com/d3/d3-array.git) | 2.12.1 | [BSD-3-Clause](http://www.opensource.org/licenses/BSD-3-Clause) |
+| [d3-path](https://github.com/d3/d3-path.git) | 1.0.9 | [BSD-3-Clause](http://www.opensource.org/licenses/BSD-3-Clause) |
+| [d3-sankey](https://github.com/d3/d3-sankey.git) | 0.12.3 | [BSD-3-Clause](http://www.opensource.org/licenses/BSD-3-Clause) |
+| [d3-shape](https://github.com/d3/d3-shape.git) | 1.3.7 | [BSD-3-Clause](http://www.opensource.org/licenses/BSD-3-Clause) |
+| [dagre-d3-es](git+https://github.com/tbo47/dagre-es.git) | 7.0.14 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [date-fns](https://github.com/date-fns/date-fns) | 2.30.0 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [date-fns](https://github.com/date-fns/date-fns) | 4.1.0 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [dayjs](https://github.com/iamkun/dayjs.git) | 1.11.20 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [delegate](zenorocha/delegate) | 3.2.0 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [emoji-toolkit](https://github.com/joypixels/emoji-toolkit.git) | 9.0.1 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [es-toolkit](https://github.com/toss/es-toolkit.git) | 1.46.1 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [eventemitter3](git://github.com/primus/eventemitter3.git) | 5.0.4 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [good-listener](zenorocha/good-listener) | 1.2.2 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [hachure-fill](git+https://github.com/pshihn/hachure-fill.git) | 0.5.2 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [internmap](https://github.com/mbostock/internmap.git) | 1.0.1 | [ISC](https://www.isc.org/downloads/software-support-policy/isc-license/) |
+| [katex](https://github.com/KaTeX/KaTeX.git) | 0.16.45 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [layout-base](git+https://github.com/iVis-at-Bilkent/layout-base.git) | 1.0.2 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [layout-base](git+https://github.com/iVis-at-Bilkent/layout-base.git) | 2.0.1 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [lodash-es](lodash/lodash) | 4.18.1 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [marked](git://github.com/markedjs/marked.git) | 16.4.2 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [material-icons](git+https://github.com/marella/material-icons.git) | 1.13.14 | [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0) |
+| [mermaid](https://github.com/mermaid-js/mermaid) | 11.15.0 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [ngx-markdown](https://github.com/jfcere/ngx-markdown) | 19.1.1 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [path-data-parser](git+https://github.com/pshihn/path-data-parser.git) | 0.1.0 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [pdfjs-dist](git+https://github.com/mozilla/pdf.js.git) | 5.1.91 | [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0) |
+| [points-on-curve](git+https://github.com/pshihn/bezier-points.git) | 0.2.0 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [points-on-path](git+https://github.com/pshihn/points-on-path.git) | 0.2.1 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [prismjs](git+https://github.com/PrismJS/prism.git) | 1.30.0 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [regenerator-runtime](https://github.com/facebook/regenerator/tree/main/packages/runtime) | 0.14.1 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [roughjs](git+https://github.com/pshihn/rough.git) | 4.6.6 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [rxjs](https://github.com/reactivex/rxjs.git) | 7.8.2 | [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0) |
+| [select](zenorocha/select) | 1.1.2 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [stylis](https://github.com/thysultan/stylis.js) | 4.3.6 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [tiny-emitter](https://github.com/scottcorgan/tiny-emitter.git) | 2.1.0 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [ts-dedent](https://github.com/tamino-martinius/node-ts-dedent.git) | 2.2.0 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [tslib](https://github.com/Microsoft/tslib.git) | 2.8.1 | [0BSD](http://landley.net/toybox/license.html) |
+| [uuid](https://github.com/uuidjs/uuid.git) | 14.0.0 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [zone.js](git://github.com/angular/angular.git) | 0.15.0 | [MIT](http://www.opensource.org/licenses/MIT) |
+
