@@ -10,11 +10,12 @@
 <mat-dialog-content class="aca-rule-set-picker__content">
   <adf-content-node-selector-panel
     class="aca-rule-set-picker__content__node-selector"
-    [currentFolderId]="defaultNodeId"
     (select)="onNodeSelect($event)"
     (folderLoaded)="setFolderLoading(false)"
     (navigationChange)="setFolderLoading(true)"
-    (siteChange)="setFolderLoading(true)" />
+    (siteChange)="setFolderLoading(true)"
+    [currentFolderId]="defaultNodeId"
+    [rowFilter]="rowFilter" />
 
   <div class="aca-rule-set-picker__content__rule-list" [ngClass]="{ 'aca-justify': rulesLoading$ | async }">
     <ng-container *ngIf="rulesLoading$ | async; else rulesLoaded">

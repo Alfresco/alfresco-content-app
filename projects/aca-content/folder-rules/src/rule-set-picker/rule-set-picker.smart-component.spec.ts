@@ -35,6 +35,7 @@ import {
   AlfrescoApiServiceMock,
   ContentNodeSelectorPanelComponent,
   NodeEntryEvent,
+  ShareDataRow,
   SitesService
 } from '@alfresco/adf-content-services';
 import { provideRouter } from '@angular/router';
@@ -48,6 +49,7 @@ import { RuleSet } from '../model/rule-set.model';
 })
 class MockContentNodeSelectorPanelComponent {
   @Input() currentFolderId: string;
+  @Input() rowFilter: (row: ShareDataRow) => boolean;
   @Output() folderLoaded = new EventEmitter<void>();
   @Output() navigationChange = new EventEmitter<NodeEntryEvent>();
   @Output() siteChange = new EventEmitter<string>();
@@ -123,6 +125,18 @@ describe('RuleSetPickerSmartComponent', () => {
     component.rulesLoading$.subscribe((result) => {
       expect(result).toBe(true);
       done();
+    });
+  });
+
+  describe('rowFilter', () => {
+    it('should keep folder rows', () => {
+      const row = { node: { entry: { isFolder: true } } } as ShareDataRow;
+      expect(component.rowFilter(row)).toBe(true);
+    });
+
+    it('should filter out file rows', () => {
+      const row = { node: { entry: { isFolder: false } } } as ShareDataRow;
+      expect(component.rowFilter(row)).toBe(false);
     });
   });
 
