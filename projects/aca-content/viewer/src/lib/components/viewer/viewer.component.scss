@@ -37,7 +37,8 @@
       @include mat.toolbar-overrides(
         (
           standard-height: 48px,
-          container-text-color: var(--adf-theme-foreground-text-color-064)
+          container-text-color: var(--adf-theme-foreground-text-color-064),
+          container-background-color: var(--mat-sys-surface)
         )
       );
 
