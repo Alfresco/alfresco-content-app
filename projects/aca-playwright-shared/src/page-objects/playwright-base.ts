@@ -38,5 +38,8 @@ export abstract class PlaywrightBase {
     const spinner = this.page.locator('[role="progressbar"]');
     await spinner.waitFor({ state: 'attached', timeout: timeouts.medium }).catch(() => {});
     await spinner.waitFor({ state: 'detached', timeout: timeouts.normal }).catch(() => {});
+    if (await spinner.isVisible()) {
+      await spinner.waitFor({ state: 'detached', timeout: timeouts.normal }).catch(() => {});
+    }
   }
 }

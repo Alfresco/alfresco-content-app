@@ -57,7 +57,7 @@ test.describe('Search Highlighting', () => {
 
       await fileActionsApi.waitForNodesSearchHighlight(fileContentHighlight, { expect: 1 });
     } catch (error) {
-      console.error(`beforeAll failed: ${error}`);
+      console.error(`beforeAll failed: ${JSON.stringify(error)}`);
     }
   });
 
@@ -78,7 +78,12 @@ test.describe('Search Highlighting', () => {
 
   test('[XAT-17121] Matching phrases should be highlighted in the file content for search results', async ({ searchPage, personalFiles }) => {
     await personalFiles.navigate();
-    await searchPage.searchWithin(fileContent, 'files');
+    await searchPage.searchWithin(`${fileContent}`, 'files');
+    await searchPage.searchFilters.dateFilter.click();
+    await searchPage.searchFiltersDate.inTheLastRadioButton.click();
+    await searchPage.searchFiltersDate.quantityInput.fill('1');
+    await searchPage.searchMenuCard.menuCardApply.click();
+    await searchPage.spinnerWaitForReload();
     expect(await searchPage.dataTable.hasHighlightedText('content')).toBe(true);
     expect(await searchPage.dataTable.hasHighlightedText('name')).toBe(false);
   });

@@ -138,7 +138,7 @@ export class ApiClientFactory {
     try {
       await this.alfrescoApi.login(user, userPassword);
     } catch (error) {
-      logger.error(`[API Client Factory] Log in user ${user} failed ${error}`);
+      logger.error(`[API Client Factory] Log in user ${user} failed ${JSON.stringify(error)}`);
       throw error;
     }
   }
@@ -166,7 +166,7 @@ export class ApiClientFactory {
         logger.warn(`[API Client Factory] createUser: user "${user.username}" already exists, skipping creation`);
         return null;
       }
-      logger.error(`[API Client Factory] createUser failed: ${error}`);
+      logger.error(`[API Client Factory] createUser failed: ${JSON.stringify(error)}`);
       throw error;
     }
   }
@@ -177,7 +177,7 @@ export class ApiClientFactory {
     try {
       return await peopleApi.updatePerson(username, { password: newPassword });
     } catch (error) {
-      logger.error(`[API Client Factory] changePassword failed: ${error}`);
+      logger.error(`[API Client Factory] changePassword failed: ${JSON.stringify(error)}`);
       return null;
     }
   }
