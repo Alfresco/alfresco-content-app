@@ -41,6 +41,8 @@ export class SearchFiltersDate extends BaseComponent {
   public anytimeRadioButton = this.anytimeButton.locator(`input`);
   public betweenButton = this.getChild(`[data-automation-id$='date-range-between']`);
   public betweenRadioButton = this.betweenButton.locator(`input`);
+  public inTheLastRadioButton = this.getChild(`[data-automation-id="date-range-in-last"]`);
+  public quantityInput = this.getChild(`[data-automation-id="date-range-in-last-input"]`);
 
   async openCreatedModifiedTab(page: SearchPage, tab: FilterTab): Promise<void> {
     switch (tab) {

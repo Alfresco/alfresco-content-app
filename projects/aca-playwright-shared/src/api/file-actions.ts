@@ -37,7 +37,7 @@ async function toUploadFile(fileLocation: string): Promise<NodeFile> {
     buffer = await fs.promises.readFile(fileLocation);
     fileFixtureCache.set(fileLocation, buffer);
   }
-  return new NodeFile([buffer], path.basename(fileLocation));
+  return new NodeFile([new Uint8Array(buffer)], path.basename(fileLocation));
 }
 
 export class FileActionsApi {
@@ -239,7 +239,7 @@ export class FileActionsApi {
       try {
         return (await this.queryNodesSearchHighlight(searchTerm)).list?.pagination?.totalItems || 0;
       } catch (error) {
-        logger.warn(`queryNodesSearchHighlight failed for "${searchTerm}": ${error}`);
+        logger.warn(`queryNodesSearchHighlight failed for "${searchTerm}": ${JSON.stringify(error)}`);
         return 0;
       }
     };
@@ -248,7 +248,7 @@ export class FileActionsApi {
       await waitForApi(apiCall, predicate, 30, 2500);
       logger.log(`waitForNodesSearchHighlight: Found ${data.expect} nodes with search term "${searchTerm}"`);
     } catch (error) {
-      logger.error(`Error: ${error}`);
+      logger.error(`Error: ${JSON.stringify(error)}`);
     }
   }
 
@@ -263,7 +263,7 @@ export class FileActionsApi {
       }
       return await this.apiService.nodes.updateNodeContent(nodeId, content as unknown as string, opts); // NOSONAR
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.updateNodeContent.name}: ${error}`);
+      logger.error(`${this.constructor.name} ${this.updateNodeContent.name}: ${JSON.stringify(error)}`);
       return Promise.reject(error);
     }
   }

@@ -192,14 +192,14 @@ test.describe('Search Results - General', () => {
   });
 
   test('[XAT-5600] User role is correctly displayed', async ({ searchPage }) => {
-    await searchPage.searchWithin(`admin-${random}-site`, 'libraries');
-
     const expectedSitesRoles = {
       [adminSite1]: SITE_ROLES.SITE_CONSUMER.LABEL,
       [adminSite2]: SITE_ROLES.SITE_CONTRIBUTOR.LABEL,
       [adminSite3]: SITE_ROLES.SITE_COLLABORATOR.LABEL,
       [adminSite4]: SITE_ROLES.SITE_MANAGER.LABEL
     };
+
+    await searchPage.searchWithin(`admin-${random}-site`, 'libraries');
 
     const actualSitesRole = await searchPage.dataTable.getSitesNameAndRole();
 
