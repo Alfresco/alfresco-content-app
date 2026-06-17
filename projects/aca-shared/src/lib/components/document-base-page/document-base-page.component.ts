@@ -226,6 +226,13 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
+  reloadWithoutResettingSelection(): void {
+    if (this.isOutletPreviewUrl()) {
+      return;
+    }
+    this.documentListService.reloadSilently();
+  }
+
   trackByActionId(_: number, action: ContentActionRef) {
     return action.id;
   }

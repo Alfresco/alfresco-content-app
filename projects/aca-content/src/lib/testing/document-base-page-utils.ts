@@ -23,11 +23,18 @@
  */
 
 import { BehaviorSubject, Subject } from 'rxjs';
-import { AgentService, SearchAiInputState, SearchAiService } from '@alfresco/adf-content-services';
+import {
+  AgentService,
+  FileUploadCompleteEvent,
+  FileUploadDeleteEvent,
+  SearchAiInputState,
+  SearchAiService,
+  UploadService
+} from '@alfresco/adf-content-services';
 import { DebugElement, Type } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { SearchAiInputContainerComponent } from '../components/knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { PageComponent } from '@alfresco/aca-shared';
 import { Agent } from '@alfresco/js-api/typings';
 
@@ -99,5 +106,29 @@ export const testHeader = <T extends PageComponent>(component: Type<T>, checkHea
         expect(getHeaderElement()).not.toBeNull();
       });
     }
+  });
+};
+
+export const testUploadEvents = <T extends PageComponent>(getComponent: () => T, getFixture: () => ComponentFixture<T>) => {
+  describe('upload events', () => {
+    beforeEach(() => {
+      spyOn(getComponent() as PageComponent, 'reload');
+      spyOn(getComponent() as PageComponent, 'reloadWithoutResettingSelection');
+      getFixture().detectChanges();
+    });
+
+    it('should call reloadWithoutResettingSelection and not reload on fileUploadComplete', fakeAsync(() => {
+      TestBed.inject(UploadService).fileUploadComplete.next({} as FileUploadCompleteEvent);
+      tick(300);
+      expect((getComponent() as PageComponent).reloadWithoutResettingSelection).toHaveBeenCalled();
+      expect((getComponent() as PageComponent).reload).not.toHaveBeenCalled();
+    }));
+
+    it('should call reloadWithoutResettingSelection and not reload on fileUploadDeleted', fakeAsync(() => {
+      TestBed.inject(UploadService).fileUploadDeleted.next({} as FileUploadDeleteEvent);
+      tick(300);
+      expect((getComponent() as PageComponent).reloadWithoutResettingSelection).toHaveBeenCalled();
+      expect((getComponent() as PageComponent).reload).not.toHaveBeenCalled();
+    }));
   });
 };

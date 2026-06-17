@@ -157,6 +157,23 @@ describe('PageComponent', () => {
       expect(store.dispatch['calls'].mostRecent().args[0]).toEqual(new SetSelectedNodesAction([node]));
     });
 
+    it('should call documentListService.reloadSilently()', () => {
+      spyOn(documentListService, 'reloadSilently');
+
+      component.reloadWithoutResettingSelection();
+
+      expect(documentListService.reloadSilently).toHaveBeenCalledWith();
+    });
+
+    it('should not call documentListService.reloadSilently() when url contains viewer outlet', () => {
+      window.history.pushState({}, null, `${locationHref}#test(viewer:view)`);
+      spyOn(documentListService, 'reloadSilently');
+
+      component.reloadWithoutResettingSelection();
+
+      expect(documentListService.reloadSilently).not.toHaveBeenCalled();
+    });
+
     it('should call ViewNodeAction on showPreview for selected node', () => {
       spyOn(store, 'dispatch');
       const node = {

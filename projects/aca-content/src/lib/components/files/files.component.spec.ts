@@ -25,7 +25,13 @@
 import { TestBed, fakeAsync, tick, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA, SimpleChange, SimpleChanges } from '@angular/core';
 import { Router, ActivatedRoute, convertToParamMap, ParamMap } from '@angular/router';
-import { DocumentListService, FilterSearch, SearchHeaderQueryBuilderService, UploadService } from '@alfresco/adf-content-services';
+import {
+  DocumentListService,
+  FileUploadCompleteEvent,
+  FilterSearch,
+  SearchHeaderQueryBuilderService,
+  UploadService
+} from '@alfresco/adf-content-services';
 import { NodeActionsService } from '../../services/node-actions.service';
 import { FilesComponent } from './files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
@@ -243,6 +249,7 @@ describe('FilesComponent', () => {
   describe('refresh on events', () => {
     beforeEach(() => {
       spyOn(component, 'reload');
+      spyOn(component, 'reloadWithoutResettingSelection');
       fixture.detectChanges();
 
       spyOn(component.documentList, 'loadFolder').and.callFake(() => {});
@@ -342,6 +349,37 @@ describe('FilesComponent', () => {
       tick(500);
 
       expect(component.reload).not.toHaveBeenCalled();
+    }));
+
+    it('should call reloadWithoutResettingSelection when uploaded file belongs to current folder', fakeAsync(() => {
+      const file = { file: { data: { entry: { parentId: 'folder-id' } }, options: {} } } as FileUploadCompleteEvent;
+      component.node = { id: 'folder-id' } as Node;
+
+      uploadService.fileUploadComplete.next(file);
+      tick(500);
+
+      expect(component.reload).not.toHaveBeenCalled();
+      expect(component.reloadWithoutResettingSelection).toHaveBeenCalled();
+    }));
+
+    it('should NOT call reloadWithoutResettingSelection when uploaded file belongs to a different folder', fakeAsync(() => {
+      const file = { file: { data: { entry: { parentId: 'other-folder-id' } }, options: {} } } as FileUploadCompleteEvent;
+      component.node = { id: 'folder-id' } as Node;
+
+      uploadService.fileUploadComplete.next(file);
+      tick(500);
+
+      expect(component.reloadWithoutResettingSelection).not.toHaveBeenCalled();
+    }));
+
+    it('should call reloadWithoutResettingSelection on fileUploadDeleted when file belongs to current folder', fakeAsync(() => {
+      const file = { file: { data: { entry: { parentId: 'folder-id' } }, options: {} } } as FileUploadCompleteEvent;
+      component.node = { id: 'folder-id' } as Node;
+
+      uploadService.fileUploadDeleted.next(file);
+      tick(500);
+
+      expect(component.reloadWithoutResettingSelection).toHaveBeenCalled();
     }));
   });
 
