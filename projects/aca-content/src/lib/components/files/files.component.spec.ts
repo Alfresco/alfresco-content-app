@@ -28,6 +28,7 @@ import { Router, ActivatedRoute, convertToParamMap, ParamMap } from '@angular/ro
 import {
   DocumentListService,
   FileUploadCompleteEvent,
+  FileUploadDeleteEvent,
   FilterSearch,
   SearchHeaderQueryBuilderService,
   UploadService
@@ -373,7 +374,7 @@ describe('FilesComponent', () => {
     }));
 
     it('should call reloadWithoutResettingSelection on fileUploadDeleted when file belongs to current folder', fakeAsync(() => {
-      const file = { file: { data: { entry: { parentId: 'folder-id' } }, options: {} } } as FileUploadCompleteEvent;
+      const file = { file: { data: { entry: { parentId: 'folder-id' } }, options: {} } } as FileUploadDeleteEvent;
       component.node = { id: 'folder-id' } as Node;
 
       uploadService.fileUploadDeleted.next(file);

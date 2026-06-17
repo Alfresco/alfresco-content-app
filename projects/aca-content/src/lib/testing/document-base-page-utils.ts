@@ -112,23 +112,26 @@ export const testHeader = <T extends PageComponent>(component: Type<T>, checkHea
 export const testUploadEvents = <T extends PageComponent>(getComponent: () => T, getFixture: () => ComponentFixture<T>) => {
   describe('upload events', () => {
     beforeEach(() => {
-      spyOn(getComponent() as PageComponent, 'reload');
-      spyOn(getComponent() as PageComponent, 'reloadWithoutResettingSelection');
+      const component: PageComponent = getComponent();
+      spyOn(component, 'reload');
+      spyOn(component, 'reloadWithoutResettingSelection');
       getFixture().detectChanges();
     });
 
     it('should call reloadWithoutResettingSelection and not reload on fileUploadComplete', fakeAsync(() => {
       TestBed.inject(UploadService).fileUploadComplete.next({} as FileUploadCompleteEvent);
       tick(300);
-      expect((getComponent() as PageComponent).reloadWithoutResettingSelection).toHaveBeenCalled();
-      expect((getComponent() as PageComponent).reload).not.toHaveBeenCalled();
+      const component = getComponent();
+      expect(component.reloadWithoutResettingSelection).toHaveBeenCalled();
+      expect(component.reload).not.toHaveBeenCalled();
     }));
 
     it('should call reloadWithoutResettingSelection and not reload on fileUploadDeleted', fakeAsync(() => {
       TestBed.inject(UploadService).fileUploadDeleted.next({} as FileUploadDeleteEvent);
       tick(300);
-      expect((getComponent() as PageComponent).reloadWithoutResettingSelection).toHaveBeenCalled();
-      expect((getComponent() as PageComponent).reload).not.toHaveBeenCalled();
+      const component = getComponent();
+      expect(component.reloadWithoutResettingSelection).toHaveBeenCalled();
+      expect(component.reload).not.toHaveBeenCalled();
     }));
   });
 };
