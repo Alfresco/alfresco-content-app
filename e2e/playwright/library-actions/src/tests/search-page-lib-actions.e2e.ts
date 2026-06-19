@@ -70,14 +70,14 @@ test.describe('Library actions ', () => {
       user2SitesApi = await SitesApi.initialize(username2, username2);
       user2TrashcanApi = await TrashcanApi.initialize(username2, username2);
     } catch (error) {
-      const errorMessage = `Main beforeAll failed : ${String(error)}`;
-      console.error(errorMessage);
-      throw new Error(errorMessage);
+      const searchPageLibActionsBeforeAllErrorMessage = `Search page library actions beforeAll failed : ${String(error)}`;
+      console.error(searchPageLibActionsBeforeAllErrorMessage);
+      throw new Error(searchPageLibActionsBeforeAllErrorMessage);
     }
   });
 
   test.beforeEach(async ({ loginPage, myLibrariesPage }) => {
-    await Utils.tryLoginUser(loginPage, username2, username2, 'beforeEach failed');
+    await Utils.tryLoginUser(loginPage, username2, username2, 'Search page library actions beforeEach failed');
     await myLibrariesPage.navigate();
   });
 
@@ -85,9 +85,9 @@ test.describe('Library actions ', () => {
     try {
       await user2TrashcanApi.emptyTrashcan();
     } catch (error) {
-      const errorMessage = `Main afterAll failed : ${JSON.stringify(error)}`;
-      console.error(errorMessage);
-      throw new Error(errorMessage);
+      const searchPageLibActionsAfterAllErrorMessage = `Search page library actions afterAll failed : ${JSON.stringify(error)}`;
+      console.error(searchPageLibActionsAfterAllErrorMessage);
+      throw new Error(searchPageLibActionsAfterAllErrorMessage);
     }
   });
 

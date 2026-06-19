@@ -72,14 +72,14 @@ test.describe('Library actions ', () => {
       user2FavoritesApi = await FavoritesPageApi.initialize(username2, username2);
       user2TrashcanApi = await TrashcanApi.initialize(username2, username2);
     } catch (error) {
-      const errorMessage = `Main beforeAll failed : ${String(error)}`;
-      console.error(errorMessage);
-      throw new Error(errorMessage);
+      const myLibrariesActionsBeforeAllErrorMessage = `My libraries actions beforeAll failed : ${String(error)}`;
+      console.error(myLibrariesActionsBeforeAllErrorMessage);
+      throw new Error(myLibrariesActionsBeforeAllErrorMessage);
     }
   });
 
   test.beforeEach(async ({ loginPage, myLibrariesPage }) => {
-    await Utils.tryLoginUser(loginPage, username2, username2, 'beforeEach failed');
+    await Utils.tryLoginUser(loginPage, username2, username2, 'My libraries actions beforeEach failed');
     await myLibrariesPage.navigate();
   });
 
@@ -87,9 +87,9 @@ test.describe('Library actions ', () => {
     try {
       await user2TrashcanApi.emptyTrashcan();
     } catch (error) {
-      const errorMessage = `Main afterAll failed : ${JSON.stringify(error)}`;
-      console.error(errorMessage);
-      throw new Error(errorMessage);
+      const myLibrariesActionsAfterAllErrorMessage = `My libraries actions afterAll failed : ${JSON.stringify(error)}`;
+      console.error(myLibrariesActionsAfterAllErrorMessage);
+      throw new Error(myLibrariesActionsAfterAllErrorMessage);
     }
   });
 
