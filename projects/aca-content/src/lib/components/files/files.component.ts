@@ -303,7 +303,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     if (alreadyDisplayedParentFolder) {
       return;
     }
-    this.reload(this.selectedNode);
+    this.reloadWithoutResettingSelection();
   }
 
   onContentAdded(nodes: NodeEntry[]) {

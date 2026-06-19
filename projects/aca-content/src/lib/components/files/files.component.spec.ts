@@ -296,32 +296,34 @@ describe('FilesComponent', () => {
       expect(component.reload).not.toHaveBeenCalled();
     });
 
-    it('should call refresh on fileUploadComplete event if parent node match', fakeAsync(() => {
-      const file: any = { file: { options: { parentId: 'parentId' } } };
-      component.node = { id: 'parentId' } as any;
+    it('should call reloadWithoutResettingSelection on fileUploadComplete event if parent node match', fakeAsync(() => {
+      const file = { file: { options: { parentId: 'parentId' } } } as FileUploadCompleteEvent;
+      component.node = { id: 'parentId' } as Node;
 
       uploadService.fileUploadComplete.next(file);
 
       tick(500);
 
-      expect(component.reload).toHaveBeenCalled();
+      expect(component.reload).not.toHaveBeenCalled();
+      expect(component.reloadWithoutResettingSelection).toHaveBeenCalled();
     }));
 
     it('should not call reload on fileUploadComplete event if file parent folder already displayed', fakeAsync(() => {
       spyOn(component.documentList.data, 'getRows').and.returnValue([{ node: { entry: { isFolder: true, name: 'files' } } }] as any);
-      const file: any = { file: { options: { parentId: 'parentId', path: '/files' } } };
-      component.node = { id: 'parentId' } as any;
+      const file = { file: { options: { parentId: 'parentId', path: '/files' } } } as FileUploadCompleteEvent;
+      component.node = { id: 'parentId' } as Node;
 
       uploadService.fileUploadComplete.next(file);
 
       tick(500);
 
       expect(component.reload).not.toHaveBeenCalled();
+      expect(component.reloadWithoutResettingSelection).not.toHaveBeenCalled();
     }));
 
     it('should not call refresh on fileUploadComplete event if parent mismatch', fakeAsync(() => {
-      const file: any = { file: { options: { parentId: 'otherId' } } };
-      component.node = { id: 'parentId' } as any;
+      const file = { file: { options: { parentId: 'otherId' } } } as FileUploadCompleteEvent;
+      component.node = { id: 'parentId' } as Node;
 
       uploadService.fileUploadComplete.next(file);
 
@@ -330,20 +332,21 @@ describe('FilesComponent', () => {
       expect(component.reload).not.toHaveBeenCalled();
     }));
 
-    it('should call refresh on fileUploadDeleted event if parent node match', fakeAsync(() => {
-      const file: any = { file: { options: { parentId: 'parentId' } } };
-      component.node = { id: 'parentId' } as any;
+    it('should call reloadWithoutResettingSelection on fileUploadDeleted event when folder parent uploaded to current folder', fakeAsync(() => {
+      const file = { file: { options: { parentId: 'parentId' } } } as FileUploadDeleteEvent;
+      component.node = { id: 'parentId' } as Node;
 
       uploadService.fileUploadDeleted.next(file);
 
       tick(500);
 
-      expect(component.reload).toHaveBeenCalled();
+      expect(component.reload).not.toHaveBeenCalled();
+      expect(component.reloadWithoutResettingSelection).toHaveBeenCalled();
     }));
 
     it('should not call refresh on fileUploadDeleted event if parent mismatch', fakeAsync(() => {
-      const file: any = { file: { options: { parentId: 'otherId' } } };
-      component.node = { id: 'parentId' } as any;
+      const file = { file: { options: { parentId: 'otherId' } } } as FileUploadDeleteEvent;
+      component.node = { id: 'parentId' } as Node;
 
       uploadService.fileUploadDeleted.next(file);
 
