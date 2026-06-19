@@ -264,8 +264,6 @@
   }
 
   .adf-permission-card {
-    --mdc-elevated-card-container-color: var(--adf-theme-background-card-color);
-
     .adf-local-permission-container .adf-permission-content-header button:disabled {
       @include mat.icon-overrides(
         (
@@ -953,7 +951,11 @@
   }
 
   app-comments-tab {
-    --mdc-elevated-card-container-elevation: none;
+    @include mat.card-overrides(
+      (
+        elevated-container-elevation: none
+      )
+    );
   }
 
   adf-library-dialog {
