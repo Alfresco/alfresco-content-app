@@ -87,7 +87,7 @@ test.describe('Library actions ', () => {
     try {
       await user2TrashcanApi.emptyTrashcan();
     } catch (error) {
-      const myLibrariesActionsAfterAllErrorMessage = `My libraries actions afterAll failed : ${JSON.stringify(error)}`;
+      const myLibrariesActionsAfterAllErrorMessage = `My libraries actions afterAll failed : ${String(error)}`;
       console.error(myLibrariesActionsAfterAllErrorMessage);
       throw new Error(myLibrariesActionsAfterAllErrorMessage);
     }

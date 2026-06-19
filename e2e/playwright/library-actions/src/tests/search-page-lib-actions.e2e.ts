@@ -85,7 +85,7 @@ test.describe('Library actions ', () => {
     try {
       await user2TrashcanApi.emptyTrashcan();
     } catch (error) {
-      const searchPageLibActionsAfterAllErrorMessage = `Search page library actions afterAll failed : ${JSON.stringify(error)}`;
+      const searchPageLibActionsAfterAllErrorMessage = `Search page library actions afterAll failed : ${String(error)}`;
       console.error(searchPageLibActionsAfterAllErrorMessage);
       throw new Error(searchPageLibActionsAfterAllErrorMessage);
     }

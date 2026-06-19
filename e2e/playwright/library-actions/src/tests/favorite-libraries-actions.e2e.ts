@@ -91,7 +91,7 @@ test.describe('Library actions ', () => {
     try {
       await user2TrashcanApi.emptyTrashcan();
     } catch (error) {
-      const favoriteLibrariesActionsAfterAllErrorMessage = `Favorite libraries actions afterAll failed : ${JSON.stringify(error)}`;
+      const favoriteLibrariesActionsAfterAllErrorMessage = `Favorite libraries actions afterAll failed : ${String(error)}`;
       console.error(favoriteLibrariesActionsAfterAllErrorMessage);
       throw new Error(favoriteLibrariesActionsAfterAllErrorMessage);
     }
