@@ -42,9 +42,11 @@ export class TrashcanApi {
       const nodes = await this.apiService.trashCan.listDeletedNodes({ maxItems: 1000 });
       const ids = nodes?.list?.entries?.map((node) => node?.entry?.id).filter((id): id is string => !!id) ?? [];
 
-      await Promise.all(ids.map((id) => this.apiService.trashCan.deleteDeletedNode(id)));
+      for (const id of ids) {
+        await this.apiService.trashCan.deleteDeletedNode(id);
+      }
     } catch (error) {
-      logger.error(`User Actions - emptyTrashcan failed: ${JSON.stringify(error)}`);
+      logger.error(`User Actions - emptyTrashcan failed: ${String(error)}`);
     }
   }
 }

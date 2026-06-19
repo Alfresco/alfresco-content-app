@@ -57,7 +57,7 @@ test.describe('Library actions ', () => {
   let user1TrashcanApi: TrashcanApi;
   let adminTrashcanApi: TrashcanApi;
 
-  function getRoleCellValue(page: MyLibrariesPage, libraryName: string, role = managerRole || contributorRole): Locator {
+  function getRoleCellValue(page: MyLibrariesPage, libraryName: string, role = managerRole): Locator {
     return page.dataTable.getCellByColumnNameAndRowItem(libraryName, role);
   }
 
@@ -76,7 +76,7 @@ test.describe('Library actions ', () => {
       user1TrashcanApi = await TrashcanApi.initialize(username1, username1);
       adminTrashcanApi = await TrashcanApi.initialize('admin', 'admin');
     } catch (error) {
-      const errorMessage = `Main beforeAll failed : ${JSON.stringify(error)}`;
+      const errorMessage = `Main beforeAll failed : ${String(error)}`;
       console.error(errorMessage);
       throw new Error(errorMessage);
     }
@@ -209,11 +209,16 @@ test.describe('Library actions ', () => {
     });
   });
 
-  test.describe('[XAT-5142] Remove a library from favorites - from My Libraries', () => {
+  test.describe('[XAT-5145] Delete a library - from My Libraries', () => {
+    let user2Lib5145Id: string;
+
     test.beforeAll(async () => {
-      await user2SitesApi.createSite(user2Lib5145);
+      user2Lib5145Id = (await user2SitesApi.createSite(user2Lib5145)).entry.id;
     });
 
+    test.afterAll(async () => {
+      await user2SitesApi.deleteSites([user2Lib5145Id]);
+    });
     test('[XAT-5145] Delete a library - from My Libraries', async ({ myLibrariesPage, trashPage }) => {
       await expect(getRoleCellValue(myLibrariesPage, user2Lib5145, managerRole)).toBeVisible();
       await getRoleCellValue(myLibrariesPage, user2Lib5145, managerRole).click();

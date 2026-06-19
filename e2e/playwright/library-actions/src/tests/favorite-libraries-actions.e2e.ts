@@ -84,7 +84,7 @@ test.describe('Library actions ', () => {
       user1TrashcanApi = await TrashcanApi.initialize(username1, username1);
       adminTrashcanApi = await TrashcanApi.initialize('admin', 'admin');
     } catch (error) {
-      const errorMessage = `Main beforeAll failed : ${JSON.stringify(error)}`;
+      const errorMessage = `Main beforeAll failed : ${String(error)}`;
       console.error(errorMessage);
       throw new Error(errorMessage);
     }
