@@ -38,6 +38,7 @@ export class MatMenuComponent extends BaseComponent {
   public createLibrary = this.getChild('[id="app.create.library"]');
   public getButtonByText = (text: string) => this.getChild('button', { hasText: text });
   public getMenuItemFromHeaderMenu = (text: string) => this.page.getByRole('menuitem', { name: text, exact: true });
+  public getMenuRootLocator = () => this.getChild('');
 
   async clickMenuItem(menuItem: string): Promise<void> {
     const menuElement = this.getButtonByText(menuItem);

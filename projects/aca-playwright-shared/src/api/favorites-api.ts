@@ -103,9 +103,18 @@ export class FavoritesPageApi {
   }
 
   async waitForApi(username: string, data: { expect: number }) {
+    const startTime = Date.now();
+    let lastLogTime = startTime;
     try {
       const favoriteFiles = async () => {
         const totalItems = await this.getFavoritesTotalItems(username);
+        const now = Date.now();
+        if (now - lastLogTime >= 10000) {
+          logger.info(
+            `FavoritesApi: waitForApi still waiting for ${username} - expected ${data.expect}, got ${totalItems} (${Math.round((now - startTime) / 1000)}s elapsed)`
+          );
+          lastLogTime = now;
+        }
         if (totalItems !== data.expect) {
           return Promise.reject(totalItems);
         } else {
@@ -113,7 +122,10 @@ export class FavoritesPageApi {
         }
       };
       return await Utils.retryCall(favoriteFiles);
-    } catch {}
+    } catch (error) {
+      logger.error(`FavoritesApi: waitForApi failed - expected ${data.expect} favorites for ${username}, got ${error}`);
+      throw new Error(`FavoritesApi: waitForApi failed - expected ${data.expect} favorites for ${username}, last count: ${error}`);
+    }
   }
 
   async removeFavoritesByIds(username: string, ids: string[]): Promise<void> {
