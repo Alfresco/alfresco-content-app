@@ -22,15 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostListener,
-  inject,
-  Input,
-  OnInit,
-  ViewEncapsulation
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { NodeEntry, PathInfo } from '@alfresco/js-api';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -42,9 +34,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import {
-  NodeLocationReferencesComponent
-} from '../../../dialogs/node-location-references/node-location-references.component';
+import { NodeLocationReferencesComponent } from '../../../dialogs/node-location-references/node-location-references.component';
 
 @Component({
   imports: [CommonModule, TranslatePipe, MatIcon, MatButtonModule],
