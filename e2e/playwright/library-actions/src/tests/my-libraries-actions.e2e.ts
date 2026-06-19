@@ -54,8 +54,6 @@ test.describe('Library actions ', () => {
   let user2SitesApi: SitesApi;
   let user2FavoritesApi: FavoritesPageApi;
   let user2TrashcanApi: TrashcanApi;
-  let user1TrashcanApi: TrashcanApi;
-  let adminTrashcanApi: TrashcanApi;
 
   function getRoleCellValue(page: MyLibrariesPage, libraryName: string, role = managerRole): Locator {
     return page.dataTable.getCellByColumnNameAndRowItem(libraryName, role);
@@ -73,8 +71,6 @@ test.describe('Library actions ', () => {
       user2SitesApi = await SitesApi.initialize(username2, username2);
       user2FavoritesApi = await FavoritesPageApi.initialize(username2, username2);
       user2TrashcanApi = await TrashcanApi.initialize(username2, username2);
-      user1TrashcanApi = await TrashcanApi.initialize(username1, username1);
-      adminTrashcanApi = await TrashcanApi.initialize('admin', 'admin');
     } catch (error) {
       const errorMessage = `Main beforeAll failed : ${String(error)}`;
       console.error(errorMessage);
@@ -89,8 +85,6 @@ test.describe('Library actions ', () => {
 
   test.afterAll(async () => {
     try {
-      await adminTrashcanApi.emptyTrashcan();
-      await user1TrashcanApi.emptyTrashcan();
       await user2TrashcanApi.emptyTrashcan();
     } catch (error) {
       const errorMessage = `Main afterAll failed : ${JSON.stringify(error)}`;

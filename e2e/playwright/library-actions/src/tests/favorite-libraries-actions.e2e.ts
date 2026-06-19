@@ -41,29 +41,25 @@ test.describe('Library actions ', () => {
   const consumerRole = 'Consumer';
   const joinButton = 'Join';
 
-  const username1 = `user1-${Utils.random()}`;
   const username2 = `user2-${Utils.random()}`;
   const adminLib5128 = `A-XAT-5128-${Utils.random()}`;
   const adminModLib5130 = `Am-XAT-5130-${Utils.random()}`;
-  const user1Lib5133 = `U1-XAT-5133-${Utils.random()}`;
+  const adminLib5133 = `A-XAT-5133-${Utils.random()}`;
   const adminModLib5138 = `Am-XAT-5138-${Utils.random()}`;
   const user2Lib5143 = `U2-XAT-5143-${Utils.random()}`;
   const user2Lib5146 = `U2-XAT-5146-Del-${Utils.random()}`;
 
   let adminLib5128Id: string;
   let adminModLib5130Id: string;
-  let user1Lib5133Id: string;
+  let adminLib5133Id: string;
   let adminModLib5138Id: string;
   let user2Lib5143Id: string;
   let user2Lib5146Id: string;
 
   let adminSitesApi: SitesApi;
-  let user1SitesApi: SitesApi;
   let user2SitesApi: SitesApi;
   let user2FavoritesApi: FavoritesPageApi;
   let user2TrashcanApi: TrashcanApi;
-  let user1TrashcanApi: TrashcanApi;
-  let adminTrashcanApi: TrashcanApi;
 
   function getRoleCellValue(page: FavoritesLibrariesPage, libraryName: string, role: string): Locator {
     return page.dataTable.getCellByColumnNameAndRowItem(libraryName, role);
@@ -73,16 +69,12 @@ test.describe('Library actions ', () => {
     try {
       const apiClientFactory = new ApiClientFactory();
       await apiClientFactory.setUpAcaBackend('admin');
-      await apiClientFactory.createUser({ username: username1 });
       await apiClientFactory.createUser({ username: username2 });
 
       adminSitesApi = await SitesApi.initialize('admin');
-      user1SitesApi = await SitesApi.initialize(username1, username1);
       user2SitesApi = await SitesApi.initialize(username2, username2);
       user2FavoritesApi = await FavoritesPageApi.initialize(username2, username2);
       user2TrashcanApi = await TrashcanApi.initialize(username2, username2);
-      user1TrashcanApi = await TrashcanApi.initialize(username1, username1);
-      adminTrashcanApi = await TrashcanApi.initialize('admin', 'admin');
     } catch (error) {
       const errorMessage = `Main beforeAll failed : ${String(error)}`;
       console.error(errorMessage);
@@ -97,8 +89,6 @@ test.describe('Library actions ', () => {
 
   test.afterAll(async () => {
     try {
-      await adminTrashcanApi.emptyTrashcan();
-      await user1TrashcanApi.emptyTrashcan();
       await user2TrashcanApi.emptyTrashcan();
     } catch (error) {
       const errorMessage = `Main afterAll failed : ${JSON.stringify(error)}`;
@@ -147,21 +137,21 @@ test.describe('Library actions ', () => {
 
   test.describe('[XAT-5133] Leave a library - from Favorite Libraries', () => {
     test.beforeAll(async () => {
-      user1Lib5133Id = (await user1SitesApi.createSite(user1Lib5133)).entry.id;
-      await user1SitesApi.addSiteMember(user1Lib5133Id, username2, Site.RoleEnum.SiteContributor);
-      await user2FavoritesApi.addFavoriteById('site', user1Lib5133Id);
+      adminLib5133Id = (await adminSitesApi.createSite(adminLib5133)).entry.id;
+      await adminSitesApi.addSiteMember(adminLib5133Id, username2, Site.RoleEnum.SiteContributor);
+      await user2FavoritesApi.addFavoriteById('site', adminLib5133Id);
     });
 
     test.afterAll(async () => {
-      await user1SitesApi.deleteSites([user1Lib5133Id]);
+      await adminSitesApi.deleteSites([adminLib5133Id]);
     });
 
     test('[XAT-5133] Leave a library - from Favorite Libraries', async ({ favoriteLibrariesPage }) => {
-      await expect(getRoleCellValue(favoriteLibrariesPage, user1Lib5133, 'Contributor')).toBeVisible();
-      await favoriteLibrariesPage.dataTable.performActionFromExpandableMenu(user1Lib5133, 'Leave Library');
+      await expect(getRoleCellValue(favoriteLibrariesPage, adminLib5133, 'Contributor')).toBeVisible();
+      await favoriteLibrariesPage.dataTable.performActionFromExpandableMenu(adminLib5133, 'Leave Library');
       await favoriteLibrariesPage.confirmDialogComponent.okButton.click();
       expect.soft(await favoriteLibrariesPage.snackBar.getSnackBarMessage()).toContain('You have left the library');
-      await expect(getRoleCellValue(favoriteLibrariesPage, user1Lib5133, notMemberString)).toBeVisible();
+      await expect(getRoleCellValue(favoriteLibrariesPage, adminLib5133, notMemberString)).toBeVisible();
     });
   });
 

@@ -52,10 +52,7 @@ test.describe('Library actions ', () => {
   let adminSitesApi: SitesApi;
   let user1SitesApi: SitesApi;
   let user2SitesApi: SitesApi;
-  let user2FavoritesApi: FavoritesPageApi;
   let user2TrashcanApi: TrashcanApi;
-  let user1TrashcanApi: TrashcanApi;
-  let adminTrashcanApi: TrashcanApi;
 
   function getRoleCellValue(page: SearchPage, libraryName: string, role: string): Locator {
     return page.dataTable.getCellByColumnNameAndRowItem(libraryName, role);
@@ -71,10 +68,7 @@ test.describe('Library actions ', () => {
       adminSitesApi = await SitesApi.initialize('admin');
       user1SitesApi = await SitesApi.initialize(username1, username1);
       user2SitesApi = await SitesApi.initialize(username2, username2);
-      user2FavoritesApi = await FavoritesPageApi.initialize(username2, username2);
       user2TrashcanApi = await TrashcanApi.initialize(username2, username2);
-      user1TrashcanApi = await TrashcanApi.initialize(username1, username1);
-      adminTrashcanApi = await TrashcanApi.initialize('admin', 'admin');
     } catch (error) {
       const errorMessage = `Main beforeAll failed : ${String(error)}`;
       console.error(errorMessage);
@@ -89,8 +83,6 @@ test.describe('Library actions ', () => {
 
   test.afterAll(async () => {
     try {
-      await adminTrashcanApi.emptyTrashcan();
-      await user1TrashcanApi.emptyTrashcan();
       await user2TrashcanApi.emptyTrashcan();
     } catch (error) {
       const errorMessage = `Main afterAll failed : ${JSON.stringify(error)}`;
@@ -199,6 +191,7 @@ test.describe('Library actions ', () => {
 
   test.describe('[XAT-5144] Remove a library from favorites - from Search Results', () => {
     test.beforeAll(async () => {
+      const user2FavoritesApi = await FavoritesPageApi.initialize(username2, username2);
       user2Lib5144Id = (await user2SitesApi.createSite(user2Lib5144)).entry.id;
       await user2FavoritesApi.addFavoriteById('site', user2Lib5144Id);
     });
@@ -214,6 +207,7 @@ test.describe('Library actions ', () => {
 
       await expect(async () => {
         await searchPage.page.reload();
+        await searchPage.spinnerWaitForReload();
         await searchPage.dataTable.getRowByName(user2Lib5144).click();
         await searchPage.acaHeader.clickMoreActions();
         await searchPage.matMenu.clickMenuItem('Remove Favorite');
