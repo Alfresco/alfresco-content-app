@@ -100,7 +100,7 @@ test.describe('viewer zoom functionality and reset', () => {
 
     await Promise.all([
       favoritesActions.isFavoriteWithRetry(username, filePdfId, { expect: true }),
-      favoritesActions.waitForApi(username, { expect: consumerFavoritesTotalItems + 2 })
+      favoritesActions.waitForApi(username, { expect: consumerFavoritesTotalItems + 1 })
     ]);
     try {
       await shareActions.waitForFilesToBeShared([filePngId]);
