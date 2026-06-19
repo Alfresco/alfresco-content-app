@@ -116,7 +116,7 @@ describe('LocationLinkComponent', () => {
 
     it('should display primary path', () => {
       fixture.detectChanges();
-      expect(getCellText()).toBe('APP.BROWSE.PERSONAL.TITLE');
+      expect(getCellText()).toBe('APP.BROWSE.REPOSITORY_VIEW.TITLE');
     });
 
     it('should display path name when showLocation is true', () => {
@@ -126,13 +126,13 @@ describe('LocationLinkComponent', () => {
       expect(getCellText()).toBe('Company Home');
     });
 
-    it('should display APP.BROWSE.PERSONAL.TITLE for single Company Home element', () => {
+    it('should display APP.BROWSE.REPOSITORY_VIEW.TITLE for single Company Home element', () => {
       fixture.componentInstance.context.row.node.entry.path = {
         name: 'Test',
         elements: [{ id: '1', name: 'Company Home' }]
       };
       fixture.detectChanges();
-      expect(getCellText()).toBe('APP.BROWSE.PERSONAL.TITLE');
+      expect(getCellText()).toBe('APP.BROWSE.REPOSITORY_VIEW.TITLE');
     });
 
     it('should not display APP.BROWSE.PERSONAL.TITLE when single element is not Company Home', () => {
@@ -349,7 +349,7 @@ describe('LocationLinkComponent', () => {
     });
 
     it('should display tooltip on mouse enter', (done) => {
-      testTooltipValue('APP.BROWSE.PERSONAL.TITLE', done);
+      testTooltipValue('APP.BROWSE.REPOSITORY_VIEW.TITLE', done);
     });
 
     it('should join elements with slash for the tooltip when first element is not Company Home', (done) => {
@@ -365,7 +365,7 @@ describe('LocationLinkComponent', () => {
       testTooltipValue('Root/Folder1/Folder2', done);
     });
 
-    it('should replace Company Home with Personal Files', (done) => {
+    it('should replace Company Home with Repository for repository content', (done) => {
       fixture.componentInstance.context.row.node.entry.path = {
         name: 'Test',
         elements: [
@@ -374,7 +374,7 @@ describe('LocationLinkComponent', () => {
         ]
       };
 
-      testTooltipValue('APP.BROWSE.PERSONAL.TITLE/Folder1', done);
+      testTooltipValue('APP.BROWSE.REPOSITORY_VIEW.TITLE/Folder1', done);
     });
 
     it('should handle User Homes path correctly', (done) => {
@@ -401,7 +401,7 @@ describe('LocationLinkComponent', () => {
         ]
       };
 
-      testTooltipValue('APP.BROWSE.PERSONAL.TITLE/OtherFolder/SubFolder', done);
+      testTooltipValue('APP.BROWSE.REPOSITORY_VIEW.TITLE/OtherFolder/SubFolder', done);
     });
 
     it('should use cm:title from node info response when available', (done) => {

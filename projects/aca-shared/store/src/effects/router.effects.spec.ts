@@ -89,7 +89,37 @@ describe('NodeEffects', () => {
           elements: [
             {
               id: 'mock-id-1',
-              name: 'mock-name-1',
+              name: 'Company Home',
+              nodeType: 'mock-node-type'
+            },
+            {
+              id: 'mock-id-2',
+              name: 'User Homes',
+              nodeType: 'mock-node-type'
+            },
+            {
+              id: 'mock-id-3',
+              name: 'mock-name-3',
+              nodeType: 'mock-node-type'
+            }
+          ]
+        }
+      } as Node;
+      spyOn(router, 'navigate');
+      store.dispatch(new NavigateToFolder({ entry: node }));
+      tick(10);
+      expect(router.navigate).toHaveBeenCalledWith(['/personal-files', 'mock-id']);
+    }));
+
+    it('should navigate to folder inside repository when path elements are not personal files nor libraries', fakeAsync(() => {
+      const node = {
+        id: 'mock-id',
+        path: {
+          name: 'mock-path-name',
+          elements: [
+            {
+              id: 'mock-id-1',
+              name: 'Company Home',
               nodeType: 'mock-node-type'
             },
             {
@@ -108,7 +138,7 @@ describe('NodeEffects', () => {
       spyOn(router, 'navigate');
       store.dispatch(new NavigateToFolder({ entry: node }));
       tick(10);
-      expect(router.navigate).toHaveBeenCalledWith(['/personal-files', 'mock-id']);
+      expect(router.navigate).toHaveBeenCalledWith(['/repository', 'mock-id']);
     }));
 
     it('should navigate to folder nested libraries when path elements are found and are inside libraries', fakeAsync(() => {
@@ -197,7 +227,37 @@ describe('NodeEffects', () => {
           elements: [
             {
               id: 'mock-id-1',
-              name: 'mock-name-1',
+              name: 'Company Home',
+              nodeType: 'mock-node-type'
+            },
+            {
+              id: 'mock-id-2',
+              name: 'User Homes',
+              nodeType: 'mock-node-type'
+            },
+            {
+              id: 'mock-id-3',
+              name: 'mock-name-3',
+              nodeType: 'mock-node-type'
+            }
+          ]
+        }
+      } as Node;
+      spyOn(router, 'navigate');
+      store.dispatch(new NavigateToParentFolder({ entry: node }));
+      tick(10);
+      expect(router.navigate).toHaveBeenCalledWith(['/personal-files', 'mock-id-3']);
+    }));
+
+    it('should navigate to parent folder inside repository when path elements are not personal files nor libraries', fakeAsync(() => {
+      const node = {
+        id: 'mock-id',
+        path: {
+          name: 'mock-path-name',
+          elements: [
+            {
+              id: 'mock-id-1',
+              name: 'Company Home',
               nodeType: 'mock-node-type'
             },
             {
@@ -216,7 +276,7 @@ describe('NodeEffects', () => {
       spyOn(router, 'navigate');
       store.dispatch(new NavigateToParentFolder({ entry: node }));
       tick(10);
-      expect(router.navigate).toHaveBeenCalledWith(['/personal-files', 'mock-id-3']);
+      expect(router.navigate).toHaveBeenCalledWith(['/repository', 'mock-id-3']);
     }));
 
     it('should navigate to folder nested libraries when path elements are found and are inside libraries', fakeAsync(() => {

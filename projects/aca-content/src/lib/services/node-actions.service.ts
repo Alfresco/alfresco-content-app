@@ -22,31 +22,31 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable, Subject, of, zip, from } from 'rxjs';
+import { from, Observable, of, Subject, zip } from 'rxjs';
 import { ThumbnailService, TranslationService } from '@alfresco/adf-core';
 import {
   AlfrescoApiService,
-  DocumentListService,
+  ContentNodeDialogService,
   ContentNodeSelectorComponent,
   ContentNodeSelectorComponentData,
-  ContentNodeDialogService,
-  ShareDataRow,
+  ContentService,
+  DocumentListService,
   NodeAction,
-  ContentService
+  ShareDataRow
 } from '@alfresco/adf-content-services';
 import {
-  NodeEntry,
+  LazyApi,
   Node,
-  SharedLink,
-  SitePaging,
-  NodeChildAssociationPaging,
   NodeChildAssociationEntry,
+  NodeChildAssociationPaging,
+  NodeEntry,
   NodesApi,
+  SharedLink,
   Site,
-  SitePagingList,
-  LazyApi
+  SitePaging,
+  SitePagingList
 } from '@alfresco/js-api';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { catchError, map, mergeMap } from 'rxjs/operators';
@@ -231,6 +231,12 @@ export class NodeActionsService {
             entry: {
               guid: '-mysites-',
               title: this.translation.instant('APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.SIDENAV_LINK.LABEL')
+            } as Site
+          },
+          {
+            entry: {
+              guid: '-root-',
+              title: this.translation.instant('APP.BROWSE.REPOSITORY_VIEW.TITLE')
             } as Site
           }
         ]

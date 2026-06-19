@@ -473,6 +473,29 @@ describe('NodeEffects', () => {
       expect(router.navigateByUrl).toHaveBeenCalledWith('personal-files/details/fileId/permissions');
     });
 
+    it('should manage permissions via the repository route for repository nodes', () => {
+      spyOn(router, 'navigateByUrl').and.stub();
+      const node: any = {
+        entry: {
+          isFile: true,
+          id: 'fileId',
+          path: { elements: [{ name: 'Company Home' }, { name: 'Some Folder' }] }
+        }
+      };
+      store.dispatch(new ManagePermissionsAction(node));
+
+      expect(router.navigateByUrl).toHaveBeenCalledWith('repository/details/fileId/permissions');
+    });
+
+    it('should manage permissions via the repository route when on the repository view', () => {
+      spyOnProperty(router, 'url', 'get').and.returnValue('/repository/some-folder-id');
+      spyOn(router, 'navigateByUrl').and.stub();
+      const node: any = { entry: { isFile: true, id: 'fileId' } };
+      store.dispatch(new ManagePermissionsAction(node));
+
+      expect(router.navigateByUrl).toHaveBeenCalledWith('repository/details/fileId/permissions');
+    });
+
     it('should do nothing if invoking manage permissions with no data', () => {
       spyOn(store, 'select').and.returnValue(of(null));
       spyOn(router, 'navigate').and.stub();
@@ -631,6 +654,30 @@ describe('NodeEffects', () => {
       store.dispatch(new ExpandInfoDrawerAction(node));
       expect(store.dispatch).toHaveBeenCalledWith(
         jasmine.objectContaining({ ...new NavigateUrlAction('personal-files/details/node-id?location=test-page') })
+      );
+    });
+
+    it('should redirect to repository url for repository nodes', () => {
+      spyOn(store, 'dispatch').and.callThrough();
+      Object.defineProperties(router, {
+        events: {
+          value: of(new NavigationEnd(1, 'test/(viewer:view/node-id)', ''))
+        },
+        navigateByUrl: {
+          value: jasmine.createSpy('navigateByUrl')
+        }
+      });
+      const node: any = {
+        entry: {
+          isFile: true,
+          id: 'node-id',
+          path: { elements: [{ name: 'Company Home' }, { name: 'Some Folder' }] }
+        }
+      };
+
+      store.dispatch(new ExpandInfoDrawerAction(node));
+      expect(store.dispatch).toHaveBeenCalledWith(
+        jasmine.objectContaining({ ...new NavigateUrlAction('repository/details/node-id?location=test-page') })
       );
     });
   });

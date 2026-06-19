@@ -35,6 +35,9 @@ import {
   ExpandInfoDrawerAction,
   getAppSelection,
   getCurrentFolder,
+  getNodeContentSource,
+  LinkNodesAction,
+  LocateLinkedItemAction,
   ManageAspectsAction,
   ManagePermissionsAction,
   ManageRulesAction,
@@ -43,6 +46,7 @@ import {
   NavigateRouteAction,
   NavigateUrlAction,
   NodeActionTypes,
+  NodeInformationAction,
   PrintFileAction,
   PurgeDeletedNodesAction,
   RestoreDeletedNodesAction,
@@ -51,15 +55,13 @@ import {
   ShowLoaderAction,
   UndoDeleteNodesAction,
   UnlockWriteAction,
-  UnshareNodesAction,
-  NodeInformationAction,
-  LinkNodesAction,
-  LocateLinkedItemAction
+  UnshareNodesAction
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import { RenditionService } from '@alfresco/adf-content-services';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Node } from '@alfresco/js-api';
 
 @Injectable()
 export class NodeEffects {
@@ -336,7 +338,7 @@ export class NodeEffects {
             .pipe(first((event) => event instanceof NavigationEnd))
             .subscribe(() => this.store.dispatch(new SetInfoDrawerStateAction(true)));
           if (action?.payload) {
-            const route = 'personal-files/details';
+            const route = this.getDetailsRoute(action.payload.entry);
             this.store.dispatch(new NavigateUrlAction([route, action.payload.entry.id, 'permissions'].join('/')));
           } else {
             this.store
@@ -344,7 +346,7 @@ export class NodeEffects {
               .pipe(take(1))
               .subscribe((selection) => {
                 if (selection && !selection.isEmpty) {
-                  const route = 'personal-files/details';
+                  const route = this.getDetailsRoute(selection.last.entry);
                   this.store.dispatch(new NavigateUrlAction([route, selection.last.entry.id, 'permissions'].join('/')));
                 }
               });
@@ -366,9 +368,9 @@ export class NodeEffects {
           this.activatedRoute.queryParams.pipe(take(1)).subscribe((params) => {
             const location = params.location || this.router.url;
             const sanitizedLocation = this.sanitizer.sanitize(SecurityContext.URL, location);
-            const route = 'personal-files/details';
 
             if (action?.payload) {
+              const route = this.getDetailsRoute(action.payload.entry, location);
               this.store.dispatch(new NavigateUrlAction([route, action.payload.entry.id].join('/') + `?location=${sanitizedLocation}`));
             } else {
               this.store
@@ -376,6 +378,7 @@ export class NodeEffects {
                 .pipe(take(1))
                 .subscribe((selection) => {
                   if (selection && !selection.isEmpty) {
+                    const route = this.getDetailsRoute(selection.last.entry, location);
                     this.store.dispatch(new NavigateUrlAction([route, selection.last.entry.id].join('/') + `?location=${sanitizedLocation}`));
                   }
                 });
@@ -529,4 +532,9 @@ export class NodeEffects {
       ),
     { dispatch: false }
   );
+
+  private getDetailsRoute(entry: Node, location: string = this.router.url): string {
+    const isRepository = location?.includes('/repository') || getNodeContentSource(entry?.path) === 'repository';
+    return `${isRepository ? 'repository' : 'personal-files'}/details`;
+  }
 }
