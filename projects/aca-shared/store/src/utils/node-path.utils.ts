@@ -25,10 +25,8 @@
 import { PathInfo } from '@alfresco/js-api';
 
 /**
- * The browsing area a node belongs to, derived from its primary path.
- * Used to build links and routes that keep the user in the right context
- * instead of always falling back to Personal Files. The values match the
- * application route segments (`/personal-files`, `/libraries`, `/repository`).
+ * The browsing area a node belongs to, derived from its primary path. The values match the
+ * application routes (`/personal-files`, `/libraries`, `/repository`).
  */
 export type NodeContentSource = 'personal-files' | 'libraries' | 'repository';
 
