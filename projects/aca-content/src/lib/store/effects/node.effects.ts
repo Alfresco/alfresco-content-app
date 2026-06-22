@@ -533,7 +533,7 @@ export class NodeEffects {
     { dispatch: false }
   );
 
-  private getDetailsRoute(entry: Node, location: string = this.router.url): string {
+  private getDetailsRoute(entry: Node, location = this.router.url): string {
     const isRepository = location?.includes('/repository') || getNodeContentSource(entry?.path) === 'repository';
     return `${isRepository ? 'repository' : 'personal-files'}/details`;
   }
