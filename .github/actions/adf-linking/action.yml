@@ -19,7 +19,12 @@ runs:
           # ADF theming needs it the styling
           CWD=`pwd`
           cd ../alfresco-ng2-components
-          npm install @angular/material
+          if [ -f "pnpm-lock.yaml" ]; then
+            corepack enable pnpm
+            pnpm add @angular/material
+          else
+            npm install @angular/material
+          fi
           cd $CWD
         else
           echo -e "Using ADF from installed node_modules."
