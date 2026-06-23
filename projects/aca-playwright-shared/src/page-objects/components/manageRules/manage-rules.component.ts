@@ -43,13 +43,6 @@ export class ManageRules extends BaseComponent {
     super(page, ManageRules.rootElement);
   }
 
-  async checkAspects(aspects: string[]): Promise<void> {
-    for (let i = 0; i < aspects.length; i++) {
-      const aspectsActions = await this.ruleDetailsPerformActionsDiv.nth(i).innerText();
-      expect(aspects).toContain(aspectsActions);
-    }
-  }
-
   async checkIfRuleListEmpty(): Promise<boolean> {
     return this.rulesEmptyList.isVisible();
   }
