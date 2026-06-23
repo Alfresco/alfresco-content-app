@@ -48,6 +48,7 @@ test.describe('Library actions ', () => {
   let adminModLib5139Id: string;
   let adminLib5141Id: string;
   let user2Lib5144Id: string;
+  let user2Lib5147Id: string;
 
   let adminSitesApi: SitesApi;
   let user1SitesApi: SitesApi;
@@ -70,7 +71,7 @@ test.describe('Library actions ', () => {
       user2SitesApi = await SitesApi.initialize(username2, username2);
       user2TrashcanApi = await TrashcanApi.initialize(username2, username2);
     } catch (error) {
-      const searchPageLibActionsBeforeAllErrorMessage = `Search page library actions beforeAll failed : ${String(error)}`;
+      const searchPageLibActionsBeforeAllErrorMessage = `Search page library actions beforeAll failed : ${JSON.stringify(error)}`;
       console.error(searchPageLibActionsBeforeAllErrorMessage);
       throw new Error(searchPageLibActionsBeforeAllErrorMessage);
     }
@@ -211,7 +212,7 @@ test.describe('Library actions ', () => {
         await searchPage.dataTable.getRowByName(user2Lib5144).click();
         await searchPage.acaHeader.clickMoreActions();
         await searchPage.matMenu.clickMenuItem('Remove Favorite');
-        await searchPage.matMenu.getMenuRootLocator().waitFor({ state: 'detached' });
+        await searchPage.matMenu.getRoot().waitFor({ state: 'detached' });
         await searchPage.acaHeader.clickMoreActions();
         expect(await searchPage.matMenu.isMenuItemVisible('Favorite')).toBe(true);
       }).toPass({
@@ -223,7 +224,11 @@ test.describe('Library actions ', () => {
 
   test.describe('[XAT-5147] Delete a library - from Search Results', () => {
     test.beforeAll(async () => {
-      await user2SitesApi.createSite(user2Lib5147);
+      user2Lib5147Id = (await user2SitesApi.createSite(user2Lib5147)).entry.id;
+    });
+
+    test.afterAll(async () => {
+      await user2SitesApi.deleteSites([user2Lib5147Id]);
     });
 
     test('[XAT-5147] Delete a library - from Search Results', async ({ searchPage, trashPage }) => {

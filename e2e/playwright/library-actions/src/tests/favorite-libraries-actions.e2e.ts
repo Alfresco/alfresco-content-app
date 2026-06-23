@@ -76,7 +76,7 @@ test.describe('Library actions ', () => {
       user2FavoritesApi = await FavoritesPageApi.initialize(username2, username2);
       user2TrashcanApi = await TrashcanApi.initialize(username2, username2);
     } catch (error) {
-      const favoriteLibrariesActionsBeforeAllErrorMessage = `Favorite libraries actions beforeAll failed : ${String(error)}`;
+      const favoriteLibrariesActionsBeforeAllErrorMessage = `Favorite libraries actions beforeAll failed : ${JSON.stringify(error)}`;
       console.error(favoriteLibrariesActionsBeforeAllErrorMessage);
       throw new Error(favoriteLibrariesActionsBeforeAllErrorMessage);
     }
@@ -198,6 +198,10 @@ test.describe('Library actions ', () => {
     test.beforeAll(async () => {
       user2Lib5146Id = (await user2SitesApi.createSite(user2Lib5146)).entry.id;
       await user2FavoritesApi.addFavoriteById('site', user2Lib5146Id);
+    });
+
+    test.afterAll(async () => {
+      await user2SitesApi.deleteSites([user2Lib5146Id]);
     });
 
     test('[XAT-5146] Delete a library - from Favorite Libraries', async ({ favoriteLibrariesPage, trashPage }) => {

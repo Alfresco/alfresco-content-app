@@ -38,7 +38,6 @@ export class MatMenuComponent extends BaseComponent {
   public createLibrary = this.getChild('[id="app.create.library"]');
   public getButtonByText = (text: string) => this.getChild('button', { hasText: text });
   public getMenuItemFromHeaderMenu = (text: string) => this.page.getByRole('menuitem', { name: text, exact: true });
-  public getMenuRootLocator = () => this.getChild('');
 
   async clickMenuItem(menuItem: string): Promise<void> {
     const menuElement = this.getButtonByText(menuItem);
@@ -59,7 +58,7 @@ export class MatMenuComponent extends BaseComponent {
   }
 
   async verifyActualMoreActions(expectedToolbarMore: string[]): Promise<void> {
-    await this.getChild('').waitFor();
+    await this.getRoot().waitFor();
     const menus = await this.getChild('[role="menuitem"]').all();
     const actualMoreActions: string[] = await Promise.all(
       menus.map(async (button) => {

@@ -72,7 +72,7 @@ test.describe('Library actions ', () => {
       user2FavoritesApi = await FavoritesPageApi.initialize(username2, username2);
       user2TrashcanApi = await TrashcanApi.initialize(username2, username2);
     } catch (error) {
-      const myLibrariesActionsBeforeAllErrorMessage = `My libraries actions beforeAll failed : ${String(error)}`;
+      const myLibrariesActionsBeforeAllErrorMessage = `My libraries actions beforeAll failed : ${JSON.stringify(error)}`;
       console.error(myLibrariesActionsBeforeAllErrorMessage);
       throw new Error(myLibrariesActionsBeforeAllErrorMessage);
     }
@@ -213,6 +213,7 @@ test.describe('Library actions ', () => {
     test.afterAll(async () => {
       await user2SitesApi.deleteSites([user2Lib5145Id]);
     });
+
     test('[XAT-5145] Delete a library - from My Libraries', async ({ myLibrariesPage, trashPage }) => {
       await expect(getRoleCellValue(myLibrariesPage, user2Lib5145, managerRole)).toBeVisible();
       await getRoleCellValue(myLibrariesPage, user2Lib5145, managerRole).click();
