@@ -34,29 +34,18 @@
     },
     "e2e-multibrowser": {
       "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "playwright test --config=e2e/playwright/share-action/playwright.config.ts"
-        ]
-      },
+      "options": {},
       "configurations": {
-        "webkit": {
-          "env": {
-            "PLAYWRIGHT_BROWSER": "webkit"
-          }
-        },
         "webkit-headed": {
           "env": {
             "PLAYWRIGHT_BROWSER": "webkit"
           },
           "args": [
             "--headed"
+          ],
+          "commands": [
+            "playwright test --config=e2e/playwright/share-action/playwright.config.ts"
           ]
-        },
-        "firefox": {
-          "env": {
-            "PLAYWRIGHT_BROWSER": "firefox"
-          }
         },
         "firefox-headed": {
           "env": {
@@ -64,12 +53,10 @@
           },
           "args": [
             "--headed"
+          ],
+          "commands": [
+            "playwright test --config=e2e/playwright/share-action/playwright.config.ts"
           ]
-        },
-        "chrome": {
-          "env": {
-            "PLAYWRIGHT_BROWSER": "chrome"
-          }
         },
         "chrome-headed": {
           "env": {
@@ -77,12 +64,10 @@
           },
           "args": [
             "--headed"
+          ],
+          "commands": [
+            "playwright test --config=e2e/playwright/share-action/playwright.config.ts"
           ]
-        },
-        "msedge": {
-          "env": {
-            "PLAYWRIGHT_BROWSER": "msedge"
-          }
         },
         "msedge-headed": {
           "env": {
@@ -90,6 +75,17 @@
           },
           "args": [
             "--headed"
+          ],
+          "commands": [
+            "playwright test --config=e2e/playwright/share-action/playwright.config.ts"
+          ]
+        },
+        "all-browsers-headless": {
+          "env": {
+            "PLAYWRIGHT_BROWSER": "all"
+          },
+          "commands": [
+            "playwright test --config=e2e/playwright/share-action/playwright.config.ts"
           ]
         }
       }
