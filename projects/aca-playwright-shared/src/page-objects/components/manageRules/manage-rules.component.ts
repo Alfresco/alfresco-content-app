@@ -33,7 +33,6 @@ export class ManageRules extends BaseComponent {
   public ruleToggleFalse = this.getChild('aca-rule-list-grouping aca-rule-list-item [role="switch"][aria-checked="false"]').first();
   public ruleDetailsDeleteButton = this.getChild('#delete-rule-btn');
   public ruleDetailsEditButton = this.getChild('#edit-rule-btn');
-  public ruleDetailsPerformActionsDiv = this.getChild('adf-card-view-selectitem [data-automation-id="select-box"]');
   public rulesEmptyList = this.getChild('adf-empty-content');
   public ruleActions = this.getChild('aca-rule-action');
   public ruleConditionsInGroup = this.getChild('aca-rule-composite-condition aca-rule-simple-condition');
