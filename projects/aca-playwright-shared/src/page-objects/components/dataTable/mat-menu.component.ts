@@ -58,7 +58,7 @@ export class MatMenuComponent extends BaseComponent {
   }
 
   async verifyActualMoreActions(expectedToolbarMore: string[]): Promise<void> {
-    await this.getChild('').waitFor();
+    await this.getRoot().waitFor();
     const menus = await this.getChild('[role="menuitem"]').all();
     const actualMoreActions: string[] = await Promise.all(
       menus.map(async (button) => {

@@ -33,6 +33,10 @@ export abstract class BaseComponent extends PlaywrightBase {
     this.rootElement = rootElement;
   }
 
+  getRoot(): Locator {
+    return this.page.locator(this.rootElement);
+  }
+
   /**
    * Method which should be used across the repository, while creating
    * reference to elements, which are in root element of component.

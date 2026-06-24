@@ -106,7 +106,7 @@ test.describe('Favorites Files', () => {
       await favoritesActions.addFavoriteById('file', file2Id);
       await Promise.all([
         favoritesActions.isFavoriteWithRetry(username, folderFavId, { expect: true }),
-        favoritesActions.waitForApi(username, { expect: consumerFavoritesTotalItems + 4 })
+        favoritesActions.waitForApi(username, { expect: consumerFavoritesTotalItems + 3 })
       ]);
     });
 

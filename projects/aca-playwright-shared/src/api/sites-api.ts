@@ -93,7 +93,7 @@ export class SitesApi {
         }
       }
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.deleteSites.name}: ${error}`);
+      logger.error(`SitesApi deleteSites: ${JSON.stringify(error)}`);
     }
   }
 
