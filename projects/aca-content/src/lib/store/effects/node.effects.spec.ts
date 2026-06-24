@@ -31,6 +31,7 @@ import { ContentManagementService } from '../../services/content-management.serv
 import {
   CopyNodesAction,
   CreateFolderAction,
+  DeletedNodeInfo,
   DeleteNodesAction,
   EditFolderAction,
   ExpandInfoDrawerAction,
@@ -258,7 +259,7 @@ describe('NodeEffects', () => {
     it('should undo deleted nodes from the payload', () => {
       spyOn(contentService, 'undoDeleteNodes').and.stub();
 
-      const node = {} as NodeEntry;
+      const node = { id: 'node-id', name: 'node-name', status: 200 } as DeletedNodeInfo;
       store.dispatch(new UndoDeleteNodesAction([node]));
 
       expect(contentService.undoDeleteNodes).toHaveBeenCalledWith([node]);
