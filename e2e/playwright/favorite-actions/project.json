@@ -7,25 +7,92 @@
     "e2e": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["playwright test --config=e2e/playwright/favorite-actions/playwright.config.ts"]
+        "commands": [
+          "playwright test --config=e2e/playwright/favorite-actions/playwright.config.ts"
+        ]
       },
       "configurations": {
-        "production": {
-          "devServerTarget": "content-ce:serve:production"
-        },
         "ui": {
-          "args": ["--ui"]
+          "args": [
+            "--ui"
+          ]
         },
         "debug": {
-          "args": ["--debug"]
+          "args": [
+            "--debug"
+          ]
         },
         "headed": {
-          "args": ["--headed"]
+          "args": [
+            "--headed"
+          ]
         }
       }
     },
     "lint": {
       "executor": "@angular-eslint/builder:lint"
+    },
+    "e2e-multibrowser": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "playwright test --config=e2e/playwright/favorite-actions/playwright.config.ts"
+        ]
+      },
+      "configurations": {
+        "webkit": {
+          "env": {
+            "PLAYWRIGHT_BROWSER": "webkit"
+          }
+        },
+        "webkit-headed": {
+          "env": {
+            "PLAYWRIGHT_BROWSER": "webkit"
+          },
+          "args": [
+            "--headed"
+          ]
+        },
+        "firefox": {
+          "env": {
+            "PLAYWRIGHT_BROWSER": "firefox"
+          }
+        },
+        "firefox-headed": {
+          "env": {
+            "PLAYWRIGHT_BROWSER": "firefox"
+          },
+          "args": [
+            "--headed"
+          ]
+        },
+        "chrome": {
+          "env": {
+            "PLAYWRIGHT_BROWSER": "chrome"
+          }
+        },
+        "chrome-headed": {
+          "env": {
+            "PLAYWRIGHT_BROWSER": "chrome"
+          },
+          "args": [
+            "--headed"
+          ]
+        },
+        "msedge": {
+          "env": {
+            "PLAYWRIGHT_BROWSER": "msedge"
+          }
+        },
+        "msedge-headed": {
+          "env": {
+            "PLAYWRIGHT_BROWSER": "msedge"
+          },
+          "args": [
+            "--headed"
+          ]
+        }
+      }
     }
   }
 }
