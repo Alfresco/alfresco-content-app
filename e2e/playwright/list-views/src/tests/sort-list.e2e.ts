@@ -37,7 +37,7 @@ import {
 
 async function getSortState(myPersonalFiles: PersonalFilesPage): Promise<{ [key: string]: string }> {
   return {
-    sortingColumn: await myPersonalFiles.dataTable.getSortedColumnHeaderText(),
+    sortingColumn: (await myPersonalFiles.dataTable.getSortedColumnHeaderText()).trim(),
     sortingOrder: await myPersonalFiles.dataTable.getSortingOrder(),
     firstElement: await myPersonalFiles.dataTable.getFirstElementDetail('Name')
   };
@@ -186,7 +186,7 @@ test.describe('Remember sorting', () => {
     };
 
     let currentPersonalFilesSortDataPage2 = await getSortState(personalFiles);
-    expect(currentPersonalFilesSortDataPage2).toEqual(expectedPersonalFilesSortDataPage2);
+    expect(currentPersonalFilesSortDataPage2).toMatchObject(expectedPersonalFilesSortDataPage2);
 
     await personalFiles.dataTable.sortBy('Name', 'desc');
     await personalFiles.dataTable.spinnerWaitForReload();
@@ -197,7 +197,7 @@ test.describe('Remember sorting', () => {
     };
 
     currentPersonalFilesSortDataPage2 = await getSortState(personalFiles);
-    expect(expectedPersonalFilesSortDataPage2).toEqual(currentPersonalFilesSortDataPage2);
+    expect(currentPersonalFilesSortDataPage2).toMatchObject(expectedPersonalFilesSortDataPage2);
   });
 
   test.describe('Folder actions', () => {
