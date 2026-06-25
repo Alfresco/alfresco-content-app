@@ -110,6 +110,7 @@ export class DataTableComponent extends BaseComponent {
     if (sortColumn !== label) {
       await this.getColumnHeaderByName(label).hover();
       await this.getColumnHeaderByName(label).click({ force: true });
+      await this.spinnerWaitForReload();
       sortOrder = await this.getSortingOrder();
     }
     if (sortOrder !== order) {
@@ -200,7 +201,7 @@ export class DataTableComponent extends BaseComponent {
   }
 
   async getSortedColumnHeaderText(): Promise<string> {
-    return this.sortedColumnHeader.innerText();
+    return (await this.sortedColumnHeader.textContent()) ?? '';
   }
 
   private getItemLocationEl(name: string): Locator {
