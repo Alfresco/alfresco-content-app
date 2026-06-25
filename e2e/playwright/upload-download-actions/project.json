@@ -82,7 +82,8 @@
         },
         "all-browsers-headless": {
           "env": {
-            "PLAYWRIGHT_BROWSER": "all"
+            "PLAYWRIGHT_BROWSER": "all",
+            "PLAYWRIGHT_HEADLESS": "true"
           },
           "commands": [
             "playwright test --config=e2e/playwright/upload-download-actions/playwright.config.ts"
