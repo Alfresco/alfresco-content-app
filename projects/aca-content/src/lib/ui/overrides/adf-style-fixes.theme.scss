@@ -481,6 +481,14 @@
     font-size: var(--mat-sys-body-small-size);
   }
 
+  adf-login .adf-login-content .adf-error-message {
+    align-items: center;
+
+    .adf-error-icon {
+      color: var(--adf-theme-foreground-error-color);
+    }
+  }
+
   adf-login .adf-login__field {
     @include mat.form-field-overrides(
       (
