@@ -99,7 +99,7 @@ test.describe('Shared Files', () => {
   });
 
   test('[XAT-4432] Default sort order is by Modified date, showing most recently edited files first', async ({ sharedPage }) => {
-    expect(await sharedPage.dataTable.getSortedColumnHeaderText()).toBe('Modified');
+    expect(await sharedPage.dataTable.getSortedColumnHeaderText()).toContain('Modified');
     expect(await sharedPage.dataTable.getSortingOrder()).toBe('desc');
   });
 

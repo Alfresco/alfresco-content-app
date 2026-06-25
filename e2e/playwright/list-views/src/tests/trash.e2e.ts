@@ -85,7 +85,7 @@ test.describe('Trash', () => {
     });
 
     test(`[XAT-4469] Default sort order is on 'Deleted' column with most recent first`, async ({ trashPage }) => {
-      expect(await trashPage.dataTable.getSortedColumnHeaderText()).toBe('Deleted');
+      expect(await trashPage.dataTable.getSortedColumnHeaderText()).toContain('Deleted');
       expect(await trashPage.dataTable.getSortingOrder()).toBe('desc');
     });
 

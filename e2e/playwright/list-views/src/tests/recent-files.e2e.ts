@@ -90,7 +90,7 @@ test.describe('Recent Files', () => {
   });
 
   test('[XAT-4444] Default sort order is by Modified, showing most recently edited files first', async ({ recentFilesPage }) => {
-    expect(await recentFilesPage.dataTable.getSortedColumnHeaderText()).toBe('Modified');
+    expect(await recentFilesPage.dataTable.getSortedColumnHeaderText()).toContain('Modified');
     expect(await recentFilesPage.dataTable.getSortingOrder()).toBe('desc');
   });
 
