@@ -61,15 +61,6 @@
     }
   }
 
-  .adf-choose-action {
-    @include mat.button-overrides(
-      (
-        text-label-text-color: var(--theme-primary-color),
-        text-disabled-label-text-color: var(--adf-theme-foreground-text-color-054)
-      )
-    );
-  }
-
   .adf-metadata-properties {
     @include mat.expansion-overrides(
       (
@@ -178,6 +169,20 @@
 
     .adf-add-permission-dialog-actions {
       --mat-sys-surface: var(--theme-white-background);
+
+      > button + button {
+        @include mat.button-overrides(
+          (
+            text-label-text-color: var(--theme-primary-color),
+            text-disabled-label-text-color: var(--adf-theme-foreground-text-color-054)
+          )
+        );
+      }
+
+      > button + button.adf-choose-action {
+        --mat-sys-primary: var(--theme-primary-color);
+        --mat-sys-on-surface-variant: var(--adf-theme-foreground-text-color-054);
+      }
     }
 
     // TODO get general designs from Shane and check styling for this part
