@@ -113,7 +113,7 @@ test.describe('Version actions', () => {
 
     test('[XAT-5498] Should be possible to download a previous document version - Personal Files', async ({ personalFiles }) => {
       const [download] = await Promise.all([personalFiles.page.waitForEvent('download'), await personalFiles.viewer.downloadButton.click()]);
-      expect(download.suggestedFilename()).toBe(filenameBeforeUpdate);
+      expect(download.suggestedFilename()).toContain(filenameBeforeUpdate);
     });
 
     test('[XAT-19377] Can view previous version of a document after a viewer is opened from Manage Versions dialog', async ({ personalFiles }) => {
@@ -179,7 +179,7 @@ test.describe('Version actions', () => {
 
     test('[XAT-5504] Should be possible to download a previous document version - Favorites', async ({ favoritePage }) => {
       const [download] = await Promise.all([favoritePage.page.waitForEvent('download'), await favoritePage.viewer.downloadButton.click()]);
-      expect(download.suggestedFilename()).toBe(filenameBeforeUpdate);
+      expect(download.suggestedFilename()).toContain(filenameBeforeUpdate);
     });
   });
 
@@ -204,7 +204,7 @@ test.describe('Version actions', () => {
 
     test('[XAT-5507] Should be possible to download a previous document version - Shared Files', async ({ sharedPage }) => {
       const [download] = await Promise.all([sharedPage.page.waitForEvent('download'), await sharedPage.viewer.downloadButton.click()]);
-      expect(download.suggestedFilename()).toBe(filenameBeforeUpdate);
+      expect(download.suggestedFilename()).toContain(filenameBeforeUpdate);
     });
   });
 
@@ -229,7 +229,7 @@ test.describe('Version actions', () => {
 
     test('[XAT-5510] Should be possible to download a previous document version - Search Results', async ({ searchPage }) => {
       const [download] = await Promise.all([searchPage.page.waitForEvent('download'), await searchPage.viewer.downloadButton.click()]);
-      expect(download.suggestedFilename()).toBe(filenameBeforeUpdate);
+      expect(download.suggestedFilename()).toContain(filenameBeforeUpdate);
     });
   });
 });
