@@ -271,7 +271,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     // check root and child nodes
     if (node?.entry?.parentId === this.getParentNodeId()) {
-      this.reload(this.selectedNode);
+      this.reloadWithoutResettingSelection();
       return;
     }
 
@@ -303,7 +303,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     if (alreadyDisplayedParentFolder) {
       return;
     }
-    this.reload(this.selectedNode);
+    this.reloadWithoutResettingSelection();
   }
 
   onContentAdded(nodes: NodeEntry[]) {

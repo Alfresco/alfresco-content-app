@@ -33,7 +33,7 @@ import { AppService } from '@alfresco/aca-shared';
 import { getTitleElementText } from '../../testing/test-utils';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { testHeader } from '../../testing/document-base-page-utils';
+import { testHeader, testUploadEvents } from '../../testing/document-base-page-utils';
 
 describe('SharedFilesComponent', () => {
   let fixture: ComponentFixture<SharedFilesComponent>;
@@ -108,4 +108,9 @@ describe('SharedFilesComponent', () => {
   });
 
   testHeader(SharedFilesComponent);
+
+  testUploadEvents(
+    () => component,
+    () => fixture
+  );
 });

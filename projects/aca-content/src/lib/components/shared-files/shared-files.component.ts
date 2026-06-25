@@ -81,8 +81,8 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
 
     this.subscriptions = this.subscriptions.concat([
       this.appHookService.linksUnshared.pipe(debounceTime(300)).subscribe(() => this.reload()),
-      this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe(() => this.reload()),
-      this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe(() => this.reload())
+      this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe(() => this.reloadWithoutResettingSelection()),
+      this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe(() => this.reloadWithoutResettingSelection())
     ]);
 
     this.columns = this.extensions.documentListPresets.shared || [];

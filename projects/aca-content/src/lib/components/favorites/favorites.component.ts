@@ -80,8 +80,8 @@ export class FavoritesComponent extends PageComponent implements OnInit {
     super.ngOnInit();
 
     this.subscriptions = this.subscriptions.concat([
-      this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe(() => this.reload()),
-      this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe(() => this.reload())
+      this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe(() => this.reloadWithoutResettingSelection()),
+      this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe(() => this.reloadWithoutResettingSelection())
     ]);
 
     this.columns = this.extensions.documentListPresets.favorites;
