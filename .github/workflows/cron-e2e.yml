@@ -1,8 +1,10 @@
 name: "Cron multibrowser E2E runs"
+run-name: ${{ github.event_name == 'workflow_dispatch' && 'Manual multibrowser E2E run' || 'Cron multibrowser E2E run' }}
 
 on:
   schedule:
     - cron: '0 6 * * 1-5' #At 06:00 on every day-of-week from Monday through Friday.
+  workflow_dispatch:
 
 jobs:
   chrome:

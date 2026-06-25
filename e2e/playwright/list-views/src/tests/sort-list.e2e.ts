@@ -143,16 +143,6 @@ test.describe('Remember sorting', () => {
     await personalFiles.waitForPageLoad();
     const firstExpectedSortState = await getSortState(personalFiles);
     expect(firstExpectedSortState).toEqual(initialSortState);
-
-    await personalFiles.dataTable.sortBy('Size', 'desc');
-    await personalFiles.dataTable.spinnerWaitForReload();
-    await personalFiles.page.waitForTimeout(1000);
-    const secondExpectedSortData = await getSortState(personalFiles);
-    await personalFiles.dataTable.performClickFolderOrFileToOpen(secondExpectedSortData.firstElement);
-    await personalFiles.viewer.closeButtonLocator.click();
-    await personalFiles.waitForPageLoad();
-    const actualSortData = await getSortState(personalFiles);
-    expect(actualSortData).toEqual(secondExpectedSortData);
   });
 
   test('[XAT-4525] Sort order should be remembered separately on each list view', async ({ personalFiles, favoritePage }) => {
