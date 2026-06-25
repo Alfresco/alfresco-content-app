@@ -35,8 +35,6 @@ import {
   logger
 } from '@alfresco/aca-playwright-shared';
 
-test.use({ channel: 'chrome' });
-
 test.describe('viewer file types', () => {
   const randomString = Utils.random();
   const username = `user-${randomString}`;

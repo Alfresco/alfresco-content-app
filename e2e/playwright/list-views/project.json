@@ -7,25 +7,89 @@
     "e2e": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["playwright test --config=e2e/playwright/list-views/playwright.config.ts"]
+        "commands": [
+          "playwright test --config=e2e/playwright/list-views/playwright.config.ts"
+        ]
       },
       "configurations": {
-        "production": {
-          "devServerTarget": "content-ce:serve:production"
-        },
         "ui": {
-          "args": ["--ui"]
+          "args": [
+            "--ui"
+          ]
         },
         "debug": {
-          "args": ["--debug"]
+          "args": [
+            "--debug"
+          ]
         },
         "headed": {
-          "args": ["--headed"]
+          "args": [
+            "--headed"
+          ]
         }
       }
     },
     "lint": {
       "executor": "@angular-eslint/builder:lint"
+    },
+    "e2e-multibrowser": {
+      "executor": "nx:run-commands",
+      "options": {},
+      "configurations": {
+        "webkit-headed": {
+          "env": {
+            "PLAYWRIGHT_BROWSER": "webkit"
+          },
+          "args": [
+            "--headed"
+          ],
+          "commands": [
+            "playwright test --config=e2e/playwright/list-views/playwright.config.ts"
+          ]
+        },
+        "firefox-headed": {
+          "env": {
+            "PLAYWRIGHT_BROWSER": "firefox"
+          },
+          "args": [
+            "--headed"
+          ],
+          "commands": [
+            "playwright test --config=e2e/playwright/list-views/playwright.config.ts"
+          ]
+        },
+        "chrome-headed": {
+          "env": {
+            "PLAYWRIGHT_BROWSER": "chrome"
+          },
+          "args": [
+            "--headed"
+          ],
+          "commands": [
+            "playwright test --config=e2e/playwright/list-views/playwright.config.ts"
+          ]
+        },
+        "msedge-headed": {
+          "env": {
+            "PLAYWRIGHT_BROWSER": "msedge"
+          },
+          "args": [
+            "--headed"
+          ],
+          "commands": [
+            "playwright test --config=e2e/playwright/list-views/playwright.config.ts"
+          ]
+        },
+        "all-browsers-headless": {
+          "env": {
+            "PLAYWRIGHT_BROWSER": "all",
+            "PLAYWRIGHT_HEADLESS": "true"
+          },
+          "commands": [
+            "playwright test --config=e2e/playwright/list-views/playwright.config.ts"
+          ]
+        }
+      }
     }
   }
 }
