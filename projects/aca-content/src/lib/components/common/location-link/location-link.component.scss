@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 .aca-location-link {
   &-unknown {
     display: flex;
@@ -10,8 +12,12 @@
   }
 
   .aca-location-link-info-btn {
-    --mdc-icon-button-state-layer-size: 24px;
-    --mdc-icon-button-icon-size: 24px;
+    @include mat.icon-button-overrides(
+      (
+        state-layer-size: 24px,
+        icon-size: 24px
+      )
+    );
 
     color: var(--theme-foreground-text-color);
     padding: 0;

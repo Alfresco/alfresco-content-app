@@ -17,8 +17,6 @@ html {
 
 :root {
   --mat-sys-on-surface: var(--adf-theme-foreground-text-color-087);
-  --mdc-filled-text-field-container-color: transparent;
-  --mdc-text-button-label-text-color: inherit;
   --mat-form-field-container-height: 47.5px;
   --mat-sys-display-large-font: #{$default-font-family};
   --mat-sys-display-large-size: 112px;
@@ -161,6 +159,7 @@ html {
       outlined-disabled-outline-color: var(--adf-theme-foreground-text-color-040),
       filled-label-text-size: 18px,
       filled-label-text-tracking: normal,
+      filled-container-color: transparent,
       subscript-text-tracking: normal,
       filled-input-text-color: var(--adf-theme-foreground-text-color-087),
       subscript-text-size: 12px
@@ -177,6 +176,7 @@ html {
     (
       text-state-layer-color: var(--adf-theme-foreground-base-color),
       text-hover-state-layer-opacity: 0.04,
+      text-label-text-color: inherit,
       filled-disabled-container-color: var(--adf-disabled-button-background),
       text-label-text-tracking: normal,
       text-horizontal-padding: 8px,
@@ -479,7 +479,11 @@ mat-slide-toggle {
     padding: 16px 0;
     color: var(--adf-theme-foreground-text-color-087);
 
-    --mdc-dialog-supporting-text-color: var(--theme-primary-text);
+    @include mat.dialog-overrides(
+      (
+        supporting-text-color: var(--theme-primary-text)
+      )
+    );
   }
 
   #{ms.$mat-dialog-surface} {

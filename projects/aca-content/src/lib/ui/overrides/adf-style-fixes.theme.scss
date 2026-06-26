@@ -61,15 +61,6 @@
     }
   }
 
-  .adf-choose-action {
-    @include mat.button-overrides(
-      (
-        text-label-text-color: var(--theme-primary-color),
-        text-disabled-label-text-color: var(--adf-theme-foreground-text-color-054)
-      )
-    );
-  }
-
   .adf-metadata-properties {
     @include mat.expansion-overrides(
       (
@@ -178,6 +169,20 @@
 
     .adf-add-permission-dialog-actions {
       --mat-sys-surface: var(--theme-white-background);
+
+      > button + button {
+        @include mat.button-overrides(
+          (
+            text-label-text-color: var(--theme-primary-color),
+            text-disabled-label-text-color: var(--adf-theme-foreground-text-color-054)
+          )
+        );
+      }
+
+      > button + button.adf-choose-action {
+        --mat-sys-primary: var(--theme-primary-color);
+        --mat-sys-on-surface-variant: var(--adf-theme-foreground-text-color-054);
+      }
     }
 
     // TODO get general designs from Shane and check styling for this part
@@ -264,8 +269,6 @@
   }
 
   .adf-permission-card {
-    --mdc-elevated-card-container-color: var(--adf-theme-background-card-color);
-
     .adf-local-permission-container .adf-permission-content-header button:disabled {
       @include mat.icon-overrides(
         (
@@ -476,6 +479,14 @@
 
   adf-login .adf-login-content .adf-ie11FixerParent .adf-ie11FixerChild .adf-copyright {
     font-size: var(--mat-sys-body-small-size);
+  }
+
+  adf-login .adf-login-content .adf-error-message {
+    align-items: center;
+
+    .adf-error-icon {
+      color: var(--adf-theme-foreground-error-color);
+    }
   }
 
   adf-login .adf-login__field {
@@ -953,7 +964,11 @@
   }
 
   app-comments-tab {
-    --mdc-elevated-card-container-elevation: none;
+    @include mat.card-overrides(
+      (
+        elevated-container-elevation: none
+      )
+    );
   }
 
   adf-library-dialog {

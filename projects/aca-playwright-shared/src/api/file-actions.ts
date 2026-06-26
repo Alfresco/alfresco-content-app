@@ -181,7 +181,7 @@ export class FileActionsApi {
           logger.info(`waitForNodes: "${searchTerm}" — found ${totalItems}, expecting ${data.expect}`);
         }
         return totalItems;
-      } catch (error) {
+      } catch {
         return 0;
       }
     };

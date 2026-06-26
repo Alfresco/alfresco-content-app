@@ -116,7 +116,7 @@ test.describe('Mark items as favorites', () => {
         await favoritesApi.addFavoritesByIds('file', [fileFavUIId, fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
         await favoritesApi.addFavoriteById('folder', folderId);
         await favoritesApi.removeFavoritesByIds(username, [fileNotFav1Id, fileNotFav2Id, fileNotFav3Id, fileNotFav4Id]);
-      } catch (error) {}
+      } catch {}
     });
 
     test.beforeEach(async ({ personalFiles }) => {

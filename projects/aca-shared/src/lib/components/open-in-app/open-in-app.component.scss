@@ -1,4 +1,5 @@
 @use '../../styles/mat-selectors' as ms;
+@use '@angular/material' as mat;
 
 aca-open-in-app {
   .aca-open-in-app {
@@ -57,9 +58,16 @@ aca-open-in-app {
       }
     }
 
-    #{ms.$mat-button} {
-      --mat-mdc-button-persistent-ripple-color: unset;
-      --mat-mdc-button-ripple-color: unset;
+    &-button-container {
+      @include mat.button-overrides(
+        (
+          text-ripple-color: transparent,
+          text-state-layer-color: transparent,
+          text-hover-state-layer-opacity: 0,
+          text-focus-state-layer-opacity: 0,
+          text-pressed-state-layer-opacity: 0
+        )
+      );
     }
   }
 }

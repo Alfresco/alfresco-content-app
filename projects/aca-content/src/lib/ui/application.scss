@@ -39,7 +39,7 @@ ng-component {
   @include mixins.flex-column;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (width <= 600px) {
   app-root,
   app-about,
   adf-layout-container,

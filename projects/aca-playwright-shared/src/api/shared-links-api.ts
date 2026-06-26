@@ -45,7 +45,7 @@ export class SharedLinksApi {
         expiresAt: expireDate
       };
       return await this.apiService.share.createSharedLink(data);
-    } catch (error) {
+    } catch {
       return null;
     }
   }

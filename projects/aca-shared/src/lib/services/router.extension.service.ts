@@ -81,7 +81,7 @@ export class RouterExtensionService {
             data: route.data
           }
         ]
-      };
+      } as ExtensionRoute;
     });
   }
 
