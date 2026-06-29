@@ -431,6 +431,32 @@ describe('NodeActionsService', () => {
         number: 1
       });
     });
+
+    it('should include repository destination in custom dropdown', () => {
+      spyOn(service, 'doBatchOperation').and.callThrough();
+      spyOn(service, 'getContentNodeSelection').and.callThrough();
+      spyOn(service, 'getEntryParentId').and.returnValue('parent-id');
+
+      let dialogData = null;
+      spyOn(dialog, 'open').and.callFake((_contentNodeSelectorComponent: any, data: any) => {
+        dialogData = data;
+        return { componentInstance: {}, afterClosed: of } as unknown as MatDialogRef<any>;
+      });
+
+      service.copyNodes([fileToCopy]);
+
+      expect(dialogData).toBeDefined();
+      expect(dialogData.data.dropdownSiteList.list.entries.length).toBe(3);
+
+      const entries = dialogData.data.dropdownSiteList.list.entries;
+      expect(entries[0].entry.guid).toBe('-my-');
+      expect(entries[1].entry.guid).toBe('-mysites-');
+      expect(entries[2].entry.guid).toBe('-root-');
+
+      expect(translationService.instant).toHaveBeenCalledWith('APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL');
+      expect(translationService.instant).toHaveBeenCalledWith('APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.SIDENAV_LINK.LABEL');
+      expect(translationService.instant).toHaveBeenCalledWith('APP.BROWSE.REPOSITORY_VIEW.TITLE');
+    });
   });
 
   describe('copyNodeAction', () => {

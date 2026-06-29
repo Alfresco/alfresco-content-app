@@ -25,12 +25,13 @@
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Node, PathInfo } from '@alfresco/js-api';
+import { Node } from '@alfresco/js-api';
 import { map } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { NavigateRouteAction, NavigateToFolder, NavigateToParentFolder, NavigateToPreviousPage, NavigateUrlAction } from '../actions/router.actions';
 import { RouterActionTypes } from '../actions/router-action-types';
 import { NotificationService } from '@alfresco/adf-core';
+import { getNodeContentSource } from '../utils/node-path.utils';
 
 @Injectable()
 export class RouterEffects {
@@ -103,10 +104,10 @@ export class RouterEffects {
     const { path, id } = node;
 
     if (path?.name && path?.elements) {
-      const isLibraryPath = this.isLibraryContent(path);
+      const area = `/${getNodeContentSource(path)}`;
+      const isLibraryPath = area === '/libraries';
 
       const parent = path.elements[path.elements.length - 1];
-      const area = isLibraryPath ? '/libraries' : '/personal-files';
 
       if (!isLibraryPath) {
         link = [area, id];
@@ -128,10 +129,10 @@ export class RouterEffects {
     const { path } = node;
 
     if (path?.name && path?.elements) {
-      const isLibraryPath = this.isLibraryContent(path);
+      const area = `/${getNodeContentSource(path)}`;
+      const isLibraryPath = area === '/libraries';
 
       const parent = path.elements[path.elements.length - 1];
-      const area = isLibraryPath ? '/libraries' : '/personal-files';
 
       if (!isLibraryPath) {
         link = [area, parent.id];
@@ -146,9 +147,5 @@ export class RouterEffects {
     } else {
       this.notificationService.showError('APP.MESSAGES.ERRORS.CANNOT_NAVIGATE_LOCATION');
     }
-  }
-
-  private isLibraryContent(path: PathInfo): boolean {
-    return path && path.elements.length >= 2 && path.elements[1].name === 'Sites';
   }
 }

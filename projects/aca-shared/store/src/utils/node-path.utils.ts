@@ -22,33 +22,38 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './actions/app-action-types';
-export * from './actions/context-menu-action-types';
-export * from './actions/router-action-types';
-export * from './actions/template-action-types';
-export * from './actions/app.actions';
-export * from './actions/library.actions';
-export * from './actions/node.actions';
-export * from './actions/router.actions';
-export * from './actions/search.actions';
-export * from './actions/upload.actions';
-export * from './actions/viewer.actions';
-export * from './actions/metadata-aspect.actions';
-export * from './actions/template.actions';
-export * from './actions/contextmenu.actions';
-export * from './actions/search-ai.actions';
+import { PathInfo } from '@alfresco/js-api';
 
-export * from './effects/router.effects';
+/**
+ * The browsing area a node belongs to, derived from its primary path. The values match the
+ * application routes (`/personal-files`, `/libraries`, `/repository`).
+ */
+export type NodeContentSource = 'personal-files' | 'libraries' | 'repository';
 
-export * from './models/ai-search-by-term-payload';
-export * from './models/delete-status.model';
-export * from './models/deleted-node-info.model';
-export * from './models/node-info.model';
-export * from './models/search-option.model';
-export * from './models/modal-configuration';
+const PERSONAL_FILES_FOLDER = 'User Homes';
+const LIBRARIES_FOLDER = 'Sites';
 
-export * from './selectors/app.selectors';
+/**
+ * Resolves the browsing area of a node from its path. When no path information is available the default of
+ * `personal-files` is kept.
+ *
+ * @param path path of the node
+ * @returns The content source the node should be navigated to
+ */
+export function getNodeContentSource(path: PathInfo): NodeContentSource {
+  const elements = path?.elements ?? [];
 
-export * from './states/app.state';
+  if (elements.length === 0) {
+    return 'personal-files';
+  }
 
-export * from './utils/node-path.utils';
+  if (elements[1]?.name === LIBRARIES_FOLDER) {
+    return 'libraries';
+  }
+
+  if (path?.name?.includes(PERSONAL_FILES_FOLDER) || elements[1]?.name === PERSONAL_FILES_FOLDER) {
+    return 'personal-files';
+  }
+
+  return 'repository';
+}

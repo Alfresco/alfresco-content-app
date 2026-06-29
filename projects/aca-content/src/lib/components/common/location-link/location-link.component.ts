@@ -22,11 +22,11 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ChangeDetectionStrategy, OnInit, ViewEncapsulation, HostListener, inject } from '@angular/core';
-import { PathInfo, NodeEntry } from '@alfresco/js-api';
-import { Observable, BehaviorSubject, of } from 'rxjs';
+import { ChangeDetectionStrategy, Component, HostListener, inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { NodeEntry, PathInfo } from '@alfresco/js-api';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { NavigateToParentFolder } from '@alfresco/aca-shared/store';
+import { getNodeContentSource, NavigateToParentFolder } from '@alfresco/aca-shared/store';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { DialogComponent, DialogSize, TranslationService } from '@alfresco/adf-core';
 import { CommonModule } from '@angular/common';
@@ -123,7 +123,7 @@ export class LocationLinkComponent implements OnInit {
 
     // for admin users
     if (elements.length === 1 && elements[0] === 'Company Home') {
-      return of('APP.BROWSE.PERSONAL.TITLE');
+      return of('APP.BROWSE.REPOSITORY_VIEW.TITLE');
     }
 
     // for non-admin users
@@ -161,14 +161,16 @@ export class LocationLinkComponent implements OnInit {
 
     let result: string = null;
 
+    const contentSource = getNodeContentSource(path);
     const elements = path.elements.map((e) => {
       return { ...e };
     });
     const personalFiles = this.translationService.instant('APP.BROWSE.PERSONAL.TITLE');
     const fileLibraries = this.translationService.instant('APP.BROWSE.LIBRARIES.TITLE');
+    const repository = this.translationService.instant('APP.BROWSE.REPOSITORY_VIEW.TITLE');
 
     if (elements[0].name === 'Company Home') {
-      elements[0].name = personalFiles;
+      elements[0].name = contentSource === 'repository' ? repository : personalFiles;
 
       if (elements.length > 2) {
         if (elements[1].name === 'Sites') {

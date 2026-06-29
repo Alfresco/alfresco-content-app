@@ -181,6 +181,26 @@ export const CONTENT_LAYOUT_ROUTES: Route[] = [
               defaultNodeId: '-root-'
             }
           },
+          {
+            path: 'details/:nodeId',
+            children: [
+              {
+                path: '',
+                component: DetailsComponent,
+                data: {
+                  navigateSource: 'repository'
+                }
+              },
+              {
+                path: ':activeTab',
+                component: DetailsComponent,
+                data: {
+                  title: 'APP.BROWSE.PERSONAL.PERMISSIONS.TITLE',
+                  navigateSource: 'repository'
+                }
+              }
+            ]
+          },
           ...createViewRoutes('repository')
         ]
       },

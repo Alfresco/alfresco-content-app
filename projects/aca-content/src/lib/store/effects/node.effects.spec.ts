@@ -31,6 +31,7 @@ import { ContentManagementService } from '../../services/content-management.serv
 import {
   CopyNodesAction,
   CreateFolderAction,
+  DeletedNodeInfo,
   DeleteNodesAction,
   EditFolderAction,
   ExpandInfoDrawerAction,
@@ -62,6 +63,7 @@ import { of } from 'rxjs';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NodeEntry, UserInfo } from '@alfresco/js-api';
+import { Node } from '@alfresco/js-api/typings/src/api/content-rest-api/model/node';
 
 describe('NodeEffects', () => {
   let store: Store<any>;
@@ -91,8 +93,8 @@ describe('NodeEffects', () => {
     it('should share node from payload', () => {
       spyOn(contentService, 'shareNode').and.stub();
 
-      const node: any = {
-        entry: {}
+      const node: NodeEntry = {
+        entry: {} as Node
       };
       store.dispatch(new ShareNodeAction(node));
 
@@ -102,7 +104,7 @@ describe('NodeEffects', () => {
     it('should share node from active selection', fakeAsync(() => {
       spyOn(contentService, 'shareNode').and.stub();
 
-      const node: any = { entry: { isFile: true } };
+      const node: NodeEntry = { entry: { isFile: true } as Node };
       store.dispatch(new SetSelectedNodesAction([node]));
 
       tick(100);
@@ -124,7 +126,7 @@ describe('NodeEffects', () => {
     it('should unshare nodes from the payload', () => {
       spyOn(contentService, 'unshareNodes').and.stub();
 
-      const node: any = {};
+      const node = {} as NodeEntry;
       store.dispatch(new UnshareNodesAction([node]));
 
       expect(contentService.unshareNodes).toHaveBeenCalledWith([node]);
@@ -133,7 +135,7 @@ describe('NodeEffects', () => {
     it('should unshare nodes from the active selection', fakeAsync(() => {
       spyOn(contentService, 'unshareNodes').and.stub();
 
-      const node: any = { entry: { isFile: true } };
+      const node = { entry: { isFile: true } } as NodeEntry;
       store.dispatch(new SetSelectedNodesAction([node]));
 
       tick(100);
@@ -155,7 +157,7 @@ describe('NodeEffects', () => {
     it('should purge deleted nodes from the payload', () => {
       spyOn(contentService, 'purgeDeletedNodes').and.stub();
 
-      const node: any = {};
+      const node = {} as NodeEntry;
       store.dispatch(new PurgeDeletedNodesAction([node]));
 
       expect(contentService.purgeDeletedNodes).toHaveBeenCalledWith([node], undefined);
@@ -164,7 +166,7 @@ describe('NodeEffects', () => {
     it('should purge nodes from the active selection', fakeAsync(() => {
       spyOn(contentService, 'purgeDeletedNodes').and.stub();
 
-      const node: any = { entry: { isFile: true } };
+      const node = { entry: { isFile: true } } as NodeEntry;
       store.dispatch(new SetSelectedNodesAction([node]));
 
       tick(100);
@@ -186,7 +188,7 @@ describe('NodeEffects', () => {
     it('should restore deleted nodes from the payload', () => {
       spyOn(contentService, 'restoreDeletedNodes').and.stub();
 
-      const node: any = {};
+      const node = {} as NodeEntry;
       store.dispatch(new RestoreDeletedNodesAction([node]));
 
       expect(contentService.restoreDeletedNodes).toHaveBeenCalledWith([node], undefined);
@@ -195,7 +197,7 @@ describe('NodeEffects', () => {
     it('should restore deleted nodes from the active selection', fakeAsync(() => {
       spyOn(contentService, 'restoreDeletedNodes').and.stub();
 
-      const node: any = { entry: { isFile: true } };
+      const node = { entry: { isFile: true } } as NodeEntry;
       store.dispatch(new SetSelectedNodesAction([node]));
 
       tick(100);
@@ -217,7 +219,7 @@ describe('NodeEffects', () => {
     it('should delete nodes from the payload', () => {
       spyOn(contentService, 'deleteNodes').and.stub();
       spyOn(store, 'dispatch').and.callThrough();
-      const node: any = {};
+      const node = {} as NodeEntry;
       store.dispatch(new DeleteNodesAction([node]));
 
       expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new DeleteNodesAction([node], true) }));
@@ -228,7 +230,7 @@ describe('NodeEffects', () => {
     it('should delete nodes from the active selection', fakeAsync(() => {
       spyOn(contentService, 'deleteNodes').and.stub();
       spyOn(store, 'dispatch').and.callThrough();
-      const node: any = { entry: { isFile: true } };
+      const node = { entry: { isFile: true } } as NodeEntry;
       store.dispatch(new SetSelectedNodesAction([node]));
 
       tick(100);
@@ -257,7 +259,7 @@ describe('NodeEffects', () => {
     it('should undo deleted nodes from the payload', () => {
       spyOn(contentService, 'undoDeleteNodes').and.stub();
 
-      const node: any = {};
+      const node = { id: 'node-id', name: 'node-name', status: 200 } as DeletedNodeInfo;
       store.dispatch(new UndoDeleteNodesAction([node]));
 
       expect(contentService.undoDeleteNodes).toHaveBeenCalledWith([node]);
@@ -285,7 +287,7 @@ describe('NodeEffects', () => {
     });
 
     it('should create folder in the active selected one', fakeAsync(() => {
-      const currentFolder: any = { isFolder: true, id: 'folder1' };
+      const currentFolder = { isFolder: true, id: 'folder1' } as Node;
       store.dispatch(new SetCurrentFolderAction(currentFolder));
 
       tick(100);
@@ -299,7 +301,7 @@ describe('NodeEffects', () => {
     it('should edit folder from the payload', () => {
       spyOn(contentService, 'editFolder').and.stub();
 
-      const node: any = { entry: { isFolder: true, id: 'folder1' } };
+      const node = { entry: { isFolder: true, id: 'folder1' } } as NodeEntry;
       store.dispatch(new EditFolderAction(node));
 
       expect(contentService.editFolder).toHaveBeenCalledWith(node);
@@ -308,9 +310,9 @@ describe('NodeEffects', () => {
     it('should edit folder from the active selection', fakeAsync(() => {
       spyOn(contentService, 'editFolder').and.stub();
 
-      const currentFolder: any = {
+      const currentFolder = {
         entry: { isFolder: true, isFile: false, id: 'folder1' }
-      };
+      } as NodeEntry;
       store.dispatch(new SetSelectedNodesAction([currentFolder]));
 
       tick(100);
@@ -332,7 +334,7 @@ describe('NodeEffects', () => {
     it('should copy nodes from the payload', () => {
       spyOn(contentService, 'copyNodes').and.stub();
 
-      const node: any = { entry: { isFile: true } };
+      const node = { entry: { isFile: true } } as NodeEntry;
       store.dispatch(new CopyNodesAction([node]));
 
       expect(contentService.copyNodes).toHaveBeenCalledWith([node]);
@@ -341,7 +343,7 @@ describe('NodeEffects', () => {
     it('should copy nodes from the active selection', fakeAsync(() => {
       spyOn(contentService, 'copyNodes').and.stub();
 
-      const node: any = { entry: { isFile: true } };
+      const node = { entry: { isFile: true } } as NodeEntry;
       store.dispatch(new SetSelectedNodesAction([node]));
 
       tick(100);
@@ -364,7 +366,7 @@ describe('NodeEffects', () => {
     it('should move nodes from the payload', () => {
       spyOn(contentService, 'moveNodes').and.stub();
 
-      const node: any = { entry: { isFile: true } };
+      const node = { entry: { isFile: true } } as NodeEntry;
       store.dispatch(new MoveNodesAction([node]));
 
       expect(contentService.moveNodes).toHaveBeenCalledWith([node]);
@@ -373,7 +375,7 @@ describe('NodeEffects', () => {
     it('should move nodes from the active selection', fakeAsync(() => {
       spyOn(contentService, 'moveNodes').and.stub();
 
-      const node: any = { entry: { isFile: true } };
+      const node = { entry: { isFile: true } } as NodeEntry;
       store.dispatch(new SetSelectedNodesAction([node]));
 
       tick(100);
@@ -459,7 +461,7 @@ describe('NodeEffects', () => {
   describe('managePermissions$', () => {
     it('should manage permissions from the payload', () => {
       spyOn(router, 'navigateByUrl').and.stub();
-      const node: any = { entry: { isFile: true, id: 'fileId' } };
+      const node = { entry: { isFile: true, id: 'fileId' } } as NodeEntry;
       store.dispatch(new ManagePermissionsAction(node));
 
       expect(router.navigateByUrl).toHaveBeenCalledWith('personal-files/details/fileId/permissions');
@@ -471,6 +473,29 @@ describe('NodeEffects', () => {
       store.dispatch(new ManagePermissionsAction(null));
 
       expect(router.navigateByUrl).toHaveBeenCalledWith('personal-files/details/fileId/permissions');
+    });
+
+    it('should manage permissions via the repository route for repository nodes', () => {
+      spyOn(router, 'navigateByUrl').and.stub();
+      const node = {
+        entry: {
+          isFile: true,
+          id: 'fileId',
+          path: { elements: [{ name: 'Company Home' }, { name: 'Some Folder' }] }
+        }
+      } as NodeEntry;
+      store.dispatch(new ManagePermissionsAction(node));
+
+      expect(router.navigateByUrl).toHaveBeenCalledWith('repository/details/fileId/permissions');
+    });
+
+    it('should manage permissions via the repository route when on the repository view', () => {
+      spyOnProperty(router, 'url', 'get').and.returnValue('/repository/some-folder-id');
+      spyOn(router, 'navigateByUrl').and.stub();
+      const node = { entry: { isFile: true, id: 'fileId' } } as NodeEntry;
+      store.dispatch(new ManagePermissionsAction(node));
+
+      expect(router.navigateByUrl).toHaveBeenCalledWith('repository/details/fileId/permissions');
     });
 
     it('should do nothing if invoking manage permissions with no data', () => {
@@ -500,9 +525,9 @@ describe('NodeEffects', () => {
   describe('printFile$', () => {
     it('it should print node content from payload', () => {
       spyOn(renditionViewerService, 'printFileGeneric').and.stub();
-      const node: any = {
+      const node = {
         entry: { id: 'node-id', content: { mimeType: 'text/json' } }
-      };
+      } as NodeEntry;
 
       store.dispatch(new PrintFileAction(node));
 
@@ -511,13 +536,13 @@ describe('NodeEffects', () => {
 
     it('it should print node content from store', fakeAsync(() => {
       spyOn(renditionViewerService, 'printFileGeneric').and.stub();
-      const node: any = {
+      const node = {
         entry: {
           isFile: true,
           id: 'node-id',
           content: { mimeType: 'text/json' }
         }
-      };
+      } as NodeEntry;
 
       store.dispatch(new SetSelectedNodesAction([node]));
 
@@ -542,7 +567,7 @@ describe('NodeEffects', () => {
   describe('unlockWrite$', () => {
     it('should unlock node from payload', () => {
       spyOn(contentService, 'unlockNode').and.stub();
-      const node: any = { entry: { id: 'node-id' } };
+      const node = { entry: { id: 'node-id' } } as NodeEntry;
 
       store.dispatch(new UnlockWriteAction(node));
 
@@ -551,7 +576,7 @@ describe('NodeEffects', () => {
 
     it('should unlock node from store selection', fakeAsync(() => {
       spyOn(contentService, 'unlockNode').and.stub();
-      const node: any = { entry: { isFile: true, id: 'node-id' } };
+      const node = { entry: { isFile: true, id: 'node-id' } } as NodeEntry;
 
       store.dispatch(new SetSelectedNodesAction([node]));
 
@@ -565,7 +590,7 @@ describe('NodeEffects', () => {
 
   describe('aspectList$', () => {
     it('should call aspect dialog', () => {
-      const node: any = { entry: { isFile: true } };
+      const node = { entry: { isFile: true } } as NodeEntry;
       spyOn(contentService, 'manageAspects').and.stub();
 
       store.dispatch(new ManageAspectsAction(node));
@@ -576,7 +601,7 @@ describe('NodeEffects', () => {
     it('should call aspect dialog from the active file selection', fakeAsync(() => {
       spyOn(contentService, 'manageAspects').and.stub();
 
-      const node: any = { entry: { isFile: true, id: 'file-node-id' } };
+      const node = { entry: { isFile: true, id: 'file-node-id' } } as NodeEntry;
       store.dispatch(new SetSelectedNodesAction([node]));
 
       tick(100);
@@ -589,7 +614,7 @@ describe('NodeEffects', () => {
     it('should call aspect dialog from the active folder selection', fakeAsync(() => {
       spyOn(contentService, 'manageAspects').and.stub();
 
-      const node: any = { entry: { isFile: false, id: 'folder-node-id' } };
+      const node = { entry: { isFile: false, id: 'folder-node-id' } } as NodeEntry;
       store.dispatch(new SetSelectedNodesAction([node]));
 
       tick(100);
@@ -626,11 +651,35 @@ describe('NodeEffects', () => {
           value: jasmine.createSpy('navigateByUrl')
         }
       });
-      const node: any = { entry: { isFile: true, id: 'node-id' } };
+      const node = { entry: { isFile: true, id: 'node-id' } } as NodeEntry;
 
       store.dispatch(new ExpandInfoDrawerAction(node));
       expect(store.dispatch).toHaveBeenCalledWith(
         jasmine.objectContaining({ ...new NavigateUrlAction('personal-files/details/node-id?location=test-page') })
+      );
+    });
+
+    it('should redirect to repository url for repository nodes', () => {
+      spyOn(store, 'dispatch').and.callThrough();
+      Object.defineProperties(router, {
+        events: {
+          value: of(new NavigationEnd(1, 'test/(viewer:view/node-id)', ''))
+        },
+        navigateByUrl: {
+          value: jasmine.createSpy('navigateByUrl')
+        }
+      });
+      const node = {
+        entry: {
+          isFile: true,
+          id: 'node-id',
+          path: { elements: [{ name: 'Company Home' }, { name: 'Some Folder' }] }
+        }
+      } as NodeEntry;
+
+      store.dispatch(new ExpandInfoDrawerAction(node));
+      expect(store.dispatch).toHaveBeenCalledWith(
+        jasmine.objectContaining({ ...new NavigateUrlAction('repository/details/node-id?location=test-page') })
       );
     });
   });
