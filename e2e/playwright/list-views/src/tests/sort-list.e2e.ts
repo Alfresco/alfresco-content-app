@@ -37,7 +37,7 @@ import {
 
 async function getSortState(myPersonalFiles: PersonalFilesPage): Promise<{ [key: string]: string }> {
   return {
-    sortingColumn: (await myPersonalFiles.dataTable.getSortedColumnHeaderText()).trim(),
+    sortingColumn: await myPersonalFiles.dataTable.getSortedColumnHeaderText(),
     sortingOrder: await myPersonalFiles.dataTable.getSortingOrder(),
     firstElement: await myPersonalFiles.dataTable.getFirstElementDetail('Name')
   };
@@ -219,7 +219,8 @@ test.describe('Remember sorting', () => {
 
       await personalFiles.selectCreateFolder();
       await personalFiles.folderDialog.createNewFolderDialog(uiCreatedFolder);
-      await personalFiles.dataTable.isItemPresent(uiCreatedFolder);
+      await personalFiles.dataTable.getRowByName(uiCreatedFolder).waitFor({ timeout: timeouts.medium });
+      await personalFiles.dataTable.spinnerWaitForReload();
 
       const actualSortData = await getSortState(personalFiles);
       expect(actualSortData).toEqual(expectedSortData);

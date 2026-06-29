@@ -201,7 +201,7 @@ export class DataTableComponent extends BaseComponent {
   }
 
   async getSortedColumnHeaderText(): Promise<string> {
-    return (await this.sortedColumnHeader.textContent()) ?? '';
+    return (await this.sortedColumnHeader.textContent())?.trim() ?? '';
   }
 
   private getItemLocationEl(name: string): Locator {
