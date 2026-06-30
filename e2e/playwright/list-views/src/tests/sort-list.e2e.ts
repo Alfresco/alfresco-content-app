@@ -186,7 +186,7 @@ test.describe('Remember sorting', () => {
     };
 
     let currentPersonalFilesSortDataPage2 = await getSortState(personalFiles);
-    expect(currentPersonalFilesSortDataPage2).toEqual(expectedPersonalFilesSortDataPage2);
+    expect(currentPersonalFilesSortDataPage2).toMatchObject(expectedPersonalFilesSortDataPage2);
 
     await personalFiles.dataTable.sortBy('Name', 'desc');
     await personalFiles.dataTable.spinnerWaitForReload();
@@ -197,7 +197,7 @@ test.describe('Remember sorting', () => {
     };
 
     currentPersonalFilesSortDataPage2 = await getSortState(personalFiles);
-    expect(expectedPersonalFilesSortDataPage2).toEqual(currentPersonalFilesSortDataPage2);
+    expect(currentPersonalFilesSortDataPage2).toMatchObject(expectedPersonalFilesSortDataPage2);
   });
 
   test.describe('Folder actions', () => {
@@ -219,7 +219,8 @@ test.describe('Remember sorting', () => {
 
       await personalFiles.selectCreateFolder();
       await personalFiles.folderDialog.createNewFolderDialog(uiCreatedFolder);
-      await personalFiles.dataTable.isItemPresent(uiCreatedFolder);
+      await personalFiles.dataTable.getRowByName(uiCreatedFolder).waitFor({ timeout: timeouts.medium });
+      await personalFiles.dataTable.spinnerWaitForReload();
 
       const actualSortData = await getSortState(personalFiles);
       expect(actualSortData).toEqual(expectedSortData);

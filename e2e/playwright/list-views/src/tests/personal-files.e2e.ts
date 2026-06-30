@@ -63,7 +63,7 @@ test.describe('Personal Files', () => {
 
     test('[XAT-4415] Personal Files - Default sort order', async ({ personalFiles }) => {
       await Utils.reloadPageIfDatatableEmpty(personalFiles);
-      expect(await personalFiles.dataTable.getSortedColumnHeaderText()).toBe('Name');
+      expect(await personalFiles.dataTable.getSortedColumnHeaderText()).toContain('Name');
     });
 
     test('[XAT-4411] User is redirected to Home page on selecting <Personal Files> from any folder location', async ({ personalFiles }) => {

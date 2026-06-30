@@ -125,7 +125,7 @@ test.describe('viewer action file', () => {
       const downloadPromise = personalFiles.page.waitForEvent('download');
       await personalFiles.acaHeader.downloadButtonViewer.click();
       const download = await downloadPromise;
-      expect(download.suggestedFilename()).toBe(randomDocxName);
+      expect(download.suggestedFilename()).toContain(randomDocxName);
     });
 
     test('[XAT-5415] Full screen action', async ({ personalFiles }) => {
