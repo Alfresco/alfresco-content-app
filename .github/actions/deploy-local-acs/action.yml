@@ -79,7 +79,6 @@ runs:
       shell: bash
       env:
         ACS_VERSION_INPUT: ${{ inputs.acs_deployment_version }}
-        LATEST_IMAGES: ${{ inputs.latest_images }}
         GITHUB_TOKEN: ${{ github.token }}
       run: |
         if [ "$ACS_VERSION_INPUT" != "latest" ]; then
