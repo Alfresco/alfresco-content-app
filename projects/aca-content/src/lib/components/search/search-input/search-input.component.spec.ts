@@ -26,35 +26,46 @@ import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testin
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { SearchInputComponent } from './search-input.component';
 import { Subject } from 'rxjs';
-import { ActivatedRoute, Event, NavigationStart, Params, Router } from '@angular/router';
-import { SearchConfiguration, SearchQueryBuilderService } from '@alfresco/adf-content-services';
+import { ActivatedRoute, Event, Params, Router } from '@angular/router';
+import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SearchNavigationService } from '../search-navigation.service';
 import { SearchFilterService } from '../search-filter.service';
 import { SearchExecutionService } from '../search-execution.service';
 import { AppHookService } from '@alfresco/aca-shared';
 import { UnitTestingUtils } from '@alfresco/adf-core';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { HarnessLoader } from '@angular/cdk/testing';
+import { MatButtonToggleGroupHarness } from '@angular/material/button-toggle/testing';
 
 describe('SearchInputComponent', () => {
   let fixture: ComponentFixture<SearchInputComponent>;
   let component: SearchInputComponent;
   let router: Router;
+  let queryBuilder: Partial<SearchQueryBuilderService>;
   let searchExecutionService: jasmine.SpyObj<SearchExecutionService>;
   let searchFilterService: jasmine.SpyObj<SearchFilterService>;
   let searchNavigationService: jasmine.SpyObj<SearchNavigationService>;
   let testingUtils: UnitTestingUtils;
+  let loader: HarnessLoader;
 
   const routerEventsSubject = new Subject<Event>();
-  const configUpdatedSubject = new Subject<SearchConfiguration>();
   const queryParamsSubject = new Subject<Params>();
   const library400ErrorSubject = new Subject<void>();
 
+  /** Sets the input value and triggers a search by pressing Enter, mimicking the user. */
+  const submitSearch = (value: string) => {
+    const input = testingUtils.getInputByCSS('.app-search-input');
+    input.value = value;
+    testingUtils.keyBoardEventByCSS('.app-search-input', 'keydown', 'Enter', 'Enter');
+    fixture.detectChanges();
+  };
+
   beforeEach(async () => {
-    const queryBuilderSpy = {
-      configUpdated: configUpdatedSubject,
+    queryBuilder = {
+      searchMode: 'regular',
       removeFilterQuery: jasmine.createSpy('removeFilterQuery'),
-      addFilterQuery: jasmine.createSpy('addFilterQuery'),
-      update: jasmine.createSpy('update')
+      addFilterQuery: jasmine.createSpy('addFilterQuery')
     } as Partial<SearchQueryBuilderService>;
 
     searchExecutionService = jasmine.createSpyObj<SearchExecutionService>('SearchExecutionService', ['execute']);
@@ -83,7 +94,7 @@ describe('SearchInputComponent', () => {
     await TestBed.configureTestingModule({
       imports: [AppTestingModule, SearchInputComponent, NoopAnimationsModule],
       providers: [
-        { provide: SearchQueryBuilderService, useValue: queryBuilderSpy },
+        { provide: SearchQueryBuilderService, useValue: queryBuilder },
         { provide: SearchExecutionService, useValue: searchExecutionService },
         { provide: SearchFilterService, useValue: searchFilterService },
         { provide: SearchNavigationService, useValue: searchNavigationService },
@@ -100,6 +111,7 @@ describe('SearchInputComponent', () => {
     fixture = TestBed.createComponent(SearchInputComponent);
     component = fixture.componentInstance;
     testingUtils = new UnitTestingUtils(fixture.debugElement);
+    loader = TestbedHarnessEnvironment.loader(fixture);
     fixture.detectChanges();
   });
 
@@ -134,38 +146,46 @@ describe('SearchInputComponent', () => {
 
   describe('onSearchSubmit', () => {
     it('should execute search on submit with valid term', () => {
-      component.onSearchSubmit('happy faces only');
+      submitSearch('happy faces only');
       expect(searchExecutionService.execute).toHaveBeenCalledWith('happy faces only');
     });
 
     it('should not execute search when search term is empty', () => {
       searchFilterService.validateSearchTerm.and.returnValue('SEARCH.ERRORS.EMPTY_QUERY');
-      component.onSearchSubmit('');
+      submitSearch('');
       expect(searchExecutionService.execute).not.toHaveBeenCalled();
     });
 
     it('should not execute search when search term is whitespace', () => {
       searchFilterService.validateSearchTerm.and.returnValue('SEARCH.ERRORS.EMPTY_QUERY');
-      component.onSearchSubmit('   ');
+      submitSearch('   ');
       expect(searchExecutionService.execute).not.toHaveBeenCalled();
     });
 
     it('should set error when validation fails', () => {
       searchFilterService.validateSearchTerm.and.returnValue('SEARCH.ERRORS.EMPTY_QUERY');
-      component.onSearchSubmit('');
+      submitSearch('');
       expect(component.error).toBe('SEARCH.ERRORS.EMPTY_QUERY');
     });
 
     it('should clear error on valid submission', () => {
       component.error = 'some error';
-      component.onSearchSubmit('valid term');
+      submitSearch('valid term');
       expect(component.error).toBe('');
     });
 
     it('should trim whitespace from search term', () => {
-      component.onSearchSubmit('  hello  ');
+      submitSearch('  hello  ');
       expect(component.searchedWord).toBe('hello');
       expect(searchExecutionService.execute).toHaveBeenCalledWith('hello');
+    });
+
+    it('should not re-execute search when submitted term is unchanged', () => {
+      submitSearch('hello');
+      expect(searchExecutionService.execute).toHaveBeenCalledTimes(1);
+
+      submitSearch('hello');
+      expect(searchExecutionService.execute).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -254,29 +274,30 @@ describe('SearchInputComponent', () => {
     });
   });
 
-  describe('queryBuilder configUpdated handling', () => {
-    it('should execute search when searchedWord is set and navigation has query params', () => {
-      component.searchedWord = 'term';
-      routerEventsSubject.next(new NavigationStart(1, '/path?q=term'));
-      configUpdatedSubject.next({ id: 'config1' } as SearchConfiguration);
+  describe('search mode toggle', () => {
+    const getToggleGroup = (): Promise<MatButtonToggleGroupHarness> =>
+      loader.getHarness(MatButtonToggleGroupHarness.with({ selector: '.aca-search-input--suffix-button-toggle-group' }));
 
-      expect(searchExecutionService.execute).toHaveBeenCalledWith('term');
+    it('should render the regular and formula search mode toggles', async () => {
+      const group = await getToggleGroup();
+      const toggles = await group.getToggles();
+      expect(toggles.length).toBe(2);
+      expect(await toggles[0].getText()).toBe('title');
+      expect(await toggles[1].getText()).toBe('extension');
     });
 
-    it('should NOT execute search when navigation has no query params', () => {
-      searchExecutionService.execute.calls.reset();
-      component.searchedWord = 'term';
-      routerEventsSubject.next(new NavigationStart(1, '/path'));
-      configUpdatedSubject.next({} as SearchConfiguration);
-      expect(searchExecutionService.execute).not.toHaveBeenCalled();
+    it('should reflect the current queryBuilder search mode', async () => {
+      const group = await getToggleGroup();
+      const toggles = await group.getToggles();
+      expect(await toggles[0].isChecked()).toBeTrue();
+      expect(await toggles[1].isChecked()).toBeFalse();
     });
 
-    it('should NOT execute search when searchedWord is not set', () => {
-      searchExecutionService.execute.calls.reset();
-      component.searchedWord = null;
-      routerEventsSubject.next(new NavigationStart(1, '/path?q=term'));
-      configUpdatedSubject.next({} as SearchConfiguration);
-      expect(searchExecutionService.execute).not.toHaveBeenCalled();
+    it('should update queryBuilder search mode to formula when formula toggle is selected', async () => {
+      const group = await getToggleGroup();
+      const toggles = await group.getToggles();
+      await toggles[1].check();
+      expect(queryBuilder.searchMode).toBe('formula');
     });
   });
 

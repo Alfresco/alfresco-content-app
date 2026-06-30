@@ -53,14 +53,31 @@ in the Content Application when using **Search Input** component.
 > **Partial** support means the feature supports basic scenarios
 > and there are edge cases that are not yet fully tested and might not work.
 
+## Search Modes
+
+The **Search Input** component supports two search modes. You can switch between them using the mode toggle displayed next to the search box:
+
+- **Standard search** (default) — finds text exactly as you enter it. The application builds the query for you, matching your input against the fields configured for the active search form (see [Search Forms](/features/search-forms)). This is the recommended mode for everyday searching.
+- **Formula search** — lets you build a query manually using
+  [Alfresco Full Text Search](https://support.hyland.com/r/Alfresco/Alfresco-Search-Services/2.0/Alfresco-Search-Services/Using/Full-text-search-reference) (FTS) syntax.
+  In this mode the application passes your input to the search service unchanged, so special characters such as `:`, `"`, `*` and the `AND`/`OR` operators are interpreted as search syntax.
+
+The selected mode is preserved in the search URL, so it is restored when you reload the page or share a search link.
+
+> In previous versions the application implicitly switched to raw query handling whenever it detected a `:` or `"` character in the input, and used a leading `=` symbol for exact-term matching. That implicit behavior has been removed in favor of the explicit **Formula search** mode. To run field-scoped queries, phrase queries, exact-term matching, or any other FTS syntax, switch to **Formula search**.
+
 ## Search Queries and Precise Searching
 
-You can customize the queries to get better results.
-
-Given that, no colon ":" suffixes the term, then the default query is constructed for text searches. The default query is:
+When using **Standard search**, the application constructs the query from your input. Given a single term, the default query matches that term against every field configured for the active search form:
 
 ```text
-(cm:name:"[term]*" OR cm:title:"[term]*" OR cm:description:"[term]*" OR TEXT:"[term]*" OR TAG:"[term]*")
+((cm:name:"[term]" OR cm:title:"[term]" OR cm:description:"[term]" OR TEXT:"[term]" OR TAG:"[term]"))
+```
+
+When [wildcard searching](#wildcard-searching) is enabled, a `*` suffix is appended to every term so that partial matches are also returned:
+
+```text
+((cm:name:"[term]*" OR cm:title:"[term]*" OR cm:description:"[term]*" OR TEXT:"[term]*" OR TAG:"[term]*"))
 ```
 
 Note that compared to Share the following defaults are removed from ACA:
@@ -73,23 +90,38 @@ OR ia:whatEvent:"[term]*" OR ia:descriptionEvent:"[term]*" OR lnk:title:"[term]*
 
 1. If you have entered more than one word into the search input box, then the search query is constructed automatically using an `AND` operation.
 
-2. If you have entered more than one word encapsulated in quotation marks, then the search query is constructed treated everything as a single string.
+2. If you have entered more than one word separated by `AND`, then the search query is constructed using an `AND` conjunction. Since `AND` is the default operator (see fact 1), the explicit `AND` keywords are removed when the search input value is processed.
 
-3. If you have entered more than one word separated by `AND`, then the search query is constructed using an `AND` conjunction. Since `AND` is the default operator (see fact 1), the explicit `AND` keywords are removed when the search input value is processed.
+3. If you have entered more than one word separated by `OR`, then the search query is constructed using an `OR` disjunction. Unlike `AND`, the `OR` operators are preserved when processing the search input value because `OR` is not the default operator.
 
-4. If you have entered more than one word separated by `OR`, then the search query is constructed using an `OR` disjunction. Unlike `AND`, the `OR` operators are preserved when processing the search input value because `OR` is not the default operator.
-
-5. If you have entered an `=` symbol before the search term, then the search query is constructed using exact term matching. **Note:** Works only with Solr search. For Elastic Search consider using Search Logical Filter.
+4. For phrase queries, exact-term matching, field-scoped queries, or any other advanced FTS syntax, switch to **Formula search** so that the input is sent to the search service unchanged.
 
 ### Examples
 
-| Search Type | Entered search input value | Expected result                                                                  | Processed search input value |
-| ----------- | -------------------------- | -------------------------------------------------------------------------------- | ---------------------------- |
-| Single Term | banana                     | Nodes that contain the term **banana** in any content                            | banana                       |
-| Conjunction | big yellow banana          | Nodes that contain all of the terms **big**, **yellow**, and **banana**          | big yellow banana            |
-| Phrase      | "big yellow banana"        | Nodes that contain the exact phrase **big yellow banana**                        | "big yellow banana"          |
-| Conjunction | big AND yellow AND banana  | Nodes that contain all of the terms **big**, **yellow**, and **banana**          | big yellow banana            |
-| Disjunction | orange OR banana OR apple  | Nodes that contain at least one of the terms **orange**, **banana** or **apple** | orange OR banana OR apple    |
-| Exact term  | =orange                    | Nodes that contain the exact term **orange** in any content.                     | orange                       |
+| Search Type            | Search mode | Entered search input value      | Expected result                                                                  |
+| ---------------------- | ----------- | ------------------------------- | -------------------------------------------------------------------------------- |
+| Single Term            | Standard    | banana                          | Nodes that contain the term **banana** in any configured field                   |
+| Conjunction            | Standard    | big yellow banana               | Nodes that contain all of the terms **big**, **yellow**, and **banana**          |
+| Conjunction            | Standard    | big AND yellow AND banana       | Nodes that contain all of the terms **big**, **yellow**, and **banana**          |
+| Disjunction            | Standard    | orange OR banana OR apple       | Nodes that contain at least one of the terms **orange**, **banana** or **apple** |
+| Phrase                 | Formula     | cm:name:"big yellow banana"     | Nodes whose `cm:name` contains the exact phrase **big yellow banana**            |
+| Field-scoped / advanced| Formula     | TEXT:"orange" AND TAG:"fruit"   | The query is passed to the search service exactly as entered                     |
+
+### Wildcard searching
+
+Wildcard searching is controlled by the `search-wildcards-enabled` property in `app.config.json`:
+
+```json
+{
+  "search-wildcards-enabled": true
+}
+```
+
+| Value           | Behavior                                                                                                              |
+| --------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `true`          | A `*` suffix is appended to every term in **Standard search**, so partial matches are returned (e.g. `ban` matches `banana`). |
+| `false`         | Terms are matched as entered, without an implicit trailing wildcard.                                                  |
+
+This setting only affects how **Standard search** builds the query; in **Formula search** you control wildcards yourself by typing them into the query.
 
 **Important note:** Consider using Search Logical Filter when you need to combine multiple search types. Mixing search types directly in the input may result in wrong query format and incorrect results.

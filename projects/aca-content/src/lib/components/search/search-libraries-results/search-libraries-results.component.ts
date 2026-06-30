@@ -44,7 +44,7 @@ import { CustomEmptyContentTemplateDirective, DataColumnComponent, DataColumnLis
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { DocumentListDirective } from '../../../directives/document-list.directive';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
-import { extractSearchedWordFromEncodedQuery } from '../../../utils/aca-search-utils';
+import { extractUserQueryFromEncodedQuery } from '../../../utils/aca-search-utils';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -129,7 +129,7 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
     if (this.route) {
       this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params: Params) => {
         const encodedQuery = params[this.queryParamName] || null;
-        this.searchedWord = extractSearchedWordFromEncodedQuery(encodedQuery);
+        this.searchedWord = extractUserQueryFromEncodedQuery(encodedQuery);
         if (this.searchedWord?.length > 1) {
           this.librariesQueryBuilder.paging.skipCount = 0;
           this.librariesQueryBuilder.userQuery = this.searchedWord;

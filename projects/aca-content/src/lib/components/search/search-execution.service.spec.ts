@@ -27,7 +27,6 @@ import { Store } from '@ngrx/store';
 import { SearchExecutionService } from './search-execution.service';
 import { SearchFilterService } from './search-filter.service';
 import { SearchNavigationService } from './search-navigation.service';
-import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { SearchLibrariesQueryBuilderService } from './search-libraries-results/search-libraries-query-builder.service';
 import { AppStore, SearchActionTypes } from '@alfresco/aca-shared/store';
 
@@ -36,7 +35,6 @@ describe('SearchExecutionService', () => {
   let store: jasmine.SpyObj<Store<AppStore>>;
   let filterService: jasmine.SpyObj<SearchFilterService>;
   let navigationService: jasmine.SpyObj<SearchNavigationService>;
-  let queryBuilder: jasmine.SpyObj<SearchQueryBuilderService>;
   let queryLibrariesBuilder: jasmine.SpyObj<SearchLibrariesQueryBuilderService>;
 
   beforeEach(() => {
@@ -48,7 +46,6 @@ describe('SearchExecutionService', () => {
       onSearchResults: false,
       onLibrariesSearchResults: false
     });
-    queryBuilder = jasmine.createSpyObj('SearchQueryBuilderService', ['update']);
     queryLibrariesBuilder = jasmine.createSpyObj('SearchLibrariesQueryBuilderService', ['update']);
 
     TestBed.configureTestingModule({
@@ -57,7 +54,6 @@ describe('SearchExecutionService', () => {
         { provide: Store, useValue: store },
         { provide: SearchFilterService, useValue: filterService },
         { provide: SearchNavigationService, useValue: navigationService },
-        { provide: SearchQueryBuilderService, useValue: queryBuilder },
         { provide: SearchLibrariesQueryBuilderService, useValue: queryLibrariesBuilder }
       ]
     });
@@ -85,6 +81,24 @@ describe('SearchExecutionService', () => {
 
     it('should dispatch SearchByTermAction for new content search', () => {
       service.execute('test');
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ type: SearchActionTypes.SearchByTerm, payload: 'test' }));
+    });
+
+    it('should NOT dispatch when already on search results with the same term', () => {
+      Object.defineProperty(navigationService, 'onSearchResults', { get: () => true });
+      navigationService.isSameSearchTerm.and.returnValue(true);
+
+      service.execute('test');
+
+      expect(store.dispatch).not.toHaveBeenCalled();
+    });
+
+    it('should dispatch when already on search results with a different term', () => {
+      Object.defineProperty(navigationService, 'onSearchResults', { get: () => true });
+      navigationService.isSameSearchTerm.and.returnValue(false);
+
+      service.execute('test');
+
       expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ type: SearchActionTypes.SearchByTerm, payload: 'test' }));
     });
   });

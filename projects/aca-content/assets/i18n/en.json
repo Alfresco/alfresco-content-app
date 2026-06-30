@@ -623,11 +623,13 @@
             "MIN_LENGTH": "Search input must have at least 2 alphanumeric characters.",
             "REQUIRED": "Search input is required.",
             "WHITESPACE": "Search input cannot be only whitespace.",
-            "OPERATORS": "Search input cannot begin with, end with or contain only operators.",
             "IN_PREFIX": "In",
             "FILES_AND_FOLDERS": "Files and folders",
             "RESET": "Reset",
-            "SEARCH_IN": "Search in"
+            "SEARCH_IN": "Search in",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION": "Switch search mode.\n\nStandard search: Find text as you enter it.\n\nFormula search: Use special characters to build a query. The system reads symbols as search syntax.",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_REGULAR": "Regular search",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_FORMULA": "Formula search"
         },
         "SORT": {
             "SORTING_OPTION": "Sort by",

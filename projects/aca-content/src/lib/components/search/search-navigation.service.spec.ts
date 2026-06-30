@@ -26,10 +26,13 @@ import { TestBed } from '@angular/core/testing';
 import { SearchNavigationService } from './search-navigation.service';
 import { Router } from '@angular/router';
 import { AppTestingModule } from '../../testing/app-testing.module';
+import { Buffer } from 'buffer';
 
 describe('SearchNavigationService', () => {
   let service: SearchNavigationService;
   let router: Router;
+
+  const encodeQuery = (query: any): string => Buffer.from(JSON.stringify(query)).toString('base64');
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -68,5 +71,32 @@ describe('SearchNavigationService', () => {
     service.navigateBack();
 
     expect(routerNavigate).toHaveBeenCalledWith(['/personal-files']);
+  });
+
+  describe('getUrlSearchTerm', () => {
+    it('should return empty string when not on a search results route', () => {
+      spyOnProperty(router, 'url', 'get').and.returnValue('/personal-files');
+      expect(service.getUrlSearchTerm()).toBe('');
+    });
+
+    it('should return the raw user query extracted from the encoded q parameter', () => {
+      const encodedQuery = encodeQuery({ userQuery: 'my term' });
+      spyOnProperty(router, 'url', 'get').and.returnValue(`/search;q=${encodedQuery}`);
+      expect(service.getUrlSearchTerm()).toBe('my term');
+    });
+  });
+
+  describe('isSameSearchTerm', () => {
+    it('should return true when the provided term matches the url search term', () => {
+      const encodedQuery = encodeQuery({ userQuery: 'my term' });
+      spyOnProperty(router, 'url', 'get').and.returnValue(`/search;q=${encodedQuery}`);
+      expect(service.isSameSearchTerm('my term')).toBeTrue();
+    });
+
+    it('should return false when the provided term differs from the url search term', () => {
+      const encodedQuery = encodeQuery({ userQuery: 'my term' });
+      spyOnProperty(router, 'url', 'get').and.returnValue(`/search;q=${encodedQuery}`);
+      expect(service.isSameSearchTerm('other term')).toBeFalse();
+    });
   });
 });

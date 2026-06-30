@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@use '../../../ui/mat-selectors' as ms;
 
 $search-height: 48px;
 $search-border-radius: 4px;
@@ -56,6 +57,20 @@ $search-border-radius: 4px;
   display: flex;
   align-items: center;
   gap: 4px;
+
+  &-button-toggle-group {
+    @include mat.button-toggle-overrides(
+      (
+        height: 30px
+      )
+    );
+
+    #{ms.$mat-icon} {
+      width: 18px;
+      height: 18px;
+      font-size: 18px;
+    }
+  }
 }
 
 @media screen and (width <= 959px) {

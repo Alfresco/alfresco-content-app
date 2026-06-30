@@ -330,5 +330,6 @@
     "downloadPromptReminderDelay": 30,
     "enableFileAutoDownload": true,
     "fileAutoDownloadSizeThresholdInMB": 15
-  }
+  },
+  "search-wildcards-enabled": true
 }
