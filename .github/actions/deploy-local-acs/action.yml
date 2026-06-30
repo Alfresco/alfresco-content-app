@@ -24,6 +24,10 @@ inputs:
       chart's standard values.yaml instead.
     required: false
     default: 'latest'
+  latest_images:
+    description: 'Override every ACS component with the newest available image tag (acadev parity). Set to "false" to use the chart defaults.'
+    required: false
+    default: 'true'
 
 runs:
   using: "composite"
@@ -120,6 +124,14 @@ runs:
         repository: Alfresco/acs-deployment
         ref: ${{ steps.get-acs-version.outputs.version }}
         path: acs-deployment
+
+    - name: Resolve latest ACS image tags
+      if: ${{ inputs.latest_images == 'true' }}
+      shell: bash
+      run: |
+        sudo apt-get update -qq
+        sudo apt-get install -y -qq skopeo
+        "${GITHUB_ACTION_PATH}/fetch-latest-acs-images.sh" acs-latest-images-values.yaml
 
     - name: Helm install
       shell: bash
