@@ -58,6 +58,115 @@ export class SearchApi {
     }
   }
 
+  async searchForNode(fileName: string, options?: { maxRetries?: number }): Promise<ResultSetPaging> {
+    const query = {
+      query: {
+        query: `cm:name:"${fileName}"`,
+        language: 'afts'
+      },
+      include: ['path', 'allowableOperations', 'properties'],
+      paging: {
+        skipCount: 0,
+        maxItems: 25
+      },
+      filterQueries: [
+        {
+          query: "+TYPE:'cm:folder' OR +TYPE:'cm:content'"
+        },
+        {
+          query: "-TYPE:'cm:thumbnail' AND -TYPE:'cm:failedThumbnail' AND -TYPE:'cm:rating'"
+        },
+        {
+          query: '-cm:creator:System'
+        },
+        {
+          query: "-TYPE:'st:site' AND -ASPECT:'st:siteContainer' AND -ASPECT:'sys:hidden'"
+        },
+        {
+          query: "-TYPE:'dl:dataList' AND -TYPE:'dl:todoList' AND -TYPE:'dl:issue'"
+        },
+        {
+          query: "-TYPE:'fm:topic' AND -TYPE:'fm:post'"
+        },
+        {
+          query: "-TYPE:'lnk:link'"
+        },
+        {
+          query: "-PATH:'//cm:wiki/*'"
+        },
+        {
+          query: "+TYPE:'cm:content'"
+        }
+      ],
+      facetQueries: undefined,
+      facetIntervals: undefined,
+      facetFields: {
+        facets: [
+          {
+            field: 'creator',
+            mincount: 1,
+            label: 'SEARCH.FACET_FIELDS.CREATOR'
+          },
+          {
+            field: 'modifier',
+            mincount: 1,
+            label: 'SEARCH.FACET_FIELDS.MODIFIER'
+          }
+        ]
+      },
+      sort: [
+        {
+          type: 'SCORE',
+          field: 'score',
+          ascending: false
+        }
+      ],
+      highlight: {
+        prefix: "<span class='aca-highlight'>",
+        postfix: '</span>',
+        fields: [
+          {
+            field: 'cm:title'
+          },
+          {
+            field: 'cm:name'
+          },
+          {
+            field: 'cm:description',
+            snippetCount: 1
+          },
+          {
+            field: 'cm:content',
+            snippetCount: 1
+          }
+        ]
+      },
+      facetFormat: 'V2'
+    };
+
+    let result: ResultSetPaging;
+    let retryCount = 0;
+    const retryLimit = options?.maxRetries ?? 90;
+
+    do {
+      result = await this.apiService.search.search(query);
+      if ((result.list?.entries?.length ?? 0) === 0) {
+        retryCount++;
+        if (retryCount % 10 === 0) {
+          logger.info(`searchForNode: Still waiting for file "${fileName}" after ${retryCount} retries (max ${retryLimit}).`);
+        }
+        if (retryCount >= retryLimit) {
+          logger.error(`searchForNode: File "${fileName}" not found after ${retryLimit} retries.`);
+          throw new Error(`File with name ${fileName} not found after ${retryLimit} retries`);
+        }
+        await Utils.delayInSeconds(1);
+      }
+    } while ((result.list?.entries?.length ?? 0) === 0);
+
+    logger.info(`searchForNode: Search succeeded for file "${fileName}"`);
+    return result;
+  }
+
   async getTotalItems(username: string): Promise<number> {
     return (await this.querySearchFiles(username)).list?.pagination?.totalItems ?? 0;
   }
@@ -118,6 +227,20 @@ export class SearchApi {
     } catch (error) {
       logger.error(`waitForFolderPathIndexing failed for folderId "${folderId}": ${error}`);
       throw error;
+    }
+  }
+
+  async waitFileForSearchIndexing(fileName: string, maxRetries?: number): Promise<void> {
+    try {
+      const result = await this.searchForNode(fileName, { maxRetries: maxRetries });
+      const entryNames = (result.list?.entries ?? []).map((entry) => entry.entry?.name).filter((name): name is string => Boolean(name));
+      if (!entryNames.includes(fileName)) {
+        throw new Error(`File "${fileName}" not found in search results. Found: [${entryNames.join(', ')}]`);
+      }
+      logger.info(`waitFileForSearchIndexing: File "${fileName}" is indexed.`);
+    } catch (error) {
+      logger.error(`waitFileForSearchIndexing failed for file "${fileName}": ${error}`);
+      throw new Error(`waitFileForSearchIndexing failed for file "${fileName}": ${error}`);
     }
   }
 }

@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, test, NodesApi, TrashcanApi, TEST_FILES, FileActionsApi } from '@alfresco/aca-playwright-shared';
+import { ApiClientFactory, Utils, test, NodesApi, TrashcanApi, TEST_FILES, FileActionsApi, SearchApi } from '@alfresco/aca-playwright-shared';
 
 test.use({ launchOptions: { slowMo: 500 } });
 
@@ -31,6 +31,7 @@ test.describe('Search Highlighting', () => {
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
   let fileActionsApi: FileActionsApi;
+  let searchApi: SearchApi;
   const randomId = Utils.random();
   const username = `user-${randomId}`;
   const fileNameHighlight = `${randomId}-file-name.jpg`;
@@ -51,9 +52,11 @@ test.describe('Search Highlighting', () => {
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
       fileActionsApi = await FileActionsApi.initialize(username, username);
+      searchApi = await SearchApi.initialize(username, username);
       await nodesApi.createFile(fileNameHighlight, '-my-');
       await nodesApi.createFile(fileDescriptionHighlight, '-my-', undefined, fileDescription);
       await fileActionsApi.uploadFileWithRename(TEST_FILES.PDF.path, fileContentHighlight);
+      await searchApi.waitFileForSearchIndexing(fileContentHighlight);
 
       await fileActionsApi.waitForNodesSearchHighlight(fileContentHighlight, { expect: 1 });
     } catch (error) {
