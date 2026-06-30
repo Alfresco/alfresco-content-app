@@ -149,7 +149,11 @@ export class SearchApi {
     const retryLimit = options?.maxRetries ?? 90;
 
     do {
-      result = await this.apiService.search.search(query);
+      try {
+        result = await this.apiService.search.search(query);
+      } catch {
+        result = new ResultSetPaging();
+      }
       if ((result.list?.entries?.length ?? 0) === 0) {
         retryCount++;
         if (retryCount % 10 === 0) {
@@ -225,8 +229,9 @@ export class SearchApi {
       logger.info(`waitForFolderPathIndexing: Found expected ${options.nodesExpected} nodes in folder ${folderId}`);
       return result.list?.pagination?.count ?? 0;
     } catch (error) {
-      logger.error(`waitForFolderPathIndexing failed for folderId "${folderId}": ${error}`);
-      throw error;
+      const errorMessage = `waitForFolderPathIndexing failed for folderId "${folderId}": ${JSON.stringify(error)}`;
+      logger.error(errorMessage);
+      throw new Error(errorMessage);
     }
   }
 
@@ -239,8 +244,9 @@ export class SearchApi {
       }
       logger.info(`waitFileForSearchIndexing: File "${fileName}" is indexed.`);
     } catch (error) {
-      logger.error(`waitFileForSearchIndexing failed for file "${fileName}": ${error}`);
-      throw new Error(`waitFileForSearchIndexing failed for file "${fileName}": ${error}`);
+      const errorMessage = `waitFileForSearchIndexing failed for file "${fileName}": ${JSON.stringify(error)}`;
+      logger.error(errorMessage);
+      throw new Error(errorMessage);
     }
   }
 }
