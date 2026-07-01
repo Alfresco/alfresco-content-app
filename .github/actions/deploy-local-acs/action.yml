@@ -22,7 +22,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: azure/setup-helm@dda3372f752e03dde6b3237bc9431cdc2f7a02a2
+    - uses: azure/setup-helm@9bc31f4ebc9c6b171d7bfbaa5d006ae7abdb4310
       with:
         version: "3.14.3"
 
@@ -40,7 +40,7 @@ runs:
         password: ${{ inputs.quay_password }}
 
     - name: Setup cluster
-      uses: Alfresco/alfresco-build-tools/.github/actions/setup-kind@v18.7.0
+      uses: Alfresco/alfresco-build-tools/.github/actions/setup-kind@v18.13.0
       with:
         ingress-nginx-ref: controller-v1.8.2
         ingress-creation-timeout: 180s
@@ -110,7 +110,7 @@ runs:
         fi
 
     - name: Checkout acs-deployment ${{ steps.get-acs-version.outputs.version }}
-      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       with:
         repository: Alfresco/acs-deployment
         ref: ${{ steps.get-acs-version.outputs.version }}
@@ -126,4 +126,4 @@ runs:
         --values .github/acs-deployment-values-override.yaml
 
     - name: Wait for pods to be ready
-      uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-wait@v18.7.0
+      uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-wait@v18.13.0
