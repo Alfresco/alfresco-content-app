@@ -156,6 +156,15 @@ const actionParamLinkToCategoryTransformedMock = {
   displayLabel: 'Category value'
 };
 
+const actionMultiSelectParamTransformedMock: ActionParameterDefinitionTransformed = {
+  name: 'mock-multi-select-param',
+  type: 'd:text',
+  multiValued: true,
+  mandatory: false,
+  displayLabel: 'Mock multi select param',
+  parameterConstraintName: 'mock-multi-select-constraint'
+};
+
 const actionParamSecurityGroup: ActionParameterDefinitionTransformed = {
   name: 'securityGroupId',
   type: 'd:text',
@@ -227,6 +236,16 @@ export const actionNodeTransformedMock: ActionDefinitionTransformed = {
   applicableTypes: [],
   trackStatus: false,
   parameterDefinitions: [actionParam6TransformedMock]
+};
+
+export const actionMultiSelectTransformedMock: ActionDefinitionTransformed = {
+  id: 'mock-action-6-definition',
+  name: 'mock-action-6-definition',
+  description: '',
+  title: 'mock-action-6-definition',
+  applicableTypes: [],
+  trackStatus: false,
+  parameterDefinitions: [actionMultiSelectParamTransformedMock]
 };
 
 export const actionsTransformedListMock: ActionDefinitionTransformed[] = [action1TransformedMock, action2TransformedMock];

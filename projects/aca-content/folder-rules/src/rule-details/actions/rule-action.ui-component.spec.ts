@@ -34,11 +34,17 @@ import {
 import { RuleActionUiComponent } from './rule-action.ui-component';
 import {
   actionLinkToCategoryTransformedMock,
+  actionMultiSelectTransformedMock,
   actionNodeTransformedMock,
   actionsTransformedListMock,
   securityActionTransformedMock
 } from '../../mock/actions.mock';
-import { dummyCategoriesConstraints, dummyConstraints, dummyTagsConstraints } from '../../mock/action-parameter-constraints.mock';
+import {
+  dummyCategoriesConstraints,
+  dummyConstraints,
+  dummyMultiSelectConstraints,
+  dummyTagsConstraints
+} from '../../mock/action-parameter-constraints.mock';
 import { securityMarksResponseMock, updateNotificationMock } from '../../mock/security-marks.mock';
 import {
   AlfrescoApiService,
@@ -447,5 +453,44 @@ describe('RuleActionUiComponent', () => {
 
     expect(component.readOnly).toBe(true);
     expect(component.form.disabled).toBe(true);
+  });
+
+  describe('[MNT-25149] Multivalued select parameter default value', () => {
+    const multiSelectActionTitle = 'mock-action-6-definition';
+
+    beforeEach(() => {
+      component.actionDefinitions = [actionMultiSelectTransformedMock];
+      component.parameterConstraints = dummyMultiSelectConstraints;
+    });
+
+    it("should default a multivalued select parameter value to ['']  when no value is set", async () => {
+      fixture.detectChanges();
+      await changeMatSelectValue(multiSelectActionTitle);
+
+      const cardView = getPropertiesCardView();
+      const selectProperty = cardView.properties[0] as CardViewSelectItemModel<string>;
+
+      expect(selectProperty).toBeInstanceOf(CardViewSelectItemModel);
+      expect(selectProperty.multivalued).toBe(true);
+      expect(selectProperty.value).toEqual(['']);
+    });
+
+    it('should preserve an existing array value for a multivalued select parameter', async () => {
+      fixture.detectChanges();
+      await changeMatSelectValue(multiSelectActionTitle);
+
+      component.writeValue({
+        actionDefinitionId: actionMultiSelectTransformedMock.id,
+        params: { 'mock-multi-select-param': ['opt:one', 'opt:three'] }
+      });
+      fixture.detectChanges();
+
+      const cardView = getPropertiesCardView();
+      const selectProperty = cardView.properties[0] as CardViewSelectItemModel<string>;
+
+      expect(selectProperty).toBeInstanceOf(CardViewSelectItemModel);
+      expect(selectProperty.multivalued).toBe(true);
+      expect(selectProperty.value).toEqual(['opt:one', 'opt:three']);
+    });
   });
 });
