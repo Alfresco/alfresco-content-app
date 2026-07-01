@@ -37,7 +37,7 @@ latest_tag() {
 
   tag="$(printf '%s\n' "${tags}" | grep -E "${pattern}" | sort -V | tail -n1 || true)"
 
-  if [ -z "${tag}" ]; then
+  if [[ -z "${tag}" ]]; then
     echo "ERROR: no tag matching '${pattern}' found for ${REGISTRY}/${image}" >&2
     return 1
   fi

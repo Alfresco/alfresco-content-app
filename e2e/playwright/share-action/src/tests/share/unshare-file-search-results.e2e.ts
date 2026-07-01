@@ -110,7 +110,7 @@ test.describe('Unshare a file from Search Results', () => {
   });
 
   test.afterAll(async () => {
-    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', sitesApi, [docLibId]);
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', sitesApi, [sitePrivate]);
   });
 
   test('[XAT-5197] Unshare dialog UI', async ({ personalFiles, searchPage }) => {

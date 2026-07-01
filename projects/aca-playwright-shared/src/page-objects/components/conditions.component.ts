@@ -42,6 +42,12 @@ export enum Comparator {
   EndsWith = 'Ends with'
 }
 
+export interface ConditionConfig {
+  field: Field;
+  value: string;
+  comparator?: Comparator;
+}
+
 export class ConditionComponent extends ManageRulesDialogComponent {
   private readonly getOptionLocator = (optionName: string): Locator =>
     this.page.locator('[role=listbox] [role=option]', { hasText: optionName }).first();
@@ -80,5 +86,19 @@ export class ConditionComponent extends ManageRulesDialogComponent {
       await this.selectComparator(comparators, index);
     }
     await this.valueField.nth(index).fill(value);
+  }
+
+  async addConditions(conditions: ConditionConfig[]): Promise<void> {
+    for (let i = 0; i < conditions.length; i++) {
+      const { field, value, comparator } = conditions[i];
+      await this.addCondition(field, value, i, comparator);
+    }
+  }
+
+  async addConditionGroups(conditions: ConditionConfig[]): Promise<void> {
+    for (let i = 0; i < conditions.length; i++) {
+      const { field, value, comparator } = conditions[i];
+      await this.addConditionGroup(field, value, i, comparator);
+    }
   }
 }

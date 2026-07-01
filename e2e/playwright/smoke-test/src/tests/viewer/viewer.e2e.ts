@@ -40,7 +40,6 @@ test.describe('viewer file', () => {
   const usernameViewer = `user-${Utils.random()}`;
   const randomDocxName = `${TEST_FILES.DOCX.name}-${Utils.random()}`;
   const siteAdmin = `siteAdmin-${Utils.random()}`;
-  let docLibId: string;
   let folderId: string;
   let fileDocxId: string;
   let nodesApi: NodesApi;
@@ -76,7 +75,7 @@ test.describe('viewer file', () => {
       }
     }
 
-    docLibId = await siteActionsAdmin.getDocLibId(siteAdmin);
+    await siteActionsAdmin.getDocLibId(siteAdmin);
 
     await fileActionApi.waitForNodes(randomDocxName, { expect: 1 });
   });
@@ -88,7 +87,7 @@ test.describe('viewer file', () => {
 
   test.afterAll(async () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
-    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActionsAdmin, [docLibId]);
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActionsAdmin, [siteAdmin]);
   });
 
   test('[XAT-17736] Open viewer with click action', async ({ personalFiles }) => {

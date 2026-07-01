@@ -82,29 +82,10 @@ test.describe('Folder Rules Actions', () => {
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
     } catch (error) {
-      console.error(`beforeAll failed : ${error}`);
-      throw error;
+      const errorMessage = `beforeAll failed : ${JSON.stringify(error)}`;
+      console.error(errorMessage);
+      throw new Error(errorMessage);
     }
-
-    folder883Id = (await nodesApi.createFolder(folder883)).entry.id;
-    folder884Id = (await nodesApi.createFolder(folder884)).entry.id;
-    folder884SecondId = (await nodesApi.createFolder(folder884Second)).entry.id;
-    folder885Id = (await nodesApi.createFolder(folder885)).entry.id;
-    folder885ChildId = (await nodesApi.createFolder(folder885Child, folder885Id)).entry.id;
-    folder886Id = (await nodesApi.createFolder(folder886)).entry.id;
-    folder887Id = (await nodesApi.createFolder(folder887)).entry.id;
-    folder888Id = (await nodesApi.createFolder(folder888)).entry.id;
-    folder889Id = (await nodesApi.createFolder(folder889)).entry.id;
-    folder889SecondId = (await nodesApi.createFolder(folder889Second)).entry.id;
-    folder890Id = (await nodesApi.createFolder(folder890)).entry.id;
-    folder891Id = (await nodesApi.createFolder(folder891)).entry.id;
-    folder892Id = (await nodesApi.createFolder(folder892)).entry.id;
-    folder893Id = (await nodesApi.createFolder(folder893)).entry.id;
-    folder894Id = (await nodesApi.createFolder(folder894)).entry.id;
-    folder895Id = (await nodesApi.createFolder(folder895)).entry.id;
-    folder896Id = (await nodesApi.createFolder(folder896)).entry.id;
-    folder910Id = (await nodesApi.createFolder(folder910)).entry.id;
-    await nodesApi.createFile(copyFileName, folder889Id);
   });
 
   test.beforeEach(async ({ loginPage }) => {
@@ -116,219 +97,309 @@ test.describe('Folder Rules Actions', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
-  test('[XAT-883] Create a rule with symbols in its name and description', async ({ personalFiles, nodesPage }) => {
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folder883Id}/rules` });
-    await nodesPage.rulesToolbar.clickCreateRuleButton();
-    await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(testString);
-    await nodesPage.manageRulesDialog.ruleDescriptionInputLocator.fill(testString);
+  test.describe('[XAT-883] - Folder Rules Actions', () => {
+    test.beforeAll(async () => {
+      folder883Id = (await nodesApi.createFolder(folder883)).entry.id;
+    });
 
-    await nodesPage.actionsDropdown.selectAction(ActionType.IncrementCounter, 0);
-    await nodesPage.manageRulesDialog.createRuleButton.click();
+    test('[XAT-883] Create a rule with symbols in its name and description', async ({ personalFiles, nodesPage }) => {
+      await personalFiles.navigate({ remoteUrl: `#/nodes/${folder883Id}/rules` });
+      await nodesPage.rulesToolbar.clickCreateRuleButton();
+      await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(testString);
+      await nodesPage.manageRulesDialog.ruleDescriptionInputLocator.fill(testString);
 
-    await expect(nodesPage.manageRules.getGroupsList(testString)).toBeVisible();
+      await nodesPage.actionsDropdown.selectActions([ActionType.IncrementCounter]);
+      await nodesPage.manageRulesDialog.createRuleButton.click();
+
+      await expect(nodesPage.manageRules.getGroupsList(testString)).toBeVisible();
+    });
   });
 
-  test('[XAT-884] Create a rule and link it to an existing folder', async ({ personalFiles, nodesPage }) => {
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folder884Id}/rules` });
-    await nodesPage.rulesToolbar.clickCreateRuleButton();
-    await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
-    await nodesPage.actionsDropdown.selectAction(ActionType.IncrementCounter, 0);
-    await nodesPage.manageRulesDialog.createRuleButton.click();
+  test.describe('[XAT-884] - Folder Rules Actions', () => {
+    test.beforeAll(async () => {
+      folder884Id = (await nodesApi.createFolder(folder884)).entry.id;
+      folder884SecondId = (await nodesApi.createFolder(folder884Second)).entry.id;
+    });
 
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folder884SecondId}/rules` });
-    await nodesPage.rulesToolbar.clickLinkRulesButton();
-    await nodesPage.linkRulesDialog.waitForLinkRules();
-    await nodesPage.linkRulesDialog.getFolderIcon.click();
-    await nodesPage.linkRulesDialog.getOptionLocator(username).click();
-    await nodesPage.linkRulesDialog.selectDestination(folder884);
-    await nodesPage.linkRulesDialog.selectFolderButton.click();
+    test('[XAT-884] Create a rule and link it to an existing folder', async ({ personalFiles, nodesPage }) => {
+      await personalFiles.navigate({ remoteUrl: `#/nodes/${folder884Id}/rules` });
+      await nodesPage.rulesToolbar.clickCreateRuleButton();
+      await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
+      await nodesPage.actionsDropdown.selectActions([ActionType.IncrementCounter]);
+      await nodesPage.manageRulesDialog.createRuleButton.click();
 
-    await nodesPage.manageRules.checkIfRuleIsOnTheList(randomRuleName);
+      await personalFiles.navigate({ remoteUrl: `#/nodes/${folder884SecondId}/rules` });
+      await nodesPage.rulesToolbar.clickLinkRulesButton();
+      await nodesPage.linkRulesDialog.waitForLinkRules();
+      await nodesPage.linkRulesDialog.getFolderIcon.click();
+      await nodesPage.linkRulesDialog.getOptionLocator(username).click();
+      await nodesPage.linkRulesDialog.selectDestination(folder884);
+      await nodesPage.linkRulesDialog.selectFolderButton.click();
+
+      await nodesPage.manageRules.checkIfRuleIsOnTheList(randomRuleName);
+    });
   });
 
-  test('[XAT-885] Create a rule in a folder and inherit it in a subfolder (Rule applies to subfolders)', async ({ personalFiles, nodesPage }) => {
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folder885Id}/rules` });
-    await nodesPage.rulesToolbar.clickCreateRuleButton();
-    await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
-    await nodesPage.actionsDropdown.selectAction(ActionType.IncrementCounter, 0);
-    await nodesPage.manageRulesDialog.ruleSubfoldersCheckbox.click();
-    await nodesPage.manageRulesDialog.createRuleButton.click();
+  test.describe('[XAT-885] - Folder Rules Actions', () => {
+    test.beforeAll(async () => {
+      folder885Id = (await nodesApi.createFolder(folder885)).entry.id;
+      folder885ChildId = (await nodesApi.createFolder(folder885Child, folder885Id)).entry.id;
+    });
 
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folder885ChildId}/rules` });
-    await nodesPage.manageRules.checkIfRuleIsOnTheList(randomRuleName);
+    test('[XAT-885] Create a rule in a folder and inherit it in a subfolder (Rule applies to subfolders)', async ({ personalFiles, nodesPage }) => {
+      await personalFiles.navigate({ remoteUrl: `#/nodes/${folder885Id}/rules` });
+      await nodesPage.rulesToolbar.clickCreateRuleButton();
+      await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
+      await nodesPage.actionsDropdown.selectActions([ActionType.IncrementCounter]);
+      await nodesPage.manageRulesDialog.ruleSubfoldersCheckbox.click();
+      await nodesPage.manageRulesDialog.createRuleButton.click();
+
+      await personalFiles.navigate({ remoteUrl: `#/nodes/${folder885ChildId}/rules` });
+      await nodesPage.manageRules.checkIfRuleIsOnTheList(randomRuleName);
+    });
   });
 
-  test('[XAT-886] Create a rule and press cancel', async ({ personalFiles, nodesPage }) => {
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folder886Id}/rules` });
-    await nodesPage.rulesToolbar.clickCreateRuleButton();
-    await expect(nodesPage.manageRulesDialog.createRuleButton).toBeDisabled();
-    await nodesPage.manageRulesDialog.cancelRuleButton.click();
-    expect(await nodesPage.manageRules.checkIfRuleListEmpty()).toBe(true);
+  test.describe('[XAT-886] - Folder Rules Actions', () => {
+    test.beforeAll(async () => {
+      folder886Id = (await nodesApi.createFolder(folder886)).entry.id;
+    });
+
+    test('[XAT-886] Create a rule and press cancel', async ({ personalFiles, nodesPage }) => {
+      await personalFiles.navigate({ remoteUrl: `#/nodes/${folder886Id}/rules` });
+      await nodesPage.rulesToolbar.clickCreateRuleButton();
+      await expect(nodesPage.manageRulesDialog.createRuleButton).toBeDisabled();
+      await nodesPage.manageRulesDialog.cancelRuleButton.click();
+      expect(await nodesPage.manageRules.checkIfRuleListEmpty()).toBe(true);
+    });
   });
 
-  test('[XAT-887] Create a disabled rule', async ({ personalFiles, nodesPage }) => {
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folder887Id}/rules` });
-    await nodesPage.rulesToolbar.clickCreateRuleButton();
-    await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
-    await nodesPage.actionsDropdown.selectAction(ActionType.IncrementCounter, 0);
-    await nodesPage.manageRulesDialog.ruleDisableCheckbox.click();
-    await nodesPage.manageRulesDialog.createRuleButton.click();
-    await expect(nodesPage.manageRules.ruleToggleFalse).toBeVisible();
+  test.describe('[XAT-887] - Folder Rules Actions', () => {
+    test.beforeAll(async () => {
+      folder887Id = (await nodesApi.createFolder(folder887)).entry.id;
+    });
+
+    test('[XAT-887] Create a disabled rule', async ({ personalFiles, nodesPage }) => {
+      await personalFiles.navigate({ remoteUrl: `#/nodes/${folder887Id}/rules` });
+      await nodesPage.rulesToolbar.clickCreateRuleButton();
+      await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
+      await nodesPage.actionsDropdown.selectActions([ActionType.IncrementCounter]);
+      await nodesPage.manageRulesDialog.ruleDisableCheckbox.click();
+      await nodesPage.manageRulesDialog.createRuleButton.click();
+      await expect(nodesPage.manageRules.ruleToggleFalse).toBeVisible();
+    });
   });
 
-  test('[XAT-888] Create a rule with multiple actions', async ({ personalFiles, nodesPage }) => {
-    const checkInValue = 'check In Value';
-    const actionValue = 'Site Container [st:siteContainer]';
-    const specialiseTypeValue = 'Action Base Type [act:actionbase]';
-    const simpleWorkFlow = 'accept reject';
+  test.describe('[XAT-888] - Folder Rules Actions', () => {
+    test.beforeAll(async () => {
+      folder888Id = (await nodesApi.createFolder(folder888)).entry.id;
+    });
 
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folder888Id}/rules` });
-    await nodesPage.rulesToolbar.clickCreateRuleButton();
-    await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
+    test('[XAT-888] Create a rule with multiple actions', async ({ personalFiles, nodesPage }) => {
+      const checkInValue = 'check In Value';
+      const actionValue = 'Site Container [st:siteContainer]';
+      const specialiseTypeValue = 'Action Base Type [act:actionbase]';
+      const simpleWorkFlow = 'accept reject';
 
-    await nodesPage.actionsDropdown.selectAction(ActionType.IncrementCounter, 0);
-    await nodesPage.actionsDropdown.selectAction(ActionType.CheckIn, 1);
-    await nodesPage.actionsDropdown.insertCheckInActionValues(checkInValue, 1);
-    await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 2);
-    await nodesPage.actionsDropdown.insertAddAspectActionValues(actionValue, 2);
-    await nodesPage.actionsDropdown.selectAction(ActionType.SpecialiseType, 3);
-    await nodesPage.actionsDropdown.insertSpecialiseTypeActionValues(specialiseTypeValue, 3);
-    await nodesPage.actionsDropdown.selectAction(ActionType.SimpleWorkflow, 4);
-    await nodesPage.actionsDropdown.insertSimpleWorkflowActionValues(simpleWorkFlow, 4);
+      await personalFiles.navigate({ remoteUrl: `#/nodes/${folder888Id}/rules` });
+      await nodesPage.rulesToolbar.clickCreateRuleButton();
+      await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
 
-    await nodesPage.manageRulesDialog.createRuleButton.click();
+      await nodesPage.actionsDropdown.selectActions([
+        ActionType.IncrementCounter,
+        { type: ActionType.CheckIn, value: checkInValue },
+        { type: ActionType.AddAspect, value: actionValue },
+        { type: ActionType.SpecialiseType, value: specialiseTypeValue },
+        { type: ActionType.SimpleWorkflow, value: simpleWorkFlow }
+      ]);
 
-    await nodesPage.manageRules.checkIfRuleIsOnTheList(randomRuleName);
+      await nodesPage.manageRulesDialog.createRuleButton.click();
+
+      await nodesPage.manageRules.checkIfRuleIsOnTheList(randomRuleName);
+    });
   });
 
-  test('[XAT-889] Create a rule which runs when items are deleted or leave a folder', async ({ nodesPage, personalFiles }) => {
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folder889Id}/rules` });
-    await nodesPage.rulesToolbar.clickCreateRuleButton();
-    await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
-    await nodesPage.manageRulesDialog.whenCreatedCheckbox.click();
-    await nodesPage.manageRulesDialog.whenDeletedCheckbox.click();
-    await nodesPage.actionsDropdown.selectAction(ActionType.Copy, 0);
-    await nodesPage.manageRulesDialog.destinationFolderButton.click();
-    await nodesPage.contentNodeSelectorDialog.getFolderIcon.click();
-    await nodesPage.contentNodeSelectorDialog.getOptionLocator(username).click();
-    await nodesPage.contentNodeSelectorDialog.selectDestination(folder889Second);
-    await nodesPage.contentNodeSelectorDialog.actionButton.click();
-    await nodesPage.manageRulesDialog.createRuleButton.click();
-    await nodesPage.manageRules.checkIfRuleIsOnTheList(randomRuleName);
+  test.describe('[XAT-889] - Folder Rules Actions', () => {
+    test.beforeAll(async () => {
+      folder889Id = (await nodesApi.createFolder(folder889)).entry.id;
+      folder889SecondId = (await nodesApi.createFolder(folder889Second)).entry.id;
+      await nodesApi.createFile(copyFileName, folder889Id);
+    });
 
-    await personalFiles.navigate({ remoteUrl: `#/personal-files/${folder889Id}` });
-    await personalFiles.dataTable.selectItems(copyFileName);
-    await personalFiles.acaHeader.clickMoreActions();
-    await personalFiles.acaHeader.matMenu.clickMenuItem('Delete');
-    await personalFiles.snackBar.message.waitFor({ state: 'visible' });
+    test('[XAT-889] Create a rule which runs when items are deleted or leave a folder', async ({ nodesPage, personalFiles }) => {
+      await personalFiles.navigate({ remoteUrl: `#/nodes/${folder889Id}/rules` });
+      await nodesPage.rulesToolbar.clickCreateRuleButton();
+      await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
+      await nodesPage.manageRulesDialog.whenCreatedCheckbox.click();
+      await nodesPage.manageRulesDialog.whenDeletedCheckbox.click();
+      await nodesPage.actionsDropdown.selectActions([ActionType.Copy]);
+      await nodesPage.manageRulesDialog.destinationFolderButton.click();
+      await nodesPage.contentNodeSelectorDialog.getFolderIcon.click();
+      await nodesPage.contentNodeSelectorDialog.getOptionLocator(username).click();
+      await nodesPage.contentNodeSelectorDialog.selectDestination(folder889Second);
+      await nodesPage.contentNodeSelectorDialog.actionButton.click();
+      await nodesPage.manageRulesDialog.createRuleButton.click();
+      await nodesPage.manageRules.checkIfRuleIsOnTheList(randomRuleName);
 
-    await personalFiles.navigate({ remoteUrl: `#/personal-files/${folder889SecondId}` });
-    await expect(personalFiles.dataTable.getRowByName(copyFileName)).toBeVisible();
+      await personalFiles.navigate({ remoteUrl: `#/personal-files/${folder889Id}` });
+      await personalFiles.dataTable.selectItems(copyFileName);
+      await personalFiles.acaHeader.clickMoreActions();
+      await personalFiles.acaHeader.matMenu.clickMenuItem('Delete');
+      await personalFiles.snackBar.message.waitFor({ state: 'visible' });
+
+      await personalFiles.navigate({ remoteUrl: `#/personal-files/${folder889SecondId}` });
+      await expect(personalFiles.dataTable.getRowByName(copyFileName)).toBeVisible();
+    });
   });
 
-  test('[XAT-890] Create a rule which adds multiple aspects when its ran', async ({ nodesPage, personalFiles }) => {
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folder890Id}/rules` });
-    await nodesPage.rulesToolbar.clickCreateRuleButton();
-    await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
-    await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 0);
-    await nodesPage.actionsDropdown.insertAddAspectActionValues('Classifiable', 0);
-    await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 1);
-    await nodesPage.actionsDropdown.insertAddAspectActionValues('Countable', 1);
-    await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 2);
-    await nodesPage.actionsDropdown.insertAddAspectActionValues('Incomplete', 2);
-    await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 3);
-    await nodesPage.actionsDropdown.insertAddAspectActionValues('Site container', 3);
-    await nodesPage.manageRulesDialog.createRuleButton.click();
-    await nodesPage.manageRulesDialog.createRuleButton.waitFor({ state: 'hidden' });
-    await expect(nodesPage.manageRules.getGroupsList(randomRuleName)).toBeVisible();
+  test.describe('[XAT-890] - Folder Rules Actions', () => {
+    test.beforeAll(async () => {
+      folder890Id = (await nodesApi.createFolder(folder890)).entry.id;
+    });
+
+    test('[XAT-890] Create a rule which adds multiple aspects when its ran', async ({ nodesPage, personalFiles }) => {
+      await personalFiles.navigate({ remoteUrl: `#/nodes/${folder890Id}/rules` });
+      await nodesPage.rulesToolbar.clickCreateRuleButton();
+      await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
+      await nodesPage.actionsDropdown.selectActions([
+        { type: ActionType.AddAspect, value: 'Classifiable' },
+        { type: ActionType.AddAspect, value: 'Countable' },
+        { type: ActionType.AddAspect, value: 'Incomplete' },
+        { type: ActionType.AddAspect, value: 'Site container' }
+      ]);
+      await nodesPage.manageRulesDialog.createRuleButton.click();
+      await nodesPage.manageRulesDialog.createRuleButton.waitFor({ state: 'hidden' });
+      await expect(nodesPage.manageRules.getGroupsList(randomRuleName)).toBeVisible();
+    });
   });
 
-  test('[XAT-891] Prevent rule creation after clicking on cancel during selecting destination folder', async ({ nodesPage, personalFiles }) => {
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folder891Id}/rules` });
-    await nodesPage.rulesToolbar.clickCreateRuleButton();
-    await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
-    await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 0);
-    await nodesPage.actionsDropdown.insertAddAspectActionValues('Classifiable', 0);
-    await expect(nodesPage.manageRulesDialog.createRuleButton).toBeEnabled();
-    await nodesPage.actionsDropdown.selectAction(ActionType.Copy, 1);
-    await nodesPage.manageRulesDialog.destinationFolderButton.click();
-    await nodesPage.contentNodeSelectorDialog.cancelButton.click();
-    await expect(nodesPage.manageRulesDialog.createRuleButton).toBeDisabled();
+  test.describe('[XAT-891] - Folder Rules Actions', () => {
+    test.beforeAll(async () => {
+      folder891Id = (await nodesApi.createFolder(folder891)).entry.id;
+    });
+
+    test('[XAT-891] Prevent rule creation after clicking on cancel during selecting destination folder', async ({ nodesPage, personalFiles }) => {
+      await personalFiles.navigate({ remoteUrl: `#/nodes/${folder891Id}/rules` });
+      await nodesPage.rulesToolbar.clickCreateRuleButton();
+      await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
+      await nodesPage.actionsDropdown.selectActions([{ type: ActionType.AddAspect, value: 'Classifiable' }]);
+      await expect(nodesPage.manageRulesDialog.createRuleButton).toBeEnabled();
+      await nodesPage.actionsDropdown.selectActions([ActionType.Copy]);
+      await nodesPage.manageRulesDialog.destinationFolderButton.click();
+      await nodesPage.contentNodeSelectorDialog.cancelButton.click();
+      await expect(nodesPage.manageRulesDialog.createRuleButton).toBeDisabled();
+    });
   });
 
-  test('[XAT-892] Prevent rule creation when missing any required field for action', async ({ nodesPage, personalFiles }) => {
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folder892Id}/rules` });
-    await nodesPage.rulesToolbar.clickCreateRuleButton();
-    await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
-    await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 0);
-    await nodesPage.actionsDropdown.insertAddAspectActionValues('Classifiable', 0);
-    await expect(nodesPage.manageRulesDialog.createRuleButton).toBeEnabled();
-    await nodesPage.actionsDropdown.selectAction(ActionType.Copy, 1);
-    await expect(nodesPage.manageRulesDialog.createRuleButton).toBeDisabled();
+  test.describe('[XAT-892] - Folder Rules Actions', () => {
+    test.beforeAll(async () => {
+      folder892Id = (await nodesApi.createFolder(folder892)).entry.id;
+    });
+
+    test('[XAT-892] Prevent rule creation when missing any required field for action', async ({ nodesPage, personalFiles }) => {
+      await personalFiles.navigate({ remoteUrl: `#/nodes/${folder892Id}/rules` });
+      await nodesPage.rulesToolbar.clickCreateRuleButton();
+      await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
+      await nodesPage.actionsDropdown.selectActions([{ type: ActionType.AddAspect, value: 'Classifiable' }]);
+      await expect(nodesPage.manageRulesDialog.createRuleButton).toBeEnabled();
+      await nodesPage.actionsDropdown.selectActions([ActionType.Copy]);
+      await expect(nodesPage.manageRulesDialog.createRuleButton).toBeDisabled();
+    });
   });
 
-  test('[XAT-893] Removing values from required fields should restore disabled state for Create button', async ({ nodesPage, personalFiles }) => {
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folder893Id}/rules` });
-    await nodesPage.rulesToolbar.clickCreateRuleButton();
-    await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
-    await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 0);
-    await nodesPage.actionsDropdown.insertAddAspectActionValues('Classifiable', 0);
-    await expect(nodesPage.manageRulesDialog.createRuleButton).toBeEnabled();
-    await nodesPage.actionsDropdown.insertAddAspectActionValues('None', 0);
-    await expect(nodesPage.manageRulesDialog.createRuleButton).toBeDisabled();
+  test.describe('[XAT-893] - Folder Rules Actions', () => {
+    test.beforeAll(async () => {
+      folder893Id = (await nodesApi.createFolder(folder893)).entry.id;
+    });
+
+    test('[XAT-893] Removing values from required fields should restore disabled state for Create button', async ({ nodesPage, personalFiles }) => {
+      await personalFiles.navigate({ remoteUrl: `#/nodes/${folder893Id}/rules` });
+      await nodesPage.rulesToolbar.clickCreateRuleButton();
+      await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
+      await nodesPage.actionsDropdown.selectActions([{ type: ActionType.AddAspect, value: 'Classifiable' }]);
+      await expect(nodesPage.manageRulesDialog.createRuleButton).toBeEnabled();
+      await nodesPage.actionsDropdown.insertAddAspectActionValues('None', 0);
+      await expect(nodesPage.manageRulesDialog.createRuleButton).toBeDisabled();
+    });
   });
 
-  test('[XAT-894] Create rule with filled required fields and empty optional fields', async ({ nodesPage, personalFiles }) => {
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folder894Id}/rules` });
-    await nodesPage.rulesToolbar.clickCreateRuleButton();
-    await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
-    await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 0);
-    await nodesPage.actionsDropdown.insertAddAspectActionValues('Classifiable', 0);
-    await expect(nodesPage.manageRulesDialog.createRuleButton).toBeEnabled();
-    await nodesPage.actionsDropdown.selectAction(ActionType.CheckIn, 1);
-    await expect(nodesPage.manageRulesDialog.createRuleButton).toBeEnabled();
+  test.describe('[XAT-894] - Folder Rules Actions', () => {
+    test.beforeAll(async () => {
+      folder894Id = (await nodesApi.createFolder(folder894)).entry.id;
+    });
+
+    test('[XAT-894] Create rule with filled required fields and empty optional fields', async ({ nodesPage, personalFiles }) => {
+      await personalFiles.navigate({ remoteUrl: `#/nodes/${folder894Id}/rules` });
+      await nodesPage.rulesToolbar.clickCreateRuleButton();
+      await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
+      await nodesPage.actionsDropdown.selectActions([{ type: ActionType.AddAspect, value: 'Classifiable' }]);
+      await expect(nodesPage.manageRulesDialog.createRuleButton).toBeEnabled();
+      await nodesPage.actionsDropdown.selectActions([ActionType.CheckIn]);
+      await expect(nodesPage.manageRulesDialog.createRuleButton).toBeEnabled();
+    });
   });
 
-  test('[XAT-895] Create a rule with multiple conditions utilising all available comparators and conditions', async ({
-    personalFiles,
-    nodesPage
-  }) => {
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folder895Id}/rules` });
-    await nodesPage.rulesToolbar.clickCreateRuleButton();
-    await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
-    await nodesPage.conditionsDropdown.addCondition(Field.Size, specialChars, 0, Comparator.Equals);
-    await nodesPage.conditionsDropdown.addCondition(Field.Name, specialChars, 1, Comparator.Equals);
-    await nodesPage.conditionsDropdown.addCondition(Field.Encoding, specialChars, 2);
-    await nodesPage.conditionsDropdown.addCondition(Field.HasTag, specialChars, 3);
-    await nodesPage.conditionsDropdown.addCondition(Field.HasAspect, specialChars, 4);
-    await nodesPage.actionsDropdown.selectAction(ActionType.IncrementCounter, 0);
-    await nodesPage.manageRulesDialog.createRuleButton.click();
+  test.describe('[XAT-895] - Folder Rules Actions', () => {
+    test.beforeAll(async () => {
+      folder895Id = (await nodesApi.createFolder(folder895)).entry.id;
+    });
 
-    await nodesPage.manageRules.checkIfRuleIsOnTheList(randomRuleName);
+    test('[XAT-895] Create a rule with multiple conditions utilising all available comparators and conditions', async ({
+      personalFiles,
+      nodesPage
+    }) => {
+      await personalFiles.navigate({ remoteUrl: `#/nodes/${folder895Id}/rules` });
+      await nodesPage.rulesToolbar.clickCreateRuleButton();
+      await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
+      await nodesPage.conditionsDropdown.addConditions([
+        { field: Field.Size, value: specialChars, comparator: Comparator.Equals },
+        { field: Field.Name, value: specialChars, comparator: Comparator.Equals },
+        { field: Field.Encoding, value: specialChars },
+        { field: Field.HasTag, value: specialChars },
+        { field: Field.HasAspect, value: specialChars }
+      ]);
+      await nodesPage.actionsDropdown.selectActions([ActionType.IncrementCounter]);
+      await nodesPage.manageRulesDialog.createRuleButton.click();
+
+      await nodesPage.manageRules.checkIfRuleIsOnTheList(randomRuleName);
+    });
   });
 
-  test('[XAT-896] Create a rule with multiple groups utilising all available comparators and conditions', async ({ personalFiles, nodesPage }) => {
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folder896Id}/rules` });
-    await nodesPage.rulesToolbar.clickCreateRuleButton();
-    await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
-    await nodesPage.conditionsDropdown.addConditionGroup(Field.Size, specialChars, 0, Comparator.Equals);
-    await nodesPage.conditionsDropdown.addConditionGroup(Field.Name, specialChars, 1, Comparator.Equals);
-    await nodesPage.conditionsDropdown.addConditionGroup(Field.Encoding, specialChars, 2);
-    await nodesPage.conditionsDropdown.addConditionGroup(Field.HasTag, specialChars, 3);
-    await nodesPage.conditionsDropdown.addConditionGroup(Field.HasAspect, specialChars, 4);
-    await nodesPage.actionsDropdown.selectAction(ActionType.IncrementCounter, 0);
-    await nodesPage.manageRulesDialog.createRuleButton.click();
+  test.describe('[XAT-896] - Folder Rules Actions', () => {
+    test.beforeAll(async () => {
+      folder896Id = (await nodesApi.createFolder(folder896)).entry.id;
+    });
 
-    await nodesPage.manageRules.checkIfRuleIsOnTheList(randomRuleName);
+    test('[XAT-896] Create a rule with multiple groups utilising all available comparators and conditions', async ({ personalFiles, nodesPage }) => {
+      await personalFiles.navigate({ remoteUrl: `#/nodes/${folder896Id}/rules` });
+      await nodesPage.rulesToolbar.clickCreateRuleButton();
+      await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
+      await nodesPage.conditionsDropdown.addConditionGroups([
+        { field: Field.Size, value: specialChars, comparator: Comparator.Equals },
+        { field: Field.Name, value: specialChars, comparator: Comparator.Equals },
+        { field: Field.Encoding, value: specialChars },
+        { field: Field.HasTag, value: specialChars },
+        { field: Field.HasAspect, value: specialChars }
+      ]);
+      await nodesPage.actionsDropdown.selectActions([ActionType.IncrementCounter]);
+      await nodesPage.manageRulesDialog.createRuleButton.click();
+
+      await nodesPage.manageRules.checkIfRuleIsOnTheList(randomRuleName);
+    });
   });
 
-  test('[XAT-910] Create a rule and disable it', async ({ personalFiles, nodesPage }) => {
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folder910Id}/rules` });
-    await nodesPage.rulesToolbar.clickCreateRuleButton();
-    await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
-    await nodesPage.actionsDropdown.selectAction(ActionType.IncrementCounter, 0);
-    await nodesPage.manageRulesDialog.createRuleButton.click();
-    await nodesPage.manageRules.ruleToggle.click();
-    await expect(nodesPage.manageRules.ruleToggleFalse).toBeVisible();
+  test.describe('[XAT-910] - Folder Rules Actions', () => {
+    test.beforeAll(async () => {
+      folder910Id = (await nodesApi.createFolder(folder910)).entry.id;
+    });
+
+    test('[XAT-910] Create a rule and disable it', async ({ personalFiles, nodesPage }) => {
+      await personalFiles.navigate({ remoteUrl: `#/nodes/${folder910Id}/rules` });
+      await nodesPage.rulesToolbar.clickCreateRuleButton();
+      await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
+      await nodesPage.actionsDropdown.selectActions([ActionType.IncrementCounter]);
+      await nodesPage.manageRulesDialog.createRuleButton.click();
+      await nodesPage.manageRules.ruleToggle.click();
+      await expect(nodesPage.manageRules.ruleToggleFalse).toBeVisible();
+    });
   });
 });

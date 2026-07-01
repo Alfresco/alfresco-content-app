@@ -38,11 +38,7 @@ test.describe('Search Highlighting', () => {
   const fileDescriptionHighlight = `${randomId}-file-description.jpg`;
   const fileDescription = `highlight`;
   const fileContentHighlight = `${randomId}-file-content.pdf`;
-  const fileContent = 'TEXT:Virtual';
-
-  test.beforeEach(async ({ loginPage }) => {
-    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
-  });
+  const fileContent = 'Virtual';
 
   test.beforeAll(async () => {
     try {
@@ -62,6 +58,10 @@ test.describe('Search Highlighting', () => {
     } catch (error) {
       console.error(`beforeAll failed: ${JSON.stringify(error)}`);
     }
+  });
+
+  test.beforeEach(async ({ loginPage }) => {
+    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
   });
 
   test.afterAll(async () => {

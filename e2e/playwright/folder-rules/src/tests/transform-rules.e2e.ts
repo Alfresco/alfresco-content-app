@@ -63,7 +63,7 @@ async function setupTransformationTest(
   await nodesPage.rulesToolbar.clickCreateRuleButton();
   await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(testString);
   await nodesPage.manageRulesDialog.ruleDescriptionInputLocator.fill(testString);
-  await nodesPage.actionsDropdown.selectAction(ActionType.TransformAndCopyContent, 0);
+  await nodesPage.actionsDropdown.selectActions([ActionType.TransformAndCopyContent]);
   await nodesPage.actionsDropdown.selectMimeType(mimeType, 0);
   await nodesPage.actionsDropdown.selectDestinationFolderTransformAndCopyContent(0, destinationFolderName);
   await nodesPage.manageRulesDialog.createRuleButton.click();
