@@ -117,10 +117,10 @@ Wildcard searching is controlled by the `search-wildcards-enabled` property in `
 }
 ```
 
-| Value           | Behavior                                                                                                              |
-| --------------- | -------------------------------------------------------------------------------------------------------------------- |
+| Value           | Behavior                                                                                                                      |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | `true`          | A `*` suffix is appended to every term in **Standard search**, so partial matches are returned (e.g. `ban` matches `banana`). |
-| `false`         | Terms are matched as entered, without an implicit trailing wildcard.                                                  |
+| `false`         | Terms are matched as entered, without an implicit trailing wildcard.                                                          |
 
 This setting only affects how **Standard search** builds the query; in **Formula search** you control wildcards yourself by typing them into the query.
 

@@ -41,6 +41,7 @@ export function isOperator(input: string): boolean {
  *
  * @param term search term
  * @param fields array of fields
+ * @param wildcardsEnabled whether wildcards are enabled
  * @returns string
  */
 export function formatSearchTermByFields(term: string, fields: string[], wildcardsEnabled = false): string {
@@ -53,6 +54,8 @@ export function formatSearchTermByFields(term: string, fields: string[], wildcar
  *
  * @param userInput search term
  * @param fields array of fields
+ * @param searchMode regular or formula search mode
+ * @param wildcardsEnabled whether wildcards are enabled
  * @returns string
  */
 export function formatSearchTerm(
@@ -89,7 +92,7 @@ export function formatSearchTerm(
 export function extractUserQueryFromEncodedQuery(encodedQuery: string): string {
   if (encodedQuery) {
     const decodedQuery: { [key: string]: any } = JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(encodedQuery), (c) => c.charCodeAt(0))));
-    return decodedQuery.userQuery;
+    return decodedQuery.userQuery ?? '';
   }
   return '';
 }
@@ -103,7 +106,7 @@ export function extractUserQueryFromEncodedQuery(encodedQuery: string): string {
 export function extractParsedQueryFromEncodedQuery(encodedQuery: string): string {
   if (encodedQuery) {
     const decodedQuery: { [key: string]: any } = JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(encodedQuery), (c) => c.charCodeAt(0))));
-    return decodedQuery.parsedQuery;
+    return decodedQuery.parsedQuery ?? '';
   }
   return '';
 }

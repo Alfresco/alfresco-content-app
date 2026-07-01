@@ -148,7 +148,6 @@ export class SearchResultsComponent extends PageComponent implements OnInit, OnD
   columns: DocumentListPresetRef[] = [];
   encodedQuery: string;
   isSmallScreen = window.innerWidth < 320;
-  isSearchWildcardsEnabled = false;
 
   private previousEncodedQuery: string;
   private readonly resizeListener = () => {

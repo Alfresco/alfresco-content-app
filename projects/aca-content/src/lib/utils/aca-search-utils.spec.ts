@@ -154,9 +154,9 @@ describe('SearchUtils', () => {
       expect(extractParsedQueryFromEncodedQuery(encodeQuery(query))).toBe('(cm:name:"test*")');
     });
 
-    it('should return undefined when parsed query is not present', () => {
+    it('should return empty string when parsed query is not present', () => {
       const query = { userQuery: 'cm:name:"test"' };
-      expect(extractParsedQueryFromEncodedQuery(encodeQuery(query))).toBeUndefined();
+      expect(extractParsedQueryFromEncodedQuery(encodeQuery(query))).toBe('');
     });
   });
 
