@@ -50,7 +50,7 @@
     "@angular/animations": "20.3.9",
     "@angular/cdk": "20.2.14",
     "@angular/common": "20.3.9",
-    "@angular/compiler": "20.3.9",
+    "@angular/compiler": "20.3.25",
     "@angular/core": "20.3.9",
     "@angular/forms": "20.3.9",
     "@angular/material": "20.2.14",
