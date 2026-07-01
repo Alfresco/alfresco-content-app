@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 2
 
@@ -57,7 +57,7 @@ jobs:
 
       - name: dist cache
         if: ${{ success() }}
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: ./dist/content-ce
           key: cache-dist-${{ github.run_id }}
@@ -116,10 +116,10 @@ jobs:
             id: 20
     steps:
       - name: Free hosted runner disk space
-        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@a6a8be7429080c132815d0482a55ae4fd28f15ba # v18.7.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@10cea6c0b390c4f8af21d9dc1670d581bd10319f # v18.13.0
 
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 2
 
@@ -135,7 +135,7 @@ jobs:
 
       - name: Collect and push logs as artifact
         if: always()
-        uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-keep-nslogs@a6a8be7429080c132815d0482a55ae4fd28f15ba # v18.7.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-keep-nslogs@10cea6c0b390c4f8af21d9dc1670d581bd10319f # v18.13.0
         with:
           log_retention: 7
           log_name_identifier: "logs-${{ matrix.browser }}-${{ matrix.e2e-suites.name }}"
@@ -147,7 +147,7 @@ jobs:
         run: npm ci
 
       - name: Restore dist cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         id: cache
         with:
           path: ./dist/content-ce
