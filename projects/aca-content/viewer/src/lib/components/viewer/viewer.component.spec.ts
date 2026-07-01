@@ -167,6 +167,28 @@ describe('AcaViewerComponent', () => {
     expect(nodesApiService.nodeUpdated.next).toHaveBeenCalled();
   }));
 
+  it('should not switch the viewer to an uploaded file that is not currently displayed', fakeAsync(() => {
+    spyOn(component, 'displayNode').and.stub();
+    fixture.detectChanges();
+    component.nodeId = 'displayed-node';
+
+    uploadService.fileUploadComplete.next({ data: { entry: { id: 'another-node' } } } as any);
+    tick(300);
+
+    expect(component.displayNode).not.toHaveBeenCalled();
+  }));
+
+  it('should refresh the viewer when the currently displayed file finishes uploading', fakeAsync(() => {
+    spyOn(component, 'displayNode').and.stub();
+    fixture.detectChanges();
+    component.nodeId = 'displayed-node';
+
+    uploadService.fileUploadComplete.next({ data: { entry: { id: 'displayed-node' } } } as any);
+    tick(300);
+
+    expect(component.displayNode).toHaveBeenCalledWith('displayed-node');
+  }));
+
   describe('return on event', () => {
     beforeEach(async () => {
       spyOn<any>(component, 'navigateToFileLocation');
