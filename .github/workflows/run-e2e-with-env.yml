@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 2
 
@@ -50,7 +50,7 @@ jobs:
 
       - name: dist cache
         if: ${{ success() }}
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: ./dist/content-ce
           key: cache-dist-${{ github.run_id }}
@@ -105,7 +105,7 @@ jobs:
             id: 19
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 2
 
@@ -118,7 +118,7 @@ jobs:
       - uses: ./.github/actions/before-install
       - run: npm ci
 
-      - uses: actions/cache/restore@v5
+      - uses: actions/cache/restore@v6
         id: cache
         with:
           path: ./dist/content-ce
