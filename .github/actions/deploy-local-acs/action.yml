@@ -18,6 +18,22 @@ inputs:
     description: 'ACS deployment version (defaults to latest)'
     required: false
     default: 'latest'
+  acs_image_repository:
+    description: >-
+      Quay.io repository (namespace/name) that stores the ACS repository image.
+      Used to auto-detect the newest alpha tag with the same logic Flux uses
+      via ImageRepository/ImagePolicy.
+    required: false
+    default: 'alfresco/alfresco-content-repository'
+  acs_image_tag_pattern:
+    description: >-
+      ECMA-262 regex (as accepted by `jq test`) that identifies eligible ACS
+      image tags in `acs_image_repository`. Defaults to Alfresco's semver
+      scheme, matching both stable releases (e.g. `25.4.1`, `26.2.0`) and
+      alpha builds (e.g. `26.2.0-A.21`). The newest matching tag by push
+      time wins.
+    required: false
+    default: '^[0-9]+\.[0-9]+\.[0-9]+(-A\.[0-9]+)?$'
 
 runs:
   using: "composite"
@@ -116,14 +132,80 @@ runs:
         ref: ${{ steps.get-acs-version.outputs.version }}
         path: acs-deployment
 
+    - name: Resolve latest ACS image tag from Quay.io
+      id: get-acs-alpha-tag
+      shell: bash
+      env:
+        QUAY_USERNAME: ${{ inputs.quay_username }}
+        QUAY_PASSWORD: ${{ inputs.quay_password }}
+        ACS_IMAGE_REPO: ${{ inputs.acs_image_repository }}
+        ACS_TAG_PATTERN: ${{ inputs.acs_image_tag_pattern }}
+      run: |
+        set -euo pipefail
+
+        api_url="https://quay.io/api/v1/repository/${ACS_IMAGE_REPO}/tag/?limit=100&onlyActiveTags=true"
+
+        auth_header=()
+        if [ -n "$QUAY_USERNAME" ] && [ -n "$QUAY_PASSWORD" ]; then
+          basic=$(printf '%s:%s' "$QUAY_USERNAME" "$QUAY_PASSWORD" | base64 | tr -d '\n')
+          auth_header=(-H "Authorization: Basic $basic")
+        fi
+
+        max_retries=3
+        retry_count=0
+        while [ $retry_count -lt $max_retries ]; do
+          echo "Attempt $((retry_count + 1)) of $max_retries - fetching $api_url"
+          http_status=$(curl -sS -o /tmp/quay-tags.json -w "%{http_code}" \
+            "${auth_header[@]}" "$api_url" || echo "000")
+
+          if [ "$http_status" = "200" ]; then
+            break
+          fi
+
+          echo "Warning: unexpected HTTP status $http_status when listing tags."
+          retry_count=$((retry_count + 1))
+          if [ $retry_count -lt $max_retries ]; then
+            sleep_time=$((2 ** retry_count))
+            echo "Retrying in $sleep_time seconds..."
+            sleep $sleep_time
+          fi
+        done
+
+        if [ "$http_status" != "200" ]; then
+          echo "Error: failed to list Quay.io tags for $ACS_IMAGE_REPO after $max_retries attempts (last status: $http_status)."
+          exit 1
+        fi
+
+        latest_tag=$(jq -r --arg pattern "$ACS_TAG_PATTERN" '
+          [.tags[]? | select(.name | test($pattern))]
+          | sort_by(.start_ts // 0)
+          | last
+          | .name // empty
+        ' /tmp/quay-tags.json)
+
+        if [ -z "$latest_tag" ]; then
+          echo "Error: no tag in $ACS_IMAGE_REPO matched pattern '$ACS_TAG_PATTERN' on the first page."
+          echo "Consider widening the pattern or bumping the paging limit."
+          exit 1
+        fi
+
+        echo "Resolved latest ACS image tag: $latest_tag"
+        echo "tag=$latest_tag" >> "$GITHUB_OUTPUT"
+
     - name: Helm install
       shell: bash
-      run: >-
-        helm dep build acs-deployment/helm/alfresco-content-services &&
-        helm install acs acs-deployment/helm/alfresco-content-services
-        --set global.search.sharedSecret="$(openssl rand -hex 24)"
-        --values acs-deployment/test/enterprise-integration-test-values.yaml
-        --values .github/acs-deployment-values-override.yaml
+      env:
+        ACS_ALPHA_TAG: ${{ steps.get-acs-alpha-tag.outputs.tag }}
+      run: |
+        set -euo pipefail
+        echo "Overriding alfresco-repository.image.tag with resolved tag: $ACS_ALPHA_TAG"
+
+        helm dep build acs-deployment/helm/alfresco-content-services
+        helm install acs acs-deployment/helm/alfresco-content-services \
+          --set global.search.sharedSecret="$(openssl rand -hex 24)" \
+          --set "alfresco-repository.image.tag=$ACS_ALPHA_TAG" \
+          --values acs-deployment/test/enterprise-integration-test-values.yaml \
+          --values .github/acs-deployment-values-override.yaml
 
     - name: Wait for pods to be ready
       uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-wait@v18.7.0
