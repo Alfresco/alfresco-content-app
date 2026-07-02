@@ -15,7 +15,8 @@ inputs:
     description: 'Quay password'
     required: true
   acs_deployment_version:
-    description: 'ACS deployment version (defaults to latest)'
+    description: >-
+      acs-deployment ref to check out.
     required: false
     default: 'latest'
 
@@ -64,50 +65,51 @@ runs:
         helm repo add self https://alfresco.github.io/alfresco-helm-charts/
         helm repo add elastic https://helm.elastic.co/
 
-    - name: Get latest ACS deployment version
+    - name: Resolve acs-deployment ref
       id: get-acs-version
       shell: bash
       env:
         ACS_VERSION_INPUT: ${{ inputs.acs_deployment_version }}
         GITHUB_TOKEN: ${{ github.token }}
       run: |
-        if [ "$ACS_VERSION_INPUT" = "latest" ]; then
-          max_retries=3
-          retry_count=0
-          latest_tag=""
-
-          while [ $retry_count -lt $max_retries ]; do
-            echo "Attempt $((retry_count + 1)) of $max_retries to fetch latest ACS deployment version..."
-            if [ -n "$GITHUB_TOKEN" ]; then
-              response=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/repos/Alfresco/acs-deployment/releases/latest)
-            else
-              response=$(curl -s https://api.github.com/repos/Alfresco/acs-deployment/releases/latest)
-            fi
-
-            latest_tag=$(echo "$response" | jq -r .tag_name 2>/dev/null || echo "")
-            if [ "$latest_tag" != "null" ] && [ -n "$latest_tag" ]; then
-              echo "Successfully fetched latest ACS deployment version: $latest_tag"
-              echo "version=$latest_tag" >> $GITHUB_OUTPUT
-              exit 0
-            fi
-
-            echo "Warning: Received invalid response (tag_name: $latest_tag)"
-            retry_count=$((retry_count + 1))
-
-            if [ $retry_count -lt $max_retries ]; then
-              sleep_time=$((2 ** retry_count))
-              echo "Retrying in $sleep_time seconds..."
-              sleep $sleep_time
-            fi
-          done
-          
-          echo "Error: Failed to fetch latest ACS deployment version after $max_retries attempts"
-          echo "Last response: $response"
-          exit 1
-        else
-          echo "Using specified ACS deployment version: $ACS_VERSION_INPUT"
+        if [ "$ACS_VERSION_INPUT" != "latest" ]; then
+          echo "Using specified acs-deployment ref: $ACS_VERSION_INPUT"
           echo "version=$ACS_VERSION_INPUT" >> $GITHUB_OUTPUT
+          exit 0
         fi
+
+        max_retries=3
+        retry_count=0
+        latest_tag=""
+
+        while [ $retry_count -lt $max_retries ]; do
+          echo "Attempt $((retry_count + 1)) of $max_retries to fetch latest ACS deployment version..."
+          if [ -n "$GITHUB_TOKEN" ]; then
+            response=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/repos/Alfresco/acs-deployment/releases/latest)
+          else
+            response=$(curl -s https://api.github.com/repos/Alfresco/acs-deployment/releases/latest)
+          fi
+
+          latest_tag=$(echo "$response" | jq -r .tag_name 2>/dev/null || echo "")
+          if [ "$latest_tag" != "null" ] && [ -n "$latest_tag" ]; then
+            echo "Successfully fetched latest ACS deployment version: $latest_tag"
+            echo "version=$latest_tag" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          echo "Warning: Received invalid response (tag_name: $latest_tag)"
+          retry_count=$((retry_count + 1))
+
+          if [ $retry_count -lt $max_retries ]; then
+            sleep_time=$((2 ** retry_count))
+            echo "Retrying in $sleep_time seconds..."
+            sleep $sleep_time
+          fi
+        done
+
+        echo "Error: Failed to fetch latest ACS deployment version after $max_retries attempts"
+        echo "Last response: $response"
+        exit 1
 
     - name: Checkout acs-deployment ${{ steps.get-acs-version.outputs.version }}
       uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -115,27 +117,6 @@ runs:
         repository: Alfresco/acs-deployment
         ref: ${{ steps.get-acs-version.outputs.version }}
         path: acs-deployment
-
-    - name: Refresh pre-release image tags from acs-deployment master
-      shell: bash
-      run: |
-        pre_release_values="acs-deployment/helm/alfresco-content-services/pre-release_values.yaml"
-        url="https://raw.githubusercontent.com/Alfresco/acs-deployment/master/helm/alfresco-content-services/pre-release_values.yaml"
-        max_retries=3
-
-        for attempt in $(seq 1 $max_retries); do
-          echo "Attempt $attempt of $max_retries: fetching $url"
-          if curl -fsSL -o "$pre_release_values" "$url"; then
-            echo "Refreshed $pre_release_values with the bot-maintained tags from master"
-            exit 0
-          fi
-          sleep_time=$((2 ** attempt))
-          echo "Fetch failed, retrying in ${sleep_time}s..."
-          sleep $sleep_time
-        done
-
-        echo "Error: Failed to fetch pre-release_values.yaml from master after $max_retries attempts"
-        exit 1
 
     - name: Helm install
       shell: bash
