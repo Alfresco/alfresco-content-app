@@ -16,7 +16,9 @@ inputs:
     required: true
   acs_deployment_version:
     description: >-
-      acs-deployment ref to check out.
+      Git ref (tag, branch, or commit SHA) of the Alfresco/acs-deployment
+      repository to check out. Use the special value 'latest' (the default)
+      to resolve to the latest GitHub release tag at runtime.
     required: false
     default: 'latest'
 
@@ -78,17 +80,15 @@ runs:
           exit 0
         fi
 
+        auth_header=()
+        [ -n "$GITHUB_TOKEN" ] && auth_header=(-H "Authorization: Bearer $GITHUB_TOKEN")
+
         max_retries=3
         retry_count=0
-        latest_tag=""
 
         while [ $retry_count -lt $max_retries ]; do
           echo "Attempt $((retry_count + 1)) of $max_retries to fetch latest ACS deployment version..."
-          if [ -n "$GITHUB_TOKEN" ]; then
-            response=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/repos/Alfresco/acs-deployment/releases/latest)
-          else
-            response=$(curl -s https://api.github.com/repos/Alfresco/acs-deployment/releases/latest)
-          fi
+          response=$(curl -s "${auth_header[@]}" https://api.github.com/repos/Alfresco/acs-deployment/releases/latest)
 
           latest_tag=$(echo "$response" | jq -r .tag_name 2>/dev/null || echo "")
           if [ "$latest_tag" != "null" ] && [ -n "$latest_tag" ]; then
@@ -138,9 +138,10 @@ runs:
         ACS_DEPLOYMENT_VERSION: ${{ steps.get-acs-version.outputs.version }}
       run: |
         pre_release_values="acs-deployment/helm/alfresco-content-services/pre-release_values.yaml"
-        cluster_images=$(kubectl get pods -A \
-          -o jsonpath='{range .items[*].spec.containers[*]}{.image}{"\n"}{end}' \
+        pod_images=$(kubectl get pods -A \
+          -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{range .spec.containers[*]}{.image}{"\n"}{end}{end}' \
           2>/dev/null | sort -u || true)
+        cluster_images=$(echo "${pod_images}" | awk -F'\t' 'NF { print $NF }' | sort -u)
         acs_repository_image=$(echo "${cluster_images}" | grep -m1 'alfresco-content-repository:' || echo "(alfresco-content-repository pod not found)")
         acs_repository_tag="${acs_repository_image##*:}"
 
@@ -169,7 +170,5 @@ runs:
         echo "::endgroup::"
 
         echo "::group::Actual container images running in the cluster"
-        kubectl get pods -A \
-          -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{range .spec.containers[*]}{.image}{"\n"}{end}{end}' \
-          2>/dev/null | sort -u || echo "(kubectl query failed)"
+        echo "${pod_images:-(no pods found)}"
         echo "::endgroup::"
