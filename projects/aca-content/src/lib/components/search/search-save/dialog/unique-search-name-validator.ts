@@ -24,15 +24,18 @@
 
 import { Injectable, inject } from '@angular/core';
 import { AbstractControl, AsyncValidator, ValidationErrors } from '@angular/forms';
-import { catchError, map, Observable, of } from 'rxjs';
+import { catchError, map, Observable, of, switchMap, timer } from 'rxjs';
 import { SavedSearchesContextService } from '../../../../services/saved-searches-context.service';
+
+const VALIDATION_DEBOUNCE_TIME = 300;
 
 @Injectable({ providedIn: 'root' })
 export class UniqueSearchNameValidator implements AsyncValidator {
   private readonly savedSearchesService = inject(SavedSearchesContextService);
 
   validate(control: AbstractControl): Observable<ValidationErrors | null> {
-    return this.savedSearchesService.getSavedSearches().pipe(
+    return timer(VALIDATION_DEBOUNCE_TIME).pipe(
+      switchMap(() => this.savedSearchesService.getSavedSearches()),
       map((searches) =>
         searches.some((search) => search.name === control.value && control.dirty)
           ? { message: 'APP.BROWSE.SEARCH.SAVE_SEARCH.SEARCH_NAME_NOT_UNIQUE_ERROR' }
