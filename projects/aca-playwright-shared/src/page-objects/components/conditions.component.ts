@@ -66,6 +66,7 @@ export class ConditionComponent extends ManageRulesDialogComponent {
   }
 
   async addCondition(fields: Partial<Field>, value: string, index: number, comparators?: Partial<Comparator>): Promise<void> {
+    await this.addConditionButton.first().scrollIntoViewIfNeeded();
     await this.addConditionButton.first().click();
     await this.selectField(fields, index);
     if (comparators) {
@@ -79,7 +80,9 @@ export class ConditionComponent extends ManageRulesDialogComponent {
   }
 
   async addConditionGroup(fields: Partial<Field>, value: string, index: number, comparators?: Partial<Comparator>): Promise<void> {
+    await this.addConditionGroupButton.last().scrollIntoViewIfNeeded();
     await this.addConditionGroupButton.last().click();
+    await this.addConditionButton.nth(index).scrollIntoViewIfNeeded();
     await this.addConditionButton.nth(index).click();
     await this.selectField(fields, index);
     if (comparators) {

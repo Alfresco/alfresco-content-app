@@ -125,13 +125,20 @@ runs:
         ref: ${{ steps.get-acs-version.outputs.version }}
         path: acs-deployment
 
-    - name: Resolve latest ACS image tags
+    - name: Fetch pre-release values from acs-deployment
       if: ${{ inputs.latest_images == 'true' }}
       shell: bash
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
       run: |
-        sudo apt-get update -qq
-        sudo apt-get install -y -qq skopeo
-        "${GITHUB_ACTION_PATH}/fetch-latest-acs-images.sh" acs-latest-images-values.yaml
+        echo "Downloading pre-release_values.yaml from acs-deployment master branch..."
+        curl -fsSL \
+          -H "Authorization: Bearer $GITHUB_TOKEN" \
+          -H "Accept: application/vnd.github.v3.raw" \
+          "https://api.github.com/repos/Alfresco/acs-deployment/contents/helm/alfresco-content-services/pre-release_values.yaml?ref=master" \
+          -o acs-latest-images-values.yaml
+        echo "Pre-release values file contents:"
+        cat acs-latest-images-values.yaml
 
     - name: Helm install
       shell: bash

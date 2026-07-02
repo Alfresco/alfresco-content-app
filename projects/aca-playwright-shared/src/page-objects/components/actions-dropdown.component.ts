@@ -62,6 +62,8 @@ export enum MimeType {
 export interface ActionConfig {
   type: ActionType;
   value?: string;
+  mimeType?: MimeType;
+  destinationFolder?: string;
 }
 
 export class ActionsDropdownComponent extends BaseComponent {
@@ -94,16 +96,20 @@ export class ActionsDropdownComponent extends BaseComponent {
     for (const action of actions) {
       const type = typeof action === 'string' ? action : action.type;
       const value = typeof action === 'string' ? undefined : action.value;
+      const mimeType = typeof action === 'string' ? undefined : action.mimeType;
+      const destinationFolder = typeof action === 'string' ? undefined : action.destinationFolder;
 
       if (await this.selectActionLocator.isHidden()) {
         await this.addActionButtonLocator.click();
       }
+      await this.selectActionLocator.scrollIntoViewIfNeeded();
       await this.selectActionLocator.hover({ timeout: 1000 });
       await this.selectActionLocator.click();
       await this.getOptionLocator(type).click();
 
+      const actionIndex = (await this.ruleActionLocator.count()) - 1;
+
       if (value) {
-        const actionIndex = (await this.ruleActionLocator.count()) - 1;
         switch (type) {
           case ActionType.AddAspect:
             await this.insertAddAspectActionValues(value, actionIndex);
@@ -118,6 +124,14 @@ export class ActionsDropdownComponent extends BaseComponent {
             await this.insertSimpleWorkflowActionValues(value, actionIndex);
             break;
         }
+      }
+
+      if (mimeType) {
+        await this.selectMimeType(mimeType, actionIndex);
+      }
+
+      if (destinationFolder) {
+        await this.selectDestinationFolderTransformAndCopyContent(actionIndex, destinationFolder);
       }
     }
   }

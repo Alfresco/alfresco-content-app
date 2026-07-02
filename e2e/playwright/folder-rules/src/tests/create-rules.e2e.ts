@@ -25,7 +25,7 @@
 import { expect } from '@playwright/test';
 import { ActionType, ApiClientFactory, test, Utils, TrashcanApi, NodesApi, Comparator, Field } from '@alfresco/aca-playwright-shared';
 
-test.use({ launchOptions: { slowMo: 300 } });
+test.use({ launchOptions: { slowMo: 500 } });
 
 test.describe('Folder Rules Actions', () => {
   const apiClientFactory = new ApiClientFactory();
