@@ -128,3 +128,46 @@ runs:
 
     - name: Wait for pods to be ready
       uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-wait@v18.7.0
+
+    - name: Report deployed ACS versions
+      if: always()
+      shell: bash
+      env:
+        ACS_DEPLOYMENT_VERSION: ${{ steps.get-acs-version.outputs.version }}
+      run: |
+        pre_release_values="acs-deployment/helm/alfresco-content-services/pre-release_values.yaml"
+        cluster_images=$(kubectl get pods -A \
+          -o jsonpath='{range .items[*].spec.containers[*]}{.image}{"\n"}{end}' \
+          2>/dev/null | sort -u || true)
+        acs_repository_image=$(echo "${cluster_images}" | grep -m1 'alfresco-content-repository:' || echo "(alfresco-content-repository pod not found)")
+        acs_repository_tag="${acs_repository_image##*:}"
+
+        {
+          echo "### 🐳 Deployed ACS versions"
+          echo "- **ACS repository:** \`${acs_repository_tag}\`"
+          echo "- **acs-deployment chart:** \`${ACS_DEPLOYMENT_VERSION}\`"
+          echo "**Container images in cluster:**"
+          echo "${cluster_images:-(no pods found)}"
+        } >> "$GITHUB_STEP_SUMMARY"
+
+        echo "::group::ACS repository image tag"
+        echo "${acs_repository_image}"
+        echo "::endgroup::"
+
+        echo "::group::acs-deployment chart version"
+        echo "${ACS_DEPLOYMENT_VERSION}"
+        echo "::endgroup::"
+
+        echo "::group::Pinned pre-release image tags (pre-release_values.yaml)"
+        if [ -f "$pre_release_values" ]; then
+          cat "$pre_release_values"
+        else
+          echo "(file not found: $pre_release_values)"
+        fi
+        echo "::endgroup::"
+
+        echo "::group::Actual container images running in the cluster"
+        kubectl get pods -A \
+          -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{range .spec.containers[*]}{.image}{"\n"}{end}{end}' \
+          2>/dev/null | sort -u || echo "(kubectl query failed)"
+        echo "::endgroup::"
