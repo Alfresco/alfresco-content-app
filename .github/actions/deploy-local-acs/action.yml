@@ -122,6 +122,7 @@ runs:
         helm dep build acs-deployment/helm/alfresco-content-services &&
         helm install acs acs-deployment/helm/alfresco-content-services
         --set global.search.sharedSecret="$(openssl rand -hex 24)"
+        --values acs-deployment/helm/alfresco-content-services/pre-release_values.yaml
         --values acs-deployment/test/enterprise-integration-test-values.yaml
         --values .github/acs-deployment-values-override.yaml
 
