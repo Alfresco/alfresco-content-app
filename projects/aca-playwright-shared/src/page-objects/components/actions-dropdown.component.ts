@@ -94,45 +94,57 @@ export class ActionsDropdownComponent extends BaseComponent {
 
   async selectActions(actions: (ActionType | ActionConfig)[]): Promise<void> {
     for (const action of actions) {
-      const type = typeof action === 'string' ? action : action.type;
-      const value = typeof action === 'string' ? undefined : action.value;
-      const mimeType = typeof action === 'string' ? undefined : action.mimeType;
-      const destinationFolder = typeof action === 'string' ? undefined : action.destinationFolder;
+      await this.selectSingleAction(action);
+    }
+  }
 
-      if (await this.selectActionLocator.isHidden()) {
-        await this.addActionButtonLocator.click();
-      }
-      await this.selectActionLocator.scrollIntoViewIfNeeded();
-      await this.selectActionLocator.hover({ timeout: 1000 });
-      await this.selectActionLocator.click();
-      await this.getOptionLocator(type).click();
+  private normalizeAction(action: ActionType | ActionConfig): ActionConfig {
+    if (typeof action === 'string') {
+      return { type: action };
+    }
+    return action;
+  }
 
-      const actionIndex = (await this.ruleActionLocator.count()) - 1;
+  private async selectSingleAction(action: ActionType | ActionConfig): Promise<void> {
+    const { type, value, mimeType, destinationFolder } = this.normalizeAction(action);
 
-      if (value) {
-        switch (type) {
-          case ActionType.AddAspect:
-            await this.insertAddAspectActionValues(value, actionIndex);
-            break;
-          case ActionType.CheckIn:
-            await this.insertCheckInActionValues(value, actionIndex);
-            break;
-          case ActionType.SpecialiseType:
-            await this.insertSpecialiseTypeActionValues(value, actionIndex);
-            break;
-          case ActionType.SimpleWorkflow:
-            await this.insertSimpleWorkflowActionValues(value, actionIndex);
-            break;
-        }
-      }
+    if (await this.selectActionLocator.isHidden()) {
+      await this.addActionButtonLocator.click();
+    }
+    await this.selectActionLocator.scrollIntoViewIfNeeded();
+    await this.selectActionLocator.hover({ timeout: 1000 });
+    await this.selectActionLocator.click();
+    await this.getOptionLocator(type).click();
 
-      if (mimeType) {
-        await this.selectMimeType(mimeType, actionIndex);
-      }
+    const actionIndex = (await this.ruleActionLocator.count()) - 1;
 
-      if (destinationFolder) {
-        await this.selectDestinationFolderTransformAndCopyContent(actionIndex, destinationFolder);
-      }
+    if (value) {
+      await this.insertActionValues(type, value, actionIndex);
+    }
+
+    if (mimeType) {
+      await this.selectMimeType(mimeType, actionIndex);
+    }
+
+    if (destinationFolder) {
+      await this.selectDestinationFolderTransformAndCopyContent(actionIndex, destinationFolder);
+    }
+  }
+
+  private async insertActionValues(type: ActionType, value: string, actionIndex: number): Promise<void> {
+    switch (type) {
+      case ActionType.AddAspect:
+        await this.insertAddAspectActionValues(value, actionIndex);
+        break;
+      case ActionType.CheckIn:
+        await this.insertCheckInActionValues(value, actionIndex);
+        break;
+      case ActionType.SpecialiseType:
+        await this.insertSpecialiseTypeActionValues(value, actionIndex);
+        break;
+      case ActionType.SimpleWorkflow:
+        await this.insertSimpleWorkflowActionValues(value, actionIndex);
+        break;
     }
   }
 
