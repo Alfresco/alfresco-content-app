@@ -455,7 +455,7 @@ describe('RuleActionUiComponent', () => {
     expect(component.form.disabled).toBe(true);
   });
 
-  describe('[MNT-25149] Multivalued select parameter default value', () => {
+  describe('Multivalued select parameter default value', () => {
     const multiSelectActionTitle = 'mock-action-6-definition';
 
     beforeEach(() => {
@@ -463,7 +463,7 @@ describe('RuleActionUiComponent', () => {
       component.parameterConstraints = dummyMultiSelectConstraints;
     });
 
-    it("should default a multivalued select parameter value to ['']  when no value is set", async () => {
+    it('should default a multivalued select parameter value to an array with an empty string when no value is set', async () => {
       fixture.detectChanges();
       await changeMatSelectValue(multiSelectActionTitle);
 
