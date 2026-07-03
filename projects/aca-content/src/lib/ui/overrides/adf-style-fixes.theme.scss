@@ -77,34 +77,42 @@
       )
     );
 
-    mat-expansion-panel.adf-content-metadata-panel {
-      border: 1px solid var(--adf-theme-foreground-divider-color);
-      /* stylelint-disable-next-line declaration-no-important */
-      border-radius: 4px !important;
-      box-shadow: none;
+    .adf-content-metadata-panel {
+      &:is(#{ms.$mat-expansion-panel}) {
+        border: 1px solid var(--adf-theme-foreground-divider-color);
+        /* stylelint-disable-next-line declaration-no-important */
+        border-radius: 4px !important;
 
-      .adf-metadata-properties-header {
-        padding: 0 12px;
+        .adf-metadata-properties-header {
+          padding: 0 12px;
 
-        /* stylelint-disable selector-class-pattern */
-        &.mat-expanded {
-          border-bottom: 1px solid var(--adf-theme-foreground-divider-color);
+          /* stylelint-disable selector-class-pattern */
+          &.mat-expanded {
+            border-bottom: 1px solid var(--adf-theme-foreground-divider-color);
+          }
+
+          /* stylelint-enable selector-class-pattern */
         }
-        /* stylelint-enable selector-class-pattern */
+
+        .adf-metadata-no-item-added {
+          margin-top: 16px;
+          font-size: 15px;
+        }
+
+        .adf-edit-icon-buttons {
+          @include mat.icon-overrides(
+            (
+              color: var(--adf-theme-foreground-text-color-064)
+            )
+          );
+        }
       }
 
-      .adf-metadata-no-item-added {
-        margin-top: 16px;
-        font-size: 15px;
-      }
-
-      .adf-edit-icon-buttons {
-        @include mat.icon-overrides(
-          (
-            color: var(--adf-theme-foreground-text-color-064)
-          )
-        );
-      }
+      @include mat.expansion-overrides(
+        (
+          container-elevation-shadow: none
+        )
+      );
     }
   }
 
@@ -308,13 +316,13 @@
         container-shape: 0,
         header-text-tracking: normal,
         header-description-color: var(--adf-theme-foreground-icon-color),
-        header-indicator-color: var(--adf-theme-foreground-text-color-054)
+        header-indicator-color: var(--adf-theme-foreground-text-color-054),
+        container-elevation-shadow: none
       )
     );
 
-    mat-expansion-panel {
+    #{ms.$mat-expansion-panel} {
       background-color: transparent;
-      box-shadow: none;
 
       .adf-aspect-property-table {
         @include mat.table-overrides(
