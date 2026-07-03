@@ -56,7 +56,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -78,7 +78,7 @@ jobs:
           - name: "aca-shared"
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -97,7 +97,7 @@ jobs:
         run: exit 1
 
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - uses: ./.github/actions/setup
@@ -129,7 +129,7 @@ jobs:
         run: exit 1
 
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - uses: ./.github/actions/setup
@@ -163,13 +163,13 @@ jobs:
         run: exit 1
 
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - uses: ./.github/actions/setup
         with:
           npm_tag: ${{ inputs.npm-tag }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/configure-git-author@a6a8be7429080c132815d0482a55ae4fd28f15ba #v18.7.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/configure-git-author@10cea6c0b390c4f8af21d9dc1670d581bd10319f #v18.13.0
         with:
           username: ${{ vars.BOT_GITHUB_USERNAME }}
           email: ${{ vars.BOT_GITHUB_EMAIL }}
@@ -196,7 +196,7 @@ jobs:
         run: exit 1
 
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 2
 
@@ -222,10 +222,10 @@ jobs:
       actions: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Push Source Files to Crowdin
-        uses: crowdin/github-action@8868a33591d21088edfc398968173a3b98d51706 # v2.16.2
+        uses: crowdin/github-action@52aa776766211d83d975df51f3b9c53c2f8ba35f # v2.16.3
         with:
           upload_sources: true
           upload_sources_args: --delete-obsolete

@@ -89,9 +89,24 @@ describe('SaveSearchDialogComponent', () => {
     expect(notificationService.showError).toHaveBeenCalledWith('APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_ERROR');
   }));
 
+  it('should call getSavedSearches only once when user types multiple times within the debounce window', fakeAsync(() => {
+    const getSavedSearchesSpy = spyOn(savedSearchesService, 'getSavedSearches').and.callThrough();
+    const nameControl = component.form.controls['name'];
+
+    nameControl.setValue('a');
+    tick(100);
+    nameControl.setValue('ab');
+    tick(100);
+    nameControl.setValue('abc');
+    tick(300);
+
+    expect(getSavedSearchesSpy).toHaveBeenCalledTimes(1);
+  }));
+
   function setFormValuesAndSubmit() {
     component.form.controls['name'].setValue('ABCDEF');
     component.form.controls['description'].setValue('TEST');
+    tick(300);
     submitButton.click();
     tick();
     expect(savedSearchesService.saveSearch).toHaveBeenCalledWith({
