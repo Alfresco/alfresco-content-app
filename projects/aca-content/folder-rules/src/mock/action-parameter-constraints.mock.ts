@@ -106,3 +106,23 @@ export const dummyCategoriesConstraints: ActionParameterConstraint[] = [
     ]
   }
 ];
+
+export const dummyMultiSelectConstraints: ActionParameterConstraint[] = [
+  {
+    name: 'mock-multi-select-param',
+    constraints: [
+      {
+        value: 'opt:one',
+        label: 'Option One'
+      },
+      {
+        value: 'opt:two',
+        label: 'Option Two'
+      },
+      {
+        value: 'opt:three',
+        label: 'Option Three'
+      }
+    ]
+  }
+];
