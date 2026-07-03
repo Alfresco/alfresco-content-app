@@ -53,7 +53,6 @@ describe('SearchInputComponent', () => {
   const queryParamsSubject = new Subject<Params>();
   const library400ErrorSubject = new Subject<void>();
 
-  /** Sets the input value and triggers a search by pressing Enter, mimicking the user. */
   const submitSearch = (value: string) => {
     const input = testingUtils.getInputByCSS('.app-search-input');
     input.value = value;

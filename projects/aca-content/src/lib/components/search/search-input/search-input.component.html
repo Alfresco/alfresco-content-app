@@ -16,7 +16,7 @@
       class="app-search-input"
       [attr.aria-label]="'SEARCH.INPUT.ARIA-LABEL' | translate"
       type="text"
-      [ngModel]="searchedWord"
+      [(ngModel)]="searchedWord"
       (keydown.enter)="onSearchSubmit($event)"
       [placeholder]="'SEARCH.INPUT.PLACEHOLDER' | translate"
       autocomplete="off"
