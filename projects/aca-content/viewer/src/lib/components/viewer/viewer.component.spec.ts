@@ -25,7 +25,7 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { AuthenticationService } from '@alfresco/adf-core';
-import { DiscoveryApiService, DocumentListService, NodesApiService, UploadService } from '@alfresco/adf-content-services';
+import { DiscoveryApiService, DocumentListService, FileUploadCompleteEvent, NodesApiService, UploadService } from '@alfresco/adf-content-services';
 import { ClosePreviewAction, RefreshPreviewAction, ViewNodeAction } from '@alfresco/aca-shared/store';
 import { AcaViewerComponent } from './viewer.component';
 import { of } from 'rxjs';
@@ -161,32 +161,32 @@ describe('AcaViewerComponent', () => {
   it('should emit nodeUpdated event on fileUploadComplete event', fakeAsync(() => {
     spyOn(nodesApiService.nodeUpdated, 'next');
     fixture.detectChanges();
-    uploadService.fileUploadComplete.next({ data: { entry: {} } } as any);
+    uploadService.fileUploadComplete.next({ data: { entry: {} } } as FileUploadCompleteEvent);
     tick(300);
 
     expect(nodesApiService.nodeUpdated.next).toHaveBeenCalled();
   }));
 
   it('should not switch the viewer to an uploaded file that is not currently displayed', fakeAsync(() => {
-    spyOn(component, 'displayNode').and.stub();
+    spyOn(contentApi, 'getNodeInfo').and.returnValue(of({ id: 'displayed-node', isFile: true } as Node));
     fixture.detectChanges();
     component.nodeId = 'displayed-node';
 
-    uploadService.fileUploadComplete.next({ data: { entry: { id: 'another-node' } } } as any);
+    uploadService.fileUploadComplete.next({ data: { entry: { id: 'another-node' } } } as FileUploadCompleteEvent);
     tick(300);
 
-    expect(component.displayNode).not.toHaveBeenCalled();
+    expect(contentApi.getNodeInfo).not.toHaveBeenCalled();
   }));
 
   it('should refresh the viewer when the currently displayed file finishes uploading', fakeAsync(() => {
-    spyOn(component, 'displayNode').and.stub();
+    spyOn(contentApi, 'getNodeInfo').and.returnValue(of({ id: 'displayed-node', isFile: true } as Node));
     fixture.detectChanges();
     component.nodeId = 'displayed-node';
 
-    uploadService.fileUploadComplete.next({ data: { entry: { id: 'displayed-node' } } } as any);
+    uploadService.fileUploadComplete.next({ data: { entry: { id: 'displayed-node' } } } as FileUploadCompleteEvent);
     tick(300);
 
-    expect(component.displayNode).toHaveBeenCalledWith('displayed-node');
+    expect(contentApi.getNodeInfo).toHaveBeenCalledWith('displayed-node');
   }));
 
   describe('return on event', () => {
