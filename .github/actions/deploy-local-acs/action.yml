@@ -18,7 +18,10 @@ inputs:
     description: >-
       Git ref (tag, branch, or commit SHA) of the Alfresco/acs-deployment
       repository to check out. Use the special value 'latest' (the default)
-      to resolve to the latest GitHub release tag at runtime.
+      to resolve to the latest GA release tag at runtime.
+      When set to 'master', pre-release_values.yaml is included in the Helm
+      install to pick up pre-release image tags; any other ref uses the
+      chart's standard values.yaml instead.
     required: false
     default: 'latest'
 
@@ -120,13 +123,16 @@ runs:
 
     - name: Helm install
       shell: bash
-      run: >-
-        helm dep build acs-deployment/helm/alfresco-content-services &&
-        helm install acs acs-deployment/helm/alfresco-content-services
-        --set global.search.sharedSecret="$(openssl rand -hex 24)"
-        --values acs-deployment/helm/alfresco-content-services/pre-release_values.yaml
-        --values acs-deployment/test/enterprise-integration-test-values.yaml
-        --values .github/acs-deployment-values-override.yaml
+      env:
+        ACS_VERSION_INPUT: ${{ inputs.acs_deployment_version }}
+      run: |
+        [ "$ACS_VERSION_INPUT" = "master" ] && chart_values="pre-release_values.yaml" || chart_values="values.yaml"
+        helm dep build acs-deployment/helm/alfresco-content-services
+        helm install acs acs-deployment/helm/alfresco-content-services \
+          --set global.search.sharedSecret="$(openssl rand -hex 24)" \
+          --values "acs-deployment/helm/alfresco-content-services/${chart_values}" \
+          --values acs-deployment/test/enterprise-integration-test-values.yaml \
+          --values .github/acs-deployment-values-override.yaml
 
     - name: Wait for pods to be ready
       uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-wait@v18.13.0
