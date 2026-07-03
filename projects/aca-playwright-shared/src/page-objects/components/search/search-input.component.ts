@@ -31,6 +31,8 @@ export class SearchInputComponent extends BaseComponent {
   public searchButton = this.page.locator('.aca-search-input--search-button');
   public searchCloseButton = this.page.locator('.aca-search-input--close-button');
   public searchInButton = this.getChild('aca-search-in-menu button');
+  public formulaSearchButton = this.getChild('[value="formula"]');
+  public regularSearchButton = this.getChild('[value="regular"]');
 
   /**
    * Method used in cases where user have possibility to navigate "inside" the element (it's clickable and has link attribute).
