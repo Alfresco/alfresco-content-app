@@ -77,7 +77,8 @@ export class NodeTemplateService {
       showSearch: false,
       showDropdownSiteList: false,
       isSelectionValid: this.isSelectionValid.bind(this),
-      rowFilter: this.rowFilter.bind(this)
+      rowFilter: this.rowFilter.bind(this),
+      showFilesInResult: false
     };
 
     const query = {

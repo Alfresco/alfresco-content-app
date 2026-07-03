@@ -255,7 +255,8 @@ export class NodeActionsService {
       isSelectionValid: this.canCopyMoveInsideIt.bind(this),
       breadcrumbTransform: this.customizeBreadcrumb.bind(this),
       select: new Subject<Node[]>(),
-      excludeSiteContent: ContentNodeDialogService.nonDocumentSiteContent
+      excludeSiteContent: ContentNodeDialogService.nonDocumentSiteContent,
+      showFilesInResult: false
     };
   }
 
