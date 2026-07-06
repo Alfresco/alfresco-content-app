@@ -144,11 +144,16 @@ runs:
         cluster_images=$(echo "${pod_images}" | awk -F'\t' 'NF { print $NF }' | sort -u)
         acs_repository_image=$(echo "${cluster_images}" | grep -m1 'alfresco-content-repository:' || echo "(alfresco-content-repository pod not found)")
         acs_repository_tag="${acs_repository_image##*:}"
+        # ACS_DEPLOYMENT_VERSION is a git ref (branch, tag, or SHA) — resolve it to the
+        # exact commit SHA that was checked out so past runs can be reproduced even
+        # when moving refs like `master` have advanced.
+        acs_deployment_commit=$(git -C acs-deployment rev-parse HEAD 2>/dev/null || echo "(unknown)")
 
         {
           echo "### 🐳 Deployed ACS versions"
           echo "- **ACS repository:** \`${acs_repository_tag}\`"
-          echo "- **acs-deployment chart:** \`${ACS_DEPLOYMENT_VERSION}\`"
+          echo "- **acs-deployment ref:** \`${ACS_DEPLOYMENT_VERSION}\`"
+          echo "- **acs-deployment commit:** \`${acs_deployment_commit}\`"
           echo "**Container images in cluster:**"
           echo "${cluster_images:-(no pods found)}"
         } >> "$GITHUB_STEP_SUMMARY"
@@ -157,8 +162,12 @@ runs:
         echo "${acs_repository_image}"
         echo "::endgroup::"
 
-        echo "::group::acs-deployment chart version"
+        echo "::group::acs-deployment ref"
         echo "${ACS_DEPLOYMENT_VERSION}"
+        echo "::endgroup::"
+
+        echo "::group::acs-deployment commit"
+        echo "${acs_deployment_commit}"
         echo "::endgroup::"
 
         echo "::group::Pinned pre-release image tags (pre-release_values.yaml)"
