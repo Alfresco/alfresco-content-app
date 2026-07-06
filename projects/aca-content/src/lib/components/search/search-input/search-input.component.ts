@@ -72,6 +72,7 @@ export class SearchInputComponent implements OnInit, AfterViewInit, OnDestroy {
 
   has400LibraryError = false;
   searchedWord: string = null;
+  lastSearchedWord: string = null;
   error = '';
 
   @ViewChild('searchInputField')
@@ -112,7 +113,8 @@ export class SearchInputComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this.error = '';
-    if (this.searchedWord !== trimmedTerm) {
+    if (this.lastSearchedWord !== trimmedTerm) {
+      this.lastSearchedWord = trimmedTerm;
       this.searchedWord = trimmedTerm;
       this.executeSearch();
     }

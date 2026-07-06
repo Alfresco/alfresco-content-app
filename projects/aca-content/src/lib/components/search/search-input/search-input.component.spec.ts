@@ -56,6 +56,8 @@ describe('SearchInputComponent', () => {
   const submitSearch = (value: string) => {
     const input = testingUtils.getInputByCSS('.app-search-input');
     input.value = value;
+    input.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
     testingUtils.keyBoardEventByCSS('.app-search-input', 'keydown', 'Enter', 'Enter');
     fixture.detectChanges();
   };
@@ -173,10 +175,10 @@ describe('SearchInputComponent', () => {
       expect(component.error).toBe('');
     });
 
-    it('should trim whitespace from search term', () => {
+    it('should track the trimmed term as the last searched word', () => {
       submitSearch('  hello  ');
-      expect(component.searchedWord).toBe('hello');
-      expect(searchExecutionService.execute).toHaveBeenCalledWith('hello');
+      expect(component.lastSearchedWord).toBe('hello');
+      expect(searchExecutionService.execute).toHaveBeenCalledTimes(1);
     });
 
     it('should not re-execute search when submitted term is unchanged', () => {
@@ -184,6 +186,14 @@ describe('SearchInputComponent', () => {
       expect(searchExecutionService.execute).toHaveBeenCalledTimes(1);
 
       submitSearch('hello');
+      expect(searchExecutionService.execute).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not re-execute search when only surrounding whitespace changes', () => {
+      submitSearch('hello');
+      expect(searchExecutionService.execute).toHaveBeenCalledTimes(1);
+
+      submitSearch('  hello  ');
       expect(searchExecutionService.execute).toHaveBeenCalledTimes(1);
     });
   });
