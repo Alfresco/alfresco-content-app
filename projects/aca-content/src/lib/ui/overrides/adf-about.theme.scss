@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 @use '../mat-selectors' as ms;
 
 @mixin adf-about-theme() {
@@ -19,12 +20,17 @@
 
       &.adf-about-panel {
         #{ms.$mat-expansion-panel} {
-          box-shadow: none;
           border-radius: 12px;
           margin: 24px;
           width: 95%;
           border: 1px solid var(--theme-about-panel-border-color);
         }
+
+        @include mat.expansion-overrides(
+          (
+            container-elevation-shadow: none
+          )
+        );
       }
     }
 

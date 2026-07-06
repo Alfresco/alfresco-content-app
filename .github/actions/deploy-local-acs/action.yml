@@ -18,14 +18,17 @@ inputs:
     description: >-
       Git ref (tag, branch, or commit SHA) of the Alfresco/acs-deployment
       repository to check out. Use the special value 'latest' (the default)
-      to resolve to the latest GitHub release tag at runtime.
+      to resolve to the latest GA release tag at runtime.
+      When set to 'master', pre-release_values.yaml is included in the Helm
+      install to pick up pre-release image tags; any other ref uses the
+      chart's standard values.yaml instead.
     required: false
     default: 'latest'
 
 runs:
   using: "composite"
   steps:
-    - uses: azure/setup-helm@dda3372f752e03dde6b3237bc9431cdc2f7a02a2
+    - uses: azure/setup-helm@9bc31f4ebc9c6b171d7bfbaa5d006ae7abdb4310
       with:
         version: "3.14.3"
 
@@ -43,7 +46,7 @@ runs:
         password: ${{ inputs.quay_password }}
 
     - name: Setup cluster
-      uses: Alfresco/alfresco-build-tools/.github/actions/setup-kind@v18.7.0
+      uses: Alfresco/alfresco-build-tools/.github/actions/setup-kind@v18.13.0
       with:
         ingress-nginx-ref: controller-v1.8.2
         ingress-creation-timeout: 180s
@@ -112,7 +115,7 @@ runs:
         exit 1
 
     - name: Checkout acs-deployment ${{ steps.get-acs-version.outputs.version }}
-      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       with:
         repository: Alfresco/acs-deployment
         ref: ${{ steps.get-acs-version.outputs.version }}
@@ -120,13 +123,16 @@ runs:
 
     - name: Helm install
       shell: bash
-      run: >-
-        helm dep build acs-deployment/helm/alfresco-content-services &&
-        helm install acs acs-deployment/helm/alfresco-content-services
-        --set global.search.sharedSecret="$(openssl rand -hex 24)"
-        --values acs-deployment/helm/alfresco-content-services/pre-release_values.yaml
-        --values acs-deployment/test/enterprise-integration-test-values.yaml
-        --values .github/acs-deployment-values-override.yaml
+      env:
+        ACS_VERSION_INPUT: ${{ inputs.acs_deployment_version }}
+      run: |
+        [ "$ACS_VERSION_INPUT" = "master" ] && chart_values="pre-release_values.yaml" || chart_values="values.yaml"
+        helm dep build acs-deployment/helm/alfresco-content-services
+        helm install acs acs-deployment/helm/alfresco-content-services \
+          --set global.search.sharedSecret="$(openssl rand -hex 24)" \
+          --values "acs-deployment/helm/alfresco-content-services/${chart_values}" \
+          --values acs-deployment/test/enterprise-integration-test-values.yaml \
+          --values .github/acs-deployment-values-override.yaml
 
     - name: Wait for pods to be ready
       uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-wait@v18.13.0
