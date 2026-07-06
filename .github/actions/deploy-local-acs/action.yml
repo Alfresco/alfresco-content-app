@@ -145,9 +145,9 @@ runs:
       run: |
         pre_release_values="acs-deployment/helm/alfresco-content-services/pre-release_values.yaml"
         pod_images=$(kubectl get pods -A \
-          -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{range .spec.containers[*]}{.image}{"\n"}{end}{end}' \
+          -o jsonpath='{range .items[*]}{.metadata.namespace}{"/"}{.metadata.name}{"\t"}{range .spec.containers[*]}{.name}{"="}{.image}{"\n"}{end}{end}' \
           2>/dev/null | sort -u || true)
-        cluster_images=$(echo "${pod_images}" | awk -F'\t' 'NF { print $NF }' | sort -u)
+        cluster_images=$(echo "${pod_images}" | awk -F'\t' 'NF > 1 { sub(/^[^=]*=/, "", $NF); print $NF }' | sort -u)
         acs_repository_image=$(echo "${cluster_images}" | grep -m1 'alfresco-content-repository:' || echo "(alfresco-content-repository pod not found)")
         acs_repository_tag="${acs_repository_image##*:}"
         # ACS_DEPLOYMENT_VERSION is a git ref (branch, tag, or SHA) — resolve it to the
@@ -176,11 +176,13 @@ runs:
         echo "${acs_deployment_commit}"
         echo "::endgroup::"
 
-        echo "::group::Pinned pre-release image tags (pre-release_values.yaml)"
-        if [ -f "$pre_release_values" ]; then
-          cat "$pre_release_values"
+        values_path="acs-deployment/helm/alfresco-content-services/values.yaml"
+        [ "$ACS_DEPLOYMENT_VERSION" = "master" ] && values_path="$pre_release_values"
+        echo "::group::Chart values file used ($(basename "$values_path"))"
+        if [ -f "$values_path" ]; then
+          cat "$values_path"
         else
-          echo "(file not found: $pre_release_values)"
+          echo "(file not found: $values_path)"
         fi
         echo "::endgroup::"
 
