@@ -120,7 +120,7 @@ export class DownloadEffects {
   private downloadFileVersion(node: NodeInfo, version: Version) {
     if (node && version) {
       this.contentUrlService.getVersionContentUrl(node.id, version.id, true).subscribe((contentUrl) => {
-        this.download(contentUrl, node.name);
+        this.download(contentUrl, version.name ?? node.name);
       });
     }
   }

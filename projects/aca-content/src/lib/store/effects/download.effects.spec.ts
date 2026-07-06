@@ -25,13 +25,14 @@
 import { TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Subject, of } from 'rxjs';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { DownloadNodesAction } from '@alfresco/aca-shared/store';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { VersionEntry } from '@alfresco/js-api';
 import { DownloadEffects } from './download.effects';
 import { provideEffects } from '@ngrx/effects';
+import { ContentUrlService } from '../../services/content-url.service';
 
 describe('DownloadEffects', () => {
   let store: Store;
@@ -110,6 +111,45 @@ describe('DownloadEffects', () => {
       );
       afterClosed$.next();
       expect(document.querySelector).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('downloadFileVersion', () => {
+    let contentUrlService: ContentUrlService;
+
+    beforeEach(() => {
+      contentUrlService = TestBed.inject(ContentUrlService);
+    });
+
+    it('should use the version name (not the current node name) as the download file name', () => {
+      spyOn(contentUrlService, 'getVersionContentUrl').and.returnValue(of('http://external-host.example.com/versions/1.0/content?attachment=true'));
+
+      const anchor = document.createElement('a');
+      spyOn(anchor, 'click');
+      spyOn(document, 'createElement').and.returnValue(anchor);
+      spyOn(document.body, 'appendChild').and.callThrough();
+      spyOn(document.body, 'removeChild').and.callThrough();
+
+      spyOn(store, 'select').and.returnValues(
+        new BehaviorSubject({
+          isEmpty: false,
+          nodes: [
+            {
+              entry: {
+                id: 'node-id',
+                name: 'file-jpg-2.jpg'
+              }
+            }
+          ]
+        } as SelectionState),
+        new BehaviorSubject<VersionEntry>({ entry: { id: '1.0', name: 'file-pdf-1.pdf' } } as VersionEntry)
+      );
+
+      store.dispatch(new DownloadNodesAction([]));
+
+      expect(contentUrlService.getVersionContentUrl).toHaveBeenCalledWith('node-id', '1.0', true);
+      expect(anchor.download).toBe('file-pdf-1.pdf');
+      expect(anchor.click).toHaveBeenCalled();
     });
   });
 });
