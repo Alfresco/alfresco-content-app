@@ -24,10 +24,6 @@ inputs:
       chart's standard values.yaml instead.
     required: false
     default: 'latest'
-  latest_images:
-    description: 'Override every ACS component with the newest available image tag (acadev parity). Set to "false" to use the chart defaults.'
-    required: false
-    default: 'true'
 
 runs:
   using: "composite"
@@ -124,21 +120,6 @@ runs:
         repository: Alfresco/acs-deployment
         ref: ${{ steps.get-acs-version.outputs.version }}
         path: acs-deployment
-
-    - name: Fetch pre-release values from acs-deployment
-      if: ${{ inputs.latest_images == 'true' }}
-      shell: bash
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
-      run: |
-        echo "Downloading pre-release_values.yaml from acs-deployment master branch..."
-        curl -fsSL \
-          -H "Authorization: Bearer $GITHUB_TOKEN" \
-          -H "Accept: application/vnd.github.v3.raw" \
-          "https://api.github.com/repos/Alfresco/acs-deployment/contents/helm/alfresco-content-services/pre-release_values.yaml?ref=master" \
-          -o acs-latest-images-values.yaml
-        echo "Pre-release values file contents:"
-        cat acs-latest-images-values.yaml
 
     - name: Helm install
       shell: bash
