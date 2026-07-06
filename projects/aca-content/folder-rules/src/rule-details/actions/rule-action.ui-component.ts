@@ -310,7 +310,8 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
       title: this.translate.instant('ACA_FOLDER_RULES.RULE_DETAILS.PLACEHOLDER.CHOOSE_FOLDER'),
       actionName: NodeAction.CHOOSE,
       currentFolderId: this.nodeId,
-      select: new Subject<Node[]>()
+      select: new Subject<Node[]>(),
+      showFilesInResult: false
     };
 
     this.dialog.open(ContentNodeSelectorComponent, {

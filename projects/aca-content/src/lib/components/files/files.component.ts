@@ -386,27 +386,11 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     if (activeFilters.length) {
       this.showHeader = ShowHeaderMode.Always;
       this.isFilterHeaderActive = true;
-      this.navigateToFilter(activeFilters);
     } else {
       void this.router.navigate(['.'], { relativeTo: this.route });
       this.isFilterHeaderActive = false;
       this.showHeader = ShowHeaderMode.Data;
     }
-  }
-
-  navigateToFilter(activeFilters: FilterSearch[]) {
-    const objectFromMap = {};
-    activeFilters.forEach((filter: FilterSearch) => {
-      let paramValue;
-      if (filter?.value?.from && filter?.value?.to) {
-        paramValue = `${filter.value.from}||${filter.value.to}`;
-      } else {
-        paramValue = filter.value;
-      }
-      objectFromMap[filter.key] = paramValue;
-    });
-
-    void this.router.navigate([], { relativeTo: this.route, queryParams: objectFromMap });
   }
 
   onError(error: HttpErrorResponse) {

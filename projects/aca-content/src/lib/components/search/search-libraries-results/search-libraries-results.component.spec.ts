@@ -75,8 +75,8 @@ describe('SearchLibrariesResultsComponent', () => {
     expect(component.onSearchResultLoaded).toHaveBeenCalledWith(emptyPage);
   });
 
-  it('should extract searched word from query params', (done) => {
-    route.queryParams = of({ q: encodeQuery({ userQuery: 'cm:name:"test*"' }) });
+  it('should extract the user query from query params', (done) => {
+    route.queryParams = of({ q: encodeQuery({ userQuery: 'test' }) });
     route.queryParams.subscribe(() => {
       fixture.detectChanges();
       expect(component.searchedWord).toBe('test');

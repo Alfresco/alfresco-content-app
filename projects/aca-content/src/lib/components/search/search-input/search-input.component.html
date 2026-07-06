@@ -17,12 +17,21 @@
       [attr.aria-label]="'SEARCH.INPUT.ARIA-LABEL' | translate"
       type="text"
       [(ngModel)]="searchedWord"
-      (keydown.enter)="onSearchSubmit(searchedWord)"
+      (keydown.enter)="onSearchSubmit($event)"
       [placeholder]="'SEARCH.INPUT.PLACEHOLDER' | translate"
       autocomplete="off"
     />
 
     <div matSuffix class="aca-search-input--suffix">
+      <mat-button-toggle-group class="aca-search-input--suffix-button-toggle-group" [attr.aria-label]="'SEARCH.INPUT.SEARCH_MODE_TOGGLE_DESCRIPTION' | translate" [attr.title]="'SEARCH.INPUT.SEARCH_MODE_TOGGLE_DESCRIPTION' | translate" [(ngModel)]="queryBuilder.searchMode">
+        <mat-button-toggle value="regular" [attr.aria-label]="'SEARCH.INPUT.SEARCH_MODE_TOGGLE_DESCRIPTION_REGULAR' | translate">
+          <mat-icon>title</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle value="formula" [attr.aria-label]="'SEARCH.INPUT.SEARCH_MODE_TOGGLE_DESCRIPTION_FORMULA' | translate">
+          <mat-icon>extension</mat-icon>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+
       <aca-search-in-menu (filtersApplied)="onFiltersApplied()" />
 
       <button

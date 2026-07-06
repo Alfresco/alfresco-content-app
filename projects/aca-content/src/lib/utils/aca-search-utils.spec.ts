@@ -24,7 +24,7 @@
 
 import {
   extractFiltersFromEncodedQuery,
-  extractSearchedWordFromEncodedQuery,
+  extractParsedQueryFromEncodedQuery,
   extractUserQueryFromEncodedQuery,
   formatSearchTerm,
   formatSearchTermByFields,
@@ -62,20 +62,20 @@ describe('SearchUtils', () => {
   });
 
   describe('formatSearchTermByFields', () => {
-    it('should append "*" to search term', () => {
-      expect(formatSearchTermByFields('test', ['name'])).toBe('(name:"test*")');
+    it('should not append wildcard by default', () => {
+      expect(formatSearchTermByFields('test', ['name'])).toBe('(name:"test")');
     });
 
-    it('should not prefix when search term equals "*"', () => {
-      expect(formatSearchTermByFields('*', ['name'])).toBe('(name:"*")');
-    });
-
-    it('should properly handle search terms starting with "="', () => {
-      expect(formatSearchTermByFields('=test', ['name'])).toBe('(=name:"test")');
+    it('should append "*" to search term when wildcards are enabled', () => {
+      expect(formatSearchTermByFields('test', ['name'], true)).toBe('(name:"test*")');
     });
 
     it('should format search term with set of fields and join with OR', () => {
-      expect(formatSearchTermByFields('test', ['name', 'size'])).toBe('(name:"test*" OR size:"test*")');
+      expect(formatSearchTermByFields('test', ['name', 'size'])).toBe('(name:"test" OR size:"test")');
+    });
+
+    it('should format search term with set of fields and append wildcards when enabled', () => {
+      expect(formatSearchTermByFields('test', ['name', 'size'], true)).toBe('(name:"test*" OR size:"test*")');
     });
   });
 
@@ -85,43 +85,43 @@ describe('SearchUtils', () => {
       expect(formatSearchTerm(undefined)).toEqual('');
     });
 
-    it('should not transfer custom queries', () => {
-      expect(formatSearchTerm('test:"term"')).toBe('test:"term"');
-      expect(formatSearchTerm('"test"')).toBe('"test"');
+    it('should return the raw input untouched in formula mode', () => {
+      expect(formatSearchTerm('test:"term"', ['cm:name'], 'formula')).toBe('test:"term"');
+      expect(formatSearchTerm('cm:name:"foo" AND TEXT:bar', ['cm:name'], 'formula')).toBe('cm:name:"foo" AND TEXT:bar');
     });
 
     it('should properly join multiple word search term', () => {
-      expect(formatSearchTerm('test word term')).toBe('(cm:name:"test*") AND (cm:name:"word*") AND (cm:name:"term*")');
+      expect(formatSearchTerm('test word term')).toBe('((cm:name:"test") AND (cm:name:"word") AND (cm:name:"term"))');
       expect(formatSearchTerm('test word term', ['name', 'size'])).toBe(
-        '(name:"test*" OR size:"test*") AND (name:"word*" OR size:"word*") AND (name:"term*" OR size:"term*")'
+        '((name:"test" OR size:"test") AND (name:"word" OR size:"word") AND (name:"term" OR size:"term"))'
+      );
+    });
+
+    it('should append wildcards to every word when wildcards are enabled', () => {
+      expect(formatSearchTerm('test word term', ['cm:name'], 'regular', true)).toBe(
+        '((cm:name:"test*") AND (cm:name:"word*") AND (cm:name:"term*"))'
       );
     });
 
     it('should format user input as cm:name if configuration not provided', () => {
-      expect(formatSearchTerm('hello')).toBe(`(cm:name:"hello*")`);
+      expect(formatSearchTerm('hello')).toBe(`((cm:name:"hello"))`);
     });
 
     it('should support conjunctions with AND operator', () => {
       expect(formatSearchTerm('big AND yellow AND banana', ['cm:name', 'cm:title'])).toBe(
-        `(cm:name:"big*" OR cm:title:"big*") AND (cm:name:"yellow*" OR cm:title:"yellow*") AND (cm:name:"banana*" OR cm:title:"banana*")`
+        `((cm:name:"big" OR cm:title:"big") AND (cm:name:"yellow" OR cm:title:"yellow") AND (cm:name:"banana" OR cm:title:"banana"))`
       );
     });
 
     it('should support conjunctions with OR operator', () => {
       expect(formatSearchTerm('big OR yellow OR banana', ['cm:name', 'cm:title'])).toBe(
-        `(cm:name:"big*" OR cm:title:"big*") OR (cm:name:"yellow*" OR cm:title:"yellow*") OR (cm:name:"banana*" OR cm:title:"banana*")`
-      );
-    });
-
-    it('should support exact term matching with operators', () => {
-      expect(formatSearchTerm('=test1.pdf OR =test2.pdf', ['cm:name', 'cm:title'])).toBe(
-        `(=cm:name:"test1.pdf" OR =cm:title:"test1.pdf") OR (=cm:name:"test2.pdf" OR =cm:title:"test2.pdf")`
+        `((cm:name:"big" OR cm:title:"big") OR (cm:name:"yellow" OR cm:title:"yellow") OR (cm:name:"banana" OR cm:title:"banana"))`
       );
     });
 
     it('should split words correctly when multiple whitespaces are present', () => {
       expect(formatSearchTerm('  big  yellow  ', ['cm:name', 'cm:title'])).toBe(
-        `(cm:name:"big*" OR cm:title:"big*") AND (cm:name:"yellow*" OR cm:title:"yellow*")`
+        `((cm:name:"big" OR cm:title:"big") AND (cm:name:"yellow" OR cm:title:"yellow"))`
       );
     });
   });
@@ -137,62 +137,26 @@ describe('SearchUtils', () => {
       expect(extractUserQueryFromEncodedQuery(encodeQuery(query))).toBe('cm:name:"test"');
     });
 
-    it('should properly trim set of parentheses from extracted user query', () => {
+    it('should return the raw user query without trimming parentheses', () => {
       const query = { userQuery: '(cm:name:"test")' };
-      expect(extractUserQueryFromEncodedQuery(encodeQuery(query))).toBe('cm:name:"test"');
+      expect(extractUserQueryFromEncodedQuery(encodeQuery(query))).toBe('(cm:name:"test")');
     });
   });
 
-  describe('extractSearchedWordFromEncodedQuery', () => {
+  describe('extractParsedQueryFromEncodedQuery', () => {
     it('should return empty string when encoded query is invalid', () => {
-      const query = { otherProp: 'test' };
-      expect(extractSearchedWordFromEncodedQuery(null)).toBe('');
-      expect(extractSearchedWordFromEncodedQuery(undefined)).toBe('');
-      expect(extractSearchedWordFromEncodedQuery(encodeQuery(query))).toBe('');
+      expect(extractParsedQueryFromEncodedQuery(null)).toBe('');
+      expect(extractParsedQueryFromEncodedQuery(undefined)).toBe('');
     });
 
-    it('should properly extract search term', () => {
-      const query = { userQuery: 'cm:name:"test*"' };
-      expect(extractSearchedWordFromEncodedQuery(encodeQuery(query))).toBe('test');
+    it('should properly extract parsed query', () => {
+      const query = { parsedQuery: '(cm:name:"test*")' };
+      expect(extractParsedQueryFromEncodedQuery(encodeQuery(query))).toBe('(cm:name:"test*")');
     });
 
-    it('should preserve quotes in search term for custom search', () => {
-      const query = { userQuery: '"test"' };
-      expect(extractSearchedWordFromEncodedQuery(encodeQuery(query))).toBe('"test"');
-    });
-
-    it('should properly extract search term when userQuery does not contain quotes', () => {
-      const query = { userQuery: 'TEXT:abcdef' };
-      expect(extractSearchedWordFromEncodedQuery(encodeQuery(query))).toBe('TEXT:abcdef');
-    });
-
-    it('should properly extract search term when userQuery contains field without quotes', () => {
-      const query = { userQuery: 'cm:name:searchterm' };
-      expect(extractSearchedWordFromEncodedQuery(encodeQuery(query))).toBe('cm:name:searchterm');
-    });
-
-    it('should handle mixed conditions with and without quotes', () => {
-      const query = { userQuery: 'cm:name:"quoted term" AND TEXT:unquoted' };
-      expect(extractSearchedWordFromEncodedQuery(encodeQuery(query))).toBe('quoted term TEXT:unquoted');
-    });
-
-    it('should handle complex search query', () => {
-      const query = {
-        userQuery: `((cm:name:"a*" OR cm:title:"a*" OR cm:description:"a*" OR TEXT:"a*" OR TAG:"a*") AND
-          (cm:name:"b*" OR cm:title:"b*" OR cm:description:"b*" OR TEXT:"b*" OR TAG:"b*") OR
-          (cm:name:"c*" OR cm:title:"c*" OR cm:description:"c*" OR TEXT:"c*" OR TAG:"c*"))`
-      };
-      expect(extractSearchedWordFromEncodedQuery(encodeQuery(query))).toBe('a b OR c');
-    });
-
-    it('should not treat operator as a searched word', () => {
-      const query = { userQuery: 'AND' };
-      expect(extractSearchedWordFromEncodedQuery(encodeQuery(query))).toBe('');
-    });
-
-    it('should not unquote when searching for phrase', () => {
-      const query = { userQuery: '"exact phrase search"' };
-      expect(extractSearchedWordFromEncodedQuery(encodeQuery(query))).toBe('"exact phrase search"');
+    it('should return empty string when parsed query is not present', () => {
+      const query = { userQuery: 'cm:name:"test"' };
+      expect(extractParsedQueryFromEncodedQuery(encodeQuery(query))).toBe('');
     });
   });
 

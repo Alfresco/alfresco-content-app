@@ -46,6 +46,7 @@ import { AdfConfirmDialogComponent, AdfFolderDialogComponent, ManageVersionsDial
 import { SearchInDialogComponent } from '../components/search/search-in-dialog.components';
 
 export type SearchType = 'files' | 'folders' | 'filesAndFolders' | 'libraries';
+export type SearchMode = 'regular' | 'formula';
 
 export class SearchPage extends BasePage {
   private static readonly pageUrl = 'search';
@@ -76,11 +77,17 @@ export class SearchPage extends BasePage {
   public folderInformationDialog = new FolderInformationDialogComponent(this.page);
   public searchMenuCard = new SearchMenuCard(this.page);
 
-  async searchWithin(searchText: string, searchType?: SearchType): Promise<void> {
+  async searchWithin(searchText: string, searchType?: SearchType, searchMode?: SearchMode): Promise<void> {
     if (!(await this.searchInputComponent.searchInput.isVisible())) {
       await this.acaHeader.searchButton.click();
     }
     await this.searchInputComponent.searchFor(searchText);
+    await this.dataTable.spinnerWaitForReload();
+    if (searchMode === 'formula') {
+      await this.searchInputComponent.formulaSearchButton.click();
+    } else {
+      await this.searchInputComponent.regularSearchButton.click();
+    }
     await this.searchInputComponent.searchInButton.click();
     switch (searchType) {
       case 'files':

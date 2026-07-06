@@ -1770,7 +1770,6 @@
             }
           ]
         },
-        "aca:triggeredOnChange": false,
         "resetButton": true,
         "filterQueries": [
           { "query": "+TYPE:'cm:folder' OR +TYPE:'cm:content'" },
@@ -1991,7 +1990,6 @@
             }
           ]
         },
-        "aca:triggeredOnChange": false,
         "resetButton": true,
         "filterQueries": [
           { "query": "+TYPE:'cm:folder' OR +TYPE:'cm:content' AND +ASPECT:'cm:dublincore'" },
@@ -2167,7 +2165,6 @@
             }
           ]
         },
-        "aca:triggeredOnChange": false,
         "resetButton": true,
         "filterQueries": [
           { "query": "+TYPE:'cm:folder' OR +TYPE:'cm:content' AND +ASPECT:'cm:effectivity'" },

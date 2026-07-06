@@ -23,9 +23,8 @@
  */
 
 import { AppHookService } from '@alfresco/aca-shared';
-import { AppConfigService } from '@alfresco/adf-core';
 import { AfterViewInit, Component, DestroyRef, ElementRef, inject, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, NavigationSkipped, NavigationStart, Params, Router } from '@angular/router';
+import { ActivatedRoute, NavigationSkipped, Params, Router } from '@angular/router';
 import { SearchNavigationService } from '../search-navigation.service';
 import { SearchFilterService } from '../search-filter.service';
 import { SearchExecutionService } from '../search-execution.service';
@@ -39,12 +38,23 @@ import { FormsModule } from '@angular/forms';
 import { SearchInMenuComponent } from '../search-in-menu/search-in-menu.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { merge } from 'rxjs/internal/observable/merge';
-import { filter, map, startWith, withLatestFrom } from 'rxjs';
+import { filter, map, withLatestFrom } from 'rxjs';
+import { extractUserQueryFromEncodedQuery } from '../../../utils/aca-search-utils';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
-import { extractSearchedWordFromEncodedQuery } from '../../../utils/aca-search-utils';
 
 @Component({
-  imports: [CommonModule, TranslatePipe, MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule, FormsModule, SearchInMenuComponent],
+  imports: [
+    CommonModule,
+    TranslatePipe,
+    MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    SearchInMenuComponent,
+    MatButtonToggleModule
+  ],
   selector: 'aca-search-input',
   templateUrl: './search-input.component.html',
   styleUrls: ['./search-input.component.scss'],
@@ -52,28 +62,23 @@ import { extractSearchedWordFromEncodedQuery } from '../../../utils/aca-search-u
   host: { class: 'aca-search-input' }
 })
 export class SearchInputComponent implements OnInit, AfterViewInit, OnDestroy {
-  private readonly queryBuilder = inject(SearchQueryBuilderService);
-  private readonly config = inject(AppConfigService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly appHookService = inject(AppHookService);
   private readonly filterService = inject(SearchFilterService);
   private readonly searchExecutionService = inject(SearchExecutionService);
   readonly searchNavigationService = inject(SearchNavigationService);
+  readonly queryBuilder = inject(SearchQueryBuilderService);
 
   has400LibraryError = false;
-  searchOnChange: boolean;
   searchedWord: string = null;
+  lastSearchedWord: string = null;
   error = '';
 
   @ViewChild('searchInputField')
   searchInputField: ElementRef<HTMLInputElement>;
 
   private readonly destroyRef = inject(DestroyRef);
-
-  constructor() {
-    this.searchOnChange = this.config.get<boolean>('search.aca:triggeredOnChange', true);
-  }
 
   ngOnInit(): void {
     this.initSearchState();
@@ -98,8 +103,8 @@ export class SearchInputComponent implements OnInit, AfterViewInit, OnDestroy {
     this.searchNavigationService.navigateBack();
   }
 
-  onSearchSubmit(searchTerm: string) {
-    const trimmedTerm = searchTerm?.trim();
+  onSearchSubmit(event: Event) {
+    const trimmedTerm = (event.target as HTMLInputElement).value?.trim();
     const validationError = this.filterService.validateSearchTerm(trimmedTerm);
 
     if (validationError) {
@@ -107,9 +112,12 @@ export class SearchInputComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
 
-    this.searchedWord = trimmedTerm;
     this.error = '';
-    this.executeSearch();
+    if (this.lastSearchedWord !== trimmedTerm) {
+      this.lastSearchedWord = trimmedTerm;
+      this.searchedWord = trimmedTerm;
+      this.executeSearch();
+    }
   }
 
   onFiltersApplied() {
@@ -143,24 +151,7 @@ export class SearchInputComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((params: Params) => {
         const encodedQuery = params['q'];
         if (encodedQuery) {
-          this.searchedWord = extractSearchedWordFromEncodedQuery(encodedQuery);
-        }
-      });
-
-    this.queryBuilder.configUpdated
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        withLatestFrom(
-          this.router.events.pipe(
-            filter((event): event is NavigationStart => event instanceof NavigationStart),
-            startWith(null)
-          )
-        )
-      )
-      .subscribe(([, navigationStartEvent]) => {
-        const hasQueryParams = navigationStartEvent?.url.includes('?');
-        if (this.searchedWord && hasQueryParams) {
-          this.searchExecutionService.execute(this.searchedWord);
+          this.searchedWord = extractUserQueryFromEncodedQuery(encodedQuery);
         }
       });
   }

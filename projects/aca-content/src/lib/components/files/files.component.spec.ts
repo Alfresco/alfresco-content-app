@@ -45,7 +45,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { testHeader } from '../../testing/document-base-page-utils';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { getCurrentFolder } from '@alfresco/aca-shared/store';
-import { UnitTestingUtils } from '@alfresco/adf-core';
+import { ShowHeaderMode, UnitTestingUtils } from '@alfresco/adf-core';
 import { HttpErrorResponse } from '@angular/common/http';
 
 describe('FilesComponent', () => {
@@ -493,6 +493,28 @@ describe('FilesComponent', () => {
       spyOn(route.snapshot.paramMap, 'get').and.returnValue('personal-files');
       component.navigateTo(node);
       expect(router.navigate).toHaveBeenCalledWith([node.entry.properties['cm:destination']]);
+    });
+  });
+
+  describe('onFilterSelected', () => {
+    it('should activate the filter header without navigating when filters are selected', () => {
+      router.navigate['calls'].reset();
+
+      component.onFilterSelected([{ key: 'name', value: 'aaa' } as FilterSearch]);
+
+      expect(component.isFilterHeaderActive).toBeTrue();
+      expect(component.showHeader).toBe(ShowHeaderMode.Always);
+      expect(router.navigate).not.toHaveBeenCalled();
+    });
+
+    it('should deactivate the filter header and navigate to the current route when no filters are selected', () => {
+      router.navigate['calls'].reset();
+
+      component.onFilterSelected([]);
+
+      expect(component.isFilterHeaderActive).toBeFalse();
+      expect(component.showHeader).toBe(ShowHeaderMode.Data);
+      expect(router.navigate).toHaveBeenCalledWith(['.'], jasmine.objectContaining({ relativeTo: route }));
     });
   });
 

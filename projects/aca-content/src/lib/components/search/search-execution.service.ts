@@ -25,7 +25,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppStore, SearchByTermAction } from '@alfresco/aca-shared/store';
-import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { SearchFilterService } from './search-filter.service';
 import { SearchNavigationService } from './search-navigation.service';
 import { SearchLibrariesQueryBuilderService } from './search-libraries-results/search-libraries-query-builder.service';
@@ -33,7 +32,6 @@ import { SearchLibrariesQueryBuilderService } from './search-libraries-results/s
 @Injectable({ providedIn: 'root' })
 export class SearchExecutionService {
   private readonly store = inject<Store<AppStore>>(Store);
-  private readonly queryBuilder = inject(SearchQueryBuilderService);
   private readonly queryLibrariesBuilder = inject(SearchLibrariesQueryBuilderService);
   private readonly filterService = inject(SearchFilterService);
   private readonly searchNavigationService = inject(SearchNavigationService);
@@ -61,9 +59,7 @@ export class SearchExecutionService {
   }
 
   private executeContentSearch(searchedWord: string) {
-    if (this.searchNavigationService.onSearchResults && this.searchNavigationService.isSameSearchTerm(searchedWord)) {
-      this.queryBuilder.update();
-    } else {
+    if (!(this.searchNavigationService.onSearchResults && this.searchNavigationService.isSameSearchTerm(searchedWord))) {
       this.store.dispatch(new SearchByTermAction(searchedWord, this.filterService.searchOptions));
     }
   }

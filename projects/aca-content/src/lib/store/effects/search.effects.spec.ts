@@ -50,14 +50,14 @@ describe('SearchEffects', () => {
   });
 
   describe('searchByTerm$', () => {
-    it('should navigate to `search` when search options has library false', fakeAsync(() => {
+    it('should navigate to `search` with the raw term when search options has library false', fakeAsync(() => {
       spyOn(queryBuilder, 'navigateToSearch');
       store.dispatch(new SearchByTermAction('test', []));
       tick();
-      expect(queryBuilder.navigateToSearch).toHaveBeenCalledWith('(cm:name:"test*")', '/search');
+      expect(queryBuilder.navigateToSearch).toHaveBeenCalledWith('test', '/search');
     }));
 
-    it('should navigate to `search-libraries` when search options has library true', fakeAsync(() => {
+    it('should navigate to `search-libraries` with the raw term when search options has library true', fakeAsync(() => {
       spyOn(queryBuilder, 'navigateToSearch');
       store.dispatch(
         new SearchByTermAction('test', [
@@ -72,7 +72,7 @@ describe('SearchEffects', () => {
 
       tick();
 
-      expect(queryBuilder.navigateToSearch).toHaveBeenCalledWith('(cm:name:"test*")', '/search-libraries');
+      expect(queryBuilder.navigateToSearch).toHaveBeenCalledWith('test', '/search-libraries');
     }));
   });
 

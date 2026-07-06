@@ -24,7 +24,7 @@
 
 import { Injectable, inject } from '@angular/core';
 import { PRIMARY_OUTLET, Router, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
-import { extractSearchedWordFromEncodedQuery } from '../../utils/aca-search-utils';
+import { extractUserQueryFromEncodedQuery } from '../../utils/aca-search-utils';
 
 @Injectable({
   providedIn: 'root'
@@ -73,7 +73,7 @@ export class SearchNavigationService {
 
     if (urlSegmentGroup) {
       const urlSegments: UrlSegment[] = urlSegmentGroup.segments;
-      return extractSearchedWordFromEncodedQuery(urlSegments[0].parameters['q']);
+      return extractUserQueryFromEncodedQuery(urlSegments[0].parameters['q']);
     }
 
     return '';

@@ -41,24 +41,12 @@ export function isOperator(input: string): boolean {
  *
  * @param term search term
  * @param fields array of fields
+ * @param wildcardsEnabled whether wildcards are enabled
  * @returns string
  */
-export function formatSearchTermByFields(term: string, fields: string[]): string {
-  let prefix = '';
-  let suffix = '*';
-
-  if (term.startsWith('=')) {
-    prefix = '=';
-    suffix = '';
-    term = term.substring(1);
-  }
-
-  if (term === '*') {
-    prefix = '';
-    suffix = '';
-  }
-
-  return '(' + fields.map((field) => `${prefix}${field}:"${term}${suffix}"`).join(' OR ') + ')';
+export function formatSearchTermByFields(term: string, fields: string[], wildcardsEnabled = false): string {
+  const suffix = wildcardsEnabled ? '*' : '';
+  return '(' + fields.map((field) => `${field}:"${term}${suffix}"`).join(' OR ') + ')';
 }
 
 /**
@@ -66,15 +54,22 @@ export function formatSearchTermByFields(term: string, fields: string[]): string
  *
  * @param userInput search term
  * @param fields array of fields
+ * @param searchMode regular or formula search mode
+ * @param wildcardsEnabled whether wildcards are enabled
  * @returns string
  */
-export function formatSearchTerm(userInput: string, fields = ['cm:name']): string {
+export function formatSearchTerm(
+  userInput: string,
+  fields = ['cm:name'],
+  searchMode: 'regular' | 'formula' = 'regular',
+  wildcardsEnabled = false
+): string {
   if (!userInput) {
     return '';
   }
   userInput = userInput.trim();
 
-  if (userInput.includes(':') || userInput.includes('"')) {
+  if (searchMode === 'formula') {
     return userInput;
   }
 
@@ -82,10 +77,10 @@ export function formatSearchTerm(userInput: string, fields = ['cm:name']): strin
 
   if (words.length > 1) {
     const separator = words.some(isOperator) ? ' ' : ' AND ';
-    return words.map((term) => (isOperator(term) ? term : formatSearchTermByFields(term, fields))).join(separator);
+    return '(' + words.map((term) => (isOperator(term) ? term : formatSearchTermByFields(term, fields, wildcardsEnabled))).join(separator) + ')';
   }
 
-  return formatSearchTermByFields(userInput, fields);
+  return '(' + formatSearchTermByFields(userInput, fields, wildcardsEnabled) + ')';
 }
 
 /**
@@ -97,66 +92,21 @@ export function formatSearchTerm(userInput: string, fields = ['cm:name']): strin
 export function extractUserQueryFromEncodedQuery(encodedQuery: string): string {
   if (encodedQuery) {
     const decodedQuery: { [key: string]: any } = JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(encodedQuery), (c) => c.charCodeAt(0))));
-    return trimUserQuery(decodedQuery.userQuery);
+    return decodedQuery.userQuery ?? '';
   }
   return '';
 }
 
 /**
- * Extracts user query from encoded query and splits it to get a search term
+ * Decodes a query and extracts parsed query
  *
  * @param encodedQuery encoded query
  * @returns string
  */
-export function extractSearchedWordFromEncodedQuery(encodedQuery: string): string {
-  if (!encodedQuery) {
-    return '';
-  }
-
-  const userQuery = extractUserQueryFromEncodedQuery(encodedQuery);
-  if (!userQuery) {
-    return '';
-  }
-
-  const tokenRegex = /\(([^()]+)\)|\b(AND|OR)\b/g;
-  const fragments: string[] = [];
-  let match: RegExpExecArray | null;
-
-  while ((match = tokenRegex.exec(userQuery))) {
-    if (match[1]) {
-      fragments.push(extractWordFromQuery(match[1]));
-    } else if (match[2] === 'OR') {
-      fragments.push('OR');
-    }
-  }
-
-  if (fragments.length === 0) {
-    return userQuery
-      .split(/\bAND\b|\bOR\b/)
-      .map((part) => extractWordFromQuery(part))
-      .filter(Boolean)
-      .join(' ')
-      .trim();
-  }
-
-  return fragments.join(' ').trim();
-}
-
-/**
- * Extracts the searched word from a part of search query
- *
- * @param queryPart encoded query
- * @returns searched word
- */
-function extractWordFromQuery(queryPart: string): string {
-  const regex = /:"([^"]+)"/;
-  const quoted = regex.exec(queryPart);
-  if (quoted) {
-    return quoted[1].replace(/\*$/, '');
-  }
-  const trimmedPart = queryPart.trim();
-  if (trimmedPart && !isOperator(trimmedPart)) {
-    return trimmedPart;
+export function extractParsedQueryFromEncodedQuery(encodedQuery: string): string {
+  if (encodedQuery) {
+    const decodedQuery: { [key: string]: any } = JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(encodedQuery), (c) => c.charCodeAt(0))));
+    return decodedQuery.parsedQuery ?? '';
   }
   return '';
 }
@@ -173,15 +123,4 @@ export function extractFiltersFromEncodedQuery(encodedQuery: string): any {
     return JSON.parse(decodedQuery);
   }
   return null;
-}
-
-/**
- * Trims one set of parentheses from parsed user query.
- *
- * @param userQuery user query parsed from encoded query
- * @returns string
- */
-function trimUserQuery(userQuery: string): string {
-  const trimmedQuery = userQuery?.replace(/^\(/, '');
-  return trimmedQuery?.replace(/\)$/, '') ?? '';
 }

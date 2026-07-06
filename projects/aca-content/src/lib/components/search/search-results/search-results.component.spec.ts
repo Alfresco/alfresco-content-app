@@ -61,7 +61,6 @@ describe('SearchComponent', () => {
   let showErrorSpy: jasmine.Spy<(message: string, action?: string, interpolateArgs?: any, showAction?: boolean) => MatSnackBarRef<any>>;
   let showInfoSpy: jasmine.Spy<(message: string, action?: string, interpolateArgs?: any, showAction?: boolean) => MatSnackBarRef<any>>;
   let loader: HarnessLoader;
-  let updatedSubjectMock: Subject<SearchRequest>;
 
   const editSavedSearchesSpy = jasmine.createSpy('editSavedSearch');
   const getSavedSearchButton = (): HTMLButtonElement => fixture.nativeElement.querySelector('.aca-content__save-search-action');
@@ -76,7 +75,6 @@ describe('SearchComponent', () => {
     params = new BehaviorSubject({ q: 'TYPE: "cm:folder" AND %28=cm: name: email OR cm: name: budget%29' });
     queryParams = new Subject();
     routerEvents = new Subject();
-    updatedSubjectMock = new Subject();
 
     const routerMock = jasmine.createSpyObj<Router>('Router', ['navigate'], {
       url: '/mock-search-url',
@@ -128,8 +126,6 @@ describe('SearchComponent', () => {
     router = TestBed.inject(Router);
     route = TestBed.inject(ActivatedRoute);
 
-    queryBuilder.updated = updatedSubjectMock;
-
     const notificationService = TestBed.inject(NotificationService);
     showErrorSpy = spyOn(notificationService, 'showError');
     showInfoSpy = spyOn(notificationService, 'showInfo');
@@ -140,8 +136,6 @@ describe('SearchComponent', () => {
 
     fixture = TestBed.createComponent(SearchResultsComponent);
     component = fixture.componentInstance;
-
-    spyOn(queryBuilder, 'update').and.stub();
 
     fixture.detectChanges();
     loader = TestbedHarnessEnvironment.loader(fixture);
@@ -232,6 +226,7 @@ describe('SearchComponent', () => {
   });
 
   it('should re-run search on pagination change', () => {
+    const executeSpy = spyOn(queryBuilder, 'execute');
     const page = new Pagination({
       maxItems: 10,
       skipCount: 0
@@ -243,21 +238,56 @@ describe('SearchComponent', () => {
       maxItems: 10,
       skipCount: 0
     });
-    expect(queryBuilder.update).toHaveBeenCalled();
+    expect(executeSpy).toHaveBeenCalledWith(false);
+  });
+
+  it('should re-run search on sorting change', () => {
+    const executeSpy = spyOn(queryBuilder, 'execute');
+
+    component.onSearchSortingUpdate({ key: 'name', ascending: false } as any);
+
+    expect(queryBuilder.sorting).toEqual([jasmine.objectContaining({ key: 'name', ascending: false })]);
+    expect(executeSpy).toHaveBeenCalledWith(false);
   });
 
   it('should update the user query, populate filters state and execute query whenever param changed', (done) => {
     spyOn(queryBuilder.populateFilters, 'next');
     spyOn(queryBuilder, 'execute');
-    const query = { userQuery: 'cm:tag:"orange*"', filterProp: { prop: 'test' } };
+    const query = { userQuery: 'orange', filterProp: { prop: 'test' } };
     route.queryParams = of({ q: encodeQuery(query) });
     component.ngOnInit();
     route.queryParams.subscribe(() => {
       expect(component.searchedWord).toBe(`orange`);
-      expect(queryBuilder.userQuery).toBe(`(cm:tag:"orange*")`);
-      expect(queryBuilder.populateFilters.next).toHaveBeenCalledWith({ userQuery: 'cm:tag:"orange*"', filterProp: { prop: 'test' } });
+      expect(queryBuilder.userQuery).toBe(`orange`);
+      expect(queryBuilder.populateFilters.next).toHaveBeenCalledWith({ userQuery: 'orange', filterProp: { prop: 'test' } });
       queryBuilder.filterLoaded.next();
       fixture.detectChanges();
+      done();
+    });
+  });
+
+  it('should apply search mode and selected configuration from the encoded query', (done) => {
+    spyOn(queryBuilder, 'updateSelectedConfiguration');
+    spyOn(queryBuilder, 'execute');
+    const query = { userQuery: 'orange', searchMode: 'formula', selectedConfigurationId: 'config-1' };
+    route.queryParams = of({ q: encodeQuery(query) });
+    component.ngOnInit();
+    route.queryParams.subscribe(() => {
+      expect(queryBuilder.searchMode).toBe('formula');
+      expect(queryBuilder.updateSelectedConfiguration).toHaveBeenCalledWith('config-1', false, false);
+      queryBuilder.filterLoaded.next();
+      done();
+    });
+  });
+
+  it('should default search mode to regular when not present in the encoded query', (done) => {
+    spyOn(queryBuilder, 'execute');
+    const query = { userQuery: 'orange' };
+    route.queryParams = of({ q: encodeQuery(query) });
+    component.ngOnInit();
+    route.queryParams.subscribe(() => {
+      expect(queryBuilder.searchMode).toBe('regular');
+      queryBuilder.filterLoaded.next();
       done();
     });
   });
@@ -370,30 +400,18 @@ describe('SearchComponent', () => {
     expect(executeSpy).toHaveBeenCalledTimes(1);
   }));
 
-  it('should format userQuery when url parameters changed and userQuery is not contained by url', () => {
-    routerEvents.next(new NavigationStart(1, ''));
-    queryParams.next({ q: encodeQuery('') });
-    expect(queryBuilder.userQuery).toBe('((cm:name:"*"))');
-  });
-
-  it('should not format userQuery when url parameters changed when userQuery is already contained by url', () => {
+  it('should set the raw userQuery from the encoded query when url parameters change', () => {
     routerEvents.next(new NavigationStart(1, ''));
     queryParams.next({ q: encodeQuery({ userQuery: 'test' }) });
-    expect(queryBuilder.userQuery).toBe('(test)');
+    expect(queryBuilder.userQuery).toBe('test');
   });
 
-  it('should set loading to true in updated stream for non-nullish query', fakeAsync(() => {
+  it('should set loading to true when filterQueryUpdate emits', fakeAsync(() => {
     spyOn(queryBuilder, 'execute').and.stub();
 
     expect(component.isLoading).toBeFalse();
 
-    updatedSubjectMock.next(null);
-
-    tick();
-
-    expect(component.isLoading).toBeFalse();
-
-    updatedSubjectMock.next({} as SearchRequest);
+    queryBuilder.filterQueryUpdate.next();
 
     tick();
 

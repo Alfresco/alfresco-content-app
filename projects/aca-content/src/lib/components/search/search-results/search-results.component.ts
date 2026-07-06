@@ -30,7 +30,6 @@ import {
   DocumentListComponent,
   ResetSearchDirective,
   SavedSearch,
-  SearchConfiguration,
   SearchFilterChipsComponent,
   SearchFormComponent,
   SearchSortingDefinition,
@@ -77,12 +76,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
 import { BulkActionsDropdownComponent } from '../../bulk-actions-dropdown/bulk-actions-dropdown.component';
 import { SearchAiInputContainerComponent } from '../../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
-import {
-  extractFiltersFromEncodedQuery,
-  extractSearchedWordFromEncodedQuery,
-  extractUserQueryFromEncodedQuery,
-  formatSearchTerm
-} from '../../../utils/aca-search-utils';
+import { extractFiltersFromEncodedQuery, extractUserQueryFromEncodedQuery } from '../../../utils/aca-search-utils';
 import { SaveSearchDirective } from '../search-save/directive/save-search.directive';
 import { combineLatest, Observable, of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -137,7 +131,6 @@ export class SearchResultsComponent extends PageComponent implements OnInit, OnD
   private readonly route = inject(ActivatedRoute);
   private readonly translationService = inject(TranslationService);
   private readonly savedSearchesService = inject(SavedSearchesContextService);
-
   private readonly notificationService = inject(NotificationService);
 
   infoDrawerPreview$ = this.store.select(infoDrawerPreview);
@@ -154,7 +147,6 @@ export class SearchResultsComponent extends PageComponent implements OnInit, OnD
   initialSavedSearch: SavedSearch = undefined;
   columns: DocumentListPresetRef[] = [];
   encodedQuery: string;
-  searchConfig: SearchConfiguration;
   isSmallScreen = window.innerWidth < 320;
 
   private previousEncodedQuery: string;
@@ -175,10 +167,6 @@ export class SearchResultsComponent extends PageComponent implements OnInit, OnD
       maxItems: 25
     };
 
-    this.queryBuilder.configUpdated.pipe(takeUntilDestroyed()).subscribe((searchConfig) => {
-      this.searchConfig = searchConfig;
-    });
-
     this.areFiltersActive$ = combineLatest([this.queryBuilder.queryFragmentsUpdate, this.queryBuilder.userFacetBucketsUpdate]).pipe(
       takeUntilDestroyed(),
       map((filters) => {
@@ -197,12 +185,6 @@ export class SearchResultsComponent extends PageComponent implements OnInit, OnD
     this.sorting = this.getSorting();
 
     this.subscriptions.push(
-      this.queryBuilder.updated.pipe(filter(Boolean)).subscribe(() => {
-        this.isLoading = true;
-        this.sorting = this.getSorting();
-        this.changeDetectorRef.detectChanges();
-      }),
-
       this.queryBuilder.executed.subscribe((data) => {
         this.queryBuilder.paging.skipCount = 0;
 
@@ -237,13 +219,16 @@ export class SearchResultsComponent extends PageComponent implements OnInit, OnD
         .pipe(
           takeUntilDestroyed(this.destroyRef),
           tap(([params]) => {
-            this.queryBuilder.userQuery = '';
             this.encodedQuery = params[this.queryParamName];
             this.isLoading = !!this.encodedQuery;
 
-            this.searchedWord = extractSearchedWordFromEncodedQuery(this.encodedQuery);
+            this.searchedWord = extractUserQueryFromEncodedQuery(this.encodedQuery);
 
             const filtersFromEncodedQuery = extractFiltersFromEncodedQuery(this.encodedQuery);
+            this.queryBuilder.searchMode = filtersFromEncodedQuery?.['searchMode'] ?? 'regular';
+            if (filtersFromEncodedQuery?.['selectedConfigurationId']) {
+              this.queryBuilder.updateSelectedConfiguration(filtersFromEncodedQuery['selectedConfigurationId'], false, false);
+            }
             this.queryBuilder.populateFilters.next(filtersFromEncodedQuery || {});
           }),
           switchMap(([, navigationStartEvent]) => {
@@ -257,9 +242,6 @@ export class SearchResultsComponent extends PageComponent implements OnInit, OnD
         .subscribe((navigationStartEvent) => {
           const shouldExecuteQuery = this.shouldExecuteQuery(navigationStartEvent, this.encodedQuery);
           this.queryBuilder.userQuery = extractUserQueryFromEncodedQuery(this.encodedQuery);
-          if (!this.searchedWord && !this.queryBuilder.userQuery && this.encodedQuery) {
-            this.queryBuilder.userQuery = formatSearchTerm('*', this.searchConfig['app:fields']);
-          }
 
           if (shouldExecuteQuery) {
             this.queryBuilder.execute(false);
@@ -311,7 +293,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit, OnD
       maxItems: pagination.maxItems,
       skipCount: pagination.skipCount
     };
-    this.queryBuilder.update();
+    this.queryBuilder.execute(false);
   }
 
   private getSorting(): string[] {
@@ -350,7 +332,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit, OnD
 
   onSearchSortingUpdate(option: SearchSortingDefinition) {
     this.queryBuilder.sorting = [{ ...option, ascending: option.ascending }];
-    this.queryBuilder.update();
+    this.queryBuilder.execute(false);
   }
 
   editSavedSearch(searchToSave: SavedSearch) {
@@ -381,9 +363,15 @@ export class SearchResultsComponent extends PageComponent implements OnInit, OnD
     const hasQueryChanged = query !== this.previousEncodedQuery;
     this.previousEncodedQuery = query;
 
-    if (!navigationStartEvent || navigationStartEvent.navigationTrigger === 'popstate' || navigationStartEvent.navigationTrigger === 'hashchange') {
+    if (!navigationStartEvent && this.data === undefined) {
       return true;
-    } else if (navigationStartEvent.navigationTrigger === 'imperative') {
+    } else if (query === this.queryBuilder.encodedQuery) {
+      return false;
+    } else if (
+      navigationStartEvent?.navigationTrigger === 'popstate' ||
+      navigationStartEvent?.navigationTrigger === 'hashchange' ||
+      navigationStartEvent?.navigationTrigger === 'imperative'
+    ) {
       return hasQueryChanged;
     } else {
       return !!query;

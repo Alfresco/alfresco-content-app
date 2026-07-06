@@ -28,7 +28,6 @@ import { map } from 'rxjs/operators';
 import { SearchAction, SearchActionTypes, SearchByTermAction, SearchOptionIds } from '@alfresco/aca-shared/store';
 import { SearchNavigationService } from '../../components/search/search-navigation.service';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
-import { formatSearchTerm } from '../../utils/aca-search-utils';
 
 @Injectable()
 export class SearchEffects {
@@ -52,10 +51,9 @@ export class SearchEffects {
       this.actions$.pipe(
         ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
         map((action) => {
-          const query = formatSearchTerm(action.payload, this.queryBuilder.config['app:fields']);
           const libItem = action.searchOptions.find((item) => item.id === SearchOptionIds.Libraries);
           const librarySelected = !!libItem && libItem.value;
-          this.queryBuilder.navigateToSearch(query, librarySelected ? '/search-libraries' : '/search');
+          this.queryBuilder.navigateToSearch(action.payload, librarySelected ? '/search-libraries' : '/search');
         })
       ),
     { dispatch: false }

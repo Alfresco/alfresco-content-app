@@ -81,8 +81,10 @@ describe('SearchFilterService', () => {
       expect(service.validateSearchTerm('   ')).toBe('SEARCH.INPUT.WHITESPACE');
     });
 
-    it('should return error for term starting with operator', () => {
-      expect(service.validateSearchTerm('+test')).toBe('SEARCH.INPUT.OPERATORS');
+    it('should not return an operator error for terms containing special characters', () => {
+      expect(service.validateSearchTerm('+test')).toBeNull();
+      expect(service.validateSearchTerm('AND test')).toBeNull();
+      expect(service.validateSearchTerm('test*')).toBeNull();
     });
 
     it('should return error for single char in libraries mode', () => {
