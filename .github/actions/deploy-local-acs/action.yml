@@ -15,7 +15,13 @@ inputs:
     description: 'Quay password'
     required: true
   acs_deployment_version:
-    description: 'ACS deployment version (defaults to latest)'
+    description: >-
+      Git ref (tag, branch, or commit SHA) of the Alfresco/acs-deployment
+      repository to check out. Use the special value 'latest' (the default)
+      to resolve to the latest GA release tag at runtime.
+      When set to 'master', pre-release_values.yaml is included in the Helm
+      install to pick up pre-release image tags; any other ref uses the
+      chart's standard values.yaml instead.
     required: false
     default: 'latest'
 
@@ -64,50 +70,49 @@ runs:
         helm repo add self https://alfresco.github.io/alfresco-helm-charts/
         helm repo add elastic https://helm.elastic.co/
 
-    - name: Get latest ACS deployment version
+    - name: Resolve acs-deployment ref
       id: get-acs-version
       shell: bash
       env:
         ACS_VERSION_INPUT: ${{ inputs.acs_deployment_version }}
         GITHUB_TOKEN: ${{ github.token }}
       run: |
-        if [ "$ACS_VERSION_INPUT" = "latest" ]; then
-          max_retries=3
-          retry_count=0
-          latest_tag=""
-
-          while [ $retry_count -lt $max_retries ]; do
-            echo "Attempt $((retry_count + 1)) of $max_retries to fetch latest ACS deployment version..."
-            if [ -n "$GITHUB_TOKEN" ]; then
-              response=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/repos/Alfresco/acs-deployment/releases/latest)
-            else
-              response=$(curl -s https://api.github.com/repos/Alfresco/acs-deployment/releases/latest)
-            fi
-
-            latest_tag=$(echo "$response" | jq -r .tag_name 2>/dev/null || echo "")
-            if [ "$latest_tag" != "null" ] && [ -n "$latest_tag" ]; then
-              echo "Successfully fetched latest ACS deployment version: $latest_tag"
-              echo "version=$latest_tag" >> $GITHUB_OUTPUT
-              exit 0
-            fi
-
-            echo "Warning: Received invalid response (tag_name: $latest_tag)"
-            retry_count=$((retry_count + 1))
-
-            if [ $retry_count -lt $max_retries ]; then
-              sleep_time=$((2 ** retry_count))
-              echo "Retrying in $sleep_time seconds..."
-              sleep $sleep_time
-            fi
-          done
-          
-          echo "Error: Failed to fetch latest ACS deployment version after $max_retries attempts"
-          echo "Last response: $response"
-          exit 1
-        else
-          echo "Using specified ACS deployment version: $ACS_VERSION_INPUT"
-          echo "version=$ACS_VERSION_INPUT" >> $GITHUB_OUTPUT
+        if [ "$ACS_VERSION_INPUT" != "latest" ]; then
+          echo "Using specified acs-deployment ref: $ACS_VERSION_INPUT"
+          echo "version=$ACS_VERSION_INPUT" >> "$GITHUB_OUTPUT"
+          exit 0
         fi
+
+        auth_header=()
+        [ -n "$GITHUB_TOKEN" ] && auth_header=(-H "Authorization: Bearer $GITHUB_TOKEN")
+
+        max_retries=3
+        retry_count=0
+
+        while [ $retry_count -lt $max_retries ]; do
+          echo "Attempt $((retry_count + 1)) of $max_retries to fetch latest ACS deployment version..."
+          response=$(curl -s "${auth_header[@]}" https://api.github.com/repos/Alfresco/acs-deployment/releases/latest)
+
+          latest_tag=$(echo "$response" | jq -r .tag_name 2>/dev/null || echo "")
+          if [ "$latest_tag" != "null" ] && [ -n "$latest_tag" ]; then
+            echo "Successfully fetched latest ACS deployment version: $latest_tag"
+            echo "version=$latest_tag" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "Warning: Received invalid response (tag_name: $latest_tag)"
+          retry_count=$((retry_count + 1))
+
+          if [ $retry_count -lt $max_retries ]; then
+            sleep_time=$((2 ** retry_count))
+            echo "Retrying in $sleep_time seconds..."
+            sleep $sleep_time
+          fi
+        done
+
+        echo "Error: Failed to fetch latest ACS deployment version after $max_retries attempts"
+        echo "Last response: $response"
+        exit 1
 
     - name: Checkout acs-deployment ${{ steps.get-acs-version.outputs.version }}
       uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
@@ -118,12 +123,69 @@ runs:
 
     - name: Helm install
       shell: bash
-      run: >-
-        helm dep build acs-deployment/helm/alfresco-content-services &&
-        helm install acs acs-deployment/helm/alfresco-content-services
-        --set global.search.sharedSecret="$(openssl rand -hex 24)"
-        --values acs-deployment/test/enterprise-integration-test-values.yaml
-        --values .github/acs-deployment-values-override.yaml
+      env:
+        ACS_VERSION_INPUT: ${{ inputs.acs_deployment_version }}
+      run: |
+        [ "$ACS_VERSION_INPUT" = "master" ] && chart_values="pre-release_values.yaml" || chart_values="values.yaml"
+        helm dep build acs-deployment/helm/alfresco-content-services
+        helm install acs acs-deployment/helm/alfresco-content-services \
+          --set global.search.sharedSecret="$(openssl rand -hex 24)" \
+          --values "acs-deployment/helm/alfresco-content-services/${chart_values}" \
+          --values acs-deployment/test/enterprise-integration-test-values.yaml \
+          --values .github/acs-deployment-values-override.yaml
 
     - name: Wait for pods to be ready
       uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-wait@v18.13.0
+
+    - name: Report deployed ACS versions
+      if: always()
+      shell: bash
+      env:
+        ACS_DEPLOYMENT_VERSION: ${{ steps.get-acs-version.outputs.version }}
+      run: |
+        pre_release_values="acs-deployment/helm/alfresco-content-services/pre-release_values.yaml"
+        pod_images=$(kubectl get pods -A \
+          -o jsonpath='{range .items[*]}{.metadata.namespace}{"/"}{.metadata.name}{"\t"}{range .spec.containers[*]}{.name}{"="}{.image}{"\n"}{end}{end}' \
+          2>/dev/null | sort -u || true)
+        cluster_images=$(echo "${pod_images}" | awk -F'\t' 'NF > 1 { sub(/^[^=]*=/, "", $NF); print $NF }' | sort -u)
+        acs_repository_image=$(echo "${cluster_images}" | grep -m1 'alfresco-content-repository:' || echo "(alfresco-content-repository pod not found)")
+        acs_repository_tag="${acs_repository_image##*:}"
+        # ACS_DEPLOYMENT_VERSION is a git ref (branch, tag, or SHA) — resolve it to the
+        # exact commit SHA that was checked out so past runs can be reproduced even
+        # when moving refs like `master` have advanced.
+        acs_deployment_commit=$(git -C acs-deployment rev-parse HEAD 2>/dev/null || echo "(unknown)")
+
+        {
+          echo "### 🐳 Deployed ACS versions"
+          echo "- **ACS repository:** \`${acs_repository_tag}\`"
+          echo "- **acs-deployment ref:** \`${ACS_DEPLOYMENT_VERSION}\`"
+          echo "- **acs-deployment commit:** \`${acs_deployment_commit}\`"
+          echo "**Container images in cluster:**"
+          echo "${cluster_images:-(no pods found)}"
+        } >> "$GITHUB_STEP_SUMMARY"
+
+        echo "::group::ACS repository image tag"
+        echo "${acs_repository_image}"
+        echo "::endgroup::"
+
+        echo "::group::acs-deployment ref"
+        echo "${ACS_DEPLOYMENT_VERSION}"
+        echo "::endgroup::"
+
+        echo "::group::acs-deployment commit"
+        echo "${acs_deployment_commit}"
+        echo "::endgroup::"
+
+        values_path="acs-deployment/helm/alfresco-content-services/values.yaml"
+        [ "$ACS_DEPLOYMENT_VERSION" = "master" ] && values_path="$pre_release_values"
+        echo "::group::Chart values file used ($(basename "$values_path"))"
+        if [ -f "$values_path" ]; then
+          cat "$values_path"
+        else
+          echo "(file not found: $values_path)"
+        fi
+        echo "::endgroup::"
+
+        echo "::group::Actual container images running in the cluster"
+        echo "${pod_images:-(no pods found)}"
+        echo "::endgroup::"
