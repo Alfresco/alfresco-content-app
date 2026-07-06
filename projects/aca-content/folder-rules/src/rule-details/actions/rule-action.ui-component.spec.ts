@@ -187,7 +187,8 @@ describe('RuleActionUiComponent', () => {
       title: 'ACA_FOLDER_RULES.RULE_DETAILS.PLACEHOLDER.CHOOSE_FOLDER',
       actionName: NodeAction.CHOOSE,
       currentFolderId: component.nodeId,
-      select: jasmine.any(Subject)
+      select: jasmine.any(Subject),
+      showFilesInResult: false
     };
     const dialogSpy = spyOn(dialog, 'open').and.returnValue({ afterClosed: () => of({}) } as MatDialogRef<any>);
     fixture.detectChanges();
@@ -361,7 +362,8 @@ describe('RuleActionUiComponent', () => {
           title: 'ACA_FOLDER_RULES.RULE_DETAILS.PLACEHOLDER.CHOOSE_FOLDER',
           actionName: NodeAction.CHOOSE,
           currentFolderId: 'test-folder-id',
-          select: jasmine.any(Subject)
+          select: jasmine.any(Subject),
+          showFilesInResult: false
         },
         panelClass: 'adf-content-node-selector-dialog',
         width: '630px'
