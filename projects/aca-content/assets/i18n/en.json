@@ -331,6 +331,12 @@
                 "YES_LABEL": "Delete",
                 "NO_LABEL": "Keep"
             },
+            "CONFIRM_DELETE_LINK": {
+                "TITLE": "Delete link?",
+                "MESSAGE": "Links are permanently deleted and can't be restored from the trash.",
+                "YES_LABEL": "Delete",
+                "NO_LABEL": "Cancel"
+            },
             "CONFIRM_LEAVE": {
                 "TITLE": "Leave this library?",
                 "MESSAGE": "Leaving will remove your access.",
@@ -678,7 +684,8 @@
                 "TYPE": {
                     "TITLE": "Check type",
                     "FOLDER": "Folder",
-                    "DOCUMENT": "Document"
+                    "DOCUMENT": "Document",
+                    "LINK": "Link"
                 },
                 "SIZE": {
                     "TITLE": "Content Size (range)",

@@ -185,6 +185,10 @@
               {
                 "name": "SEARCH.SEARCH_HEADER.FILTERS.TYPE.DOCUMENT",
                 "value": "TYPE:'cm:content'"
+              },
+              {
+                "name": "SEARCH.SEARCH_HEADER.FILTERS.TYPE.LINK",
+                "value": "TYPE:'cm:link'"
               }
             ]
           }
