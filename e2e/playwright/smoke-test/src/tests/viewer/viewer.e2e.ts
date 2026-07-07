@@ -62,10 +62,8 @@ test.describe('viewer file', () => {
     const fileActionApi = await FileActionsApi.initialize(usernameViewer, usernameViewer);
     trashcanApi = await TrashcanApi.initialize(usernameViewer, usernameViewer);
     siteActionsAdmin = await SitesApi.initialize('admin');
-    const node = await nodesApi.createFolder(randomFolderName);
-    folderId = node.entry.id;
-    const fileDoc = await fileActionApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
-    fileDocxId = fileDoc.entry.id;
+    folderId = (await nodesApi.createFolder(randomFolderName)).entry.id;
+    fileDocxId = (await fileActionApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId)).entry.id;
 
     try {
       await siteActionsAdmin.createSite(siteAdmin, Site.VisibilityEnum.PRIVATE);
@@ -74,8 +72,6 @@ test.describe('viewer file', () => {
         throw new Error(`----- beforeAll failed : ${exception}`);
       }
     }
-
-    await siteActionsAdmin.getDocLibId(siteAdmin);
 
     await fileActionApi.waitForNodes(randomDocxName, { expect: 1 });
   });

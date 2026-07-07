@@ -120,7 +120,7 @@ export class DownloadEffects {
   private downloadFileVersion(node: NodeInfo, version: Version) {
     if (node && version) {
       this.contentUrlService.getVersionContentUrl(node.id, version.id, true).subscribe((contentUrl) => {
-        this.download(contentUrl, version.name ?? node.name);
+        this.download(contentUrl, node.name);
       });
     }
   }
@@ -143,44 +143,16 @@ export class DownloadEffects {
   }
 
   private download(url: string, fileName: string) {
-    if (!url || !fileName) {
-      return;
-    }
-    if (this.isSameOrigin(url)) {
-      this.downloadThroughBlob(url, fileName);
-    } else {
-      this.triggerDownload(url, fileName);
-    }
-  }
+    if (url && fileName) {
+      const link = document.createElement('a');
 
-  private downloadThroughBlob(url: string, fileName: string) {
-    fetch(url)
-      .then((response) => response.blob())
-      .then((blob) => {
-        const blobUrl = window.URL.createObjectURL(blob);
-        this.triggerDownload(blobUrl, fileName);
-        setTimeout(() => window.URL.revokeObjectURL(blobUrl), 0);
-      })
-      .catch(() => this.triggerDownload(url, fileName));
-  }
+      link.style.display = 'none';
+      link.download = fileName;
+      link.href = url;
 
-  private triggerDownload(url: string, fileName: string) {
-    const link = document.createElement('a');
-
-    link.style.display = 'none';
-    link.download = fileName;
-    link.href = url;
-
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
-
-  private isSameOrigin(url: string): boolean {
-    try {
-      return new URL(url, window.location.href).origin === window.location.origin;
-    } catch {
-      return false;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
   }
 

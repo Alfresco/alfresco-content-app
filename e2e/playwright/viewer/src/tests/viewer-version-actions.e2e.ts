@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { expect } from '@playwright/test';
+import { expect, Download } from '@playwright/test';
 import {
   ApiClientFactory,
   Utils,
@@ -64,12 +64,12 @@ test.describe('Version actions', () => {
     await page.matMenu.clickMenuItem('View');
   }
 
-  async function waitForViewerDocumentToRender(page: PageWithViewer) {
+  async function waitForViewerDocumentToRender(page: PageWithViewer): Promise<void> {
     await page.viewer.waitForViewerToOpen();
     await page.viewer.waitForViewerContentToRender('document');
   }
 
-  async function downloadFromViewer(page: PageWithViewer) {
+  async function downloadFromViewer(page: PageWithViewer): Promise<Download> {
     const downloadPromise = page.page.waitForEvent('download');
     await page.viewer.downloadButton.click();
     return downloadPromise;

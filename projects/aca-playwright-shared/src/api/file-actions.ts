@@ -64,7 +64,7 @@ export class FileActionsApi {
       logger.info(`File uploaded successfully: ${fileName}`);
       return result;
     } catch (error) {
-      logger.error(`Failed to upload file: ${fileName}: ${error}`);
+      logger.error(`Failed to upload file: ${fileName}: ${JSON.stringify(error)}`);
       return Promise.reject(error);
     }
   }
