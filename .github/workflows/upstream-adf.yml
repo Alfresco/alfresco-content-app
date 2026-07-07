@@ -34,6 +34,7 @@ jobs:
           private-key: ${{ secrets.GH_APP_ENGINEERING_CONTRIB_PRIVATE_KEY }}
           permission-contents: read
           permission-packages: read
+          permission-pull-requests: read
       - id: fetchLatestPkg
         name: Fetch the latest package version
         uses: actions/github-script@v9
