@@ -118,7 +118,7 @@ test.describe('viewer zoom functionality and reset', () => {
   });
 
   test.afterAll(async () => {
-    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActionsUser, [docLibId]);
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActionsUser, [randomLibraryName]);
   });
 
   async function validateZoomScaleInViewer(

@@ -25,7 +25,7 @@
 import { ApiClientFactory, test, Utils, NodesApi, TrashcanApi, RulesApi } from '@alfresco/aca-playwright-shared';
 import { expect } from '@playwright/test';
 
-test.use({ launchOptions: { slowMo: 300 } });
+test.use({ launchOptions: { slowMo: 500 } });
 
 test.describe('Rules - Manage Rules', () => {
   const apiClientFactory = new ApiClientFactory();

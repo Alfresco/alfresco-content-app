@@ -64,7 +64,7 @@ export class FileActionsApi {
       logger.info(`File uploaded successfully: ${fileName}`);
       return result;
     } catch (error) {
-      logger.error(`Failed to upload file: ${fileName}: ${error}`);
+      logger.error(`Failed to upload file: ${fileName}: ${JSON.stringify(error)}`);
       return Promise.reject(error);
     }
   }
@@ -170,17 +170,11 @@ export class FileActionsApi {
   }
 
   async waitForNodes(searchTerm: string, data: { expect: number }): Promise<void> {
-    logger.info(`waitForNodes: Waiting for ${data.expect} node(s) matching "${searchTerm}"`);
     const predicate = (totalItems: number) => totalItems === data.expect;
-    let pollCount = 0;
 
     const apiCall = async () => {
       try {
-        const totalItems = (await this.queryNodesNames(searchTerm)).list?.pagination?.totalItems || 0;
-        if (pollCount++ % 4 === 0) {
-          logger.info(`waitForNodes: "${searchTerm}" — found ${totalItems}, expecting ${data.expect}`);
-        }
-        return totalItems;
+        return (await this.queryNodesNames(searchTerm)).list?.pagination?.totalItems || 0;
       } catch {
         return 0;
       }
@@ -188,6 +182,7 @@ export class FileActionsApi {
 
     try {
       await waitForApi(apiCall, predicate, 30, 2500);
+      logger.info(`waitForNodes: Found ${data.expect} node(s) matching "${searchTerm}"`);
     } catch {
       const actual = await apiCall();
       const message = `waitForNodes: Timed out waiting for "${searchTerm}" — expected ${data.expect} nodes, found ${actual}`;

@@ -40,7 +40,6 @@ test.describe('viewer file', () => {
   const usernameViewer = `user-${Utils.random()}`;
   const randomDocxName = `${TEST_FILES.DOCX.name}-${Utils.random()}`;
   const siteAdmin = `siteAdmin-${Utils.random()}`;
-  let docLibId: string;
   let folderId: string;
   let fileDocxId: string;
   let nodesApi: NodesApi;
@@ -63,10 +62,8 @@ test.describe('viewer file', () => {
     const fileActionApi = await FileActionsApi.initialize(usernameViewer, usernameViewer);
     trashcanApi = await TrashcanApi.initialize(usernameViewer, usernameViewer);
     siteActionsAdmin = await SitesApi.initialize('admin');
-    const node = await nodesApi.createFolder(randomFolderName);
-    folderId = node.entry.id;
-    const fileDoc = await fileActionApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
-    fileDocxId = fileDoc.entry.id;
+    folderId = (await nodesApi.createFolder(randomFolderName)).entry.id;
+    fileDocxId = (await fileActionApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId)).entry.id;
 
     try {
       await siteActionsAdmin.createSite(siteAdmin, Site.VisibilityEnum.PRIVATE);
@@ -75,8 +72,6 @@ test.describe('viewer file', () => {
         throw new Error(`----- beforeAll failed : ${exception}`);
       }
     }
-
-    docLibId = await siteActionsAdmin.getDocLibId(siteAdmin);
 
     await fileActionApi.waitForNodes(randomDocxName, { expect: 1 });
   });
@@ -88,7 +83,7 @@ test.describe('viewer file', () => {
 
   test.afterAll(async () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
-    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActionsAdmin, [docLibId]);
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActionsAdmin, [siteAdmin]);
   });
 
   test('[XAT-17736] Open viewer with click action', async ({ personalFiles }) => {

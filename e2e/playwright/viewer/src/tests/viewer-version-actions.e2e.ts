@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { expect } from '@playwright/test';
+import { expect, Download } from '@playwright/test';
 import {
   ApiClientFactory,
   Utils,
@@ -54,12 +54,25 @@ test.describe('Version actions', () => {
   let fileId: string;
   let fileAfterUpdateId: string;
 
-  async function viewFirstFileVersion(page: PersonalFilesPage | RecentFilesPage | FavoritesPage | SharedPage | SearchPage) {
+  type PageWithViewer = PersonalFilesPage | RecentFilesPage | FavoritesPage | SharedPage | SearchPage;
+
+  async function viewFirstFileVersion(page: PageWithViewer) {
     await page.dataTable.selectItems(filenameAfterUpdate);
     await page.acaHeader.clickMoreActions();
     await page.matMenu.clickMenuItem('Manage Versions');
     await page.manageVersionsDialog.clickListActionButtonForVersion('1.0');
     await page.matMenu.clickMenuItem('View');
+  }
+
+  async function waitForViewerDocumentToRender(page: PageWithViewer): Promise<void> {
+    await page.viewer.waitForViewerToOpen();
+    await page.viewer.waitForViewerContentToRender('document');
+  }
+
+  async function downloadFromViewer(page: PageWithViewer): Promise<Download> {
+    const downloadPromise = page.page.waitForEvent('download');
+    await page.viewer.downloadButton.click();
+    return downloadPromise;
   }
 
   test.beforeAll(async () => {
@@ -112,7 +125,8 @@ test.describe('Version actions', () => {
     });
 
     test('[XAT-5498] Should be possible to download a previous document version - Personal Files', async ({ personalFiles }) => {
-      const [download] = await Promise.all([personalFiles.page.waitForEvent('download'), await personalFiles.viewer.downloadButton.click()]);
+      await waitForViewerDocumentToRender(personalFiles);
+      const download = await downloadFromViewer(personalFiles);
       expect(download.suggestedFilename()).toContain(filenameBeforeUpdate);
     });
 
@@ -153,7 +167,8 @@ test.describe('Version actions', () => {
     });
 
     test('[XAT-5501] Should be possible to download a previous document version - Recent Files', async ({ recentFilesPage }) => {
-      const [download] = await Promise.all([recentFilesPage.page.waitForEvent('download'), await recentFilesPage.viewer.downloadButton.click()]);
+      await waitForViewerDocumentToRender(recentFilesPage);
+      const download = await downloadFromViewer(recentFilesPage);
       expect(download.suggestedFilename()).toBe(filenameBeforeUpdate);
     });
   });
@@ -178,7 +193,8 @@ test.describe('Version actions', () => {
     });
 
     test('[XAT-5504] Should be possible to download a previous document version - Favorites', async ({ favoritePage }) => {
-      const [download] = await Promise.all([favoritePage.page.waitForEvent('download'), await favoritePage.viewer.downloadButton.click()]);
+      await waitForViewerDocumentToRender(favoritePage);
+      const download = await downloadFromViewer(favoritePage);
       expect(download.suggestedFilename()).toContain(filenameBeforeUpdate);
     });
   });
@@ -203,7 +219,8 @@ test.describe('Version actions', () => {
     });
 
     test('[XAT-5507] Should be possible to download a previous document version - Shared Files', async ({ sharedPage }) => {
-      const [download] = await Promise.all([sharedPage.page.waitForEvent('download'), await sharedPage.viewer.downloadButton.click()]);
+      await waitForViewerDocumentToRender(sharedPage);
+      const download = await downloadFromViewer(sharedPage);
       expect(download.suggestedFilename()).toContain(filenameBeforeUpdate);
     });
   });
@@ -228,7 +245,8 @@ test.describe('Version actions', () => {
     });
 
     test('[XAT-5510] Should be possible to download a previous document version - Search Results', async ({ searchPage }) => {
-      const [download] = await Promise.all([searchPage.page.waitForEvent('download'), await searchPage.viewer.downloadButton.click()]);
+      await waitForViewerDocumentToRender(searchPage);
+      const download = await downloadFromViewer(searchPage);
       expect(download.suggestedFilename()).toContain(filenameBeforeUpdate);
     });
   });

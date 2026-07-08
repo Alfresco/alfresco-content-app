@@ -63,9 +63,7 @@ async function setupTransformationTest(
   await nodesPage.rulesToolbar.clickCreateRuleButton();
   await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(testString);
   await nodesPage.manageRulesDialog.ruleDescriptionInputLocator.fill(testString);
-  await nodesPage.actionsDropdown.selectAction(ActionType.TransformAndCopyContent, 0);
-  await nodesPage.actionsDropdown.selectMimeType(mimeType, 0);
-  await nodesPage.actionsDropdown.selectDestinationFolderTransformAndCopyContent(0, destinationFolderName);
+  await nodesPage.actionsDropdown.selectActions([{ type: ActionType.TransformAndCopyContent, mimeType, destinationFolder: destinationFolderName }]);
   await nodesPage.manageRulesDialog.createRuleButton.click();
   await expect(nodesPage.manageRules.getGroupsList(testString)).toBeVisible();
   return parentFolderId;
@@ -105,7 +103,7 @@ async function verifyTransformation(
   }
 }
 
-test.use({ launchOptions: { slowMo: 300 } });
+test.use({ launchOptions: { slowMo: 500 } });
 
 test.describe('Folder Rules Actions', () => {
   const apiClientFactory = new ApiClientFactory();

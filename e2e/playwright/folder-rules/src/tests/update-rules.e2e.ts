@@ -128,7 +128,7 @@ test.describe('Rules - Manage Rules', () => {
     await nodesPage.manageRules.getGroupsList(randomRuleName899).click();
     await nodesPage.manageRules.ruleDetailsEditButton.click();
     await nodesPage.manageRulesDialog.deleteActions(2);
-    await nodesPage.actionsDropdown.selectAction(ActionType.IncrementCounter, 1);
+    await nodesPage.actionsDropdown.selectActions([ActionType.IncrementCounter]);
     await nodesPage.manageRulesDialog.createRuleButton.click();
     await nodesPage.manageRulesDialog.createRuleButton.waitFor({ state: 'hidden' });
     await nodesPage.manageRules.getGroupsList(randomRuleName899).click();
@@ -141,8 +141,7 @@ test.describe('Rules - Manage Rules', () => {
     await nodesPage.manageRules.getGroupsList(randomRuleName900).click();
     await nodesPage.manageRules.ruleDetailsEditButton.click();
     await nodesPage.manageRulesDialog.deleteActions(2);
-    await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 1);
-    await nodesPage.actionsDropdown.insertAddAspectActionValues('History', 1);
+    await nodesPage.actionsDropdown.selectActions([{ type: ActionType.AddAspect, value: 'History' }]);
     await nodesPage.manageRulesDialog.createRuleButton.click();
     await nodesPage.manageRulesDialog.createRuleButton.waitFor({ state: 'hidden' });
     await nodesPage.manageRules.getGroupsList(randomRuleName900).click();
@@ -155,7 +154,7 @@ test.describe('Rules - Manage Rules', () => {
     await nodesPage.manageRules.getGroupsList(randomRuleName901).click();
     await nodesPage.manageRules.ruleDetailsEditButton.click();
     await nodesPage.manageRulesDialog.deleteActions(2);
-    await nodesPage.actionsDropdown.selectAction(ActionType.Copy, 1);
+    await nodesPage.actionsDropdown.selectActions([ActionType.Copy]);
     await nodesPage.manageRulesDialog.destinationFolderButton.click();
     await nodesPage.contentNodeSelectorDialog.cancelButton.click();
     await nodesPage.contentNodeSelectorDialog.cancelButton.waitFor({ state: 'hidden' });
@@ -166,7 +165,7 @@ test.describe('Rules - Manage Rules', () => {
     await personalFiles.dataTable.performActionFromExpandableMenu(folderName902, 'Manage rules');
     await nodesPage.manageRules.getGroupsList(randomRuleName902).click();
     await nodesPage.manageRules.ruleDetailsEditButton.click();
-    await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 1);
+    await nodesPage.actionsDropdown.selectActions([ActionType.AddAspect]);
     await expect(nodesPage.manageRulesDialog.createRuleButton).toBeDisabled();
   });
 

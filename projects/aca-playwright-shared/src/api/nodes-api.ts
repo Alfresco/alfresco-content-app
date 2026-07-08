@@ -69,7 +69,7 @@ export class NodesApi {
     try {
       return await this.createNode('cm:content', name, parentId, title, description, null, author, majorVersion, aspectNames);
     } catch (error) {
-      const message = `${this.constructor.name} ${this.createFile.name}: ${error}`;
+      const message = `${this.constructor.name} ${this.createFile.name}: ${error instanceof Error ? error.message : JSON.stringify(error)}`;
       logger.error(message);
       throw new Error(message);
     }
@@ -148,7 +148,16 @@ export class NodesApi {
         majorVersion
       });
     } catch (error) {
-      const message = `${this.constructor.name} ${this.createNode.name}: ${error}`;
+      if (JSON.stringify(error).includes('409')) {
+        logger.warn(
+          `${this.constructor.name} ${this.createNode.name}: node "${name}" already exists in parent "${parentId}", retrieving existing node`
+        );
+        const existingNodeId = await this.getNodeIdFromParent(name, parentId);
+        if (existingNodeId) {
+          return this.getNodeById(existingNodeId);
+        }
+      }
+      const message = `${this.constructor.name} ${this.createNode.name}: ${error instanceof Error ? error.message : JSON.stringify(error)}`;
       logger.error(message);
       throw new Error(message);
     }

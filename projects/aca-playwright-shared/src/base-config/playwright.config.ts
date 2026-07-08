@@ -159,7 +159,7 @@ export const getGlobalConfig: PlaywrightTestConfig = {
   /* Retry on CI only */
   retries: env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: 3,
+  workers: Number(env.PLAYWRIGHT_WORKERS) || 3,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [['list'], ...getReporter()],
   globalSetup: require.resolve('./global.setup'),

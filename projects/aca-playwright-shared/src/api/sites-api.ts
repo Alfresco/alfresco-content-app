@@ -58,9 +58,14 @@ export class SitesApi {
     try {
       return await this.apiService.sites.createSite(site);
     } catch (error) {
-      const message = `SitesApi ${this.createSite.name}: ${error}`;
-      logger.error(message);
-      throw new Error(message);
+      if (JSON.stringify(error).includes('409')) {
+        logger.warn(`[SitesApi] createSite: site "${siteId || title}" already exists, skipping creation`);
+        return this.getSite(siteId || title);
+      } else {
+        const message = `SitesApi ${this.createSite.name}: ${JSON.stringify(error)}`;
+        logger.error(message);
+        throw new Error(message);
+      }
     }
   }
 

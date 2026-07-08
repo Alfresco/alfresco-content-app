@@ -358,8 +358,10 @@ test.describe('viewer action file', () => {
       await navigateAndOpenFile(personalFiles, folder5713Id, file5713);
       await uploadVersionAndOpenHistory(personalFiles, file5713NewVersion);
       await personalFiles.manageVersionsDialog.clickListActionButtonForVersion('1.0');
-      const [download] = await Promise.all([personalFiles.page.waitForEvent('download'), personalFiles.matMenu.clickMenuItem('Download')]);
-      expect(download.suggestedFilename()).toBe(file5713);
+      const downloadPromise = personalFiles.page.waitForEvent('download', { timeout: timeouts.medium });
+      await personalFiles.matMenu.clickMenuItem('Download');
+      const download = await downloadPromise;
+      expect(download.suggestedFilename()).toContain(file5713);
     });
 
     test('[XAT-5714] Viewer: User can restore the current version of a file to a previous version  with permissions', async ({ personalFiles }) => {

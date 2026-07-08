@@ -59,6 +59,13 @@ export enum MimeType {
   PNGImage = 'PNG Image [image/png]'
 }
 
+export interface ActionConfig {
+  type: ActionType;
+  value?: string;
+  mimeType?: MimeType;
+  destinationFolder?: string;
+}
+
 export class ActionsDropdownComponent extends BaseComponent {
   private static readonly rootElement = 'aca-edit-rule-dialog aca-rule-action-list';
 
@@ -67,6 +74,7 @@ export class ActionsDropdownComponent extends BaseComponent {
   private readonly ruleActionLocator = this.getChild('aca-rule-action');
   private readonly addActionButtonLocator = this.getChild('[data-automation-id="rule-action-list-add-action-button"]');
   private readonly actionDropdownLocator = this.getChild('[data-automation-id="rule-action-select"]');
+  private readonly selectActionLocator = this.actionDropdownLocator.locator('span', { hasText: 'Select an action' });
   private readonly actionAspectNameLocator = '[data-automation-id="header-aspect-name"] .adf-property-field';
   private readonly actionCheckInInputLocator = '[data-automation-id="header-description"] input';
   private readonly actionSimpleWorkflowStepInputLocator = '[data-automation-id="header-approve-step"] input';
@@ -84,14 +92,60 @@ export class ActionsDropdownComponent extends BaseComponent {
     super(page, ActionsDropdownComponent.rootElement);
   }
 
-  async selectAction(action: Partial<ActionType>, index: number): Promise<void> {
-    if (index > 0) {
+  async selectActions(actions: (ActionType | ActionConfig)[]): Promise<void> {
+    for (const action of actions) {
+      await this.selectSingleAction(action);
+    }
+  }
+
+  private normalizeAction(action: ActionType | ActionConfig): ActionConfig {
+    if (typeof action === 'string') {
+      return { type: action };
+    }
+    return action;
+  }
+
+  private async selectSingleAction(action: ActionType | ActionConfig): Promise<void> {
+    const { type, value, mimeType, destinationFolder } = this.normalizeAction(action);
+
+    if (await this.selectActionLocator.isHidden()) {
       await this.addActionButtonLocator.click();
     }
-    await this.actionDropdownLocator.nth(index).hover({ timeout: 1000 });
-    await this.actionDropdownLocator.nth(index).click();
-    const option = this.getOptionLocator(action);
-    await option.click();
+    await this.selectActionLocator.scrollIntoViewIfNeeded();
+    await this.selectActionLocator.hover({ timeout: 1000 });
+    await this.selectActionLocator.click();
+    await this.getOptionLocator(type).click();
+
+    const actionIndex = (await this.ruleActionLocator.count()) - 1;
+
+    if (value) {
+      await this.insertActionValues(type, value, actionIndex);
+    }
+
+    if (mimeType) {
+      await this.selectMimeType(mimeType, actionIndex);
+    }
+
+    if (destinationFolder) {
+      await this.selectDestinationFolderTransformAndCopyContent(actionIndex, destinationFolder);
+    }
+  }
+
+  private async insertActionValues(type: ActionType, value: string, actionIndex: number): Promise<void> {
+    switch (type) {
+      case ActionType.AddAspect:
+        await this.insertAddAspectActionValues(value, actionIndex);
+        break;
+      case ActionType.CheckIn:
+        await this.insertCheckInActionValues(value, actionIndex);
+        break;
+      case ActionType.SpecialiseType:
+        await this.insertSpecialiseTypeActionValues(value, actionIndex);
+        break;
+      case ActionType.SimpleWorkflow:
+        await this.insertSimpleWorkflowActionValues(value, actionIndex);
+        break;
+    }
   }
 
   async dropdownSelection(selectValue: string, locator: string, index: number): Promise<void> {

@@ -42,6 +42,12 @@ export enum Comparator {
   EndsWith = 'Ends with'
 }
 
+export interface ConditionConfig {
+  field: Field;
+  value: string;
+  comparator?: Comparator;
+}
+
 export class ConditionComponent extends ManageRulesDialogComponent {
   private readonly getOptionLocator = (optionName: string): Locator =>
     this.page.locator('[role=listbox] [role=option]', { hasText: optionName }).first();
@@ -60,6 +66,7 @@ export class ConditionComponent extends ManageRulesDialogComponent {
   }
 
   async addCondition(fields: Partial<Field>, value: string, index: number, comparators?: Partial<Comparator>): Promise<void> {
+    await this.addConditionButton.first().scrollIntoViewIfNeeded();
     await this.addConditionButton.first().click();
     await this.selectField(fields, index);
     if (comparators) {
@@ -73,12 +80,28 @@ export class ConditionComponent extends ManageRulesDialogComponent {
   }
 
   async addConditionGroup(fields: Partial<Field>, value: string, index: number, comparators?: Partial<Comparator>): Promise<void> {
+    await this.addConditionGroupButton.last().scrollIntoViewIfNeeded();
     await this.addConditionGroupButton.last().click();
+    await this.addConditionButton.nth(index).scrollIntoViewIfNeeded();
     await this.addConditionButton.nth(index).click();
     await this.selectField(fields, index);
     if (comparators) {
       await this.selectComparator(comparators, index);
     }
     await this.valueField.nth(index).fill(value);
+  }
+
+  async addConditions(conditions: ConditionConfig[]): Promise<void> {
+    for (let i = 0; i < conditions.length; i++) {
+      const { field, value, comparator } = conditions[i];
+      await this.addCondition(field, value, i, comparator);
+    }
+  }
+
+  async addConditionGroups(conditions: ConditionConfig[]): Promise<void> {
+    for (let i = 0; i < conditions.length; i++) {
+      const { field, value, comparator } = conditions[i];
+      await this.addConditionGroup(field, value, i, comparator);
+    }
   }
 }

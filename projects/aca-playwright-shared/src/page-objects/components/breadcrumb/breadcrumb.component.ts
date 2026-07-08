@@ -39,7 +39,7 @@ export class Breadcrumb extends BaseComponent {
     const itemTexts = await Promise.all(
       itemElements.map(async (elem) => {
         const text = await elem.innerText();
-        return text.split('\nchevron_right')[0];
+        return text.split('\nchevron_right')[0].trim();
       })
     );
     return itemTexts;

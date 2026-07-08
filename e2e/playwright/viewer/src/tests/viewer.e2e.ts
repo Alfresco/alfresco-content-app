@@ -486,7 +486,7 @@ test.describe('viewer file', () => {
     });
 
     test.afterAll(async () => {
-      await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActionsAdmin, [docLibId]);
+      await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActionsAdmin, [siteAdmin]);
     });
 
     test('[XAT-5477] Viewer does not open when accessing the preview URL for a file without permissions', async ({ personalFiles }) => {

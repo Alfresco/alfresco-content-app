@@ -85,9 +85,7 @@ export class SharedLinksApi {
         const sharedFiles = (await this.getSharedLinks()).list?.entries?.map((link) => link.entry.nodeId) ?? [];
         const foundItems = fileIds.every((id) => sharedFiles.includes(id));
         if (!foundItems) {
-          const message = 'Not all files are shared yet';
-          logger.error(message);
-          throw new Error(message);
+          throw new Error('Not all files are shared yet');
         }
       };
 
