@@ -120,7 +120,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
         with:
-          token: ${{ steps.app-token.outputs.token }}
           fetch-depth: 1
       - name: setup NPM
         uses: actions/setup-node@v6
@@ -134,7 +133,6 @@ jobs:
           IS_JS_AFFECTED: ${{ needs.upstream.outputs.hasNewJSVersion }}
           PACKAGE_VERSION_ADF: ${{ needs.upstream.outputs.latestADFVersion }}
           PACKAGE_VERSION_JS: ${{ needs.upstream.outputs.latestJSVersion }}
-          BRANCH_TO_CREATE: "upstream-dependencies"
         run: |
           migrateDependenciesADF() {
               echo "Update ADF dependencies to: ${PACKAGE_VERSION_ADF}"
@@ -151,10 +149,6 @@ jobs:
               ./scripts/update-version.sh -v ${PACKAGE_VERSION_ADF} -vj ${PACKAGE_VERSION_JS}
               echo "Migration done"
           }
-          if git checkout ${BRANCH_TO_CREATE} 2>/dev/null ; then
-            git reset --hard origin/develop
-            echo "Reset branch"
-          fi
           if [[ "$IS_ADF_AFFECTED" == "true" ]] && [[ "$IS_JS_AFFECTED" == "true" ]]; then
             migrateAllDependencies
           elif [[ "$IS_ADF_AFFECTED" == "true" ]]; then
@@ -162,59 +156,31 @@ jobs:
           elif [[ "$IS_JS_AFFECTED" == "true" ]]; then
             migrateDependenciesJS
           fi
-      - name: Commit Code
-        if: ${{ needs.upstream.outputs.hasNewVersion == 'true'  }}
-        uses: iarekylew00t/verified-bot-commit@5b4e8852dc472093935b8debcb81459bb79f7986 # v2.3.2
-        with:
-          token: ${{ steps.app-token.outputs.token }}
-          message: "[ci:force][auto-commit] Update dependencies ADF:${{ needs.upstream.outputs.latestADFVersion }}  JS:${{ needs.upstream.outputs.latestJSVersion }}"
-          files: |
-            package.json
-            package-lock.json
-
-      - name: Create a Pull request
-        uses: actions/github-script@v9
+      - name: Prepare PR title
+        id: pr-meta
+        if: ${{ needs.upstream.outputs.hasNewVersion == 'true' }}
         env:
           PACKAGE_VERSION_ADF: ${{ needs.upstream.outputs.latestADFVersion }}
           PACKAGE_VERSION_JS: ${{ needs.upstream.outputs.latestJSVersion }}
+        run: |
+          if [[ "$PACKAGE_VERSION_ADF" == "next" || "$PACKAGE_VERSION_ADF" == "latest" ]]; then
+            title="GH Auto: Upstream dependencies ADF and JS-API using Tag:${PACKAGE_VERSION_ADF}"
+          else
+            title="GH Auto: Upstream dependencies ADF:${PACKAGE_VERSION_ADF} JS-API:${PACKAGE_VERSION_JS} using Tag:${PACKAGE_VERSION_ADF}"
+          fi
+          echo "title=$title" >> "$GITHUB_OUTPUT"
+
+      - name: Create a Pull request
+        if: ${{ needs.upstream.outputs.hasNewVersion == 'true' }}
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
-          github-token: ${{ steps.app-token.outputs.token }}
-          script: |
-            const { PACKAGE_VERSION_ADF } = process.env;
-            const { PACKAGE_VERSION_JS } = process.env;
-            const BRANCH_TO_CREATE = 'upstream-dependencies';
-            let title = `GH Auto: Upstream dependencies ADF:${PACKAGE_VERSION_ADF} JS-API:${PACKAGE_VERSION_JS} using Tag:${PACKAGE_VERSION_ADF}`;
-            if (PACKAGE_VERSION_ADF === 'next' || PACKAGE_VERSION_ADF === 'latest') {
-              title = `GH Auto: Upstream dependencies ADF and JS-API using Tag:${PACKAGE_VERSION_ADF}`;
-            }
-            const { data: prs } = await github.rest.pulls.list({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: 'open',
-              head: `${context.repo.owner}:${BRANCH_TO_CREATE}`,
-              base: 'develop'
-            });
-            if (prs.length < 1) {
-                const payloadPullRequest = {
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  title: title,
-                  head: `${context.repo.owner}:${BRANCH_TO_CREATE}`,
-                  base: 'develop',
-                  body: `Automatic PR`
-                };
-                console.log('Payload: ',payloadPullRequest);
-                const { data: pr } = await github.rest.pulls.create(payloadPullRequest);
-                return pr.number;
-            } else {
-                const upstreamPrOpen = prs[0];
-                // override the title to contains the latest adf dep number
-                const payloadUpdatePullRequest = {
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  pull_number: upstreamPrOpen.number,
-                  title: title,
-                };
-                await github.rest.pulls.update(payloadUpdatePullRequest);
-                return upstreamPrOpen.number;
-            }
+          token: ${{ steps.app-token.outputs.token }}
+          base: develop
+          branch: upstream-dependencies
+          sign-commits: true
+          commit-message: "[ci:force][auto-commit] Update dependencies ADF:${{ needs.upstream.outputs.latestADFVersion }}  JS:${{ needs.upstream.outputs.latestJSVersion }}"
+          title: ${{ steps.pr-meta.outputs.title }}
+          body: Automatic PR
+          add-paths: |
+            package.json
+            package-lock.json
