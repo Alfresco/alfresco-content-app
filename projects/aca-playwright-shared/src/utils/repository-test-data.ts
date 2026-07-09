@@ -63,11 +63,11 @@ export async function cleanupRepositoryTestData(
   }
   const { adminNodesApi } = apis;
 
-  if (testData.repoFolder?.id) {
-    await adminNodesApi.deleteNodes([testData.repoFolder.id], true);
-  }
-
   if (testData.personalFile?.id) {
     await adminNodesApi.deleteNodes([testData.personalFile.id], true);
+  }
+
+  if (testData.repoFolder?.id) {
+    await adminNodesApi.deleteNodes([testData.repoFolder.id], true);
   }
 }
