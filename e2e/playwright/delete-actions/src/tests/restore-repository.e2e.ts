@@ -51,6 +51,7 @@ test.describe('Repository — Trash restore', () => {
       await adminNodesApi.deleteNodes([repoFileId], false);
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
+      throw error;
     }
   });
 

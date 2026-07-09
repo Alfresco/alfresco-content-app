@@ -54,6 +54,7 @@ test.describe('Repository — Breadcrumb', () => {
       leafFolderId = (await adminNodesApi.createFolder(leafFolderName, subFolderId)).entry.id;
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
+      throw error;
     }
   });
 

@@ -56,6 +56,7 @@ test.describe('Copy / Move — Repository destination', () => {
       trashcanApi = await TrashcanApi.initialize('admin');
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
+      throw error;
     }
   });
 

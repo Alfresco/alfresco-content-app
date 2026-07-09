@@ -78,6 +78,7 @@ test.describe('Repository — Info drawer expand routing', () => {
         await favoritesApi.addFavoriteById('file', testData.repoFile.id);
       } catch (error) {
         console.error(`beforeAll (admin) failed: ${error}`);
+        throw error;
       }
     });
 
@@ -139,6 +140,7 @@ test.describe('Repository — Info drawer expand routing', () => {
         personalFile = { id: created.id, name: personalFileName };
       } catch (error) {
         console.error(`beforeAll (personal user) failed: ${error}`);
+        throw error;
       }
     });
 

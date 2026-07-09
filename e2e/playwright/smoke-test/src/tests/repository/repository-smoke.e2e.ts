@@ -56,6 +56,7 @@ test.describe('Repository — smoke test', () => {
       smokeFileId = (await userNodesApi.createFile(smokeFileName, testData.repoFolder.id)).entry.id;
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
+      throw error;
     }
   });
 
