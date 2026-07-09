@@ -12,6 +12,10 @@ inputs:
   artifact-name:
     description: Name of the artifact cache
     required: true
+  suite-attempts:
+    description: 'Maximum number of times to run the whole test suite (1 = no retry)'
+    required: false
+    default: '1'
 
 runs:
   using: "composite"
@@ -33,6 +37,7 @@ runs:
       env:
         OPTIONS: ${{ inputs.options }}
         PLAYWRIGHT_BROWSER: ${{ env.PLAYWRIGHT_BROWSER || 'chromium' }}
+        SUITE_ATTEMPTS: ${{ inputs.suite-attempts }}
       run: |
         # Only start local server if using localhost
         if [[ "${PLAYWRIGHT_E2E_HOST}" == "http://localhost"* ]]; then
@@ -46,5 +51,14 @@ runs:
         done
         printf "\nApplication is ready.\n"
 
-        echo "Running playwright tests with options $OPTIONS on browser ${PLAYWRIGHT_BROWSER}"
-        E2E_TARGET=$OPTIONS npm run ci:e2e
+        for attempt in $(seq 1 "${SUITE_ATTEMPTS:-1}"); do
+          echo "Running playwright tests with options $OPTIONS on browser ${PLAYWRIGHT_BROWSER} (suite attempt $attempt/${SUITE_ATTEMPTS:-1})"
+          if E2E_TARGET=$OPTIONS npm run ci:e2e; then
+            exit 0
+          fi
+          if [ "$attempt" -lt "${SUITE_ATTEMPTS:-1}" ]; then
+            echo "Suite failed, retrying the whole suite..."
+          fi
+        done
+        echo "Suite failed after ${SUITE_ATTEMPTS:-1} attempt(s)."
+        exit 1

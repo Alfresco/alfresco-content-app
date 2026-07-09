@@ -47,6 +47,15 @@
             "playwright test --config=e2e/playwright/pagination/playwright.config.ts"
           ]
         },
+        "webkit-headless": {
+          "env": {
+            "PLAYWRIGHT_BROWSER": "webkit",
+            "PLAYWRIGHT_HEADLESS": "true"
+          },
+          "commands": [
+            "playwright test --config=e2e/playwright/pagination/playwright.config.ts"
+          ]
+        },
         "firefox-headed": {
           "env": {
             "PLAYWRIGHT_BROWSER": "firefox"
@@ -54,6 +63,15 @@
           "args": [
             "--headed"
           ],
+          "commands": [
+            "playwright test --config=e2e/playwright/pagination/playwright.config.ts"
+          ]
+        },
+        "firefox-headless": {
+          "env": {
+            "PLAYWRIGHT_BROWSER": "firefox",
+            "PLAYWRIGHT_HEADLESS": "true"
+          },
           "commands": [
             "playwright test --config=e2e/playwright/pagination/playwright.config.ts"
           ]
@@ -69,6 +87,15 @@
             "playwright test --config=e2e/playwright/pagination/playwright.config.ts"
           ]
         },
+        "chrome-headless": {
+          "env": {
+            "PLAYWRIGHT_BROWSER": "chrome",
+            "PLAYWRIGHT_HEADLESS": "true"
+          },
+          "commands": [
+            "playwright test --config=e2e/playwright/pagination/playwright.config.ts"
+          ]
+        },
         "msedge-headed": {
           "env": {
             "PLAYWRIGHT_BROWSER": "msedge"
@@ -76,6 +103,15 @@
           "args": [
             "--headed"
           ],
+          "commands": [
+            "playwright test --config=e2e/playwright/pagination/playwright.config.ts"
+          ]
+        },
+        "msedge-headless": {
+          "env": {
+            "PLAYWRIGHT_BROWSER": "msedge",
+            "PLAYWRIGHT_HEADLESS": "true"
+          },
           "commands": [
             "playwright test --config=e2e/playwright/pagination/playwright.config.ts"
           ]

@@ -1,5 +1,11 @@
 {
   "all": {
     "XAT-4525": "https://hyland.atlassian.net/browse/ACS-9741"
+  },
+  "webkit": {
+    "XAT-4455": "https://hyland.atlassian.net/browse/ACS-12214"
+  },
+  "firefox": {
+    "XAT-4455": "https://hyland.atlassian.net/browse/ACS-12214"
   }
 }
