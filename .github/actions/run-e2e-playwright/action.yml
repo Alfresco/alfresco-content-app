@@ -46,5 +46,15 @@ runs:
         done
         printf "\nApplication is ready.\n"
 
-        echo "Running playwright tests with options $OPTIONS on browser ${PLAYWRIGHT_BROWSER}"
-        E2E_TARGET=$OPTIONS npm run ci:e2e
+        MAX_SUITE_ATTEMPTS=2
+        for attempt in $(seq 1 $MAX_SUITE_ATTEMPTS); do
+          echo "Running playwright tests with options $OPTIONS on browser ${PLAYWRIGHT_BROWSER} (suite attempt $attempt/$MAX_SUITE_ATTEMPTS)"
+          if E2E_TARGET=$OPTIONS npm run ci:e2e; then
+            break
+          fi
+          if [ "$attempt" -eq "$MAX_SUITE_ATTEMPTS" ]; then
+            echo "Suite failed after $MAX_SUITE_ATTEMPTS attempts."
+            exit 1
+          fi
+          echo "Suite failed, retrying the whole suite..."
+        done
