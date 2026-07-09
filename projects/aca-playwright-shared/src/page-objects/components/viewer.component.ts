@@ -81,8 +81,9 @@ export class ViewerComponent extends BaseComponent {
   }
 
   async waitForViewerContentToRender(type: 'document' | 'image' | 'media' = 'document'): Promise<void> {
+    await this.waitForViewerToOpen();
     if (type === 'image') {
-      await this.viewerImage.waitFor({ state: 'attached', timeout: timeouts.extraLarge });
+      await this.viewerImage.waitFor({ state: 'visible', timeout: timeouts.extraLarge });
     } else if (type === 'media') {
       await this.viewerMedia.waitFor({ state: 'visible', timeout: timeouts.extraLarge });
     } else {
@@ -153,12 +154,10 @@ export class ViewerComponent extends BaseComponent {
     const toRemove = ['Close', 'Previous File', 'Next File', 'View details'];
     const removeClosePreviousNextOldInfo = (actions: string[]): string[] => actions.filter((elem) => !toRemove.includes(elem));
 
-    const buttons = await this.page.$$('adf-viewer button');
+    const buttons = this.page.locator('adf-viewer button');
+    const count = await buttons.count();
     let actualPrimaryActions: string[] = await Promise.all(
-      buttons.map(async (button) => {
-        const title = await button.getAttribute('title');
-        return title || '';
-      })
+      Array.from({ length: count }, async (_, i) => (await buttons.nth(i).getAttribute('title')) ?? '')
     );
 
     actualPrimaryActions = removeClosePreviousNextOldInfo(actualPrimaryActions);
