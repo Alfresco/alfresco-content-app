@@ -188,7 +188,7 @@
               },
               {
                 "name": "SEARCH.SEARCH_HEADER.FILTERS.TYPE.LINK",
-                "value": "TYPE:'cm:link'"
+                "value": "TYPE:'app:filelink' OR TYPE:'app:folderlink'"
               }
             ]
           }

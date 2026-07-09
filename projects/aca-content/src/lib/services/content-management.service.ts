@@ -752,12 +752,14 @@ export class ContentManagementService {
 
       dialogRef.afterClosed().subscribe((result) => {
         if (result === true) {
+          this.store.dispatch(new ShowLoaderAction(true));
           this.deleteNodesBatch(items, allowUndo, focusedElementOnCloseSelector);
         } else {
           this.focusAfterClose(focusedElementOnCloseSelector);
         }
       });
     } else {
+      this.store.dispatch(new ShowLoaderAction(true));
       this.deleteNodesBatch(items, allowUndo, focusedElementOnCloseSelector);
     }
   }

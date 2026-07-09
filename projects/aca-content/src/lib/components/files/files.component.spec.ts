@@ -58,6 +58,7 @@ describe('FilesComponent', () => {
   let store: MockStore;
   let contentApi: ContentApiService;
   let route: ActivatedRoute;
+  let documentListService: DocumentListService;
   let router: any = {
     url: '',
     navigate: jasmine.createSpy('navigate'),
@@ -111,7 +112,7 @@ describe('FilesComponent', () => {
     fixture = TestBed.createComponent(FilesComponent);
     component = fixture.componentInstance;
 
-    const documentListService: DocumentListService = TestBed.inject(DocumentListService);
+    documentListService = TestBed.inject(DocumentListService);
     const fakeNodeEntry: NodeEntry = { entry: { id: 'fake-node-entry' } } as NodeEntry;
     const fakeNodePaging: NodePaging = { list: { pagination: { count: 10, maxItems: 10, skipCount: 0 } } };
     const documentLoaderNode = { children: fakeNodePaging, currentNode: fakeNodeEntry };
@@ -251,6 +252,8 @@ describe('FilesComponent', () => {
     beforeEach(() => {
       spyOn(component, 'reload');
       spyOn(component, 'reloadWithoutResettingSelection');
+      router.navigate['calls'].reset();
+      spyOn(searchHeaderQueryBuilderService, 'execute').and.returnValue(Promise.resolve());
       fixture.detectChanges();
 
       spyOn(component.documentList, 'loadFolder').and.callFake(() => {});
@@ -294,6 +297,45 @@ describe('FilesComponent', () => {
       nodeActionsService.contentLinked.next({ succeeded: nodes, failed: [] });
 
       expect(component.reload).not.toHaveBeenCalled();
+    });
+
+    it('should execute filter query when contentLinked emits and filters are active', () => {
+      const nodes = [{ entry: { parentId: 'different-id' } }] as NodeEntry[];
+
+      component.node = { id: '1' } as Node;
+      component.isFilterHeaderActive = true;
+      component.queryParams = { checkList: 'TYPE:"app:filelink"' };
+
+      nodeActionsService.contentLinked.next({ succeeded: nodes, failed: [] });
+
+      expect(searchHeaderQueryBuilderService.execute).toHaveBeenCalled();
+      expect(component.reload).not.toHaveBeenCalled();
+    });
+
+    it('should call regular reload when contentLinked emits and filters are not active', () => {
+      const nodes = [{ entry: { parentId: '1' } }] as NodeEntry[];
+
+      component.node = { id: '1' } as Node;
+      component.isFilterHeaderActive = false;
+      component.queryParams = null;
+
+      nodeActionsService.contentLinked.next({ succeeded: nodes, failed: [] });
+
+      expect(searchHeaderQueryBuilderService.execute).not.toHaveBeenCalled();
+      expect(component.reload).toHaveBeenCalled();
+    });
+
+    it('should call regular reload when contentLinked emits and isFilterHeaderActive is true but queryParams is null', () => {
+      const nodes = [{ entry: { parentId: '1' } }] as NodeEntry[];
+
+      component.node = { id: '1' } as Node;
+      component.isFilterHeaderActive = true;
+      component.queryParams = null;
+
+      nodeActionsService.contentLinked.next({ succeeded: nodes, failed: [] });
+
+      expect(searchHeaderQueryBuilderService.execute).not.toHaveBeenCalled();
+      expect(component.reload).toHaveBeenCalled();
     });
 
     it('should call reloadWithoutResettingSelection on fileUploadComplete event if parent node match', fakeAsync(() => {

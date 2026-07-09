@@ -37,6 +37,7 @@ import {
   RestoreDeletedNodesAction,
   SetSelectedNodesAction,
   ShareNodeAction,
+  ShowLoaderAction,
   UnlockWriteAction,
   ViewNodeVersionAction
 } from '@alfresco/aca-shared/store';
@@ -979,6 +980,29 @@ describe('ContentManagementService', () => {
         store.dispatch(new DeleteNodesAction(selection));
 
         expect(openSnackMessageActionSpy.calls.argsFor(0)[1]).toBeNull();
+      });
+
+      it('should dispatch ShowLoaderAction(true) when link deletion is confirmed', () => {
+        const dispatchSpy = spyOn(store, 'dispatch');
+        spyOn(dialog, 'open').and.returnValue({
+          afterClosed: () => of(true)
+        } as MatDialogRef<MatDialog>);
+        spyOn(contentApi, 'deleteNode').and.returnValue(of(null));
+        const selection = [{ entry: { id: '1', name: 'link.url', nodeType: 'app:filelink' } }] as NodeEntry[];
+
+        contentManagementService.deleteNodes(selection);
+
+        expect(dispatchSpy).toHaveBeenCalledWith(jasmine.any(ShowLoaderAction));
+      });
+
+      it('should dispatch ShowLoaderAction(true) for regular node deletion', () => {
+        const dispatchSpy = spyOn(store, 'dispatch');
+        spyOn(contentApi, 'deleteNode').and.returnValue(of(null));
+        const selection = [{ entry: { id: '1', name: 'name1', nodeType: 'cm:content' } }] as NodeEntry[];
+
+        contentManagementService.deleteNodes(selection);
+
+        expect(dispatchSpy).toHaveBeenCalledWith(jasmine.any(ShowLoaderAction));
       });
     });
   });
