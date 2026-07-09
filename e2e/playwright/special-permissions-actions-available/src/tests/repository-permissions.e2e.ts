@@ -51,7 +51,7 @@ test.describe('Repository — Permissions routing', () => {
     let userNodesApi: NodesApi;
     let trashcanApi: TrashcanApi;
     let sharedLinksApi: SharedLinksApi;
-    let testData: RepositoryTestData;
+    let testData!: RepositoryTestData;
 
     test.beforeAll(async () => {
       try {

@@ -66,7 +66,7 @@ test.describe('Repository — Info drawer expand routing', () => {
     let userNodesApi: NodesApi;
     let trashcanApi: TrashcanApi;
     let favoritesApi: FavoritesPageApi;
-    let testData: RepositoryTestData;
+    let testData!: RepositoryTestData;
 
     test.beforeAll(async () => {
       try {

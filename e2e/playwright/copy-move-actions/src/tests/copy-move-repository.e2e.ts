@@ -45,7 +45,7 @@ test.describe('Copy / Move — Repository destination', () => {
   let userNodesApi: NodesApi;
   let adminNodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
-  let testData: RepositoryTestData;
+  let testData!: RepositoryTestData;
 
   test.beforeAll(async () => {
     try {
@@ -66,8 +66,11 @@ test.describe('Copy / Move — Repository destination', () => {
     await personalFiles.navigate();
   });
 
-  test.afterAll(async () => {
+  test.afterEach(async () => {
     await cleanupRepositoryTestData(testData, { adminNodesApi });
+  });
+
+  test.afterAll(async () => {
     await Utils.deleteNodesSitesEmptyTrashcan(adminNodesApi, trashcanApi, 'afterAll failed');
   });
 

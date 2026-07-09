@@ -40,7 +40,7 @@ test.describe('Repository — smoke test', () => {
 
   let userNodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
-  let testData: RepositoryTestData;
+  let testData!: RepositoryTestData;
   let smokeFileName: string;
   let smokeFileId: string;
 
