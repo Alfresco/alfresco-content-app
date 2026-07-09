@@ -27,6 +27,7 @@ import {
   ApiClientFactory,
   Utils,
   test,
+  timeouts,
   TrashcanApi,
   NodesApi,
   TEST_FILES,
@@ -53,6 +54,7 @@ test.describe('Version actions', () => {
   const username = `user-${random}`;
   let fileId: string;
   let fileAfterUpdateId: string;
+  let standaloneJpgName: string;
 
   type PageWithViewer = PersonalFilesPage | RecentFilesPage | FavoritesPage | SharedPage | SearchPage;
 
@@ -91,6 +93,9 @@ test.describe('Version actions', () => {
       fileAfterUpdateId = (
         await fileActionsApi.updateNodeContentFromFile(fileId, filesToUpload[1].path, true, 'new major version description', filenameAfterUpdate)
       ).entry.id;
+
+      standaloneJpgName = `standalone-jpg-${random}.jpg`;
+      await fileActionsApi.uploadFile(filesToUpload[1].path, standaloneJpgName, '-my-');
 
       await favoritesApi.addFavoritesByIds('file', [fileId]);
       await favoritesApi.waitForApi(username, { expect: 1 });
@@ -135,12 +140,27 @@ test.describe('Version actions', () => {
       await personalFiles.viewer.toolbar.clickViewerMoreActions();
       await personalFiles.matMenu.clickMenuItem('Manage Versions');
       await personalFiles.manageVersionsDialog.clickListActionButtonForVersion('2.0');
-      await Promise.all([Utils.waitForApiResponse(personalFiles, '2.0', 200), personalFiles.matMenu.clickMenuItem('View')]);
-      await personalFiles.viewer.waitForViewerLoaderToFinish();
-      await personalFiles.viewer.waitForViewerContentToRender('document');
-      await expect(personalFiles.viewer.unknownFormat).toBeHidden();
-      expect(await personalFiles.viewer.getFileTitle()).toContain(filenameAfterUpdate);
+      await personalFiles.matMenu.clickMenuItem('View');
+      await personalFiles.page.waitForURL(/2\.0/, { timeout: timeouts.large });
       expect(personalFiles.page.url()).toContain(fileAfterUpdateId);
+      await expect(personalFiles.viewer.fileTitleButtonLocator).toContainText(filenameAfterUpdate, { timeout: timeouts.large });
+    });
+  });
+
+  test.describe('Viewer renders content without loading error', () => {
+    test.beforeEach(async ({ loginPage, personalFiles }) => {
+      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+      await personalFiles.navigate();
+    });
+
+    test('[XAT-19378] PDF file renders in viewer without loading error', async ({ personalFiles }) => {
+      await viewFirstFileVersion(personalFiles);
+      await personalFiles.viewer.waitForViewerContentToRender('document');
+    });
+
+    test('[XAT-19379] Image file renders in viewer without loading error', async ({ personalFiles }) => {
+      await personalFiles.dataTable.performClickFolderOrFileToOpen(standaloneJpgName);
+      await personalFiles.viewer.waitForViewerContentToRender('image');
     });
   });
 
