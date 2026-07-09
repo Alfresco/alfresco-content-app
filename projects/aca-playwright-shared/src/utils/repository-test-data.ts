@@ -64,18 +64,10 @@ export async function cleanupRepositoryTestData(
   const { adminNodesApi } = apis;
 
   if (testData.repoFolder?.id) {
-    try {
-      await adminNodesApi.deleteNodes([testData.repoFolder.id], true);
-    } catch (error) {
-      console.error(`cleanupRepositoryTestData: failed to delete repoFolder ${testData.repoFolder.name}: ${error}`);
-    }
+    await adminNodesApi.deleteNodes([testData.repoFolder.id], true);
   }
 
   if (testData.personalFile?.id) {
-    try {
-      await adminNodesApi.deleteNodes([testData.personalFile.id], true);
-    } catch (error) {
-      console.error(`cleanupRepositoryTestData: failed to delete personalFile ${testData.personalFile.name}: ${error}`);
-    }
+    await adminNodesApi.deleteNodes([testData.personalFile.id], true);
   }
 }
