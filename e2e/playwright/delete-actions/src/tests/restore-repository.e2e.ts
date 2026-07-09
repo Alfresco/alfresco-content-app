@@ -25,7 +25,7 @@
 import { ApiClientFactory, NodesApi, test, TrashcanApi, users, Utils } from '@alfresco/aca-playwright-shared';
 import { expect } from '@playwright/test';
 
-test.describe('Repository — Trash restore [ACS-12055]', () => {
+test.describe('Repository — Trash restore', () => {
   const admin = users.admin;
 
   let adminNodesApi: NodesApi;

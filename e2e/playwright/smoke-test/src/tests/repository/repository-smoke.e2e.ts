@@ -35,7 +35,7 @@ import {
 } from '@alfresco/aca-playwright-shared';
 import { expect } from '@playwright/test';
 
-test.describe('Repository — smoke [ACS-12055]', () => {
+test.describe('Repository — smoke test', () => {
   const admin = users.admin;
 
   let userNodesApi: NodesApi;

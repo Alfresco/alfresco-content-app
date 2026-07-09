@@ -38,7 +38,7 @@ import {
 } from '@alfresco/aca-playwright-shared';
 import { expect } from '@playwright/test';
 
-test.describe('Copy / Move — Repository destination [ACS-12055]', () => {
+test.describe('Copy / Move — Repository destination', () => {
   const admin = users.admin;
   const REPOSITORY_LOCATION_LABEL = 'Repository';
 
