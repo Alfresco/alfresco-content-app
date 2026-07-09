@@ -32,3 +32,4 @@ export * from './config';
 export * from './error-strings';
 export * from './api';
 export * from './logger';
+export * from './repository-test-data';

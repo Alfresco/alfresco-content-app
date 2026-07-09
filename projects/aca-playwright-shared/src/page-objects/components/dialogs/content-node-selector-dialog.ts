@@ -33,6 +33,7 @@ export class ContentNodeSelectorDialog extends BaseComponent {
   public cancelButton = this.getChild('[data-automation-id="content-node-selector-actions-cancel"]');
   public actionButton = this.getChild('[data-automation-id="content-node-selector-actions-choose"]');
   public locationDropDown = this.getChild('[id="site-dropdown-container"] .adf-sites-dropdown-form-field');
+  public searchInput = this.getChild('[data-automation-id="content-node-selector-search-input"]');
 
   getOptionLocator = (optionName: string): Locator => this.page.locator('[role=listbox] [role=option]', { hasText: optionName }).first();
   getDialogTitle = (text: string) => this.getChild('[data-automation-id="content-node-selector-title"]', { hasText: text });
@@ -73,5 +74,12 @@ export class ContentNodeSelectorDialog extends BaseComponent {
       intervals: [2_000],
       timeout: 20_000
     });
+  }
+
+  async searchAndSelectDestination(folderName: string): Promise<void> {
+    await expect(this.searchInput).toBeVisible();
+    await this.searchInput.fill(folderName);
+    await this.spinnerWaitForReload();
+    await this.selectDestination(folderName);
   }
 }
