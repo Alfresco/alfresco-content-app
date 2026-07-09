@@ -137,6 +137,7 @@ test.describe('Version actions', () => {
       await personalFiles.manageVersionsDialog.clickListActionButtonForVersion('2.0');
       await Promise.all([Utils.waitForApiResponse(personalFiles, '2.0', 200), personalFiles.matMenu.clickMenuItem('View')]);
       await personalFiles.viewer.waitForViewerLoaderToFinish();
+      await personalFiles.viewer.waitForViewerContentToRender('document');
       await expect(personalFiles.viewer.unknownFormat).toBeHidden();
       expect(await personalFiles.viewer.getFileTitle()).toContain(filenameAfterUpdate);
       expect(personalFiles.page.url()).toContain(fileAfterUpdateId);

@@ -89,7 +89,7 @@ export class ViewerComponent extends BaseComponent {
       await this.viewerMedia.waitFor({ state: 'visible', timeout: timeouts.extraLarge });
       return;
     }
-    await this.pdfViewerContentPages.first().waitFor({ state: 'attached', timeout: timeouts.extraLarge });
+    await this.pdfViewerContentPages.first().waitFor({ state: 'attached', timeout: timeouts.fortySeconds });
   }
 
   async checkViewerActivePage(pageNumber: number): Promise<void> {
