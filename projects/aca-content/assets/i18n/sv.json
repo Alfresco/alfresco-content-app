@@ -713,42 +713,5 @@
             "BOOKS-24PX": "filbibliotek",
             "BASELINE-LOCK-24PX": "låst fil"
         }
-    },
-    "KNOWLEDGE_RETRIEVAL": {
-        "SEARCH": {
-            "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "Vill du fråga något mer?",
-                "REFERENCED_DOCUMENTS_HEADER": "Referensdokument",
-                "REGENERATION_BUTTON_LABEL": "Generera på nytt",
-                "COPY_BUTTON_LABEL": "Kopiera",
-                "COPY_MESSAGE": "Svar kopierat till urklipp",
-                "RELOAD_REFERENCES_BUTTON_LABEL": "Ladda om"
-            },
-            "AGENTS_BUTTON": {
-                "LABEL": "Fråga Discovery",
-                "TITLE": "Hämta kunskap"
-            },
-            "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "Fråga",
-                "DEFAULT_PLACEHOLDER": "Ställ så detaljerade frågor som möjligt...",
-                "HIDE_INPUT": "Dölj inmatning",
-                "HIDE_ANSWER": "Dölj svar"
-            },
-            "ERRORS": {
-                "AGENTS_FETCHING": "Det gick inte att hämta agenter.",
-                "HX_INSIGHT_URL_FETCHING": "Det gick inte att hämta HX Insight-URL.",
-                "LOADING_ERROR": "Hmm... något verkar ha gått fel.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Sidan är inte tillgänglig för dessa villkor.",
-                "REFERENCES_LOADING_ERROR": "Något gick fel när referenserna laddades."
-            },
-            "DISCARD_CHANGES": {
-                "WARNING": "Varning!",
-                "ASK_AI": "Fråga AI",
-                "DO_NOT_SHOW_MESSAGE": "Visa inte detta meddelande igen",
-                "DISCARD_CONVERSATION": "Ta bort konversation",
-                "CONVERSATION_DISCARDED": "Denna konversation tas bort",
-                "LOSE_RESPONSE": "När du ställer en ny fråga går dina tidigare svar förlorade"
-            }
-        }
     }
 }

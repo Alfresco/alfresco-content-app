@@ -713,42 +713,5 @@
             "BOOKS-24PX": "Biblioteca de arquivo",
             "BASELINE-LOCK-24PX": "arquivo bloqueado"
         }
-    },
-    "KNOWLEDGE_RETRIEVAL": {
-        "SEARCH": {
-            "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "Você gostaria de perguntar mais alguma coisa?",
-                "REFERENCED_DOCUMENTS_HEADER": "Documentos referenciados",
-                "REGENERATION_BUTTON_LABEL": "Regenerar",
-                "COPY_BUTTON_LABEL": "Copiar",
-                "COPY_MESSAGE": "Resposta copiada para a área de transferência",
-                "RELOAD_REFERENCES_BUTTON_LABEL": "Recarregar"
-            },
-            "AGENTS_BUTTON": {
-                "LABEL": "Pergunte ao Discovery",
-                "TITLE": "Recuperação de conhecimento"
-            },
-            "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "Perguntar",
-                "DEFAULT_PLACEHOLDER": "Faça sua pergunta com o máximo de detalhes possível...",
-                "HIDE_INPUT": "Ocultar entrada",
-                "HIDE_ANSWER": "Ocultar resposta"
-            },
-            "ERRORS": {
-                "AGENTS_FETCHING": "Erro ao buscar agentes.",
-                "HX_INSIGHT_URL_FETCHING": "Erro ao buscar a URL do HX Insight.",
-                "LOADING_ERROR": "Hmm... parece que algo deu errado.",
-                "PAGE_NOT_AVAILABLE_ERROR": "A página não está disponível para essas condições.",
-                "REFERENCES_LOADING_ERROR": "Ocorreu um problema ao carregar as referências."
-            },
-            "DISCARD_CHANGES": {
-                "WARNING": "Aviso!",
-                "ASK_AI": "Pergunte à IA",
-                "DO_NOT_SHOW_MESSAGE": "Não mostre essa mensagem novamente",
-                "DISCARD_CONVERSATION": "Descartar conversa",
-                "CONVERSATION_DISCARDED": "Esta conversa será descartada",
-                "LOSE_RESPONSE": "Ao fazer outra pergunta, você perderá sua resposta anterior"
-            }
-        }
     }
 }

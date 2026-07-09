@@ -14,8 +14,7 @@
     "contentService": true,
     "folderRules": true,
     "tagsEnabled": true,
-    "categoriesEnabled": true,
-    "knowledgeRetrievalEnabled": false
+    "categoriesEnabled": true
   },
   "oauth2": {
     "host": "{protocol}//{hostname}{:port}/auth/realms/alfresco",

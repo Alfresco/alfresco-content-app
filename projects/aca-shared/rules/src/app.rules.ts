@@ -570,15 +570,6 @@ export const areTagsEnabled = (context: AcaRuleContext): boolean => context.appC
 
 export const areCategoriesEnabled = (context: AcaRuleContext): boolean => context.appConfig.get('plugins.categoriesEnabled', true);
 
-export const canDisplayKnowledgeRetrievalButton = (context: AcaRuleContext): boolean =>
-  context.appConfig.get('plugins.knowledgeRetrievalEnabled', false) &&
-  (navigation.isPersonalFiles(context) ||
-    navigation.isRepositoryView(context) ||
-    navigation.isSharedFiles(context) ||
-    navigation.isRecentFiles(context) ||
-    navigation.isFavorites(context) ||
-    ((navigation.isSearchResults(context) || navigation.isLibraryContent(context)) && !navigation.isLibraries(context)));
-
 export const isSSOEnabled = (context: AcaRuleContext): boolean => context.appConfig.get('authType') === 'OAUTH';
 
 /**

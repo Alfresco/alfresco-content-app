@@ -27,3 +27,10 @@ This application simplifies the complexity of Content Management and provides co
 - [Search forms](/features/search-forms)
 - [Application Hook](/extending/application-hook)
 - [Context Menu actions](context-menu-actions)
+
+## Notes
+
+### Knowledge Discovery removal (v8.0.0)
+
+The Knowledge Discovery components, services, and APIs have been removed as of ACA version 8.0.0 and ADF version 9.0.0.
+The integrated Knowledge Discovery features have been replaced with a section in the side navigation panel containing a link to the standalone Knowledge Discovery UI in ACA and ADW.

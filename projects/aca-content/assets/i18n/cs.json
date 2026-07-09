@@ -713,42 +713,5 @@
             "BOOKS-24PX": "knihovnu souborů",
             "BASELINE-LOCK-24PX": "uzamčený soubor"
         }
-    },
-    "KNOWLEDGE_RETRIEVAL": {
-        "SEARCH": {
-            "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "Zajímá vás ještě něco?",
-                "REFERENCED_DOCUMENTS_HEADER": "Odkazované dokumenty",
-                "REGENERATION_BUTTON_LABEL": "Regenerovat",
-                "COPY_BUTTON_LABEL": "Kopírovat",
-                "COPY_MESSAGE": "Kopírovat odezvu do schránky",
-                "RELOAD_REFERENCES_BUTTON_LABEL": "Znovu načíst"
-            },
-            "AGENTS_BUTTON": {
-                "LABEL": "Zjistit v aplikaci Discovery",
-                "TITLE": "Získání znalostí"
-            },
-            "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "Položit dotaz",
-                "DEFAULT_PLACEHOLDER": "Položte svůj dotaz co nejpodrobněji...",
-                "HIDE_INPUT": "Skrýt vstup",
-                "HIDE_ANSWER": "Skrýt odpověď"
-            },
-            "ERRORS": {
-                "AGENTS_FETCHING": "Chyba při získávání agentů.",
-                "HX_INSIGHT_URL_FETCHING": "Chyba při získávání URL adresy HX Insight.",
-                "LOADING_ERROR": "Hmm... zřejmě se něco nepovedlo.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Stránka není pro tyto podmínky dostupná.",
-                "REFERENCES_LOADING_ERROR": "Při načítání odkazů došlo k chybě."
-            },
-            "DISCARD_CHANGES": {
-                "WARNING": "Výstraha!",
-                "ASK_AI": "Položit dotaz AI",
-                "DO_NOT_SHOW_MESSAGE": "Tuto zprávu již nezobrazovat",
-                "DISCARD_CONVERSATION": "Zahodit konverzaci",
-                "CONVERSATION_DISCARDED": "Tato konverzace bude zahozena",
-                "LOSE_RESPONSE": "Položením další otázky přijdete o předchozí odpověď"
-            }
-        }
     }
 }

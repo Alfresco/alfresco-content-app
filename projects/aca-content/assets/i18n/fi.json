@@ -713,42 +713,5 @@
             "BOOKS-24PX": "tiedostokirjasto",
             "BASELINE-LOCK-24PX": "tiedosto lukittu"
         }
-    },
-    "KNOWLEDGE_RETRIEVAL": {
-        "SEARCH": {
-            "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "Onko sinulla muuta kysyttävää?",
-                "REFERENCED_DOCUMENTS_HEADER": "Viitatut asiakirjat",
-                "REGENERATION_BUTTON_LABEL": "Luo uudelleen",
-                "COPY_BUTTON_LABEL": "Kopioi",
-                "COPY_MESSAGE": "Vastaus kopioitu leikepöydälle",
-                "RELOAD_REFERENCES_BUTTON_LABEL": "Lataa uudelleen"
-            },
-            "AGENTS_BUTTON": {
-                "LABEL": "Kysy Discoveryltä",
-                "TITLE": "Hae tietoa"
-            },
-            "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "Kysy",
-                "DEFAULT_PLACEHOLDER": "Esitä kysymyksesi niin yksityiskohtaisesti kuin mahdollista...",
-                "HIDE_INPUT": "Piilota syöte",
-                "HIDE_ANSWER": "Piilota vastaus"
-            },
-            "ERRORS": {
-                "AGENTS_FETCHING": "Virhe agenttien hakemisessa",
-                "HX_INSIGHT_URL_FETCHING": "Virhe HX Insight URL -osoitteen hakemisessa",
-                "LOADING_ERROR": "Hmm... jotakin näyttäisi menneen pieleen.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Sivu ei ole saatavilla näillä ehdoilla.",
-                "REFERENCES_LOADING_ERROR": "Jotain meni vikaan viitteiden lataamisen aikana."
-            },
-            "DISCARD_CHANGES": {
-                "WARNING": "Varoitus!",
-                "ASK_AI": "Kysy tekoälyltä",
-                "DO_NOT_SHOW_MESSAGE": "Älä näytä tätä viestiä enää",
-                "DISCARD_CONVERSATION": "Hävitä keskustelu",
-                "CONVERSATION_DISCARDED": "Tämä keskustelu hävitetään",
-                "LOSE_RESPONSE": "Jos esität toisen kysymyksen, menetät vastauksen aiempaan kysymykseesi"
-            }
-        }
     }
 }

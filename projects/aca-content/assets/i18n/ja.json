@@ -713,42 +713,5 @@
             "BOOKS-24PX": "ファイルライブラリ",
             "BASELINE-LOCK-24PX": "ロックされているファイル"
         }
-    },
-    "KNOWLEDGE_RETRIEVAL": {
-        "SEARCH": {
-            "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "ほかに何か質問はありますか？",
-                "REFERENCED_DOCUMENTS_HEADER": "参照文書",
-                "REGENERATION_BUTTON_LABEL": "再生成",
-                "COPY_BUTTON_LABEL": "コピー",
-                "COPY_MESSAGE": "回答をクリップボードにコピー済み",
-                "RELOAD_REFERENCES_BUTTON_LABEL": "再読み込み"
-            },
-            "AGENTS_BUTTON": {
-                "LABEL": "デモディスカバリ",
-                "TITLE": "知識検索"
-            },
-            "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "質問する",
-                "DEFAULT_PLACEHOLDER": "ご質問の内容は、できるだけ詳細にお願いします...",
-                "HIDE_INPUT": "入力を非表示にする",
-                "HIDE_ANSWER": "答えを非表示にする"
-            },
-            "ERRORS": {
-                "AGENTS_FETCHING": "エージェント取得中にエラーが発生しました。",
-                "HX_INSIGHT_URL_FETCHING": "HX Insight URL取得中にエラーが発生しました。",
-                "LOADING_ERROR": "どうやら、何か問題が起こったようです。",
-                "PAGE_NOT_AVAILABLE_ERROR": "これらの条件ではページは利用できません。",
-                "REFERENCES_LOADING_ERROR": "参考文献を読み込む際に問題が発生しました。"
-            },
-            "DISCARD_CHANGES": {
-                "WARNING": "警告!",
-                "ASK_AI": "AIに質問する",
-                "DO_NOT_SHOW_MESSAGE": "今後このメッセージを表示しない",
-                "DISCARD_CONVERSATION": "会話を破棄する",
-                "CONVERSATION_DISCARDED": "この会話は破棄されます",
-                "LOSE_RESPONSE": "別の質問をすると、以前の回答は失われます"
-            }
-        }
     }
 }

@@ -713,42 +713,5 @@
             "BOOKS-24PX": "Bestandsbibliotheek",
             "BASELINE-LOCK-24PX": "Vergrendeld bestand"
         }
-    },
-    "KNOWLEDGE_RETRIEVAL": {
-        "SEARCH": {
-            "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "Wilt u nog iets anders vragen?",
-                "REFERENCED_DOCUMENTS_HEADER": "Referentiedocumenten",
-                "REGENERATION_BUTTON_LABEL": "Regenereren",
-                "COPY_BUTTON_LABEL": "Kopiëren",
-                "COPY_MESSAGE": "Antwoord gekopieerd naar klembord",
-                "RELOAD_REFERENCES_BUTTON_LABEL": "Opnieuw laden"
-            },
-            "AGENTS_BUTTON": {
-                "LABEL": "Vraag Discovery",
-                "TITLE": "Ophalen kennis"
-            },
-            "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "Vragen",
-                "DEFAULT_PLACEHOLDER": "Stel uw vraag zo gedetailleerd mogelijk...",
-                "HIDE_INPUT": "Invoer verbergen",
-                "HIDE_ANSWER": "Antwoord verbergen"
-            },
-            "ERRORS": {
-                "AGENTS_FETCHING": "Fout bij het ophalen van agenten.",
-                "HX_INSIGHT_URL_FETCHING": "Fout bij het ophalen van HX Insight URL.",
-                "LOADING_ERROR": "Hmm... er lijkt iets te zijn misgegaan.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Pagina is niet beschikbaar voor deze voorwaarden.",
-                "REFERENCES_LOADING_ERROR": "Er is iets misgegaan tijdens het laden van de referenties."
-            },
-            "DISCARD_CHANGES": {
-                "WARNING": "Waarschuwing!",
-                "ASK_AI": "Vraag AI",
-                "DO_NOT_SHOW_MESSAGE": "Laat dit bericht niet meer zien",
-                "DISCARD_CONVERSATION": "Gesprek verwijderen",
-                "CONVERSATION_DISCARDED": "Dit gesprek wordt verwijderd",
-                "LOSE_RESPONSE": "Door een andere vraag te stellen gaat uw vorige antwoord verloren"
-            }
-        }
     }
 }

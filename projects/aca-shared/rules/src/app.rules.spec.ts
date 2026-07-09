@@ -27,7 +27,6 @@ import { createVersionRule, getFileExtension, isPreferencesApiAvailable, isNodeI
 import { TestRuleContext } from './test-rule-context';
 import { NodeEntry, RepositoryInfo, StatusInfo } from '@alfresco/js-api';
 import { ProfileState, RuleContext } from '@alfresco/adf-extensions';
-import { AppConfigService } from '@alfresco/adf-core';
 
 describe('app.evaluators', () => {
   let context: TestRuleContext;
@@ -541,124 +540,6 @@ describe('app.evaluators', () => {
           }
         } as any)
       ).toBeFalse();
-    });
-  });
-
-  describe('canDisplayKnowledgeRetrievalButton', () => {
-    const testCanDisplayKnowledgeRetrievalButton = (testTitle: string, url: string, knowledgeRetrievalEnabled: boolean, expected: boolean) => {
-      it(testTitle, () => {
-        context.appConfig = jasmine.createSpyObj<AppConfigService>({
-          get: knowledgeRetrievalEnabled
-        });
-        context.navigation.url = url;
-        expect(app.canDisplayKnowledgeRetrievalButton(context)).toBe(expected);
-      });
-    };
-
-    [
-      {
-        pageName: 'personal files',
-        pageUrl: '/personal-files'
-      },
-      {
-        pageName: 'shared files',
-        pageUrl: '/shared'
-      },
-      {
-        pageName: 'recent files',
-        pageUrl: '/recent-files'
-      },
-      {
-        pageName: 'favorites',
-        pageUrl: '/favorites'
-      },
-      {
-        pageName: 'library content',
-        pageUrl: '/libraries/some-id'
-      },
-      {
-        pageName: 'repository view',
-        pageUrl: '/repository'
-      }
-    ].forEach((testCase) => {
-      testCanDisplayKnowledgeRetrievalButton(
-        `should return false if get from appConfig returns false and navigation is ${testCase.pageName}`,
-        testCase.pageUrl,
-        false,
-        false
-      );
-
-      testCanDisplayKnowledgeRetrievalButton(
-        `should return true if get from appConfig returns true and navigation is ${testCase.pageName}`,
-        testCase.pageUrl,
-        true,
-        true
-      );
-    });
-
-    testCanDisplayKnowledgeRetrievalButton(
-      'should return false if get from appConfig returns false and navigation is search results but not for libraries',
-      '/search',
-      false,
-      false
-    );
-
-    testCanDisplayKnowledgeRetrievalButton(
-      'should return true if get from appConfig returns true and navigation is search results but not for libraries',
-      '/search',
-      true,
-      true
-    );
-
-    testCanDisplayKnowledgeRetrievalButton(
-      'should return false if get from appConfig returns false and navigation is search results for libraries',
-      '/search/libraries',
-      false,
-      false
-    );
-
-    testCanDisplayKnowledgeRetrievalButton(
-      'should return false if get from appConfig returns true and navigation is search results for libraries',
-      '/search/libraries',
-      true,
-      false
-    );
-
-    testCanDisplayKnowledgeRetrievalButton(
-      'should return false if get from appConfig returns false and navigation is libraries',
-      '/libraries',
-      false,
-      false
-    );
-
-    testCanDisplayKnowledgeRetrievalButton(
-      'should return false if get from appConfig returns true and navigation is libraries',
-      '/libraries',
-      true,
-      false
-    );
-
-    testCanDisplayKnowledgeRetrievalButton(
-      'should return false if get from appConfig returns false and navigation is incorrect',
-      '/my-special-files',
-      false,
-      false
-    );
-
-    testCanDisplayKnowledgeRetrievalButton(
-      'should return false if get from appConfig returns true but navigation is incorrect',
-      '/my-special-files',
-      true,
-      false
-    );
-
-    it('should call get on context.appConfig with correct parameters', () => {
-      context.appConfig = jasmine.createSpyObj<AppConfigService>({
-        get: false
-      });
-
-      app.canDisplayKnowledgeRetrievalButton(context);
-      expect(context.appConfig.get).toHaveBeenCalledWith('plugins.knowledgeRetrievalEnabled', false);
     });
   });
 

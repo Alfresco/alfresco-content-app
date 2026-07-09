@@ -1,6 +1,5 @@
-<aca-page-layout [class.aca-search-results-active-search-ai-input]="searchAiInputState.active">
+<aca-page-layout>
   <div class="aca-page-layout-header">
-    <aca-search-ai-input-container *ngIf="searchAiInputState.active" [agentId]="searchAiInputState.selectedAgentId" />
     <div class="aca-header-container">
       <aca-search-input />
       <aca-bulk-actions-dropdown *ngIf="bulkActions && ('isBulkActionsAvailable' | isFeatureSupportedInCurrentAcs | async)" [items]="bulkActions" />
@@ -95,7 +94,6 @@
             [multiselect]="true"
             [sortingMode]="'server'"
             [sorting]="sorting"
-            [preselectNodes]="selectedNodesState?.nodes"
             [displayCheckboxesOnHover]="true"
             [imageResolver]="imageResolver"
             [isResizingEnabled]="true"

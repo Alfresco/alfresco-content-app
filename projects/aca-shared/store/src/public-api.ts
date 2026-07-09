@@ -36,11 +36,9 @@ export * from './actions/viewer.actions';
 export * from './actions/metadata-aspect.actions';
 export * from './actions/template.actions';
 export * from './actions/contextmenu.actions';
-export * from './actions/search-ai.actions';
 
 export * from './effects/router.effects';
 
-export * from './models/ai-search-by-term-payload';
 export * from './models/delete-status.model';
 export * from './models/deleted-node-info.model';
 export * from './models/node-info.model';

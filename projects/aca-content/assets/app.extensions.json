@@ -229,6 +229,16 @@
             "component": "app.search.navbar"
           }
         ]
+      },
+      {
+        "id": "app.navbar.tertiary",
+        "items": [
+          {
+            "id": "app.knowledgeDiscovery.sidenav",
+            "title": "KNOWLEDGE_RETRIEVAL.SEARCH.AGENTS_BUTTON.LABEL",
+            "component": "app.knowledgeDiscovery.sidenav"
+          }
+        ]
       }
     ],
     "toolbar": [
@@ -833,22 +843,6 @@
             }
           }
         ]
-      },
-      {
-        "id": "app.toolbar.ai.search",
-        "order": 0,
-        "title": "KNOWLEDGE_RETRIEVAL.SEARCH.AGENTS_BUTTON.TITLE",
-        "component": "app.toolbar.ai.agents-button",
-        "type": "custom",
-        "rules": {
-          "visible": "app.selection.displayedKnowledgeRetrievalButton"
-        },
-        "actions": {
-          "click": "app.action.toggle-ai-search-input.execute"
-        },
-        "data": {
-          "trigger": "TOGGLE_AI_SEARCH_INPUT"
-        }
       }
     ],
     "contextMenu": [

@@ -75,7 +75,6 @@ import { SearchActionMenuComponent } from '../search-action-menu/search-action-m
 import { MatIconModule } from '@angular/material/icon';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
 import { BulkActionsDropdownComponent } from '../../bulk-actions-dropdown/bulk-actions-dropdown.component';
-import { SearchAiInputContainerComponent } from '../../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
 import { extractFiltersFromEncodedQuery, extractUserQueryFromEncodedQuery } from '../../../utils/aca-search-utils';
 import { SaveSearchDirective } from '../search-save/directive/save-search.directive';
 import { combineLatest, Observable, of } from 'rxjs';
@@ -115,7 +114,6 @@ import { SavedSearchesContextService } from '../../../services/saved-searches-co
     CustomEmptyContentTemplateDirective,
     ViewerToolbarComponent,
     BulkActionsDropdownComponent,
-    SearchAiInputContainerComponent,
     SaveSearchDirective,
     IsFeatureSupportedInCurrentAcsPipe,
     AsyncPipe
