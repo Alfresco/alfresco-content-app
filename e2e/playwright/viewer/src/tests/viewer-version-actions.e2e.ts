@@ -145,10 +145,8 @@ test.describe('Version actions', () => {
       await personalFiles.page.waitForURL(/2\.0/, { timeout: timeouts.large });
       expect(personalFiles.page.url()).toContain(fileAfterUpdateId);
       await expect(personalFiles.viewer.fileTitleButtonLocator).toContainText(filenameAfterUpdate, { timeout: timeouts.large });
-      await personalFiles.viewer.waitForViewerLoaderToFinish();
-      await expect(personalFiles.viewer.unknownFormat, `Viewer showed "Couldn't load preview" for version 2.0`).toBeHidden({
-        timeout: timeouts.large
-      });
+      await personalFiles.viewer.waitForViewerContentToRender('image');
+      await expect(personalFiles.viewer.viewerRenderedImage.first()).toBeVisible({ timeout: timeouts.large });
     });
   });
 
@@ -161,11 +159,13 @@ test.describe('Version actions', () => {
     test('[XAT-19378] PDF file renders in viewer without loading error', async ({ personalFiles }) => {
       await viewFirstFileVersion(personalFiles);
       await personalFiles.viewer.waitForViewerContentToRender('document');
+      expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     });
 
     test('[XAT-19379] Image file renders in viewer without loading error', async ({ personalFiles }) => {
       await personalFiles.dataTable.performClickFolderOrFileToOpen(standaloneJpgName);
       await personalFiles.viewer.waitForViewerContentToRender('image');
+      expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     });
   });
 
