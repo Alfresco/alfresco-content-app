@@ -45,7 +45,6 @@ import {
 } from '@alfresco/adf-core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
 import { TranslatePipe } from '@ngx-translate/core';
-import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 
 @Component({
@@ -59,7 +58,6 @@ import { DocumentListComponent } from '@alfresco/adf-content-services';
     PageLayoutComponent,
     TranslatePipe,
     ToolbarComponent,
-    SearchAiInputContainerComponent,
     EmptyContentComponent,
     DynamicColumnComponent,
     DocumentListComponent,

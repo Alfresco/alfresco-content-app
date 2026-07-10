@@ -27,8 +27,8 @@ import { LibrariesComponent } from './components/libraries/libraries.component';
 import { FavoriteLibrariesComponent } from './components/favorite-libraries/favorite-libraries.component';
 import { SearchResultsComponent } from './components/search/search-results/search-results.component';
 import { SearchLibrariesResultsComponent } from './components/search/search-libraries-results/search-libraries-results.component';
-import { AppSharedRuleGuard, ExtensionRoute, ExtensionsDataLoaderGuard, GenericErrorComponent, PluginEnabledGuard } from '@alfresco/aca-shared';
-import { AuthGuard, UnsavedChangesGuard } from '@alfresco/adf-core';
+import { AppSharedRuleGuard, ExtensionRoute, ExtensionsDataLoaderGuard, GenericErrorComponent } from '@alfresco/aca-shared';
+import { AuthGuard } from '@alfresco/adf-core';
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { RecentFilesComponent } from './components/recent-files/recent-files.component';
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
@@ -40,7 +40,6 @@ import { Data, Route, Routes } from '@angular/router';
 import { SharedLinkViewComponent } from './components/shared-link-view/shared-link-view.component';
 import { TrashcanComponent } from './components/trashcan/trashcan.component';
 import { ShellLayoutComponent } from '@alfresco/adf-core/shell';
-import { SearchAiResultsComponent } from './components/knowledge-retrieval/search-ai/search-ai-results/search-ai-results.component';
 import { SavedSearchesSmartListComponent } from './components/search/search-save/list/smart-list/saved-searches-smart-list.component';
 import { LibraryListComponent } from './components/library-list/library-list.component';
 import { RepositoryViewComponent } from './components/repository-view/repository-view.component';
@@ -408,21 +407,6 @@ export const CONTENT_LAYOUT_ROUTES: Route[] = [
             path: '',
             loadChildren: () => import('@alfresco/aca-content/folder-rules').then((m) => m.FOLDER_RULES_ROUTES)
           }
-        ]
-      },
-      {
-        path: 'knowledge-retrieval',
-        canDeactivate: [UnsavedChangesGuard],
-        canActivate: [PluginEnabledGuard],
-        data: {
-          plugin: 'plugins.knowledgeRetrievalEnabled'
-        },
-        children: [
-          {
-            path: '',
-            component: SearchAiResultsComponent
-          },
-          ...createViewRoutes('knowledge-retrieval')
         ]
       },
       {

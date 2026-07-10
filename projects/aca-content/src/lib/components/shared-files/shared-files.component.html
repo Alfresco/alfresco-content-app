@@ -1,17 +1,12 @@
 <aca-page-layout>
   <div class="aca-page-layout-header">
-    <aca-search-ai-input-container
-      *ngIf="searchAiInputState.active; else header"
-      [agentId]="searchAiInputState.selectedAgentId" />
-    <ng-template #header>
-      <div class="aca-header-container">
-        <h1 class="aca-page-title">
+    <div class="aca-header-container">
+      <h1 class="aca-page-title">
       {{ (selectedRowItemsCount < 1 ? 'APP.BROWSE.SHARED.TITLE' : 'APP.HEADER.SELECTED') | translate: { count: selectedRowItemsCount } }}
     </h1>
 
-        <aca-toolbar [items]="actions" />
-      </div>
-    </ng-template>
+      <aca-toolbar [items]="actions" />
+    </div>
   </div>
 
   <div class="aca-page-layout-content">

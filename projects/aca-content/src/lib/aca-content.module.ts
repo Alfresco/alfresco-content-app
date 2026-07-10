@@ -67,7 +67,7 @@ import { UserMenuComponent } from './components/sidenav/user-menu/user-menu.comp
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { SearchResultsRowComponent } from './components/search/search-results-row/search-results-row.component';
 import { BulkActionsDropdownComponent } from './components/bulk-actions-dropdown/bulk-actions-dropdown.component';
-import { AgentsButtonComponent } from './components/knowledge-retrieval/search-ai/agents-button/agents-button.component';
+import { KnowledgeDiscoverySidenavComponent } from './components/knowledge-discovery/knowledge-discovery-sidenav.component';
 import { SaveSearchSidenavComponent } from './components/search/search-save/sidenav/save-search-sidenav.component';
 import { IsFeatureSupportedInCurrentAcsPipe } from './pipes/is-feature-supported.pipe';
 
@@ -104,7 +104,6 @@ import { IsFeatureSupportedInCurrentAcsPipe } from './pipes/is-feature-supported
         'app.toolbar.toggleFavorite': ToggleFavoriteComponent,
         'app.toolbar.toggleFavoriteLibrary': ToggleFavoriteLibraryComponent,
         'app.toolbar.toggleJoinLibrary': ToggleJoinLibraryButtonComponent,
-        'app.toolbar.ai.agents-button': AgentsButtonComponent,
         'app.menu.toggleJoinLibrary': ToggleJoinLibraryMenuComponent,
         'app.bulk-actions-dropdown': BulkActionsDropdownComponent,
         'app.shared-link.toggleSharedLink': ToggleSharedComponent,
@@ -123,7 +122,8 @@ import { IsFeatureSupportedInCurrentAcsPipe } from './pipes/is-feature-supported
         'app.notification-center': NotificationHistoryComponent,
         'app.user.menu': UserMenuComponent,
         'app.search.columns.name': SearchResultsRowComponent,
-        'app.search.navbar': SaveSearchSidenavComponent
+        'app.search.navbar': SaveSearchSidenavComponent,
+        'app.knowledgeDiscovery.sidenav': KnowledgeDiscoverySidenavComponent
       },
       evaluators: {
         canToggleJoinLibrary: rules.canToggleJoinLibrary,
@@ -152,7 +152,6 @@ import { IsFeatureSupportedInCurrentAcsPipe } from './pipes/is-feature-supported
         'app.selection.hasLibraryRole': rules.hasLibraryRole,
         'app.selection.folder': rules.hasFolderSelected,
         'app.selection.folder.canUpdate': rules.canUpdateSelectedFolder,
-        'app.selection.displayedKnowledgeRetrievalButton': rules.canDisplayKnowledgeRetrievalButton,
         'app.selection.isCheckedOut': rules.isCheckedOut,
         'app.selection.isNodeLink': rules.isNodeLink,
 
@@ -170,7 +169,8 @@ import { IsFeatureSupportedInCurrentAcsPipe } from './pipes/is-feature-supported
         'app.isContentServiceEnabled': rules.isContentServiceEnabled,
         'app.areTagsEnabled': rules.areTagsEnabled,
         'app.areCategoriesEnabled': rules.areCategoriesEnabled,
-        'app.isSSOEnabled': rules.isSSOEnabled
+        'app.isSSOEnabled': rules.isSSOEnabled,
+        'app.isKnowledgeDiscoveryUrlPresent': rules.isKnowledgeDiscoveryUrlPresent
       }
     }),
     IsFeatureSupportedInCurrentAcsPipe

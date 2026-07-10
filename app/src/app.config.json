@@ -3,6 +3,7 @@
   "ecmHost": "{protocol}//{hostname}{:port}",
   "aosHost": "{protocol}//{hostname}{:port}/alfresco/aos",
   "baseShareUrl": "{protocol}//{hostname}{:port}/#/preview/s",
+  "knowledgeDiscoveryUrl": "",
   "providers": "ECM",
   "authType": "BASIC",
   "loginRoute": "login",
@@ -14,8 +15,7 @@
     "contentService": true,
     "folderRules": true,
     "tagsEnabled": true,
-    "categoriesEnabled": true,
-    "knowledgeRetrievalEnabled": false
+    "categoriesEnabled": true
   },
   "oauth2": {
     "host": "{protocol}//{hostname}{:port}/auth/realms/alfresco",

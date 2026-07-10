@@ -59,6 +59,7 @@ Application related evaluators which can be used to check various different aspe
 | 5.1.1  | isMultiSelection                    | Checks if the user has selected multiple files                                                                         |
 | 6.1.0  | canPrintFile                        | Checks if current file can be printed or not (media files such as audio/video cannot be printed).                      |
 | 7.4.0  | app.selection.isCheckedOut          | Checks if selected node contains `cm:checkedOut` aspect.                                                               |
+| 8.0.0  | app.isKnowledgeDiscoveryUrlPresent  | Checks if the Knowledge Discovery URL is specified in the app config.                                                 |
 
 #### Navigation Rules/Evaluators
 

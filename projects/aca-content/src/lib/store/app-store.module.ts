@@ -40,7 +40,6 @@ import {
   UploadEffects,
   ViewerEffects
 } from './effects';
-import { SearchAiEffects } from './effects/search-ai.effects';
 
 @NgModule({
   providers: [
@@ -65,7 +64,6 @@ import { SearchAiEffects } from './effects/search-ai.effects';
       FavoriteEffects,
       TemplateEffects,
       ContextMenuEffects,
-      SearchAiEffects,
       RouterEffects
     ])
   ]

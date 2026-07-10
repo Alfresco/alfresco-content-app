@@ -45,7 +45,11 @@ export class ActionDirective {
   @HostListener('click')
   onClick() {
     if (this.action.url) {
-      this.router.navigate(this.getNavigationCommands(this.action.url), { queryParams: this.getNavigationQueryParams(this.action.url) });
+      if (this.isExternalUrl(this.action.url)) {
+        window.open(this.action.url, '_blank', 'noopener,noreferrer');
+      } else {
+        this.router.navigate(this.getNavigationCommands(this.action.url), { queryParams: this.getNavigationQueryParams(this.action.url) });
+      }
     } else if (this.action.click) {
       this.store.dispatch({
         type: this.action.click.action,
@@ -72,5 +76,9 @@ export class ActionDirective {
 
   private getNavigationQueryParams(url: string): Params {
     return this.router.parseUrl(url).queryParams;
+  }
+
+  private isExternalUrl(url: string): boolean {
+    return /^https?:\/\//i.test(url);
   }
 }

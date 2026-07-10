@@ -22,15 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  DocumentListComponent,
-  DocumentListService,
-  SearchAiInputState,
-  SearchAiService,
-  ShareDataRow,
-  UploadService
-} from '@alfresco/adf-content-services';
-import { ShowHeaderMode, UserPreferencesService } from '@alfresco/adf-core';
+import { DocumentListComponent, DocumentListService, ShareDataRow, UploadService } from '@alfresco/adf-content-services';
+import { ShowHeaderMode } from '@alfresco/adf-core';
 import { ContentActionRef, DocumentListPresetRef, SelectionState } from '@alfresco/adf-extensions';
 import { DestroyRef, Directive, HostListener, inject, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -52,7 +45,6 @@ import { AutoDownloadService } from '../../services/auto-download.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Router } from '@angular/router';
 import { AppSettingsService } from '../../services/app-settings.service';
-import { NavigationHistoryService } from '../../services/navigation-history.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 /* eslint-disable @angular-eslint/directive-class-suffix */
@@ -86,23 +78,12 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   protected breakpointObserver = inject(BreakpointObserver);
   protected uploadService = inject(UploadService);
   protected router = inject(Router);
-  protected userPreferencesService = inject(UserPreferencesService);
-  protected searchAiService = inject(SearchAiService);
 
   protected readonly destroyRef = inject(DestroyRef);
 
   private readonly autoDownloadService = inject(AutoDownloadService, { optional: true });
-  private readonly navigationHistoryService = inject(NavigationHistoryService);
 
   protected subscriptions: Subscription[] = [];
-
-  private _searchAiInputState: SearchAiInputState = {
-    active: false
-  };
-
-  get searchAiInputState(): SearchAiInputState {
-    return this._searchAiInputState;
-  }
 
   ngOnInit() {
     this.extensions
@@ -156,12 +137,6 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
       .subscribe((result) => {
         this.isSmallScreen = result.matches;
       });
-
-    this.searchAiService.toggleSearchAiInput$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((searchAiInputState) => (this._searchAiInputState = searchAiInputState));
-
-    this.setKnowledgeRetrievalState();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -243,19 +218,6 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
 
   trackByColumnId(_: number, obj: DocumentListPresetRef): string {
     return obj.id;
-  }
-
-  private setKnowledgeRetrievalState() {
-    const nodes = this.userPreferencesService.get('knowledgeRetrievalNodes');
-    if (nodes && this.navigationHistoryService.shouldReturnLastSelection('/knowledge-retrieval')) {
-      this.selectedNodesState = JSON.parse(nodes);
-    }
-
-    if (!this.selectedNodesState && !this.router.url.startsWith('/knowledge-retrieval')) {
-      this.searchAiService.updateSearchAiInputState({
-        active: false
-      });
-    }
   }
 
   private isOutletPreviewUrl(): boolean {

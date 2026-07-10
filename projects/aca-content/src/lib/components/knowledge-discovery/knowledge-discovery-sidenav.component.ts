@@ -22,7 +22,38 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export interface AiSearchByTermPayload {
-  searchTerm: string;
-  agentId: string;
+import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { NavBarLinkRef } from '@alfresco/adf-extensions';
+import { ExpandMenuComponent } from '../sidenav/components/expand-menu.component';
+import { AppSettingsService } from '@alfresco/aca-shared';
+
+@Component({
+  selector: 'aca-knowledge-discovery-sidenav',
+  imports: [ExpandMenuComponent],
+  templateUrl: './knowledge-discovery-sidenav.component.html',
+  encapsulation: ViewEncapsulation.None
+})
+export class KnowledgeDiscoverySidenavComponent implements OnInit {
+  private readonly appSettings = inject(AppSettingsService);
+
+  item: NavBarLinkRef;
+
+  ngOnInit(): void {
+    const url = this.appSettings.knowledgeDiscoveryUrl;
+    this.item = {
+      id: 'app.knowledgeDiscovery.sidenav',
+      icon: '',
+      title: 'KNOWLEDGE_RETRIEVAL.SIDENAV.TITLE',
+      route: '/',
+      children: [
+        {
+          id: 'app.knowledgeDiscovery.sidenav.discovery',
+          icon: '',
+          title: 'KNOWLEDGE_RETRIEVAL.SIDENAV.DISCOVERY',
+          route: url,
+          url
+        }
+      ]
+    };
+  }
 }

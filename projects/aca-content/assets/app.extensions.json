@@ -62,16 +62,6 @@
         }
       }
     ],
-    "icons": [
-      {
-        "id": "adf:three_magic_stars_ai",
-        "value": "./assets/images/three-magic-stars-ai.svg"
-      },
-      {
-        "id": "adf:colored-stars-ai",
-        "value": "./assets/images/colored-stars-ai.svg"
-      }
-    ],
     "create": [
       {
         "id": "app.create.folder",
@@ -227,6 +217,18 @@
           {
             "id": "app.search.navbar",
             "component": "app.search.navbar"
+          }
+        ]
+      },
+      {
+        "id": "app.navbar.tertiary",
+        "items": [
+          {
+            "id": "app.knowledgeDiscovery.sidenav",
+            "component": "app.knowledgeDiscovery.sidenav",
+            "rules": {
+              "visible": "app.isKnowledgeDiscoveryUrlPresent"
+            }
           }
         ]
       }
@@ -833,22 +835,6 @@
             }
           }
         ]
-      },
-      {
-        "id": "app.toolbar.ai.search",
-        "order": 0,
-        "title": "KNOWLEDGE_RETRIEVAL.SEARCH.AGENTS_BUTTON.TITLE",
-        "component": "app.toolbar.ai.agents-button",
-        "type": "custom",
-        "rules": {
-          "visible": "app.selection.displayedKnowledgeRetrievalButton"
-        },
-        "actions": {
-          "click": "app.action.toggle-ai-search-input.execute"
-        },
-        "data": {
-          "trigger": "TOGGLE_AI_SEARCH_INPUT"
-        }
       }
     ],
     "contextMenu": [

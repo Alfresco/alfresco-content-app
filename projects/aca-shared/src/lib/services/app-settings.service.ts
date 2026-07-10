@@ -167,4 +167,11 @@ export class AppSettingsService {
   get authDownloadThreshold(): number {
     return this.appConfig.get<number>('viewer.fileAutoDownloadSizeThresholdInMB', 15);
   }
+
+  /**
+   * Get the Knowledge Discovery URL from the app settings.
+   */
+  get knowledgeDiscoveryUrl(): string {
+    return this.appConfig.get<string>('knowledgeDiscoveryUrl', '');
+  }
 }

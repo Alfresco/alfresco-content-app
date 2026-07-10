@@ -39,12 +39,6 @@ export class ViewerService {
   private readonly preferences = inject(UserPreferencesService);
   private readonly contentApi = inject(ContentApiService);
 
-  private _customNodesOrder: string[] = [];
-
-  set customNodesOrder(customNodesOrder: string[]) {
-    this._customNodesOrder = customNodesOrder;
-  }
-
   recentFileFilters = [
     'TYPE:"content"',
     '-PATH:"//cm:wiki/*"',
@@ -170,7 +164,7 @@ export class ViewerService {
       };
       nodes = await this.contentApi.search(query).toPromise();
     }
-    return this.getCustomNodesOrderIfNoNodes(nodes, isClient, previousSortKey, previousSortDir, sortKey, sortDirection);
+    return this.getNodeIds(nodes, isClient, previousSortKey, previousSortDir, sortKey, sortDirection);
   }
 
   /**
@@ -223,7 +217,7 @@ export class ViewerService {
     }
   }
 
-  private getCustomNodesOrderIfNoNodes(
+  private getNodeIds(
     nodes: NodePaging | FavoritePaging | SharedLinkPaging | ResultSetPaging,
     isClient: boolean,
     previousSortKey: string,
@@ -240,8 +234,7 @@ export class ViewerService {
         this.sort(entries, sortKey, sortDirection);
       }
       return entries.map((entry) => entry.id ?? entry.nodeId);
-    } else {
-      return this._customNodesOrder;
     }
+    return [];
   }
 }

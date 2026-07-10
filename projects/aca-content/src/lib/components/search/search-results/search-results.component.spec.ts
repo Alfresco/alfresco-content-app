@@ -35,7 +35,7 @@ import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AppService } from '@alfresco/aca-shared';
 import { MatSnackBarModule, MatSnackBarRef } from '@angular/material/snack-bar';
 import { Buffer } from 'buffer';
-import { testHeader } from '../../../testing/document-base-page-utils';
+
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -523,6 +523,4 @@ describe('SearchComponent', () => {
       flush();
     }));
   });
-
-  testHeader(SearchResultsComponent, false);
 });

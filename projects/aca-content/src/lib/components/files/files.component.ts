@@ -59,7 +59,6 @@ import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpErrorResponse } from '@angular/common/http';
 import { extractFiltersFromEncodedQuery } from '../../utils/aca-search-utils';
@@ -77,7 +76,6 @@ import { extractFiltersFromEncodedQuery } from '../../utils/aca-search-utils';
     PaginationDirective,
     PageLayoutComponent,
     ToolbarComponent,
-    SearchAiInputContainerComponent,
     DynamicColumnComponent,
     BreadcrumbComponent,
     UploadDragAreaComponent,

@@ -65,4 +65,20 @@ describe('ActionDirective', () => {
     directive.onClick();
     expect(store.dispatch).toHaveBeenCalled();
   });
+
+  it('should open external URL in new tab and not call router.navigate', () => {
+    spyOn(window, 'open');
+    spyOn(router, 'navigate');
+    directive.action = { url: 'https://discovery.example.com/agents' };
+    directive.onClick();
+    expect(window.open).toHaveBeenCalledWith('https://discovery.example.com/agents', '_blank', 'noopener,noreferrer');
+    expect(router.navigate).not.toHaveBeenCalled();
+  });
+
+  it('should open http URL in new tab', () => {
+    spyOn(window, 'open');
+    directive.action = { url: 'http://internal.example.com/path' };
+    directive.onClick();
+    expect(window.open).toHaveBeenCalledWith('http://internal.example.com/path', '_blank', 'noopener,noreferrer');
+  });
 });

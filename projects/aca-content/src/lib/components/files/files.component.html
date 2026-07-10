@@ -1,18 +1,13 @@
 <aca-page-layout [hasError]="!isValidPath">
   <div class="aca-page-layout-header">
-    <aca-search-ai-input-container
-      *ngIf="searchAiInputState.active; else header"
-      [agentId]="searchAiInputState.selectedAgentId" />
-    <ng-template #header>
-      <div class="aca-header-container">
-        <adf-breadcrumb
-          [root]="title"
-          [folderNode]="node"
-          [selectedRowItemsCount]="selectedRowItemsCount" [maxItems]="isSmallScreen ? 1 : 0"
-          (navigate)="onBreadcrumbNavigate($event)" />
-        <aca-toolbar [items]="actions" />
-      </div>
-    </ng-template>
+    <div class="aca-header-container">
+      <adf-breadcrumb
+        [root]="title"
+        [folderNode]="node"
+        [selectedRowItemsCount]="selectedRowItemsCount" [maxItems]="isSmallScreen ? 1 : 0"
+        (navigate)="onBreadcrumbNavigate($event)" />
+      <aca-toolbar [items]="actions" />
+    </div>
   </div>
 
   <div class="aca-page-layout-error">
