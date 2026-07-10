@@ -49,7 +49,6 @@ import {
   SetInfoDrawerStateAction,
   SetSelectedNodesAction,
   ShareNodeAction,
-  ShowLoaderAction,
   UndoDeleteNodesAction,
   UnlockWriteAction,
   UnshareNodesAction,
@@ -223,7 +222,6 @@ describe('NodeEffects', () => {
       store.dispatch(new DeleteNodesAction([node]));
 
       expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new DeleteNodesAction([node], true) }));
-      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new ShowLoaderAction(true) }));
       expect(contentService.deleteNodes).toHaveBeenCalledWith([node], true, undefined);
     });
 
@@ -240,7 +238,6 @@ describe('NodeEffects', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         jasmine.objectContaining({ ...new DeleteNodesAction(null, true, { focusedElementOnCloseSelector: '.test-selector' }) })
       );
-      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new ShowLoaderAction(true) }));
       expect(contentService.deleteNodes).toHaveBeenCalledWith([node], true, '.test-selector');
     }));
 
@@ -250,7 +247,6 @@ describe('NodeEffects', () => {
       store.dispatch(new DeleteNodesAction(null));
 
       expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new DeleteNodesAction(null) }));
-      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new ShowLoaderAction(true) }));
       expect(contentService.deleteNodes).not.toHaveBeenCalled();
     });
   });

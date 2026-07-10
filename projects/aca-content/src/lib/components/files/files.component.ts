@@ -266,7 +266,15 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     this.navigate(route.id);
   }
 
+  isFilterActive(): boolean {
+    return this.isFilterHeaderActive && !!this.queryParams;
+  }
+
   onFileUploadedEvent(event: FileUploadEvent) {
+    if (this.isFilterActive()) {
+      this.queryBuilderService.execute();
+    }
+
     const node: NodeEntry = event.file.data;
 
     // check root and child nodes
@@ -307,9 +315,13 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   }
 
   onContentAdded(nodes: NodeEntry[]) {
-    const newNode = nodes.find((node) => node?.entry?.parentId === this.getParentNodeId());
-    if (newNode) {
-      this.reload(this.selectedNode);
+    if (this.isFilterActive()) {
+      this.queryBuilderService.execute();
+    } else {
+      const newNode = nodes.find((node) => node?.entry?.parentId === this.getParentNodeId());
+      if (newNode) {
+        this.reload(this.selectedNode);
+      }
     }
   }
 

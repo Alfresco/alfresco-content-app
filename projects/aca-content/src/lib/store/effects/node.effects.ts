@@ -52,7 +52,6 @@ import {
   RestoreDeletedNodesAction,
   SetInfoDrawerStateAction,
   ShareNodeAction,
-  ShowLoaderAction,
   UndoDeleteNodesAction,
   UnlockWriteAction,
   UnshareNodesAction
@@ -166,7 +165,6 @@ export class NodeEffects {
       this.actions$.pipe(
         ofType<DeleteNodesAction>(NodeActionTypes.Delete),
         map((action) => {
-          this.store.dispatch(new ShowLoaderAction(true));
           if (action?.payload?.length > 0) {
             this.contentService.deleteNodes(action.payload, action.allowUndo, action.configuration?.focusedElementOnCloseSelector);
           } else {

@@ -37,6 +37,7 @@ import {
   RestoreDeletedNodesAction,
   SetSelectedNodesAction,
   ShareNodeAction,
+  ShowLoaderAction,
   UnlockWriteAction,
   ViewNodeVersionAction
 } from '@alfresco/aca-shared/store';
@@ -917,6 +918,93 @@ describe('ContentManagementService', () => {
       expect(document.querySelector).toHaveBeenCalledWith('.some-button');
       expect(mockElement.focus).toHaveBeenCalled();
     }));
+
+    describe('link nodes', () => {
+      it('should open a confirmation dialog when the selection contains a link', () => {
+        const dialogOpenSpy = spyOn(dialog, 'open').and.returnValue({
+          afterClosed: () => of(false)
+        } as MatDialogRef<MatDialog>);
+        const selection = [{ entry: { id: '1', name: 'link.url', nodeType: 'app:filelink' } }] as NodeEntry[];
+
+        store.dispatch(new DeleteNodesAction(selection));
+
+        expect(dialogOpenSpy).toHaveBeenCalledWith(
+          ConfirmDialogComponent,
+          jasmine.objectContaining({
+            data: jasmine.objectContaining({ title: 'APP.DIALOGS.CONFIRM_DELETE_LINK.TITLE' })
+          })
+        );
+      });
+
+      it('should delete the link when the confirmation dialog is accepted', () => {
+        spyOn(dialog, 'open').and.returnValue({
+          afterClosed: () => of(true)
+        } as MatDialogRef<MatDialog>);
+        const deleteNodeSpy = spyOn(contentApi, 'deleteNode').and.returnValue(of(null));
+        const selection = [{ entry: { id: '1', name: 'link.url', nodeType: 'app:filelink' } }] as NodeEntry[];
+
+        store.dispatch(new DeleteNodesAction(selection));
+
+        expect(deleteNodeSpy).toHaveBeenCalledWith('1');
+      });
+
+      it('should not delete the link when the confirmation dialog is cancelled', () => {
+        spyOn(dialog, 'open').and.returnValue({
+          afterClosed: () => of(false)
+        } as MatDialogRef<MatDialog>);
+        const deleteNodeSpy = spyOn(contentApi, 'deleteNode').and.returnValue(of(null));
+        const selection = [{ entry: { id: '1', name: 'link.url', nodeType: 'app:filelink' } }] as NodeEntry[];
+
+        store.dispatch(new DeleteNodesAction(selection));
+
+        expect(deleteNodeSpy).not.toHaveBeenCalled();
+      });
+
+      it('should not raise the confirmation dialog for regular nodes', () => {
+        const dialogOpenSpy = spyOn(dialog, 'open');
+        spyOn(contentApi, 'deleteNode').and.returnValue(of(null));
+        const selection = [{ entry: { id: '1', name: 'name1', nodeType: 'cm:content' } }] as NodeEntry[];
+
+        store.dispatch(new DeleteNodesAction(selection));
+
+        expect(dialogOpenSpy).not.toHaveBeenCalled();
+      });
+
+      it('should not offer undo when every deleted node is a link', () => {
+        spyOn(dialog, 'open').and.returnValue({
+          afterClosed: () => of(true)
+        } as MatDialogRef<MatDialog>);
+        spyOn(contentApi, 'deleteNode').and.returnValue(of(null));
+        const selection = [{ entry: { id: '1', name: 'link.url', nodeType: 'app:filelink' } }] as NodeEntry[];
+
+        store.dispatch(new DeleteNodesAction(selection));
+
+        expect(openSnackMessageActionSpy.calls.argsFor(0)[1]).toBeNull();
+      });
+
+      it('should dispatch ShowLoaderAction(true) when link deletion is confirmed', () => {
+        const dispatchSpy = spyOn(store, 'dispatch');
+        spyOn(dialog, 'open').and.returnValue({
+          afterClosed: () => of(true)
+        } as MatDialogRef<MatDialog>);
+        spyOn(contentApi, 'deleteNode').and.returnValue(of(null));
+        const selection = [{ entry: { id: '1', name: 'link.url', nodeType: 'app:filelink' } }] as NodeEntry[];
+
+        contentManagementService.deleteNodes(selection);
+
+        expect(dispatchSpy).toHaveBeenCalledWith(jasmine.any(ShowLoaderAction));
+      });
+
+      it('should dispatch ShowLoaderAction(true) for regular node deletion', () => {
+        const dispatchSpy = spyOn(store, 'dispatch');
+        spyOn(contentApi, 'deleteNode').and.returnValue(of(null));
+        const selection = [{ entry: { id: '1', name: 'name1', nodeType: 'cm:content' } }] as NodeEntry[];
+
+        contentManagementService.deleteNodes(selection);
+
+        expect(dispatchSpy).toHaveBeenCalledWith(jasmine.any(ShowLoaderAction));
+      });
+    });
   });
 
   describe('Permanent Delete', () => {

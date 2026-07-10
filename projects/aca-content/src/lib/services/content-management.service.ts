@@ -737,8 +737,40 @@ export class ContentManagementService {
   }
 
   deleteNodes(items: NodeEntry[], allowUndo = true, focusedElementOnCloseSelector?: string): void {
+    const containsLink = items.some((node) => this.isLinkNode(node));
+
+    if (containsLink) {
+      const dialogRef = this.dialogRef.open(ConfirmDialogComponent, {
+        data: {
+          title: 'APP.DIALOGS.CONFIRM_DELETE_LINK.TITLE',
+          message: 'APP.DIALOGS.CONFIRM_DELETE_LINK.MESSAGE',
+          yesLabel: 'APP.DIALOGS.CONFIRM_DELETE_LINK.YES_LABEL',
+          noLabel: 'APP.DIALOGS.CONFIRM_DELETE_LINK.NO_LABEL'
+        },
+        minWidth: '250px'
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result === true) {
+          this.store.dispatch(new ShowLoaderAction(true));
+          this.deleteNodesBatch(items, allowUndo, focusedElementOnCloseSelector);
+        } else {
+          this.focusAfterClose(focusedElementOnCloseSelector);
+        }
+      });
+    } else {
+      this.store.dispatch(new ShowLoaderAction(true));
+      this.deleteNodesBatch(items, allowUndo, focusedElementOnCloseSelector);
+    }
+  }
+
+  private isLinkNode(node: NodeEntry): boolean {
+    return node.entry.nodeType === 'app:filelink' || node.entry.nodeType === 'app:folderlink';
+  }
+
+  private deleteNodesBatch(items: NodeEntry[], allowUndo = true, focusedElementOnCloseSelector?: string): void {
     this.focusAfterClose(focusedElementOnCloseSelector);
-    const canUndo = allowUndo && !items.every((node) => node.entry.nodeType === 'app:filelink' || node.entry.nodeType === 'app:folderlink');
+    const canUndo = allowUndo && !items.every((node) => this.isLinkNode(node));
     const batch: Observable<DeletedNodeInfo>[] = [];
 
     items.forEach((node) => {
