@@ -189,7 +189,9 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
 
     this.uploadService.fileUploadComplete.pipe(debounceTime(300), takeUntilDestroyed(this.destroyRef)).subscribe((file) => {
       this.nodesApiService.nodeUpdated.next(file.data.entry);
-      void this.displayNode(file.data.entry.id);
+      if (file.data.entry.id === this.nodeId) {
+        void this.displayNode(file.data.entry.id);
+      }
     });
 
     this.previewLocation = this.router.url.substring(0, this.router.url.indexOf('/', 1)).replace(/\//g, '');
