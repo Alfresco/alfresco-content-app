@@ -82,8 +82,8 @@ test.describe('Create Link - creation scenarios', () => {
     const expectedLinkName = `Link to ${sourceFile}.url`;
     expect(await personalFiles.dataTable.isItemPresent(expectedLinkName)).toBe(true);
 
-    const fileLinkIcon = personalFiles.dataTable.getRowByName(expectedLinkName).locator('img[src*="ft_ic_file_link.svg"]');
-    await expect(fileLinkIcon).toBeVisible();
+    const fileLinkIcon = personalFiles.dataTable.getRowByName(expectedLinkName).getByRole('img').first();
+    await expect(fileLinkIcon).toHaveAttribute('src', /ft_ic_file_link\.svg/);
   });
 
   test('[XAT-19625] Should create a link for a folder and verify it in the destination', async ({ personalFiles }) => {
@@ -99,8 +99,8 @@ test.describe('Create Link - creation scenarios', () => {
     const expectedLinkName = `Link to ${sourceFolder}.url`;
     expect(await personalFiles.dataTable.isItemPresent(expectedLinkName)).toBe(true);
 
-    const folderLinkIcon = personalFiles.dataTable.getRowByName(expectedLinkName).locator('img[src*="ft_ic_folder_shortcut_link.svg"]');
-    await expect(folderLinkIcon).toBeVisible();
+    const folderLinkIcon = personalFiles.dataTable.getRowByName(expectedLinkName).getByRole('img').first();
+    await expect(folderLinkIcon).toHaveAttribute('src', /ft_ic_folder_shortcut_link\.svg/);
   });
 
   test('[XAT-19626] Should create links for multiple files and folders simultaneously', async ({ personalFiles }) => {
