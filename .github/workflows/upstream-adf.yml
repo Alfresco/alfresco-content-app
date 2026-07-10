@@ -33,7 +33,6 @@ jobs:
           client-id: ${{ vars.GH_APP_ENGINEERING_RO_CLIENT_ID }}
           private-key: ${{ secrets.GH_APP_ENGINEERING_RO_PRIVATE_KEY }}
           permission-contents: read
-          permission-packages: read
           permission-pull-requests: read
       - id: fetchLatestPkg
         name: Fetch the latest package version
