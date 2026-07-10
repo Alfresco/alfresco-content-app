@@ -134,7 +134,7 @@ test.describe('Create Link - comments and permissions', () => {
     await personalFiles.infoDrawer.waitForComments();
 
     const commentsCount = await personalFiles.infoDrawer.getCommentsCountFromList();
-    expect.soft(commentsCount).toBeGreaterThanOrEqual(1);
+    expect(commentsCount).toBeGreaterThanOrEqual(1);
 
     const commentContent = await personalFiles.infoDrawer.commentTextContent.first().innerText();
     expect(commentContent).toContain(commentText);
@@ -165,7 +165,7 @@ test.describe('Create Link - comments and permissions', () => {
     await personalFiles.infoDrawer.waitForComments();
 
     const commentsCount = await personalFiles.infoDrawer.getCommentsCountFromList();
-    expect.soft(commentsCount).toBeGreaterThanOrEqual(1);
+    expect(commentsCount).toBeGreaterThanOrEqual(1);
 
     const commentContent = await personalFiles.infoDrawer.commentTextContent.first().innerText();
     expect(commentContent).toContain(commentText);
@@ -187,14 +187,14 @@ test.describe('Create Link - comments and permissions', () => {
 
     await personalFiles.dataTable.rightClickOnItem(siteFile);
     const createLinkButton = personalFiles.dataTable.contextMenuActions.getButtonByText('Create Link');
-    expect.soft(await createLinkButton.isVisible()).toBe(true);
+    await expect(createLinkButton).toBeVisible();
     await createLinkButton.click();
 
     await personalFiles.contentNodeSelector.searchAndSelectDestination(managerDestFolder);
     await personalFiles.contentNodeSelector.actionButton.click();
 
     const msg = await personalFiles.snackBar.getSnackBarMessage();
-    expect.soft(msg).toContain('Link created for 1 item');
+    expect(msg).toContain('Link created for 1 item');
 
     await personalFiles.navigate({ remoteUrl: `./#/personal-files/${managerDestFolderId}`, waitUntil: 'load' });
     await personalFiles.spinnerWaitForReload();
@@ -221,14 +221,14 @@ test.describe('Create Link - comments and permissions', () => {
 
     await personalFiles.dataTable.rightClickOnItem(siteFile);
     const createLinkButton = personalFiles.dataTable.contextMenuActions.getButtonByText('Create Link');
-    expect.soft(await createLinkButton.isVisible()).toBe(true);
+    await expect(createLinkButton).toBeVisible();
     await createLinkButton.click();
 
     await personalFiles.contentNodeSelector.searchAndSelectDestination(consumerDestFolder);
     await personalFiles.contentNodeSelector.actionButton.click();
 
     const msg = await personalFiles.snackBar.getSnackBarMessage();
-    expect.soft(msg).toContain('Link created for 1 item');
+    expect(msg).toContain('Link created for 1 item');
 
     await personalFiles.navigate({ remoteUrl: `./#/personal-files/${consumerDestFolderId}`, waitUntil: 'load' });
     await personalFiles.spinnerWaitForReload();
@@ -254,7 +254,7 @@ test.describe('Create Link - comments and permissions', () => {
     await consumerPage.dataTable.selectItems(siteFile);
     await consumerPage.acaHeader.clickMoreActions();
     const createLinkMenuItem = consumerPage.matMenu.getButtonByText('Create Link');
-    expect.soft(await createLinkMenuItem.isVisible()).toBe(true);
+    await expect(createLinkMenuItem).toBeVisible();
     await createLinkMenuItem.click();
 
     await consumerPage.contentNodeSelector.selectLocation('My Libraries');

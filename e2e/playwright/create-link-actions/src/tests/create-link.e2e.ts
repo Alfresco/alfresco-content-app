@@ -74,13 +74,13 @@ test.describe('Create Link - creation scenarios', () => {
     await createLinkInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
 
     const msg = await personalFiles.snackBar.getSnackBarMessage();
-    expect.soft(msg).toContain('Link created for 1 item');
+    expect(msg).toContain('Link created for 1 item');
 
     await personalFiles.navigate({ remoteUrl: `./#/personal-files/${destinationFolderId}`, waitUntil: 'load' });
     await personalFiles.spinnerWaitForReload();
 
     const expectedLinkName = `Link to ${sourceFile}.url`;
-    expect.soft(await personalFiles.dataTable.isItemPresent(expectedLinkName)).toBe(true);
+    expect(await personalFiles.dataTable.isItemPresent(expectedLinkName)).toBe(true);
 
     const fileLinkIcon = personalFiles.dataTable.getRowByName(expectedLinkName).locator('img[src*="ft_ic_file_link.svg"]');
     await expect(fileLinkIcon).toBeVisible();
@@ -91,13 +91,13 @@ test.describe('Create Link - creation scenarios', () => {
     await createLinkInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
 
     const msg = await personalFiles.snackBar.getSnackBarMessage();
-    expect.soft(msg).toContain('Link created for 1 item');
+    expect(msg).toContain('Link created for 1 item');
 
     await personalFiles.navigate({ remoteUrl: `./#/personal-files/${destinationFolderId}`, waitUntil: 'load' });
     await personalFiles.spinnerWaitForReload();
 
     const expectedLinkName = `Link to ${sourceFolder}.url`;
-    expect.soft(await personalFiles.dataTable.isItemPresent(expectedLinkName)).toBe(true);
+    expect(await personalFiles.dataTable.isItemPresent(expectedLinkName)).toBe(true);
 
     const folderLinkIcon = personalFiles.dataTable.getRowByName(expectedLinkName).locator('img[src*="ft_ic_folder_shortcut_link.svg"]');
     await expect(folderLinkIcon).toBeVisible();
@@ -108,12 +108,12 @@ test.describe('Create Link - creation scenarios', () => {
     await createLinkInPersonalFiles(personalFiles, [sourceFile, sourceFolder], destinationFolder);
 
     const msg = await personalFiles.snackBar.getSnackBarMessage();
-    expect.soft(msg).toContain('Links created for 2 items');
+    expect(msg).toContain('Links created for 2 items');
 
     await personalFiles.navigate({ remoteUrl: `./#/personal-files/${destinationFolderId}`, waitUntil: 'load' });
     await personalFiles.spinnerWaitForReload();
 
-    expect.soft(await personalFiles.dataTable.isItemPresent(`Link to ${sourceFile}.url`)).toBe(true);
+    expect(await personalFiles.dataTable.isItemPresent(`Link to ${sourceFile}.url`)).toBe(true);
     expect(await personalFiles.dataTable.isItemPresent(`Link to ${sourceFolder}.url`)).toBe(true);
   });
 
