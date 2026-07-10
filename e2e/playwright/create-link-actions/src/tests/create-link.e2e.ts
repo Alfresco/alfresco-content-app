@@ -131,9 +131,7 @@ test.describe('Create Link - creation scenarios', () => {
   });
 
   const createLinkInPersonalFiles = async (personalFilesPage: PersonalFilesPage, itemNames: string[], destinationName: string): Promise<void> => {
-    for (const name of itemNames) {
-      await personalFilesPage.dataTable.selectItems(name);
-    }
+    await personalFilesPage.dataTable.selectItems(...itemNames);
     await personalFilesPage.clickMoreActionsButton('Create Link');
     await personalFilesPage.contentNodeSelector.selectDestination(destinationName);
     await personalFilesPage.contentNodeSelector.actionButton.click();
