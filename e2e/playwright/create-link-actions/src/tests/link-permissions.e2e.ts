@@ -99,13 +99,25 @@ test.describe('Create Link - comments and permissions', () => {
   });
 
   test.afterAll(async () => {
-    await Utils.deleteNodesSitesEmptyTrashcan(ownerNodesApi, ownerTrashcanApi, 'afterAll failed', sitesApi, [siteId]);
+    let primaryError: unknown;
+    try {
+      await ownerNodesApi.deleteCurrentUserNodes();
+      await ownerTrashcanApi.emptyTrashcan();
+      await sitesApi.deleteSites([siteId]);
+    } catch (error) {
+      console.error(`afterAll failed: ${error}`);
+      primaryError = error;
+    }
     try {
       const consumerTrashcanApi = await TrashcanApi.initialize(consumerUsername, consumerUsername);
-      await Utils.deleteNodesSitesEmptyTrashcan(consumerNodesApi, consumerTrashcanApi, 'afterAll failed (consumer cleanup)');
+      await consumerNodesApi.deleteCurrentUserNodes();
+      await consumerTrashcanApi.emptyTrashcan();
     } catch (error) {
       console.error(`afterAll failed (consumer cleanup): ${error}`);
-      throw error;
+      primaryError ??= error;
+    }
+    if (primaryError) {
+      throw primaryError;
     }
   });
 
