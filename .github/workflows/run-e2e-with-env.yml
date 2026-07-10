@@ -103,6 +103,10 @@ jobs:
             id: 18
           - name: "folder-information-actions"
             id: 19
+          - name: "viewer-actions"
+            id: 20
+          - name: "create-link-actions"
+            id: 21
     steps:
       - name: Checkout
         uses: actions/checkout@v7
