@@ -3,6 +3,7 @@
   "ecmHost": "{protocol}//{hostname}{:port}",
   "aosHost": "{protocol}//{hostname}{:port}/alfresco/aos",
   "baseShareUrl": "{protocol}//{hostname}{:port}/#/preview/s",
+  "knowledgeDiscoveryUrl": "",
   "providers": "ECM",
   "authType": "BASIC",
   "loginRoute": "login",

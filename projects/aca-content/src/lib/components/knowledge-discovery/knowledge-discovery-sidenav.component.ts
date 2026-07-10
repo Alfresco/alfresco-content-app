@@ -23,10 +23,9 @@
  */
 
 import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { SearchAiService } from '@alfresco/adf-content-services';
 import { NavBarLinkRef } from '@alfresco/adf-extensions';
 import { ExpandMenuComponent } from '../sidenav/components/expand-menu.component';
-import { KnowledgeRetrievalConfigEntry } from '@alfresco/js-api';
+import { AppSettingsService } from '@alfresco/aca-shared';
 
 @Component({
   selector: 'aca-knowledge-discovery-sidenav',
@@ -35,32 +34,26 @@ import { KnowledgeRetrievalConfigEntry } from '@alfresco/js-api';
   encapsulation: ViewEncapsulation.None
 })
 export class KnowledgeDiscoverySidenavComponent implements OnInit {
-  private readonly searchAiService = inject(SearchAiService);
+  private readonly appSettings = inject(AppSettingsService);
 
-  item?: NavBarLinkRef;
+  item: NavBarLinkRef;
 
   ngOnInit(): void {
-    this.searchAiService.getConfig().subscribe({
-      next: ({ entry }: KnowledgeRetrievalConfigEntry) => {
-        if (entry.knowledgeRetrievalUrl) {
-          this.item = {
-            id: 'app.knowledgeDiscovery.sidenav',
-            icon: '',
-            title: 'KNOWLEDGE_RETRIEVAL.SIDENAV.TITLE',
-            route: '/',
-            children: [
-              {
-                id: 'app.knowledgeDiscovery.sidenav.discovery',
-                icon: '',
-                title: 'KNOWLEDGE_RETRIEVAL.SIDENAV.DISCOVERY',
-                route: entry.knowledgeRetrievalUrl,
-                url: entry.knowledgeRetrievalUrl
-              }
-            ]
-          };
+    const url = this.appSettings.knowledgeDiscoveryUrl;
+    this.item = {
+      id: 'app.knowledgeDiscovery.sidenav',
+      icon: '',
+      title: 'KNOWLEDGE_RETRIEVAL.SIDENAV.TITLE',
+      route: '/',
+      children: [
+        {
+          id: 'app.knowledgeDiscovery.sidenav.discovery',
+          icon: '',
+          title: 'KNOWLEDGE_RETRIEVAL.SIDENAV.DISCOVERY',
+          route: url,
+          url
         }
-      },
-      error: () => {}
-    });
+      ]
+    };
   }
 }

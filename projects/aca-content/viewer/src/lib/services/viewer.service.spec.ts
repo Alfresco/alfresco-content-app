@@ -215,8 +215,7 @@ describe('ViewerService', () => {
     expect(ids).toEqual([]);
   });
 
-  it('should return custom nodes order if did not find nodes', async () => {
-    viewerService.customNodesOrder = ['someNode1', 'someNode2'];
-    expect(await viewerService.getFileIds('', null)).toEqual(['someNode1', 'someNode2']);
+  it('should return empty array when there are no nodes', async () => {
+    expect(await viewerService.getFileIds('', null)).toEqual([]);
   });
 });

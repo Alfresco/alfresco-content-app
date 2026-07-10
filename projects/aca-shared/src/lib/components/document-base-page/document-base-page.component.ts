@@ -23,7 +23,7 @@
  */
 
 import { DocumentListComponent, DocumentListService, ShareDataRow, UploadService } from '@alfresco/adf-content-services';
-import { ShowHeaderMode, UserPreferencesService } from '@alfresco/adf-core';
+import { ShowHeaderMode } from '@alfresco/adf-core';
 import { ContentActionRef, DocumentListPresetRef, SelectionState } from '@alfresco/adf-extensions';
 import { DestroyRef, Directive, HostListener, inject, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -68,6 +68,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   createActions: ContentActionRef[] = [];
   isSmallScreen = false;
   selectedRowItemsCount = 0;
+  selectedNodesState: SelectionState;
 
   protected documentListService = inject(DocumentListService);
   protected settings = inject(AppSettingsService);
@@ -77,7 +78,6 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   protected breakpointObserver = inject(BreakpointObserver);
   protected uploadService = inject(UploadService);
   protected router = inject(Router);
-  protected userPreferencesService = inject(UserPreferencesService);
 
   protected readonly destroyRef = inject(DestroyRef);
 

@@ -595,3 +595,11 @@ export const isCheckedOut = (context: RuleContext): boolean => {
 export const isNodeLink = (context: RuleContext): boolean =>
   !context.selection?.isEmpty &&
   context.selection.nodes.some((node) => node.entry?.nodeType === 'app:filelink' || node.entry?.nodeType === 'app:folderlink');
+
+/**
+ * Checks if the Knowledge Discovery URL is configured.
+ * JSON ref: `app.isKnowledgeDiscoveryUrlPresent`
+ *
+ * @param context Rule execution context
+ */
+export const isKnowledgeDiscoveryUrlPresent = (context: AcaRuleContext): boolean => !!context.appConfig.get<string>('knowledgeDiscoveryUrl', '');

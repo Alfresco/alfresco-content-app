@@ -713,5 +713,42 @@
             "BOOKS-24PX": "文件库",
             "BASELINE-LOCK-24PX": "锁定的文件"
         }
+    },
+    "KNOWLEDGE_RETRIEVAL": {
+        "SEARCH": {
+            "RESULTS_PAGE": {
+                "QUERY_INPUT_PLACEHOLDER": "你想要询问其他问题吗？",
+                "REFERENCED_DOCUMENTS_HEADER": "引用的文档",
+                "REGENERATION_BUTTON_LABEL": "重新生成",
+                "COPY_BUTTON_LABEL": "复制",
+                "COPY_MESSAGE": "已将响应复制到剪贴板",
+                "RELOAD_REFERENCES_BUTTON_LABEL": "重新加载"
+            },
+            "AGENTS_BUTTON": {
+                "LABEL": "询问发现",
+                "TITLE": "知识检索"
+            },
+            "SEARCH_INPUT": {
+                "ASK_BUTTON_LABEL": "询问",
+                "DEFAULT_PLACEHOLDER": "请提出您的问题，并提供尽量多的细节...",
+                "HIDE_INPUT": "隐藏输入",
+                "HIDE_ANSWER": "隐藏回答"
+            },
+            "ERRORS": {
+                "AGENTS_FETCHING": "获取代理时出错",
+                "HX_INSIGHT_URL_FETCHING": "获取 HX Insight URL 时出错。",
+                "LOADING_ERROR": "嗯... 好像发生了错误。",
+                "PAGE_NOT_AVAILABLE_ERROR": "页面不可用于这些条件。",
+                "REFERENCES_LOADING_ERROR": "加载参考文献时出错了。"
+            },
+            "DISCARD_CHANGES": {
+                "WARNING": "警告！",
+                "ASK_AI": "询问 AI",
+                "DO_NOT_SHOW_MESSAGE": "不再显示此消息",
+                "DISCARD_CONVERSATION": "废弃对话",
+                "CONVERSATION_DISCARDED": "此对话将被废弃",
+                "LOSE_RESPONSE": "如果提出其他问题，你将丢失上个问题的回答"
+            }
+        }
     }
 }

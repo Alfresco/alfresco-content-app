@@ -25,37 +25,29 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { KnowledgeDiscoverySidenavComponent } from './knowledge-discovery-sidenav.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { SearchAiService } from '@alfresco/adf-content-services';
-import { of, throwError } from 'rxjs';
-import { KnowledgeRetrievalConfigEntry } from '@alfresco/js-api';
+import { AppSettingsService } from '@alfresco/aca-shared';
 
 describe('KnowledgeDiscoverySidenavComponent', () => {
   let fixture: ComponentFixture<KnowledgeDiscoverySidenavComponent>;
   let component: KnowledgeDiscoverySidenavComponent;
-  let searchAiService: jasmine.SpyObj<SearchAiService>;
-
-  const mockConfigEntry = (knowledgeRetrievalUrl: string): KnowledgeRetrievalConfigEntry => ({
-    entry: { knowledgeRetrievalUrl }
-  });
+  let appSettings: AppSettingsService;
 
   beforeEach(() => {
-    searchAiService = jasmine.createSpyObj('SearchAiService', ['getConfig']);
-
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, KnowledgeDiscoverySidenavComponent],
-      providers: [{ provide: SearchAiService, useValue: searchAiService }]
+      imports: [AppTestingModule, KnowledgeDiscoverySidenavComponent]
     });
 
+    appSettings = TestBed.inject(AppSettingsService);
     fixture = TestBed.createComponent(KnowledgeDiscoverySidenavComponent);
     component = fixture.componentInstance;
   });
 
-  it('should set item with children when config returns a URL', () => {
-    searchAiService.getConfig.and.returnValue(of(mockConfigEntry('https://discovery.example.com')));
+  it('should set item with children using URL from config', () => {
+    spyOnProperty(appSettings, 'knowledgeDiscoveryUrl', 'get').and.returnValue('https://discovery.example.com');
 
     fixture.detectChanges();
 
-    expect(component['item']).toEqual({
+    expect(component.item).toEqual({
       id: 'app.knowledgeDiscovery.sidenav',
       icon: '',
       title: 'KNOWLEDGE_RETRIEVAL.SIDENAV.TITLE',
@@ -70,21 +62,5 @@ describe('KnowledgeDiscoverySidenavComponent', () => {
         }
       ]
     });
-  });
-
-  it('should not set item when config returns an empty URL', () => {
-    searchAiService.getConfig.and.returnValue(of(mockConfigEntry('')));
-
-    fixture.detectChanges();
-
-    expect(component['item']).toBeUndefined();
-  });
-
-  it('should not set item when getConfig errors', () => {
-    searchAiService.getConfig.and.returnValue(throwError(() => new Error('API error')));
-
-    fixture.detectChanges();
-
-    expect(component['item']).toBeUndefined();
   });
 });

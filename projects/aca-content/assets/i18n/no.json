@@ -713,5 +713,42 @@
             "BOOKS-24PX": "filbibliotek",
             "BASELINE-LOCK-24PX": "låst fil"
         }
+    },
+    "KNOWLEDGE_RETRIEVAL": {
+        "SEARCH": {
+            "RESULTS_PAGE": {
+                "QUERY_INPUT_PLACEHOLDER": "Ønsker du å spørre om noe annet?",
+                "REFERENCED_DOCUMENTS_HEADER": "Refererte dokumenter",
+                "REGENERATION_BUTTON_LABEL": "Regenerer",
+                "COPY_BUTTON_LABEL": "Kopier",
+                "COPY_MESSAGE": "Svaret er kopiert til utklippstavlen",
+                "RELOAD_REFERENCES_BUTTON_LABEL": "Last inn på nytt"
+            },
+            "AGENTS_BUTTON": {
+                "LABEL": "Spør dokumentbevis",
+                "TITLE": "Kunnskapsinnhenting"
+            },
+            "SEARCH_INPUT": {
+                "ASK_BUTTON_LABEL": "Spør",
+                "DEFAULT_PLACEHOLDER": "Still spørsmålet så detaljert som mulig...",
+                "HIDE_INPUT": "Skjul inndata",
+                "HIDE_ANSWER": "Skjul svar"
+            },
+            "ERRORS": {
+                "AGENTS_FETCHING": "Feil under henting av agenter.",
+                "HX_INSIGHT_URL_FETCHING": "Feil under henting av HX Insight URL.",
+                "LOADING_ERROR": "Hmm... noe ser ut til å ha gått galt.",
+                "PAGE_NOT_AVAILABLE_ERROR": "Siden er ikke tilgjengelig for disse betingelsene.",
+                "REFERENCES_LOADING_ERROR": "Noe gikk galt under lasting av referanser."
+            },
+            "DISCARD_CHANGES": {
+                "WARNING": "Advarsel!",
+                "ASK_AI": "Spør KI",
+                "DO_NOT_SHOW_MESSAGE": "Ikke vis denne meldingen igjen",
+                "DISCARD_CONVERSATION": "Forkast samtale",
+                "CONVERSATION_DISCARDED": "Denne samtalen vil bli forkastet",
+                "LOSE_RESPONSE": "Ved å stille et nytt spørsmål, mister du det forrige svaret"
+            }
+        }
     }
 }

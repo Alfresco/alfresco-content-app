@@ -713,5 +713,42 @@
             "BOOKS-24PX": "bibliotekę plików",
             "BASELINE-LOCK-24PX": "zablokowany plik"
         }
+    },
+    "KNOWLEDGE_RETRIEVAL": {
+        "SEARCH": {
+            "RESULTS_PAGE": {
+                "QUERY_INPUT_PLACEHOLDER": "Czy masz inne pytania?",
+                "REFERENCED_DOCUMENTS_HEADER": "Dokumenty referencyjne",
+                "REGENERATION_BUTTON_LABEL": "Regeneruj",
+                "COPY_BUTTON_LABEL": "Kopiuj",
+                "COPY_MESSAGE": "Odpowiedź została skopiowana do schowka",
+                "RELOAD_REFERENCES_BUTTON_LABEL": "Odśwież"
+            },
+            "AGENTS_BUTTON": {
+                "LABEL": "Spytaj Discovery",
+                "TITLE": "Wyszukiwanie wiedzy"
+            },
+            "SEARCH_INPUT": {
+                "ASK_BUTTON_LABEL": "Zapytaj",
+                "DEFAULT_PLACEHOLDER": "Zadaj pytanie, podając jak najwięcej szczegółów...",
+                "HIDE_INPUT": "Ukryj dane wejściowe",
+                "HIDE_ANSWER": "Ukryj odpowiedź"
+            },
+            "ERRORS": {
+                "AGENTS_FETCHING": "Błąd podczas pobierania agentów.",
+                "HX_INSIGHT_URL_FETCHING": "Błąd podczas pobierania HX Insight URL.",
+                "LOADING_ERROR": "Hmm... chyba coś poszło nie tak.",
+                "PAGE_NOT_AVAILABLE_ERROR": "Strona jest niedostępna dla podanych warunków.",
+                "REFERENCES_LOADING_ERROR": "Wystąpił błąd podczas ładowania odnośników."
+            },
+            "DISCARD_CHANGES": {
+                "WARNING": "Ostrzeżenie!",
+                "ASK_AI": "Zapytaj sztuczną inteligencję",
+                "DO_NOT_SHOW_MESSAGE": "Nie pokazuj ponownie tego komunikatu",
+                "DISCARD_CONVERSATION": "Usuń konwersację",
+                "CONVERSATION_DISCARDED": "Ta konwersacja zostanie usunięta",
+                "LOSE_RESPONSE": "Zadanie kolejnego pytania spowoduje utratę poprzedniej odpowiedzi"
+            }
+        }
     }
 }

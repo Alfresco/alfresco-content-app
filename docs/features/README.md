@@ -34,3 +34,5 @@ This application simplifies the complexity of Content Management and provides co
 
 The Knowledge Discovery components, services, and APIs have been removed as of ACA version 8.0.0 and ADF version 9.0.0.
 The integrated Knowledge Discovery features have been replaced with a section in the side navigation panel containing a link to the standalone Knowledge Discovery UI in ACA and ADW.
+
+If you were using those features, please consider cleaning Local Storage in your browser as *aiReferences* entry may remain.

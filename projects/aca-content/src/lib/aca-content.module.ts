@@ -169,7 +169,8 @@ import { IsFeatureSupportedInCurrentAcsPipe } from './pipes/is-feature-supported
         'app.isContentServiceEnabled': rules.isContentServiceEnabled,
         'app.areTagsEnabled': rules.areTagsEnabled,
         'app.areCategoriesEnabled': rules.areCategoriesEnabled,
-        'app.isSSOEnabled': rules.isSSOEnabled
+        'app.isSSOEnabled': rules.isSSOEnabled,
+        'app.isKnowledgeDiscoveryUrlPresent': rules.isKnowledgeDiscoveryUrlPresent
       }
     }),
     IsFeatureSupportedInCurrentAcsPipe

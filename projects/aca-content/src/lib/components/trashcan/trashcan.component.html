@@ -18,6 +18,7 @@
         [multiselect]="true"
         [navigate]="false"
         [sortingMode]="'client'"
+        [preselectNodes]="selectedNodesState?.nodes"
         [imageResolver]="imageResolver"
         [displayCheckboxesOnHover]="true"
         (selectedItemsCountChanged)="onSelectedItemsCountChanged($event)"

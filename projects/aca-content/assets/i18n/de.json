@@ -713,5 +713,42 @@
             "BOOKS-24PX": "Dateibibliothek",
             "BASELINE-LOCK-24PX": "gesperrte Datei"
         }
+    },
+    "KNOWLEDGE_RETRIEVAL": {
+        "SEARCH": {
+            "RESULTS_PAGE": {
+                "QUERY_INPUT_PLACEHOLDER": "Möchten Sie gerne noch etwas anderes wissen?",
+                "REFERENCED_DOCUMENTS_HEADER": "Referenzdokumente",
+                "REGENERATION_BUTTON_LABEL": "Neu erstellen",
+                "COPY_BUTTON_LABEL": "Kopieren",
+                "COPY_MESSAGE": "Antwort in Zwischenablage kopiert",
+                "RELOAD_REFERENCES_BUTTON_LABEL": "Neu laden"
+            },
+            "AGENTS_BUTTON": {
+                "LABEL": "Erkennung abfragen",
+                "TITLE": "Wissensabfrage"
+            },
+            "SEARCH_INPUT": {
+                "ASK_BUTTON_LABEL": "Fragen",
+                "DEFAULT_PLACEHOLDER": "Bitte stellen Sie Ihre Frage so detailliert wie möglich...",
+                "HIDE_INPUT": "Eingabe ausblenden",
+                "HIDE_ANSWER": "Antwort ausblenden"
+            },
+            "ERRORS": {
+                "AGENTS_FETCHING": "Fehler beim Abrufen von Mitarbeitern.",
+                "HX_INSIGHT_URL_FETCHING": "Fehler beim Abrufen von HX Insight URL.",
+                "LOADING_ERROR": "Hmm...scheinbar ist etwas schief gelaufen.",
+                "PAGE_NOT_AVAILABLE_ERROR": "Die Seite ist unter diesen Bedingungen nicht verfügbar.",
+                "REFERENCES_LOADING_ERROR": "Beim Laden der Referenzen ist etwas schiefgelaufen."
+            },
+            "DISCARD_CHANGES": {
+                "WARNING": "Warnung!",
+                "ASK_AI": "KI fragen",
+                "DO_NOT_SHOW_MESSAGE": "Diese Nachricht nicht mehr anzeigen",
+                "DISCARD_CONVERSATION": "Gespräch verwerfen",
+                "CONVERSATION_DISCARDED": "Diese Unterhaltung wird verworfen",
+                "LOSE_RESPONSE": "Durch das Stellen einer anderen Frage verlieren Sie Ihre vorherige Antwort"
+            }
+        }
     }
 }

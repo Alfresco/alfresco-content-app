@@ -62,16 +62,6 @@
         }
       }
     ],
-    "icons": [
-      {
-        "id": "adf:three_magic_stars_ai",
-        "value": "./assets/images/three-magic-stars-ai.svg"
-      },
-      {
-        "id": "adf:colored-stars-ai",
-        "value": "./assets/images/colored-stars-ai.svg"
-      }
-    ],
     "create": [
       {
         "id": "app.create.folder",
@@ -235,8 +225,10 @@
         "items": [
           {
             "id": "app.knowledgeDiscovery.sidenav",
-            "title": "KNOWLEDGE_RETRIEVAL.SEARCH.AGENTS_BUTTON.LABEL",
-            "component": "app.knowledgeDiscovery.sidenav"
+            "component": "app.knowledgeDiscovery.sidenav",
+            "rules": {
+              "visible": "app.isKnowledgeDiscoveryUrlPresent"
+            }
           }
         ]
       }
