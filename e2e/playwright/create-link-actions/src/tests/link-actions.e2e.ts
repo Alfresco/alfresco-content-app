@@ -95,9 +95,9 @@ test.describe('Create Link - actions on linked items', () => {
     await copyItemInPage(personalFiles, fileLinkName, copyDestinationFolder);
 
     const msg = await personalFiles.snackBar.getSnackBarMessage();
-    expect.soft(msg).toContain('Copied 1 item');
+    expect(msg).toContain('Copied 1 item');
 
-    expect.soft(await personalFiles.dataTable.isItemPresent(fileLinkName)).toBe(true);
+    expect(await personalFiles.dataTable.isItemPresent(fileLinkName)).toBe(true);
 
     await navigateToFolderById(personalFiles, copyDestinationFolderId);
     expect(await personalFiles.dataTable.isItemPresent(fileLinkName)).toBe(true);
@@ -110,9 +110,9 @@ test.describe('Create Link - actions on linked items', () => {
     await copyItemInPage(personalFiles, folderLinkName, copyDestinationFolder);
 
     const msg = await personalFiles.snackBar.getSnackBarMessage();
-    expect.soft(msg).toContain('Copied 1 item');
+    expect(msg).toContain('Copied 1 item');
 
-    expect.soft(await personalFiles.dataTable.isItemPresent(folderLinkName)).toBe(true);
+    expect(await personalFiles.dataTable.isItemPresent(folderLinkName)).toBe(true);
 
     await navigateToFolderById(personalFiles, copyDestinationFolderId);
     expect(await personalFiles.dataTable.isItemPresent(folderLinkName)).toBe(true);
@@ -125,10 +125,10 @@ test.describe('Create Link - actions on linked items', () => {
     await moveItemInPage(personalFiles, fileLinkName, moveDestinationFolder);
 
     const msg = await personalFiles.snackBar.getSnackBarMessage();
-    expect.soft(msg).toContain('Moved 1 item.');
+    expect(msg).toContain('Moved 1 item.');
     await personalFiles.snackBar.closeIcon.click();
 
-    expect.soft(await personalFiles.dataTable.isItemPresent(fileLinkName)).toBe(false);
+    expect(await personalFiles.dataTable.isItemPresent(fileLinkName)).toBe(false);
 
     await navigateToFolderById(personalFiles, moveDestinationFolderId);
     expect(await personalFiles.dataTable.isItemPresent(fileLinkName)).toBe(true);
@@ -141,10 +141,10 @@ test.describe('Create Link - actions on linked items', () => {
     await moveItemInPage(personalFiles, folderLinkName, moveDestinationFolder);
 
     const msg = await personalFiles.snackBar.getSnackBarMessage();
-    expect.soft(msg).toContain('Moved 1 item.');
+    expect(msg).toContain('Moved 1 item.');
     await personalFiles.snackBar.closeIcon.click();
 
-    expect.soft(await personalFiles.dataTable.isItemPresent(folderLinkName)).toBe(false);
+    expect(await personalFiles.dataTable.isItemPresent(folderLinkName)).toBe(false);
 
     await navigateToFolderById(personalFiles, moveDestinationFolderId);
     expect(await personalFiles.dataTable.isItemPresent(folderLinkName)).toBe(true);
@@ -157,11 +157,11 @@ test.describe('Create Link - actions on linked items', () => {
     await personalFiles.dataTable.performActionFromExpandableMenu(fileLinkName, 'Delete');
 
     const msg = await personalFiles.snackBar.getSnackBarMessage();
-    expect.soft(msg).toContain('deleted');
+    expect(msg).toContain('deleted');
 
-    expect.soft(await personalFiles.snackBar.actionButton.isVisible()).toBe(false);
+    expect(await personalFiles.snackBar.actionButton.isVisible()).toBe(false);
 
-    expect.soft(await personalFiles.dataTable.isItemPresent(fileLinkName)).toBe(false);
+    expect(await personalFiles.dataTable.isItemPresent(fileLinkName)).toBe(false);
 
     await trashPage.navigate();
     await trashPage.spinnerWaitForReload();
@@ -175,10 +175,10 @@ test.describe('Create Link - actions on linked items', () => {
     await personalFiles.dataTable.performActionFromExpandableMenu(folderLinkName, 'Delete');
 
     const msg = await personalFiles.snackBar.getSnackBarMessage();
-    expect.soft(msg).toContain('deleted');
+    expect(msg).toContain('deleted');
 
-    expect.soft(await personalFiles.snackBar.actionButton.isVisible()).toBe(false);
-    expect.soft(await personalFiles.dataTable.isItemPresent(folderLinkName)).toBe(false);
+    expect(await personalFiles.snackBar.actionButton.isVisible()).toBe(false);
+    expect(await personalFiles.dataTable.isItemPresent(folderLinkName)).toBe(false);
 
     await trashPage.navigate();
     await trashPage.spinnerWaitForReload();
