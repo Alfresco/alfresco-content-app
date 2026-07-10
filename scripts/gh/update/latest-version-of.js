@@ -2,7 +2,7 @@ function inDays(d1, d2) {
   return Math.floor((d2.getTime() - d1.getTime()) / (24 * 3600 * 1000));
 }
 
-module.exports = async ({ exec, github, dependencyName, tag }) => {
+module.exports = async ({ dependencyName, tag }) => {
   tag = tag || 'alpha';
   const organization = 'alfresco';
   const dependencyFullName = `@${organization}/${dependencyName}`;
@@ -10,42 +10,22 @@ module.exports = async ({ exec, github, dependencyName, tag }) => {
 
   const localVersion = pkg.dependencies[dependencyFullName];
 
-  const { data: availablePackages } = await github.rest.packages.getAllPackageVersionsForPackageOwnedByOrg({
-    package_type: 'npm',
-    package_name: dependencyName,
-    org: organization
-  });
-
-  const options = {};
-  let packageDistTag = '';
-  options.listeners = {
-    stdout: (data) => {
-      packageDistTag += data.toString();
-    }
-  };
-  await exec.exec(`npm dist-tag ls @alfresco/${dependencyName}`, [], options);
-  let matchedPkgVersion = '';
-  const tagsType = packageDistTag.split('\n');
-  for (const tagType of tagsType) {
-    const tagSplit = tagType.split(':');
-    if (tagSplit[0].trim() === tag) {
-      matchedPkgVersion = tagSplit[1].trim();
-      break;
-    }
+  const response = await fetch(`https://registry.npmjs.org/${dependencyFullName}`);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch ${dependencyFullName} from npm registry: ${response.status}`);
   }
+  const metadata = await response.json();
 
-  const latestPkgToUpdate = availablePackages.find((pkg) => pkg.name === matchedPkgVersion);
+  const matchedPkgVersion = metadata['dist-tags']?.[tag];
+  const times = metadata.time || {};
 
-  if (localVersion === latestPkgToUpdate?.name) {
+  if (!matchedPkgVersion || localVersion === matchedPkgVersion) {
     return { hasNewVersion: 'false' };
-  } else {
-    const findLocalVersionOnRemote = availablePackages.find((pkg) => pkg.name === localVersion);
-    let rangeInDays = 'N/A';
-    if (findLocalVersionOnRemote !== undefined) {
-      const creationLocal = new Date(findLocalVersionOnRemote.created_at);
-      const creationLatest = new Date(latestPkgToUpdate.created_at);
-      rangeInDays = inDays(creationLocal, creationLatest);
-    }
-    return { hasNewVersion: 'true', remoteVersion: { name: latestPkgToUpdate?.name, rangeInDays }, localVersion };
   }
+
+  let rangeInDays = 'N/A';
+  if (times[localVersion] && times[matchedPkgVersion]) {
+    rangeInDays = inDays(new Date(times[localVersion]), new Date(times[matchedPkgVersion]));
+  }
+  return { hasNewVersion: 'true', remoteVersion: { name: matchedPkgVersion, rangeInDays }, localVersion };
 };
