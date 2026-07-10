@@ -88,7 +88,7 @@ test.describe('Create Link - actions on linked items', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
-  test('[TC4a] should copy a linked file to another location and verify the link still exists', async ({ personalFiles }) => {
+  test('[XAT-19628] Should copy a linked file to another location and verify the link still exists', async ({ personalFiles }) => {
     await navigateToFolderById(personalFiles, destinationFolderId);
     await Utils.reloadPageIfRowNotVisible(personalFiles, fileLinkName);
 
@@ -103,7 +103,7 @@ test.describe('Create Link - actions on linked items', () => {
     expect(await personalFiles.dataTable.isItemPresent(fileLinkName)).toBe(true);
   });
 
-  test('[TC4b] should copy a linked folder to another location and verify the link still exists', async ({ personalFiles }) => {
+  test('[XAT-19629] Should copy a linked folder to another location and verify the link still exists', async ({ personalFiles }) => {
     await navigateToFolderById(personalFiles, destinationFolderId);
     await Utils.reloadPageIfRowNotVisible(personalFiles, folderLinkName);
 
@@ -118,7 +118,7 @@ test.describe('Create Link - actions on linked items', () => {
     expect(await personalFiles.dataTable.isItemPresent(folderLinkName)).toBe(true);
   });
 
-  test('[TC4c] should move a linked file to another location and verify the link is accessible', async ({ personalFiles }) => {
+  test('[XAT-19630] Should move a linked file to another location and verify the link is accessible', async ({ personalFiles }) => {
     await navigateToFolderById(personalFiles, destinationFolderId);
     await Utils.reloadPageIfRowNotVisible(personalFiles, fileLinkName);
 
@@ -134,7 +134,7 @@ test.describe('Create Link - actions on linked items', () => {
     expect(await personalFiles.dataTable.isItemPresent(fileLinkName)).toBe(true);
   });
 
-  test('[TC4d] should move a linked folder to another location and verify the link is accessible', async ({ personalFiles }) => {
+  test('[XAT-19631] Should move a linked folder to another location and verify the link is accessible', async ({ personalFiles }) => {
     await navigateToFolderById(personalFiles, destinationFolderId);
     await Utils.reloadPageIfRowNotVisible(personalFiles, folderLinkName);
 
@@ -150,7 +150,7 @@ test.describe('Create Link - actions on linked items', () => {
     expect(await personalFiles.dataTable.isItemPresent(folderLinkName)).toBe(true);
   });
 
-  test('[TC6a] should permanently delete a linked file without showing Undo or placing it in Trash', async ({ personalFiles, trashPage }) => {
+  test('[XAT-19632] Should permanently delete a linked file without showing Undo or placing it in Trash', async ({ personalFiles, trashPage }) => {
     await navigateToFolderById(personalFiles, destinationFolderId);
     await Utils.reloadPageIfRowNotVisible(personalFiles, fileLinkName);
 
@@ -168,7 +168,7 @@ test.describe('Create Link - actions on linked items', () => {
     expect(await trashPage.dataTable.isItemPresent(fileLinkName)).toBe(false);
   });
 
-  test('[TC6b] should permanently delete a linked folder without showing Undo or placing it in Trash', async ({ personalFiles, trashPage }) => {
+  test('[XAT-19633] Should permanently delete a linked folder without showing Undo or placing it in Trash', async ({ personalFiles, trashPage }) => {
     await navigateToFolderById(personalFiles, destinationFolderId);
     await Utils.reloadPageIfRowNotVisible(personalFiles, folderLinkName);
 
@@ -185,7 +185,7 @@ test.describe('Create Link - actions on linked items', () => {
     expect(await trashPage.dataTable.isItemPresent(folderLinkName)).toBe(false);
   });
 
-  test('[TC7a] should display N/A for size in the info drawer of a linked file', async ({ personalFiles }) => {
+  test('[XAT-19634] Should display N/A for size in the info drawer of a linked file', async ({ personalFiles }) => {
     await navigateToFolderById(personalFiles, destinationFolderId);
     await Utils.reloadPageIfRowNotVisible(personalFiles, fileLinkName);
 
@@ -200,7 +200,7 @@ test.describe('Create Link - actions on linked items', () => {
     await personalFiles.folderInformationDialog.doneButton.click();
   });
 
-  test('[TC7b] should display N/A for size in the info drawer of a linked folder', async ({ personalFiles }) => {
+  test('[XAT-19635] Should display N/A for size in the info drawer of a linked folder', async ({ personalFiles }) => {
     await navigateToFolderById(personalFiles, destinationFolderId);
     await Utils.reloadPageIfRowNotVisible(personalFiles, folderLinkName);
 
@@ -215,7 +215,7 @@ test.describe('Create Link - actions on linked items', () => {
     await personalFiles.folderInformationDialog.doneButton.click();
   });
 
-  test('[TC8a] should locate the original file when using Locate Linked Item on a file link', async ({ personalFiles }) => {
+  test('[XAT-19636] Should locate the original file when using Locate Linked Item on a file link', async ({ personalFiles }) => {
     await navigateToFolderById(personalFiles, destinationFolderId);
     await Utils.reloadPageIfRowNotVisible(personalFiles, fileLinkName);
 
@@ -226,7 +226,7 @@ test.describe('Create Link - actions on linked items', () => {
     expect(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
   });
 
-  test('[TC8b] should locate the original folder when using Locate Linked Item on a folder link', async ({ personalFiles }) => {
+  test('[XAT-19637] Should locate the original folder when using Locate Linked Item on a folder link', async ({ personalFiles }) => {
     await navigateToFolderById(personalFiles, destinationFolderId);
     await Utils.reloadPageIfRowNotVisible(personalFiles, folderLinkName);
 
@@ -237,7 +237,7 @@ test.describe('Create Link - actions on linked items', () => {
     expect(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
   });
 
-  test('[TC9a] should navigate to original file location when opening a file link', async ({ personalFiles }) => {
+  test('[XAT-19638] Should navigate to original file location when opening a file link', async ({ personalFiles }) => {
     await navigateToFolderById(personalFiles, destinationFolderId);
     await Utils.reloadPageIfRowNotVisible(personalFiles, fileLinkName);
 
@@ -248,7 +248,7 @@ test.describe('Create Link - actions on linked items', () => {
     expect(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
   });
 
-  test('[TC9b] should navigate inside the original folder when opening a folder link', async ({ personalFiles }) => {
+  test('[XAT-19639] Should navigate inside the original folder when opening a folder link', async ({ personalFiles }) => {
     await navigateToFolderById(personalFiles, destinationFolderId);
     await Utils.reloadPageIfRowNotVisible(personalFiles, folderLinkName);
 

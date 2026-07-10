@@ -69,7 +69,7 @@ test.describe('Create Link - creation scenarios', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
-  test('[TC1] should create a link for a file and verify it in the destination', async ({ personalFiles }) => {
+  test('[XAT-19624] Should create a link for a file and verify it in the destination', async ({ personalFiles }) => {
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
     await createLinkInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
 
@@ -80,10 +80,13 @@ test.describe('Create Link - creation scenarios', () => {
     await personalFiles.spinnerWaitForReload();
 
     const expectedLinkName = `Link to ${sourceFile}.url`;
-    expect(await personalFiles.dataTable.isItemPresent(expectedLinkName)).toBe(true);
+    expect.soft(await personalFiles.dataTable.isItemPresent(expectedLinkName)).toBe(true);
+
+    const fileLinkIcon = personalFiles.dataTable.getRowByName(expectedLinkName).locator('img[src*="ft_ic_file_link.svg"]');
+    await expect(fileLinkIcon).toBeVisible();
   });
 
-  test('[TC2] should create a link for a folder and verify it in the destination', async ({ personalFiles }) => {
+  test('[XAT-19625] Should create a link for a folder and verify it in the destination', async ({ personalFiles }) => {
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
     await createLinkInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
 
@@ -94,10 +97,13 @@ test.describe('Create Link - creation scenarios', () => {
     await personalFiles.spinnerWaitForReload();
 
     const expectedLinkName = `Link to ${sourceFolder}.url`;
-    expect(await personalFiles.dataTable.isItemPresent(expectedLinkName)).toBe(true);
+    expect.soft(await personalFiles.dataTable.isItemPresent(expectedLinkName)).toBe(true);
+
+    const folderLinkIcon = personalFiles.dataTable.getRowByName(expectedLinkName).locator('img[src*="ft_ic_folder_shortcut_link.svg"]');
+    await expect(folderLinkIcon).toBeVisible();
   });
 
-  test('[TC3] should create links for multiple files and folders simultaneously', async ({ personalFiles }) => {
+  test('[XAT-19626] Should create links for multiple files and folders simultaneously', async ({ personalFiles }) => {
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
     await createLinkInPersonalFiles(personalFiles, [sourceFile, sourceFolder], destinationFolder);
 
@@ -111,7 +117,7 @@ test.describe('Create Link - creation scenarios', () => {
     expect(await personalFiles.dataTable.isItemPresent(`Link to ${sourceFolder}.url`)).toBe(true);
   });
 
-  test('[TC11] should not allow creating a duplicate link in the same destination', async ({ personalFiles }) => {
+  test('[XAT-19627] Should not allow creating a duplicate link in the same destination', async ({ personalFiles }) => {
     await nodesApi.createFileLink(sourceFileId, destinationFolderId);
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
 

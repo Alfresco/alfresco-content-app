@@ -102,7 +102,7 @@ test.describe('Create Link - comments and permissions', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(ownerNodesApi, ownerTrashcanApi, 'afterAll failed', sitesApi, [siteId]);
   });
 
-  test('[TC5a] should show a comment added on a linked file in the original file info drawer', async ({ personalFiles }) => {
+  test('[XAT-19640] Should show a comment added on a linked file in the original file info drawer', async ({ personalFiles }) => {
     const commentText = `comment-${Utils.random()}`;
 
     await personalFiles.navigate({ remoteUrl: `./#/personal-files/${destinationFolderId}`, waitUntil: 'load' });
@@ -133,7 +133,7 @@ test.describe('Create Link - comments and permissions', () => {
     expect(commentContent).toContain(commentText);
   });
 
-  test('[TC5b] should show a comment added on a linked folder in the original folder info drawer', async ({ personalFiles }) => {
+  test('[XAT-19641] Should show a comment added on a linked folder in the original folder info drawer', async ({ personalFiles }) => {
     const commentText = `comment-${Utils.random()}`;
 
     await personalFiles.navigate({ remoteUrl: `./#/personal-files/${destinationFolderId}`, waitUntil: 'load' });
@@ -164,7 +164,7 @@ test.describe('Create Link - comments and permissions', () => {
     expect(commentContent).toContain(commentText);
   });
 
-  test('[TC10a] should show Create Link action for manager and successfully create a link from a site document library', async ({
+  test('[XAT-19642] Should show Create Link action for manager and successfully create a link from a site document library', async ({
     personalFiles
   }) => {
     const siteFile = `site-file-${Utils.random()}.txt`;
@@ -196,7 +196,7 @@ test.describe('Create Link - comments and permissions', () => {
     expect(await personalFiles.dataTable.isItemPresent(expectedLinkName)).toBe(true);
   });
 
-  test('[TC10b] should allow a consumer to create a link to a site file in their own personal files', async ({ personalFiles, page }) => {
+  test('[XAT-19643] Should allow a consumer to create a link to a site file in their own personal files', async ({ personalFiles, page }) => {
     const siteFile = `site-file-consumer-${Utils.random()}.txt`;
     const consumerDestFolder = `consumer-dest-${Utils.random()}`;
 
@@ -230,7 +230,7 @@ test.describe('Create Link - comments and permissions', () => {
     expect(await personalFiles.dataTable.isItemPresent(expectedLinkName)).toBe(true);
   });
 
-  test('[TC12] should disable the Choose button in the node selector when consumer selects a read-only library folder', async ({ page }) => {
+  test('[XAT-19644] Should disable the Choose button in the node selector when consumer selects a read-only library folder', async ({ page }) => {
     const siteFile = `site-file-ro-${Utils.random()}.txt`;
     await ownerNodesApi.createFile(siteFile, docLibId);
 
