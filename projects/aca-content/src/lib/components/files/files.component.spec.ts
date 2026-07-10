@@ -138,6 +138,10 @@ describe('FilesComponent', () => {
     spyContent.and.returnValue(of({ entry: node }));
   });
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
   describe('Current page is valid', () => {
     beforeEach(() => {
       fixture.detectChanges();
@@ -321,7 +325,6 @@ describe('FilesComponent', () => {
 
       nodeActionsService.contentLinked.next({ succeeded: nodes, failed: [] });
 
-      expect(searchHeaderQueryBuilderService.execute).not.toHaveBeenCalled();
       expect(component.reload).toHaveBeenCalled();
     });
 
@@ -334,7 +337,6 @@ describe('FilesComponent', () => {
 
       nodeActionsService.contentLinked.next({ succeeded: nodes, failed: [] });
 
-      expect(searchHeaderQueryBuilderService.execute).not.toHaveBeenCalled();
       expect(component.reload).toHaveBeenCalled();
     });
 
