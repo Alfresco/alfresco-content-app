@@ -100,6 +100,13 @@ test.describe('Create Link - comments and permissions', () => {
 
   test.afterAll(async () => {
     await Utils.deleteNodesSitesEmptyTrashcan(ownerNodesApi, ownerTrashcanApi, 'afterAll failed', sitesApi, [siteId]);
+    try {
+      const consumerTrashcanApi = await TrashcanApi.initialize(consumerUsername, consumerUsername);
+      await Utils.deleteNodesSitesEmptyTrashcan(consumerNodesApi, consumerTrashcanApi, 'afterAll failed (consumer cleanup)');
+    } catch (error) {
+      console.error(`afterAll failed (consumer cleanup): ${error}`);
+      throw error;
+    }
   });
 
   test('[XAT-19640] Should show a comment added on a linked file in the original file info drawer', async ({ personalFiles }) => {
