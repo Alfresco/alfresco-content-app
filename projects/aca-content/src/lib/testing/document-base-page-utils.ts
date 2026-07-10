@@ -28,7 +28,7 @@ import { By } from '@angular/platform-browser';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { PageComponent } from '@alfresco/aca-shared';
 
-export const testHeader = <T extends PageComponent>(component: Type<T>, checkHeaderVisibility = true) => {
+export const testHeader = <T extends PageComponent>(component: Type<T>) => {
   describe('Header', () => {
     let fixture: ComponentFixture<T>;
     const getHeaderElement = () => fixture.debugElement.query(By.css('.aca-header-container'));
@@ -38,11 +38,9 @@ export const testHeader = <T extends PageComponent>(component: Type<T>, checkHea
       fixture.detectChanges();
     });
 
-    if (checkHeaderVisibility) {
-      it('should display header by default', () => {
-        expect(getHeaderElement()).not.toBeNull();
-      });
-    }
+    it('should display header by default', () => {
+      expect(getHeaderElement()).not.toBeNull();
+    });
   });
 };
 
