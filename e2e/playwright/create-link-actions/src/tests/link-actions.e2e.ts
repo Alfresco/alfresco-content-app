@@ -154,13 +154,15 @@ test.describe('Create Link - actions on linked items', () => {
     await navigateToFolderById(personalFiles, destinationFolderId);
     await Utils.reloadPageIfRowNotVisible(personalFiles, fileLinkName);
 
-    await personalFiles.dataTable.performActionFromExpandableMenu(fileLinkName, 'Delete');
+    const deleteAction = await personalFiles.dataTable.getActionLocatorFromExpandableMenu(fileLinkName, 'Delete');
+    await deleteAction.click();
 
     const msg = await personalFiles.snackBar.getSnackBarMessage();
     expect(msg).toContain('deleted');
 
     expect(await personalFiles.snackBar.actionButton.isVisible()).toBe(false);
 
+    await personalFiles.spinnerWaitForReload();
     expect(await personalFiles.dataTable.isItemPresent(fileLinkName)).toBe(false);
 
     await trashPage.navigate();
@@ -172,12 +174,15 @@ test.describe('Create Link - actions on linked items', () => {
     await navigateToFolderById(personalFiles, destinationFolderId);
     await Utils.reloadPageIfRowNotVisible(personalFiles, folderLinkName);
 
-    await personalFiles.dataTable.performActionFromExpandableMenu(folderLinkName, 'Delete');
+    const deleteAction = await personalFiles.dataTable.getActionLocatorFromExpandableMenu(folderLinkName, 'Delete');
+    await deleteAction.click();
 
     const msg = await personalFiles.snackBar.getSnackBarMessage();
     expect(msg).toContain('deleted');
 
     expect(await personalFiles.snackBar.actionButton.isVisible()).toBe(false);
+
+    await personalFiles.spinnerWaitForReload();
     expect(await personalFiles.dataTable.isItemPresent(folderLinkName)).toBe(false);
 
     await trashPage.navigate();
