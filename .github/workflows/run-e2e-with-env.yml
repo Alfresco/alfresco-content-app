@@ -16,7 +16,7 @@ on:
 
 env:
   BASE_URL: ${{ inputs.url || secrets.PIPELINE_ENV_URL }}
-  ADMIN_EMAIL: ${{ secrets.PIPELINE_ADMIN_USERNAME }}
+  ADMIN_EMAIL: ${{ secrets.FRONTEND_TEST_ADMIN_USERNAME }}
   ADMIN_PASSWORD: ${{ secrets.FRONTEND_TEST_ADMIN_PASSWORD }}
   HR_USER: hruser
   HR_USER_PASSWORD: ${{ secrets.FRONTEND_TEST_USER_PASSWORD }}
