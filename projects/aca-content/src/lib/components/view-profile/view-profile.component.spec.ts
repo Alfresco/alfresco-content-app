@@ -203,7 +203,7 @@ describe('ViewProfileComponent', () => {
 
   it('should navigate to personal files when go to personal files button is clicked', async () => {
     spyOn(router, 'navigate');
-    await unitTestingUtils.clickMatButtonByCSS('.app-profile-icon');
+    await unitTestingUtils.button.clickByCSS('.app-profile-icon');
 
     expect(router.navigate).toHaveBeenCalledWith(['/personal-files'], { replaceUrl: true });
   });
