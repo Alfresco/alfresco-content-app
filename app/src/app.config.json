@@ -124,7 +124,8 @@
       ]
     },
     "multi-value-pipe-separator": ", ",
-    "multi-value-chips": true
+    "multi-value-chips": true,
+    "copy-to-clipboard-action": true
   },
   "search-headers": {
     "filterWithContains": true,
