@@ -109,4 +109,11 @@ describe('ThumbnailColumnComponent', () => {
     const tooltip = component.getToolTip(context);
     expect(tooltip).toBe('');
   });
+
+  it('should return isSelected false when multiselect is true and row is selected', () => {
+    component.multiselect = true;
+    component.context = { row: { isSelected: true }, data: { getValue: () => '' }, col: {} };
+
+    expect(component.isSelected).toBeFalse();
+  });
 });
