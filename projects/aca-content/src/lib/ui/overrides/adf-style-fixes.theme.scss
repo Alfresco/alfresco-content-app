@@ -955,6 +955,11 @@
     );
   }
 
+  /* stylelint-disable-next-line selector-class-pattern */
+  adf-pdf-viewer.adf-pdf-viewer .adf-pdfViewer .adf-pdf-viewer-annotation-tooltip.popup {
+    background-color: color-mix(in srgb, var(--adf-theme-background-card-color) 70%, var(--adf-theme-foreground-base-color) 30%);
+  }
+
   adf-pdf-viewer {
     .adf-pdf-viewer__thumbnails {
       background: var(--theme-gray-panel-background-color);
