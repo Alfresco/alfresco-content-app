@@ -71,6 +71,7 @@ docker run --rm -it \
 | APP_CONFIG_BPM_HOST                          | `bpmHost`                        |
 | APP_CONFIG_ECM_HOST                          | `ecmHost`                        |
 | APP_BASE_SHARE_URL                           | `baseShareUrl`                   |
+| APP_CONFIG_KNOWLEDGE_DISCOVERY_URL           | `knowledgeDiscoveryUrl`          |
 | APP_CONFIG_OAUTH2_HOST                       | `oauth2.host`                    |
 | APP_CONFIG_OAUTH2_CLIENTID                   | `oauth2.clientId`                |
 | APP_CONFIG_OAUTH2_IMPLICIT_FLOW              | `oauth2.implicitFlow`            |
