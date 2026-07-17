@@ -142,8 +142,10 @@ fi
 if [ -n "${APP_CONFIG_KNOWLEDGE_DISCOVERY_URL}" ]; then
   echo "SET APP_CONFIG_KNOWLEDGE_DISCOVERY_URL"
 
-  replace="\/"
-  encoded=${APP_CONFIG_KNOWLEDGE_DISCOVERY_URL//\//$replace}
+  encoded=${APP_CONFIG_KNOWLEDGE_DISCOVERY_URL}
+  encoded=${encoded//\\/\\\\}
+  encoded=${encoded//&/\\&}
+  encoded=${encoded//\//\\/}
   sed -e "s/\"knowledgeDiscoveryUrl\": \".*\"/\"knowledgeDiscoveryUrl\": \"${encoded}\"/g" \
     -i "$APP_CONFIG_FILE"
 fi
