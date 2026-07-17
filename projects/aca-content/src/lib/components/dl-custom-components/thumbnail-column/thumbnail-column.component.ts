@@ -41,14 +41,14 @@ export class ThumbnailColumnComponent implements OnChanges {
   context: any;
 
   @Input()
-  multiselect = false;
+  showSelectionIndicator = false;
 
   public thumbnailUrl?: string;
   public tooltip?: string;
   public isIcon = false;
 
   get isSelected(): boolean {
-    return !this.multiselect && !!this.context?.row?.isSelected;
+    return !this.showSelectionIndicator && !!this.context?.row?.isSelected;
   }
 
   ngOnChanges(changes: SimpleChanges): void {

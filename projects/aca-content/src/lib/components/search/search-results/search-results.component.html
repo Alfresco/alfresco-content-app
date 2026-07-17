@@ -91,7 +91,7 @@
             acaDocumentList
             acaContextActions
             [selectionMode]="'multiple'"
-            [multiselect]="true"
+            [multiselect]="showSelectionIndicator"
             [sortingMode]="'server'"
             [sorting]="sorting"
             [preselectNodes]="selectedNodesState?.nodes"
@@ -111,7 +111,7 @@
                 [sortable]="false"
               >
                 <ng-template let-context>
-                  <aca-custom-thumbnail-column [context]="context" [multiselect]="true" />
+                  <aca-custom-thumbnail-column [context]="context" [showSelectionIndicator]="showSelectionIndicator" />
                 </ng-template>
 
                 <adf-data-column-header>

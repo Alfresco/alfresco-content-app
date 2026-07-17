@@ -133,6 +133,8 @@ export class SearchResultsComponent extends PageComponent implements OnInit, OnD
 
   infoDrawerPreview$ = this.store.select(infoDrawerPreview);
 
+  readonly showSelectionIndicator = true;
+
   protected readonly areFiltersActive$: Observable<boolean>;
 
   searchedWord: string;

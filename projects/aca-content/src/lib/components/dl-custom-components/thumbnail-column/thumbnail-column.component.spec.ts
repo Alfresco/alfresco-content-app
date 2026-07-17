@@ -111,7 +111,7 @@ describe('ThumbnailColumnComponent', () => {
   });
 
   it('should return isSelected true when multiselect is false and row is selected', () => {
-    component.multiselect = false;
+    component.showSelectionIndicator = false;
     component.context = { row: { isSelected: true }, data: { getValue: () => '' }, col: {} };
 
     expect(component.isSelected).toBeTrue();
