@@ -50,6 +50,11 @@
         --mat-sys-body-small-size: 14px;
       }
     }
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    .adf-pdf-viewer .adf-pdf-viewer-annotation-tooltip.popup {
+      background-color: color-mix(in srgb, var(--adf-theme-background-card-color) 70%, var(--adf-theme-foreground-base-color) 30%);
+    }
   }
 
   .adf-alfresco-viewer.aca-right_side--hide .adf-viewer__sidebar__right {
