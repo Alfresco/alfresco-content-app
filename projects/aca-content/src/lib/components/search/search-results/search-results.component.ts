@@ -70,7 +70,6 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { DocumentListDirective } from '../../../directives/document-list.directive';
-import { ThumbnailColumnComponent } from '../../dl-custom-components/thumbnail-column/thumbnail-column.component';
 import { SearchActionMenuComponent } from '../search-action-menu/search-action-menu.component';
 import { MatIconModule } from '@angular/material/icon';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
@@ -94,7 +93,6 @@ import { SavedSearchesContextService } from '../../../services/saved-searches-co
     MatMenuModule,
     DocumentListDirective,
     ContextActionsDirective,
-    ThumbnailColumnComponent,
     SearchActionMenuComponent,
     PaginationComponent,
     MatIconModule,
@@ -286,6 +284,23 @@ export class SearchResultsComponent extends PageComponent implements OnInit, OnD
       return this.data.list.pagination.totalItems;
     }
     return 0;
+  }
+
+  getIconSource(context: any): string {
+    return context?.data?.getValue(context.row, context.col);
+  }
+
+  isMaterialIcon(context: any): boolean {
+    return this.getIconSource(context)?.startsWith('material-icons://') ?? false;
+  }
+
+  getMatIconName(context: any): string {
+    return this.getIconSource(context)?.replace('material-icons://', '') ?? '';
+  }
+
+  getTooltip(context: any): string {
+    const displayName = context?.row?.node?.entry?.properties?.['cm:lockOwner']?.displayName;
+    return displayName ? `${this.translationService.instant('APP.LOCKED_BY')} ${displayName}` : '';
   }
 
   onPaginationChanged(pagination: Pagination) {

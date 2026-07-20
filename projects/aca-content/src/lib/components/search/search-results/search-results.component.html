@@ -91,7 +91,7 @@
             acaDocumentList
             acaContextActions
             [selectionMode]="'multiple'"
-            [multiselect]="showSelectionIndicator"
+            [multiselect]="true"
             [sortingMode]="'server'"
             [sorting]="sorting"
             [preselectNodes]="selectedNodesState?.nodes"
@@ -111,7 +111,10 @@
                 [sortable]="false"
               >
                 <ng-template let-context>
-                  <aca-custom-thumbnail-column [context]="context" [showSelectionIndicator]="showSelectionIndicator" />
+                  <mat-icon *ngIf="isMaterialIcon(context); else thumbImage">{{ getMatIconName(context) }}</mat-icon>
+                  <ng-template #thumbImage>
+                    <img [src]="getIconSource(context)" [alt]="getTooltip(context)" [title]="getTooltip(context)" />
+                  </ng-template>
                 </ng-template>
 
                 <adf-data-column-header>
