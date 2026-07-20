@@ -68,6 +68,10 @@ aca-search-results {
           }
         }
       }
+
+      .adf-search-results__thumbnail-sort:first-of-type {
+        display: none;
+      }
     }
 
     &__content-header {
