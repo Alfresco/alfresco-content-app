@@ -131,8 +131,6 @@ export class SearchResultsComponent extends PageComponent implements OnInit, OnD
 
   infoDrawerPreview$ = this.store.select(infoDrawerPreview);
 
-  readonly showSelectionIndicator = true;
-
   protected readonly areFiltersActive$: Observable<boolean>;
 
   searchedWord: string;
@@ -284,23 +282,6 @@ export class SearchResultsComponent extends PageComponent implements OnInit, OnD
       return this.data.list.pagination.totalItems;
     }
     return 0;
-  }
-
-  getIconSource(context: any): string {
-    return context?.data?.getValue(context.row, context.col);
-  }
-
-  isMaterialIcon(context: any): boolean {
-    return this.getIconSource(context)?.startsWith('material-icons://') ?? false;
-  }
-
-  getMatIconName(context: any): string {
-    return this.getIconSource(context)?.replace('material-icons://', '') ?? '';
-  }
-
-  getTooltip(context: any): string {
-    const displayName = context?.row?.node?.entry?.properties?.['cm:lockOwner']?.displayName;
-    return displayName ? `${this.translationService.instant('APP.LOCKED_BY')} ${displayName}` : '';
   }
 
   onPaginationChanged(pagination: Pagination) {

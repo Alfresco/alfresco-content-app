@@ -24,6 +24,7 @@
             <div class="aca-content__advanced-filters">
               <div class="aca-content__advanced-filters--header">
                 <p>{{ 'APP.BROWSE.SEARCH.ADVANCED_FILTERS' | translate }}</p>
+              <aca-search-action-menu (sortingSelected)="onSearchSortingUpdate($event)" />
                 <div class="aca-content__advanced-filters--header--action-buttons">
                   <button
                     *ngIf="initialSavedSearch !== undefined; else saveSearchButton"
@@ -103,27 +104,6 @@
             (node-dblclick)="handleNodeClick($event)"
           >
             <data-columns>
-              <data-column
-                id="app.search.thumbnail"
-                key="$thumbnail"
-                type="image"
-                [sr-title]="'ADF-DOCUMENT-LIST.LAYOUT.THUMBNAIL'"
-                [sortable]="false"
-              >
-                <ng-template let-context>
-                  <mat-icon *ngIf="isMaterialIcon(context); else thumbImage">{{ getMatIconName(context) }}</mat-icon>
-                  <ng-template #thumbImage>
-                    <img [src]="getIconSource(context)" [alt]="getTooltip(context)" [title]="getTooltip(context)" />
-                  </ng-template>
-                </ng-template>
-
-                <adf-data-column-header>
-                  <ng-template>
-                    <aca-search-action-menu (sortingSelected)="onSearchSortingUpdate($event)" />
-                  </ng-template>
-                </adf-data-column-header>
-              </data-column>
-
               <ng-container *ngFor="let column of columns; trackBy: trackByColumnId">
                 <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
                   <data-column
