@@ -139,6 +139,17 @@ if [ -n "${APP_BASE_SHARE_URL}" ]; then
     -i "$APP_CONFIG_FILE"
 fi
 
+if [ -n "${APP_CONFIG_KNOWLEDGE_DISCOVERY_URL}" ]; then
+  echo "SET APP_CONFIG_KNOWLEDGE_DISCOVERY_URL"
+
+  encoded=${APP_CONFIG_KNOWLEDGE_DISCOVERY_URL}
+  encoded=${encoded//\\/\\\\}
+  encoded=${encoded//&/\\&}
+  encoded=${encoded//\//\\/}
+  sed -e "s/\"knowledgeDiscoveryUrl\": \".*\"/\"knowledgeDiscoveryUrl\": \"${encoded}\"/g" \
+    -i "$APP_CONFIG_FILE"
+fi
+
 if [ -n "${APP_CONFIG_PLUGIN_TAGS}" ]; then
   echo "SET APP_CONFIG_PLUGIN_TAGS"
   sed -e "s/\"tagsEnabled\": [^,]*/\"tagsEnabled\": ${APP_CONFIG_PLUGIN_TAGS}/g" -i "$APP_CONFIG_FILE"
