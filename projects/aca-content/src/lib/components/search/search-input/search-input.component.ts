@@ -73,6 +73,7 @@ export class SearchInputComponent implements OnInit, AfterViewInit, OnDestroy {
   has400LibraryError = false;
   searchedWord: string = null;
   lastSearchedWord: string = null;
+  lastSearchMode: 'regular' | 'formula' = 'regular';
   error = '';
 
   @ViewChild('searchInputField')
@@ -83,6 +84,7 @@ export class SearchInputComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.initSearchState();
     this.subscribeToRouteParams();
+    this.lastSearchMode = this.queryBuilder.searchMode;
 
     this.appHookService.library400Error.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.has400LibraryError = true;
@@ -113,9 +115,10 @@ export class SearchInputComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this.error = '';
-    if (this.lastSearchedWord !== trimmedTerm) {
+    if (this.lastSearchedWord !== trimmedTerm || this.lastSearchMode !== this.queryBuilder.searchMode) {
       this.lastSearchedWord = trimmedTerm;
       this.searchedWord = trimmedTerm;
+      this.lastSearchMode = this.queryBuilder.searchMode;
       this.executeSearch();
     }
   }
