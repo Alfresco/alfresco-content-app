@@ -1,6 +1,6 @@
 # 1. Generate licenses
 
-FROM node:22.14.0-alpine AS builder
+FROM --platform=$BUILDPLATFORM node:22.14.0-alpine AS builder
 WORKDIR /usr/src/alfresco
 COPY package.json package.json
 
