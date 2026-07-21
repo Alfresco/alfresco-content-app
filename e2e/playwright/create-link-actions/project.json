@@ -1,0 +1,131 @@
+{
+  "name": "create-link-actions-e2e",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "e2e/playwright/create-link-actions/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "playwright test --config=e2e/playwright/create-link-actions/playwright.config.ts"
+        ]
+      },
+      "configurations": {
+        "ui": {
+          "args": [
+            "--ui"
+          ]
+        },
+        "debug": {
+          "args": [
+            "--debug"
+          ]
+        },
+        "headed": {
+          "args": [
+            "--headed"
+          ]
+        }
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint"
+    },
+    "e2e-multibrowser": {
+      "executor": "nx:run-commands",
+      "options": {},
+      "configurations": {
+        "webkit-headed": {
+          "env": {
+            "PLAYWRIGHT_BROWSER": "webkit"
+          },
+          "args": [
+            "--headed"
+          ],
+          "commands": [
+            "playwright test --config=e2e/playwright/create-link-actions/playwright.config.ts"
+          ]
+        },
+        "webkit-headless": {
+          "env": {
+            "PLAYWRIGHT_BROWSER": "webkit",
+            "PLAYWRIGHT_HEADLESS": "true"
+          },
+          "commands": [
+            "playwright test --config=e2e/playwright/create-link-actions/playwright.config.ts"
+          ]
+        },
+        "firefox-headed": {
+          "env": {
+            "PLAYWRIGHT_BROWSER": "firefox"
+          },
+          "args": [
+            "--headed"
+          ],
+          "commands": [
+            "playwright test --config=e2e/playwright/create-link-actions/playwright.config.ts"
+          ]
+        },
+        "firefox-headless": {
+          "env": {
+            "PLAYWRIGHT_BROWSER": "firefox",
+            "PLAYWRIGHT_HEADLESS": "true"
+          },
+          "commands": [
+            "playwright test --config=e2e/playwright/create-link-actions/playwright.config.ts"
+          ]
+        },
+        "chrome-headed": {
+          "env": {
+            "PLAYWRIGHT_BROWSER": "chrome"
+          },
+          "args": [
+            "--headed"
+          ],
+          "commands": [
+            "playwright test --config=e2e/playwright/create-link-actions/playwright.config.ts"
+          ]
+        },
+        "chrome-headless": {
+          "env": {
+            "PLAYWRIGHT_BROWSER": "chrome",
+            "PLAYWRIGHT_HEADLESS": "true"
+          },
+          "commands": [
+            "playwright test --config=e2e/playwright/create-link-actions/playwright.config.ts"
+          ]
+        },
+        "msedge-headed": {
+          "env": {
+            "PLAYWRIGHT_BROWSER": "msedge"
+          },
+          "args": [
+            "--headed"
+          ],
+          "commands": [
+            "playwright test --config=e2e/playwright/create-link-actions/playwright.config.ts"
+          ]
+        },
+        "msedge-headless": {
+          "env": {
+            "PLAYWRIGHT_BROWSER": "msedge",
+            "PLAYWRIGHT_HEADLESS": "true"
+          },
+          "commands": [
+            "playwright test --config=e2e/playwright/create-link-actions/playwright.config.ts"
+          ]
+        },
+        "all-browsers-headless": {
+          "env": {
+            "PLAYWRIGHT_BROWSER": "all",
+            "PLAYWRIGHT_HEADLESS": "true"
+          },
+          "commands": [
+            "playwright test --config=e2e/playwright/create-link-actions/playwright.config.ts"
+          ]
+        }
+      }
+    }
+  }
+}
