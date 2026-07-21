@@ -95,7 +95,7 @@ describe('ViewerEffects', () => {
       tick(100);
 
       expect(router.navigateByUrl['calls'].argsFor(0)[0].toString()).toEqual(
-        '/personal-files/permissions/(viewer:view/nodeId)?location=personal-files%2Fdetails%2Fabc123%2Fpermissions'
+        '/personal-files/(viewer:view/nodeId)?location=personal-files%2Fdetails%2Fabc123%2Fpermissions'
       );
     }));
   });
