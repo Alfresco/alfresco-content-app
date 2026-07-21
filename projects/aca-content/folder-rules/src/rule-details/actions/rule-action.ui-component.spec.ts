@@ -103,12 +103,12 @@ describe('RuleActionUiComponent', () => {
 
     await changeMatSelectValue('Action 1 title');
 
-    await unitTestingUtils.fillMatInput('test');
+    await unitTestingUtils.input.fill('test');
     await fixture.whenStable();
 
     expect(component.parameters).toEqual({ 'mock-action-parameter-boolean': false, 'mock-action-parameter-text': 'test' });
 
-    await unitTestingUtils.fillMatInput('');
+    await unitTestingUtils.input.fill('');
     await fixture.whenStable();
 
     expect(component.parameters).toEqual({ 'mock-action-parameter-boolean': false });

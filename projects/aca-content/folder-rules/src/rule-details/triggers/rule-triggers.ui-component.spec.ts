@@ -43,7 +43,7 @@ describe('RuleTriggerUiComponent', () => {
   const getCheckboxOutbound = (): DebugElement => unitTestingUtils.getByDataAutomationId('rule-trigger-checkbox-outbound');
 
   const toggleMatCheckbox = async (dataAutomationId: string) => {
-    const checkbox = await unitTestingUtils.getMatCheckboxByDataAutomationId(dataAutomationId);
+    const checkbox = await unitTestingUtils.checkbox.getByDataAutomationId(dataAutomationId);
     await checkbox.toggle();
   };
 
