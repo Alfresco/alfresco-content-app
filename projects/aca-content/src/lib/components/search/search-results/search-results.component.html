@@ -86,6 +86,10 @@
             </div>
           </div>
 
+          <ng-template #thumbnailHeaderTemplate>
+            <aca-search-action-menu (sortingSelected)="onSearchSortingUpdate($event)" />
+          </ng-template>
+
           <adf-document-list
             #documentList
             acaDocumentList
@@ -103,20 +107,6 @@
             (node-dblclick)="handleNodeClick($event)"
           >
             <data-columns>
-              <data-column
-                class="adf-search-results__thumbnail-sort"
-                id="app.search.thumbnail"
-                key="$thumbnail"
-                type="image"
-                [sr-title]="'ADF-DOCUMENT-LIST.LAYOUT.THUMBNAIL'"
-                [sortable]="false"
-              >
-                <adf-data-column-header>
-                  <ng-template>
-                    <aca-search-action-menu (sortingSelected)="onSearchSortingUpdate($event)" />
-                  </ng-template>
-                </adf-data-column-header>
-              </data-column>
               <ng-container *ngFor="let column of columns; trackBy: trackByColumnId">
                 <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
                   <data-column
