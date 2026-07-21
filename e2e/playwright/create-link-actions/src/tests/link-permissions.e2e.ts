@@ -126,6 +126,7 @@ test.describe('Create Link - comments and permissions', () => {
     const commentText = `comment-${Utils.random()}`;
 
     await personalFiles.navigate({ remoteUrl: `./#/personal-files/${destinationFolderId}`, waitUntil: 'load' });
+    await personalFiles.spinnerWaitForReload();
     await Utils.reloadPageIfRowNotVisible(personalFiles, fileLinkName);
 
     await personalFiles.dataTable.getRowByName(fileLinkName).click();
@@ -137,6 +138,7 @@ test.describe('Create Link - comments and permissions', () => {
     await personalFiles.infoDrawer.waitForComments();
 
     await personalFiles.navigate({ remoteUrl: `./#/personal-files`, waitUntil: 'load' });
+    await personalFiles.spinnerWaitForReload();
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
 
     await personalFiles.dataTable.getRowByName(sourceFile).click();
@@ -155,6 +157,7 @@ test.describe('Create Link - comments and permissions', () => {
     const commentText = `comment-${Utils.random()}`;
 
     await personalFiles.navigate({ remoteUrl: `./#/personal-files/${destinationFolderId}`, waitUntil: 'load' });
+    await personalFiles.spinnerWaitForReload();
     await Utils.reloadPageIfRowNotVisible(personalFiles, folderLinkName);
 
     await personalFiles.dataTable.getRowByName(folderLinkName).click();
@@ -166,6 +169,7 @@ test.describe('Create Link - comments and permissions', () => {
     await personalFiles.infoDrawer.waitForComments();
 
     await personalFiles.navigate({ remoteUrl: `./#/personal-files`, waitUntil: 'load' });
+    await personalFiles.spinnerWaitForReload();
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
 
     await personalFiles.dataTable.getRowByName(sourceFolder).click();
@@ -191,6 +195,7 @@ test.describe('Create Link - comments and permissions', () => {
     const managerDestFolderId = managerDestFolderEntry.entry.id;
 
     await personalFiles.navigate({ remoteUrl: `./#/libraries/${docLibId}`, waitUntil: 'load' });
+    await personalFiles.spinnerWaitForReload();
     await Utils.reloadPageIfRowNotVisible(personalFiles, siteFile);
 
     await personalFiles.dataTable.rightClickOnItem(siteFile);
@@ -205,6 +210,7 @@ test.describe('Create Link - comments and permissions', () => {
     expect(msg).toContain('Link created for 1 item');
 
     await personalFiles.navigate({ remoteUrl: `./#/personal-files/${managerDestFolderId}`, waitUntil: 'load' });
+    await personalFiles.spinnerWaitForReload();
 
     const expectedLinkName = `Link to ${siteFile}.url`;
     expect(await personalFiles.dataTable.isItemPresent(expectedLinkName)).toBe(true);
@@ -223,6 +229,7 @@ test.describe('Create Link - comments and permissions', () => {
     await loginPage.loginUser({ username: consumerUsername, password: consumerUsername }, { withNavigation: true, waitForLoading: true });
 
     await personalFiles.navigate({ remoteUrl: `./#/libraries/${docLibId}`, waitUntil: 'load' });
+    await personalFiles.spinnerWaitForReload();
     await Utils.reloadPageIfRowNotVisible(personalFiles, siteFile);
 
     await personalFiles.dataTable.rightClickOnItem(siteFile);
@@ -237,6 +244,7 @@ test.describe('Create Link - comments and permissions', () => {
     expect(msg).toContain('Link created for 1 item');
 
     await personalFiles.navigate({ remoteUrl: `./#/personal-files/${consumerDestFolderId}`, waitUntil: 'load' });
+    await personalFiles.spinnerWaitForReload();
 
     const expectedLinkName = `Link to ${siteFile}.url`;
     expect(await personalFiles.dataTable.isItemPresent(expectedLinkName)).toBe(true);
@@ -253,6 +261,7 @@ test.describe('Create Link - comments and permissions', () => {
     const consumerPage = new PersonalFilesPage(page);
 
     await consumerPage.navigate({ remoteUrl: `./#/libraries/${docLibId}`, waitUntil: 'load' });
+    await consumerPage.spinnerWaitForReload();
     await Utils.reloadPageIfRowNotVisible(consumerPage, siteFile);
 
     await consumerPage.dataTable.selectItems(siteFile);

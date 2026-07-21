@@ -156,11 +156,13 @@ test.describe('Create Link - actions on linked items', () => {
 
     const deleteAction = await personalFiles.dataTable.getActionLocatorFromExpandableMenu(fileLinkName, 'Delete');
     await deleteAction.click();
-    await personalFiles.confirmDialog.okButton.click();
 
-    await personalFiles.spinnerWaitForReload();
+    const msg = await personalFiles.snackBar.getSnackBarMessage();
+    expect(msg).toContain('deleted');
 
     expect(await personalFiles.snackBar.actionButton.isVisible()).toBe(false);
+
+    await personalFiles.spinnerWaitForReload();
     expect(await personalFiles.dataTable.isItemPresent(fileLinkName)).toBe(false);
 
     await trashPage.navigate();
@@ -174,11 +176,13 @@ test.describe('Create Link - actions on linked items', () => {
 
     const deleteAction = await personalFiles.dataTable.getActionLocatorFromExpandableMenu(folderLinkName, 'Delete');
     await deleteAction.click();
-    await personalFiles.confirmDialog.okButton.click();
 
-    await personalFiles.spinnerWaitForReload();
+    const msg = await personalFiles.snackBar.getSnackBarMessage();
+    expect(msg).toContain('deleted');
 
     expect(await personalFiles.snackBar.actionButton.isVisible()).toBe(false);
+
+    await personalFiles.spinnerWaitForReload();
     expect(await personalFiles.dataTable.isItemPresent(folderLinkName)).toBe(false);
 
     await trashPage.navigate();
