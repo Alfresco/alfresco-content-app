@@ -44,7 +44,7 @@ describe('LibraryMetadataFormComponent', () => {
 
   const getNameInput = (): HTMLInputElement => unitTestingUtils.getInputByDataAutomationId('app-library-metadata-form-name-input');
 
-  const clickEditButton = (): Promise<void> => unitTestingUtils.clickMatButtonByDataAutomationId('app-library-metadata-form-edit-button');
+  const clickEditButton = (): Promise<void> => unitTestingUtils.button.clickByDataAutomationId('app-library-metadata-form-edit-button');
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -286,7 +286,7 @@ describe('LibraryMetadataFormComponent', () => {
     const nameInput = getNameInput();
     spyOn(nameInput, 'focus');
 
-    await unitTestingUtils.clickMatButtonByDataAutomationId('app-library-metadata-form-cancel-button');
+    await unitTestingUtils.button.clickByDataAutomationId('app-library-metadata-form-cancel-button');
     expect(nameInput.focus).not.toHaveBeenCalled();
   });
 
