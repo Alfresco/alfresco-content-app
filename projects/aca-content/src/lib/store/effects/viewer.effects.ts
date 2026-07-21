@@ -217,7 +217,7 @@ export class ViewerEffects {
 
     const detailsIndex = urlSegments.findIndex((segment) => segment.path === 'details');
     if (detailsIndex > -1) {
-      urlSegments.splice(detailsIndex, 2);
+      urlSegments.splice(detailsIndex);
     }
 
     return urlSegments.reduce(function (acc, item) {
