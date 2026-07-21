@@ -89,5 +89,14 @@ describe('ViewerEffects', () => {
 
       expect(router.navigateByUrl['calls'].argsFor(0)[0].toString()).toEqual('/view/(viewer:nodeId)?path=absolute-path');
     }));
+
+    it('should navigate to the parent route and preserve the original location when opening the viewer', fakeAsync(() => {
+      store.dispatch(new ViewNodeAction('nodeId', { location: 'personal-files/details/abc123/permissions' }));
+      tick(100);
+
+      expect(router.navigateByUrl['calls'].argsFor(0)[0].toString()).toEqual(
+        '/personal-files/permissions/(viewer:view/nodeId)?location=personal-files%2Fdetails%2Fabc123%2Fpermissions'
+      );
+    }));
   });
 });
