@@ -22,19 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  inject,
-  OnDestroy,
-  OnInit,
-  QueryList,
-  TemplateRef,
-  ViewChild,
-  ViewChildren,
-  ViewEncapsulation
-} from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { NodeEntry, Pagination, ResultSetPaging } from '@alfresco/js-api';
 import { ActivatedRoute, NavigationStart } from '@angular/router';
 import {
@@ -60,6 +48,7 @@ import {
   CustomEmptyContentTemplateDirective,
   DataColumnComponent,
   DataColumnListComponent,
+  DateColumnHeaderComponent,
   NotificationService,
   PaginationComponent,
   TranslationService,
@@ -119,6 +108,7 @@ import { SavedSearchesContextService } from '../../../services/saved-searches-co
     DocumentListComponent,
     DataColumnListComponent,
     DataColumnComponent,
+    DateColumnHeaderComponent,
     CustomEmptyContentTemplateDirective,
     ViewerToolbarComponent,
     BulkActionsDropdownComponent,
@@ -131,19 +121,13 @@ import { SavedSearchesContextService } from '../../../services/saved-searches-co
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./search-results.component.scss']
 })
-export class SearchResultsComponent extends PageComponent implements OnInit, OnDestroy, AfterViewInit {
+export class SearchResultsComponent extends PageComponent implements OnInit, OnDestroy {
   private readonly queryBuilder = inject(SearchQueryBuilderService);
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly route = inject(ActivatedRoute);
   private readonly translationService = inject(TranslationService);
   private readonly savedSearchesService = inject(SavedSearchesContextService);
   private readonly notificationService = inject(NotificationService);
-
-  @ViewChildren(DataColumnComponent)
-  private readonly dataColumns!: QueryList<DataColumnComponent>;
-
-  @ViewChild('thumbnailHeaderTemplate')
-  private readonly thumbnailHeaderTemplate!: TemplateRef<any>;
 
   infoDrawerPreview$ = this.store.select(infoDrawerPreview);
 
@@ -345,19 +329,6 @@ export class SearchResultsComponent extends PageComponent implements OnInit, OnD
   onSearchSortingUpdate(option: SearchSortingDefinition) {
     this.queryBuilder.sorting = [{ ...option, ascending: option.ascending }];
     this.queryBuilder.execute(false);
-  }
-
-  ngAfterViewInit() {
-    this.setThumbnailColumnHeader();
-    this.dataColumns.changes.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.setThumbnailColumnHeader());
-  }
-
-  private setThumbnailColumnHeader() {
-    const thumbnailColumn = this.dataColumns.find((column) => column.key === '$thumbnail');
-    if (thumbnailColumn && !thumbnailColumn.header) {
-      thumbnailColumn.header = this.thumbnailHeaderTemplate;
-      this.changeDetectorRef.detectChanges();
-    }
   }
 
   editSavedSearch(searchToSave: SavedSearch) {
