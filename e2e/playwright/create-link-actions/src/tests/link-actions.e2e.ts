@@ -156,6 +156,7 @@ test.describe('Create Link - actions on linked items', () => {
 
     const deleteAction = await personalFiles.dataTable.getActionLocatorFromExpandableMenu(fileLinkName, 'Delete');
     await deleteAction.click();
+    await personalFiles.confirmDialog.okButton.click();
 
     const msg = await personalFiles.snackBar.getSnackBarMessage();
     expect(msg).toContain('deleted');
@@ -176,6 +177,7 @@ test.describe('Create Link - actions on linked items', () => {
 
     const deleteAction = await personalFiles.dataTable.getActionLocatorFromExpandableMenu(folderLinkName, 'Delete');
     await deleteAction.click();
+    await personalFiles.confirmDialog.okButton.click();
 
     const msg = await personalFiles.snackBar.getSnackBarMessage();
     expect(msg).toContain('deleted');
