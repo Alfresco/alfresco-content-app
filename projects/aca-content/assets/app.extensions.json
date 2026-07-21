@@ -2646,7 +2646,6 @@
         {
           "id": "app.libraries.name",
           "key": "title",
-          "sortingKey": "name",
           "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
           "type": "text",
           "class": "adf-ellipsis-cell adf-expand-cell-3",
@@ -2705,7 +2704,6 @@
         {
           "id": "app.favorite.libraries.name",
           "key": "title",
-          "sortingKey": "name",
           "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
           "type": "text",
           "class": "adf-ellipsis-cell adf-expand-cell-3",
@@ -2776,7 +2774,6 @@
         {
           "id": "app.shared.location",
           "key": "path.name",
-          "sortingKey": "path",
           "title": "APP.DOCUMENT_LIST.COLUMNS.LOCATION",
           "type": "text",
           "class": "adf-ellipsis-cell adf-no-grow-cell",
@@ -2789,7 +2786,6 @@
         {
           "id": "app.shared.size",
           "key": "content.sizeInBytes",
-          "sortingKey": "sizeInBytes",
           "title": "APP.DOCUMENT_LIST.COLUMNS.SIZE",
           "type": "fileSize",
           "class": "adf-no-grow-cell adf-ellipsis-cell",
@@ -2814,7 +2810,6 @@
         {
           "id": "app.shared.modifiedBy",
           "key": "modifiedByUser.displayName",
-          "sortingKey": "modifiedByUser",
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY",
           "type": "text",
           "class": "adf-ellipsis-cell adf-expand-cell-3 adf-min-width-cell",
@@ -2826,7 +2821,6 @@
         {
           "id": "app.shared.sharedBy",
           "key": "sharedByUser.displayName",
-          "sortingKey": "sharedByUser",
           "title": "APP.DOCUMENT_LIST.COLUMNS.SHARED_BY",
           "type": "text",
           "class": "adf-ellipsis-cell adf-no-grow-cell",
@@ -2890,7 +2884,6 @@
         {
           "id": "app.recent.size",
           "key": "content.sizeInBytes",
-          "sortingKey": "sizeInBytes",
           "title": "APP.DOCUMENT_LIST.COLUMNS.SIZE",
           "type": "fileSize",
           "class": "adf-no-grow-cell adf-ellipsis-cell",
@@ -2989,7 +2982,6 @@
         {
           "id": "app.favorites.modifiedBy",
           "key": "modifiedByUser.displayName",
-          "sortingKey": "modifiedByUser",
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY",
           "type": "text",
           "class": "adf-ellipsis-cell adf-expand-cell-3 adf-min-width-cell",
@@ -3053,7 +3045,6 @@
         {
           "id": "app.trashcan.size",
           "key": "content.sizeInBytes",
-          "sortingKey": "sizeInBytes",
           "title": "APP.DOCUMENT_LIST.COLUMNS.SIZE",
           "type": "fileSize",
           "class": "adf-no-grow-cell adf-ellipsis-cell",

@@ -196,6 +196,38 @@ describe('SearchInputComponent', () => {
       submitSearch('  hello  ');
       expect(searchExecutionService.execute).toHaveBeenCalledTimes(1);
     });
+
+    it('should re-execute search when the search mode changes but the term is unchanged', () => {
+      submitSearch('hello');
+      expect(searchExecutionService.execute).toHaveBeenCalledTimes(1);
+
+      queryBuilder.searchMode = 'formula';
+      submitSearch('hello');
+      expect(searchExecutionService.execute).toHaveBeenCalledTimes(2);
+    });
+
+    it('should track the current search mode as the last search mode after submit', () => {
+      queryBuilder.searchMode = 'formula';
+      submitSearch('hello');
+      expect(component.lastSearchMode).toBe('formula');
+    });
+
+    it('should not re-execute search when both the term and the search mode are unchanged', () => {
+      queryBuilder.searchMode = 'formula';
+      submitSearch('hello');
+      expect(searchExecutionService.execute).toHaveBeenCalledTimes(1);
+
+      submitSearch('hello');
+      expect(searchExecutionService.execute).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('ngOnInit', () => {
+    it('should initialize lastSearchMode from the queryBuilder search mode', () => {
+      queryBuilder.searchMode = 'formula';
+      component.ngOnInit();
+      expect(component.lastSearchMode).toBe('formula');
+    });
   });
 
   describe('onFiltersApplied', () => {

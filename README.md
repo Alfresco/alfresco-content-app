@@ -6,13 +6,14 @@ Please refer to the public [documentation](https://alfresco-content-app.netlify.
 
 | Name    | Version |
 |---------|---------|
-| Node.js | 18.x    |
-| Npm     | 9.x     |
+| Node.js | 24.x    |
+| Npm     | 11.x     |
 
 ## Compatibility
 
 | ACA   | ADF           | ACS        | Node | Angular |
 |-------|---------------|------------|------|---------|
+| 8.0.x | 9.0.0         | 26.x       | 24.x | 20.x    |
 | 7.5.x | 8.5.0         | 26.x       | 24.x | 19.x    |
 | 7.4.x | 8.4.1         | 26.x       | 24.x | 19.x    |
 | 7.3.x | 8.3.1         | 26.x       | 24.x | 19.x    |
