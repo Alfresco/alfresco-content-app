@@ -91,7 +91,8 @@ export class FileActionsApi {
       logger.info(`New version uploaded successfully for node ${nodeId}: ${newFileName}`);
       return await this.apiService.nodes.getNode(nodeId);
     } catch (error) {
-      logger.error(`Failed to upload new version for node ${nodeId}: ${JSON.stringify(error)}`);
+      const errorMessage = error instanceof Error ? (error.stack ?? error.message) : JSON.stringify(error);
+      logger.error(`Failed to upload new version for node ${nodeId}: ${errorMessage}`);
       return Promise.reject(error);
     }
   }
@@ -288,10 +289,5 @@ export class FileActionsApi {
       logger.error(`${this.constructor.name} ${this.updateNodeContent.name}: ${JSON.stringify(error)}`);
       return Promise.reject(error);
     }
-  }
-
-  async updateNodeContentFromFile(nodeId: string, fileLocation: string, majorVersion = true, comment?: string, newName?: string): Promise<NodeEntry> {
-    const fileContent = await fs.promises.readFile(fileLocation);
-    return this.updateNodeContent(nodeId, fileContent, majorVersion, comment, newName);
   }
 }

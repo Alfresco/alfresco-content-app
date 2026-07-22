@@ -38,7 +38,6 @@ export class ViewerComponent extends BaseComponent {
   public downloadButton = this.getChild('button[id="app.viewer.download"]');
   public unknownFormat = this.getChild(`adf-viewer-unknown-format .adf-viewer__unknown-format-view`);
   public viewerImage = this.viewerLocator.locator('#viewer-image');
-  public viewerRenderedImage = this.viewerLocator.locator('.cropper-canvas img, #viewer-image:not(.cropper-hidden)');
   public viewerDocument = this.viewerLocator.locator('.adf-pdf-viewer__content [role="document"]');
   public documentThumbnailButton = this.getChild('[data-automation-id="adf-thumbnails-button"]');
   public thumbnailsPages = this.getChild('[data-automation-id="adf-thumbnails-content"] adf-pdf-thumb');
@@ -155,11 +154,8 @@ export class ViewerComponent extends BaseComponent {
     const toRemove = ['Close', 'Previous File', 'Next File', 'View details'];
     const removeClosePreviousNextOldInfo = (actions: string[]): string[] => actions.filter((elem) => !toRemove.includes(elem));
 
-    const buttons = this.page.locator('adf-viewer button');
-    const count = await buttons.count();
-    let actualPrimaryActions: string[] = await Promise.all(
-      Array.from({ length: count }, async (_, i) => (await buttons.nth(i).getAttribute('title')) ?? '')
-    );
+    const buttons = await this.page.locator('adf-viewer button').all();
+    let actualPrimaryActions: string[] = await Promise.all(buttons.map(async (button) => (await button.getAttribute('title')) ?? ''));
 
     actualPrimaryActions = removeClosePreviousNextOldInfo(actualPrimaryActions);
 
