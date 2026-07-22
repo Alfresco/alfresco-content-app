@@ -89,8 +89,9 @@ test.describe('Version actions', () => {
       fileId = (await fileActionsApi.uploadFile(filesToUpload[0].path, filenameBeforeUpdate, '-my-')).entry.id;
 
       fileAfterUpdateId = (
-        await fileActionsApi.updateNodeContentFromFile(fileId, filesToUpload[1].path, true, 'new major version description', filenameAfterUpdate)
+        await fileActionsApi.uploadNewVersionFile(fileId, filesToUpload[1].path, filenameAfterUpdate, true, 'new major version description')
       ).entry.id;
+      await fileActionsApi.waitForNodes(filenameAfterUpdate, { expect: 1 });
 
       await favoritesApi.addFavoritesByIds('file', [fileId]);
       await favoritesApi.waitForApi(username, { expect: 1 });
@@ -132,6 +133,8 @@ test.describe('Version actions', () => {
 
     test('[XAT-19377] Can view previous version of a document after a viewer is opened from Manage Versions dialog', async ({ personalFiles }) => {
       await personalFiles.viewer.waitForViewerToOpen();
+      await personalFiles.viewer.waitForViewerContentToRender('document');
+
       await personalFiles.viewer.toolbar.clickViewerMoreActions();
       await personalFiles.matMenu.clickMenuItem('Manage Versions');
       await personalFiles.manageVersionsDialog.clickListActionButtonForVersion('2.0');

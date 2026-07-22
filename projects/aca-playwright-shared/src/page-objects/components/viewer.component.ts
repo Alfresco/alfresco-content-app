@@ -154,13 +154,8 @@ export class ViewerComponent extends BaseComponent {
     const toRemove = ['Close', 'Previous File', 'Next File', 'View details'];
     const removeClosePreviousNextOldInfo = (actions: string[]): string[] => actions.filter((elem) => !toRemove.includes(elem));
 
-    const buttons = await this.page.$$('adf-viewer button');
-    let actualPrimaryActions: string[] = await Promise.all(
-      buttons.map(async (button) => {
-        const title = await button.getAttribute('title');
-        return title || '';
-      })
-    );
+    const buttons = await this.page.locator('adf-viewer button').all();
+    let actualPrimaryActions: string[] = await Promise.all(buttons.map(async (button) => (await button.getAttribute('title')) ?? ''));
 
     actualPrimaryActions = removeClosePreviousNextOldInfo(actualPrimaryActions);
 

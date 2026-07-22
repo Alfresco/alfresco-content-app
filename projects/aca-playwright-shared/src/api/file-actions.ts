@@ -69,6 +69,34 @@ export class FileActionsApi {
     }
   }
 
+  async uploadNewVersionFile(nodeId: string, fileLocation: string, newFileName: string, majorVersion = true, comment = ''): Promise<NodeEntry> {
+    try {
+      const existingNode = await this.apiService.nodes.getNode(nodeId);
+      const parentId = existingNode.entry.parentId;
+
+      if (newFileName !== existingNode.entry.name) {
+        await this.apiService.nodes.updateNode(nodeId, { name: newFileName });
+      }
+
+      const file = await toUploadFile(fileLocation);
+      await this.apiService.upload.uploadFile(file, '', parentId, undefined, {
+        name: newFileName,
+        nodeType: 'cm:content',
+        renditions: 'doclib',
+        overwrite: true,
+        majorVersion,
+        comment
+      });
+
+      logger.info(`New version uploaded successfully for node ${nodeId}: ${newFileName}`);
+      return await this.apiService.nodes.getNode(nodeId);
+    } catch (error) {
+      const errorMessage = error instanceof Error ? (error.stack ?? error.message) : JSON.stringify(error);
+      logger.error(`Failed to upload new version for node ${nodeId}: ${errorMessage}`);
+      return Promise.reject(error);
+    }
+  }
+
   async uploadFileWithRename(
     fileLocation: string,
     newName: string,
@@ -261,10 +289,5 @@ export class FileActionsApi {
       logger.error(`${this.constructor.name} ${this.updateNodeContent.name}: ${JSON.stringify(error)}`);
       return Promise.reject(error);
     }
-  }
-
-  async updateNodeContentFromFile(nodeId: string, fileLocation: string, majorVersion = true, comment?: string, newName?: string): Promise<NodeEntry> {
-    const fileContent = await fs.promises.readFile(fileLocation);
-    return this.updateNodeContent(nodeId, fileContent, majorVersion, comment, newName);
   }
 }
