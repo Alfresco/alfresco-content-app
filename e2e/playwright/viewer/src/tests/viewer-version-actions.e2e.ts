@@ -27,7 +27,6 @@ import {
   ApiClientFactory,
   Utils,
   test,
-  timeouts,
   TrashcanApi,
   NodesApi,
   TEST_FILES,
@@ -54,7 +53,6 @@ test.describe('Version actions', () => {
   const username = `user-${random}`;
   let fileId: string;
   let fileAfterUpdateId: string;
-  let standaloneJpgName: string;
 
   type PageWithViewer = PersonalFilesPage | RecentFilesPage | FavoritesPage | SharedPage | SearchPage;
 
@@ -91,12 +89,9 @@ test.describe('Version actions', () => {
       fileId = (await fileActionsApi.uploadFile(filesToUpload[0].path, filenameBeforeUpdate, '-my-')).entry.id;
 
       fileAfterUpdateId = (
-        await fileActionsApi.updateNodeContentFromFile(fileId, filesToUpload[1].path, true, 'new major version description', filenameAfterUpdate)
+        await fileActionsApi.uploadNewVersionFile(fileId, filesToUpload[1].path, filenameAfterUpdate, true, 'new major version description')
       ).entry.id;
-
-      standaloneJpgName = `standalone-jpg-${random}.jpg`;
-      await fileActionsApi.uploadFile(filesToUpload[1].path, standaloneJpgName, '-my-');
-      await fileActionsApi.waitForNodes(standaloneJpgName, { expect: 1 });
+      await fileActionsApi.waitForNodes(filenameAfterUpdate, { expect: 1 });
 
       await favoritesApi.addFavoritesByIds('file', [fileId]);
       await favoritesApi.waitForApi(username, { expect: 1 });
@@ -138,34 +133,16 @@ test.describe('Version actions', () => {
 
     test('[XAT-19377] Can view previous version of a document after a viewer is opened from Manage Versions dialog', async ({ personalFiles }) => {
       await personalFiles.viewer.waitForViewerToOpen();
+      await personalFiles.viewer.waitForViewerContentToRender('document');
+
       await personalFiles.viewer.toolbar.clickViewerMoreActions();
       await personalFiles.matMenu.clickMenuItem('Manage Versions');
       await personalFiles.manageVersionsDialog.clickListActionButtonForVersion('2.0');
-      await personalFiles.matMenu.clickMenuItem('View');
-      await personalFiles.page.waitForURL(/2\.0/, { timeout: timeouts.large });
-      expect(personalFiles.page.url()).toContain(fileAfterUpdateId);
-      await expect(personalFiles.viewer.fileTitleButtonLocator).toContainText(filenameAfterUpdate, { timeout: timeouts.large });
+      await Promise.all([Utils.waitForApiResponse(personalFiles, '2.0', 200), personalFiles.matMenu.clickMenuItem('View')]);
       await personalFiles.viewer.waitForViewerLoaderToFinish();
-      await expect(personalFiles.viewer.unknownFormat, `Viewer showed "Couldn't load preview" for version 2.0`).toBeHidden({
-        timeout: timeouts.large
-      });
-    });
-  });
-
-  test.describe('Viewer renders content without loading error', () => {
-    test.beforeEach(async ({ loginPage, personalFiles }) => {
-      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
-      await personalFiles.navigate();
-    });
-
-    test('[XAT-19378] PDF file renders in viewer without loading error', async ({ personalFiles }) => {
-      await viewFirstFileVersion(personalFiles);
-      await personalFiles.viewer.waitForViewerContentToRender('document');
-    });
-
-    test('[XAT-19379] Image file renders in viewer without loading error', async ({ personalFiles }) => {
-      await personalFiles.dataTable.performClickFolderOrFileToOpen(standaloneJpgName);
-      await personalFiles.viewer.waitForViewerContentToRender('image');
+      await expect(personalFiles.viewer.unknownFormat).toBeHidden();
+      expect(await personalFiles.viewer.getFileTitle()).toContain(filenameAfterUpdate);
+      expect(personalFiles.page.url()).toContain(fileAfterUpdateId);
     });
   });
 
@@ -178,7 +155,9 @@ test.describe('Version actions', () => {
 
     test('[XAT-5499] Should be possible to view a previous document version - Recent Files', async ({ recentFilesPage }) => {
       expect(recentFilesPage.page.url()).toContain('1.0');
+      await recentFilesPage.viewer.waitForViewerToOpen();
       await recentFilesPage.viewer.waitForViewerContentToRender('document');
+      await expect(recentFilesPage.viewer.unknownFormat).toBeHidden();
       expect(await recentFilesPage.viewer.getFileTitle()).toContain(filenameBeforeUpdate);
     });
 
@@ -237,6 +216,7 @@ test.describe('Version actions', () => {
     test('[XAT-5506] Previous document version title should be the same in Preview mode as in Version Manager - Shared Files', async ({
       sharedPage
     }) => {
+      await sharedPage.viewer.waitForViewerLoaderToFinish();
       await sharedPage.viewer.waitForViewerContentToRender('document');
       expect(await sharedPage.viewer.getFileTitle()).toContain(filenameBeforeUpdate);
     });

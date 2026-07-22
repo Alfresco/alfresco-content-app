@@ -69,6 +69,33 @@ export class FileActionsApi {
     }
   }
 
+  async uploadNewVersionFile(nodeId: string, fileLocation: string, newFileName: string, majorVersion = true, comment = ''): Promise<NodeEntry> {
+    try {
+      const existingNode = await this.apiService.nodes.getNode(nodeId);
+      const parentId = existingNode.entry.parentId;
+
+      if (newFileName !== existingNode.entry.name) {
+        await this.apiService.nodes.updateNode(nodeId, { name: newFileName });
+      }
+
+      const file = await toUploadFile(fileLocation);
+      await this.apiService.upload.uploadFile(file, '', parentId, undefined, {
+        name: newFileName,
+        nodeType: 'cm:content',
+        renditions: 'doclib',
+        overwrite: true,
+        majorVersion,
+        comment
+      });
+
+      logger.info(`New version uploaded successfully for node ${nodeId}: ${newFileName}`);
+      return await this.apiService.nodes.getNode(nodeId);
+    } catch (error) {
+      logger.error(`Failed to upload new version for node ${nodeId}: ${JSON.stringify(error)}`);
+      return Promise.reject(error);
+    }
+  }
+
   async uploadFileWithRename(
     fileLocation: string,
     newName: string,

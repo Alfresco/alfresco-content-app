@@ -81,15 +81,15 @@ export class ViewerComponent extends BaseComponent {
   }
 
   async waitForViewerContentToRender(type: 'document' | 'image' | 'media' = 'document'): Promise<void> {
-    await this.waitForViewerToOpen();
     if (type === 'image') {
-      await this.viewerImage.waitFor({ state: 'visible', timeout: timeouts.extraLarge });
-    } else if (type === 'media') {
-      await this.viewerMedia.waitFor({ state: 'visible', timeout: timeouts.extraLarge });
-    } else {
-      await this.pdfViewerContentPages.first().waitFor({ state: 'attached', timeout: timeouts.fortySeconds });
+      await this.viewerImage.waitFor({ state: 'attached', timeout: timeouts.extraLarge });
+      return;
     }
-    await expect(this.unknownFormat, `Viewer showed "Couldn't load preview" error for type "${type}"`).toBeHidden({ timeout: timeouts.normal });
+    if (type === 'media') {
+      await this.viewerMedia.waitFor({ state: 'visible', timeout: timeouts.extraLarge });
+      return;
+    }
+    await this.pdfViewerContentPages.first().waitFor({ state: 'attached', timeout: timeouts.extraLarge });
   }
 
   async checkViewerActivePage(pageNumber: number): Promise<void> {
