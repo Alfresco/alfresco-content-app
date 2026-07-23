@@ -1651,7 +1651,7 @@ describe('ContentManagementService', () => {
     let dialogData: NewVersionUploaderDialogData;
 
     beforeEach(() => {
-      fakeNodeIsFile = { entry: { id: '1', name: 'name1', isFile: true } };
+      fakeNodeIsFile = { entry: { id: '1', name: 'name1', isFile: true, aspectNames: ['cm:versionable'] } };
       fakeNodeIsNotFile = { entry: { id: '2', name: 'name1', isFile: false } };
       const viewVersionData: ViewVersion = { action: NewVersionUploaderDataAction.view, versionId: '1.0' };
       spyOnOpenUploadNewVersionDialog = spyOn(newVersionUploaderService, 'openUploadNewVersionDialog').and.returnValue(of(viewVersionData));
@@ -1808,6 +1808,15 @@ describe('ContentManagementService', () => {
     it('should show permission error is node is not a file and does not have nodeId', () => {
       contentManagementService.manageVersions(fakeNodeIsNotFile);
       expect(showErrorSpy).toHaveBeenCalledWith('APP.MESSAGES.ERRORS.PERMISSION');
+    });
+
+    it('should show info notification and not open dialog when the file is not versionable', () => {
+      const nonVersionableFile = { entry: { id: '3', name: 'name3', isFile: true, aspectNames: [] } };
+
+      contentManagementService.manageVersions(nonVersionableFile);
+
+      expect(showInfoSpy).toHaveBeenCalledWith('APP.MESSAGES.INFO.NO_VERSIONS_AVAILABLE');
+      expect(spyOnOpenUploadNewVersionDialog).not.toHaveBeenCalled();
     });
   });
 

@@ -642,9 +642,18 @@ export class ContentManagementService {
     );
   }
 
+  private isNodeVersionable(node: any): boolean {
+    return (node?.aspectNames ?? []).includes('cm:versionable');
+  }
+
   private openVersionManagerDialog(node: any, focusedElementOnCloseSelector?: string) {
     // workaround Shared
     if (node.isFile || node.nodeId) {
+      if (!this.isNodeVersionable(node)) {
+        this.notificationService.showInfo('APP.MESSAGES.INFO.NO_VERSIONS_AVAILABLE');
+        this.focusAfterClose(focusedElementOnCloseSelector);
+        return;
+      }
       const newVersionUploaderDialogData: NewVersionUploaderDialogData = {
         node,
         showVersionsOnly: true,
