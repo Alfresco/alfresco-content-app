@@ -262,6 +262,24 @@ describe('app.evaluators', () => {
 
       expect(app.isVersionableFile(context)).toBe(false);
     });
+
+    it('should return [false] when the selected file has no entry', () => {
+      context.selection.file = {} as any;
+
+      expect(app.isVersionableFile(context)).toBe(false);
+    });
+
+    it('should return [false] when the selected file has no aspectNames', () => {
+      context.selection.file = { entry: {} } as any;
+
+      expect(app.isVersionableFile(context)).toBe(false);
+    });
+
+    it('should return [false] when there is no file selected', () => {
+      context.selection.file = undefined;
+
+      expect(app.isVersionableFile(context)).toBe(false);
+    });
   });
 
   describe('isShared', () => {
