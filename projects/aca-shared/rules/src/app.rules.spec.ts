@@ -250,6 +250,20 @@ describe('app.evaluators', () => {
     });
   });
 
+  describe('isVersionableFile', () => {
+    it('should return [true] when the selected file has the cm:versionable aspect', () => {
+      context.selection.file = { entry: { aspectNames: ['cm:versionable'] } } as any;
+
+      expect(app.isVersionableFile(context)).toBe(true);
+    });
+
+    it('should return [false] when the selected file lacks the cm:versionable aspect', () => {
+      context.selection.file = { entry: { aspectNames: ['cm:auditable'] } } as any;
+
+      expect(app.isVersionableFile(context)).toBe(false);
+    });
+  });
+
   describe('isShared', () => {
     it('should return true if route is shared files and single selection', () => {
       context.navigation.url = '/shared';

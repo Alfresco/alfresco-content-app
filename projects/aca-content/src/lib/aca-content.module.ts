@@ -148,6 +148,7 @@ import { IsFeatureSupportedInCurrentAcsPipe } from './pipes/is-feature-supported
         'app.selection.file': rules.hasFileSelected,
         'app.selection.file.isLocked': rules.hasLockedFiles,
         'app.selection.file.canUploadVersion': rules.canUploadVersion,
+        'app.selection.file.isVersionable': rules.isVersionableFile,
         'app.selection.library': rules.hasLibrarySelected,
         'app.selection.hasLibraryRole': rules.hasLibraryRole,
         'app.selection.folder': rules.hasFolderSelected,

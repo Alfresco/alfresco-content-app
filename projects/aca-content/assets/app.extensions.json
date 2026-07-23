@@ -763,6 +763,7 @@
             "rules": {
               "visible": [
                 "app.selection.file",
+                "app.selection.file.isVersionable",
                 "!app.navigation.isTrashcan",
                 "!app.selection.file.isLocked",
                 "!app.selection.isNodeLink"
