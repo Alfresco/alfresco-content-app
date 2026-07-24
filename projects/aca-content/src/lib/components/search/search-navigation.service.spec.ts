@@ -50,7 +50,7 @@ describe('SearchNavigationService', () => {
     expect(routerNavigate).not.toHaveBeenCalledWith([service.previousRoute]);
   });
 
-  it('should navigate to saved route when exitSearch function is called', () => {
+  it('should navigate to saved route when navigateBack function is called', () => {
     const routerNavigateByUrl = spyOn(router, 'navigateByUrl');
     service.saveRoute('/personal-files');
     service.navigateBack();
