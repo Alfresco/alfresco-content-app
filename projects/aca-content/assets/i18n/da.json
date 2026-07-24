@@ -115,10 +115,10 @@
                 }
             },
             "REPOSITORY_VIEW": {
-                "TITLE": "Repository",
+                "TITLE": "Lager",
                 "SIDENAV_LINK": {
-                    "LABEL": "Repository",
-                    "TOOLTIP": "View the repository"
+                    "LABEL": "Lager",
+                    "TOOLTIP": "Vis arkivet"
                 }
             },
             "LIBRARIES": {
@@ -320,7 +320,9 @@
             "EDIT_OFFLINE_CANCEL": "Annuller redigering",
             "CHANGE_ASPECT": "Rediger udseende",
             "ADD_ASPECTS": "Tilføj aspekter",
-            "NODE_INFO": "Oplysninger"
+            "NODE_INFO": "Oplysninger",
+            "LOCATE_LINKED_ITEM": "Find tilknyttet element",
+            "CREATE_LINK": "Opret link"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -328,6 +330,12 @@
                 "MESSAGE": "Dette vil slette elementerne permanent.",
                 "YES_LABEL": "Slet",
                 "NO_LABEL": "Behold"
+            },
+            "CONFIRM_DELETE_LINK": {
+                "TITLE": "Slet link?",
+                "MESSAGE": "Links slettes permanent og kan ikke gendannes fra papirkurven.",
+                "YES_LABEL": "Slet",
+                "NO_LABEL": "Annuller"
             },
             "CONFIRM_LEAVE": {
                 "TITLE": "Vil du forlade biblioteket?",
@@ -366,6 +374,7 @@
                 "GENERIC": "Handlingen blev ikke fuldført. Prøv igen, eller kontakt dit it-team.",
                 "CONFLICT": "Navnet er allerede i brug. Prøv et andet navn.",
                 "NODE_MOVE": "Flytningen lykkedes ikke, da der allerede findes en fil med samme navn.",
+                "NODE_LINK_DUPLICATE": "Kan ikke oprette link, et link med samme navn findes allerede på denne placering.",
                 "EXISTENT_FOLDER": "Der er allerede en mappe med det navn. Prøv et andet navn.",
                 "NODE_DELETION": "{{ name }} kunne ikke slettes",
                 "NODE_DELETION_PLURAL": "{{ number }} elementer kunne ikke slettes",
@@ -425,6 +434,14 @@
                     "PARTIAL_PLURAL": "{{ success }} elementer er blevet kopieret. {{ failed }} elementer kunne ikke kopieres.",
                     "FAIL_SINGULAR": "{{ failed }} element kunne ikke kopieres.",
                     "FAIL_PLURAL": "{{ failed }} elementer kunne ikke kopieres."
+                },
+                "NODE_LINK": {
+                    "SINGULAR": "Link oprettet for {{ success }} element",
+                    "PLURAL": "Links oprettet for {{ success }} elementer",
+                    "PARTIAL_SINGULAR": "Link oprettet for {{ success }} element, kunne ikke oprette link for {{ failed }}.",
+                    "PARTIAL_PLURAL": "Links oprettet for {{ success }} elementer, kunne ikke oprette links for {{ failed }}.",
+                    "FAIL_SINGULAR": "Kunne ikke oprette link for {{ failed }} element.",
+                    "FAIL_PLURAL": "Kunne ikke oprette links for {{ failed }} elementer."
                 },
                 "NODE_MOVE": {
                     "SINGULAR": "{{ success }} element er blevet flyttet.",
@@ -494,6 +511,7 @@
             "SIZE": "Størrelse",
             "NUMBER_OF_FILES": "Antal filer",
             "CALCULATING": "Beregner...",
+            "NOT_AVAILABLE": "Ikke relevant",
             "LOCATION": "Placering",
             "REFERENCED": "Refereret",
             "CREATED": "Oprettet",
@@ -513,10 +531,13 @@
         "COPY_ITEMS": "Kopiér {{ number }} elementer til...",
         "MOVE_ITEM": "Flyt '{{ name }}' til...",
         "MOVE_ITEMS": "Flyt {{ number }} elementer til...",
+        "LINK_ITEM": "Opret link for '{{ name }}' i...",
+        "LINK_ITEMS": "Opret links for {{ number }} elementer i...",
         "SEARCH": "Søg",
         "NEXT": "Næste",
         "SELECT_FILE_TEMPLATE_TITLE": "Vælg en dokumentskabelon",
-        "SELECT_FOLDER_TEMPLATE_TITLE": "Vælg en mappeskabelon"
+        "SELECT_FOLDER_TEMPLATE_TITLE": "Vælg en mappeskabelon",
+        "LINK_NAME": "Link til {{ name }}"
     },
     "NODE_FROM_TEMPLATE": {
         "CANCEL": "Annuller",
@@ -608,11 +629,13 @@
             "MIN_LENGTH": "Din søgetekst skal være på mindst 2 tal/bogstaver.",
             "REQUIRED": "Søg input er påkrævet.",
             "WHITESPACE": "Søg input kan ikke kun være mellemrum.",
-            "OPERATORS": "øgeinput må ikke starte med, slutte med eller kun indeholde operatorer",
             "IN_PREFIX": "I",
             "FILES_AND_FOLDERS": "Filer og mapper",
             "RESET": "Nulstil",
-            "SEARCH_IN": "Søg i"
+            "SEARCH_IN": "Søg i",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION": "Skift søgetilstand.\n\nAlmindelig søgning: Find tekst, mens du skriver.\n\nFormelsøgning: Brug specialtegn til at opbygge en forespørgsel. Systemet fortolker symboler som søgesyntaks.\n",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_REGULAR": "Almindelig søgning",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_FORMULA": "Formelsøgning"
         },
         "SORT": {
             "SORTING_OPTION": "Sortér efter",
@@ -661,7 +684,8 @@
                 "TYPE": {
                     "TITLE": "Kontrollér type",
                     "FOLDER": "Mappe",
-                    "DOCUMENT": "Dokument"
+                    "DOCUMENT": "Dokument",
+                    "LINK": "Hyperlink"
                 },
                 "SIZE": {
                     "TITLE": "Indholdsstørrelse (interval)",
@@ -715,40 +739,9 @@
         }
     },
     "KNOWLEDGE_RETRIEVAL": {
-        "SEARCH": {
-            "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "Er der andet, du vil spørge om?",
-                "REFERENCED_DOCUMENTS_HEADER": "Referencedokumenter",
-                "REGENERATION_BUTTON_LABEL": "Regenerér",
-                "COPY_BUTTON_LABEL": "Kopiér",
-                "COPY_MESSAGE": "Svar kopieret til udklipsholder",
-                "RELOAD_REFERENCES_BUTTON_LABEL": "Genindlæs"
-            },
-            "AGENTS_BUTTON": {
-                "LABEL": "Spørg Discovery",
-                "TITLE": "Videnssøgning"
-            },
-            "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "Spørg",
-                "DEFAULT_PLACEHOLDER": "Stil dit spørgsmål så detaljeret som muligt...",
-                "HIDE_INPUT": "Gem indtastning",
-                "HIDE_ANSWER": "Gem svar"
-            },
-            "ERRORS": {
-                "AGENTS_FETCHING": "Fejl ved hentning af agenter.",
-                "HX_INSIGHT_URL_FETCHING": "Fejl ved hentning af HX Insight URL.",
-                "LOADING_ERROR": "Hmm... noget lader til at være gået galt.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Siden er ikke tilgængelig i denne sammenhæng.",
-                "REFERENCES_LOADING_ERROR": "Der opstod en fejl under indlæsning af referencerne."
-            },
-            "DISCARD_CHANGES": {
-                "WARNING": "Advarsel!",
-                "ASK_AI": "Spørg AI",
-                "DO_NOT_SHOW_MESSAGE": "Vis ikke denne besked igen",
-                "DISCARD_CONVERSATION": "Afbryd samtale",
-                "CONVERSATION_DISCARDED": "Denne samtale afbrydes",
-                "LOSE_RESPONSE": "Ved at stille et nyt spørgsmål, mister du det sidste svar"
-            }
+        "SIDENAV": {
+            "TITLE": "AI-agenter",
+            "DISCOVERY": "Discovery"
         }
     }
 }

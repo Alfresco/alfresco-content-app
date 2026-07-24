@@ -115,10 +115,10 @@
                 }
             },
             "REPOSITORY_VIEW": {
-                "TITLE": "Repository",
+                "TITLE": "Référentiel",
                 "SIDENAV_LINK": {
-                    "LABEL": "Repository",
-                    "TOOLTIP": "View the repository"
+                    "LABEL": "Référentiel",
+                    "TOOLTIP": "Afficher le dépôt"
                 }
             },
             "LIBRARIES": {
@@ -320,7 +320,9 @@
             "EDIT_OFFLINE_CANCEL": "Annuler l'édition",
             "CHANGE_ASPECT": "Modifier les aspects",
             "ADD_ASPECTS": "Ajouter des aspects",
-            "NODE_INFO": "Informations"
+            "NODE_INFO": "Informations",
+            "LOCATE_LINKED_ITEM": "Localiser l’élément lié",
+            "CREATE_LINK": "Créer un lien"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -328,6 +330,12 @@
                 "MESSAGE": "Le ou les éléments sélectionnés seront définitivement supprimés.",
                 "YES_LABEL": "Supprimer",
                 "NO_LABEL": "Garder"
+            },
+            "CONFIRM_DELETE_LINK": {
+                "TITLE": "Supprimer le lien ?",
+                "MESSAGE": "Les liens sont définitivement supprimés et ne peuvent pas être restaurés depuis la corbeille.",
+                "YES_LABEL": "Delete",
+                "NO_LABEL": "Annuler"
             },
             "CONFIRM_LEAVE": {
                 "TITLE": "Quitter cette bibliothèque ?",
@@ -366,6 +374,7 @@
                 "GENERIC": "L'action a échoué. Réessayez ou contactez le service informatique.",
                 "CONFLICT": "Ce nom est déjà utilisé, choisissez-en un autre.",
                 "NODE_MOVE": "Echec du déplacement, un fichier du même nom existe déjà.",
+                "NODE_LINK_DUPLICATE": "Impossible de créer un lien, un lien portant le même nom existe déjà à cet emplacement.",
                 "EXISTENT_FOLDER": "Un dossier du même nom existe déjà. Essayez avec un nom différent.",
                 "NODE_DELETION": "{{ name }} n'a pas pu être supprimé",
                 "NODE_DELETION_PLURAL": "{{ number }} éléments n'ont pas pu être supprimés",
@@ -425,6 +434,14 @@
                     "PARTIAL_PLURAL": "{{ success }} éléments copiés, {{ failed }} n'a/n'ont pas pu être copié(s).",
                     "FAIL_SINGULAR": "{{ failed }} élément n'a pas pu être copié.",
                     "FAIL_PLURAL": "{{ failed }} éléments n'ont pas pu être copiés."
+                },
+                "NODE_LINK": {
+                    "SINGULAR": "Lien créé pour {{ success }} élément",
+                    "PLURAL": "Liens créés pour {{ success }} éléments",
+                    "PARTIAL_SINGULAR": "Lien créé pour {{ success }} élément, impossible de créer un lien pour {{ failed }}.",
+                    "PARTIAL_PLURAL": "Liens créés pour {{ success }} éléments, impossible de créer des liens pour {{ failed }}.",
+                    "FAIL_SINGULAR": "Impossible de créer un lien pour {{ failed }} élément.",
+                    "FAIL_PLURAL": "Impossible de créer des liens pour {{ failed }} éléments."
                 },
                 "NODE_MOVE": {
                     "SINGULAR": "{{ success }} élément déplacé.",
@@ -494,6 +511,7 @@
             "SIZE": "Taille",
             "NUMBER_OF_FILES": "Nombre de fichiers",
             "CALCULATING": "Calcul en cours…",
+            "NOT_AVAILABLE": "N/A",
             "LOCATION": "Lieu",
             "REFERENCED": "Référencé",
             "CREATED": "Créé",
@@ -513,10 +531,13 @@
         "COPY_ITEMS": "Copier {{ number }} éléments vers...",
         "MOVE_ITEM": "Déplacer '{{ name }}' vers...",
         "MOVE_ITEMS": "Déplacer {{ number }} éléments vers...",
+        "LINK_ITEM": "Créer un lien pour '{{ name }}' dans...",
+        "LINK_ITEMS": "Créer des liens pour {{ number }} éléments dans...",
         "SEARCH": "Rechercher",
         "NEXT": "Suivant",
         "SELECT_FILE_TEMPLATE_TITLE": "Sélectionner un modèle de document",
-        "SELECT_FOLDER_TEMPLATE_TITLE": "Sélectionner un modèle de dossier"
+        "SELECT_FOLDER_TEMPLATE_TITLE": "Sélectionner un modèle de dossier",
+        "LINK_NAME": "Lien vers {{ name }}"
     },
     "NODE_FROM_TEMPLATE": {
         "CANCEL": "Annuler",
@@ -608,11 +629,13 @@
             "MIN_LENGTH": "L'élément de recherche doit comporter au moins 2 caractères alphanumériques.",
             "REQUIRED": "La recherche est obligatoire.",
             "WHITESPACE": "L'entrée de recherche ne peut pas être uniquement un espace.",
-            "OPERATORS": "La saisie de recherche ne peut pas commencer, se terminer ou être composée uniquement d’opérateurs",
             "IN_PREFIX": "Dans",
             "FILES_AND_FOLDERS": "Fichiers et dossiers",
             "RESET": "Réinitialiser",
-            "SEARCH_IN": "Rechercher dans"
+            "SEARCH_IN": "Rechercher dans",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION": "Changer de mode de recherche.\n\nRecherche standard : recherchez du texte au fur et à mesure de la saisie.\n\nRecherche par formule : utilisez des caractères spéciaux pour créer une requête. Le système interprète les symboles comme une syntaxe de recherche.\n",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_REGULAR": "Recherche standard",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_FORMULA": "Recherche par formule"
         },
         "SORT": {
             "SORTING_OPTION": "Trier par",
@@ -661,7 +684,8 @@
                 "TYPE": {
                     "TITLE": "Cocher le type",
                     "FOLDER": "Dossier",
-                    "DOCUMENT": "Document"
+                    "DOCUMENT": "Document",
+                    "LINK": "Lien"
                 },
                 "SIZE": {
                     "TITLE": "Taille du contenu (plage)",
@@ -715,40 +739,9 @@
         }
     },
     "KNOWLEDGE_RETRIEVAL": {
-        "SEARCH": {
-            "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "Avez-vous d’autres questions ?",
-                "REFERENCED_DOCUMENTS_HEADER": "Documents mentionnés",
-                "REGENERATION_BUTTON_LABEL": "Regénérer",
-                "COPY_BUTTON_LABEL": "Copier",
-                "COPY_MESSAGE": "Réponse copiée dans le presse-papiers",
-                "RELOAD_REFERENCES_BUTTON_LABEL": "Recharger"
-            },
-            "AGENTS_BUTTON": {
-                "LABEL": "Demandez à Discovery",
-                "TITLE": "Récupération de connaissances"
-            },
-            "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "Poser une question",
-                "DEFAULT_PLACEHOLDER": "Veuillez poser votre question avec le plus de détails possible...",
-                "HIDE_INPUT": "Masquer l'entrée",
-                "HIDE_ANSWER": "Masquer la réponse"
-            },
-            "ERRORS": {
-                "AGENTS_FETCHING": "Erreur lors de la récupération des agents",
-                "HX_INSIGHT_URL_FETCHING": "Erreur lors de la récupération de l’URL HX Insight.",
-                "LOADING_ERROR": "Il semblerait qu’une erreur soit survenue.",
-                "PAGE_NOT_AVAILABLE_ERROR": "La page n’est pas disponible pour ces conditions.",
-                "REFERENCES_LOADING_ERROR": "Une erreur s'est produite lors du chargement des références."
-            },
-            "DISCARD_CHANGES": {
-                "WARNING": "Avertissement !",
-                "ASK_AI": "Poser une question à l’IA",
-                "DO_NOT_SHOW_MESSAGE": "Ne plus afficher ce message",
-                "DISCARD_CONVERSATION": "Supprimer la conversation",
-                "CONVERSATION_DISCARDED": "Cette conversation sera supprimée",
-                "LOSE_RESPONSE": "En posant une autre question, vous perdrez votre réponse précédente"
-            }
+        "SIDENAV": {
+            "TITLE": "Agents IA",
+            "DISCOVERY": "Discovery"
         }
     }
 }

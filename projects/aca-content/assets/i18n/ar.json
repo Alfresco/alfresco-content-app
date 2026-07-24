@@ -115,10 +115,10 @@
                 }
             },
             "REPOSITORY_VIEW": {
-                "TITLE": "Repository",
+                "TITLE": "المستودع",
                 "SIDENAV_LINK": {
-                    "LABEL": "Repository",
-                    "TOOLTIP": "View the repository"
+                    "LABEL": "المستودع",
+                    "TOOLTIP": "عرض المستودع"
                 }
             },
             "LIBRARIES": {
@@ -320,7 +320,9 @@
             "EDIT_OFFLINE_CANCEL": "إلغاء التحرير",
             "CHANGE_ASPECT": "تحرير الجوانب",
             "ADD_ASPECTS": "إضافة جوانب",
-            "NODE_INFO": "معلومات"
+            "NODE_INFO": "معلومات",
+            "LOCATE_LINKED_ITEM": "تحديد موقع العنصر المرتبط",
+            "CREATE_LINK": "إنشاء ارتباط"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -328,6 +330,12 @@
                 "MESSAGE": "سيعمل هذا على إزالة العنصر (العناصر) المحدد بشكل نهائي.",
                 "YES_LABEL": "حذف",
                 "NO_LABEL": "احتفاظ"
+            },
+            "CONFIRM_DELETE_LINK": {
+                "TITLE": "حذف الرابط؟",
+                "MESSAGE": "يتم حذف الروابط نهائيًا ولا يمكن استعادتها من المهملات.",
+                "YES_LABEL": "حذف",
+                "NO_LABEL": "إلغاء"
             },
             "CONFIRM_LEAVE": {
                 "TITLE": "أتريد مغادرة هذه المكتبة؟",
@@ -366,6 +374,7 @@
                 "GENERIC": "كان الإجراء غير ناجح. حاول مرة أخرى أو اتصل بفريق تكنولوجيا المعلومات.",
                 "CONFLICT": "هذا الاسم قيد الاستخدام بالفعل، جرّب اسمًا مختلفًا.",
                 "NODE_MOVE": "نقل غير ناجح، يوجد ملف بنفس الاسم بالفعل.",
+                "NODE_LINK_DUPLICATE": "لا يمكن إنشاء ارتباط، يوجد ارتباط بالاسم نفسه في هذا الموقع بالفعل.",
                 "EXISTENT_FOLDER": "يوجد مجلد بهذا الاسم بالفعل. جرّب اسمًا مختلفًا.",
                 "NODE_DELETION": "تعذر حذف {{ name }}",
                 "NODE_DELETION_PLURAL": "تعذر حذف {{ number }} من العناصر",
@@ -425,6 +434,14 @@
                     "PARTIAL_PLURAL": "عناصر {{ success }} تم نسخها، تعذر نسخ {{ failed }}.",
                     "FAIL_SINGULAR": "تعذر نسخ {{ failed }} عنصر.",
                     "FAIL_PLURAL": "تعذر نسخ {{ failed }} عناصر."
+                },
+                "NODE_LINK": {
+                    "SINGULAR": "تم إنشاء ارتباط لـ {{ success }} عنصر",
+                    "PLURAL": "تم إنشاء ارتباطات لـ {{ success }} عناصر",
+                    "PARTIAL_SINGULAR": "تم إنشاء ارتباط لـ {{ success }} عنصر، وتعذر إنشاء ارتباط لـ {{ failed }}.",
+                    "PARTIAL_PLURAL": "تم إنشاء ارتباطات لـ {{ success }} عناصر، وتعذر إنشاء ارتباطات لـ {{ failed }}.",
+                    "FAIL_SINGULAR": "تعذر إنشاء ارتباط لـ {{ failed }} عنصر.",
+                    "FAIL_PLURAL": "تعذر إنشاء ارتباطات لـ {{ failed }} عناصر."
                 },
                 "NODE_MOVE": {
                     "SINGULAR": "عنصر {{ success }} تم نقله.",
@@ -494,6 +511,7 @@
             "SIZE": "الحجم",
             "NUMBER_OF_FILES": "عدد الملفات",
             "CALCULATING": "حساب...",
+            "NOT_AVAILABLE": "غير متوفر",
             "LOCATION": "مكان",
             "REFERENCED": "مُشار إليه",
             "CREATED": "تم الإنشاء",
@@ -513,10 +531,13 @@
         "COPY_ITEMS": "نسخ {{ number }} عناصر إلى...",
         "MOVE_ITEM": "نقل '{{ name }}' إلى...",
         "MOVE_ITEMS": "نقل {{ number }} عناصر إلى...",
+        "LINK_ITEM": "إنشاء ارتباط لـ '{{ name }}' في...",
+        "LINK_ITEMS": "إنشاء ارتباطات لـ {{ number }} عناصر في...",
         "SEARCH": "بحث",
         "NEXT": "التالي",
         "SELECT_FILE_TEMPLATE_TITLE": "حدد قالب مستند",
-        "SELECT_FOLDER_TEMPLATE_TITLE": "حدد قالب مجلد"
+        "SELECT_FOLDER_TEMPLATE_TITLE": "حدد قالب مجلد",
+        "LINK_NAME": "ارتباط إلى {{ name }}"
     },
     "NODE_FROM_TEMPLATE": {
         "CANCEL": "إلغاء",
@@ -608,11 +629,13 @@
             "MIN_LENGTH": "يجب أن يحتوي إدخال البحث على حرفين أبجديين رقميين على الأقل.",
             "REQUIRED": "إدخال البحث مطلوب.",
             "WHITESPACE": "لا يمكن لمدخلات البحث أن تكون مساحة بيضاء فقط.",
-            "OPERATORS": "لا يمكن أن يبدأ إدخال البحث أو ينتهي أو يتكون فقط من عوامل تشغيل",
             "IN_PREFIX": "في",
             "FILES_AND_FOLDERS": "الملفات والمجلدات",
             "RESET": "إعادة تعيين",
-            "SEARCH_IN": "البحث في"
+            "SEARCH_IN": "البحث في",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION": "\nبحث.\n\nالبحث العادي: ابحث عن النص أثناء الكتابة.\n\nالبحث باستخدام الصيغ: استخدم أحرفًا خاصة لإنشاء استعلام بحث. يتعامل النظام مع الرموز كصيغة بحث.\n",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_REGULAR": "البحث العادي",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_FORMULA": "البحث باستخدام الصيغ"
         },
         "SORT": {
             "SORTING_OPTION": "صنف حسب",
@@ -661,7 +684,8 @@
                 "TYPE": {
                     "TITLE": "تحديد النوع",
                     "FOLDER": "مجلد",
-                    "DOCUMENT": "مستند"
+                    "DOCUMENT": "مستند",
+                    "LINK": "رابط"
                 },
                 "SIZE": {
                     "TITLE": "حجم المحتوى (نطاق)",
@@ -715,40 +739,9 @@
         }
     },
     "KNOWLEDGE_RETRIEVAL": {
-        "SEARCH": {
-            "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "هل تودّ طرح أي استفسار آخر؟",
-                "REFERENCED_DOCUMENTS_HEADER": "المستندات المرجعية",
-                "REGENERATION_BUTTON_LABEL": "إعادة إنشاء",
-                "COPY_BUTTON_LABEL": "نسخ",
-                "COPY_MESSAGE": "تم نسخ الرد إلى الحافظة",
-                "RELOAD_REFERENCES_BUTTON_LABEL": "إعادة التحميل"
-            },
-            "AGENTS_BUTTON": {
-                "LABEL": "اسأل Discovery",
-                "TITLE": "استرداد المعلومات ذات الصلة"
-            },
-            "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "اطرح سؤالاً",
-                "DEFAULT_PLACEHOLDER": "يُرجى طرح سؤالك مع ذكر أكبر قدر ممكن من التفاصيل...",
-                "HIDE_INPUT": "إخفاء المدخلات",
-                "HIDE_ANSWER": "إخفاء الإجابة"
-            },
-            "ERRORS": {
-                "AGENTS_FETCHING": "حدث خطأ أثناء جلب الوكلاء.",
-                "HX_INSIGHT_URL_FETCHING": "خطأ أثناء جلب رابط HX Insight.",
-                "LOADING_ERROR": "معذرة، يبدو أن هناك خطأ ما.",
-                "PAGE_NOT_AVAILABLE_ERROR": "الصفحة غير متاحة لهذه الشروط.",
-                "REFERENCES_LOADING_ERROR": "حدث خطأ أثناء تحميل المراجع."
-            },
-            "DISCARD_CHANGES": {
-                "WARNING": "تحذير!",
-                "ASK_AI": "اسأل الذكاء الاصطناعي",
-                "DO_NOT_SHOW_MESSAGE": "عدم إظهار هذه الرسالة مرة أخرى",
-                "DISCARD_CONVERSATION": "تجاهل المحادثة",
-                "CONVERSATION_DISCARDED": "سيتم تجاهل هذه المحادثة",
-                "LOSE_RESPONSE": "ستفقد الرد السابق بمجرد طرح سؤال آخر"
-            }
+        "SIDENAV": {
+            "TITLE": "وكلاء الذكاء الاصطناعي",
+            "DISCOVERY": "Discovery"
         }
     }
 }

@@ -115,10 +115,10 @@
                 }
             },
             "REPOSITORY_VIEW": {
-                "TITLE": "Repository",
+                "TITLE": "Lagringsplats",
                 "SIDENAV_LINK": {
-                    "LABEL": "Repository",
-                    "TOOLTIP": "View the repository"
+                    "LABEL": "Lagringsplats",
+                    "TOOLTIP": "Visa förvaret"
                 }
             },
             "LIBRARIES": {
@@ -320,7 +320,9 @@
             "EDIT_OFFLINE_CANCEL": "Avbryt redigering",
             "CHANGE_ASPECT": "Redigera aspekter",
             "ADD_ASPECTS": "Lägg till aspekter",
-            "NODE_INFO": "Information"
+            "NODE_INFO": "Information",
+            "LOCATE_LINKED_ITEM": "Hitta länkat objekt",
+            "CREATE_LINK": "Skapa länk"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -328,6 +330,12 @@
                 "MESSAGE": "Det här kommer att ta bort valt/valda objekt permanent.",
                 "YES_LABEL": "Radera",
                 "NO_LABEL": "Behåll"
+            },
+            "CONFIRM_DELETE_LINK": {
+                "TITLE": "Ta bort länk?",
+                "MESSAGE": "Länkar raderas permanent och kan inte återställas från papperskorgen.",
+                "YES_LABEL": "Radera",
+                "NO_LABEL": "Avbryt"
             },
             "CONFIRM_LEAVE": {
                 "TITLE": "Lämna det här biblioteket?",
@@ -366,6 +374,7 @@
                 "GENERIC": "Åtgärden lyckades inte. Försök igen eller kontakta din IT-avdelning.",
                 "CONFLICT": "Det här namnet används redan, testa ett annat namn.",
                 "NODE_MOVE": "Flytt lyckades inte, en fil med samma namn finns redan.",
+                "NODE_LINK_DUPLICATE": "Det går inte att skapa en länk, en länk med samma namn finns redan på den här platsen.",
                 "EXISTENT_FOLDER": "Det finns redan en mapp med det här namnet. Testa ett annat namn",
                 "NODE_DELETION": "{{ name }} kunde inte raderas",
                 "NODE_DELETION_PLURAL": "{{ number }} objekt kunde inte raderas",
@@ -425,6 +434,14 @@
                     "PARTIAL_PLURAL": "Kopierade {{ success }} objekt, {{ failed }} kunde inte kopieras.",
                     "FAIL_SINGULAR": "{{ failed }} objekt kunde inte kopieras.",
                     "FAIL_PLURAL": "{{ failed }} objekt kunde inte kopieras."
+                },
+                "NODE_LINK": {
+                    "SINGULAR": "Länk skapad för {{ success }} objekt",
+                    "PLURAL": "Länkar skapade för {{ success }} objekt",
+                    "PARTIAL_SINGULAR": "Länk skapad för {{ success }} objekt, kunde inte skapa en länk för {{ failed }}.",
+                    "PARTIAL_PLURAL": "Länkar skapade för {{ success }} objekt, kunde inte skapa länkar för {{ failed }}.",
+                    "FAIL_SINGULAR": "Kunde inte skapa en länk för {{ failed }} objekt.",
+                    "FAIL_PLURAL": "Kunde inte skapa länkar för {{ failed }} objekt."
                 },
                 "NODE_MOVE": {
                     "SINGULAR": "Flyttade {{ success }} objekt.",
@@ -494,6 +511,7 @@
             "SIZE": "Storlek",
             "NUMBER_OF_FILES": "Antal filer",
             "CALCULATING": "Beräknar...",
+            "NOT_AVAILABLE": "Ej tillgängligt",
             "LOCATION": "Plats",
             "REFERENCED": "Refererad",
             "CREATED": "Skapad",
@@ -513,10 +531,13 @@
         "COPY_ITEMS": "Kopiera {{ number }} objekt till...",
         "MOVE_ITEM": "Flytta '{{ name }}' till...",
         "MOVE_ITEMS": "Flytta {{ number }} objekt till...",
+        "LINK_ITEM": "Skapa länk för '{{ name }}' i...",
+        "LINK_ITEMS": "Skapa länkar för {{ number }} objekt i...",
         "SEARCH": "Sök",
         "NEXT": "Nästa",
         "SELECT_FILE_TEMPLATE_TITLE": "Välj en dokumentmall",
-        "SELECT_FOLDER_TEMPLATE_TITLE": "Välj en mappmall"
+        "SELECT_FOLDER_TEMPLATE_TITLE": "Välj en mappmall",
+        "LINK_NAME": "Länk till {{ name }}"
     },
     "NODE_FROM_TEMPLATE": {
         "CANCEL": "Avbryt",
@@ -608,11 +629,13 @@
             "MIN_LENGTH": "Sökindata måste ha minst 2 alfanumeriska tecken.",
             "REQUIRED": "Sökindata måste fyllas i.",
             "WHITESPACE": "Sökinmatningen kan inte bara vara blankt.",
-            "OPERATORS": "Sökfältet får inte börja eller sluta med, eller enbart bestå av operatorer",
             "IN_PREFIX": "I",
             "FILES_AND_FOLDERS": "Filer och mappar",
             "RESET": "Återställ",
-            "SEARCH_IN": "Sök i"
+            "SEARCH_IN": "Sök i",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION": "Växla sökläge.\n\nVanlig sökning: Hitta text medan du skriver.\n\nFormelsökning: Använd specialtecken för att skapa en sökfråga. Systemet tolkar symboler som söksyntax.\n",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_REGULAR": "Vanlig sökning",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_FORMULA": "Formelsökning"
         },
         "SORT": {
             "SORTING_OPTION": "Sortera efter",
@@ -661,7 +684,8 @@
                 "TYPE": {
                     "TITLE": "Kontrolltyp",
                     "FOLDER": "Mapp",
-                    "DOCUMENT": "Dokument"
+                    "DOCUMENT": "Dokument",
+                    "LINK": "Länk"
                 },
                 "SIZE": {
                     "TITLE": "Innehållsstorlek (område)",
@@ -715,40 +739,9 @@
         }
     },
     "KNOWLEDGE_RETRIEVAL": {
-        "SEARCH": {
-            "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "Vill du fråga något mer?",
-                "REFERENCED_DOCUMENTS_HEADER": "Referensdokument",
-                "REGENERATION_BUTTON_LABEL": "Generera på nytt",
-                "COPY_BUTTON_LABEL": "Kopiera",
-                "COPY_MESSAGE": "Svar kopierat till urklipp",
-                "RELOAD_REFERENCES_BUTTON_LABEL": "Ladda om"
-            },
-            "AGENTS_BUTTON": {
-                "LABEL": "Fråga Discovery",
-                "TITLE": "Hämta kunskap"
-            },
-            "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "Fråga",
-                "DEFAULT_PLACEHOLDER": "Ställ så detaljerade frågor som möjligt...",
-                "HIDE_INPUT": "Dölj inmatning",
-                "HIDE_ANSWER": "Dölj svar"
-            },
-            "ERRORS": {
-                "AGENTS_FETCHING": "Det gick inte att hämta agenter.",
-                "HX_INSIGHT_URL_FETCHING": "Det gick inte att hämta HX Insight-URL.",
-                "LOADING_ERROR": "Hmm... något verkar ha gått fel.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Sidan är inte tillgänglig för dessa villkor.",
-                "REFERENCES_LOADING_ERROR": "Något gick fel när referenserna laddades."
-            },
-            "DISCARD_CHANGES": {
-                "WARNING": "Varning!",
-                "ASK_AI": "Fråga AI",
-                "DO_NOT_SHOW_MESSAGE": "Visa inte detta meddelande igen",
-                "DISCARD_CONVERSATION": "Ta bort konversation",
-                "CONVERSATION_DISCARDED": "Denna konversation tas bort",
-                "LOSE_RESPONSE": "När du ställer en ny fråga går dina tidigare svar förlorade"
-            }
+        "SIDENAV": {
+            "TITLE": "AI-agenter",
+            "DISCOVERY": "Discovery"
         }
     }
 }

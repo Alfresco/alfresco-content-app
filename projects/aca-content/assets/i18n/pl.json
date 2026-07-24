@@ -115,10 +115,10 @@
                 }
             },
             "REPOSITORY_VIEW": {
-                "TITLE": "Repository",
+                "TITLE": "Repozytorium",
                 "SIDENAV_LINK": {
-                    "LABEL": "Repository",
-                    "TOOLTIP": "View the repository"
+                    "LABEL": "Repozytorium",
+                    "TOOLTIP": "Zobacz repozytorium"
                 }
             },
             "LIBRARIES": {
@@ -320,7 +320,9 @@
             "EDIT_OFFLINE_CANCEL": "Anuluj edytowanie",
             "CHANGE_ASPECT": "Edytuj aspekty",
             "ADD_ASPECTS": "Dodaj aspekty",
-            "NODE_INFO": "Informacje"
+            "NODE_INFO": "Informacje",
+            "LOCATE_LINKED_ITEM": "Zlokalizuj powiązany element",
+            "CREATE_LINK": "Utwórz link"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -328,6 +330,12 @@
                 "MESSAGE": "Spowoduje to trwałe usunięcie wybranych elementów.",
                 "YES_LABEL": "Usuń",
                 "NO_LABEL": "Zachowaj"
+            },
+            "CONFIRM_DELETE_LINK": {
+                "TITLE": "Usunąć link?",
+                "MESSAGE": "Linki są trwale usuwane i nie można ich przywrócić z kosza.",
+                "YES_LABEL": "Delete",
+                "NO_LABEL": "Anuluj"
             },
             "CONFIRM_LEAVE": {
                 "TITLE": "Opuścić tę bibliotekę?",
@@ -366,6 +374,7 @@
                 "GENERIC": "Wykonanie czynności nie powiodło się. Spróbuj ponownie lub skontaktuj się z zespołem IT.",
                 "CONFLICT": "Ta nazwa jest już używana. Spróbuj użyć innej nazwy.",
                 "NODE_MOVE": "Przeniesienie zakończone niepowodzeniem, plik o tej samej nazwie już istnieje.",
+                "NODE_LINK_DUPLICATE": "Nie można utworzyć linku, link o tej samej nazwie już istnieje w tej lokalizacji.",
                 "EXISTENT_FOLDER": "Istnieje już folder o tej nazwie. Spróbuj użyć innej nazwy.",
                 "NODE_DELETION": "Nie można usunąć elementu {{ name }}.",
                 "NODE_DELETION_PLURAL": "Nie można usunąć następującej liczby elementów: {{ number }}.",
@@ -425,6 +434,14 @@
                     "PARTIAL_PLURAL": "Skopiowano elementy: {{ success }}, nie można skopiować: {{ failed }}.",
                     "FAIL_SINGULAR": "Nie można skopiować elementu: {{ failed }}.",
                     "FAIL_PLURAL": "Nie można skopiować elementów: {{ failed }}."
+                },
+                "NODE_LINK": {
+                    "SINGULAR": "Link utworzony dla {{ success }} elementu",
+                    "PLURAL": "Linki utworzone dla {{ success }} elementów",
+                    "PARTIAL_SINGULAR": "Link utworzony dla {{ success }} elementu, nie udało się utworzyć linku dla {{ failed }}.",
+                    "PARTIAL_PLURAL": "Linki utworzone dla {{ success }} elementów, nie udało się utworzyć linków dla {{ failed }}.",
+                    "FAIL_SINGULAR": "Nie udało się utworzyć linku dla {{ failed }} elementu.",
+                    "FAIL_PLURAL": "Nie udało się utworzyć linków dla {{ failed }} elementów."
                 },
                 "NODE_MOVE": {
                     "SINGULAR": "Przeniesiono element: {{ success }}.",
@@ -494,6 +511,7 @@
             "SIZE": "Rozmiar",
             "NUMBER_OF_FILES": "Liczba plików",
             "CALCULATING": "Obliczanie...",
+            "NOT_AVAILABLE": "N/D",
             "LOCATION": "Lokalizacja",
             "REFERENCED": "Odwołane",
             "CREATED": "Utworzono",
@@ -513,10 +531,13 @@
         "COPY_ITEMS": "Kopiowanie {{ number }} elementów do...",
         "MOVE_ITEM": "Przenieś '{{ name }}' do...",
         "MOVE_ITEMS": "Przenoszenie {{ number }} elementów do...",
+        "LINK_ITEM": "Utwórz link dla '{{ name }}' w...",
+        "LINK_ITEMS": "Utwórz linki dla {{ number }} elementów w...",
         "SEARCH": "Szukaj",
         "NEXT": "Następny",
         "SELECT_FILE_TEMPLATE_TITLE": "Wybierz szablon dokumentu",
-        "SELECT_FOLDER_TEMPLATE_TITLE": "Wybierz szablon folderu"
+        "SELECT_FOLDER_TEMPLATE_TITLE": "Wybierz szablon folderu",
+        "LINK_NAME": "Link do {{ name }}"
     },
     "NODE_FROM_TEMPLATE": {
         "CANCEL": "Anuluj",
@@ -608,11 +629,13 @@
             "MIN_LENGTH": "Tekst do wyszukiwania musi mieć co najmniej 2 znaki alfanumeryczne.",
             "REQUIRED": "Wymagane jest wyszukiwanie.",
             "WHITESPACE": "Pole wyszukiwania nie może być tylko spacją białą.",
-            "OPERATORS": "Wyszukiwanie nie może zaczynać się, kończyć ani składać się wyłącznie z operatorów",
             "IN_PREFIX": "W",
             "FILES_AND_FOLDERS": "Pliki i foldery",
             "RESET": "Resetuj",
-            "SEARCH_IN": "Wyszukaj w"
+            "SEARCH_IN": "Wyszukaj w",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION": "Przełącz tryb wyszukiwania.\n\nWyszukiwanie zwykłe: Znajdź tekst podczas wpisywania.\n\nWyszukiwanie za pomocą formuł: Użyj znaków specjalnych do utworzenia zapytania. System interpretuje symbole jako składnię wyszukiwania.\n",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_REGULAR": "Wyszukiwanie zwykłe",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_FORMULA": "Wyszukiwanie za pomocą formuł"
         },
         "SORT": {
             "SORTING_OPTION": "Sortuj wg",
@@ -661,7 +684,8 @@
                 "TYPE": {
                     "TITLE": "Zaznacz typ",
                     "FOLDER": "Folder",
-                    "DOCUMENT": "Dokument"
+                    "DOCUMENT": "Dokument",
+                    "LINK": "Łącze"
                 },
                 "SIZE": {
                     "TITLE": "Rozmiar zawartości (zakres)",
@@ -715,40 +739,9 @@
         }
     },
     "KNOWLEDGE_RETRIEVAL": {
-        "SEARCH": {
-            "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "Czy masz inne pytania?",
-                "REFERENCED_DOCUMENTS_HEADER": "Dokumenty referencyjne",
-                "REGENERATION_BUTTON_LABEL": "Regeneruj",
-                "COPY_BUTTON_LABEL": "Kopiuj",
-                "COPY_MESSAGE": "Odpowiedź została skopiowana do schowka",
-                "RELOAD_REFERENCES_BUTTON_LABEL": "Odśwież"
-            },
-            "AGENTS_BUTTON": {
-                "LABEL": "Spytaj Discovery",
-                "TITLE": "Wyszukiwanie wiedzy"
-            },
-            "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "Zapytaj",
-                "DEFAULT_PLACEHOLDER": "Zadaj pytanie, podając jak najwięcej szczegółów...",
-                "HIDE_INPUT": "Ukryj dane wejściowe",
-                "HIDE_ANSWER": "Ukryj odpowiedź"
-            },
-            "ERRORS": {
-                "AGENTS_FETCHING": "Błąd podczas pobierania agentów.",
-                "HX_INSIGHT_URL_FETCHING": "Błąd podczas pobierania HX Insight URL.",
-                "LOADING_ERROR": "Hmm... chyba coś poszło nie tak.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Strona jest niedostępna dla podanych warunków.",
-                "REFERENCES_LOADING_ERROR": "Wystąpił błąd podczas ładowania odnośników."
-            },
-            "DISCARD_CHANGES": {
-                "WARNING": "Ostrzeżenie!",
-                "ASK_AI": "Zapytaj sztuczną inteligencję",
-                "DO_NOT_SHOW_MESSAGE": "Nie pokazuj ponownie tego komunikatu",
-                "DISCARD_CONVERSATION": "Usuń konwersację",
-                "CONVERSATION_DISCARDED": "Ta konwersacja zostanie usunięta",
-                "LOSE_RESPONSE": "Zadanie kolejnego pytania spowoduje utratę poprzedniej odpowiedzi"
-            }
+        "SIDENAV": {
+            "TITLE": "Agenci AI",
+            "DISCOVERY": "Discovery"
         }
     }
 }

@@ -115,10 +115,10 @@
                 }
             },
             "REPOSITORY_VIEW": {
-                "TITLE": "Repository",
+                "TITLE": "Úložiště",
                 "SIDENAV_LINK": {
-                    "LABEL": "Repository",
-                    "TOOLTIP": "View the repository"
+                    "LABEL": "Úložiště",
+                    "TOOLTIP": "Zobrazit úložiště"
                 }
             },
             "LIBRARIES": {
@@ -320,7 +320,9 @@
             "EDIT_OFFLINE_CANCEL": "Zrušit úpravu",
             "CHANGE_ASPECT": "Upravit aspekty",
             "ADD_ASPECTS": "Přidat aspekty",
-            "NODE_INFO": "Informace"
+            "NODE_INFO": "Informace",
+            "LOCATE_LINKED_ITEM": "Najít propojenou položku",
+            "CREATE_LINK": "Vytvořit odkaz"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -328,6 +330,12 @@
                 "MESSAGE": "Dojde k trvalému odstranění vybraných položek.",
                 "YES_LABEL": "Odstranit",
                 "NO_LABEL": "Ponechat"
+            },
+            "CONFIRM_DELETE_LINK": {
+                "TITLE": "Smazat odkaz?",
+                "MESSAGE": "Odkazy jsou trvale smazány a nelze je obnovit z koše.",
+                "YES_LABEL": "Odstranit",
+                "NO_LABEL": "Zrušit"
             },
             "CONFIRM_LEAVE": {
                 "TITLE": "Opustit tuto knihovnu?",
@@ -366,6 +374,7 @@
                 "GENERIC": "Akce se nezdařila. Zkuste to znovu nebo se obraťte na oddělení IT.",
                 "CONFLICT": "Tento název se již používá. Zvolte jiný.",
                 "NODE_MOVE": "Přesunutí se nezdařilo, protože soubor se stejným názvem již existuje.",
+                "NODE_LINK_DUPLICATE": "Nelze vytvořit odkaz, odkaz se stejným názvem již v tomto umístění existuje.",
                 "EXISTENT_FOLDER": "Složka s tímto názvem již existuje. Zadejte jiný název.",
                 "NODE_DELETION": "„{{ name }}“ nebylo možné odstranit",
                 "NODE_DELETION_PLURAL": "Některé položky ({{ number }}) nebylo možné odstranit",
@@ -425,6 +434,14 @@
                     "PARTIAL_PLURAL": "Zkopírované položky: {{ success }}. Některé položky ({{ failed }}) se nepodařilo zkopírovat.",
                     "FAIL_SINGULAR": "Některé položky ({{ failed }}) nebylo možné zkopírovat.",
                     "FAIL_PLURAL": "Některé položky ({{ failed }}) nebylo možné zkopírovat."
+                },
+                "NODE_LINK": {
+                    "SINGULAR": "Odkaz vytvořen pro {{ success }} položku",
+                    "PLURAL": "Odkazy vytvořeny pro {{ success }} položky",
+                    "PARTIAL_SINGULAR": "Odkaz vytvořen pro {{ success }} položku, nepodařilo se vytvořit odkaz pro {{ failed }}.",
+                    "PARTIAL_PLURAL": "Odkazy vytvořeny pro {{ success }} položky, nepodařilo se vytvořit odkazy pro {{ failed }}.",
+                    "FAIL_SINGULAR": "Nepodařilo se vytvořit odkaz pro {{ failed }} položku.",
+                    "FAIL_PLURAL": "Nepodařilo se vytvořit odkazy pro {{ failed }} položky."
                 },
                 "NODE_MOVE": {
                     "SINGULAR": "Přesunuté položky: {{ success }}",
@@ -494,6 +511,7 @@
             "SIZE": "Velikost",
             "NUMBER_OF_FILES": "Počet souborů",
             "CALCULATING": "Probíhá výpočet…",
+            "NOT_AVAILABLE": "N/A",
             "LOCATION": "Umístění",
             "REFERENCED": "Odkazováno",
             "CREATED": "Vytvořeno",
@@ -513,10 +531,13 @@
         "COPY_ITEMS": "Zkopírovat položky ({{ number }}) do...",
         "MOVE_ITEM": "Přesunout položku '{{ name }}' do...",
         "MOVE_ITEMS": "Přesunout položky ({{ number }}) do...",
+        "LINK_ITEM": "Vytvořit odkaz pro '{{ name }}' v...",
+        "LINK_ITEMS": "Vytvořit odkazy pro {{ number }} položek v...",
         "SEARCH": "Hledat",
         "NEXT": "Další",
         "SELECT_FILE_TEMPLATE_TITLE": "Výběr šablony dokumentu",
-        "SELECT_FOLDER_TEMPLATE_TITLE": "Výběr šablony složky"
+        "SELECT_FOLDER_TEMPLATE_TITLE": "Výběr šablony složky",
+        "LINK_NAME": "Odkaz na {{ name }}"
     },
     "NODE_FROM_TEMPLATE": {
         "CANCEL": "Zrušit",
@@ -608,11 +629,13 @@
             "MIN_LENGTH": "Hledaný výraz musí obsahovat kombinaci alespoň 2 písmen a číslic.",
             "REQUIRED": "Je vyžadován vstup pro vyhledávání.",
             "WHITESPACE": "Zadání hledání nemůže být pouze mezera.",
-            "OPERATORS": "Vyhledávací výraz nesmí začínat, končit nebo být tvořen pouze operátory.",
             "IN_PREFIX": "V",
             "FILES_AND_FOLDERS": "Soubory a složky",
             "RESET": "Resetovat",
-            "SEARCH_IN": "Vyhledávání v"
+            "SEARCH_IN": "Vyhledávání v",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION": "Přepnout režim vyhledávání.\n\nBěžné vyhledávání: Vyhledává text během psaní.\n\nVyhledávání pomocí vzorců: K vytvoření dotazu použijte speciální znaky. Systém interpretuje symboly jako syntaxi vyhledávání\n",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_REGULAR": "Běžné vyhledávání",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_FORMULA": "Vyhledávání pomocí vzorců"
         },
         "SORT": {
             "SORTING_OPTION": "Řadit podle",
@@ -661,7 +684,8 @@
                 "TYPE": {
                     "TITLE": "Zkontrolujte typ",
                     "FOLDER": "Složka",
-                    "DOCUMENT": "Dokument"
+                    "DOCUMENT": "Dokument",
+                    "LINK": "Odkaz"
                 },
                 "SIZE": {
                     "TITLE": "Velikost obsahu (rozmezí)",
@@ -715,40 +739,9 @@
         }
     },
     "KNOWLEDGE_RETRIEVAL": {
-        "SEARCH": {
-            "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "Zajímá vás ještě něco?",
-                "REFERENCED_DOCUMENTS_HEADER": "Odkazované dokumenty",
-                "REGENERATION_BUTTON_LABEL": "Regenerovat",
-                "COPY_BUTTON_LABEL": "Kopírovat",
-                "COPY_MESSAGE": "Kopírovat odezvu do schránky",
-                "RELOAD_REFERENCES_BUTTON_LABEL": "Znovu načíst"
-            },
-            "AGENTS_BUTTON": {
-                "LABEL": "Zjistit v aplikaci Discovery",
-                "TITLE": "Získání znalostí"
-            },
-            "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "Položit dotaz",
-                "DEFAULT_PLACEHOLDER": "Položte svůj dotaz co nejpodrobněji...",
-                "HIDE_INPUT": "Skrýt vstup",
-                "HIDE_ANSWER": "Skrýt odpověď"
-            },
-            "ERRORS": {
-                "AGENTS_FETCHING": "Chyba při získávání agentů.",
-                "HX_INSIGHT_URL_FETCHING": "Chyba při získávání URL adresy HX Insight.",
-                "LOADING_ERROR": "Hmm... zřejmě se něco nepovedlo.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Stránka není pro tyto podmínky dostupná.",
-                "REFERENCES_LOADING_ERROR": "Při načítání odkazů došlo k chybě."
-            },
-            "DISCARD_CHANGES": {
-                "WARNING": "Výstraha!",
-                "ASK_AI": "Položit dotaz AI",
-                "DO_NOT_SHOW_MESSAGE": "Tuto zprávu již nezobrazovat",
-                "DISCARD_CONVERSATION": "Zahodit konverzaci",
-                "CONVERSATION_DISCARDED": "Tato konverzace bude zahozena",
-                "LOSE_RESPONSE": "Položením další otázky přijdete o předchozí odpověď"
-            }
+        "SIDENAV": {
+            "TITLE": "Agenti AI",
+            "DISCOVERY": "Discovery"
         }
     }
 }
