@@ -110,17 +110,12 @@
                 [sr-title]="'ADF-DOCUMENT-LIST.LAYOUT.THUMBNAIL'"
                 [sortable]="false"
               >
-                <ng-template let-context>
-                  <aca-custom-thumbnail-column [context]="context" />
-                </ng-template>
-
                 <adf-data-column-header>
                   <ng-template>
                     <aca-search-action-menu (sortingSelected)="onSearchSortingUpdate($event)" />
                   </ng-template>
                 </adf-data-column-header>
               </data-column>
-
               <ng-container *ngFor="let column of columns; trackBy: trackByColumnId">
                 <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
                   <data-column
