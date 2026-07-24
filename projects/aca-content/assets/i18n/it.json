@@ -118,7 +118,7 @@
                 "TITLE": "Repository",
                 "SIDENAV_LINK": {
                     "LABEL": "Repository",
-                    "TOOLTIP": "View the repository"
+                    "TOOLTIP": "Visualizza il repository"
                 }
             },
             "LIBRARIES": {
@@ -320,7 +320,9 @@
             "EDIT_OFFLINE_CANCEL": "Annulla modifica",
             "CHANGE_ASPECT": "Modifica aspetti",
             "ADD_ASPECTS": "Aggiungi aspetti",
-            "NODE_INFO": "Informazione"
+            "NODE_INFO": "Informazione",
+            "LOCATE_LINKED_ITEM": "Individua elemento collegato",
+            "CREATE_LINK": "Crea collegamento"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -328,6 +330,12 @@
                 "MESSAGE": "Questa operazione eliminerà in maniera permanente gli elementi selezionati.",
                 "YES_LABEL": "Elimina",
                 "NO_LABEL": "Salvare"
+            },
+            "CONFIRM_DELETE_LINK": {
+                "TITLE": "Eliminare il link?",
+                "MESSAGE": "I link vengono eliminati definitivamente e non possono essere ripristinati dal cestino.",
+                "YES_LABEL": "Delete",
+                "NO_LABEL": "Annulla"
             },
             "CONFIRM_LEAVE": {
                 "TITLE": "Uscire dalla libreria?",
@@ -366,6 +374,7 @@
                 "GENERIC": "Azione non eseguita correttamente. Riprovare o contattare il team IT.",
                 "CONFLICT": "Nome già in uso, provare un nome diverso.",
                 "NODE_MOVE": "Spostamento non eseguito correttamente, file con lo stesso nome già esistente.",
+                "NODE_LINK_DUPLICATE": "Impossibile creare il collegamento, esiste già un collegamento con lo stesso nome in questa posizione.",
                 "EXISTENT_FOLDER": "Esiste già una cartella con questo nome. Provare un nome diverso.",
                 "NODE_DELETION": "Impossibile eliminare {{ name }}",
                 "NODE_DELETION_PLURAL": "Impossibile eliminare {{ number }} elementi",
@@ -425,6 +434,14 @@
                     "PARTIAL_PLURAL": "Elementi {{ success }} copiati. Impossibile copiare {{ failed }}.",
                     "FAIL_SINGULAR": "Impossibile copiare l'elemento {{ failed }}.",
                     "FAIL_PLURAL": "Impossibile copiare gli elementi {{ failed }}."
+                },
+                "NODE_LINK": {
+                    "SINGULAR": "Collegamento creato per {{ success }} elemento",
+                    "PLURAL": "Collegamenti creati per {{ success }} elementi",
+                    "PARTIAL_SINGULAR": "Collegamento creato per {{ success }} elemento, impossibile creare un collegamento per {{ failed }}.",
+                    "PARTIAL_PLURAL": "Collegamenti creati per {{ success }} elementi, impossibile creare collegamenti per {{ failed }}.",
+                    "FAIL_SINGULAR": "Impossibile creare un collegamento per {{ failed }} elemento.",
+                    "FAIL_PLURAL": "Impossibile creare collegamenti per {{ failed }} elementi."
                 },
                 "NODE_MOVE": {
                     "SINGULAR": "Spostato {{ success }} elemento.",
@@ -494,6 +511,7 @@
             "SIZE": "Dimensione",
             "NUMBER_OF_FILES": "Numero di file",
             "CALCULATING": "Calcolo...",
+            "NOT_AVAILABLE": "N/D",
             "LOCATION": "Posizione",
             "REFERENCED": "Riferito",
             "CREATED": "Creato",
@@ -513,10 +531,13 @@
         "COPY_ITEMS": "Copia {{ number }} elementi in...",
         "MOVE_ITEM": "Sposta '{{ name }}' in...",
         "MOVE_ITEMS": "Sposta {{ number }} elementi in...",
+        "LINK_ITEM": "Crea collegamento per '{{ name }}' in...",
+        "LINK_ITEMS": "Crea collegamenti per {{ number }} elementi in...",
         "SEARCH": "Cerca",
         "NEXT": "Successivo",
         "SELECT_FILE_TEMPLATE_TITLE": "Selezionare un modello di documento",
-        "SELECT_FOLDER_TEMPLATE_TITLE": "Selezionare un modello di cartella"
+        "SELECT_FOLDER_TEMPLATE_TITLE": "Selezionare un modello di cartella",
+        "LINK_NAME": "Collegamento a {{ name }}"
     },
     "NODE_FROM_TEMPLATE": {
         "CANCEL": "Annulla",
@@ -608,11 +629,13 @@
             "MIN_LENGTH": "La stringa di ricerca deve contenere almeno 2 caratteri alfanumerici.",
             "REQUIRED": "L'input di ricerca è obbligatorio.",
             "WHITESPACE": "L'input di ricerca non può essere solo spazi bianchi.",
-            "OPERATORS": "L’input di ricerca non può iniziare, terminare o essere composto solo da operatori",
             "IN_PREFIX": "In",
             "FILES_AND_FOLDERS": "File e cartelle",
             "RESET": "Ripristina",
-            "SEARCH_IN": "Cerca in"
+            "SEARCH_IN": "Cerca in",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION": "Cambia modalità di ricerca.\n\nRicerca normale: trova il testo mentre lo digiti.\n\nRicerca tramite formula: utilizza caratteri speciali per creare una query. Il sistema interpreta i simboli come sintassi di ricerca.\n",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_REGULAR": "Ricerca normale",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_FORMULA": "Ricerca tramite formula"
         },
         "SORT": {
             "SORTING_OPTION": "Ordina per",
@@ -661,7 +684,8 @@
                 "TYPE": {
                     "TITLE": "Selezionare il tipo",
                     "FOLDER": "Cartella",
-                    "DOCUMENT": "Documento"
+                    "DOCUMENT": "Documento",
+                    "LINK": "Link"
                 },
                 "SIZE": {
                     "TITLE": "Dimensioni contenuto (intervallo)",
@@ -715,40 +739,9 @@
         }
     },
     "KNOWLEDGE_RETRIEVAL": {
-        "SEARCH": {
-            "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "Si desidera chiedere altro?",
-                "REFERENCED_DOCUMENTS_HEADER": "Documenti referenziati",
-                "REGENERATION_BUTTON_LABEL": "Rigenera",
-                "COPY_BUTTON_LABEL": "Copia",
-                "COPY_MESSAGE": "Risposta copiata negli Appunti",
-                "RELOAD_REFERENCES_BUTTON_LABEL": "Ricarica"
-            },
-            "AGENTS_BUTTON": {
-                "LABEL": "Chiedi a Discovery",
-                "TITLE": "Recupero conoscenza"
-            },
-            "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "Chiedi",
-                "DEFAULT_PLACEHOLDER": "Fai una domanda dando piú dettagli possibili...",
-                "HIDE_INPUT": "Nascondi input",
-                "HIDE_ANSWER": "Nascondi risposta"
-            },
-            "ERRORS": {
-                "AGENTS_FETCHING": "Si è verificato un errore durante il recupero degli agenti.",
-                "HX_INSIGHT_URL_FETCHING": "Si è verificato un errore durante il recupero dell'URL di HX Insight.",
-                "LOADING_ERROR": "Sembra che qualcosa sia andato storto.",
-                "PAGE_NOT_AVAILABLE_ERROR": "La pagina non è disponibile per queste condizioni.",
-                "REFERENCES_LOADING_ERROR": "Si è verificato un errore durante il caricamento dei riferimenti."
-            },
-            "DISCARD_CHANGES": {
-                "WARNING": "Attenzione.",
-                "ASK_AI": "Chiedi all’AI",
-                "DO_NOT_SHOW_MESSAGE": "Non mostrare di nuovo questo messaggio",
-                "DISCARD_CONVERSATION": "Scarta conversazione",
-                "CONVERSATION_DISCARDED": "Questa conversazione sará scartata",
-                "LOSE_RESPONSE": "Facendo un’altra domanda perderai la risposta precedente"
-            }
+        "SIDENAV": {
+            "TITLE": "Agenti AI",
+            "DISCOVERY": "Discovery"
         }
     }
 }

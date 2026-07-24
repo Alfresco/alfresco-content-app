@@ -115,10 +115,10 @@
                 }
             },
             "REPOSITORY_VIEW": {
-                "TITLE": "Repository",
+                "TITLE": "Репозиторий",
                 "SIDENAV_LINK": {
-                    "LABEL": "Repository",
-                    "TOOLTIP": "View the repository"
+                    "LABEL": "Репозиторий",
+                    "TOOLTIP": "Просмотреть репозиторий"
                 }
             },
             "LIBRARIES": {
@@ -320,7 +320,9 @@
             "EDIT_OFFLINE_CANCEL": "Отменить редактирование",
             "CHANGE_ASPECT": "Редактировать аспекты",
             "ADD_ASPECTS": "Добавить аспекты",
-            "NODE_INFO": "Информация"
+            "NODE_INFO": "Информация",
+            "LOCATE_LINKED_ITEM": "Найти связанный элемент",
+            "CREATE_LINK": "Создать ссылку"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -328,6 +330,12 @@
                 "MESSAGE": "Это безвозвратно удалит отмеченные объекты.",
                 "YES_LABEL": "Удалить",
                 "NO_LABEL": "Оставить"
+            },
+            "CONFIRM_DELETE_LINK": {
+                "TITLE": "Удалить ссылку?",
+                "MESSAGE": "Ссылки удаляются навсегда и не могут быть восстановлены из корзины.",
+                "YES_LABEL": "Удалить",
+                "NO_LABEL": "Отмена"
             },
             "CONFIRM_LEAVE": {
                 "TITLE": "Покинуть эту библиотеку?",
@@ -366,6 +374,7 @@
                 "GENERIC": "Действие не выполнено. Повторите попытку или обратитесь к IT-специалистам.",
                 "CONFLICT": "Это имя уже используется, попробуйте другое.",
                 "NODE_MOVE": "Перемещение не выполнено, файл с таким же именем уже существует.",
+                "NODE_LINK_DUPLICATE": "Не удалось создать ссылку: ссылка с таким именем уже существует в этом месте.",
                 "EXISTENT_FOLDER": "Папка с таким же именем уже существует. Используйте другое имя.",
                 "NODE_DELETION": "Не удалось удалить {{ name }}",
                 "NODE_DELETION_PLURAL": "Не удалось удалить элементов: {{ number }}",
@@ -425,6 +434,14 @@
                     "PARTIAL_PLURAL": "Скопировано элементов: {{ success }}, не удалось скопировать {{ failed }}.",
                     "FAIL_SINGULAR": "Не удалось скопировать {{ failed }} элемент.",
                     "FAIL_PLURAL": "Не удалось скопировать элементов: {{ failed }}."
+                },
+                "NODE_LINK": {
+                    "SINGULAR": "Ссылка создана для {{ success }} элемента",
+                    "PLURAL": "Ссылки созданы для {{ success }} элементов",
+                    "PARTIAL_SINGULAR": "Ссылка создана для {{ success }} элемента, не удалось создать ссылку для {{ failed }}.",
+                    "PARTIAL_PLURAL": "Ссылки созданы для {{ success }} элементов, не удалось создать ссылки для {{ failed }}.",
+                    "FAIL_SINGULAR": "Не удалось создать ссылку для {{ failed }} элемента.",
+                    "FAIL_PLURAL": "Не удалось создать ссылки для {{ failed }} элементов."
                 },
                 "NODE_MOVE": {
                     "SINGULAR": "Перемещен {{ success }} элемент.",
@@ -494,6 +511,7 @@
             "SIZE": "Размер",
             "NUMBER_OF_FILES": "Количество файлов",
             "CALCULATING": "Вычисление...",
+            "NOT_AVAILABLE": "Н/Д",
             "LOCATION": "Местоположение",
             "REFERENCED": "Используется в ссылках",
             "CREATED": "Создано",
@@ -513,10 +531,13 @@
         "COPY_ITEMS": "Скопировать элементы {{ number }} в...",
         "MOVE_ITEM": "Переместить '{{ name }}' в...",
         "MOVE_ITEMS": "Переместить элементы {{ number }} в...",
+        "LINK_ITEM": "Создать ссылку для '{{ name }}' в...",
+        "LINK_ITEMS": "Создать ссылки для {{ number }} элементов в...",
         "SEARCH": "Поиск",
         "NEXT": "Далее",
         "SELECT_FILE_TEMPLATE_TITLE": "Выберите шаблон документа",
-        "SELECT_FOLDER_TEMPLATE_TITLE": "Выберите шаблон папки"
+        "SELECT_FOLDER_TEMPLATE_TITLE": "Выберите шаблон папки",
+        "LINK_NAME": "Ссылка на {{ name }}"
     },
     "NODE_FROM_TEMPLATE": {
         "CANCEL": "Отмена",
@@ -608,11 +629,13 @@
             "MIN_LENGTH": "Поисковый запрос должен содержать как минимум два буквенно-цифровых символа.",
             "REQUIRED": "Требуется ввести введенный поиск.",
             "WHITESPACE": "Поисковый запрос не может быть только пробелов.",
-            "OPERATORS": "Поисковый запрос не может начинаться, заканчиваться или состоять только из операторов",
             "IN_PREFIX": "В",
             "FILES_AND_FOLDERS": "Файлы и папки",
             "RESET": "Сброс",
-            "SEARCH_IN": "Поиск в"
+            "SEARCH_IN": "Поиск в",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION": "Переключить режим поиска.\n\nОбычный поиск: поиск текста по мере ввода.\n\nПоиск по формулам: используйте специальные символы для создания запроса. Система интерпретирует символы как синтаксис поиска.\n",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_REGULAR": "Обычный поиск",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_FORMULA": "Поиск по формулам"
         },
         "SORT": {
             "SORTING_OPTION": "Сортировать по",
@@ -661,7 +684,8 @@
                 "TYPE": {
                     "TITLE": "Отметьте тип",
                     "FOLDER": "Папка",
-                    "DOCUMENT": "Документ"
+                    "DOCUMENT": "Документ",
+                    "LINK": "Ссылка"
                 },
                 "SIZE": {
                     "TITLE": "Размер контента (диапазон)",
@@ -715,40 +739,9 @@
         }
     },
     "KNOWLEDGE_RETRIEVAL": {
-        "SEARCH": {
-            "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "Вы хотите узнать что-нибудь еще?",
-                "REFERENCED_DOCUMENTS_HEADER": "Справочные документы",
-                "REGENERATION_BUTTON_LABEL": "Восстановить",
-                "COPY_BUTTON_LABEL": "Копировать",
-                "COPY_MESSAGE": "Скопировать ответ в буфер обмена",
-                "RELOAD_REFERENCES_BUTTON_LABEL": "Перезагрузить"
-            },
-            "AGENTS_BUTTON": {
-                "LABEL": "Спросить Discovery",
-                "TITLE": "Поиск информации"
-            },
-            "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "Спросить",
-                "DEFAULT_PLACEHOLDER": "Пожалуйста, сформулируйте вопрос как можно подробнее.",
-                "HIDE_INPUT": "Скрыть вводимые данные",
-                "HIDE_ANSWER": "Скрыть ответ"
-            },
-            "ERRORS": {
-                "AGENTS_FETCHING": "Возникла ошибка при поиске агентов.",
-                "HX_INSIGHT_URL_FETCHING": "Возникла ошибка при поиске ссылки на HX Insight.",
-                "LOADING_ERROR": "Хм... похоже, что-то пошло не так.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Для этих условий страница недоступна.",
-                "REFERENCES_LOADING_ERROR": "Произошла ошибка при загрузке ссылок."
-            },
-            "DISCARD_CHANGES": {
-                "WARNING": "Внимание!",
-                "ASK_AI": "Спросить ИИ",
-                "DO_NOT_SHOW_MESSAGE": "Больше не показывать это сообщение",
-                "DISCARD_CONVERSATION": "Отказаться от разговора",
-                "CONVERSATION_DISCARDED": "Этот разговор будет отменен",
-                "LOSE_RESPONSE": "Если вы зададите новый вопрос, предыдущий ответ будет потерян"
-            }
+        "SIDENAV": {
+            "TITLE": "ИИ-агенты",
+            "DISCOVERY": "Discovery"
         }
     }
 }

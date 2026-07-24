@@ -115,10 +115,10 @@
                 }
             },
             "REPOSITORY_VIEW": {
-                "TITLE": "Repository",
+                "TITLE": "Arkiv",
                 "SIDENAV_LINK": {
-                    "LABEL": "Repository",
-                    "TOOLTIP": "View the repository"
+                    "LABEL": "Arkiv",
+                    "TOOLTIP": "Vis depotet"
                 }
             },
             "LIBRARIES": {
@@ -274,7 +274,7 @@
                     "LOCATION": "Lokalisering",
                     "SIZE": "Størrelse"
                 },
-                "UNKNOWN_LOCATION": "You do not have permission to view the location of this document.",
+                "UNKNOWN_LOCATION": "Du har ikke tillatelse til å vise plasseringen til dette dokumentet.",
                 "VIEW_ADDITIONAL_LOCATIONS": "Vis flere referanseplasseringer",
                 "NO_RESULTS": "Ditt søk ga 0 resultater",
                 "EMPTY_SEARCH": "Søkeord kreves",
@@ -320,7 +320,9 @@
             "EDIT_OFFLINE_CANCEL": "Avbryt redigering",
             "CHANGE_ASPECT": "Rediger aspekter",
             "ADD_ASPECTS": "Legg til aspekter",
-            "NODE_INFO": "Informasjon"
+            "NODE_INFO": "Informasjon",
+            "LOCATE_LINKED_ITEM": "Finn tilknyttet element",
+            "CREATE_LINK": "Opprett kobling"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -328,6 +330,12 @@
                 "MESSAGE": "Dette vil permanent fjerne valgt(e) element(er).",
                 "YES_LABEL": "Slett",
                 "NO_LABEL": "Behold"
+            },
+            "CONFIRM_DELETE_LINK": {
+                "TITLE": "Slett lenke?",
+                "MESSAGE": "Lenker er permanent slettet og kan ikke gjenopprettes fra papirkurven.",
+                "YES_LABEL": "Slett",
+                "NO_LABEL": "Avbryt"
             },
             "CONFIRM_LEAVE": {
                 "TITLE": "Vil du forlate dette biblioteket?",
@@ -366,6 +374,7 @@
                 "GENERIC": "Handlingen mislyktes. Prøv igjen eller kontakt IT-teamet ditt.",
                 "CONFLICT": "Dette navnet er allerede i bruk. Prøv et annet navn.",
                 "NODE_MOVE": "Flyttingen mislyktes, en fil med samme navn eksisterer allerede.",
+                "NODE_LINK_DUPLICATE": "Kan ikke opprette kobling, en kobling med samme navn finnes allerede på denne plasseringen.",
                 "EXISTENT_FOLDER": "Det er allerede en mappe med dette navnet. Prøv et annet navn.",
                 "NODE_DELETION": "{{ name }} kunne ikke slettes",
                 "NODE_DELETION_PLURAL": "{{ number }} elementer kunne ikke slettes",
@@ -425,6 +434,14 @@
                     "PARTIAL_PLURAL": "Kopierte {{ success }} elementer, {{ failed }} kunne ikke kopieres.",
                     "FAIL_SINGULAR": "{{ failed }} element kunne ikke kopieres.",
                     "FAIL_PLURAL": "{{ failed }} elementer kunne ikke kopieres."
+                },
+                "NODE_LINK": {
+                    "SINGULAR": "Kobling opprettet for {{ success }} element",
+                    "PLURAL": "Koblinger opprettet for {{ success }} elementer",
+                    "PARTIAL_SINGULAR": "Kobling opprettet for {{ success }} element, kunne ikke opprette kobling for {{ failed }}.",
+                    "PARTIAL_PLURAL": "Koblinger opprettet for {{ success }} elementer, kunne ikke opprette koblinger for {{ failed }}.",
+                    "FAIL_SINGULAR": "Kunne ikke opprette kobling for {{ failed }} element.",
+                    "FAIL_PLURAL": "Kunne ikke opprette koblinger for {{ failed }} elementer."
                 },
                 "NODE_MOVE": {
                     "SINGULAR": "Flyttet {{ success }} element.",
@@ -494,6 +511,7 @@
             "SIZE": "Størrelse",
             "NUMBER_OF_FILES": "Antall filer",
             "CALCULATING": "Beregner...",
+            "NOT_AVAILABLE": "Ikke relevant",
             "LOCATION": "Lokalisering",
             "REFERENCED": "Referert",
             "CREATED": "Opprettet",
@@ -513,10 +531,13 @@
         "COPY_ITEMS": "Kopier {{ number }} elementer til...",
         "MOVE_ITEM": "Flytt «{{ name }}» til...",
         "MOVE_ITEMS": "Flytt {{ number }} elementer til...",
+        "LINK_ITEM": "Opprett kobling for '{{ name }}' i...",
+        "LINK_ITEMS": "Opprett koblinger for {{ number }} elementer i...",
         "SEARCH": "Søk",
         "NEXT": "Neste",
         "SELECT_FILE_TEMPLATE_TITLE": "Velg en dokumentmal",
-        "SELECT_FOLDER_TEMPLATE_TITLE": "Velg en mappemal"
+        "SELECT_FOLDER_TEMPLATE_TITLE": "Velg en mappemal",
+        "LINK_NAME": "Kobling til {{ name }}"
     },
     "NODE_FROM_TEMPLATE": {
         "CANCEL": "AVBRYT",
@@ -596,7 +617,7 @@
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
             "LABEL": "Handlinger for flere",
-            "TITLE": "Select an action for all {{ count }} results",
+            "TITLE": "Velg en handling for alle {{ count }} resultater",
             "BULK_NOT_AVAILABLE": "Massehandlinger (ikke tilgjengelig)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "Massehandlinger kan ikke brukes uten søkeresultater"
         },
@@ -608,11 +629,13 @@
             "MIN_LENGTH": "Søketeksten må bestå av minst 2 alfanumeriske tegn.",
             "REQUIRED": "Søk i inndata er påkrevd.",
             "WHITESPACE": "Søkeinndata kan ikke bare være i blanke rom.",
-            "OPERATORS": "Søkefeltet kan ikke starte med, slutte med eller kun bestå av operatorer",
-            "IN_PREFIX": "In",
-            "FILES_AND_FOLDERS": "Files and folders",
+            "IN_PREFIX": "I",
+            "FILES_AND_FOLDERS": "Filer og mapper",
             "RESET": "Tilbakestill",
-            "SEARCH_IN": "Search in"
+            "SEARCH_IN": "Søk i",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION": "Bytt søkemodus.\n\nVanlig søk: Finn tekst mens du skriver.\n\nFormelsøk: Bruk spesialtegn for å bygge opp et søk. Systemet tolker symboler som søkesyntaks.\n",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_REGULAR": "Vanlig søk",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_FORMULA": "Formelsøk"
         },
         "SORT": {
             "SORTING_OPTION": "Sorter etter",
@@ -661,7 +684,8 @@
                 "TYPE": {
                     "TITLE": "Kontroller type",
                     "FOLDER": "Mappe",
-                    "DOCUMENT": "Dokument"
+                    "DOCUMENT": "Dokument",
+                    "LINK": "Lenke"
                 },
                 "SIZE": {
                     "TITLE": "Innholdsstørrelse (område)",
@@ -715,40 +739,9 @@
         }
     },
     "KNOWLEDGE_RETRIEVAL": {
-        "SEARCH": {
-            "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "Ønsker du å spørre om noe annet?",
-                "REFERENCED_DOCUMENTS_HEADER": "Refererte dokumenter",
-                "REGENERATION_BUTTON_LABEL": "Regenerer",
-                "COPY_BUTTON_LABEL": "Kopier",
-                "COPY_MESSAGE": "Svaret er kopiert til utklippstavlen",
-                "RELOAD_REFERENCES_BUTTON_LABEL": "Last inn på nytt"
-            },
-            "AGENTS_BUTTON": {
-                "LABEL": "Spør dokumentbevis",
-                "TITLE": "Kunnskapsinnhenting"
-            },
-            "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "Spør",
-                "DEFAULT_PLACEHOLDER": "Still spørsmålet så detaljert som mulig...",
-                "HIDE_INPUT": "Skjul inndata",
-                "HIDE_ANSWER": "Skjul svar"
-            },
-            "ERRORS": {
-                "AGENTS_FETCHING": "Feil under henting av agenter.",
-                "HX_INSIGHT_URL_FETCHING": "Feil under henting av HX Insight URL.",
-                "LOADING_ERROR": "Hmm... noe ser ut til å ha gått galt.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Siden er ikke tilgjengelig for disse betingelsene.",
-                "REFERENCES_LOADING_ERROR": "Noe gikk galt under lasting av referanser."
-            },
-            "DISCARD_CHANGES": {
-                "WARNING": "Advarsel!",
-                "ASK_AI": "Spør KI",
-                "DO_NOT_SHOW_MESSAGE": "Ikke vis denne meldingen igjen",
-                "DISCARD_CONVERSATION": "Forkast samtale",
-                "CONVERSATION_DISCARDED": "Denne samtalen vil bli forkastet",
-                "LOSE_RESPONSE": "Ved å stille et nytt spørsmål, mister du det forrige svaret"
-            }
+        "SIDENAV": {
+            "TITLE": "AI agenter",
+            "DISCOVERY": "Discovery"
         }
     }
 }

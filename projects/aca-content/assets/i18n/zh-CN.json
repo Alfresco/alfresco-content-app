@@ -115,10 +115,10 @@
                 }
             },
             "REPOSITORY_VIEW": {
-                "TITLE": "Repository",
+                "TITLE": "存储库",
                 "SIDENAV_LINK": {
-                    "LABEL": "Repository",
-                    "TOOLTIP": "View the repository"
+                    "LABEL": "存储库",
+                    "TOOLTIP": "查看库"
                 }
             },
             "LIBRARIES": {
@@ -320,7 +320,9 @@
             "EDIT_OFFLINE_CANCEL": "取消编辑",
             "CHANGE_ASPECT": "编辑纵横比",
             "ADD_ASPECTS": "添加新的方面",
-            "NODE_INFO": "信息"
+            "NODE_INFO": "信息",
+            "LOCATE_LINKED_ITEM": "定位关联项目",
+            "CREATE_LINK": "创建链接"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -328,6 +330,12 @@
                 "MESSAGE": "所选定的项将会被永久删除。",
                 "YES_LABEL": "删除",
                 "NO_LABEL": "保留"
+            },
+            "CONFIRM_DELETE_LINK": {
+                "TITLE": "删除链接？",
+                "MESSAGE": "链接将被永久删除，无法从回收站恢复。",
+                "YES_LABEL": "删除",
+                "NO_LABEL": "取消"
             },
             "CONFIRM_LEAVE": {
                 "TITLE": "要离开该库吗？",
@@ -366,6 +374,7 @@
                 "GENERIC": "此操作未成功，请重试或联系您的 IT 团队。",
                 "CONFLICT": "此名称已使用，请尝试其他名称。",
                 "NODE_MOVE": "未成功移动，存在有相同名称的文件。",
+                "NODE_LINK_DUPLICATE": "无法创建链接，此位置已存在同名链接。",
                 "EXISTENT_FOLDER": "存在使用此名称的文件夹。请尝试使用其他名称。",
                 "NODE_DELETION": "{{ name }} 无法删除",
                 "NODE_DELETION_PLURAL": "{{ number }} 个项目无法删除",
@@ -425,6 +434,14 @@
                     "PARTIAL_PLURAL": "已复制 {{ success }} 项目，{{ failed }} 无法复制。",
                     "FAIL_SINGULAR": "{{ failed }} 项目无法复制。",
                     "FAIL_PLURAL": "{{ failed }} 项目无法复制。"
+                },
+                "NODE_LINK": {
+                    "SINGULAR": "已为 {{ success }} 个项目创建链接",
+                    "PLURAL": "已为 {{ success }} 个项目创建链接",
+                    "PARTIAL_SINGULAR": "已为 {{ success }} 个项目创建链接，{{ failed }} 个未能创建。",
+                    "PARTIAL_PLURAL": "已为 {{ success }} 个项目创建链接，{{ failed }} 个未能创建。",
+                    "FAIL_SINGULAR": "无法为 {{ failed }} 个项目创建链接。",
+                    "FAIL_PLURAL": "无法为 {{ failed }} 个项目创建链接。"
                 },
                 "NODE_MOVE": {
                     "SINGULAR": "已移动 {{ success }} 项目。",
@@ -494,6 +511,7 @@
             "SIZE": "大小",
             "NUMBER_OF_FILES": "文件数量",
             "CALCULATING": "正在计算…",
+            "NOT_AVAILABLE": "不适用",
             "LOCATION": "位置",
             "REFERENCED": "已引用",
             "CREATED": "创建时间",
@@ -513,10 +531,13 @@
         "COPY_ITEMS": "将 {{ number }} 个项目复制到...",
         "MOVE_ITEM": "将 '{{ name }}' 移动到...",
         "MOVE_ITEMS": "将 {{ number }} 个项目移动到...",
+        "LINK_ITEM": "在…中为“{{ name }}”创建链接",
+        "LINK_ITEMS": "在…中为 {{ number }} 个项目创建链接",
         "SEARCH": "搜索",
         "NEXT": "下一个",
         "SELECT_FILE_TEMPLATE_TITLE": "选择一个文档模板",
-        "SELECT_FOLDER_TEMPLATE_TITLE": "选择一个文件夹模板"
+        "SELECT_FOLDER_TEMPLATE_TITLE": "选择一个文件夹模板",
+        "LINK_NAME": "链接到 {{ name }}"
     },
     "NODE_FROM_TEMPLATE": {
         "CANCEL": "取消",
@@ -608,11 +629,13 @@
             "MIN_LENGTH": "搜索输入必须至少具有 2 个字母数字字符。",
             "REQUIRED": "搜索输入是必需的。",
             "WHITESPACE": "搜索输入不能仅为空格。",
-            "OPERATORS": "搜索输入不能以运算符开头、结尾或仅由运算符组成。",
             "IN_PREFIX": "在其内",
             "FILES_AND_FOLDERS": "文件和文件夹",
             "RESET": "重置",
-            "SEARCH_IN": "在其内搜索"
+            "SEARCH_IN": "在其内搜索",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION": "切换搜索模式。\n\n普通搜索：在您输入时查找文本。\n\n公式搜索：使用特殊字符构建查询。系统会将符号识别为搜索语法。\n",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_REGULAR": "普通搜索",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_FORMULA": "公式搜索"
         },
         "SORT": {
             "SORTING_OPTION": "排序方式",
@@ -661,7 +684,8 @@
                 "TYPE": {
                     "TITLE": "勾选类型",
                     "FOLDER": "文件夹",
-                    "DOCUMENT": "文档"
+                    "DOCUMENT": "文档",
+                    "LINK": "链接"
                 },
                 "SIZE": {
                     "TITLE": "内容大小（范围）",
@@ -715,40 +739,9 @@
         }
     },
     "KNOWLEDGE_RETRIEVAL": {
-        "SEARCH": {
-            "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "你想要询问其他问题吗？",
-                "REFERENCED_DOCUMENTS_HEADER": "引用的文档",
-                "REGENERATION_BUTTON_LABEL": "重新生成",
-                "COPY_BUTTON_LABEL": "复制",
-                "COPY_MESSAGE": "已将响应复制到剪贴板",
-                "RELOAD_REFERENCES_BUTTON_LABEL": "重新加载"
-            },
-            "AGENTS_BUTTON": {
-                "LABEL": "询问发现",
-                "TITLE": "知识检索"
-            },
-            "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "询问",
-                "DEFAULT_PLACEHOLDER": "请提出您的问题，并提供尽量多的细节...",
-                "HIDE_INPUT": "隐藏输入",
-                "HIDE_ANSWER": "隐藏回答"
-            },
-            "ERRORS": {
-                "AGENTS_FETCHING": "获取代理时出错",
-                "HX_INSIGHT_URL_FETCHING": "获取 HX Insight URL 时出错。",
-                "LOADING_ERROR": "嗯... 好像发生了错误。",
-                "PAGE_NOT_AVAILABLE_ERROR": "页面不可用于这些条件。",
-                "REFERENCES_LOADING_ERROR": "加载参考文献时出错了。"
-            },
-            "DISCARD_CHANGES": {
-                "WARNING": "警告！",
-                "ASK_AI": "询问 AI",
-                "DO_NOT_SHOW_MESSAGE": "不再显示此消息",
-                "DISCARD_CONVERSATION": "废弃对话",
-                "CONVERSATION_DISCARDED": "此对话将被废弃",
-                "LOSE_RESPONSE": "如果提出其他问题，你将丢失上个问题的回答"
-            }
+        "SIDENAV": {
+            "TITLE": "AI 代理",
+            "DISCOVERY": "Discovery"
         }
     }
 }

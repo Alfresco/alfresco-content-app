@@ -320,7 +320,9 @@
             "EDIT_OFFLINE_CANCEL": "Bearbeitung abbrechen",
             "CHANGE_ASPECT": "Aspekte bearbeiten",
             "ADD_ASPECTS": "Aspekte hinzufügen",
-            "NODE_INFO": "Information"
+            "NODE_INFO": "Information",
+            "LOCATE_LINKED_ITEM": "Verknüpftes Element finden",
+            "CREATE_LINK": "Link erstellen"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -328,6 +330,12 @@
                 "MESSAGE": "Dadurch werden die ausgewählten Elemente dauerhaft gelöscht.",
                 "YES_LABEL": "Löschen",
                 "NO_LABEL": "Behalten"
+            },
+            "CONFIRM_DELETE_LINK": {
+                "TITLE": "Link löschen?",
+                "MESSAGE": "Links werden dauerhaft gelöscht und können nicht aus dem Papierkorb wiederhergestellt werden.",
+                "YES_LABEL": "Löschen",
+                "NO_LABEL": "Abbrechen"
             },
             "CONFIRM_LEAVE": {
                 "TITLE": "Diese Bibliothek verlassen?",
@@ -366,6 +374,7 @@
                 "GENERIC": "Die Aktion war nicht erfolgreich. Versuchen Sie es noch einmal oder wenden Sie sich an Ihr IT-Team.",
                 "CONFLICT": "Dieser Name wird bereits verwendet. Versuchen Sie es mit einem anderen Namen.",
                 "NODE_MOVE": "Verschiebung nicht erfolgreich. Es gibt bereits eine Datei mit demselben Namen.",
+                "NODE_LINK_DUPLICATE": "Kann keinen Link erstellen, ein Link mit dem gleichen Namen existiert bereits an diesem Ort.",
                 "EXISTENT_FOLDER": "Es gibt bereits einen Ordner mit diesem Namen. Probieren Sie es mit einem anderen Namen.",
                 "NODE_DELETION": "{{ name }} konnte nicht gelöscht werden",
                 "NODE_DELETION_PLURAL": "{{ number }} Elemente konnten nicht gelöscht werden",
@@ -425,6 +434,14 @@
                     "PARTIAL_PLURAL": "{{ success }} Elemente kopiert, {{ failed }} konnte(n) nicht kopiert werden.",
                     "FAIL_SINGULAR": "{{ failed }} konnte nicht kopiert werden.",
                     "FAIL_PLURAL": "{{ failed }} Elemente konnten nicht kopiert werden."
+                },
+                "NODE_LINK": {
+                    "SINGULAR": "Link für {{ success }} Element erstellt",
+                    "PLURAL": "Links für {{ success }} Elemente erstellt",
+                    "PARTIAL_SINGULAR": "Link für {{ success }} erstellt, konnte keinen Link für {{ failed }} erstellen.",
+                    "PARTIAL_PLURAL": "Links für {{ success }} erstellt, konnte keine Links für {{ failed }} erstellen.",
+                    "FAIL_SINGULAR": "Konnte keinen Link für {{ failed }} Element erstellen.",
+                    "FAIL_PLURAL": "Konnte keine Links für {{ failed }} Elemente erstellen."
                 },
                 "NODE_MOVE": {
                     "SINGULAR": "{{ success }} Element verschoben.",
@@ -494,6 +511,7 @@
             "SIZE": "Größe",
             "NUMBER_OF_FILES": "Anzahl von Dateien",
             "CALCULATING": "Berechnen...",
+            "NOT_AVAILABLE": "N/A",
             "LOCATION": "Speicherort",
             "REFERENCED": "Verwiesen",
             "CREATED": "Erstellt",
@@ -513,10 +531,13 @@
         "COPY_ITEMS": "{{ number }} Elemente kopieren nach...",
         "MOVE_ITEM": "'{{ name }}' verschieben nach...",
         "MOVE_ITEMS": "{{ number }} Elemente verschieben nach...",
+        "LINK_ITEM": "Link für '{{ name }}' erstellen in...",
+        "LINK_ITEMS": "Links für {{ number }} Elemente erstellen in...",
         "SEARCH": "Suchen",
         "NEXT": "Weiter",
         "SELECT_FILE_TEMPLATE_TITLE": "Wählen Sie eine Dokumentvorlage aus",
-        "SELECT_FOLDER_TEMPLATE_TITLE": "Wählen Sie eine Ordnervorlage aus"
+        "SELECT_FOLDER_TEMPLATE_TITLE": "Wählen Sie eine Ordnervorlage aus",
+        "LINK_NAME": "Link zu {{ name }}"
     },
     "NODE_FROM_TEMPLATE": {
         "CANCEL": "Abbrechen",
@@ -608,11 +629,13 @@
             "MIN_LENGTH": "Die Sucheingabe muss mindestens zwei alphanumerische Zeichen umfassen.",
             "REQUIRED": "Sucheingabe ist erforderlich.",
             "WHITESPACE": "Sucheingabe darf nicht nur Leerzeichen sein.",
-            "OPERATORS": "Die Sucheingabe darf nicht mit Operatoren beginnen, mit Operatoren enden oder ausschließlich Operatoren enthalten.",
             "IN_PREFIX": "In",
             "FILES_AND_FOLDERS": "Dateien und Ordner",
             "RESET": "Zurücksetzen",
-            "SEARCH_IN": "Suchen in"
+            "SEARCH_IN": "Suchen in",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION": "Suchmodus wechseln. \n\nNormale Suche: Sucht Text während der Eingabe. \n\nFormelsuche: Verwenden Sie Sonderzeichen, um eine Suchabfrage zu erstellen. Das System interpretiert Symbole als Suchsyntax.",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_REGULAR": "Normale Suche",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_FORMULA": "Formelsuche"
         },
         "SORT": {
             "SORTING_OPTION": "Sortieren nach",
@@ -661,7 +684,8 @@
                 "TYPE": {
                     "TITLE": "Typ auswählen",
                     "FOLDER": "Ordner",
-                    "DOCUMENT": "Dokument"
+                    "DOCUMENT": "Dokument",
+                    "LINK": "Link"
                 },
                 "SIZE": {
                     "TITLE": "Inhaltsgröße (Bereich)",
@@ -715,40 +739,9 @@
         }
     },
     "KNOWLEDGE_RETRIEVAL": {
-        "SEARCH": {
-            "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "Möchten Sie gerne noch etwas anderes wissen?",
-                "REFERENCED_DOCUMENTS_HEADER": "Referenzdokumente",
-                "REGENERATION_BUTTON_LABEL": "Neu erstellen",
-                "COPY_BUTTON_LABEL": "Kopieren",
-                "COPY_MESSAGE": "Antwort in Zwischenablage kopiert",
-                "RELOAD_REFERENCES_BUTTON_LABEL": "Neu laden"
-            },
-            "AGENTS_BUTTON": {
-                "LABEL": "Erkennung abfragen",
-                "TITLE": "Wissensabfrage"
-            },
-            "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "Fragen",
-                "DEFAULT_PLACEHOLDER": "Bitte stellen Sie Ihre Frage so detailliert wie möglich...",
-                "HIDE_INPUT": "Eingabe ausblenden",
-                "HIDE_ANSWER": "Antwort ausblenden"
-            },
-            "ERRORS": {
-                "AGENTS_FETCHING": "Fehler beim Abrufen von Mitarbeitern.",
-                "HX_INSIGHT_URL_FETCHING": "Fehler beim Abrufen von HX Insight URL.",
-                "LOADING_ERROR": "Hmm...scheinbar ist etwas schief gelaufen.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Die Seite ist unter diesen Bedingungen nicht verfügbar.",
-                "REFERENCES_LOADING_ERROR": "Beim Laden der Referenzen ist etwas schiefgelaufen."
-            },
-            "DISCARD_CHANGES": {
-                "WARNING": "Warnung!",
-                "ASK_AI": "KI fragen",
-                "DO_NOT_SHOW_MESSAGE": "Diese Nachricht nicht mehr anzeigen",
-                "DISCARD_CONVERSATION": "Gespräch verwerfen",
-                "CONVERSATION_DISCARDED": "Diese Unterhaltung wird verworfen",
-                "LOSE_RESPONSE": "Durch das Stellen einer anderen Frage verlieren Sie Ihre vorherige Antwort"
-            }
+        "SIDENAV": {
+            "TITLE": "KI-Agenten",
+            "DISCOVERY": "Discovery"
         }
     }
 }

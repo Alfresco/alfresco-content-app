@@ -115,10 +115,10 @@
                 }
             },
             "REPOSITORY_VIEW": {
-                "TITLE": "Repository",
+                "TITLE": "Säiliö",
                 "SIDENAV_LINK": {
-                    "LABEL": "Repository",
-                    "TOOLTIP": "View the repository"
+                    "LABEL": "Säiliö",
+                    "TOOLTIP": "Näytä arkisto"
                 }
             },
             "LIBRARIES": {
@@ -320,7 +320,9 @@
             "EDIT_OFFLINE_CANCEL": "Peruuta muokkaus",
             "CHANGE_ASPECT": "Muokkaa ominaisuusjoukkoja",
             "ADD_ASPECTS": "Lisää näkymiä",
-            "NODE_INFO": "Tiedot"
+            "NODE_INFO": "Tiedot",
+            "LOCATE_LINKED_ITEM": "Paikanna linkitetty kohde",
+            "CREATE_LINK": "Luo linkki"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -328,6 +330,12 @@
                 "MESSAGE": "Tämä poistaa valitut kohteet pysyvästi.",
                 "YES_LABEL": "Poista",
                 "NO_LABEL": "Säilytä"
+            },
+            "CONFIRM_DELETE_LINK": {
+                "TITLE": "Poistetaanko linkki?",
+                "MESSAGE": "Linkit poistetaan pysyvästi, eikä niitä voi palauttaa roskakorista.",
+                "YES_LABEL": "Poista",
+                "NO_LABEL": "Peruuta"
             },
             "CONFIRM_LEAVE": {
                 "TITLE": "Poistutko tästä kirjastosta?",
@@ -366,6 +374,7 @@
                 "GENERIC": "Toiminto ei onnistunut. Yritä uudelleen tai ota yhteyttä IT-tukeen.",
                 "CONFLICT": "Tämä nimi on jo käytössä. Käytä toista nimeä.",
                 "NODE_MOVE": "Siirtäminen epäonnistui, koska samanniminen tiedosto on jo olemassa.",
+                "NODE_LINK_DUPLICATE": "Linkkiä ei voi luoda, samanniminen linkki on jo tässä sijainnissa.",
                 "EXISTENT_FOLDER": "Samanniminen kansio on jo olemassa. Käytä toista nimeä.",
                 "NODE_DELETION": "Kohteen {{ name }} poistaminen ei onnistunut",
                 "NODE_DELETION_PLURAL": "{{ number }} kohteen poistaminen ei onnistunut",
@@ -425,6 +434,14 @@
                     "PARTIAL_PLURAL": "Kopioitiin {{ success }} kohdetta, {{ failed }} kohteen kopiointi ei onnistunut.",
                     "FAIL_SINGULAR": "{{ failed }} kohteen kopiointi ei onnistunut.",
                     "FAIL_PLURAL": "{{ failed }} kohteen kopiointi ei onnistunut."
+                },
+                "NODE_LINK": {
+                    "SINGULAR": "Linkki luotu kohteelle {{ success }}",
+                    "PLURAL": "Linkit luotu kohteille {{ success }}",
+                    "PARTIAL_SINGULAR": "Linkki luotu kohteelle {{ success }}, linkkiä ei voitu luoda kohteelle {{ failed }}.",
+                    "PARTIAL_PLURAL": "Linkit luotu kohteille {{ success }}, linkkejä ei voitu luoda kohteille {{ failed }}.",
+                    "FAIL_SINGULAR": "Linkkiä ei voitu luoda kohteelle {{ failed }}.",
+                    "FAIL_PLURAL": "Linkkejä ei voitu luoda kohteille {{ failed }}."
                 },
                 "NODE_MOVE": {
                     "SINGULAR": "Siirrettiin {{ success }} kohde.",
@@ -494,6 +511,7 @@
             "SIZE": "Koko",
             "NUMBER_OF_FILES": "Tiedostojen määrä",
             "CALCULATING": "Lasketaan...",
+            "NOT_AVAILABLE": "Ei käytettävissä",
             "LOCATION": "Sijainti",
             "REFERENCED": "Viitattu",
             "CREATED": "Luotu",
@@ -513,10 +531,13 @@
         "COPY_ITEMS": "Kopioi {{ number }} kohdetta kohteeseen...",
         "MOVE_ITEM": "Siirrä '{{ name }}' kohteeseen...",
         "MOVE_ITEMS": "Siirrä {{ number }} kohdetta kohteeseen...",
+        "LINK_ITEM": "Luo linkki kohteelle '{{ name }}' sijaintiin...",
+        "LINK_ITEMS": "Luo linkit {{ number }} kohteelle sijaintiin...",
         "SEARCH": "Hae",
         "NEXT": "Seuraava",
         "SELECT_FILE_TEMPLATE_TITLE": "Valitse asiakirjamalli",
-        "SELECT_FOLDER_TEMPLATE_TITLE": "Valitse kansiomalli"
+        "SELECT_FOLDER_TEMPLATE_TITLE": "Valitse kansiomalli",
+        "LINK_NAME": "Linkki kohteeseen {{ name }}"
     },
     "NODE_FROM_TEMPLATE": {
         "CANCEL": "Peruuta",
@@ -608,11 +629,13 @@
             "MIN_LENGTH": "Hakuehdoissa täytyy olla vähintään kaksi aakkosnumeerista merkkiä.",
             "REQUIRED": "Hakusyöte on pakollinen.",
             "WHITESPACE": "Hakusyöte ei voi olla vain valkoinen.",
-            "OPERATORS": "Hakusyöte ei voi alkaa tai päättyä operaattoreihin eikä koostua pelkästään niistä",
             "IN_PREFIX": "Kohteessa",
             "FILES_AND_FOLDERS": "Tiedostot ja kansiot",
             "RESET": "Palauta",
-            "SEARCH_IN": "Hae kohteessa"
+            "SEARCH_IN": "Hae kohteessa",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION": "Vaihda hakutilaa.\n\nTavallinen haku: Etsi tekstiä kirjoittaessasi.\n\nKaavahaku: Käytä erikoismerkkejä kyselyn muodostamiseen. Järjestelmä tulkitsee symbolit hakusyntaksiksi.\n",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_REGULAR": "Tavallinen haku",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_FORMULA": "Kaavahaku"
         },
         "SORT": {
             "SORTING_OPTION": "Järjestä",
@@ -661,7 +684,8 @@
                 "TYPE": {
                     "TITLE": "Valitse tyyppi",
                     "FOLDER": "Kansio",
-                    "DOCUMENT": "Asiakirja"
+                    "DOCUMENT": "Asiakirja",
+                    "LINK": "Linkki"
                 },
                 "SIZE": {
                     "TITLE": "Sisällön koko (vaihteluväli)",
@@ -715,40 +739,9 @@
         }
     },
     "KNOWLEDGE_RETRIEVAL": {
-        "SEARCH": {
-            "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "Onko sinulla muuta kysyttävää?",
-                "REFERENCED_DOCUMENTS_HEADER": "Viitatut asiakirjat",
-                "REGENERATION_BUTTON_LABEL": "Luo uudelleen",
-                "COPY_BUTTON_LABEL": "Kopioi",
-                "COPY_MESSAGE": "Vastaus kopioitu leikepöydälle",
-                "RELOAD_REFERENCES_BUTTON_LABEL": "Lataa uudelleen"
-            },
-            "AGENTS_BUTTON": {
-                "LABEL": "Kysy Discoveryltä",
-                "TITLE": "Hae tietoa"
-            },
-            "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "Kysy",
-                "DEFAULT_PLACEHOLDER": "Esitä kysymyksesi niin yksityiskohtaisesti kuin mahdollista...",
-                "HIDE_INPUT": "Piilota syöte",
-                "HIDE_ANSWER": "Piilota vastaus"
-            },
-            "ERRORS": {
-                "AGENTS_FETCHING": "Virhe agenttien hakemisessa",
-                "HX_INSIGHT_URL_FETCHING": "Virhe HX Insight URL -osoitteen hakemisessa",
-                "LOADING_ERROR": "Hmm... jotakin näyttäisi menneen pieleen.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Sivu ei ole saatavilla näillä ehdoilla.",
-                "REFERENCES_LOADING_ERROR": "Jotain meni vikaan viitteiden lataamisen aikana."
-            },
-            "DISCARD_CHANGES": {
-                "WARNING": "Varoitus!",
-                "ASK_AI": "Kysy tekoälyltä",
-                "DO_NOT_SHOW_MESSAGE": "Älä näytä tätä viestiä enää",
-                "DISCARD_CONVERSATION": "Hävitä keskustelu",
-                "CONVERSATION_DISCARDED": "Tämä keskustelu hävitetään",
-                "LOSE_RESPONSE": "Jos esität toisen kysymyksen, menetät vastauksen aiempaan kysymykseesi"
-            }
+        "SIDENAV": {
+            "TITLE": "Tekoälyagentit",
+            "DISCOVERY": "Discovery"
         }
     }
 }
