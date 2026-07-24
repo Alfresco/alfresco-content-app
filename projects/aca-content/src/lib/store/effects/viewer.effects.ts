@@ -215,6 +215,11 @@ export class ViewerEffects {
 
     const urlSegments: UrlSegment[] = urlSegmentGroup.segments;
 
+    const detailsIndex = urlSegments.findIndex((segment) => segment.path === 'details');
+    if (detailsIndex > -1) {
+      urlSegments.splice(detailsIndex);
+    }
+
     return urlSegments.reduce(function (acc, item) {
       acc.push(item.path, item.parameters);
       return acc;
