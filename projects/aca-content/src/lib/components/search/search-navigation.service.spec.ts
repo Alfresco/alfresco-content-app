@@ -51,11 +51,20 @@ describe('SearchNavigationService', () => {
   });
 
   it('should navigate to saved route when exitSearch function is called', () => {
-    const routerNavigate = spyOn(router, 'navigate');
+    const routerNavigateByUrl = spyOn(router, 'navigateByUrl');
     service.saveRoute('/personal-files');
     service.navigateBack();
 
-    expect(routerNavigate).toHaveBeenCalledWith([service.previousRoute]);
+    expect(routerNavigateByUrl).toHaveBeenCalledWith(service.previousRoute);
+  });
+
+  it('should navigate to saved route including query params when exitSearch function is called', () => {
+    const routerNavigateByUrl = spyOn(router, 'navigateByUrl');
+    const savedRoute = '/personal-files/details/some-node-id?location=%2Fpersonal-files';
+    service.saveRoute(savedRoute);
+    service.navigateBack();
+
+    expect(routerNavigateByUrl).toHaveBeenCalledWith(savedRoute);
   });
 
   it('should navigate to Search when navigateToSearch function is called', () => {
