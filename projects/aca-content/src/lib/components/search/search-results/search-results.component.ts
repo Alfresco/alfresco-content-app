@@ -70,7 +70,6 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { DocumentListDirective } from '../../../directives/document-list.directive';
-import { ThumbnailColumnComponent } from '../../dl-custom-components/thumbnail-column/thumbnail-column.component';
 import { SearchActionMenuComponent } from '../search-action-menu/search-action-menu.component';
 import { MatIconModule } from '@angular/material/icon';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
@@ -94,7 +93,6 @@ import { SavedSearchesContextService } from '../../../services/saved-searches-co
     MatMenuModule,
     DocumentListDirective,
     ContextActionsDirective,
-    ThumbnailColumnComponent,
     SearchActionMenuComponent,
     PaginationComponent,
     MatIconModule,
