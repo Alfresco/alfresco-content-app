@@ -115,10 +115,10 @@
                 }
             },
             "REPOSITORY_VIEW": {
-                "TITLE": "Repository",
+                "TITLE": "リポジトリ",
                 "SIDENAV_LINK": {
-                    "LABEL": "Repository",
-                    "TOOLTIP": "View the repository"
+                    "LABEL": "リポジトリ",
+                    "TOOLTIP": "リポジトリを表示"
                 }
             },
             "LIBRARIES": {
@@ -320,7 +320,9 @@
             "EDIT_OFFLINE_CANCEL": "編集のキャンセル",
             "CHANGE_ASPECT": "アスペクトを編集",
             "ADD_ASPECTS": "アスペクトを追加",
-            "NODE_INFO": "情報"
+            "NODE_INFO": "情報",
+            "LOCATE_LINKED_ITEM": "リンクされた項目を特定",
+            "CREATE_LINK": "リンクを作成"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -328,6 +330,12 @@
                 "MESSAGE": "この操作を行うと、選択したアイテムが完全に削除されます。",
                 "YES_LABEL": "削除",
                 "NO_LABEL": "残す"
+            },
+            "CONFIRM_DELETE_LINK": {
+                "TITLE": "リンクを削除しますか？",
+                "MESSAGE": "リンクは完全に削除され、ゴミ箱から復元することはできません。",
+                "YES_LABEL": "削除",
+                "NO_LABEL": "キャンセル"
             },
             "CONFIRM_LEAVE": {
                 "TITLE": "このライブラリから脱退しますか?",
@@ -366,6 +374,7 @@
                 "GENERIC": "処理が失敗しました。もう一度操作をやり直すか、IT 担当者に連絡してください。",
                 "CONFLICT": "この名前は既に使用されています。別の名前を使用してください。",
                 "NODE_MOVE": "移動できません。同じ名前のファイルが既に存在します。",
+                "NODE_LINK_DUPLICATE": "リンクを作成できません。同じ名前のリンクがすでにこの場所に存在します。",
                 "EXISTENT_FOLDER": "この名前のフォルダは既に存在します。別の名前を使用してください。",
                 "NODE_DELETION": "{{ name }} を削除できませんでした",
                 "NODE_DELETION_PLURAL": "{{ number }} 件のアイテムを削除できませんでした",
@@ -425,6 +434,14 @@
                     "PARTIAL_PLURAL": "{{ success }} 件のアイテムをコピーしましたが、{{ failed }} 件はコピーできませんでした。",
                     "FAIL_SINGULAR": "{{ failed }} 件のアイテムをコピーできませんでした。",
                     "FAIL_PLURAL": "{{ failed }} 件のアイテムをコピーできませんでした。"
+                },
+                "NODE_LINK": {
+                    "SINGULAR": "{{ success }} 件の項目にリンクを作成しました",
+                    "PLURAL": "{{ success }} 件の項目にリンクを作成しました",
+                    "PARTIAL_SINGULAR": "{{ success }} 件の項目にリンクを作成しましたが、{{ failed }} 件は作成できませんでした。",
+                    "PARTIAL_PLURAL": "{{ success }} 件の項目にリンクを作成しましたが、{{ failed }} 件は作成できませんでした。",
+                    "FAIL_SINGULAR": "{{ failed }} 件の項目にリンクを作成できませんでした。",
+                    "FAIL_PLURAL": "{{ failed }} 件の項目にリンクを作成できませんでした。"
                 },
                 "NODE_MOVE": {
                     "SINGULAR": "{{ success }} 件のアイテムを移動しました。",
@@ -494,6 +511,7 @@
             "SIZE": "サイズ",
             "NUMBER_OF_FILES": "ファイル数",
             "CALCULATING": "計算中...",
+            "NOT_AVAILABLE": "該当なし",
             "LOCATION": "場所",
             "REFERENCED": "参照済み",
             "CREATED": "作成済み",
@@ -513,10 +531,13 @@
         "COPY_ITEMS": "{{ number }} 件のアイテムのコピー先...",
         "MOVE_ITEM": "'{{ name }}' の移動先...",
         "MOVE_ITEMS": "{{ number }} 件のアイテムの移動先...",
+        "LINK_ITEM": "「{{ name }}」のリンクを次に作成...",
+        "LINK_ITEMS": "{{ number }} 件の項目のリンクを次に作成...",
         "SEARCH": "検索",
         "NEXT": "次へ",
         "SELECT_FILE_TEMPLATE_TITLE": "文書テンプレートを選択してください",
-        "SELECT_FOLDER_TEMPLATE_TITLE": "フォルダテンプレートを選択してください"
+        "SELECT_FOLDER_TEMPLATE_TITLE": "フォルダテンプレートを選択してください",
+        "LINK_NAME": "{{ name }} へのリンク"
     },
     "NODE_FROM_TEMPLATE": {
         "CANCEL": "キャンセル",
@@ -608,11 +629,13 @@
             "MIN_LENGTH": "検索する語句は、2 文字以上の英数字で入力してください。",
             "REQUIRED": "検索入力が必要です。",
             "WHITESPACE": "検索入力は空白にはできません。",
-            "OPERATORS": "検索入力は演算子で開始・終了、または演算子のみで構成することはできません",
             "IN_PREFIX": "対象",
             "FILES_AND_FOLDERS": "ファイルとフォルダー",
             "RESET": "リセット",
-            "SEARCH_IN": "検索先"
+            "SEARCH_IN": "検索先",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION": "検索モードを切り替えます。\n\n通常検索: 入力中のテキストを検索します。\n\n数式検索: 特殊文字を使用してクエリを作成します。システムは記号を検索構文として解釈します。\n",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_REGULAR": "通常検索",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_FORMULA": "数式検索"
         },
         "SORT": {
             "SORTING_OPTION": "並べ替え",
@@ -661,7 +684,8 @@
                 "TYPE": {
                     "TITLE": "タイプを選択してください",
                     "FOLDER": "フォルダ",
-                    "DOCUMENT": "文書"
+                    "DOCUMENT": "文書",
+                    "LINK": "リンク"
                 },
                 "SIZE": {
                     "TITLE": "コンテンツのサイズ (範囲)",
@@ -715,40 +739,9 @@
         }
     },
     "KNOWLEDGE_RETRIEVAL": {
-        "SEARCH": {
-            "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "ほかに何か質問はありますか？",
-                "REFERENCED_DOCUMENTS_HEADER": "参照文書",
-                "REGENERATION_BUTTON_LABEL": "再生成",
-                "COPY_BUTTON_LABEL": "コピー",
-                "COPY_MESSAGE": "回答をクリップボードにコピー済み",
-                "RELOAD_REFERENCES_BUTTON_LABEL": "再読み込み"
-            },
-            "AGENTS_BUTTON": {
-                "LABEL": "デモディスカバリ",
-                "TITLE": "知識検索"
-            },
-            "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "質問する",
-                "DEFAULT_PLACEHOLDER": "ご質問の内容は、できるだけ詳細にお願いします...",
-                "HIDE_INPUT": "入力を非表示にする",
-                "HIDE_ANSWER": "答えを非表示にする"
-            },
-            "ERRORS": {
-                "AGENTS_FETCHING": "エージェント取得中にエラーが発生しました。",
-                "HX_INSIGHT_URL_FETCHING": "HX Insight URL取得中にエラーが発生しました。",
-                "LOADING_ERROR": "どうやら、何か問題が起こったようです。",
-                "PAGE_NOT_AVAILABLE_ERROR": "これらの条件ではページは利用できません。",
-                "REFERENCES_LOADING_ERROR": "参考文献を読み込む際に問題が発生しました。"
-            },
-            "DISCARD_CHANGES": {
-                "WARNING": "警告!",
-                "ASK_AI": "AIに質問する",
-                "DO_NOT_SHOW_MESSAGE": "今後このメッセージを表示しない",
-                "DISCARD_CONVERSATION": "会話を破棄する",
-                "CONVERSATION_DISCARDED": "この会話は破棄されます",
-                "LOSE_RESPONSE": "別の質問をすると、以前の回答は失われます"
-            }
+        "SIDENAV": {
+            "TITLE": "AIエージェント",
+            "DISCOVERY": "Discovery"
         }
     }
 }

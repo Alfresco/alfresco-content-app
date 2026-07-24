@@ -115,10 +115,10 @@
                 }
             },
             "REPOSITORY_VIEW": {
-                "TITLE": "Repository",
+                "TITLE": "Opslagplaats",
                 "SIDENAV_LINK": {
-                    "LABEL": "Repository",
-                    "TOOLTIP": "View the repository"
+                    "LABEL": "Opslagplaats",
+                    "TOOLTIP": "Bekijk de repository"
                 }
             },
             "LIBRARIES": {
@@ -320,7 +320,9 @@
             "EDIT_OFFLINE_CANCEL": "Bewerken annuleren",
             "CHANGE_ASPECT": "Aspecten bewerken",
             "ADD_ASPECTS": "Aspecten toevoegen",
-            "NODE_INFO": "Informatie"
+            "NODE_INFO": "Informatie",
+            "LOCATE_LINKED_ITEM": "Gekoppeld item zoeken",
+            "CREATE_LINK": "Link maken"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -328,6 +330,12 @@
                 "MESSAGE": "Hiermee worden de geselecteerde items permanent verwijderd.",
                 "YES_LABEL": "Verwijderen",
                 "NO_LABEL": "Bewaren"
+            },
+            "CONFIRM_DELETE_LINK": {
+                "TITLE": "Link verwijderen?",
+                "MESSAGE": "Links worden permanent verwijderd en kunnen niet worden hersteld vanuit de prullenbak.",
+                "YES_LABEL": "Verwijderen",
+                "NO_LABEL": "Annuleren"
             },
             "CONFIRM_LEAVE": {
                 "TITLE": "Deze bibliotheek verlaten?",
@@ -366,6 +374,7 @@
                 "GENERIC": "De actie is mislukt. Probeer het opnieuw of neem contact op met het IT-team.",
                 "CONFLICT": "Deze naam wordt al gebruikt, probeer een andere naam.",
                 "NODE_MOVE": "Verplaatsen is mislukt, er bestaat al een bestand met dezelfde naam.",
+                "NODE_LINK_DUPLICATE": "Kan geen link maken, er bestaat al een link met dezelfde naam op deze locatie.",
                 "EXISTENT_FOLDER": "Er bestaat al een map met deze naam. Probeer een andere naam.",
                 "NODE_DELETION": "Kan {{ name }} niet verwijderen",
                 "NODE_DELETION_PLURAL": "Kan {{ number }} items niet verwijderen",
@@ -425,6 +434,14 @@
                     "PARTIAL_PLURAL": "{{ success }} items gekopieerd, kan {{ failed }} niet kopiëren.",
                     "FAIL_SINGULAR": "Kan {{ failed }} item niet kopiëren.",
                     "FAIL_PLURAL": "Kan {{ failed }} items niet kopiëren."
+                },
+                "NODE_LINK": {
+                    "SINGULAR": "Link gemaakt voor {{ success }} item",
+                    "PLURAL": "Links gemaakt voor {{ success }} items",
+                    "PARTIAL_SINGULAR": "Link gemaakt voor {{ success }} item, kon geen link maken voor {{ failed }}.",
+                    "PARTIAL_PLURAL": "Links gemaakt voor {{ success }} items, konden geen links maken voor {{ failed }}.",
+                    "FAIL_SINGULAR": "Kon geen link maken voor {{ failed }} item.",
+                    "FAIL_PLURAL": "Kon geen links maken voor {{ failed }} items."
                 },
                 "NODE_MOVE": {
                     "SINGULAR": "{{ success }} item verplaatst.",
@@ -494,6 +511,7 @@
             "SIZE": "Grootte",
             "NUMBER_OF_FILES": "Aantal bestanden",
             "CALCULATING": "Wordt berekend...",
+            "NOT_AVAILABLE": "N.v.t.",
             "LOCATION": "Locatie",
             "REFERENCED": "Gerefereerd",
             "CREATED": "Aangemaakt",
@@ -513,10 +531,13 @@
         "COPY_ITEMS": "{{ number }} items kopiëren naar...",
         "MOVE_ITEM": "'{{ name }}' verplaatsen naar...",
         "MOVE_ITEMS": "{{ number }} items verplaatsen naar...",
+        "LINK_ITEM": "Link maken voor '{{ name }}' in...",
+        "LINK_ITEMS": "Links maken voor {{ number }} items in...",
         "SEARCH": "Zoeken",
         "NEXT": "Volgende",
         "SELECT_FILE_TEMPLATE_TITLE": "Een documentsjabloon selecteren",
-        "SELECT_FOLDER_TEMPLATE_TITLE": "Een mapsjabloon selecteren"
+        "SELECT_FOLDER_TEMPLATE_TITLE": "Een mapsjabloon selecteren",
+        "LINK_NAME": "Link naar {{ name }}"
     },
     "NODE_FROM_TEMPLATE": {
         "CANCEL": "Annuleren",
@@ -608,11 +629,13 @@
             "MIN_LENGTH": "Invoer voor een zoekopdracht moet uit minstens 2 alfanumerieke tekens bestaan.",
             "REQUIRED": "Zoekinvoer is vereist.",
             "WHITESPACE": "Zoekinvoer kan niet alleen witruimte zijn.",
-            "OPERATORS": "Zoekinvoer mag niet beginnen of eindigen met, of uitsluitend uit operatoren bestaan",
             "IN_PREFIX": "In",
             "FILES_AND_FOLDERS": "Bestanden en mappen",
             "RESET": "Opnieuw instellen",
-            "SEARCH_IN": "Zoeken in"
+            "SEARCH_IN": "Zoeken in",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION": "Zoekmodus wijzigen.\n\nNormaal zoeken: Zoek tekst terwijl u typt.\n\nFormule zoeken: Gebruik speciale tekens om een zoekopdracht op te bouwen. Het systeem interpreteert symbolen als zoeksyntaxis.\n",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_REGULAR": "Normaal zoeken",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION_FORMULA": "Formule zoeken"
         },
         "SORT": {
             "SORTING_OPTION": "Sorteren op",
@@ -661,7 +684,8 @@
                 "TYPE": {
                     "TITLE": "Bevestig type",
                     "FOLDER": "Map",
-                    "DOCUMENT": "Document"
+                    "DOCUMENT": "Document",
+                    "LINK": "Koppeling"
                 },
                 "SIZE": {
                     "TITLE": "Contentgrootte (bereik)",
@@ -715,40 +739,9 @@
         }
     },
     "KNOWLEDGE_RETRIEVAL": {
-        "SEARCH": {
-            "RESULTS_PAGE": {
-                "QUERY_INPUT_PLACEHOLDER": "Wilt u nog iets anders vragen?",
-                "REFERENCED_DOCUMENTS_HEADER": "Referentiedocumenten",
-                "REGENERATION_BUTTON_LABEL": "Regenereren",
-                "COPY_BUTTON_LABEL": "Kopiëren",
-                "COPY_MESSAGE": "Antwoord gekopieerd naar klembord",
-                "RELOAD_REFERENCES_BUTTON_LABEL": "Opnieuw laden"
-            },
-            "AGENTS_BUTTON": {
-                "LABEL": "Vraag Discovery",
-                "TITLE": "Ophalen kennis"
-            },
-            "SEARCH_INPUT": {
-                "ASK_BUTTON_LABEL": "Vragen",
-                "DEFAULT_PLACEHOLDER": "Stel uw vraag zo gedetailleerd mogelijk...",
-                "HIDE_INPUT": "Invoer verbergen",
-                "HIDE_ANSWER": "Antwoord verbergen"
-            },
-            "ERRORS": {
-                "AGENTS_FETCHING": "Fout bij het ophalen van agenten.",
-                "HX_INSIGHT_URL_FETCHING": "Fout bij het ophalen van HX Insight URL.",
-                "LOADING_ERROR": "Hmm... er lijkt iets te zijn misgegaan.",
-                "PAGE_NOT_AVAILABLE_ERROR": "Pagina is niet beschikbaar voor deze voorwaarden.",
-                "REFERENCES_LOADING_ERROR": "Er is iets misgegaan tijdens het laden van de referenties."
-            },
-            "DISCARD_CHANGES": {
-                "WARNING": "Waarschuwing!",
-                "ASK_AI": "Vraag AI",
-                "DO_NOT_SHOW_MESSAGE": "Laat dit bericht niet meer zien",
-                "DISCARD_CONVERSATION": "Gesprek verwijderen",
-                "CONVERSATION_DISCARDED": "Dit gesprek wordt verwijderd",
-                "LOSE_RESPONSE": "Door een andere vraag te stellen gaat uw vorige antwoord verloren"
-            }
+        "SIDENAV": {
+            "TITLE": "AI agenten",
+            "DISCOVERY": "Discovery"
         }
     }
 }
