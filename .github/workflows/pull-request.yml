@@ -187,6 +187,8 @@ jobs:
             id: 19
           - name: "viewer-actions"
             id: 20
+          - name: "create-link-actions"
+            id: 21
     steps:
       - name: Free hosted runner disk space
         uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@10cea6c0b390c4f8af21d9dc1670d581bd10319f # v18.13.0
