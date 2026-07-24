@@ -60,6 +60,7 @@ Application related evaluators which can be used to check various different aspe
 | 6.1.0  | canPrintFile                        | Checks if current file can be printed or not (media files such as audio/video cannot be printed).                      |
 | 7.4.0  | app.selection.isCheckedOut          | Checks if selected node contains `cm:checkedOut` aspect.                                                               |
 | 8.0.0  | app.isKnowledgeDiscoveryUrlPresent  | Checks if the Knowledge Discovery URL is specified in the app config.                                                 |
+| 8.1.0  | app.selection.file.isVersionable    | Checks if the selected file has the `cm:versionable` aspect.                                                           |
 
 #### Navigation Rules/Evaluators
 
