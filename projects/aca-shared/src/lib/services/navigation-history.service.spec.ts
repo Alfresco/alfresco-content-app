@@ -1,5 +1,5 @@
 /*!
- * Copyright © 2005-2025 Hyland Software, Inc. and its affiliates. All rights reserved.
+ * Copyright © 2005-2026 Hyland Software, Inc. and its affiliates. All rights reserved.
  *
  * Alfresco Example Content Application
  *
