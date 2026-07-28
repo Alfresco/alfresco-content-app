@@ -529,6 +529,20 @@ export function createVersionRule(minimalVersion: string): (context: RuleContext
   };
 }
 
+/**
+ * Checks if the selected file has the `cm:versionable` aspect.
+ * JSON ref: `app.selection.file.isVersionable`
+ *
+ * @param context Rule execution context
+ */
+export const isVersionableFile = (context: RuleContext): boolean => {
+  const file = context?.selection?.file;
+  if (!file?.entry) {
+    return false;
+  }
+  return (file.entry.aspectNames ?? []).includes('cm:versionable');
+};
+
 function isVersionCompatible(currentVersion: string, minimalVersion: string): boolean {
   if (!currentVersion || !minimalVersion) {
     return false;

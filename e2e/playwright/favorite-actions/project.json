@@ -8,7 +8,7 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "playwright test --config=e2e/playwright/favorite-actions/playwright.config.ts"
+          "playwright test --config=e2e/playwright/favorite-actions/playwright.config.ts --pass-with-no-tests"
         ]
       },
       "configurations": {

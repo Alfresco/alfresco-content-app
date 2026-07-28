@@ -763,6 +763,7 @@
             "rules": {
               "visible": [
                 "app.selection.file",
+                "app.selection.file.isVersionable",
                 "!app.navigation.isTrashcan",
                 "!app.selection.file.isLocked",
                 "!app.selection.isNodeLink"
@@ -1129,6 +1130,7 @@
         "rules": {
           "visible": [
             "app.selection.file",
+            "app.selection.file.isVersionable",
             "!app.navigation.isTrashcan",
             "!app.selection.file.isLocked",
             "!app.selection.isNodeLink"
@@ -1505,6 +1507,7 @@
               "rules": {
                 "visible": [
                   "app.selection.file",
+                  "app.selection.file.isVersionable",
                   "!app.navigation.isTrashcan",
                   "!app.selection.file.isLocked",
                   "!app.selection.isNodeLink"
@@ -1687,7 +1690,7 @@
         "default": true,
         "filterWithContains": true,
         "app:fields": ["cm:name", "cm:title", "cm:description", "TEXT", "TAG"],
-        "include": ["path", "allowableOperations", "properties"],
+        "include": ["path", "allowableOperations", "properties", "aspectNames"],
         "sorting": {
           "options": [
             {
@@ -1935,7 +1938,7 @@
         "default": false,
         "filterWithContains": true,
         "app:fields": ["cm:name", "cm:title", "cm:description", "cm:identifier", "cm:contributor", "cm:coverage", "cm:dcsource", "cm:publisher", "cm:rights", "cm:subject", "cm:type", "TEXT", "TAG"],
-        "include": ["path", "allowableOperations", "properties"],
+        "include": ["path", "allowableOperations", "properties", "aspectNames"],
         "sorting": {
           "options": [
             {
@@ -2110,7 +2113,7 @@
         "default": false,
         "filterWithContains": true,
         "app:fields": ["cm:name", "cm:title", "cm:description", "cm:from", "cm:contributor", "cm:to", "TEXT", "TAG"],
-        "include": ["path", "allowableOperations", "properties"],
+        "include": ["path", "allowableOperations", "properties", "aspectNames"],
         "sorting": {
           "options": [
             {
