@@ -67,7 +67,10 @@ export class MatMenuComponent extends BaseComponent {
       })
     );
     for (const action of expectedToolbarMore) {
-      expect(actualMoreActions.includes(action), `Expected to contain ${action} ${actualMoreActions}`).toBe(true);
+      expect(
+        actualMoreActions.includes(action),
+        `Expected menu to contain "${action}", but actual menu items were: [${actualMoreActions.join(', ')}]`
+      ).toBe(true);
     }
   }
 }
