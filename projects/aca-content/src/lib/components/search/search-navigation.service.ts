@@ -52,7 +52,7 @@ export class SearchNavigationService {
 
   navigateBack(): void {
     if (this.previousRoute) {
-      this.router.navigate([this.previousRoute]);
+      this.router.navigateByUrl(this.previousRoute);
     } else {
       this.router.navigate(['/personal-files']);
     }
