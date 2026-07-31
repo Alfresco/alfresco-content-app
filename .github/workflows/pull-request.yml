@@ -4,8 +4,6 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     branches: [master, develop]
-  schedule:
-    - cron: '0 12 * * 1-5' #At 12:00 on every day-of-week from Monday through Friday.
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -17,8 +15,6 @@ env:
   ADMIN_PASSWORD: admin
   HR_USER: admin
   HR_USER_PASSWORD: admin
-  SCREENSHOT_USERNAME: ${{ secrets.SCREENSHOT_USERNAME }}
-  SCREENSHOT_PASSWORD: ${{ secrets.SCREENSHOT_PASSWORD}}
   PLAYWRIGHT_E2E_HOST: http://localhost:4200
   GH_BUILD_NUMBER: ${{ github.run_id }}
   REPORT_PORTAL_URL: ${{ secrets.REPORT_PORTAL_URL }}
@@ -32,19 +28,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
-      - name: node
-        uses: actions/setup-node@v6
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
+      - uses: ./.github/actions/setup
+
       - run: npm ci
 
       - name: upload npm logs
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: npm-logs
@@ -58,24 +51,47 @@ jobs:
         run: npm run ci:lint
       - run: npm run stylelint
 
+  detect-e2e-only-changes:
+    name: 'Validate / Detect E2E Only Changes'
+    runs-on: ubuntu-latest
+    outputs:
+      only-e2e-changes: ${{ steps.check.outputs.only-e2e-changes }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Check if only E2E files changed
+        id: check
+        run: |
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            echo "only-e2e-changes=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+          echo "Changed files:"
+          echo "$CHANGED_FILES"
+          NON_E2E_FILES=$(echo "$CHANGED_FILES" | grep -v -E "^(e2e/playwright/|projects/aca-playwright-shared/|\.github/workflows/pull-request\.yml|\.github/workflows/run-e2e-with-env\.yml)" || true)
+          if [ -z "$CHANGED_FILES" ] || [ -n "$NON_E2E_FILES" ]; then
+            echo "only-e2e-changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "only-e2e-changes=true" >> $GITHUB_OUTPUT
+          fi
+
   build:
     name: 'build'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           fetch-depth: 2
 
-      - name: node
-        uses: actions/setup-node@v6
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
       - uses: ./.github/actions/before-install
       - run: npm ci
       - name: upload npm logs
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: npm-logs
@@ -85,29 +101,25 @@ jobs:
 
       - name: dist cache
         if: ${{ success() }}
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v6
         with:
           path: ./dist/content-ce
           key: cache-dist-${{ github.run_id }}
 
   unit-tests:
-    needs: [lint, build]
-    name: "Unit tests"
+    needs: [lint, build, detect-e2e-only-changes]
+    if: ${{ needs.detect-e2e-only-changes.outputs.only-e2e-changes != 'true' }}
+    name: 'Validate / Unit Tests'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - name: node
-        uses: actions/setup-node@v6
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
       - uses: ./.github/actions/before-install
       - run: npm ci
       - name: upload npm logs
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: npm-logs
@@ -122,14 +134,18 @@ jobs:
         run: npm run ci:test -- $TEST_OPTS
 
   e2es-playwright:
-    needs: [lint, build, unit-tests]
-    name: 'E2E Playwright - ${{ matrix.e2e-suites.name }}'
+    if: ${{ !contains(github.event.pull_request.labels.*.name, 'ci:skip-e2e') }}
+    needs: [lint, build]
+    name: E2E | ${{ matrix.browser || 'chromium' }} | ${{ matrix.e2e-suites.name }} | Playwright
     runs-on: ubuntu-24.04
     env:
       NODE_OPTIONS: --dns-result-order=ipv4first
+      PLAYWRIGHT_BROWSER: ${{ matrix.browser }}
     strategy:
       fail-fast: false
       matrix:
+        # For PR runs, only Chromium
+        browser: ["chromium"]
         e2e-suites:
           - name: "create-actions"
             id: 1
@@ -169,28 +185,18 @@ jobs:
             id: 18
           - name: "folder-information-actions"
             id: 19
-          - name: "a11y-personal-files"
+          - name: "viewer-actions"
             id: 20
+          - name: "create-link-actions"
+            id: 21
     steps:
+      - name: Free hosted runner disk space
+        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@10cea6c0b390c4f8af21d9dc1670d581bd10319f # v18.13.0
+
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           fetch-depth: 2
-
-      - name: node
-        uses: actions/setup-node@v6
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-
-      - uses: ./.github/actions/before-install
-      - run: npm ci
-
-      - uses: actions/cache/restore@v4
-        id: cache
-        with:
-          path: ./dist/content-ce
-          key: cache-dist-${{ github.run_id }}
 
       - name: Deploy local ACS
         id: deploy-local-acs
@@ -200,28 +206,63 @@ jobs:
           docker_password: ${{ secrets.DOCKER_PASSWORD }}
           quay_username: ${{ secrets.QUAY_USERNAME }}
           quay_password: ${{ secrets.QUAY_PASSWORD }}
-          acs_deployment_version: 'latest'
+          acs_deployment_version: 'master'
+
+      - name: Collect and push logs as artifact
+        if: always()
+        uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-keep-nslogs@10cea6c0b390c4f8af21d9dc1670d581bd10319f # v18.13.0
+        with:
+          log_retention: 7
+          log_name_identifier: "logs-${{ matrix.browser || 'chromium' }}-${{ matrix.e2e-suites.name }}"
+
+      - name: Before install
+        uses: ./.github/actions/before-install
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Restore dist cache
+        uses: actions/cache/restore@v6
+        id: cache
+        with:
+          path: ./dist/content-ce
+          key: cache-dist-${{ github.run_id }}
 
       - name: Before e2e
         uses: ./.github/actions/before-e2e
 
+      - name: Check Search Indexing
+        continue-on-error: true
+        run: npm run ci:check-search-indexing
+        env:
+          ADMIN_PASSWORD_SCRIPT: ${{ env.ADMIN_PASSWORD }}
+
       - name: Before playwright
         run: npm run ci:playwright:install
 
-      - uses: ./.github/actions/run-e2e-playwright
+      - name: Run e2e playwright
+        uses: ./.github/actions/run-e2e-playwright
         with:
           options: "${{ matrix.e2e-suites.name }}"
-          artifact-name: ${{ matrix.e2e-suites.name }}
+          artifact-name: "${{ matrix.browser || 'chromium' }}-${{ matrix.e2e-suites.name }}"
           test-runner: playwright
+        env:
+          PLAYWRIGHT_BROWSER: ${{ matrix.browser || 'chromium' }}
 
       - name: Debug Ingress Controller Logs
         if: always() && steps.deploy-local-acs.outcome == 'success'
         run: |
             kubectl logs -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx --tail=-1
 
+      - name: Spit cluster status after integration tests
+        if: always()
+        run: |
+          kubectl get all --all-namespaces
+          kubectl describe pod
+
   finalize:
     if: ${{ always() }}
-    needs: [lint, build, unit-tests, e2es-playwright]
+    needs: [lint, build, detect-e2e-only-changes, unit-tests, e2es-playwright]
     name: 'Finalize'
     runs-on: ubuntu-latest
     steps:
@@ -233,13 +274,17 @@ jobs:
             }}
         run: exit 1
 
+      - name: Check e2e skipped
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'ci:skip-e2e') }}
+        run: echo "E2E tests were skipped due to ci:skip-e2e label"
+
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           fetch-depth: 2
 
       - name: Extract commit message
-        uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@de5e037bf9a2ac174c1993dab82002a2278a6506 #v9.3.2
+        uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@10cea6c0b390c4f8af21d9dc1670d581bd10319f #v18.13.0
 
       - name: Check ADF link
         shell: bash
