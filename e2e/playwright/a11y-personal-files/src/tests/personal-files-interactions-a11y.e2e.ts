@@ -117,10 +117,7 @@ test.describe('Personal Files - A11y Interactions POC', () => {
 
     if (dataTableCount === 0) {
       const acaDataTable = page.locator('adf-datatable');
-      if (await acaDataTable.isVisible()) {
-        expect(await acaDataTable.isVisible()).toBeTruthy();
-      } else {
-      }
+      expect(await acaDataTable.isVisible()).toBeTruthy();
     } else {
       await expect(dataTable).toBeVisible({ timeout: timeouts.large });
       const headers = page.getByRole('columnheader');
