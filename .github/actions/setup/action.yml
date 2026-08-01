@@ -19,7 +19,7 @@ runs:
         echo "GIT_HASH=$(git rev-parse HEAD)" >> $GITHUB_ENV
         echo "HEAD_HASH=HEAD" >> $GITHUB_ENV
 
-    - uses: Alfresco/alfresco-build-tools/.github/actions/get-branch-name@v18.13.0
+    - uses: Alfresco/alfresco-build-tools/.github/actions/get-branch-name@v18.21.0
     - name: set TAG_NPM
       shell: bash
       env:
@@ -51,7 +51,7 @@ runs:
         echo "TAG_NPM=${TAG_NPM}" >> $GITHUB_ENV
 
     - name: node
-      uses: actions/setup-node@v6
+      uses: actions/setup-node@v7
       with:
         node-version-file: '.nvmrc'
         cache: 'npm'
