@@ -61,9 +61,9 @@ jobs:
           fetch-depth: 0
 
       - uses: ./.github/actions/setup
-      - run: npm ci
-      - run: npm run affected:lint -- --base=origin/develop
-      - run: npm run stylelint
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run affected:lint -- --base=origin/develop
+      - run: pnpm run stylelint
 
   unit-tests:
     if: github.event_name == 'workflow_dispatch'
@@ -83,8 +83,8 @@ jobs:
           fetch-depth: 0
 
       - uses: ./.github/actions/before-install
-      - run: npm ci
-      - run: npm run affected:test -- --browsers=ChromeHeadless --watch=false $TEST_OPTS --base=origin/develop
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run affected:test -- --browsers=ChromeHeadless --watch=false $TEST_OPTS --base=origin/develop
 
   publish-docker-registry:
     if: ${{ always() }}

@@ -27,8 +27,8 @@ runs:
     - name: Build Libraries
       shell: bash
       run: |
-        npm ci
-        npm run ci:build:many
+        pnpm install --frozen-lockfile
+        pnpm run ci:build:many
 
     - uses: actions/setup-node@v7
       name: setup GH registry

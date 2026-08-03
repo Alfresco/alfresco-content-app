@@ -20,7 +20,6 @@ runs:
           CWD=`pwd`
           cd ../alfresco-ng2-components
           if [ -f "pnpm-lock.yaml" ]; then
-            corepack enable pnpm
             pnpm add @angular/material
           else
             npm install @angular/material

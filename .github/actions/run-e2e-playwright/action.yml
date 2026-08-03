@@ -41,7 +41,7 @@ runs:
       run: |
         # Only start local server if using localhost
         if [[ "${PLAYWRIGHT_E2E_HOST}" == "http://localhost"* ]]; then
-          npm start > /dev/null &
+          pnpm start > /dev/null &
         fi
 
         printf "Waiting for the application to be ready..."
@@ -53,7 +53,7 @@ runs:
 
         for attempt in $(seq 1 "${SUITE_ATTEMPTS:-1}"); do
           echo "Running playwright tests with options $OPTIONS on browser ${PLAYWRIGHT_BROWSER} (suite attempt $attempt/${SUITE_ATTEMPTS:-1})"
-          if E2E_TARGET=$OPTIONS npm run ci:e2e; then
+          if E2E_TARGET=$OPTIONS pnpm run ci:e2e; then
             exit 0
           fi
           if [ "$attempt" -lt "${SUITE_ATTEMPTS:-1}" ]; then

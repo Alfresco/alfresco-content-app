@@ -37,8 +37,8 @@ runs:
     - name: Install dependencies and build project
       shell: bash
       run: |
-        npm ci
-        npm run build.release
+        pnpm install --frozen-lockfile
+        pnpm run build.release
 
     - name: Build and push multi-platform image
       uses: docker/build-push-action@v7

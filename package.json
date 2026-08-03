@@ -3,14 +3,15 @@
   "version": "8.1.0",
   "license": "LGPL-3.0",
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "start": "nx serve content-ce",
     "start:prod": "node --max-old-space-size=8192 nx serve content-ce --configuration production",
     "build": "nx build content-ce",
-    "build.release": "npm run build -- --configuration=production,release",
+    "build.release": "pnpm build -- --configuration=production,release",
     "test": "nx test",
     "lint": "NODE_OPTIONS=--max_old_space_size=4096 nx run-many --all --target=lint",
     "inspect.bundle": "nx build content-ce --configuration production --stats-json && webpack-bundle-analyzer dist/content-ce/stats.json",
-    "prepare": "husky install",
+    "prepare": "husky && pnpm audit --audit-level=critical",
     "stylelint": "stylelint \"{app,projects}/**/*.scss\"",
     "affected:build": "nx affected:build",
     "affected:test": "nx affected:test",
@@ -58,6 +59,7 @@
     "@angular/platform-browser": "20.3.25",
     "@angular/platform-browser-dynamic": "20.3.25",
     "@angular/router": "20.3.25",
+    "@babel/runtime": "7.28.3",
     "@fontsource/open-sans": "^5.1.0",
     "@mat-datetimepicker/core": "16.0.1",
     "@ngrx/effects": "~20.1.0",
@@ -66,8 +68,12 @@
     "@ngrx/store": "~20.1.0",
     "@ngrx/store-devtools": "~20.1.0",
     "@ngx-translate/core": "^17.0.0",
+    "angular-oauth2-oidc": "19.0.0",
+    "cropperjs": "1.6.2",
     "date-fns": "^4.1.0",
+    "eventemitter3": "5.0.4",
     "material-icons": "^1.13.12",
+    "minimatch": "10.2.6",
     "pdfjs-dist": "5.1.91",
     "rxjs": "7.8.2",
     "tslib": "2.8.1",
@@ -104,6 +110,7 @@
     "@typescript-eslint/eslint-plugin": "8.55.0",
     "@typescript-eslint/parser": "8.55.0",
     "@typescript-eslint/utils": "8.55.0",
+    "buffer": "5.7.1",
     "eslint": "^8.57.0",
     "eslint-plugin-ban": "^2.0.0",
     "eslint-plugin-import": "2.32.0",
@@ -133,5 +140,9 @@
     "ts-node": "^10.9.2",
     "typescript": "5.9.3",
     "webpack-bundle-analyzer": "^5.3.0"
-  }
+  },
+  "engines": {
+    "node": ">=24.13.1"
+  },
+  "packageManager": "pnpm@11.17.0+sha512.cca3cea332ad254bb84145f966d19f4879615210346fc92c79a047f23a0d7b3cca3c3792f0076ba1f1831d277efbcf0a9119b31a9a60eca7fb3d6231f331ef72"
 }

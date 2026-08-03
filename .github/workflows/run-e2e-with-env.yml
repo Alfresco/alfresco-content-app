@@ -38,15 +38,17 @@ jobs:
         with:
           fetch-depth: 2
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271
       - name: node
         uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
-          cache: 'npm'
+          cache: 'pnpm'
       - uses: ./.github/actions/before-install
-      - run: npm ci
-      - run: npm run ci:build -- aca-playwright-shared
-      - run: npm run build -- $BUILD_OPTS
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run ci:build -- aca-playwright-shared
+      - run: pnpm run build -- $BUILD_OPTS
 
       - name: dist cache
         if: ${{ success() }}
@@ -117,10 +119,10 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
-          cache: 'npm'
+          cache: 'pnpm'
 
       - uses: ./.github/actions/before-install
-      - run: npm ci
+      - run: pnpm install --frozen-lockfile
 
       - uses: actions/cache/restore@v6
         id: cache
@@ -132,7 +134,7 @@ jobs:
         uses: ./.github/actions/before-e2e
 
       - name: Before playwright
-        run: npm run ci:playwright:install
+        run: pnpm run ci:playwright:install
 
       - uses: ./.github/actions/run-e2e-playwright
         with:
