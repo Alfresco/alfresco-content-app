@@ -29,15 +29,16 @@ const { env } = process;
 
 export const getReportPortalConfig = () => {
   const browser = (env.PLAYWRIGHT_BROWSER || 'chrome').toLowerCase();
+  const branch = (env.GITHUB_HEAD_REF || env.GITHUB_REF || 'local').replace(/^refs\/(heads|tags)\//, '');
   const attributes = [
     { key: 'Job', value: `${env.GITHUB_JOB}` },
     { key: 'Build_type', value: `${env.GITHUB_EVENT_NAME}` },
     { key: 'Repository', value: `${env.GITHUB_REPOSITORY}` },
-    { key: 'Branch', value: `${env.GITHUB_HEAD_REF || env.GITHUB_REF}` },
+    { key: 'Branch', value: branch },
     { key: 'Browser', value: browser }
   ];
 
-  const launch = `GitHub Actions - ACA - ${browser}`;
+  const launch = `GitHub Actions - ACA - ${branch} - ${browser}`;
 
   return {
     endpoint: env.REPORT_PORTAL_URL,
