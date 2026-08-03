@@ -121,7 +121,7 @@ jobs:
         with:
           fetch-depth: 1
       - name: setup NPM
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
