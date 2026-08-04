@@ -1,3 +1,6 @@
+packages:
+  - "projects/*"
+
 # Block packages published less than 3 days ago (4320 minutes)
 minimumReleaseAge: 4320
 minimumReleaseAgeStrict: true
