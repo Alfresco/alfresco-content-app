@@ -46,12 +46,12 @@ After Replace:
 ```
 2. Install your dependencies
 ```sh
-npm i
+pnpm i
 ```
 
 3. Run the application
 ```sh
-npm start
+pnpm start
 ```
 
 **Note:** The compiler gives errors and complains about adf libraries with ‘has no exported member’ errors. You can find many errors with different adf libraries. 
@@ -98,15 +98,15 @@ Error 2:
 You need to update the datetimepicker dependencies.
 
 ```sh
-npm install --save @mat-datetimepicker/core@9
-npm install --save @mat-datetimepicker/moment@9
+pnpm add @mat-datetimepicker/core@9
+pnpm add @mat-datetimepicker/moment@9
 ```
 
 Make sure you have installed dev dependency for the below dependencies
 
 ```sh
-npm install --save-dev inquirer@^8.0.0
-npm install --save-dev winston@^3.8.2
+pnpm add -D inquirer@^8.0.0
+pnpm add -D winston@^3.8.2
 ```
 
 BREAKING CHANGE: webpack < 5 used to include polyfills for node.js core modules by default.
