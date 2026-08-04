@@ -45,7 +45,7 @@ jobs:
 
       - name: lint affected
         if: ${{ github.event_name == 'pull_request' }}
-        run: pnpm affected:lint -- --base=origin/develop
+        run: pnpm affected:lint --base=origin/develop
       - name: lint all
         if: ${{ github.event_name != 'pull_request' }}
         run: pnpm ci:lint
@@ -127,7 +127,7 @@ jobs:
 
       - name: Test
         if: ${{ github.event_name == 'pull_request' }}
-        run: pnpm affected:test -- --browsers=ChromeHeadless --watch=false $TEST_OPTS --base=origin/develop
+        run: pnpm affected:test --browsers=ChromeHeadless --watch=false $TEST_OPTS --base=origin/develop
 
       - name: Test all
         if: ${{ github.event_name != 'pull_request' }}
