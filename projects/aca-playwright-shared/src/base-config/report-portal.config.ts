@@ -29,18 +29,16 @@ const { env } = process;
 
 export const getReportPortalConfig = () => {
   const browser = (env.PLAYWRIGHT_BROWSER || 'chrome').toLowerCase();
-  const rawBranch = (env.GITHUB_HEAD_REF || env.GITHUB_REF || 'local').replace(/^refs\/(heads|tags)\//, '');
-  const namedBranches = ['automated-translations-update', 'upstream-dependencies'];
-  const branch = namedBranches.includes(rawBranch) ? rawBranch : 'Branch run E2Es';
   const attributes = [
     { key: 'Job', value: `${env.GITHUB_JOB}` },
     { key: 'Build_type', value: `${env.GITHUB_EVENT_NAME}` },
     { key: 'Repository', value: `${env.GITHUB_REPOSITORY}` },
-    { key: 'Branch', value: branch },
-    { key: 'Browser', value: browser }
+    { key: 'Browser', value: browser },
+    { key: 'Workflow', value: `${env.GITHUB_WORKFLOW}` }
   ];
 
-  const launch = `GitHub Actions - ACA - ${browser} - ${branch}`;
+  const workflow = env.GITHUB_WORKFLOW || 'local';
+  const launch = `ACA - ${workflow} - ${browser}`;
 
   return {
     endpoint: env.REPORT_PORTAL_URL,
