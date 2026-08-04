@@ -6,4 +6,4 @@ runs:
   steps:
     - name: Check content UP
       shell: bash
-      run: pnpm run ci:check-env || exit 1
+      run: pnpm ci:check-env || exit 1
