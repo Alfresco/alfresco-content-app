@@ -47,8 +47,8 @@ jobs:
           cache: 'pnpm'
       - uses: ./.github/actions/before-install
       - run: pnpm install --frozen-lockfile
-      - run: pnpm run ci:build -- aca-playwright-shared
-      - run: pnpm run build -- $BUILD_OPTS
+      - run: pnpm ci:build -- aca-playwright-shared
+      - run: pnpm build -- $BUILD_OPTS
 
       - name: dist cache
         if: ${{ success() }}
@@ -134,7 +134,7 @@ jobs:
         uses: ./.github/actions/before-e2e
 
       - name: Before playwright
-        run: pnpm run ci:playwright:install
+        run: pnpm ci:playwright:install
 
       - uses: ./.github/actions/run-e2e-playwright
         with:

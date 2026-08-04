@@ -53,7 +53,7 @@ runs:
 
         for attempt in $(seq 1 "${SUITE_ATTEMPTS:-1}"); do
           echo "Running playwright tests with options $OPTIONS on browser ${PLAYWRIGHT_BROWSER} (suite attempt $attempt/${SUITE_ATTEMPTS:-1})"
-          if E2E_TARGET=$OPTIONS pnpm run ci:e2e; then
+          if E2E_TARGET=$OPTIONS pnpm ci:e2e; then
             exit 0
           fi
           if [ "$attempt" -lt "${SUITE_ATTEMPTS:-1}" ]; then

@@ -45,15 +45,15 @@ jobs:
           fetch-depth: 2
 
       - uses: ./.github/actions/before-install
-      - run: npm ci
+      - run: pnpm install --frozen-lockfile
       - name: upload npm logs
         uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: npm-logs
           path: /home/runner/.npm/_logs/
-      - run: npm run ci:build -- aca-playwright-shared
-      - run: npm run build -- $BUILD_OPTS
+      - run: pnpm ci:build -- aca-playwright-shared
+      - run: pnpm build -- $BUILD_OPTS
 
       - name: dist cache
         if: ${{ success() }}
@@ -146,7 +146,7 @@ jobs:
         uses: ./.github/actions/before-install
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Restore dist cache
         uses: actions/cache/restore@v6
@@ -160,15 +160,15 @@ jobs:
 
       - name: Check Search Indexing
         continue-on-error: true
-        run: npm run ci:check-search-indexing
+        run: pnpm ci:check-search-indexing
         env:
           ADMIN_PASSWORD_SCRIPT: ${{ env.ADMIN_PASSWORD }}
 
       - name: Before playwright
-        run: npm run ci:playwright:install:all
+        run: pnpm ci:playwright:install:all
 
       - name: Install Playwright system dependencies
-        run: npx playwright install-deps
+        run: pnpm exec playwright install-deps
 
       - name: Run e2e playwright
         uses: ./.github/actions/run-e2e-playwright

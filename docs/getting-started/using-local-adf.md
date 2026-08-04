@@ -5,7 +5,7 @@ If you are working with ADF source code and want to use the modified version wit
 Clone the `alfresco-ng2-components` and `alfresco-content-app` repositories in the same folder, and run the following command:
 
 ```sh
-npm start -- --configuration=adf
+pnpm start --configuration=adf
 ```
 
 Changing the ADF code results in the recompilation and hot-reloading of the ACA application.

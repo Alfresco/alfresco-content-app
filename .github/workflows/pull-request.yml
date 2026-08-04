@@ -45,11 +45,11 @@ jobs:
 
       - name: lint affected
         if: ${{ github.event_name == 'pull_request' }}
-        run: pnpm run affected:lint -- --base=origin/develop
+        run: pnpm affected:lint -- --base=origin/develop
       - name: lint all
         if: ${{ github.event_name != 'pull_request' }}
-        run: pnpm run ci:lint
-      - run: pnpm run stylelint
+        run: pnpm ci:lint
+      - run: pnpm stylelint
 
   detect-e2e-only-changes:
     name: 'Validate / Detect E2E Only Changes'
@@ -96,8 +96,8 @@ jobs:
         with:
           name: npm-logs
           path: /home/runner/.npm/_logs/
-      - run: pnpm run ci:build -- aca-playwright-shared
-      - run: pnpm run build -- $BUILD_OPTS
+      - run: pnpm ci:build -- aca-playwright-shared
+      - run: pnpm build -- $BUILD_OPTS
 
       - name: dist cache
         if: ${{ success() }}
@@ -127,11 +127,11 @@ jobs:
 
       - name: Test
         if: ${{ github.event_name == 'pull_request' }}
-        run: pnpm run affected:test -- --browsers=ChromeHeadless --watch=false $TEST_OPTS --base=origin/develop
+        run: pnpm affected:test -- --browsers=ChromeHeadless --watch=false $TEST_OPTS --base=origin/develop
 
       - name: Test all
         if: ${{ github.event_name != 'pull_request' }}
-        run: pnpm run ci:test -- $TEST_OPTS
+        run: pnpm ci:test -- $TEST_OPTS
 
   e2es-playwright:
     if: ${{ !contains(github.event.pull_request.labels.*.name, 'ci:skip-e2e') }}
@@ -233,12 +233,12 @@ jobs:
 
       - name: Check Search Indexing
         continue-on-error: true
-        run: pnpm run ci:check-search-indexing
+        run: pnpm ci:check-search-indexing
         env:
           ADMIN_PASSWORD_SCRIPT: ${{ env.ADMIN_PASSWORD }}
 
       - name: Before playwright
-        run: pnpm run ci:playwright:install
+        run: pnpm ci:playwright:install
 
       - name: Run e2e playwright
         uses: ./.github/actions/run-e2e-playwright

@@ -38,7 +38,7 @@ runs:
       shell: bash
       run: |
         pnpm install --frozen-lockfile
-        pnpm run build.release
+        pnpm build.release
 
     - name: Build and push multi-platform image
       uses: docker/build-push-action@v7
