@@ -7,7 +7,7 @@
     "start": "nx serve content-ce",
     "start:prod": "node --max-old-space-size=8192 nx serve content-ce --configuration production",
     "build": "nx build content-ce",
-    "build.release": "pnpm build -- --configuration=production,release",
+    "build.release": "pnpm build --configuration=production,release",
     "test": "nx test",
     "lint": "NODE_OPTIONS=--max_old_space_size=4096 nx run-many --all --target=lint",
     "inspect.bundle": "nx build content-ce --configuration production --stats-json && webpack-bundle-analyzer dist/content-ce/stats.json",
