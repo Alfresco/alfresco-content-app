@@ -81,8 +81,6 @@ jobs:
 
   protect-en-source:
     name: 'Validate / Protect English source (en.json)'
-    # en.json is the source-of-truth and must only change via manual developer
-    # edits. Automated Crowdin sync PRs must never modify it (see ACS-12322).
     if: ${{ github.event_name == 'pull_request' && github.head_ref == 'automated-translations-update' }}
     runs-on: ubuntu-latest
     steps:
