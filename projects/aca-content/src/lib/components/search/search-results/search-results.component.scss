@@ -18,8 +18,6 @@ body:has(aca-search-results) {
 
 aca-search-results {
   .aca-content-header {
-    overflow-x: auto;
-
     @include mat.icon-button-overrides(
       (
         icon-color: var(--theme-foreground-text-color)
