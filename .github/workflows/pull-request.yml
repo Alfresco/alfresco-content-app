@@ -90,8 +90,11 @@ jobs:
           fetch-depth: 0
 
       - name: Fail if automated Crowdin PR modifies en.json
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
-          CHANGED_EN=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '(^|/)i18n/en\.json$' || true)
+          git fetch --no-tags --depth=1 origin "$BASE_SHA"
+          CHANGED_EN=$(git diff --name-only "$BASE_SHA"...HEAD | grep -E '(^|/)i18n/en\.json$' || true)
           if [ -n "$CHANGED_EN" ]; then
             echo "::error::Automated Crowdin PR must not modify the English source (en.json). Offending file(s):"
             echo "$CHANGED_EN"
