@@ -385,6 +385,40 @@ describe('SearchComponent', () => {
     expect(queryBuilder.execute).not.toHaveBeenCalled();
   }));
 
+  it('should NOT show the loading bar when navigating back with an unchanged query', fakeAsync(() => {
+    spyOn(queryBuilder, 'execute');
+    queryParams.next({ q: encodeQuery({ userQuery: 'cm:name:"test*"' }) });
+    tick();
+
+    component.isLoading = false;
+
+    routerEvents.next(new NavigationStart(1, '/mock-search-url', 'popstate'));
+    queryParams.next({ q: encodeQuery({ userQuery: 'cm:name:"test*"' }) });
+
+    tick();
+
+    expect(component.isLoading).toBeFalse();
+
+    flush();
+  }));
+
+  it('should show the loading bar when navigating with a changed query', fakeAsync(() => {
+    spyOn(queryBuilder, 'execute');
+    queryParams.next({ q: encodeQuery({ userQuery: 'cm:name:"different*"' }) });
+    tick();
+
+    component.isLoading = false;
+
+    routerEvents.next(new NavigationStart(1, '/mock-search-url', 'imperative'));
+    queryParams.next({ q: encodeQuery({ userQuery: 'cm:name:"test*"' }) });
+
+    tick();
+
+    expect(component.isLoading).toBeTrue();
+
+    flush();
+  }));
+
   it('should call execute on navigation to search page with changed query', fakeAsync(() => {
     const executeSpy = spyOn(queryBuilder, 'execute');
     queryParams.next({ q: encodeQuery({ userQuery: 'cm:name:"different*"' }) });
