@@ -33,11 +33,12 @@ export const getReportPortalConfig = () => {
     { key: 'Job', value: `${env.GITHUB_JOB}` },
     { key: 'Build_type', value: `${env.GITHUB_EVENT_NAME}` },
     { key: 'Repository', value: `${env.GITHUB_REPOSITORY}` },
-    { key: 'Branch', value: `${env.GITHUB_HEAD_REF || env.GITHUB_REF}` },
-    { key: 'Browser', value: browser }
+    { key: 'Browser', value: browser },
+    { key: 'Workflow', value: `${env.GITHUB_WORKFLOW}` }
   ];
 
-  const launch = `GitHub Actions - ACA - ${browser}`;
+  const workflow = env.GITHUB_WORKFLOW || 'local';
+  const launch = `ACA - ${workflow} - ${browser}`;
 
   return {
     endpoint: env.REPORT_PORTAL_URL,

@@ -164,11 +164,30 @@ jobs:
         env:
           ADMIN_PASSWORD_SCRIPT: ${{ env.ADMIN_PASSWORD }}
 
-      - name: Before playwright
-        run: npm run ci:playwright:install:all
+      # global.setup.ts always launches chromium, so it is installed alongside the matrix browser.
+      - name: Install Playwright browsers + system deps
+        env:
+          PLAYWRIGHT_BROWSER: ${{ matrix.browser }}
+        run: |
+          # Drop the pre-installed azure-cli apt source; it intermittently 403s and breaks `apt-get update`.
+          { grep -rl "packages.microsoft.com/repos/azure-cli" /etc/apt/sources.list.d/ 2>/dev/null || true; } | while IFS= read -r f; do
+            echo "Removing flaky apt source: $f"
+            sudo rm -f "$f"
+          done
 
-      - name: Install Playwright system dependencies
-        run: npx playwright install-deps
+          browsers=$(echo "chromium ${PLAYWRIGHT_BROWSER}" | tr ' ' '\n' | awk '!seen[$0]++' | tr '\n' ' ')
+          echo "Installing Playwright browsers: $browsers"
+
+          for attempt in 1 2 3; do
+            if npx playwright install --with-deps $browsers; then
+              exit 0
+            fi
+            sleep_s=$((attempt * 10))
+            echo "playwright install attempt $attempt failed, retrying in ${sleep_s}s..."
+            sleep "$sleep_s"
+          done
+          echo "playwright install failed after 3 attempts"
+          exit 1
 
       - name: Run e2e playwright
         uses: ./.github/actions/run-e2e-playwright
