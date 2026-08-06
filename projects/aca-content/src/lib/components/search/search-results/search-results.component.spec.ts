@@ -44,6 +44,7 @@ import { MatMenuHarness } from '@angular/material/menu/testing';
 import { SavedSearchesContextService } from '../../../services/saved-searches-context.service';
 import { IsFeatureSupportedInCurrentAcsPipe } from '../../../pipes/is-feature-supported.pipe';
 import { MatDividerHarness } from '@angular/material/divider/testing';
+import { MatProgressBarHarness } from '@angular/material/progress-bar/testing';
 
 describe('SearchComponent', () => {
   let component: SearchResultsComponent;
@@ -66,6 +67,7 @@ describe('SearchComponent', () => {
   const getSavedSearchButton = (): HTMLButtonElement => fixture.nativeElement.querySelector('.aca-content__save-search-action');
   const getResetSearchButton = (): HTMLButtonElement => fixture.nativeElement.querySelector('.aca-content__reset-action');
   const getDividerHarness = () => loader.getHarness(MatDividerHarness);
+  const getProgressBarHarnesses = () => loader.getAllHarnesses(MatProgressBarHarness);
 
   const encodeQuery = (query: any): string => {
     return Buffer.from(JSON.stringify(query)).toString('base64');
@@ -385,39 +387,34 @@ describe('SearchComponent', () => {
     expect(queryBuilder.execute).not.toHaveBeenCalled();
   }));
 
-  it('should NOT show the loading bar when navigating back with an unchanged query', fakeAsync(() => {
+  it('should NOT render the loading bar when navigating back with an unchanged query', async () => {
     spyOn(queryBuilder, 'execute');
     queryParams.next({ q: encodeQuery({ userQuery: 'cm:name:"test*"' }) });
     tick();
 
     component.isLoading = false;
+    fixture.detectChanges();
 
     routerEvents.next(new NavigationStart(1, '/mock-search-url', 'popstate'));
     queryParams.next({ q: encodeQuery({ userQuery: 'cm:name:"test*"' }) });
+    fixture.detectChanges();
 
-    tick();
+    expect(await getProgressBarHarnesses()).toEqual([]);
+  });
 
-    expect(component.isLoading).toBeFalse();
-
-    flush();
-  }));
-
-  it('should show the loading bar when navigating with a changed query', fakeAsync(() => {
+  it('should render the loading bar when navigating with a changed query', async () => {
     spyOn(queryBuilder, 'execute');
     queryParams.next({ q: encodeQuery({ userQuery: 'cm:name:"different*"' }) });
-    tick();
 
     component.isLoading = false;
+    fixture.detectChanges();
 
     routerEvents.next(new NavigationStart(1, '/mock-search-url', 'imperative'));
     queryParams.next({ q: encodeQuery({ userQuery: 'cm:name:"test*"' }) });
+    fixture.detectChanges();
 
-    tick();
-
-    expect(component.isLoading).toBeTrue();
-
-    flush();
-  }));
+    expect((await getProgressBarHarnesses()).length).toBe(1);
+  });
 
   it('should call execute on navigation to search page with changed query', fakeAsync(() => {
     const executeSpy = spyOn(queryBuilder, 'execute');
