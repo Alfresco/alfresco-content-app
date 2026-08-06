@@ -79,6 +79,30 @@ jobs:
             echo "only-e2e-changes=true" >> $GITHUB_OUTPUT
           fi
 
+  protect-en-source:
+    name: 'Validate / Protect English source (en.json)'
+    if: ${{ github.event_name == 'pull_request' && github.head_ref == 'automated-translations-update' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Fail if automated Crowdin PR modifies en.json
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git fetch --no-tags --depth=1 origin "$BASE_SHA"
+          CHANGED_EN=$(git diff --name-only "$BASE_SHA"...HEAD | grep -E '(^|/)i18n/en\.json$' || true)
+          if [ -n "$CHANGED_EN" ]; then
+            echo "::error::Automated Crowdin PR must not modify the English source (en.json). Offending file(s):"
+            echo "$CHANGED_EN"
+            echo "This usually means a Crowdin target language (e.g. en-AU) collides with the 'en' two_letters_code. Fix crowdin.yml languages_mapping instead of merging this change."
+            exit 1
+          fi
+          echo "OK: no en.json source file modified by the automated Crowdin PR."
+
   build:
     name: 'build'
     runs-on: ubuntu-latest
@@ -193,7 +217,7 @@ jobs:
             id: 22
     steps:
       - name: Free hosted runner disk space
-        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@10cea6c0b390c4f8af21d9dc1670d581bd10319f # v18.13.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@e87345fb177248fc5bdc7838107f098438818df1 # v18.21.0
 
       - name: Checkout
         uses: actions/checkout@v7
@@ -212,7 +236,7 @@ jobs:
 
       - name: Collect and push logs as artifact
         if: always()
-        uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-keep-nslogs@10cea6c0b390c4f8af21d9dc1670d581bd10319f # v18.13.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-keep-nslogs@e87345fb177248fc5bdc7838107f098438818df1 # v18.21.0
         with:
           log_retention: 7
           log_name_identifier: "logs-${{ matrix.browser || 'chromium' }}-${{ matrix.e2e-suites.name }}"
@@ -286,7 +310,7 @@ jobs:
           fetch-depth: 2
 
       - name: Extract commit message
-        uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@10cea6c0b390c4f8af21d9dc1670d581bd10319f #v18.13.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@e87345fb177248fc5bdc7838107f098438818df1 #v18.21.0
 
       - name: Check ADF link
         shell: bash
