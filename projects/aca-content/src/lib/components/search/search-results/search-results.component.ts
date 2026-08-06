@@ -216,7 +216,6 @@ export class SearchResultsComponent extends PageComponent implements OnInit, OnD
           takeUntilDestroyed(this.destroyRef),
           tap(([params]) => {
             this.encodedQuery = params[this.queryParamName];
-            this.isLoading = !!this.encodedQuery;
 
             this.searchedWord = extractUserQueryFromEncodedQuery(this.encodedQuery);
 
@@ -240,6 +239,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit, OnD
           this.queryBuilder.userQuery = extractUserQueryFromEncodedQuery(this.encodedQuery);
 
           if (shouldExecuteQuery) {
+            this.isLoading = !!this.encodedQuery;
             this.queryBuilder.execute(false);
           }
         });
