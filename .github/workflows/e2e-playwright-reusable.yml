@@ -170,7 +170,7 @@ jobs:
         run: npm run ci:playwright:install:all
 
       - name: Install Playwright system dependencies
-        run: npx playwright install-deps
+        run: npx playwright@latest install-deps
 
       - name: Run e2e playwright
         uses: ./.github/actions/run-e2e-playwright
