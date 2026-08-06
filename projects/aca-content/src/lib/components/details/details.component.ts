@@ -95,7 +95,7 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
         this.saveRoute(params.location);
       }
     });
-    this.route.params.subscribe((params) => {
+    this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
       this.isLoading = true;
       this.setActiveTab(params.activeTab);
       this.nodeId = params.nodeId;
