@@ -390,7 +390,6 @@ describe('SearchComponent', () => {
   it('should NOT render the loading bar when navigating back with an unchanged query', async () => {
     spyOn(queryBuilder, 'execute');
     queryParams.next({ q: encodeQuery({ userQuery: 'cm:name:"test*"' }) });
-    tick();
 
     component.isLoading = false;
     fixture.detectChanges();
