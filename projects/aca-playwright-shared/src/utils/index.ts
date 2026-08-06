@@ -33,3 +33,4 @@ export * from './error-strings';
 export * from './api';
 export * from './logger';
 export * from './repository-test-data';
+export * from './a11y-validators';
