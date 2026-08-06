@@ -23,9 +23,9 @@
  */
 
 import { Component, OnDestroy, OnInit, ViewEncapsulation, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd } from '@angular/router';
 import { AppHookService, ContentApiService, PageComponent, PageLayoutComponent, ToolbarComponent } from '@alfresco/aca-shared';
-import { NavigateToFolder, NavigateToPreviousPage, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
+import { NavigateToFolder, NavigateToPreviousPage, SetInfoDrawerStateAction, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { BreadcrumbComponent, ContentService, NodesApiService, PermissionListComponent } from '@alfresco/adf-content-services';
 import { CommonModule, Location } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -69,6 +69,7 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   private readonly nodesApiService = inject(NodesApiService);
   private readonly appHookService = inject(AppHookService);
   private readonly location = inject(Location);
+  private _previousRoute = '';
 
   nodeId: string;
   isLoading: boolean;
@@ -76,6 +77,10 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   aspectActions: Array<ContentActionRef> = [];
   nodeIcon: string;
   canManagePermissions = true;
+
+  get previousRoute(): string {
+    return this._previousRoute;
+  }
 
   ngOnInit(): void {
     super.ngOnInit();
@@ -85,6 +90,11 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
     this.title = data.title;
     this.nodesApiService.nodeUpdated.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((node) => (this.node = { ...node }));
     this.appHookService.nodesDeleted.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.location.back());
+    this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
+      if (params.location) {
+        this.saveRoute(params.location);
+      }
+    });
     this.route.params.subscribe((params) => {
       this.isLoading = true;
       this.setActiveTab(params.activeTab);
@@ -124,8 +134,20 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
     }
   }
 
+  saveRoute(route: string): void {
+    this._previousRoute = route;
+  }
+
   goBack() {
-    this.store.dispatch(new NavigateToPreviousPage());
+    this.router.events
+      .pipe(first((event) => event instanceof NavigationEnd))
+      .subscribe(() => this.store.dispatch(new SetInfoDrawerStateAction(true)));
+
+    if (this.previousRoute) {
+      this.router.navigateByUrl(this.previousRoute);
+    } else {
+      this.store.dispatch(new NavigateToPreviousPage());
+    }
   }
 
   onBreadcrumbNavigate(path: PathElement) {

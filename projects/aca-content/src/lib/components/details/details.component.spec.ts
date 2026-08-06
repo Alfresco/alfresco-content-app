@@ -25,11 +25,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { DetailsComponent } from './details.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppExtensionService, AppHookService, ContentApiService } from '@alfresco/aca-shared';
-import { NavigateToFolder, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
+import { NavigateToFolder, NavigateToPreviousPage, SetInfoDrawerStateAction, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { Node, NodeEntry, PathElement } from '@alfresco/js-api';
 import { BreadcrumbComponent, ContentService, NodesApiService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { By } from '@angular/platform-browser';
@@ -45,7 +45,9 @@ describe('DetailsComponent', () => {
   let appHookService: AppHookService;
   let location: Location;
   let store: Store;
+  let router: Router;
   let node: NodeEntry;
+  let queryParamsSubject: BehaviorSubject<any>;
 
   const mockStream = new Subject();
   const storeMock = {
@@ -58,6 +60,7 @@ describe('DetailsComponent', () => {
   const getBreadcrumb = (): BreadcrumbComponent => fixture.debugElement.query(By.directive(BreadcrumbComponent)).componentInstance;
 
   beforeEach(() => {
+    queryParamsSubject = new BehaviorSubject<any>({});
     TestBed.configureTestingModule({
       imports: [AppTestingModule, DetailsComponent],
       providers: [
@@ -67,7 +70,8 @@ describe('DetailsComponent', () => {
           provide: ActivatedRoute,
           useValue: {
             snapshot: { data: { preferencePrefix: 'prefix' } },
-            params: of({ nodeId: 'someId', activeTab: 'permissions' })
+            params: of({ nodeId: 'someId', activeTab: 'permissions' }),
+            queryParams: queryParamsSubject
           }
         }
       ]
@@ -84,6 +88,7 @@ describe('DetailsComponent', () => {
     appHookService = TestBed.inject(AppHookService);
     location = TestBed.inject(Location);
     store = TestBed.inject(Store);
+    router = TestBed.inject(Router);
     storeMock.dispatch.calls.reset();
 
     node = {
@@ -242,5 +247,36 @@ describe('DetailsComponent', () => {
     appHookService.nodesDeleted.next();
 
     expect(locationSpy).toHaveBeenCalled();
+  });
+
+  describe('Reduce Panel', () => {
+    it('should save the previous route from the location query param', () => {
+      queryParamsSubject.next({ location: '/personal-files' });
+      fixture.detectChanges();
+
+      expect(component.previousRoute).toBe('/personal-files');
+    });
+
+    it('should navigate to the previous route and re-open the info drawer', () => {
+      queryParamsSubject.next({ location: '/personal-files' });
+      fixture.detectChanges();
+      const navigateSpy = spyOn(router, 'navigateByUrl').and.stub();
+      Object.defineProperty(router, 'events', { value: of(new NavigationEnd(1, '', '')) });
+
+      component.goBack();
+
+      expect(navigateSpy).toHaveBeenCalledWith('/personal-files');
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.any(SetInfoDrawerStateAction));
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ payload: true }));
+    });
+
+    it('should dispatch NavigateToPreviousPage when there is no previous route', () => {
+      fixture.detectChanges();
+      Object.defineProperty(router, 'events', { value: of(new NavigationEnd(1, '', '')) });
+
+      component.goBack();
+
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.any(NavigateToPreviousPage));
+    });
   });
 });
