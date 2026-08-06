@@ -81,7 +81,6 @@ test.describe('Personal Files - A11y Tests', () => {
   test('[XAT-19726] Page has no critical accessibility violations', async ({ page }) => {
     try {
       await checkA11y(page, undefined, { detailedReport: true });
-      // Assert that checkA11y passed (no violations thrown)
       expect(true).toBeTruthy();
     } catch (error) {
       // Log violations without failing (POC approach)
@@ -164,7 +163,6 @@ test.describe('Personal Files - A11y Tests', () => {
   test('[XAT-19757] Data table has proper structure', async ({ page }) => {
     try {
       await verifyDataTableAccessibility(page);
-      // Assert that table accessibility check passed
       expect(true).toBeTruthy();
     } catch (error) {
       // eslint-disable-next-line no-console
