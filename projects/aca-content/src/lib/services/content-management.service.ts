@@ -53,7 +53,7 @@ import { DeletedNodesPaging, Node, NodeEntry, PathInfo, SiteBodyCreate, SiteEntr
 import { inject, Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { forkJoin, Observable, of, zip } from 'rxjs';
+import { forkJoin, Observable, of, zip, EMPTY } from 'rxjs';
 import { catchError, map, mergeMap, take, tap } from 'rxjs/operators';
 import { LinkOperationResult, NodeActionsService } from './node-actions.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -541,6 +541,35 @@ export class ContentManagementService {
     return this.contentApi.unlockNode(node.entry.id).catch(() => {
       this.notificationService.showError('APP.MESSAGES.ERRORS.UNLOCK_NODE', null, { fileName: node.entry.name });
     });
+  }
+
+  checkout(nodeId: string): Observable<NodeEntry> {
+    return this.nodesApiService.checkoutNode(nodeId).pipe(
+      catchError((err) => {
+        this.notificationService.showError(this.resolveCheckoutErrorKey(err, 'CHECKOUT'));
+        return EMPTY;
+      })
+    );
+  }
+
+  cancelCheckout(nodeId: string): Observable<NodeEntry> {
+    return this.nodesApiService.cancelCheckoutNode(nodeId).pipe(
+      catchError((err) => {
+        this.notificationService.showError(this.resolveCheckoutErrorKey(err, 'CANCEL_CHECKOUT'));
+        return EMPTY;
+      })
+    );
+  }
+
+  private resolveCheckoutErrorKey(error, operation: 'CHECKOUT' | 'CANCEL_CHECKOUT'): string {
+    let statusCode: number;
+    try {
+      statusCode = JSON.parse(error.message).error.statusCode;
+    } catch {}
+    if (statusCode === 404) {
+      return 'CHECKOUT.ERRORS.404';
+    }
+    return [400, 403, 409].includes(statusCode) ? `CHECKOUT.ERRORS.${operation}.${statusCode}` : 'CHECKOUT.ERRORS.UNKNOWN';
   }
 
   private showCopyMessage(info: any, nodes: Array<NodeEntry>, newItems?: Array<NodeEntry>) {
