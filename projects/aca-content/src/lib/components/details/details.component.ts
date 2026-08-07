@@ -141,6 +141,9 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
       .subscribe(() => this.store.dispatch(new SetInfoDrawerStateAction(true)));
 
     if (this.previousRoute) {
+      if (!this.previousRoute.includes('viewer:') && this.node) {
+        this.appHookService.nodeToSelect$.next({ entry: this.node });
+      }
       this.router.navigateByUrl(this.previousRoute);
     } else {
       this.store.dispatch(new NavigateToPreviousPage());

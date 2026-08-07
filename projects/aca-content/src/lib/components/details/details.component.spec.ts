@@ -256,15 +256,30 @@ describe('DetailsComponent', () => {
     const getReducePanelButton = () => testingUtils.getByDataAutomationId('close-library').nativeElement;
     const clickReducePanelButton = () => getReducePanelButton().click();
 
-    it('should navigate to the previous route and re-open the info drawer', () => {
+    it('should navigate to the file list page, keep the node selected and the info drawer open', () => {
       queryParamsSubject.next({ location: '/personal-files' });
       fixture.detectChanges();
       const navigateSpy = spyOn(router, 'navigateByUrl').and.stub();
       Object.defineProperty(router, 'events', { value: of(new NavigationEnd(1, '', '')) });
+      const nodeToSelectSpy = spyOn(appHookService.nodeToSelect$, 'next');
 
       clickReducePanelButton();
 
       expect(navigateSpy).toHaveBeenCalledWith('/personal-files');
+      expect(nodeToSelectSpy).toHaveBeenCalledWith({ entry: node.entry });
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.any(SetInfoDrawerStateAction));
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ payload: true }));
+    });
+
+    it('should navigate to viewer page and keep the info drawer open', () => {
+      queryParamsSubject.next({ location: 'personal-files/(viewer:view/nodeId)?location=personal-files%2Fdetails%2Fabc123%2Fpermissions' });
+      fixture.detectChanges();
+      Object.defineProperty(router, 'events', { value: of(new NavigationEnd(1, '', '')) });
+      const navigateSpy = spyOn(router, 'navigateByUrl').and.stub();
+
+      clickReducePanelButton();
+
+      expect(navigateSpy).toHaveBeenCalledWith('personal-files/(viewer:view/nodeId)?location=personal-files%2Fdetails%2Fabc123%2Fpermissions');
       expect(store.dispatch).toHaveBeenCalledWith(jasmine.any(SetInfoDrawerStateAction));
       expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ payload: true }));
     });
