@@ -253,8 +253,8 @@ describe('DetailsComponent', () => {
   });
 
   describe('Reduce Panel', () => {
-    const getReducePanelButton = () => testingUtils.getByDataAutomationId('close-library').nativeElement;
-    const clickReducePanelButton = () => getReducePanelButton().click();
+    const getReducePanelButton = (): HTMLButtonElement => testingUtils.getByDataAutomationId('close-library').nativeElement;
+    const clickReducePanelButton = (): void => getReducePanelButton().click();
 
     it('should navigate to the file list page, keep the node selected and the info drawer open', () => {
       queryParamsSubject.next({ location: '/personal-files' });
