@@ -44,9 +44,11 @@ export async function hasAccessibleAttribute(element: Locator): Promise<boolean>
 export async function isInteractiveElement(element: Locator): Promise<boolean> {
   const tagName = await element.evaluate((el) => el.tagName.toLowerCase());
   const role = await element.getAttribute('role');
-  const tabindex = await element.getAttribute('tabindex');
+  const tabindexAttr = await element.getAttribute('tabindex');
+  const tabindex = tabindexAttr === null ? null : parseInt(tabindexAttr, 10);
+  const hasFocusableTabIndex = tabindex !== null && !Number.isNaN(tabindex) && tabindex >= 0;
 
-  return INTERACTIVE_TAG_NAMES.includes(tagName) || INTERACTIVE_ROLES.includes(role || '') || tabindex !== null;
+  return INTERACTIVE_TAG_NAMES.includes(tagName) || INTERACTIVE_ROLES.includes(role || '') || hasFocusableTabIndex;
 }
 
 export async function hasRole(element: Locator, expectedRole: string): Promise<boolean> {
@@ -136,7 +138,7 @@ export async function verifyFormInputsHaveLabels(page: Page, formSelector?: stri
 
       if (!ariaLabel && !ariaLabelledBy && inputId) {
         const label = page.locator(`label[for="${inputId}"]`);
-        if (!(await label.isVisible())) {
+        if ((await label.count()) === 0) {
           return false;
         }
       } else if (!ariaLabel && !ariaLabelledBy) {
