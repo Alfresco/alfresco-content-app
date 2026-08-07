@@ -51,11 +51,6 @@ export async function isInteractiveElement(element: Locator): Promise<boolean> {
   return INTERACTIVE_TAG_NAMES.includes(tagName) || INTERACTIVE_ROLES.includes(role || '') || hasFocusableTabIndex;
 }
 
-export async function getAccessibleName(element: Locator): Promise<string> {
-  const text = await element.textContent();
-  return (await element.getAttribute('aria-label')) || (await element.getAttribute('title')) || text?.trim() || '';
-}
-
 export async function verifyElementsHaveNames(page: Page, selector: string): Promise<boolean> {
   const elements = page.locator(selector);
   const count = await elements.count();
