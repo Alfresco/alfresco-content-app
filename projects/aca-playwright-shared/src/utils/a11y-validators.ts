@@ -28,10 +28,11 @@ const INTERACTIVE_TAG_NAMES = ['button', 'a', 'input', 'select', 'textarea'];
 const INTERACTIVE_ROLES = ['button', 'link', 'menuitem', 'checkbox', 'radio', 'tab', 'switch', 'option'];
 
 export async function hasAccessibleName(element: Locator): Promise<boolean> {
+  const ariaLabelledBy = await element.getAttribute('aria-labelledby');
   const ariaLabel = await element.getAttribute('aria-label');
   const title = await element.getAttribute('title');
   const text = await element.textContent();
-  return Boolean(ariaLabel || title || text?.trim());
+  return Boolean(ariaLabelledBy || ariaLabel || title || text?.trim());
 }
 
 export async function hasAccessibleAttribute(element: Locator): Promise<boolean> {

@@ -50,13 +50,7 @@ test.describe('Personal Files - A11y Tests', () => {
     test.setTimeout(timeouts.extendedTest);
     const apiClientFactory = new ApiClientFactory();
     await apiClientFactory.setUpAcaBackend('admin');
-    try {
-      await apiClientFactory.createUser({ username });
-    } catch (exception) {
-      if (JSON.parse(exception.message).error.statusCode !== 409) {
-        throw new Error(`beforeAll failed: ${exception}`);
-      }
-    }
+    await apiClientFactory.createUser({ username });
     nodesApi = await NodesApi.initialize(username, username);
     trashcanApi = await TrashcanApi.initialize(username, username);
 
