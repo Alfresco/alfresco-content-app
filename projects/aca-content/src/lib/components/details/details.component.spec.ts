@@ -25,7 +25,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { DetailsComponent } from './details.component';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppExtensionService, AppHookService, ContentApiService } from '@alfresco/aca-shared';
@@ -35,6 +35,7 @@ import { BreadcrumbComponent, ContentService, NodesApiService, SearchQueryBuilde
 import { By } from '@angular/platform-browser';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { Location } from '@angular/common';
+import { UnitTestingUtils } from '@alfresco/adf-core';
 
 describe('DetailsComponent', () => {
   let component: DetailsComponent;
@@ -47,7 +48,8 @@ describe('DetailsComponent', () => {
   let store: Store;
   let router: Router;
   let node: NodeEntry;
-  let queryParamsSubject: BehaviorSubject<any>;
+  let queryParamsSubject: BehaviorSubject<Params>;
+  let testingUtils: UnitTestingUtils;
 
   const mockStream = new Subject();
   const storeMock = {
@@ -60,7 +62,7 @@ describe('DetailsComponent', () => {
   const getBreadcrumb = (): BreadcrumbComponent => fixture.debugElement.query(By.directive(BreadcrumbComponent)).componentInstance;
 
   beforeEach(() => {
-    queryParamsSubject = new BehaviorSubject<any>({});
+    queryParamsSubject = new BehaviorSubject<Params>({});
     TestBed.configureTestingModule({
       imports: [AppTestingModule, DetailsComponent],
       providers: [
@@ -82,6 +84,7 @@ describe('DetailsComponent', () => {
 
     fixture = TestBed.createComponent(DetailsComponent);
     component = fixture.componentInstance;
+    testingUtils = new UnitTestingUtils(fixture.debugElement);
     contentApiService = TestBed.inject(ContentApiService);
     contentService = TestBed.inject(ContentService);
     nodesApiService = TestBed.inject(NodesApiService);
@@ -250,12 +253,8 @@ describe('DetailsComponent', () => {
   });
 
   describe('Reduce Panel', () => {
-    it('should save the previous route from the location query param', () => {
-      queryParamsSubject.next({ location: '/personal-files' });
-      fixture.detectChanges();
-
-      expect(component.previousRoute).toBe('/personal-files');
-    });
+    const getReducePanelButton = () => testingUtils.getByDataAutomationId('close-library').nativeElement;
+    const clickReducePanelButton = () => getReducePanelButton().click();
 
     it('should navigate to the previous route and re-open the info drawer', () => {
       queryParamsSubject.next({ location: '/personal-files' });
@@ -263,7 +262,7 @@ describe('DetailsComponent', () => {
       const navigateSpy = spyOn(router, 'navigateByUrl').and.stub();
       Object.defineProperty(router, 'events', { value: of(new NavigationEnd(1, '', '')) });
 
-      component.goBack();
+      clickReducePanelButton();
 
       expect(navigateSpy).toHaveBeenCalledWith('/personal-files');
       expect(store.dispatch).toHaveBeenCalledWith(jasmine.any(SetInfoDrawerStateAction));
@@ -274,7 +273,7 @@ describe('DetailsComponent', () => {
       fixture.detectChanges();
       Object.defineProperty(router, 'events', { value: of(new NavigationEnd(1, '', '')) });
 
-      component.goBack();
+      clickReducePanelButton();
 
       expect(store.dispatch).toHaveBeenCalledWith(jasmine.any(NavigateToPreviousPage));
     });

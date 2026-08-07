@@ -69,7 +69,8 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   private readonly nodesApiService = inject(NodesApiService);
   private readonly appHookService = inject(AppHookService);
   private readonly location = inject(Location);
-  private _previousRoute = '';
+
+  private previousRoute = '';
 
   nodeId: string;
   isLoading: boolean;
@@ -77,10 +78,6 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   aspectActions: Array<ContentActionRef> = [];
   nodeIcon: string;
   canManagePermissions = true;
-
-  get previousRoute(): string {
-    return this._previousRoute;
-  }
 
   ngOnInit(): void {
     super.ngOnInit();
@@ -135,7 +132,7 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   }
 
   saveRoute(route: string): void {
-    this._previousRoute = route;
+    this.previousRoute = route;
   }
 
   goBack() {
