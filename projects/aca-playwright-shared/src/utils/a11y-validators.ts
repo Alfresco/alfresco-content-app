@@ -51,52 +51,9 @@ export async function isInteractiveElement(element: Locator): Promise<boolean> {
   return INTERACTIVE_TAG_NAMES.includes(tagName) || INTERACTIVE_ROLES.includes(role || '') || hasFocusableTabIndex;
 }
 
-export async function hasRole(element: Locator, expectedRole: string): Promise<boolean> {
-  const role = await element.getAttribute('role');
-  return role === expectedRole;
-}
-
-export async function hasRoleOrLabel(element: Locator, expectedRole: string): Promise<boolean> {
-  const role = await element.getAttribute('role');
-  const ariaLabel = await element.getAttribute('aria-label');
-  return role === expectedRole || Boolean(ariaLabel);
-}
-
-export async function isFocusable(element: Locator): Promise<boolean> {
-  return element.evaluate((el) => {
-    const tabindex = el.getAttribute('tabindex');
-    const isNaturallyFocusable = ['BUTTON', 'A', 'INPUT', 'SELECT', 'TEXTAREA'].includes(el.tagName);
-    return isNaturallyFocusable || (tabindex !== null && parseInt(tabindex || '0', 10) >= 0);
-  });
-}
-
-export async function isValidDialog(element: Locator): Promise<boolean> {
-  const role = await element.getAttribute('role');
-  const hasLabel = await hasAccessibleAttribute(element);
-  const isDialog = role === 'dialog' || role === 'alertdialog';
-  return isDialog && hasLabel;
-}
-
 export async function getAccessibleName(element: Locator): Promise<string> {
-  const ariaLabel = await element.getAttribute('aria-label');
-  if (ariaLabel) {
-    return ariaLabel;
-  }
-
-  const title = await element.getAttribute('title');
-  if (title) {
-    return title;
-  }
-
   const text = await element.textContent();
-  return text?.trim() || '';
-}
-
-export async function getElementInfo(element: Locator): Promise<string> {
-  const tagName = await element.evaluate((el) => el.tagName.toLowerCase());
-  const role = await element.getAttribute('role');
-  const name = await getAccessibleName(element);
-  return `${tagName}[role="${role}"] "${name}"`;
+  return (await element.getAttribute('aria-label')) || (await element.getAttribute('title')) || text?.trim() || '';
 }
 
 export async function verifyElementsHaveNames(page: Page, selector: string): Promise<boolean> {
@@ -118,92 +75,10 @@ export async function verifyElementsHaveNames(page: Page, selector: string): Pro
 export async function verifyRegionAccessibleNames(
   page: Page,
   regionSelector: string,
-  elementSelector: string = 'button, [role="button"], a'
+  elementSelector = 'button, [role="button"], a'
 ): Promise<boolean> {
   const selector = regionSelector ? `${regionSelector} ${elementSelector}` : elementSelector;
   return verifyElementsHaveNames(page, selector);
-}
-
-export async function verifyFormInputsHaveLabels(page: Page, formSelector?: string): Promise<boolean> {
-  const selector = formSelector ? `${formSelector} input, ${formSelector} textarea, ${formSelector} select` : 'input, textarea, select';
-  const inputs = page.locator(selector);
-  const count = await inputs.count();
-
-  for (let i = 0; i < count; i++) {
-    const input = inputs.nth(i);
-    if (await input.isVisible()) {
-      const inputId = await input.getAttribute('id');
-      const ariaLabel = await input.getAttribute('aria-label');
-      const ariaLabelledBy = await input.getAttribute('aria-labelledby');
-
-      if (!ariaLabel && !ariaLabelledBy && inputId) {
-        const label = page.locator(`label[for="${inputId}"]`);
-        if ((await label.count()) === 0) {
-          return false;
-        }
-      } else if (!ariaLabel && !ariaLabelledBy) {
-        return false;
-      }
-    }
-  }
-  return true;
-}
-
-export async function verifyHeadingHierarchy(page: Page, regionSelector?: string): Promise<{ isValid: boolean; issues: string[] }> {
-  const selector = regionSelector
-    ? `${regionSelector} h1, ${regionSelector} h2, ${regionSelector} h3, ${regionSelector} h4, ${regionSelector} h5, ${regionSelector} h6`
-    : 'h1, h2, h3, h4, h5, h6';
-  const headings = page.locator(selector);
-  const count = await headings.count();
-  const issues: string[] = [];
-
-  let lastLevel = 0;
-  for (let i = 0; i < count; i++) {
-    const heading = headings.nth(i);
-    const level = parseInt((await heading.evaluate((el) => el.tagName))[1], 10);
-    const text = await heading.textContent();
-
-    if (!text?.trim()) {
-      issues.push(`Empty heading at position ${i + 1}`);
-    }
-
-    if (level > lastLevel + 1) {
-      issues.push(`Heading hierarchy skipped from H${lastLevel} to H${level}`);
-    }
-
-    lastLevel = level;
-  }
-
-  return {
-    isValid: issues.length === 0,
-    issues
-  };
-}
-
-export async function verifyLandmarks(page: Page): Promise<{
-  hasMain: boolean;
-  landmarks: string[];
-}> {
-  const landmarkRoles: Array<'main' | 'navigation' | 'contentinfo' | 'complementary' | 'region'> = [
-    'main',
-    'navigation',
-    'contentinfo',
-    'complementary',
-    'region'
-  ];
-  const landmarks: string[] = [];
-
-  for (const role of landmarkRoles) {
-    const element = page.getByRole(role).first();
-    if (await element.isVisible()) {
-      landmarks.push(role);
-    }
-  }
-
-  return {
-    hasMain: landmarks.includes('main'),
-    landmarks
-  };
 }
 
 export async function verifyDataTableAccessibility(page: Page, tableSelector = 'adf-datatable, [role="grid"]'): Promise<void> {
