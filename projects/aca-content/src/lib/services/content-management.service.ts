@@ -561,8 +561,8 @@ export class ContentManagementService {
     );
   }
 
-  private resolveCheckoutErrorKey(error, operation: 'CHECKOUT' | 'CANCEL_CHECKOUT'): string {
-    let statusCode: number;
+  private resolveCheckoutErrorKey(error: Error, operation: 'CHECKOUT' | 'CANCEL_CHECKOUT'): string {
+    let statusCode = -1;
     try {
       statusCode = JSON.parse(error.message).error.statusCode;
     } catch {}

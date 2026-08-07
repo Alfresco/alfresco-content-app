@@ -2419,10 +2419,10 @@ describe('ContentManagementService', () => {
       it('should return the working copy NodeEntry on success', () => {
         const fakeEntry = { entry: { id: nodeId } } as NodeEntry;
         spyOn(nodesApiService, 'checkoutNode').and.returnValue(of(fakeEntry));
-        let result: NodeEntry;
-        contentManagementService.checkout(nodeId).subscribe((n) => (result = n));
-        expect(nodesApiService.checkoutNode).toHaveBeenCalledWith(nodeId);
-        expect(result).toEqual(fakeEntry);
+        contentManagementService.checkout(nodeId).subscribe((result) => {
+          expect(nodesApiService.checkoutNode).toHaveBeenCalledWith(nodeId);
+          expect(result).toEqual(fakeEntry);
+        });
       });
 
       it('should show 400 error notification', () => {
@@ -2460,10 +2460,10 @@ describe('ContentManagementService', () => {
       it('should return the original NodeEntry on success', () => {
         const fakeEntry = { entry: { id: nodeId } } as NodeEntry;
         spyOn(nodesApiService, 'cancelCheckoutNode').and.returnValue(of(fakeEntry));
-        let result: NodeEntry;
-        contentManagementService.cancelCheckout(nodeId).subscribe((n) => (result = n));
-        expect(result).toEqual(fakeEntry);
-        expect(nodesApiService.cancelCheckoutNode).toHaveBeenCalledWith(nodeId);
+        contentManagementService.cancelCheckout(nodeId).subscribe((result) => {
+          expect(result).toEqual(fakeEntry);
+          expect(nodesApiService.cancelCheckoutNode).toHaveBeenCalledWith(nodeId);
+        });
       });
 
       it('should show 400 error notification', () => {
