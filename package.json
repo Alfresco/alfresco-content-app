@@ -92,7 +92,7 @@
     "@angular/language-service": "20.3.25",
     "@cspell/eslint-plugin": "^10.0.1",
     "@nx/angular": "23.1.1",
-    "@nx/eslint-plugin": "22.7.8",
+    "@nx/eslint-plugin": "23.1.1",
     "@nx/workspace": "22.5.4",
     "@playwright/test": "^1.61.1",
     "@reportportal/agent-js-playwright": "^5.4.0",
