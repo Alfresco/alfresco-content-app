@@ -198,6 +198,17 @@ jobs:
           suite-attempts: '2'
         env:
           PLAYWRIGHT_BROWSER: ${{ matrix.browser }}
+          E2E_BLOB_REPORT: 'true'
+          PLAYWRIGHT_BLOB_DIR: blob-report
+
+      - name: Upload blob report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: blob-${{ matrix.browser }}-${{ matrix.e2e-suites.name }}
+          path: blob-report
+          if-no-files-found: ignore
+          retention-days: 3
 
       - name: Debug Ingress Controller Logs
         if: always() && steps.deploy-local-acs.outcome == 'success'

@@ -64,3 +64,29 @@ jobs:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
       QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+
+  report-to-teams:
+    name: "Aggregate results and notify Teams"
+    needs: [chrome, firefox, webkit, msedge]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Before install
+        uses: ./.github/actions/before-install
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download all blob reports
+        uses: actions/download-artifact@v7
+        with:
+          pattern: blob-*
+          path: all-blobs
+
+      - name: Aggregate results and post Teams report
+        env:
+          TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_E2E_WEBHOOK_URL }}
+        run: node .github/scripts/e2e-teams-report.js
