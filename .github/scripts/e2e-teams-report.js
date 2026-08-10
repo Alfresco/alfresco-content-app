@@ -233,7 +233,7 @@ function buildCard({ suiteStats, browserStats }) {
     $schema: 'http://adaptivecards.io/schemas/adaptive-card.json',
     version: '1.5',
     body: [
-      { type: 'TextBlock', size: 'Large', weight: 'Bolder', text: `Nightly E2E — ${date}` },
+      { type: 'TextBlock', size: 'Large', weight: 'Bolder', text: `ACA Cron Multibrowser Workflow - ${date}` },
       {
         type: 'FactSet',
         facts: [
