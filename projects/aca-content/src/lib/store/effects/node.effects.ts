@@ -364,7 +364,8 @@ export class NodeEffects {
             .subscribe(() => this.store.dispatch(new SetInfoDrawerStateAction(true)));
 
           this.activatedRoute.queryParams.pipe(take(1)).subscribe((params) => {
-            const location = params.location || this.router.url;
+            const inViewer = this.router.url.includes('viewer:');
+            const location = inViewer ? this.router.url : params.location || this.router.url;
             const sanitizedLocation = this.sanitizer.sanitize(SecurityContext.URL, location);
 
             if (action?.payload) {

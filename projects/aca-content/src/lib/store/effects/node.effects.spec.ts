@@ -678,6 +678,25 @@ describe('NodeEffects', () => {
         jasmine.objectContaining({ ...new NavigateUrlAction('repository/details/node-id?location=test-page') })
       );
     });
+
+    it('should use the current url as location when opened from the viewer', () => {
+      spyOn(store, 'dispatch').and.callThrough();
+      spyOnProperty(router, 'url', 'get').and.returnValue('personal-files/(viewer:view/node-id)');
+      Object.defineProperties(router, {
+        events: {
+          value: of(new NavigationEnd(1, 'personal-files/(viewer:view/node-id)', ''))
+        },
+        navigateByUrl: {
+          value: jasmine.createSpy('navigateByUrl')
+        }
+      });
+      const node = { entry: { isFile: true, id: 'node-id' } } as NodeEntry;
+
+      store.dispatch(new ExpandInfoDrawerAction(node));
+      expect(store.dispatch).toHaveBeenCalledWith(
+        jasmine.objectContaining({ ...new NavigateUrlAction('personal-files/details/node-id?location=personal-files/(viewer:view/node-id)') })
+      );
+    });
   });
 
   describe('nodeInformation$', () => {
