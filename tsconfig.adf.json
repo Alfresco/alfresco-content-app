@@ -49,7 +49,6 @@
       "@babel/runtime": ["./node_modules/@babel/runtime"],
       "@babel/runtime/*": ["./node_modules/@babel/runtime/*"],
       "brace-expansion": ["./node_modules/brace-expansion"],
-      "brace-expansion/*": ["./node_modules/brace-expansion/*"]
     }
   },
   "exclude": ["node_modules"],
