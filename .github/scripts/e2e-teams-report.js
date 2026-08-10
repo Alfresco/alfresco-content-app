@@ -120,10 +120,11 @@ function readExcludeJson(suite) {
 function collect() {
   const suiteStats = new Map();
   const browserStats = new Map(BROWSERS.map((b) => [b, emptyCounts()]));
+  const browserSuiteStats = new Map(BROWSERS.map((b) => [b, new Map()]));
   const suiteBrowsers = new Map();
 
   if (!fs.existsSync(BLOBS_DIR)) {
-    return { suiteStats, browserStats };
+    return { suiteStats, browserStats, browserSuiteStats };
   }
 
   for (const dirName of fs.readdirSync(BLOBS_DIR)) {
@@ -144,9 +145,14 @@ function collect() {
     suiteBrowsers.get(suite).add(browser);
     addCounts(suiteStats.get(suite), stats);
     addCounts(browserStats.get(browser), stats);
+
+    const bsMap = browserSuiteStats.get(browser);
+    if (!bsMap.has(suite)) {
+      bsMap.set(suite, emptyCounts());
+    }
+    addCounts(bsMap.get(suite), stats);
   }
 
-  // Excluded tests never reach the blob report, so add them from the exclude.tests.json files.
   for (const [suite, browsers] of suiteBrowsers) {
     const excludeJson = readExcludeJson(suite);
     if (!excludeJson) {
@@ -157,64 +163,128 @@ function collect() {
       const count = excludedForBrowser(excludeJson, browser);
       suiteExcluded += count;
       browserStats.get(browser).excluded += count;
+      const bsMap = browserSuiteStats.get(browser);
+      if (bsMap.has(suite)) {
+        bsMap.get(suite).excluded += count;
+      }
     }
     suiteStats.get(suite).excluded += suiteExcluded;
   }
 
-  return { suiteStats, browserStats };
+  return { suiteStats, browserStats, browserSuiteStats };
 }
 
-function textCell(text, opts = {}) {
+function tableCell(text, opts = {}) {
   return {
-    type: 'TextBlock',
-    text: String(text),
-    wrap: true,
-    spacing: 'None',
-    ...opts
+    type: 'TableCell',
+    verticalContentAlignment: 'Center',
+    items: [{ type: 'TextBlock', text: String(text), wrap: true, weight: 'Bolder', size: 'Medium', horizontalAlignment: 'Center', ...opts }]
   };
 }
 
-function row(cells, weights = [3, 1, 1, 1, 1, 1]) {
-  return {
-    type: 'ColumnSet',
-    columns: cells.map((cell, index) => ({
-      type: 'Column',
-      width: String(weights[index]),
-      items: [cell]
-    }))
-  };
-}
-
-function buildDetailsRows(suiteStats) {
-  const rows = [
-    row([
-      textCell('Suite', { weight: 'Bolder' }),
-      textCell('Run', { weight: 'Bolder' }),
-      textCell('Pass', { weight: 'Bolder' }),
-      textCell('Fail', { weight: 'Bolder' }),
-      textCell('Skip', { weight: 'Bolder' }),
-      textCell('Excl', { weight: 'Bolder' })
-    ])
+function buildBrowserTable(browserStats) {
+  const columns = [
+    { width: 3 },
+    { width: 1 },
+    { width: 1 },
+    { width: 1 },
+    { width: 1 },
+    { width: 1 }
   ];
 
-  for (const suite of [...suiteStats.keys()].sort()) {
-    const c = suiteStats.get(suite);
-    rows.push(
-      row([
-        textCell(suite),
-        textCell(c.run),
-        textCell(c.passed, { color: 'Good' }),
-        textCell(c.failed, { color: c.failed > 0 ? 'Attention' : 'Default' }),
-        textCell(c.skipped, { color: 'Warning' }),
-        textCell(c.excluded)
-      ])
-    );
-  }
+  const headerRow = {
+    type: 'TableRow',
+    cells: [
+      tableCell('Browser', { horizontalAlignment: 'Left' }),
+      tableCell('🔢 Run'),
+      tableCell('✅ Pass'),
+      tableCell('❌ Fail'),
+      tableCell('⏭️ Skip'),
+      tableCell('🚫 Excl')
+    ]
+  };
 
-  return rows;
+  const rows = BROWSERS.map((browser) => {
+    const c = browserStats.get(browser);
+    return {
+      type: 'TableRow',
+      cells: [
+        tableCell(browser, { horizontalAlignment: 'Left' }),
+        tableCell(c.run),
+        tableCell(c.passed, { color: 'Good' }),
+        tableCell(c.failed, { color: c.failed > 0 ? 'Attention' : 'Default' }),
+        tableCell(c.skipped, { color: c.skipped > 0 ? 'Warning' : 'Default' }),
+        tableCell(c.excluded)
+      ]
+    };
+  });
+
+  return {
+    type: 'Table',
+    gridStyle: 'accent',
+    firstRowAsHeader: true,
+    columns,
+    rows: [headerRow, ...rows]
+  };
 }
 
-function buildCard({ suiteStats, browserStats }) {
+function buildSuiteTable(suiteStats) {
+  const columns = [
+    { width: 3 },
+    { width: 1 },
+    { width: 1 },
+    { width: 1 },
+    { width: 1 },
+    { width: 1 }
+  ];
+
+  const headerRow = {
+    type: 'TableRow',
+    cells: [
+      tableCell('Suite', { horizontalAlignment: 'Left' }),
+      tableCell('🔢 Run'),
+      tableCell('✅ Pass'),
+      tableCell('❌ Fail'),
+      tableCell('⏭️ Skip'),
+      tableCell('🚫 Excl')
+    ]
+  };
+
+  const rows = [...suiteStats.keys()].sort().map((suite) => {
+    const c = suiteStats.get(suite);
+    return {
+      type: 'TableRow',
+      cells: [
+        tableCell(suite, { horizontalAlignment: 'Left' }),
+        tableCell(c.run),
+        tableCell(c.passed, { color: 'Good' }),
+        tableCell(c.failed, { color: c.failed > 0 ? 'Attention' : 'Default' }),
+        tableCell(c.skipped, { color: c.skipped > 0 ? 'Warning' : 'Default' }),
+        tableCell(c.excluded)
+      ]
+    };
+  });
+
+  return {
+    type: 'Table',
+    gridStyle: 'accent',
+    firstRowAsHeader: true,
+    columns,
+    rows: [headerRow, ...rows]
+  };
+}
+
+function buildBrowserSuiteText(suiteMap) {
+  const lines = [];
+  for (const suite of [...suiteMap.keys()].sort()) {
+    const c = suiteMap.get(suite);
+    const failMark = c.failed > 0 ? `❌${c.failed}` : `${c.failed}`;
+    lines.push(`${suite}: 🔢${c.run} ✅${c.passed} ${failMark} ⏭️${c.skipped} 🚫${c.excluded}`);
+  }
+  return lines.join('\n\n');
+}
+
+function buildCard({ suiteStats, browserStats, browserSuiteStats }) {
   const total = emptyCounts();
   for (const c of suiteStats.values()) {
     addCounts(total, c);
@@ -223,10 +293,22 @@ function buildCard({ suiteStats, browserStats }) {
   const date = new Date().toISOString().slice(0, 10);
   const runUrl = `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`;
 
-  const browserFacts = BROWSERS.map((browser) => {
-    const c = browserStats.get(browser);
-    return { title: browser, value: `run ${c.run} · ✅ ${c.passed} · ❌ ${c.failed} · ⏭️ ${c.skipped} · 🚫 ${c.excluded}` };
-  });
+  const browserContainers = BROWSERS.map((browser) => ({
+    type: 'Container',
+    id: `details-${browser}`,
+    isVisible: false,
+    separator: true,
+    items: [
+      { type: 'TextBlock', weight: 'Bolder', text: `${browser} — per suite`, spacing: 'Medium' },
+      { type: 'TextBlock', text: buildBrowserSuiteText(browserSuiteStats.get(browser)), wrap: true, size: 'Small' }
+    ]
+  }));
+
+  const browserToggleActions = BROWSERS.map((browser) => ({
+    type: 'Action.ToggleVisibility',
+    title: browser,
+    targetElements: [`details-${browser}`]
+  }));
 
   return {
     type: 'AdaptiveCard',
@@ -244,19 +326,13 @@ function buildCard({ suiteStats, browserStats }) {
           { title: 'Excluded 🚫', value: String(total.excluded) }
         ]
       },
-      { type: 'TextBlock', weight: 'Bolder', text: 'Per browser', separator: true },
-      { type: 'FactSet', facts: browserFacts },
-      {
-        type: 'Container',
-        id: 'suiteDetails',
-        isVisible: false,
-        separator: true,
-        items: [{ type: 'TextBlock', weight: 'Bolder', text: 'Per suite' }, ...buildDetailsRows(suiteStats)]
-      }
+      { type: 'TextBlock', weight: 'Bolder', text: 'Per browser', separator: true, spacing: 'Medium' },
+      buildBrowserTable(browserStats),
+      ...browserContainers
     ],
     actions: [
-      { type: 'Action.ToggleVisibility', title: 'Show per-suite details', targetElements: ['suiteDetails'] },
-      { type: 'Action.OpenUrl', title: 'Open workflow run', url: runUrl }
+      ...browserToggleActions,
+      { type: 'Action.OpenUrl', title: 'Open run', url: runUrl }
     ]
   };
 }

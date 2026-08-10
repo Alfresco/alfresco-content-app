@@ -63,7 +63,6 @@ export const getReporter = (): ReporterDescription[] => {
 
   const reporters: ReporterDescription[] = [['@reportportal/agent-js-playwright', getReportPortalConfig()], ['github']];
 
-  // Blob report is enabled only for cron multibrowser runs, so results can be merged and summarised for the Teams report.
   if (env.E2E_BLOB_REPORT === 'true') {
     reporters.push(['blob', { outputDir: env.PLAYWRIGHT_BLOB_DIR || 'blob-report' }]);
   }
