@@ -199,14 +199,14 @@ jobs:
         env:
           PLAYWRIGHT_BROWSER: ${{ matrix.browser }}
           E2E_BLOB_REPORT: 'true'
-          PLAYWRIGHT_BLOB_DIR: blob-report
+          PLAYWRIGHT_BLOB_DIR: ${{ github.workspace }}/blob-report
 
       - name: Upload blob report
         if: always()
         uses: actions/upload-artifact@v7
         with:
           name: blob-${{ matrix.browser }}-${{ matrix.e2e-suites.name }}
-          path: blob-report
+          path: ${{ github.workspace }}/blob-report
           if-no-files-found: ignore
           retention-days: 3
 

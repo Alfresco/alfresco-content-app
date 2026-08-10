@@ -262,7 +262,7 @@ function buildCard({ suiteStats, browserStats }) {
 }
 
 async function postToTeams(card) {
-  const webhook = process.env.TEAMS_WEBHOOK_URL;
+  const webhook = process.env.TEAMS_WEBHOOK_URL || process.env.TEAMS_E2E_WEBHOOK_URL;
   if (!webhook) {
     console.warn('TEAMS_WEBHOOK_URL is not set, skipping Teams notification.');
     return;
