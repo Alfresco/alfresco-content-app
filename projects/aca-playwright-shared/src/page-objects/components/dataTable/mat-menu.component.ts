@@ -57,15 +57,19 @@ export class MatMenuComponent extends BaseComponent {
     return menuElement.isVisible();
   }
 
-  async verifyActualMoreActions(expectedToolbarMore: string[]): Promise<void> {
+  async getActualMoreActions(): Promise<string[]> {
     await this.getRoot().waitFor();
     const menus = await this.getChild('[role="menuitem"]').all();
-    const actualMoreActions: string[] = await Promise.all(
+    return Promise.all(
       menus.map(async (button) => {
         const title = await button.locator('span span').innerText();
         return title || '';
       })
     );
+  }
+
+  async verifyActualMoreActions(expectedToolbarMore: string[]): Promise<void> {
+    const actualMoreActions = await this.getActualMoreActions();
     for (const action of expectedToolbarMore) {
       expect(
         actualMoreActions.includes(action),

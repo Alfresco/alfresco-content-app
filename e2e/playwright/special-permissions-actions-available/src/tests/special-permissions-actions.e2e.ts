@@ -117,6 +117,7 @@ test.describe('Special permissions : ', () => {
     fileDocxFavId = (await managerFileActions.uploadFileWithRename(TEST_FILES.DOCX.path, testData.fileDocxFav.name, docLibId)).entry.id;
     await managerNodeActions.createFile(testData.file.name, docLibId, '', '', '', true, ['cm:versionable']);
     fileFavId = (await managerNodeActions.createFile(testData.fileFav.name, docLibId, '', '', '', true, ['cm:versionable'])).entry.id;
+    await managerNodeActions.createFile(testData.fileNotVersionable.name, docLibId, '', '', '', true, []);
     fileDocxSharedId = (await managerFileActions.uploadFileWithRename(TEST_FILES.DOCX.path, testData.fileDocxShared.name, docLibId)).entry.id;
     fileDocxSharedFavId = (await managerFileActions.uploadFileWithRename(TEST_FILES.DOCX.path, testData.fileDocxSharedFav.name, docLibId)).entry.id;
     fileSharedId = (await managerNodeActions.createFile(testData.fileShared.name, docLibId, '', '', '', true, ['cm:versionable'])).entry.id;
