@@ -24,11 +24,17 @@ runs:
         branch_name: ${{ env.BRANCH_NAME }}
         dry-run: ${{ inputs.dry-run }}
 
+    - name: Install dependencies
+      shell: bash
+      run: pnpm install --frozen-lockfile
+
+    - name: Security audit
+      shell: bash
+      run: pnpm audit --audit-level=critical
+
     - name: Build Libraries
       shell: bash
-      run: |
-        pnpm install --frozen-lockfile
-        pnpm ci:build:many
+      run: pnpm ci:build:many
 
     - uses: actions/setup-node@v7
       name: setup GH registry
