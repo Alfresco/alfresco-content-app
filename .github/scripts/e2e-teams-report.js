@@ -46,7 +46,7 @@ const SUITE_TO_FOLDER = { 'special-permissions': 'special-permissions-actions-av
 const PLAYWRIGHT_BIN = path.join('node_modules', '.bin', 'playwright');
 
 function emptyCounts() {
-  return { run: 0, passed: 0, failed: 0, skipped: 0, excluded: 0 };
+  return { run: 0, passed: 0, failed: 0, skipped: 0, excluded: 0, excludedOwn: 0 };
 }
 
 function addCounts(target, source) {
@@ -55,6 +55,7 @@ function addCounts(target, source) {
   target.failed += source.failed;
   target.skipped += source.skipped;
   target.excluded += source.excluded;
+  target.excludedOwn += source.excludedOwn;
 }
 
 /** Parse `blob-<browser>-<suite>` artifact directory names. */
@@ -84,7 +85,7 @@ function readStats(artifactDir) {
     const passed = (stats.expected || 0) + (stats.flaky || 0);
     const failed = stats.unexpected || 0;
     const skipped = stats.skipped || 0;
-    return { run: passed + failed + skipped, passed, failed, skipped, excluded: 0 };
+    return { run: passed + failed + skipped, passed, failed, skipped, excluded: 0, excludedOwn: 0 };
   } catch (error) {
     console.warn(`Could not read blob report in ${artifactDir}: ${error instanceof Error ? error.message : String(error)}`);
     return null;
@@ -95,16 +96,18 @@ function readStats(artifactDir) {
 
 /** Count excluded test cases for a suite/browser, mirroring getExcludedTestsRegExpArray. */
 function excludedForBrowser(excludeJson, browser) {
-  const ids = new Set();
-  const browserKeys = ['all', 'firefox', 'chromium', 'webkit', 'msedge'];
-  if (excludeJson.all && typeof excludeJson.all === 'object') {
-    Object.keys(excludeJson.all).forEach((id) => ids.add(id));
-  }
+  const browserKeys = ['firefox', 'chromium', 'webkit', 'msedge'];
+  const allCount = excludeJson.all && typeof excludeJson.all === 'object' ? Object.keys(excludeJson.all).length : 0;
+
+  let ownCount = 0;
   const key = browserKeys.find((k) => k.toLowerCase() === browser.toLowerCase());
   if (key && excludeJson[key] && typeof excludeJson[key] === 'object') {
-    Object.keys(excludeJson[key]).forEach((id) => ids.add(id));
+    // Browser-specific ids not already covered by the 'all' bucket.
+    const allIds = new Set(excludeJson.all ? Object.keys(excludeJson.all) : []);
+    ownCount = Object.keys(excludeJson[key]).filter((id) => !allIds.has(id)).length;
   }
-  return ids.size;
+
+  return { total: allCount + ownCount, own: ownCount };
 }
 
 function readExcludeJson(suite) {
@@ -160,12 +163,14 @@ function collect() {
     }
     let suiteExcluded = 0;
     for (const browser of browsers) {
-      const count = excludedForBrowser(excludeJson, browser);
-      suiteExcluded += count;
-      browserStats.get(browser).excluded += count;
+      const { total, own } = excludedForBrowser(excludeJson, browser);
+      suiteExcluded += total;
+      browserStats.get(browser).excluded += total;
+      browserStats.get(browser).excludedOwn += own;
       const bsMap = browserSuiteStats.get(browser);
       if (bsMap.has(suite)) {
-        bsMap.get(suite).excluded += count;
+        bsMap.get(suite).excluded += total;
+        bsMap.get(suite).excludedOwn += own;
       }
     }
     suiteStats.get(suite).excluded += suiteExcluded;
@@ -189,6 +194,7 @@ function buildBrowserTable(browserStats) {
     { width: 1 },
     { width: 1 },
     { width: 1 },
+    { width: 1 },
     { width: 1 }
   ];
 
@@ -200,7 +206,8 @@ function buildBrowserTable(browserStats) {
       tableCell('✅ Pass'),
       tableCell('❌ Fail'),
       tableCell('⏭️ Skip'),
-      tableCell('🚫 Excl')
+      tableCell('🚫 Excl'),
+      tableCell('🚫 Own')
     ]
   };
 
@@ -214,53 +221,8 @@ function buildBrowserTable(browserStats) {
         tableCell(c.passed, { color: 'Good' }),
         tableCell(c.failed, { color: c.failed > 0 ? 'Attention' : 'Default' }),
         tableCell(c.skipped, { color: c.skipped > 0 ? 'Warning' : 'Default' }),
-        tableCell(c.excluded)
-      ]
-    };
-  });
-
-  return {
-    type: 'Table',
-    gridStyle: 'accent',
-    firstRowAsHeader: true,
-    columns,
-    rows: [headerRow, ...rows]
-  };
-}
-
-function buildSuiteTable(suiteStats) {
-  const columns = [
-    { width: 3 },
-    { width: 1 },
-    { width: 1 },
-    { width: 1 },
-    { width: 1 },
-    { width: 1 }
-  ];
-
-  const headerRow = {
-    type: 'TableRow',
-    cells: [
-      tableCell('Suite', { horizontalAlignment: 'Left' }),
-      tableCell('🔢 Run'),
-      tableCell('✅ Pass'),
-      tableCell('❌ Fail'),
-      tableCell('⏭️ Skip'),
-      tableCell('🚫 Excl')
-    ]
-  };
-
-  const rows = [...suiteStats.keys()].sort().map((suite) => {
-    const c = suiteStats.get(suite);
-    return {
-      type: 'TableRow',
-      cells: [
-        tableCell(suite, { horizontalAlignment: 'Left' }),
-        tableCell(c.run),
-        tableCell(c.passed, { color: 'Good' }),
-        tableCell(c.failed, { color: c.failed > 0 ? 'Attention' : 'Default' }),
-        tableCell(c.skipped, { color: c.skipped > 0 ? 'Warning' : 'Default' }),
-        tableCell(c.excluded)
+        tableCell(c.excluded),
+        tableCell(c.excludedOwn, { color: c.excludedOwn > 0 ? 'Warning' : 'Default' })
       ]
     };
   });
@@ -279,9 +241,24 @@ function buildBrowserSuiteText(suiteMap) {
   for (const suite of [...suiteMap.keys()].sort()) {
     const c = suiteMap.get(suite);
     const failMark = c.failed > 0 ? `❌${c.failed}` : `${c.failed}`;
-    lines.push(`${suite}: 🔢${c.run} ✅${c.passed} ${failMark} ⏭️${c.skipped} 🚫${c.excluded}`);
+    lines.push(`${suite}: 🔢${c.run} ✅${c.passed} ${failMark} ⏭️${c.skipped} 🚫${c.excluded} (own ${c.excludedOwn})`);
   }
   return lines.join('\n\n');
+}
+
+const FAILURE_ALERT_THRESHOLD_PCT = 2;
+
+/** Optional @mention block for the alert, if TEAMS_ALERT_MENTION_ID/NAME are set (needs a Teams UPN/AAD id). */
+function buildMention() {
+  const id = process.env.TEAMS_ALERT_MENTION_ID;
+  const name = process.env.TEAMS_ALERT_MENTION_NAME;
+  if (!id || !name) {
+    return null;
+  }
+  return {
+    tag: `<at>${name}</at>`,
+    entity: { type: 'mention', text: `<at>${name}</at>`, mentioned: { id, name } }
+  };
 }
 
 function buildCard({ suiteStats, browserStats, browserSuiteStats }) {
@@ -292,6 +269,9 @@ function buildCard({ suiteStats, browserStats, browserSuiteStats }) {
 
   const date = new Date().toISOString().slice(0, 10);
   const runUrl = `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`;
+
+  const failedPct = total.run > 0 ? (total.failed / total.run) * 100 : 0;
+  const alertTriggered = failedPct > FAILURE_ALERT_THRESHOLD_PCT;
 
   const browserContainers = BROWSERS.map((browser) => ({
     type: 'Container',
@@ -310,31 +290,52 @@ function buildCard({ suiteStats, browserStats, browserSuiteStats }) {
     targetElements: [`details-${browser}`]
   }));
 
-  return {
+  const body = [
+    { type: 'TextBlock', size: 'Large', weight: 'Bolder', text: `ACA Cron Multibrowser Workflow - ${date}` }
+  ];
+
+  const mention = alertTriggered ? buildMention() : null;
+  if (alertTriggered) {
+    const alertText = `⚠️ Failure rate ${failedPct.toFixed(1)}% exceeds ${FAILURE_ALERT_THRESHOLD_PCT}% threshold${mention ? ` — ${mention.tag}` : ''}`;
+    body.push({
+      type: 'TextBlock',
+      text: alertText,
+      wrap: true,
+      weight: 'Bolder',
+      color: 'Attention',
+      size: 'Medium'
+    });
+  }
+
+  body.push(
+    {
+      type: 'FactSet',
+      facts: [
+        { title: 'Total run', value: String(total.run) },
+        { title: 'Passed ✅', value: String(total.passed) },
+        { title: 'Failed ❌', value: String(total.failed) },
+        { title: 'Skipped ⏭️', value: String(total.skipped) },
+        { title: 'Excluded 🚫', value: String(total.excluded) }
+      ]
+    },
+    { type: 'TextBlock', weight: 'Bolder', text: 'Per browser', separator: true, spacing: 'Medium' },
+    buildBrowserTable(browserStats),
+    ...browserContainers
+  );
+
+  const card = {
     type: 'AdaptiveCard',
     $schema: 'http://adaptivecards.io/schemas/adaptive-card.json',
     version: '1.5',
-    body: [
-      { type: 'TextBlock', size: 'Large', weight: 'Bolder', text: `ACA Cron Multibrowser Workflow - ${date}` },
-      {
-        type: 'FactSet',
-        facts: [
-          { title: 'Total run', value: String(total.run) },
-          { title: 'Passed ✅', value: String(total.passed) },
-          { title: 'Failed ❌', value: String(total.failed) },
-          { title: 'Skipped ⏭️', value: String(total.skipped) },
-          { title: 'Excluded 🚫', value: String(total.excluded) }
-        ]
-      },
-      { type: 'TextBlock', weight: 'Bolder', text: 'Per browser', separator: true, spacing: 'Medium' },
-      buildBrowserTable(browserStats),
-      ...browserContainers
-    ],
-    actions: [
-      ...browserToggleActions,
-      { type: 'Action.OpenUrl', title: 'Open run', url: runUrl }
-    ]
+    body,
+    actions: [...browserToggleActions, { type: 'Action.OpenUrl', title: 'Open run', url: runUrl }]
   };
+
+  if (mention) {
+    card.msteams = { entities: [mention.entity] };
+  }
+
+  return card;
 }
 
 async function postToTeams(card) {
