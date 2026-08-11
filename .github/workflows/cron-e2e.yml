@@ -81,12 +81,23 @@ jobs:
         run: npm ci --ignore-scripts
 
       - name: Download all blob reports
+        id: download-blobs
+        continue-on-error: true
+        uses: actions/download-artifact@v7
+        with:
+          pattern: blob-*
+          path: all-blobs
+
+      - name: Retry blob download on failure
+        if: steps.download-blobs.outcome == 'failure'
+        continue-on-error: true
         uses: actions/download-artifact@v7
         with:
           pattern: blob-*
           path: all-blobs
 
       - name: Aggregate results and post Teams report
+        continue-on-error: true
         env:
           TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_E2E_WEBHOOK_URL }}
         run: node .github/scripts/e2e-teams-report.js

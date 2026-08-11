@@ -86,7 +86,7 @@ function readStats(artifactDir) {
     const skipped = stats.skipped || 0;
     return { run: passed + failed + skipped, passed, failed, skipped, excluded: 0 };
   } catch (error) {
-    console.warn(`Could not read blob report in ${artifactDir}: ${error.message}`);
+    console.warn(`Could not read blob report in ${artifactDir}: ${error instanceof Error ? error.message : String(error)}`);
     return null;
   } finally {
     fs.rmSync(outFile, { force: true });
