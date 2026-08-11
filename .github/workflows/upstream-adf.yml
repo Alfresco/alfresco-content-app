@@ -123,7 +123,7 @@ jobs:
       - name: setup PNPM
         uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271
       - name: node
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version-file: '.nvmrc'
           cache: 'pnpm'
