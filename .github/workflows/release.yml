@@ -61,7 +61,7 @@ jobs:
           fetch-depth: 0
 
       - uses: ./.github/actions/setup
-      - run: npm ci
+      - run: npm ci --ignore-scripts
       - run: npm run affected:lint -- --base=origin/develop
       - run: npm run stylelint
 
@@ -83,7 +83,7 @@ jobs:
           fetch-depth: 0
 
       - uses: ./.github/actions/before-install
-      - run: npm ci
+      - run: npm ci --ignore-scripts
       - run: npm run affected:test -- --browsers=ChromeHeadless --watch=false $TEST_OPTS --base=origin/develop
 
   publish-docker-registry:
