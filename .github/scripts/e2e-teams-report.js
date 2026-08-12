@@ -202,12 +202,12 @@ function buildBrowserTable(browserStats) {
     type: 'TableRow',
     cells: [
       tableCell('Browser', { horizontalAlignment: 'Left' }),
-      tableCell('🔢 Run'),
-      tableCell('✅ Pass'),
-      tableCell('❌ Fail'),
-      tableCell('⏭️ Skip'),
-      tableCell('🚫 Excl'),
-      tableCell('🚫 Own')
+      tableCell('🔢'),
+      tableCell('✅'),
+      tableCell('❌'),
+      tableCell('⏭️'),
+      tableCell('🚫'),
+      tableCell('🚫🌐')
     ]
   };
 
