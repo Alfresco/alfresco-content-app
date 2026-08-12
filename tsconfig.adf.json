@@ -47,7 +47,7 @@
       "@angular/*": ["./node_modules/@angular/*"],
       "@ngx-translate/*": ["./node_modules/@ngx-translate/*"],
       "@babel/runtime/*": ["./node_modules/@babel/runtime/*"],
-      "brace-expansion": ["./node_modules/brace-expansion"],
+      "brace-expansion": ["./node_modules/brace-expansion"]
     }
   },
   "exclude": ["node_modules"],
