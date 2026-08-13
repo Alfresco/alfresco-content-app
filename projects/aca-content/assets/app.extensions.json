@@ -2298,7 +2298,6 @@
               "cm:auditable",
               "cm:thumbnailModification",
               "cm:content",
-              "cm:author",
               "cm:titled",
               "cm:generalclassifiable",
               "cm:taggable",

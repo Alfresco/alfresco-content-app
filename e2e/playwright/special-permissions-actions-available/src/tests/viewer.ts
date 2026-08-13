@@ -81,6 +81,18 @@ export function viewerTests(userConsumer: string, siteName: string) {
         );
       });
 
+      test('[XAT-19608] Manage Versions is not shown for a file without cm:versionable aspect', async ({ loginPage, myLibrariesPage }) => {
+        await checkViewerActions(
+          loginPage,
+          myLibrariesPage,
+          testData.fileNotVersionable.name,
+          testData.fileNotVersionable.viewerToolbarPrimary,
+          testData.fileNotVersionable.viewerToolbarMore
+        );
+        const actualMoreActions = await myLibrariesPage.matMenu.getActualMoreActions();
+        expect(actualMoreActions.includes('Manage Versions'), 'Manage Versions should not be visible for a non-versionable file').toBe(false);
+      });
+
       test('[XAT-4814] Actions for Consumer on a file Office, shared', async ({ loginPage, myLibrariesPage }) => {
         await checkViewerActions(
           loginPage,
@@ -370,6 +382,21 @@ export function viewerTests(userConsumer: string, siteName: string) {
           testData.fileFav.viewerToolbarPrimary,
           testData.fileFav.viewerToolbarMore
         );
+      });
+
+      test('[XAT-19609] Manage Versions is not shown for a file without cm:versionable aspect - Search Results', async ({
+        loginPage,
+        searchPage
+      }) => {
+        await checkViewerActions(
+          loginPage,
+          searchPage,
+          testData.fileNotVersionable.name,
+          testData.fileNotVersionable.viewerToolbarPrimary,
+          testData.fileNotVersionable.viewerToolbarMore
+        );
+        const actualMoreActions = await searchPage.matMenu.getActualMoreActions();
+        expect(actualMoreActions.includes('Manage Versions'), 'Manage Versions should not be visible for a non-versionable file').toBe(false);
       });
 
       test('[XAT-4838] Actions for Consumer on a file Office, shared', async ({ loginPage, searchPage }) => {

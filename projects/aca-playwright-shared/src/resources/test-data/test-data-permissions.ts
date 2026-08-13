@@ -336,6 +336,25 @@ export const fileSharedFavLocked = {
 export const fileGranularPermission = `file-${random}-granular.txt`;
 export const fileLockedByUser = `file-${random}-my-locked.txt`;
 
+// ---- non-versionable file (no cm:versionable aspect) ----
+
+const consumerNotVersionableToolbarMore = ['Favorite', 'Copy'];
+const consumerNotVersionableContextMenu = ['Share', 'Download', 'View', 'Favorite', 'Copy'];
+const consumerViewerNotVersionableToolbarMore = ['Favorite', 'Copy'];
+
+export const fileNotVersionable = {
+  name: `file-${random}-not-versionable.txt`,
+  description: 'file not shared, not fav, not office, not locked, not versionable - should not show Manage Versions',
+
+  contextMenu: consumerNotVersionableContextMenu,
+  toolbarPrimary: consumerToolbarPrimary,
+  toolbarMore: consumerNotVersionableToolbarMore,
+  viewerToolbarPrimary: consumerViewerToolbarPrimary,
+  viewerToolbarMore: consumerViewerNotVersionableToolbarMore,
+
+  searchToolbarPrimary: searchConsumerToolbarPrimary
+};
+
 // ---- folders ---
 
 const consumerFolderContextMenu = ['Download', 'Favorite', 'Copy'];
