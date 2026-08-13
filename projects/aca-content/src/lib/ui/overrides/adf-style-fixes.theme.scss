@@ -683,21 +683,14 @@
     }
 
     .adf-datatable-cell-header-drag-icon {
+      flex-basis: auto;
       margin-right: -7px;
     }
-  }
 
-  // /**
-  //  * Restore room for header labels in fixed (no-grow) columns. ADF reserves a
-  //  * fixed width for the sort indicator and drag handle in every column header,
-  //  * which truncated short labels such as "Size" in the default 100px no-grow
-  //  * columns. Widen the no-grow columns (header and cells kept in sync so the
-  //  * columns stay aligned) so the labels are fully visible.
-  //  */
-  // .adf-datatable .adf-datatable-cell-header.adf-no-grow-cell,
-  // .adf-datatable .adf-datatable-cell.adf-no-grow-cell {
-  //   min-width: 140px;
-  // }
+    &.adf-sortable .adf-datatable-cell-header-sort-indicator {
+      flex-basis: auto;
+    }
+  }
 
   adf-pagination.adf-pagination {
     background-color: var(--theme-pagination-background-color);
