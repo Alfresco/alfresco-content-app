@@ -61,5 +61,11 @@ export const getReporter = (): ReporterDescription[] => {
     return [['html']];
   }
 
-  return [['@reportportal/agent-js-playwright', getReportPortalConfig()], ['github']];
+  const reporters: ReporterDescription[] = [['@reportportal/agent-js-playwright', getReportPortalConfig()], ['github']];
+
+  if (env.E2E_BLOB_REPORT === 'true') {
+    reporters.push(['blob', { outputDir: env.PLAYWRIGHT_BLOB_DIR || 'blob-report' }]);
+  }
+
+  return reporters;
 };

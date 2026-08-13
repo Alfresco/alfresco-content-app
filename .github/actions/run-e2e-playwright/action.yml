@@ -53,6 +53,8 @@ runs:
 
         for attempt in $(seq 1 "${SUITE_ATTEMPTS:-1}"); do
           echo "Running playwright tests with options $OPTIONS on browser ${PLAYWRIGHT_BROWSER} (suite attempt $attempt/${SUITE_ATTEMPTS:-1})"
+          # Clear any blob report from a previous attempt so only the final attempt is reported.
+          if [ -n "${PLAYWRIGHT_BLOB_DIR:-}" ]; then rm -rf -- "${PLAYWRIGHT_BLOB_DIR}"; fi
           if E2E_TARGET=$OPTIONS npm run ci:e2e; then
             exit 0
           fi
