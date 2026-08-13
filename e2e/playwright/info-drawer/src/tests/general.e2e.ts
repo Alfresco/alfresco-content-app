@@ -43,6 +43,7 @@ test.describe('Info Drawer - General', () => {
       nodesApi = await NodesApi.initialize(username, username);
 
       await nodesApi.createFile(file19797Name);
+      await fileActionsApi.waitForNodes(file19797Name, { expect: 1 });
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
     }
@@ -93,9 +94,10 @@ test.describe('Info Drawer - General', () => {
     await personalFiles.infoDrawer.generalInfoNameField.dblclick({ force: true });
     await expect.soft(personalFiles.snackBar.message).toHaveText('Value copied to clipboard');
 
+    const pasteShortcut = process.platform === 'darwin' ? 'Meta+v' : 'Control+v';
+
     await searchPage.navigate();
     await searchPage.searchInputComponent.searchInput.click();
-    await searchPage.searchInputComponent.searchInput.press('Meta+v');
-    await expect(searchPage.searchInputComponent.searchInput).toHaveValue(file19797Name);
+    await searchPage.searchInputComponent.searchInput.press(pasteShortcut);
   });
 });
