@@ -683,7 +683,12 @@
     }
 
     .adf-datatable-cell-header-drag-icon {
+      flex-basis: auto;
       margin-right: -7px;
+    }
+
+    &.adf-sortable .adf-datatable-cell-header-sort-indicator {
+      flex-basis: auto;
     }
   }
 
