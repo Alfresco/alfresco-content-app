@@ -31,6 +31,7 @@ test.describe('Info Drawer - General', () => {
   let nodesApi: NodesApi;
 
   const username = `user1-${Utils.random()}`;
+  const file19797Name = `file19797-${Utils.random()}.txt`;
 
   test.beforeAll(async () => {
     try {
@@ -40,6 +41,8 @@ test.describe('Info Drawer - General', () => {
       fileActionsApi = await FileActionsApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
       nodesApi = await NodesApi.initialize(username, username);
+
+      await nodesApi.createFile(file19797Name);
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
     }
@@ -78,5 +81,21 @@ test.describe('Info Drawer - General', () => {
 
     await personalFiles.reload({ waitUntil: 'load' });
     await expect(personalFiles.infoDrawer.infoDrawerPanel).toBeHidden();
+  });
+
+  test('[XAT-19797] Double clicking name of a node copies the name to the clipboard', async ({ personalFiles, searchPage }) => {
+    await personalFiles.navigate();
+    await expect(personalFiles.dataTable.getRowByName(file19797Name)).toBeVisible();
+    await personalFiles.dataTable.selectItems(file19797Name);
+    await personalFiles.acaHeader.viewDetails.click();
+    await expect(personalFiles.infoDrawer.infoDrawerPanel).toBeVisible();
+    await personalFiles.infoDrawer.generalInfoNameField.waitFor();
+    await personalFiles.infoDrawer.generalInfoNameField.dblclick({ force: true });
+    await expect.soft(personalFiles.snackBar.message).toHaveText('Value copied to clipboard');
+
+    await searchPage.navigate();
+    await searchPage.searchInputComponent.searchInput.click();
+    await searchPage.searchInputComponent.searchInput.press('Meta+v');
+    await expect(searchPage.searchInputComponent.searchInput).toHaveValue(file19797Name);
   });
 });
