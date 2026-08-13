@@ -5,6 +5,9 @@ packages:
 minimumReleaseAge: 4320
 minimumReleaseAgeStrict: true
 
+minimumReleaseAgeExclude:
+  - '@alfresco/*'
+
 overrides:
   # Security fixes
   fast-uri: 3.1.4

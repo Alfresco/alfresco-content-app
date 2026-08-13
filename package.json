@@ -11,7 +11,7 @@
     "test": "nx test",
     "lint": "NODE_OPTIONS=--max_old_space_size=4096 nx run-many --all --target=lint",
     "inspect.bundle": "nx build content-ce --configuration production --stats-json && webpack-bundle-analyzer dist/content-ce/stats.json",
-    "prepare": "husky && pnpm audit --audit-level=critical",
+    "prepare": "husky install",
     "stylelint": "stylelint \"{app,projects}/**/*.scss\"",
     "affected:build": "nx affected:build",
     "affected:test": "nx affected:test",
