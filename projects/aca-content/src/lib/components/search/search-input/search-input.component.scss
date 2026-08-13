@@ -51,6 +51,18 @@ $search-border-radius: 4px;
     font-size: 16px;
     line-height: calc($search-height / 2);
   }
+
+  @media screen and (width <= 840px) {
+    .app-input-form-field {
+      width: 450px;
+    }
+  }
+
+  @media screen and (width <= 521px) {
+    .app-input-form-field {
+      width: 444px;
+    }
+  }
 }
 
 .aca-search-input--suffix {
@@ -70,18 +82,6 @@ $search-border-radius: 4px;
       height: 18px;
       font-size: 18px;
     }
-  }
-}
-
-@media screen and (width <= 959px) {
-  $search-width-small: 400px;
-
-  .aca-search-input {
-    max-width: $search-width-small;
-  }
-
-  .app-search-container {
-    max-width: $search-width-small;
   }
 }
 

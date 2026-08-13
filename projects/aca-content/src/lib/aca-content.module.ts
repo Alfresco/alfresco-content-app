@@ -62,7 +62,7 @@ import { TagsColumnComponent } from './components/dl-custom-components/tags-colu
 import { UserInfoComponent } from './components/common/user-info/user-info.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ContentManagementService } from './services/content-management.service';
-import { SHELL_NAVBAR_MIN_WIDTH, ShellLayoutComponent } from '@alfresco/adf-core/shell';
+import { SHELL_NAVBAR_MIN_WIDTH, SHELL_NAVBAR_SMALL_SCREEN_BREAKPOINT, ShellLayoutComponent } from '@alfresco/adf-core/shell';
 import { UserMenuComponent } from './components/sidenav/user-menu/user-menu.component';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { SearchResultsRowComponent } from './components/search/search-results-row/search-results-row.component';
@@ -82,6 +82,7 @@ import { IsFeatureSupportedInCurrentAcsPipe } from './pipes/is-feature-supported
     provideFolderRulesExtension(),
     provideTranslations('app', 'assets'),
     { provide: SHELL_NAVBAR_MIN_WIDTH, useValue: 0 },
+    { provide: SHELL_NAVBAR_SMALL_SCREEN_BREAKPOINT, useValue: 793 },
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
       useValue: { closeOnNavigation: true, hasBackdrop: true, autoFocus: true }
