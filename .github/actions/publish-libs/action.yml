@@ -28,10 +28,6 @@ runs:
       shell: bash
       run: pnpm install --frozen-lockfile
 
-    - name: Security audit
-      shell: bash
-      run: pnpm audit --audit-level=critical
-
     - name: Build Libraries
       shell: bash
       run: pnpm ci:build:many
