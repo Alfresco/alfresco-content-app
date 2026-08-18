@@ -22,15 +22,15 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './paths';
-export * from './timeouts';
-export * from './exclude-tests';
-export * from './state-helper';
-export * from './utils';
-export * from './library-errors';
-export * from './config';
-export * from './error-strings';
-export * from './api';
-export * from './logger';
-export * from './repository-test-data';
-export * from './a11y-validators';
+import { PlaywrightTestConfig } from '@playwright/test';
+import { CustomConfig, getGlobalConfig, getExcludedTestsRegExpArray, createSuiteProjects } from '@alfresco/aca-playwright-shared';
+import EXCLUDED_JSON from './exclude.tests.json';
+
+const config: PlaywrightTestConfig<CustomConfig> = {
+  ...getGlobalConfig,
+
+  grepInvert: getExcludedTestsRegExpArray(EXCLUDED_JSON, 'A11y Personal Files'),
+  projects: createSuiteProjects('A11y Personal Files', './src/tests')
+};
+
+export default config;

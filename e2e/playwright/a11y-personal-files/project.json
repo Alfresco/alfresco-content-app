@@ -1,0 +1,32 @@
+{
+  "name": "a11y-personal-files-e2e",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "e2e/playwright/a11y-personal-files/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["playwright test --config=e2e/playwright/a11y-personal-files/playwright.config.ts"]
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "content-ce:serve:production"
+        },
+        "ui": {
+          "args": ["--ui"]
+        },
+        "debug": {
+          "args": ["--debug"]
+        },
+        "headed": {
+          "args": ["--headed"]
+        }
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint"
+    }
+  }
+}
+
