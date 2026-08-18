@@ -16,7 +16,7 @@
             <ng-container *ngIf="isLoading; else searchDoneStatus">{{ 'APP.BROWSE.SEARCH.LOADING' | translate }}</ng-container>
             <ng-template #searchDoneStatus>
               <ng-container *ngIf="totalResults > 0; else noResultsStatus">
-                {{ 'APP.BROWSE.SEARCH.FOUND_RESULTS' | translate: { number: totalResults } }}
+                {{ (totalResults === 1 ? 'APP.BROWSE.SEARCH.FOUND_ONE_RESULT' : 'APP.BROWSE.SEARCH.FOUND_RESULTS') | translate: { number: totalResults } }}
               </ng-container>
               <ng-template #noResultsStatus>{{ 'APP.BROWSE.SEARCH.NO_RESULTS' | translate }}</ng-template>
             </ng-template>

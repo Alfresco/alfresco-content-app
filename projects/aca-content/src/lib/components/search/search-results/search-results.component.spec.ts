@@ -472,6 +472,45 @@ describe('SearchComponent', () => {
     expect(await divider.getOrientation()).toBe('vertical');
   });
 
+  describe('search process status', () => {
+    const getStatusElement = (): HTMLElement => fixture.nativeElement.querySelector('.cdk-visually-hidden');
+
+    it('should have loading status when search is loading', () => {
+      component.isLoading = true;
+      fixture.detectChanges();
+
+      expect(getStatusElement().textContent.trim()).toBe('APP.BROWSE.SEARCH.LOADING');
+    });
+
+    it('should not have loading status when search is not loading', () => {
+      component.isLoading = false;
+      fixture.detectChanges();
+
+      expect(getStatusElement().textContent.trim()).not.toBe('APP.BROWSE.SEARCH.LOADING');
+    });
+
+    it('should have the correct result status when search is complete and results are present', () => {
+      component.isLoading = false;
+      component.totalResults = 1;
+      fixture.detectChanges();
+
+      expect(getStatusElement().textContent.trim()).toBe('APP.BROWSE.SEARCH.FOUND_ONE_RESULT');
+
+      component.totalResults = 5;
+      fixture.detectChanges();
+
+      expect(getStatusElement().textContent.trim()).toBe('APP.BROWSE.SEARCH.FOUND_RESULTS');
+    });
+
+    it('should have no results status when search is complete and no results are present', () => {
+      component.isLoading = false;
+      component.totalResults = 0;
+      fixture.detectChanges();
+
+      expect(getStatusElement().textContent.trim()).toBe('APP.BROWSE.SEARCH.NO_RESULTS');
+    });
+  });
+
   describe('reset button', () => {
     it('should enable the reset button when there are queryFragments', fakeAsync(() => {
       queryBuilder.queryFragmentsUpdate.next({ test: 'test-value' });
