@@ -743,5 +743,21 @@
             "TITLE": "AI Agents",
             "DISCOVERY": "Discovery"
         }
+    },
+    "CHECKOUT": {
+        "ERRORS": {
+            "CHECKOUT": {
+                "400": "This node cannot be checked out. It must be a content (cm:content) node.",
+                "403": "You do not have permission to check out this node.",
+                "409": "This node is already checked out or locked by another user."
+            },
+            "CANCEL_CHECKOUT": {
+                "400": "Checkout cannot be cancelled. The node is not a content node or is not currently checked out.",
+                "403": "You do not have permission to cancel the checkout for this node.",
+                "409": "Failed to cancel checkout. Please try again or contact your IT team."
+            },
+            "404": "Node not found.",
+            "UNKNOWN": "An unexpected error occurred. Please try again or contact your IT team."
+        }
     }
 }

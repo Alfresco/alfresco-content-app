@@ -2410,4 +2410,91 @@ describe('ContentManagementService', () => {
       expect(showErrorSpy).toHaveBeenCalledWith('APP.MESSAGES.ERRORS.GENERIC');
     });
   });
+
+  describe('Checkout operations', () => {
+    const nodeId = 'fake-node-id';
+    const makeApiError = (statusCode: number): Error => new Error(JSON.stringify({ error: { statusCode } }));
+
+    describe('checkout()', () => {
+      it('should return the working copy NodeEntry on success', () => {
+        const fakeEntry = { entry: { id: nodeId } } as NodeEntry;
+        spyOn(nodesApiService, 'checkoutNode').and.returnValue(of(fakeEntry));
+        contentManagementService.checkout(nodeId).subscribe((result) => {
+          expect(nodesApiService.checkoutNode).toHaveBeenCalledWith(nodeId);
+          expect(result).toEqual(fakeEntry);
+        });
+      });
+
+      it('should show 400 error notification', () => {
+        spyOn(nodesApiService, 'checkoutNode').and.returnValue(throwError(() => makeApiError(400)));
+        contentManagementService.checkout(nodeId).subscribe({ next: () => {} });
+        expect(showErrorSpy).toHaveBeenCalledWith('CHECKOUT.ERRORS.CHECKOUT.400');
+      });
+
+      it('should show 403 error notification', () => {
+        spyOn(nodesApiService, 'checkoutNode').and.returnValue(throwError(() => makeApiError(403)));
+        contentManagementService.checkout(nodeId).subscribe({ next: () => {} });
+        expect(showErrorSpy).toHaveBeenCalledWith('CHECKOUT.ERRORS.CHECKOUT.403');
+      });
+
+      it('should show 404 error notification', () => {
+        spyOn(nodesApiService, 'checkoutNode').and.returnValue(throwError(() => makeApiError(404)));
+        contentManagementService.checkout(nodeId).subscribe({ next: () => {} });
+        expect(showErrorSpy).toHaveBeenCalledWith('CHECKOUT.ERRORS.404');
+      });
+
+      it('should show 409 error notification', () => {
+        spyOn(nodesApiService, 'checkoutNode').and.returnValue(throwError(() => makeApiError(409)));
+        contentManagementService.checkout(nodeId).subscribe({ next: () => {} });
+        expect(showErrorSpy).toHaveBeenCalledWith('CHECKOUT.ERRORS.CHECKOUT.409');
+      });
+
+      it('should show UNKNOWN notification for unrecognised status code (500)', () => {
+        spyOn(nodesApiService, 'checkoutNode').and.returnValue(throwError(() => makeApiError(500)));
+        contentManagementService.checkout(nodeId).subscribe({ next: () => {} });
+        expect(showErrorSpy).toHaveBeenCalledWith('CHECKOUT.ERRORS.UNKNOWN');
+      });
+    });
+
+    describe('cancelCheckout()', () => {
+      it('should return the original NodeEntry on success', () => {
+        const fakeEntry = { entry: { id: nodeId } } as NodeEntry;
+        spyOn(nodesApiService, 'cancelCheckoutNode').and.returnValue(of(fakeEntry));
+        contentManagementService.cancelCheckout(nodeId).subscribe((result) => {
+          expect(result).toEqual(fakeEntry);
+          expect(nodesApiService.cancelCheckoutNode).toHaveBeenCalledWith(nodeId);
+        });
+      });
+
+      it('should show 400 error notification', () => {
+        spyOn(nodesApiService, 'cancelCheckoutNode').and.returnValue(throwError(() => makeApiError(400)));
+        contentManagementService.cancelCheckout(nodeId).subscribe({ next: () => {} });
+        expect(showErrorSpy).toHaveBeenCalledWith('CHECKOUT.ERRORS.CANCEL_CHECKOUT.400');
+      });
+
+      it('should show 403 error notification', () => {
+        spyOn(nodesApiService, 'cancelCheckoutNode').and.returnValue(throwError(() => makeApiError(403)));
+        contentManagementService.cancelCheckout(nodeId).subscribe({ next: () => {} });
+        expect(showErrorSpy).toHaveBeenCalledWith('CHECKOUT.ERRORS.CANCEL_CHECKOUT.403');
+      });
+
+      it('should show 404 error notification', () => {
+        spyOn(nodesApiService, 'cancelCheckoutNode').and.returnValue(throwError(() => makeApiError(404)));
+        contentManagementService.cancelCheckout(nodeId).subscribe({ next: () => {} });
+        expect(showErrorSpy).toHaveBeenCalledWith('CHECKOUT.ERRORS.404');
+      });
+
+      it('should show 409 error notification', () => {
+        spyOn(nodesApiService, 'cancelCheckoutNode').and.returnValue(throwError(() => makeApiError(409)));
+        contentManagementService.cancelCheckout(nodeId).subscribe({ next: () => {} });
+        expect(showErrorSpy).toHaveBeenCalledWith('CHECKOUT.ERRORS.CANCEL_CHECKOUT.409');
+      });
+
+      it('should show UNKNOWN notification for unrecognised status code', () => {
+        spyOn(nodesApiService, 'cancelCheckoutNode').and.returnValue(throwError(() => makeApiError(503)));
+        contentManagementService.cancelCheckout(nodeId).subscribe({ next: () => {} });
+        expect(showErrorSpy).toHaveBeenCalledWith('CHECKOUT.ERRORS.UNKNOWN');
+      });
+    });
+  });
 });
