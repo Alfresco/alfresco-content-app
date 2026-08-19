@@ -99,5 +99,6 @@ test.describe('Info Drawer - General', () => {
     await searchPage.navigate();
     await searchPage.searchInputComponent.searchInput.click();
     await searchPage.searchInputComponent.searchInput.press(pasteShortcut);
+    await expect(searchPage.searchInputComponent.searchInput).toHaveValue(file19797Name);
   });
 });
