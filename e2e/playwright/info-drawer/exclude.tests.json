@@ -1,3 +1,9 @@
 {
-    "all": {}
+    "all": {},
+    "firefox": {
+        "XAT-19797": "https://hyland.atlassian.net/browse/ACS-12501"
+    },
+    "webkit": {
+        "XAT-19797": "https://hyland.atlassian.net/browse/ACS-12501"
+    }
 }

@@ -84,7 +84,8 @@ test.describe('Info Drawer - General', () => {
     await expect(personalFiles.infoDrawer.infoDrawerPanel).toBeHidden();
   });
 
-  test('[XAT-19797] Double clicking name of a node copies the name to the clipboard', async ({ personalFiles, searchPage }) => {
+  test('[XAT-19797] Double clicking name of a node copies the name to the clipboard', async ({ personalFiles }) => {
+    await personalFiles.page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
     await personalFiles.navigate();
     await expect(personalFiles.dataTable.getRowByName(file19797Name)).toBeVisible();
     await personalFiles.dataTable.selectItems(file19797Name);
@@ -94,11 +95,7 @@ test.describe('Info Drawer - General', () => {
     await personalFiles.infoDrawer.generalInfoNameField.dblclick({ force: true });
     await expect.soft(personalFiles.snackBar.message).toHaveText('Value copied to clipboard');
 
-    const pasteShortcut = process.platform === 'darwin' ? 'Meta+v' : 'Control+v';
-
-    await searchPage.navigate();
-    await searchPage.searchInputComponent.searchInput.click();
-    await searchPage.searchInputComponent.searchInput.press(pasteShortcut);
-    await expect(searchPage.searchInputComponent.searchInput).toHaveValue(file19797Name);
+    const clipboardText = await personalFiles.page.evaluate(() => navigator.clipboard.readText());
+    expect(clipboardText).toBe(file19797Name);
   });
 });
