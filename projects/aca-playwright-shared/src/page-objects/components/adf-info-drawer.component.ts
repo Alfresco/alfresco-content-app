@@ -86,7 +86,7 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   public generalInfoAccordion = this.getChild('[data-automation-id="adf-metadata-group-properties"]');
   public generalInfoProperties = this.generalInfoAccordion.locator('.adf-property');
   public generalInfoEditButton = this.getChild('[data-automation-id="meta-data-general-info-edit"]');
-  public exifInfoAccordion = this.getChild('[data-automation-id="adf-metadata-group-APP.CONTENT_METADATA.EXIF_GROUP_TITLE"]');
+  public exifInfoAccordion = this.getChild('[data-automation-id="adf-metadata-group-APP.CONTENT_METADATA.EXIF_GROUP_TITLE"]').first();
   public exifInfoProperties = this.exifInfoAccordion.locator('.adf-property');
   public generalInfoNameField = this.getChild('[data-automation-id="card-textitem-value-properties.cm:name"]');
   public generalInfoTitleField = this.getChild('[data-automation-id="card-textitem-value-properties.cm:title"]');
