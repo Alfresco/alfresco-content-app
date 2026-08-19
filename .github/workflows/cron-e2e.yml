@@ -100,4 +100,8 @@ jobs:
         continue-on-error: true
         env:
           TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_E2E_WEBHOOK_URL }}
+          CHROME_RESULT: ${{ needs.chrome.result }}
+          FIREFOX_RESULT: ${{ needs.firefox.result }}
+          WEBKIT_RESULT: ${{ needs.webkit.result }}
+          MSEDGE_RESULT: ${{ needs.msedge.result }}
         run: node .github/scripts/e2e-teams-report.js
