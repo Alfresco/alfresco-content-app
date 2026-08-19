@@ -320,6 +320,14 @@ function buildCard({ suiteStats, browserStats, browserSuiteStats }) {
     },
     { type: 'TextBlock', weight: 'Bolder', text: 'Per browser', separator: true, spacing: 'Medium' },
     buildBrowserTable(browserStats),
+    {
+      type: 'TextBlock',
+      text: '🔢 Total run  •  ✅ Passed  •  ❌ Failed  •  ⏭️ Skipped  •  🚫 Excluded (all)  •  🚫🌐 Excluded (browser-specific)',
+      wrap: true,
+      size: 'Small',
+      isSubtle: true,
+      spacing: 'Small'
+    },
     ...browserContainers
   );
 
@@ -329,6 +337,77 @@ function buildCard({ suiteStats, browserStats, browserSuiteStats }) {
     version: '1.5',
     body,
     actions: [...browserToggleActions, { type: 'Action.OpenUrl', title: 'Open run', url: runUrl }]
+  };
+
+  if (mention) {
+    card.msteams = { entities: [mention.entity] };
+  }
+
+  return card;
+}
+
+function statusLabel(result) {
+  switch (result) {
+    case 'success':
+      return '✅ success';
+    case 'failure':
+      return '❌ failure';
+    case 'cancelled':
+      return '🚫 cancelled';
+    case 'skipped':
+      return '⏭️ skipped';
+    default:
+      return result || 'unknown';
+  }
+}
+
+/**
+ * Card posted when no blob reports were produced, i.e. the build or the local ACS deployment
+ * failed before any tests could run. Avoids sending a misleading all-zero results card.
+ */
+function buildSetupFailureCard() {
+  const date = new Date().toISOString().slice(0, 10);
+  const runUrl = `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`;
+
+  const jobResults = [
+    { browser: 'chrome', result: process.env.CHROME_RESULT },
+    { browser: 'firefox', result: process.env.FIREFOX_RESULT },
+    { browser: 'webkit', result: process.env.WEBKIT_RESULT },
+    { browser: 'msedge', result: process.env.MSEDGE_RESULT }
+  ].filter((job) => job.result);
+
+  const mention = buildMention();
+
+  const body = [
+    { type: 'TextBlock', size: 'Large', weight: 'Bolder', text: `ACA Cron Multibrowser Workflow - ${date}` },
+    {
+      type: 'TextBlock',
+      text: `🛑 Setup failed — no tests were run${mention ? ` — ${mention.tag}` : ''}`,
+      wrap: true,
+      weight: 'Bolder',
+      color: 'Attention',
+      size: 'Medium'
+    },
+    {
+      type: 'TextBlock',
+      text: 'No Playwright blob reports were produced. This usually means the build or the local ACS deployment failed before any tests could run.',
+      wrap: true
+    }
+  ];
+
+  if (jobResults.length) {
+    body.push({
+      type: 'FactSet',
+      facts: jobResults.map((job) => ({ title: job.browser, value: statusLabel(job.result) }))
+    });
+  }
+
+  const card = {
+    type: 'AdaptiveCard',
+    $schema: 'http://adaptivecards.io/schemas/adaptive-card.json',
+    version: '1.5',
+    body,
+    actions: [{ type: 'Action.OpenUrl', title: 'Open run', url: runUrl }]
   };
 
   if (mention) {
@@ -364,11 +443,16 @@ async function postToTeams(card) {
 
 async function main() {
   const results = collect();
-  const card = buildCard(results);
+  const hasResults = results.suiteStats.size > 0;
+  const card = hasResults ? buildCard(results) : buildSetupFailureCard();
   await postToTeams(card);
 }
 
-main().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
+}
+
+module.exports = { buildCard, buildSetupFailureCard, postToTeams, emptyCounts, BROWSERS };
