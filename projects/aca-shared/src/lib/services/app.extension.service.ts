@@ -309,10 +309,14 @@ export class AppExtensionService implements RuleContext {
       return null;
     }
 
-    let presets = {};
-    presets = this.filterDisabled(mergeObjects(presets, ...elements));
-
     const metadata = this.appConfig.config['content-metadata'] || {};
+
+    let presets = mergeObjects({}, ...elements);
+    if (metadata.presets) {
+      presets = mergeObjects(presets, metadata.presets);
+    }
+    presets = this.filterDisabled(presets);
+
     metadata.presets = presets;
 
     this.appConfig.config['content-metadata'] = metadata;

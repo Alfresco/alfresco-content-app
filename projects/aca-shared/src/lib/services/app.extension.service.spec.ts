@@ -128,6 +128,75 @@ describe('AppExtensionService', () => {
       expect(service.contentMetadata).toBeDefined();
     });
 
+    it('should keep content metadata preset settings defined in app.config.json', () => {
+      appConfigService.config['content-metadata'] = {
+        presets: {
+          custom: [
+            {
+              id: 'app.content.metadata.customSetting',
+              readOnlyProperties: ['cm:name', 'cm:title'],
+              readOnlyAspects: ['cm:titled']
+            }
+          ]
+        }
+      };
+
+      applyConfig({
+        ...defaultConfigMock,
+        features: {
+          'content-metadata-presets': [
+            {
+              id: 'app.content.metadata.custom',
+              custom: [
+                {
+                  id: 'app.content.metadata.customSetting',
+                  includeAll: true,
+                  exclude: ['cm:versionable']
+                }
+              ]
+            }
+          ]
+        }
+      });
+
+      const custom = appConfigService.config['content-metadata'].presets.custom;
+
+      expect(custom.length).toBe(1);
+      expect(custom[0].includeAll).toBeTrue();
+      expect(custom[0].exclude).toEqual(['cm:versionable']);
+      expect(custom[0].readOnlyProperties).toEqual(['cm:name', 'cm:title']);
+      expect(custom[0].readOnlyAspects).toEqual(['cm:titled']);
+    });
+
+    it('should not lose extension preset blocks that app.config.json does not override', () => {
+      appConfigService.config['content-metadata'] = {
+        presets: {
+          custom: [{ id: 'app.content.metadata.customSetting', readOnlyProperties: ['cm:name'] }]
+        }
+      };
+
+      applyConfig({
+        ...defaultConfigMock,
+        features: {
+          'content-metadata-presets': [
+            {
+              id: 'app.content.metadata.custom',
+              custom: [
+                { id: 'app.content.metadata.customSetting', includeAll: true },
+                { id: 'app.content.metadata.exifGroup', title: 'EXIF', items: [{ aspect: 'exif:exif', properties: '*' }] }
+              ]
+            }
+          ]
+        }
+      });
+
+      const custom = appConfigService.config['content-metadata'].presets.custom;
+
+      expect(custom.length).toBe(2);
+      expect(custom[0].readOnlyProperties).toEqual(['cm:name']);
+      expect(custom[1].id).toBe('app.content.metadata.exifGroup');
+    });
+
     it('should merge two arrays based on [id] keys', () => {
       const left = [
         {
