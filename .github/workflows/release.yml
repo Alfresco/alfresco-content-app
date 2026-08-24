@@ -50,7 +50,7 @@ jobs:
           bash .github/actions/update-library-versions/update-lib-versions.sh "$VERSION" "false"
 
       - name: install
-        run: npm ci --force
+        run: npm ci
 
       - name: build libraries
         run: npx nx run-many --target=build --projects=aca-content,aca-shared,aca-playwright-shared
