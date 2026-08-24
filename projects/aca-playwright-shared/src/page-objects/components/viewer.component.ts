@@ -53,6 +53,7 @@ export class ViewerComponent extends BaseComponent {
   public nextFileButton = this.getChild('[data-automation-id="adf-toolbar-next-file"]');
   public previousFileButton = this.getChild('[data-automation-id="adf-toolbar-pref-file"]');
   public noPermissionsView = this.getChild('aca-generic-error');
+  public viewDetailsButton = this.page.locator('#adf-viewer-toolbar [title="View Details"]');
 
   toolbar = new AcaHeader(this.page);
 
