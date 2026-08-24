@@ -57,6 +57,7 @@ test.describe('Search → Full Details → Reduced Panel navigation', () => {
       await fileActionsApi.waitForNodes(fileName, { expect: 1 });
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
+      throw error;
     }
   });
 
