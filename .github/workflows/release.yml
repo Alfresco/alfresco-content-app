@@ -4,223 +4,38 @@ run-name: Release workflow triggered from ${{ github.ref_name }} branch
 on:
   workflow_dispatch:
     inputs:
-      publish-to-docker:
-        description: 'Publish to Docker'
-        required: false
-        type: boolean
-        default: true
-      publish-to-quay:
-        description: 'Publish to Quay'
-        required: false
-        type: boolean
-        default: true
-      publish-to-npm:
-        description: 'Publish NPM libraries'
-        required: false
-        type: boolean
-        default: true
-      publish-git-tag:
-        description: 'Publish Git Tag'
-        required: false
-        type: boolean
-        default: true
       npm-tag:
         description: 'NPM tag that libraries will be published with'
         required: false
         type: string
-        default: ''
+        default: 'branch'
       dry-run-release:
         description: 'Enable dry-run'
         required: false
         type: boolean
-        default: true
-  push:
-    branches:
-      - master
-      - develop
+        default: false
 
 permissions:
-  id-token: write  # Required for OIDC
+  id-token: write
   contents: read
 
-env:
-  BASE_URL: ${{ secrets.PIPELINE_ENV_URL }}
-  ADMIN_EMAIL: ${{ secrets.PIPELINE_ADMIN_USERNAME }}
-  ADMIN_PASSWORD: ${{ secrets.PIPELINE_ADMIN_PASSWORD }}
-  PLAYWRIGHT_E2E_HOST: ${{ secrets.PLAYWRIGHT_E2E_HOST }}
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
-  lint:
-    if: github.event_name == 'workflow_dispatch'
-    name: 'lint'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-
-      - name: node
-        uses: actions/setup-node@v6
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run affected:lint -- --base=origin/develop
-      - run: npm run stylelint
-
-  unit-tests:
-    if: github.event_name == 'workflow_dispatch'
-    needs: [lint]
-    name: "Unit tests: ${{ matrix.unit-tests.name }}"
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        unit-tests:
-          - name: "aca-content"
-          - name: "aca-shared"
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-
-      - name: node
-        uses: actions/setup-node@v6
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-      - uses: ./.github/actions/before-install
-      - run: npm ci
-      - run: npm run affected:test -- --browsers=ChromeHeadless --watch=false $TEST_OPTS --base=origin/develop
-
-  publish-docker-registry:
-    if: ${{ always() }}
-    needs: [lint, unit-tests]
-    name: "Publish to Quay"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check previous jobs status
-        if: ${{ inputs.publish-to-quay == 'false' || contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
-        run: exit 1
-
-      - name: Checkout
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-      - name: Setup node
-        uses: actions/setup-node@v6
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-      - uses: ./.github/actions/setup
-        with:
-          npm_tag: ${{ inputs.npm-tag }}
-
-      - name: Get Tag
-        uses: ./.github/actions/get-image-tag
-        with:
-          branch_name: ${{ env.BRANCH_NAME }}
-
-      - name: publish
-        uses: ./.github/actions/publish-image
-        with:
-          registry: quay.io
-          tag_version: ${{ env.TAG_VERSION }}
-          username: ${{ secrets.QUAY_USERNAME }}
-          password: ${{ secrets.QUAY_PASSWORD }}
-          dry-run: ${{ inputs.dry-run-release }}
-
-  publish-to-dockerhub:
-    if: ${{ always() }}
-    needs: [lint, unit-tests]
-    name: "Publish to Dockerhub"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check previous jobs status
-        if: ${{ inputs.publish-to-docker == 'false' || contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
-        run: exit 1
-
-      - name: Checkout
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-      - name: Setup node
-        uses: actions/setup-node@v6
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-      - uses: ./.github/actions/setup
-        with:
-          npm_tag: ${{ inputs.npm-tag }}
-
-      - name: Get Tag
-        uses: ./.github/actions/get-image-tag
-        with:
-          branch_name: ${{ env.BRANCH_NAME }}
-
-      - name: publish
-        uses: ./.github/actions/publish-image
-        with:
-          registry: docker.io
-          tag_version: ${{ env.TAG_VERSION }}
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          dry-run: ${{ inputs.dry-run-release }}
-
-  publish-git-tag:
-    if: ${{ always() }}
-    needs: [lint, unit-tests]
-    name: "Publish Git Tag"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check previous jobs status
-        if: ${{ inputs.publish-git-tag == 'false' || contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
-        run: exit 1
-
-      - name: Checkout
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-      - name: Setup node
-        uses: actions/setup-node@v6
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-      - uses: ./.github/actions/setup
-        with:
-          npm_tag: ${{ inputs.npm-tag }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/configure-git-author@3768f40c71f5f9b0c4e6a507c8f87ed40d9b60c9 #v12.9.0
-        with:
-          username: ${{ vars.BOT_GITHUB_USERNAME }}
-          email: ${{ vars.BOT_GITHUB_EMAIL }}
-          global: true
-      - name: publish
-        uses: ./.github/actions/git-tag
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch_name: ${{ env.BRANCH_NAME }}
-          dry-run: ${{ inputs.dry-run-release }}
-
   publish-libs:
-    if: ${{ always() }}
-    needs: [lint, unit-tests]
-    name: "Publish libs to NPM and GitHub registry"
+    name: 'Publish libs to NPM'
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     permissions:
-      id-token: write  # Required for OIDC
+      id-token: write # Required for OIDC
       contents: read
-      packages: write
     steps:
-      - name: Check previous jobs status
-        if: ${{ inputs.publish-to-npm == 'false' || contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
-        run: exit 1
-
       - name: Checkout
         uses: actions/checkout@v6
         with:
-          fetch-depth: 2
+          fetch-depth: 0
 
       - name: Setup node
         uses: actions/setup-node@v6
@@ -228,34 +43,27 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
 
-      - uses: ./.github/actions/setup
-        with:
-          npm_tag: ${{ inputs.npm-tag }}
+      - name: Set library versions
+        run: |
+          VERSION=$(jq -cr '.version' < package.json)
+          echo "Releasing libraries as $VERSION"
+          bash .github/actions/update-library-versions/update-lib-versions.sh "$VERSION" "false"
 
-      - name: publish
-        uses: ./.github/actions/publish-libs
-        with:
-          branch_name: ${{ env.BRANCH_NAME }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          npm_tag: ${{ env.TAG_NPM }}
-          dry-run: ${{ inputs.dry-run-release }}
+      - name: install
+        run: npm ci --force
 
-  push-translation-keys-to-crowdin:
-    name: Push translations keys to Crowdin
-    if: ${{ github.ref == 'refs/heads/develop' }}
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: read
-      actions: read
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
+      - name: build libraries
+        run: npx nx run-many --target=build --projects=aca-content,aca-shared,aca-playwright-shared
 
-      - name: Push Source Files to Crowdin
-        uses: crowdin/github-action@b4b468cffefb50bdd99dd83e5d2eaeb63c880380 # v2.14.0
+      - uses: actions/setup-node@v6
+        name: setup NPM registry
         with:
-          upload_sources: true
-          upload_sources_args: --delete-obsolete
+          node-version-file: '.nvmrc'
+          registry-url: 'https://registry.npmjs.org'
+          scope: '@alfresco'
+
+      - name: publish to NPM registry
+        run: bash .github/actions/publish-libs/npm-publish.sh "$TAG" "$DRY_RUN"
         env:
-          CROWDIN_TOKEN: ${{ secrets.CROWDIN_TRANSLATIONS_TOKEN }}
+          TAG: ${{ inputs.npm-tag }}
+          DRY_RUN: ${{ inputs.dry-run-release }}
