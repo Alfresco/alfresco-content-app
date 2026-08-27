@@ -24,7 +24,7 @@
 
 import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { SearchResultsComponent } from './search-results.component';
-import { AppConfigService, NotificationService, TranslationService } from '@alfresco/adf-core';
+import { AppConfigService, NotificationService, TranslationService, UnitTestingUtils } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { NavigateToFolder } from '@alfresco/aca-shared/store';
 import { Pagination, SearchRequest } from '@alfresco/js-api';
@@ -45,6 +45,7 @@ import { SavedSearchesContextService } from '../../../services/saved-searches-co
 import { IsFeatureSupportedInCurrentAcsPipe } from '../../../pipes/is-feature-supported.pipe';
 import { MatDividerHarness } from '@angular/material/divider/testing';
 import { MatProgressBarHarness } from '@angular/material/progress-bar/testing';
+import { DebugElement } from '@angular/core';
 
 describe('SearchComponent', () => {
   let component: SearchResultsComponent;
@@ -62,12 +63,14 @@ describe('SearchComponent', () => {
   let showErrorSpy: jasmine.Spy<(message: string, action?: string, interpolateArgs?: any, showAction?: boolean) => MatSnackBarRef<any>>;
   let showInfoSpy: jasmine.Spy<(message: string, action?: string, interpolateArgs?: any, showAction?: boolean) => MatSnackBarRef<any>>;
   let loader: HarnessLoader;
+  let unitTestingUtils: UnitTestingUtils;
 
   const editSavedSearchesSpy = jasmine.createSpy('editSavedSearch');
   const getSavedSearchButton = (): HTMLButtonElement => fixture.nativeElement.querySelector('.aca-content__save-search-action');
   const getResetSearchButton = (): HTMLButtonElement => fixture.nativeElement.querySelector('.aca-content__reset-action');
   const getDividerHarness = () => loader.getHarness(MatDividerHarness);
   const getProgressBarHarnesses = () => loader.getAllHarnesses(MatProgressBarHarness);
+  const getStatusElement = (): DebugElement => unitTestingUtils.getByCSS('.cdk-visually-hidden');
 
   const encodeQuery = (query: any): string => {
     return Buffer.from(JSON.stringify(query)).toString('base64');
@@ -141,6 +144,7 @@ describe('SearchComponent', () => {
 
     fixture.detectChanges();
     loader = TestbedHarnessEnvironment.loader(fixture);
+    unitTestingUtils = new UnitTestingUtils(fixture.debugElement);
   });
 
   afterEach(() => {
@@ -473,20 +477,18 @@ describe('SearchComponent', () => {
   });
 
   describe('search process status', () => {
-    const getStatusElement = (): HTMLElement => fixture.nativeElement.querySelector('.cdk-visually-hidden');
-
     it('should have loading status when search is loading', () => {
       component.isLoading = true;
       fixture.detectChanges();
 
-      expect(getStatusElement().textContent.trim()).toBe('APP.BROWSE.SEARCH.LOADING');
+      expect(getStatusElement().nativeElement.textContent.trim()).toBe('APP.BROWSE.SEARCH.LOADING');
     });
 
     it('should not have loading status when search is not loading', () => {
       component.isLoading = false;
       fixture.detectChanges();
 
-      expect(getStatusElement().textContent.trim()).not.toBe('APP.BROWSE.SEARCH.LOADING');
+      expect(getStatusElement().nativeElement.textContent.trim()).not.toBe('APP.BROWSE.SEARCH.LOADING');
     });
 
     it('should have the correct result status when search is complete and results are present', () => {
@@ -494,12 +496,12 @@ describe('SearchComponent', () => {
       component.totalResults = 1;
       fixture.detectChanges();
 
-      expect(getStatusElement().textContent.trim()).toBe('APP.BROWSE.SEARCH.FOUND_ONE_RESULT');
+      expect(getStatusElement().nativeElement.textContent.trim()).toBe('APP.BROWSE.SEARCH.FOUND_ONE_RESULT');
 
       component.totalResults = 5;
       fixture.detectChanges();
 
-      expect(getStatusElement().textContent.trim()).toBe('APP.BROWSE.SEARCH.FOUND_RESULTS');
+      expect(getStatusElement().nativeElement.textContent.trim()).toBe('APP.BROWSE.SEARCH.FOUND_RESULTS');
     });
 
     it('should have no results status when search is complete and no results are present', () => {
@@ -507,7 +509,7 @@ describe('SearchComponent', () => {
       component.totalResults = 0;
       fixture.detectChanges();
 
-      expect(getStatusElement().textContent.trim()).toBe('APP.BROWSE.SEARCH.NO_RESULTS');
+      expect(getStatusElement().nativeElement.textContent.trim()).toBe('APP.BROWSE.SEARCH.NO_RESULTS');
     });
   });
 
