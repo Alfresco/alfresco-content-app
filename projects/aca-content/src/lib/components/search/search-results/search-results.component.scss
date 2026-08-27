@@ -177,17 +177,6 @@ aca-search-results {
       padding-right: 24px;
     }
 
-    &--visibility_button {
-      margin-right: 8px;
-      cursor: default;
-
-      @include mat.icon-button-overrides(
-        (
-          icon-color: var(--theme-primary-color)
-        )
-      );
-    }
-
     .adf-search-filter {
       min-width: 260px;
       max-width: 320px;
