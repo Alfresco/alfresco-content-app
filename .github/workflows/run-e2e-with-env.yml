@@ -17,7 +17,7 @@ on:
 env:
   BASE_URL: ${{ inputs.url || secrets.PIPELINE_ENV_URL }}
   ADMIN_EMAIL: ${{ secrets.PIPELINE_ADMIN_USERNAME }}
-  ADMIN_PASSWORD: ${{ secrets.PIPELINE_ADMIN_PASSWORD }}
+  ADMIN_PASSWORD: ${{ secrets.FRONTEND_TEST_ADMIN_PASSWORD }}
   HR_USER: hruser
   HR_USER_PASSWORD: ${{ secrets.FRONTEND_TEST_USER_PASSWORD }}
   PLAYWRIGHT_E2E_HOST: ${{ inputs.playwright_e2e_host || inputs.url || secrets.PLAYWRIGHT_E2E_HOST }}
@@ -28,6 +28,31 @@ env:
   RETRY_COUNT: 2
 
 jobs:
+
+  verify-env:
+    name: 'Verify target environment'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify admin credentials against target environment
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X POST "${BASE_URL}/alfresco/api/-default-/public/authentication/versions/1/tickets" \
+            -H "Content-Type: application/json" \
+            -d "{\"userId\":\"${ADMIN_EMAIL}\",\"password\":\"${ADMIN_PASSWORD}\"}")
+
+          if [ "$STATUS" = "403" ] || [ "$STATUS" = "401" ]; then
+            echo "::error::Authentication failed (HTTP $STATUS) for '${ADMIN_EMAIL}' against ${BASE_URL}."
+            echo "::error::The environment is reachable but the admin credentials are wrong for this host."
+            echo "::error::Check that the FRONTEND_TEST_ADMIN_PASSWORD secret matches this environment."
+            exit 1
+          fi
+
+          if [ "$STATUS" != "201" ]; then
+            echo "::error::Unexpected response (HTTP $STATUS) from ${BASE_URL}. Environment may be down."
+            exit 1
+          fi
+
+          echo "Admin credentials verified against ${BASE_URL}."
 
   build:
     name: 'build'
@@ -56,7 +81,7 @@ jobs:
           key: cache-dist-${{ github.run_id }}
 
   e2es-playwright:
-    needs: [build]
+    needs: [build, verify-env]
     name: 'E2E Playwright - ${{ matrix.e2e-suites.name }}'
     runs-on: ubuntu-24.04
     env:
