@@ -25,18 +25,33 @@
 import { LockedByComponent } from './locked-by.component';
 
 describe('LockedByComponent', () => {
-  it('should evaluate label text', () => {
+  it('should show lock owner for a locked file', () => {
     const component = new LockedByComponent();
     component.node = {
       entry: {
+        aspectNames: [],
         properties: {
-          'cm:lockOwner': {
-            displayName: 'owner-name'
-          }
+          'cm:lockOwner': { displayName: 'lock-owner' }
         }
       } as any
     };
     component.ngOnInit();
-    expect(component.text).toBe('owner-name');
+    expect(component.workingCopy).toBeFalse();
+    expect(component.text).toBe('lock-owner');
+  });
+
+  it('should show working copy owner for a working copy', () => {
+    const component = new LockedByComponent();
+    component.node = {
+      entry: {
+        aspectNames: ['cm:workingcopy'],
+        properties: {
+          'cm:workingCopyOwner': { displayName: 'wc-owner' }
+        }
+      } as any
+    };
+    component.ngOnInit();
+    expect(component.workingCopy).toBeTrue();
+    expect(component.text).toBe('wc-owner');
   });
 });

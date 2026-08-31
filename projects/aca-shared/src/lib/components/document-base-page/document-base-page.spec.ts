@@ -266,7 +266,7 @@ describe('Info Drawer state', () => {
     expect(component.imageResolver(null)).toBe(null);
   });
 
-  it('should resolve custom image for locked node', () => {
+  it('should not resolve custom image for locked node', () => {
     const row: any = {
       node: {
         entry: {
@@ -275,7 +275,7 @@ describe('Info Drawer state', () => {
       }
     };
 
-    expect(component.imageResolver(row)).toBe('material-icons://lock');
+    expect(component.imageResolver(row)).toBe(null);
   });
 
   it('should resolve custom image for a library', () => {

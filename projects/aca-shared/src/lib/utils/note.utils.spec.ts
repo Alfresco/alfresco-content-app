@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { isLibrary, isLocked } from './node.utils';
+import { isLibrary, isLocked, isWorkingCopy } from './node.utils';
 
 describe('NodeUtils', () => {
   describe('isLocked', () => {
@@ -75,6 +75,53 @@ describe('NodeUtils', () => {
             properties: {
               'cm:lockType': 'UNKNOWN'
             }
+          } as any
+        })
+      ).toBeFalse();
+    });
+  });
+
+  describe('isWorkingCopy', () => {
+    it('should return [false] if entry is not defined', () => {
+      expect(isWorkingCopy(null)).toBeFalse();
+      expect(isWorkingCopy({ entry: null })).toBeFalse();
+    });
+
+    it('should return [true] when cm:workingcopy aspect is present', () => {
+      expect(
+        isWorkingCopy({
+          entry: {
+            aspectNames: ['cm:workingcopy', 'cm:titled']
+          } as any
+        })
+      ).toBeTrue();
+    });
+
+    it('should return [false] when cm:workingcopy aspect is absent', () => {
+      expect(
+        isWorkingCopy({
+          entry: {
+            aspectNames: ['cm:titled']
+          } as any
+        })
+      ).toBeFalse();
+    });
+
+    it('should return [false] when aspectNames is empty', () => {
+      expect(
+        isWorkingCopy({
+          entry: {
+            aspectNames: []
+          } as any
+        })
+      ).toBeFalse();
+    });
+
+    it('should return [false] when aspectNames is undefined', () => {
+      expect(
+        isWorkingCopy({
+          entry: {
+            aspectNames: undefined
           } as any
         })
       ).toBeFalse();

@@ -39,6 +39,7 @@ import {
   ShareNodeAction,
   ShowLoaderAction,
   UnlockWriteAction,
+  ViewNodeAction,
   ViewNodeVersionAction
 } from '@alfresco/aca-shared/store';
 import { NodeEffects } from '../store/effects/node.effects';
@@ -1625,8 +1626,9 @@ describe('ContentManagementService', () => {
       spyOnOpenUploadNewVersionDialog.and.returnValue(
         of({ action: NewVersionUploaderDataAction.upload, newVersion: mockNewVersion, currentVersion: fakeNode })
       );
+      spyOn(documentListService, 'reload');
       contentManagementService.versionUpdateDialog(fakeNode, fakeFile);
-      expect(spyOnDispatch).toHaveBeenCalledOnceWith(new UnlockWriteAction(mockNewVersion.value));
+      expect(spyOnDispatch).toHaveBeenCalledWith(new UnlockWriteAction(mockNewVersion.value));
     });
 
     it('should unlock node if is locked when uploading a file', () => {
@@ -1635,6 +1637,53 @@ describe('ContentManagementService', () => {
       contentManagementService.versionUpdateDialog(fakeNode, fakeFile);
 
       expect(showErrorSpy).toHaveBeenCalledOnceWith(fakeError);
+    });
+
+    it('should reload document list after upload', () => {
+      const uploadData = {
+        action: NewVersionUploaderDataAction.upload,
+        newVersion: { value: { entry: { id: 'uploaded-id', properties: {} } } },
+        currentVersion: fakeNode
+      };
+      spyOnOpenUploadNewVersionDialog.and.returnValue(of(uploadData));
+      spyOn(documentListService, 'reload');
+
+      contentManagementService.versionUpdateDialog(fakeNode, fakeFile);
+
+      expect(documentListService.reload).toHaveBeenCalled();
+    });
+
+    it('should dispatch RefreshPreviewAction for a regular (non-working-copy) upload', () => {
+      const uploadedEntry = { id: 'uploaded-id', properties: {} };
+      const uploadData = {
+        action: NewVersionUploaderDataAction.upload,
+        newVersion: { value: { entry: uploadedEntry } },
+        currentVersion: fakeNode
+      };
+      spyOnOpenUploadNewVersionDialog.and.returnValue(of(uploadData));
+      spyOn(documentListService, 'reload');
+
+      contentManagementService.versionUpdateDialog(fakeNode, fakeFile);
+
+      expect(spyOnDispatch).toHaveBeenCalledWith(new RefreshPreviewAction(uploadedEntry as Node));
+    });
+
+    it('should dispatch ViewNodeAction when checking in a working copy from the viewer', () => {
+      fakeNode.aspectNames = ['cm:workingcopy'];
+      fakeNode.id = 'wc-id';
+      const uploadedEntry = { id: 'original-id', properties: {} };
+      const uploadData = {
+        action: NewVersionUploaderDataAction.upload,
+        newVersion: { value: { entry: uploadedEntry } },
+        currentVersion: fakeNode
+      };
+      spyOnOpenUploadNewVersionDialog.and.returnValue(of(uploadData));
+      spyOn(documentListService, 'reload');
+      spyOnProperty(router, 'url', 'get').and.returnValue('/personal-files/preview/wc-id');
+
+      contentManagementService.versionUpdateDialog(fakeNode, fakeFile);
+
+      expect(spyOnDispatch).toHaveBeenCalledWith(new ViewNodeAction('original-id', { location: '/personal-files/preview/wc-id' }));
     });
   });
 

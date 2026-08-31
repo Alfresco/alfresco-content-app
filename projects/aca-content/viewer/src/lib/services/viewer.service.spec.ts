@@ -218,4 +218,66 @@ describe('ViewerService', () => {
   it('should return empty array when there are no nodes', async () => {
     expect(await viewerService.getFileIds('', null)).toEqual([]);
   });
+
+  describe('cm:checkedOut filtering for personal-files and libraries', () => {
+    beforeEach(() => {
+      spyOn(preferences, 'get').and.returnValues(...preferencesNoCurSortValues);
+    });
+
+    it('should exclude cm:checkedOut nodes from personal-files results', async () => {
+      const listWithCheckedOut = {
+        list: {
+          entries: [
+            { entry: { id: 'node1', name: 'node 1', aspectNames: [] } },
+            { entry: { id: 'node2', name: 'node 2', aspectNames: ['cm:checkedOut'] } },
+            { entry: { id: 'node3', name: 'node 3', aspectNames: ['cm:titled'] } }
+          ]
+        }
+      } as NodePaging;
+      spyOn(contentApi, 'getNodeChildren').and.returnValue(of(listWithCheckedOut));
+
+      const ids = await viewerService.getFileIds('personal-files', 'folder1');
+
+      expect(ids).toEqual(['node1', 'node3']);
+    });
+
+    it('should exclude cm:checkedOut nodes from libraries results', async () => {
+      const listWithCheckedOut = {
+        list: {
+          entries: [
+            { entry: { id: 'node1', name: 'node 1', aspectNames: ['cm:checkedOut'] } },
+            { entry: { id: 'node2', name: 'node 2', aspectNames: [] } }
+          ]
+        }
+      } as NodePaging;
+      spyOn(contentApi, 'getNodeChildren').and.returnValue(of(listWithCheckedOut));
+
+      const ids = await viewerService.getFileIds('libraries', 'folder1');
+
+      expect(ids).toEqual(['node2']);
+    });
+
+    it('should include nodes when aspectNames is undefined', async () => {
+      const listWithUndefinedAspects = {
+        list: {
+          entries: [{ entry: { id: 'node1', name: 'node 1' } }, { entry: { id: 'node2', name: 'node 2', aspectNames: undefined } }]
+        }
+      } as NodePaging;
+      spyOn(contentApi, 'getNodeChildren').and.returnValue(of(listWithUndefinedAspects));
+
+      const ids = await viewerService.getFileIds('personal-files', 'folder1');
+
+      expect(ids).toEqual(['node1', 'node2']);
+    });
+
+    it('should pass aspectNames in include and fields to getNodeChildren', async () => {
+      spyOn(contentApi, 'getNodeChildren').and.returnValue(of(list as NodePaging));
+
+      await viewerService.getFileIds('personal-files', 'folder1');
+
+      const callArgs = (contentApi.getNodeChildren as jasmine.Spy).calls.mostRecent().args[1];
+      expect(callArgs.include).toEqual(['aspectNames']);
+      expect(callArgs.fields).toContain('aspectNames');
+    });
+  });
 });
