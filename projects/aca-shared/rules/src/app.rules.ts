@@ -24,6 +24,7 @@
 
 import { AppConfigService } from '@alfresco/adf-core';
 import { RuleContext } from '@alfresco/adf-extensions';
+import { NodeEntry } from '@alfresco/js-api';
 import * as navigation from './navigation.rules';
 import * as repository from './repository.rules';
 import { isAdmin } from './user.rules';
@@ -121,9 +122,14 @@ export function canRemoveFavorite(context: RuleContext): boolean {
  * JSON ref: `app.selection.file.canShare`
  */
 export const canShareFile = (context: RuleContext): boolean =>
-  [context.selection.file, !navigation.isTrashcan(context), repository.hasQuickShareEnabled(context), !isShared(context), !isNodeLink(context)].every(
-    Boolean
-  );
+  [
+    context.selection.file,
+    !navigation.isTrashcan(context),
+    repository.hasQuickShareEnabled(context),
+    !isShared(context),
+    !isNodeLink(context),
+    !isLockedOrWorkingCopy(context)
+  ].every(Boolean);
 
 /**
  * Checks if user can perform "Join" or "Cancel Join Request" on a library.
@@ -210,7 +216,7 @@ export function canCreateFolder(context: AcaRuleContext): boolean {
  * JSON ref: `app.selection.canDownload`
  */
 export function canDownloadSelection(context: RuleContext): boolean {
-  if (isNodeLink(context)) {
+  if (context.selection.nodes.some((node) => isLockedOrWorkingCopy(context, node)) || isNodeLink(context)) {
     return false;
   }
   return context.selection.nodes.every((node: any) => node.entry && (node.entry.isFile || node.entry.isFolder || !!node.entry.nodeId));
@@ -320,14 +326,51 @@ export const isWriteLocked = (context: RuleContext): boolean =>
   );
 
 /**
- * Checks if the selected file has **write** or **read-only** locks specified,
- * and that current user is the owner of the lock.
+ * Checks if a node is locked or a working copy. Accepts an optional node argument
+ * so it can be evaluated per-row (e.g. for badges), falling back to context.selection.first.
+ * JSON ref: `app.selection.isLockedOrWorkingCopy`
+ *
+ * Covers:
+ * - `entry.isLocked` — any server-reported lock
+ * - `cm:lockType` property — present when locked via the Lock action
+ * - `cm:workingcopy` aspect — the working copy created on checkout
+ * - `cm:checkedOut` aspect — the original file while its working copy exists
+ *
+ * @param context Rule execution context
+ * @param node Optional node to evaluate; defaults to context.selection.first
+ */
+export function isLockedOrWorkingCopy(context: RuleContext, node?: NodeEntry): boolean {
+  const entry = (node ?? context?.selection?.first)?.entry;
+  if (!entry) {
+    return false;
+  }
+  if (!entry.isFile) {
+    return false;
+  }
+  return (
+    entry.isLocked === true ||
+    !!entry.properties?.['cm:lockType'] ||
+    (entry.aspectNames ?? []).includes('cm:workingcopy') ||
+    (entry.aspectNames ?? []).includes('cm:checkedOut')
+  );
+}
+
+/**
+ * Checks if the current user owns the lock on the selected file.
+ * Handles both regular write/read-only locks (`cm:lockOwner`) and
+ * working copies (`cm:workingCopyOwner`), which have no `cm:lockType` themselves.
  * JSON ref: `app.selection.file.isLockOwner`
  */
-export const isUserWriteLockOwner = (context: RuleContext): boolean =>
-  isWriteLocked(context) &&
-  context.selection.file?.entry.properties['cm:lockOwner'] &&
-  context.selection.file?.entry.properties['cm:lockOwner'].id === context.profile.id;
+export const isUserWriteLockOwner = (context: RuleContext): boolean => {
+  const entry = context.selection.file?.entry;
+  if (!entry) {
+    return false;
+  }
+  if (entry.aspectNames?.includes('cm:workingcopy')) {
+    return entry.properties?.['cm:workingCopyOwner']?.id === context.profile.id;
+  }
+  return isWriteLocked(context) && !!entry.properties?.['cm:lockOwner'] && entry.properties['cm:lockOwner'].id === context.profile.id;
+};
 
 /**
  * Checks if user can lock selected file.
@@ -371,6 +414,9 @@ export function canUploadVersion(context: RuleContext): boolean {
  * @param context Rule execution context
  */
 export const canPrintFile = (context: RuleContext): boolean => {
+  if (isLockedOrWorkingCopy(context)) {
+    return false;
+  }
   const nodeEntry = context.selection.file.entry;
   if (!nodeEntry?.content?.mimeType) {
     return false;
@@ -395,6 +441,7 @@ export const canToggleSharedLink = (context: RuleContext): boolean => [canShareF
  */
 export const canEditAspects = (context: RuleContext): boolean =>
   [
+    !isWorkingCopy(context),
     !isMultiselection(context),
     canUpdateSelectedNode(context),
     !isWriteLocked(context),
@@ -402,8 +449,7 @@ export const canEditAspects = (context: RuleContext): boolean =>
     repository.isMajorVersionAvailable(context, '7')
   ].every(Boolean);
 
-export const canToggleFileLock = (context: RuleContext): boolean =>
-  !isNodeLink(context) && [canLockFile(context) || canUnlockFile(context)].some(Boolean);
+export const canToggleFileLock = (context: RuleContext): boolean => canCheckout(context) || canCancelCheckout(context);
 
 /**
  * @deprecated Uses workarounds for for recent files and search api issues.
@@ -448,6 +494,10 @@ export function canOpenWithOffice(context: AcaRuleContext): boolean {
   }
 
   if (isNodeLink(context)) {
+    return false;
+  }
+
+  if (isWorkingCopy(context)) {
     return false;
   }
 
@@ -598,6 +648,53 @@ export const isCheckedOut = (context: RuleContext): boolean => {
     return nodeAspects.includes('cm:checkedOut');
   }
   return false;
+};
+
+/**
+ * Checks if the selected node is a working copy (has cm:workingcopy aspect).
+ * JSON ref: `app.selection.isWorkingCopy`
+ *
+ * @param context Rule execution context
+ */
+export const isWorkingCopy = (context: RuleContext): boolean => {
+  if (!context.selection?.isEmpty) {
+    return (context.selection.first?.entry?.aspectNames ?? []).includes('cm:workingcopy');
+  }
+  return false;
+};
+
+/**
+ * Checks if the selected file node can be checked out.
+ * Returns true for cm:content (or subtype) file nodes that are not already
+ * checked out, not locked, not a working copy, and where the user has update permission.
+ * Blocks folders, node links, trashcan items, and special system nodes (no update permission).
+ * JSON ref: `app.selection.canCheckout`
+ *
+ * @param context Rule execution context
+ */
+export const canCheckout = (context: RuleContext): boolean =>
+  hasFileSelected(context) &&
+  !navigation.isTrashcan(context) &&
+  !isNodeLink(context) &&
+  canUpdateSelectedNode(context) &&
+  !isLockedOrWorkingCopy(context);
+
+/**
+ * Checks if checkout can be cancelled for the selected node.
+ * Returns true when a checked-out original or working copy is selected
+ * and the user is the lock owner or has delete permission.
+ * JSON ref: `app.selection.canCancelCheckout`
+ *
+ * @param context Rule execution context
+ */
+export const canCancelCheckout = (context: RuleContext): boolean => {
+  return (
+    hasFileSelected(context) &&
+    !navigation.isTrashcan(context) &&
+    !isNodeLink(context) &&
+    isLockedOrWorkingCopy(context) &&
+    (context.permissions.check(context.selection.file?.entry, ['delete']) || isUserWriteLockOwner(context))
+  );
 };
 
 /**

@@ -15,7 +15,7 @@
       {{ displayText$ | async }}
     </span>
 
-    <ng-container *ngIf="isFile && isFileWriteLocked">
+    <ng-container *ngIf="isFile && isFileWriteLocked || isWorkingCopy">
       <aca-locked-by [node]="context.row.node" />
     </ng-container>
   </div>

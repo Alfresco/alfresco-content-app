@@ -352,4 +352,53 @@ describe('DocumentListDirective', () => {
     expect(elementRefMock.nativeElement.querySelector).not.toHaveBeenCalled();
     expect(documentListMock.preselectNodes).toEqual([]);
   }));
+
+  describe('rowFilter for cm:checkedOut nodes', () => {
+    beforeEach(() => {
+      documentListMock.rowFilter = undefined;
+    });
+
+    afterEach(() => {
+      documentListMock.rowFilter = undefined;
+    });
+
+    it('should set rowFilter on folder views (personal-files)', () => {
+      mockRouter.url = '/personal-files';
+      documentListDirective.ngOnInit();
+      expect(documentListMock.rowFilter).toBeDefined();
+    });
+
+    it('should not set rowFilter on /favorites', () => {
+      mockRouter.url = '/favorites';
+      documentListDirective.ngOnInit();
+      expect(documentListMock.rowFilter).toBeUndefined();
+    });
+
+    it('should not set rowFilter on /shared', () => {
+      mockRouter.url = '/shared';
+      documentListDirective.ngOnInit();
+      expect(documentListMock.rowFilter).toBeUndefined();
+    });
+
+    it('rowFilter should return false for cm:checkedOut nodes', () => {
+      mockRouter.url = '/personal-files';
+      documentListDirective.ngOnInit();
+      const result = documentListMock.rowFilter({ node: { entry: { aspectNames: ['cm:checkedOut'] } } });
+      expect(result).toBeFalse();
+    });
+
+    it('rowFilter should return true for nodes without cm:checkedOut', () => {
+      mockRouter.url = '/personal-files';
+      documentListDirective.ngOnInit();
+      const result = documentListMock.rowFilter({ node: { entry: { aspectNames: ['cm:titled'] } } });
+      expect(result).toBeTrue();
+    });
+
+    it('rowFilter should return true when aspectNames is undefined', () => {
+      mockRouter.url = '/personal-files';
+      documentListDirective.ngOnInit();
+      const result = documentListMock.rowFilter({ node: { entry: {} } });
+      expect(result).toBeTrue();
+    });
+  });
 });

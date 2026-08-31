@@ -50,6 +50,7 @@ import { PreviewComponent } from '@alfresco/aca-content/viewer';
 import { ToggleEditOfflineComponent } from './components/toolbar/toggle-edit-offline/toggle-edit-offline.component';
 import { ToggleFavoriteLibraryComponent } from './components/toolbar/toggle-favorite-library/toggle-favorite-library.component';
 import { ToggleFavoriteComponent } from './components/toolbar/toggle-favorite/toggle-favorite.component';
+import { LockIconComponent } from './components/dl-custom-components/lock-icon/lock-icon.component';
 import { ToggleInfoDrawerComponent } from './components/toolbar/toggle-info-drawer/toggle-info-drawer.component';
 import { ToggleJoinLibraryButtonComponent } from './components/toolbar/toggle-join-library/toggle-join-library-button.component';
 import { ToggleJoinLibraryMenuComponent } from './components/toolbar/toggle-join-library/toggle-join-library-menu.component';
@@ -124,7 +125,8 @@ import { IsFeatureSupportedInCurrentAcsPipe } from './pipes/is-feature-supported
         'app.user.menu': UserMenuComponent,
         'app.search.columns.name': SearchResultsRowComponent,
         'app.search.navbar': SaveSearchSidenavComponent,
-        'app.knowledgeDiscovery.sidenav': KnowledgeDiscoverySidenavComponent
+        'app.knowledgeDiscovery.sidenav': KnowledgeDiscoverySidenavComponent,
+        'app.badge.lock': LockIconComponent
       },
       evaluators: {
         canToggleJoinLibrary: rules.canToggleJoinLibrary,
@@ -155,7 +157,11 @@ import { IsFeatureSupportedInCurrentAcsPipe } from './pipes/is-feature-supported
         'app.selection.folder': rules.hasFolderSelected,
         'app.selection.folder.canUpdate': rules.canUpdateSelectedFolder,
         'app.selection.isCheckedOut': rules.isCheckedOut,
+        'app.selection.isWorkingCopy': rules.isWorkingCopy,
+        'app.selection.canCheckout': rules.canCheckout,
+        'app.selection.canCancelCheckout': rules.canCancelCheckout,
         'app.selection.isNodeLink': rules.isNodeLink,
+        'app.selection.isLockedOrWorkingCopy': rules.isLockedOrWorkingCopy,
 
         'app.navigation.folder.canCreate': rules.canCreateFolder,
         'app.navigation.isTrashcan': rules.isTrashcan,

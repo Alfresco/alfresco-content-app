@@ -27,7 +27,7 @@ import { ChangeDetectorRef, Component, DestroyRef, inject, OnInit, ViewEncapsula
 import { Actions, ofType } from '@ngrx/effects';
 import { filter } from 'rxjs/operators';
 import { NodeActionTypes } from '@alfresco/aca-shared/store';
-import { isLocked, LockedByComponent } from '@alfresco/aca-shared';
+import { isLocked, isWorkingCopy, LockedByComponent } from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { DatatableCellBadgesComponent } from '../datatable-cell-badges/datatable-cell-badges.component';
@@ -46,6 +46,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class CustomNameColumnComponent extends NameColumnComponent implements OnInit {
   isFile: boolean;
   isFileWriteLocked: boolean;
+  isWorkingCopy: boolean;
 
   private readonly destroy = inject(DestroyRef);
   private readonly cd = inject(ChangeDetectorRef);
@@ -56,6 +57,7 @@ export class CustomNameColumnComponent extends NameColumnComponent implements On
     this.updateValue();
     this.isFile = this.node?.entry && !this.node.entry.isFolder;
     this.isFileWriteLocked = isLocked(this.node);
+    this.isWorkingCopy = isWorkingCopy(this.node);
 
     this.nodesService.nodeUpdated.pipe(takeUntilDestroyed(this.destroy)).subscribe((node: any) => {
       const row = this.context.row;
@@ -72,6 +74,7 @@ export class CustomNameColumnComponent extends NameColumnComponent implements On
 
         this.isFile = this.node?.entry && !this.node.entry.isFolder;
         this.isFileWriteLocked = isLocked(this.node);
+        this.isWorkingCopy = isWorkingCopy(this.node);
       }
     });
 
@@ -83,6 +86,7 @@ export class CustomNameColumnComponent extends NameColumnComponent implements On
       )
       .subscribe(() => {
         this.isFileWriteLocked = isLocked(this.node);
+        this.isWorkingCopy = isWorkingCopy(this.node);
         this.cd.detectChanges();
       });
   }

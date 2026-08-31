@@ -22,38 +22,35 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { NodeEntry } from '@alfresco/js-api';
-import { TranslatePipe } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
-import { isWorkingCopy } from '../../utils/node.utils';
 
 @Component({
-  imports: [TranslatePipe, MatIconModule],
-  selector: 'aca-locked-by',
-  template: `
-    <mat-icon class="aca-locked-by--icon">lock</mat-icon>
-    <span class="aca-locked-by--label">{{ (workingCopy ? 'CHECKOUT.CHECKED_OUT_BY' : 'APP.LOCKED_BY') | translate }}</span>
-    <span class="aca-locked-by--name">{{ text }}</span>
-  `,
-  styleUrls: ['./locked-by.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  host: {
-    class: 'aca-locked-by'
-  }
+  selector: 'aca-lock-icon',
+  standalone: true,
+  template: `<mat-icon class="adf-datatable-cell-badge" [title]="tooltip" aria-hidden="true">lock</mat-icon>`,
+  imports: [MatIconModule],
+  encapsulation: ViewEncapsulation.None
 })
-export class LockedByComponent implements OnInit {
+export class LockIconComponent implements OnInit {
+  private readonly translate = inject(TranslateService);
+
   @Input()
-  node: NodeEntry;
+  data: { node: NodeEntry };
 
-  workingCopy = false;
-  text: string;
+  tooltip: string;
 
-  ngOnInit(): void {
-    this.workingCopy = isWorkingCopy(this.node);
-    this.text = this.workingCopy
-      ? this.node?.entry?.properties?.['cm:workingCopyOwner']?.displayName
-      : this.node?.entry?.properties?.['cm:lockOwner']?.displayName;
+  ngOnInit() {
+    const entry = this.data?.node?.entry;
+    const aspectNames = entry?.aspectNames ?? [];
+    const props = entry?.properties ?? {};
+
+    // cspell:ignore workingcopy
+    const isWorkingCopy = aspectNames.includes('cm:workingcopy');
+    const ownerProp = isWorkingCopy ? props['cm:workingCopyOwner'] : props['cm:lockOwner'];
+    const key = isWorkingCopy ? 'APP.TOOLTIPS.WORKING_COPY_BADGE' : 'APP.TOOLTIPS.LOCK_BADGE';
+    this.tooltip = this.translate.instant(key, { owner: ownerProp?.displayName ?? ownerProp?.id ?? '' });
   }
 }

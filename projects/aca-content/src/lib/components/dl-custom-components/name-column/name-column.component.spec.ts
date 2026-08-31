@@ -142,4 +142,26 @@ describe('CustomNameColumnComponent', () => {
     expect(badgeElement).not.toBe(null);
     expect(badgeElement.componentInstance.node).toBe(component.node);
   });
+
+  it('should render lock element for a working copy (cm:workingcopy aspect)', () => {
+    component.context = {
+      row: {
+        node: {
+          entry: {
+            isFile: true,
+            id: 'nodeId',
+            name: 'working-copy.txt',
+            aspectNames: ['cm:workingcopy'],
+            properties: {}
+          }
+        },
+        getValue: (key: string) => key
+      }
+    };
+
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    expect(fixture.debugElement.nativeElement.querySelector('aca-locked-by')).not.toBe(null);
+  });
 });
