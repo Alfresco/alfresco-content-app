@@ -177,10 +177,8 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   imageResolver(row: ShareDataRow): string | null {
-    if (row) {
-      if (isLibrary(row.node)) {
-        return 'material-icons://library_books';
-      }
+    if (row && isLibrary(row.node)) {
+      return 'material-icons://library_books';
     }
 
     return null;

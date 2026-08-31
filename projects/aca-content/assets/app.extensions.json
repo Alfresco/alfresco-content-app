@@ -710,7 +710,6 @@
                 "!app.navigation.isLibraries",
                 "!app.selection.isNodeLink",
                 "!app.selection.isLockedOrWorkingCopy"
-
               ]
             }
           },
@@ -3206,6 +3205,8 @@
     "badges": [
       {
         "id": "app.badge.lock",
+        "icon": "lock",
+        "tooltip": "",
         "component": "app.badge.lock",
         "rules": {
           "visible": [

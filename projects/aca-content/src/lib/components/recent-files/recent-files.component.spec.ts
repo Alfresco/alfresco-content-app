@@ -61,8 +61,8 @@ describe('RecentFilesComponent', () => {
               isFolder: false,
               createdAt: null,
               modifiedAt: null,
-              modifiedByUser: null,
-              createdByUser: null
+              modifiedByUser: { id: '', displayName: '' },
+              createdByUser: { id: '', displayName: '' }
             }
           },
           {
@@ -74,8 +74,8 @@ describe('RecentFilesComponent', () => {
               isFolder: false,
               createdAt: null,
               modifiedAt: null,
-              modifiedByUser: null,
-              createdByUser: null
+              modifiedByUser: { id: '', displayName: '' },
+              createdByUser: { id: '', displayName: '' }
             }
           }
         ],
