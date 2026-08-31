@@ -25,7 +25,7 @@
 import * as app from './app.rules';
 import { createVersionRule, getFileExtension, isPreferencesApiAvailable, isNodeInfoAvailable, isBulkActionsAvailable } from './app.rules';
 import { TestRuleContext } from './test-rule-context';
-import { NodeEntry, RepositoryInfo, StatusInfo } from '@alfresco/js-api';
+import { NodeEntry, RepositoryInfo, SharedLink, StatusInfo } from '@alfresco/js-api';
 import { ProfileState, RuleContext } from '@alfresco/adf-extensions';
 
 describe('app.evaluators', () => {
@@ -1205,6 +1205,42 @@ describe('app.evaluators', () => {
 
       context.selection.first = { entry: { isFolder: true, aspectNames: ['smf:systemConfigSmartFolder'] } } as any;
       expect(app.isSmartFolder(context)).toBeTrue();
+    });
+  });
+
+  describe('isLockedOrWorkingCopy', () => {
+    it('should return false when there is no entry', () => {
+      expect(app.isLockedOrWorkingCopy(context, { entry: null })).toBeFalse();
+    });
+
+    it('should return false for a folder (not a file and no nodeId)', () => {
+      expect(app.isLockedOrWorkingCopy(context, { entry: { isFolder: true, isFile: false } } as NodeEntry)).toBeFalse();
+    });
+
+    it('should return true for a locked file', () => {
+      expect(app.isLockedOrWorkingCopy(context, { entry: { isFile: true, isLocked: true, aspectNames: [] } } as NodeEntry)).toBeTrue();
+    });
+
+    it('should return true for a file with cm:checkedOut aspect', () => {
+      expect(
+        app.isLockedOrWorkingCopy(context, { entry: { isFile: true, isLocked: false, aspectNames: ['cm:checkedOut'] } } as NodeEntry)
+      ).toBeTrue();
+    });
+
+    it('should return true for a file with cm:workingcopy aspect', () => {
+      expect(
+        app.isLockedOrWorkingCopy(context, { entry: { isFile: true, isLocked: false, aspectNames: ['cm:workingcopy'] } } as NodeEntry)
+      ).toBeTrue();
+    });
+
+    it('should return true for a shared link (no isFile) with cm:checkedOut aspect - ensures lock badge shows on shared page', () => {
+      const sharedLinkEntry = { nodeId: 'node-1', isFile: undefined, isFolder: undefined, aspectNames: ['cm:checkedOut'] } as SharedLink;
+      expect(app.isLockedOrWorkingCopy(context, { entry: sharedLinkEntry } as NodeEntry)).toBeTrue();
+    });
+
+    it('should return false for a shared link (no isFile) without lock aspects', () => {
+      const sharedLinkEntry = { nodeId: 'node-1', isFile: undefined, isFolder: undefined, aspectNames: [] } as SharedLink;
+      expect(app.isLockedOrWorkingCopy(context, { entry: sharedLinkEntry } as NodeEntry)).toBeFalse();
     });
   });
 

@@ -24,7 +24,7 @@
 
 import { AppConfigService } from '@alfresco/adf-core';
 import { RuleContext } from '@alfresco/adf-extensions';
-import { NodeEntry } from '@alfresco/js-api';
+import { NodeEntry, SharedLink } from '@alfresco/js-api';
 import * as navigation from './navigation.rules';
 import * as repository from './repository.rules';
 import { isAdmin } from './user.rules';
@@ -344,7 +344,7 @@ export function isLockedOrWorkingCopy(context: RuleContext, node?: NodeEntry): b
   if (!entry) {
     return false;
   }
-  if (!entry.isFile) {
+  if (!entry.isFile && !(entry as SharedLink).nodeId) {
     return false;
   }
   return (
