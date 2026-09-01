@@ -7,19 +7,7 @@ minimumReleaseAgeExclude:
 
 overrides:
   # Security fixes
-  fast-uri: 3.1.4
-  "js-yaml@4.2.0": "4.3.0"
-  "brace-expansion@5.0.6": "5.0.8"
-  "brace-expansion@<1.1.17": "1.1.17"
-  svgo: 4.0.2
-  shell-quote: 1.9.0
-  adm-zip: 0.6.0
-  axios: 1.18.0
-  serialize-javascript: '>=7.0.5'
-  picomatch: '>=4.0.4'
-  tmp: '>=0.2.6'
-  ws: '>=8.20.1'
-  postcss: '>=8.5.25'
+  '@module-federation/sdk>node-fetch': '^2.7.0'
 
 allowBuilds:
   '@esbuild/darwin-arm64': true
