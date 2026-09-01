@@ -135,6 +135,10 @@ export class FileActionsApi {
     } catch {}
   }
 
+  async checkoutNode(nodeId: string): Promise<NodeEntry> {
+    return this.apiService.nodes.checkoutNode(nodeId);
+  }
+
   async getNodeById(id: string): Promise<NodeEntry | null> {
     try {
       return this.apiService.nodes.getNode(id);
@@ -143,42 +147,21 @@ export class FileActionsApi {
     }
   }
 
-  async getNodeProperty(nodeId: string, property: string): Promise<string> {
+  async isFileCheckedOutWithRetry(nodeId: string, expect: boolean): Promise<boolean> {
+    const data = { expect, retry: 5 };
+    let isCheckedOut = false;
     try {
-      const node = await this.getNodeById(nodeId);
-      return node?.entry?.properties?.[property] || '';
-    } catch {
-      return '';
-    }
-  }
-
-  private async getLockType(nodeId: string): Promise<string> {
-    try {
-      const lockType = await this.getNodeProperty(nodeId, 'cm:lockType');
-      return lockType || '';
-    } catch {
-      return '';
-    }
-  }
-
-  async isFileLockedWriteWithRetry(nodeId: string, expect: boolean): Promise<boolean> {
-    const data = {
-      expect: expect,
-      retry: 5
-    };
-    let isLocked = false;
-    try {
-      const locked = async () => {
-        isLocked = (await this.getLockType(nodeId)) === 'WRITE_LOCK';
-        if (isLocked !== data.expect) {
-          return Promise.reject(isLocked);
-        } else {
-          return Promise.resolve(isLocked);
+      const check = async () => {
+        const node = await this.getNodeById(nodeId);
+        isCheckedOut = (node?.entry?.aspectNames ?? []).includes('cm:checkedOut');
+        if (isCheckedOut !== data.expect) {
+          return Promise.reject(isCheckedOut);
         }
+        return Promise.resolve(isCheckedOut);
       };
-      return await Utils.retryCall(locked, data.retry);
+      return await Utils.retryCall(check, data.retry);
     } catch {}
-    return isLocked;
+    return isCheckedOut;
   }
 
   private async queryNodesNames(searchTerm: string): Promise<ResultSetPaging> {

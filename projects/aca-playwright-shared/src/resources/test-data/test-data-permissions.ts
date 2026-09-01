@@ -43,6 +43,7 @@ const consumerToolbarMore = ['Favorite', 'Copy', 'Manage Versions'];
 const consumerFavToolbarMore = ['Remove Favorite', 'Copy', 'Manage Versions'];
 
 export const collaboratorToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
+export const collaboratorWorkingCopyToolbarPrimary = ['View', 'View Details', 'More Actions'];
 export const collaboratorEditRowToolbarMore = [
   'Edit Offline',
   'Upload New Version',
@@ -52,6 +53,7 @@ export const collaboratorEditRowToolbarMore = [
   'Edit Aspects',
   'Permissions'
 ];
+export const favoritesWorkingCopyCollaboratorToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy'];
 export const favoritesCollaboratorToolbarMore = ['Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
 export const collaboratorSharedToolbarPrimary = [
   'Activate full-screen mode',
@@ -71,7 +73,17 @@ export const collaboratorDocToolbarMore = [
   'Edit Aspects',
   'Permissions'
 ];
+export const collaboratorSharedWorkingCopyToolbarPrimary = ['Activate full-screen mode', 'View Details', 'More Actions'];
+export const collaboratorLockedToolbarPrimary = ['Shared Link Settings', 'View', 'View Details', 'More Actions'];
+export const collaboratorLockedOriginalSharedViewerToolbarPrimary = [
+  'Activate full-screen mode',
+  'Shared Link Settings',
+  'View Details',
+  'More Actions'
+];
+export const collaboratorLockedSharedViewerToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy'];
 export const collaboratorLockCurrentUserToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
+export const collaboratorLockWorkingCopyToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Copy'];
 export const collaboratorLockOtherUserToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
 export const collaboratorLockOtherUserSearchToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
 
@@ -79,8 +91,11 @@ export const collaboratorLockOtherUserSearchToolbarMore = ['Cancel Editing', 'Re
 
 const consumerViewerSharedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
 const consumerViewerToolbarPrimary = ['Activate full-screen mode', 'Share', 'Download', 'Print', 'View Details', 'More Actions'];
+const consumerViewerLockedToolbarPrimary = ['Activate full-screen mode', 'View Details', 'More Actions'];
 const consumerViewerFavToolbarMore = ['Remove Favorite', 'Copy', 'Manage Versions'];
 const consumerViewerToolbarMore = ['Favorite', 'Copy', 'Manage Versions'];
+const consumerViewerLockedToolbarMore = ['Favorite', 'Copy'];
+const consumerViewerLockedFavToolbarMore = ['Remove Favorite', 'Copy'];
 
 // ---- FAVORITES workarounds ----
 
@@ -271,26 +286,29 @@ export const fileSharedFav = {
 
 export const fileLocked = {
   name: `file-${random}-locked.txt`,
+  workingCopyName: `file-${random}-locked (Working Copy).txt`,
   description: 'file not shared, not fav, not office, locked',
 
   contextMenu: consumerContextMenu,
   toolbarPrimary: consumerToolbarPrimary,
   toolbarMore: consumerToolbarMore,
-  viewerToolbarPrimary: consumerViewerToolbarPrimary,
-  viewerToolbarMore: consumerViewerToolbarMore,
+  viewerToolbarPrimary: consumerViewerLockedToolbarPrimary,
+  viewerToolbarMore: consumerViewerLockedToolbarMore,
 
   searchToolbarPrimary: searchConsumerToolbarPrimary
 };
 
 export const fileFavLocked = {
   name: `file-${random}-fav-locked.txt`,
+  workingCopyName: `file-${random}-fav-locked (Working Copy).txt`,
   description: 'file not shared, fav, not office, locked',
 
   contextMenu: consumerFavContextMenu,
   toolbarPrimary: consumerToolbarPrimary,
   toolbarMore: consumerFavToolbarMore,
-  viewerToolbarPrimary: consumerViewerToolbarPrimary,
-  viewerToolbarMore: consumerViewerFavToolbarMore,
+  viewerToolbarPrimary: consumerViewerLockedToolbarPrimary,
+  viewerToolbarMore: consumerViewerLockedFavToolbarMore,
+  workingCopyViewerToolbarMore: consumerViewerLockedToolbarMore,
 
   favoritesToolbarMore: favoritesConsumerToolbarMore,
   favoritesContextMenu: favoritesConsumerContextMenu,
@@ -300,13 +318,14 @@ export const fileFavLocked = {
 
 export const fileSharedLocked = {
   name: `file-${random}-shared-locked.txt`,
+  workingCopyName: `file-${random}-shared-locked (Working Copy).txt`,
   description: 'file shared, not fav, not office, locked',
 
   contextMenu: consumerSharedContextMenu,
   toolbarPrimary: consumerSharedToolbarPrimary,
   toolbarMore: consumerToolbarMore,
-  viewerToolbarPrimary: consumerViewerSharedToolbarPrimary,
-  viewerToolbarMore: consumerViewerToolbarMore,
+  viewerToolbarPrimary: consumerViewerLockedToolbarPrimary,
+  viewerToolbarMore: consumerViewerLockedToolbarMore,
 
   sharedToolbarMore: sharedConsumerLockedToolbarMore,
   sharedContextMenu: sharedConsumerLockedContextMenu,
@@ -316,13 +335,15 @@ export const fileSharedLocked = {
 
 export const fileSharedFavLocked = {
   name: `file-${random}-shared-fav-locked.txt`,
+  workingCopyName: `file-${random}-shared-fav-locked (Working Copy).txt`,
   description: 'file shared, fav, not office, locked',
 
   contextMenu: consumerSharedFavContextMenu,
   toolbarPrimary: consumerSharedToolbarPrimary,
   toolbarMore: consumerFavToolbarMore,
-  viewerToolbarPrimary: consumerViewerSharedToolbarPrimary,
-  viewerToolbarMore: consumerViewerFavToolbarMore,
+  viewerToolbarPrimary: consumerViewerLockedToolbarPrimary,
+  viewerToolbarMore: consumerViewerLockedFavToolbarMore,
+  workingCopyViewerToolbarMore: consumerViewerLockedToolbarMore,
 
   favoritesToolbarMore: favoritesConsumerToolbarMore,
   favoritesContextMenu: favoritesConsumerSharedContextMenu,
@@ -335,6 +356,7 @@ export const fileSharedFavLocked = {
 
 export const fileGranularPermission = `file-${random}-granular.txt`;
 export const fileLockedByUser = `file-${random}-my-locked.txt`;
+export const fileLockedByUserWorkingCopyName = `file-${random}-my-locked (Working Copy).txt`;
 
 // ---- non-versionable file (no cm:versionable aspect) ----
 
