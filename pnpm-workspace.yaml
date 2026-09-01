@@ -1,6 +1,3 @@
-packages:
-  - "projects/*"
-
 # Block packages published less than 3 days ago (4320 minutes)
 minimumReleaseAge: 4320
 minimumReleaseAgeStrict: true
@@ -25,26 +22,6 @@ overrides:
   postcss: '>=8.5.25'
 
 allowBuilds:
-  '@parcel/watcher': true
-  esbuild: true
-  lmdb: true
-  msgpackr-extract: true
-  nx: true
-  unrs-resolver: true
-  sharp: true
-  node-sass: true
-  sass: true
-  pdfjs-dist: true
-  canvas: true
-  bcrypt: true
-  sqlite3: true
-  better-sqlite3: true
-  puppeteer: true
-  playwright: true
-  fsevents: true
-  husky: true
-  core-js: true
-  core-js-pure: true
   '@esbuild/darwin-arm64': true
   '@esbuild/darwin-x64': true
   '@esbuild/linux-x64': true
@@ -54,5 +31,14 @@ allowBuilds:
   '@nx/nx-linux-x64-gnu': true
   '@nx/nx-linux-x64-musl': true
   '@nx/nx-win32-x64-msvc': true
-  '@swc/core': true
+  '@parcel/watcher': true
+  esbuild: true
+  fsevents: true
+  husky: true
   less: true
+  lmdb: true
+  msgpackr-extract: true
+  nx: true
+  pdfjs-dist: true
+  playwright: true
+  sass: true
