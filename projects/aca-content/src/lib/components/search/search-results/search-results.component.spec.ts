@@ -24,7 +24,7 @@
 
 import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { SearchResultsComponent } from './search-results.component';
-import { AppConfigService, NotificationService, TranslationService } from '@alfresco/adf-core';
+import { AppConfigService, NotificationService, TranslationService, UnitTestingUtils } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { NavigateToFolder } from '@alfresco/aca-shared/store';
 import { Pagination, SearchRequest } from '@alfresco/js-api';
@@ -62,12 +62,14 @@ describe('SearchComponent', () => {
   let showErrorSpy: jasmine.Spy<(message: string, action?: string, interpolateArgs?: any, showAction?: boolean) => MatSnackBarRef<any>>;
   let showInfoSpy: jasmine.Spy<(message: string, action?: string, interpolateArgs?: any, showAction?: boolean) => MatSnackBarRef<any>>;
   let loader: HarnessLoader;
+  let unitTestingUtils: UnitTestingUtils;
 
   const editSavedSearchesSpy = jasmine.createSpy('editSavedSearch');
   const getSavedSearchButton = (): HTMLButtonElement => fixture.nativeElement.querySelector('.aca-content__save-search-action');
   const getResetSearchButton = (): HTMLButtonElement => fixture.nativeElement.querySelector('.aca-content__reset-action');
   const getDividerHarness = () => loader.getHarness(MatDividerHarness);
   const getProgressBarHarnesses = () => loader.getAllHarnesses(MatProgressBarHarness);
+  const getStatusText = (): string => unitTestingUtils.getByCSS('.cdk-visually-hidden').nativeElement.textContent.trim();
 
   const encodeQuery = (query: any): string => {
     return Buffer.from(JSON.stringify(query)).toString('base64');
@@ -141,6 +143,7 @@ describe('SearchComponent', () => {
 
     fixture.detectChanges();
     loader = TestbedHarnessEnvironment.loader(fixture);
+    unitTestingUtils = new UnitTestingUtils(fixture.debugElement);
   });
 
   afterEach(() => {
@@ -470,6 +473,43 @@ describe('SearchComponent', () => {
     expect(component.isSmallScreen).toBeFalse();
     expect(await (await divider.host()).getAttribute('class')).toContain('aca-content__divider-vertical');
     expect(await divider.getOrientation()).toBe('vertical');
+  });
+
+  describe('search process status', () => {
+    it('should have loading status when search is loading', () => {
+      component.isLoading = true;
+      fixture.detectChanges();
+
+      expect(getStatusText()).toBe('APP.BROWSE.SEARCH.LOADING');
+    });
+
+    it('should not have loading status when search is not loading', () => {
+      component.isLoading = false;
+      fixture.detectChanges();
+
+      expect(getStatusText()).not.toBe('APP.BROWSE.SEARCH.LOADING');
+    });
+
+    it('should have the correct result status when search is complete and results are present', () => {
+      component.isLoading = false;
+      component.totalResults = 1;
+      fixture.detectChanges();
+
+      expect(getStatusText()).toBe('APP.BROWSE.SEARCH.FOUND_ONE_RESULT');
+
+      component.totalResults = 5;
+      fixture.detectChanges();
+
+      expect(getStatusText()).toBe('APP.BROWSE.SEARCH.FOUND_RESULTS');
+    });
+
+    it('should have no results status when search is complete and no results are present', () => {
+      component.isLoading = false;
+      component.totalResults = 0;
+      fixture.detectChanges();
+
+      expect(getStatusText()).toBe('APP.BROWSE.SEARCH.NO_RESULTS');
+    });
   });
 
   describe('reset button', () => {
