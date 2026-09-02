@@ -59,8 +59,12 @@ Application related evaluators which can be used to check various different aspe
 | 5.1.1  | isMultiSelection                    | Checks if the user has selected multiple files                                                                         |
 | 6.1.0  | canPrintFile                        | Checks if current file can be printed or not (media files such as audio/video cannot be printed).                      |
 | 7.4.0  | app.selection.isCheckedOut          | Checks if selected node contains `cm:checkedOut` aspect.                                                               |
-| 8.0.0  | app.isKnowledgeDiscoveryUrlPresent  | Checks if the Knowledge Discovery URL is specified in the app config.                                                 |
+| 8.0.0  | app.isKnowledgeDiscoveryUrlPresent  | Checks if the Knowledge Discovery URL is specified in the app config.                                                  |
 | 8.1.0  | app.selection.file.isVersionable    | Checks if the selected file has the `cm:versionable` aspect.                                                           |
+| 8.1.0  | app.selection.isWorkingCopy         | Checks if the selected node is a working copy (has the `cm:workingcopy` aspect).                                       |
+| 8.1.0  | app.selection.isLockedOrWorkingCopy | Checks if the selected node is locked or checked-out (`cm:workingcopy`/`cm:checkedOut` aspect).                        |
+| 8.1.0  | app.selection.canCheckout           | Checks if the selected file can be checked out.                                                                        |
+| 8.1.0  | app.selection.canCancelCheckout     | Checks if checkout can be cancelled for the selected checked-out original or working copy.                             |
 
 #### Navigation Rules/Evaluators
 
