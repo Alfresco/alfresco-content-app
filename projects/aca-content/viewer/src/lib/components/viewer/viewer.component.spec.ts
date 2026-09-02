@@ -24,8 +24,15 @@
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { AuthenticationService } from '@alfresco/adf-core';
-import { DiscoveryApiService, DocumentListService, FileUploadCompleteEvent, NodesApiService, UploadService } from '@alfresco/adf-content-services';
+import { AuthenticationService, UnitTestingUtils } from '@alfresco/adf-core';
+import {
+  AlfrescoViewerComponent,
+  DiscoveryApiService,
+  DocumentListService,
+  FileUploadCompleteEvent,
+  NodesApiService,
+  UploadService
+} from '@alfresco/adf-content-services';
 import { ClosePreviewAction, RefreshPreviewAction, ViewNodeAction } from '@alfresco/aca-shared/store';
 import { AcaViewerComponent } from './viewer.component';
 import { of } from 'rxjs';
@@ -64,6 +71,7 @@ describe('AcaViewerComponent', () => {
   let appHookService: AppHookService;
   let documentListService: DocumentListService;
   let store: Store<any>;
+  let testingUtils: UnitTestingUtils;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -86,6 +94,7 @@ describe('AcaViewerComponent', () => {
     appHookService = TestBed.inject(AppHookService);
     documentListService = TestBed.inject(DocumentListService);
     store = TestBed.inject(Store);
+    testingUtils = new UnitTestingUtils(fixture.debugElement);
   });
 
   it('should set folderId and call displayNode with nodeId upon init', () => {
@@ -188,6 +197,39 @@ describe('AcaViewerComponent', () => {
 
     expect(contentApi.getNodeInfo).toHaveBeenCalledWith('displayed-node');
   }));
+
+  it('should navigate the viewer to the original node when a working copy is checked in on new version upload', fakeAsync(() => {
+    spyOn(store, 'dispatch');
+    spyOn(component, 'displayNode').and.stub();
+    fixture.detectChanges();
+    component.nodeId = 'working-copy-node';
+    component.node = { id: 'working-copy-node', aspectNames: ['cm:workingcopy'] } as Node;
+
+    uploadService.fileUploadComplete.next({
+      file: { id: 'working-copy-node' },
+      data: { entry: { id: 'original-node' } }
+    } as FileUploadCompleteEvent);
+    tick(300);
+
+    expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new ViewNodeAction('original-node', { location: router.url }) }));
+    expect(component.displayNode).not.toHaveBeenCalled();
+  }));
+
+  it('should set readOnly on the viewer when the node is a checked-out original (cm:checkedOut aspect)', () => {
+    component.nodeId = 'checked-out-node';
+    component.node = { id: 'checked-out-node', aspectNames: ['cm:checkedOut'] } as Node;
+    fixture.detectChanges();
+
+    expect(testingUtils.getByDirective(AlfrescoViewerComponent).componentInstance.readOnly).toBe(true);
+  });
+
+  it('should not set readOnly on the viewer when the node is not checked out', () => {
+    component.nodeId = 'regular-node';
+    component.node = { id: 'regular-node', aspectNames: [] } as Node;
+    fixture.detectChanges();
+
+    expect(testingUtils.getByDirective(AlfrescoViewerComponent).componentInstance.readOnly).toBe(false);
+  });
 
   describe('return on event', () => {
     beforeEach(async () => {

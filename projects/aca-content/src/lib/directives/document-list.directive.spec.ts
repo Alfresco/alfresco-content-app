@@ -358,10 +358,6 @@ describe('DocumentListDirective', () => {
       documentListMock.rowFilter = undefined;
     });
 
-    afterEach(() => {
-      documentListMock.rowFilter = undefined;
-    });
-
     it('should set rowFilter on folder views (personal-files)', () => {
       mockRouter.url = '/personal-files';
       documentListDirective.ngOnInit();

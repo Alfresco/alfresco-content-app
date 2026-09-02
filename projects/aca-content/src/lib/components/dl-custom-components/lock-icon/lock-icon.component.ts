@@ -29,7 +29,6 @@ import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'aca-lock-icon',
-  standalone: true,
   template: `<mat-icon class="adf-datatable-cell-badge" [title]="tooltip" aria-hidden="true">lock</mat-icon>`,
   imports: [MatIconModule],
   encapsulation: ViewEncapsulation.None
