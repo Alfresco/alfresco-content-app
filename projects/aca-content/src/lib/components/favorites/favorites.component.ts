@@ -31,9 +31,9 @@ import {
   PaginationDirective,
   ToolbarComponent
 } from '@alfresco/aca-shared';
-import { Node, NodeEntry, PathElement, PathInfo } from '@alfresco/js-api';
+import { Node, NodeEntry } from '@alfresco/js-api';
 import { Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
-import { debounceTime, map } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
 import {
@@ -46,6 +46,7 @@ import {
 import { DocumentListDirective } from '../../directives/document-list.directive';
 import { TranslatePipe } from '@ngx-translate/core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { NavigateToFolder } from '@alfresco/aca-shared/store';
 
 @Component({
   imports: [
@@ -87,18 +88,8 @@ export class FavoritesComponent extends PageComponent implements OnInit {
 
   navigate(favorite: Node) {
     const { isFolder, id } = favorite;
-
-    // TODO: rework as it will fail on non-English setups
-    const isSitePath = (path: PathInfo): boolean => path?.elements?.some(({ name }: PathElement) => name === 'Sites');
-
     if (isFolder) {
-      this.contentApi
-        .getNode(id)
-        .pipe(map((node) => node.entry))
-        .subscribe(({ path }: Node) => {
-          const routeUrl = isSitePath(path) ? '/libraries' : '/personal-files';
-          this.router.navigate([routeUrl, id]);
-        });
+      this.contentApi.getNode(id).subscribe((node) => this.store.dispatch(new NavigateToFolder(node)));
     }
   }
 
