@@ -23,6 +23,7 @@
  */
 
 import { isLibrary, isLocked, isWorkingCopy } from './node.utils';
+import { NodeEntry } from '@alfresco/js-api';
 
 describe('NodeUtils', () => {
   describe('isLocked', () => {
@@ -92,8 +93,8 @@ describe('NodeUtils', () => {
         isWorkingCopy({
           entry: {
             aspectNames: ['cm:workingcopy', 'cm:titled']
-          } as any
-        })
+          }
+        } as NodeEntry)
       ).toBeTrue();
     });
 
@@ -102,8 +103,8 @@ describe('NodeUtils', () => {
         isWorkingCopy({
           entry: {
             aspectNames: ['cm:titled']
-          } as any
-        })
+          }
+        } as NodeEntry)
       ).toBeFalse();
     });
 
@@ -112,8 +113,8 @@ describe('NodeUtils', () => {
         isWorkingCopy({
           entry: {
             aspectNames: []
-          } as any
-        })
+          }
+        } as NodeEntry)
       ).toBeFalse();
     });
 
@@ -122,8 +123,8 @@ describe('NodeUtils', () => {
         isWorkingCopy({
           entry: {
             aspectNames: undefined
-          } as any
-        })
+          }
+        } as NodeEntry)
       ).toBeFalse();
     });
   });

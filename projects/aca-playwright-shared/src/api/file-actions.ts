@@ -155,7 +155,7 @@ export class FileActionsApi {
         const node = await this.getNodeById(nodeId);
         isCheckedOut = (node?.entry?.aspectNames ?? []).includes('cm:checkedOut');
         if (isCheckedOut !== data.expect) {
-          return Promise.reject(isCheckedOut);
+          return Promise.reject(new Error(`Checked-out state mismatch: expected=${data.expect}, actual=${isCheckedOut}`));
         }
         return Promise.resolve(isCheckedOut);
       };

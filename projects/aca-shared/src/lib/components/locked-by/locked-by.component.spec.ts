@@ -23,6 +23,7 @@
  */
 
 import { LockedByComponent } from './locked-by.component';
+import { NodeEntry } from '@alfresco/js-api';
 
 describe('LockedByComponent', () => {
   it('should show lock owner for a locked file', () => {
@@ -33,8 +34,8 @@ describe('LockedByComponent', () => {
         properties: {
           'cm:lockOwner': { displayName: 'lock-owner' }
         }
-      } as any
-    };
+      }
+    } as NodeEntry;
     component.ngOnInit();
     expect(component.workingCopy).toBeFalse();
     expect(component.text).toBe('lock-owner');
@@ -48,8 +49,8 @@ describe('LockedByComponent', () => {
         properties: {
           'cm:workingCopyOwner': { displayName: 'wc-owner' }
         }
-      } as any
-    };
+      }
+    } as NodeEntry;
     component.ngOnInit();
     expect(component.workingCopy).toBeTrue();
     expect(component.text).toBe('wc-owner');
