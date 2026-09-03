@@ -743,5 +743,21 @@
             "TITLE": "Tekoälyagentit",
             "DISCOVERY": "Discovery"
         }
+    },
+    "CHECKOUT": {
+        "ERRORS": {
+            "CHECKOUT": {
+                "400": "Tätä solmua ei voi varata. Sen on oltava sisältösolmu (cm:content).",
+                "403": "Sinulla ei ole oikeutta varata tätä solmua.",
+                "409": "Toinen käyttäjä on jo varannut tai lukinnut tämän solmun."
+            },
+            "CANCEL_CHECKOUT": {
+                "400": "Varausta ei voi peruuttaa. Solmu ei ole sisältösolmu tai sitä ei ole varattu.",
+                "403": "Sinulla ei ole oikeutta peruuttaa tämän solmun varausta.",
+                "409": "Varauksen peruuttaminen epäonnistui. Yritä uudelleen tai ota yhteyttä IT-tiimiin."
+            },
+            "404": "Solmua ei löydy.",
+            "UNKNOWN": "Odottamaton virhe tapahtui. Yritä uudelleen tai ota yhteyttä IT-tiimiin."
+        }
     }
 }

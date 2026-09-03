@@ -743,5 +743,21 @@
             "TITLE": "AI agenter",
             "DISCOVERY": "Discovery"
         }
+    },
+    "CHECKOUT": {
+        "ERRORS": {
+            "CHECKOUT": {
+                "400": "Denne noden kan ikke sjekkes ut. Den må være en innholdsnode (cm:content).",
+                "403": "Du har ikke tillatelse til å sjekke ut denne noden.",
+                "409": "Denne noden er allerede sjekket ut eller låst av en annen bruker."
+            },
+            "CANCEL_CHECKOUT": {
+                "400": "Utsjekking kan ikke avbrytes. Noden er ikke en innholdsnode eller er ikke sjekket ut for øyeblikket.",
+                "403": "Du har ikke tillatelse til å avbryte utsjekkingen for denne noden.",
+                "409": "Kunne ikke avbryte utsjekking. Vennligst prøv igjen eller kontakt IT-teamet ditt."
+            },
+            "404": "Node ikke funnet.",
+            "UNKNOWN": "En uventet feil oppstod. Vennligst prøv igjen eller kontakt IT-teamet ditt."
+        }
     }
 }

@@ -334,7 +334,7 @@
             "CONFIRM_DELETE_LINK": {
                 "TITLE": "¿Eliminar enlace?",
                 "MESSAGE": "Los enlaces se eliminan de forma permanente y no se pueden restaurar desde la papelera.",
-                "YES_LABEL": "Delete",
+                "YES_LABEL": "Eliminar",
                 "NO_LABEL": "Cancelar"
             },
             "CONFIRM_LEAVE": {
@@ -742,6 +742,22 @@
         "SIDENAV": {
             "TITLE": "Agentes de IA",
             "DISCOVERY": "Discovery"
+        }
+    },
+    "CHECKOUT": {
+        "ERRORS": {
+            "CHECKOUT": {
+                "400": "Este nodo no se puede bloquear para edición. Debe ser un nodo de contenido (cm:content).",
+                "403": "No tiene permiso para bloquear este nodo para edición.",
+                "409": "Este nodo ya está bloqueado para edición o bloqueado por otro usuario."
+            },
+            "CANCEL_CHECKOUT": {
+                "400": "No se puede cancelar el bloqueo para edición. El nodo no es un nodo de contenido o no está bloqueado para edición actualmente.",
+                "403": "No tiene permiso para cancelar el bloqueo para edición de este nodo.",
+                "409": "No se ha podido cancelar el bloqueo para edición. Inténtelo de nuevo o póngase en contacto con su equipo de TI."
+            },
+            "404": "No se ha encontrado el nodo.",
+            "UNKNOWN": "Se ha producido un error inesperado. Vuelva a intentarlo o póngase en contacto con su equipo de TI."
         }
     }
 }

@@ -334,7 +334,7 @@
             "CONFIRM_DELETE_LINK": {
                 "TITLE": "Eliminare il link?",
                 "MESSAGE": "I link vengono eliminati definitivamente e non possono essere ripristinati dal cestino.",
-                "YES_LABEL": "Delete",
+                "YES_LABEL": "Elimina",
                 "NO_LABEL": "Annulla"
             },
             "CONFIRM_LEAVE": {
@@ -742,6 +742,22 @@
         "SIDENAV": {
             "TITLE": "Agenti AI",
             "DISCOVERY": "Discovery"
+        }
+    },
+    "CHECKOUT": {
+        "ERRORS": {
+            "CHECKOUT": {
+                "400": "Questo nodo non può essere estratto. Deve essere un nodo di contenuto (cm:content).",
+                "403": "Non si dispone dell'autorizzazione per estrarre questo nodo.",
+                "409": "Questo nodo è già estratto o bloccato da un altro utente."
+            },
+            "CANCEL_CHECKOUT": {
+                "400": "L'estrazione non può essere annullata. Il nodo non è un nodo di contenuto o non è attualmente estratto.",
+                "403": "Non si dispone dell'autorizzazione per annullare l'estrazione di questo nodo.",
+                "409": "Impossibile annullare l'estrazione. Riprovare o contattare il team IT."
+            },
+            "404": "Nodo non trovato.",
+            "UNKNOWN": "Si è verificato un errore imprevisto. Riprovare o contattare il team IT."
         }
     }
 }

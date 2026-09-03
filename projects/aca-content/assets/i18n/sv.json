@@ -743,5 +743,21 @@
             "TITLE": "AI-agenter",
             "DISCOVERY": "Discovery"
         }
+    },
+    "CHECKOUT": {
+        "ERRORS": {
+            "CHECKOUT": {
+                "400": "Den här noden kan inte checkas ut. Den måste vara en innehållsnod (cm:content).",
+                "403": "Du har inte behörighet att checka ut den här noden.",
+                "409": "Den här noden är redan utcheckad eller låst av en annan användare."
+            },
+            "CANCEL_CHECKOUT": {
+                "400": "Utcheckningen kan inte avbrytas. Noden är inte en innehållsnod eller är inte för närvarande utcheckad.",
+                "403": "Du har inte behörighet att avbryta utcheckningen för den här noden.",
+                "409": "Det gick inte att avbryta utcheckningen. Försök igen eller kontakta din IT-avdelning."
+            },
+            "404": "Noden hittades inte.",
+            "UNKNOWN": "Ett oväntat fel uppstod. Försök igen eller kontakta din IT-avdelning."
+        }
     }
 }

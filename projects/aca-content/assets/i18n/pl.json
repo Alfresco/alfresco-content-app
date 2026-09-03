@@ -334,7 +334,7 @@
             "CONFIRM_DELETE_LINK": {
                 "TITLE": "Usunąć link?",
                 "MESSAGE": "Linki są trwale usuwane i nie można ich przywrócić z kosza.",
-                "YES_LABEL": "Delete",
+                "YES_LABEL": "Usuń",
                 "NO_LABEL": "Anuluj"
             },
             "CONFIRM_LEAVE": {
@@ -742,6 +742,22 @@
         "SIDENAV": {
             "TITLE": "Agenci AI",
             "DISCOVERY": "Discovery"
+        }
+    },
+    "CHECKOUT": {
+        "ERRORS": {
+            "CHECKOUT": {
+                "400": "Nie można wymeldować tego węzła. Musi to być węzeł zawartości (cm:content).",
+                "403": "Nie masz uprawnień do wymeldowania tego węzła.",
+                "409": "Ten węzeł jest już wymeldowany lub zablokowany przez innego użytkownika."
+            },
+            "CANCEL_CHECKOUT": {
+                "400": "Nie można anulować wymeldowania. Węzeł nie jest węzłem zawartości lub nie jest obecnie wymeldowany.",
+                "403": "Nie masz uprawnień do anulowania wymeldowania tego węzła.",
+                "409": "Nie udało się anulować wymeldowania. Spróbuj ponownie lub skontaktuj się z zespołem IT."
+            },
+            "404": "Nie znaleziono węzła.",
+            "UNKNOWN": "Wystąpił nieoczekiwany błąd. Spróbuj ponownie lub skontaktuj się z zespołem IT."
         }
     }
 }

@@ -743,5 +743,21 @@
             "TITLE": "AI-agenter",
             "DISCOVERY": "Discovery"
         }
+    },
+    "CHECKOUT": {
+        "ERRORS": {
+            "CHECKOUT": {
+                "400": "Denne node kan ikke tjekkes ud. Den skal være en indholdsnode (cm:content).",
+                "403": "Du har ikke tilladelse til at tjekke denne node ud.",
+                "409": "Denne node er allerede tjekket ud eller låst af en anden bruger."
+            },
+            "CANCEL_CHECKOUT": {
+                "400": "Udtjekningen kan ikke annulleres. Noden er ikke en indholdsnode eller er ikke tjekket ud i øjeblikket.",
+                "403": "Du har ikke tilladelse til at annullere udtjekningen af denne node.",
+                "409": "Det mislykkedes at annullere udtjekningen. Prøv igen, eller kontakt din IT-afdeling."
+            },
+            "404": "Node ikke fundet.",
+            "UNKNOWN": "Der opstod en uventet fejl. Prøv igen, eller kontakt din IT-afdeling."
+        }
     }
 }
