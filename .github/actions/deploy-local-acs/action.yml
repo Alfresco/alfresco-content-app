@@ -31,6 +31,13 @@ inputs:
       and PVCs to become ready, in Helm's duration format (e.g. '5m', '10m').
     required: false
     default: '10m'
+  log_name_identifier:
+    description: >-
+      Suffix that makes the uploaded pod-logs artifact name unique. Callers in a
+      matrix must pass a value unique per leg (e.g. browser + suite) to avoid
+      artifact name collisions.
+    required: false
+    default: 'deploy-local-acs'
 
 runs:
   using: "composite"
@@ -306,3 +313,11 @@ runs:
         echo "::group::Actual container images running in the cluster"
         echo "${pod_images:-(no pods found)}"
         echo "::endgroup::"
+
+    - name: Upload pods logs
+      if: always()
+      uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-keep-nslogs@d2981070adf1a68c3ddcbf0ebba193467261c9b3 # v18.26.0
+      with:
+        namespace: default
+        log_retention: 7
+        log_name_identifier: "logs-pods-${{ inputs.log_name_identifier }}"
