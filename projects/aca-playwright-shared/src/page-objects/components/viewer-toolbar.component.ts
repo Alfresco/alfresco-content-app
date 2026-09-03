@@ -28,9 +28,19 @@ import { BaseComponent } from './base.component';
 export class ViewerToolbarComponent extends BaseComponent {
   private static readonly rootElement = 'adf-viewer';
 
-  public infoDrawerButton = this.getChild('[title="View Details"]');
+  private readonly moreActionsButton = this.getChild('button[id="app.viewer.toolbar.more"]');
+  public viewDetailsButton = this.getChild('[title="View Details"]');
+  public fullScreenButton = this.getChild('button[id="app.viewer.fullscreen"]');
+  public shareButton = this.getChild('button[id="share-action-button"]');
+  public downloadButton = this.getChild('button[id="app.viewer.download"]');
+  public sharedDownloadButton = this.getChild('button[id="app.viewer.shared.download"]');
 
   constructor(page: Page) {
     super(page, ViewerToolbarComponent.rootElement);
+  }
+
+  async clickMoreActions(): Promise<void> {
+    await this.moreActionsButton.waitFor({ state: 'attached' });
+    await this.moreActionsButton.click();
   }
 }

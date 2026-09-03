@@ -139,7 +139,7 @@ test.describe('Remember sorting', () => {
 
   test('[XAT-4526] Size sort order is retained after viewing a file and closing the viewer', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(initialSortState.firstElement);
-    await personalFiles.viewer.closeButtonLocator.click();
+    await personalFiles.viewer.closeButton.click();
     await personalFiles.waitForPageLoad();
     const firstExpectedSortState = await getSortState(personalFiles);
     expect(firstExpectedSortState).toEqual(initialSortState);
@@ -149,7 +149,7 @@ test.describe('Remember sorting', () => {
     await personalFiles.page.waitForTimeout(1000);
     const secondExpectedSortData = await getSortState(personalFiles);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(secondExpectedSortData.firstElement);
-    await personalFiles.viewer.closeButtonLocator.click();
+    await personalFiles.viewer.closeButton.click();
     await personalFiles.waitForPageLoad();
     const actualSortData = await getSortState(personalFiles);
     expect(actualSortData).toEqual(secondExpectedSortData);

@@ -143,7 +143,7 @@ test.describe('Unshare a file from Search Results', () => {
 
     await page.goto(url);
     await personalFiles.viewer.waitForViewerToOpen();
-    await expect(personalFiles.viewer.fileTitleButtonLocator).not.toHaveText(file2);
+    await expect(personalFiles.viewer.fileTitleButton).not.toHaveText(file2);
     expect(await nodesApiAction.isFileShared(file2Id)).toBe(false);
   });
 
@@ -174,7 +174,7 @@ test.describe('Unshare a file from Search Results', () => {
 
     await page.goto(url);
     await personalFiles.viewer.waitForViewerToOpen();
-    expect(personalFiles.viewer.fileTitleButtonLocator.textContent()).not.toEqual(file4);
+    expect(personalFiles.viewer.fileTitleButton.textContent()).not.toEqual(file4);
     expect(await nodesApiAction.isFileShared(file4Id)).toBe(false);
   });
 
