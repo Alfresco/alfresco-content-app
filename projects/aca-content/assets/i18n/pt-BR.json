@@ -743,5 +743,21 @@
             "TITLE": "Agentes de IA",
             "DISCOVERY": "Discovery"
         }
+    },
+    "CHECKOUT": {
+        "ERRORS": {
+            "CHECKOUT": {
+                "400": "Este nó não pode ser retirado (checkout). Deve ser um nó de conteúdo (cm:content).",
+                "403": "Você não tem permissão para retirar (checkout) este nó.",
+                "409": "Este nó já está retirado (checkout) ou bloqueado por outro usuário."
+            },
+            "CANCEL_CHECKOUT": {
+                "400": "O checkout não pode ser cancelado. O nó não é um nó de conteúdo ou não está retirado atualmente.",
+                "403": "Você não tem permissão para cancelar o checkout deste nó.",
+                "409": "Falha ao cancelar o checkout. Tente novamente ou contate sua equipe de TI."
+            },
+            "404": "Nó não encontrado.",
+            "UNKNOWN": "Ocorreu um erro inesperado. Tente novamente ou contate sua equipe de TI."
+        }
     }
 }

@@ -743,5 +743,21 @@
             "TITLE": "KI-Agenten",
             "DISCOVERY": "Discovery"
         }
+    },
+    "CHECKOUT": {
+        "ERRORS": {
+            "CHECKOUT": {
+                "400": "Dieser Knoten kann nicht ausgecheckt werden. Es muss ein Inhaltsknoten (cm:content) sein.",
+                "403": "Sie haben keine Berechtigung, diesen Knoten auszuchecken.",
+                "409": "Dieser Knoten ist bereits ausgecheckt oder von einem anderen Benutzer gesperrt."
+            },
+            "CANCEL_CHECKOUT": {
+                "400": "Der Checkout kann nicht abgebrochen werden. Der Knoten ist kein Inhaltsknoten oder ist derzeit nicht ausgecheckt.",
+                "403": "Sie haben keine Berechtigung, den Checkout für diesen Knoten abzubrechen.",
+                "409": "Checkout konnte nicht abgebrochen werden. Bitte versuchen Sie es erneut oder kontaktieren Sie Ihr IT-Team."
+            },
+            "404": "Knoten nicht gefunden.",
+            "UNKNOWN": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut oder kontaktieren Sie Ihr IT-Team."
+        }
     }
 }
