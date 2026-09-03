@@ -252,10 +252,6 @@ runs:
           kubectl describe pod -n "$ns" "$pod" || true
           echo "::endgroup::"
 
-          echo "::group::logs ${ns}/${pod} (current)"
-          kubectl logs -n "$ns" "$pod" --all-containers --tail=200 || true
-          echo "::endgroup::"
-
           echo "::group::logs ${ns}/${pod} (previous)"
           kubectl logs -n "$ns" "$pod" --all-containers --previous --tail=200 2>/dev/null || echo "(no previous container logs)"
           echo "::endgroup::"
