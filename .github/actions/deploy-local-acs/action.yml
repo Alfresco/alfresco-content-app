@@ -26,9 +26,9 @@ inputs:
     default: 'latest'
   helm_install_timeout:
     description: >-
-      Timeout for the Helm install to wait for the chart's resources and
-      hooks (e.g. the search reindexing job) to become ready, in Helm's
-      duration format (e.g. '5m', '10m').
+      Timeout for the Helm install to wait for the chart's hooks (e.g. the
+      search reindexing job) and, via --wait, its Deployments, StatefulSets
+      and PVCs to become ready, in Helm's duration format (e.g. '5m', '10m').
     required: false
     default: '10m'
 
@@ -193,14 +193,12 @@ runs:
           sleep "$sleep_s"
         done
         helm install acs acs-deployment/helm/alfresco-content-services \
+          --wait \
           --timeout "$HELM_INSTALL_TIMEOUT" \
           --set global.search.sharedSecret="$(openssl rand -hex 24)" \
           --values "acs-deployment/helm/alfresco-content-services/${chart_values}" \
           --values acs-deployment/test/enterprise-integration-test-values.yaml \
           --values .github/acs-deployment-values-override.yaml
-
-    - name: Wait for pods to be ready
-      uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-wait@v18.21.0
 
     - name: Report deployed ACS versions
       if: always()
