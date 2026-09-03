@@ -98,7 +98,7 @@ runs:
         exit 1
 
     - name: Setup cluster
-      uses: Alfresco/alfresco-build-tools/.github/actions/setup-kind@v18.21.0
+      uses: Alfresco/alfresco-build-tools/.github/actions/setup-kind@v18.26.0
       with:
         ingress-nginx-ref: controller-v1.8.2
         ingress-creation-timeout: 180s
