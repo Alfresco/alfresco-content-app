@@ -204,12 +204,24 @@ runs:
       if: failure()
       shell: bash
       run: |
-        echo "::group::Pods (all namespaces)"
-        kubectl get pods -A -o wide || true
+        echo "::group::Helm releases"
+        helm ls --all-namespaces --all || true
         echo "::endgroup::"
 
-        echo "::group::Deployments, StatefulSets and Jobs (all namespaces)"
-        kubectl get deploy,statefulset,job -A || true
+        echo "::group::Helm status (acs)"
+        helm status acs --show-resources || true
+        echo "::endgroup::"
+
+        echo "::group::All resources (all namespaces)"
+        kubectl get all --all-namespaces || true
+        echo "::endgroup::"
+
+        echo "::group::Node metrics"
+        kubectl top nodes || true
+        echo "::endgroup::"
+
+        echo "::group::Pod metrics (by memory)"
+        kubectl top pod --all-namespaces --sort-by=memory || true
         echo "::endgroup::"
 
         echo "::group::Recent cluster events"
