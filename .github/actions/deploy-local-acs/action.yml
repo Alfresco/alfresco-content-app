@@ -24,6 +24,13 @@ inputs:
       chart's standard values.yaml instead.
     required: false
     default: 'latest'
+  helm_install_timeout:
+    description: >-
+      Timeout for the Helm install to wait for the chart's resources and
+      hooks (e.g. the search reindexing job) to become ready, in Helm's
+      duration format (e.g. '5m', '10m').
+    required: false
+    default: '10m'
 
 runs:
   using: "composite"
@@ -170,6 +177,7 @@ runs:
       shell: bash
       env:
         ACS_VERSION_INPUT: ${{ inputs.acs_deployment_version }}
+        HELM_INSTALL_TIMEOUT: ${{ inputs.helm_install_timeout }}
       run: |
         [ "$ACS_VERSION_INPUT" = "master" ] && chart_values="pre-release_values.yaml" || chart_values="values.yaml"
         for attempt in 1 2 3; do
@@ -185,6 +193,7 @@ runs:
           sleep "$sleep_s"
         done
         helm install acs acs-deployment/helm/alfresco-content-services \
+          --timeout "$HELM_INSTALL_TIMEOUT" \
           --set global.search.sharedSecret="$(openssl rand -hex 24)" \
           --values "acs-deployment/helm/alfresco-content-services/${chart_values}" \
           --values acs-deployment/test/enterprise-integration-test-values.yaml \
