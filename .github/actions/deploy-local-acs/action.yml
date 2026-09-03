@@ -200,6 +200,48 @@ runs:
           --values acs-deployment/test/enterprise-integration-test-values.yaml \
           --values .github/acs-deployment-values-override.yaml
 
+    - name: Dump cluster state on deploy failure
+      if: failure()
+      shell: bash
+      run: |
+        echo "::group::Pods (all namespaces)"
+        kubectl get pods -A -o wide || true
+        echo "::endgroup::"
+
+        echo "::group::Deployments, StatefulSets and Jobs (all namespaces)"
+        kubectl get deploy,statefulset,job -A || true
+        echo "::endgroup::"
+
+        echo "::group::Recent cluster events"
+        kubectl get events -A --sort-by=.lastTimestamp | tail -n 100 || true
+        echo "::endgroup::"
+
+        # Filter on the Ready condition, not phase: the usual culprit is a repository pod stuck phase=Running/Ready=False on a startup-probe timeout, which a phase filter would miss.
+        pods=$(kubectl get pods -A \
+          -o jsonpath='{range .items[*]}{.metadata.namespace}{"\t"}{.metadata.name}{"\t"}{.status.phase}{"\t"}{range .status.conditions[?(@.type=="Ready")]}{.status}{end}{"\n"}{end}' \
+          2>/dev/null || true)
+        not_ready=$(echo "$pods" | awk -F'\t' '$3 != "Succeeded" && $4 != "True" { print $1" "$2 }')
+
+        if [ -z "$not_ready" ]; then
+          echo "No not-ready pods were found."
+          exit 0
+        fi
+
+        while read -r ns pod; do
+          [ -z "$ns" ] && continue
+          echo "::group::describe ${ns}/${pod}"
+          kubectl describe pod -n "$ns" "$pod" || true
+          echo "::endgroup::"
+
+          echo "::group::logs ${ns}/${pod} (current)"
+          kubectl logs -n "$ns" "$pod" --all-containers --tail=200 || true
+          echo "::endgroup::"
+
+          echo "::group::logs ${ns}/${pod} (previous)"
+          kubectl logs -n "$ns" "$pod" --all-containers --previous --tail=200 2>/dev/null || echo "(no previous container logs)"
+          echo "::endgroup::"
+        done <<< "$not_ready"
+
     - name: Report deployed ACS versions
       if: always()
       shell: bash
