@@ -178,7 +178,7 @@ export function filesLockedByCurrentUser(userDemoted: string, siteName?: string)
           myLibrariesPage,
           testData.fileLockedByUser,
           testData.collaboratorLockedToolbarPrimary,
-          testData.favoritesWorkingCopyCollaboratorToolbarMore
+          testData.favoritesCheckedOutCollaboratorToolbarMore
         );
       });
 
@@ -187,8 +187,8 @@ export function filesLockedByCurrentUser(userDemoted: string, siteName?: string)
         await checkActionsAvailable(
           myLibrariesPage,
           testData.fileLockedByUserWorkingCopyName,
-          testData.collaboratorToolbarPrimary,
-          testData.collaboratorLockCurrentUserToolbarMore
+          testData.collaboratorWorkingCopyToolbarPrimary,
+          testData.lockedWorkingCopyToolbarMore
         );
       });
     });
@@ -201,7 +201,7 @@ export function filesLockedByCurrentUser(userDemoted: string, siteName?: string)
           myLibrariesPage,
           testData.fileLockedByUserWorkingCopyName,
           testData.collaboratorSharedWorkingCopyToolbarPrimary,
-          testData.collaboratorLockedSharedViewerToolbarMore
+          testData.collaboratorLockWorkingCopyToolbarMore
         );
       });
 

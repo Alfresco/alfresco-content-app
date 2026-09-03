@@ -224,9 +224,8 @@ test.describe('viewer action file', () => {
     test('[XAT-5423] Viewer - Edit Offline action - Personal Files', async ({ personalFiles }) => {
       await openFileInViewer(personalFiles, fileForEditOffline);
       await personalFiles.acaHeader.clickViewerMoreActions();
-      await personalFiles.matMenu.clickMenuItem('Edit Offline');
       const downloadPromise = personalFiles.page.waitForEvent('download');
-      await personalFiles.acaHeader.downloadButtonViewer.click();
+      await personalFiles.matMenu.clickMenuItem('Edit Offline');
       const download = await downloadPromise;
       expect(download.suggestedFilename(), 'File should found in download location').toBe(fileForEditOffline);
       expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is closed after pressing Full screen').toBe(true);
