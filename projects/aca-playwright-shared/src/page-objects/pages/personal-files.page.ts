@@ -47,7 +47,8 @@ import {
   SnackBarComponent,
   EditDialog,
   FolderInformationDialogComponent,
-  EditModeComponent
+  EditModeComponent,
+  ViewerToolbarComponent
 } from '../components';
 
 export class PersonalFilesPage extends BasePage {
@@ -63,6 +64,8 @@ export class PersonalFilesPage extends BasePage {
   public contentNodeSelector = new ContentNodeSelectorDialog(this.page);
   public dataTable = new DataTableComponent(this.page);
   public viewer = new ViewerComponent(this.page);
+  public viewerToolbar = new ViewerToolbarComponent(this.page);
+
   public passwordDialog = new PasswordOverlayDialogComponent(this.page);
   public viewerDialog = new ViewerOverlayDialogComponent(this.page);
   public breadcrumb = new Breadcrumb(this.page);

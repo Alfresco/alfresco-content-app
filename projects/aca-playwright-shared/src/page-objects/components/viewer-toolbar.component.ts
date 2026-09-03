@@ -22,21 +22,15 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './snackBar/snack-bar.component';
-export * from './dataTable';
-export * from './dialogs';
-export * from './manageRules';
-export * from './base.component';
-export * from './actions-dropdown.component';
-export * from './conditions.component';
-export * from './pagination.component';
-export * from './adf-info-drawer.component';
-export * from './viewer.component';
-export * from './search';
-export * from './breadcrumb/breadcrumb.component';
-export * from './sidenav.component';
-export * from './aca-header.component';
-export * from './error.component';
-export * from './datetime-picker/datetime-picker.component';
-export * from './edit-mode.component';
-export * from './viewer-toolbar.component';
+import { Page } from '@playwright/test';
+import { BaseComponent } from './base.component';
+
+export class ViewerToolbarComponent extends BaseComponent {
+  private static readonly rootElement = 'adf-viewer';
+
+  public infoDrawerButton = this.getChild('[title="View Details"]');
+
+  constructor(page: Page) {
+    super(page, ViewerToolbarComponent.rootElement);
+  }
+}

@@ -47,10 +47,13 @@ async function initializeApis(username: string): Promise<{ nodesApi: NodesApi; t
   return { nodesApi, trashcanApi, fileActionsApi };
 }
 
+let file19936Name: string;
+
 test.describe('viewer file', () => {
   test.describe('Open viewer from Personal Files', () => {
     const username = `user-${Utils.random()}`;
     const randomDocxName = `${TEST_FILES.DOCX.name}-${Utils.random()}`;
+    file19936Name = `file19936-${Utils.random()}`;
     let folderViewerId: string;
     let nodesApiViewer: NodesApi;
     let trashcanApiViewer: TrashcanApi;
@@ -63,7 +66,9 @@ test.describe('viewer file', () => {
         const { fileActionsApi } = apis;
         folderViewerId = (await nodesApiViewer.createFolder(`viewer-${Utils.random()}`)).entry.id;
         await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderViewerId);
+        await fileActionsApi.uploadFile(TEST_FILES.JPG_FILE.path, file19936Name, folderViewerId);
         await fileActionsApi.waitForNodes(randomDocxName, { expect: 1 });
+        await fileActionsApi.waitForNodes(file19936Name, { expect: 1 });
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
         throw error;
@@ -105,6 +110,19 @@ test.describe('viewer file', () => {
       expect(await personalFiles.viewer.getCloseButtonTooltip()).toEqual('Close');
       await personalFiles.viewer.closeButtonLocator.click();
       await expect(personalFiles.dataTable.getCellLinkByName(randomDocxName), 'Viewer did not close').toBeVisible();
+    });
+
+    test('[XAT-19936] Filename in the viewer updates whenever the user changes the filename in the infodrawer', async ({ personalFiles }) => {
+      const file19936NameAfter = `updated-${file19936Name}`;
+      await personalFiles.dataTable.performClickFolderOrFileToOpen(file19936Name);
+      expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+      await personalFiles.viewerToolbar.infoDrawerButton.click();
+      await personalFiles.infoDrawer.generalInfoEditButton.click();
+      await personalFiles.infoDrawer.generalInfoNameField.fill(file19936NameAfter);
+      await personalFiles.infoDrawer.generalInfoSaveButton.click();
+      await Utils.waitForApiResponse(personalFiles, 'nodes', 200);
+      await personalFiles.page.waitForTimeout(5000);
+      expect(await personalFiles.viewer.fileTitleButtonLocator.textContent()).toContain(file19936NameAfter);
     });
   });
 
