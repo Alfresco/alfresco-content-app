@@ -53,7 +53,7 @@ export const collaboratorEditRowToolbarMore = [
   'Edit Aspects',
   'Permissions'
 ];
-export const favoritesWorkingCopyCollaboratorToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy'];
+export const favoritesCheckedOutCollaboratorToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Information'];
 export const favoritesCollaboratorToolbarMore = ['Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
 export const collaboratorSharedToolbarPrimary = [
   'Activate full-screen mode',
@@ -84,6 +84,7 @@ export const collaboratorLockedOriginalSharedViewerToolbarPrimary = [
 export const collaboratorLockedSharedViewerToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy'];
 export const collaboratorLockCurrentUserToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
 export const collaboratorLockWorkingCopyToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Copy'];
+export const lockedWorkingCopyToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Move', 'Copy', 'Information', 'Permissions'];
 export const collaboratorLockOtherUserToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
 export const collaboratorLockOtherUserSearchToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
 
