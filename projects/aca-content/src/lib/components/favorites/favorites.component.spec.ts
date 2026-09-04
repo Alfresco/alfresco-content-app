@@ -34,7 +34,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { testHeader, testUploadEvents } from '../../testing/document-base-page-utils';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { NodeEntry } from '@alfresco/js-api';
-import { NavigateToFolder } from '@alfresco/aca-shared/store';
+import { AppStore, NavigateToFolder } from '@alfresco/aca-shared/store';
 
 describe('FavoritesComponent', () => {
   let fixture: ComponentFixture<FavoritesComponent>;
@@ -42,7 +42,7 @@ describe('FavoritesComponent', () => {
   let contentApi: ContentApiService;
   let router: Router;
   let node;
-  let store: MockStore;
+  let store: MockStore<AppStore>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
