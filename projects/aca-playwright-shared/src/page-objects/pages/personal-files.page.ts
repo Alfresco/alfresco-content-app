@@ -40,7 +40,7 @@ import {
   ErrorComponent,
   ShareDialogComponent,
   AdfConfirmDialogComponent,
-  AdfInfoDrawerComponent,
+  InfoDrawerComponent,
   UploadNewVersionDialog,
   ManageVersionsDialog,
   UploadDialog,
@@ -63,6 +63,7 @@ export class PersonalFilesPage extends BasePage {
   public contentNodeSelector = new ContentNodeSelectorDialog(this.page);
   public dataTable = new DataTableComponent(this.page);
   public viewer = new ViewerComponent(this.page);
+
   public passwordDialog = new PasswordOverlayDialogComponent(this.page);
   public viewerDialog = new ViewerOverlayDialogComponent(this.page);
   public breadcrumb = new Breadcrumb(this.page);
@@ -72,7 +73,7 @@ export class PersonalFilesPage extends BasePage {
   public errorDialog = new ErrorComponent(this.page);
   public shareDialog = new ShareDialogComponent(this.page);
   public confirmDialog = new AdfConfirmDialogComponent(this.page);
-  public infoDrawer = new AdfInfoDrawerComponent(this.page);
+  public infoDrawer = new InfoDrawerComponent(this.page);
   public nodeInfoEditMode = new EditModeComponent(this.page);
   public uploadNewVersionDialog = new UploadNewVersionDialog(this.page);
   public manageVersionsDialog = new ManageVersionsDialog(this.page);

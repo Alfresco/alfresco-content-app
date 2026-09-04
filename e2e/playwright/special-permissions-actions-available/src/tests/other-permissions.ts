@@ -47,7 +47,7 @@ async function checkActionsViewerAvailable(
   await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(item);
   expect(await myLibrariesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
   await myLibrariesPage.viewer.verifyViewerPrimaryActions(expectedToolbarPrimary);
-  await myLibrariesPage.acaHeader.clickViewerMoreActions();
+  await myLibrariesPage.viewer.toolbar.clickMoreActions();
   await myLibrariesPage.matMenu.verifyActualMoreActions(expectedToolbarMore);
 }
 

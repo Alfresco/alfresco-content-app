@@ -23,26 +23,24 @@
  */
 
 import { Page } from '@playwright/test';
-import { BasePage } from './base.page';
-import { DataTableComponent, MatMenuComponent, ViewerComponent, SidenavComponent, Breadcrumb, InfoDrawerComponent } from '../components';
-import { AcaHeader } from '../components/aca-header.component';
-import { AdfFolderDialogComponent, ContentNodeSelectorDialog, ManageVersionsDialog } from '../components/dialogs';
+import { BaseComponent } from './base.component';
 
-export class RecentFilesPage extends BasePage {
-  private static readonly pageUrl = 'recent-files';
+export class ViewerToolbarComponent extends BaseComponent {
+  private static readonly rootElement = 'adf-viewer';
+
+  private readonly moreActionsButton = this.getChild('button[id="app.viewer.toolbar.more"]');
+  public viewDetailsButton = this.getChild('[title="View Details"]');
+  public fullScreenButton = this.getChild('button[id="app.viewer.fullscreen"]');
+  public shareButton = this.getChild('button[id="share-action-button"]');
+  public downloadButton = this.getChild('button[id="app.viewer.download"]');
+  public sharedDownloadButton = this.getChild('button[id="app.viewer.shared.download"]');
 
   constructor(page: Page) {
-    super(page, RecentFilesPage.pageUrl);
+    super(page, ViewerToolbarComponent.rootElement);
   }
 
-  public acaHeader = new AcaHeader(this.page);
-  public matMenu = new MatMenuComponent(this.page);
-  public folderDialog = new AdfFolderDialogComponent(this.page);
-  public dataTable = new DataTableComponent(this.page);
-  public viewer = new ViewerComponent(this.page);
-  public sidenav = new SidenavComponent(this.page);
-  public breadcrumb = new Breadcrumb(this.page);
-  public infoDrawer = new InfoDrawerComponent(this.page);
-  public contentNodeSelector = new ContentNodeSelectorDialog(this.page);
-  public manageVersionsDialog = new ManageVersionsDialog(this.page);
+  async clickMoreActions(): Promise<void> {
+    await this.moreActionsButton.waitFor({ state: 'attached' });
+    await this.moreActionsButton.click();
+  }
 }

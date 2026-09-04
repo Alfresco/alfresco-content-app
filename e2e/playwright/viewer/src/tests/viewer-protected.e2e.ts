@@ -81,7 +81,7 @@ test.describe('viewer file', () => {
   });
 
   test('[XAT-5470] Refresh the page while Password dialog is open', async ({ personalFiles }) => {
-    await personalFiles.viewer.viewerLocator.waitFor({ state: 'visible' });
+    await personalFiles.viewer.viewerRender.waitFor({ state: 'visible' });
     await personalFiles.passwordDialog.enterPassword(TEST_FILES.PDF_PROTECTED.password);
 
     await personalFiles.page.waitForLoadState('networkidle');

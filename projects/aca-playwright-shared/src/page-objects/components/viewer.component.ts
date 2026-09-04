@@ -24,21 +24,19 @@
 
 import { Page, expect } from '@playwright/test';
 import { BaseComponent } from './base.component';
-import { AcaHeader } from './aca-header.component';
+import { ViewerToolbarComponent } from './viewer-toolbar.component';
 import { timeouts } from '../../utils';
 
 export class ViewerComponent extends BaseComponent {
   private static readonly rootElement = 'adf-viewer';
 
-  public viewerLocator = this.getChild('adf-viewer-render');
-  public closeButtonLocator = this.getChild('.adf-viewer-close-button');
-  public fileTitleButtonLocator = this.getChild('#adf-viewer-display-name');
+  public viewerRender = this.getChild('adf-viewer-render');
+  public closeButton = this.getChild('.adf-viewer-close-button');
+  public fileTitleButton = this.getChild('#adf-viewer-display-name');
   public pdfViewerContentPages = this.getChild('.adf-pdf-viewer__content .page');
-  public shareButton = this.getChild('button[id="share-action-button"]');
-  public downloadButton = this.getChild('button[id="app.viewer.download"]');
   public unknownFormat = this.getChild(`adf-viewer-unknown-format .adf-viewer__unknown-format-view`);
-  public viewerImage = this.viewerLocator.locator('#viewer-image');
-  public viewerDocument = this.viewerLocator.locator('.adf-pdf-viewer__content [role="document"]');
+  public viewerImage = this.viewerRender.locator('#viewer-image');
+  public viewerDocument = this.viewerRender.locator('.adf-pdf-viewer__content [role="document"]');
   public documentThumbnailButton = this.getChild('[data-automation-id="adf-thumbnails-button"]');
   public thumbnailsPages = this.getChild('[data-automation-id="adf-thumbnails-content"] adf-pdf-thumb');
   public thumbnailsCloseButton = this.getChild('[data-automation-id="adf-thumbnails-close"]');
@@ -54,7 +52,7 @@ export class ViewerComponent extends BaseComponent {
   public previousFileButton = this.getChild('[data-automation-id="adf-toolbar-pref-file"]');
   public noPermissionsView = this.getChild('aca-generic-error');
 
-  toolbar = new AcaHeader(this.page);
+  public toolbar = new ViewerToolbarComponent(this.page);
 
   constructor(page: Page) {
     super(page, ViewerComponent.rootElement);
@@ -67,12 +65,12 @@ export class ViewerComponent extends BaseComponent {
 
   async isViewerOpened(): Promise<boolean> {
     await this.waitForViewerToOpen();
-    return this.viewerLocator.isVisible();
+    return this.viewerRender.isVisible();
   }
 
   async waitForViewerToOpen(): Promise<void> {
     await this.waitForViewerLoaderToFinish();
-    await this.viewerLocator.waitFor({ state: 'visible', timeout: timeouts.large });
+    await this.viewerRender.waitFor({ state: 'visible', timeout: timeouts.large });
   }
 
   async waitForViewerLoaderToFinish(): Promise<void> {
@@ -101,13 +99,13 @@ export class ViewerComponent extends BaseComponent {
   }
 
   async isCloseButtonDisplayed(): Promise<boolean> {
-    await this.closeButtonLocator.waitFor({ state: 'visible', timeout: timeouts.normal });
-    return this.closeButtonLocator.isEnabled({ timeout: timeouts.normal });
+    await this.closeButton.waitFor({ state: 'visible', timeout: timeouts.normal });
+    return this.closeButton.isEnabled({ timeout: timeouts.normal });
   }
 
   async isFileTitleDisplayed(): Promise<boolean> {
-    await this.fileTitleButtonLocator.waitFor({ state: 'visible', timeout: timeouts.normal });
-    return this.fileTitleButtonLocator.isVisible();
+    await this.fileTitleButton.waitFor({ state: 'visible', timeout: timeouts.normal });
+    return this.fileTitleButton.isVisible();
   }
 
   async waitForZoomPercentageToDisplay(): Promise<void> {
@@ -129,8 +127,8 @@ export class ViewerComponent extends BaseComponent {
   }
 
   async getFileTitle(): Promise<string> {
-    await this.fileTitleButtonLocator.waitFor({ state: 'visible', timeout: timeouts.normal });
-    const title = await this.fileTitleButtonLocator.textContent();
+    await this.fileTitleButton.waitFor({ state: 'visible', timeout: timeouts.normal });
+    const title = await this.fileTitleButton.textContent();
     if (!title) {
       const errorMessage = 'File title is not displayed in the viewer';
       this.logger.error(errorMessage);
@@ -140,8 +138,8 @@ export class ViewerComponent extends BaseComponent {
   }
 
   async getCloseButtonTooltip(): Promise<string> {
-    await this.closeButtonLocator.waitFor({ state: 'visible', timeout: timeouts.normal });
-    const tooltip = await this.closeButtonLocator.getAttribute('title');
+    await this.closeButton.waitFor({ state: 'visible', timeout: timeouts.normal });
+    const tooltip = await this.closeButton.getAttribute('title');
     if (!tooltip) {
       const errorMessage = 'Close button tooltip is not available';
       this.logger.error(errorMessage);

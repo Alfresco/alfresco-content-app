@@ -28,17 +28,13 @@ import { BaseComponent } from './base.component';
 
 export class AcaHeader extends BaseComponent {
   private static readonly rootElement = 'aca-toolbar';
-  private readonly moreActionsButton = this.getChild('button[id="app.viewer.toolbar.more"]');
   private readonly toolbarMoreActions = this.getChild('button[id="app.toolbar.more"]');
   public createButton = this.getChild('[id="app.toolbar.create"]');
   public viewDetails = this.getChild('[title="View Details"]');
   public viewButton = this.getChild('button[title="View"]');
   public searchButton = this.getChild('button[id="app.toolbar.search"]');
-  public fullScreenButton = this.getChild('button[id="app.viewer.fullscreen"]');
   public shareButton = this.getChild('button[id="share-action-button"]');
-  public downloadButtonViewer = this.getChild('button[id="app.viewer.download"]');
   public downloadButton = this.getChild('button[id="app.toolbar.download"]');
-  public sharedDownloadButton = this.getChild('button[id="app.viewer.shared.download"]');
   public uploadButton = this.getChild('button[id="app.toolbar.upload"]');
   public uploadFileButton = this.page.locator('button[id="app.create.uploadFile"]');
   public uploadNewVersionButton = this.page.locator('#app-upload-file-version');
@@ -49,11 +45,6 @@ export class AcaHeader extends BaseComponent {
     super(page, AcaHeader.rootElement);
   }
   public matMenu = new MatMenuComponent(this.page);
-
-  async clickViewerMoreActions(): Promise<void> {
-    await this.moreActionsButton.waitFor({ state: 'attached' });
-    await this.moreActionsButton.click();
-  }
 
   async clickMoreActions(): Promise<void> {
     await this.toolbarMoreActions.waitFor({ state: 'attached' });
