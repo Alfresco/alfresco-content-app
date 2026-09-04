@@ -28,10 +28,13 @@ import { CustomResourcesService } from '@alfresco/adf-content-services';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { FavoritesComponent } from './favorites.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { AppService, ContentApiService } from '@alfresco/aca-shared';
+import { AppService, ContentApiService, initialState } from '@alfresco/aca-shared';
 import { getTitleElementText } from '../../testing/test-utils';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { testHeader, testUploadEvents } from '../../testing/document-base-page-utils';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { NodeEntry } from '@alfresco/js-api';
+import { NavigateToFolder } from '@alfresco/aca-shared/store';
 
 describe('FavoritesComponent', () => {
   let fixture: ComponentFixture<FavoritesComponent>;
@@ -39,6 +42,7 @@ describe('FavoritesComponent', () => {
   let contentApi: ContentApiService;
   let router: Router;
   let node;
+  let store: MockStore;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -50,7 +54,8 @@ describe('FavoritesComponent', () => {
             appNavNarMode$: new BehaviorSubject('expanded'),
             toggleAppNavBar$: new Subject()
           }
-        }
+        },
+        provideMockStore({ initialState })
       ]
     });
 
@@ -79,37 +84,34 @@ describe('FavoritesComponent', () => {
     contentApi = TestBed.inject(ContentApiService);
     router = TestBed.inject(Router);
     spyOnProperty(router, 'url').and.returnValue('favorites');
+    store = TestBed.inject(MockStore);
   });
 
   describe('Node navigation', () => {
+    let loadedNode: NodeEntry;
+
     beforeEach(() => {
-      spyOn(contentApi, 'getNode').and.returnValue(of({ entry: node }));
-      spyOn(router, 'navigate').and.stub();
+      loadedNode = { entry: node };
+      spyOn(contentApi, 'getNode').and.returnValue(of(loadedNode));
       fixture.detectChanges();
     });
 
-    it('navigates to `/libraries` if node path has `Sites`', () => {
+    it('should call dispatch on store during navigating if node is folder', () => {
       node.path.elements = [{ name: 'Sites' }];
+      spyOn(store, 'dispatch');
 
       component.navigate(node);
 
-      expect(router.navigate).toHaveBeenCalledWith(['/libraries', 'folder-node']);
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining(new NavigateToFolder(loadedNode)));
     });
 
-    it('navigates to `/personal-files` if node path has no `Sites`', () => {
-      node.path.elements = [{ name: 'something else' }];
-
-      component.navigate(node);
-
-      expect(router.navigate).toHaveBeenCalledWith(['/personal-files', 'folder-node']);
-    });
-
-    it('does not navigate when node is not folder', () => {
+    it('should not call dispatch on store during navigating if node is not folder', () => {
       node.isFolder = false;
+      spyOn(store, 'dispatch');
 
       component.navigate(node);
 
-      expect(router.navigate).not.toHaveBeenCalled();
+      expect(store.dispatch).not.toHaveBeenCalled();
     });
   });
 

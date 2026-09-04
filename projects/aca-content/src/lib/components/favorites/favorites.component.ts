@@ -87,9 +87,8 @@ export class FavoritesComponent extends PageComponent implements OnInit {
   }
 
   navigate(favorite: Node) {
-    const { isFolder, id } = favorite;
-    if (isFolder) {
-      this.contentApi.getNode(id).subscribe((node) => this.store.dispatch(new NavigateToFolder(node)));
+    if (favorite.isFolder) {
+      this.contentApi.getNode(favorite.id).subscribe((node) => this.store.dispatch(new NavigateToFolder(node)));
     }
   }
 
