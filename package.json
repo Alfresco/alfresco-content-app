@@ -80,7 +80,7 @@
   },
   "devDependencies": {
     "@alfresco/adf-cli": "9.2.0-33763601027",
-    "@angular-devkit/build-angular": "20.3.35",
+    "@angular-devkit/build-angular": "21.2.23",
     "@angular-devkit/core": "20.3.16",
     "@angular-devkit/schematics": "20.3.16",
     "@angular-eslint/builder": "20.7.0",
@@ -125,7 +125,7 @@
     "karma-jasmine-html-reporter": "^2.2.0",
     "karma-mocha-reporter": "^2.2.5",
     "lint-staged": "^16.4.0",
-    "ng-packagr": "20.3.2",
+    "ng-packagr": "22.1.1",
     "node-stream-zip": "^1.14.0",
     "nx": "23.1.2",
     "prettier": "3.8.1",
