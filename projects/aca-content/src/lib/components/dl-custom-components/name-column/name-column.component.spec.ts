@@ -23,14 +23,16 @@
  */
 
 import { CustomNameColumnComponent } from './name-column.component';
+import { DatatableCellBadgesComponent } from '../datatable-cell-badges/datatable-cell-badges.component';
+import { LockedByComponent } from '@alfresco/aca-shared';
 import { provideStore } from '@ngrx/store';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { NoopTranslateModule, provideCoreAuth } from '@alfresco/adf-core';
+import { NoopTranslateModule, provideCoreAuth, UnitTestingUtils } from '@alfresco/adf-core';
 
 describe('CustomNameColumnComponent', () => {
   let fixture: ComponentFixture<CustomNameColumnComponent>;
   let component: CustomNameColumnComponent;
+  let testingUtils: UnitTestingUtils;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -57,6 +59,7 @@ describe('CustomNameColumnComponent', () => {
 
     fixture = TestBed.createComponent(CustomNameColumnComponent);
     component = fixture.componentInstance;
+    testingUtils = new UnitTestingUtils(fixture.debugElement);
   });
 
   it('should not render lock element if file is not locked', () => {
@@ -76,7 +79,7 @@ describe('CustomNameColumnComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(fixture.debugElement.nativeElement.querySelector('aca-locked-by')).toBe(null);
+    expect(testingUtils.getByDirective(LockedByComponent)).toBe(null);
   });
 
   it('should not render lock element if node is not a file', () => {
@@ -96,7 +99,7 @@ describe('CustomNameColumnComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(fixture.debugElement.nativeElement.querySelector('aca-locked-by')).toBe(null);
+    expect(testingUtils.getByDirective(LockedByComponent)).toBe(null);
   });
 
   it('should render lock element if file is locked', () => {
@@ -117,7 +120,7 @@ describe('CustomNameColumnComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(fixture.debugElement.nativeElement.querySelector('aca-locked-by')).not.toBe(null);
+    expect(testingUtils.getByDirective(LockedByComponent)).not.toBe(null);
   });
 
   it('should call parent component onClick method', () => {
@@ -138,8 +141,30 @@ describe('CustomNameColumnComponent', () => {
   });
 
   it('should pass node to badge component', () => {
-    const badgeElement = fixture.debugElement.query(By.css('aca-datatable-cell-badges'));
+    const badgeElement = testingUtils.getByDirective(DatatableCellBadgesComponent);
     expect(badgeElement).not.toBe(null);
     expect(badgeElement.componentInstance.node).toBe(component.node);
+  });
+
+  it('should render lock element for a working copy (cm:workingcopy aspect)', () => {
+    component.context = {
+      row: {
+        node: {
+          entry: {
+            isFile: true,
+            id: 'nodeId',
+            name: 'working-copy.txt',
+            aspectNames: ['cm:workingcopy'],
+            properties: {}
+          }
+        },
+        getValue: (key: string) => key
+      }
+    };
+
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    expect(testingUtils.getByDirective(LockedByComponent)).not.toBe(null);
   });
 });

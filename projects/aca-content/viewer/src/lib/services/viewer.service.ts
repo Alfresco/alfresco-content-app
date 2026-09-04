@@ -111,13 +111,18 @@ export class ViewerService {
         return [];
       }
       const orderBy = isClient ? null : ['isFolder desc', `${sortKey} ${sortDirection}`];
-      nodes = await this.contentApi
+      const result = await this.contentApi
         .getNodeChildren(folderId, {
           orderBy: orderBy,
-          fields: this.getFields(sortKey, previousSortKey),
+          include: ['aspectNames'],
+          fields: [...this.getFields(sortKey, previousSortKey), 'aspectNames'],
           where: '(isFile=true)'
         })
         .toPromise();
+      if (result) {
+        result.list.entries = result.list.entries.filter((e) => !e.entry.aspectNames?.includes('cm:checkedOut'));
+      }
+      nodes = result;
     }
 
     if (source === 'favorites') {

@@ -40,7 +40,7 @@ import {
   ViewNodeExtras
 } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '../../services/app.extension.service';
-import { isLibrary, isLocked } from '../../utils/node.utils';
+import { isLibrary } from '../../utils/node.utils';
 import { AutoDownloadService } from '../../services/auto-download.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Router } from '@angular/router';
@@ -177,14 +177,8 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   imageResolver(row: ShareDataRow): string | null {
-    if (row) {
-      if (isLocked(row.node)) {
-        return 'material-icons://lock';
-      }
-
-      if (isLibrary(row.node)) {
-        return 'material-icons://library_books';
-      }
+    if (row && isLibrary(row.node)) {
+      return 'material-icons://library_books';
     }
 
     return null;

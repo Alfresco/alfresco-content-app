@@ -137,7 +137,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         await checkViewerActions(
           loginPage,
           myLibrariesPage,
-          testData.fileLocked.name,
+          testData.fileLocked.workingCopyName,
           testData.fileLocked.viewerToolbarPrimary,
           testData.fileLocked.viewerToolbarMore
         );
@@ -147,9 +147,9 @@ export function viewerTests(userConsumer: string, siteName: string) {
         await checkViewerActions(
           loginPage,
           myLibrariesPage,
-          testData.fileFavLocked.name,
+          testData.fileFavLocked.workingCopyName,
           testData.fileFavLocked.viewerToolbarPrimary,
-          testData.fileFavLocked.viewerToolbarMore
+          testData.fileFavLocked.workingCopyViewerToolbarMore
         );
       });
 
@@ -157,7 +157,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         await checkViewerActions(
           loginPage,
           myLibrariesPage,
-          testData.fileSharedLocked.name,
+          testData.fileSharedLocked.workingCopyName,
           testData.fileSharedLocked.viewerToolbarPrimary,
           testData.fileSharedLocked.viewerToolbarMore
         );
@@ -167,9 +167,9 @@ export function viewerTests(userConsumer: string, siteName: string) {
         await checkViewerActions(
           loginPage,
           myLibrariesPage,
-          testData.fileSharedFavLocked.name,
+          testData.fileSharedFavLocked.workingCopyName,
           testData.fileSharedFavLocked.viewerToolbarPrimary,
-          testData.fileSharedFavLocked.viewerToolbarMore
+          testData.fileSharedFavLocked.workingCopyViewerToolbarMore
         );
       });
     });
@@ -443,7 +443,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         await checkViewerActions(
           loginPage,
           searchPage,
-          testData.fileLocked.name,
+          testData.fileLocked.workingCopyName,
           testData.fileLocked.viewerToolbarPrimary,
           testData.fileLocked.viewerToolbarMore
         );
@@ -453,9 +453,9 @@ export function viewerTests(userConsumer: string, siteName: string) {
         await checkViewerActions(
           loginPage,
           searchPage,
-          testData.fileFavLocked.name,
+          testData.fileFavLocked.workingCopyName,
           testData.fileFavLocked.viewerToolbarPrimary,
-          testData.fileFavLocked.viewerToolbarMore
+          testData.fileFavLocked.workingCopyViewerToolbarMore
         );
       });
 
@@ -463,7 +463,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         await checkViewerActions(
           loginPage,
           searchPage,
-          testData.fileSharedLocked.name,
+          testData.fileSharedLocked.workingCopyName,
           testData.fileSharedLocked.viewerToolbarPrimary,
           testData.fileSharedLocked.viewerToolbarMore
         );
@@ -473,7 +473,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         await checkViewerActions(
           loginPage,
           searchPage,
-          testData.fileSharedFavLocked.name,
+          testData.fileSharedFavLocked.workingCopyName,
           testData.fileSharedFavLocked.viewerToolbarPrimary,
           testData.fileSharedFavLocked.viewerToolbarMore
         );

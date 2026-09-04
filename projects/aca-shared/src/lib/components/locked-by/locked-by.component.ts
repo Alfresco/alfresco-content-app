@@ -26,13 +26,14 @@ import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } 
 import { NodeEntry } from '@alfresco/js-api';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
+import { isWorkingCopy } from '../../utils/node.utils';
 
 @Component({
   imports: [TranslatePipe, MatIconModule],
   selector: 'aca-locked-by',
   template: `
     <mat-icon class="aca-locked-by--icon">lock</mat-icon>
-    <span class="aca-locked-by--label">{{ 'APP.LOCKED_BY' | translate }}</span>
+    <span class="aca-locked-by--label">{{ (workingCopy ? 'CHECKOUT.CHECKED_OUT_BY' : 'APP.LOCKED_BY') | translate }}</span>
     <span class="aca-locked-by--name">{{ text }}</span>
   `,
   styleUrls: ['./locked-by.component.scss'],
@@ -46,9 +47,13 @@ export class LockedByComponent implements OnInit {
   @Input()
   node: NodeEntry;
 
-  public text: string;
+  workingCopy = false;
+  text: string;
 
   ngOnInit(): void {
-    this.text = this.node?.entry?.properties?.['cm:lockOwner']?.displayName;
+    this.workingCopy = isWorkingCopy(this.node);
+    this.text = this.workingCopy
+      ? this.node?.entry?.properties?.['cm:workingCopyOwner']?.displayName
+      : this.node?.entry?.properties?.['cm:lockOwner']?.displayName;
   }
 }

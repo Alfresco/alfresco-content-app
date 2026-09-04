@@ -25,7 +25,7 @@
 import * as app from './app.rules';
 import { createVersionRule, getFileExtension, isPreferencesApiAvailable, isNodeInfoAvailable, isBulkActionsAvailable } from './app.rules';
 import { TestRuleContext } from './test-rule-context';
-import { NodeEntry, RepositoryInfo, StatusInfo } from '@alfresco/js-api';
+import { NodeEntry, RepositoryInfo, SharedLink, StatusInfo } from '@alfresco/js-api';
 import { ProfileState, RuleContext } from '@alfresco/adf-extensions';
 
 describe('app.evaluators', () => {
@@ -1114,7 +1114,9 @@ describe('app.evaluators', () => {
     });
 
     it('should return true when file is locked and user is the owner of the lock', () => {
-      context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK', 'cm:lockOwner': { id: 'test1' } } } } as NodeEntry;
+      const file = { entry: { isFile: true, properties: { 'cm:lockType': 'WRITE_LOCK', 'cm:lockOwner': { id: 'test1' } } } } as NodeEntry;
+      context.selection.file = file;
+      context.selection.first = file;
       context.profile.id = 'test1';
       context.permissions = { check: () => false };
       expect(app.canToggleFileLock(context)).toBeTrue();
@@ -1206,6 +1208,42 @@ describe('app.evaluators', () => {
     });
   });
 
+  describe('isLockedOrWorkingCopy', () => {
+    it('should return false when there is no entry', () => {
+      expect(app.isLockedOrWorkingCopy(context, { entry: null })).toBeFalse();
+    });
+
+    it('should return false for a folder (not a file and no nodeId)', () => {
+      expect(app.isLockedOrWorkingCopy(context, { entry: { isFolder: true, isFile: false } } as NodeEntry)).toBeFalse();
+    });
+
+    it('should return true for a locked file', () => {
+      expect(app.isLockedOrWorkingCopy(context, { entry: { isFile: true, isLocked: true, aspectNames: [] } } as NodeEntry)).toBeTrue();
+    });
+
+    it('should return true for a file with cm:checkedOut aspect', () => {
+      expect(
+        app.isLockedOrWorkingCopy(context, { entry: { isFile: true, isLocked: false, aspectNames: ['cm:checkedOut'] } } as NodeEntry)
+      ).toBeTrue();
+    });
+
+    it('should return true for a file with cm:workingcopy aspect', () => {
+      expect(
+        app.isLockedOrWorkingCopy(context, { entry: { isFile: true, isLocked: false, aspectNames: ['cm:workingcopy'] } } as NodeEntry)
+      ).toBeTrue();
+    });
+
+    it('should return true for a shared link (no isFile) with cm:checkedOut aspect - ensures lock badge shows on shared page', () => {
+      const sharedLinkEntry = { nodeId: 'node-1', isFile: undefined, isFolder: undefined, aspectNames: ['cm:checkedOut'] } as SharedLink;
+      expect(app.isLockedOrWorkingCopy(context, { entry: sharedLinkEntry } as NodeEntry)).toBeTrue();
+    });
+
+    it('should return false for a shared link (no isFile) without lock aspects', () => {
+      const sharedLinkEntry = { nodeId: 'node-1', isFile: undefined, isFolder: undefined, aspectNames: [] } as SharedLink;
+      expect(app.isLockedOrWorkingCopy(context, { entry: sharedLinkEntry } as NodeEntry)).toBeFalse();
+    });
+  });
+
   describe('isCheckedOut', () => {
     it('should return false when there is no selection', () => {
       context.selection.isEmpty = true;
@@ -1222,6 +1260,131 @@ describe('app.evaluators', () => {
       context.selection.isEmpty = false;
       context.selection.first = { entry: { aspectNames: ['cm:checkedOut'] } } as any;
       expect(app.isCheckedOut(context)).toBeTrue();
+    });
+  });
+
+  describe('isWorkingCopy', () => {
+    it('should return false when selection is empty', () => {
+      context.selection.isEmpty = true;
+      expect(app.isWorkingCopy(context)).toBeFalse();
+    });
+
+    it('should return false when node does not have cm:workingcopy aspect', () => {
+      context.selection.isEmpty = false;
+      context.selection.first = { entry: { aspectNames: ['cm:checkedOut'] } } as NodeEntry;
+      expect(app.isWorkingCopy(context)).toBeFalse();
+    });
+
+    it('should return true when node has cm:workingcopy aspect', () => {
+      context.selection.isEmpty = false;
+      context.selection.first = { entry: { aspectNames: ['cm:workingcopy'] } } as NodeEntry;
+      expect(app.isWorkingCopy(context)).toBeTrue();
+    });
+  });
+
+  describe('canCheckout', () => {
+    beforeEach(() => {
+      context.selection.isEmpty = false;
+      context.selection.file = { entry: { isFile: true, aspectNames: [], properties: {} } } as NodeEntry;
+      context.selection.first = context.selection.file;
+      context.selection.nodes = [context.selection.file] as NodeEntry[];
+      context.permissions = { check: () => true };
+    });
+
+    it('should return false when no file is selected', () => {
+      context.selection.file = null;
+      expect(app.canCheckout(context)).toBeFalse();
+    });
+
+    it('should return false when in trashcan', () => {
+      context.navigation = { url: '/trashcan' };
+      expect(app.canCheckout(context)).toBeFalse();
+    });
+
+    it('should return false when selected node is a link', () => {
+      context.selection.nodes = [{ entry: { nodeType: 'app:filelink' } }] as NodeEntry[];
+      expect(app.canCheckout(context)).toBeFalse();
+    });
+
+    it('should return false when user has no update permission', () => {
+      context.permissions = { check: () => false };
+      expect(app.canCheckout(context)).toBeFalse();
+    });
+
+    it('should return false when node is already checked out', () => {
+      context.selection.first = {
+        entry: { isFile: true, aspectNames: ['cm:checkedOut'], properties: { 'cm:lockType': 'READ_ONLY_LOCK' } }
+      } as NodeEntry;
+      context.selection.file = context.selection.first;
+      context.selection.nodes = [context.selection.first] as NodeEntry[];
+      expect(app.canCheckout(context)).toBeFalse();
+    });
+
+    it('should return false when node is a working copy', () => {
+      context.selection.first = { entry: { isFile: true, aspectNames: ['cm:workingcopy'], properties: {} } } as NodeEntry;
+      context.selection.file = context.selection.first;
+      context.selection.nodes = [context.selection.first] as NodeEntry[];
+      expect(app.canCheckout(context)).toBeFalse();
+    });
+
+    it('should return true for a plain unlocked file with update permission', () => {
+      expect(app.canCheckout(context)).toBeTrue();
+    });
+  });
+
+  describe('canCancelCheckout', () => {
+    beforeEach(() => {
+      context.selection.isEmpty = false;
+      context.selection.file = {
+        entry: { isFile: true, aspectNames: ['cm:checkedOut'], properties: { 'cm:lockType': 'READ_ONLY_LOCK', 'cm:lockOwner': { id: 'user1' } } }
+      } as NodeEntry;
+      context.selection.first = context.selection.file;
+      context.selection.nodes = [context.selection.file] as NodeEntry[];
+      context.profile = { id: 'user1' } as unknown as ProfileState;
+      context.permissions = { check: () => true };
+    });
+
+    it('should return false when no file is selected', () => {
+      context.selection.file = null;
+      expect(app.canCancelCheckout(context)).toBeFalse();
+    });
+
+    it('should return false when in trashcan', () => {
+      context.navigation = { url: '/trashcan' };
+      expect(app.canCancelCheckout(context)).toBeFalse();
+    });
+
+    it('should return false when selected node is a link', () => {
+      context.selection.nodes = [{ entry: { nodeType: 'app:filelink' } }] as NodeEntry[];
+      expect(app.canCancelCheckout(context)).toBeFalse();
+    });
+
+    it('should return false when node is not checked out and not a working copy', () => {
+      context.selection.first = { entry: { isFile: true, aspectNames: [], properties: {} } } as NodeEntry;
+      context.selection.file = context.selection.first;
+      expect(app.canCancelCheckout(context)).toBeFalse();
+    });
+
+    it('should return true when node is checked-out original and user has delete permission', () => {
+      expect(app.canCancelCheckout(context)).toBeTrue();
+    });
+
+    it('should return true when node is a working copy and user has delete permission', () => {
+      context.selection.first = { entry: { isFile: true, aspectNames: ['cm:workingcopy'], properties: {} } } as NodeEntry;
+      context.selection.file = context.selection.first;
+      context.selection.nodes = [context.selection.first] as NodeEntry[];
+      expect(app.canCancelCheckout(context)).toBeTrue();
+    });
+
+    it('should return true when user is the lock owner even without delete permission', () => {
+      context.permissions = { check: () => false };
+      expect(app.canCancelCheckout(context)).toBeTrue();
+    });
+
+    it('should return false when user is not the lock owner and has no delete permission', () => {
+      context.profile = { id: 'other-user' } as ProfileState;
+      context.permissions = { check: () => false };
+      expect(app.canCancelCheckout(context)).toBeFalse();
     });
   });
 

@@ -537,8 +537,7 @@
               "visible": [
                 "app.selection.file",
                 "!app.navigation.isTrashcan",
-                "canToggleFileLock",
-                "!app.selection.isCheckedOut"
+                "canToggleFileLock"
               ]
             }
           },
@@ -570,7 +569,8 @@
                 "app.selection.notEmpty",
                 "!app.navigation.isTrashcan",
                 "!app.navigation.isLibraries",
-                "!isMultiSelection"
+                "!isMultiSelection",
+                "!app.selection.isWorkingCopy"
               ]
             }
           },
@@ -708,7 +708,8 @@
                 "app.selection.notEmpty",
                 "!app.navigation.isTrashcan",
                 "!app.navigation.isLibraries",
-                "!app.selection.isNodeLink"
+                "!app.selection.isNodeLink",
+                "!app.selection.isLockedOrWorkingCopy"
               ]
             }
           },
@@ -725,14 +726,20 @@
                 "!app.navigation.isTrashcan",
                 "!app.navigation.isLibraries",
                 "app.selection.notEmpty",
-                "app.selection.canDelete"
+                "app.selection.canDelete",
+                "!app.selection.isLockedOrWorkingCopy"
               ]
             }
           },
           {
+            "id": "app.create.separator.3",
+            "type": "separator",
+            "order": 900
+          },
+          {
             "id": "app.context.menu.node-info",
             "title": "APP.ACTIONS.NODE_INFO",
-            "order": 800,
+            "order": 950,
             "icon": "info",
             "actions": {
               "click": "NODE_INFORMATION"
@@ -748,11 +755,6 @@
             }
           },
           {
-            "id": "app.create.separator.3",
-            "type": "separator",
-            "order": 900
-          },
-          {
             "id": "app.toolbar.versions",
             "order": 1100,
             "title": "APP.ACTIONS.VERSIONS",
@@ -766,7 +768,8 @@
                 "app.selection.file.isVersionable",
                 "!app.navigation.isTrashcan",
                 "!app.selection.file.isLocked",
-                "!app.selection.isNodeLink"
+                "!app.selection.isNodeLink",
+                "!app.selection.isLockedOrWorkingCopy"
               ]
             }
           },
@@ -853,7 +856,8 @@
             "app.selection.notEmpty",
             "!app.navigation.isTrashcan",
             "!app.navigation.isLibraries",
-            "!isMultiSelection"
+            "!isMultiSelection",
+            "!app.selection.isLockedOrWorkingCopy"
           ]
         }
       },
@@ -900,7 +904,8 @@
         "rules": {
           "visible": [
             "app.selection.file",
-            "!app.navigation.isTrashcan"
+            "!app.navigation.isTrashcan",
+            "!app.selection.isLockedOrWorkingCopy"
           ]
         }
       },
@@ -918,8 +923,7 @@
           "visible": [
             "app.selection.file",
             "!app.navigation.isTrashcan",
-            "canToggleFileLock",
-            "!app.selection.isCheckedOut"
+            "canToggleFileLock"
           ]
         }
       },
@@ -1075,7 +1079,8 @@
             "app.selection.notEmpty",
             "!app.navigation.isTrashcan",
             "!app.navigation.isLibraries",
-            "!app.selection.isNodeLink"
+            "!app.selection.isNodeLink",
+            "!app.selection.isLockedOrWorkingCopy"
           ]
         }
       },
@@ -1092,14 +1097,20 @@
                 "!app.navigation.isTrashcan",
                 "!app.navigation.isLibraries",
                 "app.selection.notEmpty",
-                "app.selection.canDelete"
+                "app.selection.canDelete",
+                "!app.selection.isLockedOrWorkingCopy"
           ]
         }
       },
       {
+        "id": "app.create.separator.3",
+        "type": "separator",
+        "order": 1300
+      },
+      {
         "id": "app.context.menu.node-info",
         "title": "APP.ACTIONS.NODE_INFO",
-        "order": 1200,
+        "order": 1350,
         "icon": "info",
         "actions": {
           "click": "NODE_INFORMATION"
@@ -1115,11 +1126,6 @@
         }
       },
       {
-        "id": "app.create.separator.3",
-        "type": "separator",
-        "order": 1300
-      },
-      {
         "id": "app.context.menu.versions",
         "title": "APP.ACTIONS.VERSIONS",
         "order": 1400,
@@ -1133,7 +1139,8 @@
             "app.selection.file.isVersionable",
             "!app.navigation.isTrashcan",
             "!app.selection.file.isLocked",
-            "!app.selection.isNodeLink"
+            "!app.selection.isNodeLink",
+            "!app.selection.isLockedOrWorkingCopy"
           ]
         }
       },
@@ -1365,8 +1372,7 @@
                 "visible": [
                   "app.selection.file",
                   "!app.navigation.isTrashcan",
-                  "canToggleFileLock",
-                  "!app.selection.isCheckedOut"
+                  "canToggleFileLock"
                 ]
               }
             },
@@ -1487,7 +1493,8 @@
                   "!app.navigation.isTrashcan",
                   "!app.navigation.isLibraries",
                   "app.selection.notEmpty",
-                  "app.selection.canDelete"
+                  "app.selection.canDelete",
+                  "!app.selection.isLockedOrWorkingCopy"
                 ]
               }
             },
@@ -1510,7 +1517,8 @@
                   "app.selection.file.isVersionable",
                   "!app.navigation.isTrashcan",
                   "!app.selection.file.isLocked",
-                  "!app.selection.isNodeLink"
+                  "!app.selection.isNodeLink",
+                  "!app.selection.isLockedOrWorkingCopy"
                 ]
               }
             },
@@ -3193,6 +3201,19 @@
           }
         }
       ]
-    }
+    },
+    "badges": [
+      {
+        "id": "app.badge.lock",
+        "icon": "lock",
+        "tooltip": "",
+        "component": "app.badge.lock",
+        "rules": {
+          "visible": [
+            "app.selection.isLockedOrWorkingCopy"
+          ]
+        }
+      }
+    ]
   }
 }

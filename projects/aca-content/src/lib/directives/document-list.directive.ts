@@ -61,6 +61,13 @@ export class DocumentListDirective implements OnInit {
   ngOnInit() {
     this.documentList.stickyHeader = true;
     this.documentList.includeFields = ['isFavorite', 'aspectNames', 'definition', 'isLink'];
+
+    const url = this.router.url;
+    const isFolderView = !url.startsWith('/favorites') && !url.startsWith('/shared');
+    if (isFolderView) {
+      this.documentList.rowFilter = ({ node }) => !(node?.entry?.aspectNames ?? []).includes('cm:checkedOut');
+    }
+
     this.isLibrary =
       this.documentList.currentFolderId === '-mysites-' ||
       // workaround for custom node list

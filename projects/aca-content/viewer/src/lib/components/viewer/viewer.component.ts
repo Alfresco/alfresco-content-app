@@ -187,10 +187,15 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
 
     this.uploadService.fileUploadDeleted.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.navigateToFileLocation());
 
-    this.uploadService.fileUploadComplete.pipe(debounceTime(300), takeUntilDestroyed(this.destroyRef)).subscribe((file) => {
-      this.nodesApiService.nodeUpdated.next(file.data.entry);
-      if (file.data.entry.id === this.nodeId) {
-        void this.displayNode(file.data.entry.id);
+    this.uploadService.fileUploadComplete.pipe(debounceTime(300), takeUntilDestroyed(this.destroyRef)).subscribe((event) => {
+      const uploadedEntry = event.data.entry;
+      this.nodesApiService.nodeUpdated.next(uploadedEntry);
+
+      if (this.node?.aspectNames?.includes('cm:workingcopy') && event.file?.id === this.nodeId && uploadedEntry.id !== this.nodeId) {
+        const location = this.route.snapshot.queryParams['location'] || this.router.url;
+        this.store.dispatch(new ViewNodeAction(uploadedEntry.id, { location }));
+      } else if (uploadedEntry.id === this.nodeId) {
+        void this.displayNode(uploadedEntry.id);
       }
     });
 

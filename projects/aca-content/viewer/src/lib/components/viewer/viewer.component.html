@@ -5,6 +5,7 @@
     }"
     [maxRetries]="settings.viewerMaxRetries"
     [nodeId]="nodeId"
+    [readOnly]="node?.aspectNames?.includes('cm:checkedOut')"
     [versionId]="versionId"
     [allowNavigate]="navigateMultiple"
     [allowRightSidebar]="true"

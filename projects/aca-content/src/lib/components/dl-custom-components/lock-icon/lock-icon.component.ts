@@ -22,37 +22,34 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LockedByComponent } from './locked-by.component';
+import { Component, inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { NodeEntry } from '@alfresco/js-api';
+import { MatIconModule } from '@angular/material/icon';
 
-describe('LockedByComponent', () => {
-  it('should show lock owner for a locked file', () => {
-    const component = new LockedByComponent();
-    component.node = {
-      entry: {
-        aspectNames: [],
-        properties: {
-          'cm:lockOwner': { displayName: 'lock-owner' }
-        }
-      }
-    } as NodeEntry;
-    component.ngOnInit();
-    expect(component.workingCopy).toBeFalse();
-    expect(component.text).toBe('lock-owner');
-  });
+@Component({
+  selector: 'aca-lock-icon',
+  template: `<mat-icon class="adf-datatable-cell-badge" [title]="tooltip" aria-hidden="true">lock</mat-icon>`,
+  imports: [MatIconModule],
+  encapsulation: ViewEncapsulation.None
+})
+export class LockIconComponent implements OnInit {
+  private readonly translate = inject(TranslateService);
 
-  it('should show working copy owner for a working copy', () => {
-    const component = new LockedByComponent();
-    component.node = {
-      entry: {
-        aspectNames: ['cm:workingcopy'],
-        properties: {
-          'cm:workingCopyOwner': { displayName: 'wc-owner' }
-        }
-      }
-    } as NodeEntry;
-    component.ngOnInit();
-    expect(component.workingCopy).toBeTrue();
-    expect(component.text).toBe('wc-owner');
-  });
-});
+  @Input()
+  data: { node: NodeEntry };
+
+  tooltip: string;
+
+  ngOnInit() {
+    const entry = this.data?.node?.entry;
+    const aspectNames = entry?.aspectNames ?? [];
+    const props = entry?.properties ?? {};
+
+    // cspell:ignore workingcopy
+    const isWorkingCopy = aspectNames.includes('cm:workingcopy');
+    const ownerProp = isWorkingCopy ? props['cm:workingCopyOwner'] : props['cm:lockOwner'];
+    const key = isWorkingCopy ? 'APP.TOOLTIPS.WORKING_COPY_BADGE' : 'APP.TOOLTIPS.LOCK_BADGE';
+    this.tooltip = this.translate.instant(key, { owner: ownerProp?.displayName ?? ownerProp?.id ?? '' });
+  }
+}

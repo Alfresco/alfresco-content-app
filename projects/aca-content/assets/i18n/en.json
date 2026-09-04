@@ -503,7 +503,9 @@
             "COLLAPSE_SECTION": "Collapse section",
             "EDIT": "Edit",
             "CANCEL": "Cancel",
-            "SAVE": "Save"
+            "SAVE": "Save",
+            "LOCK_BADGE": "This document is locked by {{ owner }} for offline editing.",
+            "WORKING_COPY_BADGE": "Original document is locked by {{ owner }} for offline editing."
         },
         "NODE_INFO": {
             "ICON": "Node Icon",
@@ -745,6 +747,7 @@
         }
     },
     "CHECKOUT": {
+        "CHECKED_OUT_BY": "Original locked by: ",
         "ERRORS": {
             "CHECKOUT": {
                 "400": "This node cannot be checked out. It must be a content (cm:content) node.",
