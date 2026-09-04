@@ -1,6 +1,10 @@
 {
   "all": {
     "XAT-4845": "https://hyland.atlassian.net/browse/ACS-12214",
-    "XAT-4835": "https://hyland.atlassian.net/browse/ACS-12214"
+    "XAT-4835": "https://hyland.atlassian.net/browse/ACS-12214",
+    "XAT-4843": "https://hyland.atlassian.net/browse/ACS-12752",
+    "XAT-4859": "https://hyland.atlassian.net/browse/ACS-12752",
+    "XAT-4860": "https://hyland.atlassian.net/browse/ACS-12752",
+    "XAT-4846": "https://hyland.atlassian.net/browse/ACS-12752"
   }
 }
