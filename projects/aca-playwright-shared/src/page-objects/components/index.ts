@@ -30,7 +30,7 @@ export * from './base.component';
 export * from './actions-dropdown.component';
 export * from './conditions.component';
 export * from './pagination.component';
-export * from './adf-info-drawer.component';
+export * from './info-drawer.component';
 export * from './viewer.component';
 export * from './search';
 export * from './breadcrumb/breadcrumb.component';

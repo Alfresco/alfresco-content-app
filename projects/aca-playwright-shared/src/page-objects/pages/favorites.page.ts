@@ -31,7 +31,7 @@ import {
   SidenavComponent,
   PaginationComponent,
   Breadcrumb,
-  AdfInfoDrawerComponent
+  InfoDrawerComponent
 } from '../components';
 import { AcaHeader } from '../components/aca-header.component';
 import { AdfFolderDialogComponent, ViewerOverlayDialogComponent, ManageVersionsDialog } from '../components/dialogs';
@@ -52,7 +52,7 @@ export class FavoritesPage extends BasePage {
   public sidenav = new SidenavComponent(this.page);
   public pagination = new PaginationComponent(this.page);
   public breadcrumb = new Breadcrumb(this.page);
-  public infoDrawer = new AdfInfoDrawerComponent(this.page);
+  public infoDrawer = new InfoDrawerComponent(this.page);
   public manageVersionsDialog = new ManageVersionsDialog(this.page);
 
   async waitForPageLoad() {

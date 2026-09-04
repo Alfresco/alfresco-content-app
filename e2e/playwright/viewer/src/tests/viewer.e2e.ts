@@ -117,12 +117,10 @@ test.describe('viewer file', () => {
       await personalFiles.dataTable.performClickFolderOrFileToOpen(file19936Name);
       expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
       await personalFiles.viewer.toolbar.viewDetailsButton.click();
-      await personalFiles.infoDrawer.generalInfoEditButton.click();
-      await personalFiles.infoDrawer.generalInfoNameField.fill(file19936NameAfter);
-      await personalFiles.infoDrawer.generalInfoSaveButton.click();
-      await Utils.waitForApiResponse(personalFiles, 'nodes', 200);
-      await personalFiles.page.waitForTimeout(5000);
-      expect(await personalFiles.viewer.fileTitleButton.textContent()).toContain(file19936NameAfter);
+      await personalFiles.infoDrawer.viewer.generalInfoEditButton.click();
+      await personalFiles.infoDrawer.viewer.generalInfoNameField.fill(file19936NameAfter);
+      await personalFiles.infoDrawer.viewer.generalInfoSaveButton.click();
+      await expect(personalFiles.viewer.fileTitleButton).toContainText(file19936NameAfter);
     });
   });
 
