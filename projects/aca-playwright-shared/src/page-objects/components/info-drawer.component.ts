@@ -35,7 +35,8 @@ export class InfoDrawerComponent extends BaseComponent {
   }
 
   get viewer(): InfoDrawerComponent {
-    return (this.viewerScoped ??= new InfoDrawerComponent(this.page, `adf-viewer ${InfoDrawerComponent.rootElement}`));
+    this.viewerScoped ??= new InfoDrawerComponent(this.page, `adf-viewer ${InfoDrawerComponent.rootElement}`);
+    return this.viewerScoped;
   }
 
   private readonly categoriesManagement = this.getChild('adf-categories-management');
