@@ -743,5 +743,21 @@
             "TITLE": "Agenti AI",
             "DISCOVERY": "Discovery"
         }
+    },
+    "CHECKOUT": {
+        "ERRORS": {
+            "CHECKOUT": {
+                "400": "Tento uzel nelze rezervovat. Musí to být uzel typu obsah (cm:content).",
+                "403": "Nemáte potřebná oprávnění pro rezervaci tohoto uzlu.",
+                "409": "Tento uzel je již rezervován nebo zamčen jiným uživatelem."
+            },
+            "CANCEL_CHECKOUT": {
+                "400": "Rezervaci nelze zrušit. Uzel není typu obsah nebo momentálně není rezervován.",
+                "403": "Nemáte potřebná oprávnění pro zrušení rezervace tohoto uzlu.",
+                "409": "Zrušení rezervace se nezdařilo. Zkuste to znovu nebo kontaktujte svůj IT tým."
+            },
+            "404": "Uzel nebyl nalezen.",
+            "UNKNOWN": "Došlo k neočekávané chybě. Zkuste to znovu nebo kontaktujte svůj IT tým."
+        }
     }
 }

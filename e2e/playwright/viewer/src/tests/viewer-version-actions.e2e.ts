@@ -71,7 +71,7 @@ test.describe('Version actions', () => {
 
   async function downloadFromViewer(page: PageWithViewer): Promise<Download> {
     const downloadPromise = page.page.waitForEvent('download');
-    await page.viewer.downloadButton.click();
+    await page.viewer.toolbar.downloadButton.click();
     return downloadPromise;
   }
 
@@ -135,7 +135,7 @@ test.describe('Version actions', () => {
       await personalFiles.viewer.waitForViewerToOpen();
       await personalFiles.viewer.waitForViewerContentToRender('document');
 
-      await personalFiles.viewer.toolbar.clickViewerMoreActions();
+      await personalFiles.viewer.toolbar.clickMoreActions();
       await personalFiles.matMenu.clickMenuItem('Manage Versions');
       await personalFiles.manageVersionsDialog.clickListActionButtonForVersion('2.0');
       await Promise.all([Utils.waitForApiResponse(personalFiles, '2.0', 200), personalFiles.matMenu.clickMenuItem('View')]);

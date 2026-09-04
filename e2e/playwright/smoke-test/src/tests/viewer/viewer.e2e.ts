@@ -97,7 +97,7 @@ test.describe('viewer file', () => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     expect(await personalFiles.viewer.getCloseButtonTooltip()).toEqual('Close');
-    await personalFiles.viewer.closeButtonLocator.click();
+    await personalFiles.viewer.closeButton.click();
     await expect(personalFiles.dataTable.getCellLinkByName(randomDocxName), 'Viewer did not close').toBeVisible();
   });
 
@@ -105,6 +105,6 @@ test.describe('viewer file', () => {
     const previewURL = `#/personal-files/${folderId}/(viewer:view/${fileDocxId})`;
     await personalFiles.navigate({ remoteUrl: previewURL });
     await personalFiles.viewer.waitForViewerLoaderToFinish();
-    await expect(personalFiles.viewer.fileTitleButtonLocator).toHaveText(randomDocxName);
+    await expect(personalFiles.viewer.fileTitleButton).toHaveText(randomDocxName);
   });
 });

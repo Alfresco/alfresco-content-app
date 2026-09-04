@@ -31,6 +31,13 @@ inputs:
       and PVCs to become ready, in Helm's duration format (e.g. '5m', '10m').
     required: false
     default: '10m'
+  log_name_identifier:
+    description: >-
+      Suffix that makes the uploaded pod-logs artifact name unique. Callers in a
+      matrix must pass a value unique per leg (e.g. browser + suite) to avoid
+      artifact name collisions.
+    required: false
+    default: 'deploy-local-acs'
 
 runs:
   using: "composite"
@@ -200,6 +207,56 @@ runs:
           --values acs-deployment/test/enterprise-integration-test-values.yaml \
           --values .github/acs-deployment-values-override.yaml
 
+    - name: Dump cluster state on deploy failure
+      if: failure()
+      shell: bash
+      run: |
+        echo "::group::Helm releases"
+        helm ls --all-namespaces --all || true
+        echo "::endgroup::"
+
+        echo "::group::Helm status (acs)"
+        helm status acs --show-resources || true
+        echo "::endgroup::"
+
+        echo "::group::All resources (all namespaces)"
+        kubectl get all --all-namespaces || true
+        echo "::endgroup::"
+
+        echo "::group::Node metrics"
+        kubectl top nodes || true
+        echo "::endgroup::"
+
+        echo "::group::Pod metrics (by memory)"
+        kubectl top pod --all-namespaces --sort-by=memory || true
+        echo "::endgroup::"
+
+        echo "::group::Recent cluster events"
+        kubectl get events -A --sort-by=.lastTimestamp | tail -n 100 || true
+        echo "::endgroup::"
+
+        # Filter on the Ready condition, not phase: the usual culprit is a repository pod stuck phase=Running/Ready=False on a startup-probe timeout, which a phase filter would miss.
+        pods=$(kubectl get pods -A \
+          -o jsonpath='{range .items[*]}{.metadata.namespace}{"\t"}{.metadata.name}{"\t"}{.status.phase}{"\t"}{range .status.conditions[?(@.type=="Ready")]}{.status}{end}{"\n"}{end}' \
+          2>/dev/null || true)
+        not_ready=$(echo "$pods" | awk -F'\t' '$3 != "Succeeded" && $4 != "True" { print $1" "$2 }')
+
+        if [ -z "$not_ready" ]; then
+          echo "No not-ready pods were found."
+          exit 0
+        fi
+
+        while read -r ns pod; do
+          [ -z "$ns" ] && continue
+          echo "::group::describe ${ns}/${pod}"
+          kubectl describe pod -n "$ns" "$pod" || true
+          echo "::endgroup::"
+
+          echo "::group::logs ${ns}/${pod} (previous)"
+          kubectl logs -n "$ns" "$pod" --all-containers --previous --tail=200 2>/dev/null || echo "(no previous container logs)"
+          echo "::endgroup::"
+        done <<< "$not_ready"
+
     - name: Report deployed ACS versions
       if: always()
       shell: bash
@@ -252,3 +309,11 @@ runs:
         echo "::group::Actual container images running in the cluster"
         echo "${pod_images:-(no pods found)}"
         echo "::endgroup::"
+
+    - name: Upload pods logs
+      if: always()
+      uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-keep-nslogs@d2981070adf1a68c3ddcbf0ebba193467261c9b3 # v18.26.0
+      with:
+        namespace: default
+        log_retention: 7
+        log_name_identifier: "logs-pods-${{ inputs.log_name_identifier }}"

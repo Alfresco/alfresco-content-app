@@ -47,10 +47,13 @@ async function initializeApis(username: string): Promise<{ nodesApi: NodesApi; t
   return { nodesApi, trashcanApi, fileActionsApi };
 }
 
+let file19936Name: string;
+
 test.describe('viewer file', () => {
   test.describe('Open viewer from Personal Files', () => {
     const username = `user-${Utils.random()}`;
     const randomDocxName = `${TEST_FILES.DOCX.name}-${Utils.random()}`;
+    file19936Name = `file19936-${Utils.random()}`;
     let folderViewerId: string;
     let nodesApiViewer: NodesApi;
     let trashcanApiViewer: TrashcanApi;
@@ -63,7 +66,9 @@ test.describe('viewer file', () => {
         const { fileActionsApi } = apis;
         folderViewerId = (await nodesApiViewer.createFolder(`viewer-${Utils.random()}`)).entry.id;
         await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderViewerId);
+        await fileActionsApi.uploadFile(TEST_FILES.JPG_FILE.path, file19936Name, folderViewerId);
         await fileActionsApi.waitForNodes(randomDocxName, { expect: 1 });
+        await fileActionsApi.waitForNodes(file19936Name, { expect: 1 });
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
         throw error;
@@ -103,8 +108,19 @@ test.describe('viewer file', () => {
       await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
       expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
       expect(await personalFiles.viewer.getCloseButtonTooltip()).toEqual('Close');
-      await personalFiles.viewer.closeButtonLocator.click();
+      await personalFiles.viewer.closeButton.click();
       await expect(personalFiles.dataTable.getCellLinkByName(randomDocxName), 'Viewer did not close').toBeVisible();
+    });
+
+    test('[XAT-19936] Filename in the viewer updates whenever the user changes the filename in the infodrawer', async ({ personalFiles }) => {
+      const file19936NameAfter = `updated-${file19936Name}`;
+      await personalFiles.dataTable.performClickFolderOrFileToOpen(file19936Name);
+      expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+      await personalFiles.viewer.toolbar.viewDetailsButton.click();
+      await personalFiles.infoDrawer.viewer.generalInfoEditButton.click();
+      await personalFiles.infoDrawer.viewer.generalInfoNameField.fill(file19936NameAfter);
+      await personalFiles.infoDrawer.viewer.generalInfoSaveButton.click();
+      await expect(personalFiles.viewer.fileTitleButton).toContainText(file19936NameAfter);
     });
   });
 
@@ -148,13 +164,13 @@ test.describe('viewer file', () => {
       await personalFiles.navigate({ remoteUrl: `#/personal-files/${folder2Id}` });
       await personalFiles.dataTable.performClickFolderOrFileToOpen(file1);
       expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-      expect(await personalFiles.viewer.fileTitleButtonLocator.textContent()).toContain(file1);
+      expect(await personalFiles.viewer.fileTitleButton.textContent()).toContain(file1);
       await personalFiles.viewer.nextFileButton.or(personalFiles.viewer.previousFileButton).first().click();
       await personalFiles.viewer.waitForViewerLoaderToFinish();
-      expect(await personalFiles.viewer.fileTitleButtonLocator.textContent()).not.toContain(file1);
+      expect(await personalFiles.viewer.fileTitleButton.textContent()).not.toContain(file1);
       await personalFiles.viewer.nextFileButton.or(personalFiles.viewer.previousFileButton).first().click();
       await personalFiles.viewer.waitForViewerLoaderToFinish();
-      expect(await personalFiles.viewer.fileTitleButtonLocator.textContent()).toContain(file1);
+      expect(await personalFiles.viewer.fileTitleButton.textContent()).toContain(file1);
     });
 
     test('[XAT-5409] Previous File button is not displayed when file is first in the list', async ({ personalFiles }) => {
@@ -185,7 +201,7 @@ test.describe('viewer file', () => {
       await personalFiles.navigate({ remoteUrl: `#/personal-files/${folder3Id}` });
       await personalFiles.dataTable.performClickFolderOrFileToOpen(file3);
       expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-      await expect(personalFiles.viewer.fileTitleButtonLocator).toBeVisible();
+      await expect(personalFiles.viewer.fileTitleButton).toBeVisible();
       await expect(personalFiles.viewer.previousFileButton).toBeHidden();
       await expect(personalFiles.viewer.nextFileButton).toBeHidden();
     });
@@ -240,7 +256,7 @@ test.describe('viewer file', () => {
       await personalFiles.navigate({ remoteUrl: `#/libraries/${folderId}` });
       await personalFiles.dataTable.performClickFolderOrFileToOpen(file2);
       expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-      await expect(personalFiles.viewer.fileTitleButtonLocator).toBeVisible();
+      await expect(personalFiles.viewer.fileTitleButton).toBeVisible();
       await expect(personalFiles.viewer.previousFileButton.or(personalFiles.viewer.nextFileButton).first()).toBeVisible();
       await sitesApi1.deleteSiteMember(site1Id, user2Id);
       await personalFiles.viewer.previousFileButton.or(personalFiles.viewer.nextFileButton).first().click();
@@ -282,7 +298,7 @@ test.describe('viewer file', () => {
       const previewURL = `#/personal-files/${folderId}/(viewer:view/${fileJpgId})`;
       await personalFiles.navigate({ remoteUrl: previewURL });
       await personalFiles.viewer.waitForViewerLoaderToFinish();
-      await expect(personalFiles.viewer.fileTitleButtonLocator).toContainText(randomJpgName);
+      await expect(personalFiles.viewer.fileTitleButton).toContainText(randomJpgName);
     });
   });
 
@@ -492,7 +508,7 @@ test.describe('viewer file', () => {
     test('[XAT-5477] Viewer does not open when accessing the preview URL for a file without permissions', async ({ personalFiles }) => {
       const previewURL = `#/libraries/${docLibId}/(viewer:view/${fileAdminId})`;
       await personalFiles.navigate({ remoteUrl: `${previewURL}` });
-      await expect(personalFiles.viewer.viewerLocator, 'Viewer should not be opened!').toBeHidden();
+      await expect(personalFiles.viewer.viewerRender, 'Viewer should not be opened!').toBeHidden();
     });
   });
 

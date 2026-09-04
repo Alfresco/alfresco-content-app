@@ -334,7 +334,7 @@
             "CONFIRM_DELETE_LINK": {
                 "TITLE": "Supprimer le lien ?",
                 "MESSAGE": "Les liens sont définitivement supprimés et ne peuvent pas être restaurés depuis la corbeille.",
-                "YES_LABEL": "Delete",
+                "YES_LABEL": "Supprimer",
                 "NO_LABEL": "Annuler"
             },
             "CONFIRM_LEAVE": {
@@ -742,6 +742,22 @@
         "SIDENAV": {
             "TITLE": "Agents IA",
             "DISCOVERY": "Discovery"
+        }
+    },
+    "CHECKOUT": {
+        "ERRORS": {
+            "CHECKOUT": {
+                "400": "Ce nœud ne peut pas être extrait. Il doit s'agir d'un nœud de contenu (cm:content).",
+                "403": "Vous ne disposez pas des autorisations nécessaires pour extraire ce nœud.",
+                "409": "Ce nœud est déjà extrait ou verrouillé par un autre utilisateur."
+            },
+            "CANCEL_CHECKOUT": {
+                "400": "L'annulation de l'extraction est impossible. Le nœud n'est pas un nœud de contenu ou n'est pas actuellement extrait.",
+                "403": "Vous n'êtes pas autorisé(e) à annuler l'extraction de ce nœud.",
+                "409": "Échec de l'annulation de l'extraction. Veuillez réessayer ou contacter votre équipe informatique."
+            },
+            "404": "Nœud non trouvé.",
+            "UNKNOWN": "Une erreur inattendue s'est produite. Veuillez réessayer ou contacter votre équipe informatique."
         }
     }
 }

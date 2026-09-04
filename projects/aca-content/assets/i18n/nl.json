@@ -743,5 +743,21 @@
             "TITLE": "AI agenten",
             "DISCOVERY": "Discovery"
         }
+    },
+    "CHECKOUT": {
+        "ERRORS": {
+            "CHECKOUT": {
+                "400": "Deze node kan niet worden uitgecheckt. Het moet een content-node (cm:content) zijn.",
+                "403": "U hebt geen rechten om deze node uit te checken.",
+                "409": "Deze node is al uitgecheckt of vergrendeld door een andere gebruiker."
+            },
+            "CANCEL_CHECKOUT": {
+                "400": "Uitchecken kan niet worden geannuleerd. De node is geen content-node of is momenteel niet uitgecheckt.",
+                "403": "U hebt geen rechten om het uitchecken van deze node te annuleren.",
+                "409": "Annuleren van uitchecken is mislukt. Probeer het opnieuw of neem contact op met uw IT-team."
+            },
+            "404": "Node niet gevonden.",
+            "UNKNOWN": "Er is een onverwachte fout opgetreden. Probeer het opnieuw of neem contact op met uw IT-team."
+        }
     }
 }

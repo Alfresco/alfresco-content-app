@@ -25,11 +25,18 @@
 import { BaseComponent } from './base.component';
 import { Locator, Page } from '@playwright/test';
 
-export class AdfInfoDrawerComponent extends BaseComponent {
+export class InfoDrawerComponent extends BaseComponent {
   private static readonly rootElement = 'adf-info-drawer';
 
-  constructor(page: Page) {
-    super(page, AdfInfoDrawerComponent.rootElement);
+  private viewerScoped?: InfoDrawerComponent;
+
+  constructor(page: Page, rootElement: string = InfoDrawerComponent.rootElement) {
+    super(page, rootElement);
+  }
+
+  get viewer(): InfoDrawerComponent {
+    this.viewerScoped ??= new InfoDrawerComponent(this.page, `adf-viewer ${InfoDrawerComponent.rootElement}`);
+    return this.viewerScoped;
   }
 
   private readonly categoriesManagement = this.getChild('adf-categories-management');
@@ -51,7 +58,7 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   public commentUsername = this.getChild('.adf-comment-user-name');
   public commentTextContent = this.getChild('.adf-comment-message');
   public commentTimestamp = this.getChild('.adf-comment-message-time');
-  public infoDrawerPanel = this.page.locator(AdfInfoDrawerComponent.rootElement);
+  public infoDrawerPanel = this.page.locator(InfoDrawerComponent.rootElement);
   public headerTitle = this.getChild('.adf-info-drawer-layout-header-title').getByRole('heading');
   public editButton = this.page.getByRole('button', { name: 'Edit' });
   public cancelButton = this.page.getByRole('button', { name: 'Cancel' });

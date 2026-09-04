@@ -26,7 +26,7 @@ import { Page } from '@playwright/test';
 import { BasePage } from './base.page';
 import {
   AcaHeader,
-  AdfInfoDrawerComponent,
+  InfoDrawerComponent,
   AdfLibraryDialogComponent,
   DataTableComponent,
   MatMenuComponent,
@@ -50,8 +50,8 @@ export class MyLibrariesPage extends BasePage {
   public matMenu = new MatMenuComponent(this.page);
   public libraryDialog = new AdfLibraryDialogComponent(this.page);
   public dataTable = new DataTableComponent(this.page);
-  public libraryDetails = new AdfInfoDrawerComponent(this.page);
-  public infoDrawer = new AdfInfoDrawerComponent(this.page);
+  public libraryDetails = new InfoDrawerComponent(this.page);
+  public infoDrawer = new InfoDrawerComponent(this.page);
   public viewer = new ViewerComponent(this.page);
   public viewerDialog = new ViewerOverlayDialogComponent(this.page);
   public copyMoveDialog = new ContentNodeSelectorDialog(this.page);

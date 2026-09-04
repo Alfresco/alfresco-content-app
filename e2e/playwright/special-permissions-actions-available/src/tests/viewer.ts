@@ -43,7 +43,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(item);
         expect(await myLibrariesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
         await myLibrariesPage.viewer.verifyViewerPrimaryActions(expectedToolbarPrimary);
-        await myLibrariesPage.acaHeader.clickViewerMoreActions();
+        await myLibrariesPage.viewer.toolbar.clickMoreActions();
         await myLibrariesPage.matMenu.verifyActualMoreActions(expectedToolbarMore);
       }
 
@@ -188,7 +188,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         await favoritePage.dataTable.performClickFolderOrFileToOpen(item);
         expect(await favoritePage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
         await favoritePage.viewer.verifyViewerPrimaryActions(expectedToolbarPrimary);
-        await favoritePage.acaHeader.clickViewerMoreActions();
+        await favoritePage.viewer.toolbar.clickMoreActions();
         await favoritePage.matMenu.verifyActualMoreActions(expectedToolbarMore);
       }
 
@@ -267,7 +267,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         await sharedPage.dataTable.performClickFolderOrFileToOpen(item);
         expect(await sharedPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
         await sharedPage.viewer.verifyViewerPrimaryActions(expectedToolbarPrimary);
-        await sharedPage.acaHeader.clickViewerMoreActions();
+        await sharedPage.viewer.toolbar.clickMoreActions();
         await sharedPage.matMenu.verifyActualMoreActions(expectedToolbarMore);
       }
 
@@ -346,7 +346,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         await searchPage.dataTable.performClickFolderOrFileToOpen(item);
         expect(await searchPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
         await searchPage.viewer.verifyViewerPrimaryActions(expectedToolbarPrimary);
-        await searchPage.acaHeader.clickViewerMoreActions();
+        await searchPage.viewer.toolbar.clickMoreActions();
         await searchPage.matMenu.verifyActualMoreActions(expectedToolbarMore);
       }
 

@@ -68,7 +68,7 @@ test.describe('from File Libraries', () => {
     await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(xlsxLibraries);
     expect(await myLibrariesPage.viewer.isViewerOpened(), 'Viewer should be opened').toBe(true);
 
-    await myLibrariesPage.acaHeader.clickViewerMoreActions();
+    await myLibrariesPage.viewer.toolbar.clickMoreActions();
     await myLibrariesPage.matMenu.clickMenuItem('Move');
     expect(await myLibrariesPage.viewerDialog.isCopyDialogOpen(), 'Dialog is not open').toBe(true);
 
@@ -77,7 +77,7 @@ test.describe('from File Libraries', () => {
     await myLibrariesPage.copyMoveDialog.actionButton.click();
     expect(await myLibrariesPage.snackBar.getSnackBarMessage()).toContain('Moved 1 item');
 
-    await myLibrariesPage.viewer.closeButtonLocator.click();
+    await myLibrariesPage.viewer.closeButton.click();
     await myLibrariesPage.dataTable.getRowByName(xlsxLibraries).waitFor({ state: 'detached' });
     await expect(myLibrariesPage.dataTable.getRowByName(xlsxLibraries), 'Item was not moved').toBeHidden();
     await personalFiles.navigate({ remoteUrl: `#/personal-files/${destinationId}` });
