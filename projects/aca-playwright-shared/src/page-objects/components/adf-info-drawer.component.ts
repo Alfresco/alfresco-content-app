@@ -51,7 +51,8 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   public commentUsername = this.getChild('.adf-comment-user-name');
   public commentTextContent = this.getChild('.adf-comment-message');
   public commentTimestamp = this.getChild('.adf-comment-message-time');
-  public infoDrawerPanel = this.page.locator(AdfInfoDrawerComponent.rootElement);
+  public infoDrawerPanel = this.page.locator('aca-page-layout adf-info-drawer').last();
+  public infoDrawerPanelViewer = this.page.locator('adf-viewer-sidebar aca-info-drawer adf-info-drawer-layout');
   public headerTitle = this.getChild('.adf-info-drawer-layout-header-title').getByRole('heading');
   public editButton = this.page.getByRole('button', { name: 'Edit' });
   public cancelButton = this.page.getByRole('button', { name: 'Cancel' });
@@ -59,7 +60,12 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   public hintMessage = this.getChild('[data-automation-id="app-library-metadata-form-name-hint"]');
   public errorNameMessage = this.getChild('[data-automation-id="library-name-properties-wrapper"] [aria-atomic="true"]');
   public errorDescriptionMessage = this.getChild('[data-automation-id="library-description-properties-wrapper"] [aria-atomic="true"]');
-  public expandDetailsButton = this.getChild(`button[title='Expand panel']`);
+  public expandDetailsButton = this.infoDrawerPanel.locator(`button[title='Expand panel']`);
+  public expandDetailsButtonViewer = this.infoDrawerPanelViewer.locator(`button[title='Expand panel']`);
+  public reducePanelButton = this.page.locator('[data-automation-id="close-library"]');
+  public detailsTabs = this.page.locator('.aca-details-tabs');
+  public metadataTab = this.page.locator('app-metadata-tab');
+  public contentMetadata = this.page.locator('adf-content-metadata');
   public expandedDetailsTabs = this.page.locator('.aca-details-container [role="tab"]');
   public expandedDetailsPermissionsTab = this.expandedDetailsTabs.getByText('Permissions');
   public nameField = this.getChild('input[placeholder=Name]');
