@@ -85,7 +85,7 @@
     "@angular-devkit/schematics": "20.3.16",
     "@angular-eslint/builder": "20.7.0",
     "@angular-eslint/eslint-plugin": "20.7.0",
-    "@angular-eslint/eslint-plugin-template": "20.7.0",
+    "@angular-eslint/eslint-plugin-template": "22.1.0",
     "@angular-eslint/schematics": "20.7.0",
     "@angular-eslint/template-parser": "20.7.0",
     "@angular/compiler-cli": "20.3.27",
