@@ -35,3 +35,4 @@ export * from './lib/services/node-actions.service';
 export * from './lib/components/info-drawer/comments-tab/external-node-permission-comments-tab.service';
 export * from './lib/utils/aca-search-utils';
 export * from './lib/pipes/is-feature-supported.pipe';
+export * from './lib/services/saved-searches-context.service';
