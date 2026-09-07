@@ -102,6 +102,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   showLoader$ = this.store.select(showLoaderSelector);
   columns: DocumentListPresetRef[] = [];
   isFilterHeaderActive = false;
+  breadcrumbPathNames: string[] = [];
 
   private nodePath: PathElement[];
   private _errorTranslationKey = 'APP.MESSAGES.ERRORS.MISSING_CONTENT';

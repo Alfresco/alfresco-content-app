@@ -5,7 +5,8 @@
         [root]="title"
         [folderNode]="node"
         [selectedRowItemsCount]="selectedRowItemsCount" [maxItems]="isSmallScreen ? 1 : 0"
-        (navigate)="onBreadcrumbNavigate($event)" />
+        (navigate)="onBreadcrumbNavigate($event)"
+        (breadcrumbPathElementsChange)="breadcrumbPathNames = $event"/>
       <aca-toolbar [items]="actions" />
     </div>
   </div>
@@ -44,6 +45,9 @@
           (selectedItemsCountChanged)="onSelectedItemsCountChanged($event)"
           (filterSelection)="onFilterSelected($event)"
           (error)="onError($event)"
+          [enableDragRows]="true"
+          [dropListConnectedTo]="breadcrumbPathNames"
+          [dragBoundary]="'aca-files'"
         >
           <data-columns>
             <ng-container *ngFor="let column of columns; trackBy: trackByColumnId">
@@ -60,6 +64,7 @@
                   [isHidden]="column.isHidden"
                   [draggable]="column.draggable"
                   [resizable]="column.resizable"
+                  [visibleInDragPreview]="column.visibleInDragPreview"
                 >
                   <ng-template let-context>
                     <adf-dynamic-column [id]="column.template" [context]="context" />
@@ -80,6 +85,7 @@
                   [isHidden]="column.isHidden"
                   [draggable]="column.draggable"
                   [resizable]="column.resizable"
+                  [visibleInDragPreview]="column.visibleInDragPreview"
                 />
               </ng-container>
             </ng-container>
