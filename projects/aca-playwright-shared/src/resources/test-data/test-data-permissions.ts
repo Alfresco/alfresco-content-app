@@ -26,9 +26,13 @@ import { Utils } from '../../utils';
 
 export const random = Utils.random();
 
-export interface TestFileData {
+export interface TestNode {
+  /** Unique token in the name; use it as a precise search term. */
   random: string;
   name: string;
+}
+
+export interface TestFileData extends TestNode {
   description: string;
   contextMenu: string[];
   toolbarPrimary: string[];
@@ -56,6 +60,11 @@ export interface TestFolderData {
 const buildFileData = (buildName: (fileRandom: string) => string, data: Omit<TestFileData, 'name' | 'random'>): TestFileData => {
   const fileRandom = Utils.random();
   return { random: fileRandom, name: buildName(fileRandom), ...data };
+};
+
+const buildNode = (buildName: (fileRandom: string) => string): TestNode => {
+  const fileRandom = Utils.random();
+  return { random: fileRandom, name: buildName(fileRandom) };
 };
 
 // ----- files -----
@@ -371,9 +380,8 @@ export const fileSharedFavLocked = buildFileData((fileRandom) => `file-${fileRan
   searchToolbarPrimary: searchConsumerSharedToolbarPrimary
 });
 
-export const fileGranularPermission = `file-${random}-granular.txt`;
-export const fileLockedByUser = `file-${random}-my-locked.txt`;
-export const fileLockedByUserWorkingCopyName = `file-${random}-my-locked (Working Copy).txt`;
+export const fileGranularPermission = buildNode((fileRandom) => `file-${fileRandom}-granular.txt`);
+export const fileLockedByUser = buildNode((fileRandom) => `file-${fileRandom}-my-locked.txt`);
 
 // ---- non-versionable file (no cm:versionable aspect) ----
 

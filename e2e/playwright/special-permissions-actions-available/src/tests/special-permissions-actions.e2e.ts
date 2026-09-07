@@ -128,11 +128,13 @@ test.describe('Special permissions : ', () => {
       .id;
     fileSharedFavLockedId = (await managerNodeActions.createFile(testData.fileSharedFavLocked.name, docLibId, '', '', '', true, ['cm:versionable']))
       .entry.id;
-    fileGranularPermissionId = (await managerNodeActions.createFile(testData.fileGranularPermission, docLibId, '', '', '', true, ['cm:versionable']))
-      .entry.id;
+    fileGranularPermissionId = (
+      await managerNodeActions.createFile(testData.fileGranularPermission.name, docLibId, '', '', '', true, ['cm:versionable'])
+    ).entry.id;
 
-    fileLockedByUserId = (await managerNodeActions.createFile(testData.fileLockedByUser, docLibId, '', '', '', true, ['cm:versionable'])).entry.id;
-    await demotedUserFileActions.checkoutNode(fileLockedByUserId);
+    fileLockedByUserId = (await managerNodeActions.createFile(testData.fileLockedByUser.name, docLibId, '', '', '', true, ['cm:versionable'])).entry
+      .id;
+    await demotedUserActions.lockNodes([fileLockedByUserId]);
     await demotedUserFavoritesActions.addFavoriteById('file', fileLockedByUserId);
     await demotedUserShareActions.shareFileById(fileLockedByUserId);
     await managerSiteActions.updateSiteMember(sitePrivate, userDemoted, Site.RoleEnum.SiteConsumer);
