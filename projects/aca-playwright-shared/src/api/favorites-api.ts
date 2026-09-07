@@ -111,7 +111,7 @@ export class FavoritesPageApi {
         if (attempts % 7 === 0) {
           logger.info(`FavoritesApi: waitForApi still waiting for ${username} - expected ${data.expect}, got ${totalItems} (attempt ${attempts})`);
         }
-        if (totalItems <= data.expect) {
+        if (totalItems >= data.expect) {
           return Promise.reject(totalItems);
         }
         return totalItems;
