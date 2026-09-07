@@ -75,7 +75,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         await verifyViewerActions(myLibrariesPage, testData.fileFav);
       });
 
-      test('[XAT-19608] Manage Versions is not shown for a file without cm:versionable aspect', async ({ loginPage, myLibrariesPage }) => {
+      test('[XAT-20145] Manage Versions is not shown for a file without cm:versionable aspect', async ({ loginPage, myLibrariesPage }) => {
         await openInViewer(myLibrariesPage, loginPage, testData.fileNotVersionable.name);
         await verifyViewerActions(myLibrariesPage, testData.fileNotVersionable, true);
       });
@@ -224,7 +224,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
         await verifyViewerActions(searchPage, testData.fileFav);
       });
 
-      test('[XAT-19609] Manage Versions is not shown for a file without cm:versionable aspect - Search Results', async ({
+      test('[XAT-20146] Manage Versions is not shown for a file without cm:versionable aspect - Search Results', async ({
         loginPage,
         searchPage
       }) => {

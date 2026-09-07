@@ -47,6 +47,14 @@ test.describe('Repository — Permissions routing', () => {
     await page.pagination.clickMenuItem('Permissions');
   };
 
+  const expectPermissionsRoute = async (page: PersonalFilesPage, detailsPath: string, forbiddenBase: string): Promise<void> => {
+    await page.page.waitForURL(`**/${detailsPath}/permissions`);
+    const url = page.page.url();
+    expect(url).toContain(`/${detailsPath}/permissions`);
+    expect(url, `URL must not leak into /${forbiddenBase}`).not.toContain(`/${forbiddenBase}/details/`);
+    await expect(page.infoDrawer.expandedDetailsPermissionsTab).toBeVisible();
+  };
+
   test.describe('signed in as admin', () => {
     let userNodesApi: NodesApi;
     let trashcanApi: TrashcanApi;
@@ -81,10 +89,7 @@ test.describe('Repository — Permissions routing', () => {
 
       await openPermissionsFromContextMenu(personalFiles, testData.repoFile.name);
 
-      await personalFiles.page.waitForURL(`**/repository/details/${testData.repoFile.id}/permissions`);
-      expect(personalFiles.page.url()).toContain(`/repository/details/${testData.repoFile.id}/permissions`);
-      expect(personalFiles.page.url(), 'URL must not redirect to /personal-files').not.toContain('/personal-files/details/');
-      await expect(personalFiles.infoDrawer.expandedDetailsPermissionsTab).toBeVisible();
+      await expectPermissionsRoute(personalFiles, `repository/details/${testData.repoFile.id}`, 'personal-files');
     });
 
     test('[XAT-19609] Permissions from toolbar on Repository preserves the /repository route', async ({ personalFiles }) => {
@@ -95,10 +100,7 @@ test.describe('Repository — Permissions routing', () => {
       await personalFiles.dataTable.selectItems(testData.repoFile.name);
       await personalFiles.clickMoreActionsButton('Permissions');
 
-      await personalFiles.page.waitForURL(`**/repository/details/${testData.repoFile.id}/permissions`);
-      expect(personalFiles.page.url()).toContain(`/repository/details/${testData.repoFile.id}/permissions`);
-      expect(personalFiles.page.url(), 'URL must not redirect to /personal-files').not.toContain('/personal-files/details/');
-      await expect(personalFiles.infoDrawer.expandedDetailsPermissionsTab).toBeVisible();
+      await expectPermissionsRoute(personalFiles, `repository/details/${testData.repoFile.id}`, 'personal-files');
     });
 
     test('[XAT-19610] Permissions from Shared keeps a Repository file on /repository', async ({ sharedPage }) => {
@@ -161,10 +163,7 @@ test.describe('Repository — Permissions routing', () => {
 
       await openPermissionsFromContextMenu(personalFiles, personalFile.name);
 
-      await personalFiles.page.waitForURL(`**/personal-files/details/${personalFile.id}/permissions`);
-      expect(personalFiles.page.url()).toContain(`/personal-files/details/${personalFile.id}/permissions`);
-      expect(personalFiles.page.url(), 'Personal file must not leak into /repository').not.toContain('/repository/details/');
-      await expect(personalFiles.infoDrawer.expandedDetailsPermissionsTab).toBeVisible();
+      await expectPermissionsRoute(personalFiles, `personal-files/details/${personalFile.id}`, 'repository');
     });
   });
 });

@@ -22,7 +22,17 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ApiClientFactory, FavoritesPageApi, PersonalFilesPage, NodesApi, TrashcanApi, Utils, test, timeouts } from '@alfresco/aca-playwright-shared';
+import {
+  ApiClientFactory,
+  FavoritesPageApi,
+  FolderActionsData,
+  PersonalFilesPage,
+  NodesApi,
+  TrashcanApi,
+  Utils,
+  test,
+  timeouts
+} from '@alfresco/aca-playwright-shared';
 import * as testData from '@alfresco/aca-playwright-shared';
 
 test.describe('Folders - available actions : ', () => {
@@ -39,6 +49,12 @@ test.describe('Folders - available actions : ', () => {
     await myPersonalFiles.acaHeader.verifyToolbarPrimaryActions(expectedToolbarPrimary);
     await myPersonalFiles.acaHeader.clickMoreActions();
     await myPersonalFiles.matMenu.verifyActualMoreActions(expectedToolbarMore);
+  }
+
+  async function checkFolderRowActions(personalFiles: PersonalFilesPage, folder: FolderActionsData): Promise<void> {
+    await personalFiles.dataTable.getRowByName(folder.name).click({ button: 'right' });
+    await personalFiles.matMenu.verifyActualMoreActions(folder.contextMenu);
+    await checkActionsAvailable(personalFiles, folder.toolbarPrimary, folder.toolbarMore);
   }
 
   test.beforeAll(async () => {
@@ -70,15 +86,11 @@ test.describe('Folders - available actions : ', () => {
     });
 
     test('[XAT-4637] Actions for a folder, not favorite', async ({ personalFiles }) => {
-      await personalFiles.dataTable.getRowByName(testData.folderFile.name).click({ button: 'right' });
-      await personalFiles.matMenu.verifyActualMoreActions(testData.folderFile.contextMenu);
-      await checkActionsAvailable(personalFiles, testData.folderFile.toolbarPrimary, testData.folderFile.toolbarMore);
+      await checkFolderRowActions(personalFiles, testData.folderFile);
     });
 
     test('[XAT-4638] Actions for a folder, favorite', async ({ personalFiles }) => {
-      await personalFiles.dataTable.getRowByName(testData.folderFavFile.name).click({ button: 'right' });
-      await personalFiles.matMenu.verifyActualMoreActions(testData.folderFavFile.contextMenu);
-      await checkActionsAvailable(personalFiles, testData.folderFavFile.toolbarPrimary, testData.folderFavFile.toolbarMore);
+      await checkFolderRowActions(personalFiles, testData.folderFavFile);
     });
 
     test('[XAT-4642] Actions on multiple folders', async ({ personalFiles }) => {
