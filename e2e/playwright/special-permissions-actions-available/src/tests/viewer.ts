@@ -200,7 +200,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
     test.describe('file opened from Search Results', () => {
       const openInViewer = async (searchPage: SearchPage, loginPage: LoginPage, data: TestFileData): Promise<void> => {
         await login(loginPage);
-        await searchPage.searchWithin(data.random, 'filesAndFolders');
+        await searchPage.searchWithin(data.random, 'filesAndFolders', 'formula');
         await searchPage.dataTable.performClickFolderOrFileToOpen(data.name);
       };
 

@@ -89,7 +89,7 @@ export function collaboratorTests(userCollaborator: string, siteName: string) {
     });
 
     test('[XAT-4847] Toolbar - Actions appear correctly for a file - Collaborator - Search Results', async ({ searchPage, myLibrariesPage }) => {
-      await searchPage.searchWithin(testData.fileSharedFav.random, 'filesAndFolders');
+      await searchPage.searchWithin(testData.fileSharedFav.random, 'filesAndFolders', 'formula');
       await checkActionsAvailable(
         myLibrariesPage,
         testData.fileSharedFav.name,
@@ -131,7 +131,7 @@ export function collaboratorTests(userCollaborator: string, siteName: string) {
       });
 
       test('[XAT-4851] Correct actions appear for file in viewer - Collaborator - Search', async ({ searchPage, myLibrariesPage }) => {
-        await searchPage.searchWithin(testData.fileDocxSharedFav.random, 'filesAndFolders');
+        await searchPage.searchWithin(testData.fileDocxSharedFav.random, 'filesAndFolders', 'formula');
         await checkActionsViewerAvailable(
           myLibrariesPage,
           testData.fileDocxSharedFav.name,
@@ -183,7 +183,7 @@ export function filesLockedByCurrentUser(userDemoted: string, siteName: string) 
       });
 
       test('[XAT-4855] Toolbar - Correct actions appear for file - on Search Results - Locked File', async ({ searchPage, myLibrariesPage }) => {
-        await searchPage.searchWithin(testData.fileLockedByUser.random, 'filesAndFolders');
+        await searchPage.searchWithin(testData.fileLockedByUser.random, 'filesAndFolders', 'formula');
         await checkActionsAvailable(
           myLibrariesPage,
           testData.fileLockedByUser.name,
@@ -226,7 +226,7 @@ export function filesLockedByCurrentUser(userDemoted: string, siteName: string) 
       });
 
       test('[XAT-4859] Correct actions appear for file opened from Search Results - Locked File', async ({ searchPage, myLibrariesPage }) => {
-        await searchPage.searchWithin(testData.fileLockedByUser.random, 'filesAndFolders');
+        await searchPage.searchWithin(testData.fileLockedByUser.random, 'filesAndFolders', 'formula');
         await checkActionsViewerAvailable(
           myLibrariesPage,
           testData.fileLockedByUser.name,
@@ -290,7 +290,7 @@ export function filesLockedByOtherUser(userManager: string, siteName: string) {
       searchPage,
       myLibrariesPage
     }) => {
-      await searchPage.searchWithin(testData.fileLockedByUser.random, 'filesAndFolders');
+      await searchPage.searchWithin(testData.fileLockedByUser.random, 'filesAndFolders', 'formula');
       await checkActionsAvailable(
         myLibrariesPage,
         testData.fileLockedByUser.name,
@@ -332,7 +332,7 @@ export function filesLockedByOtherUser(userManager: string, siteName: string) {
       });
 
       test('[XAT-4867] Correct actions appear for file opened from Search Results - viewer - locked', async ({ searchPage, myLibrariesPage }) => {
-        await searchPage.searchWithin(testData.fileLockedByUser.random, 'filesAndFolders');
+        await searchPage.searchWithin(testData.fileLockedByUser.random, 'filesAndFolders', 'formula');
         await checkActionsViewerAvailable(
           myLibrariesPage,
           testData.fileLockedByUser.name,
