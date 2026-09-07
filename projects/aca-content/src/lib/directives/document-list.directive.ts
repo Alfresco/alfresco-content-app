@@ -33,6 +33,9 @@ import { NodeEntry } from '@alfresco/js-api';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AppHookService } from '@alfresco/aca-shared';
 
+const INCLUDE_FIELDS = ['isFavorite', 'aspectNames', 'definition', 'isLink'];
+const SEARCH_INCLUDE_FIELDS = ['aspectNames', 'isLink'];
+
 @Directive({
   standalone: true,
   selector: '[acaDocumentList]'
@@ -60,7 +63,7 @@ export class DocumentListDirective implements OnInit {
 
   ngOnInit() {
     this.documentList.stickyHeader = true;
-    this.documentList.includeFields = ['isFavorite', 'aspectNames', 'definition', 'isLink'];
+    this.documentList.includeFields = this.documentList.currentFolderId === '-recent-' ? SEARCH_INCLUDE_FIELDS : INCLUDE_FIELDS;
     this.isLibrary =
       this.documentList.currentFolderId === '-mysites-' ||
       // workaround for custom node list

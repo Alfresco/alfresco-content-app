@@ -146,6 +146,22 @@ describe('DocumentListDirective', () => {
     expect(documentListMock.stickyHeader).toBeTruthy();
   });
 
+  it('should set include fields', () => {
+    mockRouter.url = '/some-route';
+    documentListMock.currentFolderId = '-my-';
+    documentListDirective.ngOnInit();
+
+    expect(documentListMock.includeFields).toEqual(['isFavorite', 'aspectNames', 'definition', 'isLink']);
+  });
+
+  it('should set include fields supported by search api for recent files', () => {
+    mockRouter.url = '/some-route';
+    documentListMock.currentFolderId = '-recent-';
+    documentListDirective.ngOnInit();
+
+    expect(documentListMock.includeFields).toEqual(['aspectNames', 'isLink']);
+  });
+
   it('should set `isLibrary` to true if selected node is a library', () => {
     mockRouter.url = '/some-route';
     documentListMock.currentFolderId = '-mysites-';
