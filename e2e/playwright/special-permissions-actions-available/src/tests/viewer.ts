@@ -23,460 +23,253 @@
  */
 
 import { expect } from '@playwright/test';
-import { FavoritesPage, LoginPage, MyLibrariesPage, SearchPage, SharedPage, test } from '@alfresco/aca-playwright-shared';
+import { FavoritesPage, LoginPage, MyLibrariesPage, SearchPage, SharedPage, TestFileData, test } from '@alfresco/aca-playwright-shared';
 import * as testData from '@alfresco/aca-playwright-shared';
 
+type ViewerCapablePage = MyLibrariesPage | FavoritesPage | SharedPage | SearchPage;
+
 export function viewerTests(userConsumer: string, siteName: string) {
+  const login = async (loginPage: LoginPage): Promise<void> => {
+    await loginPage.navigate();
+    await loginPage.loginUser({ username: userConsumer, password: userConsumer });
+  };
+
+  const verifyViewerActions = async (page: ViewerCapablePage, data: TestFileData, expectNoManageVersions = false): Promise<void> => {
+    expect(await page.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    await page.viewer.verifyViewerPrimaryActions(data.viewerToolbarPrimary);
+    await page.viewer.toolbar.clickMoreActions();
+    await page.matMenu.verifyActualMoreActions(data.viewerToolbarMore);
+
+    if (expectNoManageVersions) {
+      const actualMoreActions = await page.matMenu.getActualMoreActions();
+      expect(actualMoreActions.includes('Manage Versions'), 'Manage Versions should not be visible for a non-versionable file').toBe(false);
+    }
+  };
+
   test.describe('Consumer available actions : ', () => {
     test.describe('file opened from File Libraries', () => {
-      async function checkViewerActions(
-        loginPage: LoginPage,
-        myLibrariesPage: MyLibrariesPage,
-        item: string,
-        expectedToolbarPrimary: string[],
-        expectedToolbarMore: string[]
-      ): Promise<void> {
-        await loginPage.navigate();
-        await loginPage.loginUser({ username: userConsumer, password: userConsumer });
+      const openInViewer = async (myLibrariesPage: MyLibrariesPage, loginPage: LoginPage, item: string): Promise<void> => {
+        await login(loginPage);
         await myLibrariesPage.navigate();
         await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(siteName);
         await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(item);
-        expect(await myLibrariesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-        await myLibrariesPage.viewer.verifyViewerPrimaryActions(expectedToolbarPrimary);
-        await myLibrariesPage.viewer.toolbar.clickMoreActions();
-        await myLibrariesPage.matMenu.verifyActualMoreActions(expectedToolbarMore);
-      }
+      };
 
       test('[XAT-4808] Actions for Consumer on a file Office', async ({ loginPage, myLibrariesPage }) => {
-        await checkViewerActions(
-          loginPage,
-          myLibrariesPage,
-          testData.fileDocx.name,
-          testData.fileDocx.viewerToolbarPrimary,
-          testData.fileDocx.viewerToolbarMore
-        );
+        await openInViewer(myLibrariesPage, loginPage, testData.fileDocx.name);
+        await verifyViewerActions(myLibrariesPage, testData.fileDocx);
       });
 
       test('[XAT-4809] Actions for Consumer on a file Office, favorite', async ({ loginPage, myLibrariesPage }) => {
-        await checkViewerActions(
-          loginPage,
-          myLibrariesPage,
-          testData.fileDocxFav.name,
-          testData.fileDocxFav.viewerToolbarPrimary,
-          testData.fileDocxFav.viewerToolbarMore
-        );
+        await openInViewer(myLibrariesPage, loginPage, testData.fileDocxFav.name);
+        await verifyViewerActions(myLibrariesPage, testData.fileDocxFav);
       });
 
       test('[XAT-4810] Actions for Consumer on a file, not Office', async ({ loginPage, myLibrariesPage }) => {
-        await checkViewerActions(loginPage, myLibrariesPage, testData.file.name, testData.file.viewerToolbarPrimary, testData.file.viewerToolbarMore);
+        await openInViewer(myLibrariesPage, loginPage, testData.file.name);
+        await verifyViewerActions(myLibrariesPage, testData.file);
       });
 
       test('[XAT-4811] Actions for Consumer on a file, not Office, favorite', async ({ loginPage, myLibrariesPage }) => {
-        await checkViewerActions(
-          loginPage,
-          myLibrariesPage,
-          testData.fileFav.name,
-          testData.fileFav.viewerToolbarPrimary,
-          testData.fileFav.viewerToolbarMore
-        );
+        await openInViewer(myLibrariesPage, loginPage, testData.fileFav.name);
+        await verifyViewerActions(myLibrariesPage, testData.fileFav);
       });
 
       test('[XAT-19608] Manage Versions is not shown for a file without cm:versionable aspect', async ({ loginPage, myLibrariesPage }) => {
-        await checkViewerActions(
-          loginPage,
-          myLibrariesPage,
-          testData.fileNotVersionable.name,
-          testData.fileNotVersionable.viewerToolbarPrimary,
-          testData.fileNotVersionable.viewerToolbarMore
-        );
-        const actualMoreActions = await myLibrariesPage.matMenu.getActualMoreActions();
-        expect(actualMoreActions.includes('Manage Versions'), 'Manage Versions should not be visible for a non-versionable file').toBe(false);
+        await openInViewer(myLibrariesPage, loginPage, testData.fileNotVersionable.name);
+        await verifyViewerActions(myLibrariesPage, testData.fileNotVersionable, true);
       });
 
       test('[XAT-4814] Actions for Consumer on a file Office, shared', async ({ loginPage, myLibrariesPage }) => {
-        await checkViewerActions(
-          loginPage,
-          myLibrariesPage,
-          testData.fileDocxShared.name,
-          testData.fileDocxShared.viewerToolbarPrimary,
-          testData.fileDocxShared.viewerToolbarMore
-        );
+        await openInViewer(myLibrariesPage, loginPage, testData.fileDocxShared.name);
+        await verifyViewerActions(myLibrariesPage, testData.fileDocxShared);
       });
 
       test('[XAT-4815] Actions for Consumer on a file Office, shared, favorite', async ({ loginPage, myLibrariesPage }) => {
-        await checkViewerActions(
-          loginPage,
-          myLibrariesPage,
-          testData.fileDocxSharedFav.name,
-          testData.fileDocxSharedFav.viewerToolbarPrimary,
-          testData.fileDocxSharedFav.viewerToolbarMore
-        );
+        await openInViewer(myLibrariesPage, loginPage, testData.fileDocxSharedFav.name);
+        await verifyViewerActions(myLibrariesPage, testData.fileDocxSharedFav);
       });
 
       test('[XAT-4816] Actions for Consumer on a file, not Office, shared', async ({ loginPage, myLibrariesPage }) => {
-        await checkViewerActions(
-          loginPage,
-          myLibrariesPage,
-          testData.fileShared.name,
-          testData.fileShared.viewerToolbarPrimary,
-          testData.fileShared.viewerToolbarMore
-        );
+        await openInViewer(myLibrariesPage, loginPage, testData.fileShared.name);
+        await verifyViewerActions(myLibrariesPage, testData.fileShared);
       });
 
       test('[XAT-4817] Actions for Consumer on a file, not Office, shared, favorite', async ({ loginPage, myLibrariesPage }) => {
-        await checkViewerActions(
-          loginPage,
-          myLibrariesPage,
-          testData.fileSharedFav.name,
-          testData.fileSharedFav.viewerToolbarPrimary,
-          testData.fileSharedFav.viewerToolbarMore
-        );
+        await openInViewer(myLibrariesPage, loginPage, testData.fileSharedFav.name);
+        await verifyViewerActions(myLibrariesPage, testData.fileSharedFav);
       });
 
       test('[XAT-4812] Actions for Consumer on a file, locked', async ({ loginPage, myLibrariesPage }) => {
-        await checkViewerActions(
-          loginPage,
-          myLibrariesPage,
-          testData.fileLocked.workingCopyName,
-          testData.fileLocked.viewerToolbarPrimary,
-          testData.fileLocked.viewerToolbarMore
-        );
+        await openInViewer(myLibrariesPage, loginPage, testData.fileLocked.name);
+        await verifyViewerActions(myLibrariesPage, testData.fileLocked);
       });
 
       test('[XAT-4813] Actions for Consumer on a file, locked, favorite', async ({ loginPage, myLibrariesPage }) => {
-        await checkViewerActions(
-          loginPage,
-          myLibrariesPage,
-          testData.fileFavLocked.workingCopyName,
-          testData.fileFavLocked.viewerToolbarPrimary,
-          testData.fileFavLocked.workingCopyViewerToolbarMore
-        );
+        await openInViewer(myLibrariesPage, loginPage, testData.fileFavLocked.name);
+        await verifyViewerActions(myLibrariesPage, testData.fileFavLocked);
       });
 
       test('[XAT-4818] Actions for Consumer on a file, locked, shared', async ({ loginPage, myLibrariesPage }) => {
-        await checkViewerActions(
-          loginPage,
-          myLibrariesPage,
-          testData.fileSharedLocked.workingCopyName,
-          testData.fileSharedLocked.viewerToolbarPrimary,
-          testData.fileSharedLocked.viewerToolbarMore
-        );
+        await openInViewer(myLibrariesPage, loginPage, testData.fileSharedLocked.name);
+        await verifyViewerActions(myLibrariesPage, testData.fileSharedLocked);
       });
 
       test('[XAT-4819] Actions for Consumer on a file, locked, shared, favorite', async ({ loginPage, myLibrariesPage }) => {
-        await checkViewerActions(
-          loginPage,
-          myLibrariesPage,
-          testData.fileSharedFavLocked.workingCopyName,
-          testData.fileSharedFavLocked.viewerToolbarPrimary,
-          testData.fileSharedFavLocked.workingCopyViewerToolbarMore
-        );
+        await openInViewer(myLibrariesPage, loginPage, testData.fileSharedFavLocked.name);
+        await verifyViewerActions(myLibrariesPage, testData.fileSharedFavLocked);
       });
     });
 
     test.describe('file opened from Favorites', () => {
-      async function checkViewerActions(
-        loginPage: LoginPage,
-        favoritePage: FavoritesPage,
-        item: string,
-        expectedToolbarPrimary: string[],
-        expectedToolbarMore: string[]
-      ): Promise<void> {
-        await loginPage.navigate();
-        await loginPage.loginUser({ username: userConsumer, password: userConsumer });
+      const openInViewer = async (favoritePage: FavoritesPage, loginPage: LoginPage, item: string): Promise<void> => {
+        await login(loginPage);
         await favoritePage.navigate();
         await favoritePage.dataTable.performClickFolderOrFileToOpen(item);
-        expect(await favoritePage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-        await favoritePage.viewer.verifyViewerPrimaryActions(expectedToolbarPrimary);
-        await favoritePage.viewer.toolbar.clickMoreActions();
-        await favoritePage.matMenu.verifyActualMoreActions(expectedToolbarMore);
-      }
+      };
 
       test('[XAT-4820] File Office, favorite - ', async ({ loginPage, favoritePage }) => {
-        await checkViewerActions(
-          loginPage,
-          favoritePage,
-          testData.fileDocxFav.name,
-          testData.fileDocxFav.viewerToolbarPrimary,
-          testData.fileDocxFav.viewerToolbarMore
-        );
+        await openInViewer(favoritePage, loginPage, testData.fileDocxFav.name);
+        await verifyViewerActions(favoritePage, testData.fileDocxFav);
       });
 
       test('[XAT-4821] Actions for Consumer on a file, not Office, favorite', async ({ loginPage, favoritePage }) => {
-        await checkViewerActions(
-          loginPage,
-          favoritePage,
-          testData.fileFav.name,
-          testData.fileFav.viewerToolbarPrimary,
-          testData.fileFav.viewerToolbarMore
-        );
+        await openInViewer(favoritePage, loginPage, testData.fileFav.name);
+        await verifyViewerActions(favoritePage, testData.fileFav);
       });
 
       test('[XAT-4823] Actions for Consumer on a file Office, shared, favorite', async ({ loginPage, favoritePage }) => {
-        await checkViewerActions(
-          loginPage,
-          favoritePage,
-          testData.fileDocxSharedFav.name,
-          testData.fileDocxSharedFav.viewerToolbarPrimary,
-          testData.fileDocxSharedFav.viewerToolbarMore
-        );
+        await openInViewer(favoritePage, loginPage, testData.fileDocxSharedFav.name);
+        await verifyViewerActions(favoritePage, testData.fileDocxSharedFav);
       });
 
       test('[XAT-4824] Actions for Consumer on a file, not Office, shared, favorite', async ({ loginPage, favoritePage }) => {
-        await checkViewerActions(
-          loginPage,
-          favoritePage,
-          testData.fileSharedFav.name,
-          testData.fileSharedFav.viewerToolbarPrimary,
-          testData.fileSharedFav.viewerToolbarMore
-        );
+        await openInViewer(favoritePage, loginPage, testData.fileSharedFav.name);
+        await verifyViewerActions(favoritePage, testData.fileSharedFav);
       });
 
       test('[XAT-4822] Actions for Consumer on a file, locked, favorite', async ({ loginPage, favoritePage }) => {
-        await checkViewerActions(
-          loginPage,
-          favoritePage,
-          testData.fileFavLocked.name,
-          testData.fileFavLocked.viewerToolbarPrimary,
-          testData.fileFavLocked.viewerToolbarMore
-        );
+        await openInViewer(favoritePage, loginPage, testData.fileFavLocked.name);
+        await verifyViewerActions(favoritePage, testData.fileFavLocked);
       });
 
       test('[XAT-4825] Actions for Consumer on a file, locked, shared, favorite', async ({ loginPage, favoritePage }) => {
-        await checkViewerActions(
-          loginPage,
-          favoritePage,
-          testData.fileSharedFavLocked.name,
-          testData.fileSharedFavLocked.viewerToolbarPrimary,
-          testData.fileSharedFavLocked.viewerToolbarMore
-        );
+        await openInViewer(favoritePage, loginPage, testData.fileSharedFavLocked.name);
+        await verifyViewerActions(favoritePage, testData.fileSharedFavLocked);
       });
     });
 
     test.describe('file opened from Shared Files', () => {
-      async function checkViewerActions(
-        loginPage: LoginPage,
-        sharedPage: SharedPage,
-        item: string,
-        expectedToolbarPrimary: string[],
-        expectedToolbarMore: string[]
-      ): Promise<void> {
-        await loginPage.navigate();
-        await loginPage.loginUser({ username: userConsumer, password: userConsumer });
+      const openInViewer = async (sharedPage: SharedPage, loginPage: LoginPage, item: string): Promise<void> => {
+        await login(loginPage);
         await sharedPage.navigate();
         await sharedPage.dataTable.performClickFolderOrFileToOpen(item);
-        expect(await sharedPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-        await sharedPage.viewer.verifyViewerPrimaryActions(expectedToolbarPrimary);
-        await sharedPage.viewer.toolbar.clickMoreActions();
-        await sharedPage.matMenu.verifyActualMoreActions(expectedToolbarMore);
-      }
+      };
 
       test('[XAT-4826] Actions for Consumer on a file Office, shared', async ({ loginPage, sharedPage }) => {
-        await checkViewerActions(
-          loginPage,
-          sharedPage,
-          testData.fileDocxShared.name,
-          testData.fileDocxShared.viewerToolbarPrimary,
-          testData.fileDocxShared.viewerToolbarMore
-        );
+        await openInViewer(sharedPage, loginPage, testData.fileDocxShared.name);
+        await verifyViewerActions(sharedPage, testData.fileDocxShared);
       });
 
       test('[XAT-4827] Actions for Consumer on a file Office, shared, favorite', async ({ loginPage, sharedPage }) => {
-        await checkViewerActions(
-          loginPage,
-          sharedPage,
-          testData.fileDocxSharedFav.name,
-          testData.fileDocxSharedFav.viewerToolbarPrimary,
-          testData.fileDocxSharedFav.viewerToolbarMore
-        );
+        await openInViewer(sharedPage, loginPage, testData.fileDocxSharedFav.name);
+        await verifyViewerActions(sharedPage, testData.fileDocxSharedFav);
       });
 
       test('[XAT-4828] Actions for Consumer on a file, not Office, shared', async ({ loginPage, sharedPage }) => {
-        await checkViewerActions(
-          loginPage,
-          sharedPage,
-          testData.fileShared.name,
-          testData.fileShared.viewerToolbarPrimary,
-          testData.fileShared.viewerToolbarMore
-        );
+        await openInViewer(sharedPage, loginPage, testData.fileShared.name);
+        await verifyViewerActions(sharedPage, testData.fileShared);
       });
 
       test('[XAT-4829] Actions for Consumer on a file, not Office, shared, favorite', async ({ loginPage, sharedPage }) => {
-        await checkViewerActions(
-          loginPage,
-          sharedPage,
-          testData.fileSharedFav.name,
-          testData.fileSharedFav.viewerToolbarPrimary,
-          testData.fileSharedFav.viewerToolbarMore
-        );
+        await openInViewer(sharedPage, loginPage, testData.fileSharedFav.name);
+        await verifyViewerActions(sharedPage, testData.fileSharedFav);
       });
 
       test('[XAT-4830] Actions for Consumer on a file, locked, shared', async ({ loginPage, sharedPage }) => {
-        await checkViewerActions(
-          loginPage,
-          sharedPage,
-          testData.fileSharedLocked.name,
-          testData.fileSharedLocked.viewerToolbarPrimary,
-          testData.fileSharedLocked.viewerToolbarMore
-        );
+        await openInViewer(sharedPage, loginPage, testData.fileSharedLocked.name);
+        await verifyViewerActions(sharedPage, testData.fileSharedLocked);
       });
 
       test('[XAT-4831] Actions for Consumer on a file, locked, shared, favorite', async ({ loginPage, sharedPage }) => {
-        await checkViewerActions(
-          loginPage,
-          sharedPage,
-          testData.fileSharedFavLocked.name,
-          testData.fileSharedFavLocked.viewerToolbarPrimary,
-          testData.fileSharedFavLocked.viewerToolbarMore
-        );
+        await openInViewer(sharedPage, loginPage, testData.fileSharedFavLocked.name);
+        await verifyViewerActions(sharedPage, testData.fileSharedFavLocked);
       });
     });
 
     test.describe('file opened from Search Results', () => {
-      async function checkViewerActions(
-        loginPage: LoginPage,
-        searchPage: SearchPage,
-        item: string,
-        expectedToolbarPrimary: string[],
-        expectedToolbarMore: string[]
-      ): Promise<void> {
-        await loginPage.navigate();
-        await loginPage.loginUser({ username: userConsumer, password: userConsumer });
-        await searchPage.searchWithin(item, 'filesAndFolders');
-        await searchPage.dataTable.performClickFolderOrFileToOpen(item);
-        expect(await searchPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-        await searchPage.viewer.verifyViewerPrimaryActions(expectedToolbarPrimary);
-        await searchPage.viewer.toolbar.clickMoreActions();
-        await searchPage.matMenu.verifyActualMoreActions(expectedToolbarMore);
-      }
+      const openInViewer = async (searchPage: SearchPage, loginPage: LoginPage, data: TestFileData): Promise<void> => {
+        await login(loginPage);
+        await searchPage.searchWithin(data.random, 'filesAndFolders');
+        await searchPage.dataTable.performClickFolderOrFileToOpen(data.name);
+      };
 
       test('[XAT-4832] Actions for Consumer on a file Office', async ({ loginPage, searchPage }) => {
-        await checkViewerActions(
-          loginPage,
-          searchPage,
-          testData.fileDocx.name,
-          testData.fileDocx.viewerToolbarPrimary,
-          testData.fileDocx.viewerToolbarMore
-        );
+        await openInViewer(searchPage, loginPage, testData.fileDocx);
+        await verifyViewerActions(searchPage, testData.fileDocx);
       });
 
       test('[XAT-4833] Actions for Consumer on a file Office, favorite', async ({ loginPage, searchPage }) => {
-        await checkViewerActions(
-          loginPage,
-          searchPage,
-          testData.fileDocxFav.name,
-          testData.fileDocxFav.viewerToolbarPrimary,
-          testData.fileDocxFav.viewerToolbarMore
-        );
+        await openInViewer(searchPage, loginPage, testData.fileDocxFav);
+        await verifyViewerActions(searchPage, testData.fileDocxFav);
       });
 
       test('[XAT-4834] Actions for Consumer on a file, not Office', async ({ loginPage, searchPage }) => {
-        await checkViewerActions(loginPage, searchPage, testData.file.name, testData.file.viewerToolbarPrimary, testData.file.viewerToolbarMore);
+        await openInViewer(searchPage, loginPage, testData.file);
+        await verifyViewerActions(searchPage, testData.file);
       });
 
       test('[XAT-4835] Actions for Consumer on a file, not Office, favorite', async ({ loginPage, searchPage }) => {
-        await checkViewerActions(
-          loginPage,
-          searchPage,
-          testData.fileFav.name,
-          testData.fileFav.viewerToolbarPrimary,
-          testData.fileFav.viewerToolbarMore
-        );
+        await openInViewer(searchPage, loginPage, testData.fileFav);
+        await verifyViewerActions(searchPage, testData.fileFav);
       });
 
       test('[XAT-19609] Manage Versions is not shown for a file without cm:versionable aspect - Search Results', async ({
         loginPage,
         searchPage
       }) => {
-        await checkViewerActions(
-          loginPage,
-          searchPage,
-          testData.fileNotVersionable.name,
-          testData.fileNotVersionable.viewerToolbarPrimary,
-          testData.fileNotVersionable.viewerToolbarMore
-        );
-        const actualMoreActions = await searchPage.matMenu.getActualMoreActions();
-        expect(actualMoreActions.includes('Manage Versions'), 'Manage Versions should not be visible for a non-versionable file').toBe(false);
+        await openInViewer(searchPage, loginPage, testData.fileNotVersionable);
+        await verifyViewerActions(searchPage, testData.fileNotVersionable, true);
       });
 
       test('[XAT-4838] Actions for Consumer on a file Office, shared', async ({ loginPage, searchPage }) => {
-        await checkViewerActions(
-          loginPage,
-          searchPage,
-          testData.fileDocxShared.name,
-          testData.fileDocxShared.viewerToolbarPrimary,
-          testData.fileDocxShared.viewerToolbarMore
-        );
+        await openInViewer(searchPage, loginPage, testData.fileDocxShared);
+        await verifyViewerActions(searchPage, testData.fileDocxShared);
       });
 
       test('[XAT-4839] Actions for Consumer on a file Office, shared, favorite', async ({ loginPage, searchPage }) => {
-        await checkViewerActions(
-          loginPage,
-          searchPage,
-          testData.fileDocxSharedFav.name,
-          testData.fileDocxSharedFav.viewerToolbarPrimary,
-          testData.fileDocxSharedFav.viewerToolbarMore
-        );
+        await openInViewer(searchPage, loginPage, testData.fileDocxSharedFav);
+        await verifyViewerActions(searchPage, testData.fileDocxSharedFav);
       });
 
       test('[XAT-4840] Actions for Consumer on a file, not Office, shared', async ({ loginPage, searchPage }) => {
-        await checkViewerActions(
-          loginPage,
-          searchPage,
-          testData.fileShared.name,
-          testData.fileShared.viewerToolbarPrimary,
-          testData.fileShared.viewerToolbarMore
-        );
+        await openInViewer(searchPage, loginPage, testData.fileShared);
+        await verifyViewerActions(searchPage, testData.fileShared);
       });
 
       test('[XAT-4841] Actions for Consumer on a file, not Office, shared, favorite', async ({ loginPage, searchPage }) => {
-        await checkViewerActions(
-          loginPage,
-          searchPage,
-          testData.fileSharedFav.name,
-          testData.fileSharedFav.viewerToolbarPrimary,
-          testData.fileSharedFav.viewerToolbarMore
-        );
+        await openInViewer(searchPage, loginPage, testData.fileSharedFav);
+        await verifyViewerActions(searchPage, testData.fileSharedFav);
       });
 
       test('[XAT-4836] Actions for Consumer on a file, locked', async ({ loginPage, searchPage }) => {
-        await checkViewerActions(
-          loginPage,
-          searchPage,
-          testData.fileLocked.workingCopyName,
-          testData.fileLocked.viewerToolbarPrimary,
-          testData.fileLocked.viewerToolbarMore
-        );
+        await openInViewer(searchPage, loginPage, testData.fileLocked);
+        await verifyViewerActions(searchPage, testData.fileLocked);
       });
 
       test('[XAT-4837] Actions for Consumer on a file, locked, favorite', async ({ loginPage, searchPage }) => {
-        await checkViewerActions(
-          loginPage,
-          searchPage,
-          testData.fileFavLocked.workingCopyName,
-          testData.fileFavLocked.viewerToolbarPrimary,
-          testData.fileFavLocked.workingCopyViewerToolbarMore
-        );
+        await openInViewer(searchPage, loginPage, testData.fileFavLocked);
+        await verifyViewerActions(searchPage, testData.fileFavLocked);
       });
 
       test('[XAT-4842] Actions for Consumer on a file, locked, shared', async ({ loginPage, searchPage }) => {
-        await checkViewerActions(
-          loginPage,
-          searchPage,
-          testData.fileSharedLocked.workingCopyName,
-          testData.fileSharedLocked.viewerToolbarPrimary,
-          testData.fileSharedLocked.viewerToolbarMore
-        );
+        await openInViewer(searchPage, loginPage, testData.fileSharedLocked);
+        await verifyViewerActions(searchPage, testData.fileSharedLocked);
       });
 
       test('[XAT-4843] Actions for Consumer on a file, locked, shared, favorite', async ({ loginPage, searchPage }) => {
-        await checkViewerActions(
-          loginPage,
-          searchPage,
-          testData.fileSharedFavLocked.workingCopyName,
-          testData.fileSharedFavLocked.viewerToolbarPrimary,
-          testData.fileSharedFavLocked.viewerToolbarMore
-        );
+        await openInViewer(searchPage, loginPage, testData.fileSharedFavLocked);
+        await verifyViewerActions(searchPage, testData.fileSharedFavLocked);
       });
     });
   });

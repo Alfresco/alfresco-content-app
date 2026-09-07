@@ -26,6 +26,38 @@ import { Utils } from '../../utils';
 
 export const random = Utils.random();
 
+export interface TestFileData {
+  random: string;
+  name: string;
+  description: string;
+  contextMenu: string[];
+  toolbarPrimary: string[];
+  toolbarMore: string[];
+  viewerToolbarPrimary: string[];
+  viewerToolbarMore: string[];
+  searchToolbarPrimary: string[];
+  favoritesToolbarMore?: string[];
+  favoritesContextMenu?: string[];
+  sharedToolbarMore?: string[];
+  sharedContextMenu?: string[];
+}
+
+export interface TestFolderData {
+  name: string;
+  description: string;
+  contextMenu?: string[];
+  toolbarPrimary?: string[];
+  toolbarMore?: string[];
+  searchToolbarPrimary?: string[];
+  favoritesContextMenu?: string[];
+  favoritesToolbarMore?: string[];
+}
+
+const buildFileData = (buildName: (fileRandom: string) => string, data: Omit<TestFileData, 'name' | 'random'>): TestFileData => {
+  const fileRandom = Utils.random();
+  return { random: fileRandom, name: buildName(fileRandom), ...data };
+};
+
 // ----- files -----
 
 const consumerContextMenu = ['Share', 'Download', 'View', 'Favorite', 'Copy', 'Manage Versions'];
@@ -157,8 +189,7 @@ const sharedConsumerFavLockedContextMenu = [
   'Manage Versions'
 ];
 
-export const fileDocx = {
-  name: `file-${random}-docx.docx`,
+export const fileDocx = buildFileData((fileRandom) => `file-${fileRandom}-docx.docx`, {
   description: 'file not shared, not fav, office, not locked',
 
   contextMenu: consumerContextMenu,
@@ -168,10 +199,9 @@ export const fileDocx = {
   viewerToolbarMore: consumerViewerToolbarMore,
 
   searchToolbarPrimary: searchConsumerToolbarPrimary
-};
+});
 
-export const fileDocxFav = {
-  name: `file-${random}-docx-fav.docx`,
+export const fileDocxFav = buildFileData((fileRandom) => `file-${fileRandom}-docx-fav.docx`, {
   description: 'file not shared, fav, office, not locked',
 
   contextMenu: consumerFavContextMenu,
@@ -184,10 +214,9 @@ export const fileDocxFav = {
   favoritesContextMenu: favoritesConsumerContextMenu,
 
   searchToolbarPrimary: searchConsumerToolbarPrimary
-};
+});
 
-export const file = {
-  name: `file-${random}.txt`,
+export const file = buildFileData((fileRandom) => `file-${fileRandom}.txt`, {
   description: 'file not shared, not fav, not office, not locked',
 
   contextMenu: consumerContextMenu,
@@ -197,10 +226,9 @@ export const file = {
   viewerToolbarMore: consumerViewerToolbarMore,
 
   searchToolbarPrimary: searchConsumerToolbarPrimary
-};
+});
 
-export const fileFav = {
-  name: `file-${random}-fav.txt`,
+export const fileFav = buildFileData((fileRandom) => `file-${fileRandom}-fav.txt`, {
   description: 'file not shared, fav, not office, not locked',
 
   contextMenu: consumerFavContextMenu,
@@ -213,10 +241,9 @@ export const fileFav = {
   favoritesContextMenu: favoritesConsumerContextMenu,
 
   searchToolbarPrimary: searchConsumerToolbarPrimary
-};
+});
 
-export const fileDocxShared = {
-  name: `file-${random}-docx-shared.docx`,
+export const fileDocxShared = buildFileData((fileRandom) => `file-${fileRandom}-docx-shared.docx`, {
   description: 'file shared, not fav, office, not locked',
 
   contextMenu: consumerSharedContextMenu,
@@ -229,10 +256,9 @@ export const fileDocxShared = {
   sharedContextMenu: sharedConsumerContextMenu,
 
   searchToolbarPrimary: searchConsumerSharedToolbarPrimary
-};
+});
 
-export const fileDocxSharedFav = {
-  name: `file-${random}-docx-shared-fav.docx`,
+export const fileDocxSharedFav = buildFileData((fileRandom) => `file-${fileRandom}-docx-shared-fav.docx`, {
   description: 'file shared, fav, office, not locked',
 
   contextMenu: consumerSharedFavContextMenu,
@@ -248,10 +274,9 @@ export const fileDocxSharedFav = {
   sharedContextMenu: sharedConsumerFavContextMenu,
 
   searchToolbarPrimary: searchConsumerSharedToolbarPrimary
-};
+});
 
-export const fileShared = {
-  name: `file-${random}-shared.txt`,
+export const fileShared = buildFileData((fileRandom) => `file-${fileRandom}-shared.txt`, {
   description: 'file shared, not fav, not office, not locked',
 
   contextMenu: consumerSharedContextMenu,
@@ -264,10 +289,9 @@ export const fileShared = {
   sharedContextMenu: sharedConsumerContextMenu,
 
   searchToolbarPrimary: searchConsumerSharedToolbarPrimary
-};
+});
 
-export const fileSharedFav = {
-  name: `file-${random}-shared-fav.txt`,
+export const fileSharedFav = buildFileData((fileRandom) => `file-${fileRandom}-shared-fav.txt`, {
   description: 'file shared, fav, not office, not locked',
 
   contextMenu: consumerSharedFavContextMenu,
@@ -283,11 +307,9 @@ export const fileSharedFav = {
   sharedContextMenu: sharedConsumerFavContextMenu,
 
   searchToolbarPrimary: searchConsumerSharedToolbarPrimary
-};
+});
 
-export const fileLocked = {
-  name: `file-${random}-locked.txt`,
-  workingCopyName: `file-${random}-locked (Working Copy).txt`,
+export const fileLocked = buildFileData((fileRandom) => `file-${fileRandom}-locked.txt`, {
   description: 'file not shared, not fav, not office, locked',
 
   contextMenu: consumerContextMenu,
@@ -297,11 +319,9 @@ export const fileLocked = {
   viewerToolbarMore: consumerViewerLockedToolbarMore,
 
   searchToolbarPrimary: searchConsumerToolbarPrimary
-};
+});
 
-export const fileFavLocked = {
-  name: `file-${random}-fav-locked.txt`,
-  workingCopyName: `file-${random}-fav-locked (Working Copy).txt`,
+export const fileFavLocked = buildFileData((fileRandom) => `file-${fileRandom}-fav-locked.txt`, {
   description: 'file not shared, fav, not office, locked',
 
   contextMenu: consumerFavContextMenu,
@@ -315,11 +335,9 @@ export const fileFavLocked = {
   favoritesContextMenu: favoritesConsumerContextMenu,
 
   searchToolbarPrimary: searchConsumerToolbarPrimary
-};
+});
 
-export const fileSharedLocked = {
-  name: `file-${random}-shared-locked.txt`,
-  workingCopyName: `file-${random}-shared-locked (Working Copy).txt`,
+export const fileSharedLocked = buildFileData((fileRandom) => `file-${fileRandom}-shared-locked.txt`, {
   description: 'file shared, not fav, not office, locked',
 
   contextMenu: consumerSharedContextMenu,
@@ -332,11 +350,9 @@ export const fileSharedLocked = {
   sharedContextMenu: sharedConsumerLockedContextMenu,
 
   searchToolbarPrimary: searchConsumerSharedToolbarPrimary
-};
+});
 
-export const fileSharedFavLocked = {
-  name: `file-${random}-shared-fav-locked.txt`,
-  workingCopyName: `file-${random}-shared-fav-locked (Working Copy).txt`,
+export const fileSharedFavLocked = buildFileData((fileRandom) => `file-${fileRandom}-shared-fav-locked.txt`, {
   description: 'file shared, fav, not office, locked',
 
   contextMenu: consumerSharedFavContextMenu,
@@ -353,7 +369,7 @@ export const fileSharedFavLocked = {
   sharedContextMenu: sharedConsumerFavLockedContextMenu,
 
   searchToolbarPrimary: searchConsumerSharedToolbarPrimary
-};
+});
 
 export const fileGranularPermission = `file-${random}-granular.txt`;
 export const fileLockedByUser = `file-${random}-my-locked.txt`;
@@ -365,8 +381,7 @@ const consumerNotVersionableToolbarMore = ['Favorite', 'Copy'];
 const consumerNotVersionableContextMenu = ['Share', 'Download', 'View', 'Favorite', 'Copy'];
 const consumerViewerNotVersionableToolbarMore = ['Favorite', 'Copy'];
 
-export const fileNotVersionable = {
-  name: `file-${random}-not-versionable.txt`,
+export const fileNotVersionable = buildFileData((fileRandom) => `file-${fileRandom}-not-versionable.txt`, {
   description: 'file not shared, not fav, not office, not locked, not versionable - should not show Manage Versions',
 
   contextMenu: consumerNotVersionableContextMenu,
@@ -376,7 +391,7 @@ export const fileNotVersionable = {
   viewerToolbarMore: consumerViewerNotVersionableToolbarMore,
 
   searchToolbarPrimary: searchConsumerToolbarPrimary
-};
+});
 
 // ---- folders ---
 
@@ -393,7 +408,7 @@ const favoritesConsumerFolderContextMenu = ['Download', 'Edit', 'Remove Favorite
 
 const favoritesConsumerFolderToolbarMore = ['Edit', 'Remove Favorite', 'Move', 'Copy', 'Delete'];
 
-export const folder = {
+export const folder: TestFolderData = {
   name: `folder-${random}`,
   description: 'folder not favorite',
   contextMenu: consumerFolderContextMenu,
@@ -403,7 +418,7 @@ export const folder = {
   searchToolbarPrimary: searchConsumerFolderToolbarPrimary
 };
 
-export const folderFav = {
+export const folderFav: TestFolderData = {
   name: `folder-fav-${random}`,
   description: 'folder favorite',
   contextMenu: consumerFolderFavContextMenu,
@@ -416,7 +431,7 @@ export const folderFav = {
   searchToolbarPrimary: searchConsumerFolderToolbarPrimary
 };
 
-export const folderFav2 = {
+export const folderFav2: TestFolderData = {
   name: `folder-fav-2-${random}`,
   description: 'folder 2 favorite'
 };
