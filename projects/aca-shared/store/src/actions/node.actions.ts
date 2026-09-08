@@ -47,6 +47,8 @@ export enum NodeActionTypes {
   ManageVersions = 'MANAGE_VERSIONS',
   EditOffline = 'EDIT_OFFLINE',
   UnlockForWriting = 'UNLOCK_WRITE_LOCK',
+  CheckoutNode = 'CHECKOUT_NODE',
+  CancelCheckoutNode = 'CANCEL_CHECKOUT_NODE',
   AddFavorite = 'ADD_FAVORITE',
   RemoveFavorite = 'REMOVE_FAVORITE',
   ChangeAspects = 'ASPECT_LIST',
@@ -194,6 +196,18 @@ export class ManageVersionsAction implements Action {
 
 export class EditOfflineAction implements Action {
   readonly type = NodeActionTypes.EditOffline;
+
+  constructor(public payload: NodeEntry) {}
+}
+
+export class CheckoutNodeAction implements Action {
+  readonly type = NodeActionTypes.CheckoutNode;
+
+  constructor(public payload: NodeEntry) {}
+}
+
+export class CancelCheckoutNodeAction implements Action {
+  readonly type = NodeActionTypes.CancelCheckoutNode;
 
   constructor(public payload: NodeEntry) {}
 }

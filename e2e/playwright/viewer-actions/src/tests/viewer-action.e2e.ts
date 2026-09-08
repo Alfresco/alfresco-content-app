@@ -224,9 +224,8 @@ test.describe('viewer action file', () => {
     test('[XAT-5423] Viewer - Edit Offline action - Personal Files', async ({ personalFiles }) => {
       await openFileInViewer(personalFiles, fileForEditOffline);
       await personalFiles.viewer.toolbar.clickMoreActions();
-      await personalFiles.matMenu.clickMenuItem('Edit Offline');
       const downloadPromise = personalFiles.page.waitForEvent('download');
-      await personalFiles.viewer.toolbar.downloadButton.click();
+      await personalFiles.matMenu.clickMenuItem('Edit Offline');
       const download = await downloadPromise;
       expect(download.suggestedFilename(), 'File should found in download location').toBe(fileForEditOffline);
       expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is closed after pressing Full screen').toBe(true);
@@ -239,6 +238,7 @@ test.describe('viewer action file', () => {
     const username = `user-${Utils.random()}`;
     const fileForCancelEditing = `playwright-file2-${Utils.random()}.docx`;
     let folderIdCancelEdit: string;
+    let workingCopyName: string;
     let nodesApi: NodesApi;
     let trashcanApi: TrashcanApi;
 
@@ -251,8 +251,9 @@ test.describe('viewer action file', () => {
         const { fileActionsApi } = apis;
         folderIdCancelEdit = (await nodesApi.createFolder(`viewer-action-5424-${Utils.random()}`)).entry.id;
         const fileForCancelEditingId = (await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, fileForCancelEditing, folderIdCancelEdit)).entry.id;
-        await fileActionsApi.lockNodes([fileForCancelEditingId]);
-        await fileActionsApi.isFileLockedWriteWithRetry(fileForCancelEditingId, true);
+        const workingCopy = await fileActionsApi.checkoutNode(fileForCancelEditingId);
+        workingCopyName = workingCopy.entry.name;
+        await fileActionsApi.isFileCheckedOutWithRetry(fileForCancelEditingId, true);
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
         throw error;
@@ -269,9 +270,10 @@ test.describe('viewer action file', () => {
     });
 
     test('[XAT-5424] Viewer - Cancel Editing action - Personal Files', async ({ personalFiles }) => {
-      await openFileInViewer(personalFiles, fileForCancelEditing);
+      await openFileInViewer(personalFiles, workingCopyName);
       await personalFiles.viewer.toolbar.clickMoreActions();
       await personalFiles.matMenu.clickMenuItem('Cancel Editing');
+      await personalFiles.viewer.waitForViewerToOpen();
       await personalFiles.viewer.toolbar.clickMoreActions();
       expect(await personalFiles.matMenu.isMenuItemVisible('Edit Offline'), 'Edit offline menu should be visible').toBe(true);
     });

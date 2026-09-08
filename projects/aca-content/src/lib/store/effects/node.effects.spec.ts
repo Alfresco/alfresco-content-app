@@ -29,11 +29,14 @@ import { provideEffects } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import {
+  CancelCheckoutNodeAction,
+  CheckoutNodeAction,
   CopyNodesAction,
   CreateFolderAction,
   DeletedNodeInfo,
   DeleteNodesAction,
   EditFolderAction,
+  EditOfflineAction,
   ExpandInfoDrawerAction,
   NodeInformationAction,
   FullscreenViewerAction,
@@ -52,16 +55,18 @@ import {
   UndoDeleteNodesAction,
   UnlockWriteAction,
   UnshareNodesAction,
+  ViewNodeAction,
   LinkNodesAction,
   LocateLinkedItemAction
 } from '@alfresco/aca-shared/store';
-import { RenditionService } from '@alfresco/adf-content-services';
+import { DocumentListService, RenditionService } from '@alfresco/adf-content-services';
+import { AppHookService } from '@alfresco/aca-shared';
 import { ViewerEffects } from './viewer.effects';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { NodeEntry, UserInfo } from '@alfresco/js-api';
+import { NodeEntry, SharedLinkEntry, UserInfo } from '@alfresco/js-api';
 import { Node } from '@alfresco/js-api/typings/src/api/content-rest-api/model/node';
 
 describe('NodeEffects', () => {
@@ -744,5 +749,104 @@ describe('NodeEffects', () => {
 
       expect(contentService.showNodeInformation).toHaveBeenCalledWith(node);
     }));
+  });
+
+  describe('checkout$', () => {
+    let documentListService: DocumentListService;
+    let appHookService: AppHookService;
+
+    beforeEach(() => {
+      documentListService = TestBed.inject(DocumentListService);
+      appHookService = TestBed.inject(AppHookService);
+      spyOn(documentListService, 'reload').and.stub();
+      spyOn(appHookService.nodeToSelect$, 'next');
+    });
+
+    it('should call checkout with the node id from payload', () => {
+      const node = { entry: { id: 'node-id' } } as NodeEntry;
+      spyOn(contentService, 'checkout').and.returnValue(of({ entry: { id: 'wc-id' } } as NodeEntry));
+
+      store.dispatch(new CheckoutNodeAction(node));
+
+      expect(contentService.checkout).toHaveBeenCalledWith('node-id');
+    });
+
+    it('should prefer nodeId over id for shared link nodes', () => {
+      const node = { entry: { nodeId: 'shared-node-id', id: 'link-id' } } as SharedLinkEntry;
+      spyOn(contentService, 'checkout').and.returnValue(of({ entry: { id: 'wc-id' } } as NodeEntry));
+
+      store.dispatch(new CheckoutNodeAction(node as NodeEntry));
+
+      expect(contentService.checkout).toHaveBeenCalledWith('shared-node-id');
+    });
+
+    it('should reload document list and dispatch EditOfflineAction on success', () => {
+      const node = { entry: { id: 'node-id' } } as NodeEntry;
+      const workingCopy = { entry: { id: 'wc-id' } } as NodeEntry;
+      spyOn(contentService, 'checkout').and.returnValue(of(workingCopy));
+      spyOn(store, 'dispatch').and.callThrough();
+
+      store.dispatch(new CheckoutNodeAction(node));
+
+      expect(documentListService.reload).toHaveBeenCalled();
+      expect(appHookService.nodeToSelect$.next).toHaveBeenCalledWith(workingCopy);
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new EditOfflineAction(node) }));
+    });
+
+    it('should preselect original node and not open viewer on favorites/shared where working copy is not shown', () => {
+      spyOnProperty(router, 'url', 'get').and.returnValue('/favorites');
+      const node = { entry: { id: 'node-id' } } as NodeEntry;
+      const workingCopy = { entry: { id: 'wc-id' } } as NodeEntry;
+      spyOn(contentService, 'checkout').and.returnValue(of(workingCopy));
+      spyOn(store, 'dispatch').and.callThrough();
+
+      store.dispatch(new CheckoutNodeAction(node));
+
+      expect(appHookService.nodeToSelect$.next).toHaveBeenCalledWith(node);
+      expect(store.dispatch).not.toHaveBeenCalledWith(jasmine.objectContaining({ ...new ViewNodeAction(workingCopy.entry.id) }));
+    });
+  });
+
+  describe('cancelCheckout$', () => {
+    let documentListService: DocumentListService;
+    let appHookService: AppHookService;
+
+    beforeEach(() => {
+      documentListService = TestBed.inject(DocumentListService);
+      appHookService = TestBed.inject(AppHookService);
+      spyOn(documentListService, 'reload').and.stub();
+      spyOn(appHookService.nodeToSelect$, 'next');
+    });
+
+    it('should call cancelCheckout with the node id from payload', () => {
+      const node = { entry: { id: 'wc-id' } } as NodeEntry;
+      spyOn(contentService, 'cancelCheckout').and.returnValue(of({ entry: { id: 'original-id' } } as NodeEntry));
+
+      store.dispatch(new CancelCheckoutNodeAction(node));
+
+      expect(contentService.cancelCheckout).toHaveBeenCalledWith('wc-id');
+    });
+
+    it('should prefer nodeId over id for shared link nodes', () => {
+      const node = { entry: { nodeId: 'shared-node-id', id: 'link-id' } } as SharedLinkEntry;
+      spyOn(contentService, 'cancelCheckout').and.returnValue(of({ entry: { id: 'original-id' } } as NodeEntry));
+
+      store.dispatch(new CancelCheckoutNodeAction(node as NodeEntry));
+
+      expect(contentService.cancelCheckout).toHaveBeenCalledWith('shared-node-id');
+    });
+
+    it('should reload document list and dispatch EditOfflineAction on success', () => {
+      const node = { entry: { id: 'wc-id' } } as NodeEntry;
+      const originalNode = { entry: { id: 'original-id' } } as NodeEntry;
+      spyOn(contentService, 'cancelCheckout').and.returnValue(of(originalNode));
+      spyOn(store, 'dispatch').and.callThrough();
+
+      store.dispatch(new CancelCheckoutNodeAction(node));
+
+      expect(documentListService.reload).toHaveBeenCalled();
+      expect(appHookService.nodeToSelect$.next).toHaveBeenCalledWith(originalNode);
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new EditOfflineAction(node) }));
+    });
   });
 });

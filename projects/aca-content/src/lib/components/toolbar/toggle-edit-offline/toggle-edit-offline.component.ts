@@ -22,13 +22,11 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppStore, DownloadNodesAction, EditOfflineAction, SetSelectedNodesAction, getAppSelection } from '@alfresco/aca-shared/store';
-import { NodeEntry, SharedLinkEntry, Node, NodesApi, LazyApi } from '@alfresco/js-api';
+import { AppStore, CancelCheckoutNodeAction, CheckoutNodeAction, getAppSelection } from '@alfresco/aca-shared/store';
+import { NodeEntry } from '@alfresco/js-api';
 import { Component, inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppExtensionService, isLocked } from '@alfresco/aca-shared';
-import { NotificationService } from '@alfresco/adf-core';
-import { AlfrescoApiService } from '@alfresco/adf-content-services';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatMenuItem, MatMenuModule } from '@angular/material/menu';
@@ -48,16 +46,10 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class ToggleEditOfflineComponent implements OnInit {
   private readonly store = inject<Store<AppStore>>(Store);
-  private readonly alfrescoApiService = inject(AlfrescoApiService);
   private readonly extensions = inject(AppExtensionService);
 
   @ViewChild(MatMenuItem)
   menuItem: MatMenuItem;
-
-  private readonly notificationService = inject(NotificationService);
-
-  @LazyApi((self: ToggleEditOfflineComponent) => new NodesApi(self.alfrescoApiService.getInstance()))
-  declare private readonly nodesApi: NodesApi;
 
   selection: NodeEntry;
   nodeTitle = '';
@@ -66,71 +58,21 @@ export class ToggleEditOfflineComponent implements OnInit {
   ngOnInit() {
     this.store.select(getAppSelection).subscribe(({ file }) => {
       this.selection = file;
-      this.isNodeLocked = this.selection && isLocked(this.selection);
+      this.isNodeLocked = this.selection && this.isCancelable(this.selection);
       this.nodeTitle = this.isNodeLocked ? 'APP.ACTIONS.EDIT_OFFLINE_CANCEL' : 'APP.ACTIONS.EDIT_OFFLINE';
     });
   }
 
-  async onClick() {
-    await this.toggleLock(this.selection);
+  onClick() {
+    if (this.isCancelable(this.selection)) {
+      this.store.dispatch(new CancelCheckoutNodeAction(this.selection));
+    } else {
+      this.store.dispatch(new CheckoutNodeAction(this.selection));
+    }
     this.extensions.updateSidebarActions();
   }
 
-  private async toggleLock(node: NodeEntry | SharedLinkEntry) {
-    const id = (node as SharedLinkEntry).entry.nodeId || node.entry.id;
-
-    if (isLocked(this.selection)) {
-      try {
-        const response = await this.unlockNode(id);
-
-        this.update(response?.entry);
-        this.store.dispatch(new EditOfflineAction(this.selection));
-        this.store.dispatch(new SetSelectedNodesAction([this.selection]));
-      } catch {
-        this.onUnlockError();
-      }
-    } else {
-      try {
-        const response = await this.lockNode(id);
-
-        this.update(response?.entry);
-        this.store.dispatch(new DownloadNodesAction([this.selection]));
-        this.store.dispatch(new EditOfflineAction(this.selection));
-        this.store.dispatch(new SetSelectedNodesAction([this.selection]));
-      } catch {
-        this.onLockError();
-      }
-    }
-  }
-
-  onLockError() {
-    this.notificationService.showError('APP.MESSAGES.ERRORS.LOCK_NODE', null, { fileName: this.selection.entry.name });
-  }
-
-  onUnlockError() {
-    this.notificationService.showError('APP.MESSAGES.ERRORS.UNLOCK_NODE', null, { fileName: this.selection.entry.name });
-  }
-
-  lockNode(nodeId: string) {
-    return this.nodesApi.lockNode(nodeId, {
-      type: 'ALLOW_OWNER_CHANGES',
-      lifetime: 'PERSISTENT'
-    });
-  }
-
-  unlockNode(nodeId: string) {
-    return this.nodesApi.unlockNode(nodeId);
-  }
-
-  private update(data: Node) {
-    if (data?.properties) {
-      const properties = this.selection.entry.properties || {};
-
-      properties['cm:lockLifetime'] = data.properties['cm:lockLifetime'];
-      properties['cm:lockOwner'] = data.properties['cm:lockOwner'];
-      properties['cm:lockType'] = data.properties['cm:lockType'];
-
-      this.selection.entry.properties = properties;
-    }
+  private isCancelable(node: NodeEntry): boolean {
+    return isLocked(node) || (node?.entry?.aspectNames ?? []).includes('cm:workingcopy');
   }
 }

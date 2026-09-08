@@ -27,11 +27,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { NodeEntry } from '@alfresco/js-api';
-import { DownloadNodesAction, EditOfflineAction } from '@alfresco/aca-shared/store';
+import { CancelCheckoutNodeAction, CheckoutNodeAction } from '@alfresco/aca-shared/store';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AppExtensionService } from '@alfresco/aca-shared';
-import { NotificationService } from '@alfresco/adf-core';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('ToggleEditOfflineComponent', () => {
   let fixture: ComponentFixture<ToggleEditOfflineComponent>;
@@ -40,7 +38,6 @@ describe('ToggleEditOfflineComponent', () => {
   let dispatchSpy: jasmine.Spy;
   let selectSpy: jasmine.Spy;
   let selection: any;
-  let showErrorSpy: jasmine.Spy;
 
   const extensionsMock = {
     updateSidebarActions: jasmine.createSpy('updateSidebarActions')
@@ -48,7 +45,7 @@ describe('ToggleEditOfflineComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, ToggleEditOfflineComponent, MatSnackBarModule],
+      imports: [AppTestingModule, ToggleEditOfflineComponent],
       providers: [
         {
           provide: Store,
@@ -66,88 +63,71 @@ describe('ToggleEditOfflineComponent', () => {
 
     fixture = TestBed.createComponent(ToggleEditOfflineComponent);
     component = fixture.componentInstance;
-    spyOn(component, 'unlockNode').and.returnValue(Promise.resolve(null));
-    spyOn(component, 'lockNode').and.returnValue(Promise.resolve(null));
-    store = TestBed.inject(Store);
 
+    store = TestBed.inject(Store);
     dispatchSpy = spyOn(store, 'dispatch');
     selectSpy = spyOn(store, 'select');
 
     selection = { file: { entry: { name: 'test', properties: {}, isLocked: false } } };
-
-    const notificationService = TestBed.inject(NotificationService);
-    showErrorSpy = spyOn(notificationService, 'showError');
   });
 
-  it('should initialized with data from store', () => {
+  it('should initialize selection from store', () => {
     selectSpy.and.returnValue(of(selection));
-
     fixture.detectChanges();
-
     expect(component.selection).toEqual(selection.file);
   });
 
-  it('should download content when node is locked', async () => {
+  it('should dispatch CheckoutNodeAction when node is not locked', () => {
     selectSpy.and.returnValue(of(selection));
     fixture.detectChanges();
 
-    selection.file.entry.isLocked = false;
-    await component.onClick();
-
-    fixture.detectChanges();
-
-    expect(dispatchSpy.calls.argsFor(0)).toEqual([new DownloadNodesAction([selection.file as NodeEntry])]);
-  });
-
-  it('should not download content if node is not locked', () => {
-    selectSpy.and.returnValue(of(selection));
-
-    fixture.detectChanges();
     component.onClick();
-    fixture.detectChanges();
 
-    expect(dispatchSpy.calls.argsFor(0)).not.toEqual([new DownloadNodesAction([selection.file as NodeEntry])]);
+    expect(dispatchSpy).toHaveBeenCalledWith(new CheckoutNodeAction(selection.file as NodeEntry));
   });
 
-  it('should dispatch EditOfflineAction action', async () => {
-    selectSpy.and.returnValue(of(selection));
-
+  it('should dispatch CancelCheckoutNodeAction when node is locked', () => {
     selection.file.entry.isLocked = true;
-
-    fixture.detectChanges();
-    await component.onClick();
-    fixture.detectChanges();
-
-    expect(dispatchSpy.calls.argsFor(0)).toEqual([new EditOfflineAction(selection.file as NodeEntry)]);
-  });
-
-  it('should raise notification on lock error', () => {
-    selectSpy.and.returnValue(of(selection));
-
-    fixture.detectChanges();
-    component.onLockError();
-    fixture.detectChanges();
-
-    expect(showErrorSpy).toHaveBeenCalledWith('APP.MESSAGES.ERRORS.LOCK_NODE', null, { fileName: 'test' });
-  });
-
-  it('should raise notification on unlock error', () => {
-    selectSpy.and.returnValue(of(selection));
-
-    fixture.detectChanges();
-    component.onUnlockError();
-    fixture.detectChanges();
-
-    expect(showErrorSpy).toHaveBeenCalledWith('APP.MESSAGES.ERRORS.UNLOCK_NODE', null, { fileName: 'test' });
-  });
-
-  it('should call updateSidebarActions on click', async () => {
     selectSpy.and.returnValue(of(selection));
     fixture.detectChanges();
 
-    await component.onClick();
+    component.onClick();
+
+    expect(dispatchSpy).toHaveBeenCalledWith(new CancelCheckoutNodeAction(selection.file as NodeEntry));
+  });
+
+  it('should dispatch CancelCheckoutNodeAction when node is a working copy', () => {
+    selection.file.entry.aspectNames = ['cm:workingcopy'];
+    selectSpy.and.returnValue(of(selection));
     fixture.detectChanges();
 
-    expect(extensionsMock.updateSidebarActions).toHaveBeenCalled();
+    component.onClick();
+
+    expect(dispatchSpy).toHaveBeenCalledWith(new CancelCheckoutNodeAction(selection.file as NodeEntry));
+  });
+
+  it('should set isNodeLocked to false and nodeTitle to EDIT_OFFLINE for a plain unlocked file', () => {
+    selectSpy.and.returnValue(of(selection));
+    fixture.detectChanges();
+
+    expect(component.isNodeLocked).toBeFalse();
+    expect(component.nodeTitle).toBe('APP.ACTIONS.EDIT_OFFLINE');
+  });
+
+  it('should set isNodeLocked to true and nodeTitle to EDIT_OFFLINE_CANCEL for a locked file', () => {
+    selection.file.entry.isLocked = true;
+    selectSpy.and.returnValue(of(selection));
+    fixture.detectChanges();
+
+    expect(component.isNodeLocked).toBeTrue();
+    expect(component.nodeTitle).toBe('APP.ACTIONS.EDIT_OFFLINE_CANCEL');
+  });
+
+  it('should set isNodeLocked to true for a working copy', () => {
+    selection.file.entry.aspectNames = ['cm:workingcopy'];
+    selectSpy.and.returnValue(of(selection));
+    fixture.detectChanges();
+
+    expect(component.isNodeLocked).toBeTrue();
   });
 });

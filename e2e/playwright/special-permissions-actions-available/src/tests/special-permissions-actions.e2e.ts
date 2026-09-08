@@ -68,7 +68,6 @@ test.describe('Special permissions : ', () => {
   let folderFav2Id: string;
 
   let managerNodeActions: NodesApi;
-  let demotedUserActions: NodesApi;
   let consumerFavoritesActions: FavoritesPageApi;
   let managerFavoritesActions: FavoritesPageApi;
   let collaboratorFavoritesActions: FavoritesPageApi;
@@ -78,6 +77,7 @@ test.describe('Special permissions : ', () => {
   let consumerShareActions: SharedLinksApi;
   let managerSiteActions: SitesApi;
   let managerFileActions: FileActionsApi;
+  let demotedUserFileActions: FileActionsApi;
   let managerSearchActions: SearchApi;
 
   test.beforeAll(async () => {
@@ -89,7 +89,6 @@ test.describe('Special permissions : ', () => {
     await apiClientFactory.createUser({ username: userDemoted });
 
     managerNodeActions = await NodesApi.initialize(userManager, userManager);
-    demotedUserActions = await NodesApi.initialize(userDemoted, userDemoted);
     consumerFavoritesActions = await FavoritesPageApi.initialize(userConsumer, userConsumer);
     collaboratorFavoritesActions = await FavoritesPageApi.initialize(userCollaborator, userCollaborator);
     demotedUserFavoritesActions = await FavoritesPageApi.initialize(userDemoted, userDemoted);
@@ -97,6 +96,7 @@ test.describe('Special permissions : ', () => {
     managerSearchActions = await SearchApi.initialize(userManager, userManager);
     managerSiteActions = await SitesApi.initialize(userManager, userManager);
     managerFileActions = await FileActionsApi.initialize(userManager, userManager);
+    demotedUserFileActions = await FileActionsApi.initialize(userDemoted, userDemoted);
     managerUserShareActions = await SharedLinksApi.initialize(userManager, userManager);
     demotedUserShareActions = await SharedLinksApi.initialize(userDemoted, userDemoted);
     consumerShareActions = await SharedLinksApi.initialize(userConsumer, userConsumer);
@@ -132,7 +132,7 @@ test.describe('Special permissions : ', () => {
       .entry.id;
 
     fileLockedByUserId = (await managerNodeActions.createFile(testData.fileLockedByUser, docLibId, '', '', '', true, ['cm:versionable'])).entry.id;
-    await demotedUserActions.lockNodes([fileLockedByUserId]);
+    await demotedUserFileActions.checkoutNode(fileLockedByUserId);
     await demotedUserFavoritesActions.addFavoriteById('file', fileLockedByUserId);
     await demotedUserShareActions.shareFileById(fileLockedByUserId);
     await managerSiteActions.updateSiteMember(sitePrivate, userDemoted, Site.RoleEnum.SiteConsumer);
@@ -164,7 +164,12 @@ test.describe('Special permissions : ', () => {
       fileGranularPermissionId
     ]);
 
-    await managerNodeActions.lockNodes([fileLockedId, fileFavLockedId, fileSharedLockedId, fileSharedFavLockedId]);
+    await Promise.all([
+      managerFileActions.checkoutNode(fileLockedId),
+      managerFileActions.checkoutNode(fileFavLockedId),
+      managerFileActions.checkoutNode(fileSharedLockedId),
+      managerFileActions.checkoutNode(fileSharedFavLockedId)
+    ]);
 
     await managerNodeActions.setGranularPermission(fileGranularPermissionId, userConsumer, Site.RoleEnum.SiteManager, false);
 

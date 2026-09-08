@@ -22,13 +22,23 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Node } from '@alfresco/js-api';
+import { Node, NodeEntry } from '@alfresco/js-api';
 
 export function isLocked(node: { entry: Node }): boolean {
   if (node?.entry) {
     const { entry } = node;
 
     return entry.isLocked || entry.properties?.['cm:lockType'] === 'READ_ONLY_LOCK' || entry.properties?.['cm:lockType'] === 'WRITE_LOCK';
+  } else {
+    return false;
+  }
+}
+
+export function isWorkingCopy(nodeEntry: NodeEntry): boolean {
+  if (nodeEntry?.entry) {
+    const { entry } = nodeEntry;
+
+    return entry.aspectNames?.includes('cm:workingcopy') ?? false;
   } else {
     return false;
   }

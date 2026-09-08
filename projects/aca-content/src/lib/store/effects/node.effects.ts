@@ -28,10 +28,14 @@ import { first, map, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import {
   AppStore,
+  CancelCheckoutNodeAction,
+  CheckoutNodeAction,
   CopyNodesAction,
   CreateFolderAction,
   DeleteNodesAction,
+  DownloadNodesAction,
   EditFolderAction,
+  EditOfflineAction,
   ExpandInfoDrawerAction,
   getAppSelection,
   getCurrentFolder,
@@ -54,13 +58,15 @@ import {
   ShareNodeAction,
   UndoDeleteNodesAction,
   UnlockWriteAction,
-  UnshareNodesAction
+  UnshareNodesAction,
+  ViewNodeAction
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
-import { RenditionService } from '@alfresco/adf-content-services';
+import { AppHookService } from '@alfresco/aca-shared';
+import { DocumentListService, RenditionService } from '@alfresco/adf-content-services';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Node } from '@alfresco/js-api';
+import { Node, SharedLink } from '@alfresco/js-api';
 
 @Injectable()
 export class NodeEffects {
@@ -68,6 +74,8 @@ export class NodeEffects {
   private readonly actions$ = inject(Actions);
   private readonly router = inject(Router);
   private readonly contentService = inject(ContentManagementService);
+  private readonly documentListService = inject(DocumentListService);
+  private readonly appHookService = inject(AppHookService);
   private readonly renditionViewer = inject(RenditionService);
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly sanitizer = inject(DomSanitizer);
@@ -454,6 +462,58 @@ export class NodeEffects {
     { dispatch: false }
   );
 
+  checkout$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<CheckoutNodeAction>(NodeActionTypes.CheckoutNode),
+        map((action) => {
+          const nodeEntry = action.payload;
+          const id = (nodeEntry.entry as SharedLink).nodeId ?? nodeEntry.entry.id;
+          const inViewer = this.isInViewer();
+          const viewerExtras = inViewer ? this.currentViewerExtras() : undefined;
+
+          this.contentService.checkout(id).subscribe({
+            next: (workingCopy) => {
+              const nodeToSelect = this.isWorkingCopyVisible() ? workingCopy : nodeEntry;
+              this.appHookService.nodeToSelect$.next(nodeToSelect);
+              this.documentListService.reload();
+              this.store.dispatch(new DownloadNodesAction([nodeEntry]));
+              this.store.dispatch(new EditOfflineAction(nodeEntry));
+              if (inViewer && this.isWorkingCopyVisible()) {
+                this.store.dispatch(new ViewNodeAction(workingCopy.entry.id, viewerExtras));
+              }
+            }
+          });
+        })
+      ),
+    { dispatch: false }
+  );
+
+  cancelCheckout$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<CancelCheckoutNodeAction>(NodeActionTypes.CancelCheckoutNode),
+        map((action) => {
+          const nodeEntry = action.payload;
+          const id = (nodeEntry.entry as SharedLink).nodeId ?? nodeEntry.entry.id;
+          const inViewer = this.isInViewer();
+          const viewerExtras = inViewer ? this.currentViewerExtras() : undefined;
+
+          this.contentService.cancelCheckout(id).subscribe({
+            next: (originalNode) => {
+              this.appHookService.nodeToSelect$.next(originalNode);
+              this.documentListService.reload();
+              this.store.dispatch(new EditOfflineAction(nodeEntry));
+              if (inViewer) {
+                this.store.dispatch(new ViewNodeAction(originalNode.entry.id, viewerExtras));
+              }
+            }
+          });
+        })
+      ),
+    { dispatch: false }
+  );
+
   aspectList$ = createEffect(
     () =>
       this.actions$.pipe(
@@ -535,5 +595,27 @@ export class NodeEffects {
   private getDetailsRoute(entry: Node, location = this.router.url): string {
     const isRepository = location?.includes('/repository') || getNodeContentSource(entry?.path) === 'repository';
     return `${isRepository ? 'repository' : 'personal-files'}/details`;
+  }
+
+  private isInViewer(): boolean {
+    const url = this.router.url;
+    return url.includes('/preview/') || url.includes('viewer:view') || url.includes('/view/');
+  }
+
+  private isWorkingCopyVisible(): boolean {
+    const url = this.router.url;
+    return !url.startsWith('/favorites') && !url.startsWith('/shared');
+  }
+
+  private currentViewerExtras() {
+    const tree = this.router.parseUrl(this.router.url);
+    const { location, path } = tree.queryParams;
+    if (location) {
+      return { location };
+    }
+    if (path) {
+      return { path };
+    }
+    return undefined;
   }
 }

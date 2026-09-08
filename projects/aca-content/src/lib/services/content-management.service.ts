@@ -35,6 +35,7 @@ import {
   SetSelectedNodesAction,
   ShowLoaderAction,
   UnlockWriteAction,
+  ViewNodeAction,
   ViewNodeVersionAction
 } from '@alfresco/aca-shared/store';
 import {
@@ -187,8 +188,20 @@ export class ContentManagementService {
       this.newVersionUploaderService.openUploadNewVersionDialog(newVersionUploaderDialogData, dialogConfig).subscribe(
         (data) => {
           if (data.action === NewVersionUploaderDataAction.upload) {
-            if (data.newVersion.value.entry.properties['cm:lockType'] === 'WRITE_LOCK') {
+            const uploadedEntry = data.newVersion.value.entry;
+
+            if (uploadedEntry.properties?.['cm:lockType'] === 'WRITE_LOCK') {
               this.store.dispatch(new UnlockWriteAction(data.newVersion.value));
+            }
+
+            this.documentListService.reload();
+
+            const isWorkingCopy = (node.aspectNames ?? []).includes('cm:workingcopy');
+            if (isWorkingCopy && uploadedEntry.id !== node.id && this.isInViewer()) {
+              const location = this.activatedRoute.snapshot.queryParams['location'] || this.router.url;
+              this.store.dispatch(new ViewNodeAction(uploadedEntry.id, { location }));
+            } else {
+              this.store.dispatch(new RefreshPreviewAction(uploadedEntry));
             }
           }
         },
@@ -1284,5 +1297,10 @@ export class ContentManagementService {
       },
       width: '700px'
     });
+  }
+
+  private isInViewer(): boolean {
+    const url = this.router.url;
+    return url.includes('/preview/') || url.includes('viewer:view') || url.includes('/view/');
   }
 }
