@@ -504,7 +504,9 @@
             "COLLAPSE_SECTION": "طي القسم",
             "EDIT": "تحرير",
             "CANCEL": "إلغاء",
-            "SAVE": "حفظ"
+            "SAVE": "حفظ",
+            "LOCK_BADGE": "This document is locked by {{ owner }} for offline editing.",
+            "WORKING_COPY_BADGE": "Original document is locked by {{ owner }} for offline editing."
         },
         "NODE_INFO": {
             "ICON": "أيقونة العقدة",
@@ -746,6 +748,7 @@
         }
     },
     "CHECKOUT": {
+        "CHECKED_OUT_BY": "Original locked by: ",
         "ERRORS": {
             "CHECKOUT": {
                 "400": "لا يمكن إجراء استخراج لهذه العقدة. يجب أن تكون عقدة محتوى (cm:content).",

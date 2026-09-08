@@ -504,7 +504,9 @@
             "COLLAPSE_SECTION": "Sectie samenvouwen",
             "EDIT": "Bewerken",
             "CANCEL": "Annuleren",
-            "SAVE": "Opslaan"
+            "SAVE": "Opslaan",
+            "LOCK_BADGE": "This document is locked by {{ owner }} for offline editing.",
+            "WORKING_COPY_BADGE": "Original document is locked by {{ owner }} for offline editing."
         },
         "NODE_INFO": {
             "ICON": "Node Icon",
@@ -746,6 +748,7 @@
         }
     },
     "CHECKOUT": {
+        "CHECKED_OUT_BY": "Original locked by: ",
         "ERRORS": {
             "CHECKOUT": {
                 "400": "Deze node kan niet worden uitgecheckt. Het moet een content-node (cm:content) zijn.",

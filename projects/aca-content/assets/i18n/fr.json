@@ -504,7 +504,9 @@
             "COLLAPSE_SECTION": "Réduire la section",
             "EDIT": "Modifier",
             "CANCEL": "Annuler",
-            "SAVE": "Enregistrer"
+            "SAVE": "Enregistrer",
+            "LOCK_BADGE": "This document is locked by {{ owner }} for offline editing.",
+            "WORKING_COPY_BADGE": "Original document is locked by {{ owner }} for offline editing."
         },
         "NODE_INFO": {
             "ICON": "Symbole de nœud",
@@ -746,6 +748,7 @@
         }
     },
     "CHECKOUT": {
+        "CHECKED_OUT_BY": "Original locked by: ",
         "ERRORS": {
             "CHECKOUT": {
                 "400": "Ce nœud ne peut pas être extrait. Il doit s'agir d'un nœud de contenu (cm:content).",

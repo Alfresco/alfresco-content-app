@@ -504,7 +504,9 @@
             "COLLAPSE_SECTION": "折叠版块",
             "EDIT": "编辑",
             "CANCEL": "取消",
-            "SAVE": "保存"
+            "SAVE": "保存",
+            "LOCK_BADGE": "This document is locked by {{ owner }} for offline editing.",
+            "WORKING_COPY_BADGE": "Original document is locked by {{ owner }} for offline editing."
         },
         "NODE_INFO": {
             "ICON": "节点图标",
@@ -746,6 +748,7 @@
         }
     },
     "CHECKOUT": {
+        "CHECKED_OUT_BY": "Original locked by: ",
         "ERRORS": {
             "CHECKOUT": {
                 "400": "此节点无法签出。它必须是内容(cm:content)节点。",
