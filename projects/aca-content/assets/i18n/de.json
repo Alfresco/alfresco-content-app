@@ -225,7 +225,7 @@
                 "EFFECTIVITY": "Effektivität",
                 "TITLE": "Ergebnisse durchsuchen",
                 "FILTER_SET": "Filter-Satz:",
-                "LOADING": "Loading search results, please wait.",
+                "LOADING": "Suchergebnisse werden geladen, bitte warten.",
                 "ADVANCED_FILTERS": "Erweiterte Filter:",
                 "RESET": "Zurücksetzen",
                 "RESET_ACTION": "Suchfilter zurücksetzen",
@@ -505,8 +505,8 @@
             "EDIT": "Bearbeiten",
             "CANCEL": "Abbrechen",
             "SAVE": "Speichern",
-            "LOCK_BADGE": "This document is locked by {{ owner }} for offline editing.",
-            "WORKING_COPY_BADGE": "Original document is locked by {{ owner }} for offline editing."
+            "LOCK_BADGE": "Dieses Dokument ist von {{ owner }} zur offlinen Bearbeitung gesperrt.",
+            "WORKING_COPY_BADGE": "Das Originaldokument ist für die Bearbeitung im Offlinemodus von {{ owner }} gesperrt."
         },
         "NODE_INFO": {
             "ICON": "Knotensymbol",
@@ -748,7 +748,7 @@
         }
     },
     "CHECKOUT": {
-        "CHECKED_OUT_BY": "Original locked by: ",
+        "CHECKED_OUT_BY": "Original gesperrt von: ",
         "ERRORS": {
             "CHECKOUT": {
                 "400": "Dieser Knoten kann nicht ausgecheckt werden. Es muss ein Inhaltsknoten (cm:content) sein.",
