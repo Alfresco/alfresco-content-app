@@ -259,18 +259,13 @@ export function filesLockedByOtherUser(userManager: string, siteName: string) {
       sharedPage,
       myLibrariesPage
     }) => {
-      const expectedToolbarMore = [
-        'Cancel Editing',
-        'Upload New Version',
-        'Remove Favorite',
-        'Move',
-        'Copy',
-        'Delete',
-        'Manage Versions',
-        'Permissions'
-      ];
       await sharedPage.navigate();
-      await checkActionsAvailable(myLibrariesPage, testData.fileLockedByUser.name, testData.collaboratorToolbarPrimary, expectedToolbarMore);
+      await checkActionsAvailable(
+        myLibrariesPage,
+        testData.fileLockedByUser.name,
+        testData.collaboratorToolbarPrimary,
+        testData.collaboratorLockOtherUserToolbarMore
+      );
     });
 
     test('[XAT-4862] Toolbar - Correct actions appear for file - on Favorites - Locked File - Other User', async ({
