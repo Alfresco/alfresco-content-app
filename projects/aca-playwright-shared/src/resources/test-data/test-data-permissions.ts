@@ -81,7 +81,7 @@ const searchConsumerSharedToolbarPrimary = ['Shared Link Settings', 'Download', 
 const consumerToolbarMore = ['Favorite', 'Copy', 'Manage Versions'];
 const consumerFavToolbarMore = ['Remove Favorite', 'Copy', 'Manage Versions'];
 
-export const collaboratorToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
+export const collaboratorToolbarPrimary = ['Shared Link Settings', 'View', 'View Details', 'More Actions'];
 export const collaboratorEditRowToolbarMore = [
   'Edit Offline',
   'Upload New Version',
@@ -92,14 +92,7 @@ export const collaboratorEditRowToolbarMore = [
   'Permissions'
 ];
 export const favoritesCollaboratorToolbarMore = ['Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
-export const collaboratorSharedToolbarPrimary = [
-  'Activate full-screen mode',
-  'Shared Link Settings',
-  'Download',
-  'Print',
-  'View Details',
-  'More Actions'
-];
+export const collaboratorSharedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Print', 'View Details', 'More Actions'];
 export const collaboratorDocToolbarMore = [
   'Edit in Microsoft Office™',
   'Edit Offline',
