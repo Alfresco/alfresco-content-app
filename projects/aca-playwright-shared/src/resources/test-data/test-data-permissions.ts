@@ -24,8 +24,6 @@
 
 import { Utils } from '../../utils';
 
-export const random = Utils.random();
-
 export interface TestNode {
   /** Unique token in the name; use it as a precise search term. */
   random: string;
@@ -84,7 +82,6 @@ const consumerToolbarMore = ['Favorite', 'Copy', 'Manage Versions'];
 const consumerFavToolbarMore = ['Remove Favorite', 'Copy', 'Manage Versions'];
 
 export const collaboratorToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
-export const collaboratorWorkingCopyToolbarPrimary = ['View', 'View Details', 'More Actions'];
 export const collaboratorEditRowToolbarMore = [
   'Edit Offline',
   'Upload New Version',
@@ -94,7 +91,6 @@ export const collaboratorEditRowToolbarMore = [
   'Edit Aspects',
   'Permissions'
 ];
-export const favoritesCheckedOutCollaboratorToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Information'];
 export const favoritesCollaboratorToolbarMore = ['Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
 export const collaboratorSharedToolbarPrimary = [
   'Activate full-screen mode',
@@ -114,18 +110,7 @@ export const collaboratorDocToolbarMore = [
   'Edit Aspects',
   'Permissions'
 ];
-export const collaboratorSharedWorkingCopyToolbarPrimary = ['Activate full-screen mode', 'View Details', 'More Actions'];
-export const collaboratorLockedToolbarPrimary = ['Shared Link Settings', 'View', 'View Details', 'More Actions'];
-export const collaboratorLockedOriginalSharedViewerToolbarPrimary = [
-  'Activate full-screen mode',
-  'Shared Link Settings',
-  'View Details',
-  'More Actions'
-];
-export const collaboratorLockedSharedViewerToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy'];
 export const collaboratorLockCurrentUserToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
-export const collaboratorLockWorkingCopyToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Copy'];
-export const lockedWorkingCopyToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Move', 'Copy', 'Information', 'Permissions'];
 export const collaboratorLockOtherUserToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
 export const collaboratorLockOtherUserSearchToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
 
@@ -338,7 +323,6 @@ export const fileFavLocked = buildFileData((fileRandom) => `file-${fileRandom}-f
   toolbarMore: consumerFavToolbarMore,
   viewerToolbarPrimary: consumerViewerLockedToolbarPrimary,
   viewerToolbarMore: consumerViewerLockedFavToolbarMore,
-  workingCopyViewerToolbarMore: consumerViewerLockedToolbarMore,
 
   favoritesToolbarMore: favoritesConsumerToolbarMore,
   favoritesContextMenu: favoritesConsumerContextMenu,
@@ -369,7 +353,6 @@ export const fileSharedFavLocked = buildFileData((fileRandom) => `file-${fileRan
   toolbarMore: consumerFavToolbarMore,
   viewerToolbarPrimary: consumerViewerLockedToolbarPrimary,
   viewerToolbarMore: consumerViewerLockedFavToolbarMore,
-  workingCopyViewerToolbarMore: consumerViewerLockedToolbarMore,
 
   favoritesToolbarMore: favoritesConsumerToolbarMore,
   favoritesContextMenu: favoritesConsumerSharedContextMenu,

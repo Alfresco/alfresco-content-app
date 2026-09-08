@@ -41,7 +41,7 @@ import {
 import { Site } from '@alfresco/js-api';
 
 test.describe('Special permissions : ', () => {
-  const random = testData.random;
+  const random = Utils.random();
 
   test.describe('Consumer', () => {
     const apiClientFactory = new ApiClientFactory();
