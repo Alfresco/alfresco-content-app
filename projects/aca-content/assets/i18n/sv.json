@@ -225,6 +225,7 @@
                 "EFFECTIVITY": "Giltighet",
                 "TITLE": "Sökresultat",
                 "FILTER_SET": "Filteruppsättning:",
+                "LOADING": "Loading search results, please wait.",
                 "ADVANCED_FILTERS": "Avancerade filter:",
                 "RESET": "Återställ",
                 "RESET_ACTION": "Återställ sökfilter",

@@ -225,6 +225,7 @@
                 "EFFECTIVITY": "Effektivitet",
                 "TITLE": "Søk i resultater",
                 "FILTER_SET": "Filtersett:",
+                "LOADING": "Loading search results, please wait.",
                 "ADVANCED_FILTERS": "Avanserte filtre:",
                 "RESET": "Tilbakestill",
                 "RESET_ACTION": "Tilbakestill søkefiltre",

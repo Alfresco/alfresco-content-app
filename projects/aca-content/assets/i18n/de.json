@@ -225,6 +225,7 @@
                 "EFFECTIVITY": "Effektivität",
                 "TITLE": "Ergebnisse durchsuchen",
                 "FILTER_SET": "Filter-Satz:",
+                "LOADING": "Loading search results, please wait.",
                 "ADVANCED_FILTERS": "Erweiterte Filter:",
                 "RESET": "Zurücksetzen",
                 "RESET_ACTION": "Suchfilter zurücksetzen",

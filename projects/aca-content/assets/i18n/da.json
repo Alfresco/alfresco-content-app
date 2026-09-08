@@ -225,6 +225,7 @@
                 "EFFECTIVITY": "Gældende periode",
                 "TITLE": "Søgeresultater",
                 "FILTER_SET": "Filter indstillet:",
+                "LOADING": "Loading search results, please wait.",
                 "ADVANCED_FILTERS": "Avancerede filtre:",
                 "RESET": "Nulstil",
                 "RESET_ACTION": "Nulstil søgefiltre",

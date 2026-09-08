@@ -225,6 +225,7 @@
                 "EFFECTIVITY": "Эффективность",
                 "TITLE": "Результаты поиска",
                 "FILTER_SET": "Используется фильтр:",
+                "LOADING": "Loading search results, please wait.",
                 "ADVANCED_FILTERS": "Дополнительные фильтры:",
                 "RESET": "Сброс",
                 "RESET_ACTION": "Сбросить фильтры поиска",

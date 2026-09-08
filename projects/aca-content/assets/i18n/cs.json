@@ -225,6 +225,7 @@
                 "EFFECTIVITY": "Účinnost",
                 "TITLE": "Výsledky hledání",
                 "FILTER_SET": "Sada filtrů:",
+                "LOADING": "Loading search results, please wait.",
                 "ADVANCED_FILTERS": "Pokročilé filtry:",
                 "RESET": "Resetovat",
                 "RESET_ACTION": "Resetovat filtry vyhledávání",

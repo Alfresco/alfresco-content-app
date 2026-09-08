@@ -225,6 +225,7 @@
                 "EFFECTIVITY": "Validité",
                 "TITLE": "Résultats de la recherche",
                 "FILTER_SET": "Ensemble de filtres :",
+                "LOADING": "Loading search results, please wait.",
                 "ADVANCED_FILTERS": "Filtres avancés :",
                 "RESET": "Réinitialiser",
                 "RESET_ACTION": "Réinitialiser les filtres de recherche",

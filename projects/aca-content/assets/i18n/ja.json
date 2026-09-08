@@ -225,6 +225,7 @@
                 "EFFECTIVITY": "有効性",
                 "TITLE": "検索結果",
                 "FILTER_SET": "フィルタセット：",
+                "LOADING": "Loading search results, please wait.",
                 "ADVANCED_FILTERS": "高度なフィルタ：",
                 "RESET": "リセット",
                 "RESET_ACTION": "検索フィルタのリセット",

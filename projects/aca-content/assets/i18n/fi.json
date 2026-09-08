@@ -225,6 +225,7 @@
                 "EFFECTIVITY": "Voimassaolo",
                 "TITLE": "Hakutulosta",
                 "FILTER_SET": "Asetettu suodatin:",
+                "LOADING": "Loading search results, please wait.",
                 "ADVANCED_FILTERS": "Edistyneet suodattimet:",
                 "RESET": "Nollaa",
                 "RESET_ACTION": "Nollaa hakusuodattimet",
