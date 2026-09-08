@@ -446,6 +446,7 @@
                 "NODE_MOVE": {
                     "SINGULAR": "Moved {{ success }} item.",
                     "PLURAL": "Moved {{ success }} items.",
+                    "GENERAL": "Moved item",
                     "PARTIAL": {
                         "SINGULAR": "Partially moved {{ partially }} item.",
                         "PLURAL": "Partially moved {{ partially }} items.",

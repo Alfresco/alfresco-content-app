@@ -6,7 +6,8 @@
         [folderNode]="node"
         [selectedRowItemsCount]="selectedRowItemsCount" [maxItems]="isSmallScreen ? 1 : 0"
         (navigate)="onBreadcrumbNavigate($event)"
-        (breadcrumbPathElementsChange)="breadcrumbPathNames = $event"/>
+        (breadcrumbPathElementsChange)="breadcrumbPathNames = $event"
+        (dropped)="onBreadcrumbDrop($event)"/>
       <aca-toolbar [items]="actions" />
     </div>
   </div>

@@ -26,6 +26,8 @@ import {
   CustomEmptyContentTemplateDirective,
   DataColumnComponent,
   DataColumnListComponent,
+  DataRow,
+  NotificationService,
   PaginationComponent,
   ShowHeaderMode
 } from '@alfresco/adf-core';
@@ -56,12 +58,13 @@ import {
 } from '@alfresco/adf-content-services';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpErrorResponse } from '@angular/common/http';
 import { extractFiltersFromEncodedQuery } from '../../utils/aca-search-utils';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 @Component({
   imports: [
@@ -92,8 +95,10 @@ import { extractFiltersFromEncodedQuery } from '../../utils/aca-search-utils';
 export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   private readonly contentApi = inject(ContentApiService);
   private readonly nodeActionsService = inject(NodeActionsService);
+  private readonly notificationService = inject(NotificationService);
   private readonly route = inject(ActivatedRoute);
   private readonly queryBuilderService = inject(SearchHeaderQueryBuilderService);
+  private readonly translateService = inject(TranslateService);
 
   isValidPath = true;
   isAdmin = false;
@@ -418,5 +423,15 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
           this._errorTranslationKey = 'APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_LOADING_ERROR';
       }
     }
+  }
+
+  onBreadcrumbDrop(event: CdkDragDrop<PathElement, PathElement, DataRow>) {
+    this.documentListService.moveNode(event.item.data.id, event.container.id).subscribe({
+      next: () => {
+        this.documentListService.reload();
+        this.notificationService.showInfo(this.translateService.instant('APP.MESSAGES.INFO.NODE_MOVE.GENERAL'));
+      },
+      error: () => this.notificationService.showError(this.translateService.instant('APP.MESSAGES.ERRORS.NODE_MOVE'))
+    });
   }
 }
