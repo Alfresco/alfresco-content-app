@@ -74,7 +74,7 @@ export class SharedLinksApi {
       };
       return await this.apiService.share.listSharedLinks(opts);
     } catch (error) {
-      logger.error(`SharedLinksApi getSharedLinks : catch : ${error}`);
+      logger.error(`SharedLinksApi getSharedLinks : catch : ${JSON.stringify(error)}`);
       return new SharedLinkPaging();
     }
   }
