@@ -380,7 +380,6 @@ export const fileSharedFavLocked = buildFileData((fileRandom) => `file-${fileRan
   searchToolbarPrimary: searchConsumerSharedToolbarPrimary
 });
 
-export const fileGranularPermission = buildNode((fileRandom) => `file-${fileRandom}-granular.txt`);
 export const fileLockedByUser = buildNode((fileRandom) => `file-${fileRandom}-my-locked.txt`);
 
 // ---- non-versionable file (no cm:versionable aspect) ----
@@ -400,49 +399,6 @@ export const fileNotVersionable = buildFileData((fileRandom) => `file-${fileRand
 
   searchToolbarPrimary: searchConsumerToolbarPrimary
 });
-
-// ---- folders ---
-
-const consumerFolderContextMenu = ['Download', 'Favorite', 'Copy'];
-const consumerFolderToolbarPrimary = ['Download', 'View Details', 'More Actions'];
-const consumerFolderToolbarMore = ['Favorite', 'Copy'];
-const searchConsumerFolderToolbarPrimary = ['Download', 'View Details', 'More Actions'];
-const consumerFolderFavContextMenu = ['Download', 'Remove Favorite', 'Copy'];
-const consumerFolderFavToolbarMore = ['Remove Favorite', 'Copy'];
-
-// ---- FAVORITES workarounds ----
-
-const favoritesConsumerFolderContextMenu = ['Download', 'Edit', 'Remove Favorite', 'Move', 'Copy', 'Delete'];
-
-const favoritesConsumerFolderToolbarMore = ['Edit', 'Remove Favorite', 'Move', 'Copy', 'Delete'];
-
-export const folder: TestFolderData = {
-  name: `folder-${random}`,
-  description: 'folder not favorite',
-  contextMenu: consumerFolderContextMenu,
-  toolbarPrimary: consumerFolderToolbarPrimary,
-  toolbarMore: consumerFolderToolbarMore,
-
-  searchToolbarPrimary: searchConsumerFolderToolbarPrimary
-};
-
-export const folderFav: TestFolderData = {
-  name: `folder-fav-${random}`,
-  description: 'folder favorite',
-  contextMenu: consumerFolderFavContextMenu,
-  toolbarPrimary: consumerFolderToolbarPrimary,
-  toolbarMore: consumerFolderFavToolbarMore,
-
-  favoritesContextMenu: favoritesConsumerFolderContextMenu,
-  favoritesToolbarMore: favoritesConsumerFolderToolbarMore,
-
-  searchToolbarPrimary: searchConsumerFolderToolbarPrimary
-};
-
-export const folderFav2: TestFolderData = {
-  name: `folder-fav-2-${random}`,
-  description: 'folder 2 favorite'
-};
 
 // ---- multiple selection ---
 
