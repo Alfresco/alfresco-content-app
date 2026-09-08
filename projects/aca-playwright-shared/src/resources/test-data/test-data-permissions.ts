@@ -91,8 +91,19 @@ export const collaboratorEditRowToolbarMore = [
   'Edit Aspects',
   'Permissions'
 ];
-export const favoritesCollaboratorToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Move', 'Copy', 'Information'];
+export const favoritesCollaboratorToolbarMore = [
+  'Edit Offline',
+  'Upload New Version',
+  'Remove Favorite',
+  'Move',
+  'Copy',
+  'Delete',
+  'Manage Versions',
+  'Edit Aspects',
+  'Permissions'
+];
 export const collaboratorSharedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Print', 'View Details', 'More Actions'];
+export const collaboratorViewerLockedToolbarPrimary = ['Activate full-screen mode', 'View Details', 'More Actions'];
 export const collaboratorDocToolbarMore = [
   'Edit in Microsoft Office™',
   'Edit Offline',
@@ -103,7 +114,7 @@ export const collaboratorDocToolbarMore = [
   'Edit Aspects',
   'Permissions'
 ];
-export const collaboratorLockCurrentUserToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Copy'];
+export const collaboratorLockCurrentUserToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy'];
 export const collaboratorLockOtherUserToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Move', 'Copy', 'Information', 'Permissions'];
 export const collaboratorLockOtherUserSearchToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
 

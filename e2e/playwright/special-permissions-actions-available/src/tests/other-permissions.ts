@@ -178,7 +178,7 @@ export function filesLockedByCurrentUser(userDemoted: string, siteName: string) 
           myLibrariesPage,
           testData.fileLockedByUser.name,
           testData.collaboratorToolbarPrimary,
-          testData.favoritesCollaboratorToolbarMore
+          testData.collaboratorLockCurrentUserToolbarMore
         );
       });
 
@@ -200,7 +200,7 @@ export function filesLockedByCurrentUser(userDemoted: string, siteName: string) 
         await checkActionsViewerAvailable(
           myLibrariesPage,
           testData.fileLockedByUser.name,
-          testData.collaboratorSharedToolbarPrimary,
+          testData.collaboratorViewerLockedToolbarPrimary,
           testData.collaboratorLockCurrentUserToolbarMore
         );
       });
@@ -210,7 +210,7 @@ export function filesLockedByCurrentUser(userDemoted: string, siteName: string) 
         await checkActionsViewerAvailable(
           myLibrariesPage,
           testData.fileLockedByUser.name,
-          testData.collaboratorSharedToolbarPrimary,
+          testData.collaboratorViewerLockedToolbarPrimary,
           testData.collaboratorLockCurrentUserToolbarMore
         );
       });
@@ -220,7 +220,7 @@ export function filesLockedByCurrentUser(userDemoted: string, siteName: string) 
         await checkActionsViewerAvailable(
           myLibrariesPage,
           testData.fileLockedByUser.name,
-          testData.collaboratorSharedToolbarPrimary,
+          testData.collaboratorViewerLockedToolbarPrimary,
           testData.collaboratorLockCurrentUserToolbarMore
         );
       });
@@ -230,7 +230,7 @@ export function filesLockedByCurrentUser(userDemoted: string, siteName: string) 
         await checkActionsViewerAvailable(
           myLibrariesPage,
           testData.fileLockedByUser.name,
-          testData.collaboratorSharedToolbarPrimary,
+          testData.collaboratorViewerLockedToolbarPrimary,
           testData.collaboratorLockCurrentUserToolbarMore
         );
       });
@@ -282,7 +282,7 @@ export function filesLockedByOtherUser(userManager: string, siteName: string) {
         myLibrariesPage,
         testData.fileLockedByUser.name,
         testData.collaboratorToolbarPrimary,
-        testData.favoritesCollaboratorToolbarMore
+        testData.collaboratorLockOtherUserToolbarMore
       );
     });
 
@@ -306,7 +306,7 @@ export function filesLockedByOtherUser(userManager: string, siteName: string) {
         await checkActionsViewerAvailable(
           myLibrariesPage,
           testData.fileLockedByUser.name,
-          testData.collaboratorSharedToolbarPrimary,
+          testData.collaboratorViewerLockedToolbarPrimary,
           testData.collaboratorLockOtherUserToolbarMore
         );
       });
@@ -316,7 +316,7 @@ export function filesLockedByOtherUser(userManager: string, siteName: string) {
         await checkActionsViewerAvailable(
           myLibrariesPage,
           testData.fileLockedByUser.name,
-          testData.collaboratorSharedToolbarPrimary,
+          testData.collaboratorViewerLockedToolbarPrimary,
           testData.collaboratorLockOtherUserToolbarMore
         );
       });
@@ -326,7 +326,7 @@ export function filesLockedByOtherUser(userManager: string, siteName: string) {
         await checkActionsViewerAvailable(
           myLibrariesPage,
           testData.fileLockedByUser.name,
-          testData.collaboratorSharedToolbarPrimary,
+          testData.collaboratorViewerLockedToolbarPrimary,
           testData.collaboratorLockOtherUserToolbarMore
         );
       });
@@ -336,7 +336,7 @@ export function filesLockedByOtherUser(userManager: string, siteName: string) {
         await checkActionsViewerAvailable(
           myLibrariesPage,
           testData.fileLockedByUser.name,
-          testData.collaboratorSharedToolbarPrimary,
+          testData.collaboratorViewerLockedToolbarPrimary,
           testData.collaboratorLockOtherUserSearchToolbarMore
         );
       });
