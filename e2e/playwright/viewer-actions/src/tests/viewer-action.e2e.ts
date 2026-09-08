@@ -227,7 +227,6 @@ test.describe('viewer action file', () => {
       const downloadPromise = personalFiles.page.waitForEvent('download');
       await personalFiles.matMenu.clickMenuItem('Edit Offline');
       const download = await downloadPromise;
-      await personalFiles.viewer.toolbar.downloadButton.click();
       expect(download.suggestedFilename(), 'File should found in download location').toBe(fileForEditOffline);
       expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is closed after pressing Full screen').toBe(true);
       await personalFiles.viewer.toolbar.clickMoreActions();
