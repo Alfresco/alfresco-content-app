@@ -504,7 +504,9 @@
             "COLLAPSE_SECTION": "Minimera avsnitt",
             "EDIT": "Redigera",
             "CANCEL": "Avbryt",
-            "SAVE": "Spara"
+            "SAVE": "Spara",
+            "LOCK_BADGE": "This document is locked by {{ owner }} for offline editing.",
+            "WORKING_COPY_BADGE": "Original document is locked by {{ owner }} for offline editing."
         },
         "NODE_INFO": {
             "ICON": "Nodikon",
@@ -746,6 +748,7 @@
         }
     },
     "CHECKOUT": {
+        "CHECKED_OUT_BY": "Original locked by: ",
         "ERRORS": {
             "CHECKOUT": {
                 "400": "Den här noden kan inte checkas ut. Den måste vara en innehållsnod (cm:content).",
