@@ -225,6 +225,7 @@
                 "EFFECTIVITY": "السريان",
                 "TITLE": "نتائج البحث",
                 "FILTER_SET": "مجموعة الفلاتر:",
+                "LOADING": "Loading search results, please wait.",
                 "ADVANCED_FILTERS": "فلاتر متقدمة:",
                 "RESET": "إعادة تعيين",
                 "RESET_ACTION": "إعادة تعيين عوامل تصفية البحث",

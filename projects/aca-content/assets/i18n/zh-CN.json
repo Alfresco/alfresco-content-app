@@ -225,6 +225,7 @@
                 "EFFECTIVITY": "有效性",
                 "TITLE": "搜索结果",
                 "FILTER_SET": "筛选器集:",
+                "LOADING": "Loading search results, please wait.",
                 "ADVANCED_FILTERS": "高级筛选器:",
                 "RESET": "重置",
                 "RESET_ACTION": "重置搜索筛选器",

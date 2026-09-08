@@ -225,6 +225,7 @@
                 "EFFECTIVITY": "Obowiązywanie",
                 "TITLE": "Wyniki wyszukiwania",
                 "FILTER_SET": "Zestaw filtrów:",
+                "LOADING": "Loading search results, please wait.",
                 "ADVANCED_FILTERS": "Zaawansowane filtry:",
                 "RESET": "Resetuj",
                 "RESET_ACTION": "Resetuj filtry wyszukiwania",

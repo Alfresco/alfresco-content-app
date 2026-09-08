@@ -225,6 +225,7 @@
                 "EFFECTIVITY": "Effectiviteit",
                 "TITLE": "Zoekresultaten",
                 "FILTER_SET": "Ingesteld filter:",
+                "LOADING": "Loading search results, please wait.",
                 "ADVANCED_FILTERS": "Geavanceerde filters:",
                 "RESET": "Opnieuw instellen",
                 "RESET_ACTION": "Zoekfilters opnieuw instellen",
