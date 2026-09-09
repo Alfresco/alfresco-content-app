@@ -49,7 +49,8 @@
           [enableDragRows]="true"
           [dropListConnectedTo]="breadcrumbPathNames"
           [dragBoundary]="'aca-files'"
-          [showDragIndicator]="false">
+          [showDragIndicator]="false"
+          [useWholeRowAsDragPreview]="false">
           <data-columns>
             <ng-container *ngFor="let column of columns; trackBy: trackByColumnId">
               <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
