@@ -41,179 +41,282 @@ import {
 import { Site } from '@alfresco/js-api';
 
 test.describe('Special permissions : ', () => {
-  const apiClientFactory = new ApiClientFactory();
-  const random = testData.random;
-  let docLibId: string;
+  const random = Utils.random();
 
-  const sitePrivate = `site-private2-${random}`;
+  test.describe('Consumer', () => {
+    const apiClientFactory = new ApiClientFactory();
+    const sitePrivate = `site-private-consumer-${random}`;
+    const userManager = `manager-consumer-${random}`;
+    const userConsumer = `consumer-${random}`;
 
-  const userManager = `manager-${random}`;
-  const userConsumer = `consumer-${random}`;
-  const userCollaborator = `collaborator-${random}`;
-  const userDemoted = `demoted-${random}`;
+    let docLibId: string;
+    let fileDocxFavId: string;
+    let fileFavId: string;
+    let fileDocxSharedId: string;
+    let fileDocxSharedFavId: string;
+    let fileSharedId: string;
+    let fileSharedFavId: string;
+    let fileLockedId: string;
+    let fileFavLockedId: string;
+    let fileSharedLockedId: string;
+    let fileSharedFavLockedId: string;
 
-  let fileDocxFavId: string;
-  let fileFavId: string;
-  let fileDocxSharedId: string;
-  let fileDocxSharedFavId: string;
-  let fileSharedId: string;
-  let fileSharedFavId: string;
-  let fileLockedId: string;
-  let fileFavLockedId: string;
-  let fileSharedLockedId: string;
-  let fileSharedFavLockedId: string;
-  let fileGranularPermissionId: string;
-  let fileLockedByUserId: string;
-  let folderFavId: string;
-  let folderFav2Id: string;
+    let managerNodeActions: NodesApi;
+    let managerSiteActions: SitesApi;
+    let managerFileActions: FileActionsApi;
+    let managerSearchActions: SearchApi;
+    let consumerFavoritesActions: FavoritesPageApi;
+    let consumerShareActions: SharedLinksApi;
 
-  let managerNodeActions: NodesApi;
-  let consumerFavoritesActions: FavoritesPageApi;
-  let managerFavoritesActions: FavoritesPageApi;
-  let collaboratorFavoritesActions: FavoritesPageApi;
-  let demotedUserFavoritesActions: FavoritesPageApi;
-  let managerUserShareActions: SharedLinksApi;
-  let demotedUserShareActions: SharedLinksApi;
-  let consumerShareActions: SharedLinksApi;
-  let managerSiteActions: SitesApi;
-  let managerFileActions: FileActionsApi;
-  let demotedUserFileActions: FileActionsApi;
-  let managerSearchActions: SearchApi;
+    test.beforeAll(async () => {
+      test.setTimeout(timeouts.extendedLongTest);
+      await apiClientFactory.setUpAcaBackend('admin');
+      await apiClientFactory.createUser({ username: userManager });
+      await apiClientFactory.createUser({ username: userConsumer });
 
-  test.beforeAll(async () => {
-    test.setTimeout(timeouts.extendedLongTest);
-    await apiClientFactory.setUpAcaBackend('admin');
-    await apiClientFactory.createUser({ username: userManager });
-    await apiClientFactory.createUser({ username: userConsumer });
-    await apiClientFactory.createUser({ username: userCollaborator });
-    await apiClientFactory.createUser({ username: userDemoted });
+      managerNodeActions = await NodesApi.initialize(userManager, userManager);
+      managerSiteActions = await SitesApi.initialize(userManager, userManager);
+      managerFileActions = await FileActionsApi.initialize(userManager, userManager);
+      managerSearchActions = await SearchApi.initialize(userManager, userManager);
+      consumerFavoritesActions = await FavoritesPageApi.initialize(userConsumer, userConsumer);
+      consumerShareActions = await SharedLinksApi.initialize(userConsumer, userConsumer);
 
-    managerNodeActions = await NodesApi.initialize(userManager, userManager);
-    consumerFavoritesActions = await FavoritesPageApi.initialize(userConsumer, userConsumer);
-    collaboratorFavoritesActions = await FavoritesPageApi.initialize(userCollaborator, userCollaborator);
-    demotedUserFavoritesActions = await FavoritesPageApi.initialize(userDemoted, userDemoted);
-    managerFavoritesActions = await FavoritesPageApi.initialize(userManager, userManager);
-    managerSearchActions = await SearchApi.initialize(userManager, userManager);
-    managerSiteActions = await SitesApi.initialize(userManager, userManager);
-    managerFileActions = await FileActionsApi.initialize(userManager, userManager);
-    demotedUserFileActions = await FileActionsApi.initialize(userDemoted, userDemoted);
-    managerUserShareActions = await SharedLinksApi.initialize(userManager, userManager);
-    demotedUserShareActions = await SharedLinksApi.initialize(userDemoted, userDemoted);
-    consumerShareActions = await SharedLinksApi.initialize(userConsumer, userConsumer);
+      const consumerFavoritesTotalItems = await consumerFavoritesActions.getFavoritesTotalItems(userConsumer);
+      const managerSearchTotalItems = await managerSearchActions.getTotalItems(userManager);
 
-    const consumerFavoritesTotalItems = await consumerFavoritesActions.getFavoritesTotalItems(userConsumer);
-    const managerSearchTotalItems = await managerSearchActions.getTotalItems(userManager);
-    const collaboratorFavoritesTotalItems = await collaboratorFavoritesActions.getFavoritesTotalItems(userCollaborator);
-    const demotedUserFavoritesTotalItems = await demotedUserFavoritesActions.getFavoritesTotalItems(userDemoted);
+      await managerSiteActions.createSite(sitePrivate, Site.VisibilityEnum.PRIVATE);
+      docLibId = await managerSiteActions.getDocLibId(sitePrivate);
+      await managerSiteActions.addSiteMember(sitePrivate, userConsumer, Site.RoleEnum.SiteConsumer);
 
-    await managerSiteActions.createSite(sitePrivate, Site.VisibilityEnum.PRIVATE);
-    docLibId = await managerSiteActions.getDocLibId(sitePrivate);
-    await managerSiteActions.addSiteMember(sitePrivate, userConsumer, Site.RoleEnum.SiteConsumer);
-    await managerSiteActions.addSiteMember(sitePrivate, userCollaborator, Site.RoleEnum.SiteCollaborator);
-    await managerSiteActions.addSiteMember(sitePrivate, userDemoted, Site.RoleEnum.SiteManager);
-    const managerFavoritesTotalItems = await managerFavoritesActions.getFavoritesTotalItems(userManager);
+      await managerFileActions.uploadFileWithRename(TEST_FILES.DOCX.path, testData.fileDocx.name, docLibId);
+      fileDocxFavId = (await managerFileActions.uploadFileWithRename(TEST_FILES.DOCX.path, testData.fileDocxFav.name, docLibId)).entry.id;
+      await managerNodeActions.createFile(testData.file.name, docLibId, '', '', '', true, ['cm:versionable']);
+      fileFavId = (await managerNodeActions.createFile(testData.fileFav.name, docLibId, '', '', '', true, ['cm:versionable'])).entry.id;
+      await managerNodeActions.createFile(testData.fileNotVersionable.name, docLibId, '', '', '', true, []);
+      fileDocxSharedId = (await managerFileActions.uploadFileWithRename(TEST_FILES.DOCX.path, testData.fileDocxShared.name, docLibId)).entry.id;
+      fileDocxSharedFavId = (await managerFileActions.uploadFileWithRename(TEST_FILES.DOCX.path, testData.fileDocxSharedFav.name, docLibId)).entry.id;
+      fileSharedId = (await managerNodeActions.createFile(testData.fileShared.name, docLibId, '', '', '', true, ['cm:versionable'])).entry.id;
+      fileSharedFavId = (await managerNodeActions.createFile(testData.fileSharedFav.name, docLibId, '', '', '', true, ['cm:versionable'])).entry.id;
+      fileLockedId = (await managerNodeActions.createFile(testData.fileLocked.name, docLibId, '', '', '', true, ['cm:versionable'])).entry.id;
+      fileFavLockedId = (await managerNodeActions.createFile(testData.fileFavLocked.name, docLibId, '', '', '', true, ['cm:versionable'])).entry.id;
+      fileSharedLockedId = (await managerNodeActions.createFile(testData.fileSharedLocked.name, docLibId, '', '', '', true, ['cm:versionable'])).entry
+        .id;
+      fileSharedFavLockedId = (await managerNodeActions.createFile(testData.fileSharedFavLocked.name, docLibId, '', '', '', true, ['cm:versionable']))
+        .entry.id;
 
-    await managerFileActions.uploadFileWithRename(TEST_FILES.DOCX.path, testData.fileDocx.name, docLibId);
-    fileDocxFavId = (await managerFileActions.uploadFileWithRename(TEST_FILES.DOCX.path, testData.fileDocxFav.name, docLibId)).entry.id;
-    await managerNodeActions.createFile(testData.file.name, docLibId, '', '', '', true, ['cm:versionable']);
-    fileFavId = (await managerNodeActions.createFile(testData.fileFav.name, docLibId, '', '', '', true, ['cm:versionable'])).entry.id;
-    await managerNodeActions.createFile(testData.fileNotVersionable.name, docLibId, '', '', '', true, []);
-    fileDocxSharedId = (await managerFileActions.uploadFileWithRename(TEST_FILES.DOCX.path, testData.fileDocxShared.name, docLibId)).entry.id;
-    fileDocxSharedFavId = (await managerFileActions.uploadFileWithRename(TEST_FILES.DOCX.path, testData.fileDocxSharedFav.name, docLibId)).entry.id;
-    fileSharedId = (await managerNodeActions.createFile(testData.fileShared.name, docLibId, '', '', '', true, ['cm:versionable'])).entry.id;
-    fileSharedFavId = (await managerNodeActions.createFile(testData.fileSharedFav.name, docLibId, '', '', '', true, ['cm:versionable'])).entry.id;
-    fileLockedId = (await managerNodeActions.createFile(testData.fileLocked.name, docLibId, '', '', '', true, ['cm:versionable'])).entry.id;
-    fileFavLockedId = (await managerNodeActions.createFile(testData.fileFavLocked.name, docLibId, '', '', '', true, ['cm:versionable'])).entry.id;
-    fileSharedLockedId = (await managerNodeActions.createFile(testData.fileSharedLocked.name, docLibId, '', '', '', true, ['cm:versionable'])).entry
-      .id;
-    fileSharedFavLockedId = (await managerNodeActions.createFile(testData.fileSharedFavLocked.name, docLibId, '', '', '', true, ['cm:versionable']))
-      .entry.id;
-    fileGranularPermissionId = (await managerNodeActions.createFile(testData.fileGranularPermission, docLibId, '', '', '', true, ['cm:versionable']))
-      .entry.id;
+      await consumerFavoritesActions.addFavoritesByIds('file', [
+        fileDocxFavId,
+        fileFavId,
+        fileDocxSharedFavId,
+        fileSharedFavId,
+        fileFavLockedId,
+        fileSharedFavLockedId
+      ]);
 
-    fileLockedByUserId = (await managerNodeActions.createFile(testData.fileLockedByUser, docLibId, '', '', '', true, ['cm:versionable'])).entry.id;
-    await demotedUserFileActions.checkoutNode(fileLockedByUserId);
-    await demotedUserFavoritesActions.addFavoriteById('file', fileLockedByUserId);
-    await demotedUserShareActions.shareFileById(fileLockedByUserId);
-    await managerSiteActions.updateSiteMember(sitePrivate, userDemoted, Site.RoleEnum.SiteConsumer);
-
-    await managerNodeActions.createFolder(testData.folder.name, docLibId);
-    folderFavId = (await managerNodeActions.createFolder(testData.folderFav.name, docLibId)).entry.id;
-    folderFav2Id = (await managerNodeActions.createFolder(testData.folderFav2.name, docLibId)).entry.id;
-
-    await consumerFavoritesActions.addFavoritesByIds('folder', [folderFavId, folderFav2Id]);
-    await collaboratorFavoritesActions.addFavoritesByIds('file', [fileDocxSharedFavId, fileSharedFavId]);
-    await managerFavoritesActions.addFavoriteById('file', fileLockedByUserId);
-    await consumerFavoritesActions.addFavoritesByIds('file', [
-      fileDocxFavId,
-      fileFavId,
-      fileDocxSharedFavId,
-      fileSharedFavId,
-      fileFavLockedId,
-      fileSharedFavLockedId,
-      fileGranularPermissionId
-    ]);
-
-    await consumerShareActions.shareFilesByIds([
-      fileDocxSharedId,
-      fileDocxSharedFavId,
-      fileSharedId,
-      fileSharedFavId,
-      fileSharedLockedId,
-      fileSharedFavLockedId,
-      fileGranularPermissionId
-    ]);
-
-    await Promise.all([
-      managerFileActions.checkoutNode(fileLockedId),
-      managerFileActions.checkoutNode(fileFavLockedId),
-      managerFileActions.checkoutNode(fileSharedLockedId),
-      managerFileActions.checkoutNode(fileSharedFavLockedId)
-    ]);
-
-    await managerNodeActions.setGranularPermission(fileGranularPermissionId, userConsumer, Site.RoleEnum.SiteManager, false);
-
-    await collaboratorFavoritesActions.isFavoriteWithRetry(userCollaborator, fileSharedFavId, { expect: true });
-    await demotedUserFavoritesActions.isFavoriteWithRetry(userDemoted, fileLockedByUserId, { expect: true });
-    await managerFavoritesActions.isFavoriteWithRetry(userManager, fileLockedByUserId, { expect: true });
-    await Promise.all([
-      consumerFavoritesActions.waitForApi(userConsumer, { expect: consumerFavoritesTotalItems + 9 }),
-      managerUserShareActions.waitForFilesToBeShared([
+      await consumerShareActions.shareFilesByIds([
         fileDocxSharedId,
         fileDocxSharedFavId,
         fileSharedId,
         fileSharedFavId,
         fileSharedLockedId,
-        fileSharedFavLockedId,
-        fileGranularPermissionId,
-        fileLockedByUserId
-      ]),
-      managerSearchActions.waitForApi(userManager, { expect: managerSearchTotalItems + 14 }),
-      collaboratorFavoritesActions.waitForApi(userCollaborator, { expect: collaboratorFavoritesTotalItems + 2 }),
-      demotedUserFavoritesActions.waitForApi(userDemoted, { expect: demotedUserFavoritesTotalItems + 1 }),
-      managerFavoritesActions.waitForApi(userManager, { expect: managerFavoritesTotalItems + 1 })
-    ]);
-  });
+        fileSharedFavLockedId
+      ]);
 
-  test.afterAll(async () => {
-    await Utils.deleteNodesSitesEmptyTrashcan(undefined, undefined, 'afterAll failed', managerSiteActions, [sitePrivate]);
-  });
+      await managerNodeActions.lockNodes([fileLockedId, fileFavLockedId, fileSharedLockedId, fileSharedFavLockedId]);
 
-  test.describe('Consumer', () => {
+      await Promise.all([
+        consumerFavoritesActions.waitForApi(userConsumer, { expect: consumerFavoritesTotalItems + 6 }),
+        consumerShareActions.waitForFilesToBeShared([
+          fileDocxSharedId,
+          fileDocxSharedFavId,
+          fileSharedId,
+          fileSharedFavId,
+          fileSharedLockedId,
+          fileSharedFavLockedId
+        ]),
+        managerSearchActions.waitForApi(userManager, { expect: managerSearchTotalItems + 13 })
+      ]);
+    });
+
+    test.afterAll(async () => {
+      await Utils.deleteNodesSitesEmptyTrashcan(undefined, undefined, 'afterAll failed', managerSiteActions, [sitePrivate]);
+    });
+
     test.describe('on Viewer', () => {
       viewerTests(userConsumer, sitePrivate);
     });
   });
 
   test.describe('Collaborator', () => {
+    const apiClientFactory = new ApiClientFactory();
+    const sitePrivate = `site-private-collaborator-${random}`;
+    const userManager = `manager-collaborator-${random}`;
+    const userCollaborator = `collaborator-${random}`;
+
+    let docLibId: string;
+    let fileDocxSharedFavId: string;
+    let fileSharedFavId: string;
+
+    let managerNodeActions: NodesApi;
+    let managerSiteActions: SitesApi;
+    let managerFileActions: FileActionsApi;
+    let managerSearchActions: SearchApi;
+    let managerShareActions: SharedLinksApi;
+    let collaboratorFavoritesActions: FavoritesPageApi;
+
+    test.beforeAll(async () => {
+      test.setTimeout(timeouts.extendedLongTest);
+      await apiClientFactory.setUpAcaBackend('admin');
+      await apiClientFactory.createUser({ username: userManager });
+      await apiClientFactory.createUser({ username: userCollaborator });
+
+      managerNodeActions = await NodesApi.initialize(userManager, userManager);
+      managerSiteActions = await SitesApi.initialize(userManager, userManager);
+      managerFileActions = await FileActionsApi.initialize(userManager, userManager);
+      managerSearchActions = await SearchApi.initialize(userManager, userManager);
+      managerShareActions = await SharedLinksApi.initialize(userManager, userManager);
+      collaboratorFavoritesActions = await FavoritesPageApi.initialize(userCollaborator, userCollaborator);
+
+      const collaboratorFavoritesTotalItems = await collaboratorFavoritesActions.getFavoritesTotalItems(userCollaborator);
+      const managerSearchTotalItems = await managerSearchActions.getTotalItems(userManager);
+
+      await managerSiteActions.createSite(sitePrivate, Site.VisibilityEnum.PRIVATE);
+      docLibId = await managerSiteActions.getDocLibId(sitePrivate);
+      await managerSiteActions.addSiteMember(sitePrivate, userCollaborator, Site.RoleEnum.SiteCollaborator);
+
+      fileDocxSharedFavId = (await managerFileActions.uploadFileWithRename(TEST_FILES.DOCX.path, testData.fileDocxSharedFav.name, docLibId)).entry.id;
+      fileSharedFavId = (await managerNodeActions.createFile(testData.fileSharedFav.name, docLibId, '', '', '', true, ['cm:versionable'])).entry.id;
+
+      await managerShareActions.shareFilesByIds([fileDocxSharedFavId, fileSharedFavId]);
+      await collaboratorFavoritesActions.addFavoritesByIds('file', [fileDocxSharedFavId, fileSharedFavId]);
+
+      await collaboratorFavoritesActions.isFavoriteWithRetry(userCollaborator, fileSharedFavId, { expect: true });
+      await Promise.all([
+        collaboratorFavoritesActions.waitForApi(userCollaborator, { expect: collaboratorFavoritesTotalItems + 2 }),
+        managerShareActions.waitForFilesToBeShared([fileDocxSharedFavId, fileSharedFavId]),
+        managerSearchActions.waitForApi(userManager, { expect: managerSearchTotalItems + 2 })
+      ]);
+    });
+
+    test.afterAll(async () => {
+      await Utils.deleteNodesSitesEmptyTrashcan(undefined, undefined, 'afterAll failed', managerSiteActions, [sitePrivate]);
+    });
+
     collaboratorTests(userCollaborator, sitePrivate);
   });
 
   test.describe('File locked - user is lock owner', () => {
+    const apiClientFactory = new ApiClientFactory();
+    const sitePrivate = `site-private-locked-owner-${random}`;
+    const userManager = `manager-locked-owner-${random}`;
+    const userDemoted = `demoted-owner-${random}`;
+
+    let docLibId: string;
+    let fileLockedByUserId: string;
+
+    let managerNodeActions: NodesApi;
+    let managerSiteActions: SitesApi;
+    let managerSearchActions: SearchApi;
+    let demotedUserActions: NodesApi;
+    let demotedUserFavoritesActions: FavoritesPageApi;
+    let demotedUserShareActions: SharedLinksApi;
+
+    test.beforeAll(async () => {
+      test.setTimeout(timeouts.extendedLongTest);
+      await apiClientFactory.setUpAcaBackend('admin');
+      await apiClientFactory.createUser({ username: userManager });
+      await apiClientFactory.createUser({ username: userDemoted });
+
+      managerNodeActions = await NodesApi.initialize(userManager, userManager);
+      managerSiteActions = await SitesApi.initialize(userManager, userManager);
+      managerSearchActions = await SearchApi.initialize(userManager, userManager);
+      demotedUserActions = await NodesApi.initialize(userDemoted, userDemoted);
+      demotedUserFavoritesActions = await FavoritesPageApi.initialize(userDemoted, userDemoted);
+      demotedUserShareActions = await SharedLinksApi.initialize(userDemoted, userDemoted);
+
+      const demotedUserFavoritesTotalItems = await demotedUserFavoritesActions.getFavoritesTotalItems(userDemoted);
+      const managerSearchTotalItems = await managerSearchActions.getTotalItems(userManager);
+
+      await managerSiteActions.createSite(sitePrivate, Site.VisibilityEnum.PRIVATE);
+      docLibId = await managerSiteActions.getDocLibId(sitePrivate);
+      await managerSiteActions.addSiteMember(sitePrivate, userDemoted, Site.RoleEnum.SiteManager);
+
+      fileLockedByUserId = (await managerNodeActions.createFile(testData.fileLockedByUser.name, docLibId, '', '', '', true, ['cm:versionable'])).entry
+        .id;
+      await demotedUserActions.lockNodes([fileLockedByUserId]);
+      await demotedUserFavoritesActions.addFavoriteById('file', fileLockedByUserId);
+      await demotedUserShareActions.shareFileById(fileLockedByUserId);
+      await managerSiteActions.updateSiteMember(sitePrivate, userDemoted, Site.RoleEnum.SiteConsumer);
+
+      await demotedUserFavoritesActions.isFavoriteWithRetry(userDemoted, fileLockedByUserId, { expect: true });
+      await Promise.all([
+        demotedUserFavoritesActions.waitForApi(userDemoted, { expect: demotedUserFavoritesTotalItems + 1 }),
+        demotedUserShareActions.waitForFilesToBeShared([fileLockedByUserId]),
+        managerSearchActions.waitForApi(userManager, { expect: managerSearchTotalItems + 1 })
+      ]);
+    });
+
+    test.afterAll(async () => {
+      await Utils.deleteNodesSitesEmptyTrashcan(undefined, undefined, 'afterAll failed', managerSiteActions, [sitePrivate]);
+    });
+
     filesLockedByCurrentUser(userDemoted, sitePrivate);
   });
 
   test.describe('File locked by other user - user is manager', () => {
+    const apiClientFactory = new ApiClientFactory();
+    const sitePrivate = `site-private-locked-other-${random}`;
+    const userManager = `manager-locked-other-${random}`;
+    const userDemoted = `demoted-other-${random}`;
+
+    let docLibId: string;
+    let fileLockedByUserId: string;
+
+    let managerNodeActions: NodesApi;
+    let managerSiteActions: SitesApi;
+    let managerSearchActions: SearchApi;
+    let managerFavoritesActions: FavoritesPageApi;
+    let demotedUserActions: NodesApi;
+    let demotedUserShareActions: SharedLinksApi;
+
+    test.beforeAll(async () => {
+      test.setTimeout(timeouts.extendedLongTest);
+      await apiClientFactory.setUpAcaBackend('admin');
+      await apiClientFactory.createUser({ username: userManager });
+      await apiClientFactory.createUser({ username: userDemoted });
+
+      managerNodeActions = await NodesApi.initialize(userManager, userManager);
+      managerSiteActions = await SitesApi.initialize(userManager, userManager);
+      managerSearchActions = await SearchApi.initialize(userManager, userManager);
+      managerFavoritesActions = await FavoritesPageApi.initialize(userManager, userManager);
+      demotedUserActions = await NodesApi.initialize(userDemoted, userDemoted);
+      demotedUserShareActions = await SharedLinksApi.initialize(userDemoted, userDemoted);
+
+      const managerFavoritesTotalItems = await managerFavoritesActions.getFavoritesTotalItems(userManager);
+      const managerSearchTotalItems = await managerSearchActions.getTotalItems(userManager);
+
+      await managerSiteActions.createSite(sitePrivate, Site.VisibilityEnum.PRIVATE);
+      docLibId = await managerSiteActions.getDocLibId(sitePrivate);
+      await managerSiteActions.addSiteMember(sitePrivate, userDemoted, Site.RoleEnum.SiteManager);
+
+      fileLockedByUserId = (await managerNodeActions.createFile(testData.fileLockedByUser.name, docLibId, '', '', '', true, ['cm:versionable'])).entry
+        .id;
+      await demotedUserActions.lockNodes([fileLockedByUserId]);
+      await demotedUserShareActions.shareFileById(fileLockedByUserId);
+      await managerFavoritesActions.addFavoriteById('file', fileLockedByUserId);
+
+      await managerFavoritesActions.isFavoriteWithRetry(userManager, fileLockedByUserId, { expect: true });
+      await Promise.all([
+        managerFavoritesActions.waitForApi(userManager, { expect: managerFavoritesTotalItems + 1 }),
+        demotedUserShareActions.waitForFilesToBeShared([fileLockedByUserId]),
+        managerSearchActions.waitForApi(userManager, { expect: managerSearchTotalItems + 1 })
+      ]);
+    });
+
+    test.afterAll(async () => {
+      await Utils.deleteNodesSitesEmptyTrashcan(undefined, undefined, 'afterAll failed', managerSiteActions, [sitePrivate]);
+    });
+
     filesLockedByOtherUser(userManager, sitePrivate);
   });
 });

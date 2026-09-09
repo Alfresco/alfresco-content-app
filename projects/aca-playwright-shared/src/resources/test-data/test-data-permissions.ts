@@ -24,7 +24,46 @@
 
 import { Utils } from '../../utils';
 
-export const random = Utils.random();
+export interface TestNode {
+  /** Unique token in the name; use it as a precise search term. */
+  random: string;
+  name: string;
+}
+
+export interface TestFileData extends TestNode {
+  description: string;
+  contextMenu: string[];
+  toolbarPrimary: string[];
+  toolbarMore: string[];
+  viewerToolbarPrimary: string[];
+  viewerToolbarMore: string[];
+  searchToolbarPrimary: string[];
+  favoritesToolbarMore?: string[];
+  favoritesContextMenu?: string[];
+  sharedToolbarMore?: string[];
+  sharedContextMenu?: string[];
+}
+
+export interface TestFolderData {
+  name: string;
+  description: string;
+  contextMenu?: string[];
+  toolbarPrimary?: string[];
+  toolbarMore?: string[];
+  searchToolbarPrimary?: string[];
+  favoritesContextMenu?: string[];
+  favoritesToolbarMore?: string[];
+}
+
+const buildFileData = (buildName: (fileRandom: string) => string, data: Omit<TestFileData, 'name' | 'random'>): TestFileData => {
+  const fileRandom = Utils.random();
+  return { random: fileRandom, name: buildName(fileRandom), ...data };
+};
+
+const buildNode = (buildName: (fileRandom: string) => string): TestNode => {
+  const fileRandom = Utils.random();
+  return { random: fileRandom, name: buildName(fileRandom) };
+};
 
 // ----- files -----
 
@@ -42,8 +81,7 @@ const searchConsumerSharedToolbarPrimary = ['Shared Link Settings', 'Download', 
 const consumerToolbarMore = ['Favorite', 'Copy', 'Manage Versions'];
 const consumerFavToolbarMore = ['Remove Favorite', 'Copy', 'Manage Versions'];
 
-export const collaboratorToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
-export const collaboratorWorkingCopyToolbarPrimary = ['View', 'View Details', 'More Actions'];
+export const collaboratorToolbarPrimary = ['Shared Link Settings', 'View', 'View Details', 'More Actions'];
 export const collaboratorEditRowToolbarMore = [
   'Edit Offline',
   'Upload New Version',
@@ -53,16 +91,19 @@ export const collaboratorEditRowToolbarMore = [
   'Edit Aspects',
   'Permissions'
 ];
-export const favoritesCheckedOutCollaboratorToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Information'];
-export const favoritesCollaboratorToolbarMore = ['Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
-export const collaboratorSharedToolbarPrimary = [
-  'Activate full-screen mode',
-  'Shared Link Settings',
-  'Download',
-  'Print',
-  'View Details',
-  'More Actions'
+export const favoritesCollaboratorToolbarMore = [
+  'Edit Offline',
+  'Upload New Version',
+  'Remove Favorite',
+  'Move',
+  'Copy',
+  'Delete',
+  'Manage Versions',
+  'Edit Aspects',
+  'Permissions'
 ];
+export const collaboratorSharedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Print', 'View Details', 'More Actions'];
+export const collaboratorViewerLockedToolbarPrimary = ['Activate full-screen mode', 'View Details', 'More Actions'];
 export const collaboratorDocToolbarMore = [
   'Edit in Microsoft Office™',
   'Edit Offline',
@@ -73,20 +114,9 @@ export const collaboratorDocToolbarMore = [
   'Edit Aspects',
   'Permissions'
 ];
-export const collaboratorSharedWorkingCopyToolbarPrimary = ['Activate full-screen mode', 'View Details', 'More Actions'];
-export const collaboratorLockedToolbarPrimary = ['Shared Link Settings', 'View', 'View Details', 'More Actions'];
-export const collaboratorLockedOriginalSharedViewerToolbarPrimary = [
-  'Activate full-screen mode',
-  'Shared Link Settings',
-  'View Details',
-  'More Actions'
-];
-export const collaboratorLockedSharedViewerToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy'];
-export const collaboratorLockCurrentUserToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
-export const collaboratorLockWorkingCopyToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Copy'];
-export const lockedWorkingCopyToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Move', 'Copy', 'Information', 'Permissions'];
-export const collaboratorLockOtherUserToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
-export const collaboratorLockOtherUserSearchToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
+export const collaboratorLockCurrentUserToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy'];
+export const collaboratorLockOtherUserToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Move', 'Copy', 'Permissions'];
+export const collaboratorLockOtherUserSearchToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Copy', 'Permissions'];
 
 // ---- VIEWER ----
 
@@ -157,8 +187,7 @@ const sharedConsumerFavLockedContextMenu = [
   'Manage Versions'
 ];
 
-export const fileDocx = {
-  name: `file-${random}-docx.docx`,
+export const fileDocx = buildFileData((fileRandom) => `file-${fileRandom}-docx.docx`, {
   description: 'file not shared, not fav, office, not locked',
 
   contextMenu: consumerContextMenu,
@@ -168,10 +197,9 @@ export const fileDocx = {
   viewerToolbarMore: consumerViewerToolbarMore,
 
   searchToolbarPrimary: searchConsumerToolbarPrimary
-};
+});
 
-export const fileDocxFav = {
-  name: `file-${random}-docx-fav.docx`,
+export const fileDocxFav = buildFileData((fileRandom) => `file-${fileRandom}-docx-fav.docx`, {
   description: 'file not shared, fav, office, not locked',
 
   contextMenu: consumerFavContextMenu,
@@ -184,10 +212,9 @@ export const fileDocxFav = {
   favoritesContextMenu: favoritesConsumerContextMenu,
 
   searchToolbarPrimary: searchConsumerToolbarPrimary
-};
+});
 
-export const file = {
-  name: `file-${random}.txt`,
+export const file = buildFileData((fileRandom) => `file-${fileRandom}.txt`, {
   description: 'file not shared, not fav, not office, not locked',
 
   contextMenu: consumerContextMenu,
@@ -197,10 +224,9 @@ export const file = {
   viewerToolbarMore: consumerViewerToolbarMore,
 
   searchToolbarPrimary: searchConsumerToolbarPrimary
-};
+});
 
-export const fileFav = {
-  name: `file-${random}-fav.txt`,
+export const fileFav = buildFileData((fileRandom) => `file-${fileRandom}-fav.txt`, {
   description: 'file not shared, fav, not office, not locked',
 
   contextMenu: consumerFavContextMenu,
@@ -213,10 +239,9 @@ export const fileFav = {
   favoritesContextMenu: favoritesConsumerContextMenu,
 
   searchToolbarPrimary: searchConsumerToolbarPrimary
-};
+});
 
-export const fileDocxShared = {
-  name: `file-${random}-docx-shared.docx`,
+export const fileDocxShared = buildFileData((fileRandom) => `file-${fileRandom}-docx-shared.docx`, {
   description: 'file shared, not fav, office, not locked',
 
   contextMenu: consumerSharedContextMenu,
@@ -229,10 +254,9 @@ export const fileDocxShared = {
   sharedContextMenu: sharedConsumerContextMenu,
 
   searchToolbarPrimary: searchConsumerSharedToolbarPrimary
-};
+});
 
-export const fileDocxSharedFav = {
-  name: `file-${random}-docx-shared-fav.docx`,
+export const fileDocxSharedFav = buildFileData((fileRandom) => `file-${fileRandom}-docx-shared-fav.docx`, {
   description: 'file shared, fav, office, not locked',
 
   contextMenu: consumerSharedFavContextMenu,
@@ -248,10 +272,9 @@ export const fileDocxSharedFav = {
   sharedContextMenu: sharedConsumerFavContextMenu,
 
   searchToolbarPrimary: searchConsumerSharedToolbarPrimary
-};
+});
 
-export const fileShared = {
-  name: `file-${random}-shared.txt`,
+export const fileShared = buildFileData((fileRandom) => `file-${fileRandom}-shared.txt`, {
   description: 'file shared, not fav, not office, not locked',
 
   contextMenu: consumerSharedContextMenu,
@@ -264,10 +287,9 @@ export const fileShared = {
   sharedContextMenu: sharedConsumerContextMenu,
 
   searchToolbarPrimary: searchConsumerSharedToolbarPrimary
-};
+});
 
-export const fileSharedFav = {
-  name: `file-${random}-shared-fav.txt`,
+export const fileSharedFav = buildFileData((fileRandom) => `file-${fileRandom}-shared-fav.txt`, {
   description: 'file shared, fav, not office, not locked',
 
   contextMenu: consumerSharedFavContextMenu,
@@ -283,11 +305,9 @@ export const fileSharedFav = {
   sharedContextMenu: sharedConsumerFavContextMenu,
 
   searchToolbarPrimary: searchConsumerSharedToolbarPrimary
-};
+});
 
-export const fileLocked = {
-  name: `file-${random}-locked.txt`,
-  workingCopyName: `file-${random}-locked (Working Copy).txt`,
+export const fileLocked = buildFileData((fileRandom) => `file-${fileRandom}-locked.txt`, {
   description: 'file not shared, not fav, not office, locked',
 
   contextMenu: consumerContextMenu,
@@ -297,11 +317,9 @@ export const fileLocked = {
   viewerToolbarMore: consumerViewerLockedToolbarMore,
 
   searchToolbarPrimary: searchConsumerToolbarPrimary
-};
+});
 
-export const fileFavLocked = {
-  name: `file-${random}-fav-locked.txt`,
-  workingCopyName: `file-${random}-fav-locked (Working Copy).txt`,
+export const fileFavLocked = buildFileData((fileRandom) => `file-${fileRandom}-fav-locked.txt`, {
   description: 'file not shared, fav, not office, locked',
 
   contextMenu: consumerFavContextMenu,
@@ -309,17 +327,14 @@ export const fileFavLocked = {
   toolbarMore: consumerFavToolbarMore,
   viewerToolbarPrimary: consumerViewerLockedToolbarPrimary,
   viewerToolbarMore: consumerViewerLockedFavToolbarMore,
-  workingCopyViewerToolbarMore: consumerViewerLockedToolbarMore,
 
   favoritesToolbarMore: favoritesConsumerToolbarMore,
   favoritesContextMenu: favoritesConsumerContextMenu,
 
   searchToolbarPrimary: searchConsumerToolbarPrimary
-};
+});
 
-export const fileSharedLocked = {
-  name: `file-${random}-shared-locked.txt`,
-  workingCopyName: `file-${random}-shared-locked (Working Copy).txt`,
+export const fileSharedLocked = buildFileData((fileRandom) => `file-${fileRandom}-shared-locked.txt`, {
   description: 'file shared, not fav, not office, locked',
 
   contextMenu: consumerSharedContextMenu,
@@ -332,11 +347,9 @@ export const fileSharedLocked = {
   sharedContextMenu: sharedConsumerLockedContextMenu,
 
   searchToolbarPrimary: searchConsumerSharedToolbarPrimary
-};
+});
 
-export const fileSharedFavLocked = {
-  name: `file-${random}-shared-fav-locked.txt`,
-  workingCopyName: `file-${random}-shared-fav-locked (Working Copy).txt`,
+export const fileSharedFavLocked = buildFileData((fileRandom) => `file-${fileRandom}-shared-fav-locked.txt`, {
   description: 'file shared, fav, not office, locked',
 
   contextMenu: consumerSharedFavContextMenu,
@@ -344,7 +357,6 @@ export const fileSharedFavLocked = {
   toolbarMore: consumerFavToolbarMore,
   viewerToolbarPrimary: consumerViewerLockedToolbarPrimary,
   viewerToolbarMore: consumerViewerLockedFavToolbarMore,
-  workingCopyViewerToolbarMore: consumerViewerLockedToolbarMore,
 
   favoritesToolbarMore: favoritesConsumerToolbarMore,
   favoritesContextMenu: favoritesConsumerSharedContextMenu,
@@ -353,11 +365,9 @@ export const fileSharedFavLocked = {
   sharedContextMenu: sharedConsumerFavLockedContextMenu,
 
   searchToolbarPrimary: searchConsumerSharedToolbarPrimary
-};
+});
 
-export const fileGranularPermission = `file-${random}-granular.txt`;
-export const fileLockedByUser = `file-${random}-my-locked.txt`;
-export const fileLockedByUserWorkingCopyName = `file-${random}-my-locked (Working Copy).txt`;
+export const fileLockedByUser = buildNode((fileRandom) => `file-${fileRandom}-my-locked.txt`);
 
 // ---- non-versionable file (no cm:versionable aspect) ----
 
@@ -365,8 +375,7 @@ const consumerNotVersionableToolbarMore = ['Favorite', 'Copy'];
 const consumerNotVersionableContextMenu = ['Share', 'Download', 'View', 'Favorite', 'Copy'];
 const consumerViewerNotVersionableToolbarMore = ['Favorite', 'Copy'];
 
-export const fileNotVersionable = {
-  name: `file-${random}-not-versionable.txt`,
+export const fileNotVersionable = buildFileData((fileRandom) => `file-${fileRandom}-not-versionable.txt`, {
   description: 'file not shared, not fav, not office, not locked, not versionable - should not show Manage Versions',
 
   contextMenu: consumerNotVersionableContextMenu,
@@ -376,50 +385,7 @@ export const fileNotVersionable = {
   viewerToolbarMore: consumerViewerNotVersionableToolbarMore,
 
   searchToolbarPrimary: searchConsumerToolbarPrimary
-};
-
-// ---- folders ---
-
-const consumerFolderContextMenu = ['Download', 'Favorite', 'Copy'];
-const consumerFolderToolbarPrimary = ['Download', 'View Details', 'More Actions'];
-const consumerFolderToolbarMore = ['Favorite', 'Copy'];
-const searchConsumerFolderToolbarPrimary = ['Download', 'View Details', 'More Actions'];
-const consumerFolderFavContextMenu = ['Download', 'Remove Favorite', 'Copy'];
-const consumerFolderFavToolbarMore = ['Remove Favorite', 'Copy'];
-
-// ---- FAVORITES workarounds ----
-
-const favoritesConsumerFolderContextMenu = ['Download', 'Edit', 'Remove Favorite', 'Move', 'Copy', 'Delete'];
-
-const favoritesConsumerFolderToolbarMore = ['Edit', 'Remove Favorite', 'Move', 'Copy', 'Delete'];
-
-export const folder = {
-  name: `folder-${random}`,
-  description: 'folder not favorite',
-  contextMenu: consumerFolderContextMenu,
-  toolbarPrimary: consumerFolderToolbarPrimary,
-  toolbarMore: consumerFolderToolbarMore,
-
-  searchToolbarPrimary: searchConsumerFolderToolbarPrimary
-};
-
-export const folderFav = {
-  name: `folder-fav-${random}`,
-  description: 'folder favorite',
-  contextMenu: consumerFolderFavContextMenu,
-  toolbarPrimary: consumerFolderToolbarPrimary,
-  toolbarMore: consumerFolderFavToolbarMore,
-
-  favoritesContextMenu: favoritesConsumerFolderContextMenu,
-  favoritesToolbarMore: favoritesConsumerFolderToolbarMore,
-
-  searchToolbarPrimary: searchConsumerFolderToolbarPrimary
-};
-
-export const folderFav2 = {
-  name: `folder-fav-2-${random}`,
-  description: 'folder 2 favorite'
-};
+});
 
 // ---- multiple selection ---
 

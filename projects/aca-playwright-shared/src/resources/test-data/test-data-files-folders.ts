@@ -27,6 +27,20 @@ import { Utils } from '../../utils';
 const random = Utils.random();
 const multipleSelToolbarPrimary = ['Download', 'View Details', 'More Actions'];
 
+export interface FolderActionsData {
+  name: string;
+  description?: string;
+  contextMenu: string[];
+  toolbarPrimary: string[];
+  toolbarMore: string[];
+}
+
+export interface MultiSelectionData {
+  contextMenu: string[];
+  toolbarPrimary: string[];
+  toolbarMore: string[];
+}
+
 // ---- folders ---
 
 const folderContextMenu = ['Download', 'Edit', 'Favorite', 'Move', 'Copy', 'Delete', 'Edit Aspects', 'Permissions', 'Manage Rules'];
@@ -34,7 +48,7 @@ const folderFavContextMenu = ['Download', 'Edit', 'Remove Favorite', 'Move', 'Co
 const folderToolbarMore = ['Edit', 'Favorite', 'Move', 'Copy', 'Delete', 'Edit Aspects', 'Permissions', 'Manage Rules'];
 const folderFavToolbarMore = ['Edit', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Edit Aspects', 'Permissions', 'Manage Rules'];
 
-export const folderFile = {
+export const folderFile: FolderActionsData = {
   name: `folderActions-${random}`,
   description: 'folder not favorite',
   contextMenu: folderContextMenu,
@@ -42,7 +56,7 @@ export const folderFile = {
   toolbarMore: folderToolbarMore
 };
 
-export const folderFavFile = {
+export const folderFavFile: FolderActionsData = {
   name: `folderActions-fav-${random}`,
   contextMenu: folderFavContextMenu,
   toolbarPrimary: multipleSelToolbarPrimary,
@@ -54,7 +68,7 @@ export const folderFavFile = {
 const multipleSelContextMenu = ['Download', 'Favorite', 'Move', 'Copy', 'Delete'];
 const multipleSelToolbarMore = ['Favorite', 'Move', 'Copy', 'Delete'];
 
-export const multipleSelFile = {
+export const multipleSelFile: MultiSelectionData = {
   contextMenu: multipleSelContextMenu,
   toolbarPrimary: multipleSelToolbarPrimary,
   toolbarMore: multipleSelToolbarMore
