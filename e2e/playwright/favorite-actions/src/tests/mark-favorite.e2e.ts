@@ -23,12 +23,12 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi, FavoritesPageApi, SharedLinksApi } from '@alfresco/aca-playwright-shared';
+import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi, FavoritesApi, SharedLinksApi } from '@alfresco/aca-playwright-shared';
 
 test.describe('Mark items as favorites', () => {
   let trashcanApi: TrashcanApi;
   let nodesApi: NodesApi;
-  let favoritesApi: FavoritesPageApi;
+  let favoritesApi: FavoritesApi;
   let sharedApi: SharedLinksApi;
 
   const username = `user-${Utils.random()}`;
@@ -65,7 +65,7 @@ test.describe('Mark items as favorites', () => {
       await apiClientFactory.createUser({ username });
       trashcanApi = await TrashcanApi.initialize(username, username);
       nodesApi = await NodesApi.initialize(username, username);
-      favoritesApi = await FavoritesPageApi.initialize(username, username);
+      favoritesApi = await FavoritesApi.initialize(username, username);
       sharedApi = await SharedLinksApi.initialize(username, username);
 
       parentId = (await nodesApi.createFolder(parent)).entry.id;

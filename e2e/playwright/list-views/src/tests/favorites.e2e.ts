@@ -23,14 +23,14 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, NodesApi, Utils, test, SitesApi, FavoritesPageApi, timeouts, TrashcanApi } from '@alfresco/aca-playwright-shared';
+import { ApiClientFactory, NodesApi, Utils, test, SitesApi, FavoritesApi, timeouts, TrashcanApi } from '@alfresco/aca-playwright-shared';
 import { Site } from '@alfresco/js-api';
 
 test.describe('Favorites Files', () => {
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
   let siteActionsAdmin: SitesApi;
-  let favoritesActions: FavoritesPageApi;
+  let favoritesActions: FavoritesApi;
   let nodesApiAdmin: NodesApi;
   let apiClientFactory: ApiClientFactory;
   let parentId: string;
@@ -53,7 +53,7 @@ test.describe('Favorites Files', () => {
       trashcanApi = await TrashcanApi.initialize(username, username);
       nodesApiAdmin = await NodesApi.initialize('admin');
       siteActionsAdmin = await SitesApi.initialize('admin');
-      favoritesActions = await FavoritesPageApi.initialize(username, username);
+      favoritesActions = await FavoritesApi.initialize(username, username);
 
       parentId = (await nodesApi.createFolder(parentFolder)).entry.id;
     } catch (error) {

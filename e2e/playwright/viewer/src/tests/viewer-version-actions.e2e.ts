@@ -32,7 +32,7 @@ import {
   TEST_FILES,
   FileActionsApi,
   SharedLinksApi,
-  FavoritesPageApi,
+  FavoritesApi,
   RecentFilesPage,
   PersonalFilesPage,
   FavoritesPage,
@@ -45,7 +45,7 @@ test.describe('Version actions', () => {
   let nodesApi: NodesApi;
   let fileActionsApi: FileActionsApi;
   let sharedLinksApi: SharedLinksApi;
-  let favoritesApi: FavoritesPageApi;
+  let favoritesApi: FavoritesApi;
   const random = Utils.random();
   const filesToUpload = [TEST_FILES.PDF, TEST_FILES.JPG_FILE];
   const filenameBeforeUpdate = `${filesToUpload[0].name}-1-${random}.pdf`;
@@ -83,7 +83,7 @@ test.describe('Version actions', () => {
       trashcanApi = await TrashcanApi.initialize(username, username);
       nodesApi = await NodesApi.initialize(username, username);
       fileActionsApi = await FileActionsApi.initialize(username, username);
-      favoritesApi = await FavoritesPageApi.initialize(username, username);
+      favoritesApi = await FavoritesApi.initialize(username, username);
       sharedLinksApi = await SharedLinksApi.initialize(username, username);
 
       fileId = (await fileActionsApi.uploadFile(filesToUpload[0].path, filenameBeforeUpdate, '-my-')).entry.id;

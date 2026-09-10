@@ -25,7 +25,7 @@
 import { expect } from '@playwright/test';
 import {
   ApiClientFactory,
-  FavoritesPageApi,
+  FavoritesApi,
   FileActionsApi,
   NodesApi,
   PersonalFilesPage,
@@ -76,7 +76,7 @@ test.describe('Remember sorting', () => {
       await apiClientFactory.createUser({ username: user2 });
       const fileActionUser1 = await FileActionsApi.initialize(user1, user1);
       const fileActionUser2 = await FileActionsApi.initialize(user2, user2);
-      const favoritesActions = await FavoritesPageApi.initialize(user1, user1);
+      const favoritesActions = await FavoritesApi.initialize(user1, user1);
       nodeActionUser1 = await NodesApi.initialize(user1, user1);
       const filesIdsUser1: { [key: string]: string } = {};
       const filesIdsUser2: { [key: string]: string } = {};

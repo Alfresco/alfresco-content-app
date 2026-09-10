@@ -26,14 +26,14 @@ import { ApiClientFactory } from './api-client-factory';
 import { FavoriteEntry, FavoritePaging } from '@alfresco/js-api';
 import { logger, Utils } from '../utils';
 
-export class FavoritesPageApi {
+export class FavoritesApi {
   private readonly apiService: ApiClientFactory;
 
   constructor() {
     this.apiService = new ApiClientFactory();
   }
-  static async initialize(userName: string, password?: string): Promise<FavoritesPageApi> {
-    const classObj = new FavoritesPageApi();
+  static async initialize(userName: string, password?: string): Promise<FavoritesApi> {
+    const classObj = new FavoritesApi();
     await classObj.apiService.setUpAcaBackend(userName, password);
     return classObj;
   }

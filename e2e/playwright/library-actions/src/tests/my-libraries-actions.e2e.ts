@@ -23,7 +23,7 @@
  */
 
 import { expect, Locator } from '@playwright/test';
-import { Utils, ApiClientFactory, test, SitesApi, TrashcanApi, MyLibrariesPage, FavoritesPageApi, timeouts } from '@alfresco/aca-playwright-shared';
+import { Utils, ApiClientFactory, test, SitesApi, TrashcanApi, MyLibrariesPage, FavoritesApi, timeouts } from '@alfresco/aca-playwright-shared';
 import { Site } from '@alfresco/js-api';
 
 test.describe('Library actions ', () => {
@@ -52,7 +52,7 @@ test.describe('Library actions ', () => {
   let adminSitesApi: SitesApi;
   let user1SitesApi: SitesApi;
   let user2SitesApi: SitesApi;
-  let user2FavoritesApi: FavoritesPageApi;
+  let user2FavoritesApi: FavoritesApi;
   let user2TrashcanApi: TrashcanApi;
 
   function getRoleCellValue(page: MyLibrariesPage, libraryName: string, role = managerRole): Locator {
@@ -69,7 +69,7 @@ test.describe('Library actions ', () => {
       adminSitesApi = await SitesApi.initialize('admin');
       user1SitesApi = await SitesApi.initialize(username1, username1);
       user2SitesApi = await SitesApi.initialize(username2, username2);
-      user2FavoritesApi = await FavoritesPageApi.initialize(username2, username2);
+      user2FavoritesApi = await FavoritesApi.initialize(username2, username2);
       user2TrashcanApi = await TrashcanApi.initialize(username2, username2);
     } catch (error) {
       const myLibrariesActionsBeforeAllErrorMessage = `My libraries actions beforeAll failed : ${JSON.stringify(error)}`;

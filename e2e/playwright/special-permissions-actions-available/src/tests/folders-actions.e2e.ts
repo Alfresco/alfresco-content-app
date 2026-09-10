@@ -24,7 +24,7 @@
 
 import {
   ApiClientFactory,
-  FavoritesPageApi,
+  FavoritesApi,
   FolderActionsData,
   PersonalFilesPage,
   NodesApi,
@@ -64,7 +64,7 @@ test.describe('Folders - available actions : ', () => {
     await apiClientFactory.setUpAcaBackend('admin');
     await apiClientFactory.createUser({ username });
     nodesApi = await NodesApi.initialize(username, username);
-    const favoritesActions = await FavoritesPageApi.initialize(username, username);
+    const favoritesActions = await FavoritesApi.initialize(username, username);
     trashcanApi = await TrashcanApi.initialize(username, username);
     parentId = (await nodesApi.createFolder(parentName)).entry.id;
     await nodesApi.createFile(testData.file.name, parentId);
