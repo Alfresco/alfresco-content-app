@@ -92,7 +92,7 @@ export class Utils {
         await sitesApi?.deleteSites(sitesToDelete);
       }
     } catch (error) {
-      console.error(`${errorMessage}: ${error}`);
+      console.error(`${errorMessage}: ${JSON.stringify(error)}`);
     }
   }
 

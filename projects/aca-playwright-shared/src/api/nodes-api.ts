@@ -181,7 +181,7 @@ export class NodesApi {
     try {
       await this.apiService.nodes.deleteNodes(nodeIds, { permanent });
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.deleteNodes.name}: ${error}`);
+      logger.error(`${this.constructor.name} ${this.deleteNodes.name}: ${JSON.stringify(error)}`);
     }
   }
 
@@ -243,6 +243,21 @@ export class NodesApi {
       return this.apiService.nodes.getNode(id);
     } catch (error) {
       const message = `${this.constructor.name} ${this.getNodeById.name}: ${error}`;
+      logger.error(message);
+      throw new Error(message);
+    }
+  }
+
+  async getRepositoryFolderId(): Promise<string> {
+    try {
+      const folder = (await this.createFolder(`e2e-deleteMe-${Utils.random()}`, '-my-')).entry;
+      await this.deleteNodeById(folder.id);
+      if (!folder.parentId) {
+        throw new Error('getRepositoryFolderId: parent id (repository folder) is undefined');
+      }
+      return folder.parentId;
+    } catch (error) {
+      const message = `${this.constructor.name} ${this.getRepositoryFolderId.name}: ${error}`;
       logger.error(message);
       throw new Error(message);
     }

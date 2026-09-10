@@ -33,3 +33,4 @@ export * from './search.page';
 export * from './favorites.page';
 export * from './trash.page';
 export * from './favorites-libraries.page';
+export * from './repository.page';
