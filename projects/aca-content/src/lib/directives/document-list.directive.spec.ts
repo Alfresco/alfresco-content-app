@@ -273,7 +273,8 @@ describe('DocumentListDirective', () => {
   });
 
   describe('onSortingChanged - persisting sorting', () => {
-    const sortingChangedEvent = (detail: SortingChangedEventDetail) => new CustomEvent('sorting-changed', { detail }) as CustomEvent;
+    const sortingChangedEvent = (detail: SortingChangedEventDetail): CustomEvent<SortingChangedEventDetail> =>
+      new CustomEvent<SortingChangedEventDetail>('sorting-changed', { detail });
 
     beforeEach(() => {
       mockRoute.snapshot.data.sortingPreferenceKey = preferenceKey;
