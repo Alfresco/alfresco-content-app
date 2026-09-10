@@ -23,13 +23,12 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi, FavoritesApi, SharedLinksApi } from '@alfresco/aca-playwright-shared';
+import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi, FavoritesApi, users } from '@alfresco/aca-playwright-shared';
 
 test.describe('Mark items as favorites', () => {
   let trashcanApi: TrashcanApi;
   let nodesApi: NodesApi;
   let favoritesApi: FavoritesApi;
-  let sharedApi: SharedLinksApi;
 
   const username = `user-${Utils.random()}`;
   const parent = `parent-fev-${Utils.random()}`;
@@ -43,7 +42,6 @@ test.describe('Mark items as favorites', () => {
       trashcanApi = await TrashcanApi.initialize(username, username);
       nodesApi = await NodesApi.initialize(username, username);
       favoritesApi = await FavoritesApi.initialize(username, username);
-      sharedApi = await SharedLinksApi.initialize(username, username);
 
       parentId = (await nodesApi.createFolder(parent)).entry.id;
     } catch (error) {
@@ -223,7 +221,7 @@ test.describe('Mark items as favorites', () => {
 
 test.describe('[XAT-20164] Opening a favorited repository folder should navigate to Repository', () => {
   let nodesAdminApi: NodesApi;
-  let favoritesAdminApi: FavoritesPageApi;
+  let favoritesAdminApi: FavoritesApi;
   let repoFavFolderId: string;
   let repositoryFolderId: string;
 
@@ -233,7 +231,7 @@ test.describe('[XAT-20164] Opening a favorited repository folder should navigate
   test.beforeAll(async () => {
     try {
       nodesAdminApi = await NodesApi.initialize('admin', 'admin');
-      favoritesAdminApi = await FavoritesPageApi.initialize('admin', 'admin');
+      favoritesAdminApi = await FavoritesApi.initialize('admin', 'admin');
 
       repositoryFolderId = await nodesAdminApi.getRepositoryFolderId();
       repoFavFolderId = (await nodesAdminApi.createFolder(repoFavFolderName, repositoryFolderId)).entry.id;
