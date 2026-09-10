@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { DocumentListDirective } from './document-list.directive';
+import { DocumentListDirective, SortingChangedEventDetail } from './document-list.directive';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
@@ -33,6 +33,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ElementRef } from '@angular/core';
 import { AppHookService } from '@alfresco/aca-shared';
 import { NodeEntry } from '@alfresco/js-api';
+import { HttpErrorResponse } from '@angular/common/http';
 
 describe('DocumentListDirective', () => {
   let documentListDirective: DocumentListDirective;
@@ -52,6 +53,7 @@ describe('DocumentListDirective', () => {
     reload: jasmine.createSpy('reload'),
     resetSelection: jasmine.createSpy('resetSelection'),
     ready: new Subject<any>(),
+    error: new Subject<HttpErrorResponse>(),
     setColumnsWidths: {},
     setColumnsVisibility: {},
     setColumnsOrder: {}
@@ -267,6 +269,84 @@ describe('DocumentListDirective', () => {
     expect(documentListMock.data.setSorting).toHaveBeenCalledWith({
       key: sortingKey,
       direction: undefined
+    });
+  });
+
+  describe('onSortingChanged - persisting sorting', () => {
+    const sortingChangedEvent = (detail: SortingChangedEventDetail) => new CustomEvent('sorting-changed', { detail }) as CustomEvent;
+
+    beforeEach(() => {
+      mockRoute.snapshot.data.sortingPreferenceKey = preferenceKey;
+      userPreferencesServiceMock.set.calls.reset();
+      documentListDirective.ngOnInit();
+    });
+
+    it('should persist sorting immediately when sortingMode is `client`', () => {
+      documentListMock.sortingMode = 'client';
+      documentListDirective.onSortingChanged(sortingChangedEvent({ key: 'name', sortingKey: 'name', direction: 'asc' }));
+
+      expect(userPreferencesServiceMock.set).toHaveBeenCalledWith(`${preferenceKey}.sorting.key`, 'name');
+      expect(userPreferencesServiceMock.set).toHaveBeenCalledWith(`${preferenceKey}.sorting.sortingKey`, 'name');
+      expect(userPreferencesServiceMock.set).toHaveBeenCalledWith(`${preferenceKey}.sorting.direction`, 'asc');
+    });
+
+    it('should NOT persist sorting immediately when sortingMode is `server` (deferred until success)', () => {
+      documentListMock.sortingMode = 'server';
+      documentListDirective.onSortingChanged(
+        sortingChangedEvent({ key: 'properties.custom:prop', sortingKey: 'properties.custom:prop', direction: 'asc' })
+      );
+
+      expect(userPreferencesServiceMock.set).not.toHaveBeenCalledWith(`${preferenceKey}.sorting.key`, jasmine.anything());
+    });
+
+    it('should persist deferred `server` sorting once the document list emits `ready` (successful load)', () => {
+      documentListMock.sortingMode = 'server';
+      documentListDirective.onSortingChanged(
+        sortingChangedEvent({ key: 'properties.custom:prop', sortingKey: 'properties.custom:prop', direction: 'asc' })
+      );
+
+      expect(userPreferencesServiceMock.set).not.toHaveBeenCalledWith(`${preferenceKey}.sorting.key`, jasmine.anything());
+
+      documentListMock.ready.next({});
+
+      expect(userPreferencesServiceMock.set).toHaveBeenCalledWith(`${preferenceKey}.sorting.key`, 'properties.custom:prop');
+      expect(userPreferencesServiceMock.set).toHaveBeenCalledWith(`${preferenceKey}.sorting.sortingKey`, 'properties.custom:prop');
+      expect(userPreferencesServiceMock.set).toHaveBeenCalledWith(`${preferenceKey}.sorting.direction`, 'asc');
+    });
+
+    it('should discard deferred `server` sorting and never persist it when the document list emits `error`', () => {
+      documentListMock.sortingMode = 'server';
+
+      documentListDirective.onSortingChanged(
+        sortingChangedEvent({ key: 'properties.custom:unsortable', sortingKey: 'properties.custom:unsortable', direction: 'asc' })
+      );
+
+      documentListMock.error.next(new HttpErrorResponse({ status: 400 }));
+
+      expect(userPreferencesServiceMock.set).not.toHaveBeenCalledWith(`${preferenceKey}.sorting.key`, jasmine.anything());
+
+      userPreferencesServiceMock.set.calls.reset();
+      documentListMock.ready.next({});
+      expect(userPreferencesServiceMock.set).not.toHaveBeenCalledWith(`${preferenceKey}.sorting.key`, jasmine.anything());
+    });
+
+    it('should persist a subsequent valid sort even if the previous sort attempt failed', () => {
+      documentListMock.sortingMode = 'server';
+
+      documentListDirective.onSortingChanged(
+        sortingChangedEvent({ key: 'properties.custom:unsortable', sortingKey: 'properties.custom:unsortable', direction: 'asc' })
+      );
+      documentListMock.error.next(new HttpErrorResponse({ status: 400 }));
+      userPreferencesServiceMock.set.calls.reset();
+
+      documentListDirective.onSortingChanged(sortingChangedEvent({ key: 'name', sortingKey: 'name', direction: 'asc' }));
+      expect(userPreferencesServiceMock.set).not.toHaveBeenCalledWith(`${preferenceKey}.sorting.key`, jasmine.anything());
+
+      documentListMock.ready.next({});
+
+      expect(userPreferencesServiceMock.set).toHaveBeenCalledWith(`${preferenceKey}.sorting.key`, 'name');
+      expect(userPreferencesServiceMock.set).toHaveBeenCalledWith(`${preferenceKey}.sorting.sortingKey`, 'name');
+      expect(userPreferencesServiceMock.set).toHaveBeenCalledWith(`${preferenceKey}.sorting.direction`, 'asc');
     });
   });
 
