@@ -27,7 +27,7 @@ import { viewerTests } from './viewer';
 import { collaboratorTests, filesLockedByCurrentUser, filesLockedByOtherUser } from './other-permissions';
 import {
   ApiClientFactory,
-  FavoritesPageApi,
+  FavoritesApi,
   FileActionsApi,
   TEST_FILES,
   NodesApi,
@@ -65,7 +65,7 @@ test.describe('Special permissions : ', () => {
     let managerSiteActions: SitesApi;
     let managerFileActions: FileActionsApi;
     let managerSearchActions: SearchApi;
-    let consumerFavoritesActions: FavoritesPageApi;
+    let consumerFavoritesActions: FavoritesApi;
     let consumerShareActions: SharedLinksApi;
 
     test.beforeAll(async () => {
@@ -78,7 +78,7 @@ test.describe('Special permissions : ', () => {
       managerSiteActions = await SitesApi.initialize(userManager, userManager);
       managerFileActions = await FileActionsApi.initialize(userManager, userManager);
       managerSearchActions = await SearchApi.initialize(userManager, userManager);
-      consumerFavoritesActions = await FavoritesPageApi.initialize(userConsumer, userConsumer);
+      consumerFavoritesActions = await FavoritesApi.initialize(userConsumer, userConsumer);
       consumerShareActions = await SharedLinksApi.initialize(userConsumer, userConsumer);
 
       const consumerFavoritesTotalItems = await consumerFavoritesActions.getFavoritesTotalItems(userConsumer);
@@ -162,7 +162,7 @@ test.describe('Special permissions : ', () => {
     let managerFileActions: FileActionsApi;
     let managerSearchActions: SearchApi;
     let managerShareActions: SharedLinksApi;
-    let collaboratorFavoritesActions: FavoritesPageApi;
+    let collaboratorFavoritesActions: FavoritesApi;
 
     test.beforeAll(async () => {
       test.setTimeout(timeouts.extendedLongTest);
@@ -175,7 +175,7 @@ test.describe('Special permissions : ', () => {
       managerFileActions = await FileActionsApi.initialize(userManager, userManager);
       managerSearchActions = await SearchApi.initialize(userManager, userManager);
       managerShareActions = await SharedLinksApi.initialize(userManager, userManager);
-      collaboratorFavoritesActions = await FavoritesPageApi.initialize(userCollaborator, userCollaborator);
+      collaboratorFavoritesActions = await FavoritesApi.initialize(userCollaborator, userCollaborator);
 
       const collaboratorFavoritesTotalItems = await collaboratorFavoritesActions.getFavoritesTotalItems(userCollaborator);
       const managerSearchTotalItems = await managerSearchActions.getTotalItems(userManager);
@@ -218,7 +218,7 @@ test.describe('Special permissions : ', () => {
     let managerSiteActions: SitesApi;
     let managerSearchActions: SearchApi;
     let demotedUserActions: NodesApi;
-    let demotedUserFavoritesActions: FavoritesPageApi;
+    let demotedUserFavoritesActions: FavoritesApi;
     let demotedUserShareActions: SharedLinksApi;
 
     test.beforeAll(async () => {
@@ -231,7 +231,7 @@ test.describe('Special permissions : ', () => {
       managerSiteActions = await SitesApi.initialize(userManager, userManager);
       managerSearchActions = await SearchApi.initialize(userManager, userManager);
       demotedUserActions = await NodesApi.initialize(userDemoted, userDemoted);
-      demotedUserFavoritesActions = await FavoritesPageApi.initialize(userDemoted, userDemoted);
+      demotedUserFavoritesActions = await FavoritesApi.initialize(userDemoted, userDemoted);
       demotedUserShareActions = await SharedLinksApi.initialize(userDemoted, userDemoted);
 
       const demotedUserFavoritesTotalItems = await demotedUserFavoritesActions.getFavoritesTotalItems(userDemoted);
@@ -275,7 +275,7 @@ test.describe('Special permissions : ', () => {
     let managerNodeActions: NodesApi;
     let managerSiteActions: SitesApi;
     let managerSearchActions: SearchApi;
-    let managerFavoritesActions: FavoritesPageApi;
+    let managerFavoritesActions: FavoritesApi;
     let demotedUserActions: NodesApi;
     let demotedUserShareActions: SharedLinksApi;
 
@@ -288,7 +288,7 @@ test.describe('Special permissions : ', () => {
       managerNodeActions = await NodesApi.initialize(userManager, userManager);
       managerSiteActions = await SitesApi.initialize(userManager, userManager);
       managerSearchActions = await SearchApi.initialize(userManager, userManager);
-      managerFavoritesActions = await FavoritesPageApi.initialize(userManager, userManager);
+      managerFavoritesActions = await FavoritesApi.initialize(userManager, userManager);
       demotedUserActions = await NodesApi.initialize(userDemoted, userDemoted);
       demotedUserShareActions = await SharedLinksApi.initialize(userDemoted, userDemoted);
 

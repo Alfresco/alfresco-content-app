@@ -25,7 +25,7 @@
 import {
   ApiClientFactory,
   cleanupRepositoryTestData,
-  FavoritesPageApi,
+  FavoritesApi,
   NodesApi,
   RepositoryTestData,
   seedRepositoryTestData,
@@ -65,14 +65,14 @@ test.describe('Repository — Info drawer expand routing', () => {
   test.describe('signed in as admin', () => {
     let userNodesApi: NodesApi;
     let trashcanApi: TrashcanApi;
-    let favoritesApi: FavoritesPageApi;
+    let favoritesApi: FavoritesApi;
     let testData!: RepositoryTestData;
 
     test.beforeAll(async () => {
       try {
         userNodesApi = await NodesApi.initialize('admin');
         trashcanApi = await TrashcanApi.initialize('admin');
-        favoritesApi = await FavoritesPageApi.initialize('admin');
+        favoritesApi = await FavoritesApi.initialize('admin');
         testData = await seedRepositoryTestData({ userNodesApi, adminNodesApi: userNodesApi });
 
         await favoritesApi.addFavoriteById('file', testData.repoFile.id);

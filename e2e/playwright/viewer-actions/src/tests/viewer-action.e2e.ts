@@ -25,7 +25,7 @@
 import { expect } from '@playwright/test';
 import {
   ApiClientFactory,
-  FavoritesPageApi,
+  FavoritesApi,
   FileActionsApi,
   NodesApi,
   PersonalFilesPage,
@@ -465,7 +465,7 @@ test.describe('viewer action file', () => {
         nodesApi = apis.nodesApi;
         trashcanApi = apis.trashcanApi;
         const { fileActionsApi } = apis;
-        const favoritesActions = await FavoritesPageApi.initialize(username, username);
+        const favoritesActions = await FavoritesApi.initialize(username, username);
         folderId = (await nodesApi.createFolder(`viewer-action-5462-${Utils.random()}`)).entry.id;
         const randomDocxNameFavoriteId = (await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxNameFavorite, folderId)).entry.id;
         await favoritesActions.addFavoriteById('file', randomDocxNameFavoriteId);

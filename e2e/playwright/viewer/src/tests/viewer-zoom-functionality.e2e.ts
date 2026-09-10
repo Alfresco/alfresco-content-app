@@ -25,7 +25,7 @@
 import { expect } from '@playwright/test';
 import {
   ApiClientFactory,
-  FavoritesPageApi,
+  FavoritesApi,
   FileActionsApi,
   NodesApi,
   SharedLinksApi,
@@ -75,7 +75,7 @@ test.describe('viewer zoom functionality and reset', () => {
     trashcanApi = await TrashcanApi.initialize(username, username);
     siteActionsUser = await SitesApi.initialize(username, username);
     const shareActions = await SharedLinksApi.initialize(username, username);
-    const favoritesActions = await FavoritesPageApi.initialize(username, username);
+    const favoritesActions = await FavoritesApi.initialize(username, username);
     const node = await nodesApi.createFolder(randomFolderName);
     folderId = node.entry.id;
 

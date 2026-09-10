@@ -29,7 +29,7 @@ import {
   test,
   SitesApi,
   TrashcanApi,
-  FavoritesPageApi,
+  FavoritesApi,
   FavoritesLibrariesPage,
   timeouts
 } from '@alfresco/aca-playwright-shared';
@@ -58,7 +58,7 @@ test.describe('Library actions ', () => {
 
   let adminSitesApi: SitesApi;
   let user2SitesApi: SitesApi;
-  let user2FavoritesApi: FavoritesPageApi;
+  let user2FavoritesApi: FavoritesApi;
   let user2TrashcanApi: TrashcanApi;
 
   function getRoleCellValue(page: FavoritesLibrariesPage, libraryName: string, role: string): Locator {
@@ -73,7 +73,7 @@ test.describe('Library actions ', () => {
 
       adminSitesApi = await SitesApi.initialize('admin');
       user2SitesApi = await SitesApi.initialize(username2, username2);
-      user2FavoritesApi = await FavoritesPageApi.initialize(username2, username2);
+      user2FavoritesApi = await FavoritesApi.initialize(username2, username2);
       user2TrashcanApi = await TrashcanApi.initialize(username2, username2);
     } catch (error) {
       const favoriteLibrariesActionsBeforeAllErrorMessage = `Favorite libraries actions beforeAll failed : ${JSON.stringify(error)}`;

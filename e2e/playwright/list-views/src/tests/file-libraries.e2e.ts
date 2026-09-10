@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, FavoritesPageApi, SitesApi, Utils, test, timeouts } from '@alfresco/aca-playwright-shared';
+import { ApiClientFactory, FavoritesApi, SitesApi, Utils, test, timeouts } from '@alfresco/aca-playwright-shared';
 import { Site } from '@alfresco/js-api';
 
 test.describe('File Libraries', () => {
@@ -53,7 +53,7 @@ test.describe('File Libraries', () => {
       await apiClientFactory.createUser({ username });
       siteActionsAdmin = await SitesApi.initialize('admin');
       siteActionsUser = await SitesApi.initialize(username, username);
-      const favoritesActions = await FavoritesPageApi.initialize(username, username);
+      const favoritesActions = await FavoritesApi.initialize(username, username);
       const siteDescription = 'my site description';
       await siteActionsUser.createSite(userSitePublic, Site.VisibilityEnum.PUBLIC);
       await siteActionsUser.createSite(userSiteModerated, Site.VisibilityEnum.MODERATED, siteDescription);

@@ -23,7 +23,7 @@
  */
 
 import { expect, Locator } from '@playwright/test';
-import { Utils, ApiClientFactory, test, SitesApi, TrashcanApi, FavoritesPageApi, SearchPage, timeouts } from '@alfresco/aca-playwright-shared';
+import { Utils, ApiClientFactory, test, SitesApi, TrashcanApi, FavoritesApi, SearchPage, timeouts } from '@alfresco/aca-playwright-shared';
 import { Site } from '@alfresco/js-api';
 
 test.describe('Library actions ', () => {
@@ -192,7 +192,7 @@ test.describe('Library actions ', () => {
 
   test.describe('[XAT-5144] Remove a library from favorites - from Search Results', () => {
     test.beforeAll(async () => {
-      const user2FavoritesApi = await FavoritesPageApi.initialize(username2, username2);
+      const user2FavoritesApi = await FavoritesApi.initialize(username2, username2);
       user2Lib5144Id = (await user2SitesApi.createSite(user2Lib5144)).entry.id;
       await user2FavoritesApi.addFavoriteById('site', user2Lib5144Id);
     });

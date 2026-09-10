@@ -28,7 +28,7 @@ import {
   Utils,
   test,
   TrashcanApi,
-  FavoritesPageApi,
+  FavoritesApi,
   NodesApi,
   FileActionsApi,
   SitesApi,
@@ -41,7 +41,7 @@ test.describe('Info Drawer - Comments', () => {
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
   let fileActionsApi: FileActionsApi;
-  let favoritesActions: FavoritesPageApi;
+  let favoritesActions: FavoritesApi;
   const username = `user-e2e-${Utils.random()}`;
   const commentText = `comment-e2e-${Utils.random()}`;
 
@@ -51,7 +51,7 @@ test.describe('Info Drawer - Comments', () => {
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
-      favoritesActions = await FavoritesPageApi.initialize(username, username);
+      favoritesActions = await FavoritesApi.initialize(username, username);
       fileActionsApi = await FileActionsApi.initialize(username, username);
     } catch (error) {
       console.error(`beforeAll failed : ${error}`);

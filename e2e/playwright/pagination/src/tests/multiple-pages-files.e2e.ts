@@ -25,7 +25,7 @@
 import {
   ApiClientFactory,
   DataTableComponent,
-  FavoritesPageApi,
+  FavoritesApi,
   NodesApi,
   PaginationComponent,
   SearchApi,
@@ -101,7 +101,7 @@ test.describe('Pagination on multiple pages : ', () => {
   const username = `user-${random}`;
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
-  let favoritesApi: FavoritesPageApi;
+  let favoritesApi: FavoritesApi;
   let searchApi: SearchApi;
 
   const parent = `parent-multi-${random}`;
@@ -116,7 +116,7 @@ test.describe('Pagination on multiple pages : ', () => {
     await apiClientFactory.createUser({ username });
     nodesApi = await NodesApi.initialize(username, username);
     trashcanApi = await TrashcanApi.initialize(username, username);
-    favoritesApi = await FavoritesPageApi.initialize(username, username);
+    favoritesApi = await FavoritesApi.initialize(username, username);
     searchApi = await SearchApi.initialize(username, username);
 
     const files = Array(51)

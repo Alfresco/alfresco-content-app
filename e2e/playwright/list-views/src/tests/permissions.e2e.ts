@@ -25,7 +25,7 @@
 import { expect } from '@playwright/test';
 import {
   ApiClientFactory,
-  FavoritesPageApi,
+  FavoritesApi,
   FileActionsApi,
   LoginPage,
   NodesApi,
@@ -60,7 +60,7 @@ test.describe('Special permissions', () => {
 
     test.beforeAll(async () => {
       test.setTimeout(timeouts.webServer);
-      const userFavoritesApi = await FavoritesPageApi.initialize(username, username);
+      const userFavoritesApi = await FavoritesApi.initialize(username, username);
       const userFileActionApi = await FileActionsApi.initialize(username, username);
       siteApiAdmin = await SitesApi.initialize('admin');
       const nodeApiAdmin = await NodesApi.initialize('admin');
@@ -141,7 +141,7 @@ test.describe('Special permissions', () => {
 
     test.beforeAll(async () => {
       test.setTimeout(timeouts.webServer);
-      const userFavoritesApi = await FavoritesPageApi.initialize(username, username);
+      const userFavoritesApi = await FavoritesApi.initialize(username, username);
       const userShareActionApi = await SharedLinksApi.initialize(username, username);
       const userNodeActionApi = await NodesApi.initialize(username, username);
       adminSiteApiActions = await SitesApi.initialize('admin');
