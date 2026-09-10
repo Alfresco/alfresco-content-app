@@ -48,6 +48,7 @@ test.describe('Mark items as favorites', () => {
       parentId = (await nodesApi.createFolder(parent)).entry.id;
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
+      throw error;
     }
   });
 
@@ -239,6 +240,7 @@ test.describe('[XAT-20164] Opening a favorited repository folder should navigate
       await favoritesAdminApi.addFavoriteById('folder', repoFavFolderId);
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
+      throw error;
     }
   });
 
