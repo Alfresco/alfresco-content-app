@@ -22,15 +22,13 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './base.page';
-export * from './login.page';
-export * from './nodes.page';
-export * from './personal-files.page';
-export * from './my-libraries.page';
-export * from './recent-files.page';
-export * from './shared.page';
-export * from './search.page';
-export * from './favorites.page';
-export * from './trash.page';
-export * from './favorites-libraries.page';
-export * from './repository.page';
+import { Page } from '@playwright/test';
+import { BasePage } from './base.page';
+
+export class RepositoryPage extends BasePage {
+  private static readonly pageUrl = 'repository';
+
+  constructor(page: Page) {
+    super(page, RepositoryPage.pageUrl);
+  }
+}

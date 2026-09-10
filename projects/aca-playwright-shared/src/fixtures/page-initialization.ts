@@ -33,7 +33,8 @@ import {
   SharedPage,
   SearchPage,
   FavoritesPage,
-  TrashPage
+  TrashPage,
+  RepositoryPage
 } from '../page-objects';
 import { FileActionsApi, SharedLinksApi, FavoritesApi, NodesApi, SitesApi } from '../api';
 import { users } from '../base-config';
@@ -50,6 +51,7 @@ interface Pages {
   trashPage: TrashPage;
   loginPage: LoginPage;
   favoriteLibrariesPage: FavoritesLibrariesPage;
+  repositoryPage: RepositoryPage;
 }
 
 interface Api {
@@ -87,6 +89,9 @@ export const test = base.extend<Pages & Api>({
   },
   loginPage: async ({ page }, use) => {
     await use(new LoginPage(page));
+  },
+  repositoryPage: async ({ page }, use) => {
+    await use(new RepositoryPage(page));
   },
   // eslint-disable-next-line no-empty-pattern
   fileAction: async ({}, use) => {
