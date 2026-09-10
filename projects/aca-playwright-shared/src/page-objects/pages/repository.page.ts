@@ -24,17 +24,6 @@
 
 import { Page } from '@playwright/test';
 import { BasePage } from './base.page';
-import {
-  DataTableComponent,
-  MatMenuComponent,
-  ViewerComponent,
-  SidenavComponent,
-  PaginationComponent,
-  Breadcrumb,
-  InfoDrawerComponent
-} from '../components';
-import { AcaHeader } from '../components/aca-header.component';
-import { AdfFolderDialogComponent, ViewerOverlayDialogComponent, ManageVersionsDialog } from '../components/dialogs';
 
 export class RepositoryPage extends BasePage {
   private static readonly pageUrl = 'repository';
@@ -42,16 +31,4 @@ export class RepositoryPage extends BasePage {
   constructor(page: Page) {
     super(page, RepositoryPage.pageUrl);
   }
-
-  public acaHeader = new AcaHeader(this.page);
-  public matMenu = new MatMenuComponent(this.page);
-  public folderDialog = new AdfFolderDialogComponent(this.page);
-  public dataTable = new DataTableComponent(this.page);
-  public viewer = new ViewerComponent(this.page);
-  public viewerDialog = new ViewerOverlayDialogComponent(this.page);
-  public sidenav = new SidenavComponent(this.page);
-  public pagination = new PaginationComponent(this.page);
-  public breadcrumb = new Breadcrumb(this.page);
-  public infoDrawer = new InfoDrawerComponent(this.page);
-  public manageVersionsDialog = new ManageVersionsDialog(this.page);
 }
