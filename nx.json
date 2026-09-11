@@ -38,5 +38,6 @@
   },
   "cacheDirectory": "nxcache",
   "useInferencePlugins": false,
-  "useLegacyCache": true
+  "useLegacyCache": true,
+  "analytics": false
 }
