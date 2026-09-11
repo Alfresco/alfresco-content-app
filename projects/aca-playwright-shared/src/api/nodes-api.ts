@@ -214,7 +214,7 @@ export class NodesApi {
         await this.apiService.nodes.checkoutNode(nodeId);
       }
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.checkoutNodes.name}: ${JSON.stringify(error)}`);
+      logger.error(`${this.constructor.name} ${this.checkoutNodes.name}: ${error instanceof Error ? error.message : JSON.stringify(error)}`);
     }
   }
 
@@ -224,7 +224,7 @@ export class NodesApi {
         await this.apiService.nodes.cancelCheckoutNode(nodeId);
       }
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.cancelCheckout.name}: ${JSON.stringify(error)}`);
+      logger.error(`${this.constructor.name} ${this.cancelCheckout.name}: ${error instanceof Error ? error.message : JSON.stringify(error)}`);
     }
   }
 

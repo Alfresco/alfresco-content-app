@@ -236,7 +236,7 @@ test.describe('viewer action file', () => {
 
   test.describe('Personal Files - Cancel Editing action', () => {
     const username = `user-${Utils.random()}`;
-    const fileForCancelEditing = `playwright-file2-${Utils.random()}.docx`;
+    const fileForCancelEditing = `playwright-file2-${Utils.random()}`;
     let folderIdCancelEdit: string;
     let nodesApi: NodesApi;
     let trashcanApi: TrashcanApi;
@@ -249,7 +249,7 @@ test.describe('viewer action file', () => {
 
         const { fileActionsApi } = apis;
         folderIdCancelEdit = (await nodesApi.createFolder(`viewer-action-5424-${Utils.random()}`)).entry.id;
-        const fileForCancelEditingId = (await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, fileForCancelEditing, folderIdCancelEdit)).entry.id;
+        const fileForCancelEditingId = (await fileActionsApi.uploadFile(TEST_FILES.PNG_FILE.path, fileForCancelEditing, folderIdCancelEdit)).entry.id;
         await nodesApi.checkoutNodes([fileForCancelEditingId]);
         await fileActionsApi.isFileCheckedOutWithRetry(fileForCancelEditingId, true);
       } catch (error) {
