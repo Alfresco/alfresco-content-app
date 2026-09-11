@@ -66,13 +66,13 @@ test.describe('Delete and undo delete', () => {
 
     const file1InFolder = `file1InFolder-${Utils.random()}.txt`;
     const file2InFolder = `file2InFolder-${Utils.random()}.txt`;
-    const fileLocked1 = `fileLocked1-${Utils.random()}.txt`;
+    const fileLocked1 = `fileLocked1-${Utils.random()}`;
     let fileLocked1Id: string;
-    const fileLocked2 = `fileLocked2-${Utils.random()}.txt`;
+    const fileLocked2 = `fileLocked2-${Utils.random()}`;
     let fileLocked2Id: string;
-    const fileLocked3 = `fileLocked3-${Utils.random()}.txt`;
+    const fileLocked3 = `fileLocked3-${Utils.random()}`;
     let fileLocked3Id: string;
-    const fileLocked4 = `fileLocked4-${Utils.random()}.txt`;
+    const fileLocked4 = `fileLocked4-${Utils.random()}`;
     let fileLocked4Id: string;
 
     const parent = `parentPF-${Utils.random()}`;
