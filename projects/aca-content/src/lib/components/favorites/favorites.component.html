@@ -2,8 +2,8 @@
   <div class="aca-page-layout-header">
     <div class="aca-header-container">
       <h1 class="aca-page-title">
-      {{ (selectedRowItemsCount < 1 ? 'APP.BROWSE.FAVORITES.TITLE' : 'APP.HEADER.SELECTED') | translate: { count: selectedRowItemsCount } }}
-    </h1>
+        {{ (selectedRowItemsCount < 1 ? 'APP.BROWSE.FAVORITES.TITLE' : 'APP.HEADER.SELECTED') | translate: { count: selectedRowItemsCount } }}
+      </h1>
       <aca-toolbar [items]="actions" />
     </div>
   </div>
@@ -28,14 +28,14 @@
         [blurOnResize]="false"
         (node-dblclick)="handleNodeClick($event)"
         (name-click)="handleNodeClick($event)"
-      >
+        >
         <adf-custom-empty-content-template>
           <adf-empty-content icon="star_rate" [title]="'APP.BROWSE.FAVORITES.EMPTY_STATE.TITLE'" subtitle="APP.BROWSE.FAVORITES.EMPTY_STATE.TEXT" />
         </adf-custom-empty-content-template>
 
         <data-columns>
-          <ng-container *ngFor="let column of columns; trackBy: trackByColumnId">
-            <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
+          @for (column of columns; track trackByColumnId($index, column)) {
+            @if (column.template && !(column.desktopOnly && isSmallScreen)) {
               <data-column
                 [id]="column.id"
                 [key]="column.key"
@@ -48,14 +48,13 @@
                 [sortable]="column.sortable"
                 [isHidden]="column.isHidden"
                 [sortingKey]="column.sortingKey || column.key"
-              >
+                >
                 <ng-template let-context>
                   <adf-dynamic-column [id]="column.template" [context]="context" />
                 </ng-template>
               </data-column>
-            </ng-container>
-
-            <ng-container *ngIf="!column.template && !(column.desktopOnly && isSmallScreen)">
+            }
+            @if (!column.template && !(column.desktopOnly && isSmallScreen)) {
               <data-column
                 [id]="column.id"
                 [key]="column.key"
@@ -68,17 +67,19 @@
                 [sortable]="column.sortable"
                 [isHidden]="column.isHidden"
                 [sortingKey]="column.sortingKey || column.key"
-              />
-            </ng-container>
-          </ng-container>
+                />
+            }
+          }
         </data-columns>
       </adf-document-list>
 
       <adf-pagination acaPagination [target]="documentList" />
     </div>
 
-    <div class="aca-sidebar" *ngIf="infoDrawerOpened$ | async">
-      <aca-info-drawer [node]="selection.last" />
-    </div>
+    @if (infoDrawerOpened$ | async) {
+      <div class="aca-sidebar">
+        <aca-info-drawer [node]="selection.last" />
+      </div>
+    }
   </div>
 </aca-page-layout>

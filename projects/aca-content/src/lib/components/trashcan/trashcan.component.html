@@ -25,7 +25,7 @@
         [sorting]="['archivedAt', 'desc']"
         [isResizingEnabled]="true"
         [blurOnResize]="false"
-      >
+        >
         <adf-custom-empty-content-template>
           <adf-empty-content icon="delete" [title]="'APP.BROWSE.TRASHCAN.EMPTY_STATE.TITLE'">
             <p class="adf-empty-content__text">
@@ -38,8 +38,8 @@
         </adf-custom-empty-content-template>
 
         <data-columns>
-          <ng-container *ngFor="let column of columns; trackBy: trackByColumnId">
-            <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
+          @for (column of columns; track trackByColumnId($index, column)) {
+            @if (column.template && !(column.desktopOnly && isSmallScreen)) {
               <data-column
                 [id]="column.id"
                 [key]="column.key"
@@ -52,14 +52,13 @@
                 [sortable]="column.sortable"
                 [isHidden]="column.isHidden"
                 [sortingKey]="column.sortingKey || column.key"
-              >
+                >
                 <ng-template let-context>
                   <adf-dynamic-column [id]="column.template" [context]="context" />
                 </ng-template>
               </data-column>
-            </ng-container>
-
-            <ng-container *ngIf="!column.template && !(column.desktopOnly && isSmallScreen)">
+            }
+            @if (!column.template && !(column.desktopOnly && isSmallScreen)) {
               <data-column
                 [id]="column.id"
                 [key]="column.key"
@@ -72,16 +71,17 @@
                 [resizable]="column.resizable"
                 [isHidden]="column.isHidden"
                 [sortingKey]="column.sortingKey || column.key"
-              />
-            </ng-container>
-          </ng-container>
+                />
+            }
+          }
 
-          <data-column
-            *ngIf="!isSmallScreen && (user$ | async)?.isAdmin"
-            class="adf-ellipsis-cell"
-            key="archivedByUser.displayName"
-            title="APP.DOCUMENT_LIST.COLUMNS.DELETED_BY"
-          />
+          @if (!isSmallScreen && (user$ | async)?.isAdmin) {
+            <data-column
+              class="adf-ellipsis-cell"
+              key="archivedByUser.displayName"
+              title="APP.DOCUMENT_LIST.COLUMNS.DELETED_BY"
+              />
+          }
         </data-columns>
       </adf-document-list>
 

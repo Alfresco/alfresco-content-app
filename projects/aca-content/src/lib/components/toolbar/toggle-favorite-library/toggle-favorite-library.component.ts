@@ -29,7 +29,6 @@ import { AppStore, getAppSelection } from '@alfresco/aca-shared/store';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LibraryFavoriteDirective } from '@alfresco/adf-content-services';
 import { MatIconModule } from '@angular/material/icon';
@@ -37,7 +36,7 @@ import { MatMenuItem, MatMenuModule } from '@angular/material/menu';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  imports: [CommonModule, TranslatePipe, MatIconModule, MatMenuModule, LibraryFavoriteDirective],
+  imports: [TranslatePipe, MatIconModule, MatMenuModule, LibraryFavoriteDirective],
   selector: 'app-toggle-favorite-library',
   template: `
     <button

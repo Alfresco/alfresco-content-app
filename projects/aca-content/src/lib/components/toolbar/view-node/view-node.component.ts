@@ -29,7 +29,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { SharedLinkEntry } from '@alfresco/js-api';
 import { AppSettingsService, AutoDownloadService } from '@alfresco/aca-shared';
-import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -37,23 +36,21 @@ import { MatMenuItem, MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
-  imports: [CommonModule, TranslatePipe, MatButtonModule, MatIconModule, MatMenuModule, MatDialogModule],
+  imports: [TranslatePipe, MatButtonModule, MatIconModule, MatMenuModule, MatDialogModule],
   selector: 'app-view-node',
   template: `
-    <button
-      *ngIf="data.iconButton"
-      mat-icon-button
-      [attr.aria-label]="data.title | translate"
-      [attr.title]="data.title | translate"
-      (click)="onClick()"
-    >
-      <mat-icon>visibility</mat-icon>
-    </button>
+    @if (data.iconButton) {
+      <button mat-icon-button [attr.aria-label]="data.title | translate" [attr.title]="data.title | translate" (click)="onClick()">
+        <mat-icon>visibility</mat-icon>
+      </button>
+    }
 
-    <button *ngIf="data.menuButton" mat-menu-item (click)="onClick()">
-      <mat-icon>visibility</mat-icon>
-      <span>{{ data.title | translate }}</span>
-    </button>
+    @if (data.menuButton) {
+      <button mat-menu-item (click)="onClick()">
+        <mat-icon>visibility</mat-icon>
+        <span>{{ data.title | translate }}</span>
+      </button>
+    }
   `,
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-view-node' }

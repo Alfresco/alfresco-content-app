@@ -49,7 +49,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NgForOf } from '@angular/common';
 
 export class InstantErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: UntypedFormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -68,8 +67,7 @@ export class InstantErrorStateMatcher implements ErrorStateMatcher {
     MatSelectModule,
     MatOptionModule,
     MatInputModule,
-    MatButtonModule,
-    NgForOf
+    MatButtonModule
   ],
   selector: 'app-library-metadata-form',
   templateUrl: './library-metadata-form.component.html',

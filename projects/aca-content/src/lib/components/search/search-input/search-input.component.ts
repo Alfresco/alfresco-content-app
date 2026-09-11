@@ -28,7 +28,6 @@ import { ActivatedRoute, NavigationSkipped, Params, Router } from '@angular/rout
 import { SearchNavigationService } from '../search-navigation.service';
 import { SearchFilterService } from '../search-filter.service';
 import { SearchExecutionService } from '../search-execution.service';
-import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -45,7 +44,6 @@ import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 
 @Component({
   imports: [
-    CommonModule,
     TranslatePipe,
     MatButtonModule,
     MatIconModule,

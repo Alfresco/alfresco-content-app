@@ -10,19 +10,15 @@
   <div class="aca-page-layout-content">
     <div class="aca-main-content">
 
-      <ng-container *ngIf="((ruleSetsLoading$ | async) && (inheritedRuleSets$ | async).length === 0) || (actionsLoading$ | async); else onLoaded">
+      @if (((ruleSetsLoading$ | async) && (inheritedRuleSets$ | async).length === 0) || (actionsLoading$ | async)) {
         <mat-progress-bar mode="indeterminate" />
-      </ng-container>
-
-      <ng-template #onLoaded>
-        <ng-container *ngIf="folderInfo$ | async; else genericError">
+      } @else {
+        @if (folderInfo$ | async) {
           <mat-toolbar class="aca-manage-rules__toolbar aca-manage-rules__actions-bar">
-
             <span class="aca-manage-rules__actions-bar__title">
               <mat-icon class="icon-aligner">folder</mat-icon>
               <span class="aca-page-title">{{ (folderInfo$ | async).name }}:{{'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.BREADCRUMB.RULES' | translate}}</span>
             </span>
-
             <mat-slide-toggle
               data-automation-id="manage-rules-inheritance-toggle-button"
               class="aca-manage-rules__actions-bar__toggle"
@@ -32,104 +28,96 @@
               [labelPosition]="'before'">
               {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.INHERIT_RULES' | translate }}
             </mat-slide-toggle>
-
             <mat-divider vertical class="aca-manage-rules__actions-bar__vertical-divider" aria-hidden="true" />
-
             <div class="aca-manage-rules__actions-bar__buttons">
-              <button
-                *ngIf="!(mainRuleSet$ | async)"
-                data-automation-id="manage-rules-link-button"
-                mat-stroked-button
-                (click)="openLinkRulesDialog()">
-                {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.LINK_RULES' | translate }}
-              </button>
-
-              <button
-                *ngIf="canEditMainRule"
-                data-automation-id="manage-rules-create-button"
-                mat-flat-button
-                (click)="openCreateUpdateRuleDialog()">
-                {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.CREATE_RULE' | translate }}
-              </button>
+              @if (!(mainRuleSet$ | async)) {
+                <button
+                  data-automation-id="manage-rules-link-button"
+                  mat-stroked-button
+                  (click)="openLinkRulesDialog()">
+                  {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.LINK_RULES' | translate }}
+                </button>
+              }
+              @if (canEditMainRule) {
+                <button
+                  data-automation-id="manage-rules-create-button"
+                  mat-flat-button
+                  (click)="openCreateUpdateRuleDialog()">
+                  {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.CREATE_RULE' | translate }}
+                </button>
+              }
             </div>
-
           </mat-toolbar>
           <mat-divider aria-hidden="true" />
-
-          <div class="aca-manage-rules__container" *ngIf="isMainRuleSetNotEmpty || isInheritedRuleSetsNotEmpty; else emptyContent">
-            <aca-rule-list
-              [mainRuleSet$]="mainRuleSet$"
-              [folderId]="nodeId"
-              [inheritedRuleSets]="inheritedRuleSets$ | async"
-              [hasMoreRuleSets]="hasMoreRuleSets$ | async"
-              [ruleSetsLoading]="ruleSetsLoading$ | async"
-              [selectedRule]="selectedRule$ | async"
-              (loadMoreRuleSets)="onLoadMoreRuleSets()"
-              (loadMoreRules)="onLoadMoreRules($event)"
-              (selectRule)="onSelectRule($event)"
-              (ruleEnabledChanged)="onRuleEnabledToggle($event[0], $event[1])"
-              (ruleSetEditLinkClicked)="openLinkRulesDialog($event)"
-              (ruleSetUnlinkClicked)="onRuleSetUnlinkClicked($event)" />
-
-            <div class="aca-manage-rules__container__rule-details">
-
-              <div class="aca-manage-rules__container__rule-details__header" *ngIf="(selectedRule$ | async) as selectedRule">
-                <div class="aca-manage-rules__container__rule-details__header__title">
-                  <div class="aca-manage-rules__container__rule-details__header__title__name">
-                    {{ selectedRule.name }}
+          @if (isMainRuleSetNotEmpty || isInheritedRuleSetsNotEmpty) {
+            <div class="aca-manage-rules__container">
+              <aca-rule-list
+                [mainRuleSet$]="mainRuleSet$"
+                [folderId]="nodeId"
+                [inheritedRuleSets]="inheritedRuleSets$ | async"
+                [hasMoreRuleSets]="hasMoreRuleSets$ | async"
+                [ruleSetsLoading]="ruleSetsLoading$ | async"
+                [selectedRule]="selectedRule$ | async"
+                (loadMoreRuleSets)="onLoadMoreRuleSets()"
+                (loadMoreRules)="onLoadMoreRules($event)"
+                (selectRule)="onSelectRule($event)"
+                (ruleEnabledChanged)="onRuleEnabledToggle($event[0], $event[1])"
+                (ruleSetEditLinkClicked)="openLinkRulesDialog($event)"
+                (ruleSetUnlinkClicked)="onRuleSetUnlinkClicked($event)" />
+              <div class="aca-manage-rules__container__rule-details">
+                @if ((selectedRule$ | async); as selectedRule) {
+                  <div class="aca-manage-rules__container__rule-details__header">
+                    <div class="aca-manage-rules__container__rule-details__header__title">
+                      <div class="aca-manage-rules__container__rule-details__header__title__name">
+                        {{ selectedRule.name }}
+                      </div>
+                      <div class="aca-manage-rules__container__rule-details__header__title__description">
+                        {{ selectedRule.description }}
+                      </div>
+                    </div>
+                    <div class="aca-manage-rules__container__rule-details__header__buttons">
+                      @if (canEditSelectedRule) {
+                        <button mat-stroked-button (click)="onRuleDeleteButtonClicked(selectedRule)" id="delete-rule-btn"
+                          [attr.aria-label]="'ACA_FOLDER_RULES.CONFIRMATION_DIALOG.DELETE_RULE.TITLE' | translate">
+                          <mat-icon>delete_outline</mat-icon>
+                        </button>
+                        <button mat-stroked-button (click)="openCreateUpdateRuleDialog(selectedRule)" id="edit-rule-btn">
+                          {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.EDIT_RULE' | translate }}
+                        </button>
+                      } @else {
+                        <button mat-stroked-button [routerLink]="['/nodes', (selectedRuleSet$ | async).owningFolder.id, 'rules']">
+                          {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.SEE_IN_FOLDER' | translate }}
+                        </button>
+                      }
+                    </div>
                   </div>
-                  <div class="aca-manage-rules__container__rule-details__header__title__description">
-                    {{ selectedRule.description }}
+                }
+                @if ((selectedRule$ | async); as selectedRule) {
+                  <div class="aca-manage-rules__container__rule-details__content">
+                    <aca-rule-details
+                      [actionDefinitions]="actionDefinitions$ | async"
+                      [parameterConstraints]="parameterConstraints$ | async"
+                      [readOnly]="true"
+                      [preview]="true"
+                      [value]="selectedRule"
+                      [nodeId]="nodeId" />
                   </div>
-                </div>
-
-                <div class="aca-manage-rules__container__rule-details__header__buttons">
-                  <ng-container *ngIf="canEditSelectedRule; else goToFolderButton">
-                    <button mat-stroked-button (click)="onRuleDeleteButtonClicked(selectedRule)" id="delete-rule-btn"
-                            [attr.aria-label]="'ACA_FOLDER_RULES.CONFIRMATION_DIALOG.DELETE_RULE.TITLE' | translate">
-                      <mat-icon>delete_outline</mat-icon>
-                    </button>
-                    <button mat-stroked-button (click)="openCreateUpdateRuleDialog(selectedRule)" id="edit-rule-btn">
-                      {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.EDIT_RULE' | translate }}
-                    </button>
-                  </ng-container>
-
-                  <ng-template #goToFolderButton>
-                    <button mat-stroked-button [routerLink]="['/nodes', (selectedRuleSet$ | async).owningFolder.id, 'rules']">
-                      {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.SEE_IN_FOLDER' | translate }}
-                    </button>
-                  </ng-template>
-                </div>
-              </div>
-
-              <div class="aca-manage-rules__container__rule-details__content" *ngIf="(selectedRule$ | async) as selectedRule">
-                <aca-rule-details
-                  [actionDefinitions]="actionDefinitions$ | async"
-                  [parameterConstraints]="parameterConstraints$ | async"
-                  [readOnly]="true"
-                  [preview]="true"
-                  [value]="selectedRule"
-                  [nodeId]="nodeId" />
+                }
               </div>
             </div>
-          </div>
-
-          <ng-template #emptyContent>
+          } @else {
             <adf-empty-content
               icon="library_books"
               [title]="'ACA_FOLDER_RULES.MANAGE_RULES.EMPTY_RULES_LIST.TITLE' | translate"
               [subtitle]="'ACA_FOLDER_RULES.MANAGE_RULES.EMPTY_RULES_LIST.SUBTITLE' | translate"
-            />
-          </ng-template>
-        </ng-container>
-
-        <ng-template #genericError>
+              />
+          }
+        } @else {
           <div class="aca-page-layout-error">
             <aca-generic-error />
           </div>
-        </ng-template>
-
-      </ng-template>
+        }
+      }
 
     </div>
   </div>

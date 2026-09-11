@@ -1,5 +1,5 @@
 <mat-toolbar class="aca-toolbar">
-  <ng-container *ngFor="let item of items; trackBy: trackByActionId">
+  @for (item of items; track trackByActionId($index, item)) {
     <aca-toolbar-action [actionRef]="item" />
-  </ng-container>
+  }
 </mat-toolbar>
