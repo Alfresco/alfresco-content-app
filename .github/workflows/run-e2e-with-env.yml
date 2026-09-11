@@ -69,7 +69,7 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
       - uses: ./.github/actions/before-install
-      - run: npm ci
+      - run: npm ci --ignore-scripts
       - run: npm run ci:build -- aca-playwright-shared
       - run: npm run build -- $BUILD_OPTS
 
@@ -147,7 +147,7 @@ jobs:
           cache: 'npm'
 
       - uses: ./.github/actions/before-install
-      - run: npm ci
+      - run: npm ci --ignore-scripts
 
       - uses: actions/cache/restore@v6
         id: cache

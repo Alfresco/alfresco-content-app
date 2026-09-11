@@ -27,7 +27,7 @@ runs:
     - name: Build Libraries
       shell: bash
       run: |
-        npm ci
+        npm ci --ignore-scripts
         npm run ci:build:many
 
     - uses: actions/setup-node@v7
