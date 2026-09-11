@@ -33,6 +33,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Configure private registry auth
+        shell: bash
+        run: pnpm config set "//npm.pkg.github.com/:_authToken" "${PACKAGE_AUTH_TOKEN}"
+        env:
+          PACKAGE_AUTH_TOKEN: ${{ secrets.PACKAGE_AUTH_TOKEN }}
+
       - uses: ./.github/actions/setup
 
       - run: pnpm install --frozen-lockfile
@@ -113,6 +119,12 @@ jobs:
         with:
           fetch-depth: 2
 
+      - name: Configure private registry auth
+        shell: bash
+        run: pnpm config set "//npm.pkg.github.com/:_authToken" "${PACKAGE_AUTH_TOKEN}"
+        env:
+          PACKAGE_AUTH_TOKEN: ${{ secrets.PACKAGE_AUTH_TOKEN }}
+
       - uses: ./.github/actions/before-install
       - run: pnpm install --frozen-lockfile
       - name: upload npm logs
@@ -141,6 +153,13 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
+
+      - name: Configure private registry auth
+        shell: bash
+        run: pnpm config set "//npm.pkg.github.com/:_authToken" "${PACKAGE_AUTH_TOKEN}"
+        env:
+          PACKAGE_AUTH_TOKEN: ${{ secrets.PACKAGE_AUTH_TOKEN }}
+
       - uses: ./.github/actions/before-install
       - run: pnpm install --frozen-lockfile
       - name: upload npm logs
@@ -238,6 +257,12 @@ jobs:
 
       - name: Before install
         uses: ./.github/actions/before-install
+
+      - name: Configure private registry auth
+        shell: bash
+        run: pnpm config set "//npm.pkg.github.com/:_authToken" "${PACKAGE_AUTH_TOKEN}"
+        env:
+          PACKAGE_AUTH_TOKEN: ${{ secrets.PACKAGE_AUTH_TOKEN }}
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile

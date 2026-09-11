@@ -34,6 +34,13 @@ runs:
         username: ${{ inputs.username }}
         password: ${{ inputs.password }}
 
+
+    - name: Configure private registry auth
+      shell: bash
+      run: pnpm config set "//npm.pkg.github.com/:_authToken" "${PACKAGE_AUTH_TOKEN}"
+      env:
+        PACKAGE_AUTH_TOKEN: ${{ secrets.PACKAGE_AUTH_TOKEN }}
+
     - name: Install dependencies and build project
       shell: bash
       run: |
