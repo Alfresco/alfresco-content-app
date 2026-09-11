@@ -66,13 +66,13 @@ test.describe('Delete and undo delete', () => {
 
     const file1InFolder = `file1InFolder-${Utils.random()}.txt`;
     const file2InFolder = `file2InFolder-${Utils.random()}.txt`;
-    const fileLocked1 = `fileLocked1-${Utils.random()}.txt`;
+    const fileLocked1 = `fileLocked1-${Utils.random()}`;
     let fileLocked1Id: string;
-    const fileLocked2 = `fileLocked2-${Utils.random()}.txt`;
+    const fileLocked2 = `fileLocked2-${Utils.random()}`;
     let fileLocked2Id: string;
-    const fileLocked3 = `fileLocked3-${Utils.random()}.txt`;
+    const fileLocked3 = `fileLocked3-${Utils.random()}`;
     let fileLocked3Id: string;
-    const fileLocked4 = `fileLocked4-${Utils.random()}.txt`;
+    const fileLocked4 = `fileLocked4-${Utils.random()}`;
     let fileLocked4Id: string;
 
     const parent = `parentPF-${Utils.random()}`;
@@ -104,7 +104,7 @@ test.describe('Delete and undo delete', () => {
       fileLocked4Id = (await nodesApi.createFile(fileLocked4, folder5Id)).entry.id;
       await nodesApi.createFile(file2InFolder, folder6Id);
 
-      await nodesApi.lockNodes([fileLocked1Id, fileLocked2Id, fileLocked3Id, fileLocked4Id], 'FULL');
+      await nodesApi.checkoutNodes([fileLocked1Id, fileLocked2Id, fileLocked3Id, fileLocked4Id]);
     });
 
     test.beforeEach(async ({ loginPage, personalFiles }) => {
@@ -114,7 +114,7 @@ test.describe('Delete and undo delete', () => {
     });
 
     test.afterAll(async () => {
-      await nodesApi.unlockNodes([fileLocked1Id, fileLocked2Id, fileLocked3Id, fileLocked4Id]);
+      await nodesApi.cancelCheckout([fileLocked1Id, fileLocked2Id, fileLocked3Id, fileLocked4Id]);
       await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
     });
 

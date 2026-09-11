@@ -101,11 +101,9 @@ export class PersonalFilesPage extends BasePage {
   }
 
   async copyOrMoveContentInDatatable(sourceFileList: string[], destinationName: string, operation = 'Copy'): Promise<void> {
-    await this.page.keyboard.down('Control');
-    for (const sourceName of sourceFileList) {
-      await this.dataTable.selectItems(sourceName);
+    for (const itemToSelect of sourceFileList) {
+      await this.dataTable.selectItems(itemToSelect);
     }
-    await this.page.keyboard.up('Control');
     await this.clickMoreActionsButton(operation);
     await this.contentNodeSelector.selectDestination(destinationName);
     await this.contentNodeSelector.actionButton.click();

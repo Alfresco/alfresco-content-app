@@ -208,23 +208,23 @@ export class NodesApi {
     }
   }
 
-  async lockNodes(nodeIds: string[], lockType: string = 'ALLOW_OWNER_CHANGES') {
+  async checkoutNodes(nodeIds: string[]) {
     try {
       for (const nodeId of nodeIds) {
-        await this.apiService.nodes.lockNode(nodeId, { type: lockType });
+        await this.apiService.nodes.checkoutNode(nodeId);
       }
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.lockNodes.name}: ${error}`);
+      logger.error(`${this.constructor.name} ${this.checkoutNodes.name}: ${error instanceof Error ? error.message : JSON.stringify(error)}`);
     }
   }
 
-  async unlockNodes(nodeIds: string[]) {
+  async cancelCheckout(nodeIds: string[]) {
     try {
       for (const nodeId of nodeIds) {
-        await this.apiService.nodes.unlockNode(nodeId);
+        await this.apiService.nodes.cancelCheckoutNode(nodeId);
       }
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.unlockNodes.name}: ${error}`);
+      logger.error(`${this.constructor.name} ${this.cancelCheckout.name}: ${error instanceof Error ? error.message : JSON.stringify(error)}`);
     }
   }
 

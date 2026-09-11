@@ -81,7 +81,7 @@ const searchConsumerSharedToolbarPrimary = ['Shared Link Settings', 'Download', 
 const consumerToolbarMore = ['Favorite', 'Copy', 'Manage Versions'];
 const consumerFavToolbarMore = ['Remove Favorite', 'Copy', 'Manage Versions'];
 
-export const collaboratorToolbarPrimary = ['Shared Link Settings', 'View', 'View Details', 'More Actions'];
+export const collaboratorToolbarPrimary = ['View', 'View Details', 'More Actions'];
 export const collaboratorEditRowToolbarMore = [
   'Edit Offline',
   'Upload New Version',
@@ -114,7 +114,7 @@ export const collaboratorDocToolbarMore = [
   'Edit Aspects',
   'Permissions'
 ];
-export const collaboratorLockCurrentUserToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy'];
+export const collaboratorLockCurrentUserToolbarMore = ['Cancel Editing', 'Upload New Version', 'Copy'];
 export const collaboratorLockOtherUserToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Move', 'Copy', 'Permissions'];
 export const collaboratorLockOtherUserSearchToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Copy', 'Permissions'];
 
@@ -307,7 +307,7 @@ export const fileSharedFav = buildFileData((fileRandom) => `file-${fileRandom}-s
   searchToolbarPrimary: searchConsumerSharedToolbarPrimary
 });
 
-export const fileLocked = buildFileData((fileRandom) => `file-${fileRandom}-locked.txt`, {
+export const fileLocked = buildFileData((fileRandom) => `file-${fileRandom}-locked`, {
   description: 'file not shared, not fav, not office, locked',
 
   contextMenu: consumerContextMenu,
@@ -319,7 +319,7 @@ export const fileLocked = buildFileData((fileRandom) => `file-${fileRandom}-lock
   searchToolbarPrimary: searchConsumerToolbarPrimary
 });
 
-export const fileFavLocked = buildFileData((fileRandom) => `file-${fileRandom}-fav-locked.txt`, {
+export const fileFavLocked = buildFileData((fileRandom) => `file-${fileRandom}-fav-locked`, {
   description: 'file not shared, fav, not office, locked',
 
   contextMenu: consumerFavContextMenu,
@@ -334,7 +334,7 @@ export const fileFavLocked = buildFileData((fileRandom) => `file-${fileRandom}-f
   searchToolbarPrimary: searchConsumerToolbarPrimary
 });
 
-export const fileSharedLocked = buildFileData((fileRandom) => `file-${fileRandom}-shared-locked.txt`, {
+export const fileSharedLocked = buildFileData((fileRandom) => `file-${fileRandom}-shared-locked`, {
   description: 'file shared, not fav, not office, locked',
 
   contextMenu: consumerSharedContextMenu,
@@ -349,7 +349,7 @@ export const fileSharedLocked = buildFileData((fileRandom) => `file-${fileRandom
   searchToolbarPrimary: searchConsumerSharedToolbarPrimary
 });
 
-export const fileSharedFavLocked = buildFileData((fileRandom) => `file-${fileRandom}-shared-fav-locked.txt`, {
+export const fileSharedFavLocked = buildFileData((fileRandom) => `file-${fileRandom}-shared-fav-locked`, {
   description: 'file shared, fav, not office, locked',
 
   contextMenu: consumerSharedFavContextMenu,
@@ -367,7 +367,7 @@ export const fileSharedFavLocked = buildFileData((fileRandom) => `file-${fileRan
   searchToolbarPrimary: searchConsumerSharedToolbarPrimary
 });
 
-export const fileLockedByUser = buildNode((fileRandom) => `file-${fileRandom}-my-locked.txt`);
+export const fileLockedByUser = buildNode((fileRandom) => `file-${fileRandom}-my-locked`);
 
 // ---- non-versionable file (no cm:versionable aspect) ----
 

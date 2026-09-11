@@ -142,7 +142,7 @@ test.describe('Upload new version', () => {
       fileLocked1Id = (await nodesApi.createFile(fileToUpload1, parentPFId)).entry.id;
       fileLocked2Id = (await nodesApi.createFile(fileLocked2, parentPFId)).entry.id;
 
-      await nodesApi.lockNodes([fileLocked1Id, fileLocked2Id]);
+      await nodesApi.checkoutNodes([fileLocked1Id, fileLocked2Id]);
     });
 
     test.beforeEach(async ({ loginPage, personalFiles }) => {

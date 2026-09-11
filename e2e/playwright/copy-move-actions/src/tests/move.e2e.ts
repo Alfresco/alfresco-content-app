@@ -50,8 +50,8 @@ test.describe('Move actions', () => {
   });
 
   test.beforeEach(async ({ personalFiles, page }) => {
-    sourceFile = `source-file-${Utils.random()}.txt`;
-    sourceFileInsideFolder = `source-file-inside-folder-${Utils.random()}.txt`;
+    sourceFile = `source-file-${Utils.random()}`;
+    sourceFileInsideFolder = `source-file-inside-folder-${Utils.random()}`;
     sourceFolder = `source-folder-${Utils.random()}`;
     destinationFolder = `destination-folder-${Utils.random()}`;
 
@@ -130,8 +130,7 @@ test.describe('Move actions', () => {
   });
 
   test('[XAT-4989] Move locked file', async ({ personalFiles }) => {
-    const lockType = 'ALLOW_OWNER_CHANGES';
-    await nodesApi.lockNodes([sourceFileId], lockType);
+    await nodesApi.checkoutNodes([sourceFileId]);
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
     await moveContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     const msg = await personalFiles.snackBar.message.innerText();
@@ -168,8 +167,7 @@ test.describe('Move actions', () => {
 
   async function moveFolderWithContent(personalFiles: PersonalFilesPage, lockedFile: boolean) {
     if (lockedFile) {
-      const lockType = 'ALLOW_OWNER_CHANGES';
-      await nodesApi.lockNodes([sourceFileInsideFolderId], lockType);
+      await nodesApi.checkoutNodes([sourceFileInsideFolderId]);
     }
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
     await moveContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
