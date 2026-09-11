@@ -50,8 +50,8 @@ test.describe('Move actions', () => {
   });
 
   test.beforeEach(async ({ personalFiles, page }) => {
-    sourceFile = `source-file-${Utils.random()}.txt`;
-    sourceFileInsideFolder = `source-file-inside-folder-${Utils.random()}.txt`;
+    sourceFile = `source-file-${Utils.random()}`;
+    sourceFileInsideFolder = `source-file-inside-folder-${Utils.random()}`;
     sourceFolder = `source-folder-${Utils.random()}`;
     destinationFolder = `destination-folder-${Utils.random()}`;
 
