@@ -17,10 +17,10 @@ First create a folder where you would like to place the extensions. i.e. `/exten
 
 Then run the `@nx/angular` library generator using the following command as a template:
 ```console
-npx nx generate @nx/angular:library --name=@myorg/my-extension --buildable=true --directory=extensions/myextension --publishable=true --importPath=@myorg/my-extension --projectNameAndRootFormat=as-provided --no-interactive
+pnpm exec nx generate @nx/angular:library --name=@myorg/my-extension --buildable=true --directory=extensions/myextension --publishable=true --importPath=@myorg/my-extension --projectNameAndRootFormat=as-provided --no-interactive
 ```
 
-where `name` is the name of the library, `directory` is a directory where the library is placed and `importPath` is the library name used for the import, like `@myorg/my-awesome-lib`. This must be a valid npm package name.
+where `name` is the name of the library, `directory` is a directory where the library is placed and `importPath` is the library name used for the import, like `@myorg/my-awesome-lib`. This must be a valid pnpm package name.
 
 See the official [Nx Angular library](https://nx.dev/nx-api/angular/generators/library) documentation for more details.
 
@@ -38,7 +38,7 @@ Next to validate the changed verify the following:
 }
 ```
 
-- Test if npm i is working:
+- Test if pnpm install is working:
 
 # Developing the basics of the ACA extension
 
@@ -161,13 +161,13 @@ Last but not least, edit the package.json file to allow the build of the extensi
 
 Once done, create the build of the extension running the following command.
 
-    npm install my-extension
+    pnpm add my-extension
 
 # Running ACA with the extension included
 
 Now that everything is properly developed, it’s time to launch ADW and see the result. To launch ADW, run the following command from a terminal.
 
-    npm start
+    pnpm start
 
 What you should see is a new item in left menu of the landing page for ACA, implementing the route to a new page with the following content. Below the screenshot describing what it should look like.
 

@@ -17,6 +17,8 @@ on:
         required: true
       QUAY_PASSWORD:
         required: true
+      PACKAGE_AUTH_TOKEN:
+        required: false
 
 env:
   BASE_URL: http://localhost
@@ -30,6 +32,7 @@ env:
   REPORT_PORTAL_TOKEN: ${{ secrets.REPORT_PORTAL_TOKEN }}
   MAXINSTANCES: 2
   RETRY_COUNT: 2
+  PACKAGE_AUTH_TOKEN: ${{ secrets.PACKAGE_AUTH_TOKEN }}
 
 jobs:
   build:
@@ -42,15 +45,15 @@ jobs:
           fetch-depth: 2
 
       - uses: ./.github/actions/before-install
-      - run: npm ci
+      - run: pnpm install --frozen-lockfile
       - name: upload npm logs
         uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: npm-logs
           path: /home/runner/.npm/_logs/
-      - run: npm run ci:build -- aca-playwright-shared
-      - run: npm run build -- $BUILD_OPTS
+      - run: pnpm ci:build aca-playwright-shared
+      - run: pnpm build $BUILD_OPTS
 
       - name: dist cache
         if: ${{ success() }}
@@ -139,7 +142,7 @@ jobs:
         uses: ./.github/actions/before-install
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Restore dist cache
         uses: actions/cache/restore@v6
@@ -153,7 +156,7 @@ jobs:
 
       - name: Check Search Indexing
         continue-on-error: true
-        run: npm run ci:check-search-indexing
+        run: pnpm ci:check-search-indexing
         env:
           ADMIN_PASSWORD_SCRIPT: ${{ env.ADMIN_PASSWORD }}
 

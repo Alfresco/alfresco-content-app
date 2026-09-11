@@ -21,6 +21,7 @@ env:
   REPORT_PORTAL_TOKEN: ${{ secrets.REPORT_PORTAL_TOKEN }}
   MAXINSTANCES: 2
   RETRY_COUNT: 2
+  PACKAGE_AUTH_TOKEN: ${{ secrets.PACKAGE_AUTH_TOKEN }}
 
 jobs:
   lint:
@@ -34,7 +35,7 @@ jobs:
 
       - uses: ./.github/actions/setup
 
-      - run: npm ci
+      - run: pnpm install --frozen-lockfile
 
       - name: upload npm logs
         uses: actions/upload-artifact@v7
@@ -45,11 +46,11 @@ jobs:
 
       - name: lint affected
         if: ${{ github.event_name == 'pull_request' }}
-        run: npm run affected:lint -- --base=origin/develop
+        run: pnpm affected:lint --base=origin/develop
       - name: lint all
         if: ${{ github.event_name != 'pull_request' }}
-        run: npm run ci:lint
-      - run: npm run stylelint
+        run: pnpm ci:lint
+      - run: pnpm stylelint
 
   detect-e2e-only-changes:
     name: 'Validate / Detect E2E Only Changes'
@@ -113,15 +114,15 @@ jobs:
           fetch-depth: 2
 
       - uses: ./.github/actions/before-install
-      - run: npm ci
+      - run: pnpm install --frozen-lockfile
       - name: upload npm logs
         uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: npm-logs
           path: /home/runner/.npm/_logs/
-      - run: npm run ci:build -- aca-playwright-shared
-      - run: npm run build -- $BUILD_OPTS
+      - run: pnpm ci:build aca-playwright-shared
+      - run: pnpm build $BUILD_OPTS
 
       - name: dist cache
         if: ${{ success() }}
@@ -140,8 +141,9 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
+
       - uses: ./.github/actions/before-install
-      - run: npm ci
+      - run: pnpm install --frozen-lockfile
       - name: upload npm logs
         uses: actions/upload-artifact@v7
         if: failure()
@@ -151,11 +153,11 @@ jobs:
 
       - name: Test
         if: ${{ github.event_name == 'pull_request' }}
-        run: npm run affected:test -- --browsers=ChromeHeadless --watch=false $TEST_OPTS --base=origin/develop
+        run: pnpm affected:test --browsers=ChromeHeadless --watch=false $TEST_OPTS --base=origin/develop
 
       - name: Test all
         if: ${{ github.event_name != 'pull_request' }}
-        run: npm run ci:test -- $TEST_OPTS
+        run: pnpm ci:test $TEST_OPTS
 
   e2es-playwright:
     if: ${{ !contains(github.event.pull_request.labels.*.name, 'ci:skip-e2e') }}
@@ -239,7 +241,7 @@ jobs:
         uses: ./.github/actions/before-install
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Restore dist cache
         uses: actions/cache/restore@v6
@@ -253,12 +255,12 @@ jobs:
 
       - name: Check Search Indexing
         continue-on-error: true
-        run: npm run ci:check-search-indexing
+        run: pnpm ci:check-search-indexing
         env:
           ADMIN_PASSWORD_SCRIPT: ${{ env.ADMIN_PASSWORD }}
 
       - name: Before playwright
-        run: npm run ci:playwright:install
+        run: pnpm ci:playwright:install
 
       - name: Run e2e playwright
         uses: ./.github/actions/run-e2e-playwright

@@ -3,7 +3,7 @@
 Running local build with Docker
 
 ```shell
-npm run build
+pnpm run build
 ```
 
 The application is already preconfigured to run alongside backend containers within the Docker Compose.
