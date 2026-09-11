@@ -122,7 +122,7 @@ test.describe('Special permissions : ', () => {
         fileSharedFavLockedId
       ]);
 
-      await managerNodeActions.lockNodes([fileLockedId, fileFavLockedId, fileSharedLockedId, fileSharedFavLockedId]);
+      await managerNodeActions.checkoutNodes([fileLockedId, fileFavLockedId, fileSharedLockedId, fileSharedFavLockedId]);
 
       await Promise.all([
         consumerFavoritesActions.waitForApi(userConsumer, { expect: consumerFavoritesTotalItems + 6 }),
@@ -243,7 +243,7 @@ test.describe('Special permissions : ', () => {
 
       fileLockedByUserId = (await managerNodeActions.createFile(testData.fileLockedByUser.name, docLibId, '', '', '', true, ['cm:versionable'])).entry
         .id;
-      await demotedUserActions.lockNodes([fileLockedByUserId]);
+      await demotedUserActions.checkoutNodes([fileLockedByUserId]);
       await demotedUserFavoritesActions.addFavoriteById('file', fileLockedByUserId);
       await demotedUserShareActions.shareFileById(fileLockedByUserId);
       await managerSiteActions.updateSiteMember(sitePrivate, userDemoted, Site.RoleEnum.SiteConsumer);
@@ -301,7 +301,7 @@ test.describe('Special permissions : ', () => {
 
       fileLockedByUserId = (await managerNodeActions.createFile(testData.fileLockedByUser.name, docLibId, '', '', '', true, ['cm:versionable'])).entry
         .id;
-      await demotedUserActions.lockNodes([fileLockedByUserId]);
+      await demotedUserActions.checkoutNodes([fileLockedByUserId]);
       await demotedUserShareActions.shareFileById(fileLockedByUserId);
       await managerFavoritesActions.addFavoriteById('file', fileLockedByUserId);
 

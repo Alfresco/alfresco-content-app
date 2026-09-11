@@ -104,7 +104,7 @@ test.describe('Delete and undo delete', () => {
       fileLocked4Id = (await nodesApi.createFile(fileLocked4, folder5Id)).entry.id;
       await nodesApi.createFile(file2InFolder, folder6Id);
 
-      await nodesApi.lockNodes([fileLocked1Id, fileLocked2Id, fileLocked3Id, fileLocked4Id], 'FULL');
+      await nodesApi.checkoutNodes([fileLocked1Id, fileLocked2Id, fileLocked3Id, fileLocked4Id]);
     });
 
     test.beforeEach(async ({ loginPage, personalFiles }) => {
@@ -114,7 +114,7 @@ test.describe('Delete and undo delete', () => {
     });
 
     test.afterAll(async () => {
-      await nodesApi.unlockNodes([fileLocked1Id, fileLocked2Id, fileLocked3Id, fileLocked4Id]);
+      await nodesApi.cancelCheckout([fileLocked1Id, fileLocked2Id, fileLocked3Id, fileLocked4Id]);
       await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
     });
 
