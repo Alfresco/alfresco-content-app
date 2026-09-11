@@ -658,11 +658,11 @@
         },
         "FACET_FIELDS": {
             "CREATOR": "Maker",
-            "MODIFIER": "Gewijzigd door",
-            "LOCATION": "Locatie",
-            "CATEGORIES": "Categorieën"
+            "MODIFIER": "Gewijzigd door"
         },
         "CATEGORIES": {
+            "CATEGORIES": "Categories",
+            "CATEGORIES_LABEL": "Add Categories",
             "DATE": "Datum",
             "DATE_TABS": {
                 "CREATED": "Aangemaakt",
@@ -670,8 +670,14 @@
             },
             "EFFECTIVITY_FROM": "Effectiviteit vanaf",
             "EFFECTIVITY_TO": "Effectiviteit tot",
+            "LOCATION": "Location",
+            "LOCATION_LABEL": "Add Sites",
             "LOGIC": "Logica",
-            "PROPERTIES": "Eigenschappen"
+            "PARENT_FOLDER": "Parent folder",
+            "PARENT_FOLDER_LABEL": "Add Parent Folders",
+            "PROPERTIES": "Eigenschappen",
+            "TAGS": "Tags",
+            "TAGS_LABEL": "Add Tags"
         },
         "SEARCH_HEADER": {
             "TITLE": "Filteren",

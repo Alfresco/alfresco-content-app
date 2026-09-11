@@ -658,11 +658,11 @@
         },
         "FACET_FIELDS": {
             "CREATOR": "Создатель",
-            "MODIFIER": "Редактор",
-            "LOCATION": "Местоположение",
-            "CATEGORIES": "Категории"
+            "MODIFIER": "Редактор"
         },
         "CATEGORIES": {
+            "CATEGORIES": "Categories",
+            "CATEGORIES_LABEL": "Add Categories",
             "DATE": "Дата",
             "DATE_TABS": {
                 "CREATED": "Создано",
@@ -670,8 +670,14 @@
             },
             "EFFECTIVITY_FROM": "Действует с",
             "EFFECTIVITY_TO": "Действует до",
+            "LOCATION": "Location",
+            "LOCATION_LABEL": "Add Sites",
             "LOGIC": "Логика",
-            "PROPERTIES": "Свойства"
+            "PARENT_FOLDER": "Parent folder",
+            "PARENT_FOLDER_LABEL": "Add Parent Folders",
+            "PROPERTIES": "Свойства",
+            "TAGS": "Tags",
+            "TAGS_LABEL": "Add Tags"
         },
         "SEARCH_HEADER": {
             "TITLE": "Фильтр",

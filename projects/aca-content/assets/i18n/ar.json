@@ -658,11 +658,11 @@
         },
         "FACET_FIELDS": {
             "CREATOR": "المنشئ",
-            "MODIFIER": "المعدل",
-            "LOCATION": "مكان",
-            "CATEGORIES": "فئات"
+            "MODIFIER": "المعدل"
         },
         "CATEGORIES": {
+            "CATEGORIES": "Categories",
+            "CATEGORIES_LABEL": "Add Categories",
             "DATE": "التاريخ",
             "DATE_TABS": {
                 "CREATED": "تم الإنشاء",
@@ -670,8 +670,14 @@
             },
             "EFFECTIVITY_FROM": "فعالية من",
             "EFFECTIVITY_TO": "فعالية ل",
+            "LOCATION": "Location",
+            "LOCATION_LABEL": "Add Sites",
             "LOGIC": "منطق",
-            "PROPERTIES": "الخصائص"
+            "PARENT_FOLDER": "Parent folder",
+            "PARENT_FOLDER_LABEL": "Add Parent Folders",
+            "PROPERTIES": "الخصائص",
+            "TAGS": "Tags",
+            "TAGS_LABEL": "Add Tags"
         },
         "SEARCH_HEADER": {
             "TITLE": "عامل التصفية",

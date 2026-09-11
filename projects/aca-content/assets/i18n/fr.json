@@ -658,11 +658,11 @@
         },
         "FACET_FIELDS": {
             "CREATOR": "Créateur",
-            "MODIFIER": "Modificateur",
-            "LOCATION": "Emplacement",
-            "CATEGORIES": "Catégories"
+            "MODIFIER": "Modificateur"
         },
         "CATEGORIES": {
+            "CATEGORIES": "Categories",
+            "CATEGORIES_LABEL": "Add Categories",
             "DATE": "Date",
             "DATE_TABS": {
                 "CREATED": "Créé",
@@ -670,8 +670,14 @@
             },
             "EFFECTIVITY_FROM": "Date de début d'effectivité",
             "EFFECTIVITY_TO": "Date de fin d'effectivité",
+            "LOCATION": "Location",
+            "LOCATION_LABEL": "Add Sites",
             "LOGIC": "Connexion",
-            "PROPERTIES": "Propriétés"
+            "PARENT_FOLDER": "Parent folder",
+            "PARENT_FOLDER_LABEL": "Add Parent Folders",
+            "PROPERTIES": "Propriétés",
+            "TAGS": "Tags",
+            "TAGS_LABEL": "Add Tags"
         },
         "SEARCH_HEADER": {
             "TITLE": "Filtre",
