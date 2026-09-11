@@ -1,5 +1,6 @@
-<ng-container [ngSwitch]="data?.buttonType || type">
-  <ng-container *ngSwitchCase="'icon-button'">
+
+@switch (data?.buttonType || type) {
+  @case ('icon-button') {
     <button
       [id]="actionRef.id"
       mat-icon-button
@@ -8,12 +9,11 @@
       [attr.title]="actionRef.description || actionRef.title | translate"
       [disabled]="actionRef.disabled"
       (click)="runAction()"
-    >
+      >
       <adf-icon [value]="actionRef.icon" />
     </button>
-  </ng-container>
-
-  <ng-container *ngSwitchCase="'flat-button'">
+  }
+  @case ('flat-button') {
     <button
       [id]="actionRef.id"
       [color]="data?.color || color"
@@ -22,12 +22,13 @@
       [attr.title]="actionRef.description || actionRef.title | translate"
       [disabled]="actionRef.disabled"
       (click)="runAction()"
-    >
-      <span *ngIf="actionRef.title">{{ actionRef.title | translate }}</span>
+      >
+      @if (actionRef.title) {
+        <span>{{ actionRef.title | translate }}</span>
+      }
     </button>
-  </ng-container>
-
-  <ng-container *ngSwitchCase="'stroked-button'">
+  }
+  @case ('stroked-button') {
     <button
       [id]="actionRef.id"
       [color]="data?.color || color"
@@ -36,12 +37,13 @@
       [attr.title]="actionRef.description || actionRef.title | translate"
       [disabled]="actionRef.disabled"
       (click)="runAction()"
-    >
-      <span *ngIf="actionRef.title">{{ actionRef.title | translate }}</span>
+      >
+      @if (actionRef.title) {
+        <span>{{ actionRef.title | translate }}</span>
+      }
     </button>
-  </ng-container>
-
-  <ng-container *ngSwitchCase="'menu-item'">
+  }
+  @case ('menu-item') {
     <app-toolbar-menu-item [actionRef]="actionRef" />
-  </ng-container>
-</ng-container>
+  }
+}

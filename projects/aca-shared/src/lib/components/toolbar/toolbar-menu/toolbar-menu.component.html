@@ -1,5 +1,6 @@
-<ng-container [ngSwitch]="type">
-  <ng-container *ngSwitchCase="'button'">
+
+@switch (type) {
+  @case ('button') {
     <button
       [id]="actionRef.id"
       [color]="data?.color || color"
@@ -9,12 +10,13 @@
       [matMenuTriggerFor]="menu"
       [disabled]="actionRef.disabled"
       #matTrigger="matMenuTrigger"
-    >
-      <span *ngIf="actionRef.title">{{ actionRef.title | translate }}</span>
+      >
+      @if (actionRef.title) {
+        <span>{{ actionRef.title | translate }}</span>
+      }
     </button>
-  </ng-container>
-
-  <ng-container *ngSwitchCase="'flat-button'">
+  }
+  @case ('flat-button') {
     <button
       [id]="actionRef.id"
       [color]="data?.color || color"
@@ -24,12 +26,13 @@
       [matMenuTriggerFor]="menu"
       [disabled]="actionRef.disabled"
       #matTrigger="matMenuTrigger"
-    >
-      <span *ngIf="actionRef.title">{{ actionRef.title | translate }}</span>
+      >
+      @if (actionRef.title) {
+        <span>{{ actionRef.title | translate }}</span>
+      }
     </button>
-  </ng-container>
-
-  <ng-container *ngSwitchCase="'stroked-button'">
+  }
+  @case ('stroked-button') {
     <button
       [id]="actionRef.id"
       [color]="data?.color || color"
@@ -39,12 +42,13 @@
       [matMenuTriggerFor]="menu"
       [disabled]="actionRef.disabled"
       #matTrigger="matMenuTrigger"
-    >
-      <span *ngIf="actionRef.title">{{ actionRef.title | translate }}</span>
+      >
+      @if (actionRef.title) {
+        <span>{{ actionRef.title | translate }}</span>
+      }
     </button>
-  </ng-container>
-
-  <ng-container *ngSwitchDefault>
+  }
+  @default {
     <button
       [id]="actionRef.id"
       [color]="data?.color || color"
@@ -54,21 +58,23 @@
       [matMenuTriggerFor]="menu"
       [disabled]="actionRef.disabled"
       #matTrigger="matMenuTrigger"
-    >
-      <adf-icon *ngIf="actionRef.icon" [value]="actionRef.icon" />
+      >
+      @if (actionRef.icon) {
+        <adf-icon [value]="actionRef.icon" />
+      }
     </button>
-  </ng-container>
-</ng-container>
+  }
+}
 
 <mat-menu #menu="matMenu" [overlapTrigger]="false" [xPosition]="'before'">
-  <ng-container *ngFor="let child of actionRef.children; trackBy: trackByActionId">
-    <ng-container [ngSwitch]="child.type">
-      <ng-container *ngSwitchCase="'custom'">
+  @for (child of actionRef.children; track trackByActionId($index, child)) {
+    @switch (child.type) {
+      @case ('custom') {
         <adf-dynamic-component [id]="child.component" [data]="child.data" />
-      </ng-container>
-      <ng-container *ngSwitchDefault>
+      }
+      @default {
         <app-toolbar-menu-item [actionRef]="child" [menuId]="actionRef.id" />
-      </ng-container>
-    </ng-container>
-  </ng-container>
+      }
+    }
+  }
 </mat-menu>
