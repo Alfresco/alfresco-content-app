@@ -1865,8 +1865,23 @@
             }
           },
           {
+            "id": "parentFolder",
+            "name": "SEARCH.CATEGORIES.PARENT_FOLDER",
+            "enabled": true,
+            "component": {
+              "selector": "autocomplete-chips",
+              "settings": {
+                "allowUpdateOnChange": false,
+                "hideDefaultAction": true,
+                "allowOnlyPredefinedValues": true,
+                "field": "ANCESTOR",
+                "label": "SEARCH.CATEGORIES.PARENT_FOLDER_LABEL"
+              }
+            }
+          },
+          {
             "id": "location",
-            "name": "SEARCH.FACET_FIELDS.LOCATION",
+            "name": "SEARCH.CATEGORIES.LOCATION",
             "enabled": true,
             "component": {
               "selector": "autocomplete-chips",
@@ -1875,13 +1890,14 @@
                 "hideDefaultAction": true,
                 "allowOnlyPredefinedValues": false,
                 "field": "SITE",
+                "label": "SEARCH.CATEGORIES.LOCATION_LABEL",
                 "autocompleteOptions": [ { "value": "_REPOSITORY_", "query": "PATH:'/app:company_home/\/*'" } ]
               }
             }
           },
           {
             "id": "tag",
-            "name": "Tags",
+            "name": "SEARCH.CATEGORIES.TAGS",
             "enabled": true,
             "component": {
               "selector": "autocomplete-chips",
@@ -1889,7 +1905,8 @@
                 "allowUpdateOnChange": false,
                 "hideDefaultAction": true,
                 "allowOnlyPredefinedValues": true,
-                "field": "TAG"
+                "field": "TAG",
+                "label": "SEARCH.CATEGORIES.TAGS_LABEL"
               }
             },
             "rules": {
@@ -1900,7 +1917,7 @@
           },
           {
             "id": "categories",
-            "name": "SEARCH.FACET_FIELDS.CATEGORIES",
+            "name": "SEARCH.CATEGORIES.CATEGORIES",
             "enabled": true,
             "component": {
               "selector": "autocomplete-chips",
@@ -1908,7 +1925,8 @@
                 "allowUpdateOnChange": false,
                 "hideDefaultAction": true,
                 "allowOnlyPredefinedValues": true,
-                "field": "cm:categories"
+                "field": "cm:categories",
+                "label": "SEARCH.CATEGORIES.CATEGORIES_LABEL"
               }
             },
             "rules": {
