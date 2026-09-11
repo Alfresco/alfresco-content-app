@@ -2,19 +2,22 @@
   <app-sidenav-header (toggleNavBar)="toggleClick()" />
 
   <div class="aca-sidenav__section">
-    <div *ngFor="let group of groups; trackBy: trackByGroupId" class="aca-sidenav__section__actions">
-      <nav
-        [attr.aria-label]="item.title | translate"
-        class="aca-sidenav__section__actions__item"
-        *ngFor="let item of group.items; trackBy: trackByLinkId"
-      >
-        <ng-container *ngIf="!item.component">
-          <app-expand-menu [item]="item" />
-        </ng-container>
-        <ng-container *ngIf="item.component">
-          <adf-dynamic-component [data]="{ item: item, state: 'expanded' }" [id]="item.component" />
-        </ng-container>
-      </nav>
-    </div>
+    @for (group of groups; track trackByGroupId($index, group)) {
+      <div class="aca-sidenav__section__actions">
+        @for (item of group.items; track trackByLinkId($index, item)) {
+          <nav
+            [attr.aria-label]="item.title | translate"
+            class="aca-sidenav__section__actions__item"
+            >
+            @if (!item.component) {
+              <app-expand-menu [item]="item" />
+            }
+            @if (item.component) {
+              <adf-dynamic-component [data]="{ item: item, state: 'expanded' }" [id]="item.component" />
+            }
+          </nav>
+        }
+      </div>
+    }
   </div>
 </div>

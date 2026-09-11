@@ -51,13 +51,12 @@ import {
 } from '@alfresco/adf-content-services';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  imports: [CommonModule, TranslatePipe, ReactiveFormsModule, MatFormFieldModule, MatSelectModule, CardViewComponent],
+  imports: [TranslatePipe, ReactiveFormsModule, MatFormFieldModule, MatSelectModule, CardViewComponent],
   selector: 'aca-rule-action',
   templateUrl: './rule-action.ui-component.html',
   styleUrls: ['./rule-action.ui-component.scss'],

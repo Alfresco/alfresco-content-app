@@ -26,7 +26,6 @@ import { AppExtensionService, Badge } from '@alfresco/aca-shared';
 import { IconComponent } from '@alfresco/adf-core';
 import { DynamicExtensionComponent } from '@alfresco/adf-extensions';
 import { NodeEntry } from '@alfresco/js-api';
-import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -37,7 +36,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   styleUrls: ['./datatable-cell-badges.component.scss'],
   host: { class: 'aca-datatable-cell-badges' },
   encapsulation: ViewEncapsulation.None,
-  imports: [CommonModule, TranslatePipe, DynamicExtensionComponent, IconComponent]
+  imports: [TranslatePipe, DynamicExtensionComponent, IconComponent]
 })
 export class DatatableCellBadgesComponent implements OnInit {
   private readonly appExtensionService = inject(AppExtensionService);

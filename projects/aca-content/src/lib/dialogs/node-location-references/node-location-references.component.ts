@@ -23,7 +23,6 @@
  */
 
 import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { NodesApiService } from '@alfresco/adf-content-services';
 import { DIALOG_COMPONENT_DATA, IconComponent } from '@alfresco/adf-core';
 import { Node, NodeAssociation } from '@alfresco/js-api';
@@ -33,7 +32,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-node-location-references',
-  imports: [CommonModule, IconComponent, TranslatePipe],
+  imports: [IconComponent, TranslatePipe],
   templateUrl: './node-location-references.component.html',
   styleUrls: ['./node-location-references.component.scss'],
   encapsulation: ViewEncapsulation.None

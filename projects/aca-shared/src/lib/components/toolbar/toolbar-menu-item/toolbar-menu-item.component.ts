@@ -26,13 +26,12 @@ import { AfterViewInit, Component, Input, ViewChild, ViewEncapsulation, inject }
 import { ContentActionRef, DynamicExtensionComponent } from '@alfresco/adf-extensions';
 import { AppExtensionService } from '../../../services/app.extension.service';
 import { MatMenuItem, MatMenuModule } from '@angular/material/menu';
-import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { IconComponent } from '@alfresco/adf-core';
 
 @Component({
-  imports: [CommonModule, TranslatePipe, MatMenuModule, MatDividerModule, IconComponent, DynamicExtensionComponent],
+  imports: [TranslatePipe, MatMenuModule, MatDividerModule, IconComponent, DynamicExtensionComponent],
   selector: 'app-toolbar-menu-item',
   templateUrl: './toolbar-menu-item.component.html',
   styleUrls: ['./toolbar-menu-item.component.scss'],
