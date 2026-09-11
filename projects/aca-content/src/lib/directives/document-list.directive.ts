@@ -36,6 +36,12 @@ import { AppHookService } from '@alfresco/aca-shared';
 const INCLUDE_FIELDS = ['isFavorite', 'aspectNames', 'definition', 'isLink'];
 const SEARCH_INCLUDE_FIELDS = ['aspectNames', 'isLink'];
 
+export interface SortingChangedEventDetail {
+  key: string;
+  sortingKey: string;
+  direction: string;
+}
+
 @Directive({
   standalone: true,
   selector: '[acaDocumentList]'
@@ -52,6 +58,7 @@ export class DocumentListDirective implements OnInit {
 
   private isLibrary = false;
   private pendingNode: NodeEntry | null = null;
+  private pendingSorting: SortingChangedEventDetail | null = null;
 
   selectedNode: NodeEntry;
 
@@ -104,6 +111,10 @@ export class DocumentListDirective implements OnInit {
       )
       .subscribe(() => this.onReady());
 
+    this.documentList.error.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+      this.pendingSorting = null;
+    });
+
     this.documentListService.reload$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.reload();
     });
@@ -124,14 +135,14 @@ export class DocumentListDirective implements OnInit {
   }
 
   @HostListener('sorting-changed', ['$event'])
-  onSortingChanged(event: CustomEvent) {
+  onSortingChanged(event: CustomEvent<SortingChangedEventDetail>) {
     if (this.sortingPreferenceKey) {
       if (this.documentList.sortingMode === 'client') {
         this.storePreviousSorting();
+        this.persistSorting(event.detail);
+      } else {
+        this.pendingSorting = event.detail;
       }
-      this.preferences.set(`${this.sortingPreferenceKey}.sorting.key`, event.detail.key);
-      this.preferences.set(`${this.sortingPreferenceKey}.sorting.sortingKey`, event.detail.sortingKey);
-      this.preferences.set(`${this.sortingPreferenceKey}.sorting.direction`, event.detail.direction);
     }
   }
 
@@ -171,6 +182,10 @@ export class DocumentListDirective implements OnInit {
 
   onReady() {
     this.updateSelection();
+    if (this.pendingSorting) {
+      this.persistSorting(this.pendingSorting);
+      this.pendingSorting = null;
+    }
     this.restoreSorting();
     if (this.pendingNode) {
       const wasSelected = this.documentList.selection.some((node) => node.entry?.id === this.pendingNode.entry.id);
@@ -204,6 +219,12 @@ export class DocumentListDirective implements OnInit {
   private setSorting(key: string, direction: string) {
     this.documentList.sorting = [key, direction];
     this.documentList.data.setSorting({ key, direction });
+  }
+
+  private persistSorting(detail: SortingChangedEventDetail) {
+    this.preferences.set(`${this.sortingPreferenceKey}.sorting.key`, detail.key);
+    this.preferences.set(`${this.sortingPreferenceKey}.sorting.sortingKey`, detail.sortingKey);
+    this.preferences.set(`${this.sortingPreferenceKey}.sorting.direction`, detail.direction);
   }
 
   private storePreviousSorting() {
