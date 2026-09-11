@@ -52,7 +52,7 @@ jobs:
         with:
           name: npm-logs
           path: /home/runner/.npm/_logs/
-      - run: pnpm ci:build -- aca-playwright-shared
+      - run: pnpm ci:build aca-playwright-shared
       - run: pnpm build -- $BUILD_OPTS
 
       - name: dist cache
