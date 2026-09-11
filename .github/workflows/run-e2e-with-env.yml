@@ -74,7 +74,7 @@ jobs:
       - uses: ./.github/actions/before-install
       - run: pnpm install --frozen-lockfile
       - run: pnpm ci:build aca-playwright-shared
-      - run: pnpm build -- $BUILD_OPTS
+      - run: pnpm build $BUILD_OPTS
 
       - name: dist cache
         if: ${{ success() }}
