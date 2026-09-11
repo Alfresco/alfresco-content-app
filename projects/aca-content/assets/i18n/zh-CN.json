@@ -225,7 +225,7 @@
                 "EFFECTIVITY": "有效性",
                 "TITLE": "搜索结果",
                 "FILTER_SET": "筛选器集:",
-                "LOADING": "Loading search results, please wait.",
+                "LOADING": "正在加载搜索结果，请稍候。",
                 "ADVANCED_FILTERS": "高级筛选器:",
                 "RESET": "重置",
                 "RESET_ACTION": "重置搜索筛选器",
@@ -505,8 +505,8 @@
             "EDIT": "编辑",
             "CANCEL": "取消",
             "SAVE": "保存",
-            "LOCK_BADGE": "This document is locked by {{ owner }} for offline editing.",
-            "WORKING_COPY_BADGE": "Original document is locked by {{ owner }} for offline editing."
+            "LOCK_BADGE": "此文档已被 {{ owner }} 锁定，用于离线编辑。",
+            "WORKING_COPY_BADGE": "原始文档已被 {{ owner }} 锁定，用于离线编辑。"
         },
         "NODE_INFO": {
             "ICON": "节点图标",
@@ -661,8 +661,8 @@
             "MODIFIER": "修改者"
         },
         "CATEGORIES": {
-            "CATEGORIES": "Categories",
-            "CATEGORIES_LABEL": "Add Categories",
+            "CATEGORIES": "类别",
+            "CATEGORIES_LABEL": "添加类别",
             "DATE": "日期",
             "DATE_TABS": {
                 "CREATED": "已创建",
@@ -670,14 +670,14 @@
             },
             "EFFECTIVITY_FROM": "有效开始",
             "EFFECTIVITY_TO": "有效结束",
-            "LOCATION": "Location",
-            "LOCATION_LABEL": "Add Sites",
+            "LOCATION": "位置",
+            "LOCATION_LABEL": "添加站点",
             "LOGIC": "登录",
-            "PARENT_FOLDER": "Parent folder",
-            "PARENT_FOLDER_LABEL": "Add Parent Folders",
+            "PARENT_FOLDER": "父文件夹",
+            "PARENT_FOLDER_LABEL": "添加父文件夹",
             "PROPERTIES": "属性",
-            "TAGS": "Tags",
-            "TAGS_LABEL": "Add Tags"
+            "TAGS": "标记",
+            "TAGS_LABEL": "添加标记"
         },
         "SEARCH_HEADER": {
             "TITLE": "筛选",
@@ -754,7 +754,7 @@
         }
     },
     "CHECKOUT": {
-        "CHECKED_OUT_BY": "Original locked by: ",
+        "CHECKED_OUT_BY": "原始锁定者： ",
         "ERRORS": {
             "CHECKOUT": {
                 "400": "此节点无法签出。它必须是内容(cm:content)节点。",

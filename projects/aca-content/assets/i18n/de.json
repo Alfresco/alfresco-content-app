@@ -661,8 +661,8 @@
             "MODIFIER": "Bearbeiter"
         },
         "CATEGORIES": {
-            "CATEGORIES": "Categories",
-            "CATEGORIES_LABEL": "Add Categories",
+            "CATEGORIES": "Kategorien",
+            "CATEGORIES_LABEL": "Kategorien hinzufügen",
             "DATE": "Datum",
             "DATE_TABS": {
                 "CREATED": "Erstellt",
@@ -670,14 +670,14 @@
             },
             "EFFECTIVITY_FROM": "Effektiv ab",
             "EFFECTIVITY_TO": "Effektiv bis",
-            "LOCATION": "Location",
-            "LOCATION_LABEL": "Add Sites",
+            "LOCATION": "Speicherort",
+            "LOCATION_LABEL": "Seiten hinzufügen",
             "LOGIC": "Logik",
-            "PARENT_FOLDER": "Parent folder",
-            "PARENT_FOLDER_LABEL": "Add Parent Folders",
+            "PARENT_FOLDER": "Übergeordneter Ordner",
+            "PARENT_FOLDER_LABEL": "Übergeordnete Ordner hinzufügen",
             "PROPERTIES": "Eigenschaften",
             "TAGS": "Tags",
-            "TAGS_LABEL": "Add Tags"
+            "TAGS_LABEL": "Tags hinzufügen"
         },
         "SEARCH_HEADER": {
             "TITLE": "Filtern",

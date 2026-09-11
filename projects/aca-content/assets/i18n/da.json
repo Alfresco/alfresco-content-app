@@ -225,7 +225,7 @@
                 "EFFECTIVITY": "Gældende periode",
                 "TITLE": "Søgeresultater",
                 "FILTER_SET": "Filter indstillet:",
-                "LOADING": "Loading search results, please wait.",
+                "LOADING": "Indlæser søgeresultater, vent venligst.",
                 "ADVANCED_FILTERS": "Avancerede filtre:",
                 "RESET": "Nulstil",
                 "RESET_ACTION": "Nulstil søgefiltre",
@@ -505,8 +505,8 @@
             "EDIT": "Rediger",
             "CANCEL": "Annuller",
             "SAVE": "Gem",
-            "LOCK_BADGE": "This document is locked by {{ owner }} for offline editing.",
-            "WORKING_COPY_BADGE": "Original document is locked by {{ owner }} for offline editing."
+            "LOCK_BADGE": "Dette dokument er låst af {{ owner }} til offline redigering.",
+            "WORKING_COPY_BADGE": "Det originale dokument er låst af {{ owner }} til offline redigering."
         },
         "NODE_INFO": {
             "ICON": "Nodeikon",
@@ -661,8 +661,8 @@
             "MODIFIER": "Ændret af"
         },
         "CATEGORIES": {
-            "CATEGORIES": "Categories",
-            "CATEGORIES_LABEL": "Add Categories",
+            "CATEGORIES": "Kategorier",
+            "CATEGORIES_LABEL": "Tilføj kategorier",
             "DATE": "Dato",
             "DATE_TABS": {
                 "CREATED": "Oprettet",
@@ -670,14 +670,14 @@
             },
             "EFFECTIVITY_FROM": "Gældende periode fra",
             "EFFECTIVITY_TO": "Gældende periode til",
-            "LOCATION": "Location",
-            "LOCATION_LABEL": "Add Sites",
+            "LOCATION": "Placering",
+            "LOCATION_LABEL": "Tilføj websteder",
             "LOGIC": "Logik",
-            "PARENT_FOLDER": "Parent folder",
-            "PARENT_FOLDER_LABEL": "Add Parent Folders",
+            "PARENT_FOLDER": "Overordnet mappe",
+            "PARENT_FOLDER_LABEL": "Tilføj overordnede mapper",
             "PROPERTIES": "Egenskaber",
-            "TAGS": "Tags",
-            "TAGS_LABEL": "Add Tags"
+            "TAGS": "Mærker",
+            "TAGS_LABEL": "Tilføj mærker"
         },
         "SEARCH_HEADER": {
             "TITLE": "Filter",
@@ -754,7 +754,7 @@
         }
     },
     "CHECKOUT": {
-        "CHECKED_OUT_BY": "Original locked by: ",
+        "CHECKED_OUT_BY": "Original låst af: ",
         "ERRORS": {
             "CHECKOUT": {
                 "400": "Denne node kan ikke tjekkes ud. Den skal være en indholdsnode (cm:content).",
