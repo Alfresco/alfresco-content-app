@@ -24,14 +24,13 @@
 
 import { SearchQueryBuilderService, SearchSortingDefinition } from '@alfresco/adf-content-services';
 import { Component, EventEmitter, OnInit, Output, ViewEncapsulation, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  imports: [CommonModule, TranslatePipe, MatMenuModule, MatIconModule, MatButtonModule],
+  imports: [TranslatePipe, MatMenuModule, MatIconModule, MatButtonModule],
   selector: 'aca-search-action-menu',
   templateUrl: './search-action-menu.component.html',
   encapsulation: ViewEncapsulation.None

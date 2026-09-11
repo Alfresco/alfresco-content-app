@@ -26,11 +26,10 @@ import { Component, ViewEncapsulation, ChangeDetectionStrategy, Input, DoCheck, 
 import { ContentActionRef, DynamicExtensionComponent } from '@alfresco/adf-extensions';
 import { ToolbarButtonComponent, ToolbarButtonType } from '../toolbar-button/toolbar-button.component';
 import { ThemePalette } from '@angular/material/core';
-import { CommonModule } from '@angular/common';
 import { ToolbarMenuComponent } from '../toolbar-menu/toolbar-menu.component';
 
 @Component({
-  imports: [CommonModule, ToolbarButtonComponent, ToolbarMenuComponent, DynamicExtensionComponent],
+  imports: [ToolbarButtonComponent, ToolbarMenuComponent, DynamicExtensionComponent],
   selector: 'aca-toolbar-action',
   templateUrl: './toolbar-action.component.html',
   styleUrl: './toolbar-action.component.scss',
