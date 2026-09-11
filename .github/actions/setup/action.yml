@@ -57,3 +57,7 @@ runs:
       with:
         node-version-file: '.nvmrc'
         cache: 'pnpm'
+
+    - name: Configure private registry auth
+      shell: bash
+      run: pnpm config set "//npm.pkg.github.com/:_authToken" "${PACKAGE_AUTH_TOKEN}"
