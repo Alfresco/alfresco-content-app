@@ -51,10 +51,6 @@ test.describe('Copy actions', () => {
     }
   });
 
-  test.afterAll(async () => {
-    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
-  });
-
   test.beforeEach(async ({ personalFiles, page }) => {
     sourceFile = `source-file-${Utils.random()}.txt`;
     sourceFileInsideFolder = `source-file-inside-folder-${Utils.random()}.txt`;
@@ -70,6 +66,10 @@ test.describe('Copy actions', () => {
     sourceFileId = (await nodesApi.createFile(sourceFile)).entry.id;
 
     await personalFiles.navigate();
+  });
+
+  test.afterAll(async () => {
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
   const copyContentInPersonalFiles = async (personalFilesPage: PersonalFilesPage, sourceFileList: string[], destinationName: string) => {
@@ -148,8 +148,7 @@ test.describe('Copy actions', () => {
   });
 
   test('[XAT-4947] Copy locked file', async ({ personalFiles }) => {
-    const lockType = 'ALLOW_OWNER_CHANGES';
-    await nodesApi.lockNodes([sourceFileId], lockType);
+    await nodesApi.checkoutNodes([sourceFileId]);
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
     await copyContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
@@ -159,8 +158,7 @@ test.describe('Copy actions', () => {
   });
 
   test('[XAT-4948] Copy folder that contains locked file', async ({ personalFiles }) => {
-    const lockType = 'ALLOW_OWNER_CHANGES';
-    await nodesApi.lockNodes([sourceFileInsideFolderId], lockType);
+    await nodesApi.checkoutNodes([sourceFileInsideFolderId]);
     await copyFolderAndVerifyContent(personalFiles);
   });
 

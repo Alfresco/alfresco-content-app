@@ -238,7 +238,6 @@ test.describe('viewer action file', () => {
     const username = `user-${Utils.random()}`;
     const fileForCancelEditing = `playwright-file2-${Utils.random()}.docx`;
     let folderIdCancelEdit: string;
-    let workingCopyName: string;
     let nodesApi: NodesApi;
     let trashcanApi: TrashcanApi;
 
@@ -251,8 +250,7 @@ test.describe('viewer action file', () => {
         const { fileActionsApi } = apis;
         folderIdCancelEdit = (await nodesApi.createFolder(`viewer-action-5424-${Utils.random()}`)).entry.id;
         const fileForCancelEditingId = (await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, fileForCancelEditing, folderIdCancelEdit)).entry.id;
-        const workingCopy = await fileActionsApi.checkoutNode(fileForCancelEditingId);
-        workingCopyName = workingCopy.entry.name;
+        await nodesApi.checkoutNodes([fileForCancelEditingId]);
         await fileActionsApi.isFileCheckedOutWithRetry(fileForCancelEditingId, true);
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
@@ -270,7 +268,7 @@ test.describe('viewer action file', () => {
     });
 
     test('[XAT-5424] Viewer - Cancel Editing action - Personal Files', async ({ personalFiles }) => {
-      await openFileInViewer(personalFiles, workingCopyName);
+      await openFileInViewer(personalFiles, fileForCancelEditing);
       await personalFiles.viewer.toolbar.clickMoreActions();
       await personalFiles.matMenu.clickMenuItem('Cancel Editing');
       await personalFiles.viewer.waitForViewerToOpen();
@@ -322,7 +320,7 @@ test.describe('viewer action file', () => {
         await fileActionsApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, file5714, folder5714Id);
         await fileActionsApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, file5717, folder5717Id);
         await fileActionsApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, file5720, folder5720Id);
-        await fileActionsApi.lockNodes([file17781Id]);
+        await nodesApi.checkoutNodes([file17781Id]);
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
         throw error;

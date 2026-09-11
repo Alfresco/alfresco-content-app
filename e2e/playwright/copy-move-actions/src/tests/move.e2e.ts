@@ -130,8 +130,7 @@ test.describe('Move actions', () => {
   });
 
   test('[XAT-4989] Move locked file', async ({ personalFiles }) => {
-    const lockType = 'ALLOW_OWNER_CHANGES';
-    await nodesApi.lockNodes([sourceFileId], lockType);
+    await nodesApi.checkoutNodes([sourceFileId]);
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
     await moveContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     const msg = await personalFiles.snackBar.message.innerText();
@@ -168,8 +167,7 @@ test.describe('Move actions', () => {
 
   async function moveFolderWithContent(personalFiles: PersonalFilesPage, lockedFile: boolean) {
     if (lockedFile) {
-      const lockType = 'ALLOW_OWNER_CHANGES';
-      await nodesApi.lockNodes([sourceFileInsideFolderId], lockType);
+      await nodesApi.checkoutNodes([sourceFileInsideFolderId]);
     }
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
     await moveContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
