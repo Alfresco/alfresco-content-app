@@ -658,11 +658,11 @@
         },
         "FACET_FIELDS": {
             "CREATOR": "Oppretter",
-            "MODIFIER": "Modifikator",
-            "LOCATION": "Lokalisering",
-            "CATEGORIES": "Kategorier"
+            "MODIFIER": "Modifikator"
         },
         "CATEGORIES": {
+            "CATEGORIES": "Categories",
+            "CATEGORIES_LABEL": "Add Categories",
             "DATE": "Dato",
             "DATE_TABS": {
                 "CREATED": "Opprettet",
@@ -670,8 +670,14 @@
             },
             "EFFECTIVITY_FROM": "Effektivitet fra",
             "EFFECTIVITY_TO": "Effektivitet til",
+            "LOCATION": "Location",
+            "LOCATION_LABEL": "Add Sites",
             "LOGIC": "Logikk",
-            "PROPERTIES": "Egenskaper"
+            "PARENT_FOLDER": "Parent folder",
+            "PARENT_FOLDER_LABEL": "Add Parent Folders",
+            "PROPERTIES": "Egenskaper",
+            "TAGS": "Tags",
+            "TAGS_LABEL": "Add Tags"
         },
         "SEARCH_HEADER": {
             "TITLE": "Filter",

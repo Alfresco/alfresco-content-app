@@ -658,11 +658,11 @@
         },
         "FACET_FIELDS": {
             "CREATOR": "创建者",
-            "MODIFIER": "修改者",
-            "LOCATION": "位置",
-            "CATEGORIES": "类别"
+            "MODIFIER": "修改者"
         },
         "CATEGORIES": {
+            "CATEGORIES": "Categories",
+            "CATEGORIES_LABEL": "Add Categories",
             "DATE": "日期",
             "DATE_TABS": {
                 "CREATED": "已创建",
@@ -670,8 +670,14 @@
             },
             "EFFECTIVITY_FROM": "有效开始",
             "EFFECTIVITY_TO": "有效结束",
+            "LOCATION": "Location",
+            "LOCATION_LABEL": "Add Sites",
             "LOGIC": "登录",
-            "PROPERTIES": "属性"
+            "PARENT_FOLDER": "Parent folder",
+            "PARENT_FOLDER_LABEL": "Add Parent Folders",
+            "PROPERTIES": "属性",
+            "TAGS": "Tags",
+            "TAGS_LABEL": "Add Tags"
         },
         "SEARCH_HEADER": {
             "TITLE": "筛选",

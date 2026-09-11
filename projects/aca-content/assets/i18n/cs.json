@@ -658,11 +658,11 @@
         },
         "FACET_FIELDS": {
             "CREATOR": "Autor",
-            "MODIFIER": "Upravující",
-            "LOCATION": "Umístění",
-            "CATEGORIES": "Kategorie"
+            "MODIFIER": "Upravující"
         },
         "CATEGORIES": {
+            "CATEGORIES": "Categories",
+            "CATEGORIES_LABEL": "Add Categories",
             "DATE": "Datum",
             "DATE_TABS": {
                 "CREATED": "Vytvořeno",
@@ -670,8 +670,14 @@
             },
             "EFFECTIVITY_FROM": "Platnost od",
             "EFFECTIVITY_TO": "Platnost do",
+            "LOCATION": "Location",
+            "LOCATION_LABEL": "Add Sites",
             "LOGIC": "Logika",
-            "PROPERTIES": "Vlastnosti"
+            "PARENT_FOLDER": "Parent folder",
+            "PARENT_FOLDER_LABEL": "Add Parent Folders",
+            "PROPERTIES": "Vlastnosti",
+            "TAGS": "Tags",
+            "TAGS_LABEL": "Add Tags"
         },
         "SEARCH_HEADER": {
             "TITLE": "Filtr",

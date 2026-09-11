@@ -658,11 +658,11 @@
         },
         "FACET_FIELDS": {
             "CREATOR": "Skapad av",
-            "MODIFIER": "Ändrad av",
-            "LOCATION": "Plats",
-            "CATEGORIES": "Kategorier"
+            "MODIFIER": "Ändrad av"
         },
         "CATEGORIES": {
+            "CATEGORIES": "Categories",
+            "CATEGORIES_LABEL": "Add Categories",
             "DATE": "Datum",
             "DATE_TABS": {
                 "CREATED": "Skapad",
@@ -670,8 +670,14 @@
             },
             "EFFECTIVITY_FROM": "Giltighet från",
             "EFFECTIVITY_TO": "Giltighet till",
+            "LOCATION": "Location",
+            "LOCATION_LABEL": "Add Sites",
             "LOGIC": "Logik",
-            "PROPERTIES": "Egenskaper"
+            "PARENT_FOLDER": "Parent folder",
+            "PARENT_FOLDER_LABEL": "Add Parent Folders",
+            "PROPERTIES": "Egenskaper",
+            "TAGS": "Tags",
+            "TAGS_LABEL": "Add Tags"
         },
         "SEARCH_HEADER": {
             "TITLE": "Filter",

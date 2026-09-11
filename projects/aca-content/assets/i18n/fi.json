@@ -658,11 +658,11 @@
         },
         "FACET_FIELDS": {
             "CREATOR": "Tekijä",
-            "MODIFIER": "Muokkaaja",
-            "LOCATION": "Sijainti",
-            "CATEGORIES": "Luokat"
+            "MODIFIER": "Muokkaaja"
         },
         "CATEGORIES": {
+            "CATEGORIES": "Categories",
+            "CATEGORIES_LABEL": "Add Categories",
             "DATE": "Päivämäärä",
             "DATE_TABS": {
                 "CREATED": "Luotu",
@@ -670,8 +670,14 @@
             },
             "EFFECTIVITY_FROM": "Voimassaolon alku",
             "EFFECTIVITY_TO": "Voimassaolon loppu",
+            "LOCATION": "Location",
+            "LOCATION_LABEL": "Add Sites",
             "LOGIC": "Logiikka",
-            "PROPERTIES": "Ominaisuudet"
+            "PARENT_FOLDER": "Parent folder",
+            "PARENT_FOLDER_LABEL": "Add Parent Folders",
+            "PROPERTIES": "Ominaisuudet",
+            "TAGS": "Tags",
+            "TAGS_LABEL": "Add Tags"
         },
         "SEARCH_HEADER": {
             "TITLE": "Suodatin",

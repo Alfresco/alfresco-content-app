@@ -658,11 +658,11 @@
         },
         "FACET_FIELDS": {
             "CREATOR": "作成者",
-            "MODIFIER": "変更者",
-            "LOCATION": "場所",
-            "CATEGORIES": "カテゴリ"
+            "MODIFIER": "変更者"
         },
         "CATEGORIES": {
+            "CATEGORIES": "Categories",
+            "CATEGORIES_LABEL": "Add Categories",
             "DATE": "日付",
             "DATE_TABS": {
                 "CREATED": "作成日",
@@ -670,8 +670,14 @@
             },
             "EFFECTIVITY_FROM": "有効性の開始",
             "EFFECTIVITY_TO": "有効性の終了",
+            "LOCATION": "Location",
+            "LOCATION_LABEL": "Add Sites",
             "LOGIC": "ロジック",
-            "PROPERTIES": "プロパティ"
+            "PARENT_FOLDER": "Parent folder",
+            "PARENT_FOLDER_LABEL": "Add Parent Folders",
+            "PROPERTIES": "プロパティ",
+            "TAGS": "Tags",
+            "TAGS_LABEL": "Add Tags"
         },
         "SEARCH_HEADER": {
             "TITLE": "フィルタ",
