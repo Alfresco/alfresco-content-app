@@ -225,7 +225,7 @@
                 "EFFECTIVITY": "Obowiązywanie",
                 "TITLE": "Wyniki wyszukiwania",
                 "FILTER_SET": "Zestaw filtrów:",
-                "LOADING": "Loading search results, please wait.",
+                "LOADING": "Ładowanie wyników wyszukiwania, proszę czekać.",
                 "ADVANCED_FILTERS": "Zaawansowane filtry:",
                 "RESET": "Resetuj",
                 "RESET_ACTION": "Resetuj filtry wyszukiwania",
@@ -505,8 +505,8 @@
             "EDIT": "Edytuj",
             "CANCEL": "Anuluj",
             "SAVE": "Zapisz",
-            "LOCK_BADGE": "This document is locked by {{ owner }} for offline editing.",
-            "WORKING_COPY_BADGE": "Original document is locked by {{ owner }} for offline editing."
+            "LOCK_BADGE": "Ten dokument jest zablokowany przez: {{ owner }} do edycji offline.",
+            "WORKING_COPY_BADGE": "Oryginalny dokument jest zablokowany przez: {{ owner }} do edycji offline."
         },
         "NODE_INFO": {
             "ICON": "Ikona węzła",
@@ -661,8 +661,8 @@
             "MODIFIER": "Modyfikator"
         },
         "CATEGORIES": {
-            "CATEGORIES": "Categories",
-            "CATEGORIES_LABEL": "Add Categories",
+            "CATEGORIES": "Kategorie",
+            "CATEGORIES_LABEL": "Dodaj kategorie",
             "DATE": "Data",
             "DATE_TABS": {
                 "CREATED": "Utworzono",
@@ -670,14 +670,14 @@
             },
             "EFFECTIVITY_FROM": "Data początku obowiązywania",
             "EFFECTIVITY_TO": "Data końca obowiązywania",
-            "LOCATION": "Location",
-            "LOCATION_LABEL": "Add Sites",
+            "LOCATION": "Lokalizacja",
+            "LOCATION_LABEL": "Dodaj witryny",
             "LOGIC": "Logika",
-            "PARENT_FOLDER": "Parent folder",
-            "PARENT_FOLDER_LABEL": "Add Parent Folders",
+            "PARENT_FOLDER": "Folder nadrzędny",
+            "PARENT_FOLDER_LABEL": "Dodaj foldery nadrzędne",
             "PROPERTIES": "Właściwości",
-            "TAGS": "Tags",
-            "TAGS_LABEL": "Add Tags"
+            "TAGS": "Znaczniki",
+            "TAGS_LABEL": "Dodaj znaczniki"
         },
         "SEARCH_HEADER": {
             "TITLE": "Filtr",
@@ -754,7 +754,7 @@
         }
     },
     "CHECKOUT": {
-        "CHECKED_OUT_BY": "Original locked by: ",
+        "CHECKED_OUT_BY": "Oryginał zablokowany przez: ",
         "ERRORS": {
             "CHECKOUT": {
                 "400": "Nie można wymeldować tego węzła. Musi to być węzeł zawartości (cm:content).",

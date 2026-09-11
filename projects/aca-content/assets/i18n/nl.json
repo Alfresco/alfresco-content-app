@@ -225,7 +225,7 @@
                 "EFFECTIVITY": "Effectiviteit",
                 "TITLE": "Zoekresultaten",
                 "FILTER_SET": "Ingesteld filter:",
-                "LOADING": "Loading search results, please wait.",
+                "LOADING": "Zoekresultaten worden geladen, een moment geduld.",
                 "ADVANCED_FILTERS": "Geavanceerde filters:",
                 "RESET": "Opnieuw instellen",
                 "RESET_ACTION": "Zoekfilters opnieuw instellen",
@@ -505,8 +505,8 @@
             "EDIT": "Bewerken",
             "CANCEL": "Annuleren",
             "SAVE": "Opslaan",
-            "LOCK_BADGE": "This document is locked by {{ owner }} for offline editing.",
-            "WORKING_COPY_BADGE": "Original document is locked by {{ owner }} for offline editing."
+            "LOCK_BADGE": "Dit document is vergrendeld door {{ owner }} voor offline bewerking.",
+            "WORKING_COPY_BADGE": "Origineel document is vergrendeld door {{ owner }} voor offline bewerking."
         },
         "NODE_INFO": {
             "ICON": "Node Icon",
@@ -661,8 +661,8 @@
             "MODIFIER": "Gewijzigd door"
         },
         "CATEGORIES": {
-            "CATEGORIES": "Categories",
-            "CATEGORIES_LABEL": "Add Categories",
+            "CATEGORIES": "Categorieën",
+            "CATEGORIES_LABEL": "Categorieën toevoegen",
             "DATE": "Datum",
             "DATE_TABS": {
                 "CREATED": "Aangemaakt",
@@ -670,14 +670,14 @@
             },
             "EFFECTIVITY_FROM": "Effectiviteit vanaf",
             "EFFECTIVITY_TO": "Effectiviteit tot",
-            "LOCATION": "Location",
-            "LOCATION_LABEL": "Add Sites",
+            "LOCATION": "Locatie",
+            "LOCATION_LABEL": "Sites toevoegen",
             "LOGIC": "Logica",
-            "PARENT_FOLDER": "Parent folder",
-            "PARENT_FOLDER_LABEL": "Add Parent Folders",
+            "PARENT_FOLDER": "Bovenliggende map",
+            "PARENT_FOLDER_LABEL": "Bovenliggende mappen toevoegen",
             "PROPERTIES": "Eigenschappen",
             "TAGS": "Tags",
-            "TAGS_LABEL": "Add Tags"
+            "TAGS_LABEL": "Tags toevoegen"
         },
         "SEARCH_HEADER": {
             "TITLE": "Filteren",
@@ -754,7 +754,7 @@
         }
     },
     "CHECKOUT": {
-        "CHECKED_OUT_BY": "Original locked by: ",
+        "CHECKED_OUT_BY": "Origineel vergrendeld door: ",
         "ERRORS": {
             "CHECKOUT": {
                 "400": "Deze node kan niet worden uitgecheckt. Het moet een content-node (cm:content) zijn.",
