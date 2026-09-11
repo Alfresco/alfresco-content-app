@@ -45,12 +45,12 @@ test.describe('Edit offline - on Personal Files', () => {
   });
 
   test.describe('[XAT-5304] File is locked and downloaded when clicking Edit offline', () => {
-    const file5304 = `file-5304-${Utils.random()}.docx`;
+    const file5304 = `file-5304-${Utils.random()}`;
     let file5304Id: string;
 
     test.beforeAll(async () => {
       try {
-        file5304Id = (await fileActionsApi.uploadFileWithRename(TEST_FILES.DOCX.path, file5304)).entry.id;
+        file5304Id = (await fileActionsApi.uploadFileWithRename(TEST_FILES.PNG_FILE.path, file5304)).entry.id;
       } catch (error) {
         console.error(`beforeAll failed : ${error}`);
       }
@@ -77,12 +77,12 @@ test.describe('Edit offline - on Personal Files', () => {
   });
 
   test.describe('[XAT-5305] Lock information is displayed', () => {
-    const fileLocked5305 = `file-locked-5305-${Utils.random()}.docx`;
+    const fileLocked5305 = `file-locked-5305-${Utils.random()}`;
     let fileLocked5305Id: string;
 
     test.beforeAll(async () => {
       try {
-        fileLocked5305Id = (await fileActionsApi.uploadFileWithRename(TEST_FILES.DOCX.path, fileLocked5305)).entry.id;
+        fileLocked5305Id = (await fileActionsApi.uploadFileWithRename(TEST_FILES.PNG_FILE.path, fileLocked5305)).entry.id;
         await nodesApi.checkoutNodes([fileLocked5305Id]);
       } catch (error) {
         console.error(`beforeAll failed : ${error}`);
@@ -105,12 +105,12 @@ test.describe('Edit offline - on Personal Files', () => {
   });
 
   test.describe('[XAT-5306] Cancel Editing unlocks the file', () => {
-    const fileLocked5306 = `file-locked-5306-${Utils.random()}.docx`;
+    const fileLocked5306 = `file-locked-5306-${Utils.random()}`;
     let fileLocked5306Id: string;
 
     test.beforeAll(async () => {
       try {
-        fileLocked5306Id = (await fileActionsApi.uploadFileWithRename(TEST_FILES.DOCX.path, fileLocked5306)).entry.id;
+        fileLocked5306Id = (await fileActionsApi.uploadFileWithRename(TEST_FILES.PNG_FILE.path, fileLocked5306)).entry.id;
         await nodesApi.checkoutNodes([fileLocked5306Id]);
       } catch (error) {
         console.error(`beforeAll failed : ${error}`);
@@ -127,16 +127,16 @@ test.describe('Edit offline - on Personal Files', () => {
       await personalFiles.acaHeader.clickMoreActions();
       await personalFiles.matMenu.clickMenuItemFromHeaderMenu('Cancel Editing');
 
-      expect(await nodesApi.isFileLockedWrite(fileLocked5306Id), `${fileLocked5306} is still locked`).not.toEqual('WRITE_LOCK');
+      expect(await nodesApi.isFileLockedWrite(fileLocked5306Id), `${fileLocked5306} is still locked`).toBe(false);
     });
   });
 
   test.describe('[XAT-20171] Cancel Editing option should not persists after uploading a new file version', () => {
-    const file20171 = `file-20171-${Utils.random()}.docx`;
+    const file20171 = `file-20171-${Utils.random()}`;
 
     test.beforeAll(async () => {
       try {
-        await fileActionsApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, file20171);
+        await fileActionsApi.uploadFileWithRename(TEST_FILES.PNG_FILE.path, file20171);
       } catch (error) {
         console.error(`beforeAll failed : ${error}`);
       }
@@ -147,7 +147,7 @@ test.describe('Edit offline - on Personal Files', () => {
       await personalFiles.navigate();
     });
 
-    test('[XAT-20171] Cancel Editing option should not persists after uploading a new file version', async ({ personalFiles }) => {
+    test('[XAT-20171] Cancel Editing option should not persist after uploading a new file version', async ({ personalFiles }) => {
       await personalFiles.dataTable.selectItems(file20171);
       await personalFiles.acaHeader.clickMoreActions();
       const [fileChooser] = await Promise.all([

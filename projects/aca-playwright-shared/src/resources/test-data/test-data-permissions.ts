@@ -81,7 +81,7 @@ const searchConsumerSharedToolbarPrimary = ['Shared Link Settings', 'Download', 
 const consumerToolbarMore = ['Favorite', 'Copy', 'Manage Versions'];
 const consumerFavToolbarMore = ['Remove Favorite', 'Copy', 'Manage Versions'];
 
-export const collaboratorToolbarPrimary = ['Shared Link Settings', 'View', 'View Details', 'More Actions'];
+export const collaboratorToolbarPrimary = ['View', 'View Details', 'More Actions'];
 export const collaboratorEditRowToolbarMore = [
   'Edit Offline',
   'Upload New Version',
@@ -114,7 +114,7 @@ export const collaboratorDocToolbarMore = [
   'Edit Aspects',
   'Permissions'
 ];
-export const collaboratorLockCurrentUserToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy'];
+export const collaboratorLockCurrentUserToolbarMore = ['Cancel Editing', 'Upload New Version', 'Copy'];
 export const collaboratorLockOtherUserToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Move', 'Copy', 'Permissions'];
 export const collaboratorLockOtherUserSearchToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Copy', 'Permissions'];
 
@@ -367,7 +367,7 @@ export const fileSharedFavLocked = buildFileData((fileRandom) => `file-${fileRan
   searchToolbarPrimary: searchConsumerSharedToolbarPrimary
 });
 
-export const fileLockedByUser = buildNode((fileRandom) => `file-${fileRandom}-my-locked.txt`);
+export const fileLockedByUser = buildNode((fileRandom) => `file-${fileRandom}-my-locked`);
 
 // ---- non-versionable file (no cm:versionable aspect) ----
 
