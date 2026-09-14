@@ -22,5 +22,4 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './test-data-permissions';
 export * from './test-data-files-folders';
