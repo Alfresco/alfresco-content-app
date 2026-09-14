@@ -40,8 +40,8 @@ const { execFileSync } = require('child_process');
 const BROWSERS = ['chrome', 'firefox', 'webkit', 'msedge'];
 const BLOBS_DIR = 'all-blobs';
 const EXCLUDE_ROOT = path.join('e2e', 'playwright');
-// Matrix suite name -> test folder, for the single suite whose folder name differs.
-const SUITE_TO_FOLDER = { 'special-permissions': 'special-permissions-actions-available' };
+// Matrix suite name -> test folder, for any suite whose folder name differs from its matrix name.
+const SUITE_TO_FOLDER = {};
 
 const PLAYWRIGHT_BIN = path.join('node_modules', '.bin', 'playwright');
 
