@@ -1,3 +1,6 @@
 {
-  "all": {}
+  "all": {
+    "XAT-5019": "locked files and folders shouldn't be able to be deleted",
+    "XAT-5021": "ocked files and folders shouldn't be able to be deleted"
+  }
 }
