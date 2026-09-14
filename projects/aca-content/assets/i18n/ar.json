@@ -225,7 +225,7 @@
                 "EFFECTIVITY": "السريان",
                 "TITLE": "نتائج البحث",
                 "FILTER_SET": "مجموعة الفلاتر:",
-                "LOADING": "Loading search results, please wait.",
+                "LOADING": "جارٍ تحميل نتائج البحث، يرجى الانتظار.",
                 "ADVANCED_FILTERS": "فلاتر متقدمة:",
                 "RESET": "إعادة تعيين",
                 "RESET_ACTION": "إعادة تعيين عوامل تصفية البحث",
@@ -505,8 +505,8 @@
             "EDIT": "تحرير",
             "CANCEL": "إلغاء",
             "SAVE": "حفظ",
-            "LOCK_BADGE": "This document is locked by {{ owner }} for offline editing.",
-            "WORKING_COPY_BADGE": "Original document is locked by {{ owner }} for offline editing."
+            "LOCK_BADGE": "هذا المستند مُقفل بواسطة {{ owner }} للتحرير دون اتصال.",
+            "WORKING_COPY_BADGE": "المستند الأصلي مُقفل بواسطة {{ owner }} للتحرير دون اتصال."
         },
         "NODE_INFO": {
             "ICON": "أيقونة العقدة",
@@ -661,8 +661,8 @@
             "MODIFIER": "المعدل"
         },
         "CATEGORIES": {
-            "CATEGORIES": "Categories",
-            "CATEGORIES_LABEL": "Add Categories",
+            "CATEGORIES": "فئات",
+            "CATEGORIES_LABEL": "إضافة فئات",
             "DATE": "التاريخ",
             "DATE_TABS": {
                 "CREATED": "تم الإنشاء",
@@ -670,14 +670,14 @@
             },
             "EFFECTIVITY_FROM": "فعالية من",
             "EFFECTIVITY_TO": "فعالية ل",
-            "LOCATION": "Location",
-            "LOCATION_LABEL": "Add Sites",
+            "LOCATION": "مكان",
+            "LOCATION_LABEL": "إضافة مواقع",
             "LOGIC": "منطق",
-            "PARENT_FOLDER": "Parent folder",
-            "PARENT_FOLDER_LABEL": "Add Parent Folders",
+            "PARENT_FOLDER": "المجلد الأصل",
+            "PARENT_FOLDER_LABEL": "إضافة المجلدات الأصل",
             "PROPERTIES": "الخصائص",
-            "TAGS": "Tags",
-            "TAGS_LABEL": "Add Tags"
+            "TAGS": "علامات",
+            "TAGS_LABEL": "إضافة علامات"
         },
         "SEARCH_HEADER": {
             "TITLE": "عامل التصفية",
@@ -754,7 +754,7 @@
         }
     },
     "CHECKOUT": {
-        "CHECKED_OUT_BY": "Original locked by: ",
+        "CHECKED_OUT_BY": "مغلق من قبل: ",
         "ERRORS": {
             "CHECKOUT": {
                 "400": "لا يمكن إجراء استخراج لهذه العقدة. يجب أن تكون عقدة محتوى (cm:content).",

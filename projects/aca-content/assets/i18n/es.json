@@ -225,7 +225,7 @@
                 "EFFECTIVITY": "Efectividad",
                 "TITLE": "Resultados de la búsqueda",
                 "FILTER_SET": "Conjunto de filtros:",
-                "LOADING": "Loading search results, please wait.",
+                "LOADING": "Cargando los resultados de la búsqueda, espere por favor.",
                 "ADVANCED_FILTERS": "Filtros avanzados:",
                 "RESET": "Reiniciar",
                 "RESET_ACTION": "Restablecer los filtros de la búsqueda",
@@ -505,8 +505,8 @@
             "EDIT": "Editar",
             "CANCEL": "Cancelar",
             "SAVE": "Guardar",
-            "LOCK_BADGE": "This document is locked by {{ owner }} for offline editing.",
-            "WORKING_COPY_BADGE": "Original document is locked by {{ owner }} for offline editing."
+            "LOCK_BADGE": "Este documento está bloqueado por {{ owner }} para edición sin conexión.",
+            "WORKING_COPY_BADGE": "El documento original está bloqueado por {{ owner }} para edición sin conexión."
         },
         "NODE_INFO": {
             "ICON": "Icono de nodo",
@@ -661,8 +661,8 @@
             "MODIFIER": "Modificador"
         },
         "CATEGORIES": {
-            "CATEGORIES": "Categories",
-            "CATEGORIES_LABEL": "Add Categories",
+            "CATEGORIES": "Categorías",
+            "CATEGORIES_LABEL": "Añadir categorías",
             "DATE": "Fecha",
             "DATE_TABS": {
                 "CREATED": "Creado",
@@ -670,14 +670,14 @@
             },
             "EFFECTIVITY_FROM": "Válido desde",
             "EFFECTIVITY_TO": "Válido hasta",
-            "LOCATION": "Location",
-            "LOCATION_LABEL": "Add Sites",
+            "LOCATION": "Ubicación",
+            "LOCATION_LABEL": "Añadir sitios",
             "LOGIC": "Lógica",
-            "PARENT_FOLDER": "Parent folder",
-            "PARENT_FOLDER_LABEL": "Add Parent Folders",
+            "PARENT_FOLDER": "Carpeta principal",
+            "PARENT_FOLDER_LABEL": "Añadir carpetas principales",
             "PROPERTIES": "Propiedades",
-            "TAGS": "Tags",
-            "TAGS_LABEL": "Add Tags"
+            "TAGS": "Etiquetas",
+            "TAGS_LABEL": "Añadir etiquetas"
         },
         "SEARCH_HEADER": {
             "TITLE": "Filtro",
@@ -754,7 +754,7 @@
         }
     },
     "CHECKOUT": {
-        "CHECKED_OUT_BY": "Original locked by: ",
+        "CHECKED_OUT_BY": "Original bloqueado por: ",
         "ERRORS": {
             "CHECKOUT": {
                 "400": "Este nodo no se puede bloquear para edición. Debe ser un nodo de contenido (cm:content).",

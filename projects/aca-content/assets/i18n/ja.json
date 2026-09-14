@@ -225,7 +225,7 @@
                 "EFFECTIVITY": "有効性",
                 "TITLE": "検索結果",
                 "FILTER_SET": "フィルタセット：",
-                "LOADING": "Loading search results, please wait.",
+                "LOADING": "検索結果を読み込んでいます。しばらくお待ちください。",
                 "ADVANCED_FILTERS": "高度なフィルタ：",
                 "RESET": "リセット",
                 "RESET_ACTION": "検索フィルタのリセット",
@@ -505,8 +505,8 @@
             "EDIT": "編集",
             "CANCEL": "キャンセル",
             "SAVE": "保存",
-            "LOCK_BADGE": "This document is locked by {{ owner }} for offline editing.",
-            "WORKING_COPY_BADGE": "Original document is locked by {{ owner }} for offline editing."
+            "LOCK_BADGE": "この文書は{{ owner }}によってオフライン編集用にロックされています。",
+            "WORKING_COPY_BADGE": "オリジナルの文書は{{ owner }}によってオフライン編集用にロックされています。"
         },
         "NODE_INFO": {
             "ICON": "ノードアイコン",
@@ -661,8 +661,8 @@
             "MODIFIER": "変更者"
         },
         "CATEGORIES": {
-            "CATEGORIES": "Categories",
-            "CATEGORIES_LABEL": "Add Categories",
+            "CATEGORIES": "カテゴリ",
+            "CATEGORIES_LABEL": "カテゴリを追加",
             "DATE": "日付",
             "DATE_TABS": {
                 "CREATED": "作成日",
@@ -670,14 +670,14 @@
             },
             "EFFECTIVITY_FROM": "有効性の開始",
             "EFFECTIVITY_TO": "有効性の終了",
-            "LOCATION": "Location",
-            "LOCATION_LABEL": "Add Sites",
+            "LOCATION": "場所",
+            "LOCATION_LABEL": "サイトを追加",
             "LOGIC": "ロジック",
-            "PARENT_FOLDER": "Parent folder",
-            "PARENT_FOLDER_LABEL": "Add Parent Folders",
+            "PARENT_FOLDER": "親フォルダ",
+            "PARENT_FOLDER_LABEL": "親フォルダを追加",
             "PROPERTIES": "プロパティ",
-            "TAGS": "Tags",
-            "TAGS_LABEL": "Add Tags"
+            "TAGS": "タグ",
+            "TAGS_LABEL": "タグの追加"
         },
         "SEARCH_HEADER": {
             "TITLE": "フィルタ",
@@ -754,7 +754,7 @@
         }
     },
     "CHECKOUT": {
-        "CHECKED_OUT_BY": "Original locked by: ",
+        "CHECKED_OUT_BY": "ロックしているユーザー: ",
         "ERRORS": {
             "CHECKOUT": {
                 "400": "このノードはチェックアウトできません。コンテンツ (cm:content) ノードである必要があります。",
