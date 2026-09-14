@@ -56,7 +56,7 @@ const buildFile = (): ManagerLockedFile => {
 test.describe('Special permissions - File locked by other user, user is manager : ', () => {
   const random = Utils.random();
   const userManager = `manager-locked-other-${random}`;
-  const userDemoted = `demoted-other-${random}`;
+  const otherManager = `other-manager-locked-other-${random}`;
   const sitePrivate = `site-private-locked-other-${random}`;
   const apiClientFactory = new ApiClientFactory();
 
@@ -64,8 +64,8 @@ test.describe('Special permissions - File locked by other user, user is manager 
   let managerNodeActions: NodesApi;
   let managerFavoritesActions: FavoritesApi;
   let managerSearchActions: SearchApi;
-  let demotedUserActions: NodesApi;
-  let demotedUserShareActions: SharedLinksApi;
+  let otherManagerNodeActions: NodesApi;
+  let otherManagerShareActions: SharedLinksApi;
   let docLibId: string;
 
   const provisionFile = async (item: ManagerLockedFile): Promise<void> => {
@@ -74,14 +74,14 @@ test.describe('Special permissions - File locked by other user, user is manager 
     const managerSearchTotalItems = await managerSearchActions.getTotalItems(userManager);
 
     item.id = (await managerNodeActions.createFile(item.name, docLibId, '', '', '', true, ['cm:versionable'])).entry.id;
-    await demotedUserActions.checkoutNodes([item.id]);
-    await demotedUserShareActions.shareFileById(item.id);
+    await otherManagerNodeActions.checkoutNodes([item.id]);
+    await otherManagerShareActions.shareFileById(item.id);
     await managerFavoritesActions.addFavoriteById('file', item.id);
 
     await managerFavoritesActions.isFavoriteWithRetry(userManager, item.id, { expect: true });
     await Promise.all([
       managerFavoritesActions.waitForApi(userManager, { expect: managerFavoritesTotalItems + 1 }),
-      demotedUserShareActions.waitForFilesToBeShared([item.id]),
+      otherManagerShareActions.waitForFilesToBeShared([item.id]),
       managerSearchActions.waitForApi(userManager, { expect: managerSearchTotalItems + 1 })
     ]);
   };
@@ -89,23 +89,23 @@ test.describe('Special permissions - File locked by other user, user is manager 
   test.beforeAll(async () => {
     test.setTimeout(timeouts.extendedTest);
     await apiClientFactory.setUpAcaBackend('admin');
-    await apiClientFactory.createUser({ username: userDemoted });
+    await apiClientFactory.createUser({ username: otherManager });
     await apiClientFactory.createUser({ username: userManager });
 
     managerSiteActions = await SitesApi.initialize(userManager, userManager);
     managerNodeActions = await NodesApi.initialize(userManager, userManager);
     managerFavoritesActions = await FavoritesApi.initialize(userManager, userManager);
     managerSearchActions = await SearchApi.initialize(userManager, userManager);
-    demotedUserActions = await NodesApi.initialize(userDemoted, userDemoted);
-    demotedUserShareActions = await SharedLinksApi.initialize(userDemoted, userDemoted);
+    otherManagerNodeActions = await NodesApi.initialize(otherManager, otherManager);
+    otherManagerShareActions = await SharedLinksApi.initialize(otherManager, otherManager);
 
     await managerSiteActions.createSite(sitePrivate, Site.VisibilityEnum.PRIVATE);
-    await managerSiteActions.addSiteMember(sitePrivate, userDemoted, Site.RoleEnum.SiteManager);
+    await managerSiteActions.addSiteMember(sitePrivate, otherManager, Site.RoleEnum.SiteManager);
     docLibId = await managerSiteActions.getDocLibId(sitePrivate);
   });
 
   test.beforeEach(async ({ loginPage }) => {
-    await Utils.tryLoginUser(loginPage, userManager, userManager, 'beforeEach failed');
+    await Utils.tryLoginUser(loginPage, otherManager, otherManager, 'beforeEach failed');
   });
 
   test.afterAll(async () => {

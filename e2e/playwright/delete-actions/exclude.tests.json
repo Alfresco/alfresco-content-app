@@ -1,6 +1,7 @@
 {
   "all": {
-    "XAT-5019": "locked files and folders shouldn't be able to be deleted",
-    "XAT-5021": "ocked files and folders shouldn't be able to be deleted"
+    "XAT-5019": "https://hyland.atlassian.net/browse/ACS-12835",
+    "XAT-5020": "https://hyland.atlassian.net/browse/ACS-12835",
+    "XAT-5021": "https://hyland.atlassian.net/browse/ACS-12835"
   }
 }
