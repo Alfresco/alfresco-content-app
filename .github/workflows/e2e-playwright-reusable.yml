@@ -81,8 +81,12 @@ jobs:
             id: 4
           - name: "navigation"
             id: 5
-          - name: "special-permissions"
+          - name: "special-permissions-consumer"
             id: 6
+          - name: "special-permissions-collaborator-locked"
+            id: 23
+          - name: "special-permissions-folders-repository"
+            id: 24
           - name: "pagination"
             id: 7
           - name: "list-views"

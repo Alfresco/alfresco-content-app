@@ -49,7 +49,7 @@ const viewerLockedPrimary = ['Activate full-screen mode', 'View Details', 'More 
 const viewerMore = ['Favorite', 'Copy', 'Manage Versions'];
 const viewerFavMore = ['Remove Favorite', 'Copy', 'Manage Versions'];
 const viewerLockedMore = ['Favorite', 'Copy'];
-const viewerLockedFavMore = ['Favorite', 'Copy'];
+const viewerLockedFavMore = ['Remove Favorite', 'Copy'];
 const viewerNotVersionableMore = ['Favorite', 'Copy'];
 
 interface ConsumerFile {
