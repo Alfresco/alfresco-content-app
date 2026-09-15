@@ -225,7 +225,7 @@
                 "EFFECTIVITY": "Effektivitet",
                 "TITLE": "Søk i resultater",
                 "FILTER_SET": "Filtersett:",
-                "LOADING": "Loading search results, please wait.",
+                "LOADING": "Laster søkeresultater, vennligst vent.",
                 "ADVANCED_FILTERS": "Avanserte filtre:",
                 "RESET": "Tilbakestill",
                 "RESET_ACTION": "Tilbakestill søkefiltre",
@@ -505,8 +505,8 @@
             "EDIT": "Rediger",
             "CANCEL": "Avbryt",
             "SAVE": "Lagre",
-            "LOCK_BADGE": "This document is locked by {{ owner }} for offline editing.",
-            "WORKING_COPY_BADGE": "Original document is locked by {{ owner }} for offline editing."
+            "LOCK_BADGE": "Dette dokumentet er låst av {{ owner }} for frakoblet redigering.",
+            "WORKING_COPY_BADGE": "Det opprinnelige dokumentet er låst av {{ owner }} for frakoblet redigering."
         },
         "NODE_INFO": {
             "ICON": "Node-ikon",
@@ -658,11 +658,11 @@
         },
         "FACET_FIELDS": {
             "CREATOR": "Oppretter",
-            "MODIFIER": "Modifikator",
-            "LOCATION": "Lokalisering",
-            "CATEGORIES": "Kategorier"
+            "MODIFIER": "Modifikator"
         },
         "CATEGORIES": {
+            "CATEGORIES": "Kategorier",
+            "CATEGORIES_LABEL": "Legg til kategorier",
             "DATE": "Dato",
             "DATE_TABS": {
                 "CREATED": "Opprettet",
@@ -670,8 +670,14 @@
             },
             "EFFECTIVITY_FROM": "Effektivitet fra",
             "EFFECTIVITY_TO": "Effektivitet til",
+            "LOCATION": "Lokalisering",
+            "LOCATION_LABEL": "Legg til nettsteder",
             "LOGIC": "Logikk",
-            "PROPERTIES": "Egenskaper"
+            "PARENT_FOLDER": "Overordnet mappe",
+            "PARENT_FOLDER_LABEL": "Legg til overordnede mapper",
+            "PROPERTIES": "Egenskaper",
+            "TAGS": "Tagger",
+            "TAGS_LABEL": "Legg til tagger"
         },
         "SEARCH_HEADER": {
             "TITLE": "Filter",
@@ -748,7 +754,7 @@
         }
     },
     "CHECKOUT": {
-        "CHECKED_OUT_BY": "Original locked by: ",
+        "CHECKED_OUT_BY": "Opprinnelig låst av: ",
         "ERRORS": {
             "CHECKOUT": {
                 "400": "Denne noden kan ikke sjekkes ut. Den må være en innholdsnode (cm:content).",

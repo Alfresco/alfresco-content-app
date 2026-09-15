@@ -225,7 +225,7 @@
                 "EFFECTIVITY": "Эффективность",
                 "TITLE": "Результаты поиска",
                 "FILTER_SET": "Используется фильтр:",
-                "LOADING": "Loading search results, please wait.",
+                "LOADING": "Загрузка результатов поиска, пожалуйста, подождите.",
                 "ADVANCED_FILTERS": "Дополнительные фильтры:",
                 "RESET": "Сброс",
                 "RESET_ACTION": "Сбросить фильтры поиска",
@@ -505,8 +505,8 @@
             "EDIT": "Редактировать",
             "CANCEL": "Отмена",
             "SAVE": "Сохранить",
-            "LOCK_BADGE": "This document is locked by {{ owner }} for offline editing.",
-            "WORKING_COPY_BADGE": "Original document is locked by {{ owner }} for offline editing."
+            "LOCK_BADGE": "Этот документ заблокирован пользователем {{ owner }} для автономного редактирования.",
+            "WORKING_COPY_BADGE": "Исходный документ заблокирован пользователем {{ owner }} для автономного редактирования."
         },
         "NODE_INFO": {
             "ICON": "Значок узла",
@@ -658,11 +658,11 @@
         },
         "FACET_FIELDS": {
             "CREATOR": "Создатель",
-            "MODIFIER": "Редактор",
-            "LOCATION": "Местоположение",
-            "CATEGORIES": "Категории"
+            "MODIFIER": "Редактор"
         },
         "CATEGORIES": {
+            "CATEGORIES": "Категории",
+            "CATEGORIES_LABEL": "Добавить категории",
             "DATE": "Дата",
             "DATE_TABS": {
                 "CREATED": "Создано",
@@ -670,8 +670,14 @@
             },
             "EFFECTIVITY_FROM": "Действует с",
             "EFFECTIVITY_TO": "Действует до",
+            "LOCATION": "Местоположение",
+            "LOCATION_LABEL": "Добавить сайты",
             "LOGIC": "Логика",
-            "PROPERTIES": "Свойства"
+            "PARENT_FOLDER": "Родительская папка",
+            "PARENT_FOLDER_LABEL": "Добавить родительские папки",
+            "PROPERTIES": "Свойства",
+            "TAGS": "Метки",
+            "TAGS_LABEL": "Добавить метки"
         },
         "SEARCH_HEADER": {
             "TITLE": "Фильтр",
@@ -748,7 +754,7 @@
         }
     },
     "CHECKOUT": {
-        "CHECKED_OUT_BY": "Original locked by: ",
+        "CHECKED_OUT_BY": "Оригинал заблокирован: ",
         "ERRORS": {
             "CHECKOUT": {
                 "400": "Этот узел не может быть извлечен. Он должен быть узлом контента (cm:content).",

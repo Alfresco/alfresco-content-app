@@ -225,7 +225,7 @@
                 "EFFECTIVITY": "Giltighet",
                 "TITLE": "Sökresultat",
                 "FILTER_SET": "Filteruppsättning:",
-                "LOADING": "Loading search results, please wait.",
+                "LOADING": "Läser in sökresultat, vänta.",
                 "ADVANCED_FILTERS": "Avancerade filter:",
                 "RESET": "Återställ",
                 "RESET_ACTION": "Återställ sökfilter",
@@ -505,8 +505,8 @@
             "EDIT": "Redigera",
             "CANCEL": "Avbryt",
             "SAVE": "Spara",
-            "LOCK_BADGE": "This document is locked by {{ owner }} for offline editing.",
-            "WORKING_COPY_BADGE": "Original document is locked by {{ owner }} for offline editing."
+            "LOCK_BADGE": "Detta dokument är låst av {{ owner }} för redigering offline.",
+            "WORKING_COPY_BADGE": "Originaldokumentet är låst av {{ owner }} för redigering offline."
         },
         "NODE_INFO": {
             "ICON": "Nodikon",
@@ -658,11 +658,11 @@
         },
         "FACET_FIELDS": {
             "CREATOR": "Skapad av",
-            "MODIFIER": "Ändrad av",
-            "LOCATION": "Plats",
-            "CATEGORIES": "Kategorier"
+            "MODIFIER": "Ändrad av"
         },
         "CATEGORIES": {
+            "CATEGORIES": "Kategorier",
+            "CATEGORIES_LABEL": "Lägg till kategorier",
             "DATE": "Datum",
             "DATE_TABS": {
                 "CREATED": "Skapad",
@@ -670,8 +670,14 @@
             },
             "EFFECTIVITY_FROM": "Giltighet från",
             "EFFECTIVITY_TO": "Giltighet till",
+            "LOCATION": "Plats",
+            "LOCATION_LABEL": "Lägg till platser",
             "LOGIC": "Logik",
-            "PROPERTIES": "Egenskaper"
+            "PARENT_FOLDER": "Överordnad mapp",
+            "PARENT_FOLDER_LABEL": "Lägg till överordnade mappar",
+            "PROPERTIES": "Egenskaper",
+            "TAGS": "Taggar",
+            "TAGS_LABEL": "Lägg till taggar"
         },
         "SEARCH_HEADER": {
             "TITLE": "Filter",
@@ -748,7 +754,7 @@
         }
     },
     "CHECKOUT": {
-        "CHECKED_OUT_BY": "Original locked by: ",
+        "CHECKED_OUT_BY": "Original låst av: ",
         "ERRORS": {
             "CHECKOUT": {
                 "400": "Den här noden kan inte checkas ut. Den måste vara en innehållsnod (cm:content).",
