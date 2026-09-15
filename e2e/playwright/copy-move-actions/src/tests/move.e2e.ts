@@ -50,8 +50,8 @@ test.describe('Move actions', () => {
   });
 
   test.beforeEach(async ({ personalFiles, page }) => {
-    sourceFile = `source-file-${Utils.random()}.txt`;
-    sourceFileInsideFolder = `source-file-inside-folder-${Utils.random()}.txt`;
+    sourceFile = `source-file-${Utils.random()}`;
+    sourceFileInsideFolder = `source-file-inside-folder-${Utils.random()}`;
     sourceFolder = `source-folder-${Utils.random()}`;
     destinationFolder = `destination-folder-${Utils.random()}`;
 
@@ -100,7 +100,6 @@ test.describe('Move actions', () => {
 
   test('[XAT-4999] Move a file with a name that already exists on the destination', async ({ personalFiles }) => {
     await nodesApi.createFile(sourceFile, destinationFolderId);
-    const expectedNameForCopiedFile = sourceFile.replace('.', '-1.');
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
     await moveContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     const msg = await personalFiles.snackBar.message.innerText();
@@ -108,14 +107,12 @@ test.describe('Move actions', () => {
     await personalFiles.snackBar.closeIcon.click();
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
-    expect(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);
-    expect(await personalFiles.dataTable.isItemPresent(expectedNameForCopiedFile)).toBe(false);
+    expect(await personalFiles.dataTable.getRowsCount()).toBe(1);
   });
 
   test('[XAT-5000] Move a folder with a name that already exists on the destination', async ({ personalFiles }) => {
     const existingFolderId = (await nodesApi.createFolder(sourceFolder, destinationFolderId)).entry.id;
     await nodesApi.createFile(sourceFileInsideFolder, existingFolderId);
-    const expectedNameForCopiedFile = sourceFileInsideFolder.replace('.', '-1.');
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
     await moveContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
     const msg = await personalFiles.snackBar.message.innerText();
@@ -125,13 +122,11 @@ test.describe('Move actions', () => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
     expect(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBe(true);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(sourceFolder);
-    expect(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolder)).toBe(true);
-    expect(await personalFiles.dataTable.isItemPresent(expectedNameForCopiedFile)).toBe(false);
+    expect(await personalFiles.dataTable.getRowsCount()).toBe(1);
   });
 
   test('[XAT-4989] Move locked file', async ({ personalFiles }) => {
-    const lockType = 'ALLOW_OWNER_CHANGES';
-    await nodesApi.lockNodes([sourceFileId], lockType);
+    await nodesApi.checkoutNodes([sourceFileId]);
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
     await moveContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     const msg = await personalFiles.snackBar.message.innerText();
@@ -168,8 +163,7 @@ test.describe('Move actions', () => {
 
   async function moveFolderWithContent(personalFiles: PersonalFilesPage, lockedFile: boolean) {
     if (lockedFile) {
-      const lockType = 'ALLOW_OWNER_CHANGES';
-      await nodesApi.lockNodes([sourceFileInsideFolderId], lockType);
+      await nodesApi.checkoutNodes([sourceFileInsideFolderId]);
     }
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
     await moveContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);

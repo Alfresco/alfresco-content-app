@@ -11,7 +11,7 @@
       "extends": ["../../../.eslintrc.e2e.json"],
       "parserOptions": {
         "project": [
-          "e2e/playwright/special-permissions-actions-available/tsconfig.e2e.json"
+          "e2e/playwright/special-permissions-consumer/tsconfig.e2e.json"
         ]
       },
       "rules": {

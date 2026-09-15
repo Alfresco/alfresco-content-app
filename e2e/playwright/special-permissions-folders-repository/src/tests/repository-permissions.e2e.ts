@@ -75,6 +75,9 @@ test.describe('Repository — Permissions routing', () => {
     });
 
     test.beforeEach(async ({ loginPage }) => {
+      if (typeof admin.username !== 'string' || typeof admin.password !== 'string') {
+        throw new Error('admin.username or admin.password is undefined');
+      }
       await Utils.tryLoginUser(loginPage, admin.username, admin.password, 'beforeEach (admin) failed');
     });
 
@@ -122,7 +125,7 @@ test.describe('Repository — Permissions routing', () => {
   test.describe('signed in as a personal user', () => {
     const personalUser = `perm-personal-${Utils.random()}`;
 
-    let personalUserNodesApi: NodesApi;
+    let personalUserPermissionsNodesApi: NodesApi;
     let personalUserTrashcanApi: TrashcanApi;
     let personalFile: { id: string; name: string };
 
@@ -138,23 +141,27 @@ test.describe('Repository — Permissions routing', () => {
           }
         }
 
-        personalUserNodesApi = await NodesApi.initialize(personalUser, personalUser);
+        personalUserPermissionsNodesApi = await NodesApi.initialize(personalUser, personalUser);
         personalUserTrashcanApi = await TrashcanApi.initialize(personalUser, personalUser);
-        const personalFileName = `personal-file-${Utils.random()}.txt`;
-        const created = (await personalUserNodesApi.createFile(personalFileName)).entry;
+        const personalFileName = `personal-file-repository-${Utils.random()}.txt`;
+        const created = (await personalUserPermissionsNodesApi.createFile(personalFileName)).entry;
         personalFile = { id: created.id, name: personalFileName };
       } catch (error) {
-        console.error(`beforeAll (personal user) failed: ${error}`);
+        console.error(`repository-permissions - beforeAll (personal user) failed: ${error}`);
         throw error;
       }
     });
 
     test.beforeEach(async ({ loginPage }) => {
-      await Utils.tryLoginUser(loginPage, personalUser, personalUser, 'beforeEach (personal user) failed');
+      await Utils.tryLoginUser(loginPage, personalUser, personalUser, 'repository-permissions - beforeEach (personal user) failed');
     });
 
     test.afterAll(async () => {
-      await Utils.deleteNodesSitesEmptyTrashcan(personalUserNodesApi, personalUserTrashcanApi, 'afterAll (personal user) failed');
+      await Utils.deleteNodesSitesEmptyTrashcan(
+        personalUserPermissionsNodesApi,
+        personalUserTrashcanApi,
+        'repository-permissions - afterAll (personal user) failed'
+      );
     });
 
     test('[XAT-19611] Permissions for a Personal File still routes to /personal-files (regression)', async ({ personalFiles }) => {
