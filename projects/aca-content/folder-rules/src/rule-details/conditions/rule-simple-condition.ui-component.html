@@ -3,12 +3,16 @@
     <mat-label>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.FIELD' | translate }}</mat-label>
     <mat-select formControlName="field" data-automation-id="field-select"
       (selectionChange)="onChangeField()">
-      <mat-option *ngIf="!isSelectedFieldKnown" [value]="selectedField.name" data-automation-id="unknown-field-option">
-        {{ selectedField.label }}
-      </mat-option>
-      <mat-option *ngFor="let field of fields" [value]="field.name">
-        {{ field.label | translate }}
-      </mat-option>
+      @if (!isSelectedFieldKnown) {
+        <mat-option [value]="selectedField.name" data-automation-id="unknown-field-option">
+          {{ selectedField.label }}
+        </mat-option>
+      }
+      @for (field of fields; track field.name) {
+        <mat-option [value]="field.name">
+          {{ field.label | translate }}
+        </mat-option>
+      }
     </mat-select>
   </mat-form-field>
 
@@ -16,24 +20,27 @@
                   [class]="{ 'aca-hidden': isComparatorHidden }" data-automation-id="comparator-form-field">
     <mat-label>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.COMPARATOR' | translate }}</mat-label>
     <mat-select formControlName="comparator" data-automation-id="comparator-select">
-      <mat-option
-        *ngFor="let comparator of selectedFieldComparators"
-        [value]="comparator.name">
-        {{ comparator.labels[this.selectedField?.type || 'equals'] | translate }}
-      </mat-option>
+      @for (comparator of selectedFieldComparators; track comparator.name) {
+        <mat-option [value]="comparator.name">
+          {{ comparator.labels[this.selectedField?.type || 'equals'] | translate }}
+        </mat-option>
+      }
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field class="aca-rule-simple-condition__form__field-input aca-rule-simple-condition__form__parameter-input"
-                  [ngSwitch]="selectedField.type">
+  <mat-form-field class="aca-rule-simple-condition__form__field-input aca-rule-simple-condition__form__parameter-input">
     <mat-label>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.VALUE' | translate }}</mat-label>
-    <mat-select formControlName="parameter" data-automation-id="simple-condition-value-select" *ngSwitchCase="'mimeType'">
-      <mat-option *ngFor="let mimeType of mimeTypes"
-        [value]="mimeType.value">
-        {{ mimeType.label }}
-      </mat-option>
-    </mat-select>
-    <ng-template [ngSwitchCase]="'auto-complete'">
+    @switch (selectedField.type) {
+      @case ('mimeType') {
+        <mat-select formControlName="parameter" data-automation-id="simple-condition-value-select">
+          @for (mimeType of mimeTypes; track mimeType.value) {
+            <mat-option [value]="mimeType.value">
+              {{ mimeType.label }}
+            </mat-option>
+          }
+        </mat-select>
+      }
+      @case ('auto-complete') {
         <input
           matInput
           [matAutocomplete]="auto"
@@ -47,7 +54,8 @@
           [autoActiveFirstOption]="true"
           [autoSelectActiveOption]="true"
           [displayWith]="autoCompleteDisplayFunction">
-            <mat-option disabled *ngIf="showLoadingSpinner; else optionList">
+          @if (showLoadingSpinner) {
+            <mat-option disabled>
               <span class="aca-rule-simple-condition__auto-complete-loading-spinner">
                 <mat-progress-spinner
                   mode="indeterminate"
@@ -55,24 +63,24 @@
                   [diameter]="25" />
               </span>
             </mat-option>
-          <ng-template #optionList>
-            <ng-container *ngIf="autoCompleteOptions?.length > 0; else noOptionsTemplate">
-              <mat-option
-                *ngFor="let option of autoCompleteOptions"
-                [value]="option.value">
-                {{ option.displayLabel }}
-              </mat-option>
-            </ng-container>
-            <ng-template #noOptionsTemplate>
+          } @else {
+            @if (autoCompleteOptions?.length > 0) {
+              @for (option of autoCompleteOptions; track option.value) {
+                <mat-option [value]="option.value">
+                  {{ option.displayLabel }}
+                </mat-option>
+              }
+            } @else {
               <mat-option disabled>
                 {{ 'ACA_FOLDER_RULES.AUTOCOMPLETE.NO_OPTIONS_FOUND' | translate }}
               </mat-option>
-            </ng-template>
-          </ng-template>
+            }
+          }
         </mat-autocomplete>
-    </ng-template>
-    <ng-template ngSwitchDefault>
-      <input matInput placeholder="{{ 'ACA_FOLDER_RULES.RULE_DETAILS.PLACEHOLDER.VALUE' | translate }}" type="text" formControlName="parameter" data-automation-id="value-input">
-    </ng-template>
+      }
+      @default {
+        <input matInput placeholder="{{ 'ACA_FOLDER_RULES.RULE_DETAILS.PLACEHOLDER.VALUE' | translate }}" type="text" formControlName="parameter" data-automation-id="value-input">
+      }
+    }
   </mat-form-field>
 </form>

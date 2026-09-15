@@ -5,20 +5,22 @@
       formControlName="actionDefinitionId"
       data-automation-id="rule-action-select"
       [placeholder]="'ACA_FOLDER_RULES.RULE_DETAILS.ACTION_SELECT_PLACEHOLDER' | translate">
-      <mat-option
-        *ngFor="let actionDefinition of actionDefinitions"
-        [value]="actionDefinition.id">
-        {{ actionDefinition.title }}
-      </mat-option>
+      @for (actionDefinition of actionDefinitions; track actionDefinition) {
+        <mat-option
+          [value]="actionDefinition.id">
+          {{ actionDefinition.title }}
+        </mat-option>
+      }
     </mat-select>
     <mat-error>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.ACTION_REQUIRED' | translate}}</mat-error>
   </mat-form-field>
 
-  <adf-card-view
-    *ngIf="cardViewItems?.length > 0"
-    data-automation-id="rule-action-card-view"
-    [properties]="cardViewItems"
-    class="aca-rule-action-full-width"
-    [editable]="!readOnly" />
+  @if (cardViewItems?.length > 0) {
+    <adf-card-view
+      data-automation-id="rule-action-card-view"
+      [properties]="cardViewItems"
+      class="aca-rule-action-full-width"
+      [editable]="!readOnly" />
+  }
 
 </form>

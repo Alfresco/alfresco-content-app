@@ -23,7 +23,6 @@
  */
 
 import { Component, ElementRef, EventEmitter, inject, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -39,17 +38,7 @@ import { ConfigurableFocusTrap, ConfigurableFocusTrapFactory } from '@angular/cd
 @Component({
   selector: 'aca-search-in-menu',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    TranslatePipe,
-    OverlayModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCheckboxModule,
-    MatRadioModule,
-    MatDividerModule
-  ],
+  imports: [FormsModule, TranslatePipe, OverlayModule, MatButtonModule, MatIconModule, MatCheckboxModule, MatRadioModule, MatDividerModule],
   templateUrl: './search-in-menu.component.html',
   styleUrls: ['./search-in-menu.component.scss'],
   encapsulation: ViewEncapsulation.None

@@ -27,7 +27,6 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { AppStore, getAppSelection, ShareNodeAction } from '@alfresco/aca-shared/store';
-import { CommonModule } from '@angular/common';
 import { MatMenuItem, MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -35,7 +34,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  imports: [CommonModule, MatMenuModule, MatIconModule, TranslatePipe, MatButtonModule],
+  imports: [MatMenuModule, MatIconModule, TranslatePipe, MatButtonModule],
   selector: 'app-toggle-shared',
   templateUrl: './toggle-shared.component.html',
   encapsulation: ViewEncapsulation.None

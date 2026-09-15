@@ -1,33 +1,37 @@
-<div class="aca-rule-action-list__item" [attr.aria-labelledby]="'rule-actions-label'" *ngFor="let control of formControls">
-  <aca-rule-action
-    [actionDefinitions]="actionDefinitions"
-    [parameterConstraints]="parameterConstraints"
-    [readOnly]="readOnly"
-    [formControl]="control"
-    [nodeId]="nodeId" />
+@for (control of formControls; track control) {
+  <div class="aca-rule-action-list__item" [attr.aria-labelledby]="'rule-actions-label'">
+    <aca-rule-action
+      [actionDefinitions]="actionDefinitions"
+      [parameterConstraints]="parameterConstraints"
+      [readOnly]="readOnly"
+      [formControl]="control"
+      [nodeId]="nodeId" />
+    @if (!readOnly) {
+      <button
+        mat-icon-button
+        data-automation-id="rule-action-list-action-menu"
+        [attr.aria-label]="'ACA_FOLDER_RULES.EDIT_RULE_DIALOG.OPEN_ACTION_MENU' | translate"
+        [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    }
+    <mat-menu #menu>
+      <button
+        mat-menu-item
+        data-automation-id="rule-action-list-remove-action-button"
+        [title]="'ACA_FOLDER_RULES.RULE_DETAILS.ACTION_BUTTONS.REMOVE' | translate"
+        [disabled]="formControls.length <= 1"
+        (click)="removeAction(control)">
+        <mat-icon>delete</mat-icon>
+        <span>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ACTION_BUTTONS.REMOVE' | translate }}</span>
+      </button>
+    </mat-menu>
+  </div>
+}
 
-  <button
-    mat-icon-button
-    data-automation-id="rule-action-list-action-menu"
-    [attr.aria-label]="'ACA_FOLDER_RULES.EDIT_RULE_DIALOG.OPEN_ACTION_MENU' | translate"
-    *ngIf="!readOnly" [matMenuTriggerFor]="menu">
-    <mat-icon>more_vert</mat-icon>
+@if (!readOnly) {
+  <button mat-flat-button class="aca-rule-action-list-add-action-button" data-automation-id="rule-action-list-add-action-button" (click)="addAction()">
+    <mat-icon class="aca-rule-action-list-add-action-button-icon">add</mat-icon>
+    <span>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ACTION_BUTTONS.ADD_ACTION' | translate }}</span>
   </button>
-
-  <mat-menu #menu>
-    <button
-      mat-menu-item
-      data-automation-id="rule-action-list-remove-action-button"
-      [title]="'ACA_FOLDER_RULES.RULE_DETAILS.ACTION_BUTTONS.REMOVE' | translate"
-      [disabled]="formControls.length <= 1"
-      (click)="removeAction(control)">
-      <mat-icon>delete</mat-icon>
-      <span>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ACTION_BUTTONS.REMOVE' | translate }}</span>
-    </button>
-  </mat-menu>
-</div>
-
-<button mat-flat-button class="aca-rule-action-list-add-action-button" data-automation-id="rule-action-list-add-action-button" (click)="addAction()" *ngIf="!readOnly">
-  <mat-icon class="aca-rule-action-list-add-action-button-icon">add</mat-icon>
-  <span>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ACTION_BUTTONS.ADD_ACTION' | translate }}</span>
-</button>
+}
