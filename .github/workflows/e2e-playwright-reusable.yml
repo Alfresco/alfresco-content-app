@@ -17,8 +17,6 @@ on:
         required: true
       QUAY_PASSWORD:
         required: true
-      PACKAGE_AUTH_TOKEN:
-        required: false
 
 env:
   BASE_URL: http://localhost
@@ -32,7 +30,6 @@ env:
   REPORT_PORTAL_TOKEN: ${{ secrets.REPORT_PORTAL_TOKEN }}
   MAXINSTANCES: 2
   RETRY_COUNT: 2
-  PACKAGE_AUTH_TOKEN: ${{ secrets.PACKAGE_AUTH_TOKEN }}
 
 jobs:
   build:
