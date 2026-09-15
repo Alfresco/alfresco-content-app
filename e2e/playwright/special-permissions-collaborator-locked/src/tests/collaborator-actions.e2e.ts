@@ -48,10 +48,19 @@ const collaboratorEditRowToolbarMore = [
   'Edit Aspects',
   'Permissions'
 ];
+const collaboratorSharedSearchRowToolbarMore = [
+  'Edit Offline',
+  'Upload New Version',
+  'Favorite',
+  'Copy',
+  'Manage Versions',
+  'Edit Aspects',
+  'Permissions'
+];
 const favoritesCollaboratorToolbarMore = [
   'Edit Offline',
   'Upload New Version',
-  'Remove Favorite',
+  'Favorite',
   'Move',
   'Copy',
   'Delete',
@@ -165,7 +174,7 @@ test.describe('Special permissions - Collaborator available actions : ', () => {
 
     test('[XAT-4845] Toolbar - Actions appear correctly for a file - Collaborator - Shared', async ({ sharedPage, myLibrariesPage }) => {
       await sharedPage.navigate();
-      await checkActionsAvailable(myLibrariesPage, item.name, collaboratorToolbarPrimary, collaboratorEditRowToolbarMore);
+      await checkActionsAvailable(myLibrariesPage, item.name, collaboratorToolbarPrimary, collaboratorSharedSearchRowToolbarMore);
     });
   });
 
@@ -187,7 +196,7 @@ test.describe('Special permissions - Collaborator available actions : ', () => {
 
     test('[XAT-4847] Toolbar - Actions appear correctly for a file - Collaborator - Search Results', async ({ searchPage, myLibrariesPage }) => {
       await searchPage.searchWithin(item.random, 'filesAndFolders', 'formula');
-      await checkActionsAvailable(myLibrariesPage, item.name, collaboratorToolbarPrimary, collaboratorEditRowToolbarMore);
+      await checkActionsAvailable(myLibrariesPage, item.name, collaboratorToolbarPrimary, collaboratorSharedSearchRowToolbarMore);
     });
   });
 

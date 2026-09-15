@@ -57,6 +57,7 @@ test.describe('Special permissions - File locked, user is lock owner : ', () => 
   const sitePrivate = `site-private-locked-owner-${random}`;
   const userManager = `manager-locked-owner-${random}`;
   const userDemoted = `demoted-owner-${random}`;
+  const lockedFileIds: string[] = [];
 
   let docLibId: string;
   let managerNodeActions: NodesApi;
@@ -65,6 +66,7 @@ test.describe('Special permissions - File locked, user is lock owner : ', () => 
   let demotedUserActions: NodesApi;
   let demotedUserFavoritesActions: FavoritesApi;
   let demotedUserShareActions: SharedLinksApi;
+  let adminNodeActions: NodesApi;
 
   const provisionFile = async (item: LockedFile): Promise<void> => {
     test.setTimeout(timeouts.extendedTest);
@@ -75,6 +77,7 @@ test.describe('Special permissions - File locked, user is lock owner : ', () => 
 
     item.id = (await managerNodeActions.createFile(item.name, docLibId, '', '', '', true, ['cm:versionable'])).entry.id;
     await demotedUserActions.checkoutNodes([item.id]);
+    lockedFileIds.push(item.id);
     await demotedUserFavoritesActions.addFavoriteById('file', item.id);
     await demotedUserShareActions.shareFileById(item.id);
 
@@ -100,6 +103,7 @@ test.describe('Special permissions - File locked, user is lock owner : ', () => 
     demotedUserActions = await NodesApi.initialize(userDemoted, userDemoted);
     demotedUserFavoritesActions = await FavoritesApi.initialize(userDemoted, userDemoted);
     demotedUserShareActions = await SharedLinksApi.initialize(userDemoted, userDemoted);
+    adminNodeActions = await NodesApi.initialize('admin');
 
     await managerSiteActions.createSite(sitePrivate, Site.VisibilityEnum.PRIVATE);
     docLibId = await managerSiteActions.getDocLibId(sitePrivate);
@@ -112,6 +116,7 @@ test.describe('Special permissions - File locked, user is lock owner : ', () => 
   });
 
   test.afterAll(async () => {
+    await adminNodeActions.cancelCheckout(lockedFileIds);
     await Utils.deleteNodesSitesEmptyTrashcan(undefined, undefined, 'afterAll failed', managerSiteActions, [sitePrivate]);
   });
 
