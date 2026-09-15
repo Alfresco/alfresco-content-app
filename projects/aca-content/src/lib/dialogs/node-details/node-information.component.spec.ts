@@ -138,8 +138,8 @@ describe('NodeInformationComponent', () => {
       expect(getNumberOfFiles()).toBe('APP.NODE_INFO.CALCULATING');
       expect(getNodeSize()).toBe('APP.NODE_INFO.CALCULATING');
       expect(getNodeLocation()).toBe('mock-folder-path');
-      expect(getNodeCreationDate()).toBe('2/1/24, 11:11 AM');
-      expect(getNodeModifyDate()).toBe('3/2/24, 10:22 PM');
+      expect(getNodeCreationDate()).toBe('2/1/24, 11:11 AM');
+      expect(getNodeModifyDate()).toBe('3/2/24, 10:22 PM');
     });
 
     it('should make API call on init to start folder size calculation', () => {
@@ -243,8 +243,8 @@ describe('NodeInformationComponent', () => {
       expect(getNodeName()).toBe('mock-file');
       expect(getNodeSize()).toBe('1000 CORE.FILE_SIZE.BYTES');
       expect(getNodeLocation()).toBe('mock-file-path');
-      expect(getNodeCreationDate()).toBe('2/1/24, 11:11 AM');
-      expect(getNodeModifyDate()).toBe('3/2/24, 10:22 PM');
+      expect(getNodeCreationDate()).toBe('2/1/24, 11:11 AM');
+      expect(getNodeModifyDate()).toBe('3/2/24, 10:22 PM');
     });
 
     it('should call API to fetch secondary parent paths', () => {
@@ -282,8 +282,8 @@ describe('NodeInformationComponent', () => {
       expect(getNodeName()).toBe('mock-file-link');
       expect(getNodeSize()).toBe('APP.NODE_INFO.NOT_AVAILABLE');
       expect(getNodeLocation()).toBe('mock-file-link-path');
-      expect(getNodeCreationDate()).toBe('2/1/24, 11:11 AM');
-      expect(getNodeModifyDate()).toBe('3/2/24, 10:22 PM');
+      expect(getNodeCreationDate()).toBe('2/1/24, 11:11 AM');
+      expect(getNodeModifyDate()).toBe('3/2/24, 10:22 PM');
       expect(nodeService.initiateFolderSizeCalculation).not.toHaveBeenCalled();
     });
 
@@ -296,8 +296,8 @@ describe('NodeInformationComponent', () => {
       expect(getNodeSize()).toBe('APP.NODE_INFO.NOT_AVAILABLE');
       expect(getNumberOfFiles()).toBe('APP.NODE_INFO.NOT_AVAILABLE');
       expect(getNodeLocation()).toBe('mock-folder-link-path');
-      expect(getNodeCreationDate()).toBe('2/1/24, 11:11 AM');
-      expect(getNodeModifyDate()).toBe('3/2/24, 10:22 PM');
+      expect(getNodeCreationDate()).toBe('2/1/24, 11:11 AM');
+      expect(getNodeModifyDate()).toBe('3/2/24, 10:22 PM');
       expect(nodeService.initiateFolderSizeCalculation).not.toHaveBeenCalled();
     });
   });
