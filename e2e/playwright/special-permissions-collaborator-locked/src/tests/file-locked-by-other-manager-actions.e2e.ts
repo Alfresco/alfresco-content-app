@@ -38,7 +38,8 @@ import { checkActionsAvailable, checkActionsViewerAvailable } from './permission
 
 const collaboratorToolbarPrimary = ['View', 'View Details', 'More Actions'];
 const collaboratorViewerLockedToolbarPrimary = ['Activate full-screen mode', 'View Details', 'More Actions'];
-const lockOtherUserToolbarMore = ['Cancel Editing', 'Favorite', 'Move', 'Copy', 'Permissions'];
+const lockOtherUserAdminFavToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Copy'];
+const lockOtherUserManagerFavToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy'];
 const lockOtherUserSearchToolbarMore = ['Cancel Editing', 'Favorite', 'Copy', 'Permissions'];
 
 interface ManagerLockedFile {
@@ -59,6 +60,7 @@ test.describe('Special permissions - File locked by other user, user is manager 
   const otherManager = `other-manager-locked-other-${random}`;
   const sitePrivate = `site-private-locked-other-${random}`;
   const apiClientFactory = new ApiClientFactory();
+  const lockedFileIds: string[] = [];
 
   let managerSiteActions: SitesApi;
   let managerNodeActions: NodesApi;
@@ -66,22 +68,30 @@ test.describe('Special permissions - File locked by other user, user is manager 
   let managerSearchActions: SearchApi;
   let otherManagerNodeActions: NodesApi;
   let otherManagerShareActions: SharedLinksApi;
+  let otherManagerFavoritesActions: FavoritesApi;
+  let adminNodeActions: NodesApi;
   let docLibId: string;
 
-  const provisionFile = async (item: ManagerLockedFile): Promise<void> => {
+  const provisionFile = async (
+    managerLockedFile: ManagerLockedFile,
+    { favoritedByOtherManager = false }: { favoritedByOtherManager?: boolean } = {}
+  ): Promise<void> => {
     test.setTimeout(timeouts.extendedTest);
-    const managerFavoritesTotalItems = await managerFavoritesActions.getFavoritesTotalItems(userManager);
+    const favoritesActions = favoritedByOtherManager ? otherManagerFavoritesActions : managerFavoritesActions;
+    const favoritesUser = favoritedByOtherManager ? otherManager : userManager;
+    const favoritesTotalItems = await favoritesActions.getFavoritesTotalItems(favoritesUser);
     const managerSearchTotalItems = await managerSearchActions.getTotalItems(userManager);
 
-    item.id = (await managerNodeActions.createFile(item.name, docLibId, '', '', '', true, ['cm:versionable'])).entry.id;
-    await otherManagerNodeActions.checkoutNodes([item.id]);
-    await otherManagerShareActions.shareFileById(item.id);
-    await managerFavoritesActions.addFavoriteById('file', item.id);
+    managerLockedFile.id = (await managerNodeActions.createFile(managerLockedFile.name, docLibId, '', '', '', true, ['cm:versionable'])).entry.id;
+    await otherManagerNodeActions.checkoutNodes([managerLockedFile.id]);
+    lockedFileIds.push(managerLockedFile.id);
+    await otherManagerShareActions.shareFileById(managerLockedFile.id);
+    await favoritesActions.addFavoriteById('file', managerLockedFile.id);
 
-    await managerFavoritesActions.isFavoriteWithRetry(userManager, item.id, { expect: true });
+    await favoritesActions.isFavoriteWithRetry(favoritesUser, managerLockedFile.id, { expect: true });
     await Promise.all([
-      managerFavoritesActions.waitForApi(userManager, { expect: managerFavoritesTotalItems + 1 }),
-      otherManagerShareActions.waitForFilesToBeShared([item.id]),
+      favoritesActions.waitForApi(favoritesUser, { expect: favoritesTotalItems + 1 }),
+      otherManagerShareActions.waitForFilesToBeShared([managerLockedFile.id]),
       managerSearchActions.waitForApi(userManager, { expect: managerSearchTotalItems + 1 })
     ]);
   };
@@ -98,6 +108,8 @@ test.describe('Special permissions - File locked by other user, user is manager 
     managerSearchActions = await SearchApi.initialize(userManager, userManager);
     otherManagerNodeActions = await NodesApi.initialize(otherManager, otherManager);
     otherManagerShareActions = await SharedLinksApi.initialize(otherManager, otherManager);
+    otherManagerFavoritesActions = await FavoritesApi.initialize(otherManager, otherManager);
+    adminNodeActions = await NodesApi.initialize('admin');
 
     await managerSiteActions.createSite(sitePrivate, Site.VisibilityEnum.PRIVATE);
     await managerSiteActions.addSiteMember(sitePrivate, otherManager, Site.RoleEnum.SiteManager);
@@ -109,105 +121,126 @@ test.describe('Special permissions - File locked by other user, user is manager 
   });
 
   test.afterAll(async () => {
+    await adminNodeActions.cancelCheckout(lockedFileIds);
     await Utils.deleteNodesSitesEmptyTrashcan(undefined, undefined, 'afterAll failed', managerSiteActions, [sitePrivate]);
   });
 
   test.describe('File Libraries - row actions', () => {
-    const item = buildFile();
+    const managerLockedFile = buildFile();
 
-    test.beforeAll(() => provisionFile(item));
+    test.beforeAll(() => provisionFile(managerLockedFile));
 
     test('[XAT-4860] Toolbar - Correct actions appear for file - on File Libraries - Locked File - Other User', async ({ myLibrariesPage }) => {
       await myLibrariesPage.navigate();
       await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(sitePrivate);
-      await checkActionsAvailable(myLibrariesPage, item.name, collaboratorToolbarPrimary, lockOtherUserToolbarMore);
+      await checkActionsAvailable(myLibrariesPage, managerLockedFile.name, collaboratorToolbarPrimary, lockOtherUserAdminFavToolbarMore);
     });
   });
 
   test.describe('Shared Files - row actions', () => {
-    const item = buildFile();
+    const managerLockedFile = buildFile();
 
-    test.beforeAll(() => provisionFile(item));
+    test.beforeAll(() => provisionFile(managerLockedFile));
 
     test('[XAT-4861] Toolbar - Correct actions appear for file - on Shared Files - Locked File - Other User', async ({
       sharedPage,
       myLibrariesPage
     }) => {
       await sharedPage.navigate();
-      await checkActionsAvailable(myLibrariesPage, item.name, collaboratorToolbarPrimary, lockOtherUserToolbarMore);
+      await checkActionsAvailable(myLibrariesPage, managerLockedFile.name, collaboratorToolbarPrimary, lockOtherUserAdminFavToolbarMore);
     });
   });
 
   test.describe('Favorites - row actions', () => {
-    const item = buildFile();
+    const managerLockedFile = buildFile();
 
-    test.beforeAll(() => provisionFile(item));
+    test.beforeAll(() => provisionFile(managerLockedFile, { favoritedByOtherManager: true }));
 
     test('[XAT-4862] Toolbar - Correct actions appear for file - on Favorites - Locked File - Other User', async ({
       favoritePage,
       myLibrariesPage
     }) => {
       await favoritePage.navigate();
-      await checkActionsAvailable(myLibrariesPage, item.name, collaboratorToolbarPrimary, lockOtherUserToolbarMore);
+      await checkActionsAvailable(myLibrariesPage, managerLockedFile.name, collaboratorToolbarPrimary, lockOtherUserAdminFavToolbarMore);
     });
   });
 
   test.describe('Search Results - row actions', () => {
-    const item = buildFile();
+    const managerLockedFile = buildFile();
 
-    test.beforeAll(() => provisionFile(item));
+    test.beforeAll(() => provisionFile(managerLockedFile));
 
     test('[XAT-4863] Toolbar - Correct actions appear for file - on Search Results - Locked File - Other User', async ({
       searchPage,
       myLibrariesPage
     }) => {
-      await searchPage.searchWithin(item.random, 'filesAndFolders', 'formula');
-      await checkActionsAvailable(myLibrariesPage, item.name, collaboratorToolbarPrimary, lockOtherUserSearchToolbarMore);
+      await searchPage.searchWithin(managerLockedFile.random, 'filesAndFolders', 'formula');
+      await checkActionsAvailable(myLibrariesPage, managerLockedFile.name, collaboratorToolbarPrimary, lockOtherUserSearchToolbarMore);
     });
   });
 
   test.describe('File Libraries - viewer actions', () => {
-    const item = buildFile();
+    const managerLockedFile = buildFile();
 
-    test.beforeAll(() => provisionFile(item));
+    test.beforeAll(() => provisionFile(managerLockedFile));
 
     test('[XAT-4864] Correct actions appear for file opened from File Libraries - viewer - locked', async ({ myLibrariesPage }) => {
       await myLibrariesPage.navigate();
       await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(sitePrivate);
-      await checkActionsViewerAvailable(myLibrariesPage, item.name, collaboratorViewerLockedToolbarPrimary, lockOtherUserToolbarMore);
+      await checkActionsViewerAvailable(
+        myLibrariesPage,
+        managerLockedFile.name,
+        collaboratorViewerLockedToolbarPrimary,
+        lockOtherUserAdminFavToolbarMore
+      );
     });
   });
 
   test.describe('Shared Files - viewer actions', () => {
-    const item = buildFile();
+    const managerLockedFile = buildFile();
 
-    test.beforeAll(() => provisionFile(item));
+    test.beforeAll(() => provisionFile(managerLockedFile));
 
     test('[XAT-4865] Correct actions appear for file opened from Shared Files - viewer - locked', async ({ sharedPage, myLibrariesPage }) => {
       await sharedPage.navigate();
-      await checkActionsViewerAvailable(myLibrariesPage, item.name, collaboratorViewerLockedToolbarPrimary, lockOtherUserToolbarMore);
+      await checkActionsViewerAvailable(
+        myLibrariesPage,
+        managerLockedFile.name,
+        collaboratorViewerLockedToolbarPrimary,
+        lockOtherUserAdminFavToolbarMore
+      );
     });
   });
 
   test.describe('Favorites - viewer actions', () => {
-    const item = buildFile();
+    const managerLockedFile = buildFile();
 
-    test.beforeAll(() => provisionFile(item));
+    test.beforeAll(() => provisionFile(managerLockedFile, { favoritedByOtherManager: true }));
 
     test('[XAT-4866] Correct actions appear for file opened from Favorites - viewer - locked', async ({ favoritePage, myLibrariesPage }) => {
       await favoritePage.navigate();
-      await checkActionsViewerAvailable(myLibrariesPage, item.name, collaboratorViewerLockedToolbarPrimary, lockOtherUserToolbarMore);
+      await checkActionsViewerAvailable(
+        myLibrariesPage,
+        managerLockedFile.name,
+        collaboratorViewerLockedToolbarPrimary,
+        lockOtherUserManagerFavToolbarMore
+      );
     });
   });
 
   test.describe('Search Results - viewer actions', () => {
-    const item = buildFile();
+    const managerLockedFile = buildFile();
 
-    test.beforeAll(() => provisionFile(item));
+    test.beforeAll(() => provisionFile(managerLockedFile));
 
     test('[XAT-4867] Correct actions appear for file opened from Search Results - viewer - locked', async ({ searchPage, myLibrariesPage }) => {
-      await searchPage.searchWithin(item.random, 'filesAndFolders', 'formula');
-      await checkActionsViewerAvailable(myLibrariesPage, item.name, collaboratorViewerLockedToolbarPrimary, lockOtherUserSearchToolbarMore);
+      await searchPage.searchWithin(managerLockedFile.random, 'filesAndFolders', 'formula');
+      await checkActionsViewerAvailable(
+        myLibrariesPage,
+        managerLockedFile.name,
+        collaboratorViewerLockedToolbarPrimary,
+        lockOtherUserSearchToolbarMore
+      );
     });
   });
 });
