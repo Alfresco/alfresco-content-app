@@ -97,6 +97,10 @@ describe('DocumentListDirective', () => {
   };
 
   beforeEach(() => {
+    userPreferencesServiceMock.set = jasmine.createSpy('set');
+    userPreferencesServiceMock.get = jasmine.createSpy('get');
+    userPreferencesServiceMock.hasItem = jasmine.createSpy('hasItem');
+
     TestBed.configureTestingModule({
       imports: [DocumentListDirective],
       providers: [
@@ -119,6 +123,7 @@ describe('DocumentListDirective', () => {
     nodeToSelect$.next(null);
     documentListMock.preselectNodes = [];
     documentListMock.selection = [];
+    documentListMock.sortingMode = undefined;
     elementRefMock.nativeElement.querySelector.calls.reset();
     mockSelectedElement.focus.calls.reset();
   });
@@ -278,7 +283,6 @@ describe('DocumentListDirective', () => {
 
     beforeEach(() => {
       mockRoute.snapshot.data.sortingPreferenceKey = preferenceKey;
-      userPreferencesServiceMock.set.calls.reset();
       documentListDirective.ngOnInit();
     });
 
