@@ -53,7 +53,7 @@ test.describe('Copy actions', () => {
   });
 
   test.beforeEach(async ({ personalFiles, page }) => {
-    const sourceFileRandom = `${Utils.random()}`;
+    const sourceFileRandom = Utils.random();
     sourceFile = `source-file-${sourceFileRandom}`;
     sourceFileWorkingCopy = `source-file-${sourceFileRandom} (Working Copy)`;
     sourceFileInsideFolder = `source-file-inside-folder-${Utils.random()}.txt`;
@@ -125,7 +125,7 @@ test.describe('Copy actions', () => {
 
   test('[XAT-4944] Copy a file with a name that already exists on the destination', async ({ personalFiles }) => {
     await nodesApi.createFile(sourceFile, destinationFolderId);
-    const expectedNameForCopiedFile = `${sourceFile + '-1'}`;
+    const expectedNameForCopiedFile = `${sourceFile}-1`;
     await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
     await copyContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBe(true);

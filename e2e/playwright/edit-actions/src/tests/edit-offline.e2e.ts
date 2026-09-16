@@ -73,6 +73,7 @@ test.describe('Edit offline - on Personal Files', () => {
         personalFiles.matMenu.clickMenuItem('Edit Offline')
       ]);
       expect(download.suggestedFilename()).toBe(file5304);
+      expect(await fileActionsApi.isFileCheckedOutWithRetry(file5304Id, true), `${file5304} is not locked`).toBe(true);
     });
   });
 
@@ -133,10 +134,12 @@ test.describe('Edit offline - on Personal Files', () => {
 
   test.describe('[XAT-20171] Cancel Editing option should not persists after uploading a new file version', () => {
     const file20171 = `file-20171-${Utils.random()}`;
+    let fileLocked20171Id: string;
 
     test.beforeAll(async () => {
       try {
-        await fileActionsApi.uploadFileWithRename(TEST_FILES.PNG_FILE.path, file20171);
+        fileLocked20171Id = (await fileActionsApi.uploadFileWithRename(TEST_FILES.PNG_FILE.path, file20171)).entry.id;
+        await nodesApi.checkoutNodes([fileLocked20171Id]);
       } catch (error) {
         console.error(`beforeAll failed : ${error}`);
       }
@@ -160,6 +163,7 @@ test.describe('Edit offline - on Personal Files', () => {
       await personalFiles.dataTable.selectItems(TEST_FILES.PNG_FILE.name);
       await personalFiles.acaHeader.clickMoreActions();
       await expect(personalFiles.matMenu.getButtonByText('Upload New Version')).toBeVisible();
+      await expect(personalFiles.matMenu.getButtonByText('Cancel Editing')).toBeHidden();
     });
   });
 });
