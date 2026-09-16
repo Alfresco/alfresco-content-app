@@ -161,7 +161,7 @@ test.describe('Special permissions - File locked by other user, user is manager 
       myLibrariesPage
     }) => {
       await favoritePage.navigate();
-      await checkActionsAvailable(myLibrariesPage, managerLockedFile.name, collaboratorToolbarPrimary, lockOtherUserAdminFavToolbarMore);
+      await checkActionsAvailable(myLibrariesPage, managerLockedFile.name, collaboratorToolbarPrimary, lockOtherUserManagerFavToolbarMore);
     });
   });
 
