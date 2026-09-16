@@ -39,8 +39,10 @@ import { checkActionsAvailable, checkActionsViewerAvailable } from './permission
 const collaboratorToolbarPrimary = ['View', 'View Details', 'More Actions'];
 const collaboratorViewerLockedToolbarPrimary = ['Activate full-screen mode', 'View Details', 'More Actions'];
 const lockOtherUserAdminFavToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Copy'];
-const lockOtherUserManagerFavToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy'];
+const lockOtherUserManagerFavToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Copy', 'Information'];
 const lockOtherUserSearchToolbarMore = ['Cancel Editing', 'Favorite', 'Copy', 'Permissions'];
+const lockOtherUserViewerToolbarMore = ['Cancel Editing', 'Favorite', 'Copy'];
+const lockOtherUserViewerFavToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Copy'];
 
 interface ManagerLockedFile {
   random: string;
@@ -205,7 +207,7 @@ test.describe('Special permissions - File locked by other user, user is manager 
         myLibrariesPage,
         managerLockedFile.name,
         collaboratorViewerLockedToolbarPrimary,
-        lockOtherUserAdminFavToolbarMore
+        lockOtherUserViewerToolbarMore
       );
     });
   });
@@ -221,7 +223,7 @@ test.describe('Special permissions - File locked by other user, user is manager 
         myLibrariesPage,
         managerLockedFile.name,
         collaboratorViewerLockedToolbarPrimary,
-        lockOtherUserManagerFavToolbarMore
+        lockOtherUserViewerFavToolbarMore
       );
     });
   });
