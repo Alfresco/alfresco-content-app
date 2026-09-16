@@ -72,7 +72,7 @@ test.describe('Copy actions', () => {
   });
 
   test.afterAll(async () => {
-    await nodesApi.cancelCheckout([sourceFileId]);
+    await nodesApi.cancelCheckout([sourceFileId, sourceFileInsideFolderId]);
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 

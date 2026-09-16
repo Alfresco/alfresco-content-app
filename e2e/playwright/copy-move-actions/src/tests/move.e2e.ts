@@ -66,6 +66,7 @@ test.describe('Move actions', () => {
   });
 
   test.afterAll(async () => {
+    await nodesApi.cancelCheckout([sourceFileId, sourceFileInsideFolderId]);
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 

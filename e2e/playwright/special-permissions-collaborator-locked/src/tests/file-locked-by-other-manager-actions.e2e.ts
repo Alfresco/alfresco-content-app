@@ -66,7 +66,6 @@ test.describe('Special permissions - File locked by other user, user is manager 
   let managerNodeActions: NodesApi;
   let managerFavoritesActions: FavoritesApi;
   let managerSearchActions: SearchApi;
-  let otherManagerNodeActions: NodesApi;
   let otherManagerShareActions: SharedLinksApi;
   let otherManagerFavoritesActions: FavoritesApi;
   let adminNodeActions: NodesApi;
@@ -83,7 +82,7 @@ test.describe('Special permissions - File locked by other user, user is manager 
     const managerSearchTotalItems = await managerSearchActions.getTotalItems(userManager);
 
     managerLockedFile.id = (await managerNodeActions.createFile(managerLockedFile.name, docLibId, '', '', '', true, ['cm:versionable'])).entry.id;
-    await otherManagerNodeActions.checkoutNodes([managerLockedFile.id]);
+    await managerNodeActions.checkoutNodes([managerLockedFile.id]);
     lockedFileIds.push(managerLockedFile.id);
     await otherManagerShareActions.shareFileById(managerLockedFile.id);
     await favoritesActions.addFavoriteById('file', managerLockedFile.id);
@@ -106,7 +105,6 @@ test.describe('Special permissions - File locked by other user, user is manager 
     managerNodeActions = await NodesApi.initialize(userManager, userManager);
     managerFavoritesActions = await FavoritesApi.initialize(userManager, userManager);
     managerSearchActions = await SearchApi.initialize(userManager, userManager);
-    otherManagerNodeActions = await NodesApi.initialize(otherManager, otherManager);
     otherManagerShareActions = await SharedLinksApi.initialize(otherManager, otherManager);
     otherManagerFavoritesActions = await FavoritesApi.initialize(otherManager, otherManager);
     adminNodeActions = await NodesApi.initialize('admin');
