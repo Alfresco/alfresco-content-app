@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { MyLibrariesPage } from '@alfresco/aca-playwright-shared';
+import { MyLibrariesPage, Utils } from '@alfresco/aca-playwright-shared';
 import { expect } from '@playwright/test';
 
 export async function checkActionsAvailable(
@@ -32,9 +32,19 @@ export async function checkActionsAvailable(
   expectedToolbarMore: string[]
 ): Promise<void> {
   await myLibrariesPage.dataTable.selectItems(item);
+  if (expectedToolbarMore.includes('Remove Favorite')) {
+    await Utils.waitForApiResponse(myLibrariesPage, 'favorites', 200);
+  }
   await myLibrariesPage.acaHeader.verifyToolbarPrimaryActions(expectedToolbarPrimary);
   await myLibrariesPage.acaHeader.clickMoreActions();
-  await myLibrariesPage.matMenu.verifyActualMoreActions(expectedToolbarMore);
+  await myLibrariesPage.matMenu.verifyActualMoreActions(expectedToolbarMore, async () => {
+    await myLibrariesPage.page.keyboard.press('Escape');
+    if (await myLibrariesPage.dataTable.isRowSelected(item)) {
+      await myLibrariesPage.dataTable.getCheckboxForElement(item).click();
+    }
+    await myLibrariesPage.dataTable.selectItems(item);
+    await myLibrariesPage.acaHeader.clickMoreActions();
+  });
 }
 
 export async function checkActionsViewerAvailable(

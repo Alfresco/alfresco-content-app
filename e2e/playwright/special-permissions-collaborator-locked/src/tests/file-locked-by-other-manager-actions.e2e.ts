@@ -39,7 +39,7 @@ import { checkActionsAvailable, checkActionsViewerAvailable } from './permission
 const collaboratorToolbarPrimary = ['View', 'View Details', 'More Actions'];
 const collaboratorViewerLockedToolbarPrimary = ['Activate full-screen mode', 'View Details', 'More Actions'];
 const lockOtherUserAdminFavToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Copy'];
-const lockOtherUserManagerFavToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Copy', 'Information'];
+const lockOtherUserManagerFavToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Information'];
 const lockOtherUserSearchToolbarMore = ['Cancel Editing', 'Favorite', 'Copy', 'Permissions'];
 const lockOtherUserViewerToolbarMore = ['Cancel Editing', 'Favorite', 'Copy'];
 const lockOtherUserViewerFavToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Copy'];
@@ -217,7 +217,10 @@ test.describe('Special permissions - File locked by other user, user is manager 
 
     test.beforeAll(() => provisionFile(managerLockedFile, { favoritedByOtherManager: true }));
 
-    test('[XAT-4866] Correct actions appear for file opened from Favorites - viewer - locked', async ({ favoritePage, myLibrariesPage }) => {
+    test('[XAT-4866] Correct actions appear for file opened from Favorites - viewer - locked - Other user', async ({
+      favoritePage,
+      myLibrariesPage
+    }) => {
       await favoritePage.navigate();
       await checkActionsViewerAvailable(
         myLibrariesPage,
