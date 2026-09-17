@@ -142,12 +142,9 @@ test.describe('Special permissions - File locked by other user, user is manager 
 
     test.beforeAll(() => provisionFile(managerLockedFile));
 
-    test('[XAT-4861] Toolbar - Correct actions appear for file - on Shared Files - Locked File - Other User', async ({
-      sharedPage,
-      myLibrariesPage
-    }) => {
+    test('[XAT-4861] Toolbar - Correct actions appear for file - on Shared Files - Locked File - Other User', async ({ sharedPage }) => {
       await sharedPage.navigate();
-      await checkActionsAvailable(myLibrariesPage, managerLockedFile.name, collaboratorToolbarPrimary, lockOtherUserAdminFavToolbarMore);
+      await checkActionsAvailable(sharedPage, managerLockedFile.name, collaboratorToolbarPrimary, lockOtherUserAdminFavToolbarMore);
     });
   });
 
@@ -156,12 +153,9 @@ test.describe('Special permissions - File locked by other user, user is manager 
 
     test.beforeAll(() => provisionFile(managerLockedFile, { favoritedByOtherManager: true }));
 
-    test('[XAT-4862] Toolbar - Correct actions appear for file - on Favorites - Locked File - Other User', async ({
-      favoritePage,
-      myLibrariesPage
-    }) => {
+    test('[XAT-4862] Toolbar - Correct actions appear for file - on Favorites - Locked File - Other User', async ({ favoritePage }) => {
       await favoritePage.navigate();
-      await checkActionsAvailable(myLibrariesPage, managerLockedFile.name, collaboratorToolbarPrimary, lockOtherUserManagerFavToolbarMore);
+      await checkActionsAvailable(favoritePage, managerLockedFile.name, collaboratorToolbarPrimary, lockOtherUserManagerFavToolbarMore);
     });
   });
 
@@ -170,12 +164,9 @@ test.describe('Special permissions - File locked by other user, user is manager 
 
     test.beforeAll(() => provisionFile(managerLockedFile));
 
-    test('[XAT-4863] Toolbar - Correct actions appear for file - on Search Results - Locked File - Other User', async ({
-      searchPage,
-      myLibrariesPage
-    }) => {
+    test('[XAT-4863] Toolbar - Correct actions appear for file - on Search Results - Locked File - Other User', async ({ searchPage }) => {
       await searchPage.searchWithin(managerLockedFile.random, 'filesAndFolders', 'formula');
-      await checkActionsAvailable(myLibrariesPage, managerLockedFile.name, collaboratorToolbarPrimary, lockOtherUserSearchToolbarMore);
+      await checkActionsAvailable(searchPage, managerLockedFile.name, collaboratorToolbarPrimary, lockOtherUserSearchToolbarMore);
     });
   });
 
@@ -201,14 +192,9 @@ test.describe('Special permissions - File locked by other user, user is manager 
 
     test.beforeAll(() => provisionFile(managerLockedFile));
 
-    test('[XAT-4865] Correct actions appear for file opened from Shared Files - viewer - locked', async ({ sharedPage, myLibrariesPage }) => {
+    test('[XAT-4865] Correct actions appear for file opened from Shared Files - viewer - locked', async ({ sharedPage }) => {
       await sharedPage.navigate();
-      await checkActionsViewerAvailable(
-        myLibrariesPage,
-        managerLockedFile.name,
-        collaboratorViewerLockedToolbarPrimary,
-        lockOtherUserViewerToolbarMore
-      );
+      await checkActionsViewerAvailable(sharedPage, managerLockedFile.name, collaboratorViewerLockedToolbarPrimary, lockOtherUserViewerToolbarMore);
     });
   });
 
@@ -217,13 +203,10 @@ test.describe('Special permissions - File locked by other user, user is manager 
 
     test.beforeAll(() => provisionFile(managerLockedFile, { favoritedByOtherManager: true }));
 
-    test('[XAT-4866] Correct actions appear for file opened from Favorites - viewer - locked - Other user', async ({
-      favoritePage,
-      myLibrariesPage
-    }) => {
+    test('[XAT-4866] Correct actions appear for file opened from Favorites - viewer - locked - Other user', async ({ favoritePage }) => {
       await favoritePage.navigate();
       await checkActionsViewerAvailable(
-        myLibrariesPage,
+        favoritePage,
         managerLockedFile.name,
         collaboratorViewerLockedToolbarPrimary,
         lockOtherUserViewerFavToolbarMore
@@ -236,14 +219,9 @@ test.describe('Special permissions - File locked by other user, user is manager 
 
     test.beforeAll(() => provisionFile(managerLockedFile));
 
-    test('[XAT-4867] Correct actions appear for file opened from Search Results - viewer - locked', async ({ searchPage, myLibrariesPage }) => {
+    test('[XAT-4867] Correct actions appear for file opened from Search Results - viewer - locked', async ({ searchPage }) => {
       await searchPage.searchWithin(managerLockedFile.random, 'filesAndFolders', 'formula');
-      await checkActionsViewerAvailable(
-        myLibrariesPage,
-        managerLockedFile.name,
-        collaboratorViewerLockedToolbarPrimary,
-        lockOtherUserSearchToolbarMore
-      );
+      await checkActionsViewerAvailable(searchPage, managerLockedFile.name, collaboratorViewerLockedToolbarPrimary, lockOtherUserSearchToolbarMore);
     });
   });
 });

@@ -137,9 +137,9 @@ test.describe('Special permissions - File locked, user is lock owner : ', () => 
 
     test.beforeAll(() => provisionFile(item));
 
-    test('[XAT-4853] Toolbar - Correct actions appear for file - on Shared Files - Locked File', async ({ sharedPage, myLibrariesPage }) => {
+    test('[XAT-4853] Toolbar - Correct actions appear for file - on Shared Files - Locked File', async ({ sharedPage }) => {
       await sharedPage.navigate();
-      await checkActionsAvailable(myLibrariesPage, item.name, collaboratorToolbarPrimary, lockCurrentUserToolbarMore);
+      await checkActionsAvailable(sharedPage, item.name, collaboratorToolbarPrimary, lockCurrentUserToolbarMore);
     });
   });
 
@@ -148,9 +148,9 @@ test.describe('Special permissions - File locked, user is lock owner : ', () => 
 
     test.beforeAll(() => provisionFile(item));
 
-    test('[XAT-4854] Toolbar - Correct actions appear for file - on Favorites - Locked File', async ({ favoritePage, myLibrariesPage }) => {
+    test('[XAT-4854] Toolbar - Correct actions appear for file - on Favorites - Locked File', async ({ favoritePage }) => {
       await favoritePage.navigate();
-      await checkActionsAvailable(myLibrariesPage, item.name, collaboratorToolbarPrimary, lockCurrentUserToolbarMore);
+      await checkActionsAvailable(favoritePage, item.name, collaboratorToolbarPrimary, lockCurrentUserToolbarMore);
     });
   });
 
@@ -159,9 +159,9 @@ test.describe('Special permissions - File locked, user is lock owner : ', () => 
 
     test.beforeAll(() => provisionFile(item));
 
-    test('[XAT-4855] Toolbar - Correct actions appear for file - on Search Results - Locked File', async ({ searchPage, myLibrariesPage }) => {
+    test('[XAT-4855] Toolbar - Correct actions appear for file - on Search Results - Locked File', async ({ searchPage }) => {
       await searchPage.searchWithin(item.random, 'filesAndFolders', 'formula');
-      await checkActionsAvailable(myLibrariesPage, item.name, collaboratorToolbarPrimary, lockCurrentUserToolbarMore);
+      await checkActionsAvailable(searchPage, item.name, collaboratorToolbarPrimary, lockCurrentUserToolbarMore);
     });
   });
 
@@ -182,9 +182,9 @@ test.describe('Special permissions - File locked, user is lock owner : ', () => 
 
     test.beforeAll(() => provisionFile(item));
 
-    test('[XAT-4857] Correct actions appear for file opened from Shared Files - Locked File', async ({ sharedPage, myLibrariesPage }) => {
+    test('[XAT-4857] Correct actions appear for file opened from Shared Files - Locked File', async ({ sharedPage }) => {
       await sharedPage.navigate();
-      await checkActionsViewerAvailable(myLibrariesPage, item.name, collaboratorViewerLockedToolbarPrimary, lockCurrentUserToolbarMore);
+      await checkActionsViewerAvailable(sharedPage, item.name, collaboratorViewerLockedToolbarPrimary, lockCurrentUserToolbarMore);
     });
   });
 
@@ -193,9 +193,9 @@ test.describe('Special permissions - File locked, user is lock owner : ', () => 
 
     test.beforeAll(() => provisionFile(item));
 
-    test('[XAT-4858] Correct actions appear for file opened from Favorites - Locked File', async ({ favoritePage, myLibrariesPage }) => {
+    test('[XAT-4858] Correct actions appear for file opened from Favorites - Locked File', async ({ favoritePage }) => {
       await favoritePage.navigate();
-      await checkActionsViewerAvailable(myLibrariesPage, item.name, collaboratorViewerLockedToolbarPrimary, lockCurrentUserToolbarMore);
+      await checkActionsViewerAvailable(favoritePage, item.name, collaboratorViewerLockedToolbarPrimary, lockCurrentUserToolbarMore);
     });
   });
 
@@ -204,9 +204,9 @@ test.describe('Special permissions - File locked, user is lock owner : ', () => 
 
     test.beforeAll(() => provisionFile(item));
 
-    test('[XAT-4859] Correct actions appear for file opened from Search Results - Locked File', async ({ searchPage, myLibrariesPage }) => {
+    test('[XAT-4859] Correct actions appear for file opened from Search Results - Locked File', async ({ searchPage }) => {
       await searchPage.searchWithin(item.random, 'filesAndFolders', 'formula');
-      await checkActionsViewerAvailable(myLibrariesPage, item.name, collaboratorViewerLockedToolbarPrimary, lockCurrentUserToolbarMore);
+      await checkActionsViewerAvailable(searchPage, item.name, collaboratorViewerLockedToolbarPrimary, lockCurrentUserToolbarMore);
     });
   });
 });

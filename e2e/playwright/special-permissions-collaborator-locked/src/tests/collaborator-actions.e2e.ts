@@ -163,9 +163,9 @@ test.describe('Special permissions - Collaborator available actions : ', () => {
 
     test.beforeAll(() => provisionFile(item));
 
-    test('[XAT-4845] Toolbar - Actions appear correctly for a file - Collaborator - Shared', async ({ sharedPage, myLibrariesPage }) => {
+    test('[XAT-4845] Toolbar - Actions appear correctly for a file - Collaborator - Shared', async ({ sharedPage }) => {
       await sharedPage.navigate();
-      await checkActionsAvailable(myLibrariesPage, item.name, collaboratorToolbarPrimary, collaboratorEditRowToolbarMore);
+      await checkActionsAvailable(sharedPage, item.name, collaboratorToolbarPrimary, collaboratorEditRowToolbarMore);
     });
   });
 
@@ -174,9 +174,9 @@ test.describe('Special permissions - Collaborator available actions : ', () => {
 
     test.beforeAll(() => provisionFile(item));
 
-    test('[XAT-4846] Toolbar - Actions appear correctly for a file - Collaborator - Favorites', async ({ favoritePage, myLibrariesPage }) => {
+    test('[XAT-4846] Toolbar - Actions appear correctly for a file - Collaborator - Favorites', async ({ favoritePage }) => {
       await favoritePage.navigate();
-      await checkActionsAvailable(myLibrariesPage, item.name, collaboratorToolbarPrimary, favoritesCollaboratorToolbarMore);
+      await checkActionsAvailable(favoritePage, item.name, collaboratorToolbarPrimary, favoritesCollaboratorToolbarMore);
     });
   });
 
@@ -185,9 +185,9 @@ test.describe('Special permissions - Collaborator available actions : ', () => {
 
     test.beforeAll(() => provisionFile(item));
 
-    test('[XAT-4847] Toolbar - Actions appear correctly for a file - Collaborator - Search Results', async ({ searchPage, myLibrariesPage }) => {
+    test('[XAT-4847] Toolbar - Actions appear correctly for a file - Collaborator - Search Results', async ({ searchPage }) => {
       await searchPage.searchWithin(item.random, 'filesAndFolders', 'formula');
-      await checkActionsAvailable(myLibrariesPage, item.name, collaboratorToolbarPrimary, collaboratorEditRowToolbarMore);
+      await checkActionsAvailable(searchPage, item.name, collaboratorToolbarPrimary, collaboratorEditRowToolbarMore);
     });
   });
 
@@ -208,9 +208,9 @@ test.describe('Special permissions - Collaborator available actions : ', () => {
 
     test.beforeAll(() => provisionFile(item));
 
-    test('[XAT-4849] Correct actions appear for file in viewer - Collaborator - Shared', async ({ sharedPage, myLibrariesPage }) => {
+    test('[XAT-4849] Correct actions appear for file in viewer - Collaborator - Shared', async ({ sharedPage }) => {
       await sharedPage.navigate();
-      await checkActionsViewerAvailable(myLibrariesPage, item.name, collaboratorSharedToolbarPrimary, collaboratorDocToolbarMore);
+      await checkActionsViewerAvailable(sharedPage, item.name, collaboratorSharedToolbarPrimary, collaboratorDocToolbarMore);
     });
   });
 
@@ -219,9 +219,9 @@ test.describe('Special permissions - Collaborator available actions : ', () => {
 
     test.beforeAll(() => provisionFile(item));
 
-    test('[XAT-4850] Correct actions appear for file in viewer - Collaborator - Favorites', async ({ favoritePage, myLibrariesPage }) => {
+    test('[XAT-4850] Correct actions appear for file in viewer - Collaborator - Favorites', async ({ favoritePage }) => {
       await favoritePage.navigate();
-      await checkActionsViewerAvailable(myLibrariesPage, item.name, collaboratorSharedToolbarPrimary, collaboratorDocToolbarMore);
+      await checkActionsViewerAvailable(favoritePage, item.name, collaboratorSharedToolbarPrimary, collaboratorDocToolbarMore);
     });
   });
 
@@ -230,9 +230,9 @@ test.describe('Special permissions - Collaborator available actions : ', () => {
 
     test.beforeAll(() => provisionFile(item));
 
-    test('[XAT-4851] Correct actions appear for file in viewer - Collaborator - Search', async ({ searchPage, myLibrariesPage }) => {
+    test('[XAT-4851] Correct actions appear for file in viewer - Collaborator - Search', async ({ searchPage }) => {
       await searchPage.searchWithin(item.random, 'filesAndFolders', 'formula');
-      await checkActionsViewerAvailable(myLibrariesPage, item.name, collaboratorSharedToolbarPrimary, collaboratorDocToolbarMore);
+      await checkActionsViewerAvailable(searchPage, item.name, collaboratorSharedToolbarPrimary, collaboratorDocToolbarMore);
     });
   });
 });

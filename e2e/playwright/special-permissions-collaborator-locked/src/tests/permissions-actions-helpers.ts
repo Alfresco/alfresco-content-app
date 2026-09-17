@@ -22,40 +22,40 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { MyLibrariesPage, Utils } from '@alfresco/aca-playwright-shared';
+import { MyLibrariesPage, Utils, FavoritesPage, SharedPage, SearchPage } from '@alfresco/aca-playwright-shared';
 import { expect } from '@playwright/test';
 
 export async function checkActionsAvailable(
-  myLibrariesPage: MyLibrariesPage,
+  pageContext: MyLibrariesPage | FavoritesPage | SharedPage | SearchPage,
   item: string,
   expectedToolbarPrimary: string[],
   expectedToolbarMore: string[]
 ): Promise<void> {
-  await myLibrariesPage.dataTable.selectItems(item);
-  if (expectedToolbarMore.includes('Remove Favorite')) {
-    await Utils.waitForApiResponse(myLibrariesPage, 'favorites', 200);
+  await pageContext.dataTable.selectItems(item);
+  if (expectedToolbarMore.includes('Remove Favorite') && pageContext instanceof FavoritesPage) {
+    await Utils.waitForApiResponse(pageContext, 'favorites', 200);
   }
-  await myLibrariesPage.acaHeader.verifyToolbarPrimaryActions(expectedToolbarPrimary);
-  await myLibrariesPage.acaHeader.clickMoreActions();
-  await myLibrariesPage.matMenu.verifyActualMoreActions(expectedToolbarMore, async () => {
-    await myLibrariesPage.page.keyboard.press('Escape');
-    if (await myLibrariesPage.dataTable.isRowSelected(item)) {
-      await myLibrariesPage.dataTable.getCheckboxForElement(item).click();
+  await pageContext.acaHeader.verifyToolbarPrimaryActions(expectedToolbarPrimary);
+  await pageContext.acaHeader.clickMoreActions();
+  await pageContext.matMenu.verifyActualMoreActions(expectedToolbarMore, async () => {
+    await pageContext.page.keyboard.press('Escape');
+    if (await pageContext.dataTable.isRowSelected(item)) {
+      await pageContext.dataTable.getCheckboxForElement(item).click();
     }
-    await myLibrariesPage.dataTable.selectItems(item);
-    await myLibrariesPage.acaHeader.clickMoreActions();
+    await pageContext.dataTable.selectItems(item);
+    await pageContext.acaHeader.clickMoreActions();
   });
 }
 
 export async function checkActionsViewerAvailable(
-  myLibrariesPage: MyLibrariesPage,
+  pageContext: MyLibrariesPage | FavoritesPage | SharedPage | SearchPage,
   item: string,
   expectedToolbarPrimary: string[],
   expectedToolbarMore: string[]
 ): Promise<void> {
-  await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(item);
-  expect(await myLibrariesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-  await myLibrariesPage.viewer.verifyViewerPrimaryActions(expectedToolbarPrimary);
-  await myLibrariesPage.viewer.toolbar.clickMoreActions();
-  await myLibrariesPage.matMenu.verifyActualMoreActions(expectedToolbarMore);
+  await pageContext.dataTable.performClickFolderOrFileToOpen(item);
+  expect(await pageContext.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+  await pageContext.viewer.verifyViewerPrimaryActions(expectedToolbarPrimary);
+  await pageContext.viewer.toolbar.clickMoreActions();
+  await pageContext.matMenu.verifyActualMoreActions(expectedToolbarMore);
 }
