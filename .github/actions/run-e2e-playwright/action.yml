@@ -41,7 +41,7 @@ runs:
       run: |
         # Only start local server if using localhost
         if [[ "${PLAYWRIGHT_E2E_HOST}" == "http://localhost"* ]]; then
-          npm start > /dev/null &
+          pnpm start > /dev/null &
         fi
 
         printf "Waiting for the application to be ready..."
@@ -55,7 +55,7 @@ runs:
           echo "Running playwright tests with options $OPTIONS on browser ${PLAYWRIGHT_BROWSER} (suite attempt $attempt/${SUITE_ATTEMPTS:-1})"
           # Clear any blob report from a previous attempt so only the final attempt is reported.
           if [ -n "${PLAYWRIGHT_BLOB_DIR:-}" ]; then rm -rf -- "${PLAYWRIGHT_BLOB_DIR}"; fi
-          if E2E_TARGET=$OPTIONS npm run ci:e2e; then
+          if E2E_TARGET=$OPTIONS pnpm ci:e2e; then
             exit 0
           fi
           if [ "$attempt" -lt "${SUITE_ATTEMPTS:-1}" ]; then

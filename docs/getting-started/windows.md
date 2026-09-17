@@ -68,8 +68,8 @@ npm install -g @nrwl/cli
 In the VS Code Terminal (powershell), run the following:
 
 ```sh
-npm install
-npm start
+pnpm install
+pnpm start
 ```
 
 The application should open at `http://localhost:4200` by default.

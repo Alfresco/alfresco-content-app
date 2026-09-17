@@ -38,13 +38,13 @@ In case of errors, add the following configuration to the `tsconfig.json` file.
 
 # Making the extension as part of the ACA application
 
-Now that the ACA extension is developed in its initial version, let's add the extension module to the list of the ones used by the application. To complete the task you can follow the same task described for the tutorial named [How to create your first extension for the Alfresco Content Application (aka ACA)](how-to-create-your-first-extension.md) (paragraph “Making the extension as part of the ACA application“). Once the extension is installed with success (`npm install my-extension`), the task can be considered as completed.
+Now that the ACA extension is developed in its initial version, let's add the extension module to the list of the ones used by the application. To complete the task you can follow the same task described for the tutorial named [How to create your first extension for the Alfresco Content Application (aka ACA)](how-to-create-your-first-extension.md) (paragraph “Making the extension as part of the ACA application“). Once the extension is installed with success (`pnpm add my-extension`), the task can be considered as completed.
 
 # Running ACA with the extension included
 
 Now that everything is properly developed, it’s time to launch ACA and see the result. To launch ADW, run the following command from a terminal.
 
-    npm start
+    pnpm start
 
 What you should see is a new item in left menu of the landing page for ACA, implementing the route to a new page with the following content. Below the screenshot describing what it should look like.
 

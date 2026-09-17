@@ -1,0 +1,32 @@
+# Block packages published less than 3 days ago (4320 minutes)
+minimumReleaseAge: 4320
+minimumReleaseAgeStrict: true
+
+minimumReleaseAgeExclude:
+  - '@alfresco/*'
+
+overrides:
+  # Security fixes
+  '@module-federation/sdk>node-fetch': '^2.7.0'
+
+allowBuilds:
+  '@esbuild/darwin-arm64': true
+  '@esbuild/darwin-x64': true
+  '@esbuild/linux-x64': true
+  '@esbuild/win32-x64': true
+  '@nx/nx-darwin-arm64': true
+  '@nx/nx-darwin-x64': true
+  '@nx/nx-linux-x64-gnu': true
+  '@nx/nx-linux-x64-musl': true
+  '@nx/nx-win32-x64-msvc': true
+  '@parcel/watcher': true
+  esbuild: true
+  fsevents: true
+  husky: true
+  less: true
+  lmdb: true
+  msgpackr-extract: true
+  nx: true
+  pdfjs-dist: true
+  playwright: true
+  sass: true
