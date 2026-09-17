@@ -22,4 +22,15 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './test-data-files-folders';
+import { PlaywrightTestConfig } from '@playwright/test';
+import { CustomConfig, getGlobalConfig, getExcludedTestsRegExpArray, createSuiteProjects } from '@alfresco/aca-playwright-shared';
+import EXCLUDED_JSON from './exclude.tests.json';
+
+const config: PlaywrightTestConfig<CustomConfig> = {
+  ...getGlobalConfig,
+
+  grepInvert: getExcludedTestsRegExpArray(EXCLUDED_JSON, 'special-permissions-collaborator-locked'),
+  projects: createSuiteProjects('special-permissions-collaborator-locked', './src/tests')
+};
+
+export default config;

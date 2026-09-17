@@ -41,6 +41,10 @@ export interface MultiSelectionData {
   toolbarMore: string[];
 }
 
+// ---- files ---
+
+export const file = { name: `file-${Utils.random()}.txt` };
+
 // ---- folders ---
 
 const folderContextMenu = ['Download', 'Edit', 'Favorite', 'Move', 'Copy', 'Delete', 'Edit Aspects', 'Permissions', 'Manage Rules'];

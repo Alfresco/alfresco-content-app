@@ -28,6 +28,7 @@ import { LoginPage, MyLibrariesPage, PersonalFilesPage, FavoritesLibrariesPage, 
 import { format, subDays, subMonths, endOfMonth } from 'date-fns';
 import StreamZip from 'node-stream-zip';
 import { NodesApi, SitesApi, TrashcanApi } from '../api';
+import { logger } from './logger';
 
 export class Utils {
   static readonly string257Long = 'x'.repeat(257);
@@ -192,7 +193,10 @@ export class Utils {
     urlSubstring: string,
     statusCode: number
   ) {
-    await contentPage.page.waitForResponse((response) => response.url().includes(urlSubstring) && response.status() === statusCode);
+    const responseObj = await contentPage.page.waitForResponse(
+      (response) => response.url().includes(urlSubstring) && response.status() === statusCode
+    );
+    logger.info(`waitForApiResponse: received ${responseObj.status()} for '${urlSubstring}' - ${responseObj.url()}`);
   }
 
   static async delayInSeconds(seconds: number): Promise<void> {
