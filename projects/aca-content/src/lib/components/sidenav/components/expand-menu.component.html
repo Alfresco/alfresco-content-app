@@ -1,4 +1,4 @@
-<ng-container *ngIf="!item.children">
+@if (!item.children) {
   <div class="aca-expansion-panel-item">
     <button
       acaActiveLink="aca-action-button--active"
@@ -9,19 +9,21 @@
       [attr.title]="item.description | translate"
       mat-button
       class="aca-action-button aca-full-width"
-    >
-      <adf-icon *ngIf="item.icon" [value]="item.icon" />
+      >
+      @if (item.icon) {
+        <adf-icon [value]="item.icon" />
+      }
       <span class="action-button__label">{{ item.title | translate }}</span>
     </button>
   </div>
-</ng-container>
+}
 
-<ng-container *ngIf="item.children && item.children.length">
+@if (item.children && item.children.length) {
   <mat-expansion-panel
     class="aca-expansion-panel"
     [expanded]="true"
     [@.disabled]="true"
-  >
+    >
     <mat-expansion-panel-header expandedHeight="32px" collapsedHeight="32px" class="aca-expansion-panel-header">
       <mat-panel-title class="aca-expansion-panel-header-title">
         <div class="aca-expansion-panel-item">
@@ -31,30 +33,36 @@
             [attr.title]="item.description | translate"
             [attr.data-automation-id]="item.id"
             class="aca-action-button aca-full-width"
-          >
-            <adf-icon *ngIf="item.icon" [value]="item.icon" />
+            >
+            @if (item.icon) {
+              <adf-icon [value]="item.icon" />
+            }
             <span class="aca-action-button__label">{{ item.title | translate }}</span>
           </span>
         </div>
       </mat-panel-title>
     </mat-expansion-panel-header>
     <ul class="aca-expansion-panel-body" [attr.aria-label]="item.title | translate">
-      <li *ngFor="let child of item.children; trackBy: trackById" class="aca-expansion-panel-item">
-        <button
-          acaActiveLink="aca-action-button--active"
-          [action]="child"
-          (actionClicked)="actionClicked.emit($event)"
-          [attr.aria-label]="child.title | translate"
-          [id]="child.id"
-          [attr.data-automation-id]="child.id"
-          [attr.title]="child.description | translate"
-          mat-button
-          class="aca-action-button aca-full-width"
-        >
-          <adf-icon *ngIf="child.icon" [value]="child.icon" />
-          <span class="aca-action-button__label">{{ child.title | translate }}</span>
-        </button>
-      </li>
+      @for (child of item.children; track trackById($index, child)) {
+        <li class="aca-expansion-panel-item">
+          <button
+            acaActiveLink="aca-action-button--active"
+            [action]="child"
+            (actionClicked)="actionClicked.emit($event)"
+            [attr.aria-label]="child.title | translate"
+            [id]="child.id"
+            [attr.data-automation-id]="child.id"
+            [attr.title]="child.description | translate"
+            mat-button
+            class="aca-action-button aca-full-width"
+            >
+            @if (child.icon) {
+              <adf-icon [value]="child.icon" />
+            }
+            <span class="aca-action-button__label">{{ child.title | translate }}</span>
+          </button>
+        </li>
+      }
     </ul>
   </mat-expansion-panel>
-</ng-container>
+}

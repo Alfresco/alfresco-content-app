@@ -15,99 +15,104 @@
   </div>
 
   <div class="aca-page-layout-content">
-    <div class="aca-main-content" *ngIf="!(showLoader$ | async)">
-      <adf-upload-drag-area [rootFolderId]="node?.id" [disabled]="!canUpload" (updateFileVersion)="onUploadNewVersion($event)">
-        <adf-document-list
-          #documentList
-          acaDocumentList
-          acaContextActions
-          [selectionMode]="'multiple'"
-          [multiselect]="true"
-          [currentFolderId]="node?.id"
-          [loading]="true"
-          [showHeader]="showHeader"
-          [node]="nodeResult"
-          [allowDropFiles]="true"
-          [displayCheckboxesOnHover]="true"
-          [preselectNodes]="selectedNodesState?.nodes"
-          [navigate]="false"
-          [sorting]="['name', 'asc']"
-          [imageResolver]="imageResolver"
-          [headerFilters]="true"
-          [filterValue]="queryParams"
-          [isDataProvidedExternally]="!!queryParams"
-          [isResizingEnabled]="true"
-          [blurOnResize]="false"
-          [displayDragAndDropHint]="canUpload"
-          (node-dblclick)="handleNodeClick($event)"
-          (name-click)="handleNodeClick($event)"
-          (selectedItemsCountChanged)="onSelectedItemsCountChanged($event)"
-          (filterSelection)="onFilterSelected($event)"
-          (error)="onError($event)"
-        >
-          <data-columns>
-            <ng-container *ngFor="let column of columns; trackBy: trackByColumnId">
-              <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
-                <data-column
-                  [id]="column.id"
-                  [key]="column.key"
-                  [title]="column.title"
-                  [type]="column.type"
-                  [format]="column.format"
-                  [class]="column.class"
-                  [sortable]="column.sortable"
-                  [sortingKey]="column.sortingKey || column.key"
-                  [isHidden]="column.isHidden"
-                  [draggable]="column.draggable"
-                  [resizable]="column.resizable"
-                >
-                  <ng-template let-context>
-                    <adf-dynamic-column [id]="column.template" [context]="context" />
-                  </ng-template>
-                </data-column>
-              </ng-container>
+    @if (!(showLoader$ | async)) {
+      <div class="aca-main-content">
+        <adf-upload-drag-area [rootFolderId]="node?.id" [disabled]="!canUpload" (updateFileVersion)="onUploadNewVersion($event)">
+          <adf-document-list
+            #documentList
+            acaDocumentList
+            acaContextActions
+            [selectionMode]="'multiple'"
+            [multiselect]="true"
+            [currentFolderId]="node?.id"
+            [loading]="true"
+            [showHeader]="showHeader"
+            [node]="nodeResult"
+            [allowDropFiles]="true"
+            [displayCheckboxesOnHover]="true"
+            [preselectNodes]="selectedNodesState?.nodes"
+            [navigate]="false"
+            [sorting]="['name', 'asc']"
+            [imageResolver]="imageResolver"
+            [headerFilters]="true"
+            [filterValue]="queryParams"
+            [isDataProvidedExternally]="!!queryParams"
+            [isResizingEnabled]="true"
+            [blurOnResize]="false"
+            [displayDragAndDropHint]="canUpload"
+            (node-dblclick)="handleNodeClick($event)"
+            (name-click)="handleNodeClick($event)"
+            (selectedItemsCountChanged)="onSelectedItemsCountChanged($event)"
+            (filterSelection)="onFilterSelected($event)"
+            (error)="onError($event)"
+            >
+            <data-columns>
+              @for (column of columns; track trackByColumnId($index, column)) {
+                @if (column.template && !(column.desktopOnly && isSmallScreen)) {
+                  <data-column
+                    [id]="column.id"
+                    [key]="column.key"
+                    [title]="column.title"
+                    [type]="column.type"
+                    [format]="column.format"
+                    [class]="column.class"
+                    [sortable]="column.sortable"
+                    [sortingKey]="column.sortingKey || column.key"
+                    [isHidden]="column.isHidden"
+                    [draggable]="column.draggable"
+                    [resizable]="column.resizable"
+                    >
+                    <ng-template let-context>
+                      <adf-dynamic-column [id]="column.template" [context]="context" />
+                    </ng-template>
+                  </data-column>
+                }
+                @if (!column.template && !(column.desktopOnly && isSmallScreen)) {
+                  <data-column
+                    [id]="column.id"
+                    [key]="column.key"
+                    [title]="column.title"
+                    [type]="column.type"
+                    [format]="column.format"
+                    [class]="column.class"
+                    [sortable]="column.sortable"
+                    [sortingKey]="column.sortingKey || column.key"
+                    [isHidden]="column.isHidden"
+                    [draggable]="column.draggable"
+                    [resizable]="column.resizable"
+                    />
+                }
+              }
+            </data-columns>
+            @if (isFilterHeaderActive) {
+              <adf-custom-empty-content-template>
+                <ng-container>
+                  <div class="empty-search__block" aria-live="polite">
+                    <p class="empty-search__text">
+                      {{ 'APP.BROWSE.SEARCH.NO_FILTER_RESULTS' | translate }}
+                    </p>
+                  </div>
+                </ng-container>
+              </adf-custom-empty-content-template>
+            }
+          </adf-document-list>
+          <adf-pagination acaPagination [target]="documentList" />
+        </adf-upload-drag-area>
+      </div>
+    }
 
-              <ng-container *ngIf="!column.template && !(column.desktopOnly && isSmallScreen)">
-                <data-column
-                  [id]="column.id"
-                  [key]="column.key"
-                  [title]="column.title"
-                  [type]="column.type"
-                  [format]="column.format"
-                  [class]="column.class"
-                  [sortable]="column.sortable"
-                  [sortingKey]="column.sortingKey || column.key"
-                  [isHidden]="column.isHidden"
-                  [draggable]="column.draggable"
-                  [resizable]="column.resizable"
-                />
-              </ng-container>
-            </ng-container>
-          </data-columns>
+    @if (showLoader$ | async) {
+      <mat-progress-spinner
+        id="adf-document-list-loading"
+        class="adf-document-list-loading-margin"
+        [color]="'primary'"
+        [mode]="'indeterminate'" />
+    }
 
-          <adf-custom-empty-content-template *ngIf="isFilterHeaderActive">
-            <ng-container>
-              <div class="empty-search__block" aria-live="polite">
-                <p class="empty-search__text">
-                  {{ 'APP.BROWSE.SEARCH.NO_FILTER_RESULTS' | translate }}
-                </p>
-              </div>
-            </ng-container>
-          </adf-custom-empty-content-template>
-        </adf-document-list>
-
-        <adf-pagination acaPagination [target]="documentList" />
-      </adf-upload-drag-area>
-    </div>
-
-    <mat-progress-spinner *ngIf="showLoader$ | async"
-      id="adf-document-list-loading"
-      class="adf-document-list-loading-margin"
-      [color]="'primary'"
-      [mode]="'indeterminate'" />
-
-    <div class="aca-sidebar" *ngIf="infoDrawerOpened$ | async">
-      <aca-info-drawer [node]="selection.last" />
-    </div>
+    @if (infoDrawerOpened$ | async) {
+      <div class="aca-sidebar">
+        <aca-info-drawer [node]="selection.last" />
+      </div>
+    }
   </div>
 </aca-page-layout>

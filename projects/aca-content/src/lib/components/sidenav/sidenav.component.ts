@@ -29,7 +29,6 @@ import { AppStore, getSideNavState } from '@alfresco/aca-shared/store';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { AppExtensionService, AppService, NavigationHistoryService } from '@alfresco/aca-shared';
 import { SidenavLayoutComponent } from '@alfresco/adf-core';
-import { CommonModule } from '@angular/common';
 import { SidenavHeaderComponent } from './components/sidenav-header.component';
 import { MatListModule } from '@angular/material/list';
 import { ExpandMenuComponent } from './components/expand-menu.component';
@@ -38,7 +37,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-  imports: [CommonModule, SidenavHeaderComponent, MatListModule, ExpandMenuComponent, DynamicExtensionComponent, TranslatePipe],
+  imports: [SidenavHeaderComponent, MatListModule, ExpandMenuComponent, DynamicExtensionComponent, TranslatePipe],
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss'],

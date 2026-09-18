@@ -1,1 +1,1 @@
-<adf-file-uploading-dialog *ngIf="showFileUploadingDialog$ | async" position="left" />
+@if (showFileUploadingDialog$ | async) {<adf-file-uploading-dialog position="left" />}

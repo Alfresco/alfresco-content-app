@@ -67,6 +67,11 @@ describe('BulkActionsDropdownComponent', () => {
 
   const getLabelText = (selector: string): string => getElement(selector).textContent.trim();
 
+  const getPlaceholderText = async (): Promise<string> => {
+    const selectHarness = await loader.getHarness(MatSelectHarness);
+    return selectHarness.getValueText();
+  };
+
   const selectOptionFromDropdown = async (selectionIndex: number) => {
     const selectHarness = await loader.getHarness(MatSelectHarness);
     await selectHarness.open();
@@ -91,6 +96,7 @@ describe('BulkActionsDropdownComponent', () => {
 
     component.items = [mockItem];
     fixture.detectChanges();
+    loader = TestbedHarnessEnvironment.loader(fixture);
   });
 
   it('should create', () => {
@@ -109,8 +115,8 @@ describe('BulkActionsDropdownComponent', () => {
       expect(dropdown.getAttribute('aria-disabled')).toBe('true');
     });
 
-    it('should have correct placeholder', () => {
-      expect(getLabelText('aca-bulk-actions-dropdown')).toEqual('SEARCH.BULK_ACTIONS_DROPDOWN.BULK_NOT_AVAILABLE');
+    it('should have correct placeholder', async () => {
+      expect(await getPlaceholderText()).toEqual('SEARCH.BULK_ACTIONS_DROPDOWN.BULK_NOT_AVAILABLE');
     });
 
     it('should call translationService.get with correct arguments', () => {
@@ -132,8 +138,8 @@ describe('BulkActionsDropdownComponent', () => {
       expect(dropdown.getAttribute('aria-disabled')).toBe('false');
     });
 
-    it('should have correct placeholder', () => {
-      expect(getLabelText('aca-bulk-actions-dropdown')).toEqual('SEARCH.BULK_ACTIONS_DROPDOWN.TITLE');
+    it('should have correct placeholder', async () => {
+      expect(await getPlaceholderText()).toEqual('SEARCH.BULK_ACTIONS_DROPDOWN.TITLE');
     });
 
     it('should have option with correct tooltip', () => {
@@ -163,7 +169,6 @@ describe('BulkActionsDropdownComponent', () => {
         extensionService = TestBed.inject(AppExtensionService);
         spyOn(extensionService, 'getBulkActions').and.returnValue(of([mockItem]));
         fixture.detectChanges();
-        loader = TestbedHarnessEnvironment.loader(fixture);
       });
 
       it('should run action on selection', async () => {

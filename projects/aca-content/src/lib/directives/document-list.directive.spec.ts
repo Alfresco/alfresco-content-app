@@ -100,6 +100,7 @@ describe('DocumentListDirective', () => {
     userPreferencesServiceMock.set = jasmine.createSpy('set');
     userPreferencesServiceMock.get = jasmine.createSpy('get');
     userPreferencesServiceMock.hasItem = jasmine.createSpy('hasItem');
+    mockRouter.url = '/some-route';
 
     TestBed.configureTestingModule({
       imports: [DocumentListDirective],
