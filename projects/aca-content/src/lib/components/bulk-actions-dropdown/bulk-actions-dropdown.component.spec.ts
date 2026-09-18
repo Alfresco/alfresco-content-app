@@ -116,7 +116,7 @@ describe('BulkActionsDropdownComponent', () => {
     });
 
     it('should have correct placeholder', async () => {
-      await expect(await getPlaceholderText()).toEqual('SEARCH.BULK_ACTIONS_DROPDOWN.BULK_NOT_AVAILABLE');
+      expect(await getPlaceholderText()).toEqual('SEARCH.BULK_ACTIONS_DROPDOWN.BULK_NOT_AVAILABLE');
     });
 
     it('should call translationService.get with correct arguments', () => {
@@ -139,7 +139,7 @@ describe('BulkActionsDropdownComponent', () => {
     });
 
     it('should have correct placeholder', async () => {
-      await expect(await getPlaceholderText()).toEqual('SEARCH.BULK_ACTIONS_DROPDOWN.TITLE');
+      expect(await getPlaceholderText()).toEqual('SEARCH.BULK_ACTIONS_DROPDOWN.TITLE');
     });
 
     it('should have option with correct tooltip', () => {
