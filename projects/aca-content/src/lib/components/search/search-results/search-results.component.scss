@@ -167,6 +167,23 @@ aca-search-results {
       .adf-viewer {
         position: relative;
       }
+
+      adf-viewer-render {
+        position: relative;
+      }
+
+      .adf-viewer-render-main-loader {
+        position: absolute;
+        inset: 0;
+        width: auto;
+        height: auto;
+        z-index: 1;
+
+        .adf-viewer-render-layout-content > div,
+        .adf-viewer-render__loading-screen {
+          height: 100%;
+        }
+      }
     }
 
     &--preview-toolbar {
