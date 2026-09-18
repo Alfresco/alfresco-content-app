@@ -1,6 +1,6 @@
 {
     "APP": {
-        "COPYRIGHT": "© 2005- 2025 Hyland Software, Inc. ja sen tytäryhtiöt. Kaikki oikeudet pidätetään.",
+        "COPYRIGHT": "© 2005- 2026 Hyland Software, Inc. ja sen tytäryhtiöt. Kaikki oikeudet pidätetään.",
         "TITLE": "Workspace",
         "ABOUT": {
             "VERSION": "Versio:",
@@ -225,7 +225,7 @@
                 "EFFECTIVITY": "Voimassaolo",
                 "TITLE": "Hakutulosta",
                 "FILTER_SET": "Asetettu suodatin:",
-                "LOADING": "Loading search results, please wait.",
+                "LOADING": "Ladataan hakutuloksia, odota.",
                 "ADVANCED_FILTERS": "Edistyneet suodattimet:",
                 "RESET": "Nollaa",
                 "RESET_ACTION": "Nollaa hakusuodattimet",
@@ -505,8 +505,8 @@
             "EDIT": "Muokkaa",
             "CANCEL": "Peruuta",
             "SAVE": "Tallenna",
-            "LOCK_BADGE": "This document is locked by {{ owner }} for offline editing.",
-            "WORKING_COPY_BADGE": "Original document is locked by {{ owner }} for offline editing."
+            "LOCK_BADGE": "Tämän asiakirjan on lukinnut {{ owner }} offline-muokkausta varten.",
+            "WORKING_COPY_BADGE": "Alkuperäisen asiakirjan on lukinnut {{ owner }} offline-muokkausta varten."
         },
         "NODE_INFO": {
             "ICON": "Solmukuvake",
@@ -661,8 +661,8 @@
             "MODIFIER": "Muokkaaja"
         },
         "CATEGORIES": {
-            "CATEGORIES": "Categories",
-            "CATEGORIES_LABEL": "Add Categories",
+            "CATEGORIES": "Luokat",
+            "CATEGORIES_LABEL": "Lisää luokkia",
             "DATE": "Päivämäärä",
             "DATE_TABS": {
                 "CREATED": "Luotu",
@@ -670,14 +670,14 @@
             },
             "EFFECTIVITY_FROM": "Voimassaolon alku",
             "EFFECTIVITY_TO": "Voimassaolon loppu",
-            "LOCATION": "Location",
-            "LOCATION_LABEL": "Add Sites",
+            "LOCATION": "Sijainti",
+            "LOCATION_LABEL": "Lisää sivustoja",
             "LOGIC": "Logiikka",
-            "PARENT_FOLDER": "Parent folder",
-            "PARENT_FOLDER_LABEL": "Add Parent Folders",
+            "PARENT_FOLDER": "Yläkansio",
+            "PARENT_FOLDER_LABEL": "Lisää yläkansioita",
             "PROPERTIES": "Ominaisuudet",
-            "TAGS": "Tags",
-            "TAGS_LABEL": "Add Tags"
+            "TAGS": "Tunnisteet",
+            "TAGS_LABEL": "Lisää tunnisteita"
         },
         "SEARCH_HEADER": {
             "TITLE": "Suodatin",
@@ -754,7 +754,7 @@
         }
     },
     "CHECKOUT": {
-        "CHECKED_OUT_BY": "Original locked by: ",
+        "CHECKED_OUT_BY": "Alkuperäisen lukinnut: ",
         "ERRORS": {
             "CHECKOUT": {
                 "400": "Tätä solmua ei voi varata. Sen on oltava sisältösolmu (cm:content).",
