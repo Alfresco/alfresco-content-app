@@ -1,6 +1,6 @@
 {
     "APP": {
-        "COPYRIGHT": "© 2005-2025 Hyland Software, Inc. e seus afiliados. Todos os direitos reservados.",
+        "COPYRIGHT": "© 2005-2026 Hyland Software, Inc. e seus afiliados. Todos os direitos reservados.",
         "TITLE": "Workspace",
         "ABOUT": {
             "VERSION": "Versão:",
@@ -225,7 +225,7 @@
                 "EFFECTIVITY": "Efetividade",
                 "TITLE": "Resultados da pesquisa",
                 "FILTER_SET": "Conjunto de filtros:",
-                "LOADING": "Loading search results, please wait.",
+                "LOADING": "Carregando resultados da pesquisa, aguarde.",
                 "ADVANCED_FILTERS": "Filtros avançados:",
                 "RESET": "Redefinir",
                 "RESET_ACTION": "Redefinir filtros de pesquisa",
@@ -505,8 +505,8 @@
             "EDIT": "Editar",
             "CANCEL": "Cancelar",
             "SAVE": "Salvar",
-            "LOCK_BADGE": "This document is locked by {{ owner }} for offline editing.",
-            "WORKING_COPY_BADGE": "Original document is locked by {{ owner }} for offline editing."
+            "LOCK_BADGE": "Este documento está bloqueado por {{ owner }} para edição off-line.",
+            "WORKING_COPY_BADGE": "O documento original está bloqueado por {{ owner }} para edição off-line."
         },
         "NODE_INFO": {
             "ICON": "Ícone de nó",
@@ -661,8 +661,8 @@
             "MODIFIER": "Modificador"
         },
         "CATEGORIES": {
-            "CATEGORIES": "Categories",
-            "CATEGORIES_LABEL": "Add Categories",
+            "CATEGORIES": "Categorias",
+            "CATEGORIES_LABEL": "Adicionar Categorias",
             "DATE": "Data",
             "DATE_TABS": {
                 "CREATED": "Criado",
@@ -670,14 +670,14 @@
             },
             "EFFECTIVITY_FROM": "Eficácia de",
             "EFFECTIVITY_TO": "Eficácia para",
-            "LOCATION": "Location",
-            "LOCATION_LABEL": "Add Sites",
+            "LOCATION": "Localização",
+            "LOCATION_LABEL": "Adicionar Sites",
             "LOGIC": "Lógica",
-            "PARENT_FOLDER": "Parent folder",
-            "PARENT_FOLDER_LABEL": "Add Parent Folders",
+            "PARENT_FOLDER": "Pasta pai",
+            "PARENT_FOLDER_LABEL": "Adicionar Pastas Pai",
             "PROPERTIES": "Propriedades",
             "TAGS": "Tags",
-            "TAGS_LABEL": "Add Tags"
+            "TAGS_LABEL": "Adicionar Marcas"
         },
         "SEARCH_HEADER": {
             "TITLE": "Filtro",
@@ -754,7 +754,7 @@
         }
     },
     "CHECKOUT": {
-        "CHECKED_OUT_BY": "Original locked by: ",
+        "CHECKED_OUT_BY": "Bloqueado originalmente por: ",
         "ERRORS": {
             "CHECKOUT": {
                 "400": "Este nó não pode ser retirado (checkout). Deve ser um nó de conteúdo (cm:content).",
