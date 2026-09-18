@@ -5,7 +5,7 @@
       formControlName="actionDefinitionId"
       data-automation-id="rule-action-select"
       [placeholder]="'ACA_FOLDER_RULES.RULE_DETAILS.ACTION_SELECT_PLACEHOLDER' | translate">
-      @for (actionDefinition of actionDefinitions; track actionDefinition) {
+      @for (actionDefinition of actionDefinitions; track actionDefinition.id) {
         <mat-option
           [value]="actionDefinition.id">
           {{ actionDefinition.title }}
