@@ -8,15 +8,16 @@
 
 <mat-menu #sorting="matMenu">
   <ng-template matMenuContent>
-    <button
-      mat-menu-item
-      *ngFor="let option of options"
-      [id]="option.key + '-sorting-option'"
-      [matMenuTriggerFor]="direction"
-      [matMenuTriggerData]="{ option: option }"
-    >
-      {{ option.label | translate }}
-    </button>
+    @for (option of options; track option) {
+      <button
+        mat-menu-item
+        [id]="option.key + '-sorting-option'"
+        [matMenuTriggerFor]="direction"
+        [matMenuTriggerData]="{ option: option }"
+        >
+        {{ option.label | translate }}
+      </button>
+    }
   </ng-template>
 </mat-menu>
 

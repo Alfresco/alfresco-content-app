@@ -44,7 +44,6 @@ import {
   TEMPLATE_DIRECTIVES
 } from '@alfresco/adf-core';
 import { Subject } from 'rxjs';
-import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SavedSearchesListUiService } from '../saved-searches-list-ui.service';
 import { savedSearchesListSchema } from '../smart-list/saved-searches-list-schema';
@@ -54,7 +53,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'aca-saved-searches-ui-list',
-  imports: [CommonModule, DATATABLE_DIRECTIVES, TEMPLATE_DIRECTIVES, DataTableComponent],
+  imports: [DATATABLE_DIRECTIVES, TEMPLATE_DIRECTIVES, DataTableComponent],
   templateUrl: './saved-searches-list.ui-component.html',
   styleUrls: ['./saved-searches-list.ui-component.scss'],
   encapsulation: ViewEncapsulation.None,

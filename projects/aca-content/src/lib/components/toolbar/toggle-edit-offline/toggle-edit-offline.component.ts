@@ -27,13 +27,12 @@ import { NodeEntry } from '@alfresco/js-api';
 import { Component, inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppExtensionService, isLocked } from '@alfresco/aca-shared';
-import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatMenuItem, MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  imports: [CommonModule, TranslatePipe, MatMenuModule, MatIconModule],
+  imports: [TranslatePipe, MatMenuModule, MatIconModule],
   selector: 'app-toggle-edit-offline',
   template: `
     <button mat-menu-item [attr.title]="nodeTitle | translate" (click)="onClick()">
