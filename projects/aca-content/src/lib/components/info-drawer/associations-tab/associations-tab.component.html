@@ -1,0 +1,37 @@
+<mat-card class="app-associations-tab-container" appearance="raised">
+  <div class="app-associations-tab__actions">
+    <button mat-flat-button class="app-associations-tab__create-button" (click)="openCreateAssociationDialog()">
+      {{ 'APP.INFO_DRAWER.ASSOCIATIONS.CREATE' | translate }}
+    </button>
+  </div>
+  @if (loading) {
+    <div class="app-associations-tab__loading">
+      <mat-progress-spinner mode="indeterminate" [diameter]="40" />
+    </div>
+  } @else if (associations.length) {
+    <mat-list>
+      @for (association of associations; track association.entry.id) {
+        <mat-list-item>
+          <mat-icon matListItemIcon>link</mat-icon>
+          <span matListItemTitle [title]="association.entry.name">{{ association.entry.name }}</span>
+          <span matListItemLine [title]="association.entry.association?.assocType">{{ association.entry.association?.assocType }}</span>
+          <button
+            matListItemMeta
+            mat-icon-button
+            class="app-associations-tab__delete-button"
+            [attr.aria-label]="'APP.INFO_DRAWER.ASSOCIATIONS.DELETE' | translate"
+            [attr.title]="'APP.INFO_DRAWER.ASSOCIATIONS.DELETE' | translate"
+            (click)="deleteAssociation(association)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-list-item>
+      }
+    </mat-list>
+  } @else {
+    <div class="app-associations-tab__empty">
+      <mat-icon class="app-associations-tab__empty-icon">link_off</mat-icon>
+      {{ 'APP.INFO_DRAWER.ASSOCIATIONS.EMPTY' | translate: { name: node?.name } }}
+    </div>
+  }
+</mat-card>

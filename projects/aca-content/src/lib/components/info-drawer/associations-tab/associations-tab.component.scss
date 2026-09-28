@@ -1,0 +1,78 @@
+@use '@angular/material' as mat;
+
+app-associations-tab {
+  display: flex;
+  flex: 1 1 auto;
+  height: 100%;
+  min-height: 0;
+}
+
+.app-associations-tab-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 16px;
+  overflow: auto;
+  background-color: var(--adf-theme-background-card-color);
+
+  @include mat.card-overrides(
+    (
+      elevated-container-shape: 0
+    )
+  );
+  @include mat.icon-overrides(
+    (
+      color: var(--adf-theme-foreground-icon-color)
+    )
+  );
+
+  /* stylelint-disable selector-class-pattern */
+  .mdc-list-item.mdc-list-item--with-two-lines .mdc-list-item__start {
+    align-self: center;
+    margin-top: 0;
+  }
+
+  .mat-mdc-list-item:not(:last-child) {
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+  }
+  /* stylelint-enable selector-class-pattern */
+}
+
+.app-associations-tab {
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 8px;
+  }
+
+  &__create-button {
+    @include mat.button-overrides(
+      (
+        filled-container-color: var(--theme-primary-color),
+        filled-label-text-color: var(--theme-primary-color-default-contrast)
+      )
+    );
+  }
+
+  &__loading,
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    text-align: center;
+  }
+
+  &__empty {
+    color: var(--adf-theme-foreground-text-color-064);
+  }
+
+  &__empty-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 48px;
+    margin-bottom: 8px;
+  }
+}

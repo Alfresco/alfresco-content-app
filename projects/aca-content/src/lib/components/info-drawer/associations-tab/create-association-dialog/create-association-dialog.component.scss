@@ -1,0 +1,19 @@
+.app-create-association-dialog {
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__title {
+    margin: 0;
+  }
+
+  &__type-field {
+    width: 100%;
+  }
+
+  &__node-selector {
+    display: block;
+  }
+}
