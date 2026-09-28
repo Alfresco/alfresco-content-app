@@ -1,7 +1,7 @@
 {
   "ACA_FOLDER_RULES": {
     "ACTIONS": {
-      "MANAGE_RULES": "Gerenciar regras",
+      "MANAGE_RULES": "Gerir Regras",
       "GO_BACK": "Voltar"
     },
     "EDIT_RULE_DIALOG": {
@@ -11,7 +11,7 @@
       "CREATE_TITLE": "Criar uma regra",
       "UPDATE": "Atualizar",
       "UPDATE_TITLE": "Editar uma regra",
-      "OPEN_ACTION_MENU": "Abrir o menu de ação"
+      "OPEN_ACTION_MENU": "Abrir menu de ação"
     },
     "RULE_DETAILS": {
       "LABEL": {
@@ -23,48 +23,48 @@
         "FIELD": "Campo",
         "COMPARATOR": "Comparador",
         "VALUE": "Valor",
-        "LOGIC_OPERATOR": "Operador lógico",
-        "GROUP_CONDITIONS": "Condições do grupo",
+        "LOGIC_OPERATOR": "Operador Lógico",
+        "GROUP_CONDITIONS": "Condições de Grupo",
         "CONDITIONS": "Condições"
       },
       "PLACEHOLDER": {
-        "NAME": "Inserir um nome para a regra",
-        "DESCRIPTION": "Inserir uma descrição para a regra",
-        "NO_DESCRIPTION": "Nenhuma descrição",
+        "NAME": "Introduza o nome da regra",
+        "DESCRIPTION": "Introduza a descrição da regra",
+        "NO_DESCRIPTION": "Sem descrição",
         "VALUE": "Valor",
-        "CHOOSE_FOLDER": "Escolher pasta de destino"
+        "CHOOSE_FOLDER": "Escolha a pasta de destino"
       },
       "ERROR": {
         "REQUIRED": "Este campo é obrigatório",
         "RULE_COMPOSITE_CONDITION_INVALID": "Um ou mais grupos de condições estão vazios",
-        "INSUFFICIENT_TRIGGERS_SELECTED": "Pelo menos um gatilho é obrigatório",
+        "INSUFFICIENT_TRIGGERS_SELECTED": "Pelo menos um acionador é obrigatório",
         "ACTION_REQUIRED": "O campo de ação é obrigatório"
       },
       "TRIGGERS": {
-        "INBOUND": "Itens são criados ou entram nesta pasta",
-        "UPDATE": "Itens são atualizados",
-        "OUTBOUND": "Itens são excluídos ou saem desta pasta"
+        "INBOUND": "Os itens são criados ou entram nesta pasta",
+        "UPDATE": "Os itens são atualizados",
+        "OUTBOUND": "Os itens são eliminados ou saem desta pasta"
       },
       "OPTIONS": {
-        "IS_INHERITABLE": "A regra é aplicável a subpastas",
-        "IS_ASYNCHRONOUS": "Executar regra em segundo plano",
+        "IS_INHERITABLE": "A regra aplica-se a subpastas",
+        "IS_ASYNCHRONOUS": "Executar a regra em segundo plano",
         "DISABLE_RULE": "Desativar regra",
-        "ERROR_SCRIPT": "Se ocorrerem erros, execute o script",
+        "ERROR_SCRIPT": "Se ocorrerem erros, executar o script",
         "NO_SCRIPT": "Nenhum"
       },
       "COMPARATORS": {
         "EQUALS": "(=) Igual a",
         "CONTAINS": "Contém",
-        "STARTS_WITH": "Inicia com",
+        "STARTS_WITH": "Começa por",
         "ENDS_WITH": "Termina com",
-        "GREATER_THAN": "(>) Maior que",
-        "LESS_THAN": "(<) Menor que",
-        "GREATER_THAN_OR_EQUAL": "(>=) Maior que ou igual a",
-        "LESS_THAN_OR_EQUAL": "(<=) Menor que ou igual a",
+        "GREATER_THAN": "(>) Maior do que",
+        "LESS_THAN": "(<) Menor do que",
+        "GREATER_THAN_OR_EQUAL": "(>=) Maior que ou igual",
+        "LESS_THAN_OR_EQUAL": "(<=) Menor que ou igual",
         "ON": "(=) Em",
-        "AFTER": "(>) Após",
+        "AFTER": "(>) Depois",
         "BEFORE": "(<) Antes",
-        "ON_OR_AFTER": "(>=) Em ou após",
+        "ON_OR_AFTER": "(>=) Em ou depois",
         "ON_OR_BEFORE": "(<=) Em ou antes",
         "INSTANCE_OF": "(=) É"
       },
@@ -74,18 +74,18 @@
         "MIMETYPE": "Tipo MIME",
         "ENCODING": "Codificação",
         "HAS_CATEGORY": "Tem categoria",
-        "HAS_TAG": "Tem tag",
-        "HAS_ASPECT": "Tem aspecto"
+        "HAS_TAG": "Tem etiqueta",
+        "HAS_ASPECT": "Tem aspeto"
       },
       "LOGIC_OPERATORS": {
         "IF": "Se",
-        "NOT_IF": "Não se",
+        "NOT_IF": "NÃO Se",
         "AND": "E",
         "OR": "Ou"
       },
       "CONDITION_BUTTONS": {
         "ADD_CONDITION": "Adicionar condição",
-        "ADD_GROUP": "Adicionar grupo de condição",
+        "ADD_GROUP": "Adicionar grupo de condições",
         "REMOVE": "Remover"
       },
       "NO_CONDITIONS": "Sem condições",
@@ -103,7 +103,7 @@
         },
         "ACTIONS": {
           "CREATE_RULE": "Criar regra",
-          "LINK_RULES": "Vincular regras",
+          "LINK_RULES": "Ligar regras",
           "EDIT_RULE": "Editar",
           "SEE_IN_FOLDER": "Ver na pasta",
           "INHERIT_RULES": "Herdar regras"
@@ -111,49 +111,49 @@
       },
       "EMPTY_RULES_LIST": {
         "TITLE": "A lista está vazia",
-        "SUBTITLE": "Ainda não há regras definidas para esta pasta."
+        "SUBTITLE": "Ainda não existem regras definidas para esta pasta."
       }
     },
     "CONFIRMATION_DIALOG": {
       "DELETE_RULE": {
-        "TITLE": "Excluir regra",
-        "MESSAGE": "Tem certeza de que deseja excluir esta regra?"
+        "TITLE": "Eliminar regra",
+        "MESSAGE": "Tem a certeza de que pretende eliminar esta regra?"
       },
       "DELETE_RULE_SET_LINK": {
-        "TITLE": "Excluir link do conjunto de regras",
-        "MESSAGE": "Tem certeza de que deseja excluir o link deste conjunto de regras?"
+        "TITLE": "Eliminar ligação de conjunto de regras",
+        "MESSAGE": "Tem a certeza de que pretende eliminar a ligação a este conjunto de regras?"
       }
     },
     "RULE_LIST": {
       "OWNED_RULES": "Regras da pasta atual",
-      "LINKED_RULES": "Regras da pasta vinculada",
+      "LINKED_RULES": "Regras da pasta associada",
       "INHERITED_RULES": "Regras herdadas",
       "LOAD_MORE_RULE_SETS": "Carregar regras de outras pastas",
       "LOAD_MORE_RULES": "Carregar mais regras",
-      "LOADING_RULES": "Carregando regras",
+      "LOADING_RULES": "A carregar regras",
       "TOGGLE_RULE_STATE": "Alternar regra {{ name }}",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "As regras herdadas serão executadas primeiro",
-      "ALL_LINKED_RULES_ARE_DISABLED": "Todas as regras vinculadas deste conjunto de regras estão desativadas",
-      "EDIT_LINK_LABEL": "Vincular regras de outra pasta"
+      "ALL_LINKED_RULES_ARE_DISABLED": "Todas as regras associadas a partir deste conjunto de regras estão desativadas",
+      "EDIT_LINK_LABEL": "Ligar regras de outra pasta"
     },
     "LINK_RULES_DIALOG": {
-      "TITLE": "Selecione uma pasta da qual vincular regras",
+      "TITLE": "Selecione uma pasta a partir da qual pretende associar regras",
       "CANCEL": "Cancelar",
       "SUBMIT": "Selecionar pasta",
       "EMPTY_RULES_LIST": {
-        "TITLE": "Nenhuma regra própria",
-        "SUBTITLE": "A pasta selecionada não possui regras próprias."
+        "TITLE": "Sem regras próprias",
+        "SUBTITLE": "A pasta selecionada não tem nenhuma regra própria."
       },
-      "LIST_OF_RULES_TO_LINK": "Lista das regras que serão vinculadas",
+      "LIST_OF_RULES_TO_LINK": "Lista de regras que serão ligadas",
       "ERRORS": {
-        "REQUEST_FAILED": "Erro ao tentar criar um link para um conjunto de regras"
+        "REQUEST_FAILED": "Erro ao tentar criar uma ligação a um conjunto de regras"
       }
     },
     "ERRORS": {
-      "DELETE_RULE_SET_LINK_FAILED": "Erro ao tentar excluir um link de um conjunto de regras"
+      "DELETE_RULE_SET_LINK_FAILED": "Erro ao tentar eliminar uma ligação de um conjunto de regras"
     },
     "AUTOCOMPLETE": {
-      "NO_OPTIONS_FOUND": "Nenhuma opção encontrada"
+      "NO_OPTIONS_FOUND": "Não foram encontradas opções"
     }
   }
 }

@@ -1,6 +1,6 @@
 {
     "APP": {
-        "COPYRIGHT": "© 2005-2025 Hyland, Inc. und Tochtergesellschaften. Alle Rechte vorbehalten.",
+        "COPYRIGHT": "© 2005-2026 Hyland, Inc. und Tochtergesellschaften. Alle Rechte vorbehalten.",
         "TITLE": "Workspace",
         "ABOUT": {
             "VERSION": "Version:",
@@ -134,8 +134,8 @@
                         "TEXT": "Verknüpfen Sie Bibliotheken, um Dateien hochzuladen, anzuzeigen und freizugeben."
                     },
                     "FAVORITE_LIBRARIES": {
-                        "TITLE": "Keine Bibliotheken als Favoriten markiert",
-                        "TEXT": "Markieren Sie eine Bibliothek als Favorit, um sie später leichter zu finden."
+                        "TITLE": "Keine Favoriten-Bibliotheken",
+                        "TEXT": "Favorisieren Sie eine Bibliothek, die Sie später leicht wiederfinden möchten."
                     },
                     "ALL_LIBRARIES": {
                         "TITLE": "Keine Bibliothek gefunden",
@@ -151,10 +151,10 @@
                         }
                     },
                     "FAVORITE_LIBRARIES": {
-                        "TITLE": "Als Favoriten markierte Bibliotheken",
+                        "TITLE": "Favoriten-Bibliotheken",
                         "SIDENAV_LINK": {
-                            "LABEL": "Als Favoriten markierte Bibliotheken",
-                            "TOOLTIP": "Auf meine als Favoriten markierten Bibliotheken zugreifen"
+                            "LABEL": "Favoriten-Bibliotheken",
+                            "TOOLTIP": "Auf meine favorisierten Bibliotheken zugreifen"
                         }
                     },
                     "ALL_LIBRARIES": {
@@ -197,11 +197,11 @@
                 "TITLE": "Favoriten",
                 "SIDENAV_LINK": {
                     "LABEL": "Favoriten",
-                    "TOOLTIP": "Dateien und Ordner anzeigen, die Sie zu Ihren Favoriten hinzugefügt haben"
+                    "TOOLTIP": "Ihre favorisierten Dateien und Ordner anzeigen"
                 },
                 "EMPTY_STATE": {
-                    "TITLE": "Keine Dateien oder Ordner als Favoriten markiert",
-                    "TEXT": "Sie können Elemente als Favoriten markieren, um sie später leichter wiederzufinden."
+                    "TITLE": "Keine favorisierten Dateien oder Ordner",
+                    "TEXT": "Favoriten, die Sie später leicht wiederfinden möchten."
                 }
             },
             "TRASHCAN": {
@@ -302,7 +302,7 @@
             "UNDO": "Rückgängig machen",
             "PERMISSIONS": "Berechtigungen",
             "RESTORE": "Wiederherstellen",
-            "FAVORITE": "Zu Favoriten",
+            "FAVORITE": "Favorit",
             "ADD_FAVORITE": "Favoriten hinzufügen",
             "REMOVE_FAVORITE": "Favoriten entfernen",
             "UNSHARE": "Freigabe aufheben",

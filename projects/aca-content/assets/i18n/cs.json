@@ -1,6 +1,6 @@
 {
     "APP": {
-        "COPYRIGHT": "2005-2025 Hyland Software, Inc. a její přidružené společnosti. Všechna práva vyhrazena.",
+        "COPYRIGHT": "2005-2026 Hyland Software, Inc. a její přidružené společnosti. Všechna práva vyhrazena.",
         "TITLE": "Pracovní prostor",
         "ABOUT": {
             "VERSION": "Verze:",
@@ -225,7 +225,7 @@
                 "EFFECTIVITY": "Účinnost",
                 "TITLE": "Výsledky hledání",
                 "FILTER_SET": "Sada filtrů:",
-                "LOADING": "Loading search results, please wait.",
+                "LOADING": "Načítání výsledků hledání, čekejte prosím.",
                 "ADVANCED_FILTERS": "Pokročilé filtry:",
                 "RESET": "Resetovat",
                 "RESET_ACTION": "Resetovat filtry vyhledávání",
@@ -463,7 +463,7 @@
                 "FAVORITE_NODES_ADDED": "Došlo k přidání následujícího počtu položek do oblíbených: {{ number }}",
                 "FAVORITE_NODE_REMOVED": "Došlo k odebrání {{ name }} z oblíbených",
                 "FAVORITE_NODES_REMOVED": "Došlo k odebrání následujícího počtu položek z oblíbených: {{ number }}",
-                "FAVORITE_NODE_NOT_FOUND": "{{ name }} nepatří mezi oblíbené"
+                "FAVORITE_NODE_NOT_FOUND": "{{ name }} není oblíbené"
             }
         },
         "CONTENT_METADATA": {
@@ -505,8 +505,8 @@
             "EDIT": "Upravit",
             "CANCEL": "Zrušit",
             "SAVE": "Uložit",
-            "LOCK_BADGE": "This document is locked by {{ owner }} for offline editing.",
-            "WORKING_COPY_BADGE": "Original document is locked by {{ owner }} for offline editing."
+            "LOCK_BADGE": "Tento dokument je zamknut uživatelem {{ owner }} pro offline úpravy.",
+            "WORKING_COPY_BADGE": "Původní dokument je zamknut uživatelem {{ owner }} pro offline úpravy."
         },
         "NODE_INFO": {
             "ICON": "Ikona uzlu",
@@ -661,8 +661,8 @@
             "MODIFIER": "Upravující"
         },
         "CATEGORIES": {
-            "CATEGORIES": "Categories",
-            "CATEGORIES_LABEL": "Add Categories",
+            "CATEGORIES": "Kategorie",
+            "CATEGORIES_LABEL": "Přidat kategorie",
             "DATE": "Datum",
             "DATE_TABS": {
                 "CREATED": "Vytvořeno",
@@ -670,14 +670,14 @@
             },
             "EFFECTIVITY_FROM": "Platnost od",
             "EFFECTIVITY_TO": "Platnost do",
-            "LOCATION": "Location",
-            "LOCATION_LABEL": "Add Sites",
+            "LOCATION": "Umístění",
+            "LOCATION_LABEL": "Přidat weby",
             "LOGIC": "Logika",
-            "PARENT_FOLDER": "Parent folder",
-            "PARENT_FOLDER_LABEL": "Add Parent Folders",
+            "PARENT_FOLDER": "Nadřazená složka",
+            "PARENT_FOLDER_LABEL": "Přidat nadřazené složky",
             "PROPERTIES": "Vlastnosti",
-            "TAGS": "Tags",
-            "TAGS_LABEL": "Add Tags"
+            "TAGS": "Tag",
+            "TAGS_LABEL": "Přidat tagy"
         },
         "SEARCH_HEADER": {
             "TITLE": "Filtr",
@@ -754,7 +754,7 @@
         }
     },
     "CHECKOUT": {
-        "CHECKED_OUT_BY": "Original locked by: ",
+        "CHECKED_OUT_BY": "Uzamknul(a): ",
         "ERRORS": {
             "CHECKOUT": {
                 "400": "Tento uzel nelze rezervovat. Musí to být uzel typu obsah (cm:content).",
