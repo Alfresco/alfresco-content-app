@@ -28,9 +28,9 @@ app-associations-tab {
   );
 
   /* stylelint-disable selector-class-pattern */
-  .mdc-list-item.mdc-list-item--with-two-lines .mdc-list-item__start {
+  .mdc-list-item.mdc-list-item--with-two-lines .mdc-list-item__start,
+  .mdc-list-item--with-leading-icon.mdc-list-item--with-two-lines.mdc-list-item--with-trailing-meta .mdc-list-item__end {
     align-self: center;
-    margin-top: 0;
   }
 
   .mat-mdc-list-item:not(:last-child) {

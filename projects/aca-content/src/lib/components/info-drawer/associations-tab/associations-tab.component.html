@@ -6,11 +6,11 @@
   </div>
   @if (loading) {
     <div class="app-associations-tab__loading">
-      <mat-progress-spinner mode="indeterminate" [diameter]="40" />
+      <mat-progress-spinner mode="indeterminate" [diameter]="40" [attr.aria-label]="'APP.INFO_DRAWER.DATA_LOADING' | translate" />
     </div>
   } @else if (associations.length) {
     <mat-list>
-      @for (association of associations; track association.entry.id) {
+      @for (association of associations; track association.entry.id + ':' + association.entry.association?.assocType) {
         <mat-list-item>
           <mat-icon matListItemIcon>link</mat-icon>
           <span matListItemTitle [title]="association.entry.name">{{ association.entry.name }}</span>

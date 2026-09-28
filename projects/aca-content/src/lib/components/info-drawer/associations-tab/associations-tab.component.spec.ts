@@ -98,7 +98,7 @@ describe('AssociationsTabComponent', () => {
   describe('loading associations', () => {
     it('should not load associations when no node is provided', () => {
       const spy = spyOn(contentApiService, 'getNodeTargetAssociations');
-      component.node = null;
+      fixture.componentRef.setInput('node', null);
       fixture.detectChanges();
       expect(spy).not.toHaveBeenCalled();
       expect(component.associations).toEqual([]);
@@ -106,7 +106,7 @@ describe('AssociationsTabComponent', () => {
 
     it('should load target associations for the selected node', () => {
       spyOn(contentApiService, 'getNodeTargetAssociations').and.returnValue(of(mockPaging));
-      component.node = { id: 'node-1', isFile: true } as Node;
+      fixture.componentRef.setInput('node', { id: 'node-1', isFile: true } as Node);
       fixture.detectChanges();
 
       expect(contentApiService.getNodeTargetAssociations).toHaveBeenCalledWith('node-1');
@@ -117,14 +117,27 @@ describe('AssociationsTabComponent', () => {
 
     it('should use nodeId over id for shared file types', () => {
       const spy = spyOn(contentApiService, 'getNodeTargetAssociations').and.returnValue(of(mockPaging));
-      component.node = { id: 'node-1', nodeId: 'shared-node-1', isFile: true } as any;
+      fixture.componentRef.setInput('node', { id: 'node-1', nodeId: 'shared-node-1', isFile: true } as any);
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledWith('shared-node-1');
     });
 
+    it('should reload associations when the selected node changes', () => {
+      const spy = spyOn(contentApiService, 'getNodeTargetAssociations').and.returnValue(of(mockPaging));
+      fixture.componentRef.setInput('node', { id: 'node-1', isFile: true } as Node);
+      fixture.detectChanges();
+
+      fixture.componentRef.setInput('node', { id: 'node-2', isFile: true } as Node);
+      fixture.detectChanges();
+
+      expect(spy).toHaveBeenCalledTimes(2);
+      expect(spy.calls.argsFor(0)).toEqual(['node-1']);
+      expect(spy.calls.argsFor(1)).toEqual(['node-2']);
+    });
+
     it('should reset associations and stop loading on error', () => {
       spyOn(contentApiService, 'getNodeTargetAssociations').and.returnValue(throwError(() => new Error('failure')));
-      component.node = { id: 'node-1', isFile: true } as Node;
+      fixture.componentRef.setInput('node', { id: 'node-1', isFile: true } as Node);
       fixture.detectChanges();
 
       expect(component.associations).toEqual([]);
@@ -133,7 +146,7 @@ describe('AssociationsTabComponent', () => {
 
     it('should handle an empty associations list', () => {
       spyOn(contentApiService, 'getNodeTargetAssociations').and.returnValue(of({ list: { entries: [] } } as NodeAssociationPaging));
-      component.node = { id: 'node-1', isFile: true } as Node;
+      fixture.componentRef.setInput('node', { id: 'node-1', isFile: true } as Node);
       fixture.detectChanges();
 
       expect(component.associations).toEqual([]);

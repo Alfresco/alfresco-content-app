@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, DestroyRef, inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnChanges, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Node, NodeAssociationEntry, NodeAssociationPaging } from '@alfresco/js-api';
 import { ContentApiService } from '@alfresco/aca-shared';
@@ -48,7 +48,7 @@ import {
   styleUrls: ['./associations-tab.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class AssociationsTabComponent implements OnInit {
+export class AssociationsTabComponent implements OnInit, OnChanges {
   private readonly contentApi = inject(ContentApiService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly dialog = inject(MatDialog);
@@ -62,6 +62,12 @@ export class AssociationsTabComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadAssociations();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['node'] && !changes['node'].firstChange) {
+      this.loadAssociations();
+    }
   }
 
   openCreateAssociationDialog(): void {
