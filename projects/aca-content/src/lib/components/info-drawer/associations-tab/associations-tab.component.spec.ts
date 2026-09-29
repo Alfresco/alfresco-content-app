@@ -64,7 +64,6 @@ describe('AssociationsTabComponent', () => {
     }
   } as NodeAssociationEntry;
 
-  /** Makes MatDialog.open return a dialog ref whose afterClosed() emits the given value. */
   const stubDialog = (afterClosedValue: unknown) => {
     (matDialog.open as jasmine.Spy).and.returnValue({ afterClosed: () => of(afterClosedValue) } as any);
   };
