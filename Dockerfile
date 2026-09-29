@@ -11,7 +11,7 @@ RUN pnpm install --frozen-lockfile --prod
 
 RUN mkdir -p ./licenses && \
   pnpm licenses list --prod > ./licenses/licenses.txt && \
-  npx @quantco/pnpm-licenses generate-disclaimer --prod > ./licenses/disclaimer.txt
+  npx @quantco/pnpm-licenses@2.4.2 generate-disclaimer --prod > ./licenses/disclaimer.txt
 
 # 2. Generate image
 
