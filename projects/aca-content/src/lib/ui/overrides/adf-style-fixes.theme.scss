@@ -167,14 +167,8 @@
     );
   }
 
-  .adf-content-type-dialog-apply-button {
-    --mat-sys-primary: var(--theme-primary-color);
-  }
-
-  .adf-unsaved-changes-dialog-actions-discard-changes-button {
-    --mat-sys-primary: var(--theme-primary-color);
-  }
-
+  .adf-content-type-dialog-apply-button,
+  .adf-unsaved-changes-dialog-actions-discard-changes-button,
   .adf-continue-working-btn {
     --mat-sys-primary: var(--theme-primary-color);
   }
