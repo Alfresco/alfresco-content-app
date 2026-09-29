@@ -31,7 +31,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Node } from '@alfresco/js-api';
-import { ContentNodeSelectorPanelComponent, ValidationFunction } from '@alfresco/adf-content-services';
+import { ContentNodeSelectorPanelComponent, forbidOnlySpaces, ValidationFunction } from '@alfresco/adf-content-services';
 
 interface CreateAssociationForm {
   associationType: FormControl<string>;
@@ -67,17 +67,13 @@ export class CreateAssociationDialogComponent {
   private readonly dialogRef = inject<MatDialogRef<CreateAssociationDialogComponent, CreateAssociationDialogResult>>(MatDialogRef);
 
   readonly form = new FormGroup<CreateAssociationForm>({
-    associationType: new FormControl('', { nonNullable: true, validators: [Validators.required] })
+    associationType: new FormControl('', { nonNullable: true, validators: [Validators.required, forbidOnlySpaces] })
   });
 
   currentFolderId = '-my-';
   selectedTarget: Node | null = null;
 
   validateSelection: ValidationFunction = (node: Node): boolean => !!node?.isFile && this.isJsonFile(node);
-
-  private isJsonFile(node: Node): boolean {
-    return node.content?.mimeType === 'application/json' || !!node.name?.toLowerCase().endsWith('.json');
-  }
 
   onNodeSelect(nodes: Node[]): void {
     this.selectedTarget = nodes?.length ? nodes[0] : null;
@@ -92,5 +88,9 @@ export class CreateAssociationDialogComponent {
       associationType: this.form.controls.associationType.value,
       target: this.selectedTarget
     });
+  }
+
+  private isJsonFile(node: Node): boolean {
+    return node.content?.mimeType === 'application/json' || !!node.name?.toLowerCase().endsWith('.json');
   }
 }

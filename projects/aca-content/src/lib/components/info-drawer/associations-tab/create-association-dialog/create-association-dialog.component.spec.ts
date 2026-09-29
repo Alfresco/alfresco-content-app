@@ -78,6 +78,23 @@ describe('CreateAssociationDialogComponent', () => {
     expect(component.selectedTarget).toBeNull();
   });
 
+  describe('association type validation', () => {
+    it('should be invalid for an empty association type', () => {
+      component.form.controls.associationType.setValue('');
+      expect(component.form.controls.associationType.valid).toBe(false);
+    });
+
+    it('should be invalid for a whitespace-only association type', () => {
+      component.form.controls.associationType.setValue('   ');
+      expect(component.form.controls.associationType.valid).toBe(false);
+    });
+
+    it('should be valid for a non-empty association type', () => {
+      component.form.controls.associationType.setValue('cm:references');
+      expect(component.form.controls.associationType.valid).toBe(true);
+    });
+  });
+
   describe('validateSelection', () => {
     it('should allow JSON files by mime type', () => {
       const node = { isFile: true, content: { mimeType: 'application/json' } } as Node;

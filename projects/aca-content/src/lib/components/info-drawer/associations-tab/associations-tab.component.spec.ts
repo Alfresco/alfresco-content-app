@@ -29,7 +29,7 @@ import { AssociationEntry, Node, NodeAssociationEntry, NodeAssociationPaging } f
 import { EMPTY, of, throwError } from 'rxjs';
 import { NoopTranslateModule, NotificationService, provideCoreAuthTesting } from '@alfresco/adf-core';
 import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CreateAssociationDialogResult } from './create-association-dialog/create-association-dialog.component';
 
 describe('AssociationsTabComponent', () => {
@@ -65,7 +65,9 @@ describe('AssociationsTabComponent', () => {
   } as NodeAssociationEntry;
 
   const stubDialog = (afterClosedValue: unknown) => {
-    (matDialog.open as jasmine.Spy).and.returnValue({ afterClosed: () => of(afterClosedValue) } as any);
+    const dialogRefSpy = jasmine.createSpyObj<MatDialogRef<unknown>>('MatDialogRef', ['afterClosed']);
+    dialogRefSpy.afterClosed.and.returnValue(of(afterClosedValue));
+    (matDialog.open as jasmine.Spy<MatDialog['open']>).and.returnValue(dialogRefSpy);
   };
 
   beforeEach(() => {
