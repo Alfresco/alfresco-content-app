@@ -7,7 +7,7 @@ RUN corepack enable pnpm
 
 COPY package.json pnpm-lock.yaml ./
 
-RUN pnpm install --frozen-lockfile --prod
+RUN pnpm install --frozen-lockfile --prod --ignore-scripts
 
 RUN mkdir -p ./licenses && \
   pnpm licenses list --prod > ./licenses/licenses.txt && \
