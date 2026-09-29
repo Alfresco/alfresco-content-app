@@ -1,0 +1,38 @@
+<div class="app-create-association-dialog__header">
+  <h2 class="app-create-association-dialog__title" mat-dialog-title>
+    {{ 'APP.INFO_DRAWER.ASSOCIATIONS.CREATE_DIALOG.TITLE' | translate }}
+  </h2>
+  <button mat-icon-button mat-dialog-close [attr.aria-label]="'APP.INFO_DRAWER.ASSOCIATIONS.CREATE_DIALOG.CLOSE' | translate">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-dialog-content class="app-create-association-dialog__content">
+  <form [formGroup]="form">
+    <mat-form-field class="app-create-association-dialog__type-field">
+      <mat-label>{{ 'APP.INFO_DRAWER.ASSOCIATIONS.CREATE_DIALOG.TYPE_LABEL' | translate }}</mat-label>
+      <input matInput formControlName="associationType" data-automation-id="create-association-type-input" />
+    </mat-form-field>
+  </form>
+
+  <adf-content-node-selector-panel
+    class="app-create-association-dialog__node-selector"
+    selectionMode="single"
+    [currentFolderId]="'-root-'"
+    [showDropdownSiteList]="false"
+    [showFilesInResult]="true"
+    [isSelectionValid]="validateSelection"
+    (select)="onNodeSelect($event)" />
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>{{ 'APP.INFO_DRAWER.ASSOCIATIONS.CREATE_DIALOG.CANCEL' | translate }}</button>
+  <button
+    mat-flat-button
+    class="app-create-association-dialog__submit-button"
+    [disabled]="form.invalid || !selectedTarget"
+    (click)="submit()"
+  >
+    {{ 'APP.INFO_DRAWER.ASSOCIATIONS.CREATE' | translate }}
+  </button>
+</mat-dialog-actions>

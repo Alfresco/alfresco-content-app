@@ -42,6 +42,7 @@ import { LocationLinkComponent } from './components/common/location-link/locatio
 import { LogoutComponent } from './components/common/logout/logout.component';
 import { ToggleSharedComponent } from './components/common/toggle-shared/toggle-shared.component';
 import { CustomNameColumnComponent } from './components/dl-custom-components/name-column/name-column.component';
+import { AssociationsTabComponent } from './components/info-drawer/associations-tab/associations-tab.component';
 import { CommentsTabComponent } from './components/info-drawer/comments-tab/comments-tab.component';
 import { LibraryMetadataTabComponent } from './components/info-drawer/library-metadata-tab/library-metadata-tab.component';
 import { MetadataTabComponent } from './components/info-drawer/metadata-tab/metadata-tab.component';
@@ -99,6 +100,7 @@ import { IsFeatureSupportedInCurrentAcsPipe } from './pipes/is-feature-supported
         'app.shell.sibling': UploadFilesDialogComponent,
         'app.components.tabs.metadata': MetadataTabComponent,
         'app.components.tabs.library.metadata': LibraryMetadataTabComponent,
+        'app.components.tabs.associations': AssociationsTabComponent,
         'app.components.tabs.comments': CommentsTabComponent,
         'app.components.tabs.versions': VersionsTabComponent,
         'app.components.preview': PreviewComponent,
