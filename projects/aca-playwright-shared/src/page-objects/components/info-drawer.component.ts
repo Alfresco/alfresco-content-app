@@ -106,6 +106,7 @@ export class InfoDrawerComponent extends BaseComponent {
   public generalInfoContentTypeCombobox = this.getChild('[role="combobox"]');
   public generalInfoNameError = this.getChild('[data-automation-id="card-textitem-error-properties.cm:name"]');
   public generalInfoSaveButton = this.getChild('[data-automation-id="save-general-info-metadata"]');
+  public viewerButton = this.getChild('[title="Preview File"]');
 
   async checkCommentsHeaderCount(): Promise<number> {
     const commentsCountTextContent = await this.commentsHeader.textContent();
