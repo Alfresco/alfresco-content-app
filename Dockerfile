@@ -1,6 +1,6 @@
 # 1. Generate licenses
 
-FROM --platform=$BUILDPLATFORM node:22.14.0-alpine AS builder
+FROM --platform=$BUILDPLATFORM node:24.13.1-alpine AS builder
 WORKDIR /usr/src/alfresco
 
 RUN corepack enable pnpm
