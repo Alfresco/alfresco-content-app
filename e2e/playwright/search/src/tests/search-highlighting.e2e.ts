@@ -63,6 +63,7 @@ test.describe('Search Highlighting', () => {
     test.beforeAll(async () => {
       try {
         await nodesApi.createFile(fileNameHighlight17199, '-my-');
+        await searchApi.waitFileForSearchIndexing(fileNameHighlight17199);
       } catch (error) {
         console.error(`XAT-17119 - beforeAll failed: ${JSON.stringify(error)}`);
       }
@@ -82,6 +83,7 @@ test.describe('Search Highlighting', () => {
     test.beforeAll(async () => {
       try {
         await nodesApi.createFile(fileDescriptionHighlight17120, '-my-', undefined, fileDescription17120);
+        await searchApi.waitFileForSearchIndexing(fileDescriptionHighlight17120);
       } catch (error) {
         console.error(`XAT-17120 - beforeAll failed: ${JSON.stringify(error)}`);
       }
