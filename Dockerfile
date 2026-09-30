@@ -1,12 +1,17 @@
 # 1. Generate licenses
 
-FROM --platform=$BUILDPLATFORM node:22.14.0-alpine AS builder
+FROM --platform=$BUILDPLATFORM node:24.13.1-alpine AS builder
 WORKDIR /usr/src/alfresco
-COPY package.json package.json
+
+RUN corepack enable pnpm
+
+COPY package.json pnpm-lock.yaml ./
+
+RUN pnpm install --frozen-lockfile --prod --ignore-scripts
 
 RUN mkdir -p ./licenses && \
-  yarn licenses list --production > ./licenses/licenses.txt && \
-  yarn licenses generate-disclaimer --production > ./licenses/disclaimer.txt
+  pnpm licenses list --prod > ./licenses/licenses.txt && \
+  npx --ignore-scripts @quantco/pnpm-licenses@2.4.2 generate-disclaimer --prod > ./licenses/disclaimer.txt
 
 # 2. Generate image
 
