@@ -106,6 +106,7 @@ test.describe('Search Highlighting', () => {
         const contentFileId = (await nodesApi.createFile(fileContentHighlight17121, '-my-')).entry.id;
         await fileActionsApi.updateNodeContent(contentFileId, fileContent17121);
         await searchApi.waitFileForSearchIndexing(fileContentHighlight17121);
+        await searchApi.waitForContentIndexing(fileContent17121, fileContentHighlight17121);
       } catch (error) {
         console.error(`XAT-17121 - beforeAll failed: ${JSON.stringify(error)}`);
       }
