@@ -39,6 +39,7 @@ import {
   SearchMenuCard,
   SearchSortingPicker,
   SidenavComponent,
+  InfoDrawerComponent,
   ViewerComponent
 } from '../components';
 import { AcaHeader } from '../components/aca-header.component';
@@ -60,6 +61,7 @@ export class SearchPage extends BasePage {
   public folderDialog = new AdfFolderDialogComponent(this.page);
   public dataTable = new DataTableComponent(this.page);
   public viewer = new ViewerComponent(this.page);
+  public infoDrawer = new InfoDrawerComponent(this.page);
   public searchInputComponent = new SearchInputComponent(this.page);
   public searchInDialog = new SearchInDialogComponent(this.page);
   public searchSortingPicker = new SearchSortingPicker(this.page);

@@ -28,7 +28,6 @@ import { ApiClientFactory, test, TrashcanApi, NodesApi, FileActionsApi, TEST_FIL
 test.describe('File preview', () => {
   const timestamp = new Date().getTime();
   const username = `user1-${timestamp}`;
-  const fileName = `file1-${timestamp}.pdf`;
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
   let fileActionsApi: FileActionsApi;
@@ -41,8 +40,6 @@ test.describe('File preview', () => {
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
       fileActionsApi = await FileActionsApi.initialize(username, username);
-      await fileActionsApi.uploadFileWithRename(TEST_FILES.PDF.path, fileName, '-my-');
-      await fileActionsApi.waitForNodes(fileName, { expect: 1 });
     } catch (error) {
       console.error(`beforeAll failed : ${error}`);
     }
@@ -56,14 +53,51 @@ test.describe('File preview', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
-  test('[XAT-17780] Can open viewer while the info drawer is opened', async ({ personalFiles }) => {
-    await personalFiles.navigate();
-    await Utils.reloadPageIfRowNotVisible(personalFiles, fileName);
-    await personalFiles.dataTable.getRowByName(fileName).click();
-    await personalFiles.acaHeader.viewButton.click();
-    await personalFiles.viewer.waitForViewerToOpen();
-    await personalFiles.viewer.waitForViewerContentToRender('document');
-    await expect(personalFiles.viewer.pdfViewerContentPages.first()).toBeVisible();
-    expect(await personalFiles.viewer.viewerDocument.textContent()).toContain('PDF');
+  test.describe('File preview - Personal Files', () => {
+    const file17780 = `file1-${timestamp}.pdf`;
+
+    test.beforeAll(async () => {
+      try {
+        await fileActionsApi.uploadFileWithRename(TEST_FILES.PDF.path, file17780, '-my-');
+        await fileActionsApi.waitForNodes(file17780, { expect: 1 });
+      } catch (error) {
+        console.error(`beforeAll failed : ${error}`);
+      }
+    });
+
+    test('[XAT-17780] Can open viewer while the info drawer is opened', async ({ personalFiles }) => {
+      await personalFiles.navigate();
+      await Utils.reloadPageIfRowNotVisible(personalFiles, file17780);
+      await personalFiles.dataTable.getRowByName(file17780).click();
+      await personalFiles.acaHeader.viewButton.click();
+      await personalFiles.viewer.waitForViewerToOpen();
+      await personalFiles.viewer.waitForViewerContentToRender('document');
+      await expect(personalFiles.viewer.pdfViewerContentPages.first()).toBeVisible();
+      expect(await personalFiles.viewer.viewerDocument.textContent()).toContain('PDF');
+    });
+  });
+
+  test.describe('File preview - Search Page', () => {
+    const file20360 = `file1-${timestamp}.jpg`;
+
+    test.beforeAll(async () => {
+      try {
+        await fileActionsApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, file20360, '-my-');
+        await fileActionsApi.waitForNodes(file20360, { expect: 1 });
+      } catch (error) {
+        console.error(`beforeAll failed : ${error}`);
+      }
+    });
+
+    test('[XAT-20360] Search Results - Preview icon opens viewer in the info drawer', async ({ searchPage }) => {
+      await searchPage.navigate();
+      await searchPage.searchWithin(file20360);
+      await searchPage.dataTable.getRowByName(file20360).click();
+      await searchPage.acaHeader.viewDetails.click();
+      await searchPage.infoDrawer.viewerButton.click();
+      await searchPage.viewer.waitForViewerToOpen();
+      await expect(searchPage.viewer.viewDetailsButton).toBeVisible();
+      await expect(searchPage.dataTable.getRowByName(file20360)).toBeVisible();
+    });
   });
 });
