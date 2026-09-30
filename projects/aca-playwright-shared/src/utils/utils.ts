@@ -35,11 +35,7 @@ export class Utils {
   static readonly string513Long = 'x'.repeat(513);
 
   static random(length = 5): string {
-    let result = '';
-    while (result.length < length) {
-      result += crypto.getRandomValues(new Uint32Array(1))[0].toString(36).toLowerCase();
-    }
-    return result.substring(0, length);
+    return Array.from(crypto.getRandomValues(new Uint8Array(length)), (b: number) => (b % 36).toString(36)).join('');
   }
 
   static retryCall(fn: () => Promise<any>, retry: number = 30, delay: number = 1500): Promise<any> {

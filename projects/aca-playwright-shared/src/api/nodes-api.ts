@@ -240,7 +240,7 @@ export class NodesApi {
 
   async getNodeById(id: string, opts?: NodesIncludeQuery): Promise<NodeEntry> {
     try {
-      return await this.apiService.nodes.getNode(id, opts);
+      return this.apiService.nodes.getNode(id, opts);
     } catch (error) {
       const message = `${this.constructor.name} ${this.getNodeById.name}: ${error}`;
       logger.error(message);
