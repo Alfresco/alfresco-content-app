@@ -1,50 +1,53 @@
-<mat-form-field
-  *ngIf="items?.length"
-  class="aca-bulk-actions-form-field"
-  data-automation-id="aca-bulk-actions-form-field"
->
-  <mat-label>{{ 'SEARCH.BULK_ACTIONS_DROPDOWN.LABEL' | translate }}</mat-label>
-  <mat-select
-    [formControl]="bulkSelectControl"
-    [placeholder]="placeholder"
-    panelClass="aca-bulk-actions-select"
-    disableOptionCentering
-    data-automation-id="aca-bulk-actions-dropdown"
-    (keydown)="onKeyDown($event)"
-  >
-    <mat-select-trigger>
-      <div class="aca-bulk-actions-option-content">
-        <adf-icon
-          *ngIf="bulkSelectControl.value?.icon"
-          [title]="bulkSelectControl.value?.title | translate"
-          [value]="bulkSelectControl.value?.icon"
-          class="aca-bulk-actions-icon"
-          aria-hidden="true"
-          [attr.data-automation-id]="'aca-bulk-action-icon-' + bulkSelectControl.value?.id"
-        />
-        {{ bulkSelectControl.value?.title | translate }}
-      </div>
-    </mat-select-trigger>
-
-    <mat-option
-      *ngFor="let option of items"
-      [value]="option"
-      [title]="option.tooltip | translate"
-      [attr.data-automation-id]="option.id"
-      (keyup.enter)="runAction(option)"
-      (click)="runAction(option)"
+@if (items?.length) {
+  <mat-form-field
+    class="aca-bulk-actions-form-field"
+    data-automation-id="aca-bulk-actions-form-field"
     >
-      <div class="aca-bulk-actions-option-content">
-        <adf-icon
-          *ngIf="option.icon"
-          [title]="option.title | translate"
-          [value]="option.icon"
-          class="aca-bulk-actions-icon"
-          aria-hidden="true"
-          [attr.data-automation-id]="'aca-bulk-action-icon-' + option.id"
-        />
-        {{ option.title | translate }}
-      </div>
-    </mat-option>
-  </mat-select>
-</mat-form-field>
+    <mat-label>{{ 'SEARCH.BULK_ACTIONS_DROPDOWN.LABEL' | translate }}</mat-label>
+    <mat-select
+      [formControl]="bulkSelectControl"
+      [placeholder]="placeholder"
+      panelClass="aca-bulk-actions-select"
+      disableOptionCentering
+      data-automation-id="aca-bulk-actions-dropdown"
+      (keydown)="onKeyDown($event)"
+      >
+      <mat-select-trigger>
+        <div class="aca-bulk-actions-option-content">
+          @if (bulkSelectControl.value?.icon) {
+            <adf-icon
+              [title]="bulkSelectControl.value?.title | translate"
+              [value]="bulkSelectControl.value?.icon"
+              class="aca-bulk-actions-icon"
+              aria-hidden="true"
+              [attr.data-automation-id]="'aca-bulk-action-icon-' + bulkSelectControl.value?.id"
+              />
+          }
+          {{ bulkSelectControl.value?.title | translate }}
+        </div>
+      </mat-select-trigger>
+      @for (option of items; track option) {
+        <mat-option
+          [value]="option"
+          [title]="option.tooltip | translate"
+          [attr.data-automation-id]="option.id"
+          (keyup.enter)="runAction(option)"
+          (click)="runAction(option)"
+          >
+          <div class="aca-bulk-actions-option-content">
+            @if (option.icon) {
+              <adf-icon
+                [title]="option.title | translate"
+                [value]="option.icon"
+                class="aca-bulk-actions-icon"
+                aria-hidden="true"
+                [attr.data-automation-id]="'aca-bulk-action-icon-' + option.id"
+                />
+            }
+            {{ option.title | translate }}
+          </div>
+        </mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+}

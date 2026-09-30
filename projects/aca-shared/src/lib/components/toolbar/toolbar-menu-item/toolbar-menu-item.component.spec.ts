@@ -59,6 +59,10 @@ describe('ToolbarMenuItemComponent', () => {
     appExtensionService = TestBed.inject(AppExtensionService);
   });
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
   it('should run action on click', async () => {
     const runActionById = spyOn(appExtensionService, 'runActionById');
 

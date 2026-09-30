@@ -2,7 +2,9 @@
   <div class="aca-page-layout-header">
     <div class="aca-header-container">
       <aca-search-input />
-      <aca-bulk-actions-dropdown *ngIf="bulkActions && ('isBulkActionsAvailable' | isFeatureSupportedInCurrentAcs | async)" [items]="bulkActions" />
+      @if (bulkActions && ('isBulkActionsAvailable' | isFeatureSupportedInCurrentAcs | async)) {
+        <aca-bulk-actions-dropdown [items]="bulkActions" />
+      }
       <aca-toolbar class="aca-search-results__toolbar-actions" [items]="actions" />
     </div>
   </div>
@@ -38,38 +40,19 @@
               <div class="aca-content__advanced-filters--header">
                 <p>{{ 'APP.BROWSE.SEARCH.ADVANCED_FILTERS' | translate }}</p>
                 <div class="aca-content__advanced-filters--header--action-buttons">
-                  <button
-                    *ngIf="initialSavedSearch !== undefined; else saveSearchButton"
-                    mat-button
-                    [disabled]="!encodedQuery"
-                    class="aca-content__save-search-action"
-                    title="{{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate }}"
-                    [attr.aria-label]="'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate"
-                    [matMenuTriggerFor]="saveSearchOptionsMenu"
-                  >
-                    {{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate }}
-                    <mat-icon iconPositionEnd>keyboard_arrow_down</mat-icon>
-                  </button>
-                  <mat-menu #saveSearchOptionsMenu="matMenu">
+                  @if (initialSavedSearch !== undefined) {
                     <button
-                      mat-menu-item
-                      (click)="editSavedSearch(initialSavedSearch)"
-                      title="{{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_CHANGES' | translate }}"
-                      [attr.aria-label]="'APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_CHANGES' | translate"
-                    >
-                      {{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_CHANGES' | translate }}
+                      mat-button
+                      [disabled]="!encodedQuery"
+                      class="aca-content__save-search-action"
+                      title="{{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate }}"
+                      [attr.aria-label]="'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate"
+                      [matMenuTriggerFor]="saveSearchOptionsMenu"
+                      >
+                      {{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate }}
+                      <mat-icon iconPositionEnd>keyboard_arrow_down</mat-icon>
                     </button>
-                    <button
-                      mat-menu-item
-                      acaSaveSearch
-                      [acaSaveSearchQuery]="encodedQuery"
-                      title="{{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_AS_NEW' | translate }}"
-                      [attr.aria-label]="'APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_AS_NEW' | translate"
-                    >
-                      {{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_AS_NEW' | translate }}
-                    </button>
-                  </mat-menu>
-                  <ng-template #saveSearchButton>
+                  } @else {
                     <button
                       mat-button
                       acaSaveSearch
@@ -79,10 +62,29 @@
                       class="aca-content__save-search-action"
                       title="{{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate }}"
                       [attr.aria-label]="'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate"
-                    >
+                      >
                       {{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate }}
                     </button>
-                  </ng-template>
+                  }
+                  <mat-menu #saveSearchOptionsMenu="matMenu">
+                    <button
+                      mat-menu-item
+                      (click)="editSavedSearch(initialSavedSearch)"
+                      title="{{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_CHANGES' | translate }}"
+                      [attr.aria-label]="'APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_CHANGES' | translate"
+                      >
+                      {{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_CHANGES' | translate }}
+                    </button>
+                    <button
+                      mat-menu-item
+                      acaSaveSearch
+                      [acaSaveSearchQuery]="encodedQuery"
+                      title="{{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_AS_NEW' | translate }}"
+                      [attr.aria-label]="'APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_AS_NEW' | translate"
+                      >
+                      {{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_AS_NEW' | translate }}
+                    </button>
+                  </mat-menu>
                   <button
                     [disabled]="!(areFiltersActive$ | async)"
                     mat-button
@@ -90,7 +92,7 @@
                     class="aca-content__reset-action"
                     title="{{ 'APP.BROWSE.SEARCH.RESET_ACTION' | translate }}"
                     [attr.aria-label]="'APP.BROWSE.SEARCH.RESET_ACTION' | translate"
-                  >
+                    >
                     {{ 'APP.BROWSE.SEARCH.RESET' | translate }}
                   </button>
                 </div>
@@ -114,7 +116,7 @@
             [blurOnResize]="false"
             [node]="$any(data)"
             (node-dblclick)="handleNodeClick($event)"
-          >
+            >
             <data-columns>
               <data-column
                 id="app.search.thumbnail"
@@ -122,15 +124,15 @@
                 type="image"
                 [sr-title]="'ADF-DOCUMENT-LIST.LAYOUT.THUMBNAIL'"
                 [sortable]="false"
-              >
+                >
                 <adf-data-column-header>
                   <ng-template>
                     <aca-search-action-menu (sortingSelected)="onSearchSortingUpdate($event)" />
                   </ng-template>
                 </adf-data-column-header>
               </data-column>
-              <ng-container *ngFor="let column of columns; trackBy: trackByColumnId">
-                <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
+              @for (column of columns; track trackByColumnId($index, column)) {
+                @if (column.template && !(column.desktopOnly && isSmallScreen)) {
                   <data-column
                     [id]="column.id"
                     [key]="column.key"
@@ -143,14 +145,13 @@
                     [isHidden]="column.isHidden"
                     [draggable]="column.draggable"
                     [resizable]="column.resizable"
-                  >
+                    >
                     <ng-template let-context>
                       <adf-dynamic-column [id]="column.template" [context]="context" />
                     </ng-template>
                   </data-column>
-                </ng-container>
-
-                <ng-container *ngIf="!column.template && !(column.desktopOnly && isSmallScreen)">
+                }
+                @if (!column.template && !(column.desktopOnly && isSmallScreen)) {
                   <data-column
                     [id]="column.id"
                     [key]="column.key"
@@ -163,57 +164,60 @@
                     [isHidden]="column.isHidden"
                     [draggable]="column.draggable"
                     [resizable]="column.resizable"
-                  />
-                </ng-container>
-              </ng-container>
+                    />
+                }
+              }
             </data-columns>
 
             <adf-custom-empty-content-template>
-              <ng-container *ngIf="data">
+              @if (data) {
                 <div class="empty-search__block" aria-live="polite">
                   <p class="empty-search__text">
                     {{ 'APP.BROWSE.SEARCH.NO_RESULTS' | translate }}
                   </p>
                 </div>
-              </ng-container>
+              }
             </adf-custom-empty-content-template>
           </adf-document-list>
 
-          <adf-pagination *ngIf="totalResults > 0" acaPagination [target]="documentList" (change)="onPaginationChanged($event)" />
+          @if (totalResults > 0) {
+            <adf-pagination acaPagination [target]="documentList" (change)="onPaginationChanged($event)" />
+          }
         </div>
       </div>
     </div>
-    <div
+    @if (infoDrawerOpened$ | async) {
+      <div
       [ngClass]="
         (infoDrawerPreview$ | async) === true ? 'adf-search-results--right_panel_section-extended' : 'adf-search-results--right_panel_section'
       "
-      *ngIf="infoDrawerOpened$ | async"
-    >
-      <adf-alfresco-viewer
-        class="adf-search-results--embedded_viewer"
-        [nodeId]="selection.last.entry.id"
-        *ngIf="infoDrawerPreview$ | async; else infoDrawerPanel"
-      >
-        <adf-viewer-toolbar>
-          <div class="adf-search-results--preview-toolbar">
-            <div>
-              <button mat-icon-button title="{{ 'ADF_VIEWER.ACTIONS.CLOSE' | translate }}" (click)="onDrawerClosed()">
-                <mat-icon>close</mat-icon>
-              </button>
-            </div>
-            <div>
-              <button mat-icon-button title="{{ 'ADF_VIEWER.ACTIONS.INFO' | translate }}" (click)="onPreviewClosed()">
-                <mat-icon>info_outline</mat-icon>
-              </button>
-            </div>
+        >
+        @if (infoDrawerPreview$ | async) {
+          <adf-alfresco-viewer
+            class="adf-search-results--embedded_viewer"
+            [nodeId]="selection.last.entry.id"
+            >
+            <adf-viewer-toolbar>
+              <div class="adf-search-results--preview-toolbar">
+                <div>
+                  <button mat-icon-button title="{{ 'ADF_VIEWER.ACTIONS.CLOSE' | translate }}" (click)="onDrawerClosed()">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </div>
+                <div>
+                  <button mat-icon-button title="{{ 'ADF_VIEWER.ACTIONS.INFO' | translate }}" (click)="onPreviewClosed()">
+                    <mat-icon>info_outline</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </adf-viewer-toolbar>
+          </adf-alfresco-viewer>
+        } @else {
+          <div class="aca-sidebar">
+            <aca-info-drawer [node]="selection.last" />
           </div>
-        </adf-viewer-toolbar>
-      </adf-alfresco-viewer>
-      <ng-template #infoDrawerPanel>
-        <div class="aca-sidebar">
-          <aca-info-drawer [node]="selection.last" />
-        </div>
-      </ng-template>
-    </div>
+        }
+      </div>
+    }
   </div>
 </aca-page-layout>

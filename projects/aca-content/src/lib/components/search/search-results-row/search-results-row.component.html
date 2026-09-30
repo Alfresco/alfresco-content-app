@@ -1,25 +1,27 @@
 <div class="aca-search-results-text">
   <div class="search-file-name">
-    <span
-      tabindex="0"
-      role="link"
-      *ngIf="isFile"
-      (click)="showPreview($event)"
-      (keyup.enter)="showPreview($event)"
-      class="aca-link aca-crop-text"
-      [title]="nameStripped"
-      [innerHTML]="name$ | async"
-    ></span>
-    <span
-      tabindex="0"
-      role="link"
-      *ngIf="!isFile"
-      (click)="navigate($event)"
-      (keyup.enter)="navigate($event)"
-      class="bold aca-link aca-crop-text"
-      [title]="nameStripped"
-      [innerHTML]="name$ | async"
-    ></span>
+    @if (isFile) {
+      <span
+        tabindex="0"
+        role="link"
+        (click)="showPreview($event)"
+        (keyup.enter)="showPreview($event)"
+        class="aca-link aca-crop-text"
+        [title]="nameStripped"
+        [innerHTML]="name$ | async"
+      ></span>
+    }
+    @if (!isFile) {
+      <span
+        tabindex="0"
+        role="link"
+        (click)="navigate($event)"
+        (keyup.enter)="navigate($event)"
+        class="bold aca-link aca-crop-text"
+        [title]="nameStripped"
+        [innerHTML]="name$ | async"
+      ></span>
+    }
     <span
       data-automation-id="search-results-entry-title"
       class="aca-crop-text"

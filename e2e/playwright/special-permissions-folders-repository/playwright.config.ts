@@ -29,8 +29,8 @@ import EXCLUDED_JSON from './exclude.tests.json';
 const config: PlaywrightTestConfig<CustomConfig> = {
   ...getGlobalConfig,
 
-  grepInvert: getExcludedTestsRegExpArray(EXCLUDED_JSON, 'special-permissions'),
-  projects: createSuiteProjects('special-permissions', './src/tests')
+  grepInvert: getExcludedTestsRegExpArray(EXCLUDED_JSON, 'special-permissions-folders-repository'),
+  projects: createSuiteProjects('special-permissions-folders-repository', './src/tests')
 };
 
 export default config;

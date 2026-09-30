@@ -1,6 +1,6 @@
 {
     "APP": {
-        "COPYRIGHT": "© 2005-2025 Hyland Software, Inc. 及其附属公司。保留所有权利。",
+        "COPYRIGHT": "© 2005-2026 Hyland Software, Inc. 及其附属公司。保留所有权利。",
         "TITLE": "工作区",
         "ABOUT": {
             "VERSION": "版本：",
@@ -463,7 +463,7 @@
                 "FAVORITE_NODES_ADDED": "已将 {{ number }} 个项目添加至收藏夹",
                 "FAVORITE_NODE_REMOVED": "已从收藏夹中移除 {{ name }}",
                 "FAVORITE_NODES_REMOVED": "已从收藏夹中移除 {{ number }} 个项目",
-                "FAVORITE_NODE_NOT_FOUND": "{{ name }} 未收藏"
+                "FAVORITE_NODE_NOT_FOUND": "{{ name }} 不是收藏项"
             }
         },
         "CONTENT_METADATA": {

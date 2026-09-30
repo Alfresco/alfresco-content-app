@@ -24,7 +24,6 @@
 
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { AppStore, getSearchItemsTotalCount } from '@alfresco/aca-shared/store';
-import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { Store } from '@ngrx/store';
@@ -40,7 +39,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   selector: 'aca-bulk-actions-dropdown',
   templateUrl: './bulk-actions-dropdown.component.html',
   styleUrls: ['./bulk-actions-dropdown.component.scss'],
-  imports: [CommonModule, TranslatePipe, MatSelectModule, IconComponent, ReactiveFormsModule],
+  imports: [TranslatePipe, MatSelectModule, IconComponent, ReactiveFormsModule],
   encapsulation: ViewEncapsulation.None
 })
 export class BulkActionsDropdownComponent implements OnInit {

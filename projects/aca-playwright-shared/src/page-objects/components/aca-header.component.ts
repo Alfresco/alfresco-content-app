@@ -57,17 +57,18 @@ export class AcaHeader extends BaseComponent {
   }
 
   async verifyToolbarPrimaryActions(expectedToolbarPrimary: string[]): Promise<void> {
-    const buttons = await this.page.$$('aca-toolbar button');
-    const actualPrimaryActions: string[] = await Promise.all(
-      buttons.map(async (button) => {
-        const title = await button.getAttribute('title');
-        return title || '';
-      })
-    );
-
-    for (const action of expectedToolbarPrimary) {
-      expect(actualPrimaryActions.includes(action), `Expected to contain ${action}`).toBe(true);
-    }
+    await expect
+      .poll(
+        async () => {
+          const buttons = await this.page.$$('aca-toolbar button');
+          return Promise.all(buttons.map(async (button) => (await button.getAttribute('title')) || ''));
+        },
+        {
+          message: `Expected toolbar to contain [${expectedToolbarPrimary.join(', ')}]`,
+          timeout: 5000
+        }
+      )
+      .toEqual(expect.arrayContaining(expectedToolbarPrimary));
   }
 
   async clickCreateFileFromTemplate(): Promise<void> {

@@ -25,7 +25,6 @@
 import { AfterViewInit, Component, DestroyRef, inject, OnInit, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { MatMenu, MatMenuItem, MatMenuModule } from '@angular/material/menu';
 import { ContentActionType, DynamicExtensionComponent } from '@alfresco/adf-extensions';
-import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { IconComponent } from '@alfresco/adf-core';
@@ -36,7 +35,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   imports: [
-    CommonModule,
     TranslatePipe,
     MatMenuModule,
     MatDividerModule,

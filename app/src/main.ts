@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { enableProdMode } from '@angular/core';
+import { enableProdMode, provideZoneChangeDetection } from '@angular/core';
 import { environment } from './environments/environment';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.components';
@@ -33,5 +33,5 @@ if (environment.production) {
 }
 
 void (async () => {
-  await bootstrapApplication(AppComponent, AppConfig);
+  await bootstrapApplication(AppComponent, { ...AppConfig, providers: [provideZoneChangeDetection(), ...AppConfig.providers] });
 })();

@@ -36,18 +36,18 @@
       },
       "ERROR": {
         "REQUIRED": "Este campo é obrigatório",
-        "RULE_COMPOSITE_CONDITION_INVALID": "Um ou mais grupos de condições estiver vazio",
-        "INSUFFICIENT_TRIGGERS_SELECTED": "Pelo menos um gatilho será necessário",
+        "RULE_COMPOSITE_CONDITION_INVALID": "Um ou mais grupos de condições estão vazios",
+        "INSUFFICIENT_TRIGGERS_SELECTED": "Pelo menos um gatilho é obrigatório",
         "ACTION_REQUIRED": "O campo de ação é obrigatório"
       },
       "TRIGGERS": {
-        "INBOUND": "Itens foram criados ou inseridos nesta pasta",
-        "UPDATE": "Itens foram atualizados",
-        "OUTBOUND": "Itens foram excluídos ou saíram desta pasta"
+        "INBOUND": "Itens são criados ou entram nesta pasta",
+        "UPDATE": "Itens são atualizados",
+        "OUTBOUND": "Itens são excluídos ou saem desta pasta"
       },
       "OPTIONS": {
         "IS_INHERITABLE": "A regra é aplicável a subpastas",
-        "IS_ASYNCHRONOUS": "Executar regra no plano de fundo",
+        "IS_ASYNCHRONOUS": "Executar regra em segundo plano",
         "DISABLE_RULE": "Desativar regra",
         "ERROR_SCRIPT": "Se ocorrerem erros, execute o script",
         "NO_SCRIPT": "Nenhum"
@@ -57,8 +57,8 @@
         "CONTAINS": "Contém",
         "STARTS_WITH": "Inicia com",
         "ENDS_WITH": "Termina com",
-        "GREATER_THAN": "Maior que",
-        "LESS_THAN": "Menor que",
+        "GREATER_THAN": "(>) Maior que",
+        "LESS_THAN": "(<) Menor que",
         "GREATER_THAN_OR_EQUAL": "(>=) Maior que ou igual a",
         "LESS_THAN_OR_EQUAL": "(<=) Menor que ou igual a",
         "ON": "(=) Em",
@@ -71,10 +71,10 @@
       "FIELDS": {
         "NAME": "Nome",
         "SIZE": "Tamanho",
-        "MIMETYPE": "Tipo mime",
+        "MIMETYPE": "Tipo MIME",
         "ENCODING": "Codificação",
         "HAS_CATEGORY": "Tem categoria",
-        "HAS_TAG": "Tem marca",
+        "HAS_TAG": "Tem tag",
         "HAS_ASPECT": "Tem aspecto"
       },
       "LOGIC_OPERATORS": {
@@ -86,13 +86,13 @@
       "CONDITION_BUTTONS": {
         "ADD_CONDITION": "Adicionar condição",
         "ADD_GROUP": "Adicionar grupo de condição",
-        "REMOVE": "Excluir"
+        "REMOVE": "Remover"
       },
       "NO_CONDITIONS": "Sem condições",
       "NO_CONDITIONS_IN_GROUP": "Sem condições no grupo",
       "ACTION_BUTTONS": {
         "ADD_ACTION": "Adicionar ação",
-        "REMOVE": "Excluir"
+        "REMOVE": "Remover"
       },
       "ACTION_SELECT_PLACEHOLDER": "Selecionar uma ação"
     },
@@ -102,16 +102,16 @@
           "RULES": "regras"
         },
         "ACTIONS": {
-          "CREATE_RULE": "Criar uma regra",
-          "LINK_RULES": "Regras de link",
+          "CREATE_RULE": "Criar regra",
+          "LINK_RULES": "Vincular regras",
           "EDIT_RULE": "Editar",
-          "SEE_IN_FOLDER": "Consulte na pasta",
+          "SEE_IN_FOLDER": "Ver na pasta",
           "INHERIT_RULES": "Herdar regras"
         }
       },
       "EMPTY_RULES_LIST": {
         "TITLE": "A lista está vazia",
-        "SUBTITLE": "Não há regras definidas para esta pasta ainda."
+        "SUBTITLE": "Ainda não há regras definidas para esta pasta."
       }
     },
     "CONFIRMATION_DIALOG": {
@@ -134,7 +134,7 @@
       "TOGGLE_RULE_STATE": "Alternar regra {{ name }}",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "As regras herdadas serão executadas primeiro",
       "ALL_LINKED_RULES_ARE_DISABLED": "Todas as regras vinculadas deste conjunto de regras estão desativadas",
-      "EDIT_LINK_LABEL": "Regras de link de outra pasta"
+      "EDIT_LINK_LABEL": "Vincular regras de outra pasta"
     },
     "LINK_RULES_DIALOG": {
       "TITLE": "Selecione uma pasta da qual vincular regras",
@@ -146,7 +146,7 @@
       },
       "LIST_OF_RULES_TO_LINK": "Lista das regras que serão vinculadas",
       "ERRORS": {
-        "REQUEST_FAILED": "Erro ao tentar criar um link a um conjunto de regras"
+        "REQUEST_FAILED": "Erro ao tentar criar um link para um conjunto de regras"
       }
     },
     "ERRORS": {

@@ -22,10 +22,58 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { TestBed } from '@angular/core/testing';
+import { NoopTranslateModule, provideCoreAuthTesting } from '@alfresco/adf-core';
+import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
+import { AssociationEntry, NodeAssociationPaging } from '@alfresco/js-api';
 import { ContentApiService } from './content-api.service';
 
 describe('ContentApiService', () => {
   it('should be defined', () => {
     expect(ContentApiService).toBeDefined();
+  });
+
+  describe('associations', () => {
+    let service: ContentApiService;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        imports: [NoopTranslateModule],
+        providers: [provideCoreAuthTesting(), { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }]
+      });
+      service = TestBed.inject(ContentApiService);
+    });
+
+    it('should list target associations', (done) => {
+      const paging = { list: { entries: [] } } as NodeAssociationPaging;
+      spyOn(service.nodesApi, 'listTargetAssociations').and.returnValue(Promise.resolve(paging));
+
+      service.getNodeTargetAssociations('node-1', { maxItems: 10 }).subscribe((result) => {
+        expect(service.nodesApi.listTargetAssociations).toHaveBeenCalledWith('node-1', { maxItems: 10 });
+        expect(result).toBe(paging);
+        done();
+      });
+    });
+
+    it('should create a target association', (done) => {
+      const entry = { entry: {} } as AssociationEntry;
+      spyOn(service.nodesApi, 'createAssociation').and.returnValue(Promise.resolve(entry));
+      const body = { targetId: 'target-1', assocType: 'cm:references' };
+
+      service.createNodeAssociation('node-1', body).subscribe((result) => {
+        expect(service.nodesApi.createAssociation).toHaveBeenCalledWith('node-1', body);
+        expect(result).toBe(entry);
+        done();
+      });
+    });
+
+    it('should delete a target association scoped by association type', (done) => {
+      spyOn(service.nodesApi, 'deleteAssociation').and.returnValue(Promise.resolve());
+
+      service.deleteNodeAssociation('node-1', 'target-1', 'cm:references').subscribe(() => {
+        expect(service.nodesApi.deleteAssociation).toHaveBeenCalledWith('node-1', 'target-1', { assocType: 'cm:references' });
+        done();
+      });
+    });
   });
 });

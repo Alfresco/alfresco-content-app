@@ -1,6 +1,6 @@
 {
     "APP": {
-        "COPYRIGHT": "© 2005-2025 Hyland Software, Inc. والشركات التابعة لها. كل الحقوق محفوظة.",
+        "COPYRIGHT": "© 2005-2026 Hyland Software, Inc. والشركات التابعة لها. كل الحقوق محفوظة.",
         "TITLE": "مساحة العمل",
         "ABOUT": {
             "VERSION": "الإصدار:",
@@ -463,7 +463,7 @@
                 "FAVORITE_NODES_ADDED": "تمت إضافة {{ number }} العناصر إلى المفضلة",
                 "FAVORITE_NODE_REMOVED": "تمت الإزالة {{ name }} من المفضلة",
                 "FAVORITE_NODES_REMOVED": "امت إزالة {{ number }} عناصر من المفضلة",
-                "FAVORITE_NODE_NOT_FOUND": "{{ name }} ليست مفضلة"
+                "FAVORITE_NODE_NOT_FOUND": "{{ name }} ليس مفضلاً"
             }
         },
         "CONTENT_METADATA": {
@@ -620,7 +620,7 @@
     "SEARCH": {
         "BULK_ACTIONS_DROPDOWN": {
             "LABEL": "الإجراءات الشاملة",
-            "TITLE": "حدِّد إجراءً لجميع نتائج {{ count }}",
+            "TITLE": "حدِّد إجراءً لجميع نتائج {{ count }}",
             "BULK_NOT_AVAILABLE": "الإجراءات المجمعة (غير متاحة)",
             "BULK_NOT_AVAILABLE_TOOLTIP": "لا يمكن استخدام الإجراءات المجمعة بدون نتائج البحث"
         },

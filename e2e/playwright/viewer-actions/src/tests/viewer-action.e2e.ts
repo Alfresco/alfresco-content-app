@@ -236,9 +236,8 @@ test.describe('viewer action file', () => {
 
   test.describe('Personal Files - Cancel Editing action', () => {
     const username = `user-${Utils.random()}`;
-    const fileForCancelEditing = `playwright-file2-${Utils.random()}.docx`;
+    const fileForCancelEditing = `playwright-file2-${Utils.random()}`;
     let folderIdCancelEdit: string;
-    let workingCopyName: string;
     let nodesApi: NodesApi;
     let trashcanApi: TrashcanApi;
 
@@ -250,9 +249,8 @@ test.describe('viewer action file', () => {
 
         const { fileActionsApi } = apis;
         folderIdCancelEdit = (await nodesApi.createFolder(`viewer-action-5424-${Utils.random()}`)).entry.id;
-        const fileForCancelEditingId = (await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, fileForCancelEditing, folderIdCancelEdit)).entry.id;
-        const workingCopy = await fileActionsApi.checkoutNode(fileForCancelEditingId);
-        workingCopyName = workingCopy.entry.name;
+        const fileForCancelEditingId = (await fileActionsApi.uploadFile(TEST_FILES.PNG_FILE.path, fileForCancelEditing, folderIdCancelEdit)).entry.id;
+        await nodesApi.checkoutNodes([fileForCancelEditingId]);
         await fileActionsApi.isFileCheckedOutWithRetry(fileForCancelEditingId, true);
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
@@ -270,7 +268,7 @@ test.describe('viewer action file', () => {
     });
 
     test('[XAT-5424] Viewer - Cancel Editing action - Personal Files', async ({ personalFiles }) => {
-      await openFileInViewer(personalFiles, workingCopyName);
+      await openFileInViewer(personalFiles, fileForCancelEditing);
       await personalFiles.viewer.toolbar.clickMoreActions();
       await personalFiles.matMenu.clickMenuItem('Cancel Editing');
       await personalFiles.viewer.waitForViewerToOpen();
@@ -287,7 +285,7 @@ test.describe('viewer action file', () => {
     const file5713NewVersion = TEST_FILES.JPG_FILE.name;
     const file5714 = `file-5714-${Utils.random()}.jpg`;
     const file5714NewVersion = TEST_FILES.JPG_FILE.name;
-    const file17781 = `file-17781-${Utils.random()}.jpg`;
+    const file17781 = `file-17781-${Utils.random()}`;
     const file17781NewVersion = TEST_FILES.JPG_FILE.name;
     const file5717 = `file-5717-${Utils.random()}.jpg`;
     const file5717NewVersion = TEST_FILES.JPG_FILE.name;
@@ -322,7 +320,7 @@ test.describe('viewer action file', () => {
         await fileActionsApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, file5714, folder5714Id);
         await fileActionsApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, file5717, folder5717Id);
         await fileActionsApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, file5720, folder5720Id);
-        await fileActionsApi.lockNodes([file17781Id]);
+        await nodesApi.checkoutNodes([file17781Id]);
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
         throw error;

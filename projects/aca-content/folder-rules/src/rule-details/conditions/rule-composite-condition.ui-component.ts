@@ -41,7 +41,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RuleCompositeCondition } from '../../model/rule-composite-condition.model';
 import { ControlValueAccessor, FormArray, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { RuleSimpleCondition } from '../../model/rule-simple-condition.model';
-import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -53,7 +52,6 @@ import { FocusTrapFactory } from '@angular/cdk/a11y';
 
 @Component({
   imports: [
-    CommonModule,
     TranslatePipe,
     ReactiveFormsModule,
     MatFormFieldModule,

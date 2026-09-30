@@ -2,34 +2,32 @@
   <div style="visibility: hidden;" [matMenuTriggerFor]="rootMenu"></div>
 
   <mat-menu #rootMenu="matMenu" class="aca-context-menu" hasBackdrop="false" acaContextMenuOutsideEvent (clickOutside)="onClickOutsideEvent()">
-    <ng-container *ngFor="let entry of actions; trackBy: trackByActionId" [ngSwitch]="entry.type">
-      <ng-container *ngSwitchDefault>
-        <button mat-menu-item [id]="entry.id" (click)="runAction(entry)">
-          <adf-icon [value]="entry.icon" class="app-context-menu-item--icon" />
-          <span [attr.data-automation-id]="entry.id + '-label'">{{ entry.title | translate }}</span>
-        </button>
-      </ng-container>
-
-      <ng-container *ngSwitchCase="'separator'">
-        <mat-divider aria-hidden="true" />
-      </ng-container>
-
-      <ng-container *ngSwitchCase="'menu'">
-        <button mat-menu-item [id]="entry.id" [matMenuTriggerFor]="childMenu">
-          <adf-icon [value]="entry.icon" class="app-context-menu-item--icon" />
-          <span [attr.data-automation-id]="entry.id + '-label'">{{ entry.title | translate }}</span>
-        </button>
-
-        <mat-menu #childMenu="matMenu">
-          <ng-container *ngFor="let child of entry.children; trackBy: trackByActionId">
-            <app-context-menu-item [actionRef]="child" />
-          </ng-container>
-        </mat-menu>
-      </ng-container>
-
-      <ng-container *ngSwitchCase="'custom'">
-        <adf-dynamic-component [data]="entry.data" [id]="entry.component" />
-      </ng-container>
-    </ng-container>
+    @for (entry of actions; track trackByActionId($index, entry)) {
+      @switch (entry.type) {
+        @default {
+          <button mat-menu-item [id]="entry.id" (click)="runAction(entry)">
+            <adf-icon [value]="entry.icon" class="app-context-menu-item--icon" />
+            <span [attr.data-automation-id]="entry.id + '-label'">{{ entry.title | translate }}</span>
+          </button>
+        }
+        @case ('separator') {
+          <mat-divider aria-hidden="true" />
+        }
+        @case ('menu') {
+          <button mat-menu-item [id]="entry.id" [matMenuTriggerFor]="childMenu">
+            <adf-icon [value]="entry.icon" class="app-context-menu-item--icon" />
+            <span [attr.data-automation-id]="entry.id + '-label'">{{ entry.title | translate }}</span>
+          </button>
+          <mat-menu #childMenu="matMenu">
+            @for (child of entry.children; track trackByActionId($index, child)) {
+              <app-context-menu-item [actionRef]="child" />
+            }
+          </mat-menu>
+        }
+        @case ('custom') {
+          <adf-dynamic-component [data]="entry.data" [id]="entry.component" />
+        }
+      }
+    }
   </mat-menu>
 </div>

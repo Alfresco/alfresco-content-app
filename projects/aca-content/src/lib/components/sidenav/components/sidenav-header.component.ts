@@ -25,13 +25,12 @@
 import { Component, DestroyRef, ElementRef, EventEmitter, inject, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { AppExtensionService, AppService, AppSettingsService, ToolbarComponent } from '@alfresco/aca-shared';
-import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  imports: [CommonModule, TranslatePipe, RouterModule, ToolbarComponent],
+  imports: [TranslatePipe, RouterModule, ToolbarComponent],
   selector: 'app-sidenav-header',
   templateUrl: `./sidenav-header.component.html`,
   encapsulation: ViewEncapsulation.None,

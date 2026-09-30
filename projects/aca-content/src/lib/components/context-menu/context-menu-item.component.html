@@ -1,31 +1,27 @@
 <div class="aca-context-menu">
-  <ng-container [ngSwitch]="actionRef.type">
-    <ng-container *ngSwitchCase="'menu'">
+  @switch (actionRef.type) {
+    @case ('menu') {
       <button mat-menu-item [id]="actionRef.id" [matMenuTriggerFor]="childMenu">
         <adf-icon [value]="actionRef.icon" class="app-context-menu-item--icon" />
         <span [attr.data-automation-id]="actionRef.id + '-label'">{{ actionRef.title | translate }}</span>
       </button>
-
       <mat-menu #childMenu="matMenu">
-        <ng-container *ngFor="let child of actionRef.children; trackBy: trackByActionId">
+        @for (child of actionRef.children; track trackByActionId($index, child)) {
           <app-context-menu-item [actionRef]="child" />
-        </ng-container>
+        }
       </mat-menu>
-    </ng-container>
-
-    <ng-container *ngSwitchCase="'separator'">
+    }
+    @case ('separator') {
       <mat-divider aria-hidden="true" />
-    </ng-container>
-
-    <ng-container *ngSwitchCase="'custom'">
+    }
+    @case ('custom') {
       <adf-dynamic-component [data]="actionRef.data" [id]="actionRef.component" />
-    </ng-container>
-
-    <ng-container *ngSwitchDefault>
+    }
+    @default {
       <button mat-menu-item [id]="actionRef.id" (click)="runAction()">
         <adf-icon [value]="actionRef.icon" class="app-context-menu-item--icon" />
         <span [attr.data-automation-id]="actionRef.id + '-label'">{{ actionRef.title | translate }}</span>
       </button>
-    </ng-container>
-  </ng-container>
+    }
+  }
 </div>

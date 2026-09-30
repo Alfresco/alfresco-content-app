@@ -4,7 +4,6 @@
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
     "target": "es2020",
-    "moduleResolution": "node",
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,

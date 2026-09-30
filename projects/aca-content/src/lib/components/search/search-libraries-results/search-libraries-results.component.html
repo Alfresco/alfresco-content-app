@@ -8,17 +8,25 @@
     <div class="aca-main-content">
       <div class="adf-search-results">
         <div class="adf-search-results__content">
-          <mat-progress-bar *ngIf="isLoading" mode="indeterminate" />
-          <div class="adf-search-results__content-header aca-content-lib" *ngIf="data?.list.entries.length">
-            <div class="aca-content__side--left">
-              <div class="adf-search-results--info-text" *ngIf="totalResults !== 1">
-                {{ 'APP.BROWSE.SEARCH_LIBRARIES.FOUND_RESULTS' | translate: { number: totalResults } }}
-              </div>
-              <div class="adf-search-results--info-text" *ngIf="totalResults === 1">
-                {{ 'APP.BROWSE.SEARCH_LIBRARIES.FOUND_ONE_RESULT' | translate: { number: totalResults } }}
+          @if (isLoading) {
+            <mat-progress-bar mode="indeterminate" />
+          }
+          @if (data?.list.entries.length) {
+            <div class="adf-search-results__content-header aca-content-lib">
+              <div class="aca-content__side--left">
+                @if (totalResults !== 1) {
+                  <div class="adf-search-results--info-text">
+                    {{ 'APP.BROWSE.SEARCH_LIBRARIES.FOUND_RESULTS' | translate: { number: totalResults } }}
+                  </div>
+                }
+                @if (totalResults === 1) {
+                  <div class="adf-search-results--info-text">
+                    {{ 'APP.BROWSE.SEARCH_LIBRARIES.FOUND_ONE_RESULT' | translate: { number: totalResults } }}
+                  </div>
+                }
               </div>
             </div>
-          </div>
+          }
 
           <adf-document-list
             #documentList
@@ -35,10 +43,10 @@
             [blurOnResize]="false"
             (node-dblclick)="handleNodeClick($event)"
             (name-click)="handleNodeClick($event)"
-          >
+            >
             <data-columns>
-              <ng-container *ngFor="let column of columns; trackBy: trackByColumnId">
-                <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
+              @for (column of columns; track trackByColumnId($index, column)) {
+                @if (column.template && !(column.desktopOnly && isSmallScreen)) {
                   <data-column
                     [id]="column.id"
                     [key]="column.key"
@@ -49,14 +57,13 @@
                     [sortable]="column.sortable"
                     [draggable]="column.draggable"
                     [resizable]="column.resizable"
-                  >
+                    >
                     <ng-template let-context>
                       <adf-dynamic-column [id]="column.template" [context]="context" />
                     </ng-template>
                   </data-column>
-                </ng-container>
-
-                <ng-container *ngIf="!column.template && !(column.desktopOnly && isSmallScreen)">
+                }
+                @if (!column.template && !(column.desktopOnly && isSmallScreen)) {
                   <data-column
                     [id]="column.id"
                     [key]="column.key"
@@ -67,28 +74,32 @@
                     [sortable]="column.sortable"
                     [draggable]="column.draggable"
                     [resizable]="column.resizable"
-                  />
-                </ng-container>
-              </ng-container>
+                    />
+                }
+              }
             </data-columns>
 
             <adf-custom-empty-content-template>
-              <ng-container *ngIf="data">
+              @if (data) {
                 <div class="empty-search__block" aria-live="polite">
                   <p class="empty-search__text">
                     {{ 'APP.BROWSE.SEARCH.NO_RESULTS' | translate }}
                   </p>
                 </div>
-              </ng-container>
+              }
             </adf-custom-empty-content-template>
           </adf-document-list>
 
-          <adf-pagination *ngIf="totalResults > 0" acaPagination [target]="documentList" (change)="onPaginationChanged($event)" />
+          @if (totalResults > 0) {
+            <adf-pagination acaPagination [target]="documentList" (change)="onPaginationChanged($event)" />
+          }
         </div>
       </div>
     </div>
-    <div class="aca-sidebar" *ngIf="infoDrawerOpened$ | async">
-      <aca-info-drawer [node]="selection.last" />
-    </div>
+    @if (infoDrawerOpened$ | async) {
+      <div class="aca-sidebar">
+        <aca-info-drawer [node]="selection.last" />
+      </div>
+    }
   </div>
 </aca-page-layout>

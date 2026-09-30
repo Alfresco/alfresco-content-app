@@ -27,7 +27,7 @@ import { ActivatedRoute, NavigationEnd } from '@angular/router';
 import { AppHookService, ContentApiService, PageComponent, PageLayoutComponent, ToolbarComponent } from '@alfresco/aca-shared';
 import { NavigateToFolder, NavigateToPreviousPage, SetInfoDrawerStateAction, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { BreadcrumbComponent, ContentService, NodesApiService, PermissionListComponent } from '@alfresco/adf-content-services';
-import { CommonModule, Location } from '@angular/common';
+import { Location } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -43,7 +43,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   imports: [
-    CommonModule,
     TranslatePipe,
     MatIconModule,
     MatTabsModule,

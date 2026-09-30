@@ -32,12 +32,11 @@ import { Store } from '@ngrx/store';
 import { forkJoin, from, of } from 'rxjs';
 import { catchError, mergeMap } from 'rxjs/operators';
 import { AppExtensionService, AppService, ToolbarComponent } from '@alfresco/aca-shared';
-import { CommonModule } from '@angular/common';
 import { AlfrescoApiService, AlfrescoViewerModule } from '@alfresco/adf-content-services';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  imports: [CommonModule, ViewerModule, AlfrescoViewerModule, ToolbarComponent],
+  imports: [ViewerModule, AlfrescoViewerModule, ToolbarComponent],
   selector: 'app-shared-link-view',
   templateUrl: './shared-link-view.component.html',
   styleUrls: ['shared-link-view.component.scss'],

@@ -3,12 +3,12 @@
   data-automation-id="app-user-menu-button"
   [matMenuTriggerFor]="menu"
   title="{{'APP.TOOLTIPS.OPTIONS_SETTINGS' | translate}}"
->
+  >
   <div>{{ (user$ | async)?.initials }}</div>
 </button>
 
 <mat-menu #menu="matMenu" xPosition="before">
-  <ng-container *ngFor="let item of data.items">
+  @for (item of data.items; track item) {
     <app-toolbar-menu-item [actionRef]="item" />
-  </ng-container>
+  }
 </mat-menu>

@@ -1,26 +1,23 @@
-<ng-container [ngSwitch]="actionRef.type">
-  <ng-container *ngSwitchCase="'menu'">
+
+@switch (actionRef.type) {
+  @case ('menu') {
     <button [id]="actionRef.id" mat-menu-item role="menuitem" tabindex="0" [disabled]="actionRef.disabled" [matMenuTriggerFor]="childMenu">
       <adf-icon [value]="actionRef.icon" />
       <span data-automation-id="menu-item-title">{{ actionRef.title | translate }}</span>
     </button>
-
     <mat-menu #childMenu="matMenu" class="app-create-menu__sub-menu">
-      <ng-container *ngFor="let child of actionRef.children; trackBy: trackByActionId">
+      @for (child of actionRef.children; track trackByActionId($index, child)) {
         <app-toolbar-menu-item [actionRef]="child" />
-      </ng-container>
+      }
     </mat-menu>
-  </ng-container>
-
-  <ng-container *ngSwitchCase="'separator'">
+  }
+  @case ('separator') {
     <mat-divider aria-hidden="true" />
-  </ng-container>
-
-  <ng-container *ngSwitchCase="'custom'">
+  }
+  @case ('custom') {
     <adf-dynamic-component [id]="actionRef.component" />
-  </ng-container>
-
-  <ng-container *ngSwitchDefault>
+  }
+  @default {
     <button
       [id]="actionRef.id"
       role="menuitem"
@@ -30,9 +27,9 @@
       [disabled]="actionRef.disabled"
       [attr.title]="(actionRef.disabled ? actionRef['description-disabled'] : actionRef.description || actionRef.title) | translate"
       (click)="runAction()"
-    >
+      >
       <adf-icon [value]="actionRef.icon" class="app-toolbar-menu-item--icon" />
       <span data-automation-id="menu-item-title">{{ actionRef.title | translate }}</span>
     </button>
-  </ng-container>
-</ng-container>
+  }
+}

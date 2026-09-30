@@ -35,15 +35,15 @@ update(){
         eval libsWithVersions=( "${libsWithVersions[@]}" "${EXACT_VERSION}" )
     done
 
-    echo "npm i --ignore-scripts -E ${libsWithVersions[*]}"
-    npm i --ignore-scripts -E ${libsWithVersions[*]}
+    echo "pnpm add --ignore-scripts -E ${libsWithVersions[*]}"
+    pnpm add --ignore-scripts -E ${libsWithVersions[*]}
 }
 
 update_js_api(){
     eval jsWithVersions=();
 
-    echo "npm i --ignore-scripts -E @alfresco/js-api@${JS_VERSION}"
-    npm i --ignore-scripts -E @alfresco/js-api@${JS_VERSION}
+    echo "pnpm add --ignore-scripts -E @alfresco/js-api@${JS_VERSION}"
+    pnpm add --ignore-scripts -E @alfresco/js-api@${JS_VERSION}
 }
 
 while [[ $1  == -* ]]; do

@@ -8,11 +8,13 @@
         matInput
         formControlName="name"
         required
-      />
+        />
 
-      <mat-error *ngIf="form.controls['name'].errors?.message" data-automation-id="create-from-template-field-error">
-        {{ form.controls['name'].errors?.message | translate }}
-      </mat-error>
+      @if (form.controls['name'].errors?.message) {
+        <mat-error data-automation-id="create-from-template-field-error">
+          {{ form.controls['name'].errors?.message | translate }}
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field class="app-create-from-template-field">
@@ -20,11 +22,13 @@
       <input
         matInput
         formControlName="title"
-      />
+        />
 
-      <mat-error *ngIf="form.controls['title'].hasError('maxlength')" data-automation-id="create-from-template-field-error">
-        {{ 'NODE_FROM_TEMPLATE.FORM.ERRORS.TITLE_TOO_LONG' | translate }}
-      </mat-error>
+      @if (form.controls['title'].hasError('maxlength')) {
+        <mat-error data-automation-id="create-from-template-field-error">
+          {{ 'NODE_FROM_TEMPLATE.FORM.ERRORS.TITLE_TOO_LONG' | translate }}
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field class="app-create-from-template-field app-create-from-template-field-description">
@@ -35,9 +39,11 @@
         formControlName="description"
       ></textarea>
 
-      <mat-error *ngIf="form.controls['description'].hasError('maxlength')" data-automation-id="create-from-template-field-error">
-        {{ 'NODE_FROM_TEMPLATE.FORM.ERRORS.DESCRIPTION_TOO_LONG' | translate }}
-      </mat-error>
+      @if (form.controls['description'].hasError('maxlength')) {
+        <mat-error data-automation-id="create-from-template-field-error">
+          {{ 'NODE_FROM_TEMPLATE.FORM.ERRORS.DESCRIPTION_TOO_LONG' | translate }}
+        </mat-error>
+      }
     </mat-form-field>
   </form>
 </div>
@@ -55,7 +61,7 @@
     mat-button
     (click)="onSubmit()"
     data-automation-id="create-from-template-dialog-create-button"
-  >
+    >
     {{ 'NODE_FROM_TEMPLATE.CREATE' | translate }}
   </button>
 </div>

@@ -119,14 +119,14 @@ Be sure to mention that developers should have a build rule to copy your plugin 
 Before you publish you should always rebuild the library:
 
 ```sh
-npm run build:my-extension
+pnpm build:my-extension
 ```
 
 Go to the output folder and run the publish command.
 
 ```sh
 cd dist/my-extension
-npm publish
+pnpm publish
 ```
 
 Note, you are required to have a valid [NPM](https://www.npmjs.com/) account.
@@ -138,7 +138,7 @@ See more details in the [Publishing your library](https://github.com/angular/ang
 Assuming you have published your extension library to NPM, you can install it using the standard command:
 
 ```sh
-npm install my-extension
+pnpm add my-extension
 ```
 
 This installs the library and all its dependencies.
@@ -199,7 +199,7 @@ Finally, update the `src/assets/app.extensions.json` file and add a reference to
 Run the application and ensure you have an extra navigation sidebar entry:
 
 ```sh
-npm start
+pnpm start
 ```
 
 Click the `My Extension` link and in the main content area you will see the extension component coming from your library.

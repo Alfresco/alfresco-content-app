@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
+import { NgModule, provideZoneChangeDetection } from '@angular/core';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { NoopTranslateModule, PageTitleService, provideCoreAuthTesting } from '@alfresco/adf-core';
 import { AlfrescoApiService, AlfrescoApiServiceMock, DiscoveryApiService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
@@ -42,6 +42,7 @@ import { provideRouter } from '@angular/router';
   imports: [NoopTranslateModule, MatSnackBarModule, MatDialogModule, MatIconTestingModule],
   providers: [
     provideNoopAnimations(),
+    provideZoneChangeDetection(),
     provideRouter([]),
     provideStore(
       { app: appReducer },

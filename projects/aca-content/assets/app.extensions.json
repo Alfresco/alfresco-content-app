@@ -1666,8 +1666,19 @@
           }
         },
         {
-          "id": "app.sidebar.versions",
+          "id": "app.sidebar.associations",
           "order": 300,
+          "title": "APP.INFO_DRAWER.TABS.ASSOCIATIONS",
+          "component": "app.components.tabs.associations",
+          "rules": {
+            "visible": [
+              "!app.navigation.isLibraries"
+            ]
+          }
+        },
+        {
+          "id": "app.sidebar.versions",
+          "order": 400,
           "disabled": true,
           "title": "APP.INFO_DRAWER.TABS.VERSIONS",
           "component": "app.components.tabs.versions",

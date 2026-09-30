@@ -127,18 +127,6 @@ export class FileActionsApi {
     }
   }
 
-  async lockNodes(nodeIds: string[], lockType: string = 'ALLOW_OWNER_CHANGES'): Promise<void> {
-    try {
-      for (const nodeId of nodeIds) {
-        await this.apiService.nodes.lockNode(nodeId, { type: lockType });
-      }
-    } catch {}
-  }
-
-  async checkoutNode(nodeId: string): Promise<NodeEntry> {
-    return this.apiService.nodes.checkoutNode(nodeId);
-  }
-
   async getNodeById(id: string): Promise<NodeEntry | null> {
     try {
       return this.apiService.nodes.getNode(id);

@@ -1,6 +1,6 @@
 {
     "APP": {
-        "COPYRIGHT": "© 2005-2025 Hyland Software, Inc. et ses filiales. Tous droits réservés.",
+        "COPYRIGHT": "© 2005-2026 Hyland Software, Inc. et ses filiales. Tous droits réservés.",
         "TITLE": "Workspace",
         "ABOUT": {
             "VERSION": "Version :",
@@ -225,7 +225,7 @@
                 "EFFECTIVITY": "Validité",
                 "TITLE": "Résultats de la recherche",
                 "FILTER_SET": "Ensemble de filtres :",
-                "LOADING": "Loading search results, please wait.",
+                "LOADING": "Chargement des résultats de la recherche, veuillez attendre.",
                 "ADVANCED_FILTERS": "Filtres avancés :",
                 "RESET": "Réinitialiser",
                 "RESET_ACTION": "Réinitialiser les filtres de recherche",
@@ -505,8 +505,8 @@
             "EDIT": "Modifier",
             "CANCEL": "Annuler",
             "SAVE": "Enregistrer",
-            "LOCK_BADGE": "This document is locked by {{ owner }} for offline editing.",
-            "WORKING_COPY_BADGE": "Original document is locked by {{ owner }} for offline editing."
+            "LOCK_BADGE": "Ce document est verrouillé par {{ owner }} pour une édition hors ligne.",
+            "WORKING_COPY_BADGE": "Le document original est verrouillé par {{ owner }} pour une édition hors ligne."
         },
         "NODE_INFO": {
             "ICON": "Symbole de nœud",
@@ -661,8 +661,8 @@
             "MODIFIER": "Modificateur"
         },
         "CATEGORIES": {
-            "CATEGORIES": "Categories",
-            "CATEGORIES_LABEL": "Add Categories",
+            "CATEGORIES": "Catégories",
+            "CATEGORIES_LABEL": "Ajouter des catégories",
             "DATE": "Date",
             "DATE_TABS": {
                 "CREATED": "Créé",
@@ -670,14 +670,14 @@
             },
             "EFFECTIVITY_FROM": "Date de début d'effectivité",
             "EFFECTIVITY_TO": "Date de fin d'effectivité",
-            "LOCATION": "Location",
-            "LOCATION_LABEL": "Add Sites",
+            "LOCATION": "Lieu",
+            "LOCATION_LABEL": "Ajouter des sites",
             "LOGIC": "Connexion",
-            "PARENT_FOLDER": "Parent folder",
-            "PARENT_FOLDER_LABEL": "Add Parent Folders",
+            "PARENT_FOLDER": "Dossier parent",
+            "PARENT_FOLDER_LABEL": "Ajouter des dossiers parents",
             "PROPERTIES": "Propriétés",
-            "TAGS": "Tags",
-            "TAGS_LABEL": "Add Tags"
+            "TAGS": "Balises",
+            "TAGS_LABEL": "Ajouter des tags"
         },
         "SEARCH_HEADER": {
             "TITLE": "Filtre",
@@ -754,7 +754,7 @@
         }
     },
     "CHECKOUT": {
-        "CHECKED_OUT_BY": "Original locked by: ",
+        "CHECKED_OUT_BY": "Verrouillé par: ",
         "ERRORS": {
             "CHECKOUT": {
                 "400": "Ce nœud ne peut pas être extrait. Il doit s'agir d'un nœud de contenu (cm:content).",

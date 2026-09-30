@@ -25,14 +25,13 @@
 import { Component, Input, ViewEncapsulation, inject } from '@angular/core';
 import { ContentActionRef, DynamicExtensionComponent } from '@alfresco/adf-extensions';
 import { AppExtensionService } from '@alfresco/aca-shared';
-import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { IconComponent } from '@alfresco/adf-core';
 
 @Component({
-  imports: [CommonModule, TranslatePipe, MatMenuModule, MatDividerModule, IconComponent, DynamicExtensionComponent],
+  imports: [TranslatePipe, MatMenuModule, MatDividerModule, IconComponent, DynamicExtensionComponent],
   selector: 'app-context-menu-item',
   templateUrl: './context-menu-item.component.html',
   encapsulation: ViewEncapsulation.None,

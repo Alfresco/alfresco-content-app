@@ -177,7 +177,7 @@ test.describe('Info Drawer - file folder Properties', () => {
     expect(await personalFiles.infoDrawer.getHeaderTitle()).toEqual(folder5512);
     await expect(personalFiles.infoDrawer.propertiesTab).toBeVisible();
     await expect(personalFiles.infoDrawer.commentsTab).toBeVisible();
-    expect(await personalFiles.infoDrawer.getTabsCount()).toEqual(2);
+    expect(await personalFiles.infoDrawer.getTabsCount()).toEqual(3);
   });
 
   test('[XAT-5513] View file properties - General Info fields', async ({ personalFiles }) => {

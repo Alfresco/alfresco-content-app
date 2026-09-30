@@ -1,14 +1,14 @@
 {
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "name": "special-permissions-e2e",
-  "sourceRoot": "e2e/playwright/special-permissions-actions-available/src",
+  "name": "special-permissions-consumer-e2e",
+  "sourceRoot": "e2e/playwright/special-permissions-consumer/src",
   "projectType": "application",
   "targets": {
     "e2e": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "playwright test --config=e2e/playwright/special-permissions-actions-available/playwright.config.ts"
+          "playwright test --config=e2e/playwright/special-permissions-consumer/playwright.config.ts"
         ]
       },
       "configurations": {
@@ -44,7 +44,7 @@
             "--headed"
           ],
           "commands": [
-            "playwright test --config=e2e/playwright/special-permissions-actions-available/playwright.config.ts"
+            "playwright test --config=e2e/playwright/special-permissions-consumer/playwright.config.ts"
           ]
         },
         "webkit-headless": {
@@ -53,7 +53,7 @@
             "PLAYWRIGHT_HEADLESS": "true"
           },
           "commands": [
-            "playwright test --config=e2e/playwright/special-permissions-actions-available/playwright.config.ts"
+            "playwright test --config=e2e/playwright/special-permissions-consumer/playwright.config.ts"
           ]
         },
         "firefox-headed": {
@@ -64,7 +64,7 @@
             "--headed"
           ],
           "commands": [
-            "playwright test --config=e2e/playwright/special-permissions-actions-available/playwright.config.ts"
+            "playwright test --config=e2e/playwright/special-permissions-consumer/playwright.config.ts"
           ]
         },
         "firefox-headless": {
@@ -73,7 +73,7 @@
             "PLAYWRIGHT_HEADLESS": "true"
           },
           "commands": [
-            "playwright test --config=e2e/playwright/special-permissions-actions-available/playwright.config.ts"
+            "playwright test --config=e2e/playwright/special-permissions-consumer/playwright.config.ts"
           ]
         },
         "chrome-headed": {
@@ -84,7 +84,7 @@
             "--headed"
           ],
           "commands": [
-            "playwright test --config=e2e/playwright/special-permissions-actions-available/playwright.config.ts"
+            "playwright test --config=e2e/playwright/special-permissions-consumer/playwright.config.ts"
           ]
         },
         "chrome-headless": {
@@ -93,7 +93,7 @@
             "PLAYWRIGHT_HEADLESS": "true"
           },
           "commands": [
-            "playwright test --config=e2e/playwright/special-permissions-actions-available/playwright.config.ts"
+            "playwright test --config=e2e/playwright/special-permissions-consumer/playwright.config.ts"
           ]
         },
         "msedge-headed": {
@@ -104,7 +104,7 @@
             "--headed"
           ],
           "commands": [
-            "playwright test --config=e2e/playwright/special-permissions-actions-available/playwright.config.ts"
+            "playwright test --config=e2e/playwright/special-permissions-consumer/playwright.config.ts"
           ]
         },
         "msedge-headless": {
@@ -113,7 +113,7 @@
             "PLAYWRIGHT_HEADLESS": "true"
           },
           "commands": [
-            "playwright test --config=e2e/playwright/special-permissions-actions-available/playwright.config.ts"
+            "playwright test --config=e2e/playwright/special-permissions-consumer/playwright.config.ts"
           ]
         },
         "all-browsers-headless": {
@@ -122,7 +122,7 @@
             "PLAYWRIGHT_HEADLESS": "true"
           },
           "commands": [
-            "playwright test --config=e2e/playwright/special-permissions-actions-available/playwright.config.ts"
+            "playwright test --config=e2e/playwright/special-permissions-consumer/playwright.config.ts"
           ]
         }
       }

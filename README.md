@@ -7,7 +7,7 @@ Please refer to the public [documentation](https://alfresco-content-app.netlify.
 | Name    | Version |
 |---------|---------|
 | Node.js | 24.x    |
-| Npm     | 11.x     |
+| Pnpm    | 11.x    |
 
 ## Compatibility
 
@@ -48,8 +48,8 @@ Where `<URL>` is the address of the ACS.
 Run the following commands:
 
 ```sh
-npm install
-npm start
+pnpm install
+pnpm start
 ```
 
 ## Unit Tests

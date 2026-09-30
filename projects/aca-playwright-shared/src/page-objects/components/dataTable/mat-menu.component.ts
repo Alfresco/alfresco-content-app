@@ -68,13 +68,23 @@ export class MatMenuComponent extends BaseComponent {
     );
   }
 
-  async verifyActualMoreActions(expectedToolbarMore: string[]): Promise<void> {
-    const actualMoreActions = await this.getActualMoreActions();
-    for (const action of expectedToolbarMore) {
-      expect(
-        actualMoreActions.includes(action),
-        `Expected menu to contain "${action}", but actual menu items were: [${actualMoreActions.join(', ')}]`
-      ).toBe(true);
+  async verifyActualMoreActions(expectedToolbarMore: string[], reopenMenu?: () => Promise<void>): Promise<void> {
+    const maxAttempts = reopenMenu ? 4 : 1;
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      try {
+        await expect
+          .poll(async () => this.getActualMoreActions(), {
+            message: `Expected menu to contain [${expectedToolbarMore.join(', ')}]`,
+            timeout: 3000
+          })
+          .toEqual(expect.arrayContaining(expectedToolbarMore));
+        return;
+      } catch (error) {
+        if (attempt === maxAttempts || !reopenMenu) {
+          throw error;
+        }
+        await reopenMenu();
+      }
     }
   }
 }

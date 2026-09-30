@@ -1,6 +1,6 @@
 {
     "APP": {
-        "COPYRIGHT": "© 2005-2025 Hyland Software, Inc. e seus afiliados. Todos os direitos reservados.",
+        "COPYRIGHT": "© 2005-2026 Hyland Software, Inc. e suas afiliadas. Todos os direitos reservados.",
         "TITLE": "Workspace",
         "ABOUT": {
             "VERSION": "Versão:",
@@ -11,7 +11,7 @@
                 "VERSION": "Versão",
                 "VENDOR": "Fornecedor",
                 "LICENSE": "Licença",
-                "RUNTIME": "Tempo de execução",
+                "RUNTIME": "Runtime",
                 "DESCRIPTION": "Descrição"
             },
             "LICENSE": {
@@ -63,7 +63,7 @@
         },
         "LOCKED_BY": "Bloqueado por: ",
         "PREVIEW": {
-            "TITLE": "Visualizar"
+            "TITLE": "Visualização"
         },
         "DETAILS": {
             "TITLE": "Detalhes"
@@ -80,7 +80,7 @@
             "TOOLTIPS": {
                 "CREATE_FOLDER": "Criar nova pasta",
                 "CREATE_FOLDER_NOT_ALLOWED": "Não é possível criar pastas durante a visualização dos itens atuais",
-                "CREATE_FILE_NOT_ALLOWED": "Os arquivos não podem ser criados enquanto os itens atuais estiverem sendo visualizados",
+                "CREATE_FILE_NOT_ALLOWED": "Não é possível criar arquivos durante a visualização dos itens atuais",
                 "UPLOAD_FILES": "Selecionar arquivos para carregar",
                 "UPLOAD_FILES_NOT_ALLOWED": "Não é possível carregar arquivos durante a visualização dos itens atuais",
                 "UPLOAD_FOLDERS": "Selecionar pastas para carregar",
@@ -95,7 +95,7 @@
                 "UPLOAD": "Carregar",
                 "UPLOAD_TOOLTIP": "Carregar conteúdo"
             },
-            "SELECTED": "Selecionado ({{ count }})"
+            "SELECTED": "Selecionados ({{ count }})"
         },
         "BROWSE": {
             "FILE": {
@@ -131,7 +131,7 @@
                 "EMPTY_STATE": {
                     "FILE_LIBRARIES": {
                         "TITLE": "Você ainda não é membro de nenhuma biblioteca de arquivos",
-                        "TEXT": "Acesse as bibliotecas para carregar, visualizar e compartilhar arquivos."
+                        "TEXT": "Participe das bibliotecas para carregar, visualizar e compartilhar arquivos."
                     },
                     "FAVORITE_LIBRARIES": {
                         "TITLE": "Nenhuma biblioteca favorita",
@@ -158,15 +158,15 @@
                         }
                     },
                     "ALL_LIBRARIES": {
-                        "TITLE": "Todas as Bibliotecas",
+                        "TITLE": "Todas as bibliotecas",
                         "SIDENAV_LINK": {
-                            "LABEL": "Todas as Bibliotecas",
+                            "LABEL": "Todas as bibliotecas",
                             "TOOLTIP": "Acessar todas as bibliotecas"
                         }
                     }
                 },
                 "ERRORS": {
-                    "LIBRARY_NOT_FOUND": "Esta biblioteca já não existe.",
+                    "LIBRARY_NOT_FOUND": "Esta biblioteca não existe mais.",
                     "LIBRARY_LOADING_ERROR": "Ocorreu um problema ao carregar esta biblioteca."
                 },
                 "LIBRARY_NO_PERMISSIONS_WARNING": "Você não tem permissão para visualizar esta biblioteca."
@@ -201,7 +201,7 @@
                 },
                 "EMPTY_STATE": {
                     "TITLE": "Não há nenhum arquivo ou pasta favoritos",
-                    "TEXT": "Itens favoritos que você queira encontrar facilmente depois."
+                    "TEXT": "Marque como favoritos os itens que você deseja encontrar facilmente mais tarde."
                 }
             },
             "TRASHCAN": {
@@ -212,8 +212,8 @@
                 },
                 "EMPTY_STATE": {
                     "TITLE": "A lixeira está vazia",
-                    "FIRST_TEXT": "Itens apagados são movidos para a Lixeira.",
-                    "SECOND_TEXT": "Esvazie a Lixeira para apagar os itens permanentemente."
+                    "FIRST_TEXT": "Os itens que você excluir são movidos para a Lixeira.",
+                    "SECOND_TEXT": "Esvazie a Lixeira para excluir os itens permanentemente."
                 }
             },
             "ABOUT": {
@@ -221,18 +221,18 @@
             },
             "SEARCH": {
                 "DEFAULT_SEARCH": "Padrão",
-                "DUBLIN_CORE": "Núcleo Dublin",
+                "DUBLIN_CORE": "Dublin Core",
                 "EFFECTIVITY": "Efetividade",
                 "TITLE": "Resultados da pesquisa",
                 "FILTER_SET": "Conjunto de filtros:",
-                "LOADING": "Loading search results, please wait.",
+                "LOADING": "Carregando resultados da pesquisa, aguarde.",
                 "ADVANCED_FILTERS": "Filtros avançados:",
                 "RESET": "Redefinir",
                 "RESET_ACTION": "Redefinir filtros de pesquisa",
                 "SAVE_SEARCH": {
                     "ACTION_BUTTON": "Salvar pesquisa",
                     "SAVE_CHANGES": "Salvar alterações",
-                    "SAVE_AS_NEW": "Salvar como",
+                    "SAVE_AS_NEW": "Salvar como nova",
                     "MODAL_HEADER": "Salvar esta pesquisa",
                     "NAME_LABEL": "Nome",
                     "NAME_REQUIRED_ERROR": "Este campo é obrigatório",
@@ -253,8 +253,8 @@
                     "DELETE_DIALOG": {
                         "CONTEXT_OPTION": "Excluir pesquisa",
                         "TITLE": "Excluir pesquisa salva",
-                        "CONTENT": "Tem certeza de que deseja excluir essa pesquisa",
-                        "SUCCESS_MESSAGE": "Pesquisa salva excluída com êxito",
+                        "CONTENT": "Tem certeza de que deseja excluir esta pesquisa",
+                        "SUCCESS_MESSAGE": "Pesquisa salva excluída com sucesso",
                         "ERROR_MESSAGE": "Ocorreu um erro. A pesquisa salva não pôde ser excluída."
                     },
                     "LIST": {
@@ -268,7 +268,7 @@
                     }
                 },
                 "FOUND_RESULTS": "{{ number }} resultados encontrados",
-                "FOUND_ONE_RESULT": "{{ number }} resultados encontrados",
+                "FOUND_ONE_RESULT": "{{ number }} resultado encontrado",
                 "CUSTOM_ROW": {
                     "MODIFIED": "Modificado",
                     "BY_USER": "por {{ user }}",
@@ -287,7 +287,7 @@
             },
             "SEARCH_LIBRARIES": {
                 "FOUND_RESULTS": "{{ number }} resultados",
-                "FOUND_ONE_RESULT": "{{ number }} resultados"
+                "FOUND_ONE_RESULT": "{{ number }} resultado"
             }
         },
         "ACTIONS": {
@@ -302,7 +302,7 @@
             "UNDO": "Desfazer",
             "PERMISSIONS": "Permissões",
             "RESTORE": "Restaurar",
-            "FAVORITE": "Favoritos",
+            "FAVORITE": "Favoritar",
             "ADD_FAVORITE": "Adicionar favorito",
             "REMOVE_FAVORITE": "Remover favorito",
             "UNSHARE": "Descompartilhar",
@@ -315,7 +315,7 @@
             "PRINT": "Imprimir",
             "FULLSCREEN": "Ativar modo de tela cheia",
             "JOIN": "Ingressar",
-            "CANCEL_JOIN": "Cancelar solicitação de ingressar",
+            "CANCEL_JOIN": "Cancelar solicitação de ingresso",
             "LEAVE": "Sair da biblioteca",
             "EDIT_OFFLINE": "Editar offline",
             "EDIT_OFFLINE_CANCEL": "Cancelar a edição",
@@ -364,14 +364,14 @@
                 "SHARED_BY": "Compartilhado por",
                 "DELETED_ON": "Excluído",
                 "DELETED_BY": "Excluído por",
-                "ROLE": "Meu papel",
-                "TAGS": "Marcas"
+                "ROLE": "Minha função",
+                "TAGS": "Tags"
             }
         },
         "MESSAGES": {
             "ERRORS": {
                 "CANNOT_NAVIGATE_LOCATION": "Não foi possível abrir este local",
-                "MISSING_CONTENT": "Este item não existe, ou você não tem permissão de visualização.",
+                "MISSING_CONTENT": "Este item não existe mais ou você não tem permissão para visualizá-lo.",
                 "GENERIC": "A ação não teve êxito. Tente novamente ou entre em contato com a Equipe de TI.",
                 "CONFLICT": "Este nome já está em uso, tente outro nome.",
                 "NODE_MOVE": "Falha ao mover, já existe um arquivo com o mesmo nome.",
@@ -396,7 +396,7 @@
                         "GENERIC": "Houve um problema ao restaurar {{ name }}"
                     }
                 },
-                "DELETE_LIBRARY_FAILED": "Não foi possível apagar a biblioteca",
+                "DELETE_LIBRARY_FAILED": "Não foi possível excluir a biblioteca",
                 "LEAVE_LIBRARY_FAILED": "Não foi possível sair desta biblioteca"
             },
             "UPLOAD": {
@@ -425,8 +425,8 @@
                 "NODE_DELETION": {
                     "SINGULAR": "{{ name }} excluído",
                     "PLURAL": "{{ number }} itens excluídos",
-                    "PARTIAL_SINGULAR": "Item {{ success }} excluído, não foi possível excluir {{ failed }}",
-                    "PARTIAL_PLURAL": "Itens {{ success }} excluídos, não foi possível excluir {{ failed }}"
+                    "PARTIAL_SINGULAR": "{{ success }} item excluído, não foi possível excluir {{ failed }}",
+                    "PARTIAL_PLURAL": "{{ success }} itens excluídos, não foi possível excluir {{ failed }}"
                 },
                 "NODE_COPY": {
                     "SINGULAR": "Item {{ success }} copiado",
@@ -459,7 +459,7 @@
                 },
                 "LIBRARY_DELETED": "Biblioteca apagada",
                 "LEFT_LIBRARY": "Você saiu da biblioteca",
-                "FAVORITE_NODE_ADDED": "{{ name }} foi adicionada aos favoritos",
+                "FAVORITE_NODE_ADDED": "{{ name }} foi adicionado aos favoritos",
                 "FAVORITE_NODES_ADDED": "{{ number }} itens adicionados aos favoritos",
                 "FAVORITE_NODE_REMOVED": "{{ name }} foi removido dos favoritos",
                 "FAVORITE_NODES_REMOVED": "{{ number }} itens removidos dos favoritos",
@@ -473,7 +473,7 @@
             "GROUP_IPTC_CORE_CONTENT_INFO": "Conteúdo IPTC",
             "GROUP_IPTC_CORE_STATUS_INFO": "Status IPTC",
             "GROUP_IPTC_EXT_DESCRIPTION": "Descrição da imagem IPTC",
-            "GROUP_IPTC_EXT_AO_DETAIL": "Arte IPTC ou detalhe do objeto",
+            "GROUP_IPTC_EXT_AO_DETAIL": "Detalhes da obra de arte ou do objeto IPTC",
             "GROUP_IPTC_EXT_MODEL_INFO": "Informações do modelo IPTC",
             "GROUP_IPTC_EXT_ADMIN_INFO": "Informações de administração IPTC",
             "GROUP_IPTC_EXT_RIGHTS_INFO": "Informações de direitos IPTC",
@@ -482,7 +482,7 @@
         },
         "INFO_DRAWER": {
             "TITLE": "Detalhes",
-            "REDUCE_PANEL": "Painel Reduzir",
+            "REDUCE_PANEL": "Reduzir painel",
             "DATA_LOADING": "Os dados estão sendo carregados",
             "ICON": "Ícone de nó",
             "TABS": {
@@ -491,7 +491,7 @@
                 "VERSIONS": "Versões",
                 "COMMENTS": "Comentários",
                 "PERMISSIONS": "Permissões",
-                "EXPAND": "Expandir"
+                "EXPAND": "Expandir painel"
             }
         },
         "TOOLTIPS": {
@@ -505,8 +505,8 @@
             "EDIT": "Editar",
             "CANCEL": "Cancelar",
             "SAVE": "Salvar",
-            "LOCK_BADGE": "This document is locked by {{ owner }} for offline editing.",
-            "WORKING_COPY_BADGE": "Original document is locked by {{ owner }} for offline editing."
+            "LOCK_BADGE": "Este documento está bloqueado por {{ owner }} para edição offline.",
+            "WORKING_COPY_BADGE": "O documento original está bloqueado por {{ owner }} para edição offline."
         },
         "NODE_INFO": {
             "ICON": "Ícone de nó",
@@ -523,10 +523,10 @@
             "ERROR": "Houve um erro, feche esta caixa de diálogo e tente novamente"
         },
         "ADDITIONAL_REFERENCES_DIALOG": {
-            "TITLE": "Local de referência adicional",
+            "TITLE": "Locais de referência adicionais",
             "NO_LOCATIONS": "{{ name }} não está referenciado em nenhum local.",
             "DESCRIPTION": "{{ name }} está atualmente referenciado nestes locais.",
-            "CLOSE": "Fechado"
+            "CLOSE": "Fechar"
         }
     },
     "NODE_SELECTOR": {
@@ -543,7 +543,7 @@
         "LINK_NAME": "Link para {{ name }}"
     },
     "NODE_FROM_TEMPLATE": {
-        "CANCEL": "Cancelar",
+        "CANCEL": "CANCELAR",
         "CREATE": "Criar",
         "FOLDER_DIALOG_TITLE": "Criar nova pasta a partir de <span class=\"bold\">'{{ template }}'</span>",
         "FILE_DIALOG_TITLE": "Criar novo documento a partir de <span class=\"bold\">'{{ template }}'</span>",
@@ -564,7 +564,7 @@
         }
     },
     "SHARED_LINK": {
-        "UNSHARE_PERMISSION_ERROR": "Você não tem permissão para descompartilhar deste arquivo"
+        "UNSHARE_PERMISSION_ERROR": "Você não tem permissão para descompartilhar este arquivo"
     },
     "VERSION": {
         "DIALOG": {
@@ -589,7 +589,7 @@
             "CANCEL": "Cancelar",
             "FORM": {
                 "DESCRIPTION": "Descrição",
-                "SITE_ID": "ID de Biblioteca",
+                "SITE_ID": "ID da biblioteca",
                 "NAME": "Nome",
                 "VISIBILITY": "Visibilidade"
             }
@@ -605,7 +605,7 @@
         "ERRORS": {
             "GENERIC": "Encontramos um problema",
             "EXISTENT_SITE": "Este ID de biblioteca não está disponível. Tente um ID de biblioteca diferente.",
-            "CONFLICT": "Este ID de Biblioteca já foi usado. Verifique a lixeira.",
+            "CONFLICT": "Este ID de biblioteca já foi usado. Verifique a lixeira.",
             "ID_TOO_LONG": "Use 72 caracteres ou menos para o nome da URL",
             "DESCRIPTION_TOO_LONG": "Use 512 caracteres ou menos para a descrição",
             "TITLE_TOO_LONG_OR_MISSING": "Use 256 caracteres ou menos para o título",
@@ -622,7 +622,7 @@
             "LABEL": "Ações em massa",
             "TITLE": "Selecionar uma ação para todos os {{ count }} resultados",
             "BULK_NOT_AVAILABLE": "Ações em massa (não disponíveis)",
-            "BULK_NOT_AVAILABLE_TOOLTIP": "As ações em massa não podem ser usadas sem resultados de pesquis"
+            "BULK_NOT_AVAILABLE_TOOLTIP": "As ações em massa não podem ser usadas sem resultados de pesquisa"
         },
         "INPUT": {
             "PLACEHOLDER": "Pesquisar",
@@ -630,20 +630,20 @@
             "FOLDERS": "Pastas",
             "LIBRARIES": "Bibliotecas",
             "MIN_LENGTH": "O termo da pesquisa deve ter no mínimo 2 caracteres alfanuméricos.",
-            "REQUIRED": "Campo de pesquisa é obrigatório",
-            "WHITESPACE": "Entrada de pesquisa não pode ser apenas espaço em branco.",
+            "REQUIRED": "O campo de pesquisa é obrigatório.",
+            "WHITESPACE": "O campo de pesquisa não pode conter apenas espaços em branco.",
             "IN_PREFIX": "Em",
             "FILES_AND_FOLDERS": "Arquivos e pastas",
             "RESET": "Redefinir",
             "SEARCH_IN": "Pesquisar em",
-            "SEARCH_MODE_TOGGLE_DESCRIPTION": "Alternar modo de pesquisa.\n\nPesquisa comum: encontre texto à medida que você digita.\n\nPesquisa por fórmula: use caracteres especiais para criar uma consulta. O sistema interpreta símbolos como sintaxe de pesquisa.\n",
+            "SEARCH_MODE_TOGGLE_DESCRIPTION": "Alternar modo de pesquisa.\n\nPesquisa comum: encontre texto à medida que você digita.\n\nPesquisa por fórmula: use caracteres especiais para criar uma consulta. O sistema interpreta símbolos como sintaxe de pesquisa.",
             "SEARCH_MODE_TOGGLE_DESCRIPTION_REGULAR": "Pesquisa comum",
             "SEARCH_MODE_TOGGLE_DESCRIPTION_FORMULA": "Pesquisa por fórmula"
         },
         "SORT": {
             "SORTING_OPTION": "Classificar por",
             "ASCENDING": "Ascendente",
-            "DESCENDING": "Descendente",
+            "DESCENDING": "Decrescente",
             "RELEVANCE": "Relevância",
             "FILENAME": "Nome do arquivo",
             "TITLE": "Título",
@@ -654,15 +654,15 @@
             "CREATE_DATE": "Data de criação"
         },
         "CLOSE_BUTTON": {
-            "ARIA_LABEL": "Fechar busca"
+            "ARIA_LABEL": "Fechar pesquisa"
         },
         "FACET_FIELDS": {
             "CREATOR": "Criador",
             "MODIFIER": "Modificador"
         },
         "CATEGORIES": {
-            "CATEGORIES": "Categories",
-            "CATEGORIES_LABEL": "Add Categories",
+            "CATEGORIES": "Categorias",
+            "CATEGORIES_LABEL": "Adicionar categorias",
             "DATE": "Data",
             "DATE_TABS": {
                 "CREATED": "Criado",
@@ -670,14 +670,14 @@
             },
             "EFFECTIVITY_FROM": "Eficácia de",
             "EFFECTIVITY_TO": "Eficácia para",
-            "LOCATION": "Location",
-            "LOCATION_LABEL": "Add Sites",
+            "LOCATION": "Localização",
+            "LOCATION_LABEL": "Adicionar Sites",
             "LOGIC": "Lógica",
-            "PARENT_FOLDER": "Parent folder",
-            "PARENT_FOLDER_LABEL": "Add Parent Folders",
+            "PARENT_FOLDER": "Pasta pai",
+            "PARENT_FOLDER_LABEL": "Adicionar pastas pai",
             "PROPERTIES": "Propriedades",
             "TAGS": "Tags",
-            "TAGS_LABEL": "Add Tags"
+            "TAGS_LABEL": "Adicionar tags"
         },
         "SEARCH_HEADER": {
             "TITLE": "Filtro",
@@ -743,7 +743,7 @@
     },
     "ADF-DATATABLE": {
         "FILE_TYPE": {
-            "BOOKS-24PX": "Biblioteca de arquivo",
+            "BOOKS-24PX": "biblioteca de arquivos",
             "BASELINE-LOCK-24PX": "arquivo bloqueado"
         }
     },
@@ -754,7 +754,7 @@
         }
     },
     "CHECKOUT": {
-        "CHECKED_OUT_BY": "Original locked by: ",
+        "CHECKED_OUT_BY": "Bloqueado originalmente por: ",
         "ERRORS": {
             "CHECKOUT": {
                 "400": "Este nó não pode ser retirado (checkout). Deve ser um nó de conteúdo (cm:content).",

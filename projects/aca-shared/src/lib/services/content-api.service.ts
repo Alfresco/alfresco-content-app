@@ -41,6 +41,9 @@ import {
   SiteEntry,
   FavoriteBodyCreate,
   FavoriteEntry,
+  AssociationBody,
+  AssociationEntry,
+  NodeAssociationPaging,
   NodesApi,
   TrashcanApi,
   SharedlinksApi,
@@ -157,6 +160,40 @@ export class ContentApiService {
     const queryOptions = Object.assign(defaults, options);
 
     return from(this.nodesApi.listNodeChildren(nodeId, queryOptions));
+  }
+
+  /**
+   * Gets the target nodes that are associated with the given source node.
+   *
+   * @param nodeId ID of the source node
+   * @param options Optional parameters supported by JS-API
+   * @returns List of target associations
+   */
+  getNodeTargetAssociations(nodeId: string, options: any = {}): Observable<NodeAssociationPaging> {
+    return from(this.nodesApi.listTargetAssociations(nodeId, options));
+  }
+
+  /**
+   * Creates a target association from the given source node to another node.
+   *
+   * @param nodeId ID of the source node
+   * @param association Target node id and association type
+   * @returns The created association
+   */
+  createNodeAssociation(nodeId: string, association: AssociationBody): Observable<AssociationEntry> {
+    return from(this.nodesApi.createAssociation(nodeId, association));
+  }
+
+  /**
+   * Deletes a target association between the given source node and a target node.
+   *
+   * @param nodeId ID of the source node
+   * @param targetId ID of the target node
+   * @param assocType Association type to remove
+   * @returns Empty result that notifies when the deletion is complete
+   */
+  deleteNodeAssociation(nodeId: string, targetId: string, assocType?: string): Observable<void> {
+    return from(this.nodesApi.deleteAssociation(nodeId, targetId, { assocType }));
   }
 
   deleteSharedLink(linkId: string): Observable<any> {
