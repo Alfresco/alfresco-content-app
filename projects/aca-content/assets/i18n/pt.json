@@ -486,12 +486,34 @@
             "DATA_LOADING": "Os dados estão a ser carregados",
             "ICON": "Ícone de nó",
             "TABS": {
+                "ASSOCIATIONS": "Associations",
                 "PROPERTIES": "Propriedades",
                 "LIBRARY_PROPERTIES": "Sobre",
                 "VERSIONS": "Versões",
                 "COMMENTS": "Comentários",
                 "PERMISSIONS": "Permissões",
                 "EXPAND": "Expandir painel"
+            },
+            "ASSOCIATIONS": {
+                "EMPTY": "{{ name }} has no associations.",
+                "CREATE": "Create Association",
+                "CREATE_SUCCESS": "Association created successfully.",
+                "CREATE_ERROR": "There was an error while creating the association.",
+                "CREATE_DIALOG": {
+                    "TITLE": "Create Association",
+                    "TYPE_LABEL": "Association type",
+                    "CANCEL": "Cancel",
+                    "CLOSE": "Close"
+                },
+                "DELETE": "Delete association",
+                "DELETE_SUCCESS": "Association deleted successfully.",
+                "DELETE_ERROR": "There was an error while deleting the association.",
+                "DELETE_DIALOG": {
+                    "TITLE": "Delete association",
+                    "MESSAGE": "Are you sure you want to delete this association?",
+                    "YES_LABEL": "Delete",
+                    "NO_LABEL": "Cancel"
+                }
             }
         },
         "TOOLTIPS": {
