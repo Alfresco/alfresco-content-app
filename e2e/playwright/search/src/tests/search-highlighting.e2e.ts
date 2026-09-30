@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, test, NodesApi, TrashcanApi, TEST_FILES, FileActionsApi, SearchApi } from '@alfresco/aca-playwright-shared';
+import { ApiClientFactory, Utils, test, NodesApi, TrashcanApi, FileActionsApi, SearchApi } from '@alfresco/aca-playwright-shared';
 
 test.use({ launchOptions: { slowMo: 500 } });
 
@@ -32,13 +32,7 @@ test.describe('Search Highlighting', () => {
   let trashcanApi: TrashcanApi;
   let fileActionsApi: FileActionsApi;
   let searchApi: SearchApi;
-  const randomId = Utils.random();
-  const username = `user-${randomId}`;
-  const fileNameHighlight = `${randomId}-file-name.jpg`;
-  const fileDescriptionHighlight = `${randomId}-file-description.jpg`;
-  const fileDescription = `highlight`;
-  const fileContentHighlight = `${randomId}-file-content.pdf`;
-  const fileContent = 'Virtual';
+  const username = `user-${Utils.random()}`;
 
   test.beforeAll(async () => {
     try {
@@ -49,12 +43,6 @@ test.describe('Search Highlighting', () => {
       trashcanApi = await TrashcanApi.initialize(username, username);
       fileActionsApi = await FileActionsApi.initialize(username, username);
       searchApi = await SearchApi.initialize(username, username);
-      await nodesApi.createFile(fileNameHighlight, '-my-');
-      await nodesApi.createFile(fileDescriptionHighlight, '-my-', undefined, fileDescription);
-      await fileActionsApi.uploadFileWithRename(TEST_FILES.PDF.path, fileContentHighlight);
-      await searchApi.waitFileForSearchIndexing(fileContentHighlight);
-
-      await fileActionsApi.waitForNodesSearchHighlight(fileContentHighlight, { expect: 1 });
     } catch (error) {
       console.error(`beforeAll failed: ${JSON.stringify(error)}`);
     }
@@ -68,26 +56,68 @@ test.describe('Search Highlighting', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
-  test('[XAT-17119] Matching phrases should be highlighted in the file name for search results', async ({ searchPage }) => {
-    await searchPage.searchWithin(fileNameHighlight, 'files');
-    expect(await searchPage.dataTable.hasHighlightedText('name')).toBe(true);
+  test.describe('Search Highlighting - XAT-17119', () => {
+    const randomId17119 = Utils.random();
+    const fileNameHighlight17199 = `${randomId17119}-file-name.jpg`;
+
+    test.beforeAll(async () => {
+      try {
+        await nodesApi.createFile(fileNameHighlight17199, '-my-');
+        await searchApi.waitFileForSearchIndexing(fileNameHighlight17199);
+      } catch (error) {
+        console.error(`XAT-17119 - beforeAll failed: ${JSON.stringify(error)}`);
+      }
+    });
+
+    test('[XAT-17119] Matching phrases should be highlighted in the file name for search results', async ({ searchPage }) => {
+      await searchPage.searchWithin(randomId17119, 'files');
+      expect(await searchPage.dataTable.hasHighlightedText('name')).toBe(true);
+    });
   });
 
-  test('[XAT-17120] Matching phrases should be highlighted in the file description for search results', async ({ searchPage }) => {
-    await searchPage.searchWithin(fileDescription, 'files');
-    expect(await searchPage.dataTable.hasHighlightedText('description')).toBe(true);
-    expect(await searchPage.dataTable.hasHighlightedText('name')).toBe(false);
+  test.describe('Search Highlighting - XAT-17120', () => {
+    const randomId17120 = Utils.random();
+    const fileDescription17120 = `${Utils.random(10)}`;
+    const fileDescriptionHighlight17120 = `${randomId17120}-file-description.jpg`;
+
+    test.beforeAll(async () => {
+      try {
+        await nodesApi.createFile(fileDescriptionHighlight17120, '-my-', undefined, fileDescription17120);
+        await searchApi.waitFileForSearchIndexing(fileDescriptionHighlight17120);
+      } catch (error) {
+        console.error(`XAT-17120 - beforeAll failed: ${JSON.stringify(error)}`);
+      }
+    });
+
+    test('[XAT-17120] Matching phrases should be highlighted in the file description for search results', async ({ searchPage }) => {
+      await searchPage.searchWithin(fileDescription17120, 'files');
+      expect(await searchPage.dataTable.hasHighlightedText('description')).toBe(true);
+      expect(await searchPage.dataTable.hasHighlightedText('name')).toBe(false);
+    });
   });
 
-  test('[XAT-17121] Matching phrases should be highlighted in the file content for search results', async ({ searchPage, personalFiles }) => {
-    await personalFiles.navigate();
-    await searchPage.searchWithin(`${fileContent}`, 'files');
-    await searchPage.searchFilters.dateFilter.click();
-    await searchPage.searchFiltersDate.inTheLastRadioButton.click();
-    await searchPage.searchFiltersDate.quantityInput.fill('1');
-    await searchPage.searchMenuCard.menuCardApply.click();
-    await searchPage.spinnerWaitForReload();
-    expect(await searchPage.dataTable.hasHighlightedText('content')).toBe(true);
-    expect(await searchPage.dataTable.hasHighlightedText('name')).toBe(false);
+  test.describe('Search Highlighting - XAT-17121', () => {
+    const randomId17121 = Utils.random();
+    const fileContentHighlight17121 = `${randomId17121}-file-content.txt`;
+    const fileContent17121 = `${Utils.random(10)}`;
+
+    test.beforeAll(async () => {
+      try {
+        const contentFileId = (await nodesApi.createFile(fileContentHighlight17121, '-my-')).entry.id;
+        await fileActionsApi.updateNodeContent(contentFileId, fileContent17121);
+        await searchApi.waitFileForSearchIndexing(fileContentHighlight17121);
+        await searchApi.waitForContentIndexing(fileContent17121, fileContentHighlight17121);
+      } catch (error) {
+        console.error(`XAT-17121 - beforeAll failed: ${JSON.stringify(error)}`);
+      }
+    });
+
+    test('[XAT-17121] Matching phrases should be highlighted in the file content for search results', async ({ searchPage, personalFiles }) => {
+      await personalFiles.navigate();
+      await searchPage.searchWithin(`${fileContent17121}`, 'files');
+      await searchPage.spinnerWaitForReload();
+      expect(await searchPage.dataTable.hasHighlightedText('content')).toBe(true);
+      expect(await searchPage.dataTable.hasHighlightedText('name')).toBe(false);
+    });
   });
 });

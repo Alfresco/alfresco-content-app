@@ -34,8 +34,8 @@ export class Utils {
   static readonly string257Long = 'x'.repeat(257);
   static readonly string513Long = 'x'.repeat(513);
 
-  static random(): string {
-    return crypto.getRandomValues(new Uint32Array(1))[0].toString(36).substring(0, 5).toLowerCase();
+  static random(length = 5): string {
+    return Array.from(crypto.getRandomValues(new Uint8Array(length)), (b: number) => (b % 36).toString(36)).join('');
   }
 
   static retryCall(fn: () => Promise<any>, retry: number = 30, delay: number = 1500): Promise<any> {

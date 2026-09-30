@@ -249,4 +249,46 @@ export class SearchApi {
       throw new Error(errorMessage);
     }
   }
+
+  async waitForContentIndexing(contentTerm: string, expectedFileName: string, maxRetries?: number): Promise<void> {
+    const query: SearchRequest = {
+      query: {
+        query: `cm:content:"${contentTerm}"`,
+        language: 'afts'
+      },
+      filterQueries: [{ query: "+TYPE:'cm:content'" }],
+      paging: { skipCount: 0, maxItems: 25 }
+    };
+
+    const retryLimit = maxRetries ?? 90;
+    let retryCount = 0;
+    let found = false;
+
+    do {
+      let result: ResultSetPaging;
+      try {
+        result = await this.apiService.search.search(query);
+      } catch {
+        result = new ResultSetPaging();
+      }
+      found = (result.list?.entries ?? []).some((entry) => entry.entry?.name === expectedFileName);
+
+      if (!found) {
+        retryCount++;
+        if (retryCount % 10 === 0) {
+          logger.info(
+            `waitForContentIndexing: Still waiting for content "${contentTerm}" in "${expectedFileName}" after ${retryCount} retries (max ${retryLimit}).`
+          );
+        }
+        if (retryCount >= retryLimit) {
+          const message = `waitForContentIndexing: content "${contentTerm}" not indexed for "${expectedFileName}" after ${retryLimit} retries`;
+          logger.error(message);
+          throw new Error(message);
+        }
+        await Utils.delayInSeconds(1);
+      }
+    } while (!found);
+
+    logger.info(`waitForContentIndexing: content "${contentTerm}" is indexed for "${expectedFileName}".`);
+  }
 }
