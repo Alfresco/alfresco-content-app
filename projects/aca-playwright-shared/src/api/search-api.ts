@@ -293,7 +293,7 @@ export class SearchApi {
   }
 
   private async queryNodesNames(searchTerm: string): Promise<ResultSetPaging> {
-    const data = {
+    const data: SearchRequest = {
       query: {
         query: `cm:name:"${searchTerm}*"`,
         language: 'afts'
