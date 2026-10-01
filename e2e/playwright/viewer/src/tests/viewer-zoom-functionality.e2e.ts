@@ -26,7 +26,8 @@ import { expect } from '@playwright/test';
 import {
   ApiClientFactory,
   FavoritesApi,
-  FileActionsApi,
+  UploadApi,
+  SearchApi,
   NodesApi,
   SharedLinksApi,
   SitesApi,
@@ -71,7 +72,8 @@ test.describe('viewer zoom functionality and reset', () => {
     test.setTimeout(timeouts.extendedTest);
     const randomFolderName = `viewer-${Utils.random()}`;
     nodesApi = await NodesApi.initialize(username, username);
-    const fileActionApi = await FileActionsApi.initialize(username, username);
+    const uploadApi = await UploadApi.initialize(username, username);
+    const searchApi = await SearchApi.initialize(username, username);
     trashcanApi = await TrashcanApi.initialize(username, username);
     siteActionsUser = await SitesApi.initialize(username, username);
     const shareActions = await SharedLinksApi.initialize(username, username);
@@ -89,10 +91,10 @@ test.describe('viewer zoom functionality and reset', () => {
 
     docLibId = await siteActionsUser.getDocLibId(randomLibraryName);
 
-    await fileActionApi.uploadFile(TEST_FILES.JPG_FILE.path, randomJpgName, folderId);
-    await fileActionApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, docLibId);
-    const filePngId = (await fileActionApi.uploadFile(TEST_FILES.PNG_FILE.path, randomPngName, folderId)).entry.id;
-    const filePdfId = (await fileActionApi.uploadFile(TEST_FILES.PDF.path, randomPdfName, folderId)).entry.id;
+    await uploadApi.uploadFile(TEST_FILES.JPG_FILE.path, randomJpgName, folderId);
+    await uploadApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, docLibId);
+    const filePngId = (await uploadApi.uploadFile(TEST_FILES.PNG_FILE.path, randomPngName, folderId)).entry.id;
+    const filePdfId = (await uploadApi.uploadFile(TEST_FILES.PDF.path, randomPdfName, folderId)).entry.id;
 
     const consumerFavoritesTotalItems = await favoritesActions.getFavoritesTotalItems(username);
     await shareActions.shareFileById(filePngId);
@@ -104,7 +106,7 @@ test.describe('viewer zoom functionality and reset', () => {
     ]);
     try {
       await shareActions.waitForFilesToBeShared([filePngId]);
-      await fileActionApi.waitForNodes(randomPngName, { expect: 1 });
+      await searchApi.waitForNodes(randomPngName, { expect: 1 });
     } catch (exception) {
       if (!String(exception).includes('409')) {
         throw new Error(`----- beforeAll failed : ${exception}`);

@@ -30,7 +30,7 @@ import {
   TrashcanApi,
   FavoritesApi,
   NodesApi,
-  FileActionsApi,
+  SearchApi,
   SitesApi,
   MyLibrariesPage
 } from '@alfresco/aca-playwright-shared';
@@ -40,7 +40,7 @@ test.describe('Info Drawer - Comments', () => {
   const apiClientFactory = new ApiClientFactory();
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
-  let fileActionsApi: FileActionsApi;
+  let searchApi: SearchApi;
   let favoritesActions: FavoritesApi;
   const username = `user-e2e-${Utils.random()}`;
   const commentText = `comment-e2e-${Utils.random()}`;
@@ -52,7 +52,7 @@ test.describe('Info Drawer - Comments', () => {
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
       favoritesActions = await FavoritesApi.initialize(username, username);
-      fileActionsApi = await FileActionsApi.initialize(username, username);
+      searchApi = await SearchApi.initialize(username, username);
     } catch (error) {
       console.error(`beforeAll failed : ${error}`);
     }
@@ -69,7 +69,7 @@ test.describe('Info Drawer - Comments', () => {
   test('[XAT-5524] from Personal Files - Comments tab default fields', async ({ personalFiles }) => {
     const personalFolderName = `personalFolder-e2e-${Utils.random()}`;
     await nodesApi.createFolder(personalFolderName);
-    await fileActionsApi.waitForNodes(personalFolderName, { expect: 1 });
+    await searchApi.waitForNodes(personalFolderName, { expect: 1 });
     await personalFiles.navigate();
     await Utils.reloadPageIfRowNotVisible(personalFiles, personalFolderName);
     await expect(personalFiles.dataTable.getRowByName(personalFolderName)).toBeVisible();
@@ -85,7 +85,7 @@ test.describe('Info Drawer - Comments', () => {
     const favoriteFolderName = `favoriteFolder-e2e-${Utils.random()}`;
     const folderFavId = (await nodesApi.createFolder(favoriteFolderName)).entry.id;
     await favoritesActions.addFavoritesByIds('folder', [folderFavId]);
-    await fileActionsApi.waitForNodes(favoriteFolderName, { expect: 1 });
+    await searchApi.waitForNodes(favoriteFolderName, { expect: 1 });
     await favoritePage.navigate();
     await expect(favoritePage.dataTable.getRowByName(favoriteFolderName)).toBeVisible();
     await favoritePage.dataTable.getRowByName(favoriteFolderName).click();
@@ -104,7 +104,7 @@ test.describe('Info Drawer - Comments', () => {
     const e2eCommentFirst = `e2e-comment-${Utils.random()}`;
     const e2eCommentSecond = `e2e-comment-${Utils.random()}`;
     const sharedFileId = (await nodesApi.createFile(sharedFileName)).entry.id;
-    await fileActionsApi.waitForNodes(sharedFileName, { expect: 1 });
+    await searchApi.waitForNodes(sharedFileName, { expect: 1 });
     await apiClientFactory.commentsApi.createComment(sharedFileId, { content: e2eCommentFirst });
     await apiClientFactory.commentsApi.createComment(sharedFileId, { content: e2eCommentSecond });
     await apiClientFactory.share.createSharedLink({ nodeId: sharedFileId });
@@ -122,7 +122,7 @@ test.describe('Info Drawer - Comments', () => {
   test('[XAT-5539] from Recent Files - Add a comment on a file', async ({ recentFilesPage }) => {
     const recentFile = `e2e-recentFile-${Utils.random()}`;
     await nodesApi.createFile(recentFile);
-    await fileActionsApi.waitForNodes(recentFile, { expect: 1 });
+    await searchApi.waitForNodes(recentFile, { expect: 1 });
     await recentFilesPage.navigate();
     await expect(recentFilesPage.dataTable.getRowByName(recentFile)).toBeVisible();
     await recentFilesPage.dataTable.selectItems(recentFile);
@@ -158,7 +158,7 @@ test.describe('Info Drawer - Comments - Sites Privileges', () => {
   const apiClientFactory = new ApiClientFactory();
   let nodesApi1: NodesApi;
   let trashcanApi1: TrashcanApi;
-  let fileActionsApi1: FileActionsApi;
+  let searchApi1: SearchApi;
   let sitesApi1: SitesApi;
   let siteEntry5522: Site;
   const siteName5522 = `site-e2e-${Utils.random()}`;
@@ -181,7 +181,7 @@ test.describe('Info Drawer - Comments - Sites Privileges', () => {
       await apiClientFactory.createUser({ username: username2 });
       nodesApi1 = await NodesApi.initialize(username1, username1);
       trashcanApi1 = await TrashcanApi.initialize(username1, username1);
-      fileActionsApi1 = await FileActionsApi.initialize(username1, username1);
+      searchApi1 = await SearchApi.initialize(username1, username1);
       sitesApi1 = await SitesApi.initialize(username1, username1);
 
       siteEntry5522 = (await sitesApi1.createSite(siteName5522, Site.VisibilityEnum.PRIVATE)).entry;
@@ -189,7 +189,7 @@ test.describe('Info Drawer - Comments - Sites Privileges', () => {
 
       const documentLibraryId1 = await nodesApi1.getNodeIdFromParent('documentLibrary', siteEntry5522.guid);
       await nodesApi1.createFolder(folderName5522, documentLibraryId1);
-      await fileActionsApi1.waitForNodes(folderName5522, { expect: 1 });
+      await searchApi1.waitForNodes(folderName5522, { expect: 1 });
     } catch (error) {
       console.error(`beforeAll failed : ${error}`);
     }

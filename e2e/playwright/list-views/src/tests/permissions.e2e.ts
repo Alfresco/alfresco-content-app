@@ -26,7 +26,7 @@ import { expect } from '@playwright/test';
 import {
   ApiClientFactory,
   FavoritesApi,
-  FileActionsApi,
+  SearchApi,
   LoginPage,
   NodesApi,
   SharedLinksApi,
@@ -61,7 +61,7 @@ test.describe('Special permissions', () => {
     test.beforeAll(async () => {
       test.setTimeout(timeouts.webServer);
       const userFavoritesApi = await FavoritesApi.initialize(username, username);
-      const userFileActionApi = await FileActionsApi.initialize(username, username);
+      const userSearchApi = await SearchApi.initialize(username, username);
       const userNodesApi = await NodesApi.initialize(username, username);
       siteApiAdmin = await SitesApi.initialize('admin');
       const nodeApiAdmin = await NodesApi.initialize('admin');
@@ -77,7 +77,7 @@ test.describe('Special permissions', () => {
 
       await userNodesApi.updateNodeContent(fileId, 'edited by user');
 
-      await userFileActionApi.waitForNodes(username, { expect: 1 });
+      await userSearchApi.waitForNodes(username, { expect: 1 });
 
       await shareApiAdmin.waitForFilesToBeShared([fileId]);
       await shareApiUser.waitForFilesToBeShared([fileId]);

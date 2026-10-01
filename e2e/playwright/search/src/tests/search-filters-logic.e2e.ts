@@ -23,12 +23,12 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, test, NodesApi, TrashcanApi, FileActionsApi } from '@alfresco/aca-playwright-shared';
+import { ApiClientFactory, Utils, test, NodesApi, TrashcanApi, SearchApi } from '@alfresco/aca-playwright-shared';
 
 test.describe('Search - Filters - Logic', () => {
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
-  let fileActionsApi: FileActionsApi;
+  let searchApi: SearchApi;
 
   const randomUsername = Utils.random();
   const randomFilename = Utils.random();
@@ -61,11 +61,11 @@ test.describe('Search - Filters - Logic', () => {
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
-      fileActionsApi = await FileActionsApi.initialize(username, username);
+      searchApi = await SearchApi.initialize(username, username);
       await nodesApi.createFile(logicFile1.name, undefined, logicFile1.title, logicFile1.description);
       await nodesApi.createFile(logicFile2.name, undefined, logicFile2.title, logicFile2.description);
-      await fileActionsApi.waitForNodes(logicFile1.name, { expect: 1 });
-      await fileActionsApi.waitForNodes(logicFile2.name, { expect: 1 });
+      await searchApi.waitForNodes(logicFile1.name, { expect: 1 });
+      await searchApi.waitForNodes(logicFile2.name, { expect: 1 });
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
     }

@@ -29,7 +29,8 @@ import {
   test,
   TrashcanApi,
   NodesApi,
-  FileActionsApi,
+  UploadApi,
+  SearchApi,
   TagsApi,
   CategoriesApi,
   PersonalFilesPage,
@@ -40,7 +41,8 @@ import {
 test.describe('Info Drawer - file folder Properties', () => {
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
-  let fileActionsApi: FileActionsApi;
+  let uploadApi: UploadApi;
+  let searchApi: SearchApi;
   let tagsApi: TagsApi;
   let categoriesApi: CategoriesApi;
   let responseCategoryId: string;
@@ -104,7 +106,7 @@ test.describe('Info Drawer - file folder Properties', () => {
   }
 
   async function navigateAndOpenInfoDrawer(personalFiles: PersonalFilesPage, nodeName: string, subFolderId?: string) {
-    await fileActionsApi.waitForNodes(nodeName, { expect: 1 });
+    await searchApi.waitForNodes(nodeName, { expect: 1 });
     if (subFolderId) {
       await personalFiles.navigate({ remoteUrl: `#/personal-files/${subFolderId}` });
     } else {
@@ -124,7 +126,8 @@ test.describe('Info Drawer - file folder Properties', () => {
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
-      fileActionsApi = await FileActionsApi.initialize(username, username);
+      uploadApi = await UploadApi.initialize(username, username);
+      searchApi = await SearchApi.initialize(username, username);
       tagsApi = await TagsApi.initialize('admin');
       categoriesApi = await CategoriesApi.initialize('admin');
       responseCategoryId = await createCategoryGetId();
@@ -152,9 +155,9 @@ test.describe('Info Drawer - file folder Properties', () => {
       };
 
       await nodesApi.updateNode(folder5513Id, folder5513BodyUpdate);
-      await fileActionsApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, file5516, folder5516Id);
-      await fileActionsApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, nodePropertiesJpg, propertiesFolderId);
-      await fileActionsApi.uploadFileWithRename(TEST_FILES.DOCX.path, nodePropertiesDocx, propertiesFolderId);
+      await uploadApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, file5516, folder5516Id);
+      await uploadApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, nodePropertiesJpg, propertiesFolderId);
+      await uploadApi.uploadFileWithRename(TEST_FILES.DOCX.path, nodePropertiesDocx, propertiesFolderId);
       await nodesApi.createFolder(nodePropertiesFolder, propertiesFolderId);
       await nodesApi.createFolder(nodeEditPropertiesFolder, propertiesFolderId);
     } catch (error) {
@@ -279,7 +282,7 @@ test.describe('Info Drawer - file folder Properties', () => {
   });
 
   test('[XAT-17240] Remove a tag from a node', async ({ personalFiles }) => {
-    await fileActionsApi.waitForNodes(folder17240, { expect: 1 });
+    await searchApi.waitForNodes(folder17240, { expect: 1 });
     await tagsApi.assignTagToNode(folder17240Id, tagBody);
     await expect(async () => {
       expect((await tagsApi.listTagsForNode(folder17240Id)).list?.entries.length).toEqual(1);
@@ -303,7 +306,7 @@ test.describe('Info Drawer - file folder Properties', () => {
   });
 
   test('[XAT-17243] Cancel adding a tag to a node', async ({ personalFiles }) => {
-    await fileActionsApi.waitForNodes(folder17243, { expect: 1 });
+    await searchApi.waitForNodes(folder17243, { expect: 1 });
     await personalFiles.navigate();
     await Utils.reloadPageIfRowNotVisible(personalFiles, folder17243);
     await expect(personalFiles.dataTable.getRowByName(folder17243)).toBeVisible();
@@ -334,7 +337,7 @@ test.describe('Info Drawer - file folder Properties', () => {
   });
 
   test('[XAT-17242] Remove a category from a node', async ({ personalFiles }) => {
-    await fileActionsApi.waitForNodes(folder17242, { expect: 1 });
+    await searchApi.waitForNodes(folder17242, { expect: 1 });
     await categoriesApi.linkNodeToCategory(folder17242Id, [{ categoryId: responseCategoryId }]);
     await personalFiles.navigate();
     await Utils.reloadPageIfRowNotVisible(personalFiles, folder17242);

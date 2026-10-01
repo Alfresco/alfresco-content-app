@@ -31,7 +31,7 @@ import {
   TrashcanApi,
   NodesApi,
   MimeType,
-  FileActionsApi,
+  UploadApi,
   TEST_FILES,
   PersonalFilesPage,
   NodesPage,
@@ -70,14 +70,14 @@ async function setupTransformationTest(
 }
 
 async function triggerTransformation(config: {
-  fileActionApi: FileActionsApi;
+  uploadApi: UploadApi;
   files: Array<TestFileConfig>;
   parentFolderId: string;
   page: Page;
 }): Promise<void> {
-  const { fileActionApi, files, parentFolderId, page } = config;
+  const { uploadApi, files, parentFolderId, page } = config;
   for (const file of files) {
-    await fileActionApi.uploadFile(file.path, file.name, parentFolderId);
+    await uploadApi.uploadFile(file.path, file.name, parentFolderId);
   }
   await page.waitForTimeout(timeouts.medium);
 }
@@ -109,7 +109,7 @@ test.describe('Folder Rules Actions', () => {
   const apiClientFactory = new ApiClientFactory();
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
-  let fileActionApi: FileActionsApi;
+  let uploadApi: UploadApi;
   const username = `user-e2e-${Utils.random()}`;
   const testString = '"!@£$%^&*()_+{}|:""?&gt;&lt;,/.\';][=-`~"';
 
@@ -119,7 +119,7 @@ test.describe('Folder Rules Actions', () => {
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
-      fileActionApi = await FileActionsApi.initialize(username, username);
+      uploadApi = await UploadApi.initialize(username, username);
     } catch (error) {
       console.error(`beforeAll failed : ${error}`);
     }
@@ -143,7 +143,7 @@ test.describe('Folder Rules Actions', () => {
       { nodesApi, testString, parentFolderName, destinationFolderName, mimeType: MimeType.AdobePDFDocument }
     );
 
-    await triggerTransformation({ fileActionApi, files, parentFolderId, page: personalFiles.page });
+    await triggerTransformation({ uploadApi, files, parentFolderId, page: personalFiles.page });
     await verifyTransformation({ personalFiles }, { destinationFolderName, files, expectedExtension: 'pdf' });
   });
 
@@ -157,7 +157,7 @@ test.describe('Folder Rules Actions', () => {
       { nodesApi, testString, parentFolderName, destinationFolderName, mimeType: MimeType.BitmapImage }
     );
 
-    await triggerTransformation({ fileActionApi, files, parentFolderId, page: personalFiles.page });
+    await triggerTransformation({ uploadApi, files, parentFolderId, page: personalFiles.page });
     await verifyTransformation({ personalFiles }, { destinationFolderName, files, expectedExtension: 'bmp' });
   });
 
@@ -171,7 +171,7 @@ test.describe('Folder Rules Actions', () => {
       { nodesApi, testString, parentFolderName, destinationFolderName, mimeType: MimeType.JPEGImage }
     );
 
-    await triggerTransformation({ fileActionApi, files, parentFolderId, page: personalFiles.page });
+    await triggerTransformation({ uploadApi, files, parentFolderId, page: personalFiles.page });
     await verifyTransformation({ personalFiles }, { destinationFolderName, files, expectedExtension: 'jpg' });
   });
 
@@ -185,7 +185,7 @@ test.describe('Folder Rules Actions', () => {
       { nodesApi, testString, parentFolderName, destinationFolderName, mimeType: MimeType.GIFImage }
     );
 
-    await triggerTransformation({ fileActionApi, files, parentFolderId, page: personalFiles.page });
+    await triggerTransformation({ uploadApi, files, parentFolderId, page: personalFiles.page });
     await verifyTransformation({ personalFiles }, { destinationFolderName, files, expectedExtension: 'gif' });
   });
 
@@ -199,7 +199,7 @@ test.describe('Folder Rules Actions', () => {
       { nodesApi, testString, parentFolderName, destinationFolderName, mimeType: MimeType.TIFFImage }
     );
 
-    await triggerTransformation({ fileActionApi, files, parentFolderId, page: personalFiles.page });
+    await triggerTransformation({ uploadApi, files, parentFolderId, page: personalFiles.page });
     await verifyTransformation({ personalFiles }, { destinationFolderName, files, expectedExtension: 'tif' });
   });
 
@@ -213,7 +213,7 @@ test.describe('Folder Rules Actions', () => {
       { nodesApi, testString, parentFolderName, destinationFolderName, mimeType: MimeType.PNGImage }
     );
 
-    await triggerTransformation({ fileActionApi, files, parentFolderId, page: personalFiles.page });
+    await triggerTransformation({ uploadApi, files, parentFolderId, page: personalFiles.page });
     await verifyTransformation({ personalFiles }, { destinationFolderName, files, expectedExtension: 'png' });
   });
 });

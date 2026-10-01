@@ -25,7 +25,8 @@
 import { expect } from '@playwright/test';
 import {
   ApiClientFactory,
-  FileActionsApi,
+  UploadApi,
+  SearchApi,
   NodesApi,
   test,
   TEST_FILES,
@@ -51,7 +52,8 @@ test.describe('viewer file types', () => {
   const randomPdfJp2Name = `${TEST_FILES.PDF_JP2_FILE.name}-${randomString}.pdf`;
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
-  let fileActionApi: FileActionsApi;
+  let uploadApi: UploadApi;
+  let searchApi: SearchApi;
 
   test.beforeAll(async () => {
     const apiClientFactory = new ApiClientFactory();
@@ -59,7 +61,8 @@ test.describe('viewer file types', () => {
     await apiClientFactory.createUser({ username });
 
     nodesApi = await NodesApi.initialize(username, username);
-    fileActionApi = await FileActionsApi.initialize(username, username);
+    uploadApi = await UploadApi.initialize(username, username);
+    searchApi = await SearchApi.initialize(username, username);
     trashcanApi = await TrashcanApi.initialize(username, username);
 
     const filesToUpload = [
@@ -77,12 +80,12 @@ test.describe('viewer file types', () => {
     ];
 
     for (const file of filesToUpload) {
-      await fileActionApi.uploadFile(file.path, file.name, '-my-');
+      await uploadApi.uploadFile(file.path, file.name, '-my-');
     }
 
-    await fileActionApi.waitForNodes(randomWebmName, { expect: 1 });
-    await fileActionApi.waitForNodes(randomAzw3Name, { expect: 1 });
-    await fileActionApi.waitForNodes(randomPdfJp2Name, { expect: 1 });
+    await searchApi.waitForNodes(randomWebmName, { expect: 1 });
+    await searchApi.waitForNodes(randomAzw3Name, { expect: 1 });
+    await searchApi.waitForNodes(randomPdfJp2Name, { expect: 1 });
   });
 
   test.beforeEach(async ({ loginPage }) => {

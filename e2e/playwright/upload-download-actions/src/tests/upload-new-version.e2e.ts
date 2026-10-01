@@ -30,7 +30,8 @@ import {
   TrashcanApi,
   NodesApi,
   TEST_FILES,
-  FileActionsApi,
+  UploadApi,
+  SearchApi,
   PersonalFilesPage,
   SearchPage
 } from '@alfresco/aca-playwright-shared';
@@ -66,7 +67,8 @@ test.describe('Upload new version', () => {
 
   let trashcanApi: TrashcanApi;
   let nodesApi: NodesApi;
-  let fileActionAPI: FileActionsApi;
+  let uploadApi: UploadApi;
+  let searchApi: SearchApi;
 
   async function uploadNewVersion(page: PersonalFilesPage | SearchPage, filename: string, location: string) {
     await page.dataTable.selectItems(filename);
@@ -88,7 +90,8 @@ test.describe('Upload new version', () => {
     await apiClientFactory.createUser({ username });
     trashcanApi = await TrashcanApi.initialize(username, username);
     nodesApi = await NodesApi.initialize(username, username);
-    fileActionAPI = await FileActionsApi.initialize(username, username);
+    uploadApi = await UploadApi.initialize(username, username);
+    searchApi = await SearchApi.initialize(username, username);
     parentPFId = (await nodesApi.createFolder(parentPF)).entry.id;
     parentSearchId = (await nodesApi.createFolder(parentSearch)).entry.id;
     parentUnsupportedId = (await nodesApi.createFolder(parentUnsupported)).entry.id;
@@ -100,10 +103,10 @@ test.describe('Upload new version', () => {
 
   test.describe('on Search Results', () => {
     test.beforeAll(async () => {
-      await fileActionAPI.uploadFile(TEST_FILES.PDF.path, file, parentSearchId);
+      await uploadApi.uploadFile(TEST_FILES.PDF.path, file, parentSearchId);
       fileSearch2Id = (await nodesApi.createFile(fileSearch2, parentSearchId)).entry.id;
       fileSearch3Id = (await nodesApi.createFile(fileSearch3, parentSearchId)).entry.id;
-      await fileActionAPI.waitForNodes(file, { expect: 1 });
+      await searchApi.waitForNodes(file, { expect: 1 });
     });
 
     test.beforeEach(async ({ loginPage }) => {
@@ -137,7 +140,7 @@ test.describe('Upload new version', () => {
 
   test.describe('on Personal Files', () => {
     test.beforeAll(async () => {
-      await fileActionAPI.uploadFile(TEST_FILES.PDF.path, `${TEST_FILES.PDF.name}.${TEST_FILES.PDF.extension}`, parentPFId);
+      await uploadApi.uploadFile(TEST_FILES.PDF.path, `${TEST_FILES.PDF.name}.${TEST_FILES.PDF.extension}`, parentPFId);
       file1Id = (await nodesApi.createFile(file1, parentPFId)).entry.id;
       fileLocked1Id = (await nodesApi.createFile(fileToUpload1, parentPFId)).entry.id;
       fileLocked2Id = (await nodesApi.createFile(fileLocked2, parentPFId)).entry.id;
@@ -187,8 +190,8 @@ test.describe('Upload new version', () => {
 
   test.describe('Viewer - version update with unsupported file', () => {
     test.beforeAll(async () => {
-      filePdfID = (await fileActionAPI.uploadFile(TEST_FILES.PDF.path, TEST_FILES.PDF.name, parentUnsupportedId)).entry.id;
-      fileJpgID = (await fileActionAPI.uploadFile(TEST_FILES.JPG_FILE.path, TEST_FILES.JPG_FILE.name, parentUnsupportedId)).entry.id;
+      filePdfID = (await uploadApi.uploadFile(TEST_FILES.PDF.path, TEST_FILES.PDF.name, parentUnsupportedId)).entry.id;
+      fileJpgID = (await uploadApi.uploadFile(TEST_FILES.JPG_FILE.path, TEST_FILES.JPG_FILE.name, parentUnsupportedId)).entry.id;
     });
 
     test.beforeEach(async ({ loginPage, personalFiles }) => {

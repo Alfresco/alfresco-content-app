@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, test, NodesApi, TrashcanApi, FileActionsApi, TEST_FILES } from '@alfresco/aca-playwright-shared';
+import { ApiClientFactory, Utils, test, NodesApi, TrashcanApi, UploadApi, TEST_FILES } from '@alfresco/aca-playwright-shared';
 
 test.describe('Search - Filters - Properties', () => {
   let nodesApi: NodesApi;
@@ -45,9 +45,9 @@ test.describe('Search - Filters - Properties', () => {
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
-      const fileActionsApi = await FileActionsApi.initialize(username, username);
-      await fileActionsApi.uploadFileWithRename(TEST_FILES.PDF.path, fileNamePdfKb, '-my-');
-      await fileActionsApi.uploadFileWithRename(TEST_FILES.JPG_FILE_1MB.path, fileNameJpgMb, '-my-');
+      const uploadApi = await UploadApi.initialize(username, username);
+      await uploadApi.uploadFileWithRename(TEST_FILES.PDF.path, fileNamePdfKb, '-my-');
+      await uploadApi.uploadFileWithRename(TEST_FILES.JPG_FILE_1MB.path, fileNameJpgMb, '-my-');
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
     }

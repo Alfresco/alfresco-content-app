@@ -26,7 +26,7 @@ import { expect } from '@playwright/test';
 import {
   ApiClientFactory,
   FavoritesApi,
-  FileActionsApi,
+  UploadApi,
   NodesApi,
   PersonalFilesPage,
   TEST_FILES,
@@ -74,25 +74,25 @@ test.describe('Remember sorting', () => {
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username: user1 });
       await apiClientFactory.createUser({ username: user2 });
-      const fileActionUser1 = await FileActionsApi.initialize(user1, user1);
-      const fileActionUser2 = await FileActionsApi.initialize(user2, user2);
+      const uploadApiUser1 = await UploadApi.initialize(user1, user1);
+      const uploadApiUser2 = await UploadApi.initialize(user2, user2);
       const favoritesActions = await FavoritesApi.initialize(user1, user1);
       nodeActionUser1 = await NodesApi.initialize(user1, user1);
       const filesIdsUser1: { [key: string]: string } = {};
       const filesIdsUser2: { [key: string]: string } = {};
       await Promise.all(
         testData.user1.files.pdf.map(
-          async (i) => (filesIdsUser1[i] = (await fileActionUser1.uploadFileWithRename(TEST_FILES.PDF.path, i, '-my-')).entry.id)
+          async (i) => (filesIdsUser1[i] = (await uploadApiUser1.uploadFileWithRename(TEST_FILES.PDF.path, i, '-my-')).entry.id)
         )
       );
       await Promise.all(
         testData.user1.files.jpg.map(
-          async (i) => (filesIdsUser1[i] = (await fileActionUser1.uploadFileWithRename(TEST_FILES.JPG_FILE.path, i, '-my-')).entry.id)
+          async (i) => (filesIdsUser1[i] = (await uploadApiUser1.uploadFileWithRename(TEST_FILES.JPG_FILE.path, i, '-my-')).entry.id)
         )
       );
       await Promise.all(
         testData.user2.files.map(
-          async (i) => (filesIdsUser2[i] = (await fileActionUser2.uploadFileWithRename(TEST_FILES.PDF.path, i, '-my-')).entry.id)
+          async (i) => (filesIdsUser2[i] = (await uploadApiUser2.uploadFileWithRename(TEST_FILES.PDF.path, i, '-my-')).entry.id)
         )
       );
       await favoritesActions.addFavoritesByIds('file', [filesIdsUser1[pdfFileNames[0]], filesIdsUser1[pdfFileNames[1]]]);
@@ -249,7 +249,7 @@ test.describe('Remember sorting', () => {
       expect(expectedSortData).not.toEqual(initialSortState);
 
       await loginPage.logoutUser();
-      await FileActionsApi.initialize(user1, user1);
+      await UploadApi.initialize(user1, user1);
       await loginPage.loginUser({ username: user1, password: user1 }, { withNavigation: true, waitForLoading: true });
       await loginPage.verifyUserLogin();
 
@@ -263,7 +263,7 @@ test.describe('Remember sorting', () => {
       const expectedSortData = await getSortState(personalFiles);
 
       await loginPage.logoutUser();
-      await FileActionsApi.initialize(user2, user2);
+      await UploadApi.initialize(user2, user2);
       await loginPage.loginUser({ username: user2, password: user2 }, { withNavigation: true, waitForLoading: true });
       await loginPage.verifyUserLogin();
 

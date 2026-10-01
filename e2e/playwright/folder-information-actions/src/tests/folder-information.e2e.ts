@@ -30,7 +30,7 @@ import {
   test,
   TrashcanApi,
   TEST_FILES,
-  FileActionsApi,
+  UploadApi,
   PersonalFilesPage,
   MyLibrariesPage,
   SitesApi,
@@ -65,7 +65,7 @@ test.describe('Actions - Folder Information', () => {
   const file13 = `file10-${Utils.random()}.docx`;
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
-  let fileActionsApi: FileActionsApi;
+  let uploadApi: UploadApi;
   let sitesApi: SitesApi;
   let folder1FileId: string;
   let folderXFilesId: string;
@@ -84,7 +84,7 @@ test.describe('Actions - Folder Information', () => {
     await apiService.createUser({ username: username });
     nodesApi = await NodesApi.initialize(username, username);
     trashcanApi = await TrashcanApi.initialize(username, username);
-    fileActionsApi = await FileActionsApi.initialize(username, username);
+    uploadApi = await UploadApi.initialize(username, username);
     sitesApi = await SitesApi.initialize(username, username);
 
     siteId = (await sitesApi.createSite(libraryForFolder)).entry.id;
@@ -100,19 +100,19 @@ test.describe('Actions - Folder Information', () => {
     folderNested2Id = (await nodesApi.createFolder(folderNested2, folderNested1Id)).entry.id;
     folderNested3Id = (await nodesApi.createFolder(folderNested3, folderNested2Id)).entry.id;
 
-    await fileActionsApi.uploadFileWithRename(TEST_FILES.DOCX.path, file1, folder1FileId);
-    await fileActionsApi.uploadFileWithRename(TEST_FILES.DOCX.path, file2, folderXFilesId);
-    await fileActionsApi.uploadFileWithRename(TEST_FILES.DOCX.path, file3, folderXFilesId);
-    await fileActionsApi.uploadFileWithRename(TEST_FILES.DOCX.path, file4, folderXFilesId);
-    await fileActionsApi.uploadFileWithRename(TEST_FILES.DOCX.path, file5, folderXFilesAndFoldersId);
-    await fileActionsApi.uploadFileWithRename(TEST_FILES.DOCX.path, file6, folderXFilesAndFoldersId);
-    await fileActionsApi.uploadFileWithRename(TEST_FILES.DOCX.path, file7, folderXFilesAndFoldersId);
-    await fileActionsApi.uploadFileWithRename(TEST_FILES.DOCX.path, file8, folderInsideFolderId);
-    await fileActionsApi.uploadFileWithRename(TEST_FILES.DOCX.path, file9, folderInsideFolderId);
-    await fileActionsApi.uploadFileWithRename(TEST_FILES.DOCX.path, file10, folderInLibraryId);
-    await fileActionsApi.uploadFileWithRename(TEST_FILES.DOCX.path, file11, folderForSearchId);
-    await fileActionsApi.uploadFileWithRename(TEST_FILES.DOCX.path, file12, folderForSearchId);
-    await fileActionsApi.uploadFileWithRename(TEST_FILES.DOCX.path, file13, folderNested3Id);
+    await uploadApi.uploadFileWithRename(TEST_FILES.DOCX.path, file1, folder1FileId);
+    await uploadApi.uploadFileWithRename(TEST_FILES.DOCX.path, file2, folderXFilesId);
+    await uploadApi.uploadFileWithRename(TEST_FILES.DOCX.path, file3, folderXFilesId);
+    await uploadApi.uploadFileWithRename(TEST_FILES.DOCX.path, file4, folderXFilesId);
+    await uploadApi.uploadFileWithRename(TEST_FILES.DOCX.path, file5, folderXFilesAndFoldersId);
+    await uploadApi.uploadFileWithRename(TEST_FILES.DOCX.path, file6, folderXFilesAndFoldersId);
+    await uploadApi.uploadFileWithRename(TEST_FILES.DOCX.path, file7, folderXFilesAndFoldersId);
+    await uploadApi.uploadFileWithRename(TEST_FILES.DOCX.path, file8, folderInsideFolderId);
+    await uploadApi.uploadFileWithRename(TEST_FILES.DOCX.path, file9, folderInsideFolderId);
+    await uploadApi.uploadFileWithRename(TEST_FILES.DOCX.path, file10, folderInLibraryId);
+    await uploadApi.uploadFileWithRename(TEST_FILES.DOCX.path, file11, folderForSearchId);
+    await uploadApi.uploadFileWithRename(TEST_FILES.DOCX.path, file12, folderForSearchId);
+    await uploadApi.uploadFileWithRename(TEST_FILES.DOCX.path, file13, folderNested3Id);
   });
 
   test.beforeEach(async ({ loginPage }) => {

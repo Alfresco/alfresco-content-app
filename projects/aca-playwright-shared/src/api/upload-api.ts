@@ -26,8 +26,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { File as NodeFile } from 'node:buffer';
 import { ApiClientFactory } from './api-client-factory';
-import { logger, waitForApi } from '../utils';
-import { NodeBodyCreate, NodeEntry, ResultSetPaging } from '@alfresco/js-api';
+import { logger } from '../utils';
+import { NodeBodyCreate, NodeEntry } from '@alfresco/js-api';
 
 const fileFixtureCache = new Map<string, Buffer>();
 
@@ -40,15 +40,15 @@ async function toUploadFile(fileLocation: string): Promise<NodeFile> {
   return new NodeFile([new Uint8Array(buffer)], path.basename(fileLocation));
 }
 
-export class FileActionsApi {
+export class UploadApi {
   private readonly apiService: ApiClientFactory;
 
   constructor() {
     this.apiService = new ApiClientFactory();
   }
 
-  static async initialize(userName: string, password?: string): Promise<FileActionsApi> {
-    const classObj = new FileActionsApi();
+  static async initialize(userName: string, password?: string): Promise<UploadApi> {
+    const classObj = new UploadApi();
     await classObj.apiService.setUpAcaBackend(userName, password);
     return classObj;
   }
@@ -124,44 +124,6 @@ export class FileActionsApi {
     } catch (error) {
       logger.error(`Failed to upload file: ${newName}: ${error}`);
       return Promise.reject(error);
-    }
-  }
-
-  private async queryNodesNames(searchTerm: string): Promise<ResultSetPaging> {
-    const data = {
-      query: {
-        query: `cm:name:"${searchTerm}*"`,
-        language: 'afts'
-      },
-      filterQueries: [{ query: `+TYPE:'cm:folder' OR +TYPE:'cm:content'` }]
-    };
-
-    try {
-      return this.apiService.search.search(data);
-    } catch {
-      return new ResultSetPaging();
-    }
-  }
-
-  async waitForNodes(searchTerm: string, data: { expect: number }): Promise<void> {
-    const predicate = (totalItems: number) => totalItems === data.expect;
-
-    const apiCall = async () => {
-      try {
-        return (await this.queryNodesNames(searchTerm)).list?.pagination?.totalItems || 0;
-      } catch {
-        return 0;
-      }
-    };
-
-    try {
-      await waitForApi(apiCall, predicate, 30, 2500);
-      logger.info(`waitForNodes: Found ${data.expect} node(s) matching "${searchTerm}"`);
-    } catch {
-      const actual = await apiCall();
-      const message = `waitForNodes: Timed out waiting for "${searchTerm}" — expected ${data.expect} nodes, found ${actual}`;
-      logger.error(message);
-      throw new Error(message);
     }
   }
 }

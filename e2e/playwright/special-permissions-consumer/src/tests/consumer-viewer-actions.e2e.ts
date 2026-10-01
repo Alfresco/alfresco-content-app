@@ -26,7 +26,7 @@ import {
   ApiClientFactory,
   FavoritesApi,
   FavoritesPage,
-  FileActionsApi,
+  UploadApi,
   LoginPage,
   MyLibrariesPage,
   NodesApi,
@@ -94,7 +94,7 @@ test.describe('Special permissions - Consumer viewer actions : ', () => {
   let docLibId: string;
   let managerNodeActions: NodesApi;
   let managerSiteActions: SitesApi;
-  let managerFileActions: FileActionsApi;
+  let managerUploadApi: UploadApi;
   let managerSearchActions: SearchApi;
   let consumerNodeActions: NodesApi;
   let consumerFavoritesActions: FavoritesApi;
@@ -110,7 +110,7 @@ test.describe('Special permissions - Consumer viewer actions : ', () => {
     const searchTotalBefore = await managerSearchActions.getTotalItems(userManager);
 
     if (item.office) {
-      item.id = (await managerFileActions.uploadFileWithRename(TEST_FILES.DOCX.path, item.name, docLibId)).entry.id;
+      item.id = (await managerUploadApi.uploadFileWithRename(TEST_FILES.DOCX.path, item.name, docLibId)).entry.id;
     } else {
       item.id = (await managerNodeActions.createFile(item.name, docLibId, '', '', '', true, item.versionable ? ['cm:versionable'] : [])).entry.id;
     }
@@ -177,7 +177,7 @@ test.describe('Special permissions - Consumer viewer actions : ', () => {
 
     managerNodeActions = await NodesApi.initialize(userManager, userManager);
     managerSiteActions = await SitesApi.initialize(userManager, userManager);
-    managerFileActions = await FileActionsApi.initialize(userManager, userManager);
+    managerUploadApi = await UploadApi.initialize(userManager, userManager);
     managerSearchActions = await SearchApi.initialize(userManager, userManager);
     consumerNodeActions = await NodesApi.initialize(userConsumer, userConsumer);
     consumerFavoritesActions = await FavoritesApi.initialize(userConsumer, userConsumer);

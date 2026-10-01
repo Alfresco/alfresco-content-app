@@ -23,14 +23,15 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, test, TrashcanApi, NodesApi, FileActionsApi, TEST_FILES, Utils } from '@alfresco/aca-playwright-shared';
+import { ApiClientFactory, test, TrashcanApi, NodesApi, UploadApi, SearchApi, TEST_FILES, Utils } from '@alfresco/aca-playwright-shared';
 
 test.describe('File preview', () => {
   const timestamp = new Date().getTime();
   const username = `user1-${timestamp}`;
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
-  let fileActionsApi: FileActionsApi;
+  let uploadApi: UploadApi;
+  let searchApi: SearchApi;
 
   test.beforeAll(async () => {
     try {
@@ -39,7 +40,8 @@ test.describe('File preview', () => {
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
-      fileActionsApi = await FileActionsApi.initialize(username, username);
+      uploadApi = await UploadApi.initialize(username, username);
+      searchApi = await SearchApi.initialize(username, username);
     } catch (error) {
       console.error(`beforeAll failed : ${error}`);
     }
@@ -58,8 +60,8 @@ test.describe('File preview', () => {
 
     test.beforeAll(async () => {
       try {
-        await fileActionsApi.uploadFileWithRename(TEST_FILES.PDF.path, file17780, '-my-');
-        await fileActionsApi.waitForNodes(file17780, { expect: 1 });
+        await uploadApi.uploadFileWithRename(TEST_FILES.PDF.path, file17780, '-my-');
+        await searchApi.waitForNodes(file17780, { expect: 1 });
       } catch (error) {
         console.error(`beforeAll failed : ${error}`);
       }
@@ -82,8 +84,8 @@ test.describe('File preview', () => {
 
     test.beforeAll(async () => {
       try {
-        await fileActionsApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, file20360, '-my-');
-        await fileActionsApi.waitForNodes(file20360, { expect: 1 });
+        await uploadApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, file20360, '-my-');
+        await searchApi.waitForNodes(file20360, { expect: 1 });
       } catch (error) {
         console.error(`beforeAll failed : ${error}`);
       }

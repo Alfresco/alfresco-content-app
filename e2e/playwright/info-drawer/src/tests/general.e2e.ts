@@ -23,10 +23,10 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi, FileActionsApi } from '@alfresco/aca-playwright-shared';
+import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi, SearchApi } from '@alfresco/aca-playwright-shared';
 
 test.describe('Info Drawer - General', () => {
-  let fileActionsApi: FileActionsApi;
+  let searchApi: SearchApi;
   let trashcanApi: TrashcanApi;
   let nodesApi: NodesApi;
 
@@ -38,12 +38,12 @@ test.describe('Info Drawer - General', () => {
       const apiClientFactory = new ApiClientFactory();
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username });
-      fileActionsApi = await FileActionsApi.initialize(username, username);
+      searchApi = await SearchApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
       nodesApi = await NodesApi.initialize(username, username);
 
       await nodesApi.createFile(file19797Name);
-      await fileActionsApi.waitForNodes(file19797Name, { expect: 1 });
+      await searchApi.waitForNodes(file19797Name, { expect: 1 });
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
     }
@@ -65,7 +65,7 @@ test.describe('Info Drawer - General', () => {
 
     await nodesApi.createFile(file1, parentId);
     await nodesApi.createFolder(folder1, parentId);
-    await fileActionsApi.waitForNodes(file1, { expect: 1 });
+    await searchApi.waitForNodes(file1, { expect: 1 });
     await personalFiles.navigate();
     await Utils.reloadPageIfRowNotVisible(personalFiles, parentFolder);
     await expect(personalFiles.dataTable.getRowByName(parentFolder)).toBeVisible();

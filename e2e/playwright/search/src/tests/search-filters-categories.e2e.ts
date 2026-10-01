@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, test, NodesApi, TrashcanApi, FileActionsApi, TEST_FILES, CategoriesApi } from '@alfresco/aca-playwright-shared';
+import { ApiClientFactory, Utils, test, NodesApi, TrashcanApi, UploadApi, TEST_FILES, CategoriesApi } from '@alfresco/aca-playwright-shared';
 import { CategoryLinkBody, CategoryPaging, CategoryEntry } from '@alfresco/js-api';
 
 test.describe('Search - Filters - Categories', () => {
@@ -52,9 +52,9 @@ test.describe('Search - Filters - Categories', () => {
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
       categoriesApi = await CategoriesApi.initialize('admin');
-      const fileActionsApi = await FileActionsApi.initialize(username, username);
-      await fileActionsApi.uploadFileWithRename(TEST_FILES.PDF.path, fileNamePdf, '-my-');
-      const jpgFileId = (await fileActionsApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, fileNameJpg, '-my-')).entry.id;
+      const uploadApi = await UploadApi.initialize(username, username);
+      await uploadApi.uploadFileWithRename(TEST_FILES.PDF.path, fileNamePdf, '-my-');
+      const jpgFileId = (await uploadApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, fileNameJpg, '-my-')).entry.id;
       categoryData = await categoriesApi.createCategory('-root-', newSubcategories);
       if (categoryData instanceof CategoryEntry) {
         categoryId = categoryData.entry.id;

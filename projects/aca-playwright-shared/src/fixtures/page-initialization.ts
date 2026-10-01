@@ -36,7 +36,7 @@ import {
   TrashPage,
   RepositoryPage
 } from '../page-objects';
-import { FileActionsApi, SharedLinksApi, FavoritesApi, NodesApi, SitesApi } from '../api';
+import { UploadApi, SharedLinksApi, FavoritesApi, NodesApi, SitesApi } from '../api';
 import { users } from '../base-config';
 
 interface Pages {
@@ -55,7 +55,7 @@ interface Pages {
 }
 
 interface Api {
-  fileAction: FileActionsApi;
+  uploadApiAction: UploadApi;
   shareAction: SharedLinksApi;
   favoritesPageAction: FavoritesApi;
   nodesApiAction: NodesApi;
@@ -94,8 +94,8 @@ export const test = base.extend<Pages & Api>({
     await use(new RepositoryPage(page));
   },
   // eslint-disable-next-line no-empty-pattern
-  fileAction: async ({}, use) => {
-    await use(await FileActionsApi.initialize(users.hruser.username));
+  uploadApiAction: async ({}, use) => {
+    await use(await UploadApi.initialize(users.hruser.username));
   },
   // eslint-disable-next-line no-empty-pattern
   shareAction: async ({}, use) => {

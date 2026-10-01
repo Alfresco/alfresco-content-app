@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi, FileActionsApi, TagsApi, PersonalFilesPage } from '@alfresco/aca-playwright-shared';
+import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi, SearchApi, TagsApi, PersonalFilesPage } from '@alfresco/aca-playwright-shared';
 
 async function navigateAndOpenExpandedInfoDrawer(personalFiles: PersonalFilesPage, folderName: string): Promise<void> {
   await personalFiles.navigate();
@@ -43,7 +43,7 @@ test.describe('Edit Mode - Tags and Categories', () => {
   const apiClientFactory = new ApiClientFactory();
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
-  let fileActionsApi: FileActionsApi;
+  let searchApi: SearchApi;
   let tagsApi: TagsApi;
   let folder919: string;
   let folder938: string;
@@ -64,7 +64,7 @@ test.describe('Edit Mode - Tags and Categories', () => {
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
-      fileActionsApi = await FileActionsApi.initialize(username, username);
+      searchApi = await SearchApi.initialize(username, username);
       tagsApi = await TagsApi.initialize('admin');
     } catch (error) {
       console.error(`beforeAll failed : ${error}`);
@@ -89,7 +89,7 @@ test.describe('Edit Mode - Tags and Categories', () => {
         folder919 = `folder-919-${Utils.random()}`;
         await nodesApi.createFolder(folder919);
 
-        await fileActionsApi.waitForNodes(folder919, { expect: 1 });
+        await searchApi.waitForNodes(folder919, { expect: 1 });
       } catch (error) {
         console.error(`beforeAll failed : ${error}`);
         throw error;
@@ -113,7 +113,7 @@ test.describe('Edit Mode - Tags and Categories', () => {
         await nodesApi.createFolder(folder938);
         await tagsApi.createTags(tag938);
 
-        await fileActionsApi.waitForNodes(folder938, { expect: 1 });
+        await searchApi.waitForNodes(folder938, { expect: 1 });
       } catch (error) {
         console.error(`beforeAll failed : ${error}`);
         throw error;
@@ -141,7 +141,7 @@ test.describe('Edit Mode - Tags and Categories', () => {
         await nodesApi.createFolder(folder939);
         await tagsApi.createTags(tag939One, tag939Two, tag939Three);
 
-        await fileActionsApi.waitForNodes(folder939, { expect: 1 });
+        await searchApi.waitForNodes(folder939, { expect: 1 });
       } catch (error) {
         console.error(`beforeAll failed : ${error}`);
         throw error;
@@ -169,7 +169,7 @@ test.describe('Edit Mode - Tags and Categories', () => {
         folder942 = `folder-942-${Utils.random()}`;
         await nodesApi.createFolder(folder942);
 
-        await fileActionsApi.waitForNodes(folder942, { expect: 1 });
+        await searchApi.waitForNodes(folder942, { expect: 1 });
       } catch (error) {
         console.error(`beforeAll failed : ${error}`);
         throw error;

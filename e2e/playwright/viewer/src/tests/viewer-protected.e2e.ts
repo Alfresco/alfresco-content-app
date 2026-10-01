@@ -34,11 +34,11 @@ test.describe('viewer file', () => {
   let folderId: string;
   let fileDocxId: string;
 
-  test.beforeAll(async ({ fileAction, shareAction, favoritesPageAction }) => {
+  test.beforeAll(async ({ uploadApiAction, shareAction, favoritesPageAction }) => {
     await apiClientFactory.setUpAcaBackend('hruser');
     const node = await apiClientFactory.nodes.createNode('-my-', { name: randomFolderName, nodeType: 'cm:folder', relativePath: '/' });
     folderId = node.entry.id;
-    const fileDoc = await fileAction.uploadFile(TEST_FILES.PDF_PROTECTED.path, randomDocxName, folderId);
+    const fileDoc = await uploadApiAction.uploadFile(TEST_FILES.PDF_PROTECTED.path, randomDocxName, folderId);
     fileDocxId = fileDoc.entry.id;
     await shareAction.shareFileById(fileDocxId);
     await favoritesPageAction.addFavoriteById('file', fileDocxId);

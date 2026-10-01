@@ -25,7 +25,7 @@
 import {
   ApiClientFactory,
   FavoritesApi,
-  FileActionsApi,
+  UploadApi,
   NodesApi,
   SearchApi,
   SharedLinksApi,
@@ -93,7 +93,7 @@ test.describe('Special permissions - Collaborator available actions : ', () => {
   let docLibId: string;
   let managerNodeActions: NodesApi;
   let managerSiteActions: SitesApi;
-  let managerFileActions: FileActionsApi;
+  let managerUploadApi: UploadApi;
   let managerSearchActions: SearchApi;
   let managerShareActions: SharedLinksApi;
   let collaboratorFavoritesActions: FavoritesApi;
@@ -104,7 +104,7 @@ test.describe('Special permissions - Collaborator available actions : ', () => {
     const managerSearchTotalItems = await managerSearchActions.getTotalItems(userManager);
 
     if (item.office) {
-      item.id = (await managerFileActions.uploadFileWithRename(TEST_FILES.DOCX.path, item.name, docLibId)).entry.id;
+      item.id = (await managerUploadApi.uploadFileWithRename(TEST_FILES.DOCX.path, item.name, docLibId)).entry.id;
     } else {
       item.id = (await managerNodeActions.createFile(item.name, docLibId, '', '', '', true, ['cm:versionable'])).entry.id;
     }
@@ -128,7 +128,7 @@ test.describe('Special permissions - Collaborator available actions : ', () => {
 
     managerNodeActions = await NodesApi.initialize(userManager, userManager);
     managerSiteActions = await SitesApi.initialize(userManager, userManager);
-    managerFileActions = await FileActionsApi.initialize(userManager, userManager);
+    managerUploadApi = await UploadApi.initialize(userManager, userManager);
     managerSearchActions = await SearchApi.initialize(userManager, userManager);
     managerShareActions = await SharedLinksApi.initialize(userManager, userManager);
     collaboratorFavoritesActions = await FavoritesApi.initialize(userCollaborator, userCollaborator);
