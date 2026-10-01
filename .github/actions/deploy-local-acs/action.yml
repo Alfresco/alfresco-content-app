@@ -105,7 +105,7 @@ runs:
         exit 1
 
     - name: Setup cluster
-      uses: Alfresco/alfresco-build-tools/.github/actions/setup-kind@v18.26.0
+      uses: Alfresco/alfresco-build-tools/.github/actions/setup-kind@v19.1.1
       with:
         ingress-nginx-ref: controller-v1.8.2
         ingress-creation-timeout: 180s
@@ -312,7 +312,7 @@ runs:
 
     - name: Upload pods logs
       if: always()
-      uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-keep-nslogs@d2981070adf1a68c3ddcbf0ebba193467261c9b3 # v18.26.0
+      uses: Alfresco/alfresco-build-tools/.github/actions/kubectl-keep-nslogs@b4b2716a50beebc3b17a38294242761251afacf9 # v19.1.1
       with:
         namespace: default
         log_retention: 7
