@@ -510,7 +510,7 @@
                 "DELETE_ERROR": "There was an error while deleting the association.",
                 "DELETE_DIALOG": {
                     "TITLE": "Delete association",
-                    "MESSAGE": "Are you sure you want to delete this association?",
+                    "MESSAGE": "هل أنت متأكد من أنك تريد حذف هذا الاقتران؟",
                     "YES_LABEL": "Delete",
                     "NO_LABEL": "Cancel"
                 }

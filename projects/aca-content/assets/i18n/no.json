@@ -501,7 +501,7 @@
                 "CREATE_ERROR": "There was an error while creating the association.",
                 "CREATE_DIALOG": {
                     "TITLE": "Create Association",
-                    "TYPE_LABEL": "Association type",
+                    "TYPE_LABEL": "Tilknytningstype",
                     "CANCEL": "Cancel",
                     "CLOSE": "Close"
                 },
