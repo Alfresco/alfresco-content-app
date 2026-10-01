@@ -26,7 +26,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { File as NodeFile } from 'node:buffer';
 import { ApiClientFactory } from './api-client-factory';
-import { logger, Utils, waitForApi } from '../utils';
+import { logger, waitForApi } from '../utils';
 import { NodeBodyCreate, NodeEntry, ResultSetPaging } from '@alfresco/js-api';
 
 const fileFixtureCache = new Map<string, Buffer>();
@@ -127,31 +127,6 @@ export class FileActionsApi {
     }
   }
 
-  async getNodeById(id: string): Promise<NodeEntry | null> {
-    try {
-      return this.apiService.nodes.getNode(id);
-    } catch {
-      return null;
-    }
-  }
-
-  async isFileCheckedOutWithRetry(nodeId: string, expect: boolean): Promise<boolean> {
-    const data = { expect, retry: 5 };
-    let isCheckedOut = false;
-    try {
-      const check = async () => {
-        const node = await this.getNodeById(nodeId);
-        isCheckedOut = (node?.entry?.aspectNames ?? []).includes('cm:checkedOut');
-        if (isCheckedOut !== data.expect) {
-          return Promise.reject(new Error(`Checked-out state mismatch: expected=${data.expect}, actual=${isCheckedOut}`));
-        }
-        return Promise.resolve(isCheckedOut);
-      };
-      return await Utils.retryCall(check, data.retry);
-    } catch {}
-    return isCheckedOut;
-  }
-
   private async queryNodesNames(searchTerm: string): Promise<ResultSetPaging> {
     const data = {
       query: {
@@ -187,22 +162,6 @@ export class FileActionsApi {
       const message = `waitForNodes: Timed out waiting for "${searchTerm}" — expected ${data.expect} nodes, found ${actual}`;
       logger.error(message);
       throw new Error(message);
-    }
-  }
-
-  async updateNodeContent(nodeId: string, content: string | Buffer, majorVersion = true, comment?: string, newName?: string): Promise<NodeEntry> {
-    try {
-      const opts: { [key: string]: string | boolean } = { majorVersion };
-      if (comment !== undefined) {
-        opts['comment'] = comment;
-      }
-      if (newName !== undefined) {
-        opts['name'] = newName;
-      }
-      return await this.apiService.nodes.updateNodeContent(nodeId, content as unknown as string, opts); // NOSONAR
-    } catch (error) {
-      logger.error(`${this.constructor.name} ${this.updateNodeContent.name}: ${JSON.stringify(error)}`);
-      return Promise.reject(error);
     }
   }
 }

@@ -73,7 +73,7 @@ test.describe('Edit offline - on Personal Files', () => {
         personalFiles.matMenu.clickMenuItem('Edit Offline')
       ]);
       expect(download.suggestedFilename()).toBe(file5304);
-      expect(await fileActionsApi.isFileCheckedOutWithRetry(file5304Id, true), `${file5304} is not locked`).toBe(true);
+      expect(await nodesApi.isFileCheckedOutWithRetry(file5304Id, true), `${file5304} is not locked`).toBe(true);
     });
   });
 

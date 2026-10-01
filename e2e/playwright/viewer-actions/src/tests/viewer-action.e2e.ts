@@ -251,7 +251,7 @@ test.describe('viewer action file', () => {
         folderIdCancelEdit = (await nodesApi.createFolder(`viewer-action-5424-${Utils.random()}`)).entry.id;
         const fileForCancelEditingId = (await fileActionsApi.uploadFile(TEST_FILES.PNG_FILE.path, fileForCancelEditing, folderIdCancelEdit)).entry.id;
         await nodesApi.checkoutNodes([fileForCancelEditingId]);
-        await fileActionsApi.isFileCheckedOutWithRetry(fileForCancelEditingId, true);
+        await nodesApi.isFileCheckedOutWithRetry(fileForCancelEditingId, true);
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
         throw error;

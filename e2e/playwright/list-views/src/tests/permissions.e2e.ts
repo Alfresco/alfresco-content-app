@@ -62,6 +62,7 @@ test.describe('Special permissions', () => {
       test.setTimeout(timeouts.webServer);
       const userFavoritesApi = await FavoritesApi.initialize(username, username);
       const userFileActionApi = await FileActionsApi.initialize(username, username);
+      const userNodesApi = await NodesApi.initialize(username, username);
       siteApiAdmin = await SitesApi.initialize('admin');
       const nodeApiAdmin = await NodesApi.initialize('admin');
       const shareApiAdmin = await SharedLinksApi.initialize('admin');
@@ -74,7 +75,7 @@ test.describe('Special permissions', () => {
       await shareApiAdmin.shareFileById(fileId);
       await userFavoritesApi.addFavoriteById('file', fileId);
 
-      await userFileActionApi.updateNodeContent(fileId, 'edited by user');
+      await userNodesApi.updateNodeContent(fileId, 'edited by user');
 
       await userFileActionApi.waitForNodes(username, { expect: 1 });
 

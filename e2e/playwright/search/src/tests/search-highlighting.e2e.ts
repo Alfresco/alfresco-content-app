@@ -23,14 +23,13 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, test, NodesApi, TrashcanApi, FileActionsApi, SearchApi } from '@alfresco/aca-playwright-shared';
+import { ApiClientFactory, Utils, test, NodesApi, TrashcanApi, SearchApi } from '@alfresco/aca-playwright-shared';
 
 test.use({ launchOptions: { slowMo: 500 } });
 
 test.describe('Search Highlighting', () => {
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
-  let fileActionsApi: FileActionsApi;
   let searchApi: SearchApi;
   const username = `user-${Utils.random()}`;
 
@@ -41,7 +40,6 @@ test.describe('Search Highlighting', () => {
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
-      fileActionsApi = await FileActionsApi.initialize(username, username);
       searchApi = await SearchApi.initialize(username, username);
     } catch (error) {
       console.error(`beforeAll failed: ${JSON.stringify(error)}`);
@@ -104,7 +102,7 @@ test.describe('Search Highlighting', () => {
     test.beforeAll(async () => {
       try {
         const contentFileId = (await nodesApi.createFile(fileContentHighlight17121, '-my-')).entry.id;
-        await fileActionsApi.updateNodeContent(contentFileId, fileContent17121);
+        await nodesApi.updateNodeContent(contentFileId, fileContent17121);
         await searchApi.waitFileForSearchIndexing(fileContentHighlight17121);
         await searchApi.waitForContentIndexing(fileContent17121, fileContentHighlight17121);
       } catch (error) {
