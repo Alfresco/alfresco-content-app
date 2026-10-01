@@ -26,7 +26,8 @@ import { expect } from '@playwright/test';
 import {
   ApiClientFactory,
   FavoritesApi,
-  FileActionsApi,
+  UploadApi,
+  SearchApi,
   NodesApi,
   SharedLinksApi,
   SitesApi,
@@ -37,14 +38,17 @@ import {
 } from '@alfresco/aca-playwright-shared';
 import { Site } from '@alfresco/js-api';
 
-async function initializeApis(username: string): Promise<{ nodesApi: NodesApi; trashcanApi: TrashcanApi; fileActionsApi: FileActionsApi }> {
+async function initializeApis(
+  username: string
+): Promise<{ nodesApi: NodesApi; trashcanApi: TrashcanApi; uploadApi: UploadApi; searchApi: SearchApi }> {
   const apiClientFactory = new ApiClientFactory();
   await apiClientFactory.setUpAcaBackend('admin');
   await apiClientFactory.createUser({ username });
   const nodesApi = await NodesApi.initialize(username, username);
   const trashcanApi = await TrashcanApi.initialize(username, username);
-  const fileActionsApi = await FileActionsApi.initialize(username, username);
-  return { nodesApi, trashcanApi, fileActionsApi };
+  const uploadApi = await UploadApi.initialize(username, username);
+  const searchApi = await SearchApi.initialize(username, username);
+  return { nodesApi, trashcanApi, uploadApi, searchApi };
 }
 
 let file19936Name: string;
@@ -63,12 +67,12 @@ test.describe('viewer file', () => {
         const apis = await initializeApis(username);
         nodesApiViewer = apis.nodesApi;
         trashcanApiViewer = apis.trashcanApi;
-        const { fileActionsApi } = apis;
+        const { uploadApi, searchApi } = apis;
         folderViewerId = (await nodesApiViewer.createFolder(`viewer-${Utils.random()}`)).entry.id;
-        await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderViewerId);
-        await fileActionsApi.uploadFile(TEST_FILES.JPG_FILE.path, file19936Name, folderViewerId);
-        await fileActionsApi.waitForNodes(randomDocxName, { expect: 1 });
-        await fileActionsApi.waitForNodes(file19936Name, { expect: 1 });
+        await uploadApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderViewerId);
+        await uploadApi.uploadFile(TEST_FILES.JPG_FILE.path, file19936Name, folderViewerId);
+        await searchApi.waitForNodes(randomDocxName, { expect: 1 });
+        await searchApi.waitForNodes(file19936Name, { expect: 1 });
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
         throw error;
@@ -277,9 +281,9 @@ test.describe('viewer file', () => {
         const apis = await initializeApis(username);
         nodesApi = apis.nodesApi;
         trashcanApi = apis.trashcanApi;
-        const { fileActionsApi } = apis;
+        const { uploadApi } = apis;
         folderId = (await nodesApi.createFolder(`viewer-${Utils.random()}`)).entry.id;
-        fileJpgId = (await fileActionsApi.uploadFile(TEST_FILES.JPG_FILE.path, randomJpgName, folderId)).entry.id;
+        fileJpgId = (await uploadApi.uploadFile(TEST_FILES.JPG_FILE.path, randomJpgName, folderId)).entry.id;
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
         throw error;
@@ -314,10 +318,10 @@ test.describe('viewer file', () => {
         const apis = await initializeApis(username);
         nodesApiRecent = apis.nodesApi;
         trashcanApiRecent = apis.trashcanApi;
-        const { fileActionsApi } = apis;
+        const { uploadApi, searchApi } = apis;
         folderRecentId = (await nodesApiRecent.createFolder(`viewer-${Utils.random()}`)).entry.id;
-        await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderRecentId);
-        await fileActionsApi.waitForNodes(randomDocxName, { expect: 1 });
+        await uploadApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderRecentId);
+        await searchApi.waitForNodes(randomDocxName, { expect: 1 });
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
         throw error;
@@ -356,10 +360,10 @@ test.describe('viewer file', () => {
         const apis = await initializeApis(username);
         nodesApi = apis.nodesApi;
         trashcanApi = apis.trashcanApi;
-        const { fileActionsApi } = apis;
+        const { uploadApi, searchApi } = apis;
         const folderId = (await nodesApi.createFolder(`viewer-${Utils.random()}`)).entry.id;
-        await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
-        await fileActionsApi.waitForNodes(randomDocxName, { expect: 1 });
+        await uploadApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
+        await searchApi.waitForNodes(randomDocxName, { expect: 1 });
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
         throw error;
@@ -395,10 +399,10 @@ test.describe('viewer file', () => {
         const apis = await initializeApis(username);
         nodesApi = apis.nodesApi;
         trashcanApi = apis.trashcanApi;
-        const { fileActionsApi } = apis;
+        const { uploadApi } = apis;
         const shareActions = await SharedLinksApi.initialize(username, username);
         const folderId = (await nodesApi.createFolder(`viewer-${Utils.random()}`)).entry.id;
-        const fileDocxId = (await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId)).entry.id;
+        const fileDocxId = (await uploadApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId)).entry.id;
         await shareActions.shareFileById(fileDocxId);
         await shareActions.waitForFilesToBeShared([fileDocxId]);
       } catch (error) {
@@ -437,10 +441,10 @@ test.describe('viewer file', () => {
         const apis = await initializeApis(username);
         nodesApi = apis.nodesApi;
         trashcanApi = apis.trashcanApi;
-        const { fileActionsApi } = apis;
+        const { uploadApi } = apis;
         const favoritesActions = await FavoritesApi.initialize(username, username);
         const folderId = (await nodesApi.createFolder(`viewer-${Utils.random()}`)).entry.id;
-        const fileDocxId = (await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId)).entry.id;
+        const fileDocxId = (await uploadApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId)).entry.id;
         const consumerFavoritesTotalItems = await favoritesActions.getFavoritesTotalItems(username);
         await favoritesActions.addFavoriteById('file', fileDocxId);
         await Promise.all([
@@ -487,10 +491,10 @@ test.describe('viewer file', () => {
         nodesApi = apis.nodesApi;
         trashcanApi = apis.trashcanApi;
         siteActionsAdmin = await SitesApi.initialize('admin');
-        const fileActionsApiAdmin = await FileActionsApi.initialize('admin');
+        const uploadApiAdmin = await UploadApi.initialize('admin');
         await siteActionsAdmin.createSite(siteAdmin, Site.VisibilityEnum.PRIVATE);
         docLibId = await siteActionsAdmin.getDocLibId(siteAdmin);
-        fileAdminId = (await fileActionsApiAdmin.uploadFile(TEST_FILES.DOCX.path, fileAdmin, docLibId)).entry.id;
+        fileAdminId = (await uploadApiAdmin.uploadFile(TEST_FILES.DOCX.path, fileAdmin, docLibId)).entry.id;
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
         throw error;
@@ -526,11 +530,11 @@ test.describe('viewer file', () => {
         const apis = await initializeApis(username);
         nodesApi = apis.nodesApi;
         trashcanApi = apis.trashcanApi;
-        const { fileActionsApi } = apis;
+        const { uploadApi } = apis;
         siteActionsUser = await SitesApi.initialize(username, username);
         await siteActionsUser.createSite(siteUser, Site.VisibilityEnum.PUBLIC);
         docLibSiteUserId = await siteActionsUser.getDocLibId(siteUser);
-        await fileActionsApi.uploadFile(TEST_FILES.DOCX.path, fileInSite, docLibSiteUserId);
+        await uploadApi.uploadFile(TEST_FILES.DOCX.path, fileInSite, docLibSiteUserId);
       } catch (error) {
         console.error(`beforeAll failed: ${error}`);
         throw error;

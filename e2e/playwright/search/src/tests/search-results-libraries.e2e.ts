@@ -30,7 +30,7 @@ import {
   TrashcanApi,
   NodesApi,
   SitesApi,
-  FileActionsApi,
+  SearchApi,
   SITE_VISIBILITY,
   SITE_ROLES,
   SIDEBAR_LABELS
@@ -41,7 +41,7 @@ test.describe('Search Results - General', () => {
   let nodesApi: NodesApi;
   let sitesApi: SitesApi;
   let sitesAdminApi: SitesApi;
-  let fileActionsApi: FileActionsApi;
+  let searchApi: SearchApi;
 
   const random = Utils.random();
   const username = `user-${random}`;
@@ -110,7 +110,7 @@ test.describe('Search Results - General', () => {
       await apiClientFactory.createUser({ username });
       trashcanApi = await TrashcanApi.initialize(username, username);
       sitesApi = await SitesApi.initialize(username, username);
-      fileActionsApi = await FileActionsApi.initialize(username, username);
+      searchApi = await SearchApi.initialize(username, username);
       nodesApi = await NodesApi.initialize(username, username);
       sitesAdminApi = await SitesApi.initialize('admin');
 
@@ -150,7 +150,7 @@ test.describe('Search Results - General', () => {
   });
 
   test('[XAT-5595] Search library - partial name match', async ({ searchPage }) => {
-    await fileActionsApi.waitForNodes(site3.id, { expect: 1 });
+    await searchApi.waitForNodes(site3.id, { expect: 1 });
     await searchPage.searchWithin(`lib-${random}`, 'libraries');
 
     expect(await searchPage.dataTable.isItemPresent(site1.name)).toBe(true);

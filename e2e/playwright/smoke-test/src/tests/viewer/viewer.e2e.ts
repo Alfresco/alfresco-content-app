@@ -25,7 +25,8 @@
 import { expect } from '@playwright/test';
 import {
   ApiClientFactory,
-  FileActionsApi,
+  UploadApi,
+  SearchApi,
   NodesApi,
   SitesApi,
   test,
@@ -59,11 +60,12 @@ test.describe('viewer file', () => {
       }
     }
     nodesApi = await NodesApi.initialize(usernameViewer, usernameViewer);
-    const fileActionApi = await FileActionsApi.initialize(usernameViewer, usernameViewer);
+    const uploadApi = await UploadApi.initialize(usernameViewer, usernameViewer);
+    const searchApi = await SearchApi.initialize(usernameViewer, usernameViewer);
     trashcanApi = await TrashcanApi.initialize(usernameViewer, usernameViewer);
     siteActionsAdmin = await SitesApi.initialize('admin');
     folderId = (await nodesApi.createFolder(randomFolderName)).entry.id;
-    fileDocxId = (await fileActionApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId)).entry.id;
+    fileDocxId = (await uploadApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId)).entry.id;
 
     try {
       await siteActionsAdmin.createSite(siteAdmin, Site.VisibilityEnum.PRIVATE);
@@ -73,7 +75,7 @@ test.describe('viewer file', () => {
       }
     }
 
-    await fileActionApi.waitForNodes(randomDocxName, { expect: 1 });
+    await searchApi.waitForNodes(randomDocxName, { expect: 1 });
   });
 
   test.beforeEach(async ({ personalFiles, loginPage }) => {

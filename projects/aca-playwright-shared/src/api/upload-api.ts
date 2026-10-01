@@ -26,8 +26,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { File as NodeFile } from 'node:buffer';
 import { ApiClientFactory } from './api-client-factory';
-import { logger, Utils, waitForApi } from '../utils';
-import { NodeBodyCreate, NodeEntry, ResultSetPaging } from '@alfresco/js-api';
+import { logger } from '../utils';
+import { NodeBodyCreate, NodeEntry } from '@alfresco/js-api';
 
 const fileFixtureCache = new Map<string, Buffer>();
 
@@ -40,15 +40,15 @@ async function toUploadFile(fileLocation: string): Promise<NodeFile> {
   return new NodeFile([new Uint8Array(buffer)], path.basename(fileLocation));
 }
 
-export class FileActionsApi {
+export class UploadApi {
   private readonly apiService: ApiClientFactory;
 
   constructor() {
     this.apiService = new ApiClientFactory();
   }
 
-  static async initialize(userName: string, password?: string): Promise<FileActionsApi> {
-    const classObj = new FileActionsApi();
+  static async initialize(userName: string, password?: string): Promise<UploadApi> {
+    const classObj = new UploadApi();
     await classObj.apiService.setUpAcaBackend(userName, password);
     return classObj;
   }
@@ -123,85 +123,6 @@ export class FileActionsApi {
       return result;
     } catch (error) {
       logger.error(`Failed to upload file: ${newName}: ${error}`);
-      return Promise.reject(error);
-    }
-  }
-
-  async getNodeById(id: string): Promise<NodeEntry | null> {
-    try {
-      return this.apiService.nodes.getNode(id);
-    } catch {
-      return null;
-    }
-  }
-
-  async isFileCheckedOutWithRetry(nodeId: string, expect: boolean): Promise<boolean> {
-    const data = { expect, retry: 5 };
-    let isCheckedOut = false;
-    try {
-      const check = async () => {
-        const node = await this.getNodeById(nodeId);
-        isCheckedOut = (node?.entry?.aspectNames ?? []).includes('cm:checkedOut');
-        if (isCheckedOut !== data.expect) {
-          return Promise.reject(new Error(`Checked-out state mismatch: expected=${data.expect}, actual=${isCheckedOut}`));
-        }
-        return Promise.resolve(isCheckedOut);
-      };
-      return await Utils.retryCall(check, data.retry);
-    } catch {}
-    return isCheckedOut;
-  }
-
-  private async queryNodesNames(searchTerm: string): Promise<ResultSetPaging> {
-    const data = {
-      query: {
-        query: `cm:name:"${searchTerm}*"`,
-        language: 'afts'
-      },
-      filterQueries: [{ query: `+TYPE:'cm:folder' OR +TYPE:'cm:content'` }]
-    };
-
-    try {
-      return this.apiService.search.search(data);
-    } catch {
-      return new ResultSetPaging();
-    }
-  }
-
-  async waitForNodes(searchTerm: string, data: { expect: number }): Promise<void> {
-    const predicate = (totalItems: number) => totalItems === data.expect;
-
-    const apiCall = async () => {
-      try {
-        return (await this.queryNodesNames(searchTerm)).list?.pagination?.totalItems || 0;
-      } catch {
-        return 0;
-      }
-    };
-
-    try {
-      await waitForApi(apiCall, predicate, 30, 2500);
-      logger.info(`waitForNodes: Found ${data.expect} node(s) matching "${searchTerm}"`);
-    } catch {
-      const actual = await apiCall();
-      const message = `waitForNodes: Timed out waiting for "${searchTerm}" — expected ${data.expect} nodes, found ${actual}`;
-      logger.error(message);
-      throw new Error(message);
-    }
-  }
-
-  async updateNodeContent(nodeId: string, content: string | Buffer, majorVersion = true, comment?: string, newName?: string): Promise<NodeEntry> {
-    try {
-      const opts: { [key: string]: string | boolean } = { majorVersion };
-      if (comment !== undefined) {
-        opts['comment'] = comment;
-      }
-      if (newName !== undefined) {
-        opts['name'] = newName;
-      }
-      return await this.apiService.nodes.updateNodeContent(nodeId, content as unknown as string, opts); // NOSONAR
-    } catch (error) {
-      logger.error(`${this.constructor.name} ${this.updateNodeContent.name}: ${JSON.stringify(error)}`);
       return Promise.reject(error);
     }
   }

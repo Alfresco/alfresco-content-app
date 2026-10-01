@@ -23,14 +23,14 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, test, NodesApi, TrashcanApi, TagsApi, FileActionsApi } from '@alfresco/aca-playwright-shared';
+import { ApiClientFactory, Utils, test, NodesApi, TrashcanApi, TagsApi, SearchApi } from '@alfresco/aca-playwright-shared';
 import { TagEntry } from '@alfresco/js-api';
 
 test.describe('Search - Filters - Tags', () => {
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
   let tagsApiAdmin: TagsApi;
-  let fileActionsApi: FileActionsApi;
+  let searchApi: SearchApi;
   let file1Id: string;
   let file2Id: string;
   let createdTags: TagEntry[];
@@ -53,13 +53,13 @@ test.describe('Search - Filters - Tags', () => {
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
       tagsApiAdmin = await TagsApi.initialize('admin');
-      fileActionsApi = await FileActionsApi.initialize(username, username);
+      searchApi = await SearchApi.initialize(username, username);
       const node1 = await nodesApi.createFile(file1);
       file1Id = node1.entry.id;
       const node2 = await nodesApi.createFile(file2);
       file2Id = node2.entry.id;
-      await fileActionsApi.waitForNodes(file1, { expect: 1 });
-      await fileActionsApi.waitForNodes(file2, { expect: 1 });
+      await searchApi.waitForNodes(file1, { expect: 1 });
+      await searchApi.waitForNodes(file2, { expect: 1 });
       createdTags = await tagsApiAdmin.createTags(...tags.map((t) => t.tag));
       await tagsApiAdmin.assignTagToNode(file1Id, tags[0]);
       await tagsApiAdmin.assignTagToNode(file2Id, tags[1]);

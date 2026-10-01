@@ -194,6 +194,22 @@ export class NodesApi {
     }
   }
 
+  async updateNodeContent(nodeId: string, content: string | Buffer, majorVersion = true, comment?: string, newName?: string): Promise<NodeEntry> {
+    try {
+      const opts: { [key: string]: string | boolean } = { majorVersion };
+      if (comment !== undefined) {
+        opts['comment'] = comment;
+      }
+      if (newName !== undefined) {
+        opts['name'] = newName;
+      }
+      return await this.apiService.nodes.updateNodeContent(nodeId, content as unknown as string, opts); // NOSONAR
+    } catch (error) {
+      logger.error(`${this.constructor.name} ${this.updateNodeContent.name}: ${JSON.stringify(error)}`);
+      return Promise.reject(error);
+    }
+  }
+
   /**
    * Delete all nodes of the currently logged in user
    * @param userNodeId The id of User node, all child nodes of "userNodeId" will be gathered as a list and deleted ( e.g.: "-my-" - User Homes folder)
@@ -226,6 +242,23 @@ export class NodesApi {
     } catch (error) {
       logger.error(`${this.constructor.name} ${this.cancelCheckout.name}: ${error instanceof Error ? error.message : JSON.stringify(error)}`);
     }
+  }
+
+  async isFileCheckedOutWithRetry(nodeId: string, expect: boolean): Promise<boolean> {
+    const data = { expect, retry: 5 };
+    let isCheckedOut = false;
+    try {
+      const check = async () => {
+        const node = await this.getNodeById(nodeId);
+        isCheckedOut = (node?.entry?.aspectNames ?? []).includes('cm:checkedOut');
+        if (isCheckedOut !== data.expect) {
+          return Promise.reject(new Error(`Checked-out state mismatch: expected=${data.expect}, actual=${isCheckedOut}`));
+        }
+        return Promise.resolve(isCheckedOut);
+      };
+      return await Utils.retryCall(check, data.retry);
+    } catch {}
+    return isCheckedOut;
   }
 
   async createContent(content: NodeContentTree, relativePath: string = '/'): Promise<NodePaging> {

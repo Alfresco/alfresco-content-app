@@ -23,17 +23,7 @@
  */
 
 import { Site } from '@alfresco/js-api';
-import {
-  ApiClientFactory,
-  FileActionsApi,
-  NodesApi,
-  SharedLinksApi,
-  SitesApi,
-  Utils,
-  test,
-  timeouts,
-  TrashcanApi
-} from '@alfresco/aca-playwright-shared';
+import { ApiClientFactory, SearchApi, NodesApi, SharedLinksApi, SitesApi, Utils, test, timeouts, TrashcanApi } from '@alfresco/aca-playwright-shared';
 import { expect } from '@playwright/test';
 
 test.describe('Unshare a file from Search Results', () => {
@@ -76,7 +66,7 @@ test.describe('Unshare a file from Search Results', () => {
       const nodesApiAdmin = await NodesApi.initialize('admin');
       const shareApiAdmin = await SharedLinksApi.initialize('admin');
       const shareApi = await SharedLinksApi.initialize(username, username);
-      const filesAction = await FileActionsApi.initialize(username, username);
+      const searchApi = await SearchApi.initialize(username, username);
       parentId = (await nodesApi.createFolder(parent)).entry.id;
 
       file1Id = (await nodesApi.createFile(file1, parentId)).entry.id;
@@ -98,7 +88,7 @@ test.describe('Unshare a file from Search Results', () => {
       await shareApi.shareFilesByIds([file1Id, file2Id, file3Id, file4Id, fileSite2Id]);
       await shareApi.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id, fileSite2Id]);
 
-      await filesAction.waitForNodes(`search-file-${searchRandom}`, { expect: 6 });
+      await searchApi.waitForNodes(`search-file-${searchRandom}`, { expect: 6 });
     } catch (error) {
       throw new Error(`----- beforeAll failed : ${error}`);
     }

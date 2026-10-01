@@ -23,13 +23,13 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, NodesApi, Utils, test, TrashcanApi, FileActionsApi, TEST_FILES } from '@alfresco/aca-playwright-shared';
+import { ApiClientFactory, NodesApi, Utils, test, TrashcanApi, UploadApi, TEST_FILES } from '@alfresco/aca-playwright-shared';
 
 test.describe('Edit offline - on Personal Files', () => {
   const username = `user-${Utils.random()}`;
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
-  let fileActionsApi: FileActionsApi;
+  let uploadApi: UploadApi;
 
   test.beforeAll(async () => {
     const apiClientFactory = new ApiClientFactory();
@@ -37,7 +37,7 @@ test.describe('Edit offline - on Personal Files', () => {
     await apiClientFactory.createUser({ username });
     nodesApi = await NodesApi.initialize(username, username);
     trashcanApi = await TrashcanApi.initialize(username, username);
-    fileActionsApi = await FileActionsApi.initialize(username, username);
+    uploadApi = await UploadApi.initialize(username, username);
   });
 
   test.afterAll(async () => {
@@ -50,7 +50,7 @@ test.describe('Edit offline - on Personal Files', () => {
 
     test.beforeAll(async () => {
       try {
-        file5304Id = (await fileActionsApi.uploadFileWithRename(TEST_FILES.PNG_FILE.path, file5304)).entry.id;
+        file5304Id = (await uploadApi.uploadFileWithRename(TEST_FILES.PNG_FILE.path, file5304)).entry.id;
       } catch (error) {
         console.error(`beforeAll failed : ${error}`);
       }
@@ -73,7 +73,7 @@ test.describe('Edit offline - on Personal Files', () => {
         personalFiles.matMenu.clickMenuItem('Edit Offline')
       ]);
       expect(download.suggestedFilename()).toBe(file5304);
-      expect(await fileActionsApi.isFileCheckedOutWithRetry(file5304Id, true), `${file5304} is not locked`).toBe(true);
+      expect(await nodesApi.isFileCheckedOutWithRetry(file5304Id, true), `${file5304} is not locked`).toBe(true);
     });
   });
 
@@ -83,7 +83,7 @@ test.describe('Edit offline - on Personal Files', () => {
 
     test.beforeAll(async () => {
       try {
-        fileLocked5305Id = (await fileActionsApi.uploadFileWithRename(TEST_FILES.PNG_FILE.path, fileLocked5305)).entry.id;
+        fileLocked5305Id = (await uploadApi.uploadFileWithRename(TEST_FILES.PNG_FILE.path, fileLocked5305)).entry.id;
         await nodesApi.checkoutNodes([fileLocked5305Id]);
       } catch (error) {
         console.error(`beforeAll failed : ${error}`);
@@ -111,7 +111,7 @@ test.describe('Edit offline - on Personal Files', () => {
 
     test.beforeAll(async () => {
       try {
-        fileLocked5306Id = (await fileActionsApi.uploadFileWithRename(TEST_FILES.PNG_FILE.path, fileLocked5306)).entry.id;
+        fileLocked5306Id = (await uploadApi.uploadFileWithRename(TEST_FILES.PNG_FILE.path, fileLocked5306)).entry.id;
         await nodesApi.checkoutNodes([fileLocked5306Id]);
       } catch (error) {
         console.error(`beforeAll failed : ${error}`);
@@ -138,7 +138,7 @@ test.describe('Edit offline - on Personal Files', () => {
 
     test.beforeAll(async () => {
       try {
-        fileLocked20171Id = (await fileActionsApi.uploadFileWithRename(TEST_FILES.PNG_FILE.path, file20171)).entry.id;
+        fileLocked20171Id = (await uploadApi.uploadFileWithRename(TEST_FILES.PNG_FILE.path, file20171)).entry.id;
         await nodesApi.checkoutNodes([fileLocked20171Id]);
       } catch (error) {
         console.error(`beforeAll failed : ${error}`);

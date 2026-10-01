@@ -30,7 +30,8 @@ import {
   TrashcanApi,
   NodesApi,
   TEST_FILES,
-  FileActionsApi,
+  UploadApi,
+  SearchApi,
   SharedLinksApi,
   FavoritesApi,
   RecentFilesPage,
@@ -43,7 +44,8 @@ import {
 test.describe('Version actions', () => {
   let trashcanApi: TrashcanApi;
   let nodesApi: NodesApi;
-  let fileActionsApi: FileActionsApi;
+  let uploadApi: UploadApi;
+  let searchApi: SearchApi;
   let sharedLinksApi: SharedLinksApi;
   let favoritesApi: FavoritesApi;
   const random = Utils.random();
@@ -82,16 +84,17 @@ test.describe('Version actions', () => {
       await apiClientFactory.createUser({ username });
       trashcanApi = await TrashcanApi.initialize(username, username);
       nodesApi = await NodesApi.initialize(username, username);
-      fileActionsApi = await FileActionsApi.initialize(username, username);
+      uploadApi = await UploadApi.initialize(username, username);
+      searchApi = await SearchApi.initialize(username, username);
       favoritesApi = await FavoritesApi.initialize(username, username);
       sharedLinksApi = await SharedLinksApi.initialize(username, username);
 
-      fileId = (await fileActionsApi.uploadFile(filesToUpload[0].path, filenameBeforeUpdate, '-my-')).entry.id;
+      fileId = (await uploadApi.uploadFile(filesToUpload[0].path, filenameBeforeUpdate, '-my-')).entry.id;
 
       fileAfterUpdateId = (
-        await fileActionsApi.uploadNewVersionFile(fileId, filesToUpload[1].path, filenameAfterUpdate, true, 'new major version description')
+        await uploadApi.uploadNewVersionFile(fileId, filesToUpload[1].path, filenameAfterUpdate, true, 'new major version description')
       ).entry.id;
-      await fileActionsApi.waitForNodes(filenameAfterUpdate, { expect: 1 });
+      await searchApi.waitForNodes(filenameAfterUpdate, { expect: 1 });
 
       await favoritesApi.addFavoritesByIds('file', [fileId]);
       await favoritesApi.waitForApi(username, { expect: 1 });

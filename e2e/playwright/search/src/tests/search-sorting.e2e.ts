@@ -29,7 +29,8 @@ import {
   test,
   TrashcanApi,
   NodesApi,
-  FileActionsApi,
+  UploadApi,
+  SearchApi,
   TEST_FILES,
   SearchPage,
   SortByDirection,
@@ -66,10 +67,12 @@ test.describe('Search sorting', () => {
 
   let nodesApi1: NodesApi;
   let trashcanApi1: TrashcanApi;
-  let fileActionsApi1: FileActionsApi;
+  let uploadApi1: UploadApi;
+  let searchApi1: SearchApi;
   let nodesApi2: NodesApi;
   let trashcanApi2: TrashcanApi;
-  let fileActionsApi2: FileActionsApi;
+  let uploadApi2: UploadApi;
+  let searchApi2: SearchApi;
 
   test.beforeAll(async () => {
     try {
@@ -79,10 +82,12 @@ test.describe('Search sorting', () => {
       await apiClientFactory.createUser({ username: user2 });
       nodesApi1 = await NodesApi.initialize(user1, user1);
       trashcanApi1 = await TrashcanApi.initialize(user1, user1);
-      fileActionsApi1 = await FileActionsApi.initialize(user1, user1);
+      uploadApi1 = await UploadApi.initialize(user1, user1);
+      searchApi1 = await SearchApi.initialize(user1, user1);
       nodesApi2 = await NodesApi.initialize(user2, user2);
       trashcanApi2 = await TrashcanApi.initialize(user2, user2);
-      fileActionsApi2 = await FileActionsApi.initialize(user2, user2);
+      uploadApi2 = await UploadApi.initialize(user2, user2);
+      searchApi2 = await SearchApi.initialize(user2, user2);
     } catch (error) {
       console.error(`beforeAll failed : ${error}`);
     }
@@ -91,12 +96,12 @@ test.describe('Search sorting', () => {
 
     await nodesApi1.setGranularPermission(parentId, user2, 'Collaborator', true);
 
-    await fileActionsApi1.uploadFileWithRename(fileJpg.source, fileJpg.name, parentId);
-    await fileActionsApi2.uploadFileWithRename(filePdf.source, filePdf.name, parentId, filePdf.title, filePdf.description);
-    await fileActionsApi1.uploadFileWithRename(fileJpgBudget.source, fileJpgBudget.name, parentId);
+    await uploadApi1.uploadFileWithRename(fileJpg.source, fileJpg.name, parentId);
+    await uploadApi2.uploadFileWithRename(filePdf.source, filePdf.name, parentId, filePdf.title, filePdf.description);
+    await uploadApi1.uploadFileWithRename(fileJpgBudget.source, fileJpgBudget.name, parentId);
 
-    await fileActionsApi1.waitForNodes(fileJpg.name, { expect: 1 });
-    await fileActionsApi2.waitForNodes(filePdf.name, { expect: 1 });
+    await searchApi1.waitForNodes(fileJpg.name, { expect: 1 });
+    await searchApi2.waitForNodes(filePdf.name, { expect: 1 });
   });
 
   test.beforeEach(async ({ loginPage }) => {

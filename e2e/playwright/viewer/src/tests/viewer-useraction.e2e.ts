@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, FileActionsApi, NodesApi, SitesApi, test, TEST_FILES, Utils, TrashcanApi } from '@alfresco/aca-playwright-shared';
+import { ApiClientFactory, UploadApi, NodesApi, SitesApi, test, TEST_FILES, Utils, TrashcanApi } from '@alfresco/aca-playwright-shared';
 import { SiteBodyCreate } from '@alfresco/js-api';
 
 test.describe('from File Libraries', () => {
@@ -36,7 +36,7 @@ test.describe('from File Libraries', () => {
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
   let sitesApi: SitesApi;
-  let fileApi: FileActionsApi;
+  let uploadApi: UploadApi;
 
   test.beforeAll(async () => {
     await apiClientFactory.setUpAcaBackend('admin');
@@ -44,13 +44,13 @@ test.describe('from File Libraries', () => {
     nodesApi = await NodesApi.initialize(username, username);
     trashcanApi = await TrashcanApi.initialize(username, username);
     sitesApi = await SitesApi.initialize(username, username);
-    fileApi = await FileActionsApi.initialize(username, username);
+    uploadApi = await UploadApi.initialize(username, username);
     try {
       await sitesApi.createSite(siteName, SiteBodyCreate.VisibilityEnum.PUBLIC);
       const docLibId = await sitesApi.getDocLibId(siteName);
       const node = await nodesApi.createFolder(destination);
       destinationId = node.entry.id;
-      await fileApi.uploadFile(TEST_FILES.XLSX.path, xlsxLibraries, docLibId);
+      await uploadApi.uploadFile(TEST_FILES.XLSX.path, xlsxLibraries, docLibId);
     } catch {}
   });
 

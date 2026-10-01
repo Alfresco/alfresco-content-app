@@ -24,7 +24,7 @@
 
 export * from './rules-api';
 export * from './api-client-factory';
-export * from './file-actions';
+export * from './upload-api';
 export * from './shared-links-api';
 export * from './favorites-api';
 export * from './people-api-models';
