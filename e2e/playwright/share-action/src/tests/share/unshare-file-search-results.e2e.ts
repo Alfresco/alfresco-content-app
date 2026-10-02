@@ -90,7 +90,7 @@ test.describe('Unshare a file from Search Results', () => {
 
       await searchApi.waitForNodes(`search-file-${searchRandom}`, { expect: 6 });
     } catch (error) {
-      throw new Error(`----- beforeAll failed : ${error}`);
+      throw new Error(`----- beforeAll failed : ${Utils.extractErrorMessage(error)}`);
     }
   });
 

@@ -57,7 +57,7 @@ test.describe('Favorites Files', () => {
 
       parentId = (await nodesApi.createFolder(parentFolder)).entry.id;
     } catch (error) {
-      console.error(`beforeAll failed : ${error}`);
+      console.error(`beforeAll failed : ${Utils.extractErrorMessage(error)}`);
     }
   });
 

@@ -67,7 +67,7 @@ test.describe('Search - Filters - Logic', () => {
       await searchApi.waitForNodes(logicFile1.name, { expect: 1 });
       await searchApi.waitForNodes(logicFile2.name, { expect: 1 });
     } catch (error) {
-      console.error(`beforeAll failed: ${error}`);
+      console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
     }
   });
 

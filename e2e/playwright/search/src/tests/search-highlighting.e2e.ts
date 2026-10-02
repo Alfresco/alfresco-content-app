@@ -42,7 +42,7 @@ test.describe('Search Highlighting', () => {
       trashcanApi = await TrashcanApi.initialize(username, username);
       searchApi = await SearchApi.initialize(username, username);
     } catch (error) {
-      console.error(`beforeAll failed: ${JSON.stringify(error)}`);
+      console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
     }
   });
 
@@ -63,7 +63,7 @@ test.describe('Search Highlighting', () => {
         await nodesApi.createFile(fileNameHighlight17199, '-my-');
         await searchApi.waitFileForSearchIndexing(fileNameHighlight17199);
       } catch (error) {
-        console.error(`XAT-17119 - beforeAll failed: ${JSON.stringify(error)}`);
+        console.error(`XAT-17119 - beforeAll failed: ${Utils.extractErrorMessage(error)}`);
       }
     });
 
@@ -83,7 +83,7 @@ test.describe('Search Highlighting', () => {
         await nodesApi.createFile(fileDescriptionHighlight17120, '-my-', undefined, fileDescription17120);
         await searchApi.waitFileForSearchIndexing(fileDescriptionHighlight17120);
       } catch (error) {
-        console.error(`XAT-17120 - beforeAll failed: ${JSON.stringify(error)}`);
+        console.error(`XAT-17120 - beforeAll failed: ${Utils.extractErrorMessage(error)}`);
       }
     });
 
@@ -106,7 +106,7 @@ test.describe('Search Highlighting', () => {
         await searchApi.waitFileForSearchIndexing(fileContentHighlight17121);
         await searchApi.waitForContentIndexing(fileContent17121, fileContentHighlight17121);
       } catch (error) {
-        console.error(`XAT-17121 - beforeAll failed: ${JSON.stringify(error)}`);
+        console.error(`XAT-17121 - beforeAll failed: ${Utils.extractErrorMessage(error)}`);
       }
     });
 

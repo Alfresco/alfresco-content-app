@@ -133,7 +133,7 @@ test.describe('Create file from template', () => {
         await toolbar.clickCreateFileFromTemplate();
         await selectFileTemplateDialog.loadMoreNodes();
       } catch (error) {
-        console.error(`Personal Files page, beforeEach failed: ${error}`);
+        console.error(`Personal Files page, beforeEach failed: ${Utils.extractErrorMessage(error)}`);
       }
     });
 
@@ -221,7 +221,7 @@ test.describe('Create file from template', () => {
           await dataTable.getRowByName(template1InRoot).click();
           await selectFileTemplateDialog.actionButton.click();
         } catch (error) {
-          console.error(`Create document from template dialog, beforeEach failed: ${error}`);
+          console.error(`Create document from template dialog, beforeEach failed: ${Utils.extractErrorMessage(error)}`);
         }
       });
 
@@ -338,7 +338,7 @@ test.describe('Create file from template', () => {
           await dataTable.getRowByName(template1InRoot).click();
           await selectFileTemplateDialog.actionButton.click();
         } catch (error) {
-          console.error(`File created from template on Personal Files, beforeEach failed: ${error}`);
+          console.error(`File created from template on Personal Files, beforeEach failed: ${Utils.extractErrorMessage(error)}`);
         }
       });
 
@@ -390,7 +390,7 @@ test.describe('Create file from template', () => {
         await dataTable.getRowByName(template1InRoot).click();
         await selectFileTemplateDialog.actionButton.click();
       } catch (error) {
-        console.error(`File created from template on Libraries, beforeEach failed: ${error}`);
+        console.error(`File created from template on Libraries, beforeEach failed: ${Utils.extractErrorMessage(error)}`);
       }
     });
 

@@ -75,7 +75,7 @@ test.describe('Create Libraries ', () => {
       createdLibrariesIds.push(commonTrashLibraryId);
       await sitesApi.deleteSites([commonTrashLibraryId], false);
     } catch (error) {
-      console.error(`beforeAll failed : ${error}`);
+      console.error(`beforeAll failed : ${Utils.extractErrorMessage(error)}`);
     }
   });
 
