@@ -78,7 +78,7 @@ test.describe('File Libraries', () => {
       await siteActionsUser.createSite(siteName, Site.VisibilityEnum.PUBLIC, undefined, siteId1);
       await siteActionsUser.createSite(siteName, Site.VisibilityEnum.PUBLIC, undefined, siteId2);
     } catch (error) {
-      console.error(`----- beforeAll failed : ${error}`);
+      console.error(`----- beforeAll failed : ${Utils.extractErrorMessage(error)}`);
     }
   });
 

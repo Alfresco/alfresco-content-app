@@ -59,7 +59,7 @@ test.describe('Create folders', () => {
       trashcanApi = await TrashcanApi.initialize(username, username);
       await nodesApi.createFolder(commonFolderName);
     } catch (error) {
-      console.error(`beforeAll failed : ${error}`);
+      console.error(`beforeAll failed : ${Utils.extractErrorMessage(error)}`);
     }
   });
 

@@ -59,7 +59,7 @@ test.describe('Search - Filters - Location', () => {
       await nodesApi.createFolder(siteFolder, siteId);
       await nodesApi.createFolder(userFolder);
     } catch (error) {
-      console.error(`beforeAll failed: ${error}`);
+      console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
     }
   });
 

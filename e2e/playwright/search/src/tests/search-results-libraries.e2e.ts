@@ -136,7 +136,7 @@ test.describe('Search Results - General', () => {
 
       await sitesApi.createSite(siteRussian.name, SITE_VISIBILITY.PUBLIC, '', siteRussian.id);
     } catch (error) {
-      console.error(`beforeAll failed: ${error}`);
+      console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
     }
   });
 

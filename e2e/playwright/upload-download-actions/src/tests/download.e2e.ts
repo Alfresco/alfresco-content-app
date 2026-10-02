@@ -48,7 +48,7 @@ test.describe('Download from Personal Files', () => {
       await nodesApi.createFolder(childFolder, parentId);
       await nodesApi.createFile(childFile, parentId);
     } catch (error) {
-      console.error(`beforeAll failed: ${error}`);
+      console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
     }
   });
 

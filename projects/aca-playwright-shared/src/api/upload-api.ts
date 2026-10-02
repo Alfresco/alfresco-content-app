@@ -26,7 +26,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { File as NodeFile } from 'node:buffer';
 import { ApiClientFactory } from './api-client-factory';
-import { logger } from '../utils';
+import { logger, Utils } from '../utils';
 import { NodeBodyCreate, NodeEntry } from '@alfresco/js-api';
 
 const fileFixtureCache = new Map<string, Buffer>();
@@ -64,7 +64,7 @@ export class UploadApi {
       logger.info(`File uploaded successfully: ${fileName}`);
       return result;
     } catch (error) {
-      logger.error(`Failed to upload file: ${fileName}: ${JSON.stringify(error)}`);
+      logger.error(`Failed to upload file: ${fileName}: ${Utils.extractErrorMessage(error)}`);
       return Promise.reject(error);
     }
   }
@@ -122,7 +122,7 @@ export class UploadApi {
       logger.info(`File uploaded successfully: ${newName}`);
       return result;
     } catch (error) {
-      logger.error(`Failed to upload file: ${newName}: ${error}`);
+      logger.error(`Failed to upload file: ${newName}: ${Utils.extractErrorMessage(error)}`);
       return Promise.reject(error);
     }
   }

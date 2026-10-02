@@ -42,7 +42,7 @@ test.describe('Delete and undo delete', () => {
 
       sitesApi = await SitesApi.initialize(username, username);
     } catch (error) {
-      console.error(`beforeAll failed : ${error}`);
+      console.error(`beforeAll failed : ${Utils.extractErrorMessage(error)}`);
     }
   });
 

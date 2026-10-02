@@ -50,7 +50,7 @@ test.describe('Repository — Trash restore', () => {
 
       await adminNodesApi.deleteNodes([repoFileId], false);
     } catch (error) {
-      console.error(`beforeAll failed: ${error}`);
+      console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
       throw error;
     }
   });
@@ -63,7 +63,7 @@ test.describe('Repository — Trash restore', () => {
     try {
       await adminNodesApi.deleteNodes([repoFolderId], true);
     } catch (error) {
-      console.error(`Repository folder cleanup failed: ${error}`);
+      console.error(`Repository folder cleanup failed: ${Utils.extractErrorMessage(error, true)}`);
     }
     await Utils.deleteNodesSitesEmptyTrashcan(adminNodesApi, trashcanApi, 'afterAll failed');
   });

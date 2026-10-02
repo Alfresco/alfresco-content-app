@@ -38,7 +38,7 @@ test.describe('Trash admin', () => {
       folderAdminId = (await adminApiActions.createFolder(folderAdmin)).entry.id;
       await adminApiActions.deleteNodeById(folderAdminId, false);
     } catch (error) {
-      console.error(`----- beforeAll failed : ${error}`);
+      console.error(`----- beforeAll failed : ${Utils.extractErrorMessage(error)}`);
     }
   });
 
