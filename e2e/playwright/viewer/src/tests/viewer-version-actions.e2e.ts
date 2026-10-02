@@ -101,7 +101,7 @@ test.describe('Version actions', () => {
       await sharedLinksApi.shareFilesByIds([fileId]);
       await sharedLinksApi.waitForFilesToBeShared([fileId]);
     } catch (error) {
-      throw new Error(`beforeAll failed: ${error}`);
+      throw new Error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
     }
   });
 

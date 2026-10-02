@@ -53,7 +53,7 @@ test.describe('Rules - Manage Rules', () => {
       trashcanApi = await TrashcanApi.initialize(username, username);
       rulesApi = await RulesApi.initialize(username, username);
     } catch (error) {
-      console.error(`beforeAll failed : ${error}`);
+      console.error(`beforeAll failed : ${Utils.extractErrorMessage(error)}`);
     }
 
     await apiClientFactory.setUpAcaBackend(username, username);

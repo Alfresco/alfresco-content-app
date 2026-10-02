@@ -24,7 +24,7 @@
 
 import { TagBody, TagEntry, TagPaging, Tag } from '@alfresco/js-api';
 import { ApiClientFactory } from './api-client-factory';
-import { logger } from '../utils';
+import { logger, Utils } from '../utils';
 
 export class TagsApi {
   private readonly apiService: ApiClientFactory;
@@ -65,7 +65,7 @@ export class TagsApi {
       }
       return results;
     } catch (error) {
-      const message = `Failed to create tags: ${error}`;
+      const message = `Failed to create tags: ${Utils.extractErrorMessage(error)}`;
       logger.error(message);
       throw new Error(message);
     }
@@ -75,7 +75,7 @@ export class TagsApi {
     try {
       return await this.apiService.tagsApi.assignTagToNode(nodeId, tag);
     } catch (error) {
-      const message = `Failed to assign tag to node: ${error}`;
+      const message = `Failed to assign tag to node: ${Utils.extractErrorMessage(error)}`;
       logger.error(message);
       throw new Error(message);
     }
@@ -89,7 +89,7 @@ export class TagsApi {
         logger.info(`Tag deleted: ${tagLabel}(id: ${id})`);
       }
     } catch (error) {
-      const message = `Failed to delete tags: ${error}`;
+      const message = `Failed to delete tags: ${Utils.extractErrorMessage(error)}`;
       logger.error(message);
       throw new Error(message);
     }
@@ -99,7 +99,7 @@ export class TagsApi {
     try {
       return this.apiService.tagsApi.listTagsForNode(nodeId);
     } catch (error) {
-      const message = `Failed to list tags for node: ${error}`;
+      const message = `Failed to list tags for node: ${Utils.extractErrorMessage(error)}`;
       logger.error(message);
       throw new Error(message);
     }
@@ -109,7 +109,7 @@ export class TagsApi {
     try {
       return this.apiService.tagsApi.listTags(params);
     } catch (error) {
-      const message = `Failed to list tags: ${error}`;
+      const message = `Failed to list tags: ${Utils.extractErrorMessage(error)}`;
       logger.error(message);
       throw new Error(message);
     }
@@ -121,7 +121,7 @@ export class TagsApi {
       const tags = response.list?.entries.map((entry) => entry.entry) || [];
       await this.deleteTags(...tags);
     } catch (error) {
-      const message = `Failed to delete tags by tag name: ${error}`;
+      const message = `Failed to delete tags by tag name: ${Utils.extractErrorMessage(error)}`;
       logger.error(message);
       throw new Error(message);
     }

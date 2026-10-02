@@ -48,7 +48,7 @@ test.describe('Copy actions', () => {
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
     } catch (error) {
-      console.error(`beforeAll failed : ${error}`);
+      console.error(`beforeAll failed : ${Utils.extractErrorMessage(error)}`);
     }
   });
 

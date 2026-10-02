@@ -52,7 +52,7 @@ test.describe('Edit offline - on Personal Files', () => {
       try {
         file5304Id = (await uploadApi.uploadFileWithRename(TEST_FILES.PNG_FILE.path, file5304)).entry.id;
       } catch (error) {
-        console.error(`beforeAll failed : ${error}`);
+        console.error(`beforeAll failed : ${Utils.extractErrorMessage(error)}`);
       }
     });
 
@@ -86,7 +86,7 @@ test.describe('Edit offline - on Personal Files', () => {
         fileLocked5305Id = (await uploadApi.uploadFileWithRename(TEST_FILES.PNG_FILE.path, fileLocked5305)).entry.id;
         await nodesApi.checkoutNodes([fileLocked5305Id]);
       } catch (error) {
-        console.error(`beforeAll failed : ${error}`);
+        console.error(`beforeAll failed : ${Utils.extractErrorMessage(error)}`);
       }
     });
 
@@ -114,7 +114,7 @@ test.describe('Edit offline - on Personal Files', () => {
         fileLocked5306Id = (await uploadApi.uploadFileWithRename(TEST_FILES.PNG_FILE.path, fileLocked5306)).entry.id;
         await nodesApi.checkoutNodes([fileLocked5306Id]);
       } catch (error) {
-        console.error(`beforeAll failed : ${error}`);
+        console.error(`beforeAll failed : ${Utils.extractErrorMessage(error)}`);
       }
     });
 
@@ -141,7 +141,7 @@ test.describe('Edit offline - on Personal Files', () => {
         fileLocked20171Id = (await uploadApi.uploadFileWithRename(TEST_FILES.PNG_FILE.path, file20171)).entry.id;
         await nodesApi.checkoutNodes([fileLocked20171Id]);
       } catch (error) {
-        console.error(`beforeAll failed : ${error}`);
+        console.error(`beforeAll failed : ${Utils.extractErrorMessage(error)}`);
       }
     });
 

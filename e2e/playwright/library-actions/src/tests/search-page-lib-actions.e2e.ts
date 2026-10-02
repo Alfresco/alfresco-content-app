@@ -71,7 +71,7 @@ test.describe('Library actions ', () => {
       user2SitesApi = await SitesApi.initialize(username2, username2);
       user2TrashcanApi = await TrashcanApi.initialize(username2, username2);
     } catch (error) {
-      const searchPageLibActionsBeforeAllErrorMessage = `Search page library actions beforeAll failed : ${JSON.stringify(error)}`;
+      const searchPageLibActionsBeforeAllErrorMessage = `Search page library actions beforeAll failed : ${Utils.extractErrorMessage(error)}`;
       console.error(searchPageLibActionsBeforeAllErrorMessage);
       throw new Error(searchPageLibActionsBeforeAllErrorMessage);
     }
