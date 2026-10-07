@@ -75,6 +75,12 @@ export class FavoriteLibrariesComponent extends LibrariesBaseComponent implement
     this.isLoading = true;
     this.contentApiService.getFavoriteLibraries('-me-', pagination).subscribe(
       (favoriteLibraries: FavoritePaging) => {
+        const fallback = this.getFirstPageFallback(this.paginationStateKey, favoriteLibraries.list.pagination);
+        if (fallback) {
+          this.getList(fallback);
+          return;
+        }
+
         this.list = favoriteLibraries;
         this.pagination = favoriteLibraries.list.pagination;
         this.persistPagination(this.paginationStateKey, this.pagination);

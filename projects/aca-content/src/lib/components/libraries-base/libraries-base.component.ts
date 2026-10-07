@@ -108,6 +108,16 @@ export class LibrariesBaseComponent extends PageComponent {
     this.paginationState.setPaginationState(key, { skipCount: pagination?.skipCount ?? 0, maxItems: pagination?.maxItems ?? 0 });
   }
 
+  protected getFirstPageFallback(key: string, pagination: Pagination): Pagination | null {
+    const isOutOfRange = pagination?.skipCount > 0 && pagination.totalItems > 0 && pagination.skipCount >= pagination.totalItems;
+    if (!isOutOfRange) {
+      return null;
+    }
+
+    this.paginationState.resetPaginationState(key);
+    return new Pagination({ skipCount: 0, maxItems: pagination.maxItems });
+  }
+
   private navigateTo(node: SiteEntry) {
     if (node?.entry?.guid) {
       this.store.dispatch(new NavigateLibraryAction(node.entry, this.navigateRoute));

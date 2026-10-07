@@ -42,6 +42,12 @@ export class PaginationStateService {
 
   prepareContext(): void {
     const context = this.getCurrentContext();
+
+    if (this.lastContext === null) {
+      this.lastContext = context;
+      return;
+    }
+
     if (context !== this.lastContext) {
       this.lastContext = context;
       this.clearAll();

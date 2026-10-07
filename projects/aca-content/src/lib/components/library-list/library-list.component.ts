@@ -39,7 +39,6 @@ export class LibraryListComponent extends LibrariesBaseComponent implements OnIn
   private readonly preferences = inject(UserPreferencesService);
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly sitesService = inject(SitesService);
-
   private readonly paginationStateKey = 'all-libraries';
 
   pagination = new Pagination({
@@ -72,6 +71,12 @@ export class LibraryListComponent extends LibrariesBaseComponent implements OnIn
     this.isLoading = true;
     this.sitesService.getSites(pagination).subscribe({
       next: (libraryList: SitePaging) => {
+        const fallback = this.getFirstPageFallback(this.paginationStateKey, libraryList.list.pagination);
+        if (fallback) {
+          this.getList(fallback);
+          return;
+        }
+
         this.list = libraryList;
         this.pagination = libraryList.list.pagination;
         this.persistPagination(this.paginationStateKey, this.pagination);

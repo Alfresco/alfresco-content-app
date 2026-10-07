@@ -30,7 +30,7 @@ import { AppExtensionService, AppHookService, ContentApiService } from '@alfresc
 import { provideEffects } from '@ngrx/effects';
 import { of, throwError } from 'rxjs';
 import { LibraryEffects } from '../../store/effects';
-import { NodeEntry } from '@alfresco/js-api';
+import { FavoritePaging, NodeEntry, Pagination } from '@alfresco/js-api';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { libraryColumnsPresetMock, favoriteLibrariesMock, libraryPaginationMock } from '../../mock/libraries-mock';
 
@@ -150,6 +150,17 @@ describe('FavoriteLibrariesComponent', () => {
       component.onChangePageSize(libraryPaginationMock);
 
       expect(userPreference.paginationSize).toBe(libraryPaginationMock.maxItems);
+    });
+
+    it('should retry from the first page when the stored page is out of range', () => {
+      const outOfRange = { list: { entries: [], pagination: { count: 0, skipCount: 50, maxItems: 25, totalItems: 20 } } } as FavoritePaging;
+      const getFavoriteLibrariesSpy = spyOn(contentApiService, 'getFavoriteLibraries').and.returnValues(of(outOfRange), of(favoriteLibrariesMock));
+
+      component.getList(new Pagination({ skipCount: 50, maxItems: 25 }));
+
+      expect(getFavoriteLibrariesSpy).toHaveBeenCalledTimes(2);
+      expect(getFavoriteLibrariesSpy.calls.mostRecent().args[1].skipCount).toBe(0);
+      expect(component.list).toBe(favoriteLibrariesMock);
     });
   });
 });

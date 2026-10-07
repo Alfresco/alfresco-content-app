@@ -120,6 +120,15 @@ describe('PaginationStateService', () => {
   });
 
   describe('prepareContext', () => {
+    it('should not clear existing state on the first call after creation (page reload)', () => {
+      service.setPaginationState('folder-1', { skipCount: 25, maxItems: 25 });
+      routerMock.url = '/personal-files';
+
+      service.prepareContext();
+
+      expect(service.getPaginationState('folder-1')).toEqual({ skipCount: 25, maxItems: 25 });
+    });
+
     it('should retain state while navigating within the same context', () => {
       routerMock.url = '/personal-files';
       service.prepareContext();

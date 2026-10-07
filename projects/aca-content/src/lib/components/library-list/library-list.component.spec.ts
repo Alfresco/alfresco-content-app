@@ -32,7 +32,7 @@ import { provideEffects } from '@ngrx/effects';
 import { Observable, of, throwError } from 'rxjs';
 import { LibraryEffects } from '../../store/effects';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { SitePaging } from '@alfresco/js-api';
+import { Pagination, SitePaging } from '@alfresco/js-api';
 import { libraryColumnsPresetMock, librariesMock, libraryPaginationMock } from '../../mock/libraries-mock';
 
 describe('LibraryListComponent', () => {
@@ -131,6 +131,18 @@ describe('LibraryListComponent', () => {
     it('should set preference page size onChangePageSize event', () => {
       component.onChangePageSize(libraryPaginationMock);
       expect(userPreference.paginationSize).toBe(libraryPaginationMock.maxItems);
+    });
+
+    it('should retry from the first page when the stored page is out of range', () => {
+      getSitesSpy.calls.reset();
+      const outOfRange = { list: { entries: [], pagination: { count: 0, skipCount: 50, maxItems: 25, totalItems: 20 } } } as SitePaging;
+      getSitesSpy.and.returnValues(of(outOfRange), of(librariesMock));
+
+      component.getList(new Pagination({ skipCount: 50, maxItems: 25 }));
+
+      expect(getSitesSpy).toHaveBeenCalledTimes(2);
+      expect(getSitesSpy.calls.mostRecent().args[0].skipCount).toBe(0);
+      expect(component.list).toBe(librariesMock);
     });
   });
 });
