@@ -40,6 +40,7 @@ export class FavoriteLibrariesComponent extends LibrariesBaseComponent implement
   private readonly contentApiService = inject(ContentApiService);
   private readonly preferences = inject(UserPreferencesService);
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly paginationStateKey = 'favorite-libraries';
 
   pagination: Pagination = new Pagination({
     skipCount: 0,
@@ -53,7 +54,7 @@ export class FavoriteLibrariesComponent extends LibrariesBaseComponent implement
   ngOnInit() {
     super.ngOnInit();
 
-    this.getList({ maxItems: this.preferences.paginationSize });
+    this.getList(this.getInitialPagination(this.paginationStateKey, this.preferences.paginationSize));
 
     this.subscriptions.push(
       this.appHookService.libraryDeleted.subscribe(() => this.reloadList()),
@@ -76,6 +77,7 @@ export class FavoriteLibrariesComponent extends LibrariesBaseComponent implement
       (favoriteLibraries: FavoritePaging) => {
         this.list = favoriteLibraries;
         this.pagination = favoriteLibraries.list.pagination;
+        this.persistPagination(this.paginationStateKey, this.pagination);
         this.isLoading = false;
         this.changeDetectorRef.detectChanges();
       },

@@ -40,6 +40,8 @@ export class LibraryListComponent extends LibrariesBaseComponent implements OnIn
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly sitesService = inject(SitesService);
 
+  private readonly paginationStateKey = 'all-libraries';
+
   pagination = new Pagination({
     skipCount: 0,
     maxItems: 25,
@@ -51,7 +53,7 @@ export class LibraryListComponent extends LibrariesBaseComponent implements OnIn
   ngOnInit() {
     super.ngOnInit();
 
-    this.getList({ maxItems: this.preferences.paginationSize });
+    this.getList(this.getInitialPagination(this.paginationStateKey, this.preferences.paginationSize));
     this.subscriptions.push(
       this.appHookService.libraryDeleted.subscribe(() => this.reloadList()),
       this.appHookService.libraryUpdated.subscribe(() => this.reloadList()),
@@ -72,6 +74,7 @@ export class LibraryListComponent extends LibrariesBaseComponent implements OnIn
       next: (libraryList: SitePaging) => {
         this.list = libraryList;
         this.pagination = libraryList.list.pagination;
+        this.persistPagination(this.paginationStateKey, this.pagination);
         this.isLoading = false;
         this.changeDetectorRef.detectChanges();
       },

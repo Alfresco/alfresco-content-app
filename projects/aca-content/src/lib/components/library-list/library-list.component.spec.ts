@@ -71,7 +71,7 @@ describe('LibraryListComponent', () => {
   it('should get data with user preference pagination size', () => {
     userPreference.paginationSize = 1;
     component.ngOnInit();
-    expect(sitesService.getSites).toHaveBeenCalledWith({ maxItems: 1 });
+    expect(sitesService.getSites).toHaveBeenCalledWith(jasmine.objectContaining({ skipCount: 0, maxItems: 1 }));
   });
 
   it('should set data on error', () => {

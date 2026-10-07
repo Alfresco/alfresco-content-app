@@ -73,9 +73,13 @@ describe('FavoriteLibrariesComponent', () => {
 
     fixture.detectChanges();
 
-    expect(contentApiService.getFavoriteLibraries).toHaveBeenCalledWith('-me-', {
-      maxItems: userPreference.paginationSize
-    });
+    expect(contentApiService.getFavoriteLibraries).toHaveBeenCalledWith(
+      '-me-',
+      jasmine.objectContaining({
+        skipCount: 0,
+        maxItems: userPreference.paginationSize
+      })
+    );
   });
 
   it('should set data on error', () => {

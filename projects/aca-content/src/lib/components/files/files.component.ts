@@ -58,6 +58,7 @@ import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-ext
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
+import { PaginationMemoryDirective } from '../../directives/pagination-memory.directive';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -74,6 +75,7 @@ import { extractFiltersFromEncodedQuery } from '../../utils/aca-search-utils';
     MatProgressSpinnerModule,
     InfoDrawerComponent,
     PaginationDirective,
+    PaginationMemoryDirective,
     PageLayoutComponent,
     ToolbarComponent,
     DynamicColumnComponent,

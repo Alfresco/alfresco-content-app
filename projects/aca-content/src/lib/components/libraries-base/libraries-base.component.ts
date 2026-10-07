@@ -31,9 +31,11 @@ import {
   InfoDrawerComponent,
   PageLayoutComponent,
   PageComponent,
-  AppHookService
+  AppHookService,
+  PaginationStateService
 } from '@alfresco/aca-shared';
 import { DocumentListDirective } from '../../directives/document-list.directive';
+import { PaginationMemoryDirective } from '../../directives/pagination-memory.directive';
 import {
   CustomEmptyContentTemplateDirective,
   DataColumnComponent,
@@ -57,6 +59,7 @@ import { FavoritePaging, Pagination, SiteEntry, SitePaging } from '@alfresco/js-
     InfoDrawerComponent,
     PageLayoutComponent,
     DocumentListDirective,
+    PaginationMemoryDirective,
     ContextActionsDirective,
     DocumentListComponent,
     DataColumnListComponent,
@@ -85,14 +88,29 @@ export class LibrariesBaseComponent extends PageComponent {
   @Output() prevPage = new EventEmitter<Pagination>();
 
   protected appHookService = inject(AppHookService);
+  protected paginationState = inject(PaginationStateService);
+
+  handleNodeClick(event: Event) {
+    this.navigateTo((event as CustomEvent).detail?.node);
+  }
+
+  protected getInitialPagination(key: string, defaultMaxItems: number): Pagination {
+    this.paginationState.prepareContext();
+    const stored = this.paginationState.getPaginationState(key);
+
+    return new Pagination({
+      skipCount: stored?.skipCount ?? 0,
+      maxItems: stored?.maxItems ?? defaultMaxItems
+    });
+  }
+
+  protected persistPagination(key: string, pagination: Pagination): void {
+    this.paginationState.setPaginationState(key, { skipCount: pagination?.skipCount ?? 0, maxItems: pagination?.maxItems ?? 0 });
+  }
 
   private navigateTo(node: SiteEntry) {
     if (node?.entry?.guid) {
       this.store.dispatch(new NavigateLibraryAction(node.entry, this.navigateRoute));
     }
-  }
-
-  handleNodeClick(event: Event) {
-    this.navigateTo((event as CustomEvent).detail?.node);
   }
 }
