@@ -156,16 +156,19 @@ describe('FilesComponent', () => {
   });
 
   it('should seed the stored pagination on the document list before loading a folder', () => {
+    const nodeLoaded = new Subject<NodeEntry>();
+    spyContent.and.returnValue(nodeLoaded);
     fixture.detectChanges();
+
     const paginationState = TestBed.inject(PaginationStateService);
-    spyOn(paginationState, 'prepareContext');
+    const prepareContextSpy = spyOn(paginationState, 'prepareContext');
     spyOn(paginationState, 'getPaginationState').and.returnValue({ skipCount: 25, maxItems: 25 });
     const setPaginationSpy = spyOn(component.documentList, 'setPagination');
 
-    component['applyStoredPaginationBeforeLoad']('folder-1');
+    nodeLoaded.next({ entry: { id: 'folder-1', isFolder: true } } as NodeEntry);
 
-    expect(paginationState.prepareContext).toHaveBeenCalled();
-    expect(setPaginationSpy).toHaveBeenCalledWith({ skipCount: 25, maxItems: component.documentList.maxItems });
+    expect(prepareContextSpy).toHaveBeenCalled();
+    expect(setPaginationSpy).toHaveBeenCalledWith({ skipCount: 25, maxItems: 25 });
   });
 
   describe('Current page is valid', () => {

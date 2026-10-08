@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { FavoritePaging, Pagination } from '@alfresco/js-api';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { UserPreferencesService } from '@alfresco/adf-core';
@@ -39,7 +39,6 @@ import { LibrariesBaseComponent } from '../libraries-base/libraries-base.compone
 export class FavoriteLibrariesComponent extends LibrariesBaseComponent implements OnInit {
   private readonly contentApiService = inject(ContentApiService);
   private readonly preferences = inject(UserPreferencesService);
-  private readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly paginationStateKey = 'favorite-libraries';
 
   pagination: Pagination = new Pagination({
@@ -72,27 +71,7 @@ export class FavoriteLibrariesComponent extends LibrariesBaseComponent implement
   }
 
   getList(pagination: Pagination) {
-    this.isLoading = true;
-    this.contentApiService.getFavoriteLibraries('-me-', pagination).subscribe(
-      (favoriteLibraries: FavoritePaging) => {
-        const fallback = this.getFirstPageFallback(this.paginationStateKey, favoriteLibraries.list.pagination);
-        if (fallback) {
-          this.getList(fallback);
-          return;
-        }
-
-        this.list = favoriteLibraries;
-        this.pagination = favoriteLibraries.list.pagination;
-        this.persistPagination(this.paginationStateKey, this.pagination);
-        this.isLoading = false;
-        this.changeDetectorRef.detectChanges();
-      },
-      () => {
-        this.list = null;
-        this.pagination = null;
-        this.isLoading = false;
-      }
-    );
+    this.loadLibraries(this.paginationStateKey, pagination, (page) => this.contentApiService.getFavoriteLibraries('-me-', page));
   }
 
   private reloadList() {

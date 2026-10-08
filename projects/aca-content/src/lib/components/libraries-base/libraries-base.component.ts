@@ -23,7 +23,8 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, EventEmitter, ViewEncapsulation, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, Output, EventEmitter, ViewEncapsulation, inject } from '@angular/core';
+import { Observable } from 'rxjs';
 import { TranslatePipe } from '@ngx-translate/core';
 import {
   ContextActionsDirective,
@@ -88,10 +89,39 @@ export class LibrariesBaseComponent extends PageComponent {
   @Output() prevPage = new EventEmitter<Pagination>();
 
   protected appHookService = inject(AppHookService);
+  protected readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly paginationState = inject(PaginationStateService);
 
   handleNodeClick(event: Event) {
     this.navigateTo((event as CustomEvent).detail?.node);
+  }
+
+  protected loadLibraries(
+    key: string,
+    pagination: Pagination,
+    fetch: (pagination: Pagination) => Observable<SitePaging | FavoritePaging | SiteMemberPaging>
+  ): void {
+    this.isLoading = true;
+    fetch(pagination).subscribe({
+      next: (list) => {
+        const fallback = this.getFirstPageFallback(key, list.list.pagination);
+        if (fallback) {
+          this.loadLibraries(key, fallback, fetch);
+          return;
+        }
+
+        this.list = list;
+        this.pagination = list.list.pagination;
+        this.persistPagination(key, this.pagination);
+        this.isLoading = false;
+        this.changeDetectorRef.detectChanges();
+      },
+      error: () => {
+        this.list = null;
+        this.pagination = null;
+        this.isLoading = false;
+      }
+    });
   }
 
   protected getInitialPagination(key: string, defaultMaxItems: number): Pagination {

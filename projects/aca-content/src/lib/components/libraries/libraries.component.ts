@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { Pagination, SiteMemberPaging } from '@alfresco/js-api';
 import { UserPreferencesService } from '@alfresco/adf-core';
 import { CustomResourcesService } from '@alfresco/adf-content-services';
@@ -37,7 +37,6 @@ import { LibrariesBaseComponent } from '../libraries-base/libraries-base.compone
 })
 export class LibrariesComponent extends LibrariesBaseComponent implements OnInit {
   private readonly preferences = inject(UserPreferencesService);
-  private readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly customResourcesService = inject(CustomResourcesService);
   private readonly paginationStateKey = 'my-libraries';
 
@@ -67,27 +66,7 @@ export class LibrariesComponent extends LibrariesBaseComponent implements OnInit
   }
 
   getList(pagination: Pagination) {
-    this.isLoading = true;
-    this.customResourcesService.loadMemberSites(pagination).subscribe({
-      next: (libraryList: SiteMemberPaging) => {
-        const fallback = this.getFirstPageFallback(this.paginationStateKey, libraryList.list.pagination);
-        if (fallback) {
-          this.getList(fallback);
-          return;
-        }
-
-        this.list = libraryList;
-        this.pagination = libraryList.list.pagination;
-        this.persistPagination(this.paginationStateKey, this.pagination);
-        this.isLoading = false;
-        this.changeDetectorRef.detectChanges();
-      },
-      error: () => {
-        this.list = null;
-        this.pagination = null;
-        this.isLoading = false;
-      }
-    });
+    this.loadLibraries(this.paginationStateKey, pagination, (page) => this.customResourcesService.loadMemberSites(page));
   }
 
   private reloadList() {
