@@ -23,20 +23,28 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { UserPreferencesService } from '@alfresco/adf-core';
+import { CustomResourcesService } from '@alfresco/adf-content-services';
 import { LibrariesComponent } from './libraries.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
+import { AppExtensionService, AppHookService } from '@alfresco/aca-shared';
 import { provideEffects } from '@ngrx/effects';
+import { Observable, of, throwError } from 'rxjs';
 import { LibraryEffects } from '../../store/effects';
-import { AppExtensionService, AppHookService, ContentApiService } from '@alfresco/aca-shared';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { libraryColumnsPresetMock, librariesMock } from '../../mock/libraries-mock';
+import { Pagination, SiteMemberPaging } from '@alfresco/js-api';
+import { libraryColumnsPresetMock, librariesMock, libraryPaginationMock } from '../../mock/libraries-mock';
 
 describe('LibrariesComponent', () => {
   let fixture: ComponentFixture<LibrariesComponent>;
   let component: LibrariesComponent;
-  let contentApiService: ContentApiService;
+  let userPreference: UserPreferencesService;
+  let customResourcesService: CustomResourcesService;
   let appHookService: AppHookService;
+  let loadMemberSitesSpy: jasmine.Spy<(pagination: Pagination, where?: string) => Observable<SiteMemberPaging>>;
   let appExtensionService: AppExtensionService;
+
+  const memberSitesMock = librariesMock as unknown as SiteMemberPaging;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -47,19 +55,39 @@ describe('LibrariesComponent', () => {
     fixture = TestBed.createComponent(LibrariesComponent);
     component = fixture.componentInstance;
 
-    contentApiService = TestBed.inject(ContentApiService);
+    userPreference = TestBed.inject(UserPreferencesService);
+    customResourcesService = TestBed.inject(CustomResourcesService);
     appHookService = TestBed.inject(AppHookService);
     appExtensionService = TestBed.inject(AppExtensionService);
 
-    const sitesApi = contentApiService.sitesApi;
+    loadMemberSitesSpy = spyOn(customResourcesService, 'loadMemberSites');
+    loadMemberSitesSpy.and.returnValue(of(memberSitesMock));
+    fixture.detectChanges();
+  });
 
-    spyOn(sitesApi, 'listSites').and.returnValue(Promise.resolve(librariesMock));
-    spyOn(sitesApi, 'listSiteMembershipsForPerson').and.returnValue(Promise.resolve({}));
+  it('should set data', () => {
+    expect(component.list).toBe(memberSitesMock);
+    expect(component.pagination).toBe(memberSitesMock.list.pagination);
+  });
+
+  it('should get data with user preference pagination size', () => {
+    userPreference.paginationSize = 1;
+    component.ngOnInit();
+    expect(loadMemberSitesSpy).toHaveBeenCalledWith(jasmine.objectContaining({ skipCount: 0, maxItems: 1 }));
+  });
+
+  it('should set data on error', () => {
+    loadMemberSitesSpy.and.returnValue(throwError(() => 'error'));
+    component.ngOnInit();
+
+    expect(component.list).toBeNull();
+    expect(component.pagination).toBeNull();
+    expect(component.isLoading).toBe(false);
   });
 
   it('should set columns from extensions on init', () => {
     appExtensionService.documentListPresets.libraries = libraryColumnsPresetMock;
-    fixture.detectChanges();
+    component.ngOnInit();
     expect(component.columns).toEqual(appExtensionService.documentListPresets.libraries);
   });
 
@@ -70,26 +98,47 @@ describe('LibrariesComponent', () => {
   });
 
   describe('Library hooks', () => {
-    let reloadSpy: jasmine.Spy<() => void>;
-
     beforeEach(() => {
-      reloadSpy = spyOn(component, 'reload');
-      fixture.detectChanges();
+      loadMemberSitesSpy.calls.reset();
     });
 
     it('should reload on libraryDeleted hook', () => {
       appHookService.libraryDeleted.next('');
-      expect(reloadSpy).toHaveBeenCalled();
+      expect(loadMemberSitesSpy).toHaveBeenCalled();
     });
 
     it('should reload on libraryUpdated hook', () => {
       appHookService.libraryUpdated.next(librariesMock.list.entries[0]);
-      expect(reloadSpy).toHaveBeenCalled();
+      expect(loadMemberSitesSpy).toHaveBeenCalled();
     });
 
     it('should reload on libraryLeft hook', () => {
       appHookService.libraryLeft.next('');
-      expect(reloadSpy).toHaveBeenCalled();
+      expect(loadMemberSitesSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('Pagination', () => {
+    it('should get list with pagination data onChange event', () => {
+      component.getList(libraryPaginationMock);
+      expect(loadMemberSitesSpy).toHaveBeenCalledWith(libraryPaginationMock);
+    });
+
+    it('should set preference page size onChangePageSize event', () => {
+      component.onChangePageSize(libraryPaginationMock);
+      expect(userPreference.paginationSize).toBe(libraryPaginationMock.maxItems);
+    });
+
+    it('should retry from the first page when the stored page is out of range', () => {
+      loadMemberSitesSpy.calls.reset();
+      const outOfRange = { list: { entries: [], pagination: { count: 0, skipCount: 50, maxItems: 25, totalItems: 20 } } } as SiteMemberPaging;
+      loadMemberSitesSpy.and.returnValues(of(outOfRange), of(memberSitesMock));
+
+      component.getList(new Pagination({ skipCount: 50, maxItems: 25 }));
+
+      expect(loadMemberSitesSpy).toHaveBeenCalledTimes(2);
+      expect(loadMemberSitesSpy.calls.mostRecent().args[0].skipCount).toBe(0);
+      expect(component.list).toBe(memberSitesMock);
     });
   });
 });

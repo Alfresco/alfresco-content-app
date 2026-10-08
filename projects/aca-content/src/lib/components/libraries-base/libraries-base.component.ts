@@ -46,7 +46,7 @@ import {
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
 import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
-import { FavoritePaging, Pagination, SiteEntry, SitePaging } from '@alfresco/js-api';
+import { FavoritePaging, Pagination, SiteEntry, SiteMemberPaging, SitePaging } from '@alfresco/js-api';
 
 @Component({
   selector: 'aca-libraries-base',
@@ -73,7 +73,7 @@ import { FavoritePaging, Pagination, SiteEntry, SitePaging } from '@alfresco/js-
 })
 export class LibrariesBaseComponent extends PageComponent {
   @Input() titleKey: string;
-  @Input() list: SitePaging | FavoritePaging;
+  @Input() list: SitePaging | FavoritePaging | SiteMemberPaging;
   @Input() isLoading: boolean;
   @Input() emptyTitleKey: string;
   @Input() emptySubtitleKey: string;
@@ -88,7 +88,7 @@ export class LibrariesBaseComponent extends PageComponent {
   @Output() prevPage = new EventEmitter<Pagination>();
 
   protected appHookService = inject(AppHookService);
-  protected paginationState = inject(PaginationStateService);
+  private readonly paginationState = inject(PaginationStateService);
 
   handleNodeClick(event: Event) {
     this.navigateTo((event as CustomEvent).detail?.node);

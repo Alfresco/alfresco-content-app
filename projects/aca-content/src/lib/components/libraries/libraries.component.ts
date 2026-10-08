@@ -22,7 +22,10 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
+import { Pagination, SiteMemberPaging } from '@alfresco/js-api';
+import { UserPreferencesService } from '@alfresco/adf-core';
+import { CustomResourcesService } from '@alfresco/adf-content-services';
 import { LibrariesBaseComponent } from '../libraries-base/libraries-base.component';
 
 @Component({
@@ -33,15 +36,62 @@ import { LibrariesBaseComponent } from '../libraries-base/libraries-base.compone
   encapsulation: ViewEncapsulation.None
 })
 export class LibrariesComponent extends LibrariesBaseComponent implements OnInit {
+  private readonly preferences = inject(UserPreferencesService);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly customResourcesService = inject(CustomResourcesService);
+  private readonly paginationStateKey = 'my-libraries';
+
+  pagination = new Pagination({
+    skipCount: 0,
+    maxItems: 25,
+    totalItems: 0
+  });
+  isLoading = false;
+  list: SiteMemberPaging = null;
+
   ngOnInit() {
     super.ngOnInit();
 
+    this.getList(this.getInitialPagination(this.paginationStateKey, this.preferences.paginationSize));
     this.subscriptions.push(
-      this.appHookService.libraryDeleted.subscribe(() => this.reload()),
-      this.appHookService.libraryUpdated.subscribe(() => this.reload()),
-      this.appHookService.libraryLeft.subscribe(() => this.reload())
+      this.appHookService.libraryDeleted.subscribe(() => this.reloadList()),
+      this.appHookService.libraryUpdated.subscribe(() => this.reloadList()),
+      this.appHookService.libraryLeft.subscribe(() => this.reloadList())
     );
-
     this.columns = this.extensions.documentListPresets.libraries || [];
+  }
+
+  onChangePageSize(pagination: Pagination) {
+    this.preferences.paginationSize = pagination.maxItems;
+    this.getList(pagination);
+  }
+
+  getList(pagination: Pagination) {
+    this.isLoading = true;
+    this.customResourcesService.loadMemberSites(pagination).subscribe({
+      next: (libraryList: SiteMemberPaging) => {
+        const fallback = this.getFirstPageFallback(this.paginationStateKey, libraryList.list.pagination);
+        if (fallback) {
+          this.getList(fallback);
+          return;
+        }
+
+        this.list = libraryList;
+        this.pagination = libraryList.list.pagination;
+        this.persistPagination(this.paginationStateKey, this.pagination);
+        this.isLoading = false;
+        this.changeDetectorRef.detectChanges();
+      },
+      error: () => {
+        this.list = null;
+        this.pagination = null;
+        this.isLoading = false;
+      }
+    });
+  }
+
+  private reloadList() {
+    this.reload();
+    this.getList(this.pagination);
   }
 }

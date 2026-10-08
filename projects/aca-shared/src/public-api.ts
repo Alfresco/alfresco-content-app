@@ -60,6 +60,7 @@ export * from './lib/services/auto-download.service';
 export * from './lib/services/app-settings.service';
 export * from './lib/services/user-profile.service';
 export * from './lib/services/navigation-history.service';
+export * from './lib/services/pagination-state-base.service';
 export * from './lib/services/pagination-state.service';
 
 export * from './lib/testing/lib-testing-module';

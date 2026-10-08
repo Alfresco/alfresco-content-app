@@ -24,6 +24,7 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LibrariesBaseComponent } from './libraries-base.component';
+import { PaginationMemoryDirective } from '../../directives/pagination-memory.directive';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { CustomEmptyContentTemplateDirective, PaginationComponent, UnitTestingUtils } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
@@ -67,6 +68,10 @@ describe('LibrariesBaseComponent', () => {
     fixture.detectChanges();
 
     expect(getTitleElementText(fixture)).toBe('APP.HEADER.SELECTED');
+  });
+
+  it('should attach the pagination memory directive to the document list', () => {
+    expect(unitTestingUtils.getByDirective(PaginationMemoryDirective)).not.toBeNull();
   });
 
   it('should show empty state when list is empty', () => {

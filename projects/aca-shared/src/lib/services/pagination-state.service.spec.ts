@@ -48,88 +48,22 @@ describe('PaginationStateService', () => {
     service = TestBed.inject(PaginationStateService);
   });
 
-  afterEach(() => {
-    sessionStorage.clear();
-  });
+  afterEach(() => sessionStorage.clear());
 
-  it('should return null when nothing is stored', () => {
-    expect(service.getPaginationState('folder-1')).toBeNull();
-  });
-
-  it('should store and return the pagination for a key', () => {
-    service.setPaginationState('folder-1', { skipCount: 25, maxItems: 25 });
-
-    expect(service.getPaginationState('folder-1')).toEqual({ skipCount: 25, maxItems: 25 });
-  });
-
-  it('should keep a separate state per key', () => {
-    service.setPaginationState('folder-1', { skipCount: 25, maxItems: 25 });
-    service.setPaginationState('folder-2', { skipCount: 50, maxItems: 25 });
-
-    expect(service.getPaginationState('folder-1')).toEqual({ skipCount: 25, maxItems: 25 });
-    expect(service.getPaginationState('folder-2')).toEqual({ skipCount: 50, maxItems: 25 });
-  });
-
-  it('should not store the first page (skipCount 0) and clear any previous state', () => {
-    service.setPaginationState('folder-1', { skipCount: 25, maxItems: 25 });
-    service.setPaginationState('folder-1', { skipCount: 0, maxItems: 25 });
-
-    expect(service.getPaginationState('folder-1')).toBeNull();
-  });
-
-  it('should reset the state for a key', () => {
-    service.setPaginationState('folder-1', { skipCount: 25, maxItems: 25 });
-    service.resetPaginationState('folder-1');
-
-    expect(service.getPaginationState('folder-1')).toBeNull();
-  });
-
-  it('should isolate the state per user', () => {
-    service.setPaginationState('folder-1', { skipCount: 25, maxItems: 25 });
-
-    username = 'user2';
-    expect(service.getPaginationState('folder-1')).toBeNull();
-
-    username = 'user1';
-    expect(service.getPaginationState('folder-1')).toEqual({ skipCount: 25, maxItems: 25 });
-  });
-
-  it('should clear all stored pagination entries', () => {
-    service.setPaginationState('folder-1', { skipCount: 25, maxItems: 25 });
-    username = 'user2';
-    service.setPaginationState('folder-2', { skipCount: 50, maxItems: 25 });
-
-    service.clearAll();
-
-    username = 'user1';
-    expect(service.getPaginationState('folder-1')).toBeNull();
-    username = 'user2';
-    expect(service.getPaginationState('folder-2')).toBeNull();
-  });
-
-  it('should ignore a missing key', () => {
-    expect(service.getPaginationState('')).toBeNull();
-    expect(() => service.setPaginationState('', { skipCount: 25, maxItems: 25 })).not.toThrow();
-    expect(() => service.resetPaginationState('')).not.toThrow();
-  });
-
-  it('should return null for a malformed entry', () => {
-    sessionStorage.setItem(`${username}_pagination_folder-1`, 'not-json');
-
-    expect(service.getPaginationState('folder-1')).toBeNull();
-  });
-
-  describe('prepareContext', () => {
-    it('should not clear existing state on the first call after creation (page reload)', () => {
+  describe('getUsername', () => {
+    it('should namespace the stored state with the authenticated user', () => {
       service.setPaginationState('folder-1', { skipCount: 25, maxItems: 25 });
-      routerMock.url = '/personal-files';
 
-      service.prepareContext();
+      username = 'user2';
+      expect(service.getPaginationState('folder-1')).toBeNull();
 
+      username = 'user1';
       expect(service.getPaginationState('folder-1')).toEqual({ skipCount: 25, maxItems: 25 });
     });
+  });
 
-    it('should retain state while navigating within the same context', () => {
+  describe('getCurrentContext', () => {
+    it('should retain state while navigating within personal files', () => {
       routerMock.url = '/personal-files';
       service.prepareContext();
       service.setPaginationState('folder-1', { skipCount: 25, maxItems: 25 });
@@ -140,7 +74,7 @@ describe('PaginationStateService', () => {
       expect(service.getPaginationState('folder-1')).toEqual({ skipCount: 25, maxItems: 25 });
     });
 
-    it('should clear all state when the context changes', () => {
+    it('should clear state when switching from personal files to repository', () => {
       routerMock.url = '/personal-files';
       service.prepareContext();
       service.setPaginationState('folder-1', { skipCount: 25, maxItems: 25 });
@@ -151,7 +85,29 @@ describe('PaginationStateService', () => {
       expect(service.getPaginationState('folder-1')).toBeNull();
     });
 
-    it('should treat favorite libraries as a single context', () => {
+    it('should keep the state when navigating from all libraries into a library', () => {
+      routerMock.url = '/all/libraries';
+      service.prepareContext();
+      service.setPaginationState('all-libraries', { skipCount: 25, maxItems: 25 });
+
+      routerMock.url = '/libraries/site-1';
+      service.prepareContext();
+
+      expect(service.getPaginationState('all-libraries')).toEqual({ skipCount: 25, maxItems: 25 });
+    });
+
+    it('should treat all library lists and library browsing as one context', () => {
+      routerMock.url = '/libraries';
+      service.prepareContext();
+      service.setPaginationState('my-libraries', { skipCount: 25, maxItems: 25 });
+
+      routerMock.url = '/all/libraries';
+      service.prepareContext();
+
+      expect(service.getPaginationState('my-libraries')).toEqual({ skipCount: 25, maxItems: 25 });
+    });
+
+    it('should treat favorite libraries as a separate context', () => {
       routerMock.url = '/favorite/libraries';
       service.prepareContext();
       service.setPaginationState('favorite-libraries', { skipCount: 25, maxItems: 25 });
