@@ -1,7 +1,13 @@
 <aca-libraries-base
-  [currentFolderId]="'-mysites-'"
+  [list]="list"
+  [isLoading]="isLoading"
+  [pagination]="pagination"
   [columns]="columns"
   [titleKey]="'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE'"
   [emptyTitleKey]="'APP.BROWSE.LIBRARIES.EMPTY_STATE.FILE_LIBRARIES.TITLE'"
   [emptySubtitleKey]="'APP.BROWSE.LIBRARIES.EMPTY_STATE.FILE_LIBRARIES.TEXT'"
+  (changePageSize)="onChangePageSize($event)"
+  (changePageNumber)="getList($event)"
+  (nextPage)="getList($event)"
+  (prevPage)="getList($event)"
 />

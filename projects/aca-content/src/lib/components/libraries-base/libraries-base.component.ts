@@ -23,7 +23,8 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, EventEmitter, ViewEncapsulation, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, Output, EventEmitter, ViewEncapsulation, inject } from '@angular/core';
+import { Observable } from 'rxjs';
 import { TranslatePipe } from '@ngx-translate/core';
 import {
   ContextActionsDirective,
@@ -31,9 +32,11 @@ import {
   InfoDrawerComponent,
   PageLayoutComponent,
   PageComponent,
-  AppHookService
+  AppHookService,
+  PaginationStateService
 } from '@alfresco/aca-shared';
 import { DocumentListDirective } from '../../directives/document-list.directive';
+import { PaginationMemoryDirective } from '../../directives/pagination-memory.directive';
 import {
   CustomEmptyContentTemplateDirective,
   DataColumnComponent,
@@ -44,7 +47,7 @@ import {
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
 import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
-import { FavoritePaging, Pagination, SiteEntry, SitePaging } from '@alfresco/js-api';
+import { FavoritePaging, Pagination, SiteEntry, SiteMemberPaging, SitePaging } from '@alfresco/js-api';
 
 @Component({
   selector: 'aca-libraries-base',
@@ -57,6 +60,7 @@ import { FavoritePaging, Pagination, SiteEntry, SitePaging } from '@alfresco/js-
     InfoDrawerComponent,
     PageLayoutComponent,
     DocumentListDirective,
+    PaginationMemoryDirective,
     ContextActionsDirective,
     DocumentListComponent,
     DataColumnListComponent,
@@ -70,7 +74,7 @@ import { FavoritePaging, Pagination, SiteEntry, SitePaging } from '@alfresco/js-
 })
 export class LibrariesBaseComponent extends PageComponent {
   @Input() titleKey: string;
-  @Input() list: SitePaging | FavoritePaging;
+  @Input() list: SitePaging | FavoritePaging | SiteMemberPaging;
   @Input() isLoading: boolean;
   @Input() emptyTitleKey: string;
   @Input() emptySubtitleKey: string;
@@ -85,14 +89,68 @@ export class LibrariesBaseComponent extends PageComponent {
   @Output() prevPage = new EventEmitter<Pagination>();
 
   protected appHookService = inject(AppHookService);
+  protected readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly paginationState = inject(PaginationStateService);
+
+  handleNodeClick(event: Event) {
+    this.navigateTo((event as CustomEvent).detail?.node);
+  }
+
+  protected loadLibraries(
+    key: string,
+    pagination: Pagination,
+    fetch: (pagination: Pagination) => Observable<SitePaging | FavoritePaging | SiteMemberPaging>
+  ): void {
+    this.isLoading = true;
+    fetch(pagination).subscribe({
+      next: (list) => {
+        const fallback = this.getFirstPageFallback(key, list.list.pagination);
+        if (fallback) {
+          this.loadLibraries(key, fallback, fetch);
+          return;
+        }
+
+        this.list = list;
+        this.pagination = list.list.pagination;
+        this.persistPagination(key, this.pagination);
+        this.isLoading = false;
+        this.changeDetectorRef.detectChanges();
+      },
+      error: () => {
+        this.list = null;
+        this.pagination = null;
+        this.isLoading = false;
+      }
+    });
+  }
+
+  protected getInitialPagination(key: string, defaultMaxItems: number): Pagination {
+    this.paginationState.prepareContext();
+    const stored = this.paginationState.getPaginationState(key);
+
+    return new Pagination({
+      skipCount: stored?.skipCount ?? 0,
+      maxItems: stored?.maxItems ?? defaultMaxItems
+    });
+  }
+
+  protected persistPagination(key: string, pagination: Pagination): void {
+    this.paginationState.setPaginationState(key, { skipCount: pagination?.skipCount ?? 0, maxItems: pagination?.maxItems ?? 0 });
+  }
+
+  protected getFirstPageFallback(key: string, pagination: Pagination): Pagination | null {
+    const isOutOfRange = pagination?.skipCount > 0 && pagination.totalItems > 0 && pagination.skipCount >= pagination.totalItems;
+    if (!isOutOfRange) {
+      return null;
+    }
+
+    this.paginationState.resetPaginationState(key);
+    return new Pagination({ skipCount: 0, maxItems: pagination.maxItems });
+  }
 
   private navigateTo(node: SiteEntry) {
     if (node?.entry?.guid) {
       this.store.dispatch(new NavigateLibraryAction(node.entry, this.navigateRoute));
     }
-  }
-
-  handleNodeClick(event: Event) {
-    this.navigateTo((event as CustomEvent).detail?.node);
   }
 }

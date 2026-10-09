@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { Pagination, SitePaging } from '@alfresco/js-api';
 import { UserPreferencesService } from '@alfresco/adf-core';
 import { SitesService } from '@alfresco/adf-content-services';
@@ -37,8 +37,8 @@ import { LibrariesBaseComponent } from '../libraries-base/libraries-base.compone
 })
 export class LibraryListComponent extends LibrariesBaseComponent implements OnInit {
   private readonly preferences = inject(UserPreferencesService);
-  private readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly sitesService = inject(SitesService);
+  private readonly paginationStateKey = 'all-libraries';
 
   pagination = new Pagination({
     skipCount: 0,
@@ -51,7 +51,7 @@ export class LibraryListComponent extends LibrariesBaseComponent implements OnIn
   ngOnInit() {
     super.ngOnInit();
 
-    this.getList({ maxItems: this.preferences.paginationSize });
+    this.getList(this.getInitialPagination(this.paginationStateKey, this.preferences.paginationSize));
     this.subscriptions.push(
       this.appHookService.libraryDeleted.subscribe(() => this.reloadList()),
       this.appHookService.libraryUpdated.subscribe(() => this.reloadList()),
@@ -67,20 +67,7 @@ export class LibraryListComponent extends LibrariesBaseComponent implements OnIn
   }
 
   getList(pagination: Pagination) {
-    this.isLoading = true;
-    this.sitesService.getSites(pagination).subscribe({
-      next: (libraryList: SitePaging) => {
-        this.list = libraryList;
-        this.pagination = libraryList.list.pagination;
-        this.isLoading = false;
-        this.changeDetectorRef.detectChanges();
-      },
-      error: () => {
-        this.list = null;
-        this.pagination = null;
-        this.isLoading = false;
-      }
-    });
+    this.loadLibraries(this.paginationStateKey, pagination, (page) => this.sitesService.getSites(page));
   }
 
   private reloadList() {

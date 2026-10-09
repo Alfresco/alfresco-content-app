@@ -35,8 +35,16 @@ import {
 } from '@alfresco/adf-content-services';
 import { NodeActionsService } from '../../services/node-actions.service';
 import { FilesComponent } from './files.component';
+import { PaginationMemoryDirective } from '../../directives/pagination-memory.directive';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { AppExtensionService, ContentApiService, DocumentBasePageService, GenericErrorComponent, initialState } from '@alfresco/aca-shared';
+import {
+  AppExtensionService,
+  ContentApiService,
+  DocumentBasePageService,
+  GenericErrorComponent,
+  initialState,
+  PaginationStateService
+} from '@alfresco/aca-shared';
 import { of, Subject, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { NodeEntry, NodePaging, Node, PathElement } from '@alfresco/js-api';
@@ -140,6 +148,27 @@ describe('FilesComponent', () => {
 
   afterEach(() => {
     fixture.destroy();
+  });
+
+  it('should attach the pagination memory directive to the document list', () => {
+    fixture.detectChanges();
+    expect(unitTestingUtils.getByDirective(PaginationMemoryDirective)).not.toBeNull();
+  });
+
+  it('should seed the stored pagination on the document list before loading a folder', () => {
+    const nodeLoaded = new Subject<NodeEntry>();
+    spyContent.and.returnValue(nodeLoaded);
+    fixture.detectChanges();
+
+    const paginationState = TestBed.inject(PaginationStateService);
+    const prepareContextSpy = spyOn(paginationState, 'prepareContext');
+    spyOn(paginationState, 'getPaginationState').and.returnValue({ skipCount: 25, maxItems: 25 });
+    const setPaginationSpy = spyOn(component.documentList, 'setPagination');
+
+    nodeLoaded.next({ entry: { id: 'folder-1', isFolder: true } } as NodeEntry);
+
+    expect(prepareContextSpy).toHaveBeenCalled();
+    expect(setPaginationSpy).toHaveBeenCalledWith({ skipCount: 25, maxItems: 25 });
   });
 
   describe('Current page is valid', () => {

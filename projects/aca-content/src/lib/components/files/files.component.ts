@@ -41,6 +41,7 @@ import {
   PageComponent,
   PageLayoutComponent,
   PaginationDirective,
+  PaginationStateService,
   ToolbarComponent
 } from '@alfresco/aca-shared';
 import { isAdmin, SetCurrentFolderAction, showLoaderSelector, UploadFileVersionAction } from '@alfresco/aca-shared/store';
@@ -58,6 +59,7 @@ import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-ext
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
+import { PaginationMemoryDirective } from '../../directives/pagination-memory.directive';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -74,6 +76,7 @@ import { extractFiltersFromEncodedQuery } from '../../utils/aca-search-utils';
     MatProgressSpinnerModule,
     InfoDrawerComponent,
     PaginationDirective,
+    PaginationMemoryDirective,
     PageLayoutComponent,
     ToolbarComponent,
     DynamicColumnComponent,
@@ -94,6 +97,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   private readonly nodeActionsService = inject(NodeActionsService);
   private readonly route = inject(ActivatedRoute);
   private readonly queryBuilderService = inject(SearchHeaderQueryBuilderService);
+  private readonly paginationState = inject(PaginationStateService);
 
   isValidPath = true;
   isAdmin = false;
@@ -345,8 +349,22 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       }
     }
 
+    this.applyStoredPaginationBeforeLoad(node.id);
     this.node = node;
     this.store.dispatch(new SetCurrentFolderAction(node));
+  }
+
+  private applyStoredPaginationBeforeLoad(folderId: string): void {
+    if (!this.documentList) {
+      return;
+    }
+
+    this.paginationState.prepareContext();
+    const stored = this.paginationState.getPaginationState(folderId);
+    this.documentList.setPagination({
+      skipCount: stored?.skipCount ?? 0,
+      maxItems: stored?.maxItems ?? this.documentList.maxItems
+    });
   }
 
   // todo: review this approach once 5.2.3 is out

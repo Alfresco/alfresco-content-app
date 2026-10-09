@@ -51,6 +51,7 @@ import { AcaMobileAppSwitcherService } from './aca-mobile-app-switcher.service';
 import { ShellAppService } from '@alfresco/adf-core/shell';
 import { AppSettingsService } from './app-settings.service';
 import { UserProfileService } from './user-profile.service';
+import { PaginationStateService } from './pagination-state.service';
 import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({
@@ -75,6 +76,7 @@ export class AppService implements ShellAppService {
   private readonly appSettingsService = inject(AppSettingsService);
   private readonly userProfileService = inject(UserProfileService);
   private readonly storage = inject(StorageService);
+  private readonly paginationStateService = inject(PaginationStateService);
 
   private readonly notificationService = inject(NotificationService);
   private readonly matDialog = inject(MatDialog);
@@ -114,6 +116,7 @@ export class AppService implements ShellAppService {
 
     this.authenticationService.onLogout.subscribe(() => {
       this.storage.removeItem(this.preferencesService.getPropertyKey('expandedSidenav'));
+      this.paginationStateService.clearAll();
       searchQueryBuilderService.resetToDefaults();
       acaMobileAppSwitcherService.clearSessionExpireTime();
       acaMobileAppSwitcherService.closeDialog();
