@@ -48,7 +48,7 @@ test.describe('Generic errors', () => {
       file1Id = (await actionUser.createFile(file1, parentId)).entry.id;
       file2Id = (await actionUser.createFile(file2, parentId)).entry.id;
     } catch (error) {
-      console.error(`----- beforeAll failed : ${error}`);
+      console.error(`----- beforeAll failed : ${Utils.extractErrorMessage(error)}`);
     }
   });
 

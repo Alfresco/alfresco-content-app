@@ -89,7 +89,7 @@ test.describe('Search sorting', () => {
       uploadApi2 = await UploadApi.initialize(user2, user2);
       searchApi2 = await SearchApi.initialize(user2, user2);
     } catch (error) {
-      console.error(`beforeAll failed : ${error}`);
+      console.error(`beforeAll failed : ${Utils.extractErrorMessage(error)}`);
     }
 
     parentId = (await nodesApi1.createFolder(parent)).entry.id;

@@ -121,7 +121,7 @@ test.describe('Folder Rules Actions', () => {
       trashcanApi = await TrashcanApi.initialize(username, username);
       uploadApi = await UploadApi.initialize(username, username);
     } catch (error) {
-      console.error(`beforeAll failed : ${error}`);
+      console.error(`beforeAll failed : ${Utils.extractErrorMessage(error)}`);
     }
   });
 

@@ -48,7 +48,7 @@ test.describe('Search Results - General', () => {
       await nodesApi.createFile(file, '-my-');
       await sitesApi.createSite(site);
     } catch (error) {
-      console.error(`beforeAll failed: ${error}`);
+      console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
     }
   });
 

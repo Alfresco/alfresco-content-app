@@ -51,7 +51,7 @@ export class NodesApi {
     try {
       return await this.createNode('cm:folder', name, parentId, title, description, null, author, true, aspectNames);
     } catch (error) {
-      const message = `${this.constructor.name} ${this.createFolder.name}: ${error}`;
+      const message = `${this.constructor.name} ${this.createFolder.name}: ${Utils.extractErrorMessage(error)}`;
       logger.error(message);
       throw new Error(message);
     }
@@ -69,7 +69,7 @@ export class NodesApi {
     try {
       return await this.createNode('cm:content', name, parentId, title, description, null, author, majorVersion, aspectNames);
     } catch (error) {
-      const message = `${this.constructor.name} ${this.createFile.name}: ${error instanceof Error ? error.message : JSON.stringify(error)}`;
+      const message = `${this.constructor.name} ${this.createFile.name}: ${Utils.extractErrorMessage(error)}`;
       logger.error(message);
       throw new Error(message);
     }
@@ -79,7 +79,7 @@ export class NodesApi {
     try {
       return await this.createContent({ files: names }, relativePath);
     } catch (error) {
-      const message = `${this.constructor.name} ${this.createFiles.name}: ${error}`;
+      const message = `${this.constructor.name} ${this.createFiles.name}: ${Utils.extractErrorMessage(error)}`;
       logger.error(message);
       throw new Error(message);
     }
@@ -103,7 +103,7 @@ export class NodesApi {
     try {
       return await this.createContent({ folders: names }, relativePath);
     } catch (error) {
-      const message = `${this.constructor.name} ${this.createFolders.name}: ${error}`;
+      const message = `${this.constructor.name} ${this.createFolders.name}: ${Utils.extractErrorMessage(error)}`;
       logger.error(message);
       throw new Error(message);
     }
@@ -113,7 +113,7 @@ export class NodesApi {
     try {
       await this.apiService.trashCan.deleteDeletedNode(name);
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.deleteDeletedNode.name}: ${error}`);
+      logger.error(`${this.constructor.name} ${this.deleteDeletedNode.name}: ${Utils.extractErrorMessage(error)}`);
     }
   }
 
@@ -157,7 +157,7 @@ export class NodesApi {
           return this.getNodeById(existingNodeId);
         }
       }
-      const message = `${this.constructor.name} ${this.createNode.name}: ${error instanceof Error ? error.message : JSON.stringify(error)}`;
+      const message = `${this.constructor.name} ${this.createNode.name}: ${Utils.extractErrorMessage(error)}`;
       logger.error(message);
       throw new Error(message);
     }
@@ -167,7 +167,7 @@ export class NodesApi {
     try {
       return this.apiService.nodes.updateNode(nodeId, { name: newName });
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.renameNode.name}: ${error}`);
+      logger.error(`${this.constructor.name} ${this.renameNode.name}: ${Utils.extractErrorMessage(error)}`);
       return null;
     }
   }
@@ -181,7 +181,7 @@ export class NodesApi {
     try {
       await this.apiService.nodes.deleteNodes(nodeIds, { permanent });
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.deleteNodes.name}: ${JSON.stringify(error)}`);
+      logger.error(`${this.constructor.name} ${this.deleteNodes.name}: ${Utils.extractErrorMessage(error)}`);
     }
   }
 
@@ -189,7 +189,7 @@ export class NodesApi {
     try {
       return await this.apiService.nodes.updateNode(nodeId, nodeBodyUpdate, opts);
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.updateNode.name}: ${error}`);
+      logger.error(`${this.constructor.name} ${this.updateNode.name}: ${Utils.extractErrorMessage(error)}`);
       return null;
     }
   }
@@ -205,7 +205,7 @@ export class NodesApi {
       }
       return await this.apiService.nodes.updateNodeContent(nodeId, content as unknown as string, opts); // NOSONAR
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.updateNodeContent.name}: ${JSON.stringify(error)}`);
+      logger.error(`${this.constructor.name} ${this.updateNodeContent.name}: ${Utils.extractErrorMessage(error)}`);
       return Promise.reject(error);
     }
   }
@@ -220,7 +220,7 @@ export class NodesApi {
       const userNodesIds = userNodes.map((nodeChild) => nodeChild.entry.id);
       await this.deleteNodes(userNodesIds);
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.deleteCurrentUserNodes.name}: ${error}`);
+      logger.error(`${this.constructor.name} ${this.deleteCurrentUserNodes.name}: ${Utils.extractErrorMessage(error)}`);
     }
   }
 
@@ -230,7 +230,7 @@ export class NodesApi {
         await this.apiService.nodes.checkoutNode(nodeId);
       }
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.checkoutNodes.name}: ${error instanceof Error ? error.message : JSON.stringify(error)}`);
+      logger.error(`${this.constructor.name} ${this.checkoutNodes.name}: ${Utils.extractErrorMessage(error)}`);
     }
   }
 
@@ -240,7 +240,7 @@ export class NodesApi {
         await this.apiService.nodes.cancelCheckoutNode(nodeId);
       }
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.cancelCheckout.name}: ${error instanceof Error ? error.message : JSON.stringify(error)}`);
+      logger.error(`${this.constructor.name} ${this.cancelCheckout.name}: ${Utils.extractErrorMessage(error)}`);
     }
   }
 
@@ -265,7 +265,7 @@ export class NodesApi {
     try {
       return this.apiService.nodes.createNode('-my-', flattenNodeContentTree(content, relativePath) as any);
     } catch (error) {
-      const message = `${this.constructor.name} ${this.createContent.name}: ${error}`;
+      const message = `${this.constructor.name} ${this.createContent.name}: ${Utils.extractErrorMessage(error)}`;
       logger.error(message);
       throw new Error(message);
     }
@@ -275,7 +275,7 @@ export class NodesApi {
     try {
       return this.apiService.nodes.getNode(id, opts);
     } catch (error) {
-      const message = `${this.constructor.name} ${this.getNodeById.name}: ${error}`;
+      const message = `${this.constructor.name} ${this.getNodeById.name}: ${Utils.extractErrorMessage(error)}`;
       logger.error(message);
       throw new Error(message);
     }
@@ -290,7 +290,7 @@ export class NodesApi {
       }
       return folder.parentId;
     } catch (error) {
-      const message = `${this.constructor.name} ${this.getRepositoryFolderId.name}: ${error}`;
+      const message = `${this.constructor.name} ${this.getRepositoryFolderId.name}: ${Utils.extractErrorMessage(error)}`;
       logger.error(message);
       throw new Error(message);
     }
@@ -301,7 +301,7 @@ export class NodesApi {
       const children = (await this.getNodeChildren(parentId))?.list?.entries ?? [];
       return children.find((elem) => elem.entry.name === name)?.entry.id ?? '';
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.getNodeIdFromParent.name}: ${error}`);
+      logger.error(`${this.constructor.name} ${this.getNodeIdFromParent.name}: ${Utils.extractErrorMessage(error)}`);
       return '';
     }
   }
@@ -313,7 +313,7 @@ export class NodesApi {
       };
       return this.apiService.nodes.listNodeChildren(nodeId, opts);
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.getNodeChildren.name}: ${error}`);
+      logger.error(`${this.constructor.name} ${this.getNodeChildren.name}: ${Utils.extractErrorMessage(error)}`);
       return null;
     }
   }
@@ -322,7 +322,7 @@ export class NodesApi {
     try {
       await this.apiService.nodes.deleteNode(id, { permanent });
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.deleteNodeById.name}: ${error}`);
+      logger.error(`${this.constructor.name} ${this.deleteNodeById.name}: ${Utils.extractErrorMessage(error)}`);
     }
   }
 
@@ -334,7 +334,7 @@ export class NodesApi {
         await this.deleteNodeById(nodeId);
       }
     } catch (error) {
-      logger.error(`Admin Actions - cleanupNodeTemplatesItems failed: ${error}`);
+      logger.error(`Admin Actions - cleanupNodeTemplatesItems failed: ${Utils.extractErrorMessage(error)}`);
     }
   }
 
@@ -346,7 +346,7 @@ export class NodesApi {
         await this.deleteNodeById(nodeId);
       }
     } catch (error) {
-      logger.error(`Admin Actions - cleanupSpaceTemplatesFolder failed: ${error}`);
+      logger.error(`Admin Actions - cleanupSpaceTemplatesFolder failed: ${Utils.extractErrorMessage(error)}`);
     }
   }
 
@@ -354,7 +354,7 @@ export class NodesApi {
     try {
       return this.getNodeIdFromParent('Node Templates', await this.getDataDictionaryId());
     } catch (error) {
-      logger.error(`Admin Actions - getNodeTemplatesFolderId failed: ${error}`);
+      logger.error(`Admin Actions - getNodeTemplatesFolderId failed: ${Utils.extractErrorMessage(error)}`);
       return '';
     }
   }
@@ -363,14 +363,14 @@ export class NodesApi {
     try {
       return this.getNodeIdFromParent('Space Templates', await this.getDataDictionaryId());
     } catch (error) {
-      logger.error(`Admin Actions - getSpaceTemplatesFolderId failed: ${error}`);
+      logger.error(`Admin Actions - getSpaceTemplatesFolderId failed: ${Utils.extractErrorMessage(error)}`);
       return '';
     }
   }
 
   private async getDataDictionaryId(): Promise<string> {
     return this.getNodeIdFromParent('Data Dictionary', '-root-').catch((error) => {
-      logger.error(`Admin Actions - getDataDictionaryId failed: ${error}`);
+      logger.error(`Admin Actions - getDataDictionaryId failed: ${Utils.extractErrorMessage(error)}`);
       return '';
     });
   }
@@ -391,7 +391,7 @@ export class NodesApi {
     try {
       return this.apiService.nodes.updateNode(nodeId, data);
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.setGranularPermission.name}: ${error}`);
+      logger.error(`${this.constructor.name} ${this.setGranularPermission.name}: ${Utils.extractErrorMessage(error)}`);
       return null;
     }
   }
@@ -403,7 +403,7 @@ export class NodesApi {
 
       return this.setInheritPermissions(nodeId, false);
     } catch (error) {
-      logger.error(`Admin Actions - removeUserAccessOnNodeTemplate failed: ${error}`);
+      logger.error(`Admin Actions - removeUserAccessOnNodeTemplate failed: ${Utils.extractErrorMessage(error)}`);
       return null;
     }
   }
@@ -415,7 +415,7 @@ export class NodesApi {
 
       return this.setInheritPermissions(nodeId, false);
     } catch (error) {
-      logger.error(`Admin Actions - removeUserAccessOnSpaceTemplate failed: ${error}`);
+      logger.error(`Admin Actions - removeUserAccessOnSpaceTemplate failed: ${Utils.extractErrorMessage(error)}`);
       return null;
     }
   }
@@ -430,7 +430,7 @@ export class NodesApi {
     try {
       return this.apiService.nodes.updateNode(nodeId, data);
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.setInheritPermissions.name}: ${error}`);
+      logger.error(`${this.constructor.name} ${this.setInheritPermissions.name}: ${Utils.extractErrorMessage(error)}`);
       return null;
     }
   }
@@ -439,7 +439,7 @@ export class NodesApi {
     try {
       return this.apiService.nodes.updateNode(nodeId, { aspectNames });
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.addAspects.name}: ${error}`);
+      logger.error(`${this.constructor.name} ${this.addAspects.name}: ${Utils.extractErrorMessage(error)}`);
       return null;
     }
   }
@@ -459,7 +459,7 @@ export class NodesApi {
       await this.addAspects(originalNodeId, ['app:linked']);
       return link;
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.createFileLink.name}: ${error}`);
+      logger.error(`${this.constructor.name} ${this.createFileLink.name}: ${Utils.extractErrorMessage(error)}`);
       return null;
     }
   }
@@ -482,7 +482,7 @@ export class NodesApi {
       await this.addAspects(originalNodeId, ['app:linked']);
       return link;
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.createFolderLink.name}: ${error}`);
+      logger.error(`${this.constructor.name} ${this.createFolderLink.name}: ${Utils.extractErrorMessage(error)}`);
       return null;
     }
   }
@@ -495,7 +495,7 @@ export class NodesApi {
 
       return this.createFileLink(nodeId, destinationParentId);
     } catch (error) {
-      const message = `Admin Actions - createLinkToFileName failed : ${error}`;
+      const message = `Admin Actions - createLinkToFileName failed : ${Utils.extractErrorMessage(error)}`;
       logger.error(message);
       throw new Error(message);
     }
@@ -508,7 +508,7 @@ export class NodesApi {
       const nodeId = await this.getNodeIdFromParent(originalFolderName, originalFolderParentId);
       return this.createFolderLink(nodeId, destinationParentId);
     } catch (error) {
-      const message = `Admin Actions - createLinkToFolderName failed : ${error}`;
+      const message = `Admin Actions - createLinkToFolderName failed : ${Utils.extractErrorMessage(error)}`;
       logger.error(message);
       throw new Error(message);
     }
@@ -519,7 +519,7 @@ export class NodesApi {
       const node = await this.getNodeById(nodeId);
       return node.entry.properties?.[property] ?? '';
     } catch (error) {
-      const message = `${this.constructor.name} ${this.getNodeProperty.name}: ${error}`;
+      const message = `${this.constructor.name} ${this.getNodeProperty.name}: ${Utils.extractErrorMessage(error)}`;
       logger.error(message);
       throw new Error(message);
     }
@@ -530,7 +530,7 @@ export class NodesApi {
       const sharedId = await this.getNodeProperty(nodeId, 'qshare:sharedId');
       return sharedId !== '';
     } catch (error) {
-      const message = `${this.constructor.name} ${this.isFileShared.name}: ${error}`;
+      const message = `${this.constructor.name} ${this.isFileShared.name}: ${Utils.extractErrorMessage(error)}`;
       logger.error(message);
       throw new Error(message);
     }
@@ -541,7 +541,7 @@ export class NodesApi {
       const lockType = await this.getNodeProperty(nodeId, 'cm:lockType');
       return lockType || '';
     } catch (error) {
-      const message = `${this.constructor.name} ${this.getLockType.name}: ${error}`;
+      const message = `${this.constructor.name} ${this.getLockType.name}: ${Utils.extractErrorMessage(error)}`;
       logger.error(message);
       throw new Error(message);
     }
@@ -551,7 +551,7 @@ export class NodesApi {
     try {
       return (await this.getLockType(nodeId)) === 'WRITE_LOCK';
     } catch (error) {
-      const message = `${this.constructor.name} ${this.isFileLockedWrite.name}: ${error}`;
+      const message = `${this.constructor.name} ${this.isFileLockedWrite.name}: ${Utils.extractErrorMessage(error)}`;
       logger.error(message);
       throw new Error(message);
     }

@@ -67,7 +67,7 @@ test.describe('Edit Mode - Tags and Categories', () => {
       searchApi = await SearchApi.initialize(username, username);
       tagsApi = await TagsApi.initialize('admin');
     } catch (error) {
-      console.error(`beforeAll failed : ${error}`);
+      console.error(`beforeAll failed : ${Utils.extractErrorMessage(error)}`);
       throw error;
     }
   });
@@ -91,7 +91,7 @@ test.describe('Edit Mode - Tags and Categories', () => {
 
         await searchApi.waitForNodes(folder919, { expect: 1 });
       } catch (error) {
-        console.error(`beforeAll failed : ${error}`);
+        console.error(`beforeAll failed : ${Utils.extractErrorMessage(error)}`);
         throw error;
       }
     });
@@ -115,7 +115,7 @@ test.describe('Edit Mode - Tags and Categories', () => {
 
         await searchApi.waitForNodes(folder938, { expect: 1 });
       } catch (error) {
-        console.error(`beforeAll failed : ${error}`);
+        console.error(`beforeAll failed : ${Utils.extractErrorMessage(error)}`);
         throw error;
       }
     });
@@ -143,7 +143,7 @@ test.describe('Edit Mode - Tags and Categories', () => {
 
         await searchApi.waitForNodes(folder939, { expect: 1 });
       } catch (error) {
-        console.error(`beforeAll failed : ${error}`);
+        console.error(`beforeAll failed : ${Utils.extractErrorMessage(error)}`);
         throw error;
       }
     });
@@ -171,7 +171,7 @@ test.describe('Edit Mode - Tags and Categories', () => {
 
         await searchApi.waitForNodes(folder942, { expect: 1 });
       } catch (error) {
-        console.error(`beforeAll failed : ${error}`);
+        console.error(`beforeAll failed : ${Utils.extractErrorMessage(error)}`);
         throw error;
       }
     });

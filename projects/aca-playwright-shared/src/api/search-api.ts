@@ -229,7 +229,7 @@ export class SearchApi {
       logger.info(`waitForFolderPathIndexing: Found expected ${options.nodesExpected} nodes in folder ${folderId}`);
       return result.list?.pagination?.count ?? 0;
     } catch (error) {
-      const errorMessage = `waitForFolderPathIndexing failed for folderId "${folderId}": ${JSON.stringify(error)}`;
+      const errorMessage = `waitForFolderPathIndexing failed for folderId "${folderId}": ${Utils.extractErrorMessage(error)}`;
       logger.error(errorMessage);
       throw new Error(errorMessage);
     }
@@ -244,7 +244,7 @@ export class SearchApi {
       }
       logger.info(`waitFileForSearchIndexing: File "${fileName}" is indexed.`);
     } catch (error) {
-      const errorMessage = `waitFileForSearchIndexing failed for file "${fileName}": ${JSON.stringify(error)}`;
+      const errorMessage = `waitFileForSearchIndexing failed for file "${fileName}": ${Utils.extractErrorMessage(error)}`;
       logger.error(errorMessage);
       throw new Error(errorMessage);
     }

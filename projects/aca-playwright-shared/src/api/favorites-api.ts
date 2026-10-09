@@ -118,7 +118,7 @@ export class FavoritesApi {
       };
       return await Utils.retryCall(favoriteFiles);
     } catch (error) {
-      const errorMessage = `FavoritesApi: waitForApi failed - expected ${data.expect} favorites for ${username}, got ${error}`;
+      const errorMessage = `FavoritesApi: waitForApi failed - expected ${data.expect} favorites for ${username}, got ${Utils.extractErrorMessage(error)}`;
       logger.error(errorMessage);
       throw new Error(errorMessage);
     }

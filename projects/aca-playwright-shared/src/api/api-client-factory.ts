@@ -45,7 +45,7 @@ import {
   TagsApi
 } from '@alfresco/js-api';
 import { users } from '../base-config';
-import { logger } from '../utils';
+import { logger, Utils } from '../utils';
 import { Person, PersonModel } from './people-api-models';
 
 export interface AcaBackend {
@@ -138,7 +138,7 @@ export class ApiClientFactory {
     try {
       await this.alfrescoApi.login(user, userPassword);
     } catch (error) {
-      logger.error(`[API Client Factory] Log in user ${user} failed ${JSON.stringify(error)}`);
+      logger.error(`[API Client Factory] Log in user ${user} failed ${Utils.extractErrorMessage(error)}`);
       throw error;
     }
   }
@@ -150,7 +150,7 @@ export class ApiClientFactory {
     try {
       await this.alfrescoApi.login(user.username, user.password);
     } catch (error) {
-      logger.error(`[API Client Factory] Log in user ${user.username} failed ${JSON.stringify(error)}`);
+      logger.error(`[API Client Factory] Log in user ${user.username} failed ${Utils.extractErrorMessage(error)}`);
       throw error;
     }
   }
@@ -166,7 +166,7 @@ export class ApiClientFactory {
         logger.warn(`[API Client Factory] createUser: user "${user.username}" already exists, skipping creation`);
         return null;
       }
-      logger.error(`[API Client Factory] createUser failed: ${JSON.stringify(error)}`);
+      logger.error(`[API Client Factory] createUser failed: ${Utils.extractErrorMessage(error)}`);
       throw error;
     }
   }
@@ -177,7 +177,7 @@ export class ApiClientFactory {
     try {
       return await peopleApi.updatePerson(username, { password: newPassword });
     } catch (error) {
-      logger.error(`[API Client Factory] changePassword failed: ${JSON.stringify(error)}`);
+      logger.error(`[API Client Factory] changePassword failed: ${Utils.extractErrorMessage(error)}`);
       return null;
     }
   }

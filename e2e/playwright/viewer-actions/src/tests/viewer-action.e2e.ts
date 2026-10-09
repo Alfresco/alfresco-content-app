@@ -106,7 +106,7 @@ test.describe('viewer action file', () => {
         folderIdActions = (await nodesApi.createFolder(`viewer-action-5415-5416-5417-${Utils.random()}`)).entry.id;
         await uploadApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderIdActions);
       } catch (error) {
-        console.error(`beforeAll failed: ${error}`);
+        console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
         throw error;
       }
     });
@@ -163,7 +163,7 @@ test.describe('viewer action file', () => {
         await uploadApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
         await uploadApi.uploadFile(TEST_FILES.DOCX.path, randomDocxDelete, folderId);
       } catch (error) {
-        console.error(`beforeAll failed: ${error}`);
+        console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
         throw error;
       }
     });
@@ -207,7 +207,7 @@ test.describe('viewer action file', () => {
         folderIdOffline = (await nodesApi.createFolder(`viewer-action-5423-${Utils.random()}`)).entry.id;
         await uploadApi.uploadFile(TEST_FILES.DOCX.path, fileForEditOffline, folderIdOffline);
       } catch (error) {
-        console.error(`beforeAll failed: ${error}`);
+        console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
         throw error;
       }
     });
@@ -253,7 +253,7 @@ test.describe('viewer action file', () => {
         await nodesApi.checkoutNodes([fileForCancelEditingId]);
         await nodesApi.isFileCheckedOutWithRetry(fileForCancelEditingId, true);
       } catch (error) {
-        console.error(`beforeAll failed: ${error}`);
+        console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
         throw error;
       }
     });
@@ -322,7 +322,7 @@ test.describe('viewer action file', () => {
         await uploadApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, file5720, folder5720Id);
         await nodesApi.checkoutNodes([file17781Id]);
       } catch (error) {
-        console.error(`beforeAll failed: ${error}`);
+        console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
         throw error;
       }
     });
@@ -420,7 +420,7 @@ test.describe('viewer action file', () => {
         const fileDocxShareId = (await uploadApi.uploadFile(TEST_FILES.DOCX.path, randomDocxNameShare, folderId)).entry.id;
         await shareActions.shareFileById(fileDocxShareId);
       } catch (error) {
-        console.error(`beforeAll failed: ${error}`);
+        console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
         throw error;
       }
     });
@@ -469,7 +469,7 @@ test.describe('viewer action file', () => {
         await favoritesActions.addFavoriteById('file', randomDocxNameFavoriteId);
         await favoritesActions.isFavoriteWithRetry(username, randomDocxNameFavoriteId, { expect: true });
       } catch (error) {
-        console.error(`beforeAll failed: ${error}`);
+        console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
         throw error;
       }
     });
@@ -515,7 +515,7 @@ test.describe('viewer action file', () => {
         destinationId = (await nodesApi.createFolder(destination)).entry.id;
         await uploadApi.uploadFileWithRename(TEST_FILES.DOCX.path, docxRecentFiles, folderId);
       } catch (error) {
-        console.error(`beforeAll failed: ${error}`);
+        console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
         throw error;
       }
     });

@@ -54,7 +54,7 @@ test.describe('Info Drawer - Comments', () => {
       favoritesActions = await FavoritesApi.initialize(username, username);
       searchApi = await SearchApi.initialize(username, username);
     } catch (error) {
-      console.error(`beforeAll failed : ${error}`);
+      console.error(`beforeAll failed : ${Utils.extractErrorMessage(error)}`);
     }
   });
 
@@ -191,7 +191,7 @@ test.describe('Info Drawer - Comments - Sites Privileges', () => {
       await nodesApi1.createFolder(folderName5522, documentLibraryId1);
       await searchApi1.waitForNodes(folderName5522, { expect: 1 });
     } catch (error) {
-      console.error(`beforeAll failed : ${error}`);
+      console.error(`beforeAll failed : ${Utils.extractErrorMessage(error)}`);
     }
   });
 

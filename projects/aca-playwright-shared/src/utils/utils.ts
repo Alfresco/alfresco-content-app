@@ -53,6 +53,35 @@ export class Utils {
   }
 
   /**
+   * Extracts a human-readable message from an unknown error value.
+   * Attempts to parse Alfresco API error payloads before falling back to the raw message.
+   *
+   * @param error the caught error of unknown type
+   * @param includeStack when true, appends the error stack trace (useful for swallowed setup/cleanup errors)
+   * @returns a readable error message string
+   */
+  static extractErrorMessage(error: unknown, includeStack = false): string {
+    if (error instanceof Error) {
+      let message: string;
+      try {
+        const parsed = JSON.parse(error.message);
+        message = parsed?.error?.briefSummary ?? parsed?.error?.key ?? parsed?.message ?? error.message;
+      } catch {
+        message = error.message;
+      }
+      return includeStack && error.stack ? `${message}\n${error.stack}` : message;
+    }
+    if (error && typeof error === 'object') {
+      try {
+        return JSON.stringify(error);
+      } catch {
+        return String(error);
+      }
+    }
+    return String(error);
+  }
+
+  /**
    * Method used to login user with navigation. Also waits for the page to load after login
    *
    * @param loginPage page context passed from the test
@@ -65,7 +94,7 @@ export class Utils {
     try {
       await loginPage.loginUser({ username, password }, { withNavigation: true, waitForLoading: true });
     } catch (error) {
-      throw new Error(`${errorMessage}: ${error}`);
+      throw new Error(`${errorMessage}: ${Utils.extractErrorMessage(error)}`);
     }
   }
 
@@ -93,7 +122,7 @@ export class Utils {
         await sitesApi?.deleteSites(sitesToDelete);
       }
     } catch (error) {
-      console.error(`${errorMessage}: ${error}`);
+      console.error(`${errorMessage}: ${Utils.extractErrorMessage(error, true)}`);
     }
   }
 
@@ -112,7 +141,7 @@ export class Utils {
         await pageContext.page.reload({ waitUntil: 'load' });
       }
     } catch (error) {
-      console.error(`${errorMessage}: ${error}`);
+      console.error(`${errorMessage}: ${Utils.extractErrorMessage(error, true)}`);
     }
   }
 
@@ -125,7 +154,7 @@ export class Utils {
         await pageContext.page.reload({ waitUntil: 'load' });
       }
     } catch (error) {
-      console.error(`${errorMessage}: ${error}`);
+      console.error(`${errorMessage}: ${Utils.extractErrorMessage(error, true)}`);
     }
   }
 

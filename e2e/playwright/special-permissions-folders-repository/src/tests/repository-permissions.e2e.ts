@@ -69,7 +69,7 @@ test.describe('Repository — Permissions routing', () => {
         testData = await seedRepositoryTestData({ userNodesApi, adminNodesApi: userNodesApi });
         await sharedLinksApi.shareFileById(testData.repoFile.id);
       } catch (error) {
-        console.error(`beforeAll (admin) failed: ${error}`);
+        console.error(`beforeAll (admin) failed: ${Utils.extractErrorMessage(error)}`);
         throw error;
       }
     });
@@ -147,7 +147,7 @@ test.describe('Repository — Permissions routing', () => {
         const created = (await personalUserPermissionsNodesApi.createFile(personalFileName)).entry;
         personalFile = { id: created.id, name: personalFileName };
       } catch (error) {
-        console.error(`repository-permissions - beforeAll (personal user) failed: ${error}`);
+        console.error(`repository-permissions - beforeAll (personal user) failed: ${Utils.extractErrorMessage(error)}`);
         throw error;
       }
     });

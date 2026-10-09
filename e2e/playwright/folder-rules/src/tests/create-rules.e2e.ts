@@ -82,7 +82,7 @@ test.describe('Folder Rules Actions', () => {
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
     } catch (error) {
-      const errorMessage = `beforeAll failed : ${JSON.stringify(error)}`;
+      const errorMessage = `beforeAll failed : ${Utils.extractErrorMessage(error)}`;
       console.error(errorMessage);
       throw new Error(errorMessage);
     }

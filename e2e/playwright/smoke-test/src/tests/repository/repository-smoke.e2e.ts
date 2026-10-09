@@ -55,7 +55,7 @@ test.describe('Repository — smoke test', () => {
       smokeFileName = `smoke-repo-${Utils.random()}.txt`;
       smokeFileId = (await userNodesApi.createFile(smokeFileName, testData.repoFolder.id)).entry.id;
     } catch (error) {
-      console.error(`beforeAll failed: ${error}`);
+      console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
       throw error;
     }
   });
