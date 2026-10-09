@@ -495,24 +495,24 @@
                 "EXPAND": "Développer"
             },
             "ASSOCIATIONS": {
-                "EMPTY": "{{ name }} has no associations.",
-                "CREATE": "Create Association",
-                "CREATE_SUCCESS": "Association created successfully.",
-                "CREATE_ERROR": "There was an error while creating the association.",
+                "EMPTY": "{{ name }} n'a aucune association.",
+                "CREATE": "Créer une association",
+                "CREATE_SUCCESS": "Association créée avec succès.",
+                "CREATE_ERROR": "Une erreur est survenue lors de la création de l'association.",
                 "CREATE_DIALOG": {
-                    "TITLE": "Create Association",
-                    "TYPE_LABEL": "Association type",
-                    "CANCEL": "Cancel",
-                    "CLOSE": "Close"
+                    "TITLE": "Créer une association",
+                    "TYPE_LABEL": "Type d'association",
+                    "CANCEL": "Annuler",
+                    "CLOSE": "Fermer"
                 },
-                "DELETE": "Delete association",
-                "DELETE_SUCCESS": "Association deleted successfully.",
-                "DELETE_ERROR": "There was an error while deleting the association.",
+                "DELETE": "Supprimer l'association",
+                "DELETE_SUCCESS": "Association supprimée avec succès.",
+                "DELETE_ERROR": "Une erreur est survenue lors de la suppression de l'association.",
                 "DELETE_DIALOG": {
-                    "TITLE": "Delete association",
+                    "TITLE": "Supprimer l'association",
                     "MESSAGE": "Voulez-vous vraiment supprimer cette association ?",
-                    "YES_LABEL": "Delete",
-                    "NO_LABEL": "Cancel"
+                    "YES_LABEL": "Supprimer",
+                    "NO_LABEL": "Annuler"
                 }
             }
         },

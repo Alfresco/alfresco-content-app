@@ -486,7 +486,7 @@
             "DATA_LOADING": "数据正在加载",
             "ICON": "节点图标",
             "TABS": {
-                "ASSOCIATIONS": "Associations",
+                "ASSOCIATIONS": "关联",
                 "PROPERTIES": "属性",
                 "LIBRARY_PROPERTIES": "关于",
                 "VERSIONS": "版本",
@@ -495,24 +495,24 @@
                 "EXPAND": "展开"
             },
             "ASSOCIATIONS": {
-                "EMPTY": "{{ name }} has no associations.",
-                "CREATE": "Create Association",
-                "CREATE_SUCCESS": "Association created successfully.",
-                "CREATE_ERROR": "There was an error while creating the association.",
+                "EMPTY": "{{ name }} 没有关联。",
+                "CREATE": "创建关联",
+                "CREATE_SUCCESS": "关联创建成功。",
+                "CREATE_ERROR": "创建关联时发生错误。",
                 "CREATE_DIALOG": {
-                    "TITLE": "Create Association",
-                    "TYPE_LABEL": "Association type",
-                    "CANCEL": "Cancel",
-                    "CLOSE": "Close"
+                    "TITLE": "创建关联",
+                    "TYPE_LABEL": "关联类型",
+                    "CANCEL": "取消",
+                    "CLOSE": "关闭"
                 },
-                "DELETE": "Delete association",
-                "DELETE_SUCCESS": "Association deleted successfully.",
-                "DELETE_ERROR": "There was an error while deleting the association.",
+                "DELETE": "删除关联",
+                "DELETE_SUCCESS": "已成功删除关联。",
+                "DELETE_ERROR": "删除关联时发生错误。",
                 "DELETE_DIALOG": {
-                    "TITLE": "Delete association",
-                    "MESSAGE": "Are you sure you want to delete this association?",
-                    "YES_LABEL": "Delete",
-                    "NO_LABEL": "Cancel"
+                    "TITLE": "删除关联",
+                    "MESSAGE": "确定要删除此关联吗？",
+                    "YES_LABEL": "删除",
+                    "NO_LABEL": "取消"
                 }
             }
         },

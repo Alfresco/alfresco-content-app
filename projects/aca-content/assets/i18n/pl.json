@@ -486,7 +486,7 @@
             "DATA_LOADING": "Dane są wczytywane",
             "ICON": "Ikona węzła",
             "TABS": {
-                "ASSOCIATIONS": "Associations",
+                "ASSOCIATIONS": "Powiązania",
                 "PROPERTIES": "Właściwości",
                 "LIBRARY_PROPERTIES": "Informacje",
                 "VERSIONS": "Wersje",
@@ -495,24 +495,24 @@
                 "EXPAND": "Rozwiń"
             },
             "ASSOCIATIONS": {
-                "EMPTY": "{{ name }} has no associations.",
-                "CREATE": "Create Association",
-                "CREATE_SUCCESS": "Association created successfully.",
-                "CREATE_ERROR": "There was an error while creating the association.",
+                "EMPTY": "{{ name }} nie ma powiązań.",
+                "CREATE": "Utwórz powiązanie",
+                "CREATE_SUCCESS": "Powiązanie zostało pomyślnie utworzone.",
+                "CREATE_ERROR": "Wystąpił błąd podczas tworzenia powiązania.",
                 "CREATE_DIALOG": {
-                    "TITLE": "Create Association",
-                    "TYPE_LABEL": "Association type",
-                    "CANCEL": "Cancel",
-                    "CLOSE": "Close"
+                    "TITLE": "Utwórz powiązanie",
+                    "TYPE_LABEL": "Typ powiązania",
+                    "CANCEL": "Anuluj",
+                    "CLOSE": "Zamknij"
                 },
-                "DELETE": "Delete association",
-                "DELETE_SUCCESS": "Association deleted successfully.",
-                "DELETE_ERROR": "There was an error while deleting the association.",
+                "DELETE": "Usuń powiązanie",
+                "DELETE_SUCCESS": "Powiązanie usunięte pomyślnie.",
+                "DELETE_ERROR": "Wystąpił błąd podczas usuwania powiązania.",
                 "DELETE_DIALOG": {
-                    "TITLE": "Delete association",
-                    "MESSAGE": "Are you sure you want to delete this association?",
-                    "YES_LABEL": "Delete",
-                    "NO_LABEL": "Cancel"
+                    "TITLE": "Usuń powiązanie",
+                    "MESSAGE": "Czy na pewno chcesz usunąć to powiązanie?",
+                    "YES_LABEL": "Usuń",
+                    "NO_LABEL": "Anuluj"
                 }
             }
         },

@@ -486,7 +486,7 @@
             "DATA_LOADING": "Tietoja ladataan",
             "ICON": "Solmukuvake",
             "TABS": {
-                "ASSOCIATIONS": "Associations",
+                "ASSOCIATIONS": "Liitokset",
                 "PROPERTIES": "Ominaisuudet",
                 "LIBRARY_PROPERTIES": "Tietoja",
                 "VERSIONS": "Versiot",
@@ -495,24 +495,24 @@
                 "EXPAND": "Laajenna"
             },
             "ASSOCIATIONS": {
-                "EMPTY": "{{ name }} has no associations.",
-                "CREATE": "Create Association",
-                "CREATE_SUCCESS": "Association created successfully.",
-                "CREATE_ERROR": "There was an error while creating the association.",
+                "EMPTY": "Kohteella {{ name }} ei ole liitoksia.",
+                "CREATE": "Luo liitos",
+                "CREATE_SUCCESS": "Liitoksen luonti onnistui.",
+                "CREATE_ERROR": "Liitoksen luonnissa tapahtui virhe.",
                 "CREATE_DIALOG": {
-                    "TITLE": "Create Association",
-                    "TYPE_LABEL": "Association type",
-                    "CANCEL": "Cancel",
-                    "CLOSE": "Close"
+                    "TITLE": "Luo liitos",
+                    "TYPE_LABEL": "Liitoksen tyyppi",
+                    "CANCEL": "Peruuta",
+                    "CLOSE": "Sulje"
                 },
-                "DELETE": "Delete association",
-                "DELETE_SUCCESS": "Association deleted successfully.",
+                "DELETE": "Poista liitos",
+                "DELETE_SUCCESS": "Liitoksen poisto onnistui.",
                 "DELETE_ERROR": "Liitoksen poistossa tapahtui virhe.",
                 "DELETE_DIALOG": {
-                    "TITLE": "Delete association",
-                    "MESSAGE": "Are you sure you want to delete this association?",
-                    "YES_LABEL": "Delete",
-                    "NO_LABEL": "Cancel"
+                    "TITLE": "Poista liitos",
+                    "MESSAGE": "Haluatko varmasti poistaa tämän liitoksen?",
+                    "YES_LABEL": "Poista",
+                    "NO_LABEL": "Peruuta"
                 }
             }
         },

@@ -486,7 +486,7 @@
             "DATA_LOADING": "Data läses in",
             "ICON": "Nodikon",
             "TABS": {
-                "ASSOCIATIONS": "Associations",
+                "ASSOCIATIONS": "Associationer",
                 "PROPERTIES": "Egenskaper",
                 "LIBRARY_PROPERTIES": "Om",
                 "VERSIONS": "Versioner",
@@ -495,24 +495,24 @@
                 "EXPAND": "Expandera"
             },
             "ASSOCIATIONS": {
-                "EMPTY": "{{ name }} has no associations.",
-                "CREATE": "Create Association",
-                "CREATE_SUCCESS": "Association created successfully.",
-                "CREATE_ERROR": "There was an error while creating the association.",
+                "EMPTY": "{{ name }} har inga associationer.",
+                "CREATE": "Skapa association",
+                "CREATE_SUCCESS": "Associationen skapades.",
+                "CREATE_ERROR": "Det uppstod ett fel när associationen skulle skapas.",
                 "CREATE_DIALOG": {
-                    "TITLE": "Create Association",
-                    "TYPE_LABEL": "Association type",
-                    "CANCEL": "Cancel",
-                    "CLOSE": "Close"
+                    "TITLE": "Skapa association",
+                    "TYPE_LABEL": "Associationstyp",
+                    "CANCEL": "Avbryt",
+                    "CLOSE": "Stäng"
                 },
-                "DELETE": "Delete association",
-                "DELETE_SUCCESS": "Association deleted successfully.",
-                "DELETE_ERROR": "There was an error while deleting the association.",
+                "DELETE": "Radera association",
+                "DELETE_SUCCESS": "Associationen har raderats.",
+                "DELETE_ERROR": "Det uppstod ett fel när associationen skulle raderas.",
                 "DELETE_DIALOG": {
-                    "TITLE": "Delete association",
-                    "MESSAGE": "Are you sure you want to delete this association?",
-                    "YES_LABEL": "Delete",
-                    "NO_LABEL": "Cancel"
+                    "TITLE": "Radera association",
+                    "MESSAGE": "Är du säker på att du vill radera den här associationen?",
+                    "YES_LABEL": "Radera",
+                    "NO_LABEL": "Avbryt"
                 }
             }
         },
