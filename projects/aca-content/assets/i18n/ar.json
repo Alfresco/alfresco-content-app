@@ -486,7 +486,7 @@
             "DATA_LOADING": "يتم تحميل البيانات",
             "ICON": "أيقونة العقدة",
             "TABS": {
-                "ASSOCIATIONS": "Associations",
+                "ASSOCIATIONS": "الاقترانات",
                 "PROPERTIES": "الخصائص",
                 "LIBRARY_PROPERTIES": "حول",
                 "VERSIONS": "الإصدارات",
@@ -495,24 +495,24 @@
                 "EXPAND": "يوسع"
             },
             "ASSOCIATIONS": {
-                "EMPTY": "{{ name }} has no associations.",
-                "CREATE": "Create Association",
-                "CREATE_SUCCESS": "Association created successfully.",
-                "CREATE_ERROR": "There was an error while creating the association.",
+                "EMPTY": "لا توجد اقترانات لـ {{ name }}.",
+                "CREATE": "إنشاء اقتران",
+                "CREATE_SUCCESS": "تم إنشاء الاقتران بنجاح.",
+                "CREATE_ERROR": "حدث خطأ أثناء إنشاء الاقتران.",
                 "CREATE_DIALOG": {
-                    "TITLE": "Create Association",
-                    "TYPE_LABEL": "Association type",
-                    "CANCEL": "Cancel",
-                    "CLOSE": "Close"
+                    "TITLE": "إنشاء اقتران",
+                    "TYPE_LABEL": "نوع الاقتران",
+                    "CANCEL": "إلغاء",
+                    "CLOSE": "إغلاق"
                 },
-                "DELETE": "Delete association",
-                "DELETE_SUCCESS": "Association deleted successfully.",
-                "DELETE_ERROR": "There was an error while deleting the association.",
+                "DELETE": "حذف اقتران",
+                "DELETE_SUCCESS": "تم حذف الاقتران بنجاح.",
+                "DELETE_ERROR": "حدث خطأ أثناء حذف الاقتران.",
                 "DELETE_DIALOG": {
-                    "TITLE": "Delete association",
+                    "TITLE": "حذف اقتران",
                     "MESSAGE": "هل أنت متأكد من أنك تريد حذف هذا الاقتران؟",
-                    "YES_LABEL": "Delete",
-                    "NO_LABEL": "Cancel"
+                    "YES_LABEL": "حذف",
+                    "NO_LABEL": "إلغاء"
                 }
             }
         },

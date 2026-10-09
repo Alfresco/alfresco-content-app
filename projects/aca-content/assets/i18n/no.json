@@ -486,7 +486,7 @@
             "DATA_LOADING": "Data lastes inn",
             "ICON": "Node-ikon",
             "TABS": {
-                "ASSOCIATIONS": "Associations",
+                "ASSOCIATIONS": "Tilknytninger",
                 "PROPERTIES": "Egenskaper",
                 "LIBRARY_PROPERTIES": "Om",
                 "VERSIONS": "Versjoner",
@@ -495,24 +495,24 @@
                 "EXPAND": "Utvid panel"
             },
             "ASSOCIATIONS": {
-                "EMPTY": "{{ name }} has no associations.",
-                "CREATE": "Create Association",
-                "CREATE_SUCCESS": "Association created successfully.",
-                "CREATE_ERROR": "There was an error while creating the association.",
+                "EMPTY": "{{ name }} har ingen tilknytninger.",
+                "CREATE": "Opprett tilknytning",
+                "CREATE_SUCCESS": "Tilknytningen ble opprettet.",
+                "CREATE_ERROR": "Det oppstod en feil under oppretting av tilknytningen.",
                 "CREATE_DIALOG": {
-                    "TITLE": "Create Association",
+                    "TITLE": "Opprett tilknytning",
                     "TYPE_LABEL": "Tilknytningstype",
-                    "CANCEL": "Cancel",
-                    "CLOSE": "Close"
+                    "CANCEL": "Avbryt",
+                    "CLOSE": "Lukk"
                 },
-                "DELETE": "Delete association",
-                "DELETE_SUCCESS": "Association deleted successfully.",
-                "DELETE_ERROR": "There was an error while deleting the association.",
+                "DELETE": "Slett tilknytning",
+                "DELETE_SUCCESS": "Tilknytningen er slettet.",
+                "DELETE_ERROR": "Det oppstod en feil under sletting av tilknytningen.",
                 "DELETE_DIALOG": {
-                    "TITLE": "Delete association",
-                    "MESSAGE": "Are you sure you want to delete this association?",
-                    "YES_LABEL": "Delete",
-                    "NO_LABEL": "Cancel"
+                    "TITLE": "Slett tilknytning",
+                    "MESSAGE": "Er du sikker på at du vil slette denne tilknytningen?",
+                    "YES_LABEL": "Slett",
+                    "NO_LABEL": "Avbryt"
                 }
             }
         },

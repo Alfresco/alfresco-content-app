@@ -486,7 +486,7 @@
             "DATA_LOADING": "Caricamento dei dati in corso",
             "ICON": "Icona nodo",
             "TABS": {
-                "ASSOCIATIONS": "Associations",
+                "ASSOCIATIONS": "Associazioni",
                 "PROPERTIES": "Proprietà",
                 "LIBRARY_PROPERTIES": "Informazioni su",
                 "VERSIONS": "Versioni",
@@ -495,24 +495,24 @@
                 "EXPAND": "Espandi"
             },
             "ASSOCIATIONS": {
-                "EMPTY": "{{ name }} has no associations.",
-                "CREATE": "Create Association",
-                "CREATE_SUCCESS": "Association created successfully.",
-                "CREATE_ERROR": "There was an error while creating the association.",
+                "EMPTY": "{{ name }} non ha associazioni.",
+                "CREATE": "Crea associazione",
+                "CREATE_SUCCESS": "Creazione dell'associazione riuscita.",
+                "CREATE_ERROR": "Si è verificato un errore durante la creazione dell'associazione.",
                 "CREATE_DIALOG": {
-                    "TITLE": "Create Association",
-                    "TYPE_LABEL": "Association type",
-                    "CANCEL": "Cancel",
-                    "CLOSE": "Close"
+                    "TITLE": "Crea associazione",
+                    "TYPE_LABEL": "Tipo di associazione",
+                    "CANCEL": "Annulla",
+                    "CLOSE": "Chiudi"
                 },
-                "DELETE": "Delete association",
-                "DELETE_SUCCESS": "Association deleted successfully.",
-                "DELETE_ERROR": "There was an error while deleting the association.",
+                "DELETE": "Rimuovi associazione",
+                "DELETE_SUCCESS": "Associazione eliminata con successo.",
+                "DELETE_ERROR": "Si è verificato un errore durante l'eliminazione dell'associazione.",
                 "DELETE_DIALOG": {
-                    "TITLE": "Delete association",
-                    "MESSAGE": "Are you sure you want to delete this association?",
-                    "YES_LABEL": "Delete",
-                    "NO_LABEL": "Cancel"
+                    "TITLE": "Rimuovi associazione",
+                    "MESSAGE": "Si desidera eliminare questa associazione?",
+                    "YES_LABEL": "Elimina",
+                    "NO_LABEL": "Annulla"
                 }
             }
         },

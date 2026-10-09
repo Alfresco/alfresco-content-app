@@ -486,7 +486,7 @@
             "DATA_LOADING": "Data worden geladen",
             "ICON": "Node Icon",
             "TABS": {
-                "ASSOCIATIONS": "Associations",
+                "ASSOCIATIONS": "Koppelingen",
                 "PROPERTIES": "Eigenschappen",
                 "LIBRARY_PROPERTIES": "Info",
                 "VERSIONS": "Versies",
@@ -495,24 +495,24 @@
                 "EXPAND": "Uitvouwen"
             },
             "ASSOCIATIONS": {
-                "EMPTY": "{{ name }} has no associations.",
-                "CREATE": "Create Association",
-                "CREATE_SUCCESS": "Association created successfully.",
-                "CREATE_ERROR": "There was an error while creating the association.",
+                "EMPTY": "{{ name }} heeft geen koppelingen.",
+                "CREATE": "Koppeling maken",
+                "CREATE_SUCCESS": "Koppeling is gemaakt.",
+                "CREATE_ERROR": "Er is een fout opgetreden bij het maken van de koppeling.",
                 "CREATE_DIALOG": {
-                    "TITLE": "Create Association",
-                    "TYPE_LABEL": "Association type",
-                    "CANCEL": "Cancel",
-                    "CLOSE": "Close"
+                    "TITLE": "Koppeling maken",
+                    "TYPE_LABEL": "Type koppeling",
+                    "CANCEL": "Annuleren",
+                    "CLOSE": "Sluiten"
                 },
-                "DELETE": "Delete association",
-                "DELETE_SUCCESS": "Association deleted successfully.",
-                "DELETE_ERROR": "There was an error while deleting the association.",
+                "DELETE": "Koppeling verwijderen",
+                "DELETE_SUCCESS": "Koppeling is verwijderd.",
+                "DELETE_ERROR": "Er is een fout opgetreden bij het verwijderen van de koppeling.",
                 "DELETE_DIALOG": {
-                    "TITLE": "Delete association",
-                    "MESSAGE": "Are you sure you want to delete this association?",
-                    "YES_LABEL": "Delete",
-                    "NO_LABEL": "Cancel"
+                    "TITLE": "Koppeling verwijderen",
+                    "MESSAGE": "Weet u zeker dat u deze koppeling wilt verwijderen?",
+                    "YES_LABEL": "Verwijderen",
+                    "NO_LABEL": "Annuleren"
                 }
             }
         },

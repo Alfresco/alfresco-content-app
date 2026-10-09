@@ -486,7 +486,7 @@
             "DATA_LOADING": "Načítání dat",
             "ICON": "Ikona uzlu",
             "TABS": {
-                "ASSOCIATIONS": "Associations",
+                "ASSOCIATIONS": "Přidružení",
                 "PROPERTIES": "Vlastnosti",
                 "LIBRARY_PROPERTIES": "O aplikaci",
                 "VERSIONS": "Verze",
@@ -495,24 +495,24 @@
                 "EXPAND": "Rozbalit"
             },
             "ASSOCIATIONS": {
-                "EMPTY": "{{ name }} has no associations.",
-                "CREATE": "Create Association",
-                "CREATE_SUCCESS": "Association created successfully.",
-                "CREATE_ERROR": "There was an error while creating the association.",
+                "EMPTY": "{{ name }} nemá žádná přidružení.",
+                "CREATE": "Vytvořit přidružení",
+                "CREATE_SUCCESS": "Přidružení bylo úspěšně vytvořeno.",
+                "CREATE_ERROR": "Při vytváření přidružení došlo k chybě.",
                 "CREATE_DIALOG": {
-                    "TITLE": "Create Association",
-                    "TYPE_LABEL": "Association type",
-                    "CANCEL": "Cancel",
-                    "CLOSE": "Close"
+                    "TITLE": "Vytvořit přidružení",
+                    "TYPE_LABEL": "Typ přidružení",
+                    "CANCEL": "Zrušit",
+                    "CLOSE": "Zavřít"
                 },
-                "DELETE": "Delete association",
-                "DELETE_SUCCESS": "Association deleted successfully.",
-                "DELETE_ERROR": "There was an error while deleting the association.",
+                "DELETE": "Odstranit přidružení",
+                "DELETE_SUCCESS": "Přidružení bylo úspěšně odstraněno.",
+                "DELETE_ERROR": "Při odstraňování přidružení došlo k chybě.",
                 "DELETE_DIALOG": {
-                    "TITLE": "Delete association",
-                    "MESSAGE": "Are you sure you want to delete this association?",
-                    "YES_LABEL": "Delete",
-                    "NO_LABEL": "Cancel"
+                    "TITLE": "Odstranit přidružení",
+                    "MESSAGE": "Opravdu chcete toto přidružení odstranit?",
+                    "YES_LABEL": "Odstranit",
+                    "NO_LABEL": "Zrušit"
                 }
             }
         },

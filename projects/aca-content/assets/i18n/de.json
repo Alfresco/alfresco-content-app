@@ -486,7 +486,7 @@
             "DATA_LOADING": "Daten werden geladen",
             "ICON": "Knotensymbol",
             "TABS": {
-                "ASSOCIATIONS": "Associations",
+                "ASSOCIATIONS": "Zuordnungen",
                 "PROPERTIES": "Eigenschaften",
                 "LIBRARY_PROPERTIES": "Info",
                 "VERSIONS": "Versionen",
@@ -495,24 +495,24 @@
                 "EXPAND": "Erweitern"
             },
             "ASSOCIATIONS": {
-                "EMPTY": "{{ name }} has no associations.",
-                "CREATE": "Create Association",
-                "CREATE_SUCCESS": "Association created successfully.",
-                "CREATE_ERROR": "There was an error while creating the association.",
+                "EMPTY": "{{ name }} hat keine Zuordnungen.",
+                "CREATE": "Zuordnung erstellen",
+                "CREATE_SUCCESS": "Zuordnung erfolgreich erstellt.",
+                "CREATE_ERROR": "Beim Erstellen der Zuordnung ist ein Fehler aufgetreten.",
                 "CREATE_DIALOG": {
-                    "TITLE": "Create Association",
-                    "TYPE_LABEL": "Association type",
-                    "CANCEL": "Cancel",
-                    "CLOSE": "Close"
+                    "TITLE": "Zuordnung erstellen",
+                    "TYPE_LABEL": "Zuordnungstyp",
+                    "CANCEL": "Abbrechen",
+                    "CLOSE": "Schließen"
                 },
-                "DELETE": "Delete association",
-                "DELETE_SUCCESS": "Association deleted successfully.",
-                "DELETE_ERROR": "There was an error while deleting the association.",
+                "DELETE": "Zuordnung entfernen",
+                "DELETE_SUCCESS": "Zuordnung erfolgreich gelöscht.",
+                "DELETE_ERROR": "Beim Entfernen der Zuordnung ist ein Fehler aufgetreten.",
                 "DELETE_DIALOG": {
-                    "TITLE": "Delete association",
-                    "MESSAGE": "Are you sure you want to delete this association?",
-                    "YES_LABEL": "Delete",
-                    "NO_LABEL": "Cancel"
+                    "TITLE": "Zuordnung entfernen",
+                    "MESSAGE": "Sind Sie sicher, dass Sie diese Zuordnung löschen möchten?",
+                    "YES_LABEL": "Löschen",
+                    "NO_LABEL": "Abbrechen"
                 }
             }
         },

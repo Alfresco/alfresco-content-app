@@ -486,7 +486,7 @@
             "DATA_LOADING": "Загрузка данных",
             "ICON": "Значок узла",
             "TABS": {
-                "ASSOCIATIONS": "Associations",
+                "ASSOCIATIONS": "Связи",
                 "PROPERTIES": "Свойства",
                 "LIBRARY_PROPERTIES": "О программе",
                 "VERSIONS": "Версии",
@@ -495,24 +495,24 @@
                 "EXPAND": "Развернуть"
             },
             "ASSOCIATIONS": {
-                "EMPTY": "{{ name }} has no associations.",
-                "CREATE": "Create Association",
-                "CREATE_SUCCESS": "Association created successfully.",
-                "CREATE_ERROR": "There was an error while creating the association.",
+                "EMPTY": "У {{ name }} нет связей.",
+                "CREATE": "Создать связь",
+                "CREATE_SUCCESS": "Связь успешно создана.",
+                "CREATE_ERROR": "При создании связи возникла ошибка.",
                 "CREATE_DIALOG": {
-                    "TITLE": "Create Association",
-                    "TYPE_LABEL": "Association type",
-                    "CANCEL": "Cancel",
-                    "CLOSE": "Close"
+                    "TITLE": "Создать связь",
+                    "TYPE_LABEL": "Тип связи",
+                    "CANCEL": "Отмена",
+                    "CLOSE": "Закрыть"
                 },
-                "DELETE": "Delete association",
-                "DELETE_SUCCESS": "Association deleted successfully.",
-                "DELETE_ERROR": "There was an error while deleting the association.",
+                "DELETE": "Удалить связь",
+                "DELETE_SUCCESS": "Связь успешно удалена.",
+                "DELETE_ERROR": "При удалении связи возникла ошибка.",
                 "DELETE_DIALOG": {
-                    "TITLE": "Delete association",
-                    "MESSAGE": "Are you sure you want to delete this association?",
-                    "YES_LABEL": "Delete",
-                    "NO_LABEL": "Cancel"
+                    "TITLE": "Удалить связь",
+                    "MESSAGE": "Вы действительно хотите удалить данную связь?",
+                    "YES_LABEL": "Удалить",
+                    "NO_LABEL": "Отмена"
                 }
             }
         },
