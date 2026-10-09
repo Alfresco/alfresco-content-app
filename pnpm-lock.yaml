@@ -289,8 +289,8 @@ importers:
         specifier: 5.9.3
         version: 5.9.3
       webpack-bundle-analyzer:
-        specifier: ^5.3.0
-        version: 5.3.3
+        specifier: ^5.4.0
+        version: 5.4.0
 
 packages:
 
@@ -7456,8 +7456,8 @@ packages:
   weak-lru-cache@1.2.2:
     resolution: {integrity: sha512-DEAoo25RfSYMuTGc9vPJzZcZullwIqRDSI9LOy+fkCJPi6hykCnfKaXTuPBDuXAUcqHXyOgFtHNp/kB2FjYHbw==}
 
-  webpack-bundle-analyzer@5.3.3:
-    resolution: {integrity: sha512-kr/bzg3sORg1xAnxpg1uaIPGDDNwaRIsClOv22HzCIMX9X64FbvIBNjP2ulPdfCgZw7ekrv7JGAPc30W+0b7rA==}
+  webpack-bundle-analyzer@5.4.0:
+    resolution: {integrity: sha512-6OjsEFQIwcRT1nId/O7OyHjDvrE0JSFAef/XCwGarrf9MF5/CaD0lhDvoySbus57dYEdJ3vrRVj5F3i30c4ozw==}
     engines: {node: '>= 20.9.0'}
     hasBin: true
 
@@ -7596,6 +7596,18 @@ packages:
 
   ws@8.21.3:
     resolution: {integrity: sha512-201TZ/kPWxoPr/OKWjquZR1SWKXcvxdH+e1xrx89b3YbmzLMFCLfnaG1HFIgWzJOEWZ7MvpK++odZufgYR50Rw==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+
+  ws@8.22.0:
+    resolution: {integrity: sha512-Ydggc987+RO0AnWtZ/7Wq9FtNvcrL1b/RO0ud9mWjUPgDrsAAwQSF51sm2hm1XofbU/4jkpGEsLFsZZxU+1DOg==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -15965,7 +15977,7 @@ snapshots:
   weak-lru-cache@1.2.2:
     optional: true
 
-  webpack-bundle-analyzer@5.3.3:
+  webpack-bundle-analyzer@5.4.0:
     dependencies:
       '@discoveryjs/json-ext': 0.6.3
       acorn: 8.18.0
@@ -15976,7 +15988,7 @@ snapshots:
       opener: 1.5.2
       picocolors: 1.1.1
       sirv: 3.0.2
-      ws: 8.21.3
+      ws: 8.22.0
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -16194,6 +16206,8 @@ snapshots:
       signal-exit: 4.1.0
 
   ws@8.21.3: {}
+
+  ws@8.22.0: {}
 
   wsl-utils@0.1.0:
     dependencies:
