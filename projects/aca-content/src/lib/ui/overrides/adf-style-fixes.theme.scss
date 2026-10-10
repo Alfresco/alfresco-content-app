@@ -167,6 +167,12 @@
     );
   }
 
+  .adf-content-type-dialog-apply-button,
+  .adf-unsaved-changes-dialog-actions-discard-changes-button,
+  .adf-continue-working-btn {
+    --mat-sys-primary: var(--theme-primary-color);
+  }
+
   adf-add-permission-dialog {
     @include mat.dialog-overrides(
       (
@@ -345,6 +351,10 @@
         supporting-text-tracking: normal
       )
     );
+
+    .adf-dialog-actions-confirm-btn {
+      --mat-sys-primary: var(--theme-primary-color);
+    }
   }
 
   adf-card-view {
