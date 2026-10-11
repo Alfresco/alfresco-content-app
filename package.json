@@ -114,7 +114,7 @@
     "eslint-plugin-import": "2.32.0",
     "eslint-plugin-jsdoc": "65.0.1",
     "eslint-plugin-license-header": "^0.8.0",
-    "eslint-plugin-playwright": "^2.4.0",
+    "eslint-plugin-playwright": "^2.12.1",
     "eslint-plugin-prefer-arrow": "1.2.3",
     "eslint-plugin-prettier": "5.5.4",
     "eslint-plugin-rxjs": "^5.0.2",
