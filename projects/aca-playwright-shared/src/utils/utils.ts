@@ -77,11 +77,14 @@ export class Utils {
     if (typeof error === 'string') {
       return error;
     }
-    if (error !== null && typeof error === 'object') {
+    if (error === null || error === undefined) {
+      return String(error);
+    }
+    if (typeof error === 'object') {
       try {
         return JSON.stringify(error);
       } catch {
-        return (error as { message?: string }).message ?? `[Unserializable ${(error as object).constructor?.name ?? 'object'}]`;
+        return (error as { message?: string }).message ?? `[Unserializable ${error.constructor?.name ?? 'object'}]`;
       }
     }
     return String(error);
