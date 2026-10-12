@@ -62,7 +62,7 @@ export class SharedLinksApi {
         }
       }
     } catch (error) {
-      logger.error(`SharedLinksApi shareFilesByIds : catch : ${error}`);
+      logger.error(`SharedLinksApi shareFilesByIds : catch : ${Utils.extractErrorMessage(error)}`);
     }
     return sharedLinks;
   }
@@ -74,7 +74,7 @@ export class SharedLinksApi {
       };
       return await this.apiService.share.listSharedLinks(opts);
     } catch (error) {
-      logger.error(`SharedLinksApi getSharedLinks : catch : ${JSON.stringify(error)}`);
+      logger.error(`SharedLinksApi getSharedLinks : catch : ${Utils.extractErrorMessage(error)}`);
       return new SharedLinkPaging();
     }
   }
@@ -91,7 +91,9 @@ export class SharedLinksApi {
 
       await Utils.retryCall(sharedFile);
     } catch (error) {
-      logger.error(`SharedLinksApi waitForFilesToBeShared : catch : ${error} - Wait timeout reached waiting for files to be shared`);
+      logger.error(
+        `SharedLinksApi waitForFilesToBeShared : catch : ${Utils.extractErrorMessage(error)} - Wait timeout reached waiting for files to be shared`
+      );
     }
   }
 
@@ -111,7 +113,7 @@ export class SharedLinksApi {
       const sharedId = await this.getSharedIdOfNode(fileId);
       await this.apiService.share.deleteSharedLink(sharedId);
     } catch (error) {
-      logger.error(`SharedLinksApi unshareFileById : catch : ${error}`);
+      logger.error(`SharedLinksApi unshareFileById : catch : ${Utils.extractErrorMessage(error)}`);
     }
   }
 
@@ -131,7 +133,9 @@ export class SharedLinksApi {
 
       await Utils.retryCall(sharedFile);
     } catch (error) {
-      logger.error(`SharedLinksApi waitForFilesToNotBeShared : catch : ${error} - Wait timeout reached waiting for files to no longer be shared`);
+      logger.error(
+        `SharedLinksApi waitForFilesToNotBeShared : catch : ${Utils.extractErrorMessage(error)} - Wait timeout reached waiting for files to no longer be shared`
+      );
     }
   }
 }

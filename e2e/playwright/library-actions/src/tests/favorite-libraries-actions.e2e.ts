@@ -76,7 +76,7 @@ test.describe('Library actions ', () => {
       user2FavoritesApi = await FavoritesApi.initialize(username2, username2);
       user2TrashcanApi = await TrashcanApi.initialize(username2, username2);
     } catch (error) {
-      const favoriteLibrariesActionsBeforeAllErrorMessage = `Favorite libraries actions beforeAll failed : ${JSON.stringify(error)}`;
+      const favoriteLibrariesActionsBeforeAllErrorMessage = `Favorite libraries actions beforeAll failed : ${Utils.extractErrorMessage(error)}`;
       console.error(favoriteLibrariesActionsBeforeAllErrorMessage);
       throw new Error(favoriteLibrariesActionsBeforeAllErrorMessage);
     }

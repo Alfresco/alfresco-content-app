@@ -53,7 +53,7 @@ test.describe('Search - Filters - Date', () => {
         await uploadApi.uploadFileWithRename(TEST_FILES.PDF.path, fileNamePdfKb, '-my-');
         await uploadApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, fileNameJpgMb, '-my-');
       } catch (error) {
-        console.error(`beforeAll failed: ${error}`);
+        console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
       }
     });
 

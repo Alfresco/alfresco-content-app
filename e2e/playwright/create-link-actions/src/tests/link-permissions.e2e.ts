@@ -69,7 +69,7 @@ test.describe('Create Link - comments and permissions', () => {
       docLibId = await sitesApi.getDocLibId(siteId);
       await sitesApi.addSiteMember(siteId, consumerUsername, 'SiteConsumer');
     } catch (error) {
-      console.error(`beforeAll failed: ${error}`);
+      console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
       throw error;
     }
   });
@@ -95,7 +95,7 @@ test.describe('Create Link - comments and permissions', () => {
 
       await personalFiles.navigate();
     } catch (error) {
-      console.error(`beforeEach failed: ${error}`);
+      console.error(`beforeEach failed: ${Utils.extractErrorMessage(error)}`);
       throw error;
     }
   });
@@ -106,14 +106,14 @@ test.describe('Create Link - comments and permissions', () => {
     try {
       await Utils.deleteNodesSitesEmptyTrashcan(consumerNodesApi, consumerTrashcanApi, 'afterAll failed (consumer cleanup)');
     } catch (error) {
-      console.error(`afterAll failed (consumer cleanup): ${error}`);
+      console.error(`afterAll failed (consumer cleanup): ${Utils.extractErrorMessage(error, true)}`);
       primaryError = error;
     }
 
     try {
       await Utils.deleteNodesSitesEmptyTrashcan(ownerNodesApi, ownerTrashcanApi, 'afterAll failed', sitesApi, [siteId]);
     } catch (error) {
-      console.error(`afterAll failed: ${error}`);
+      console.error(`afterAll failed: ${Utils.extractErrorMessage(error, true)}`);
       primaryError ??= error;
     }
 

@@ -23,7 +23,7 @@
  */
 
 import { ApiClientFactory } from './api-client-factory';
-import { logger } from '../utils';
+import { logger, Utils } from '../utils';
 
 export class TrashcanApi {
   private readonly apiService = new ApiClientFactory();
@@ -46,7 +46,7 @@ export class TrashcanApi {
         await this.apiService.trashCan.deleteDeletedNode(id);
       }
     } catch (error) {
-      logger.error(`User Actions - emptyTrashcan failed: ${JSON.stringify(error)}`);
+      logger.error(`User Actions - emptyTrashcan failed: ${Utils.extractErrorMessage(error)}`);
     }
   }
 }

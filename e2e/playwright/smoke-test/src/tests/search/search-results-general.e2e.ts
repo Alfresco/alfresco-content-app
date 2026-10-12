@@ -31,29 +31,29 @@ test.describe('Search Results - General', () => {
   let sitesApi: SitesApi;
 
   const random = Utils.random();
-  const username = `user1-${random}`;
+  const usernameSmokeSearchGeneral = `user1-${random}`;
   const file = `test-file-${random}.txt`;
   const folder = `test-folder-${random}`;
   const site = `test-site-${random}`;
 
   test.beforeAll(async () => {
     try {
-      const apiClientFactory = new ApiClientFactory();
-      await apiClientFactory.setUpAcaBackend('admin');
-      await apiClientFactory.createUser({ username });
-      trashcanApi = await TrashcanApi.initialize(username, username);
-      nodesApi = await NodesApi.initialize(username, username);
-      sitesApi = await SitesApi.initialize(username, username);
+      const apiClientFactorySmokeSearchGeneral = new ApiClientFactory();
+      await apiClientFactorySmokeSearchGeneral.setUpAcaBackend('admin');
+      await apiClientFactorySmokeSearchGeneral.createUser({ username: usernameSmokeSearchGeneral });
+      trashcanApi = await TrashcanApi.initialize(usernameSmokeSearchGeneral, usernameSmokeSearchGeneral);
+      nodesApi = await NodesApi.initialize(usernameSmokeSearchGeneral, usernameSmokeSearchGeneral);
+      sitesApi = await SitesApi.initialize(usernameSmokeSearchGeneral, usernameSmokeSearchGeneral);
       await nodesApi.createFolder(folder);
       await nodesApi.createFile(file, '-my-');
       await sitesApi.createSite(site);
     } catch (error) {
-      console.error(`beforeAll failed: ${error}`);
+      console.error(`search results - smoke - beforeAll failed: ${Utils.extractErrorMessage(error)}`);
     }
   });
 
   test.beforeEach(async ({ loginPage }) => {
-    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+    await Utils.tryLoginUser(loginPage, usernameSmokeSearchGeneral, usernameSmokeSearchGeneral, 'beforeEach failed');
   });
 
   test.afterAll(async () => {

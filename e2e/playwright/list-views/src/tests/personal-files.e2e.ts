@@ -42,7 +42,7 @@ test.describe('Personal Files', () => {
       searchApi = await SearchApi.initialize(username, username);
       await nodesApi.createFolder(userFolder);
     } catch (error) {
-      console.error(`beforeAll failed : ${error}`);
+      console.error(`beforeAll failed : ${Utils.extractErrorMessage(error)}`);
     }
   });
 

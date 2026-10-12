@@ -68,7 +68,7 @@ test.describe('Library properties', () => {
       await sitesApi.createSite(siteForUpdate.name, siteForUpdate.visibility, siteForUpdate.description, siteForUpdate.id);
       await sitesApi.createSite(siteDup);
     } catch (error) {
-      console.error(`beforeAll failed: ${error}`);
+      console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
     }
   });
 
@@ -241,7 +241,7 @@ test.describe('Non manager', () => {
       await sitesApi.createSite(site.name, site.visibility, site.description, site.id);
       await sitesApi.addSiteMember(site.id, user3, SITE_ROLES.SITE_MANAGER.ROLE);
     } catch (error) {
-      console.error(`beforeAll failed: ${error}`);
+      console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
     }
   });
 

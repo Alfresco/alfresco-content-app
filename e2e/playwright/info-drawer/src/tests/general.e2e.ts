@@ -45,7 +45,7 @@ test.describe('Info Drawer - General', () => {
       await nodesApi.createFile(file19797Name);
       await searchApi.waitForNodes(file19797Name, { expect: 1 });
     } catch (error) {
-      console.error(`beforeAll failed: ${error}`);
+      console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
     }
   });
 

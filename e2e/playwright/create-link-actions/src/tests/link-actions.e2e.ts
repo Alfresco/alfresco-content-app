@@ -28,7 +28,7 @@ import { expect } from '@playwright/test';
 test.describe('Create Link - actions on linked items', () => {
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
-  const username = `user-${Utils.random()}`;
+  const usernameLinkActions = `user-${Utils.random()}`;
 
   let sourceFile: string;
   let sourceFolder: string;
@@ -47,13 +47,13 @@ test.describe('Create Link - actions on linked items', () => {
 
   test.beforeAll(async () => {
     try {
-      const apiClientFactory = new ApiClientFactory();
-      await apiClientFactory.setUpAcaBackend('admin');
-      await apiClientFactory.createUser({ username });
-      nodesApi = await NodesApi.initialize(username, username);
-      trashcanApi = await TrashcanApi.initialize(username, username);
+      const apiClientFactoryLinkActions = new ApiClientFactory();
+      await apiClientFactoryLinkActions.setUpAcaBackend('admin');
+      await apiClientFactoryLinkActions.createUser({ username: usernameLinkActions });
+      nodesApi = await NodesApi.initialize(usernameLinkActions, usernameLinkActions);
+      trashcanApi = await TrashcanApi.initialize(usernameLinkActions, usernameLinkActions);
     } catch (error) {
-      console.error(`beforeAll failed: ${error}`);
+      console.error(`link actions - beforeAll failed: ${Utils.extractErrorMessage(error)}`);
       throw error;
     }
   });
@@ -66,7 +66,7 @@ test.describe('Create Link - actions on linked items', () => {
     moveDestinationFolder = `move-dest-${Utils.random()}`;
 
     const loginPage = new LoginPage(page);
-    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+    await Utils.tryLoginUser(loginPage, usernameLinkActions, usernameLinkActions, 'beforeEach failed');
 
     sourceFileId = (await nodesApi.createFile(sourceFile)).entry.id;
     sourceFolderId = (await nodesApi.createFolder(sourceFolder)).entry.id;
