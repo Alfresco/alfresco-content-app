@@ -46,8 +46,8 @@ test.describe('Repository — smoke test', () => {
 
   test.beforeAll(async () => {
     try {
-      const apiClientFactory = new ApiClientFactory();
-      await apiClientFactory.setUpAcaBackend('admin');
+      const apiClientFactoryRepoSmoke = new ApiClientFactory();
+      await apiClientFactoryRepoSmoke.setUpAcaBackend('admin');
       userNodesApi = await NodesApi.initialize('admin');
       trashcanApi = await TrashcanApi.initialize('admin');
       testData = await seedRepositoryTestData({ userNodesApi, adminNodesApi: userNodesApi });

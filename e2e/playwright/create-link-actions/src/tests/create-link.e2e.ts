@@ -28,7 +28,7 @@ import { expect } from '@playwright/test';
 test.describe('Create Link - creation scenarios', () => {
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
-  const username = `user-${Utils.random()}`;
+  const usernameCreateLink = `user-${Utils.random()}`;
 
   let sourceFile: string;
   let sourceFolder: string;
@@ -39,11 +39,11 @@ test.describe('Create Link - creation scenarios', () => {
 
   test.beforeAll(async () => {
     try {
-      const apiClientFactory = new ApiClientFactory();
-      await apiClientFactory.setUpAcaBackend('admin');
-      await apiClientFactory.createUser({ username });
-      nodesApi = await NodesApi.initialize(username, username);
-      trashcanApi = await TrashcanApi.initialize(username, username);
+      const apiClientFactoryCreateLink = new ApiClientFactory();
+      await apiClientFactoryCreateLink.setUpAcaBackend('admin');
+      await apiClientFactoryCreateLink.createUser({ username: usernameCreateLink });
+      nodesApi = await NodesApi.initialize(usernameCreateLink, usernameCreateLink);
+      trashcanApi = await TrashcanApi.initialize(usernameCreateLink, usernameCreateLink);
     } catch (error) {
       console.error(`create link - beforeAll failed: ${Utils.extractErrorMessage(error)}`);
       throw error;
@@ -56,7 +56,7 @@ test.describe('Create Link - creation scenarios', () => {
     destinationFolder = `destination-folder-${Utils.random()}`;
 
     const loginPage = new LoginPage(page);
-    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+    await Utils.tryLoginUser(loginPage, usernameCreateLink, usernameCreateLink, 'beforeEach failed');
 
     sourceFileId = (await nodesApi.createFile(sourceFile)).entry.id;
     await nodesApi.createFolder(sourceFolder);

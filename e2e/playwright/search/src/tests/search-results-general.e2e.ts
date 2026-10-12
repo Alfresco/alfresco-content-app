@@ -31,19 +31,19 @@ test.describe('Search Results - General', () => {
   let sitesApi: SitesApi;
 
   const random = Utils.random();
-  const username = `${random}-user1`;
+  const usernameSearchGeneral = `${random}-user1`;
   const file = `${random}-jsbwf-file.txt`;
   const site = `${random}-vbcmw-site`;
   const folder = `${random}-prnww-folder`;
 
   test.beforeAll(async () => {
     try {
-      const apiClientFactory = new ApiClientFactory();
-      await apiClientFactory.setUpAcaBackend('admin');
-      await apiClientFactory.createUser({ username });
-      trashcanApi = await TrashcanApi.initialize(username, username);
-      nodesApi = await NodesApi.initialize(username, username);
-      sitesApi = await SitesApi.initialize(username, username);
+      const apiClientFactorySearchGeneral = new ApiClientFactory();
+      await apiClientFactorySearchGeneral.setUpAcaBackend('admin');
+      await apiClientFactorySearchGeneral.createUser({ username: usernameSearchGeneral });
+      trashcanApi = await TrashcanApi.initialize(usernameSearchGeneral, usernameSearchGeneral);
+      nodesApi = await NodesApi.initialize(usernameSearchGeneral, usernameSearchGeneral);
+      sitesApi = await SitesApi.initialize(usernameSearchGeneral, usernameSearchGeneral);
       await nodesApi.createFolder(folder);
       await nodesApi.createFile(file, '-my-');
       await sitesApi.createSite(site);
@@ -53,7 +53,7 @@ test.describe('Search Results - General', () => {
   });
 
   test.beforeEach(async ({ loginPage }) => {
-    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+    await Utils.tryLoginUser(loginPage, usernameSearchGeneral, usernameSearchGeneral, 'beforeEach failed');
   });
 
   test.afterAll(async () => {

@@ -31,23 +31,23 @@ test.describe('Search Highlighting', () => {
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
   let searchApi: SearchApi;
-  const username = `user-${Utils.random()}`;
+  const usernameSearchHighlighting = `user-${Utils.random()}`;
 
   test.beforeAll(async () => {
     try {
-      const apiClientFactory = new ApiClientFactory();
-      await apiClientFactory.setUpAcaBackend('admin');
-      await apiClientFactory.createUser({ username });
-      nodesApi = await NodesApi.initialize(username, username);
-      trashcanApi = await TrashcanApi.initialize(username, username);
-      searchApi = await SearchApi.initialize(username, username);
+      const apiClientFactorySearchHighlighting = new ApiClientFactory();
+      await apiClientFactorySearchHighlighting.setUpAcaBackend('admin');
+      await apiClientFactorySearchHighlighting.createUser({ username: usernameSearchHighlighting });
+      nodesApi = await NodesApi.initialize(usernameSearchHighlighting, usernameSearchHighlighting);
+      trashcanApi = await TrashcanApi.initialize(usernameSearchHighlighting, usernameSearchHighlighting);
+      searchApi = await SearchApi.initialize(usernameSearchHighlighting, usernameSearchHighlighting);
     } catch (error) {
       console.error(`search highlighting - beforeAll failed: ${Utils.extractErrorMessage(error)}`);
     }
   });
 
   test.beforeEach(async ({ loginPage }) => {
-    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+    await Utils.tryLoginUser(loginPage, usernameSearchHighlighting, usernameSearchHighlighting, 'beforeEach failed');
   });
 
   test.afterAll(async () => {
