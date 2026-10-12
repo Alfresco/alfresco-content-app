@@ -77,17 +77,20 @@ export class Utils {
     if (typeof error === 'string') {
       return error;
     }
-    if (error === null || error === undefined) {
+    if (typeof error === 'number' || typeof error === 'boolean' || typeof error === 'bigint') {
       return String(error);
     }
-    if (typeof error === 'object') {
+    if (typeof error === 'symbol') {
+      return error.toString();
+    }
+    if (typeof error === 'object' && error !== null) {
       try {
         return JSON.stringify(error);
       } catch {
         return (error as { message?: string }).message ?? `[Unserializable ${error.constructor?.name ?? 'object'}]`;
       }
     }
-    return String(error);
+    return error === null ? 'null' : 'undefined';
   }
 
   /**
