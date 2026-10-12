@@ -74,11 +74,14 @@ export class Utils {
       }
       return includeStack && error.stack ? `${message}\n${error.stack}` : message;
     }
-    if (error && typeof error === 'object') {
+    if (typeof error === 'string') {
+      return error;
+    }
+    if (error !== null && typeof error === 'object') {
       try {
         return JSON.stringify(error);
       } catch {
-        return String(error);
+        return (error as { message?: string }).message ?? `[Unserializable ${(error as object).constructor?.name ?? 'object'}]`;
       }
     }
     return String(error);
