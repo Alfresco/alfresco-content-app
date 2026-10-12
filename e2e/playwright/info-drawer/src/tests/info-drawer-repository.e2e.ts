@@ -77,7 +77,7 @@ test.describe('Repository — Info drawer expand routing', () => {
 
         await favoritesApi.addFavoriteById('file', testData.repoFile.id);
       } catch (error) {
-        console.error(`beforeAll (admin) failed: ${Utils.extractErrorMessage(error)}`);
+        console.error(`info drawer repository - beforeAll (admin) failed: ${Utils.extractErrorMessage(error)}`);
         throw error;
       }
     });

@@ -42,7 +42,7 @@ test.describe('Search results - files and folders', () => {
       trashcanApi = await TrashcanApi.initialize(username, username);
       searchApi = await SearchApi.initialize(username, username);
     } catch (error) {
-      console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
+      console.error(`search results - files and folders - beforeAll failed: ${Utils.extractErrorMessage(error)}`);
     }
   });
 

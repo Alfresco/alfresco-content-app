@@ -253,7 +253,7 @@ test.describe('viewer action file', () => {
         await nodesApi.checkoutNodes([fileForCancelEditingId]);
         await nodesApi.isFileCheckedOutWithRetry(fileForCancelEditingId, true);
       } catch (error) {
-        console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
+        console.error(`viewer actions - beforeAll failed: ${Utils.extractErrorMessage(error)}`);
         throw error;
       }
     });

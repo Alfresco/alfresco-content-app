@@ -62,10 +62,13 @@ export class Utils {
    */
   static extractErrorMessage(error: unknown, includeStack = false): string {
     if (error instanceof Error) {
-      let message: string;
+      let message = error.message;
       try {
         const parsed = JSON.parse(error.message);
-        message = parsed?.error?.briefSummary ?? parsed?.error?.key ?? parsed?.message ?? error.message;
+        const candidate = [parsed?.error?.briefSummary, parsed?.error?.errorKey, parsed?.message].find(
+          (value): value is string => typeof value === 'string'
+        );
+        message = candidate ?? error.message;
       } catch {
         message = error.message;
       }

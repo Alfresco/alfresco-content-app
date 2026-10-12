@@ -74,7 +74,7 @@ test.describe('viewer file', () => {
         await searchApi.waitForNodes(randomDocxName, { expect: 1 });
         await searchApi.waitForNodes(file19936Name, { expect: 1 });
       } catch (error) {
-        console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
+        console.error(`viewer - beforeAll failed: ${Utils.extractErrorMessage(error)}`);
         throw error;
       }
     });
