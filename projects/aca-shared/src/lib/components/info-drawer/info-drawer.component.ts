@@ -26,7 +26,7 @@ import { Component, DestroyRef, HostListener, inject, Input, OnChanges, OnDestro
 import { Node, NodeEntry, SiteEntry } from '@alfresco/js-api';
 import { ContentActionRef, DynamicTabComponent, SidebarTabRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
-import { infoDrawerPreview, SetInfoDrawerStateAction, ToggleInfoDrawerAction } from '@alfresco/aca-shared/store';
+import { AppStore, infoDrawerPreview, SetInfoDrawerStateAction, ToggleInfoDrawerAction } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '../../services/app.extension.service';
 import { ContentApiService } from '../../services/content-api.service';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -36,6 +36,9 @@ import { A11yModule } from '@angular/cdk/a11y';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
 import { ContentService, NodesApiService } from '@alfresco/adf-content-services';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { isLibrary } from '../../utils/node.utils';
+
+const LIBRARY_ICON = 'library_books';
 
 @Component({
   imports: [TranslatePipe, MatProgressBarModule, AdfInfoDrawerComponent, A11yModule, ToolbarComponent, DynamicTabComponent, InfoDrawerTabComponent],
@@ -44,7 +47,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   encapsulation: ViewEncapsulation.None
 })
 export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
-  private readonly store = inject<Store<any>>(Store);
+  private readonly store = inject<Store<AppStore>>(Store);
   private readonly contentApi = inject(ContentApiService);
   private readonly extensions = inject(AppExtensionService);
   private readonly nodesService = inject(NodesApiService);
@@ -57,7 +60,7 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
   node: NodeEntry;
 
   isLoading = false;
-  displayNode: Node | SiteEntry;
+  displayNode: Node | NodeEntry | SiteEntry;
   tabs: Array<SidebarTabRef> = [];
   actions: Array<ContentActionRef> = [];
 
@@ -87,7 +90,7 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
         this.preventFromClosing = isInfoDrawerPreviewOpened;
       });
 
-    this.nodesService.nodeUpdated.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((node: any) => {
+    this.nodesService.nodeUpdated.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((node: Node) => {
       this.node.entry = node;
     });
   }
@@ -101,10 +104,12 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
   ngOnChanges() {
     if (this.node) {
       if (this.node['isLibrary']) {
-        return this.setDisplayNode(this.node);
+        this.displayNode = this.node;
+        this.icon = LIBRARY_ICON;
+        return;
       }
 
-      const entry: any = this.node.entry;
+      const entry: Node & { nodeId?: string } = this.node.entry;
 
       const id = entry.nodeId || entry.id;
       return this.loadNodeInfo(id);
@@ -130,8 +135,8 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
     }
   }
 
-  private setDisplayNode(node: any) {
+  private setDisplayNode(node: Node): void {
     this.displayNode = node;
-    this.icon = this.contentService.getNodeIcon(node);
+    this.icon = isLibrary({ entry: node }) ? LIBRARY_ICON : this.contentService.getNodeIcon(node);
   }
 }
