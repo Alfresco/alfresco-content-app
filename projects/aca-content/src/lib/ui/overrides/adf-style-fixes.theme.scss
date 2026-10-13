@@ -654,6 +654,7 @@
 
     &:hover .adf-datatable-cell-header-content {
       background-color: var(--adf-theme-background-hover-color);
+      border-radius: 6px;
     }
 
     &:hover > .adf-datatable__resize-handle {
