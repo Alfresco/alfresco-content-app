@@ -90,6 +90,10 @@ aca-files aca-page-layout .aca-page-layout-content .aca-sidebar {
 }
 
 .adf-notification-history-menu .adf-notification-history-item-list {
+  .adf-notification-history-menu-item {
+    cursor: default;
+  }
+
   .adf-notification-initiator-pic {
     background: var(--theme-accent-color);
     color: var(--adf-theme-mat-grey-color-a200);
