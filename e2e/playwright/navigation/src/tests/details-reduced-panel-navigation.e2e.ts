@@ -24,12 +24,13 @@
 
 import { expect } from '@playwright/test';
 import {
-  AdfInfoDrawerComponent,
   ApiClientFactory,
-  FileActionsApi,
+  InfoDrawerComponent,
   NodesApi,
+  SearchApi,
   TEST_FILES,
   TrashcanApi,
+  UploadApi,
   Utils,
   test
 } from '@alfresco/aca-playwright-shared';
@@ -37,7 +38,8 @@ import {
 test.describe('Search → Full Details → Reduced Panel navigation', () => {
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
-  let fileActionsApi: FileActionsApi;
+  let uploadApi: UploadApi;
+  let searchApi: SearchApi;
 
   const random = Utils.random();
   const username = `user-${random}`;
@@ -51,10 +53,11 @@ test.describe('Search → Full Details → Reduced Panel navigation', () => {
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
-      fileActionsApi = await FileActionsApi.initialize(username, username);
-      const uploadedFile = await fileActionsApi.uploadFileWithRename(TEST_FILES.DOCX.path, fileName, '-my-');
+      uploadApi = await UploadApi.initialize(username, username);
+      searchApi = await SearchApi.initialize(username, username);
+      const uploadedFile = await uploadApi.uploadFileWithRename(TEST_FILES.DOCX.path, fileName, '-my-');
       fileNodeId = uploadedFile.entry.id;
-      await fileActionsApi.waitForNodes(fileName, { expect: 1 });
+      await searchApi.waitForNodes(fileName, { expect: 1 });
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
       throw error;
@@ -69,14 +72,14 @@ test.describe('Search → Full Details → Reduced Panel navigation', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
-  async function waitForFullDetailsPageToSettle(infoDrawer: AdfInfoDrawerComponent): Promise<void> {
+  async function waitForFullDetailsPageToSettle(infoDrawer: InfoDrawerComponent): Promise<void> {
     await infoDrawer.detailsTabs.waitFor({ state: 'visible' });
     await infoDrawer.metadataTab.waitFor({ state: 'visible' });
     await infoDrawer.contentMetadata.waitFor({ state: 'visible' });
     await expect(infoDrawer.reducePanelButton).toBeVisible();
   }
 
-  async function clickExpandDetails(infoDrawer: AdfInfoDrawerComponent, isViewer = false): Promise<void> {
+  async function clickExpandDetails(infoDrawer: InfoDrawerComponent, isViewer = false): Promise<void> {
     const button = isViewer ? infoDrawer.expandDetailsButtonViewer : infoDrawer.expandDetailsButton;
     await expect(button).toBeVisible();
     await expect(button).toBeEnabled();

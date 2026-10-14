@@ -25,7 +25,6 @@
 import { Page } from '@playwright/test';
 import { BasePage } from './base.page';
 import {
-  AdfInfoDrawerComponent,
   DataTableComponent,
   FolderInformationDialogComponent,
   MatMenuComponent,
@@ -79,7 +78,6 @@ export class SearchPage extends BasePage {
   public manageVersionsDialog = new ManageVersionsDialog(this.page);
   public folderInformationDialog = new FolderInformationDialogComponent(this.page);
   public searchMenuCard = new SearchMenuCard(this.page);
-  public infoDrawer = new AdfInfoDrawerComponent(this.page);
 
   async searchWithin(searchText: string, searchType?: SearchType, searchMode?: SearchMode): Promise<void> {
     if (!(await this.searchInputComponent.searchInput.isVisible())) {
