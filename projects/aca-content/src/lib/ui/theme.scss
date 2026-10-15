@@ -735,12 +735,6 @@ adf-dynamic-component {
   }
 }
 
-.adf-unsaved-changes-dialog {
-  .adf-unsaved-changes-dialog-actions-discard-changes-button:is(button) {
-    background-color: var(--theme-blue-button-color);
-  }
-}
-
 #{ms.$mat-form-field-infix} {
   min-height: unset;
 }
