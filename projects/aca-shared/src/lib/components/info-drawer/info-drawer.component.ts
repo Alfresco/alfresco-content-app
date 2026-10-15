@@ -38,7 +38,7 @@ import { ContentService, NodesApiService } from '@alfresco/adf-content-services'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { isLibrary } from '../../utils/node.utils';
 
-const LIBRARY_ICON = 'library_books';
+const LIBRARY_ICON = './assets/images/ft_ic_library.svg';
 
 @Component({
   imports: [TranslatePipe, MatProgressBarModule, AdfInfoDrawerComponent, A11yModule, ToolbarComponent, DynamicTabComponent, InfoDrawerTabComponent],
