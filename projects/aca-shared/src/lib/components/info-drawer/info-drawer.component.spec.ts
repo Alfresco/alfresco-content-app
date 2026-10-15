@@ -199,7 +199,7 @@ describe('InfoDrawerComponent', () => {
     fixture.detectChanges();
     component.ngOnChanges();
 
-    expect(component.icon).toBe('library_books');
+    expect(component.icon).toBe('./assets/images/ft_ic_library.svg');
     expect(contentService.getNodeIcon).not.toHaveBeenCalled();
   });
 
@@ -211,7 +211,7 @@ describe('InfoDrawerComponent', () => {
     fixture.detectChanges();
     component.ngOnChanges();
 
-    expect(component.icon).toBe('library_books');
+    expect(component.icon).toBe('./assets/images/ft_ic_library.svg');
     expect(contentService.getNodeIcon).not.toHaveBeenCalled();
   });
 });
