@@ -45,6 +45,7 @@ import { hasQuickShareEnabled } from '@alfresco/aca-shared/rules';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NodeEntry } from '@alfresco/js-api';
+import { ContentMetadataGroup } from '../models/types';
 
 describe('AppExtensionService', () => {
   let service: AppExtensionService;
@@ -195,6 +196,84 @@ describe('AppExtensionService', () => {
       expect(custom.length).toBe(2);
       expect(custom[0].readOnlyProperties).toEqual(['cm:name']);
       expect(custom[1].id).toBe('app.content.metadata.exifGroup');
+    });
+
+    it('should apply settings from app.config.json entries without ids and not duplicate groups', () => {
+      appConfigService.config['content-metadata'] = {
+        presets: {
+          custom: [
+            { includeAll: true, readOnlyProperties: ['cm:name', 'cm:title'], exclude: ['exif:exif'] },
+            { title: 'APP.CONTENT_METADATA.EXIF_GROUP_TITLE', items: [{ aspect: 'exif:exif', properties: ['exif:model'] }] }
+          ]
+        }
+      };
+
+      applyConfig({
+        ...defaultConfigMock,
+        features: {
+          'content-metadata-presets': [
+            {
+              id: 'app.content.metadata.custom',
+              custom: [
+                { id: 'app.content.metadata.customSetting', includeAll: true, exclude: ['exif:exif'] },
+                {
+                  id: 'app.content.metadata.customGroup',
+                  title: 'APP.CONTENT_METADATA.EXIF_GROUP_TITLE',
+                  items: [{ id: 'app.content.metadata.exifAspect', aspect: 'exif:exif', properties: ['exif:model'] }]
+                }
+              ]
+            }
+          ]
+        }
+      });
+
+      const custom: ContentMetadataGroup[] = appConfigService.config['content-metadata'].presets.custom;
+      const groups: ContentMetadataGroup[] = custom.filter((entry) => entry.items?.length);
+
+      expect(groups.length).toBe(1);
+      expect(groups[0].id).toBe('app.content.metadata.customGroup');
+      expect(groups[0].items[0].properties).toEqual(['exif:model']);
+      expect(custom.reduce((names, entry) => names.concat(entry.readOnlyProperties || []), [])).toEqual(['cm:name', 'cm:title']);
+    });
+
+    it('should not duplicate content metadata presets when setup runs multiple times', () => {
+      appConfigService.config['content-metadata'] = {
+        presets: {
+          custom: [{ id: 'app.content.metadata.customSetting', readOnlyProperties: ['cm:name'] }]
+        }
+      };
+
+      const extensionConfig = {
+        ...defaultConfigMock,
+        features: {
+          'content-metadata-presets': [
+            {
+              id: 'app.content.metadata.custom',
+              custom: [
+                { id: 'app.content.metadata.customSetting', includeAll: true, exclude: ['exif:exif'] },
+                {
+                  id: 'app.content.metadata.exifGroup',
+                  title: 'EXIF',
+                  items: [{ id: 'app.content.metadata.exifAspect', aspect: 'exif:exif', properties: ['exif:model', 'exif:software'] }]
+                }
+              ]
+            }
+          ]
+        }
+      } as ExtensionConfig;
+
+      applyConfig(extensionConfig);
+      service.setup(JSON.parse(JSON.stringify(extensionConfig)));
+      service.setup(JSON.parse(JSON.stringify(extensionConfig)));
+      service.setup(extensionConfig);
+
+      const custom: ContentMetadataGroup[] = appConfigService.config['content-metadata'].presets.custom;
+
+      expect(custom.length).toBe(2);
+      expect(custom[0].exclude).toEqual(['exif:exif']);
+      expect(custom[0].readOnlyProperties).toEqual(['cm:name']);
+      expect(custom[1].items.length).toBe(1);
+      expect(custom[1].items[0].properties).toEqual(['exif:model', 'exif:software']);
     });
 
     it('should merge two arrays based on [id] keys', () => {

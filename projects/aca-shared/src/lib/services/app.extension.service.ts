@@ -53,7 +53,7 @@ import { AppConfigService, AuthenticationService, LogService } from '@alfresco/a
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { NodeEntry, RepositoryInfo } from '@alfresco/js-api';
 import { ViewerRules } from '../models/viewer.rules';
-import { Badge, UserProfileSection } from '../models/types';
+import { Badge, ContentMetadataGroup, ContentMetadataPresets, UserProfileSection } from '../models/types';
 import { NodePermissionService } from '../services/node-permission.service';
 import { map } from 'rxjs/operators';
 import { SearchCategory } from '@alfresco/adf-content-services';
@@ -134,6 +134,10 @@ export class AppExtensionService implements RuleContext {
   filesDocumentListPreset$: Observable<DocumentListPresetRef[]> = this._filesDocumentListPreset.asObservable();
 
   config: ExtensionConfig;
+
+  private appConfigPresets: ContentMetadataPresets;
+  private contentMetadataSource: ExtensionConfig;
+  private contentMetadataPresets: ContentMetadataPresets;
 
   constructor() {
     this.references$ = this._references.asObservable();
@@ -303,7 +307,7 @@ export class AppExtensionService implements RuleContext {
       }));
   }
 
-  loadContentMetadata(config: ExtensionConfig): any {
+  loadContentMetadata(config: ExtensionConfig): { presets: ContentMetadataPresets } | null {
     const elements = this.loader.getElements<any>(config, 'features.content-metadata-presets');
     if (!elements.length) {
       return null;
@@ -311,16 +315,43 @@ export class AppExtensionService implements RuleContext {
 
     const metadata = this.appConfig.config['content-metadata'] || {};
 
-    let presets = mergeObjects({}, ...elements);
-    if (metadata.presets) {
-      presets = mergeObjects(presets, metadata.presets);
+    if (this.appConfigPresets === undefined) {
+      this.appConfigPresets = metadata.presets ? structuredClone(metadata.presets) : null;
     }
-    presets = this.filterDisabled(presets);
 
-    metadata.presets = presets;
+    if (this.contentMetadataSource !== config) {
+      this.contentMetadataSource = config;
+
+      const presets: ContentMetadataPresets = mergeObjects(...elements);
+
+      Object.entries(this.appConfigPresets ?? {}).forEach(([presetName, appConfigGroups]) => {
+        const groups = presets[presetName];
+
+        if (!Array.isArray(groups) || !Array.isArray(appConfigGroups)) {
+          presets[presetName] = groups ?? appConfigGroups;
+          return;
+        }
+
+        presets[presetName] = mergeArrays(
+          groups,
+          appConfigGroups
+            .map((group) => {
+              const settings: ContentMetadataGroup = { ...group };
+              delete settings.title;
+              delete settings.items;
+              return settings;
+            })
+            .filter((settings) => Object.keys(settings).length)
+        );
+      });
+
+      this.contentMetadataPresets = this.filterDisabled(presets);
+    }
+
+    metadata.presets = this.contentMetadataPresets;
 
     this.appConfig.config['content-metadata'] = metadata;
-    return { presets };
+    return { presets: metadata.presets };
   }
 
   loadSearchForms(config: ExtensionConfig): any {
@@ -338,19 +369,22 @@ export class AppExtensionService implements RuleContext {
     return search;
   }
 
-  filterDisabled(object: Array<{ disabled: boolean }> | { disabled: boolean }) {
+  filterDisabled<T>(object: T): T {
     if (Array.isArray(object)) {
-      return object.filter((item) => !item.disabled).map((item) => this.filterDisabled(item));
-    } else if (typeof object === 'object') {
-      if (!object.disabled) {
-        Object.keys(object).forEach((prop) => {
-          object[prop] = this.filterDisabled(object[prop]);
-        });
-        return object;
-      }
-    } else {
-      return object;
+      return object.filter((item) => !item.disabled).map((item) => this.filterDisabled(item)) as T;
     }
+
+    if (object !== null && typeof object === 'object') {
+      const entry = object as Record<string, unknown> & { disabled?: boolean };
+      if (entry.disabled) {
+        return undefined;
+      }
+
+      Object.keys(entry).forEach((prop) => {
+        entry[prop] = this.filterDisabled(entry[prop]);
+      });
+    }
+    return object;
   }
 
   getSidebarTabs(): Array<SidebarTabRef> {
