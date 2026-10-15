@@ -276,6 +276,73 @@ describe('AppExtensionService', () => {
       expect(custom[1].items[0].properties).toEqual(['exif:model', 'exif:software']);
     });
 
+    it('should keep app.config.json groups that the extensions do not declare', () => {
+      appConfigService.config['content-metadata'] = {
+        presets: {
+          custom: [
+            { title: 'APP.CONTENT_METADATA.EXIF_GROUP_TITLE', items: [{ aspect: 'exif:exif', properties: ['exif:model'] }] },
+            { title: 'CUSTOM.OWN_GROUP', items: [{ aspect: 'my:aspect', properties: ['my:property'] }] }
+          ]
+        }
+      };
+
+      applyConfig({
+        ...defaultConfigMock,
+        features: {
+          'content-metadata-presets': [
+            {
+              id: 'app.content.metadata.custom',
+              custom: [
+                {
+                  id: 'app.content.metadata.customGroup',
+                  title: 'APP.CONTENT_METADATA.EXIF_GROUP_TITLE',
+                  items: [{ aspect: 'exif:exif', properties: ['exif:model'] }]
+                }
+              ]
+            }
+          ]
+        }
+      });
+
+      const custom: ContentMetadataGroup[] = appConfigService.config['content-metadata'].presets.custom;
+      const groups = custom.filter((entry) => entry.items?.length);
+
+      expect(groups.length).toBe(2);
+      expect(groups[0].title).toBe('APP.CONTENT_METADATA.EXIF_GROUP_TITLE');
+      expect(groups[1].title).toBe('CUSTOM.OWN_GROUP');
+    });
+
+    it('should merge app.config.json aspect oriented presets into the extension declared ones', () => {
+      appConfigService.config['content-metadata'] = {
+        presets: {
+          default: {
+            'exif:exif': ['exif:pixelXDimension', 'exif:pixelYDimension'],
+            'cm:titled': '*'
+          }
+        }
+      };
+
+      applyConfig({
+        ...defaultConfigMock,
+        features: {
+          'content-metadata-presets': [
+            {
+              id: 'app.content.metadata.default',
+              default: {
+                'custom:aspect': '*'
+              }
+            }
+          ]
+        }
+      });
+
+      const preset = appConfigService.config['content-metadata'].presets.default;
+
+      expect(preset['custom:aspect']).toBe('*');
+      expect(preset['exif:exif']).toEqual(['exif:pixelXDimension', 'exif:pixelYDimension']);
+      expect(preset['cm:titled']).toBe('*');
+    });
+
     it('should merge two arrays based on [id] keys', () => {
       const left = [
         {

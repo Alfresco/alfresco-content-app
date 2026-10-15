@@ -56,7 +56,7 @@ import { ViewerRules } from '../models/viewer.rules';
 import { Badge, ContentMetadataGroup, ContentMetadataPresets, UserProfileSection } from '../models/types';
 import { NodePermissionService } from '../services/node-permission.service';
 import { map } from 'rxjs/operators';
-import { SearchCategory } from '@alfresco/adf-content-services';
+import { SearchCategory, PresetConfig } from '@alfresco/adf-content-services';
 
 export function provideContentAppExtensions(): EnvironmentProviders[] {
   return [
@@ -315,27 +315,33 @@ export class AppExtensionService implements RuleContext {
 
     const metadata = this.appConfig.config['content-metadata'] || {};
 
-    if (this.appConfigPresets === undefined) {
-      this.appConfigPresets = metadata.presets ? structuredClone(metadata.presets) : null;
-    }
+    this.appConfigPresets ??= structuredClone(metadata.presets ?? {});
 
     if (this.contentMetadataSource !== config) {
       this.contentMetadataSource = config;
 
       const presets: ContentMetadataPresets = mergeObjects(...elements);
+      const isMergeable = (preset: PresetConfig) => !!preset && typeof preset === 'object' && !Array.isArray(preset);
 
-      Object.entries(this.appConfigPresets ?? {}).forEach(([presetName, appConfigGroups]) => {
+      Object.entries(this.appConfigPresets).forEach(([presetName, appConfigGroups]) => {
         const groups = presets[presetName];
 
         if (!Array.isArray(groups) || !Array.isArray(appConfigGroups)) {
-          presets[presetName] = groups ?? appConfigGroups;
+          presets[presetName] =
+            isMergeable(groups) && isMergeable(appConfigGroups) ? mergeObjects(groups, appConfigGroups) : (groups ?? appConfigGroups);
           return;
         }
 
+        const extensionTitles = new Set(groups.map((group) => group.title).filter(Boolean));
+
         presets[presetName] = mergeArrays(
           groups,
-          appConfigGroups
+          (appConfigGroups as ContentMetadataGroup[])
             .map((group) => {
+              if (group.id || !extensionTitles.has(group.title)) {
+                return group;
+              }
+
               const settings: ContentMetadataGroup = { ...group };
               delete settings.title;
               delete settings.items;
