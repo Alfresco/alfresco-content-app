@@ -58,8 +58,7 @@ test.describe('Search → Full Details → Reduced Panel navigation', () => {
       trashcanApi = await TrashcanApi.initialize(username, username);
       uploadApi = await UploadApi.initialize(username, username);
       searchApi = await SearchApi.initialize(username, username);
-      const uploadedFile = await uploadApi.uploadFileWithRename(TEST_FILES.DOCX.path, fileName, '-my-');
-      fileNodeId = uploadedFile.entry.id;
+      fileNodeId = (await uploadApi.uploadFileWithRename(TEST_FILES.DOCX.path, fileName, '-my-')).entry.id;
       await searchApi.waitForNodes(fileName, { expect: 1 });
     } catch (error) {
       console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
@@ -75,18 +74,18 @@ test.describe('Search → Full Details → Reduced Panel navigation', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
-  async function waitForFullDetailsPageToSettle(infoDrawer: InfoDrawerComponent): Promise<void> {
-    await infoDrawer.detailsTabs.waitFor({ state: 'visible' });
-    await infoDrawer.metadataTab.waitFor({ state: 'visible' });
-    await infoDrawer.contentMetadata.waitFor({ state: 'visible' });
-    await expect(infoDrawer.reducePanelButton).toBeVisible();
+  async function waitForFullDetailsPageToSettle(page: PersonalFilesPage | SearchPage): Promise<void> {
+    await page.detailsPage.detailsTabs.waitFor({ state: 'visible' });
+    await page.detailsPage.metadataTab.waitFor({ state: 'visible' });
+    await page.detailsPage.contentMetadata.waitFor({ state: 'visible' });
+    await expect(page.detailsPage.reducePanelButton).toBeVisible();
   }
 
   async function clickExpandDetails(infoDrawer: InfoDrawerComponent, isViewer = false): Promise<void> {
     const button = isViewer ? infoDrawer.expandDetailsButtonViewer : infoDrawer.expandDetailsButton;
     await expect(button).toBeVisible();
     await expect(button).toBeEnabled();
-    await button.click({ force: isViewer });
+    await button.click();
   }
 
   async function openPersonalFilesWithFile(page: PersonalFilesPage): Promise<void> {
@@ -113,11 +112,11 @@ test.describe('Search → Full Details → Reduced Panel navigation', () => {
   async function expandToFullDetails(page: PersonalFilesPage | SearchPage, isViewer = false): Promise<void> {
     await clickExpandDetails(page.infoDrawer, isViewer);
     await page.page.waitForURL(`**/personal-files/details/${fileNodeId}**`);
-    await waitForFullDetailsPageToSettle(page.infoDrawer);
+    await waitForFullDetailsPageToSettle(page);
   }
 
   async function reduceFullDetailsPanel(page: PersonalFilesPage | SearchPage): Promise<void> {
-    await page.infoDrawer.reducePanelButton.click();
+    await page.detailsPage.reducePanelButton.click();
     await page.page.waitForURL((url) => !url.href.includes('/details/'));
   }
 
@@ -158,7 +157,7 @@ test.describe('Search → Full Details → Reduced Panel navigation', () => {
       await searchForFile(searchPage);
       await searchPage.searchInputComponent.searchCloseButton.click();
       await personalFiles.page.waitForURL(`**/personal-files/details/${fileNodeId}**`);
-      await waitForFullDetailsPageToSettle(personalFiles.infoDrawer);
+      await waitForFullDetailsPageToSettle(personalFiles);
 
       await reduceFullDetailsPanel(personalFiles);
 
@@ -192,7 +191,7 @@ test.describe('Search → Full Details → Reduced Panel navigation', () => {
       await searchForFile(searchPage);
       await searchPage.searchInputComponent.searchCloseButton.click();
       await searchPage.page.waitForURL(`**/personal-files/details/${fileNodeId}**`);
-      await waitForFullDetailsPageToSettle(searchPage.infoDrawer);
+      await waitForFullDetailsPageToSettle(searchPage);
 
       await reduceFullDetailsPanel(searchPage);
 
