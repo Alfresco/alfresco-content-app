@@ -62,7 +62,7 @@ test.describe('Search → Full Details → Reduced Panel navigation', () => {
       fileNodeId = uploadedFile.entry.id;
       await searchApi.waitForNodes(fileName, { expect: 1 });
     } catch (error) {
-      console.error(`beforeAll failed: ${error}`);
+      console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
       throw error;
     }
   });
@@ -178,6 +178,7 @@ test.describe('Search → Full Details → Reduced Panel navigation', () => {
 
       expect(personalFiles.page.url()).not.toContain('/search');
       expect(personalFiles.page.url()).not.toContain('/details/');
+      await expect(personalFiles.infoDrawer.infoDrawerPanelViewer).toBeVisible();
     });
 
     test('[ACS-19939] should reduce Full Details to Viewer Details panel after navigating through Search page', async ({
