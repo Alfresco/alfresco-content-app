@@ -197,7 +197,7 @@ test.describe('Search → Full Details → Reduced Panel navigation', () => {
 
       expect(personalFiles.page.url()).not.toContain('/search');
       expect(personalFiles.page.url()).not.toContain('/details/');
-      await expect(personalFiles.infoDrawer.infoDrawerPanel).toBeVisible();
+      await expect(personalFiles.infoDrawer.infoDrawerPanelViewer).toBeVisible();
     });
   });
 });
