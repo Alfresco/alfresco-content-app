@@ -27,8 +27,11 @@ import {
   ApiClientFactory,
   InfoDrawerComponent,
   NodesApi,
+  PersonalFilesPage,
   SearchApi,
+  SearchPage,
   TEST_FILES,
+  timeouts,
   TrashcanApi,
   UploadApi,
   Utils,
@@ -43,7 +46,7 @@ test.describe('Search → Full Details → Reduced Panel navigation', () => {
 
   const random = Utils.random();
   const username = `user-${random}`;
-  const fileName = `search-details-nav-${random}.docx`;
+  const fileName = `${random}-details-panel.docx`;
   let fileNodeId: string;
 
   test.beforeAll(async () => {
@@ -86,22 +89,50 @@ test.describe('Search → Full Details → Reduced Panel navigation', () => {
     await button.click({ force: isViewer });
   }
 
+  async function openPersonalFilesWithFile(page: PersonalFilesPage): Promise<void> {
+    await page.navigate();
+    await Utils.reloadPageIfRowNotVisible(page, fileName);
+    await expect(page.dataTable.getRowByName(fileName)).toBeVisible();
+  }
+
+  async function openDetailsPanelFromList(page: PersonalFilesPage | SearchPage): Promise<void> {
+    await page.dataTable.getRowByName(fileName).click();
+    await page.acaHeader.viewDetails.click();
+    await expect(page.infoDrawer.infoDrawerPanel).toBeVisible();
+  }
+
+  async function openDetailsPanelFromViewer(page: PersonalFilesPage): Promise<void> {
+    await page.dataTable.performClickFolderOrFileToOpen(fileName);
+    await page.viewer.waitForViewerToOpen();
+    await page.viewer.waitForViewerContentToRender();
+
+    await page.viewer.toolbar.viewDetailsButton.click();
+    await expect(page.infoDrawer.infoDrawerPanelViewer).toBeVisible();
+  }
+
+  async function expandToFullDetails(page: PersonalFilesPage | SearchPage, isViewer = false): Promise<void> {
+    await clickExpandDetails(page.infoDrawer, isViewer);
+    await page.page.waitForURL(`**/personal-files/details/${fileNodeId}**`);
+    await waitForFullDetailsPageToSettle(page.infoDrawer);
+  }
+
+  async function reduceFullDetailsPanel(page: PersonalFilesPage | SearchPage): Promise<void> {
+    await page.infoDrawer.reducePanelButton.click();
+    await page.page.waitForURL((url) => !url.href.includes('/details/'));
+  }
+
+  async function searchForFile(page: SearchPage): Promise<void> {
+    await page.searchWithin(`cm:name:"${fileName}"`, 'files', 'formula');
+    await expect(page.dataTable.getRowByName(fileName)).toBeVisible({ timeout: timeouts.extraLarge });
+  }
+
   test.describe('File List page', () => {
     test('[XAT-19925] should reduce Full Details to Details panel on File List page without navigating away', async ({ personalFiles }) => {
-      await personalFiles.navigate();
-      await Utils.reloadPageIfRowNotVisible(personalFiles, fileName);
-      await expect(personalFiles.dataTable.getRowByName(fileName)).toBeVisible();
+      await openPersonalFilesWithFile(personalFiles);
+      await openDetailsPanelFromList(personalFiles);
+      await expandToFullDetails(personalFiles);
 
-      await personalFiles.dataTable.getRowByName(fileName).click();
-      await personalFiles.acaHeader.viewDetails.click();
-      await expect(personalFiles.infoDrawer.infoDrawerPanel).toBeVisible();
-
-      await clickExpandDetails(personalFiles.infoDrawer);
-      await personalFiles.page.waitForURL(`**/personal-files/details/${fileNodeId}**`);
-      await waitForFullDetailsPageToSettle(personalFiles.infoDrawer);
-
-      await personalFiles.infoDrawer.reducePanelButton.click();
-      await personalFiles.page.waitForURL((url) => !url.href.includes('/details/'));
+      await reduceFullDetailsPanel(personalFiles);
 
       expect(personalFiles.page.url()).not.toContain('/details/');
       expect(personalFiles.page.url()).not.toContain('/search');
@@ -109,46 +140,27 @@ test.describe('Search → Full Details → Reduced Panel navigation', () => {
     });
 
     test('[XAT-19926] should reduce Full Details back to Search page when the journey started from Search', async ({ searchPage }) => {
-      await searchPage.searchWithin(fileName, 'files');
-      await expect(searchPage.dataTable.getRowByName(fileName)).toBeVisible({ timeout: 20000 });
+      await searchForFile(searchPage);
+      await openDetailsPanelFromList(searchPage);
+      await expandToFullDetails(searchPage);
 
-      await searchPage.dataTable.getRowByName(fileName).click();
-      await searchPage.acaHeader.viewDetails.click();
-
-      await expect(searchPage.infoDrawer.infoDrawerPanel).toBeVisible();
-      await clickExpandDetails(searchPage.infoDrawer);
-      await searchPage.page.waitForURL(`**/personal-files/details/${fileNodeId}**`);
-      await waitForFullDetailsPageToSettle(searchPage.infoDrawer);
-
-      await searchPage.infoDrawer.reducePanelButton.click();
-      await searchPage.page.waitForURL((url) => !url.href.includes('/details/'));
+      await reduceFullDetailsPanel(searchPage);
 
       expect(searchPage.page.url()).not.toContain('/details/');
       expect(searchPage.page.url()).toContain('/search');
     });
 
     test('[XAT-19927] should reduce Full Details to Details panel after navigating through Search page', async ({ searchPage, personalFiles }) => {
-      await personalFiles.navigate();
-      await Utils.reloadPageIfRowNotVisible(personalFiles, fileName);
-      await expect(personalFiles.dataTable.getRowByName(fileName)).toBeVisible();
+      await openPersonalFilesWithFile(personalFiles);
+      await openDetailsPanelFromList(personalFiles);
+      await expandToFullDetails(personalFiles);
 
-      await personalFiles.dataTable.getRowByName(fileName).click();
-      await personalFiles.acaHeader.viewDetails.click();
-      await expect(personalFiles.infoDrawer.infoDrawerPanel).toBeVisible();
-
-      await clickExpandDetails(personalFiles.infoDrawer);
-      await personalFiles.page.waitForURL(`**/personal-files/details/${fileNodeId}**`);
-      await waitForFullDetailsPageToSettle(personalFiles.infoDrawer);
-
-      await searchPage.searchWithin(fileName, 'files');
-      await expect(searchPage.dataTable.getRowByName(fileName)).toBeVisible({ timeout: 20000 });
-
+      await searchForFile(searchPage);
       await searchPage.searchInputComponent.searchCloseButton.click();
       await personalFiles.page.waitForURL(`**/personal-files/details/${fileNodeId}**`);
       await waitForFullDetailsPageToSettle(personalFiles.infoDrawer);
 
-      await personalFiles.infoDrawer.reducePanelButton.click();
-      await personalFiles.page.waitForURL((url) => !url.href.includes('/details/'));
+      await reduceFullDetailsPanel(personalFiles);
 
       expect(personalFiles.page.url()).not.toContain('/details/');
       expect(personalFiles.page.url()).not.toContain('/search');
@@ -158,22 +170,11 @@ test.describe('Search → Full Details → Reduced Panel navigation', () => {
 
   test.describe('Viewer page', () => {
     test('[ACS-19938] should reduce Full Details to Details panel on Viewer page without navigating away', async ({ personalFiles }) => {
-      await personalFiles.navigate();
-      await Utils.reloadPageIfRowNotVisible(personalFiles, fileName);
-      await expect(personalFiles.dataTable.getRowByName(fileName)).toBeVisible();
+      await openPersonalFilesWithFile(personalFiles);
+      await openDetailsPanelFromViewer(personalFiles);
+      await expandToFullDetails(personalFiles, true);
 
-      await personalFiles.dataTable.performClickFolderOrFileToOpen(fileName);
-      await personalFiles.viewer.waitForViewerToOpen();
-      await personalFiles.viewer.waitForViewerContentToRender();
-
-      await personalFiles.viewer.viewDetailsButton.click();
-      await expect(personalFiles.infoDrawer.infoDrawerPanelViewer).toBeVisible();
-      await clickExpandDetails(personalFiles.infoDrawer, true);
-      await personalFiles.page.waitForURL(`**/personal-files/details/${fileNodeId}**`);
-      await waitForFullDetailsPageToSettle(personalFiles.infoDrawer);
-
-      await personalFiles.infoDrawer.reducePanelButton.click();
-      await personalFiles.page.waitForURL((url) => !url.href.includes('/details/'));
+      await reduceFullDetailsPanel(personalFiles);
 
       expect(personalFiles.page.url()).not.toContain('/search');
       expect(personalFiles.page.url()).not.toContain('/details/');
@@ -183,29 +184,16 @@ test.describe('Search → Full Details → Reduced Panel navigation', () => {
       searchPage,
       personalFiles
     }) => {
-      await personalFiles.navigate();
-      await Utils.reloadPageIfRowNotVisible(personalFiles, fileName);
-      await expect(personalFiles.dataTable.getRowByName(fileName)).toBeVisible();
+      await openPersonalFilesWithFile(personalFiles);
+      await openDetailsPanelFromViewer(personalFiles);
+      await expandToFullDetails(personalFiles, true);
 
-      await personalFiles.dataTable.performClickFolderOrFileToOpen(fileName);
-      await personalFiles.viewer.waitForViewerToOpen();
-      await personalFiles.viewer.waitForViewerContentToRender();
-
-      await personalFiles.viewer.viewDetailsButton.click();
-      await expect(personalFiles.infoDrawer.infoDrawerPanelViewer).toBeVisible();
-      await clickExpandDetails(personalFiles.infoDrawer, true);
-      await personalFiles.page.waitForURL(`**/personal-files/details/${fileNodeId}**`);
-      await waitForFullDetailsPageToSettle(personalFiles.infoDrawer);
-
-      await searchPage.searchWithin(fileName, 'files');
-      await expect(searchPage.dataTable.getRowByName(fileName)).toBeVisible({ timeout: 20000 });
-
+      await searchForFile(searchPage);
       await searchPage.searchInputComponent.searchCloseButton.click();
       await searchPage.page.waitForURL(`**/personal-files/details/${fileNodeId}**`);
       await waitForFullDetailsPageToSettle(searchPage.infoDrawer);
 
-      await searchPage.infoDrawer.reducePanelButton.click();
-      await searchPage.page.waitForURL((url) => !url.href.includes('/details/'));
+      await reduceFullDetailsPanel(searchPage);
 
       expect(personalFiles.page.url()).not.toContain('/search');
       expect(personalFiles.page.url()).not.toContain('/details/');
