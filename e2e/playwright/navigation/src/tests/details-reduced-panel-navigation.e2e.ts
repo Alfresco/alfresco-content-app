@@ -1,0 +1,203 @@
+/*!
+ * Copyright © 2005-2026 Hyland Software, Inc. and its affiliates. All rights reserved.
+ *
+ * Alfresco Example Content Application
+ *
+ * This file is part of the Alfresco Example Content Application.
+ * If the software was purchased under a paid Alfresco license, the terms of
+ * the paid license agreement will prevail. Otherwise, the software is
+ * provided under the following open source license terms:
+ *
+ * The Alfresco Example Content Application is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * The Alfresco Example Content Application is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+import { expect } from '@playwright/test';
+import {
+  ApiClientFactory,
+  InfoDrawerComponent,
+  NodesApi,
+  PersonalFilesPage,
+  SearchApi,
+  SearchPage,
+  TEST_FILES,
+  timeouts,
+  TrashcanApi,
+  UploadApi,
+  Utils,
+  test
+} from '@alfresco/aca-playwright-shared';
+
+test.describe('Search → Full Details → Reduced Panel navigation', () => {
+  let nodesApi: NodesApi;
+  let trashcanApi: TrashcanApi;
+  let uploadApi: UploadApi;
+  let searchApi: SearchApi;
+
+  const random = Utils.random();
+  const username = `user-${random}`;
+  const fileName = `${random}-details-panel.docx`;
+  let fileNodeId: string;
+
+  test.beforeAll(async () => {
+    try {
+      const apiClientFactory = new ApiClientFactory();
+      await apiClientFactory.setUpAcaBackend('admin');
+      await apiClientFactory.createUser({ username });
+      nodesApi = await NodesApi.initialize(username, username);
+      trashcanApi = await TrashcanApi.initialize(username, username);
+      uploadApi = await UploadApi.initialize(username, username);
+      searchApi = await SearchApi.initialize(username, username);
+      fileNodeId = (await uploadApi.uploadFileWithRename(TEST_FILES.DOCX.path, fileName, '-my-')).entry.id;
+      await searchApi.waitForNodes(fileName, { expect: 1 });
+    } catch (error) {
+      console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
+      throw error;
+    }
+  });
+
+  test.beforeEach(async ({ loginPage }) => {
+    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+  });
+
+  test.afterAll(async () => {
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
+  });
+
+  async function waitForFullDetailsPageToSettle(page: PersonalFilesPage | SearchPage): Promise<void> {
+    await page.detailsPage.detailsTabs.waitFor({ state: 'visible' });
+    await page.detailsPage.metadataTab.waitFor({ state: 'visible' });
+    await page.detailsPage.contentMetadata.waitFor({ state: 'visible' });
+    await expect(page.detailsPage.reducePanelButton).toBeVisible();
+  }
+
+  async function clickExpandDetails(infoDrawer: InfoDrawerComponent, isViewer = false): Promise<void> {
+    const button = isViewer ? infoDrawer.expandDetailsButtonViewer : infoDrawer.expandDetailsButton;
+    await expect(button).toBeVisible();
+    await expect(button).toBeEnabled();
+    await button.click();
+  }
+
+  async function openPersonalFilesWithFile(page: PersonalFilesPage): Promise<void> {
+    await page.navigate();
+    await Utils.reloadPageIfRowNotVisible(page, fileName);
+    await expect(page.dataTable.getRowByName(fileName)).toBeVisible();
+  }
+
+  async function openDetailsPanelFromList(page: PersonalFilesPage | SearchPage): Promise<void> {
+    await page.dataTable.getRowByName(fileName).click();
+    await page.acaHeader.viewDetails.click();
+    await expect(page.infoDrawer.infoDrawerPanel).toBeVisible();
+  }
+
+  async function openDetailsPanelFromViewer(page: PersonalFilesPage): Promise<void> {
+    await page.dataTable.performClickFolderOrFileToOpen(fileName);
+    await page.viewer.waitForViewerToOpen();
+    await page.viewer.waitForViewerContentToRender();
+
+    await page.viewer.toolbar.viewDetailsButton.click();
+    await expect(page.infoDrawer.infoDrawerPanelViewer).toBeVisible();
+  }
+
+  async function expandToFullDetails(page: PersonalFilesPage | SearchPage, isViewer = false): Promise<void> {
+    await clickExpandDetails(page.infoDrawer, isViewer);
+    await page.page.waitForURL(`**/personal-files/details/${fileNodeId}**`);
+    await waitForFullDetailsPageToSettle(page);
+  }
+
+  async function reduceFullDetailsPanel(page: PersonalFilesPage | SearchPage): Promise<void> {
+    await page.detailsPage.reducePanelButton.click();
+    await page.page.waitForURL((url) => !url.href.includes('/details/'));
+  }
+
+  async function searchForFile(page: SearchPage): Promise<void> {
+    await page.searchWithin(`cm:name:"${fileName}"`, 'files', 'formula');
+    await expect(page.dataTable.getRowByName(fileName)).toBeVisible({ timeout: timeouts.extraLarge });
+  }
+
+  test.describe('File List page', () => {
+    test('[XAT-19925] should reduce Full Details to Details panel on File List page without navigating away', async ({ personalFiles }) => {
+      await openPersonalFilesWithFile(personalFiles);
+      await openDetailsPanelFromList(personalFiles);
+      await expandToFullDetails(personalFiles);
+
+      await reduceFullDetailsPanel(personalFiles);
+
+      expect(personalFiles.page.url()).not.toContain('/details/');
+      expect(personalFiles.page.url()).not.toContain('/search');
+      await expect(personalFiles.infoDrawer.infoDrawerPanel).toBeVisible();
+    });
+
+    test('[XAT-19926] should reduce Full Details back to Search page when the journey started from Search', async ({ searchPage }) => {
+      await searchForFile(searchPage);
+      await openDetailsPanelFromList(searchPage);
+      await expandToFullDetails(searchPage);
+
+      await reduceFullDetailsPanel(searchPage);
+
+      expect(searchPage.page.url()).not.toContain('/details/');
+      expect(searchPage.page.url()).toContain('/search');
+    });
+
+    test('[XAT-19927] should reduce Full Details to Details panel after navigating through Search page', async ({ searchPage, personalFiles }) => {
+      await openPersonalFilesWithFile(personalFiles);
+      await openDetailsPanelFromList(personalFiles);
+      await expandToFullDetails(personalFiles);
+
+      await searchForFile(searchPage);
+      await searchPage.searchInputComponent.searchCloseButton.click();
+      await personalFiles.page.waitForURL(`**/personal-files/details/${fileNodeId}**`);
+      await waitForFullDetailsPageToSettle(personalFiles);
+
+      await reduceFullDetailsPanel(personalFiles);
+
+      expect(personalFiles.page.url()).not.toContain('/details/');
+      expect(personalFiles.page.url()).not.toContain('/search');
+      await expect(personalFiles.infoDrawer.infoDrawerPanel).toBeVisible();
+    });
+  });
+
+  test.describe('Viewer page', () => {
+    test('[ACS-19938] should reduce Full Details to Details panel on Viewer page without navigating away', async ({ personalFiles }) => {
+      await openPersonalFilesWithFile(personalFiles);
+      await openDetailsPanelFromViewer(personalFiles);
+      await expandToFullDetails(personalFiles, true);
+
+      await reduceFullDetailsPanel(personalFiles);
+
+      expect(personalFiles.page.url()).not.toContain('/search');
+      expect(personalFiles.page.url()).not.toContain('/details/');
+      await expect(personalFiles.infoDrawer.infoDrawerPanelViewer).toBeVisible();
+    });
+
+    test('[ACS-19939] should reduce Full Details to Viewer Details panel after navigating through Search page', async ({
+      searchPage,
+      personalFiles
+    }) => {
+      await openPersonalFilesWithFile(personalFiles);
+      await openDetailsPanelFromViewer(personalFiles);
+      await expandToFullDetails(personalFiles, true);
+
+      await searchForFile(searchPage);
+      await searchPage.searchInputComponent.searchCloseButton.click();
+      await searchPage.page.waitForURL(`**/personal-files/details/${fileNodeId}**`);
+      await waitForFullDetailsPageToSettle(searchPage);
+
+      await reduceFullDetailsPanel(searchPage);
+
+      expect(personalFiles.page.url()).not.toContain('/search');
+      expect(personalFiles.page.url()).not.toContain('/details/');
+      await expect(personalFiles.infoDrawer.infoDrawerPanelViewer).toBeVisible();
+    });
+  });
+});
