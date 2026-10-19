@@ -94,8 +94,8 @@ test.describe('Upload new version', () => {
 
     test.beforeAll(async () => {
       parentSearchId = (await nodesApi.createFolder(parentSearch)).entry.id;
-      fileSearch5353Id = (await nodesApi.createFile(fileSearch5353, parentSearchId)).entry.id;
-      fileSearch5354Id = (await nodesApi.createFile(fileSearch5354, parentSearchId)).entry.id;
+      fileSearch5353Id = (await nodesApi.createFile(fileSearch5353, parentSearchId, '', '', '', true, ['cm:versionable'])).entry.id;
+      fileSearch5354Id = (await nodesApi.createFile(fileSearch5354, parentSearchId, '', '', '', true, ['cm:versionable'])).entry.id;
       await searchApi.waitForNodes(searchPhrase, { expect: 2 });
     });
 
@@ -139,9 +139,9 @@ test.describe('Upload new version', () => {
     test.beforeAll(async () => {
       parentPFId = (await nodesApi.createFolder(parentPF)).entry.id;
       await uploadApi.uploadFileWithRename(TEST_FILES.DOCX.path, conflictingName5327, parentPFId);
-      file5327Id = (await nodesApi.createFile(file5327, parentPFId)).entry.id;
-      fileLocked5328Id = (await nodesApi.createFile(fileLocked5328, parentPFId)).entry.id;
-      fileLocked5329Id = (await nodesApi.createFile(fileLocked5329, parentPFId)).entry.id;
+      file5327Id = (await nodesApi.createFile(file5327, parentPFId, '', '', '', true, ['cm:versionable'])).entry.id;
+      fileLocked5328Id = (await nodesApi.createFile(fileLocked5328, parentPFId, '', '', '', true, ['cm:versionable'])).entry.id;
+      fileLocked5329Id = (await nodesApi.createFile(fileLocked5329, parentPFId, '', '', '', true, ['cm:versionable'])).entry.id;
 
       await nodesApi.checkoutNodes([fileLocked5328Id, fileLocked5329Id]);
     });

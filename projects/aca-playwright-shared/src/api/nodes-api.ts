@@ -137,7 +137,7 @@ export class NodesApi {
         'cm:description': description,
         'cm:author': author
       },
-      aspectNames: nodeType === 'cm:content' ? [...new Set([...aspectNames, 'cm:versionable'])] : aspectNames
+      aspectNames
     };
     if (imageProps) {
       nodeBody.properties = Object.assign(nodeBody.properties, imageProps);
@@ -145,8 +145,7 @@ export class NodesApi {
 
     try {
       return await this.apiService.nodes.createNode(parentId, nodeBody, {
-        majorVersion,
-        versioningEnabled: nodeType === 'cm:content'
+        majorVersion
       });
     } catch (error) {
       if (JSON.stringify(error).includes('409')) {
