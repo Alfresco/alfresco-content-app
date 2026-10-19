@@ -169,8 +169,8 @@ test.describe('Upload new version', () => {
 
       await personalFiles.uploadNewVersionDialog.description.fill('new version description');
       await personalFiles.uploadNewVersionDialog.uploadButton.click();
+      await expect(personalFiles.dataTable.getRowByName(fileLocked5328), 'File was not updated').toBeVisible({ timeout: timeouts.extraLarge });
 
-      expect(await personalFiles.dataTable.isItemPresent(fileLocked5328), 'File was not updated').toBe(true);
       expect(await nodesApi.getNodeProperty(fileLocked5328Id, 'cm:lockType'), `${fileLocked5328} is still locked`).not.toEqual('WRITE_LOCK');
       expect(await nodesApi.getNodeProperty(fileLocked5328Id, 'cm:versionType'), 'File has incorrect version type').toEqual('MINOR');
       expect(await nodesApi.getNodeProperty(fileLocked5328Id, 'cm:versionLabel'), 'File has incorrect version label').toEqual('1.1');
