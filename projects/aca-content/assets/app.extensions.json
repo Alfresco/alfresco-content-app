@@ -2604,7 +2604,8 @@
           "sortable": false,
           "desktopOnly": false,
           "order": 10,
-          "resizable": false
+          "resizable": false,
+          "visibleInDragPreview": true
         },
         {
           "id": "app.files.name",
@@ -2616,7 +2617,8 @@
           "template": "app.columns.name",
           "desktopOnly": false,
           "order": 20,
-          "draggable": true
+          "draggable": true,
+          "visibleInDragPreview": true
         },
         {
           "id": "app.files.size",
