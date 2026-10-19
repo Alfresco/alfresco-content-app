@@ -32,24 +32,25 @@ export interface ApiError {
   error?: Error;
 }
 
-function parsePayload(error: ApiError): ModelError {
-  const body = error?.response?.body;
-  if (typeof body === 'object' && body?.error) {
-    return body;
+function toPayload(value: ModelError | string): ModelError {
+  if (typeof value === 'object') {
+    return value?.error ? value : null;
   }
 
-  if (typeof error?.message === 'string') {
+  if (typeof value === 'string') {
     try {
-      const parsed: ModelError = JSON.parse(error.message);
-      if (parsed?.error) {
-        return parsed;
-      }
+      const parsed: ModelError = JSON.parse(value);
+      return parsed?.error ? parsed : null;
     } catch {
       return null;
     }
   }
 
   return null;
+}
+
+function parsePayload(error: ApiError): ModelError {
+  return toPayload(error?.response?.body) ?? toPayload(error?.message);
 }
 
 /**

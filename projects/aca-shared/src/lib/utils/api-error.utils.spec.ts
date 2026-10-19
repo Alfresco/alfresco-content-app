@@ -46,6 +46,18 @@ describe('getApiErrorMessage', () => {
     expect(getApiErrorMessage(error)).toBe(briefSummary);
   });
 
+  it('should read briefSummary from a response body left serialised by the client', () => {
+    const error: ApiError = { response: { body: JSON.stringify(payload({ briefSummary })) } };
+
+    expect(getApiErrorMessage(error)).toBe(briefSummary);
+  });
+
+  it('should fall back to the message when the response body holds no payload', () => {
+    const error: ApiError = { message: JSON.stringify(payload({ briefSummary })), response: { body: '<html>502 Bad Gateway</html>' } };
+
+    expect(getApiErrorMessage(error)).toBe(briefSummary);
+  });
+
   it('should never return the errorKey, as it has no translation in the client', () => {
     const error: ApiError = { response: { body: payload({ errorKey: 'framework.exception.ApiDefault', statusCode: 500 }) } };
 
