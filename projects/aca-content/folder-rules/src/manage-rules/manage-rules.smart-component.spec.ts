@@ -490,7 +490,7 @@ describe('ManageRulesSmartComponent', () => {
       const addOrUpdateSpy = spyOn(folderRuleSetsService, 'addOrUpdateRuleInMainRuleSet');
       component.nodeId = 'node-123';
 
-      component.onRuleEnabledToggle(original, toggled.isEnabled);
+      void component.onRuleEnabledToggle(original, toggled.isEnabled);
       tick();
 
       expect(folderRulesService.updateRule).toHaveBeenCalledWith('node-123', original.id, { ...original, isEnabled: toggled.isEnabled });
@@ -506,7 +506,7 @@ describe('ManageRulesSmartComponent', () => {
       spyOn(notificationService, 'showError');
       component.nodeId = 'node-123';
 
-      component.onRuleEnabledToggle(original, !original.isEnabled);
+      void component.onRuleEnabledToggle(original, !original.isEnabled);
       tick();
 
       expect(notificationService.showError).toHaveBeenCalledWith('05220073 Rule could not be updated');
