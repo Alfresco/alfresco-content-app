@@ -79,11 +79,11 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   protected breakpointObserver = inject(BreakpointObserver);
   protected uploadService = inject(UploadService);
   protected router = inject(Router);
-  private readonly activatedRoute = inject(ActivatedRoute, { optional: true });
 
   protected readonly destroyRef = inject(DestroyRef);
 
   private readonly autoDownloadService = inject(AutoDownloadService, { optional: true });
+  private readonly activatedRoute = inject(ActivatedRoute, { optional: true });
 
   protected subscriptions: Subscription[] = [];
 
@@ -238,7 +238,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private isRenderedInViewerOutlet(): boolean {
-    return !!this.activatedRoute?.pathFromRoot.some((route) => route.outlet === 'viewer');
+    return !!this.activatedRoute?.pathFromRoot?.some((route) => route.outlet === 'viewer');
   }
 
   @HostListener('sorting-changed', ['$event'])

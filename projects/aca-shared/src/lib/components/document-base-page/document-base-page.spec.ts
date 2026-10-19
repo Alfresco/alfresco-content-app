@@ -265,28 +265,6 @@ describe('Info Drawer state', () => {
     expect(states).toEqual([true, false, true]);
   });
 
-  it('should open info drawer when component is rendered inside the viewer outlet', async () => {
-    TestBed.resetTestingModule();
-    TestBed.configureTestingModule({
-      imports: [LibTestingModule, MatDialogModule],
-      declarations: [TestComponent],
-      providers: [
-        provideCoreAuth(),
-        { provide: DocumentBasePageService, useClass: DocumentBasePageServiceMock },
-        { provide: DiscoveryApiService, useValue: discoveryApiServiceMockValue },
-        { provide: ActivatedRoute, useValue: { pathFromRoot: [{ outlet: 'primary' }, { outlet: 'viewer' }] } },
-        provideMockStore({ initialState: { app: { ...appState, infoDrawerOpened: true } } })
-      ]
-    });
-    spyOnProperty(TestBed.inject(Router), 'url').and.returnValue('/personal-files/(viewer:view/node-id)');
-    fixture = TestBed.createComponent(TestComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-
-    const state = await firstValueFrom(component.infoDrawerOpened$);
-    expect(state).toBe(true);
-  });
-
   it('should not resolve custom image', () => {
     expect(component.imageResolver(null)).toBe(null);
   });
@@ -347,5 +325,47 @@ describe('Info Drawer state', () => {
     const event = new CustomEvent('sorting-changed', { detail: { key: 'name', direction: 'asc' } });
     component.onSortingChanged(event);
     expect(component.filterSorting).toBe('name-asc');
+  });
+});
+
+describe('Info Drawer state inside viewer outlet', () => {
+  let component: TestComponent;
+  let fixture: ComponentFixture<TestComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [LibTestingModule, MatDialogModule],
+      declarations: [TestComponent],
+      providers: [
+        provideCoreAuth(),
+        { provide: DocumentBasePageService, useClass: DocumentBasePageServiceMock },
+        { provide: DiscoveryApiService, useValue: discoveryApiServiceMockValue },
+        { provide: ActivatedRoute, useValue: { pathFromRoot: [{ outlet: 'primary' }, { outlet: 'viewer' }] } },
+        provideMockStore({
+          initialState: {
+            app: {
+              selection: { count: 1, isEmpty: false, libraries: [], nodes: [] },
+              navigation: {},
+              infoDrawerOpened: true
+            }
+          }
+        })
+      ]
+    });
+
+    spyOnProperty(TestBed.inject(Router), 'url').and.returnValue('/personal-files/(viewer:view/node-id)');
+    fixture = TestBed.createComponent(TestComponent);
+    component = fixture.componentInstance;
+  });
+
+  afterEach(() => {
+    fixture.destroy();
+  });
+
+  it('should open info drawer when component is rendered inside the viewer outlet', async () => {
+    fixture.detectChanges();
+
+    const state = await firstValueFrom(component.infoDrawerOpened$);
+    expect(state).toBe(true);
   });
 });
