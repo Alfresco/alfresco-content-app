@@ -33,8 +33,9 @@ import { Component } from '@angular/core';
 import { DiscoveryApiService, DocumentListService } from '@alfresco/adf-content-services';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { provideCoreAuth } from '@alfresco/adf-core';
-import { Subscription } from 'rxjs';
+import { firstValueFrom, Subscription } from 'rxjs';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'aca-test',
@@ -243,23 +244,47 @@ describe('Info Drawer state', () => {
     });
   });
 
-  it('should open info drawer even if viewer outlet is active', (done) => {
-    window.history.pushState({}, null, `${locationHref}#test(viewer:view)`);
+  it('should not open info drawer when viewer outlet is active on top of the page', async () => {
+    const router = TestBed.inject(Router);
+    router.resetConfig([
+      { path: 'personal-files', component: TestComponent },
+      { path: 'view/:nodeId', outlet: 'viewer', component: TestComponent }
+    ]);
+    await router.navigateByUrl('/personal-files');
+    store.setState({ app: { ...appState, infoDrawerOpened: true } });
     fixture.detectChanges();
 
-    void fixture.whenStable().then(() => {
-      component.infoDrawerOpened$.subscribe((state) => {
-        expect(state).toBe(true);
-        done();
-      });
-    });
+    const states: boolean[] = [];
+    component.infoDrawerOpened$.subscribe((state) => states.push(state));
+    expect(states).toEqual([true]);
 
-    store.setState({
-      app: {
-        ...appState,
-        infoDrawerOpened: true
-      }
+    await router.navigateByUrl('/personal-files(viewer:view/node-id)');
+    expect(states).toEqual([true, false]);
+
+    await router.navigateByUrl('/personal-files');
+    expect(states).toEqual([true, false, true]);
+  });
+
+  it('should open info drawer when component is rendered inside the viewer outlet', async () => {
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      imports: [LibTestingModule, MatDialogModule],
+      declarations: [TestComponent],
+      providers: [
+        provideCoreAuth(),
+        { provide: DocumentBasePageService, useClass: DocumentBasePageServiceMock },
+        { provide: DiscoveryApiService, useValue: discoveryApiServiceMockValue },
+        { provide: ActivatedRoute, useValue: { pathFromRoot: [{ outlet: 'primary' }, { outlet: 'viewer' }] } },
+        provideMockStore({ initialState: { app: { ...appState, infoDrawerOpened: true } } })
+      ]
     });
+    spyOnProperty(TestBed.inject(Router), 'url').and.returnValue('/personal-files/(viewer:view/node-id)');
+    fixture = TestBed.createComponent(TestComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+
+    const state = await firstValueFrom(component.infoDrawerOpened$);
+    expect(state).toBe(true);
   });
 
   it('should not resolve custom image', () => {

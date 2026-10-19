@@ -28,7 +28,8 @@ import { ContentActionRef, DocumentListPresetRef, SelectionState } from '@alfres
 import { DestroyRef, Directive, HostListener, inject, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Node, NodeEntry, NodePaging } from '@alfresco/js-api';
-import { Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import { distinctUntilChanged, filter, map, startWith } from 'rxjs/operators';
 import { DocumentBasePageService } from './document-base-page.service';
 import {
   AppStore,
@@ -43,7 +44,7 @@ import { AppExtensionService } from '../../services/app.extension.service';
 import { isLibrary } from '../../utils/node.utils';
 import { AutoDownloadService } from '../../services/auto-download.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { AppSettingsService } from '../../services/app-settings.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -78,6 +79,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   protected breakpointObserver = inject(BreakpointObserver);
   protected uploadService = inject(UploadService);
   protected router = inject(Router);
+  private readonly activatedRoute = inject(ActivatedRoute, { optional: true });
 
   protected readonly destroyRef = inject(DestroyRef);
 
@@ -93,7 +95,20 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
         this.createActions = actions;
       });
 
-    this.infoDrawerOpened$ = this.store.select(isInfoDrawerOpened);
+    if (this.isRenderedInViewerOutlet()) {
+      this.infoDrawerOpened$ = this.store.select(isInfoDrawerOpened);
+    } else {
+      const viewerOpened$ = this.router.events.pipe(
+        filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+        map((event) => this.isViewerOutletUrl(event.urlAfterRedirects)),
+        startWith(this.isViewerOutletUrl(this.router.url)),
+        distinctUntilChanged()
+      );
+
+      this.infoDrawerOpened$ = combineLatest([this.store.select(isInfoDrawerOpened), viewerOpened$]).pipe(
+        map(([infoDrawerOpened, viewerOpened]) => infoDrawerOpened && !viewerOpened)
+      );
+    }
 
     this.store
       .select(getAppSelection)
@@ -216,6 +231,14 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
 
   private isOutletPreviewUrl(): boolean {
     return location.href.includes('viewer:view');
+  }
+
+  private isViewerOutletUrl(url: string): boolean {
+    return !!url?.includes('viewer:view');
+  }
+
+  private isRenderedInViewerOutlet(): boolean {
+    return !!this.activatedRoute?.pathFromRoot.some((route) => route.outlet === 'viewer');
   }
 
   @HostListener('sorting-changed', ['$event'])
