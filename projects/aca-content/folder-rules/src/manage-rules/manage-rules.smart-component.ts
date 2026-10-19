@@ -41,7 +41,7 @@ import { RuleSetPickerSmartComponent } from '../rule-set-picker/rule-set-picker.
 import { MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ActionParameterConstraint } from '../model/action-parameter-constraint.model';
 import { TranslatePipe } from '@ngx-translate/core';
-import { GenericErrorComponent, PageLayoutComponent } from '@alfresco/aca-shared';
+import { GenericErrorComponent, getApiErrorMessage, PageLayoutComponent } from '@alfresco/aca-shared';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -185,7 +185,7 @@ export class ManageRulesSmartComponent implements OnInit {
         }
         dialogRef.close();
       } catch (error) {
-        this.notificationService.showError(error.response.body.error.errorKey);
+        this.notificationService.showError(getApiErrorMessage(error));
       }
     });
   }
@@ -201,8 +201,13 @@ export class ManageRulesSmartComponent implements OnInit {
   }
 
   async onRuleEnabledToggle(rule: Rule, isEnabled: boolean) {
-    const updatedRule = await this.folderRulesService.updateRule(this.nodeId, rule.id, { ...rule, isEnabled });
-    this.folderRuleSetsService.addOrUpdateRuleInMainRuleSet(updatedRule);
+    try {
+      const updatedRule = await this.folderRulesService.updateRule(this.nodeId, rule.id, { ...rule, isEnabled });
+      this.folderRuleSetsService.addOrUpdateRuleInMainRuleSet(updatedRule);
+    } catch (error) {
+      this.notificationService.showError(getApiErrorMessage(error));
+      this.folderRuleSetsService.addOrUpdateRuleInMainRuleSet({ ...rule, isEnabled: !isEnabled });
+    }
   }
 
   async onInheritanceToggleChange(event: MatSlideToggleChange) {
