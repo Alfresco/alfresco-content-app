@@ -188,7 +188,6 @@ test.describe('Upload new version', () => {
   test.describe('Viewer - version update with unsupported file', () => {
     const parentUnsupported = `parentUnsupported-${Utils.random()}`;
     const fileJpg17776 = `file-jpg-17776-${Utils.random()}.jpg`;
-    const fileDocx17776 = `file-docx-17776-${Utils.random()}.docx`;
     const unsupportedName17776 = basename(TEST_FILES.AZW3_FILE.path);
 
     let parentUnsupportedId: string;
@@ -197,7 +196,6 @@ test.describe('Upload new version', () => {
     test.beforeAll(async () => {
       parentUnsupportedId = (await nodesApi.createFolder(parentUnsupported)).entry.id;
       fileJpg17776Id = (await uploadApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, fileJpg17776, parentUnsupportedId)).entry.id;
-      await uploadApi.uploadFileWithRename(TEST_FILES.DOCX.path, fileDocx17776, parentUnsupportedId);
     });
 
     test.beforeEach(async ({ personalFiles }) => {
