@@ -25,7 +25,7 @@
 import { AlfrescoApiService } from '@alfresco/adf-content-services';
 import { PeopleApi, Person, LazyApi } from '@alfresco/js-api';
 import { Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, take, throwError } from 'rxjs';
 import { AppExtensionService, AppService, UserProfileSection } from '@alfresco/aca-shared';
@@ -65,17 +65,21 @@ export class ViewProfileComponent implements OnInit {
   @LazyApi((self: ViewProfileComponent) => new PeopleApi(self.apiService.getInstance()))
   declare peopleApi: PeopleApi;
   profileForm = new FormGroup({
-    firstName: new FormControl(''),
-    lastName: new FormControl(''),
-    jobTitle: new FormControl(''),
-    location: new FormControl(''),
-    telephone: new FormControl('', [Validators.pattern('^([0-9]+-)*[0-9]+$')]),
-    mobile: new FormControl('', [Validators.pattern('^([0-9]+-)*[0-9]+$')]),
-    companyName: new FormControl(''),
-    companyPostCode: new FormControl(''),
-    companyAddress: new FormControl(''),
-    companyTelephone: new FormControl('', [Validators.pattern('^([0-9]+-)*[0-9]+$')]),
-    companyEmail: new FormControl('', [Validators.email])
+    general: new FormGroup({
+      firstName: new FormControl(''),
+      lastName: new FormControl(''),
+      jobTitle: new FormControl(''),
+      location: new FormControl(''),
+      telephone: new FormControl('', [Validators.pattern('^([0-9]+-)*[0-9]+$')]),
+      mobile: new FormControl('', [Validators.pattern('^([0-9]+-)*[0-9]+$')])
+    }),
+    company: new FormGroup({
+      companyName: new FormControl(''),
+      companyPostCode: new FormControl(''),
+      companyAddress: new FormControl(''),
+      companyTelephone: new FormControl('', [Validators.pattern('^([0-9]+-)*[0-9]+$')]),
+      companyEmail: new FormControl('', [Validators.email])
+    })
   });
   personDetails: Person;
   generalSectionExpanded = true;
@@ -97,6 +101,7 @@ export class ViewProfileComponent implements OnInit {
     const appService = this.appService;
 
     this.appNavNarMode$ = appService.appNavNarMode$.pipe(takeUntilDestroyed());
+    this.profileForm.disable({ emitEvent: false });
   }
 
   ngOnInit() {
@@ -123,17 +128,21 @@ export class ViewProfileComponent implements OnInit {
 
   populateForm(userInfo: Person) {
     this.profileForm.setValue({
-      firstName: userInfo?.firstName || '',
-      lastName: userInfo?.lastName || '',
-      jobTitle: userInfo?.jobTitle || '',
-      location: userInfo?.location || '',
-      telephone: userInfo?.telephone || '',
-      mobile: userInfo?.mobile || '',
-      companyName: userInfo?.company?.organization || '',
-      companyPostCode: userInfo?.company?.postcode || '',
-      companyAddress: userInfo?.company?.address1 || '',
-      companyTelephone: userInfo?.company?.telephone || '',
-      companyEmail: userInfo?.company?.email || ''
+      general: {
+        firstName: userInfo?.firstName || '',
+        lastName: userInfo?.lastName || '',
+        jobTitle: userInfo?.jobTitle || '',
+        location: userInfo?.location || '',
+        telephone: userInfo?.telephone || '',
+        mobile: userInfo?.mobile || ''
+      },
+      company: {
+        companyName: userInfo?.company?.organization || '',
+        companyPostCode: userInfo?.company?.postcode || '',
+        companyAddress: userInfo?.company?.address1 || '',
+        companyTelephone: userInfo?.company?.telephone || '',
+        companyEmail: userInfo?.company?.email || ''
+      }
     });
   }
 
@@ -153,16 +162,22 @@ export class ViewProfileComponent implements OnInit {
     if (this.generalSectionEditMode) {
       this.generalSectionExpanded = true;
     }
+
+    const general = this.profileForm.controls.general;
+
+    this.setSectionEnabled(general, this.generalSectionEditMode);
+    general.controls.firstName.disable({ emitEvent: false });
+    general.controls.lastName.disable({ emitEvent: false });
   }
 
-  onSaveGeneralData(event) {
-    this.generalSectionEditMode = false;
-    this.updatePersonDetails(event);
+  onSaveGeneralData() {
+    this.updatePersonDetails();
+    this.toggleGeneralSectionEditMode();
   }
 
-  onSaveCompanyData(event) {
-    this.contactSectionEditMode = false;
-    this.updatePersonDetails(event);
+  onSaveCompanyData() {
+    this.updatePersonDetails();
+    this.toggleContactSectionEditMode();
   }
 
   toggleContactSection() {
@@ -175,22 +190,25 @@ export class ViewProfileComponent implements OnInit {
     if (this.contactSectionEditMode) {
       this.contactSectionExpanded = true;
     }
+
+    this.setSectionEnabled(this.profileForm.controls.company, this.contactSectionEditMode);
   }
 
-  updatePersonDetails(event) {
+  updatePersonDetails() {
     if (this.profileForm.valid) {
+      const { general, company } = this.profileForm.getRawValue();
       this.peopleApi
         .updatePerson('-me-', {
-          jobTitle: event.value.jobTitle,
-          location: event.value.location,
-          telephone: event.value.telephone,
-          mobile: event.value.mobile,
+          jobTitle: general.jobTitle,
+          location: general.location,
+          telephone: general.telephone,
+          mobile: general.mobile,
           company: {
-            organization: event.value.companyName,
-            postcode: event.value.companyPostCode,
-            address1: event.value.companyAddress,
-            telephone: event.value.companyTelephone,
-            email: event.value.companyEmail
+            organization: company.companyName,
+            postcode: company.companyPostCode,
+            address1: company.companyAddress,
+            telephone: company.companyTelephone,
+            email: company.companyEmail
           }
         })
         .then((person) => {
@@ -206,7 +224,11 @@ export class ViewProfileComponent implements OnInit {
     }
   }
 
-  isSaveButtonDisabled(): boolean {
-    return this.profileForm.invalid;
+  private setSectionEnabled(section: AbstractControl, enabled: boolean) {
+    if (enabled) {
+      section.enable({ emitEvent: false });
+    } else {
+      section.disable({ emitEvent: false });
+    }
   }
 }

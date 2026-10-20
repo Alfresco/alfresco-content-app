@@ -57,63 +57,37 @@
           [attr.title]="'APP.TOOLTIPS.SAVE' | translate"
           [attr.aria-label]="'APP.TOOLTIPS.SAVE' | translate"
           [disabled]="profileForm.invalid"
-          (click)="onSaveGeneralData(profileForm)">
+          (click)="onSaveGeneralData()">
           <mat-icon>check</mat-icon>
         </button>
       }
     </div>
     @if (generalSectionExpanded) {
       <mat-divider class="app-divider" aria-hidden="true" />
-      <div class="app-general-dropdown">
+      <div class="app-general-dropdown" formGroupName="general">
         <mat-form-field class="app-form-field">
           <mat-label>{{ 'APP.EDIT_PROFILE.FIRST_NAME' | translate }}</mat-label>
-          <input
-            matInput
-            readonly
-            placeholder="{{ 'APP.EDIT_PROFILE.FIRST_NAME' | translate }}"
-            formControlName="firstName"
-          />
+          <input matInput placeholder="{{ 'APP.EDIT_PROFILE.FIRST_NAME' | translate }}" formControlName="firstName" />
         </mat-form-field>
 
         <mat-form-field class="app-form-field">
           <mat-label>{{ 'APP.EDIT_PROFILE.LAST_NAME' | translate }}</mat-label>
-          <input
-            matInput
-            readonly
-            placeholder="{{ 'APP.EDIT_PROFILE.LAST_NAME' | translate }}"
-            formControlName="lastName"
-          />
+          <input matInput placeholder="{{ 'APP.EDIT_PROFILE.LAST_NAME' | translate }}" formControlName="lastName" />
         </mat-form-field>
 
         <mat-form-field class="app-form-field">
           <mat-label>{{ 'APP.EDIT_PROFILE.JOB_TITLE' | translate }}</mat-label>
-          <input
-            matInput
-            [readonly]="!generalSectionEditMode"
-            placeholder="{{ 'APP.EDIT_PROFILE.JOB_TITLE' | translate }}"
-            formControlName="jobTitle"
-          />
+          <input matInput placeholder="{{ 'APP.EDIT_PROFILE.JOB_TITLE' | translate }}" formControlName="jobTitle" />
         </mat-form-field>
 
         <mat-form-field class="app-form-field">
           <mat-label>{{ 'APP.EDIT_PROFILE.LOCATION' | translate }}</mat-label>
-          <input
-            matInput
-            [readonly]="!generalSectionEditMode"
-            placeholder="{{ 'APP.EDIT_PROFILE.LOCATION' | translate }}"
-            formControlName="location"
-          />
+          <input matInput placeholder="{{ 'APP.EDIT_PROFILE.LOCATION' | translate }}" formControlName="location" />
         </mat-form-field>
 
         <mat-form-field class="app-form-field">
           <mat-label>{{ 'APP.EDIT_PROFILE.TELEPHONE' | translate }}</mat-label>
-          <input
-            matInput
-            [type]="'tel'"
-            [readonly]="!generalSectionEditMode"
-            placeholder="{{ 'APP.EDIT_PROFILE.TELEPHONE' | translate }}"
-            formControlName="telephone"
-          />
+          <input matInput [type]="'tel'" placeholder="{{ 'APP.EDIT_PROFILE.TELEPHONE' | translate }}" formControlName="telephone" />
           <mat-error>
             {{ 'APP.EDIT_PROFILE.INVALID_PHONE_FORMAT' | translate }}
           </mat-error>
@@ -121,13 +95,7 @@
 
         <mat-form-field class="app-form-field">
           <mat-label>{{ 'APP.EDIT_PROFILE.MOBILE' | translate }}</mat-label>
-          <input
-            matInput
-            [type]="'tel'"
-            [readonly]="!generalSectionEditMode"
-            placeholder="{{ 'APP.EDIT_PROFILE.MOBILE' | translate }}"
-            formControlName="mobile"
-          />
+          <input matInput [type]="'tel'" placeholder="{{ 'APP.EDIT_PROFILE.MOBILE' | translate }}" formControlName="mobile" />
           <mat-error>
             {{ 'APP.EDIT_PROFILE.INVALID_PHONE_FORMAT' | translate }}
           </mat-error>
@@ -172,52 +140,32 @@
           [attr.title]="'APP.TOOLTIPS.SAVE' | translate"
           [attr.aria-label]="'APP.TOOLTIPS.SAVE' | translate"
           [disabled]="profileForm.invalid"
-          (click)="onSaveCompanyData(profileForm)">
+          (click)="onSaveCompanyData()">
           <mat-icon>check</mat-icon>
         </button>
       }
     </div>
     @if (contactSectionExpanded) {
       <mat-divider class="app-divider" aria-hidden="true" />
-      <div class="app-general-dropdown">
+      <div class="app-general-dropdown" formGroupName="company">
         <mat-form-field class="app-form-field">
           <mat-label>{{ 'APP.EDIT_PROFILE.NAME' | translate }}</mat-label>
-          <input
-            matInput
-            [readonly]="!contactSectionEditMode"
-            placeholder="{{ 'APP.EDIT_PROFILE.NAME' | translate }}"
-            formControlName="companyName"
-          />
+          <input matInput placeholder="{{ 'APP.EDIT_PROFILE.NAME' | translate }}" formControlName="companyName" />
         </mat-form-field>
 
         <mat-form-field class="app-form-field">
           <mat-label>{{ 'APP.EDIT_PROFILE.ADDRESS' | translate }}</mat-label>
-          <input
-            matInput
-            [readonly]="!contactSectionEditMode"
-            placeholder="{{ 'APP.EDIT_PROFILE.ADDRESS' | translate }}"
-            formControlName="companyAddress"
-          />
+          <input matInput placeholder="{{ 'APP.EDIT_PROFILE.ADDRESS' | translate }}" formControlName="companyAddress" />
         </mat-form-field>
 
         <mat-form-field class="app-form-field">
           <mat-label>{{ 'APP.EDIT_PROFILE.POSTCODE' | translate }}</mat-label>
-          <input
-            matInput
-            [readonly]="!contactSectionEditMode"
-            placeholder="{{ 'APP.EDIT_PROFILE.POSTCODE' | translate }}"
-            formControlName="companyPostCode"
-          />
+          <input matInput placeholder="{{ 'APP.EDIT_PROFILE.POSTCODE' | translate }}" formControlName="companyPostCode" />
         </mat-form-field>
 
         <mat-form-field class="app-form-field">
           <mat-label>{{ 'APP.EDIT_PROFILE.TELEPHONE' | translate }}</mat-label>
-          <input
-            matInput
-            [readonly]="!contactSectionEditMode"
-            placeholder="{{ 'APP.EDIT_PROFILE.TELEPHONE' | translate }}"
-            formControlName="companyTelephone"
-          />
+          <input matInput placeholder="{{ 'APP.EDIT_PROFILE.TELEPHONE' | translate }}" formControlName="companyTelephone" />
           <mat-error>
             {{ 'APP.EDIT_PROFILE.INVALID_PHONE_FORMAT' | translate }}
           </mat-error>
@@ -225,12 +173,7 @@
 
         <mat-form-field class="app-form-field">
           <mat-label>{{ 'APP.EDIT_PROFILE.EMAIL' | translate }}</mat-label>
-          <input
-            matInput
-            [readonly]="!contactSectionEditMode"
-            placeholder="{{ 'APP.EDIT_PROFILE.EMAIL' | translate }}"
-            formControlName="companyEmail"
-          />
+          <input matInput placeholder="{{ 'APP.EDIT_PROFILE.EMAIL' | translate }}" formControlName="companyEmail" />
           <mat-error>
             {{ 'APP.EDIT_PROFILE.INVALID_EMAIL_FORMAT' | translate }}
           </mat-error>

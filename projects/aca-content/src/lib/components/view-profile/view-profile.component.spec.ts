@@ -66,6 +66,12 @@ describe('ViewProfileComponent', () => {
     router.initialNavigation();
   });
 
+  const isSaveButtonDisabled = async (section: 'general' | 'contact'): Promise<boolean> => {
+    const saveButton = await unitTestingUtils.button.getByCSS(`#${section}-dropdown .app-general-save-btn`);
+
+    return saveButton.isDisabled();
+  };
+
   it('should expand only general section by default', async () => {
     expect(component.generalSectionExpanded).toBe(true);
     expect(component.contactSectionExpanded).toBe(false);
@@ -77,82 +83,84 @@ describe('ViewProfileComponent', () => {
     expect(appServiceMock.toggleAppNavBar$.next).toHaveBeenCalled();
   });
 
-  it('should disable save button if form is invalid', () => {
-    component.ngOnInit();
+  it('should disable save buttons if form is invalid', async () => {
+    fixture.detectChanges();
+
+    unitTestingUtils.clickByCSS('#general-dropdown .app-general-edit');
+    unitTestingUtils.clickByCSS('#contact-dropdown .app-general-edit');
+    fixture.detectChanges();
+
     const profileFormGroup = component.profileForm;
 
     profileFormGroup.setValue({
-      firstName: 'John',
-      lastName: 'Doe',
-      jobTitle: 'Developer',
-      location: 'US',
-      telephone: '2744245',
-      mobile: 'invalid',
-      companyName: 'test Name',
-      companyPostCode: '12345',
-      companyAddress: 'test address',
-      companyTelephone: '27442266',
-      companyEmail: 'email@test.com'
+      general: { firstName: 'John', lastName: 'Doe', jobTitle: 'Developer', location: 'US', telephone: '2744245', mobile: 'invalid' },
+      company: {
+        companyName: 'test Name',
+        companyPostCode: '12345',
+        companyAddress: 'test address',
+        companyTelephone: '27442266',
+        companyEmail: 'email@test.com'
+      }
     });
 
-    expect(profileFormGroup.valid).toEqual(false);
-    expect(component.isSaveButtonDisabled()).toBeTrue();
+    await expect(profileFormGroup.valid).toEqual(false);
+    expect(await isSaveButtonDisabled('general')).toBeTrue();
+    expect(await isSaveButtonDisabled('contact')).toBeTrue();
 
     profileFormGroup.setValue({
-      firstName: 'John',
-      lastName: 'Doe',
-      jobTitle: 'Developer',
-      location: 'US',
-      telephone: '274-424-55',
-      mobile: '886-632-2112',
-      companyName: 'test Name',
-      companyPostCode: '12345',
-      companyAddress: 'test address',
-      companyTelephone: '274-42-266',
-      companyEmail: 'invalid'
+      general: { firstName: 'John', lastName: 'Doe', jobTitle: 'Developer', location: 'US', telephone: '274-424-55', mobile: '886-632-2112' },
+      company: {
+        companyName: 'test Name',
+        companyPostCode: '12345',
+        companyAddress: 'test address',
+        companyTelephone: '274-42-266',
+        companyEmail: 'invalid'
+      }
     });
 
-    expect(profileFormGroup.valid).toEqual(false);
-    expect(component.isSaveButtonDisabled()).toBeTrue();
+    await expect(profileFormGroup.valid).toEqual(false);
+    expect(await isSaveButtonDisabled('general')).toBeTrue();
+    expect(await isSaveButtonDisabled('contact')).toBeTrue();
 
     profileFormGroup.setValue({
-      firstName: 'John',
-      lastName: 'Doe',
-      jobTitle: 'Developer',
-      location: 'US',
-      telephone: 'invalid',
-      mobile: '886-632-2112',
-      companyName: 'test Name',
-      companyPostCode: '12345',
-      companyAddress: 'test address',
-      companyTelephone: '274-42-266',
-      companyEmail: 'test@test.com'
+      general: { firstName: 'John', lastName: 'Doe', jobTitle: 'Developer', location: 'US', telephone: 'invalid', mobile: '886-632-2112' },
+      company: {
+        companyName: 'test Name',
+        companyPostCode: '12345',
+        companyAddress: 'test address',
+        companyTelephone: '274-42-266',
+        companyEmail: 'test@test.com'
+      }
     });
 
-    expect(profileFormGroup.valid).toEqual(false);
-    expect(component.isSaveButtonDisabled()).toBeTrue();
+    await expect(profileFormGroup.valid).toEqual(false);
+    expect(await isSaveButtonDisabled('general')).toBeTrue();
+    expect(await isSaveButtonDisabled('contact')).toBeTrue();
   });
 
-  it('should enable save button if form has valid inputs', () => {
-    component.ngOnInit();
+  it('should enable save buttons if form has valid inputs', async () => {
+    fixture.detectChanges();
+
+    unitTestingUtils.clickByCSS('#general-dropdown .app-general-edit');
+    unitTestingUtils.clickByCSS('#contact-dropdown .app-general-edit');
+    fixture.detectChanges();
+
     const profileFormGroup = component.profileForm;
 
     profileFormGroup.setValue({
-      firstName: 'John',
-      lastName: 'Doe',
-      jobTitle: 'Developer',
-      location: 'US',
-      telephone: '274-422-55',
-      mobile: '886-632-2112',
-      companyName: 'testCompany',
-      companyPostCode: '12345',
-      companyAddress: 'test address',
-      companyTelephone: '274-22-66',
-      companyEmail: 'testEmail@test.com'
+      general: { firstName: 'John', lastName: 'Doe', jobTitle: 'Developer', location: 'US', telephone: '274-422-55', mobile: '886-632-2112' },
+      company: {
+        companyName: 'testCompany',
+        companyPostCode: '12345',
+        companyAddress: 'test address',
+        companyTelephone: '274-22-66',
+        companyEmail: 'testEmail@test.com'
+      }
     });
 
-    expect(profileFormGroup.valid).toEqual(true);
-    expect(component.isSaveButtonDisabled()).toBeFalse();
+    await expect(profileFormGroup.valid).toEqual(true);
+    expect(await isSaveButtonDisabled('general')).toBeFalse();
+    expect(await isSaveButtonDisabled('contact')).toBeFalse();
   });
 
   it('should expand or compress general dropdown when arrow button is clicked', () => {
@@ -199,6 +207,52 @@ describe('ViewProfileComponent', () => {
     unitTestingUtils.clickByCSS('#contact-dropdown .app-general-cancel-btn');
 
     expect(component.toggleContactSectionEditMode).toHaveBeenCalledTimes(2);
+  });
+
+  it('should keep all the form controls disabled when no section is in edit mode', () => {
+    fixture.detectChanges();
+
+    expect(component.profileForm.disabled).toBeTrue();
+  });
+
+  it('should only enable the general section controls when general section is in edit mode', () => {
+    fixture.detectChanges();
+
+    unitTestingUtils.clickByCSS('#general-dropdown .app-general-edit');
+    fixture.detectChanges();
+
+    expect(component.profileForm.controls.general.controls.jobTitle.enabled).toBeTrue();
+    expect(component.profileForm.controls.company.disabled).toBeTrue();
+
+    unitTestingUtils.clickByCSS('#general-dropdown .app-general-cancel-btn');
+    fixture.detectChanges();
+
+    expect(component.profileForm.disabled).toBeTrue();
+  });
+
+  it('should never enable first and last name controls', () => {
+    fixture.detectChanges();
+
+    unitTestingUtils.clickByCSS('#general-dropdown .app-general-edit');
+    fixture.detectChanges();
+
+    expect(component.profileForm.controls.general.controls.firstName.disabled).toBeTrue();
+    expect(component.profileForm.controls.general.controls.lastName.disabled).toBeTrue();
+  });
+
+  it('should only enable the company section controls when company section is in edit mode', () => {
+    fixture.detectChanges();
+
+    unitTestingUtils.clickByCSS('#contact-dropdown .app-general-edit');
+    fixture.detectChanges();
+
+    expect(component.profileForm.controls.company.enabled).toBeTrue();
+    expect(component.profileForm.controls.general.disabled).toBeTrue();
+
+    unitTestingUtils.clickByCSS('#contact-dropdown .app-general-cancel-btn');
+    fixture.detectChanges();
+
+    expect(component.profileForm.disabled).toBeTrue();
   });
 
   it('should navigate to personal files when go to personal files button is clicked', async () => {
