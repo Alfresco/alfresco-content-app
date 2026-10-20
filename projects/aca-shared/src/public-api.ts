@@ -66,3 +66,4 @@ export * from './lib/services/pagination-state.service';
 export * from './lib/testing/lib-testing-module';
 
 export * from './lib/utils/node.utils';
+export * from './lib/utils/api-error.utils';

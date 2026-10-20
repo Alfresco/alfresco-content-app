@@ -30,7 +30,6 @@ import { Rule, RuleForForm, RuleOptions, RuleSettings } from '../model/rule.mode
 import { RuleCompositeCondition } from '../model/rule-composite-condition.model';
 import { RuleSimpleCondition } from '../model/rule-simple-condition.model';
 import { RuleSet } from '../model/rule-set.model';
-import { NotificationService } from '@alfresco/adf-core';
 
 interface GetRulesResult {
   rules: Rule[];
@@ -42,7 +41,6 @@ interface GetRulesResult {
 })
 export class FolderRulesService {
   private readonly apiService = inject(AlfrescoApiService);
-  private readonly notificationService = inject(NotificationService);
 
   public static readonly MAX_RULES_PER_GET = 100;
 
@@ -138,12 +136,8 @@ export class FolderRulesService {
   }
 
   async updateRule(nodeId: string, ruleId: string, rule: Rule, ruleSetId: string = '-default-'): Promise<Rule> {
-    const response = await this.callApi(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'PUT', { ...rule }).catch((error) => {
-      this.notificationService.showError(JSON.parse(error.message).error.briefSummary);
-      rule.isEnabled = !rule.isEnabled;
-      return rule;
-    });
-    return this.formatRule(response.entry ?? response);
+    const response = await this.callApi(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'PUT', { ...rule });
+    return this.formatRule(response.entry);
   }
 
   deleteRule(nodeId: string, ruleId: string, ruleSetId: string = '-default-') {
