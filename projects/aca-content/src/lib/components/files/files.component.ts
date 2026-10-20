@@ -444,7 +444,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   }
 
   onBreadcrumbDrop(event: CdkDragDrop<PathElement, PathElement, DataRow>) {
-    this.documentListService.moveNode(event.item.data.id, event.container.id).subscribe({
+    this.documentListService.moveNode(event.item.data.id, event.container.data.id).subscribe({
       next: () => {
         this.documentListService.reload();
         this.notificationService.showInfo(this.translateService.instant('APP.MESSAGES.INFO.NODE_MOVE.GENERAL'));
