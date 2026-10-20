@@ -23,6 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
+import { basename } from 'path';
 import {
   ApiClientFactory,
   Utils,
@@ -33,37 +34,12 @@ import {
   UploadApi,
   SearchApi,
   PersonalFilesPage,
-  SearchPage
+  SearchPage,
+  timeouts
 } from '@alfresco/aca-playwright-shared';
 
 test.describe('Upload new version', () => {
   const username = `user-${Date.now()}-${Utils.random()}`;
-
-  const file1 = `file1-${Utils.random()}.docx`;
-  let file1Id: string;
-  const fileLocked1 = `file-locked1-${Utils.random()}.docx`;
-  let fileLocked1Id: string;
-  const fileLocked2 = `file-locked2-${Utils.random()}.docx`;
-  let fileLocked2Id: string;
-
-  const searchRandom = Utils.random();
-  const fileSearch2 = `search-${searchRandom}-file2.docx`;
-  let fileSearch2Id: string;
-  const fileSearch3 = `search-${searchRandom}-file3.docx`;
-  let fileSearch3Id: string;
-
-  const parentPF = `parentPersonal-${Utils.random()}`;
-  let parentPFId: string;
-  const parentSearch = `parentSearch-${Utils.random()}`;
-  let parentSearchId: string;
-  const parentUnsupported = `parentUnsupported-${Utils.random()}`;
-  let parentUnsupportedId: string;
-  let filePdfID: string;
-  let fileJpgID: string;
-
-  const file = TEST_FILES.PDF.name;
-  const fileToUpload1 = TEST_FILES.DOCX2.name;
-  const fileToUpload2 = TEST_FILES.XLSX;
 
   let trashcanApi: TrashcanApi;
   let nodesApi: NodesApi;
@@ -73,8 +49,11 @@ test.describe('Upload new version', () => {
   async function uploadNewVersion(page: PersonalFilesPage | SearchPage, filename: string, location: string) {
     await page.dataTable.selectItems(filename);
     await page.acaHeader.clickMoreActions();
-    await page.acaHeader.matMenu.clickMenuItem('Upload New Version');
-    await page.acaHeader.uploadNewVersionButton.setInputFiles(location);
+    const [fileChooser] = await Promise.all([
+      page.page.waitForEvent('filechooser', { timeout: timeouts.extraLarge }),
+      page.acaHeader.matMenu.clickMenuItem('Upload New Version')
+    ]);
+    await fileChooser.setFiles(location);
   }
 
   async function previewUnsupportedFile(page: PersonalFilesPage, unsupportedFileName: string): Promise<void> {
@@ -92,9 +71,10 @@ test.describe('Upload new version', () => {
     nodesApi = await NodesApi.initialize(username, username);
     uploadApi = await UploadApi.initialize(username, username);
     searchApi = await SearchApi.initialize(username, username);
-    parentPFId = (await nodesApi.createFolder(parentPF)).entry.id;
-    parentSearchId = (await nodesApi.createFolder(parentSearch)).entry.id;
-    parentUnsupportedId = (await nodesApi.createFolder(parentUnsupported)).entry.id;
+  });
+
+  test.beforeEach(async ({ loginPage }) => {
+    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
   });
 
   test.afterAll(async () => {
@@ -102,59 +82,76 @@ test.describe('Upload new version', () => {
   });
 
   test.describe('on Search Results', () => {
-    test.beforeAll(async () => {
-      await uploadApi.uploadFile(TEST_FILES.PDF.path, file, parentSearchId);
-      fileSearch2Id = (await nodesApi.createFile(fileSearch2, parentSearchId)).entry.id;
-      fileSearch3Id = (await nodesApi.createFile(fileSearch3, parentSearchId)).entry.id;
-      await searchApi.waitForNodes(file, { expect: 1 });
-    });
+    const parentSearch = `parentSearch-${Utils.random()}`;
+    const searchPhrase = Utils.random();
+    const fileSearch5353 = `${searchPhrase}-${Utils.random()}`;
+    const fileSearch5354 = `${searchPhrase}-${Utils.random()}`;
+    const fileNewVersion5353 = TEST_FILES.JPG_FILE;
 
-    test.beforeEach(async ({ loginPage }) => {
-      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+    let parentSearchId: string;
+    let fileSearch5353Id: string;
+    let fileSearch5354Id: string;
+
+    test.beforeAll(async () => {
+      parentSearchId = (await nodesApi.createFolder(parentSearch)).entry.id;
+      fileSearch5353Id = (await nodesApi.createFile(fileSearch5353, parentSearchId, '', '', '', true, ['cm:versionable'])).entry.id;
+      fileSearch5354Id = (await nodesApi.createFile(fileSearch5354, parentSearchId, '', '', '', true, ['cm:versionable'])).entry.id;
+      await searchApi.waitForNodes(searchPhrase, { expect: 2 });
     });
 
     test('[XAT-5353] file is updated after uploading a new version - minor', async ({ searchPage }) => {
-      await searchPage.searchWithin(fileSearch2, 'files');
-      await uploadNewVersion(searchPage, fileSearch2, fileToUpload2.path);
+      await searchPage.searchWithin(fileSearch5353, 'files');
+      await uploadNewVersion(searchPage, fileSearch5353, fileNewVersion5353.path);
 
       await searchPage.uploadNewVersionDialog.description.fill('new minor version description');
       await searchPage.uploadNewVersionDialog.uploadButton.click();
       await searchPage.uploadNewVersionDialog.cancelButton.waitFor({ state: 'detached' });
 
-      expect(await nodesApi.getNodeProperty(fileSearch2Id, 'cm:versionLabel'), 'File has incorrect version label').toEqual('1.1');
-      expect(await nodesApi.getNodeProperty(fileSearch2Id, 'cm:versionType'), 'File has incorrect version type').toEqual('MINOR');
+      expect(await nodesApi.getNodeProperty(fileSearch5353Id, 'cm:versionLabel'), 'File has incorrect version label').toEqual('1.1');
+      expect(await nodesApi.getNodeProperty(fileSearch5353Id, 'cm:versionType'), 'File has incorrect version type').toEqual('MINOR');
     });
 
     test('[XAT-5354] file is not updated when clicking Cancel', async ({ searchPage }) => {
-      await searchPage.searchWithin(fileSearch3, 'files');
-      await uploadNewVersion(searchPage, fileSearch3, TEST_FILES.DOCX2.path);
+      await searchPage.searchWithin(fileSearch5354, 'files');
+      await uploadNewVersion(searchPage, fileSearch5354, TEST_FILES.DOCX2.path);
 
       await searchPage.uploadNewVersionDialog.description.fill('new version description');
       await searchPage.uploadNewVersionDialog.cancelButton.click();
 
-      expect(await searchPage.dataTable.isItemPresent(fileSearch3)).toBe(true);
-      expect(await nodesApi.getNodeProperty(fileSearch3Id, 'cm:versionLabel'), 'File has incorrect version label').toEqual('1.0');
-      expect(await nodesApi.getNodeProperty(fileSearch3Id, 'cm:versionType'), 'File has incorrect version type').toEqual('MAJOR');
+      expect(await searchPage.dataTable.isItemPresent(fileSearch5354)).toBe(true);
+      expect(await nodesApi.getNodeProperty(fileSearch5354Id, 'cm:versionLabel'), 'File has incorrect version label').toEqual('1.0');
+      expect(await nodesApi.getNodeProperty(fileSearch5354Id, 'cm:versionType'), 'File has incorrect version type').toEqual('MAJOR');
     });
   });
 
   test.describe('on Personal Files', () => {
-    test.beforeAll(async () => {
-      await uploadApi.uploadFile(TEST_FILES.PDF.path, `${TEST_FILES.PDF.name}.${TEST_FILES.PDF.extension}`, parentPFId);
-      file1Id = (await nodesApi.createFile(file1, parentPFId)).entry.id;
-      fileLocked1Id = (await nodesApi.createFile(fileToUpload1, parentPFId)).entry.id;
-      fileLocked2Id = (await nodesApi.createFile(fileLocked2, parentPFId)).entry.id;
+    const parentPF = `parentPersonal-${Utils.random()}`;
+    const file5327 = `file5327-${Utils.random()}.txt`;
+    const fileLocked5328 = `file-locked-5328-${Utils.random()}`;
+    const fileLocked5329 = `file-locked-5329-${Utils.random()}`;
+    const conflictingName5327 = basename(TEST_FILES.DOCX.path);
 
-      await nodesApi.checkoutNodes([fileLocked1Id, fileLocked2Id]);
+    let parentPFId: string;
+    let file5327Id: string;
+    let fileLocked5328Id: string;
+    let fileLocked5329Id: string;
+
+    test.beforeAll(async () => {
+      parentPFId = (await nodesApi.createFolder(parentPF)).entry.id;
+      await uploadApi.uploadFileWithRename(TEST_FILES.DOCX.path, conflictingName5327, parentPFId);
+      file5327Id = (await nodesApi.createFile(file5327, parentPFId, '', '', '', true, ['cm:versionable'])).entry.id;
+      fileLocked5328Id = (await nodesApi.createFile(fileLocked5328, parentPFId, '', '', '', true, ['cm:versionable'])).entry.id;
+      fileLocked5329Id = (await nodesApi.createFile(fileLocked5329, parentPFId, '', '', '', true, ['cm:versionable'])).entry.id;
+
+      await nodesApi.checkoutNodes([fileLocked5328Id, fileLocked5329Id]);
     });
 
-    test.beforeEach(async ({ loginPage, personalFiles }) => {
-      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+    test.beforeEach(async ({ personalFiles }) => {
       await personalFiles.dataTable.performClickFolderOrFileToOpen(parentPF);
     });
 
     test('[XAT-5327] upload new version fails when new file name already exists', async ({ personalFiles }) => {
-      await uploadNewVersion(personalFiles, file1, TEST_FILES.PDF.path);
+      await uploadNewVersion(personalFiles, file5327, TEST_FILES.DOCX.path);
 
       await expect(personalFiles.uploadNewVersionDialog.title).toHaveText('Upload New Version');
       await personalFiles.uploadNewVersionDialog.description.fill('new version description');
@@ -162,55 +159,54 @@ test.describe('Upload new version', () => {
 
       const message = await personalFiles.snackBar.message.innerText();
       expect(message).toContain('New version not uploaded, another file with the same name already exists');
-      expect(await personalFiles.dataTable.isItemPresent(file1)).toBe(true);
-      expect(await nodesApi.getNodeProperty(file1Id, 'cm:versionLabel')).toEqual('1.0');
-      expect(await nodesApi.getNodeProperty(file1Id, 'cm:versionType')).toEqual('MAJOR');
+      expect(await personalFiles.dataTable.isItemPresent(file5327)).toBe(true);
+      expect(await nodesApi.getNodeProperty(file5327Id, 'cm:versionLabel')).toEqual('1.0');
+      expect(await nodesApi.getNodeProperty(file5327Id, 'cm:versionType')).toEqual('MAJOR');
     });
 
     test('[XAT-5328] file is unlocked after uploading a new version', async ({ personalFiles }) => {
-      await uploadNewVersion(personalFiles, fileToUpload1, TEST_FILES.DOCX2.path);
+      await uploadNewVersion(personalFiles, fileLocked5328, TEST_FILES.DOCX2.path);
 
       await personalFiles.uploadNewVersionDialog.description.fill('new version description');
       await personalFiles.uploadNewVersionDialog.uploadButton.click();
+      await expect(personalFiles.dataTable.getRowByName(fileLocked5328), 'File was not updated').toBeVisible({ timeout: timeouts.extraLarge });
 
-      expect(await personalFiles.dataTable.isItemPresent(fileToUpload1), 'File was not updated').toBe(true);
-      expect(await nodesApi.getNodeProperty(fileLocked1Id, 'cm:lockType'), `${fileLocked1} is still locked`).not.toEqual('WRITE_LOCK');
-      expect(await nodesApi.getNodeProperty(fileLocked1Id, 'cm:versionType'), 'File has incorrect version type').toEqual('MINOR');
-      expect(await nodesApi.getNodeProperty(fileLocked1Id, 'cm:versionLabel'), 'File has incorrect version label').toEqual('1.1');
+      expect(await nodesApi.getNodeProperty(fileLocked5328Id, 'cm:lockType'), `${fileLocked5328} is still locked`).not.toEqual('WRITE_LOCK');
+      expect(await nodesApi.getNodeProperty(fileLocked5328Id, 'cm:versionType'), 'File has incorrect version type').toEqual('MINOR');
+      expect(await nodesApi.getNodeProperty(fileLocked5328Id, 'cm:versionLabel'), 'File has incorrect version label').toEqual('1.1');
     });
 
     test('[XAT-5329] file remains locked after canceling of uploading a new version', async ({ personalFiles }) => {
-      await uploadNewVersion(personalFiles, fileLocked2, TEST_FILES.DOCX2.path);
+      await uploadNewVersion(personalFiles, fileLocked5329, TEST_FILES.DOCX2.path);
       await personalFiles.uploadNewVersionDialog.cancelButton.click();
 
-      expect(await personalFiles.dataTable.isItemPresent(fileLocked2), 'File not displayed').toBe(true);
-      expect(await nodesApi.getNodeProperty(fileLocked2Id, 'cm:lockType'), `${fileLocked2} was unlocked`).toEqual('WRITE_LOCK');
+      expect(await personalFiles.dataTable.isItemPresent(fileLocked5329), 'File not displayed').toBe(true);
+      expect(await nodesApi.getNodeProperty(fileLocked5329Id, 'cm:lockType'), `${fileLocked5329} was unlocked`).toEqual('READ_ONLY_LOCK');
     });
   });
 
   test.describe('Viewer - version update with unsupported file', () => {
+    const parentUnsupported = `parentUnsupported-${Utils.random()}`;
+    const fileJpg17776 = `file-jpg-17776-${Utils.random()}.jpg`;
+    const unsupportedName17776 = basename(TEST_FILES.AZW3_FILE.path);
+
+    let parentUnsupportedId: string;
+    let fileJpg17776Id: string;
+
     test.beforeAll(async () => {
-      filePdfID = (await uploadApi.uploadFile(TEST_FILES.PDF.path, TEST_FILES.PDF.name, parentUnsupportedId)).entry.id;
-      fileJpgID = (await uploadApi.uploadFile(TEST_FILES.JPG_FILE.path, TEST_FILES.JPG_FILE.name, parentUnsupportedId)).entry.id;
+      parentUnsupportedId = (await nodesApi.createFolder(parentUnsupported)).entry.id;
+      fileJpg17776Id = (await uploadApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, fileJpg17776, parentUnsupportedId)).entry.id;
     });
 
-    test.beforeEach(async ({ loginPage, personalFiles }) => {
-      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+    test.beforeEach(async ({ personalFiles }) => {
       await personalFiles.dataTable.performClickFolderOrFileToOpen(parentUnsupported);
     });
 
     test('[XAT-17776] Should display the unknown format preview for an unsupported file in the viewer', async ({ personalFiles }) => {
-      await uploadNewVersion(personalFiles, TEST_FILES.JPG_FILE.name, TEST_FILES.FILE_UNSUPPORTED.path);
+      await uploadNewVersion(personalFiles, fileJpg17776, TEST_FILES.AZW3_FILE.path);
       await personalFiles.uploadNewVersionDialog.uploadButton.click();
-      await previewUnsupportedFile(personalFiles, TEST_FILES.FILE_UNSUPPORTED.name);
-      await nodesApi.deleteNodes([fileJpgID], true);
-
-      await personalFiles.page.reload({ waitUntil: 'load' });
-
-      await uploadNewVersion(personalFiles, TEST_FILES.PDF.name, TEST_FILES.FILE_UNSUPPORTED.path);
-      await personalFiles.uploadNewVersionDialog.uploadButton.click();
-      await previewUnsupportedFile(personalFiles, TEST_FILES.FILE_UNSUPPORTED.name);
-      await nodesApi.deleteNodes([filePdfID], true);
+      await previewUnsupportedFile(personalFiles, unsupportedName17776);
+      await nodesApi.deleteNodes([fileJpg17776Id], true);
     });
   });
 });
