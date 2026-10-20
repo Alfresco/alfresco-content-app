@@ -25,7 +25,7 @@
 import { AlfrescoApiService } from '@alfresco/adf-content-services';
 import { PeopleApi, Person, LazyApi } from '@alfresco/js-api';
 import { Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, take, throwError } from 'rxjs';
 import { AppExtensionService, AppService, UserProfileSection } from '@alfresco/aca-shared';
@@ -159,13 +159,15 @@ export class ViewProfileComponent implements OnInit {
   toggleGeneralSectionEditMode() {
     this.generalSectionEditMode = !this.generalSectionEditMode;
 
-    if (this.generalSectionEditMode) {
-      this.generalSectionExpanded = true;
-    }
-
     const general = this.profileForm.controls.general;
 
-    this.setSectionEnabled(general, this.generalSectionEditMode);
+    if (this.generalSectionEditMode) {
+      this.generalSectionExpanded = true;
+      general.enable({ emitEvent: false });
+    } else {
+      general.disable({ emitEvent: false });
+    }
+
     general.controls.firstName.disable({ emitEvent: false });
     general.controls.lastName.disable({ emitEvent: false });
   }
@@ -187,11 +189,14 @@ export class ViewProfileComponent implements OnInit {
   toggleContactSectionEditMode() {
     this.contactSectionEditMode = !this.contactSectionEditMode;
 
+    const company = this.profileForm.controls.company;
+
     if (this.contactSectionEditMode) {
       this.contactSectionExpanded = true;
+      company.enable({ emitEvent: false });
+    } else {
+      company.disable({ emitEvent: false });
     }
-
-    this.setSectionEnabled(this.profileForm.controls.company, this.contactSectionEditMode);
   }
 
   updatePersonDetails() {
@@ -221,14 +226,6 @@ export class ViewProfileComponent implements OnInit {
         });
     } else {
       this.populateForm(this.personDetails);
-    }
-  }
-
-  private setSectionEnabled(section: AbstractControl, enabled: boolean) {
-    if (enabled) {
-      section.enable({ emitEvent: false });
-    } else {
-      section.disable({ emitEvent: false });
     }
   }
 }
