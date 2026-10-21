@@ -92,7 +92,8 @@ export class SavedSearchEditDialogComponent {
       name: formValue.name,
       description: formValue.description,
       encodedUrl: this.data.encodedUrl,
-      order: this.data.order
+      order: this.data.order,
+      compiledQuery: this.data.compiledQuery
     };
     if (this.data.name === formValue.name && this.data.description === formValue.description) {
       this.onEditSuccess();

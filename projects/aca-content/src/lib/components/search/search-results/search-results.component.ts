@@ -145,6 +145,10 @@ export class SearchResultsComponent extends PageComponent implements OnInit, OnD
   encodedQuery: string;
   isSmallScreen = window.innerWidth < 320;
 
+  get saveSearchCompiledQuery(): string {
+    return this.queryBuilder.buildQuery()?.query?.query ?? '';
+  }
+
   private previousEncodedQuery: string;
   private readonly resizeListener = () => {
     this.isSmallScreen = window.innerWidth < 320;
@@ -333,6 +337,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit, OnD
 
   editSavedSearch(searchToSave: SavedSearch) {
     searchToSave.encodedUrl = this.encodedQuery;
+    searchToSave.compiledQuery = this.saveSearchCompiledQuery;
     this.savedSearchesService
       .editSavedSearch(searchToSave)
       .pipe(take(1))
