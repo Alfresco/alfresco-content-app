@@ -34,6 +34,10 @@ import { AppExtensionService } from '../../services/app.extension.service';
 import { ContentApiService } from '../../services/content-api.service';
 import { ContentService } from '@alfresco/adf-content-services';
 import { RedirectAuthService } from '@alfresco/adf-core';
+import { Node, NodeEntry } from '@alfresco/js-api';
+
+const createLibraryNodeEntry = (): NodeEntry =>
+  Object.assign(new NodeEntry({ entry: new Node({ id: 'libraryId', name: 'My Library' }) }), { isLibrary: true });
 
 describe('InfoDrawerComponent', () => {
   let fixture: ComponentFixture<InfoDrawerComponent>;
@@ -99,10 +103,7 @@ describe('InfoDrawerComponent', () => {
 
   it('should set displayNode when node is library', () => {
     spyOn(contentApiService, 'getNodeInfo');
-    const nodeMock: any = {
-      entry: { id: 'nodeId' },
-      isLibrary: true
-    };
+    const nodeMock = createLibraryNodeEntry();
     component.node = nodeMock;
 
     fixture.detectChanges();
@@ -113,10 +114,9 @@ describe('InfoDrawerComponent', () => {
   });
 
   it('should call getNodeInfo() when node is a shared file', () => {
-    const response: any = { entry: { id: 'nodeId' } };
+    const response = new Node({ id: 'nodeId' });
     spyOn(contentApiService, 'getNodeInfo').and.returnValue(of(response));
-    const nodeMock: any = { entry: { nodeId: 'nodeId' }, isLibrary: false };
-    component.node = nodeMock;
+    component.node = new NodeEntry({ entry: Object.assign(new Node(), { nodeId: 'nodeId' }) });
 
     fixture.detectChanges();
     component.ngOnChanges();
@@ -126,13 +126,9 @@ describe('InfoDrawerComponent', () => {
   });
 
   it('should call getNodeInfo() when node is a favorite file', () => {
-    const response: any = { entry: { id: 'nodeId' } };
+    const response = new Node({ id: 'nodeId' });
     spyOn(contentApiService, 'getNodeInfo').and.returnValue(of(response));
-    const nodeMock: any = {
-      entry: { id: 'nodeId', guid: 'guidId' },
-      isLibrary: false
-    };
-    component.node = nodeMock;
+    component.node = new NodeEntry({ entry: Object.assign(new Node({ id: 'nodeId' }), { guid: 'guidId' }) });
 
     fixture.detectChanges();
     component.ngOnChanges();
@@ -142,17 +138,9 @@ describe('InfoDrawerComponent', () => {
   });
 
   it('should call getNodeInfo() when node is a recent file', () => {
-    const response: any = { entry: { id: 'nodeId' } };
+    const response = new Node({ id: 'nodeId' });
     spyOn(contentApiService, 'getNodeInfo').and.returnValue(of(response));
-
-    const nodeMock: any = {
-      entry: {
-        id: 'nodeId',
-        content: { mimeType: 'image/jpeg' }
-      },
-      isLibrary: false
-    };
-    component.node = nodeMock;
+    component.node = new NodeEntry({ entry: new Node({ id: 'nodeId', content: { mimeType: 'image/jpeg', mimeTypeName: 'JPEG', sizeInBytes: 1 } }) });
 
     fixture.detectChanges();
     component.ngOnChanges();
@@ -191,14 +179,10 @@ describe('InfoDrawerComponent', () => {
 
   it('should get node icon for documents', () => {
     const expectedIcon = 'assets/images/ft_ic_folder';
-    const response: any = { entry: { id: 'nodeId' } };
+    const response = new Node({ id: 'nodeId' });
     spyOn(contentApiService, 'getNodeInfo').and.returnValue(of(response));
     spyOn(contentService, 'getNodeIcon').and.returnValue(expectedIcon);
-    const nodeMock: any = {
-      entry: { id: 'nodeId', guid: 'guidId' },
-      isFolder: true
-    };
-    component.node = nodeMock;
+    component.node = new NodeEntry({ entry: new Node({ id: 'nodeId', isFolder: true }) });
 
     fixture.detectChanges();
     component.ngOnChanges();
@@ -206,5 +190,28 @@ describe('InfoDrawerComponent', () => {
     expect(contentService.getNodeIcon).toHaveBeenCalledWith(response);
     expect(component.icon).toBe(expectedIcon);
     expect(contentApiService.getNodeInfo).toHaveBeenCalled();
+  });
+
+  it('should use library_books icon for library node', () => {
+    spyOn(contentService, 'getNodeIcon');
+    component.node = createLibraryNodeEntry();
+
+    fixture.detectChanges();
+    component.ngOnChanges();
+
+    expect(component.icon).toBe('./assets/images/ft_ic_library.svg');
+    expect(contentService.getNodeIcon).not.toHaveBeenCalled();
+  });
+
+  it('should use library_books icon when loaded node is a site', () => {
+    spyOn(contentApiService, 'getNodeInfo').and.returnValue(of(new Node({ id: 'siteId', nodeType: 'st:site' })));
+    spyOn(contentService, 'getNodeIcon');
+    component.node = new NodeEntry({ entry: new Node({ id: 'siteId' }) });
+
+    fixture.detectChanges();
+    component.ngOnChanges();
+
+    expect(component.icon).toBe('./assets/images/ft_ic_library.svg');
+    expect(contentService.getNodeIcon).not.toHaveBeenCalled();
   });
 });
