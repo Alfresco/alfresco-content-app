@@ -994,4 +994,33 @@
       );
     }
   }
+
+  .adf-compact-breadcrumb-menu {
+    background: var(--adf-theme-background-card-color);
+
+    .adf-compact-breadcrumb-menu-list {
+      .adf-compact-breadcrumb-menu-list-item {
+        &:not(.adf-compact-breadcrumb-menu-list-item-disabled) {
+          &:hover {
+            border: 2px solid var(--theme-list-item-hover-border-color);
+            background: var(--theme-list-item-hover-background);
+
+            .adf-compact-breadcrumb-menu-list-item-anchor {
+              color: var(--theme-list-item-hover-text-color);
+            }
+
+            @include mat.list-overrides(
+              (
+                list-item-hover-state-layer-color: transparent
+              )
+            );
+          }
+        }
+      }
+    }
+
+    .adf-compact-breadcrumb-menu-description {
+      color: var(--adf-theme-mat-grey-color-a400);
+    }
+  }
 }
