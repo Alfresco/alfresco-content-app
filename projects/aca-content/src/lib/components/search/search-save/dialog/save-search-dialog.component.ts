@@ -40,6 +40,7 @@ import { take } from 'rxjs/operators';
 import { UniqueSearchNameValidator } from './unique-search-name-validator';
 import { SavedSearchForm } from './saved-search-form.interface';
 import { SavedSearchesContextService } from '../../../../services/saved-searches-context.service';
+import { SaveSearchDirectiveDialogData } from './save-search-directive-dialog-data';
 
 @Component({
   imports: [
@@ -67,9 +68,7 @@ export class SaveSearchDialogComponent {
   private readonly notificationService = inject(NotificationService);
   private readonly savedSearchesService = inject(SavedSearchesContextService);
   private readonly uniqueSearchNameValidator = inject(UniqueSearchNameValidator);
-  private readonly data = inject<{
-    searchUrl: string;
-  }>(MAT_DIALOG_DATA);
+  private readonly data = inject<SaveSearchDirectiveDialogData>(MAT_DIALOG_DATA);
 
   form: FormGroup<SavedSearchForm>;
   disableSubmitButton = false;
@@ -91,7 +90,12 @@ export class SaveSearchDialogComponent {
     }
     this.disableSubmitButton = true;
     const formValue = this.form.value;
-    const saveSearch = { name: formValue.name, description: formValue.description, encodedUrl: encodeURIComponent(this.data.searchUrl) };
+    const saveSearch = {
+      name: formValue.name,
+      description: formValue.description,
+      encodedUrl: encodeURIComponent(this.data.searchUrl),
+      compiledQuery: this.data.compiledQuery
+    };
     this.savedSearchesService
       .saveSearch(saveSearch)
       .pipe(take(1))

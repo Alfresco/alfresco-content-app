@@ -42,7 +42,8 @@ describe('SaveSearchEditDialogComponent', () => {
   const savedSearchToDelete: SavedSearch = {
     name: 'test',
     encodedUrl: '1234',
-    order: 0
+    order: 0,
+    compiledQuery: 'compiledQuery'
   };
 
   const dialogRef = {
@@ -105,7 +106,8 @@ describe('SaveSearchEditDialogComponent', () => {
       name: 'ABCDEF',
       description: 'TEST',
       encodedUrl: '1234',
-      order: 0
+      order: 0,
+      compiledQuery: 'compiledQuery'
     });
   }
 });

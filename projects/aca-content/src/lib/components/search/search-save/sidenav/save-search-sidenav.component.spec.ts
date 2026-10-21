@@ -134,7 +134,9 @@ describe('SaveSearchSidenavComponent', () => {
 
   describe('onActionClicked', () => {
     beforeEach(() => {
-      spyOnProperty(savedSearchesService, 'savedSearches$', 'get').and.returnValue(of([{ name: 'abc', order: 0, encodedUrl: 'abc' }]));
+      spyOnProperty(savedSearchesService, 'savedSearches$', 'get').and.returnValue(
+        of([{ name: 'abc', order: 0, encodedUrl: 'abc', compiledQuery: 'compiledQuery' }])
+      );
       component.ngOnInit();
       fixture.detectChanges();
     });
@@ -154,7 +156,8 @@ describe('SaveSearchSidenavComponent', () => {
       expect(component.savedSearchesService.currentContextSavedSearch).toEqual({
         name: 'abc',
         encodedUrl: 'abc',
-        order: 0
+        order: 0,
+        compiledQuery: 'compiledQuery'
       });
     });
 
