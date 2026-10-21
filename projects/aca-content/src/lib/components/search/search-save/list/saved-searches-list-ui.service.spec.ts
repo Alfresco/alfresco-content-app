@@ -35,7 +35,7 @@ describe('NodeTemplateService', () => {
   let savedSearchesListUiService: SavedSearchesListUiService;
   let dialogRefSpy: jasmine.SpyObj<MatDialogRef<any>>;
 
-  const mockedSearch: SavedSearch = { name: 'test', encodedUrl: 'test', order: 1 };
+  const mockedSearch: SavedSearch = { name: 'test', encodedUrl: 'test', order: 1, compiledQuery: 'compiledQuery' };
 
   beforeEach(() => {
     TestBed.configureTestingModule({

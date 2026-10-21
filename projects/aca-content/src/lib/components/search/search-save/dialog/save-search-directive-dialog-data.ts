@@ -24,4 +24,5 @@
 
 export interface SaveSearchDirectiveDialogData {
   searchUrl: string;
+  compiledQuery: string;
 }

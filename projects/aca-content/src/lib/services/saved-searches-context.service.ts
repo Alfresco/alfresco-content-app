@@ -64,7 +64,7 @@ export class SavedSearchesContextService implements SavedSearchStrategy {
     return this.executeOnStrategy((strategy) => strategy.getSavedSearches());
   }
 
-  saveSearch(newSaveSearch: Pick<SavedSearch, 'name' | 'description' | 'encodedUrl'>): Observable<NodeEntry> {
+  saveSearch(newSaveSearch: Pick<SavedSearch, 'name' | 'description' | 'encodedUrl' | 'compiledQuery'>): Observable<NodeEntry> {
     return this.executeOnStrategy((strategy) => strategy.saveSearch(newSaveSearch));
   }
 
