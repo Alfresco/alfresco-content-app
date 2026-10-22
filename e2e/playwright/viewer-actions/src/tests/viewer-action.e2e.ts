@@ -34,7 +34,8 @@ import {
   test,
   TEST_FILES,
   timeouts,
-  Utils
+  Utils,
+  VersionManagerActions
 } from '@alfresco/aca-playwright-shared';
 
 async function initializeApis(username: string): Promise<{ nodesApi: NodesApi; trashcanApi: TrashcanApi; uploadApi: UploadApi }> {
@@ -78,15 +79,9 @@ async function navigateAndOpenFile(page: PersonalFilesPage, folderId: string, fi
   await openFileInViewer(page, fileName);
 }
 
-async function openManageVersionDialog(page: PersonalFilesPage): Promise<void> {
-  await page.viewer.toolbar.clickMoreActions();
-  await page.matMenu.clickMenuItem('Manage Versions');
-  await page.manageVersionsDialog.waitForDialog();
-}
-
 async function uploadVersionAndOpenHistory(page: PersonalFilesPage, newVersionName: string, description?: string): Promise<void> {
   await uploadMajorVersionAndVerify(page, newVersionName, description);
-  await openManageVersionDialog(page);
+  await VersionManagerActions.openManageVersionsFromViewer(page);
 }
 
 test.describe('viewer action file', () => {
@@ -357,9 +352,8 @@ test.describe('viewer action file', () => {
     test('[XAT-5713] Viewer: User can download a previous version of a file', async ({ personalFiles }) => {
       await navigateAndOpenFile(personalFiles, folder5713Id, file5713);
       await uploadVersionAndOpenHistory(personalFiles, file5713NewVersion);
-      await personalFiles.manageVersionsDialog.clickListActionButtonForVersion('1.0');
       const downloadPromise = personalFiles.page.waitForEvent('download', { timeout: timeouts.medium });
-      await personalFiles.matMenu.clickMenuItem('Download');
+      await personalFiles.manageVersionsDialog.clickDownloadForVersion('1.0');
       const download = await downloadPromise;
       expect(download.suggestedFilename()).toContain(file5713);
     });
@@ -368,11 +362,11 @@ test.describe('viewer action file', () => {
       await navigateAndOpenFile(personalFiles, folder5714Id, file5714);
       await Utils.uploadFileNewVersion(personalFiles, file5714NewVersion, 'jpg');
       await clickUploadButtonAndWaitForApi(personalFiles);
-      await openManageVersionDialog(personalFiles);
-      await personalFiles.manageVersionsDialog.clickListActionButtonForVersion('1.0');
-      await Promise.all([Utils.waitForApiResponse(personalFiles, 'revert', 200), personalFiles.matMenu.clickMenuItem('Restore')]);
-      await personalFiles.manageVersionsDialog.waitForProgressBarToDisappear();
-      expect(await personalFiles.manageVersionsDialog.isVersionPresent('2.0')).toBe(true);
+      await VersionManagerActions.openManageVersionsFromViewer(personalFiles);
+      await personalFiles.manageVersionsDialog.openActionMenuForVersion('1.0');
+      await Promise.all([Utils.waitForApiResponse(personalFiles, 'revert', 200), personalFiles.manageVersionsDialog.restoreAction('1.0').click()]);
+      await personalFiles.manageVersionsDialog.waitForVersionListToLoad();
+      await expect(personalFiles.manageVersionsDialog.versionLabel('2.0'), 'Restored version 2.0 is not listed').toBeVisible();
     });
 
     test('[XAT-5717] Viewer: User can delete a version of a file with permissions', async ({ personalFiles }) => {
@@ -382,23 +376,21 @@ test.describe('viewer action file', () => {
         Utils.waitForApiResponse(personalFiles, 'attachment', 200),
         uploadMajorVersionAndVerify(personalFiles, file5717NewVersion)
       ]);
-      await openManageVersionDialog(personalFiles);
-      await personalFiles.manageVersionsDialog.clickListActionButtonForVersion('1.0');
-      await personalFiles.matMenu.clickMenuItem('Delete');
+      await VersionManagerActions.openManageVersionsFromViewer(personalFiles);
+      await personalFiles.manageVersionsDialog.clickDeleteForVersion('1.0');
       await Promise.all([
         personalFiles.page.waitForResponse((response) => response.url().includes('1.0') && response.status() === 204),
         personalFiles.confirmDialog.okButton.click()
       ]);
-      await personalFiles.manageVersionsDialog.waitForProgressBarToDisappear();
-      expect(await personalFiles.manageVersionsDialog.isVersionPresent('2.0')).toBe(true);
-      expect(await personalFiles.manageVersionsDialog.isVersionPresent('1.0')).toBe(false);
+      await personalFiles.manageVersionsDialog.waitForVersionListToLoad();
+      await expect(personalFiles.manageVersionsDialog.versionLabel('2.0'), 'Version 2.0 should still be listed').toBeVisible();
+      await expect(personalFiles.manageVersionsDialog.versionLabel('1.0'), 'Deleted version 1.0 should no longer be listed').toBeHidden();
     });
 
     test('[XAT-5720] Viewer: User can write comments when user is uploading a new version for a file', async ({ personalFiles }) => {
       await navigateAndOpenFile(personalFiles, folder5720Id, file5720);
       await uploadVersionAndOpenHistory(personalFiles, file5720NewVersion, 'version with comment');
-      await personalFiles.manageVersionsDialog.clickListActionButtonForVersion('1.0');
-      expect(await personalFiles.manageVersionsDialog.isDescriptionPresent('2.0')).toBe(true);
+      await expect(personalFiles.manageVersionsDialog.versionComment('2.0'), 'Version comment is not displayed').toHaveText('version with comment');
     });
   });
 
