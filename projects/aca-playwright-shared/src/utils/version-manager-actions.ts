@@ -29,7 +29,6 @@ import { timeouts } from './timeouts';
 const MANAGE_VERSIONS_MENU_ITEM = 'Manage Versions';
 const UPLOAD_NEW_VERSION_MENU_ITEM = 'Upload New Version';
 
-/** Minimal shape required to act on a file selected in a document list. */
 interface DocumentListActionContext {
   page: Page;
   dataTable: DataTableComponent;

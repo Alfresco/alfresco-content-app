@@ -37,8 +37,6 @@ import {
 } from '@alfresco/aca-playwright-shared';
 
 test.describe('Manage Versions - version author information', () => {
-  // The display names carry the same random token as the usernames so the author
-  // assertions cannot accidentally pass against a leftover or parallel-run user.
   const ownerToken = Utils.random();
   const owner = `owner-${ownerToken}`;
   const ownerFirstName = `Olivia${ownerToken}`;
@@ -79,13 +77,10 @@ test.describe('Manage Versions - version author information', () => {
       collaboratorUploadApi = await UploadApi.initialize(collaborator, collaborator);
 
       parentFolderId = (await ownerNodesApi.createFolder(parentFolder)).entry.id;
-      // A new version is uploaded into the parent folder, so the collaborator needs
-      // write access on the folder itself, not just on the individual files.
       await ownerNodesApi.setGranularPermission(parentFolderId, collaborator, 'Collaborator', true);
 
       await ownerUploadApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, uiUploadFile, parentFolderId);
 
-      // Versions 1.0 and 3.0 created by the owner, version 2.0 by the collaborator.
       const threeVersionsFileId = (await ownerUploadApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, threeVersionsFile, parentFolderId)).entry.id;
       await collaboratorUploadApi.uploadNewVersionFile(
         threeVersionsFileId,
@@ -119,14 +114,11 @@ test.describe('Manage Versions - version author information', () => {
   });
 
   test('[XAT-20508] New version uploaded through the UI is attributed to the uploading user', async ({ personalFiles }) => {
-    // Uploading a new version renames the node to the name of the uploaded file.
     const renamedFile = basename(TEST_FILES.JPG_FILE.path);
 
     await personalFiles.navigate({ remoteUrl: `#/personal-files/${parentFolderId}` });
     await VersionManagerActions.uploadNewVersion(personalFiles, uiUploadFile, TEST_FILES.JPG_FILE.path, { comment: 'version uploaded by owner' });
 
-    // The document list is still re-rendering right after the upload, so reload it
-    // to get a settled list before selecting the file again.
     await openManageVersionsFor(personalFiles, renamedFile);
 
     await expect(personalFiles.manageVersionsDialog.versionLabel('1.1'), 'New version 1.1 is not listed').toBeVisible();

@@ -26,12 +26,6 @@ import { Locator, Page } from '@playwright/test';
 import { timeouts } from '../../utils/timeouts';
 import { BaseComponent } from './base.component';
 
-/**
- * Page object for the ADF `adf-version-list` rendered inside the Manage Versions dialog.
- *
- * Accessors return a `Locator` so that callers can use the auto-retrying
- * `expect(locator)` assertions instead of taking a one-shot snapshot of the DOM.
- */
 export class VersionListComponent extends BaseComponent {
   static readonly rootElement = 'adf-version-list';
 
@@ -58,8 +52,6 @@ export class VersionListComponent extends BaseComponent {
     return this.getChild(`[id="adf-version-list-action-menu-button-${version}"]`);
   }
 
-  // Menu items render in the CDK overlay container, outside the component root,
-  // so they cannot be resolved with `getChild`.
   restoreAction(version: string): Locator {
     return this.page.locator(`[id="adf-version-list-action-restore-${version}"]`);
   }
@@ -86,10 +78,6 @@ export class VersionListComponent extends BaseComponent {
     await this.deleteAction(version).click();
   }
 
-  /**
-   * Waits for the version history to finish loading. Also requires at least one row to
-   * render, so that a version list which silently fails to load is reported as a failure.
-   */
   async waitForVersionListToLoad(): Promise<void> {
     await this.loadingBar.waitFor({ state: 'detached' });
     await this.rows.first().waitFor({ state: 'visible', timeout: timeouts.large });
