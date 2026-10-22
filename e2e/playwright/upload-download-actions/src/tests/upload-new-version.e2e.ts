@@ -155,11 +155,13 @@ test.describe('Upload new version', () => {
     });
 
     test('[XAT-5328] file is unlocked after uploading a new version', async ({ personalFiles }) => {
+      const renamedFile5328 = basename(TEST_FILES.DOCX2.path);
+
       await VersionManagerActions.selectFileForNewVersion(personalFiles, fileLocked5328, TEST_FILES.DOCX2.path);
 
       await personalFiles.uploadNewVersionDialog.description.fill('new version description');
       await personalFiles.uploadNewVersionDialog.uploadButton.click();
-      await expect(personalFiles.dataTable.getRowByName(fileLocked5328), 'File was not updated').toBeVisible({ timeout: timeouts.extraLarge });
+      await expect(personalFiles.dataTable.getRowByName(renamedFile5328), 'File was not updated').toBeVisible({ timeout: timeouts.extraLarge });
 
       expect(await nodesApi.getNodeProperty(fileLocked5328Id, 'cm:lockType'), `${fileLocked5328} is still locked`).not.toEqual('WRITE_LOCK');
       expect(await nodesApi.getNodeProperty(fileLocked5328Id, 'cm:versionType'), 'File has incorrect version type').toEqual('MINOR');
