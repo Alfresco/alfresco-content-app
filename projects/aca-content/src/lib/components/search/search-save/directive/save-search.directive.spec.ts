@@ -34,7 +34,12 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-test-component',
-  template: '<div acaSaveSearch="searchQuery" (searchSaved)="onSaveSearchSuccess($event)" acaSaveSearchQuery="encodedQuery"></div>',
+  template: `<div
+    acaSaveSearch="searchQuery"
+    (searchSaved)="onSaveSearchSuccess($event)"
+    acaSaveSearchCompiledQuery="compiledQuery"
+    acaSaveSearchQuery="encodedQuery"
+  ></div>`,
   imports: [SaveSearchDirective]
 })
 class TestComponent {
@@ -86,7 +91,7 @@ describe('SaveSearchDirective', () => {
       element.nativeElement.click();
 
       const expectedConfig: MatDialogConfig<SaveSearchDirectiveDialogData> = {
-        data: { searchUrl: 'encodedQuery' },
+        data: { searchUrl: 'encodedQuery', compiledQuery: 'compiledQuery' },
         restoreFocus: true,
         ariaLabelledBy: 'aca-save-search-dialog-title'
       };
@@ -109,7 +114,7 @@ describe('SaveSearchDirective', () => {
       element.nativeElement.click();
 
       const expectedConfig: MatDialogConfig<SaveSearchDirectiveDialogData> = {
-        data: { searchUrl: 'encodedQuery' },
+        data: { searchUrl: 'encodedQuery', compiledQuery: 'compiledQuery' },
         restoreFocus: true,
         ariaLabelledBy: 'aca-save-search-dialog-title'
       };
