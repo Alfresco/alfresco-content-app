@@ -1016,6 +1016,18 @@
             );
           }
         }
+
+        .adf-compact-breadcrumb-menu-list-item-meta {
+          .adf-compact-breadcrumb-menu-list-item-meta-icon {
+            color: var(--adf-theme-mat-grey-color-a400);
+          }
+        }
+
+        @include mat.list-overrides(
+          (
+            list-item-disabled-label-text-color: var(--adf-theme-mat-grey-color-a400)
+          )
+        );
       }
     }
 
