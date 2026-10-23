@@ -12,20 +12,20 @@ importers:
   .:
     dependencies:
       '@alfresco/adf-content-services':
-        specifier: 9.2.0-39804394556
-        version: 9.2.0-39804394556(3c56015f24662415ba557e8bb25698fb)
+        specifier: 9.2.0-39921924093
+        version: 9.2.0-39921924093(4d91d3b3dfb45d7221427ed724428769)
       '@alfresco/adf-core':
-        specifier: 9.2.0-39804394556
-        version: 9.2.0-39804394556(e6e99dd432984eaabe695f9ed258848a)
+        specifier: 9.2.0-39921924093
+        version: 9.2.0-39921924093(cb28e7b27ea38699e2dff4882202d300)
       '@alfresco/adf-extensions':
-        specifier: 9.2.0-39804394556
-        version: 9.2.0-39804394556(@alfresco/js-api@10.2.0-39804394556)(@angular/common@21.2.22(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))
+        specifier: 9.2.0-39921924093
+        version: 9.2.0-39921924093(@alfresco/js-api@10.2.0-39921924093)(@angular/common@21.2.22(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))
       '@alfresco/eslint-plugin-eslint-angular':
-        specifier: 9.2.0-39804394556
-        version: 9.2.0-39804394556
+        specifier: 9.2.0-39921924093
+        version: 9.2.0-39921924093
       '@alfresco/js-api':
-        specifier: 10.2.0-39804394556
-        version: 10.2.0-39804394556
+        specifier: 10.2.0-39921924093
+        version: 10.2.0-39921924093
       '@angular/animations':
         specifier: 21.2.22
         version: 21.2.22(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))
@@ -124,8 +124,8 @@ importers:
         version: 0.16.3
     devDependencies:
       '@alfresco/adf-cli':
-        specifier: 9.2.0-39804394556
-        version: 9.2.0-39804394556
+        specifier: 9.2.0-39921924093
+        version: 9.2.0-39921924093
       '@angular-devkit/build-angular':
         specifier: 21.2.22
         version: 21.2.22(@angular/compiler-cli@21.2.22(@angular/compiler@21.2.22)(supports-color@7.2.0)(typescript@5.9.3))(@angular/compiler@21.2.22)(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))(@angular/platform-browser@21.2.22(@angular/animations@21.2.22(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3)))(@angular/common@21.2.22(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3)))(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@types/node@25.0.3)(chokidar@5.0.0)(debug@4.4.3(supports-color@7.2.0))(jiti@2.7.0)(karma@6.4.4(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0))(ng-packagr@21.2.7(@angular/compiler-cli@21.2.22(@angular/compiler@21.2.22)(supports-color@7.2.0)(typescript@5.9.3))(supports-color@7.2.0)(tslib@2.8.1)(typescript@5.9.3))(supports-color@7.2.0)(typescript@5.9.3)(yaml@2.9.1)
@@ -294,15 +294,15 @@ importers:
 
 packages:
 
-  '@alfresco/adf-cli@9.2.0-39804394556':
-    resolution: {integrity: sha512-jd/xKEvXwDo5lCIajI6lfZ67mcBl1g7LBgdM9i3Aq5XJsnJExKj2/rHAAWONQ/IUR92YGpn84TX/+Cy6vS3NiA==}
+  '@alfresco/adf-cli@9.2.0-39921924093':
+    resolution: {integrity: sha512-rlslf1+Jyq9R3S1Vz7jsIg5/h0smd/cBqCoPc5iLT2wUetasdSVoefavMdZRjc+WE1iWtAhxHzWOVhVARP1YYA==}
     hasBin: true
 
-  '@alfresco/adf-content-services@9.2.0-39804394556':
-    resolution: {integrity: sha512-J6lOySrhbHH1gelayrUOrAfgWJLQ036lnHUYIsz7PGkzHdNKbKGdTt15Y2pzG08YeGkPuk7J44Dzsp4Rzbvi9g==}
+  '@alfresco/adf-content-services@9.2.0-39921924093':
+    resolution: {integrity: sha512-qaezVRhh6f17wixsBa1vNt1+da/JWJIVdtnQnkZJwlw0PzHWBevQpas75OYPVbNiTFBcQCwIzkgx6wFb35gTOw==}
     peerDependencies:
-      '@alfresco/adf-core': '>=9.2.0-39804394556'
-      '@alfresco/js-api': '>=10.2.0-39804394556'
+      '@alfresco/adf-core': '>=9.2.0-39921924093'
+      '@alfresco/js-api': '>=10.2.0-39921924093'
       '@angular/cdk': '>=20.2.14'
       '@angular/common': '>=20.3.27'
       '@angular/compiler': '>=20.3.27'
@@ -314,11 +314,11 @@ packages:
       '@angular/router': '>=20.3.27'
       '@ngx-translate/core': '>=17.0.0'
 
-  '@alfresco/adf-core@9.2.0-39804394556':
-    resolution: {integrity: sha512-VZawEvyG3X1CMBL9dEyB4hhUmQaOvCI4e9AaWEKKmcbn3VcIQdD1OJLHbqFU0o8WUt9Ws3JetkRUd1lAU52F5Q==}
+  '@alfresco/adf-core@9.2.0-39921924093':
+    resolution: {integrity: sha512-uXgbWU+gq/3HJbsBMcB+eD9v9NVKZNHgkmafBBijzhVNuvPBf9ZA2M/2HTBw7ZUjir9L4psyRMiIN+HgZl1/FQ==}
     peerDependencies:
-      '@alfresco/adf-extensions': '>=9.2.0-39804394556'
-      '@alfresco/js-api': '>=10.2.0-39804394556'
+      '@alfresco/adf-extensions': '>=9.2.0-39921924093'
+      '@alfresco/js-api': '>=10.2.0-39921924093'
       '@angular/cdk': '>=20.2.14'
       '@angular/common': '>=20.3.27'
       '@angular/core': '>=20.3.27'
@@ -336,18 +336,18 @@ packages:
       pdfjs-dist:
         optional: true
 
-  '@alfresco/adf-extensions@9.2.0-39804394556':
-    resolution: {integrity: sha512-zwb48S3o2Eeun3Guh1r2z/NadJzAJTxxOzFCgGp8rsUFGvLTWp0gf1tt7sTUmOIpVrd6wRGkhoFpivWWSmcKRw==}
+  '@alfresco/adf-extensions@9.2.0-39921924093':
+    resolution: {integrity: sha512-awh4nJTdIntbdq7Z81Fz/bqFOm8nzgiZCKDJhGp+RA27us5SwH/lgsMOwYdLSlYfcr/F1iT3XHjZGgBYkpHL/A==}
     peerDependencies:
-      '@alfresco/js-api': '>=10.2.0-39804394556'
+      '@alfresco/js-api': '>=10.2.0-39921924093'
       '@angular/common': '>=20.3.27'
       '@angular/core': '>=20.3.27'
 
-  '@alfresco/eslint-plugin-eslint-angular@9.2.0-39804394556':
-    resolution: {integrity: sha512-IxZ6TwH/cPRBrkK2+d2Z4+nqO6AdczSMJ/QV22k7PYBhHD76sXVaKMqIqEZchaBW+OLtYh+HI1hEWp/CZsAI4g==}
+  '@alfresco/eslint-plugin-eslint-angular@9.2.0-39921924093':
+    resolution: {integrity: sha512-LdsNkt+3BottgLXEOj9NI34ck8oRaT8iumjkgvzInMWHBiaUCujv90AcuRoU+h9Ij97DcSH7QblRCU8C98zgAg==}
 
-  '@alfresco/js-api@10.2.0-39804394556':
-    resolution: {integrity: sha512-BRGuqeud/fMcTo793HzwjjrRqvRbghZR4HUAmqXTy/u7XzzGIjJftWTaTm/4IjZsEu+WShclmxrnSOhM3d6HAg==}
+  '@alfresco/js-api@10.2.0-39921924093':
+    resolution: {integrity: sha512-OHRGyAC+jsM5YlSP36EuTN8AYTc48edHCoXZWZ8eRWHrRNmd3moTodvh+D3LVsiOca4p2OSOfrsdrlbjRnIOew==}
 
   '@algolia/abtesting@1.14.1':
     resolution: {integrity: sha512-Dkj0BgPiLAaim9sbQ97UKDFHJE/880wgStAM18U++NaJ/2Cws34J5731ovJifr6E3Pv4T2CqvMXf8qLCC417Ew==}
@@ -8083,15 +8083,15 @@ packages:
 
 snapshots:
 
-  '@alfresco/adf-cli@9.2.0-39804394556':
+  '@alfresco/adf-cli@9.2.0-39921924093':
     dependencies:
-      '@alfresco/js-api': 10.2.0-39804394556
+      '@alfresco/js-api': 10.2.0-39921924093
       spdx-license-list: 5.0.0
 
-  '@alfresco/adf-content-services@9.2.0-39804394556(3c56015f24662415ba557e8bb25698fb)':
+  '@alfresco/adf-content-services@9.2.0-39921924093(4d91d3b3dfb45d7221427ed724428769)':
     dependencies:
-      '@alfresco/adf-core': 9.2.0-39804394556(e6e99dd432984eaabe695f9ed258848a)
-      '@alfresco/js-api': 10.2.0-39804394556
+      '@alfresco/adf-core': 9.2.0-39921924093(cb28e7b27ea38699e2dff4882202d300)
+      '@alfresco/js-api': 10.2.0-39921924093
       '@angular/cdk': 21.2.14(@angular/common@21.2.22(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))(@angular/platform-browser@21.2.22(@angular/animations@21.2.22(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3)))(@angular/common@21.2.22(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3)))(rxjs@7.8.2)
       '@angular/common': 21.2.22(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
       '@angular/compiler': 21.2.22
@@ -8104,10 +8104,10 @@ snapshots:
       '@ngx-translate/core': 17.0.0(@angular/common@21.2.22(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))
       tslib: 2.8.1
 
-  '@alfresco/adf-core@9.2.0-39804394556(e6e99dd432984eaabe695f9ed258848a)':
+  '@alfresco/adf-core@9.2.0-39921924093(cb28e7b27ea38699e2dff4882202d300)':
     dependencies:
-      '@alfresco/adf-extensions': 9.2.0-39804394556(@alfresco/js-api@10.2.0-39804394556)(@angular/common@21.2.22(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))
-      '@alfresco/js-api': 10.2.0-39804394556
+      '@alfresco/adf-extensions': 9.2.0-39921924093(@alfresco/js-api@10.2.0-39921924093)(@angular/common@21.2.22(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))
+      '@alfresco/js-api': 10.2.0-39921924093
       '@angular/cdk': 21.2.14(@angular/common@21.2.22(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))(@angular/platform-browser@21.2.22(@angular/animations@21.2.22(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3)))(@angular/common@21.2.22(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3)))(rxjs@7.8.2)
       '@angular/common': 21.2.22(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
       '@angular/core': 21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3)
@@ -8127,16 +8127,16 @@ snapshots:
     optionalDependencies:
       pdfjs-dist: 5.1.91
 
-  '@alfresco/adf-extensions@9.2.0-39804394556(@alfresco/js-api@10.2.0-39804394556)(@angular/common@21.2.22(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))':
+  '@alfresco/adf-extensions@9.2.0-39921924093(@alfresco/js-api@10.2.0-39921924093)(@angular/common@21.2.22(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))':
     dependencies:
-      '@alfresco/js-api': 10.2.0-39804394556
+      '@alfresco/js-api': 10.2.0-39921924093
       '@angular/common': 21.2.22(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
       '@angular/core': 21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3)
       tslib: 2.8.1
 
-  '@alfresco/eslint-plugin-eslint-angular@9.2.0-39804394556': {}
+  '@alfresco/eslint-plugin-eslint-angular@9.2.0-39921924093': {}
 
-  '@alfresco/js-api@10.2.0-39804394556':
+  '@alfresco/js-api@10.2.0-39921924093':
     dependencies:
       eventemitter3: 5.0.4
       tslib: 2.8.1
