@@ -32,7 +32,7 @@ export class VersionListComponent extends BaseComponent {
   readonly loadingBar = this.getChild('[data-automation-id="version-history-loading-bar"]');
   readonly rows = this.getChild('.adf-version-list-item');
 
-  constructor(page: Page, rootElement: string = VersionListComponent.rootElement) {
+  constructor(page: Page, rootElement = VersionListComponent.rootElement) {
     super(page, rootElement);
   }
 
