@@ -34,8 +34,8 @@ import {
   UploadApi,
   SearchApi,
   PersonalFilesPage,
-  SearchPage,
-  timeouts
+  timeouts,
+  VersionManagerActions
 } from '@alfresco/aca-playwright-shared';
 
 test.describe('Upload new version', () => {
@@ -45,16 +45,6 @@ test.describe('Upload new version', () => {
   let nodesApi: NodesApi;
   let uploadApi: UploadApi;
   let searchApi: SearchApi;
-
-  async function uploadNewVersion(page: PersonalFilesPage | SearchPage, filename: string, location: string) {
-    await page.dataTable.selectItems(filename);
-    await page.acaHeader.clickMoreActions();
-    const [fileChooser] = await Promise.all([
-      page.page.waitForEvent('filechooser', { timeout: timeouts.extraLarge }),
-      page.acaHeader.matMenu.clickMenuItem('Upload New Version')
-    ]);
-    await fileChooser.setFiles(location);
-  }
 
   async function previewUnsupportedFile(page: PersonalFilesPage, unsupportedFileName: string): Promise<void> {
     await page.dataTable.performClickFolderOrFileToOpen(unsupportedFileName);
@@ -101,7 +91,7 @@ test.describe('Upload new version', () => {
 
     test('[XAT-5353] file is updated after uploading a new version - minor', async ({ searchPage }) => {
       await searchPage.searchWithin(fileSearch5353, 'files');
-      await uploadNewVersion(searchPage, fileSearch5353, fileNewVersion5353.path);
+      await VersionManagerActions.selectFileForNewVersion(searchPage, fileSearch5353, fileNewVersion5353.path);
 
       await searchPage.uploadNewVersionDialog.description.fill('new minor version description');
       await searchPage.uploadNewVersionDialog.uploadButton.click();
@@ -113,7 +103,7 @@ test.describe('Upload new version', () => {
 
     test('[XAT-5354] file is not updated when clicking Cancel', async ({ searchPage }) => {
       await searchPage.searchWithin(fileSearch5354, 'files');
-      await uploadNewVersion(searchPage, fileSearch5354, TEST_FILES.DOCX2.path);
+      await VersionManagerActions.selectFileForNewVersion(searchPage, fileSearch5354, TEST_FILES.DOCX2.path);
 
       await searchPage.uploadNewVersionDialog.description.fill('new version description');
       await searchPage.uploadNewVersionDialog.cancelButton.click();
@@ -151,7 +141,7 @@ test.describe('Upload new version', () => {
     });
 
     test('[XAT-5327] upload new version fails when new file name already exists', async ({ personalFiles }) => {
-      await uploadNewVersion(personalFiles, file5327, TEST_FILES.DOCX.path);
+      await VersionManagerActions.selectFileForNewVersion(personalFiles, file5327, TEST_FILES.DOCX.path);
 
       await expect(personalFiles.uploadNewVersionDialog.title).toHaveText('Upload New Version');
       await personalFiles.uploadNewVersionDialog.description.fill('new version description');
@@ -165,11 +155,13 @@ test.describe('Upload new version', () => {
     });
 
     test('[XAT-5328] file is unlocked after uploading a new version', async ({ personalFiles }) => {
-      await uploadNewVersion(personalFiles, fileLocked5328, TEST_FILES.DOCX2.path);
+      const renamedFile5328 = basename(TEST_FILES.DOCX2.path);
+
+      await VersionManagerActions.selectFileForNewVersion(personalFiles, fileLocked5328, TEST_FILES.DOCX2.path);
 
       await personalFiles.uploadNewVersionDialog.description.fill('new version description');
       await personalFiles.uploadNewVersionDialog.uploadButton.click();
-      await expect(personalFiles.dataTable.getRowByName(fileLocked5328), 'File was not updated').toBeVisible({ timeout: timeouts.extraLarge });
+      await expect(personalFiles.dataTable.getRowByName(renamedFile5328), 'File was not updated').toBeVisible({ timeout: timeouts.extraLarge });
 
       expect(await nodesApi.getNodeProperty(fileLocked5328Id, 'cm:lockType'), `${fileLocked5328} is still locked`).not.toEqual('WRITE_LOCK');
       expect(await nodesApi.getNodeProperty(fileLocked5328Id, 'cm:versionType'), 'File has incorrect version type').toEqual('MINOR');
@@ -177,7 +169,7 @@ test.describe('Upload new version', () => {
     });
 
     test('[XAT-5329] file remains locked after canceling of uploading a new version', async ({ personalFiles }) => {
-      await uploadNewVersion(personalFiles, fileLocked5329, TEST_FILES.DOCX2.path);
+      await VersionManagerActions.selectFileForNewVersion(personalFiles, fileLocked5329, TEST_FILES.DOCX2.path);
       await personalFiles.uploadNewVersionDialog.cancelButton.click();
 
       expect(await personalFiles.dataTable.isItemPresent(fileLocked5329), 'File not displayed').toBe(true);
@@ -203,7 +195,7 @@ test.describe('Upload new version', () => {
     });
 
     test('[XAT-17776] Should display the unknown format preview for an unsupported file in the viewer', async ({ personalFiles }) => {
-      await uploadNewVersion(personalFiles, fileJpg17776, TEST_FILES.AZW3_FILE.path);
+      await VersionManagerActions.selectFileForNewVersion(personalFiles, fileJpg17776, TEST_FILES.AZW3_FILE.path);
       await personalFiles.uploadNewVersionDialog.uploadButton.click();
       await previewUnsupportedFile(personalFiles, unsupportedName17776);
       await nodesApi.deleteNodes([fileJpg17776Id], true);

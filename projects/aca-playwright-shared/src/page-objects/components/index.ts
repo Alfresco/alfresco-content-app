@@ -31,6 +31,7 @@ export * from './actions-dropdown.component';
 export * from './conditions.component';
 export * from './pagination.component';
 export * from './info-drawer.component';
+export * from './version-list.component';
 export * from './details-page.component';
 export * from './viewer.component';
 export * from './search';
