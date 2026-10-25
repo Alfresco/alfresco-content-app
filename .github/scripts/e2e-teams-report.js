@@ -238,7 +238,7 @@ function buildBrowserTable(browserStats) {
 
 function buildBrowserSuiteText(suiteMap) {
   const lines = [];
-  for (const suite of [...suiteMap.keys()].sort()) {
+  for (const suite of [...suiteMap.keys()].sort((suite1, suite2) => suite1.localeCompare(suite2))) {
     const c = suiteMap.get(suite);
     const failMark = c.failed > 0 ? `❌${c.failed}` : `${c.failed}`;
     lines.push(`${suite}: 🔢${c.run} ✅${c.passed} ${failMark} ⏭️${c.skipped} 🚫${c.excluded} (own ${c.excludedOwn})`);
