@@ -1,12 +1,24 @@
 name: "Populate E2E reports"
-run-name: ${{ inputs.send-report && 'Populate E2E reports + send report to Teams' || 'Populate E2E reports' }}
+run-name: ${{ (inputs.send-report || github.event_name == 'push') && 'Populate E2E reports + send report to Teams' || 'Populate E2E reports' }}
 
 # Runs the E2E suites (chrome) against a locally deployed ACS, the same way as the daily chrome cron run and pull
 # requests, and uploads per-test metrics counted by the E2E metrics report (see e2e-metrics-report.yml).
-# Only runs on develop are counted.
+# Only runs on develop are counted in the daily/weekly reports.
 # Optionally sends a report covering the last `report-days` days (including today's runs) to Teams.
+# Runs outside develop send a report covering only that branch's runs from today.
 
 on:
+  # Temporary, to test this workflow before it is merged (workflow_dispatch only works once it is on develop).
+  # Remove before merging ACS-13218.
+  push:
+    branches:
+      - ACS-13218-improve-reports-teams
+    paths:
+      - '.github/workflows/populate-e2e-reports.yml'
+      - '.github/workflows/e2e-playwright-reusable.yml'
+      - '.github/actions/run-e2e-playwright/**'
+      - '.github/scripts/e2e-metrics/**'
+      - 'projects/aca-playwright-shared/src/base-config/**'
   workflow_dispatch:
     inputs:
       send-report:
@@ -33,7 +45,7 @@ jobs:
         if: ${{ github.ref_name != 'develop' }}
         env:
           REF_NAME: ${{ github.ref_name }}
-        run: echo "::warning::This run is on '${REF_NAME}', only develop runs are counted in the E2E metrics report."
+        run: echo "::warning::This run is on '${REF_NAME}', it is only counted in its own report, not in the develop E2E metrics reports."
 
   e2e:
     name: "E2E against local ACS - chrome"
@@ -52,7 +64,7 @@ jobs:
   report:
     name: "Send E2E report to Teams"
     needs: e2e
-    if: ${{ !cancelled() && inputs.send-report }}
+    if: ${{ !cancelled() && (inputs.send-report || github.event_name == 'push') }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -63,9 +75,21 @@ jobs:
         with:
           node-version-file: '.nvmrc'
 
-      - name: Resolve date
+      - name: Resolve parameters
         id: params
-        run: echo "today=$(date -u +%F)" >> "$GITHUB_OUTPUT"
+        env:
+          REF_NAME: ${{ github.ref_name }}
+          INPUT_REPORT_DAYS: ${{ inputs.report-days }}
+        run: |
+          echo "today=$(date -u +%F)" >> "$GITHUB_OUTPUT"
+          if [ "$REF_NAME" = "develop" ]; then
+            echo "report-days=${INPUT_REPORT_DAYS:-14}" >> "$GITHUB_OUTPUT"
+            echo "report-title=" >> "$GITHUB_OUTPUT"
+          else
+            # Branch runs only count today's runs of that branch, the develop history is not mixed in.
+            echo "report-days=1" >> "$GITHUB_OUTPUT"
+            echo "report-title=ACA E2E report - ${REF_NAME} (branch test)" >> "$GITHUB_OUTPUT"
+          fi
 
       # The nightly collection only covers previous days, so today's runs (including this one) are collected here.
       - name: Collect today's metrics
@@ -73,6 +97,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           METRICS_DATE: ${{ steps.params.outputs.today }}
           INCLUDE_RUN_ID: ${{ github.run_id }}
+          SOURCE_BRANCH: ${{ github.ref_name }}
           OUTPUT_FILE: e2e-metrics-daily/${{ steps.params.outputs.today }}.json
         run: node .github/scripts/e2e-metrics/collect-daily.js
 
@@ -80,7 +105,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPORT_END_DATE: ${{ steps.params.outputs.today }}
-          REPORT_DAYS: ${{ inputs.report-days }}
+          REPORT_DAYS: ${{ steps.params.outputs.report-days }}
+          REPORT_TITLE: ${{ steps.params.outputs.report-title }}
+          SOURCE_BRANCH: ${{ github.ref_name }}
           DAILY_DIR: e2e-metrics-daily
           OUTPUT_DIR: e2e-metrics-report
           TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_E2E_WEBHOOK_URL }}

@@ -39,6 +39,7 @@
  *    only DAILY_DIR is used
  *  - OUTPUT_DIR: where to write the weekly report files (default `e2e-metrics-weekly`)
  *  - TOP_N: number of tests listed per section in Teams (default 15)
+ *  - SOURCE_BRANCH: branch the runs were collected from, shown in the report (default `develop`)
  *  - TEAMS_WEBHOOK_URL: Teams webhook; posting is skipped when not set
  */
 
@@ -249,7 +250,7 @@ function buildCard(report, topN) {
 
   body.push({
     type: 'TextBlock',
-    text: 'Retries / runs: retries over all runs of a test (daily chrome cron and populate E2E reports runs on develop). Durations are averages of passed attempts only. The full lists are in the workflow run summary.',
+    text: `Retries / runs: retries over all runs of a test (daily chrome cron and populate E2E reports runs on ${process.env.SOURCE_BRANCH || 'develop'}). Durations are averages of passed attempts only. The full lists are in the workflow run summary.`,
     wrap: true,
     size: 'Small',
     isSubtle: true,
