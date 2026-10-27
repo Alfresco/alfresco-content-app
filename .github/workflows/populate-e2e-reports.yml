@@ -1,21 +1,23 @@
 name: "Populate E2E reports"
-run-name: ${{ (inputs.send-report || github.event_name == 'push') && 'Populate E2E reports + send report to Teams' || 'Populate E2E reports' }}
+run-name: ${{ (inputs.send-report || github.event_name == 'push') && 'Populate E2E reports + publish report' || 'Populate E2E reports' }}
 
 # Runs the E2E suites (chrome) against a locally deployed ACS, the same way as the daily chrome cron run and pull
 # requests, and uploads per-test metrics counted by the E2E metrics report (see e2e-metrics-report.yml).
 # Only runs on develop are counted in the daily/weekly reports.
-# Optionally sends a report covering the last `report-days` days (including today's runs) to Teams.
-# Runs outside develop send a report covering only that branch's runs from today.
+# Optionally updates the E2E dashboard (GitHub Pages) with today's runs and sends a short report covering the last
+# `report-days` days to Teams. Runs outside develop only report that branch's runs from today and do not deploy the
+# dashboard; a preview is uploaded as the `e2e-dashboard` artifact instead.
 
 on:
   # Temporary, to test this workflow before it is merged (workflow_dispatch only works once it is on develop).
-  # Add `[report-only]` to the commit message to skip the E2E run and only rebuild the report from today's runs.
+  # Add `[report-only]` to the commit message to skip the E2E run and only rebuild the report/dashboard from today's runs.
   # Remove before merging ACS-13218.
   push:
     branches:
       - ACS-13218-improve-reports-teams
     paths:
       - '.github/workflows/populate-e2e-reports.yml'
+      - '.github/workflows/e2e-metrics-publish.yml'
       - '.github/workflows/e2e-playwright-reusable.yml'
       - '.github/actions/run-e2e-playwright/**'
       - '.github/scripts/e2e-metrics/**'
@@ -23,7 +25,7 @@ on:
   workflow_dispatch:
     inputs:
       send-report:
-        description: 'Send a report to the Teams channel after the tests finish'
+        description: 'After the tests finish, update the E2E dashboard and send a report to the Teams channel'
         required: false
         type: boolean
         default: false
@@ -63,64 +65,25 @@ jobs:
       QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
       QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
 
-  report:
-    name: "Send E2E report to Teams"
+  publish:
+    name: "Publish dashboard and report"
     needs: e2e
     if: ${{ !cancelled() && (inputs.send-report || github.event_name == 'push') }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-
-      - name: Setup node
-        uses: actions/setup-node@v7
-        with:
-          node-version-file: '.nvmrc'
-
-      - name: Resolve parameters
-        id: params
-        env:
-          REF_NAME: ${{ github.ref_name }}
-          INPUT_REPORT_DAYS: ${{ inputs.report-days }}
-        run: |
-          echo "today=$(date -u +%F)" >> "$GITHUB_OUTPUT"
-          if [ "$REF_NAME" = "develop" ]; then
-            echo "report-days=${INPUT_REPORT_DAYS:-14}" >> "$GITHUB_OUTPUT"
-            echo "report-title=" >> "$GITHUB_OUTPUT"
-          else
-            # Branch runs only count today's runs of that branch, the develop history is not mixed in.
-            echo "report-days=1" >> "$GITHUB_OUTPUT"
-            echo "report-title=ACA E2E report - ${REF_NAME} (branch test)" >> "$GITHUB_OUTPUT"
-          fi
-
-      # The nightly collection only covers previous days, so today's runs (including this one) are collected here.
-      - name: Collect today's metrics
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          METRICS_DATE: ${{ steps.params.outputs.today }}
-          INCLUDE_RUN_ID: ${{ github.run_id }}
-          SOURCE_BRANCH: ${{ github.ref_name }}
-          OUTPUT_FILE: e2e-metrics-daily/${{ steps.params.outputs.today }}.json
-        run: node .github/scripts/e2e-metrics/collect-daily.js
-
-      - name: Build report and notify Teams
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPORT_END_DATE: ${{ steps.params.outputs.today }}
-          REPORT_DAYS: ${{ steps.params.outputs.report-days }}
-          REPORT_TITLE: ${{ steps.params.outputs.report-title }}
-          SOURCE_BRANCH: ${{ github.ref_name }}
-          DAILY_DIR: e2e-metrics-daily
-          OUTPUT_DIR: e2e-metrics-report
-          TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_E2E_WEBHOOK_URL }}
-        run: node .github/scripts/e2e-metrics/weekly-report.js
-
-      - name: Upload report
-        if: always()
-        uses: actions/upload-artifact@v7
-        with:
-          name: e2e-report-${{ steps.params.outputs.today }}
-          path: e2e-metrics-report
-          if-no-files-found: ignore
-          retention-days: 30
-          overwrite: true
+    permissions:
+      actions: read
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/e2e-metrics-publish.yml
+    with:
+      collect-today: true
+      include-run-id: ${{ github.run_id }}
+      source-branch: ${{ github.ref_name }}
+      # Only develop data is deployed; other branches get a dashboard preview artifact (e2e-dashboard) instead.
+      deploy-dashboard: ${{ github.ref_name == 'develop' }}
+      send-report: true
+      # Branch runs only cover that branch's runs from today, the develop history is not mixed in.
+      report-days: ${{ github.ref_name == 'develop' && (inputs.report-days || 14) || 1 }}
+      report-title: ${{ github.ref_name != 'develop' && format('ACA E2E report - {0} (branch test)', github.ref_name) || '' }}
+    secrets:
+      TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_E2E_WEBHOOK_URL }}

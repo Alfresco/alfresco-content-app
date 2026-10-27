@@ -2,8 +2,8 @@ name: "E2E metrics report"
 run-name: ${{ github.event_name == 'workflow_dispatch' && 'Manual E2E metrics collection' || 'Daily E2E metrics collection' }}
 
 # Every day: collects the per-test metrics uploaded by the previous day's E2E runs on develop (daily chrome cron,
-# populate E2E reports) into an `e2e-metrics-daily-<date>` artifact.
-# Every Monday: aggregates the last 7 daily artifacts and posts the flaky/slowest tests report to Teams.
+# populate E2E reports) into an `e2e-metrics-daily-<date>` artifact and deploys the E2E dashboard to GitHub Pages.
+# Every Monday: also posts a short weekly summary with a link to the dashboard to Teams.
 
 on:
   schedule:
@@ -15,7 +15,7 @@ on:
         required: false
         default: ''
       post-report:
-        description: 'Post the weekly report (7 days ending on the collected day) to Teams'
+        description: 'Post the weekly summary (7 days ending on the collected day) to Teams'
         required: false
         type: boolean
         default: false
@@ -81,34 +81,20 @@ jobs:
           retention-days: 90
           overwrite: true
 
-  weekly-report:
-    name: "Post weekly E2E report to Teams"
+  publish:
+    name: "Publish dashboard and report"
     needs: collect
-    if: ${{ !cancelled() && needs.collect.outputs.post-report == 'true' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-
-      - name: Setup node
-        uses: actions/setup-node@v7
-        with:
-          node-version-file: '.nvmrc'
-
-      - name: Build weekly report and notify Teams
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPORT_END_DATE: ${{ needs.collect.outputs.date }}
-          OUTPUT_DIR: e2e-metrics-weekly
-          TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_E2E_WEBHOOK_URL }}
-        run: node .github/scripts/e2e-metrics/weekly-report.js
-
-      - name: Upload weekly report
-        if: always()
-        uses: actions/upload-artifact@v7
-        with:
-          name: e2e-metrics-weekly-${{ needs.collect.outputs.date }}
-          path: e2e-metrics-weekly
-          if-no-files-found: ignore
-          retention-days: 90
-          overwrite: true
+    if: ${{ !cancelled() && needs.collect.result == 'success' }}
+    permissions:
+      actions: read
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/e2e-metrics-publish.yml
+    with:
+      end-date: ${{ needs.collect.outputs.date }}
+      deploy-dashboard: ${{ github.ref_name == 'develop' }}
+      send-report: ${{ needs.collect.outputs.post-report == 'true' }}
+      report-days: 7
+    secrets:
+      TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_E2E_WEBHOOK_URL }}

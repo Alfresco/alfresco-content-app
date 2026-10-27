@@ -1,0 +1,184 @@
+name: "E2E metrics publish (Reusable)"
+
+# Builds the E2E dashboard (GitHub Pages) and the E2E report from the daily metrics, deploys the dashboard and
+# notifies Teams with a short summary linking to it.
+# Callers must grant `actions: read`, `contents: read`, `pages: write` and `id-token: write`.
+
+on:
+  workflow_call:
+    inputs:
+      end-date:
+        description: 'Last UTC day (YYYY-MM-DD) included; defaults to today when collect-today is set, otherwise yesterday'
+        required: false
+        type: string
+        default: ''
+      collect-today:
+        description: "Collect the end day's runs live (including in-progress run include-run-id) instead of using its daily artifact"
+        required: false
+        type: boolean
+        default: false
+      include-run-id:
+        description: 'Run to include even if it is still in progress (used with collect-today)'
+        required: false
+        type: string
+        default: ''
+      source-branch:
+        description: 'Only runs on this branch are collected. Data of other branches is never deployed'
+        required: false
+        type: string
+        default: 'develop'
+      deploy-dashboard:
+        description: 'Deploy the dashboard to GitHub Pages (otherwise it is only uploaded as the e2e-dashboard artifact)'
+        required: false
+        type: boolean
+        default: false
+      send-report:
+        description: 'Send the report to Teams'
+        required: false
+        type: boolean
+        default: false
+      report-days:
+        description: 'Number of days covered by the report'
+        required: false
+        type: number
+        default: 7
+      report-title:
+        description: 'Report title (defaults to the weekly / last <n> days title)'
+        required: false
+        type: string
+        default: ''
+    secrets:
+      TEAMS_WEBHOOK_URL:
+        required: false
+
+jobs:
+  build:
+    name: "Build dashboard and report"
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      SOURCE_BRANCH: ${{ inputs.source-branch }}
+      # Develop data comes from the published dashboard and the daily artifacts, other branches only use their own runs.
+      REMOTE_DATA: ${{ inputs.source-branch == 'develop' }}
+      DASHBOARD_URL: ${{ vars.E2E_DASHBOARD_URL }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Resolve end date
+        id: params
+        env:
+          INPUT_END_DATE: ${{ inputs.end-date }}
+          COLLECT_TODAY: ${{ inputs.collect-today }}
+        run: |
+          if [ -n "$INPUT_END_DATE" ]; then
+            end_date="$INPUT_END_DATE"
+          elif [ "$COLLECT_TODAY" = "true" ]; then
+            end_date="$(date -u +%F)"
+          else
+            end_date="$(date -u -d yesterday +%F)"
+          fi
+          if ! [[ "$end_date" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
+            echo "::error::Invalid end date '$end_date', expected YYYY-MM-DD."
+            exit 1
+          fi
+          echo "end-date=$end_date" >> "$GITHUB_OUTPUT"
+
+      # The nightly collection only covers previous days, so the end day's runs (including this one) are collected here.
+      - name: Collect end day metrics
+        if: ${{ inputs.collect-today }}
+        env:
+          METRICS_DATE: ${{ steps.params.outputs.end-date }}
+          INCLUDE_RUN_ID: ${{ inputs.include-run-id }}
+          OUTPUT_FILE: e2e-metrics-daily/${{ steps.params.outputs.end-date }}.json
+        run: node .github/scripts/e2e-metrics/collect-daily.js
+
+      - name: Build dashboard
+        env:
+          END_DATE: ${{ steps.params.outputs.end-date }}
+          DAILY_DIR: e2e-metrics-daily
+          SITE_DIR: e2e-dashboard
+        run: node .github/scripts/e2e-metrics/build-dashboard.js
+
+      - name: Build report
+        env:
+          REPORT_END_DATE: ${{ steps.params.outputs.end-date }}
+          REPORT_DAYS: ${{ inputs.report-days }}
+          REPORT_TITLE: ${{ inputs.report-title }}
+          DAILY_DIR: e2e-metrics-daily
+          DASHBOARD_PUBLISHED: ${{ inputs.deploy-dashboard }}
+          OUTPUT_DIR: e2e-metrics-weekly
+        run: node .github/scripts/e2e-metrics/weekly-report.js
+
+      - name: Upload dashboard preview
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2e-dashboard
+          path: e2e-dashboard
+          retention-days: 14
+          overwrite: true
+
+      - name: Upload report
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2e-metrics-weekly-${{ steps.params.outputs.end-date }}
+          path: e2e-metrics-weekly
+          retention-days: 90
+          overwrite: true
+
+      - name: Upload Pages artifact
+        if: ${{ inputs.deploy-dashboard && inputs.source-branch == 'develop' }}
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: e2e-dashboard
+
+  deploy:
+    name: "Deploy dashboard to GitHub Pages"
+    needs: build
+    if: ${{ inputs.deploy-dashboard && inputs.source-branch == 'develop' }}
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    concurrency:
+      group: e2e-dashboard-pages
+      cancel-in-progress: false
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
+
+  notify:
+    name: "Send report to Teams"
+    needs: [build, deploy]
+    if: ${{ !cancelled() && inputs.send-report && needs.build.result == 'success' && needs.deploy.result != 'failure' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Download report
+        uses: actions/download-artifact@v8
+        with:
+          pattern: e2e-metrics-weekly-*
+          path: e2e-metrics-weekly
+          merge-multiple: true
+
+      - name: Post to Teams
+        env:
+          TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          CARD_FILE: e2e-metrics-weekly/teams-card.json
+        run: node .github/scripts/e2e-metrics/post-teams.js
