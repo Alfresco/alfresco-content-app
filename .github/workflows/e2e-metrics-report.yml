@@ -1,0 +1,114 @@
+name: "E2E metrics report"
+run-name: ${{ github.event_name == 'workflow_dispatch' && 'Manual E2E metrics collection' || 'Daily E2E metrics collection' }}
+
+# Every day: collects the per-test metrics uploaded by the previous day's E2E runs on develop (daily chrome cron,
+# populate E2E reports) into an `e2e-metrics-daily-<date>` artifact.
+# Every Monday: aggregates the last 7 daily artifacts and posts the flaky/slowest tests report to Teams.
+
+on:
+  schedule:
+    - cron: '0 4 * * *' # At 04:00 UTC every day.
+  workflow_dispatch:
+    inputs:
+      date:
+        description: 'UTC day to collect (YYYY-MM-DD). Defaults to yesterday.'
+        required: false
+        default: ''
+      post-report:
+        description: 'Post the weekly report (7 days ending on the collected day) to Teams'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: e2e-metrics-report
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    name: "Collect daily E2E metrics"
+    runs-on: ubuntu-latest
+    outputs:
+      date: ${{ steps.params.outputs.date }}
+      post-report: ${{ steps.params.outputs.post-report }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Resolve parameters
+        id: params
+        env:
+          INPUT_DATE: ${{ inputs.date }}
+          INPUT_POST_REPORT: ${{ inputs.post-report }}
+        run: |
+          date="${INPUT_DATE:-$(date -u -d yesterday +%F)}"
+          if ! [[ "$date" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
+            echo "::error::Invalid date '$date', expected YYYY-MM-DD."
+            exit 1
+          fi
+          if [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]; then
+            post_report="${INPUT_POST_REPORT:-false}"
+          elif [ "$(date -u +%u)" = "1" ]; then
+            post_report=true
+          else
+            post_report=false
+          fi
+          echo "date=$date" >> "$GITHUB_OUTPUT"
+          echo "post-report=$post_report" >> "$GITHUB_OUTPUT"
+          echo "Collecting E2E metrics for $date (post weekly report: $post_report)"
+
+      - name: Collect metrics from E2E runs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          METRICS_DATE: ${{ steps.params.outputs.date }}
+          OUTPUT_FILE: e2e-metrics-daily/${{ steps.params.outputs.date }}.json
+        run: node .github/scripts/e2e-metrics/collect-daily.js
+
+      - name: Upload daily metrics
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2e-metrics-daily-${{ steps.params.outputs.date }}
+          path: e2e-metrics-daily/${{ steps.params.outputs.date }}.json
+          retention-days: 90
+          overwrite: true
+
+  weekly-report:
+    name: "Post weekly E2E report to Teams"
+    needs: collect
+    if: ${{ !cancelled() && needs.collect.outputs.post-report == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Build weekly report and notify Teams
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPORT_END_DATE: ${{ needs.collect.outputs.date }}
+          OUTPUT_DIR: e2e-metrics-weekly
+          TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_E2E_WEBHOOK_URL }}
+        run: node .github/scripts/e2e-metrics/weekly-report.js
+
+      - name: Upload weekly report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2e-metrics-weekly-${{ needs.collect.outputs.date }}
+          path: e2e-metrics-weekly
+          if-no-files-found: ignore
+          retention-days: 90
+          overwrite: true

@@ -1,28 +1,16 @@
 name: "Cron multibrowser E2E runs"
 run-name: ${{ github.event_name == 'workflow_dispatch' && 'Manual multibrowser E2E run' || 'Cron multibrowser E2E run' }}
 
+# Weekly run on the non-chrome browsers. Chrome runs daily in cron-e2e-chrome.yml.
+
 on:
   schedule:
-    - cron: '0 6 * * 1-5' #At 06:00 on every day-of-week from Monday through Friday.
+    - cron: '0 6 * * 6' #At 06:00 every Saturday.
   workflow_dispatch:
 
 jobs:
-  chrome:
-    name: "Cron browser E2E run - chrome"
-    uses: ./.github/workflows/e2e-playwright-reusable.yml
-    with:
-      browser: chrome
-    secrets:
-      REPORT_PORTAL_TOKEN: ${{ secrets.REPORT_PORTAL_TOKEN }}
-      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
-      QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
-
   firefox:
     name: "Cron browser E2E run - firefox"
-    needs: chrome
-    if: ${{ always() }}
     uses: ./.github/workflows/e2e-playwright-reusable.yml
     with:
       browser: firefox
@@ -60,44 +48,3 @@ jobs:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
       QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
-
-  report-to-teams:
-    name: "Aggregate results and notify Teams"
-    needs: [chrome, firefox, webkit, msedge]
-    if: ${{ always() }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-
-      - name: Before install
-        uses: ./.github/actions/before-install
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Download all blob reports
-        id: download-blobs
-        continue-on-error: true
-        uses: actions/download-artifact@v8
-        with:
-          pattern: blob-*
-          path: all-blobs
-
-      - name: Retry blob download on failure
-        if: steps.download-blobs.outcome == 'failure'
-        continue-on-error: true
-        uses: actions/download-artifact@v8
-        with:
-          pattern: blob-*
-          path: all-blobs
-
-      - name: Aggregate results and post Teams report
-        continue-on-error: true
-        env:
-          TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_E2E_WEBHOOK_URL }}
-          CHROME_RESULT: ${{ needs.chrome.result }}
-          FIREFOX_RESULT: ${{ needs.firefox.result }}
-          WEBKIT_RESULT: ${{ needs.webkit.result }}
-          MSEDGE_RESULT: ${{ needs.msedge.result }}
-        run: node .github/scripts/e2e-teams-report.js
