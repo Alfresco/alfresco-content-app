@@ -109,11 +109,19 @@ function toRunSummary(run, workflow, artifactCount) {
 async function listRuns(github, { sourceWorkflows, date, branch, includeRunId }) {
   const runs = [];
   for (const workflow of sourceWorkflows) {
-    const workflowRuns = await github.paginate(
-      `/actions/workflows/${encodeURIComponent(workflow)}/runs?status=completed&branch=${encodeURIComponent(branch)}&created=${date}`,
-      'workflow_runs'
-    );
-    runs.push(...workflowRuns.map((run) => ({ run, workflow })));
+    try {
+      const workflowRuns = await github.paginate(
+        `/actions/workflows/${encodeURIComponent(workflow)}/runs?status=completed&branch=${encodeURIComponent(branch)}&created=${date}`,
+        'workflow_runs'
+      );
+      runs.push(...workflowRuns.map((run) => ({ run, workflow })));
+    } catch (error) {
+      // GitHub only knows workflows that are on the default branch or have run at least once.
+      if (error.status !== 404) {
+        throw error;
+      }
+      console.warn(`Workflow ${workflow} not found (not on the default branch and never run), skipping.`);
+    }
   }
 
   if (includeRunId && !runs.some(({ run }) => String(run.id) === includeRunId)) {

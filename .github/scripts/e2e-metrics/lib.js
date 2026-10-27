@@ -78,7 +78,9 @@ function createGithubClient({ token, repository, apiUrl = 'https://api.github.co
     const url = `${apiUrl}/repos/${repository}${urlPath}`;
     const response = await fetch(url, { headers });
     if (!response.ok) {
-      throw new Error(`GitHub API ${url} returned ${response.status}: ${await response.text()}`);
+      const error = new Error(`GitHub API ${url} returned ${response.status}: ${await response.text()}`);
+      error.status = response.status;
+      throw error;
     }
     return response;
   }

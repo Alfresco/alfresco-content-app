@@ -9,6 +9,7 @@ run-name: ${{ (inputs.send-report || github.event_name == 'push') && 'Populate E
 
 on:
   # Temporary, to test this workflow before it is merged (workflow_dispatch only works once it is on develop).
+  # Add `[report-only]` to the commit message to skip the E2E run and only rebuild the report from today's runs.
   # Remove before merging ACS-13218.
   push:
     branches:
@@ -50,6 +51,7 @@ jobs:
   e2e:
     name: "E2E against local ACS - chrome"
     needs: check-branch
+    if: ${{ !contains(github.event.head_commit.message, '[report-only]') }}
     uses: ./.github/workflows/e2e-playwright-reusable.yml
     with:
       browser: chrome
