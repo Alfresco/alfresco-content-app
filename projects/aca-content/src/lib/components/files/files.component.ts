@@ -47,7 +47,7 @@ import {
   ToolbarComponent
 } from '@alfresco/aca-shared';
 import { isAdmin, SetCurrentFolderAction, showLoaderSelector, UploadFileVersionAction } from '@alfresco/aca-shared/store';
-import { debounceTime } from 'rxjs/operators';
+import { catchError, debounceTime, switchMap, tap } from 'rxjs/operators';
 import {
   BreadcrumbComponent,
   DocumentListComponent,
@@ -67,6 +67,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpErrorResponse } from '@angular/common/http';
 import { extractFiltersFromEncodedQuery } from '../../utils/aca-search-utils';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { EMPTY } from 'rxjs';
 
 @Component({
   imports: [
@@ -444,24 +445,53 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   }
 
   onBreadcrumbDrop(event: CdkDragDrop<PathElement, PathElement, DataRow>): void {
-    this.moveNode(event.item.data.id, event.container.data.id);
+    this.moveNode(event.item.data.id, event.container.data.id, event.container.data.name);
   }
 
   onRowDrop(event: { previousIndex: number; currentIndex: number }): void {
     const rows = this.documentList.data.getRows();
     const targetNode = rows[event.currentIndex] as ShareDataRow;
     if (targetNode.node.entry.isFolder) {
-      this.moveNode(rows[event.previousIndex].id, targetNode.id);
+      this.moveNode(rows[event.previousIndex].id, targetNode.id, targetNode.node.entry.name);
     }
   }
 
-  private moveNode(id: string, targetId: string): void {
-    this.documentListService.moveNode(id, targetId).subscribe({
-      next: () => {
-        this.documentListService.reload();
-        this.notificationService.showInfo(this.translateService.instant('APP.MESSAGES.INFO.NODE_MOVE.GENERAL'));
-      },
-      error: () => this.notificationService.showError(this.translateService.instant('APP.MESSAGES.ERRORS.NODE_MOVE'))
-    });
+  private moveNode(id: string, targetId: string, targetName: string): void {
+    this.documentListService
+      .moveNode(id, targetId)
+      .pipe(
+        tap(() => this.documentListService.reload()),
+        switchMap((node) => {
+          const message = this.translateService.instant('APP.MESSAGES.INFO.NODE_MOVE.FROM_TO', {
+            node: node.entry.name,
+            target: this.translateService.instant(targetName)
+          });
+          const actionLabel = this.translateService.instant('APP.ACTIONS.UNDO');
+
+          return this.notificationService
+            .showInfo(message, actionLabel)
+            .onAction()
+            .pipe(
+              switchMap(() =>
+                this.documentListService.moveNode(node.entry.id, this.node.id).pipe(
+                  catchError(() => {
+                    this.notificationService.showError(this.translateService.instant('APP.MESSAGES.ERRORS.MOVE_UNDO'));
+                    return EMPTY;
+                  })
+                )
+              )
+            );
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe({
+        next: () => {
+          this.documentListService.reload();
+          this.notificationService.showInfo(this.translateService.instant('APP.MESSAGES.INFO.NODE_MOVE.UNDO_SUCCESS'));
+        },
+        error: () => {
+          this.notificationService.showError(this.translateService.instant('APP.MESSAGES.ERRORS.NODE_MOVE'));
+        }
+      });
   }
 }

@@ -8,7 +8,8 @@
         [compactMode]="true"
         (navigate)="onBreadcrumbNavigate($event)"
         (breadcrumbPathElementsChange)="breadcrumbPathNames = $event"
-        (dropped)="onBreadcrumbDrop($event)" />
+        (dropped)="onBreadcrumbDrop($event)"
+        [connectedDropListSelector]="'.adf-datatable-body adf-datatable-row'" />
       <aca-toolbar [items]="actions" />
     </div>
   </div>

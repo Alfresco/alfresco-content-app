@@ -375,6 +375,7 @@
                 "GENERIC": "The action was unsuccessful. Try again or contact your IT Team.",
                 "CONFLICT": "This name is already in use, try a different name.",
                 "NODE_MOVE": "Move unsuccessful, a file with the same name already exists.",
+                "MOVE_UNDO": "Move could not be reverted.",
                 "NODE_LINK_DUPLICATE": "Can't create a link, a link with the same name already exists in this location.",
                 "EXISTENT_FOLDER": "There's already a folder with this name. Try a different name.",
                 "NODE_DELETION": "{{ name }} couldn't be deleted",
@@ -447,7 +448,8 @@
                 "NODE_MOVE": {
                     "SINGULAR": "Moved {{ success }} item.",
                     "PLURAL": "Moved {{ success }} items.",
-                    "GENERAL": "Moved item",
+                    "FROM_TO": "{{ node }} moved to {{ target }}",
+                    "UNDO_SUCCESS": "Move reverted successfully",
                     "PARTIAL": {
                         "SINGULAR": "Partially moved {{ partially }} item.",
                         "PLURAL": "Partially moved {{ partially }} items.",
