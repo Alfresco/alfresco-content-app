@@ -443,8 +443,20 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     }
   }
 
-  onBreadcrumbDrop(event: CdkDragDrop<PathElement, PathElement, DataRow>) {
-    this.documentListService.moveNode(event.item.data.id, event.container.data.id).subscribe({
+  onBreadcrumbDrop(event: CdkDragDrop<PathElement, PathElement, DataRow>): void {
+    this.moveNode(event.item.data.id, event.container.data.id);
+  }
+
+  onRowDrop(event: { previousIndex: number; currentIndex: number }): void {
+    const rows = this.documentList.data.getRows();
+    const targetNode = rows[event.currentIndex] as ShareDataRow;
+    if (targetNode.node.entry.isFolder) {
+      this.moveNode(rows[event.previousIndex].id, targetNode.id);
+    }
+  }
+
+  private moveNode(id: string, targetId: string): void {
+    this.documentListService.moveNode(id, targetId).subscribe({
       next: () => {
         this.documentListService.reload();
         this.notificationService.showInfo(this.translateService.instant('APP.MESSAGES.INFO.NODE_MOVE.GENERAL'));
