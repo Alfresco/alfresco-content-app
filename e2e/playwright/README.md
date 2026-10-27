@@ -168,6 +168,22 @@ CI e2e test results are automatically reported to Report Portal for analysis and
 - Project name: `alfresco-content-app`
 - Tests are reported only in CI environments (not locally)
 
+### Weekly Flaky and Slow Tests Report (Teams)
+
+A weekly summary of flaky and slow tests is posted to the E2E Teams channel by the [E2E metrics report](../../.github/workflows/e2e-metrics-report.yml) workflow. Only runs on `develop` are counted.
+
+1. **Data collection** - the daily [chrome cron run](../../.github/workflows/cron-e2e-chrome.yml) and the [Populate E2E reports](../../.github/workflows/populate-e2e-reports.yml) workflow (runs the suites in chrome against a locally deployed ACS, like the cron runs and pull requests) write a Playwright JSON report of every suite attempt (`E2E_METRICS_FILE`) and upload it as an `e2e-metrics-<browser>-<suite>` artifact (kept for 14 days).
+2. **Daily** (04:00 UTC) - the previous UTC day's runs are compacted into an `e2e-metrics-daily-<date>` artifact (kept for 90 days) with per-test runs, retries, failures and durations.
+3. **Weekly** (Mondays) - the last 7 daily artifacts are aggregated and posted to Teams:
+   - **Flaky tests** - retries per number of runs (e.g. `4 / 10` = 4 retries in 10 runs), sorted by retries
+   - **Slowest tests** - average duration of passed attempts, sorted from longest to shortest
+
+Teams shows the top 15 tests of each list; the full lists are in the workflow run summary and in the `e2e-metrics-weekly-<date>` artifact.
+To backfill a missing day or post a report on demand, run the E2E metrics report workflow manually with the `date` and `post-report` inputs.
+
+To add data on demand, run **Populate E2E reports** from `develop`. With **Send a report to the Teams channel** checked, it also posts a report covering the last `report-days` days (default 14) of daily chrome cron and populate runs, including all of today's runs.
+
+The [multibrowser cron run](../../.github/workflows/cron-e2e.yml) (firefox, webkit, msedge) runs every Saturday and is not counted in these reports.
 
 ## Browser Support
 

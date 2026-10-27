@@ -16,6 +16,10 @@ inputs:
     description: 'Maximum number of times to run the whole test suite (1 = no retry)'
     required: false
     default: '1'
+  metrics-dir:
+    description: 'If set, a Playwright JSON report of each suite attempt is written to this directory (attempt-<n>.json) for the weekly E2E metrics report'
+    required: false
+    default: ''
 
 runs:
   using: "composite"
@@ -38,7 +42,13 @@ runs:
         OPTIONS: ${{ inputs.options }}
         PLAYWRIGHT_BROWSER: ${{ env.PLAYWRIGHT_BROWSER || 'chromium' }}
         SUITE_ATTEMPTS: ${{ inputs.suite-attempts }}
+        METRICS_DIR: ${{ inputs.metrics-dir }}
       run: |
+        if [ -n "${METRICS_DIR}" ]; then
+          mkdir -p -- "${METRICS_DIR}"
+          METRICS_DIR=$(cd -- "${METRICS_DIR}" && pwd)
+        fi
+
         # Only start local server if using localhost
         if [[ "${PLAYWRIGHT_E2E_HOST}" == "http://localhost"* ]]; then
           pnpm start > /dev/null &
@@ -55,6 +65,8 @@ runs:
           echo "Running playwright tests with options $OPTIONS on browser ${PLAYWRIGHT_BROWSER} (suite attempt $attempt/${SUITE_ATTEMPTS:-1})"
           # Clear any blob report from a previous attempt so only the final attempt is reported.
           if [ -n "${PLAYWRIGHT_BLOB_DIR:-}" ]; then rm -rf -- "${PLAYWRIGHT_BLOB_DIR}"; fi
+          # Unlike the blob report, metrics keep every attempt so suite-level reruns count towards flakiness.
+          if [ -n "${METRICS_DIR}" ]; then export E2E_METRICS_FILE="${METRICS_DIR}/attempt-${attempt}.json"; fi
           if E2E_TARGET=$OPTIONS pnpm ci:e2e; then
             exit 0
           fi

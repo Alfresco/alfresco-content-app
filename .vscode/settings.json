@@ -16,5 +16,8 @@
   "stylelint.validate": [
     "css",
     "scss"
-  ]
+  ],
+  "chat.tools.terminal.autoApprove": {
+    "gh": true
+  }
 }

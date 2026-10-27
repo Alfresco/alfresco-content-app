@@ -6,6 +6,11 @@ on:
       browser:
         required: true
         type: string
+      collect-metrics:
+        description: 'Upload per-test retry/duration metrics for the weekly E2E metrics report'
+        required: false
+        type: boolean
+        default: false
     secrets:
       REPORT_PORTAL_TOKEN:
         required: true
@@ -193,6 +198,7 @@ jobs:
           artifact-name: "${{ matrix.browser }}-${{ matrix.e2e-suites.name }}"
           test-runner: playwright
           suite-attempts: '2'
+          metrics-dir: ${{ inputs.collect-metrics && format('{0}/e2e-metrics', github.workspace) || '' }}
         env:
           PLAYWRIGHT_BROWSER: ${{ matrix.browser }}
           E2E_BLOB_REPORT: 'true'
@@ -206,6 +212,16 @@ jobs:
           path: ${{ github.workspace }}/blob-report
           if-no-files-found: ignore
           retention-days: 3
+
+      - name: Upload E2E metrics
+        if: ${{ always() && inputs.collect-metrics }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2e-metrics-${{ matrix.browser }}-${{ matrix.e2e-suites.name }}
+          path: ${{ github.workspace }}/e2e-metrics
+          if-no-files-found: ignore
+          retention-days: 14
+          overwrite: true
 
       - name: Debug Ingress Controller Logs
         if: always() && steps.deploy-local-acs.outcome == 'success'
