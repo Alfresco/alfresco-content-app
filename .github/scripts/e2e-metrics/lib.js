@@ -28,7 +28,8 @@
  * Shared helpers for the E2E metrics pipeline:
  *  - GitHub REST API access (listing runs/artifacts, downloading artifact zips),
  *  - extracting per-test retry/duration metrics from Playwright JSON reports,
- *  - merging those metrics across runs and days.
+ *  - merging those metrics across runs and days,
+ *  - loading daily metrics files (local or from `e2e-metrics-daily-<date>` artifacts).
  */
 
 const fs = require('fs');
@@ -128,11 +129,27 @@ function parseRunArtifactName(name) {
   return match ? { browser: match[1], suite: match[2] } : null;
 }
 
-function emptyTestMetrics({ key, suite, file, title }) {
-  return { key, suite, file, title, runs: 0, retries: 0, flakyRuns: 0, failures: 0, durationSum: 0, durationCount: 0, durationMax: 0 };
+function emptyTestMetrics({ key, suite, file, title, path: filePath = null, line = null }) {
+  return {
+    key,
+    suite,
+    file,
+    title,
+    path: filePath,
+    line,
+    runs: 0,
+    retries: 0,
+    flakyRuns: 0,
+    failures: 0,
+    durationSum: 0,
+    durationCount: 0,
+    durationMax: 0
+  };
 }
 
 function addTestMetrics(target, source) {
+  target.path = target.path || source.path || null;
+  target.line = target.line || source.line || null;
   target.runs += source.runs;
   target.retries += source.retries;
   target.flakyRuns += source.flakyRuns;
@@ -161,6 +178,8 @@ function* walkSpecs(suites, titlePath = [], isFileSuite = true) {
  */
 function extractTestMetrics(report, fallbackSuite) {
   const metrics = [];
+  // rootDir is the absolute testDir on the runner, e.g. /home/runner/work/<repo>/<repo>/e2e/playwright/<suite>/src/tests
+  const testDir = /(?:^|\/)(e2e\/playwright\/.+)$/.exec(report.config?.rootDir || '')?.[1];
   for (const { spec, titlePath } of walkSpecs(report.suites)) {
     for (const test of spec.tests || []) {
       const results = (test.results || []).filter((result) => result.status !== 'skipped');
@@ -169,7 +188,14 @@ function extractTestMetrics(report, fallbackSuite) {
       }
       const suite = test.projectName || fallbackSuite;
       const title = titlePath.join(' › ');
-      const entry = emptyTestMetrics({ key: `${suite} › ${spec.file} › ${title}`, suite, file: spec.file, title });
+      const entry = emptyTestMetrics({
+        key: `${suite} › ${spec.file} › ${title}`,
+        suite,
+        file: spec.file,
+        title,
+        path: testDir ? path.posix.join(testDir, spec.file) : null,
+        line: spec.line || null
+      });
       entry.runs = 1;
       entry.retries = results.filter((result) => result.retry > 0).length;
       entry.flakyRuns = test.status === 'flaky' ? 1 : 0;
@@ -214,6 +240,92 @@ function formatDuration(ms) {
   return `${minutes}m ${String(seconds).padStart(2, '0')}s`;
 }
 
+function runUrl() {
+  const { GITHUB_SERVER_URL, GITHUB_REPOSITORY, GITHUB_RUN_ID } = process.env;
+  return GITHUB_SERVER_URL && GITHUB_REPOSITORY && GITHUB_RUN_ID ? `${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}` : null;
+}
+
+/** GitHub Pages URL of the E2E dashboard: DASHBOARD_URL, or the default project site of the repository. */
+function dashboardUrl() {
+  if (process.env.DASHBOARD_URL) {
+    return process.env.DASHBOARD_URL.replace(/\/?$/, '/');
+  }
+  const [owner, repo] = (process.env.GITHUB_REPOSITORY || '').split('/');
+  return owner && repo ? `https://${owner.toLowerCase()}.github.io/${repo}/` : null;
+}
+
+function readDailyFile(file) {
+  const data = JSON.parse(fs.readFileSync(file, 'utf8'));
+  if (data.schemaVersion !== SCHEMA_VERSION) {
+    throw new Error(`Unsupported schemaVersion ${data.schemaVersion} in ${file}`);
+  }
+  return data;
+}
+
+async function downloadDaily(github, date, workDir) {
+  const name = `${DAILY_ARTIFACT_PREFIX}${date}`;
+  const artifacts = (await github.paginate(`/actions/artifacts?name=${encodeURIComponent(name)}`, 'artifacts'))
+    .filter((artifact) => !artifact.expired)
+    .sort((a, b) => b.created_at.localeCompare(a.created_at));
+  if (artifacts.length === 0) {
+    return null;
+  }
+  const targetDir = path.join(workDir, name);
+  await github.downloadArtifact(artifacts[0].id, targetDir);
+  const file = fs.readdirSync(targetDir).find((entry) => entry.endsWith('.json'));
+  return file ? readDailyFile(path.join(targetDir, file)) : null;
+}
+
+/**
+ * Load the daily metrics of `dates` (null for days without data). Files `<date>.json` in DAILY_DIR take precedence;
+ * other days are downloaded from `e2e-metrics-daily-<date>` artifacts unless REMOTE_DATA is `false` or GITHUB_TOKEN is not set.
+ */
+async function loadDailies(dates) {
+  const dailyDir = process.env.DAILY_DIR;
+  const remote = process.env.REMOTE_DATA !== 'false' && !!process.env.GITHUB_TOKEN;
+  const github = remote
+    ? createGithubClient({ token: process.env.GITHUB_TOKEN, repository: requireEnv('GITHUB_REPOSITORY'), apiUrl: process.env.GITHUB_API_URL })
+    : null;
+  const workDir = fs.mkdtempSync(path.join(os.tmpdir(), 'e2e-metrics-dailies-'));
+  try {
+    const dailies = [];
+    for (const date of dates) {
+      const localFile = dailyDir ? path.join(dailyDir, `${date}.json`) : null;
+      if (localFile && fs.existsSync(localFile)) {
+        dailies.push(readDailyFile(localFile));
+      } else {
+        dailies.push(github ? await downloadDaily(github, date, workDir) : null);
+      }
+    }
+    return dailies;
+  } finally {
+    fs.rmSync(workDir, { recursive: true, force: true });
+  }
+}
+
+/** The `days` consecutive dates ending with `endDate`. */
+function dateRange(endDate, days) {
+  return Array.from({ length: days }, (_, index) => shiftDate(endDate, index - days + 1));
+}
+
+async function postToTeams(card) {
+  const webhook = process.env.TEAMS_WEBHOOK_URL;
+  if (!webhook) {
+    console.warn('TEAMS_WEBHOOK_URL is not set, skipping Teams notification.');
+    return;
+  }
+
+  const response = await fetch(webhook, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ type: 'message', attachments: [{ contentType: 'application/vnd.microsoft.card.adaptive', content: card }] })
+  });
+  if (!response.ok) {
+    throw new Error(`Teams webhook returned ${response.status}: ${await response.text()}`);
+  }
+  console.log(`Posted E2E report to Teams (HTTP ${response.status}).`);
+}
+
 function writeJson(file, data) {
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(file, `${JSON.stringify(data, null, 2)}\n`);
@@ -233,5 +345,10 @@ module.exports = {
   mergeTests,
   averageDuration,
   formatDuration,
+  runUrl,
+  dashboardUrl,
+  loadDailies,
+  dateRange,
+  postToTeams,
   writeJson
 };

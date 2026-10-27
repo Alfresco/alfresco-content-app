@@ -1,0 +1,469 @@
+<!doctype html>
+<!--
+  ACA E2E dashboard: flaky and slow Playwright tests, built by .github/scripts/e2e-metrics/build-dashboard.js.
+  Data is loaded from data/history.js (window.E2E_HISTORY). The view state is kept in the URL hash so links can be shared.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ACA E2E dashboard</title>
+    <style>
+      :root {
+        --bg: #f6f8fa;
+        --panel: #ffffff;
+        --text: #1f2328;
+        --muted: #656d76;
+        --border: #d0d7de;
+        --accent: #0969da;
+        --warn: #bf8700;
+        --bad: #cf222e;
+        --good: #1a7f37;
+        --bar: #d4a72c;
+        --line: #0969da;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0d1117;
+          --panel: #161b22;
+          --text: #e6edf3;
+          --muted: #8d96a0;
+          --border: #30363d;
+          --accent: #4493f8;
+          --warn: #d29922;
+          --bad: #f85149;
+          --good: #3fb950;
+          --bar: #bb8009;
+          --line: #4493f8;
+        }
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; font: 14px/1.45 -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); }
+      a { color: var(--accent); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header, main { max-width: 1400px; margin: 0 auto; padding: 16px 24px; }
+      header h1 { margin: 0 0 4px; font-size: 22px; }
+      .muted { color: var(--muted); }
+      .small { font-size: 12px; }
+      .controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; margin: 12px 0; }
+      .controls label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted); }
+      input, select, button { font: inherit; color: var(--text); background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 5px 8px; }
+      input[type='search'] { min-width: 280px; }
+      button { cursor: pointer; }
+      .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 12px 0; }
+      .tile { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; }
+      .tile .value { font-size: 22px; font-weight: 600; }
+      .tile .label { font-size: 12px; color: var(--muted); }
+      .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; margin: 12px 0; }
+      .panel h2 { font-size: 15px; margin: 0 0 8px; }
+      .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-top: 16px; }
+      .tabs button { border: 1px solid transparent; border-bottom: none; border-radius: 6px 6px 0 0; background: transparent; padding: 8px 14px; }
+      .tabs button.active { background: var(--panel); border-color: var(--border); font-weight: 600; margin-bottom: -1px; }
+      table { width: 100%; border-collapse: collapse; }
+      th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+      th { font-size: 12px; color: var(--muted); white-space: nowrap; user-select: none; }
+      th.sortable { cursor: pointer; }
+      th.sorted::after { content: ' ▾'; }
+      th.sorted.asc::after { content: ' ▴'; }
+      td.num, th.num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+      tr.test-row { cursor: pointer; }
+      tr.test-row:hover { background: color-mix(in srgb, var(--accent) 6%, transparent); }
+      .test-title { font-weight: 500; }
+      .warn { color: var(--warn); }
+      .bad { color: var(--bad); }
+      .good { color: var(--good); }
+      .detail td { background: var(--bg); }
+      .detail table { width: auto; min-width: 480px; }
+      .empty { padding: 24px; text-align: center; color: var(--muted); }
+      svg text { fill: var(--muted); font-size: 10px; }
+      .chart-bar { fill: var(--bar); }
+      .chart-bar:hover { opacity: 0.75; }
+      .spark-bar { fill: var(--bar); }
+      .spark-line { fill: none; stroke: var(--line); stroke-width: 1.5; }
+      .spark-dot { fill: var(--line); }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>ACA E2E dashboard</h1>
+      <div class="muted small" id="meta"></div>
+      <div class="controls">
+        <label>Range
+          <select id="days">
+            <option value="7">Last 7 days</option>
+            <option value="14">Last 14 days</option>
+            <option value="30">Last 30 days</option>
+            <option value="90">Last 90 days</option>
+            <option value="all">All history</option>
+          </select>
+        </label>
+        <label>Ending on <input type="date" id="end" /></label>
+        <label>Search <input type="search" id="q" placeholder="Test title, file or XAT id" /></label>
+        <label>Suite <select id="suite"></select></label>
+        <button id="reset" type="button">Reset</button>
+      </div>
+    </header>
+    <main>
+      <div class="tiles" id="tiles"></div>
+      <div class="panel">
+        <h2>Retries per day</h2>
+        <div id="chart"></div>
+      </div>
+      <nav class="tabs" id="tabs">
+        <button data-tab="flaky">🔁 Flaky tests</button>
+        <button data-tab="slowest">🐢 Slowest tests</button>
+        <button data-tab="all">All tests</button>
+        <button data-tab="runs">Runs</button>
+      </nav>
+      <div class="panel" style="margin-top: 0; border-top-left-radius: 0">
+        <div id="table"></div>
+      </div>
+      <p class="muted small">
+        Retries / runs: retries over all runs of a test in the selected range. Retried runs: share of runs that needed at least one
+        retry. Durations are averages of passed attempts only.
+        Click a test to see its daily breakdown.
+      </p>
+    </main>
+
+    <script src="data/history.js"></script>
+    <script>
+      (function () {
+        'use strict';
+
+        const ROW_LIMIT = 200;
+        const DAY_MS = 24 * 60 * 60 * 1000;
+        const metrics = window.E2E_HISTORY;
+        const $ = (id) => document.getElementById(id);
+
+        if (!metrics || !metrics.days) {
+          document.querySelector('main').innerHTML = '<div class="empty">No E2E metrics data found (data/history.js).</div>';
+          return;
+        }
+
+        const DEFAULTS = { tab: 'flaky', days: '14', end: '', q: '', suite: '', sort: '', dir: '' };
+        const TAB_SORT = { flaky: ['retries', 'desc'], slowest: ['avg', 'desc'], all: ['title', 'asc'], runs: ['date', 'desc'] };
+        const lastDate = metrics.days.length ? metrics.days[metrics.days.length - 1].date : new Date().toISOString().slice(0, 10);
+        let state = readState();
+        let showAll = false;
+        const expanded = new Set();
+
+        function esc(value) {
+          return String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+        }
+
+        function shiftDate(date, days) {
+          return new Date(Date.parse(date + 'T00:00:00Z') + days * DAY_MS).toISOString().slice(0, 10);
+        }
+
+        function formatDuration(ms) {
+          const totalSeconds = Math.round(ms / 100) / 10;
+          if (totalSeconds < 60) return totalSeconds.toFixed(1) + 's';
+          const minutes = Math.floor(totalSeconds / 60);
+          return minutes + 'm ' + String(Math.round(totalSeconds - minutes * 60)).padStart(2, '0') + 's';
+        }
+
+        function percent(value) {
+          return (value * 100).toFixed(value > 0 && value < 0.1 ? 1 : 0) + '%';
+        }
+
+        function readState() {
+          const params = new URLSearchParams(location.hash.slice(1));
+          const result = { ...DEFAULTS };
+          for (const key of Object.keys(DEFAULTS)) {
+            if (params.has(key)) result[key] = params.get(key);
+          }
+          return result;
+        }
+
+        function writeState() {
+          const params = new URLSearchParams();
+          for (const [key, value] of Object.entries(state)) {
+            if (value && value !== DEFAULTS[key]) params.set(key, value);
+          }
+          window.history.replaceState(null, '', '#' + params.toString());
+        }
+
+        function setState(patch) {
+          state = { ...state, ...patch };
+          showAll = false;
+          writeState();
+          render();
+        }
+
+        function rangeDates() {
+          const end = state.end || lastDate;
+          if (state.days === 'all') {
+            const first = metrics.days.length ? metrics.days[0].date : end;
+            const count = Math.round((Date.parse(end) - Date.parse(first)) / DAY_MS) + 1;
+            return Array.from({ length: Math.max(count, 1) }, (_, i) => shiftDate(first, i));
+          }
+          const days = Number(state.days) || 14;
+          return Array.from({ length: days }, (_, i) => shiftDate(end, i - days + 1));
+        }
+
+        function aggregate(dates) {
+          const inRange = new Set(dates);
+          const days = metrics.days.filter((day) => inRange.has(day.date));
+          const tests = new Map();
+          const perDay = new Map(dates.map((date) => [date, { retries: 0, testRuns: 0, failures: 0, runs: 0 }]));
+          for (const day of days) {
+            const dayTotals = perDay.get(day.date);
+            dayTotals.runs = day.runs.length;
+            for (const [index, runs, retries, flakyRuns, failures, durationSum, durationCount, durationMax] of day.tests) {
+              let test = tests.get(index);
+              if (!test) {
+                const [suite, file, title, path, line] = metrics.tests[index];
+                test = { index, suite, file, title, path, line, runs: 0, retries: 0, flakyRuns: 0, failures: 0, durationSum: 0, durationCount: 0, max: 0, days: new Map() };
+                tests.set(index, test);
+              }
+              test.runs += runs;
+              test.retries += retries;
+              test.flakyRuns += flakyRuns;
+              test.failures += failures;
+              test.durationSum += durationSum;
+              test.durationCount += durationCount;
+              test.max = Math.max(test.max, durationMax);
+              test.days.set(day.date, { runs, retries, failures, avg: durationCount ? durationSum / durationCount : null });
+              dayTotals.retries += retries;
+              dayTotals.testRuns += runs;
+              dayTotals.failures += failures;
+            }
+          }
+          for (const test of tests.values()) {
+            test.avg = test.durationCount ? test.durationSum / test.durationCount : 0;
+            // Share of runs that needed at least one retry (flaky or failed after all retries).
+            test.rate = test.runs ? (test.flakyRuns + test.failures) / test.runs : 0;
+          }
+          return { days, tests: [...tests.values()], perDay };
+        }
+
+        function sourceLink(test) {
+          if (!test.path || !metrics.repository) return esc(test.file);
+          const url = metrics.serverUrl + '/' + metrics.repository + '/blob/' + (metrics.branch || 'develop') + '/' + test.path + (test.line ? '#L' + test.line : '');
+          return '<a href="' + esc(url) + '" target="_blank" rel="noopener" onclick="event.stopPropagation()">' + esc(test.file) + (test.line ? ':' + test.line : '') + '</a>';
+        }
+
+        function sparkBars(dates, values) {
+          const width = 120, height = 24, max = Math.max(1, ...values);
+          const step = width / dates.length;
+          const bars = values
+            .map((value, i) => (value ? '<rect class="spark-bar" x="' + (i * step).toFixed(1) + '" y="' + (height - (value / max) * height).toFixed(1) + '" width="' + Math.max(step - 1, 1).toFixed(1) + '" height="' + ((value / max) * height).toFixed(1) + '"><title>' + dates[i] + ': ' + value + '</title></rect>' : ''))
+            .join('');
+          return '<svg width="' + width + '" height="' + height + '">' + bars + '</svg>';
+        }
+
+        function sparkLine(dates, values) {
+          const width = 120, height = 24;
+          const points = values.map((value, i) => (value == null ? null : [i, value])).filter(Boolean);
+          if (!points.length) return '';
+          const max = Math.max(...points.map(([, v]) => v)), min = Math.min(...points.map(([, v]) => v));
+          const x = (i) => (dates.length > 1 ? (i / (dates.length - 1)) * (width - 4) + 2 : width / 2);
+          const y = (v) => (max === min ? height / 2 : height - 2 - ((v - min) / (max - min)) * (height - 4));
+          const path = points.map(([i, v], n) => (n ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(v).toFixed(1)).join(' ');
+          const dots = points.map(([i, v]) => '<circle class="spark-dot" cx="' + x(i).toFixed(1) + '" cy="' + y(v).toFixed(1) + '" r="1.8"><title>' + dates[i] + ': ' + formatDuration(v) + '</title></circle>').join('');
+          return '<svg width="' + width + '" height="' + height + '"><path class="spark-line" d="' + path + '"/>' + dots + '</svg>';
+        }
+
+        function renderMeta() {
+          const repo = metrics.repository ? '<a href="' + esc(metrics.serverUrl + '/' + metrics.repository + '/actions') + '" target="_blank" rel="noopener">' + esc(metrics.repository) + '</a> · ' : '';
+          $('meta').innerHTML = repo + 'branch ' + esc(metrics.branch) + ' · ' + metrics.days.length + ' day(s) of history · updated ' + esc(new Date(metrics.generatedAt).toLocaleString());
+        }
+
+        function renderControls(suites) {
+          $('days').value = state.days;
+          $('end').value = state.end || lastDate;
+          if ($('q').value !== state.q) $('q').value = state.q;
+          $('suite').innerHTML = '<option value="">All suites</option>' + suites.map((s) => '<option' + (s === state.suite ? ' selected' : '') + '>' + esc(s) + '</option>').join('');
+          for (const button of $('tabs').querySelectorAll('button')) {
+            button.classList.toggle('active', button.dataset.tab === state.tab);
+          }
+        }
+
+        function renderTiles(data, dates) {
+          const runs = data.days.reduce((sum, day) => sum + day.runs.length, 0);
+          const testRuns = data.tests.reduce((sum, t) => sum + t.runs, 0);
+          const retries = data.tests.reduce((sum, t) => sum + t.retries, 0);
+          const withRetries = data.tests.filter((t) => t.retries > 0).length;
+          const failures = data.tests.reduce((sum, t) => sum + t.failures, 0);
+          const retriedRuns = data.tests.reduce((sum, t) => sum + t.flakyRuns + t.failures, 0);
+          const tiles = [
+            ['Workflow runs', runs],
+            ['Tests', data.tests.length],
+            ['Test runs', testRuns],
+            ['Tests with retries', withRetries, withRetries ? 'warn' : 'good'],
+            ['Total retries', retries, retries ? 'warn' : 'good'],
+            ['Retried test runs', testRuns ? percent(retriedRuns / testRuns) : '–'],
+            ['Failed test runs', failures, failures ? 'bad' : 'good'],
+            ['Days with data', data.days.length + ' / ' + dates.length, data.days.length < dates.length ? 'warn' : '']
+          ];
+          $('tiles').innerHTML = tiles
+            .map(([label, value, cls]) => '<div class="tile"><div class="value ' + (cls || '') + '">' + esc(value) + '</div><div class="label">' + esc(label) + '</div></div>')
+            .join('');
+        }
+
+        function renderChart(data, dates) {
+          const width = Math.max($('chart').clientWidth || 800, 300), height = 120, pad = 18;
+          const values = dates.map((date) => data.perDay.get(date));
+          const max = Math.max(1, ...values.map((v) => v.retries));
+          const step = (width - pad) / dates.length;
+          const labelEvery = Math.ceil(dates.length / 14);
+          let svg = '<svg width="' + width + '" height="' + (height + 16) + '"><text x="0" y="10">' + max + '</text><text x="0" y="' + height + '">0</text>';
+          values.forEach((v, i) => {
+            const h = (v.retries / max) * (height - 12);
+            const x = pad + i * step;
+            svg += '<rect class="chart-bar" x="' + x.toFixed(1) + '" y="' + (height - h).toFixed(1) + '" width="' + Math.max(step - 2, 1).toFixed(1) + '" height="' + Math.max(h, v.testRuns ? 1 : 0).toFixed(1) + '"><title>' +
+              dates[i] + ': ' + v.retries + ' retries in ' + v.testRuns + ' test runs, ' + v.failures + ' failed, ' + v.runs + ' workflow run(s)</title></rect>';
+            if (i % labelEvery === 0) svg += '<text x="' + x.toFixed(1) + '" y="' + (height + 13) + '">' + dates[i].slice(5) + '</text>';
+          });
+          $('chart').innerHTML = svg + '</svg>';
+        }
+
+        function filterTests(tests) {
+          const q = state.q.trim().toLowerCase();
+          return tests.filter((t) => {
+            if (state.suite && t.suite !== state.suite) return false;
+            if (q && !(t.title + ' ' + t.suite + ' ' + t.file).toLowerCase().includes(q)) return false;
+            if (state.tab === 'flaky') return t.retries > 0 || t.failures > 0;
+            if (state.tab === 'slowest') return t.durationCount > 0;
+            return true;
+          });
+        }
+
+        function sortRows(rows, columns) {
+          const [defaultKey, defaultDir] = TAB_SORT[state.tab];
+          const key = columns.some((c) => c.key === state.sort) ? state.sort : defaultKey;
+          const dir = state.sort === key && state.dir ? state.dir : defaultDir;
+          const column = columns.find((c) => c.key === key);
+          const value = column.sortValue || ((row) => row[key]);
+          const sign = dir === 'asc' ? 1 : -1;
+          rows.sort((a, b) => {
+            const va = value(a), vb = value(b);
+            const cmp = typeof va === 'string' ? va.localeCompare(vb) : va - vb;
+            return cmp * sign || String(a.title).localeCompare(String(b.title));
+          });
+          return { key, dir };
+        }
+
+        function testColumns(dates) {
+          const title = {
+            key: 'title',
+            label: 'Test',
+            sortValue: (t) => t.suite + ' ' + t.title,
+            render: (t) => '<div class="test-title">' + esc(t.title) + '</div><div class="muted small">' + esc(t.suite) + ' · ' + sourceLink(t) + '</div>'
+          };
+          const retries = { key: 'retries', label: 'Retries / runs', num: true, render: (t) => '<span class="' + (t.retries ? 'warn' : '') + '">' + t.retries + ' / ' + t.runs + '</span>' };
+          const rate = { key: 'rate', label: 'Retried runs', num: true, render: (t) => percent(t.rate) };
+          const flakyRuns = { key: 'flakyRuns', label: 'Flaky runs', num: true, render: (t) => t.flakyRuns };
+          const failures = { key: 'failures', label: 'Failed runs', num: true, render: (t) => '<span class="' + (t.failures ? 'bad' : '') + '">' + t.failures + '</span>' };
+          const avg = { key: 'avg', label: 'Avg', num: true, render: (t) => (t.durationCount ? formatDuration(t.avg) : '–') };
+          const max = { key: 'max', label: 'Max', num: true, render: (t) => (t.durationCount ? formatDuration(t.max) : '–') };
+          const runs = { key: 'runs', label: 'Runs', num: true, render: (t) => t.runs };
+          const retryTrend = { key: 'retryTrend', label: 'Retries trend', render: (t) => sparkBars(dates, dates.map((d) => t.days.get(d)?.retries || 0)), sortValue: (t) => t.retries };
+          const durationTrend = { key: 'durationTrend', label: 'Duration trend', render: (t) => sparkLine(dates, dates.map((d) => t.days.get(d)?.avg ?? null)), sortValue: (t) => t.avg };
+          if (state.tab === 'flaky') return [title, retries, rate, flakyRuns, failures, avg, retryTrend];
+          if (state.tab === 'slowest') return [title, avg, max, runs, retries, durationTrend];
+          return [title, runs, retries, rate, failures, avg, max];
+        }
+
+        function headerRow(columns, sort) {
+          return '<tr><th class="num">#</th>' + columns
+            .map((c) => '<th data-sort="' + c.key + '" class="sortable' + (c.num ? ' num' : '') + (sort.key === c.key ? ' sorted ' + sort.dir : '') + '">' + esc(c.label) + '</th>')
+            .join('') + '</tr>';
+        }
+
+        function detailRow(test, colspan) {
+          const rows = [...test.days.entries()]
+            .sort(([a], [b]) => b.localeCompare(a))
+            .map(([date, d]) => '<tr><td>' + date + '</td><td class="num">' + d.runs + '</td><td class="num">' + d.retries + '</td><td class="num">' + d.failures + '</td><td class="num">' + (d.avg == null ? '–' : formatDuration(d.avg)) + '</td></tr>')
+            .join('');
+          return '<tr class="detail"><td></td><td colspan="' + colspan + '"><table><tr><th>Date</th><th class="num">Runs</th><th class="num">Retries</th><th class="num">Failed</th><th class="num">Avg (passed)</th></tr>' + rows + '</table></td></tr>';
+        }
+
+        function renderTests(data, dates) {
+          const columns = testColumns(dates);
+          const rows = filterTests(data.tests);
+          const sort = sortRows(rows, columns);
+          if (!rows.length) {
+            $('table').innerHTML = '<div class="empty">No tests match the current filters.</div>';
+            return;
+          }
+          const visible = showAll ? rows : rows.slice(0, ROW_LIMIT);
+          let html = '<table><thead>' + headerRow(columns, sort) + '</thead><tbody>';
+          visible.forEach((test, i) => {
+            html += '<tr class="test-row" data-index="' + test.index + '"><td class="num muted">' + (i + 1) + '</td>' + columns.map((c) => '<td' + (c.num ? ' class="num"' : '') + '>' + c.render(test) + '</td>').join('') + '</tr>';
+            if (expanded.has(test.index)) html += detailRow(test, columns.length);
+          });
+          html += '</tbody></table>';
+          if (rows.length > visible.length) {
+            html += '<div class="empty"><button id="show-all" type="button">Show all ' + rows.length + ' tests</button></div>';
+          }
+          $('table').innerHTML = html;
+        }
+
+        function renderRuns(data) {
+          const runs = data.days.flatMap((day) => day.runs.map((run) => ({ ...run, date: day.date })));
+          const q = state.q.trim().toLowerCase();
+          const rows = runs
+            .filter((run) => !q || (run.title + ' ' + run.workflow).toLowerCase().includes(q))
+            .sort((a, b) => (state.dir === 'asc' ? 1 : -1) * String(a.createdAt || a.date).localeCompare(String(b.createdAt || b.date)));
+          if (!rows.length) {
+            $('table').innerHTML = '<div class="empty">No workflow runs match the current range and search.</div>';
+            return;
+          }
+          const conclusion = (c) => '<span class="' + (c === 'success' ? 'good' : c === 'failure' ? 'bad' : 'muted') + '">' + esc(c || 'in progress') + '</span>';
+          $('table').innerHTML = '<table><thead><tr><th>Date</th><th>Workflow</th><th>Run</th><th>Conclusion</th></tr></thead><tbody>' +
+            rows.map((run) => '<tr><td>' + esc(run.date) + '</td><td>' + esc(run.workflow) + '</td><td><a href="' + esc(run.url) + '" target="_blank" rel="noopener">' + esc(run.title || run.id) + '</a></td><td>' + conclusion(run.conclusion) + '</td></tr>').join('') +
+            '</tbody></table>';
+        }
+
+        function render() {
+          const dates = rangeDates();
+          const data = aggregate(dates);
+          const suites = [...new Set(metrics.tests.map(([suite]) => suite))].sort();
+          renderMeta();
+          renderControls(suites);
+          renderTiles(data, dates);
+          renderChart(data, dates);
+          if (state.tab === 'runs') renderRuns(data);
+          else renderTests(data, dates);
+        }
+
+        $('days').addEventListener('change', (e) => setState({ days: e.target.value }));
+        $('end').addEventListener('change', (e) => setState({ end: e.target.value === lastDate ? '' : e.target.value }));
+        $('q').addEventListener('input', (e) => setState({ q: e.target.value }));
+        $('suite').addEventListener('change', (e) => setState({ suite: e.target.value }));
+        $('reset').addEventListener('click', () => setState({ ...DEFAULTS, tab: state.tab }));
+        $('tabs').addEventListener('click', (e) => {
+          const tab = e.target.closest('button')?.dataset.tab;
+          if (tab) setState({ tab, sort: '', dir: '' });
+        });
+        $('table').addEventListener('click', (e) => {
+          if (e.target.id === 'show-all') {
+            showAll = true;
+            render();
+            return;
+          }
+          const header = e.target.closest('th[data-sort]');
+          if (header) {
+            const key = header.dataset.sort;
+            const current = header.classList.contains('sorted') ? (header.classList.contains('asc') ? 'asc' : 'desc') : null;
+            setState({ sort: key, dir: current === 'desc' ? 'asc' : 'desc' });
+            return;
+          }
+          const row = e.target.closest('tr.test-row');
+          if (row) {
+            const index = Number(row.dataset.index);
+            expanded.has(index) ? expanded.delete(index) : expanded.add(index);
+            render();
+          }
+        });
+        window.addEventListener('hashchange', () => {
+          state = readState();
+          render();
+        });
+        window.addEventListener('resize', () => renderChart(aggregate(rangeDates()), rangeDates()));
+        render();
+      })();
+    </script>
+  </body>
+</html>

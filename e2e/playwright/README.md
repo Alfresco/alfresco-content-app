@@ -168,22 +168,26 @@ CI e2e test results are automatically reported to Report Portal for analysis and
 - Project name: `alfresco-content-app`
 - Tests are reported only in CI environments (not locally)
 
-### Weekly Flaky and Slow Tests Report (Teams)
+### E2E Dashboard (Flaky and Slow Tests)
 
-A weekly summary of flaky and slow tests is posted to the E2E Teams channel by the [E2E metrics report](../../.github/workflows/e2e-metrics-report.yml) workflow. Only runs on `develop` are counted.
+Flaky and slow tests are tracked on the **E2E dashboard**, published to GitHub Pages (`https://alfresco.github.io/alfresco-content-app/`) by the [E2E metrics report](../../.github/workflows/e2e-metrics-report.yml) workflow. Only runs on `develop` are counted.
 
 1. **Data collection** - the daily [chrome cron run](../../.github/workflows/cron-e2e-chrome.yml) and the [Populate E2E reports](../../.github/workflows/populate-e2e-reports.yml) workflow (runs the suites in chrome against a locally deployed ACS, like the cron runs and pull requests) write a Playwright JSON report of every suite attempt (`E2E_METRICS_FILE`) and upload it as an `e2e-metrics-<browser>-<suite>` artifact (kept for 14 days).
-2. **Daily** (04:00 UTC) - the previous UTC day's runs are compacted into an `e2e-metrics-daily-<date>` artifact (kept for 90 days) with per-test runs, retries, failures and durations.
-3. **Weekly** (Mondays) - the last 7 daily artifacts are aggregated and posted to Teams:
-   - **Flaky tests** - retries per number of runs (e.g. `4 / 10` = 4 retries in 10 runs), sorted by retries
-   - **Slowest tests** - average duration of passed attempts, sorted from longest to shortest
+2. **Daily** (04:00 UTC) - the previous UTC day's runs are compacted into an `e2e-metrics-daily-<date>` artifact (kept for 90 days) with per-test runs, retries, failures and durations, and the dashboard is rebuilt and deployed. The dashboard keeps its own history (up to a year), so it is not limited by the artifact retention.
+3. **Weekly** (Mondays) - a short summary with a link to the dashboard is posted to the E2E Teams channel. The full flaky/slowest lists are also in the workflow run summary and in the `e2e-metrics-weekly-<date>` artifact.
 
-Teams shows the top 15 tests of each list; the full lists are in the workflow run summary and in the `e2e-metrics-weekly-<date>` artifact.
-To backfill a missing day or post a report on demand, run the E2E metrics report workflow manually with the `date` and `post-report` inputs.
+The dashboard lets you pick the date range, search tests (title, file or XAT id), filter by suite, sort the lists and expand a test to see its daily breakdown. The view is kept in the URL, so filtered views can be shared as links.
 
-To add data on demand, run **Populate E2E reports** from `develop`. With **Send a report to the Teams channel** checked, it also posts a report covering the last `report-days` days (default 14) of daily chrome cron and populate runs, including all of today's runs.
+- **Flaky tests** - retries per number of runs (e.g. `4 / 10` = 4 retries in 10 runs) and the share of runs that needed a retry
+- **Slowest tests** - average duration of passed attempts, from longest to shortest
 
-The [multibrowser cron run](../../.github/workflows/cron-e2e.yml) (firefox, webkit, msedge) runs every Saturday and is not counted in these reports.
+To backfill a missing day or post the summary on demand, run the E2E metrics report workflow manually with the `date` and `post-report` inputs.
+
+To add data on demand, run **Populate E2E reports** from `develop`. With the report checkbox checked, it also updates the dashboard with today's runs and posts a summary covering the last `report-days` days (default 14). Runs from other branches are never published; they upload a dashboard preview as the `e2e-dashboard` artifact instead (open `index.html` from it locally).
+
+GitHub Pages must be enabled once by a repository admin: **Settings → Pages → Source: GitHub Actions**. A custom dashboard URL can be set with the `E2E_DASHBOARD_URL` repository variable.
+
+The [multibrowser cron run](../../.github/workflows/cron-e2e.yml) (firefox, webkit, msedge) runs every Saturday and is not counted in the dashboard.
 
 ## Browser Support
 

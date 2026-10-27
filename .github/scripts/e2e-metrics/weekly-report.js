@@ -28,87 +28,36 @@
  * Builds the E2E report (weekly by default) from the daily metrics files produced by `collect-daily.js`:
  *  - flaky tests: retries per number of runs (sorted by retries),
  *  - slowest tests: average duration of passed attempts (sorted from longest to shortest).
- * Posts a top-N summary to Teams and writes the full report as JSON and Markdown.
+ * Writes the full report as JSON and Markdown (also to the job summary) and a compact Teams card with the
+ * headline numbers and a link to the E2E dashboard, which is posted when TEAMS_WEBHOOK_URL is set.
  *
  * Env:
  *  - REPORT_END_DATE: last UTC day included in the report (YYYY-MM-DD), defaults to yesterday
  *  - REPORT_DAYS: number of days in the report window (default 7)
  *  - REPORT_TITLE: card/summary title (defaults to "ACA E2E weekly report" or "ACA E2E report - last <n> days")
- *  - DAILY_DIR: daily metrics files (`<date>.json`) in this directory take precedence over downloaded ones
- *  - GITHUB_TOKEN, GITHUB_REPOSITORY: used to download the `e2e-metrics-daily-<date>` artifacts; when not set,
- *    only DAILY_DIR is used
- *  - OUTPUT_DIR: where to write the weekly report files (default `e2e-metrics-weekly`)
- *  - TOP_N: number of tests listed per section in Teams (default 15)
+ *  - DAILY_DIR, REMOTE_DATA, GITHUB_TOKEN, GITHUB_REPOSITORY: where the daily metrics come from (see lib.loadDailies)
  *  - SOURCE_BRANCH: branch the runs were collected from, shown in the report (default `develop`)
- *  - TEAMS_WEBHOOK_URL: Teams webhook; posting is skipped when not set
+ *  - DASHBOARD_PUBLISHED: `true` when the dashboard was deployed with this data, adds an "Open dashboard" button
+ *  - OUTPUT_DIR: where to write the report files (default `e2e-metrics-weekly`)
+ *  - TEAMS_WEBHOOK_URL: Teams webhook; posting is skipped when not set (see also post-teams.js)
  */
 
 const fs = require('fs');
-const os = require('os');
 const path = require('path');
 const {
   SCHEMA_VERSION,
-  DAILY_ARTIFACT_PREFIX,
-  requireEnv,
   assertDate,
-  shiftDate,
   yesterdayUtc,
-  createGithubClient,
   mergeTests,
   averageDuration,
   formatDuration,
+  runUrl,
+  dashboardUrl,
+  loadDailies,
+  dateRange,
+  postToTeams,
   writeJson
 } = require('./lib');
-
-const DEFAULT_TOP_N = 15;
-const MIN_TOP_N = 5;
-// Teams rejects Adaptive Cards above ~28 KB.
-const MAX_CARD_BYTES = 26 * 1024;
-
-function readDailyFile(file) {
-  const data = JSON.parse(fs.readFileSync(file, 'utf8'));
-  if (data.schemaVersion !== SCHEMA_VERSION) {
-    throw new Error(`Unsupported schemaVersion ${data.schemaVersion} in ${file}`);
-  }
-  return data;
-}
-
-function readLocalDaily(dailyDir, date) {
-  const file = path.join(dailyDir, `${date}.json`);
-  return fs.existsSync(file) ? readDailyFile(file) : null;
-}
-
-async function downloadDaily(github, date, workDir) {
-  const name = `${DAILY_ARTIFACT_PREFIX}${date}`;
-  const artifacts = (await github.paginate(`/actions/artifacts?name=${encodeURIComponent(name)}`, 'artifacts'))
-    .filter((artifact) => !artifact.expired)
-    .sort((a, b) => b.created_at.localeCompare(a.created_at));
-  if (artifacts.length === 0) {
-    return null;
-  }
-  const targetDir = path.join(workDir, name);
-  await github.downloadArtifact(artifacts[0].id, targetDir);
-  const file = fs.readdirSync(targetDir).find((entry) => entry.endsWith('.json'));
-  return file ? readDailyFile(path.join(targetDir, file)) : null;
-}
-
-async function loadDailies(dates) {
-  const dailyDir = process.env.DAILY_DIR;
-  const github = process.env.GITHUB_TOKEN
-    ? createGithubClient({ token: process.env.GITHUB_TOKEN, repository: requireEnv('GITHUB_REPOSITORY'), apiUrl: process.env.GITHUB_API_URL })
-    : null;
-  const workDir = fs.mkdtempSync(path.join(os.tmpdir(), 'e2e-metrics-weekly-'));
-  try {
-    const dailies = [];
-    for (const date of dates) {
-      const local = dailyDir ? readLocalDaily(dailyDir, date) : null;
-      dailies.push(local || (github ? await downloadDaily(github, date, workDir) : null));
-    }
-    return dailies;
-  } finally {
-    fs.rmSync(workDir, { recursive: true, force: true });
-  }
-}
 
 function buildReport(dates, dailies, title) {
   const available = dailies.filter(Boolean);
@@ -147,143 +96,63 @@ function buildReport(dates, dailies, title) {
   };
 }
 
-function runUrl() {
-  const { GITHUB_SERVER_URL, GITHUB_REPOSITORY, GITHUB_RUN_ID } = process.env;
-  return GITHUB_SERVER_URL && GITHUB_REPOSITORY && GITHUB_RUN_ID ? `${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}` : null;
+function testLabel(test) {
+  return `${test.title} (${test.suite})`;
 }
 
-function textCell(text, opts = {}) {
-  return {
-    type: 'TableCell',
-    verticalContentAlignment: 'Center',
-    items: [{ type: 'TextBlock', text: String(text), wrap: true, horizontalAlignment: 'Center', ...opts }]
-  };
-}
-
-function testCell(test) {
-  return {
-    type: 'TableCell',
-    verticalContentAlignment: 'Center',
-    items: [
-      { type: 'TextBlock', text: test.suite, wrap: true, size: 'Small', isSubtle: true, spacing: 'None' },
-      { type: 'TextBlock', text: test.title, wrap: true, spacing: 'None' }
-    ]
-  };
-}
-
-function buildTable(headers, widths, rows) {
-  return {
-    type: 'Table',
-    gridStyle: 'accent',
-    firstRowAsHeader: true,
-    columns: widths.map((width) => ({ width })),
-    rows: [
-      {
-        type: 'TableRow',
-        cells: headers.map((header, index) => textCell(header, { weight: 'Bolder', horizontalAlignment: index === 0 ? 'Left' : 'Center' }))
-      },
-      ...rows.map((cells) => ({ type: 'TableRow', cells }))
-    ]
-  };
-}
-
-function sectionTitle(text) {
-  return { type: 'TextBlock', weight: 'Bolder', size: 'Medium', text, separator: true, spacing: 'Large', wrap: true };
-}
-
-function buildCard(report, topN) {
-  const body = [
-    { type: 'TextBlock', size: 'Large', weight: 'Bolder', text: report.title, wrap: true },
-    { type: 'TextBlock', text: `${report.startDate} → ${report.endDate} (UTC)`, isSubtle: true, spacing: 'None' }
-  ];
-
+function buildCard(report, { dashboardLink, runLink, sourceBranch }) {
   const workflowSummary = Object.entries(report.runsByWorkflow)
     .map(([workflow, count]) => `${workflow}: ${count}`)
     .join(', ');
+  const daysTotal = report.missingDays.length + report.daysCollected;
   const facts = [
     { title: 'Workflow runs', value: `${report.runs.length}${workflowSummary ? ` (${workflowSummary})` : ''}` },
-    { title: 'Tests tracked', value: String(report.totals.tests) },
-    { title: 'Test runs', value: String(report.totals.testRuns) },
+    { title: 'Tests / test runs', value: `${report.totals.tests} / ${report.totals.testRuns}` },
     { title: 'Tests with retries', value: String(report.totals.flakyTests) },
-    { title: 'Total retries', value: String(report.totals.retries) }
+    { title: 'Total retries', value: String(report.totals.retries) },
+    { title: report.missingDays.length ? '⚠️ Days collected' : 'Days collected', value: `${report.daysCollected} / ${daysTotal}` }
   ];
-  const daysTotal = report.missingDays.length + report.daysCollected;
-  facts.push({ title: report.missingDays.length ? '⚠️ Days collected' : 'Days collected', value: `${report.daysCollected} / ${daysTotal}` });
-  body.push({ type: 'FactSet', facts });
-
-  if (report.totals.tests === 0) {
-    body.push({ type: 'TextBlock', text: 'No E2E metrics were collected for this period.', wrap: true, color: 'Warning', weight: 'Bolder' });
-  } else {
-    const flaky = report.flaky.slice(0, topN);
-    body.push(sectionTitle(`🔁 Flaky tests (top ${flaky.length} of ${report.flaky.length})`));
-    if (flaky.length) {
-      body.push(
-        buildTable(
-          ['Test', 'Retries / runs', 'Failed runs'],
-          [6, 2, 2],
-          flaky.map((test) => [
-            testCell(test),
-            textCell(`${test.retries} / ${test.runs}`, { color: 'Warning' }),
-            textCell(test.failures, { color: test.failures > 0 ? 'Attention' : 'Default' })
-          ])
-        )
-      );
-    } else {
-      body.push({ type: 'TextBlock', text: 'No test needed a retry this week 🎉', wrap: true, color: 'Good' });
-    }
-
-    const slowest = report.slowest.slice(0, topN);
-    body.push(sectionTitle(`🐢 Slowest tests by average duration (top ${slowest.length} of ${report.slowest.length})`));
-    body.push(
-      buildTable(
-        ['Test', 'Avg', 'Max', 'Runs'],
-        [6, 2, 2, 1],
-        slowest.map((test) => [
-          testCell(test),
-          textCell(formatDuration(test.durationAvg)),
-          textCell(formatDuration(test.durationMax)),
-          textCell(test.runs)
-        ])
-      )
-    );
+  const [mostRetried] = report.flaky;
+  if (mostRetried) {
+    facts.push({ title: '🔁 Most retried', value: `${testLabel(mostRetried)}: ${mostRetried.retries} / ${mostRetried.runs}` });
+  }
+  const [slowest] = report.slowest;
+  if (slowest) {
+    facts.push({ title: '🐢 Slowest (avg)', value: `${testLabel(slowest)}: ${formatDuration(slowest.durationAvg)}` });
   }
 
-  body.push({
-    type: 'TextBlock',
-    text: `Retries / runs: retries over all runs of a test (daily chrome cron and populate E2E reports runs on ${process.env.SOURCE_BRANCH || 'develop'}). Durations are averages of passed attempts only. The full lists are in the workflow run summary.`,
-    wrap: true,
-    size: 'Small',
-    isSubtle: true,
-    separator: true
-  });
+  const body = [
+    { type: 'TextBlock', size: 'Large', weight: 'Bolder', text: report.title, wrap: true },
+    { type: 'TextBlock', text: `${report.startDate} → ${report.endDate} (UTC), ${sourceBranch}`, isSubtle: true, spacing: 'None' },
+    { type: 'FactSet', facts }
+  ];
+  if (report.totals.tests === 0) {
+    body.push({ type: 'TextBlock', text: 'No E2E metrics were collected for this period.', wrap: true, color: 'Warning', weight: 'Bolder' });
+  }
 
-  const url = runUrl();
+  const actions = [];
+  if (dashboardLink) {
+    actions.push({ type: 'Action.OpenUrl', title: 'Open dashboard', url: dashboardLink });
+  }
+  if (runLink) {
+    actions.push({ type: 'Action.OpenUrl', title: dashboardLink ? 'Open run' : 'Open run (full report)', url: runLink });
+  }
+
   return {
     type: 'AdaptiveCard',
     $schema: 'http://adaptivecards.io/schemas/adaptive-card.json',
     version: '1.5',
     msteams: { width: 'Full' },
     body,
-    actions: url ? [{ type: 'Action.OpenUrl', title: 'Open full report', url }] : []
+    actions
   };
-}
-
-/** Build the card with as many rows as fit within the Teams payload limit. */
-function buildCardWithinLimit(report, topN) {
-  let rows = topN;
-  let card = buildCard(report, rows);
-  while (Buffer.byteLength(JSON.stringify(card)) > MAX_CARD_BYTES && rows > MIN_TOP_N) {
-    rows = Math.max(MIN_TOP_N, rows - MIN_TOP_N);
-    card = buildCard(report, rows);
-  }
-  return card;
 }
 
 function escapeMarkdown(text) {
   return String(text).replace(/\|/g, '\\|').replace(/\r?\n/g, ' ');
 }
 
-function buildMarkdown(report) {
+function buildMarkdown(report, dashboardLink) {
   const lines = [
     `# ${report.title}: ${report.startDate} → ${report.endDate} (UTC)`,
     '',
@@ -293,6 +162,9 @@ function buildMarkdown(report) {
   ];
   if (report.missingDays.length) {
     lines.push(`- ⚠️ Missing daily data: ${report.missingDays.join(', ')}`);
+  }
+  if (dashboardLink) {
+    lines.push(`- 📊 [E2E dashboard](${dashboardLink})`);
   }
 
   lines.push('', `## 🔁 Flaky tests (${report.flaky.length})`, '');
@@ -318,35 +190,18 @@ function buildMarkdown(report) {
   return `${lines.join('\n')}\n`;
 }
 
-async function postToTeams(card) {
-  const webhook = process.env.TEAMS_WEBHOOK_URL;
-  if (!webhook) {
-    console.warn('TEAMS_WEBHOOK_URL is not set, skipping Teams notification.');
-    return;
-  }
-
-  const response = await fetch(webhook, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ type: 'message', attachments: [{ contentType: 'application/vnd.microsoft.card.adaptive', content: card }] })
-  });
-  if (!response.ok) {
-    throw new Error(`Teams webhook returned ${response.status}: ${await response.text()}`);
-  }
-  console.log(`Posted E2E report to Teams (HTTP ${response.status}).`);
-}
-
 async function main() {
   const endDate = assertDate(process.env.REPORT_END_DATE || yesterdayUtc(), 'REPORT_END_DATE');
   const days = Number(process.env.REPORT_DAYS) || 7;
   const title = process.env.REPORT_TITLE || (days === 7 ? 'ACA E2E weekly report' : `ACA E2E report - last ${days} days`);
-  const topN = Number(process.env.TOP_N) || DEFAULT_TOP_N;
+  const sourceBranch = process.env.SOURCE_BRANCH || 'develop';
   const outputDir = process.env.OUTPUT_DIR || 'e2e-metrics-weekly';
-  const dates = Array.from({ length: days }, (_, index) => shiftDate(endDate, index - days + 1));
+  const dates = dateRange(endDate, days);
+  const dashboardLink = process.env.DASHBOARD_PUBLISHED === 'true' && dashboardUrl() ? `${dashboardUrl()}#days=${days}&end=${endDate}` : null;
 
   const report = buildReport(dates, await loadDailies(dates), title);
-  const markdown = buildMarkdown(report);
-  const card = buildCardWithinLimit(report, topN);
+  const markdown = buildMarkdown(report, dashboardLink);
+  const card = buildCard(report, { dashboardLink, runLink: runUrl(), sourceBranch });
 
   writeJson(path.join(outputDir, 'report.json'), report);
   writeJson(path.join(outputDir, 'teams-card.json'), card);
