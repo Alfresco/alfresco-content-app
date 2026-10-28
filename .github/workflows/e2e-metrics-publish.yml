@@ -129,7 +129,9 @@ jobs:
           OUTPUT_DIR: e2e-metrics-weekly
         run: node .github/scripts/e2e-metrics/weekly-report.js
 
+      # Develop has the live dashboard, so the preview is only uploaded for other branches.
       - name: Upload dashboard preview
+        if: ${{ !(inputs.deploy-dashboard && inputs.source-branch == 'develop') }}
         uses: actions/upload-artifact@v7
         with:
           name: e2e-dashboard
@@ -142,7 +144,7 @@ jobs:
         with:
           name: e2e-metrics-weekly-${{ steps.params.outputs.end-date }}
           path: e2e-metrics-weekly
-          retention-days: 90
+          retention-days: 14
           overwrite: true
 
       - name: Upload Pages artifact

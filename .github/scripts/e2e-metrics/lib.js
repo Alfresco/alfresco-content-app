@@ -180,6 +180,7 @@ function* walkSpecs(suites, titlePath = [], isFileSuite = true) {
  * `retry > 0` as one retry. Durations are tracked for passed attempts only, so failures and timeouts do not skew
  * them, and include the beforeAll hooks the test depends on. `setupSum` is the beforeAll + beforeEach part of the
  * durations. With `withDurations: false` only runs, retries and failures are counted.
+ * `detail` describes this single run (outcome, retries, duration and every attempt) for the per-run view.
  */
 function testMetrics({ suite, file, title, path: filePath, line, outcome, results, withDurations = true }) {
   const executed = results.filter((result) => result.status !== 'skipped');
@@ -191,13 +192,23 @@ function testMetrics({ suite, file, title, path: filePath, line, outcome, result
   entry.retries = executed.filter((result) => result.retry > 0).length;
   entry.flakyRuns = outcome === 'flaky' ? 1 : 0;
   entry.failures = outcome === 'unexpected' ? 1 : 0;
+  const attemptDuration = (result) => (withDurations ? (result.duration || 0) + (result.beforeAll || 0) : null);
+  const attemptSetup = (result) => (withDurations ? (result.beforeAll || 0) + (result.beforeEach || 0) : null);
   for (const result of withDurations ? executed.filter(({ status }) => status === 'passed') : []) {
-    const duration = (result.duration || 0) + (result.beforeAll || 0);
+    const duration = attemptDuration(result);
     entry.durationSum += duration;
     entry.durationCount += 1;
     entry.durationMax = Math.max(entry.durationMax, duration);
-    entry.setupSum += (result.beforeAll || 0) + (result.beforeEach || 0);
+    entry.setupSum += attemptSetup(result);
   }
+  const passed = executed.find(({ status }) => status === 'passed');
+  entry.detail = {
+    outcome,
+    retries: entry.retries,
+    duration: passed ? attemptDuration(passed) : null,
+    setup: passed ? attemptSetup(passed) : null,
+    attempts: executed.map((result) => ({ status: result.status, duration: attemptDuration(result) }))
+  };
   return entry;
 }
 
@@ -277,9 +288,9 @@ function formatDuration(ms) {
   if (totalSeconds < 60) {
     return `${totalSeconds.toFixed(1)}s`;
   }
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = Math.round(totalSeconds - minutes * 60);
-  return `${minutes}m ${String(seconds).padStart(2, '0')}s`;
+  // Round to whole seconds before splitting, so 119.6s becomes 2m 00s and not 1m 60s.
+  const wholeSeconds = Math.round(ms / 1000);
+  return `${Math.floor(wholeSeconds / 60)}m ${String(wholeSeconds % 60).padStart(2, '0')}s`;
 }
 
 function runUrl() {

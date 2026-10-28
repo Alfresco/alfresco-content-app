@@ -140,9 +140,42 @@ function describeTotals(report) {
   return failures ? `${retriedText} ${count(failures, 'test run')} failed after all retries.` : retriedText;
 }
 
-/** Test title with its suite, unless the title already starts with the suite name. */
+/** The test's own title, without its describe blocks. */
 function testName(test) {
-  return test.title.startsWith(test.suite) ? test.title : `${test.title} (${test.suite})`;
+  return test.title.split(' › ').pop();
+}
+
+function tableRow(cells) {
+  return {
+    type: 'TableRow',
+    cells: cells.map(({ text, ...style }) => ({
+      type: 'TableCell',
+      verticalContentAlignment: 'Center',
+      items: [{ type: 'TextBlock', text, wrap: true, ...style }]
+    }))
+  };
+}
+
+/** Table with the most retried and the slowest test. */
+function highlightsTable(report) {
+  const rows = [];
+  const [mostRetried] = report.flaky;
+  if (mostRetried) {
+    rows.push(
+      tableRow([
+        { text: '🔁 Most retried', weight: 'Bolder' },
+        { text: `${count(mostRetried.retries, 'retry', 'retries')} in ${count(mostRetried.runs, 'run')}`, color: 'Warning' },
+        { text: testName(mostRetried) }
+      ])
+    );
+  }
+  const [slowest] = report.slowest;
+  if (slowest) {
+    rows.push(tableRow([{ text: '🐢 Slowest test', weight: 'Bolder' }, { text: formatDuration(slowest.durationAvg) }, { text: testName(slowest) }]));
+  }
+  return rows.length
+    ? { type: 'Table', firstRowAsHeader: false, showGridLines: true, gridStyle: 'default', columns: [{ width: 2 }, { width: 2 }, { width: 5 }], rows }
+    : null;
 }
 
 function buildCard(report, { dashboardLink, runLink, sourceBranch }) {
@@ -161,19 +194,10 @@ function buildCard(report, { dashboardLink, runLink, sourceBranch }) {
     body.push({ type: 'TextBlock', text: 'No E2E results were collected for this period.', wrap: true, weight: 'Bolder', color: 'Warning' });
   } else {
     body.push({ type: 'TextBlock', text: describeTotals(report), wrap: true });
-    const facts = [];
-    const [mostRetried] = report.flaky;
-    if (mostRetried) {
-      facts.push({
-        title: '🔁 Most retried',
-        value: `${testName(mostRetried)}, ${count(mostRetried.retries, 'retry', 'retries')} in ${count(mostRetried.runs, 'run')}`
-      });
+    const highlights = highlightsTable(report);
+    if (highlights) {
+      body.push(highlights);
     }
-    const [slowest] = report.slowest;
-    if (slowest) {
-      facts.push({ title: '🐢 Slowest on average', value: `${testName(slowest)}, ${formatDuration(slowest.durationAvg)}` });
-    }
-    body.push({ type: 'FactSet', facts });
   }
 
   if (report.missingDays.length) {

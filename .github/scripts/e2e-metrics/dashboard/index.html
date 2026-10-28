@@ -124,7 +124,13 @@
 
       tr.detail > td { background: var(--sunken); padding: 12px 16px; }
       tr.detail table { width: auto; }
-      tr.detail th, tr.detail td { padding: 4px 24px 4px 0; border-bottom: 0; }
+      tr.detail th, tr.detail td { padding: 5px 20px 5px 0; border-bottom: 1px solid var(--rule); }
+      tr.detail tbody tr:last-child td { border-bottom: 0; }
+      .detail-summary { margin: 4px 0 10px; }
+      .detail-note { margin: 10px 0 0; font-size: 13px; color: var(--secondary); }
+      .attempts { max-width: 420px; }
+      .attempt-failed { color: var(--failed); }
+      .slower { color: var(--retried); font-weight: 600; }
 
       .empty { padding: 32px 0; color: var(--secondary); }
       .more { padding: 16px 0 0; }
@@ -148,13 +154,7 @@
 
       <form class="filters" id="filters" onsubmit="return false">
         <label>Period
-          <select id="days">
-            <option value="7">Last 7 days</option>
-            <option value="14">Last 14 days</option>
-            <option value="30">Last 30 days</option>
-            <option value="90">Last 90 days</option>
-            <option value="all">All history</option>
-          </select>
+          <select id="days"></select>
         </label>
         <div class="field date-field" id="date-field">
           <span id="end-label">Up to</span>
@@ -181,6 +181,12 @@
         'use strict';
 
         const TOP_LIMIT = 10;
+        const RUN_LIMIT = 20;
+        // Runs this much slower than the test's average are highlighted in the per-run view.
+        const SLOW_RUN_RATIO = 0.2;
+        const WORKFLOW_NAMES = { 'cron-e2e-chrome.yml': 'Daily chrome run', 'populate-e2e-reports.yml': 'Populate run' };
+        const OUTCOME_LABELS = { p: ['Passed', 'secondary'], r: ['Passed on retry', 'is-retried'], f: ['Failed', 'is-failed'] };
+        const ATTEMPT_LABELS = { p: 'passed', f: 'failed', t: 'timed out', i: 'interrupted' };
         const ALL_LIMIT = 200;
         const STALE_AFTER_HOURS = 36;
         const DAY_MS = 24 * 60 * 60 * 1000;
@@ -198,11 +204,14 @@
         const TAB_SORT = { flaky: ['retries', 'desc'], slowest: ['avg', 'desc'], all: ['title', 'asc'], runs: ['date', 'desc'] };
         const lastDate = metrics.days.length ? metrics.days[metrics.days.length - 1].date : new Date().toISOString().slice(0, 10);
         const firstDate = metrics.days.length ? metrics.days[0].date : lastDate;
+        // Periods that fit in the kept history (14 days by default).
+        const PERIODS = [7, 14, 30, 90].filter((days) => days <= (metrics.historyDays || 14));
+        $('days').innerHTML = PERIODS.map((days) => '<option value="' + days + '">Last ' + days + ' days</option>').join('');
         const datesWithData = new Set(metrics.days.map((day) => day.date));
 
         // What each column means; shown as the column tooltip and in the legend below each list.
         const COLUMN_HELP = {
-          title: 'Describe blocks and title of the test, with its suite and file. Click a row to see its numbers by day.',
+          title: 'Describe blocks and title of the test, with its suite and file. Click a row to see every run of the test: its result, retries, each attempt and how long it took.',
           retries: 'How many times Playwright retried the test. On CI a failed test is retried up to 2 times, so one run can add 2 retries and the total can be higher than the number of runs.',
           rate: 'Runs that needed at least one retry, whether the test passed in the end or not, and their share of all runs. A run counts once however many retries it needed: 17 retried runs out of 31, 10 of them retried twice and 7 once, give 27 retries and 55%.',
           failures: 'Runs where the test still failed after all retries.',
@@ -230,6 +239,8 @@
         let legendOpen = false;
         let calendarMonth = lastDate.slice(0, 7);
         const expanded = new Set();
+        // Tests whose per-run view shows all runs instead of the latest RUN_LIMIT.
+        const allRunsShown = new Set();
 
         function esc(value) {
           return String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -246,8 +257,9 @@
         function formatDuration(ms) {
           const totalSeconds = Math.round(ms / 100) / 10;
           if (totalSeconds < 60) return totalSeconds.toFixed(1) + 's';
-          const minutes = Math.floor(totalSeconds / 60);
-          return minutes + 'm ' + String(Math.round(totalSeconds - minutes * 60)).padStart(2, '0') + 's';
+          // Round to whole seconds before splitting, so 119.6s becomes 2m 00s and not 1m 60s.
+          const wholeSeconds = Math.round(ms / 1000);
+          return Math.floor(wholeSeconds / 60) + 'm ' + String(wholeSeconds % 60).padStart(2, '0') + 's';
         }
 
         function percent(value) {
@@ -282,13 +294,14 @@
           render();
         }
 
+        function periodDays() {
+          const days = Number(state.days);
+          return PERIODS.includes(days) ? days : PERIODS[PERIODS.length - 1];
+        }
+
         function rangeDates() {
           const end = state.end || lastDate;
-          if (state.days === 'all') {
-            const count = Math.round((Date.parse(end) - Date.parse(firstDate)) / DAY_MS) + 1;
-            return Array.from({ length: Math.max(count, 1) }, (_, i) => shiftDate(firstDate, i));
-          }
-          const days = Number(state.days) || 14;
+          const days = periodDays();
           return Array.from({ length: days }, (_, i) => shiftDate(end, i - days + 1));
         }
 
@@ -301,7 +314,7 @@
               let test = tests.get(index);
               if (!test) {
                 const [suite, file, title, path, line] = metrics.tests[index];
-                test = { index, suite, file, title, path, line, runs: 0, retries: 0, flakyRuns: 0, failures: 0, durationSum: 0, durationCount: 0, setupSum: 0, max: 0, days: new Map() };
+                test = { index, suite, file, title, path, line, runs: 0, retries: 0, flakyRuns: 0, failures: 0, durationSum: 0, durationCount: 0, setupSum: 0, max: 0, runResults: [], daysWithoutDetail: 0 };
                 tests.set(index, test);
               }
               test.runs += runs;
@@ -312,13 +325,10 @@
               test.durationCount += durationCount;
               test.setupSum += setupSum;
               test.max = Math.max(test.max, durationMax);
-              test.days.set(day.date, {
-                runs,
-                retries,
-                failures,
-                avg: durationCount ? durationSum / durationCount : null,
-                setup: durationCount ? setupSum / durationCount : null
-              });
+              if (!day.results) test.daysWithoutDetail += 1;
+            }
+            for (const [index, runIndex, suiteAttempt, outcome, retries, duration, setup, attempts] of day.results || []) {
+              tests.get(index)?.runResults.push({ date: day.date, run: day.runs[runIndex], suiteAttempt, outcome, retries, duration, setup, attempts });
             }
           }
           for (const test of tests.values()) {
@@ -358,7 +368,7 @@
         }
 
         function renderFilters(suites) {
-          $('days').value = state.days;
+          $('days').value = String(periodDays());
           $('end').textContent = formatDate(state.end || lastDate, { year: 'numeric' });
           if ($('q').value !== state.q) $('q').value = state.q;
           $('suite').innerHTML = '<option value="">All suites</option>' + suites.map((s) => '<option' + (s === state.suite ? ' selected' : '') + '>' + esc(s) + '</option>').join('');
@@ -472,12 +482,67 @@
             .join('') + '</tr>';
         }
 
+        function runSummary(test) {
+          const runs = plural(test.runs, 'run');
+          let text = test.retried
+            ? 'Needed a retry in ' + numberFormat.format(test.retried) + ' of ' + runs + (test.failures ? ', ' + numberFormat.format(test.failures) + ' of which still failed' : '') + '.'
+            : 'Passed on the first attempt in all ' + runs + '.';
+          const durations = test.runResults.map((r) => r.duration).filter((d) => d != null);
+          if (durations.length) {
+            text += ' Passed runs took ' + formatDuration(Math.min(...durations)) + ' to ' + formatDuration(Math.max(...durations)) + ', ' + formatDuration(test.avg) + ' on average.';
+          }
+          return text;
+        }
+
+        function runLink(result) {
+          const run = result.run || {};
+          const name = WORKFLOW_NAMES[run.workflow] || run.workflow || 'Workflow run';
+          const link = run.url ? '<a href="' + esc(run.url) + '" target="_blank" rel="noopener">' + esc(name) + '</a>' : esc(name);
+          return link + (result.suiteAttempt > 1 ? ' <span class="secondary">(suite re-run ' + result.suiteAttempt + ')</span>' : '');
+        }
+
+        function attemptList(result) {
+          if (!result.attempts) return '';
+          return result.attempts
+            .map(([status, duration]) => '<span class="' + (status === 'p' ? '' : 'attempt-failed') + '">' + (ATTEMPT_LABELS[status] || status) + (duration == null ? '' : ' ' + formatDuration(duration)) + '</span>')
+            .join(', ');
+        }
+
+        function versusAverage(result, test) {
+          if (result.duration == null || !test.durationCount) return '';
+          const diff = result.duration - test.avg;
+          const text = (diff >= 0 ? '+' : '−') + formatDuration(Math.abs(diff));
+          return diff > test.avg * SLOW_RUN_RATIO ? '<span class="slower">' + text + '</span>' : '<span class="secondary">' + text + '</span>';
+        }
+
         function detailRow(test, colspan) {
-          const rows = [...test.days.entries()]
-            .sort(([a], [b]) => b.localeCompare(a))
-            .map(([date, d]) => '<tr><td>' + formatDate(date) + '</td><td class="num">' + d.runs + '</td><td class="num">' + d.retries + '</td><td class="num">' + d.failures + '</td><td class="num">' + (d.avg == null ? '' : formatDuration(d.avg)) + '</td><td class="num">' + (d.setup == null ? '' : formatDuration(d.setup)) + '</td></tr>')
+          const results = test.runResults
+            .slice()
+            .sort((a, b) => String(b.run?.createdAt || b.date).localeCompare(String(a.run?.createdAt || a.date)) || b.suiteAttempt - a.suiteAttempt);
+          const showAllRuns = allRunsShown.has(test.index);
+          const visible = showAllRuns ? results : results.slice(0, RUN_LIMIT);
+          const rows = visible
+            .map((r) => {
+              const [label, cls] = OUTCOME_LABELS[r.outcome] || [r.outcome, ''];
+              return '<tr><td>' + formatDate(r.date) + '</td><td>' + runLink(r) + '</td><td><span class="' + cls + '">' + label + '</span></td>' +
+                '<td class="num">' + (r.retries || '<span class="secondary">0</span>') + '</td><td class="attempts">' + attemptList(r) + '</td>' +
+                '<td class="num">' + (r.duration == null ? '<span class="secondary">–</span>' : formatDuration(r.duration)) + '</td>' +
+                '<td class="num">' + (r.setup == null ? '' : formatDuration(r.setup)) + '</td><td class="num">' + versusAverage(r, test) + '</td></tr>';
+            })
             .join('');
-          return '<tr class="detail"><td></td><td colspan="' + colspan + '"><h2>By day</h2><table><thead><tr><th>Date</th><th class="num">Runs</th><th class="num">Retries</th><th class="num">Failed</th><th class="num">Avg duration</th><th class="num">Setup</th></tr></thead><tbody>' + rows + '</tbody></table></td></tr>';
+          let html = '<tr class="detail"><td></td><td colspan="' + colspan + '"><h2>Runs</h2><p class="detail-summary">' + esc(runSummary(test)) + '</p>';
+          if (results.length) {
+            html += '<table><thead><tr><th>Date</th><th>Run</th><th>Result</th><th class="num">Retries</th><th>Attempts</th>' +
+              '<th class="num" title="Passed attempt, including setup">Duration</th><th class="num">Setup</th>' +
+              '<th class="num" title="Difference from the average duration in the selected period. Runs more than 20% slower are highlighted.">vs average</th></tr></thead><tbody>' + rows + '</tbody></table>';
+          }
+          if (results.length > RUN_LIMIT) {
+            html += '<div class="more"><button type="button" data-runs-toggle="' + test.index + '">' + (showAllRuns ? 'Show the latest ' + RUN_LIMIT + ' runs only' : 'Show all ' + results.length + ' runs') + '</button></div>';
+          }
+          if (test.daysWithoutDetail) {
+            html += '<p class="detail-note">Run details are kept for ' + (metrics.detailDays || 14) + ' days, so ' + plural(test.daysWithoutDetail, 'earlier day') + ' only count towards the totals.</p>';
+          }
+          return html + '</td></tr>';
         }
 
         function legend(entries) {
@@ -654,6 +719,14 @@
 
         $('panel').addEventListener('click', (e) => {
           if (e.target.closest('a')) return;
+          const runsToggle = e.target.closest('[data-runs-toggle]');
+          if (runsToggle) {
+            const index = Number(runsToggle.dataset.runsToggle);
+            allRunsShown.has(index) ? allRunsShown.delete(index) : allRunsShown.add(index);
+            render();
+            document.querySelector('[data-runs-toggle="' + index + '"]')?.focus();
+            return;
+          }
           if (e.target.id === 'toggle-rows') {
             showAll = !showAll;
             render();

@@ -78,7 +78,8 @@ jobs:
         with:
           name: e2e-metrics-daily-${{ steps.params.outputs.date }}
           path: e2e-metrics-daily/${{ steps.params.outputs.date }}.json
-          retention-days: 90
+          # Covers the 14-day report window; the dashboard keeps the same 14 days of history.
+          retention-days: 14
           overwrite: true
 
   publish:
