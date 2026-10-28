@@ -86,6 +86,10 @@
       .stat .label { font-size: 13px; color: var(--secondary); }
       .stat.is-retried .value { color: var(--retried); }
       .stat.is-failed .value { color: var(--failed); }
+      .stat.is-slow .value { color: var(--duration); }
+      button.stat { display: block; width: auto; text-align: left; font: inherit; color: inherit; background: none; border: 0; border-left: 1px solid var(--rule); border-radius: 0; cursor: pointer; }
+      button.stat:hover { background: var(--sunken); }
+      button.stat .label { text-decoration: underline; }
       .days-note { margin: 8px 0 0; font-size: 13px; color: var(--secondary); }
 
       /* Tabs sit on a tinted band; the selected tab opens into the panel below. Accents follow the data colours. */
@@ -95,6 +99,7 @@
       .tabs button[aria-selected='true'] { color: var(--ink); background: var(--page); font-weight: 600; }
       .tabs button[data-tab='flaky'] { --accent: var(--retried); }
       .tabs button[data-tab='slowest'] { --accent: var(--duration); }
+      .tabs button[data-tab='failed'] { --accent: var(--failed); }
       .tab-panel { border: 1px solid var(--rule); border-top: 0; border-radius: 0 0 6px 6px; padding: 0 16px 16px; }
 
       .table-wrap { overflow-x: auto; }
@@ -187,6 +192,9 @@
         const WORKFLOW_NAMES = { 'cron-e2e-chrome.yml': 'Daily chrome run', 'populate-e2e-reports.yml': 'Populate run' };
         const OUTCOME_LABELS = { p: ['Passed', 'secondary'], r: ['Passed on retry', 'is-retried'], f: ['Failed', 'is-failed'] };
         const ATTEMPT_LABELS = { p: 'passed', f: 'failed', t: 'timed out', i: 'interrupted' };
+        // Workflow run conclusions listed under Failed workflows; the order ranks results when sorting by Result.
+        const FAILED_CONCLUSIONS = new Set(['failure', 'timed_out']);
+        const CONCLUSION_ORDER = ['success', 'neutral', 'skipped', 'cancelled', null, 'timed_out', 'failure'];
         const ALL_LIMIT = 200;
         const STALE_AFTER_HOURS = 36;
         const DAY_MS = 24 * 60 * 60 * 1000;
@@ -201,7 +209,7 @@
         }
 
         const DEFAULTS = { tab: 'flaky', days: '14', end: '', q: '', suite: '', sort: '', dir: '' };
-        const TAB_SORT = { flaky: ['retries', 'desc'], slowest: ['avg', 'desc'], all: ['title', 'asc'], runs: ['date', 'desc'] };
+        const TAB_SORT = { flaky: ['retries', 'desc'], slowest: ['avg', 'desc'], all: ['title', 'asc'], runs: ['date', 'desc'], failed: ['date', 'desc'] };
         const lastDate = metrics.days.length ? metrics.days[metrics.days.length - 1].date : new Date().toISOString().slice(0, 10);
         const firstDate = metrics.days.length ? metrics.days[0].date : lastDate;
         // Periods that fit in the kept history (14 days by default).
@@ -224,14 +232,15 @@
           flaky: 'Tests that needed at least one retry or failed in the selected period, ordered by retries.',
           slowest: 'Tests that passed at least once in the selected period, ordered by average duration.',
           all: 'Every test that ran in the selected period.',
-          runs: 'Workflow runs whose test results are included: the daily chrome run and Populate E2E reports runs on ' + (metrics.branch || 'develop') + '.'
+          runs: 'Workflow runs whose test results are included: the daily chrome run and Populate E2E reports runs on ' + (metrics.branch || 'develop') + '.',
+          failed: 'Workflow runs that failed or timed out. A failed run still provides results for the tests that ran.'
         };
-        const RUNS_HELP = [
-          ['Date', 'Day the workflow run started (UTC).'],
-          ['Workflow', 'Workflow file that produced the results.'],
-          ['Run', 'Link to the workflow run on GitHub, with its logs and artifacts.'],
-          ['Result', 'Outcome of the whole workflow run. A failed run still provides results for the tests that ran.']
-        ];
+        const RUNS_HELP = {
+          date: 'Day the workflow run started (UTC).',
+          workflow: 'Workflow file that produced the results.',
+          run: 'Link to the workflow run on GitHub, with its logs and artifacts.',
+          result: 'Outcome of the whole workflow run. A failed run still provides results for the tests that ran. Sorting puts failed runs first, then timed out, in progress, cancelled and successful runs.'
+        };
 
         let state = readState();
         let showAll = false;
@@ -375,22 +384,26 @@
         }
 
         function renderSummary(data, dates) {
-          const runs = data.days.reduce((sum, day) => sum + day.runs.length, 0);
-          const testRuns = data.tests.reduce((sum, t) => sum + t.runs, 0);
-          const retries = data.tests.reduce((sum, t) => sum + t.retries, 0);
-          const withRetries = data.tests.filter((t) => t.retries > 0).length;
-          const failures = data.tests.reduce((sum, t) => sum + t.failures, 0);
-          const retriedRuns = data.tests.reduce((sum, t) => sum + t.retried, 0);
+          const runs = data.days.flatMap((day) => day.runs);
+          const failedRuns = runs.filter(isFailedRun).length;
+          const flaky = data.tests.filter(tabFilter('flaky')).length;
+          const slowest = data.tests.filter(tabFilter('slowest')).reduce((top, t) => (!top || t.avg > top.avg ? t : top), null);
           const stats = [
-            ['Tests with retries', numberFormat.format(withRetries) + ' <small>of ' + numberFormat.format(data.tests.length) + '</small>', withRetries ? 'is-retried' : ''],
-            ['Retried test runs', testRuns ? percent(retriedRuns / testRuns) : 'none', retriedRuns ? 'is-retried' : ''],
-            ['Retries', numberFormat.format(retries), ''],
-            ['Failed test runs', numberFormat.format(failures), failures ? 'is-failed' : ''],
-            ['Test runs', numberFormat.format(testRuns), ''],
-            ['Workflow runs', numberFormat.format(runs), '']
+            { tab: 'flaky', label: 'Flaky tests', value: numberFormat.format(flaky) + ' <small>of ' + numberFormat.format(data.tests.length) + '</small>', cls: flaky ? 'is-retried' : '' },
+            {
+              tab: 'slowest',
+              label: 'Slowest test',
+              value: slowest ? formatDuration(slowest.avg) + ' <small>on average</small>' : 'none',
+              cls: slowest ? 'is-slow' : '',
+              title: slowest ? slowest.title + ' (' + slowest.suite + '). Show the slowest tests' : 'Show the slowest tests'
+            },
+            { tab: 'runs', label: 'Workflow runs', value: numberFormat.format(runs.length) },
+            { tab: 'failed', label: 'Failed workflows', value: numberFormat.format(failedRuns), cls: failedRuns ? 'is-failed' : '' }
           ];
           $('summary').innerHTML = stats
-            .map(([label, value, cls]) => '<div class="stat ' + cls + '"><div class="value">' + value + '</div><div class="label">' + esc(label) + '</div></div>')
+            .map(({ tab, label, value, cls = '', title }) =>
+              '<button type="button" class="stat ' + cls + '" data-tab="' + tab + '" title="' + esc(title || 'Show the ' + label.toLowerCase()) + '">' +
+              '<div class="value">' + value + '</div><div class="label">' + esc(label) + '</div></button>')
             .join('');
           const missing = dates.length - data.days.length;
           $('days-note').hidden = missing === 0;
@@ -402,7 +415,8 @@
             ['flaky', '🔁 Flaky tests', counts.flaky],
             ['slowest', '🐢 Slowest tests', null],
             ['all', 'All tests', counts.all],
-            ['runs', 'Workflow runs', counts.runs]
+            ['runs', 'Workflow runs', counts.runs],
+            ['failed', 'Failed workflows', counts.failed]
           ];
           $('tabs').innerHTML = tabs
             .map(([id, label, count]) => '<button type="button" role="tab" data-tab="' + id + '" aria-selected="' + (state.tab === id) + '">' + label + (count == null ? '' : ' <span class="secondary">' + numberFormat.format(count) + '</span>') + '</button>')
@@ -421,7 +435,19 @@
           return () => true;
         }
 
-        function sortRows(rows, columns) {
+        function isFailedRun(run) {
+          return FAILED_CONCLUSIONS.has(run.conclusion);
+        }
+
+        function runTime(run) {
+          return String(run.createdAt || run.date);
+        }
+
+        // Equal tests: the one that failed more often first, so tests that never passed rank above flaky ones.
+        const testTieBreak = (a, b) => b.failures - a.failures || String(a.title).localeCompare(String(b.title));
+        const runTieBreak = (a, b) => runTime(b).localeCompare(runTime(a));
+
+        function sortRows(rows, columns, tieBreak = testTieBreak) {
           const [defaultKey, defaultDir] = TAB_SORT[state.tab];
           const key = columns.some((c) => c.key === state.sort) ? state.sort : defaultKey;
           const dir = state.sort === key && state.dir ? state.dir : defaultDir;
@@ -431,7 +457,7 @@
           rows.sort((a, b) => {
             const va = value(a), vb = value(b);
             const cmp = typeof va === 'string' ? va.localeCompare(vb) : va - vb;
-            return cmp * sign || String(a.title).localeCompare(String(b.title));
+            return cmp * sign || tieBreak(a, b);
           });
           return { key, dir };
         }
@@ -473,11 +499,33 @@
           return [test, runs, retries, rate, failures, avg, setup, max];
         }
 
-        function headerRow(columns, sort) {
-          return '<tr><th class="num" scope="col"><span class="secondary">#</span></th>' + columns
+        function runColumns() {
+          const conclusionLabel = (c) => (c ? c.charAt(0).toUpperCase() + c.slice(1).replace(/_/g, ' ') : 'In progress');
+          return [
+            { key: 'date', label: 'Date', help: RUNS_HELP.date, sortValue: runTime, render: (run) => formatDate(run.date) },
+            { key: 'workflow', label: 'Workflow', help: RUNS_HELP.workflow, sortValue: (run) => String(run.workflow || ''), render: (run) => esc(run.workflow) },
+            {
+              key: 'run',
+              label: 'Run',
+              help: RUNS_HELP.run,
+              sortValue: (run) => String(run.title || run.id),
+              render: (run) => '<a href="' + esc(run.url) + '" target="_blank" rel="noopener">' + esc(run.title || run.id) + '</a>'
+            },
+            {
+              key: 'result',
+              label: 'Result',
+              help: RUNS_HELP.result,
+              sortValue: (run) => CONCLUSION_ORDER.indexOf(run.conclusion ?? null),
+              render: (run) => '<span class="' + (isFailedRun(run) ? 'is-failed' : '') + '">' + esc(conclusionLabel(run.conclusion)) + '</span>'
+            }
+          ];
+        }
+
+        function headerRow(columns, sort, ranked = true) {
+          return '<tr>' + (ranked ? '<th class="num" scope="col"><span class="secondary">#</span></th>' : '') + columns
             .map((c) => {
               const sorted = sort.key === c.key ? ' aria-sort="' + (sort.dir === 'asc' ? 'ascending' : 'descending') + '"' : '';
-              return '<th scope="col" data-sort="' + c.key + '"' + sorted + (c.num ? ' class="num"' : '') + ' title="' + esc(COLUMN_HELP[c.key]) + '">' + esc(c.label) + '</th>';
+              return '<th scope="col" data-sort="' + c.key + '"' + sorted + (c.num ? ' class="num"' : '') + ' title="' + esc(c.help || COLUMN_HELP[c.key]) + '">' + esc(c.label) + '</th>';
             })
             .join('') + '</tr>';
         }
@@ -580,17 +628,16 @@
         }
 
         function renderRuns(runs) {
-          const help = legend(RUNS_HELP);
+          const columns = runColumns();
+          const help = legend(columns.map((c) => [c.label, c.help]));
           if (!runs.length) {
-            $('panel').innerHTML = '<p class="empty">No workflow runs match these filters. Clear the search or choose a longer period.</p>' + help;
+            const empty = state.tab === 'failed' ? 'No failed workflow runs in this period.' : 'No workflow runs match these filters. Clear the search or choose a longer period.';
+            $('panel').innerHTML = '<p class="empty">' + empty + '</p>' + help;
             return;
           }
-          const result = (c) => {
-            const text = c ? c.charAt(0).toUpperCase() + c.slice(1) : 'In progress';
-            return '<span class="' + (c === 'failure' ? 'is-failed' : '') + '">' + esc(text) + '</span>';
-          };
-          $('panel').innerHTML = '<div class="table-wrap"><table><thead><tr><th scope="col">Date</th><th scope="col">Workflow</th><th scope="col">Run</th><th scope="col">Result</th></tr></thead><tbody>' +
-            runs.map((run) => '<tr><td>' + formatDate(run.date) + '</td><td>' + esc(run.workflow) + '</td><td><a href="' + esc(run.url) + '" target="_blank" rel="noopener">' + esc(run.title || run.id) + '</a></td><td>' + result(run.conclusion) + '</td></tr>').join('') +
+          const sort = sortRows(runs, columns, runTieBreak);
+          $('panel').innerHTML = '<div class="table-wrap"><table><thead>' + headerRow(columns, sort, false) + '</thead><tbody>' +
+            runs.map((run) => '<tr>' + columns.map((c) => '<td>' + c.render(run) + '</td>').join('') + '</tr>').join('') +
             '</tbody></table></div>' + help;
         }
 
@@ -602,13 +649,14 @@
           const q = state.q.trim().toLowerCase();
           const runs = data.days
             .flatMap((day) => day.runs.map((run) => ({ ...run, date: day.date })))
-            .filter((run) => !q || (run.title + ' ' + run.workflow).toLowerCase().includes(q))
-            .sort((a, b) => String(b.createdAt || b.date).localeCompare(String(a.createdAt || a.date)));
+            .filter((run) => !q || (run.title + ' ' + run.workflow).toLowerCase().includes(q));
+          const failedRuns = runs.filter(isFailedRun);
           renderMasthead();
           renderFilters(suites);
           renderSummary(data, dates);
-          renderTabs({ flaky: filtered.filter(tabFilter('flaky')).length, all: filtered.length, runs: runs.length });
+          renderTabs({ flaky: filtered.filter(tabFilter('flaky')).length, all: filtered.length, runs: runs.length, failed: failedRuns.length });
           if (state.tab === 'runs') renderRuns(runs);
+          else if (state.tab === 'failed') renderRuns(failedRuns);
           else renderTests(filtered.filter(tabFilter(state.tab)));
         }
 
@@ -708,6 +756,14 @@
         $('tabs').addEventListener('click', (e) => {
           const tab = e.target.closest('button')?.dataset.tab;
           if (tab) setState({ tab, sort: '', dir: '' });
+        });
+        $('summary').addEventListener('click', (e) => {
+          const tab = e.target.closest('button[data-tab]')?.dataset.tab;
+          if (!tab) return;
+          setState({ tab, sort: '', dir: '' });
+          const tabButton = $('tabs').querySelector('[data-tab="' + tab + '"]');
+          tabButton?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          tabButton?.focus({ preventScroll: true });
         });
 
         function toggleRow(row) {
