@@ -24,7 +24,7 @@ on:
         type: boolean
         default: false
       report-days:
-        description: 'Number of days covered by the report (ending today)'
+        description: 'Number of days covered by the report, ending today (up to 14, the kept history)'
         required: false
         type: number
         default: 14

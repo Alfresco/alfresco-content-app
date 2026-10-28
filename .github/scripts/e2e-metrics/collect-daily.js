@@ -56,7 +56,7 @@ const {
 const DEFAULT_SOURCE_WORKFLOWS = 'cron-e2e-chrome.yml,populate-e2e-reports.yml';
 const DEFAULT_SOURCE_BRANCH = 'develop';
 
-/** Read every suite-attempt JSON report found in an extracted artifact directory. */
+/** Read every suite-attempt report found in an extracted artifact directory. */
 function readArtifactMetrics(artifactDir, suite) {
   const metrics = [];
   for (const file of fs
@@ -65,7 +65,9 @@ function readArtifactMetrics(artifactDir, suite) {
     .sort()) {
     try {
       const report = JSON.parse(fs.readFileSync(path.join(artifactDir, file), 'utf8'));
-      metrics.push(...extractTestMetrics(report, suite));
+      // attempt-<n>.json: n-th run of the whole suite within the workflow run.
+      const suiteAttempt = Number(/attempt-(\d+)/.exec(file)?.[1]) || 1;
+      metrics.push(...extractTestMetrics(report, suite).map((metric) => ({ ...metric, suiteAttempt })));
     } catch (error) {
       console.warn(`Skipping unreadable report ${artifactDir}/${file}: ${error instanceof Error ? error.message : String(error)}`);
     }
@@ -150,6 +152,8 @@ async function main() {
 
   const runs = [];
   const perRunMetrics = [];
+  // One entry per test and suite attempt of each run, for the per-run view of the dashboard.
+  const results = [];
   try {
     for (const { run, workflow } of await listRuns(github, { sourceWorkflows, date, branch, includeRunId })) {
       const { artifactCount, metrics } = await collectRun(github, run, workDir);
@@ -157,6 +161,7 @@ async function main() {
       if (artifactCount > 0) {
         runs.push(toRunSummary(run, workflow, artifactCount));
         perRunMetrics.push(metrics);
+        results.push(...metrics.map(({ key, suiteAttempt, detail }) => ({ key, runId: run.id, suiteAttempt, ...detail })));
       }
     }
   } finally {
@@ -164,7 +169,7 @@ async function main() {
   }
 
   const tests = mergeTests(perRunMetrics).sort((a, b) => a.key.localeCompare(b.key));
-  writeJson(outputFile, { schemaVersion: SCHEMA_VERSION, date, generatedAt: new Date().toISOString(), runs, tests });
+  writeJson(outputFile, { schemaVersion: SCHEMA_VERSION, date, generatedAt: new Date().toISOString(), runs, tests, results });
   console.log(`Wrote ${outputFile}: ${runs.length} run(s), ${tests.length} test(s).`);
 }
 
