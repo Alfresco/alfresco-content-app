@@ -10,18 +10,12 @@ run-name: ${{ (inputs.send-report || github.event_name == 'push') && 'Populate E
 
 on:
   # Temporary, to test this workflow before it is merged (workflow_dispatch only works once it is on develop).
-  # Add `[report-only]` to the commit message to skip the E2E run and only rebuild the report/dashboard from today's runs.
+  # Every push to the branch starts a run, so an empty commit (`git commit --allow-empty`) adds another run.
+  # Add `[report-only]` to the commit message to skip the E2E run and only rebuild the report/dashboard.
   # Remove before merging ACS-13218.
   push:
     branches:
       - ACS-13218-improve-reports-teams
-    paths:
-      - '.github/workflows/populate-e2e-reports.yml'
-      - '.github/workflows/e2e-metrics-publish.yml'
-      - '.github/workflows/e2e-playwright-reusable.yml'
-      - '.github/actions/run-e2e-playwright/**'
-      - '.github/scripts/e2e-metrics/**'
-      - 'projects/aca-playwright-shared/src/base-config/**'
   workflow_dispatch:
     inputs:
       send-report:
