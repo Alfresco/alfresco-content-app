@@ -52,7 +52,7 @@ const DEFAULT_HISTORY_DAYS = 365;
 const REFRESH_DAYS = 14;
 const ARTIFACT_DAYS = 90;
 // Positions of the per-day test metrics in the compact history format.
-const METRIC_FIELDS = ['runs', 'retries', 'flakyRuns', 'failures', 'durationSum', 'durationCount', 'durationMax'];
+const METRIC_FIELDS = ['runs', 'retries', 'flakyRuns', 'failures', 'durationSum', 'durationCount', 'durationMax', 'setupSum'];
 
 /** Fetch the history of the published dashboard; null when nothing is published yet. */
 async function fetchPublishedHistory(siteUrl) {
@@ -80,7 +80,7 @@ function expandHistory(history) {
     const tests = day.tests.map(([index, ...values]) => {
       const [suite, file, title, filePath, line] = history.tests[index];
       const test = { key: `${suite} › ${file} › ${title}`, suite, file, title, path: filePath, line };
-      METRIC_FIELDS.forEach((field, position) => (test[field] = values[position]));
+      METRIC_FIELDS.forEach((field, position) => (test[field] = values[position] ?? 0));
       return test;
     });
     days.set(day.date, { date: day.date, runs: day.runs, tests });

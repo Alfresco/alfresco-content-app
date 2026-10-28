@@ -1,94 +1,153 @@
 <!doctype html>
 <!--
-  ACA E2E dashboard: flaky and slow Playwright tests, built by .github/scripts/e2e-metrics/build-dashboard.js.
+  ACA E2E test health: flaky and slow Playwright tests, built by .github/scripts/e2e-metrics/build-dashboard.js.
   Data is loaded from data/history.js (window.E2E_HISTORY). The view state is kept in the URL hash so links can be shared.
 -->
-<html lang="en">
+<html lang="en-GB">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>ACA E2E dashboard</title>
+    <title>ACA E2E test health</title>
     <style>
       :root {
-        --bg: #f6f8fa;
-        --panel: #ffffff;
-        --text: #1f2328;
-        --muted: #656d76;
-        --border: #d0d7de;
-        --accent: #0969da;
-        --warn: #bf8700;
-        --bad: #cf222e;
-        --good: #1a7f37;
-        --bar: #d4a72c;
-        --line: #0969da;
+        color-scheme: light dark;
+        --page: #ffffff;
+        --sunken: #f3f4f6;
+        --band: #eceef2;
+        --ink: #1c1e21;
+        --secondary: #5c6370;
+        --rule: #dcdfe4;
+        --link: #1f5fbf;
+        --retried: #b26b00;
+        --failed: #c42b1c;
+        --duration: #5b7fb8;
+        --fresh: #1f6f43;
       }
       @media (prefers-color-scheme: dark) {
         :root {
-          --bg: #0d1117;
-          --panel: #161b22;
-          --text: #e6edf3;
-          --muted: #8d96a0;
-          --border: #30363d;
-          --accent: #4493f8;
-          --warn: #d29922;
-          --bad: #f85149;
-          --good: #3fb950;
-          --bar: #bb8009;
-          --line: #4493f8;
+          --page: #18191b;
+          --sunken: #222326;
+          --band: #26282c;
+          --ink: #e8e9eb;
+          --secondary: #a0a6b0;
+          --rule: #34373c;
+          --link: #7fb0ff;
+          --retried: #e0a43a;
+          --failed: #ff7a6e;
+          --duration: #8fb0e6;
+          --fresh: #6fcf97;
         }
       }
       * { box-sizing: border-box; }
-      body { margin: 0; font: 14px/1.45 -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); }
-      a { color: var(--accent); text-decoration: none; }
-      a:hover { text-decoration: underline; }
-      header, main { max-width: 1400px; margin: 0 auto; padding: 16px 24px; }
-      header h1 { margin: 0 0 4px; font-size: 22px; }
-      .muted { color: var(--muted); }
-      .small { font-size: 12px; }
-      .controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; margin: 12px 0; }
-      .controls label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted); }
-      input, select, button { font: inherit; color: var(--text); background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 5px 8px; }
-      input[type='search'] { min-width: 280px; }
+      body { margin: 0; background: var(--page); color: var(--ink); font: 14px/1.5 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+      a { color: var(--link); }
+      :focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
+      .page { max-width: 1320px; margin: 0 auto; padding: 24px 24px 48px; }
+      h1 { font-size: 20px; font-weight: 600; margin: 0; }
+      h2 { font-size: 15px; font-weight: 600; margin: 0; }
+      .secondary { color: var(--secondary); }
+      .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+      .masthead { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 24px; }
+      .masthead p { margin: 4px 0 0; max-width: 72ch; }
+      .updated { color: var(--secondary); }
+      .updated time { color: var(--fresh); font-weight: 600; }
+      .updated.is-stale time { color: var(--retried); }
+
+      .filters { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px 16px; margin: 20px 0; }
+      .filters label, .filters .field { display: grid; gap: 4px; font-size: 13px; color: var(--secondary); }
+      input, select, button { font: inherit; color: var(--ink); background: var(--page); border: 1px solid var(--rule); border-radius: 4px; padding: 5px 8px; }
+      input[type='search'] { width: 280px; max-width: 100%; }
+      select#suite { max-width: 240px; }
       button { cursor: pointer; }
-      .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 12px 0; }
-      .tile { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; }
-      .tile .value { font-size: 22px; font-weight: 600; }
-      .tile .label { font-size: 12px; color: var(--muted); }
-      .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; margin: 12px 0; }
-      .panel h2 { font-size: 15px; margin: 0 0 8px; }
-      .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-top: 16px; }
-      .tabs button { border: 1px solid transparent; border-bottom: none; border-radius: 6px 6px 0 0; background: transparent; padding: 8px 14px; }
-      .tabs button.active { background: var(--panel); border-color: var(--border); font-weight: 600; margin-bottom: -1px; }
+      .link-button { border: 0; padding: 6px 0; background: none; color: var(--link); text-decoration: underline; }
+
+      .date-field { position: relative; }
+      .date-button { min-width: 140px; text-align: left; }
+      .calendar { position: absolute; top: 100%; left: 0; z-index: 10; width: 272px; margin-top: 4px; padding: 12px; background: var(--page); border: 1px solid var(--rule); border-radius: 6px; box-shadow: 0 6px 20px rgb(0 0 0 / 18%); color: var(--ink); }
+      .calendar-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+      .calendar-head button { border: 0; background: none; font-size: 18px; line-height: 1; padding: 4px 8px; }
+      .calendar-head button:disabled { color: var(--rule); cursor: default; }
+      .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; }
+      .calendar-grid .weekday { font-size: 12px; color: var(--secondary); padding: 2px 0 6px; }
+      .calendar-grid .day { position: relative; border: 0; background: none; padding: 6px 0; border-radius: 4px; font-variant-numeric: tabular-nums; }
+      .calendar-grid .day:hover:not(:disabled) { background: var(--sunken); }
+      .calendar-grid .day.has-data::after { content: ''; position: absolute; left: 50%; bottom: 2px; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: var(--duration); }
+      .calendar-grid .day[aria-pressed='true'] { background: var(--ink); color: var(--page); }
+      .calendar-grid .day[aria-pressed='true']::after { background: var(--page); }
+      .calendar-grid .day:disabled { color: var(--rule); cursor: default; }
+      .calendar-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 13px; color: var(--secondary); }
+
+      /* Each stat has a left rule; the negative margin and overflow hide the rule at the start of every row. */
+      .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); overflow: hidden; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+      .stat { padding: 12px 16px; margin-left: -1px; border-left: 1px solid var(--rule); }
+      .stat .value { font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; }
+      .stat .value small { font-size: 14px; font-weight: 400; color: var(--secondary); }
+      .stat .label { font-size: 13px; color: var(--secondary); }
+      .stat.is-retried .value { color: var(--retried); }
+      .stat.is-failed .value { color: var(--failed); }
+      .days-note { margin: 8px 0 0; font-size: 13px; color: var(--secondary); }
+
+      /* Tabs sit on a tinted band; the selected tab opens into the panel below. Accents follow the data colours. */
+      .tabs { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 32px; padding: 6px 6px 0; background: var(--band); border: 1px solid var(--rule); border-bottom: 0; border-radius: 6px 6px 0 0; }
+      .tabs button { --accent: var(--secondary); border: 0; border-top: 3px solid var(--accent); border-radius: 4px 4px 0 0; background: none; padding: 8px 16px; color: var(--secondary); }
+      .tabs button:hover { color: var(--ink); background: var(--page); }
+      .tabs button[aria-selected='true'] { color: var(--ink); background: var(--page); font-weight: 600; }
+      .tabs button[data-tab='flaky'] { --accent: var(--retried); }
+      .tabs button[data-tab='slowest'] { --accent: var(--duration); }
+      .tab-panel { border: 1px solid var(--rule); border-top: 0; border-radius: 0 0 6px 6px; padding: 0 16px 16px; }
+
+      .table-wrap { overflow-x: auto; }
       table { width: 100%; border-collapse: collapse; }
-      th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-      th { font-size: 12px; color: var(--muted); white-space: nowrap; user-select: none; }
-      th.sortable { cursor: pointer; }
-      th.sorted::after { content: ' ▾'; }
-      th.sorted.asc::after { content: ' ▴'; }
-      td.num, th.num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
-      tr.test-row { cursor: pointer; }
-      tr.test-row:hover { background: color-mix(in srgb, var(--accent) 6%, transparent); }
+      th, td { padding: 8px 12px 8px 0; border-bottom: 1px solid var(--rule); text-align: left; vertical-align: top; }
+      th { font-size: 13px; font-weight: 600; color: var(--secondary); white-space: nowrap; }
+      th[data-sort] { cursor: pointer; }
+      th[aria-sort='descending']::after { content: ' ▾'; }
+      th[aria-sort='ascending']::after { content: ' ▴'; }
+      td.rank { width: 1%; color: var(--secondary); }
+      .test { min-width: 320px; max-width: 640px; }
       .test-title { font-weight: 500; }
-      .warn { color: var(--warn); }
-      .bad { color: var(--bad); }
-      .good { color: var(--good); }
-      .detail td { background: var(--bg); }
-      .detail table { width: auto; min-width: 480px; }
-      .empty { padding: 24px; text-align: center; color: var(--muted); }
-      svg text { fill: var(--muted); font-size: 10px; }
-      .chart-bar { fill: var(--bar); }
-      .chart-bar:hover { opacity: 0.75; }
-      .spark-bar { fill: var(--bar); }
-      .spark-line { fill: none; stroke: var(--line); stroke-width: 1.5; }
-      .spark-dot { fill: var(--line); }
+      .test-meta { font-size: 13px; color: var(--secondary); }
+      .test-meta a { text-decoration: none; }
+      .test-meta a:hover { text-decoration: underline; }
+      tr.test-row { cursor: pointer; }
+      tr.test-row:hover, tr.test-row[aria-expanded='true'] { background: var(--sunken); }
+      .count-of { color: var(--secondary); }
+      td.primary { font-size: 17px; font-weight: 600; }
+      td.primary .count-of { font-size: 13px; font-weight: 400; }
+      .is-retried { color: var(--retried); }
+      .is-failed { color: var(--failed); }
+
+      .measure { display: grid; grid-template-columns: auto 80px; align-items: center; gap: 8px; justify-content: end; }
+      .measure .track { height: 6px; background: var(--sunken); border-radius: 3px; overflow: hidden; }
+      .measure .fill { height: 100%; background: var(--retried); }
+
+      tr.detail > td { background: var(--sunken); padding: 12px 16px; }
+      tr.detail table { width: auto; }
+      tr.detail th, tr.detail td { padding: 4px 24px 4px 0; border-bottom: 0; }
+
+      .empty { padding: 32px 0; color: var(--secondary); }
+      .more { padding: 16px 0 0; }
+      .legend { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--rule); max-width: 90ch; }
+      .legend summary { cursor: pointer; font-weight: 600; }
+      .legend p { margin: 8px 0 12px; color: var(--secondary); }
+      .legend dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin: 0; }
+      .legend dt { font-weight: 600; }
+      .legend dd { margin: 0; color: var(--secondary); }
     </style>
   </head>
   <body>
-    <header>
-      <h1>ACA E2E dashboard</h1>
-      <div class="muted small" id="meta"></div>
-      <div class="controls">
-        <label>Range
+    <div class="page">
+      <header class="masthead">
+        <div>
+          <h1>ACA E2E test health</h1>
+          <p class="secondary" id="intro"></p>
+        </div>
+        <p class="updated" id="updated"></p>
+      </header>
+
+      <form class="filters" id="filters" onsubmit="return false">
+        <label>Period
           <select id="days">
             <option value="7">Last 7 days</option>
             <option value="14">Last 14 days</option>
@@ -97,54 +156,79 @@
             <option value="all">All history</option>
           </select>
         </label>
-        <label>Ending on <input type="date" id="end" /></label>
+        <div class="field date-field" id="date-field">
+          <span id="end-label">Up to</span>
+          <button type="button" class="date-button" id="end" aria-haspopup="dialog" aria-expanded="false" aria-labelledby="end-label end"></button>
+          <div class="calendar" id="calendar" role="dialog" aria-label="Choose the last day of the period" hidden></div>
+        </div>
         <label>Search <input type="search" id="q" placeholder="Test title, file or XAT id" /></label>
         <label>Suite <select id="suite"></select></label>
-        <button id="reset" type="button">Reset</button>
-      </div>
-    </header>
-    <main>
-      <div class="tiles" id="tiles"></div>
-      <div class="panel">
-        <h2>Retries per day</h2>
-        <div id="chart"></div>
-      </div>
-      <nav class="tabs" id="tabs">
-        <button data-tab="flaky">🔁 Flaky tests</button>
-        <button data-tab="slowest">🐢 Slowest tests</button>
-        <button data-tab="all">All tests</button>
-        <button data-tab="runs">Runs</button>
-      </nav>
-      <div class="panel" style="margin-top: 0; border-top-left-radius: 0">
-        <div id="table"></div>
-      </div>
-      <p class="muted small">
-        Retries / runs: retries over all runs of a test in the selected range. Retried runs: share of runs that needed at least one
-        retry. Durations are averages of passed attempts only.
-        Click a test to see its daily breakdown.
-      </p>
-    </main>
+        <button class="link-button" id="reset" type="button">Clear filters</button>
+      </form>
+
+      <main>
+        <section class="summary" id="summary" aria-label="Summary"></section>
+        <p class="days-note" id="days-note" hidden></p>
+
+        <nav class="tabs" id="tabs" role="tablist"></nav>
+        <div class="tab-panel" id="panel" role="tabpanel"></div>
+      </main>
+    </div>
 
     <script src="data/history.js"></script>
     <script>
       (function () {
         'use strict';
 
-        const ROW_LIMIT = 200;
+        const TOP_LIMIT = 10;
+        const ALL_LIMIT = 200;
+        const STALE_AFTER_HOURS = 36;
         const DAY_MS = 24 * 60 * 60 * 1000;
+        const WEEKDAYS = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
         const metrics = window.E2E_HISTORY;
         const $ = (id) => document.getElementById(id);
+        const numberFormat = new Intl.NumberFormat('en-GB');
 
         if (!metrics || !metrics.days) {
-          document.querySelector('main').innerHTML = '<div class="empty">No E2E metrics data found (data/history.js).</div>';
+          document.querySelector('main').innerHTML = '<p class="empty">The data file (data/history.js) could not be loaded. Check the last run of the E2E metrics report workflow.</p>';
           return;
         }
 
         const DEFAULTS = { tab: 'flaky', days: '14', end: '', q: '', suite: '', sort: '', dir: '' };
         const TAB_SORT = { flaky: ['retries', 'desc'], slowest: ['avg', 'desc'], all: ['title', 'asc'], runs: ['date', 'desc'] };
         const lastDate = metrics.days.length ? metrics.days[metrics.days.length - 1].date : new Date().toISOString().slice(0, 10);
+        const firstDate = metrics.days.length ? metrics.days[0].date : lastDate;
+        const datesWithData = new Set(metrics.days.map((day) => day.date));
+
+        // What each column means; shown as the column tooltip and in the legend below each list.
+        const COLUMN_HELP = {
+          title: 'Describe blocks and title of the test, with its suite and file. Click a row to see its numbers by day.',
+          retries: 'How many times Playwright retried the test. On CI a failed test is retried up to 2 times, so one run can add 2 retries and the total can be higher than the number of runs.',
+          rate: 'Runs that needed at least one retry, whether the test passed in the end or not, and their share of all runs. A run counts once however many retries it needed: 17 retried runs out of 31, 10 of them retried twice and 7 once, give 27 retries and 55%.',
+          failures: 'Runs where the test still failed after all retries.',
+          avg: 'Average time of the passed attempts: beforeAll and beforeEach hooks (setup), the test itself and its afterEach hooks. afterAll hooks are not counted. Failed attempts are left out so timeouts do not distort the average.',
+          setup: 'Part of the average duration spent in beforeAll and beforeEach hooks. Playwright runs a beforeAll hook once per worker, but every test that depends on it is charged its full time, so the sum of all durations is higher than the real run time.',
+          max: 'The longest passed attempt in the selected period, including setup.',
+          runs: 'Executions of the test in workflow runs. When a whole suite is re-run, each attempt counts as a run.'
+        };
+        const TAB_INTRO = {
+          flaky: 'Tests that needed at least one retry or failed in the selected period, ordered by retries.',
+          slowest: 'Tests that passed at least once in the selected period, ordered by average duration.',
+          all: 'Every test that ran in the selected period.',
+          runs: 'Workflow runs whose test results are included: the daily chrome run and Populate E2E reports runs on ' + (metrics.branch || 'develop') + '.'
+        };
+        const RUNS_HELP = [
+          ['Date', 'Day the workflow run started (UTC).'],
+          ['Workflow', 'Workflow file that produced the results.'],
+          ['Run', 'Link to the workflow run on GitHub, with its logs and artifacts.'],
+          ['Result', 'Outcome of the whole workflow run. A failed run still provides results for the tests that ran.']
+        ];
+
         let state = readState();
         let showAll = false;
+        // The legend is collapsed by default and stays as the user left it when the list re-renders.
+        let legendOpen = false;
+        let calendarMonth = lastDate.slice(0, 7);
         const expanded = new Set();
 
         function esc(value) {
@@ -153,6 +237,10 @@
 
         function shiftDate(date, days) {
           return new Date(Date.parse(date + 'T00:00:00Z') + days * DAY_MS).toISOString().slice(0, 10);
+        }
+
+        function formatDate(date, options = {}) {
+          return new Date(date + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC', ...options });
         }
 
         function formatDuration(ms) {
@@ -164,6 +252,10 @@
 
         function percent(value) {
           return (value * 100).toFixed(value > 0 && value < 0.1 ? 1 : 0) + '%';
+        }
+
+        function plural(count, word) {
+          return numberFormat.format(count) + ' ' + word + (count === 1 ? '' : 's');
         }
 
         function readState() {
@@ -193,9 +285,8 @@
         function rangeDates() {
           const end = state.end || lastDate;
           if (state.days === 'all') {
-            const first = metrics.days.length ? metrics.days[0].date : end;
-            const count = Math.round((Date.parse(end) - Date.parse(first)) / DAY_MS) + 1;
-            return Array.from({ length: Math.max(count, 1) }, (_, i) => shiftDate(first, i));
+            const count = Math.round((Date.parse(end) - Date.parse(firstDate)) / DAY_MS) + 1;
+            return Array.from({ length: Math.max(count, 1) }, (_, i) => shiftDate(firstDate, i));
           }
           const days = Number(state.days) || 14;
           return Array.from({ length: days }, (_, i) => shiftDate(end, i - days + 1));
@@ -205,15 +296,12 @@
           const inRange = new Set(dates);
           const days = metrics.days.filter((day) => inRange.has(day.date));
           const tests = new Map();
-          const perDay = new Map(dates.map((date) => [date, { retries: 0, testRuns: 0, failures: 0, runs: 0 }]));
           for (const day of days) {
-            const dayTotals = perDay.get(day.date);
-            dayTotals.runs = day.runs.length;
-            for (const [index, runs, retries, flakyRuns, failures, durationSum, durationCount, durationMax] of day.tests) {
+            for (const [index, runs, retries, flakyRuns, failures, durationSum, durationCount, durationMax, setupSum = 0] of day.tests) {
               let test = tests.get(index);
               if (!test) {
                 const [suite, file, title, path, line] = metrics.tests[index];
-                test = { index, suite, file, title, path, line, runs: 0, retries: 0, flakyRuns: 0, failures: 0, durationSum: 0, durationCount: 0, max: 0, days: new Map() };
+                test = { index, suite, file, title, path, line, runs: 0, retries: 0, flakyRuns: 0, failures: 0, durationSum: 0, durationCount: 0, setupSum: 0, max: 0, days: new Map() };
                 tests.set(index, test);
               }
               test.runs += runs;
@@ -222,111 +310,105 @@
               test.failures += failures;
               test.durationSum += durationSum;
               test.durationCount += durationCount;
+              test.setupSum += setupSum;
               test.max = Math.max(test.max, durationMax);
-              test.days.set(day.date, { runs, retries, failures, avg: durationCount ? durationSum / durationCount : null });
-              dayTotals.retries += retries;
-              dayTotals.testRuns += runs;
-              dayTotals.failures += failures;
+              test.days.set(day.date, {
+                runs,
+                retries,
+                failures,
+                avg: durationCount ? durationSum / durationCount : null,
+                setup: durationCount ? setupSum / durationCount : null
+              });
             }
           }
           for (const test of tests.values()) {
             test.avg = test.durationCount ? test.durationSum / test.durationCount : 0;
-            // Share of runs that needed at least one retry (flaky or failed after all retries).
-            test.rate = test.runs ? (test.flakyRuns + test.failures) / test.runs : 0;
+            test.setup = test.durationCount ? test.setupSum / test.durationCount : 0;
+            // Runs that needed at least one retry: flaky (passed on a retry) or failed after all retries.
+            test.retried = test.flakyRuns + test.failures;
+            test.rate = test.runs ? test.retried / test.runs : 0;
           }
-          return { days, tests: [...tests.values()], perDay };
+          return { days, tests: [...tests.values()] };
         }
 
         function sourceLink(test) {
-          if (!test.path || !metrics.repository) return esc(test.file);
+          const label = esc(test.file) + (test.line ? ':' + test.line : '');
+          if (!test.path || !metrics.repository) return label;
           const url = metrics.serverUrl + '/' + metrics.repository + '/blob/' + (metrics.branch || 'develop') + '/' + test.path + (test.line ? '#L' + test.line : '');
-          return '<a href="' + esc(url) + '" target="_blank" rel="noopener" onclick="event.stopPropagation()">' + esc(test.file) + (test.line ? ':' + test.line : '') + '</a>';
+          return '<a href="' + esc(url) + '" target="_blank" rel="noopener">' + label + '</a>';
         }
 
-        function sparkBars(dates, values) {
-          const width = 120, height = 24, max = Math.max(1, ...values);
-          const step = width / dates.length;
-          const bars = values
-            .map((value, i) => (value ? '<rect class="spark-bar" x="' + (i * step).toFixed(1) + '" y="' + (height - (value / max) * height).toFixed(1) + '" width="' + Math.max(step - 1, 1).toFixed(1) + '" height="' + ((value / max) * height).toFixed(1) + '"><title>' + dates[i] + ': ' + value + '</title></rect>' : ''))
-            .join('');
-          return '<svg width="' + width + '" height="' + height + '">' + bars + '</svg>';
+        function measure(value, max, text) {
+          const width = max > 0 ? Math.max((value / max) * 100, value > 0 ? 2 : 0) : 0;
+          return '<div class="measure"><span>' + text + '</span><div class="track"><div class="fill" style="width:' + width.toFixed(1) + '%"></div></div></div>';
         }
 
-        function sparkLine(dates, values) {
-          const width = 120, height = 24;
-          const points = values.map((value, i) => (value == null ? null : [i, value])).filter(Boolean);
-          if (!points.length) return '';
-          const max = Math.max(...points.map(([, v]) => v)), min = Math.min(...points.map(([, v]) => v));
-          const x = (i) => (dates.length > 1 ? (i / (dates.length - 1)) * (width - 4) + 2 : width / 2);
-          const y = (v) => (max === min ? height / 2 : height - 2 - ((v - min) / (max - min)) * (height - 4));
-          const path = points.map(([i, v], n) => (n ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(v).toFixed(1)).join(' ');
-          const dots = points.map(([i, v]) => '<circle class="spark-dot" cx="' + x(i).toFixed(1) + '" cy="' + y(v).toFixed(1) + '" r="1.8"><title>' + dates[i] + ': ' + formatDuration(v) + '</title></circle>').join('');
-          return '<svg width="' + width + '" height="' + height + '"><path class="spark-line" d="' + path + '"/>' + dots + '</svg>';
+        function renderMasthead() {
+          const repo = metrics.repository
+            ? ' <a href="' + esc(metrics.serverUrl + '/' + metrics.repository + '/actions') + '" target="_blank" rel="noopener">Workflow runs on GitHub</a>'
+            : '';
+          $('intro').innerHTML = 'Flaky and slow Playwright tests from E2E runs on the ' + esc(metrics.branch || 'develop') + ' branch.' + repo;
+          const generated = new Date(metrics.generatedAt);
+          const stale = Date.now() - generated.getTime() > STALE_AFTER_HOURS * 60 * 60 * 1000;
+          const updated = generated.toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' });
+          $('updated').classList.toggle('is-stale', stale);
+          $('updated').innerHTML =
+            'Updated <time datetime="' + esc(metrics.generatedAt) + '"' + (stale ? ' title="Not updated in the last day. Check the E2E metrics report workflow."' : '') + '>' + esc(updated) + '</time>' +
+            '<br />' + plural(metrics.days.length, 'day') + ' of history';
         }
 
-        function renderMeta() {
-          const repo = metrics.repository ? '<a href="' + esc(metrics.serverUrl + '/' + metrics.repository + '/actions') + '" target="_blank" rel="noopener">' + esc(metrics.repository) + '</a> · ' : '';
-          $('meta').innerHTML = repo + 'branch ' + esc(metrics.branch) + ' · ' + metrics.days.length + ' day(s) of history · updated ' + esc(new Date(metrics.generatedAt).toLocaleString());
-        }
-
-        function renderControls(suites) {
+        function renderFilters(suites) {
           $('days').value = state.days;
-          $('end').value = state.end || lastDate;
+          $('end').textContent = formatDate(state.end || lastDate, { year: 'numeric' });
           if ($('q').value !== state.q) $('q').value = state.q;
           $('suite').innerHTML = '<option value="">All suites</option>' + suites.map((s) => '<option' + (s === state.suite ? ' selected' : '') + '>' + esc(s) + '</option>').join('');
-          for (const button of $('tabs').querySelectorAll('button')) {
-            button.classList.toggle('active', button.dataset.tab === state.tab);
-          }
         }
 
-        function renderTiles(data, dates) {
+        function renderSummary(data, dates) {
           const runs = data.days.reduce((sum, day) => sum + day.runs.length, 0);
           const testRuns = data.tests.reduce((sum, t) => sum + t.runs, 0);
           const retries = data.tests.reduce((sum, t) => sum + t.retries, 0);
           const withRetries = data.tests.filter((t) => t.retries > 0).length;
           const failures = data.tests.reduce((sum, t) => sum + t.failures, 0);
-          const retriedRuns = data.tests.reduce((sum, t) => sum + t.flakyRuns + t.failures, 0);
-          const tiles = [
-            ['Workflow runs', runs],
-            ['Tests', data.tests.length],
-            ['Test runs', testRuns],
-            ['Tests with retries', withRetries, withRetries ? 'warn' : 'good'],
-            ['Total retries', retries, retries ? 'warn' : 'good'],
-            ['Retried test runs', testRuns ? percent(retriedRuns / testRuns) : '–'],
-            ['Failed test runs', failures, failures ? 'bad' : 'good'],
-            ['Days with data', data.days.length + ' / ' + dates.length, data.days.length < dates.length ? 'warn' : '']
+          const retriedRuns = data.tests.reduce((sum, t) => sum + t.retried, 0);
+          const stats = [
+            ['Tests with retries', numberFormat.format(withRetries) + ' <small>of ' + numberFormat.format(data.tests.length) + '</small>', withRetries ? 'is-retried' : ''],
+            ['Retried test runs', testRuns ? percent(retriedRuns / testRuns) : 'none', retriedRuns ? 'is-retried' : ''],
+            ['Retries', numberFormat.format(retries), ''],
+            ['Failed test runs', numberFormat.format(failures), failures ? 'is-failed' : ''],
+            ['Test runs', numberFormat.format(testRuns), ''],
+            ['Workflow runs', numberFormat.format(runs), '']
           ];
-          $('tiles').innerHTML = tiles
-            .map(([label, value, cls]) => '<div class="tile"><div class="value ' + (cls || '') + '">' + esc(value) + '</div><div class="label">' + esc(label) + '</div></div>')
+          $('summary').innerHTML = stats
+            .map(([label, value, cls]) => '<div class="stat ' + cls + '"><div class="value">' + value + '</div><div class="label">' + esc(label) + '</div></div>')
+            .join('');
+          const missing = dates.length - data.days.length;
+          $('days-note').hidden = missing === 0;
+          $('days-note').textContent = 'No data was collected for ' + missing + ' of the ' + plural(dates.length, 'day') + ' in this period.';
+        }
+
+        function renderTabs(counts) {
+          const tabs = [
+            ['flaky', '🔁 Flaky tests', counts.flaky],
+            ['slowest', '🐢 Slowest tests', null],
+            ['all', 'All tests', counts.all],
+            ['runs', 'Workflow runs', counts.runs]
+          ];
+          $('tabs').innerHTML = tabs
+            .map(([id, label, count]) => '<button type="button" role="tab" data-tab="' + id + '" aria-selected="' + (state.tab === id) + '">' + label + (count == null ? '' : ' <span class="secondary">' + numberFormat.format(count) + '</span>') + '</button>')
             .join('');
         }
 
-        function renderChart(data, dates) {
-          const width = Math.max($('chart').clientWidth || 800, 300), height = 120, pad = 18;
-          const values = dates.map((date) => data.perDay.get(date));
-          const max = Math.max(1, ...values.map((v) => v.retries));
-          const step = (width - pad) / dates.length;
-          const labelEvery = Math.ceil(dates.length / 14);
-          let svg = '<svg width="' + width + '" height="' + (height + 16) + '"><text x="0" y="10">' + max + '</text><text x="0" y="' + height + '">0</text>';
-          values.forEach((v, i) => {
-            const h = (v.retries / max) * (height - 12);
-            const x = pad + i * step;
-            svg += '<rect class="chart-bar" x="' + x.toFixed(1) + '" y="' + (height - h).toFixed(1) + '" width="' + Math.max(step - 2, 1).toFixed(1) + '" height="' + Math.max(h, v.testRuns ? 1 : 0).toFixed(1) + '"><title>' +
-              dates[i] + ': ' + v.retries + ' retries in ' + v.testRuns + ' test runs, ' + v.failures + ' failed, ' + v.runs + ' workflow run(s)</title></rect>';
-            if (i % labelEvery === 0) svg += '<text x="' + x.toFixed(1) + '" y="' + (height + 13) + '">' + dates[i].slice(5) + '</text>';
-          });
-          $('chart').innerHTML = svg + '</svg>';
+        function matchesFilters(t) {
+          const q = state.q.trim().toLowerCase();
+          if (state.suite && t.suite !== state.suite) return false;
+          return !q || (t.title + ' ' + t.suite + ' ' + t.file).toLowerCase().includes(q);
         }
 
-        function filterTests(tests) {
-          const q = state.q.trim().toLowerCase();
-          return tests.filter((t) => {
-            if (state.suite && t.suite !== state.suite) return false;
-            if (q && !(t.title + ' ' + t.suite + ' ' + t.file).toLowerCase().includes(q)) return false;
-            if (state.tab === 'flaky') return t.retries > 0 || t.failures > 0;
-            if (state.tab === 'slowest') return t.durationCount > 0;
-            return true;
-          });
+        function tabFilter(tab) {
+          if (tab === 'flaky') return (t) => t.retries > 0 || t.failures > 0;
+          if (tab === 'slowest') return (t) => t.durationCount > 0;
+          return () => true;
         }
 
         function sortRows(rows, columns) {
@@ -344,92 +426,217 @@
           return { key, dir };
         }
 
-        function testColumns(dates) {
-          const title = {
+        function testColumns(rows) {
+          const maxRate = Math.max(0, ...rows.map((t) => t.rate));
+          const test = {
             key: 'title',
             label: 'Test',
+            cls: 'test',
             sortValue: (t) => t.suite + ' ' + t.title,
-            render: (t) => '<div class="test-title">' + esc(t.title) + '</div><div class="muted small">' + esc(t.suite) + ' · ' + sourceLink(t) + '</div>'
+            render: (t) => '<div class="test-title">' + esc(t.title) + '</div><div class="test-meta">' + esc(t.suite) + ', ' + sourceLink(t) + '</div>'
           };
-          const retries = { key: 'retries', label: 'Retries / runs', num: true, render: (t) => '<span class="' + (t.retries ? 'warn' : '') + '">' + t.retries + ' / ' + t.runs + '</span>' };
-          const rate = { key: 'rate', label: 'Retried runs', num: true, render: (t) => percent(t.rate) };
-          const flakyRuns = { key: 'flakyRuns', label: 'Flaky runs', num: true, render: (t) => t.flakyRuns };
-          const failures = { key: 'failures', label: 'Failed runs', num: true, render: (t) => '<span class="' + (t.failures ? 'bad' : '') + '">' + t.failures + '</span>' };
-          const avg = { key: 'avg', label: 'Avg', num: true, render: (t) => (t.durationCount ? formatDuration(t.avg) : '–') };
-          const max = { key: 'max', label: 'Max', num: true, render: (t) => (t.durationCount ? formatDuration(t.max) : '–') };
-          const runs = { key: 'runs', label: 'Runs', num: true, render: (t) => t.runs };
-          const retryTrend = { key: 'retryTrend', label: 'Retries trend', render: (t) => sparkBars(dates, dates.map((d) => t.days.get(d)?.retries || 0)), sortValue: (t) => t.retries };
-          const durationTrend = { key: 'durationTrend', label: 'Duration trend', render: (t) => sparkLine(dates, dates.map((d) => t.days.get(d)?.avg ?? null)), sortValue: (t) => t.avg };
-          if (state.tab === 'flaky') return [title, retries, rate, flakyRuns, failures, avg, retryTrend];
-          if (state.tab === 'slowest') return [title, avg, max, runs, retries, durationTrend];
-          return [title, runs, retries, rate, failures, avg, max];
+          const retries = {
+            key: 'retries',
+            label: 'Retries',
+            num: true,
+            render: (t) => '<span class="' + (t.retries ? 'is-retried' : '') + '">' + numberFormat.format(t.retries) + '</span> <span class="count-of">in ' + plural(t.runs, 'run') + '</span>'
+          };
+          const rate = {
+            key: 'rate',
+            label: 'Retried runs',
+            num: true,
+            render: (t) => measure(t.rate, maxRate, numberFormat.format(t.retried) + ' <span class="count-of">(' + percent(t.rate) + ')</span>')
+          };
+          const failures = { key: 'failures', label: 'Failed runs', num: true, render: (t) => '<span class="' + (t.failures ? 'is-failed' : '') + '">' + numberFormat.format(t.failures) + '</span>' };
+          const avg = {
+            key: 'avg',
+            label: 'Avg duration',
+            num: true,
+            render: (t) => (t.durationCount ? formatDuration(t.avg) : '<span class="secondary" title="No passed attempt with timing data in this period">–</span>')
+          };
+          const setup = { key: 'setup', label: 'Setup', num: true, render: (t) => (t.durationCount ? formatDuration(t.setup) : '') };
+          const max = { key: 'max', label: 'Longest', num: true, render: (t) => (t.durationCount ? formatDuration(t.max) : '') };
+          const runs = { key: 'runs', label: 'Runs', num: true, render: (t) => numberFormat.format(t.runs) };
+          // The key metric of each tab is shown larger.
+          if (state.tab === 'flaky') return [test, { ...retries, primary: true }, rate, failures, avg];
+          if (state.tab === 'slowest') return [test, { ...avg, primary: true }, setup, max, runs];
+          return [test, runs, retries, rate, failures, avg, setup, max];
         }
 
         function headerRow(columns, sort) {
-          return '<tr><th class="num">#</th>' + columns
-            .map((c) => '<th data-sort="' + c.key + '" class="sortable' + (c.num ? ' num' : '') + (sort.key === c.key ? ' sorted ' + sort.dir : '') + '">' + esc(c.label) + '</th>')
+          return '<tr><th class="num" scope="col"><span class="secondary">#</span></th>' + columns
+            .map((c) => {
+              const sorted = sort.key === c.key ? ' aria-sort="' + (sort.dir === 'asc' ? 'ascending' : 'descending') + '"' : '';
+              return '<th scope="col" data-sort="' + c.key + '"' + sorted + (c.num ? ' class="num"' : '') + ' title="' + esc(COLUMN_HELP[c.key]) + '">' + esc(c.label) + '</th>';
+            })
             .join('') + '</tr>';
         }
 
         function detailRow(test, colspan) {
           const rows = [...test.days.entries()]
             .sort(([a], [b]) => b.localeCompare(a))
-            .map(([date, d]) => '<tr><td>' + date + '</td><td class="num">' + d.runs + '</td><td class="num">' + d.retries + '</td><td class="num">' + d.failures + '</td><td class="num">' + (d.avg == null ? '–' : formatDuration(d.avg)) + '</td></tr>')
+            .map(([date, d]) => '<tr><td>' + formatDate(date) + '</td><td class="num">' + d.runs + '</td><td class="num">' + d.retries + '</td><td class="num">' + d.failures + '</td><td class="num">' + (d.avg == null ? '' : formatDuration(d.avg)) + '</td><td class="num">' + (d.setup == null ? '' : formatDuration(d.setup)) + '</td></tr>')
             .join('');
-          return '<tr class="detail"><td></td><td colspan="' + colspan + '"><table><tr><th>Date</th><th class="num">Runs</th><th class="num">Retries</th><th class="num">Failed</th><th class="num">Avg (passed)</th></tr>' + rows + '</table></td></tr>';
+          return '<tr class="detail"><td></td><td colspan="' + colspan + '"><h2>By day</h2><table><thead><tr><th>Date</th><th class="num">Runs</th><th class="num">Retries</th><th class="num">Failed</th><th class="num">Avg duration</th><th class="num">Setup</th></tr></thead><tbody>' + rows + '</tbody></table></td></tr>';
         }
 
-        function renderTests(data, dates) {
-          const columns = testColumns(dates);
-          const rows = filterTests(data.tests);
+        function legend(entries) {
+          return '<details class="legend" id="legend"' + (legendOpen ? ' open' : '') + '><summary>What the columns mean</summary><p>' + esc(TAB_INTRO[state.tab]) + '</p><dl>' +
+            entries.map(([term, text]) => '<dt>' + esc(term) + '</dt><dd>' + esc(text) + '</dd>').join('') +
+            '</dl></details>';
+        }
+
+        function rowToggle(total, limit, noun) {
+          if (total <= limit) return '';
+          const label = showAll ? 'Show the top ' + limit + ' only' : 'Show all ' + numberFormat.format(total) + ' ' + noun;
+          return '<div class="more"><button type="button" id="toggle-rows" aria-expanded="' + showAll + '">' + label + '</button></div>';
+        }
+
+        function renderTests(rows) {
+          const columns = testColumns(rows);
           const sort = sortRows(rows, columns);
+          const help = legend(columns.map((c) => [c.label, COLUMN_HELP[c.key]]));
           if (!rows.length) {
-            $('table').innerHTML = '<div class="empty">No tests match the current filters.</div>';
+            $('panel').innerHTML = '<p class="empty">No tests match these filters. Clear the search or choose a longer period.</p>' + help;
             return;
           }
-          const visible = showAll ? rows : rows.slice(0, ROW_LIMIT);
-          let html = '<table><thead>' + headerRow(columns, sort) + '</thead><tbody>';
+          const limit = state.tab === 'all' ? ALL_LIMIT : TOP_LIMIT;
+          const noun = state.tab === 'flaky' ? 'flaky tests' : state.tab === 'slowest' ? 'tests by duration' : 'tests';
+          const visible = showAll ? rows : rows.slice(0, limit);
+          let html = '<div class="table-wrap"><table><thead>' + headerRow(columns, sort) + '</thead><tbody>';
           visible.forEach((test, i) => {
-            html += '<tr class="test-row" data-index="' + test.index + '"><td class="num muted">' + (i + 1) + '</td>' + columns.map((c) => '<td' + (c.num ? ' class="num"' : '') + '>' + c.render(test) + '</td>').join('') + '</tr>';
-            if (expanded.has(test.index)) html += detailRow(test, columns.length);
+            const open = expanded.has(test.index);
+            const cells = columns.map((c) => '<td class="' + [c.num ? 'num' : '', c.cls || '', c.primary ? 'primary' : ''].join(' ').trim() + '">' + c.render(test) + '</td>').join('');
+            html += '<tr class="test-row" tabindex="0" aria-expanded="' + open + '" data-index="' + test.index + '"><td class="num rank">' + (i + 1) + '</td>' + cells + '</tr>';
+            if (open) html += detailRow(test, columns.length);
           });
-          html += '</tbody></table>';
-          if (rows.length > visible.length) {
-            html += '<div class="empty"><button id="show-all" type="button">Show all ' + rows.length + ' tests</button></div>';
-          }
-          $('table').innerHTML = html;
+          html += '</tbody></table></div>' + rowToggle(rows.length, limit, noun) + help;
+          $('panel').innerHTML = html;
         }
 
-        function renderRuns(data) {
-          const runs = data.days.flatMap((day) => day.runs.map((run) => ({ ...run, date: day.date })));
-          const q = state.q.trim().toLowerCase();
-          const rows = runs
-            .filter((run) => !q || (run.title + ' ' + run.workflow).toLowerCase().includes(q))
-            .sort((a, b) => (state.dir === 'asc' ? 1 : -1) * String(a.createdAt || a.date).localeCompare(String(b.createdAt || b.date)));
-          if (!rows.length) {
-            $('table').innerHTML = '<div class="empty">No workflow runs match the current range and search.</div>';
+        function renderRuns(runs) {
+          const help = legend(RUNS_HELP);
+          if (!runs.length) {
+            $('panel').innerHTML = '<p class="empty">No workflow runs match these filters. Clear the search or choose a longer period.</p>' + help;
             return;
           }
-          const conclusion = (c) => '<span class="' + (c === 'success' ? 'good' : c === 'failure' ? 'bad' : 'muted') + '">' + esc(c || 'in progress') + '</span>';
-          $('table').innerHTML = '<table><thead><tr><th>Date</th><th>Workflow</th><th>Run</th><th>Conclusion</th></tr></thead><tbody>' +
-            rows.map((run) => '<tr><td>' + esc(run.date) + '</td><td>' + esc(run.workflow) + '</td><td><a href="' + esc(run.url) + '" target="_blank" rel="noopener">' + esc(run.title || run.id) + '</a></td><td>' + conclusion(run.conclusion) + '</td></tr>').join('') +
-            '</tbody></table>';
+          const result = (c) => {
+            const text = c ? c.charAt(0).toUpperCase() + c.slice(1) : 'In progress';
+            return '<span class="' + (c === 'failure' ? 'is-failed' : '') + '">' + esc(text) + '</span>';
+          };
+          $('panel').innerHTML = '<div class="table-wrap"><table><thead><tr><th scope="col">Date</th><th scope="col">Workflow</th><th scope="col">Run</th><th scope="col">Result</th></tr></thead><tbody>' +
+            runs.map((run) => '<tr><td>' + formatDate(run.date) + '</td><td>' + esc(run.workflow) + '</td><td><a href="' + esc(run.url) + '" target="_blank" rel="noopener">' + esc(run.title || run.id) + '</a></td><td>' + result(run.conclusion) + '</td></tr>').join('') +
+            '</tbody></table></div>' + help;
         }
 
         function render() {
           const dates = rangeDates();
           const data = aggregate(dates);
           const suites = [...new Set(metrics.tests.map(([suite]) => suite))].sort();
-          renderMeta();
-          renderControls(suites);
-          renderTiles(data, dates);
-          renderChart(data, dates);
-          if (state.tab === 'runs') renderRuns(data);
-          else renderTests(data, dates);
+          const filtered = data.tests.filter(matchesFilters);
+          const q = state.q.trim().toLowerCase();
+          const runs = data.days
+            .flatMap((day) => day.runs.map((run) => ({ ...run, date: day.date })))
+            .filter((run) => !q || (run.title + ' ' + run.workflow).toLowerCase().includes(q))
+            .sort((a, b) => String(b.createdAt || b.date).localeCompare(String(a.createdAt || a.date)));
+          renderMasthead();
+          renderFilters(suites);
+          renderSummary(data, dates);
+          renderTabs({ flaky: filtered.filter(tabFilter('flaky')).length, all: filtered.length, runs: runs.length });
+          if (state.tab === 'runs') renderRuns(runs);
+          else renderTests(filtered.filter(tabFilter(state.tab)));
         }
 
+        // Calendar for the "Up to" date: weeks start on Monday, days without data are marked.
+        function addMonths(month, count) {
+          const [year, monthIndex] = month.split('-').map(Number);
+          return new Date(Date.UTC(year, monthIndex - 1 + count, 1)).toISOString().slice(0, 7);
+        }
+
+        function renderCalendar() {
+          const selected = state.end || lastDate;
+          const [year, monthIndex] = calendarMonth.split('-').map(Number);
+          const daysInMonth = new Date(Date.UTC(year, monthIndex, 0)).getUTCDate();
+          const offset = (new Date(Date.UTC(year, monthIndex - 1, 1)).getUTCDay() + 6) % 7;
+          const title = new Date(Date.UTC(year, monthIndex - 1, 1)).toLocaleDateString('en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+          let cells = WEEKDAYS.map((day) => '<span class="weekday" aria-hidden="true">' + day + '</span>').join('') + '<span></span>'.repeat(offset);
+          for (let day = 1; day <= daysInMonth; day++) {
+            const date = calendarMonth + '-' + String(day).padStart(2, '0');
+            const disabled = date > lastDate || date < firstDate;
+            const hasData = datesWithData.has(date);
+            const label = formatDate(date, { weekday: 'long', year: 'numeric' }) + (hasData ? '' : ', no data');
+            cells += '<button type="button" class="day' + (hasData ? ' has-data' : '') + '" data-date="' + date + '" aria-label="' + esc(label) + '" aria-pressed="' + (date === selected) + '" tabindex="' + (date === selected ? 0 : -1) + '"' + (disabled ? ' disabled' : '') + '>' + day + '</button>';
+          }
+          $('calendar').innerHTML =
+            '<div class="calendar-head">' +
+            '<button type="button" data-month="-1" aria-label="Previous month"' + (calendarMonth <= firstDate.slice(0, 7) ? ' disabled' : '') + '>‹</button>' +
+            '<strong>' + esc(title) + '</strong>' +
+            '<button type="button" data-month="1" aria-label="Next month"' + (calendarMonth >= lastDate.slice(0, 7) ? ' disabled' : '') + '>›</button>' +
+            '</div><div class="calendar-grid" role="group" aria-label="' + esc(title) + '">' + cells + '</div>' +
+            '<div class="calendar-foot"><span>Dot: day with data</span><button type="button" class="link-button" data-date="' + lastDate + '">Latest day</button></div>';
+        }
+
+        function focusDay(date) {
+          const button = $('calendar').querySelector('.day[data-date="' + date + '"]');
+          if (button) {
+            $('calendar').querySelectorAll('.day').forEach((day) => (day.tabIndex = -1));
+            button.tabIndex = 0;
+            button.focus();
+          }
+        }
+
+        function openCalendar() {
+          calendarMonth = (state.end || lastDate).slice(0, 7);
+          renderCalendar();
+          $('calendar').hidden = false;
+          $('end').setAttribute('aria-expanded', 'true');
+          focusDay(state.end || lastDate);
+        }
+
+        function closeCalendar(returnFocus) {
+          if ($('calendar').hidden) return;
+          $('calendar').hidden = true;
+          $('end').setAttribute('aria-expanded', 'false');
+          if (returnFocus) $('end').focus();
+        }
+
+        $('end').addEventListener('click', () => ($('calendar').hidden ? openCalendar() : closeCalendar(false)));
+        $('calendar').addEventListener('click', (e) => {
+          const monthButton = e.target.closest('[data-month]');
+          if (monthButton) {
+            calendarMonth = addMonths(calendarMonth, Number(monthButton.dataset.month));
+            renderCalendar();
+            $('calendar').querySelector('[data-month="' + monthButton.dataset.month + '"]')?.focus();
+            return;
+          }
+          const dayButton = e.target.closest('[data-date]');
+          if (dayButton && !dayButton.disabled) {
+            closeCalendar(true);
+            setState({ end: dayButton.dataset.date === lastDate ? '' : dayButton.dataset.date });
+          }
+        });
+        $('calendar').addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            closeCalendar(true);
+            return;
+          }
+          const day = e.target.closest('.day');
+          const step = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -7, ArrowDown: 7 }[e.key];
+          if (!day || !step) return;
+          e.preventDefault();
+          let next = shiftDate(day.dataset.date, step);
+          next = next > lastDate ? lastDate : next < firstDate ? firstDate : next;
+          if (next.slice(0, 7) !== calendarMonth) {
+            calendarMonth = next.slice(0, 7);
+            renderCalendar();
+          }
+          focusDay(next);
+        });
+        document.addEventListener('mousedown', (e) => {
+          if (!$('date-field').contains(e.target)) closeCalendar(false);
+        });
+
         $('days').addEventListener('change', (e) => setState({ days: e.target.value }));
-        $('end').addEventListener('change', (e) => setState({ end: e.target.value === lastDate ? '' : e.target.value }));
         $('q').addEventListener('input', (e) => setState({ q: e.target.value }));
         $('suite').addEventListener('change', (e) => setState({ suite: e.target.value }));
         $('reset').addEventListener('click', () => setState({ ...DEFAULTS, tab: state.tab }));
@@ -437,31 +644,45 @@
           const tab = e.target.closest('button')?.dataset.tab;
           if (tab) setState({ tab, sort: '', dir: '' });
         });
-        $('table').addEventListener('click', (e) => {
-          if (e.target.id === 'show-all') {
-            showAll = true;
+
+        function toggleRow(row) {
+          const index = Number(row.dataset.index);
+          expanded.has(index) ? expanded.delete(index) : expanded.add(index);
+          render();
+          document.querySelector('tr.test-row[data-index="' + index + '"]')?.focus();
+        }
+
+        $('panel').addEventListener('click', (e) => {
+          if (e.target.closest('a')) return;
+          if (e.target.id === 'toggle-rows') {
+            showAll = !showAll;
             render();
+            $('toggle-rows')?.focus();
             return;
           }
           const header = e.target.closest('th[data-sort]');
           if (header) {
-            const key = header.dataset.sort;
-            const current = header.classList.contains('sorted') ? (header.classList.contains('asc') ? 'asc' : 'desc') : null;
-            setState({ sort: key, dir: current === 'desc' ? 'asc' : 'desc' });
+            const current = header.getAttribute('aria-sort');
+            setState({ sort: header.dataset.sort, dir: current === 'descending' ? 'asc' : 'desc' });
             return;
           }
           const row = e.target.closest('tr.test-row');
-          if (row) {
-            const index = Number(row.dataset.index);
-            expanded.has(index) ? expanded.delete(index) : expanded.add(index);
-            render();
+          if (row) toggleRow(row);
+        });
+        $('panel').addEventListener('toggle', (e) => {
+          if (e.target.id === 'legend') legendOpen = e.target.open;
+        }, true);
+        $('panel').addEventListener('keydown', (e) => {
+          const row = e.target.closest('tr.test-row');
+          if (row && (e.key === 'Enter' || e.key === ' ')) {
+            e.preventDefault();
+            toggleRow(row);
           }
         });
         window.addEventListener('hashchange', () => {
           state = readState();
           render();
         });
-        window.addEventListener('resize', () => renderChart(aggregate(rangeDates()), rangeDates()));
         render();
       })();
     </script>

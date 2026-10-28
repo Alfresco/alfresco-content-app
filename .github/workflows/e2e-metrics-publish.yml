@@ -17,6 +17,11 @@ on:
         required: false
         type: boolean
         default: false
+      collect-days:
+        description: 'Number of days, ending with the end day, collected live with collect-today (for branches without daily artifacts)'
+        required: false
+        type: number
+        default: 1
       include-run-id:
         description: 'Run to include even if it is still in progress (used with collect-today)'
         required: false
@@ -89,14 +94,23 @@ jobs:
           fi
           echo "end-date=$end_date" >> "$GITHUB_OUTPUT"
 
-      # The nightly collection only covers previous days, so the end day's runs (including this one) are collected here.
-      - name: Collect end day metrics
+      # The nightly collection only covers previous days of develop, so the end day's runs (including this one) and,
+      # for branches, the earlier days of the report window are collected here.
+      - name: Collect metrics
         if: ${{ inputs.collect-today }}
         env:
-          METRICS_DATE: ${{ steps.params.outputs.end-date }}
-          INCLUDE_RUN_ID: ${{ inputs.include-run-id }}
-          OUTPUT_FILE: e2e-metrics-daily/${{ steps.params.outputs.end-date }}.json
-        run: node .github/scripts/e2e-metrics/collect-daily.js
+          END_DATE: ${{ steps.params.outputs.end-date }}
+          COLLECT_DAYS: ${{ inputs.collect-days }}
+          RUN_ID: ${{ inputs.include-run-id }}
+        run: |
+          for offset in $(seq $(( ${COLLECT_DAYS:-1} - 1 )) -1 0); do
+            date="$(date -u -d "$END_DATE - $offset day" +%F)"
+            # The in-progress run belongs to the end day only.
+            include_run_id=""
+            if [ "$date" = "$END_DATE" ]; then include_run_id="$RUN_ID"; fi
+            METRICS_DATE="$date" INCLUDE_RUN_ID="$include_run_id" OUTPUT_FILE="e2e-metrics-daily/$date.json" \
+              node .github/scripts/e2e-metrics/collect-daily.js
+          done
 
       - name: Build dashboard
         env:

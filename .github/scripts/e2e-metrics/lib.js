@@ -41,6 +41,8 @@ const SCHEMA_VERSION = 1;
 const RUN_ARTIFACT_PREFIX = 'e2e-metrics-';
 const DAILY_ARTIFACT_PREFIX = 'e2e-metrics-daily-';
 const WEEKLY_ARTIFACT_PREFIX = 'e2e-metrics-weekly-';
+// Written by projects/aca-playwright-shared/src/base-config/e2e-metrics.reporter.ts
+const METRICS_REPORT_FORMAT = 'aca-e2e-metrics';
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 const DAY_MS = 24 * 60 * 60 * 1000;
 const PAGE_SIZE = 100;
@@ -143,7 +145,8 @@ function emptyTestMetrics({ key, suite, file, title, path: filePath = null, line
     failures: 0,
     durationSum: 0,
     durationCount: 0,
-    durationMax: 0
+    durationMax: 0,
+    setupSum: 0
   };
 }
 
@@ -157,6 +160,7 @@ function addTestMetrics(target, source) {
   target.durationSum += source.durationSum;
   target.durationCount += source.durationCount;
   target.durationMax = Math.max(target.durationMax, source.durationMax);
+  target.setupSum += source.setupSum || 0;
 }
 
 /** Walk Playwright JSON report suites, yielding every spec with its describe-block title path. */
@@ -172,44 +176,78 @@ function* walkSpecs(suites, titlePath = [], isFileSuite = true) {
 }
 
 /**
- * Convert a Playwright JSON report (one suite attempt) into per-test metrics.
- * Each non-skipped test counts as one run and every result with `retry > 0` as one retry.
- * Durations are tracked for passed attempts only, so failures and timeouts do not skew them.
+ * Per-test metrics of one suite attempt. Each non-skipped test counts as one run and every result with
+ * `retry > 0` as one retry. Durations are tracked for passed attempts only, so failures and timeouts do not skew
+ * them, and include the beforeAll hooks the test depends on. `setupSum` is the beforeAll + beforeEach part of the
+ * durations. With `withDurations: false` only runs, retries and failures are counted.
  */
-function extractTestMetrics(report, fallbackSuite) {
-  const metrics = [];
+function testMetrics({ suite, file, title, path: filePath, line, outcome, results, withDurations = true }) {
+  const executed = results.filter((result) => result.status !== 'skipped');
+  if (outcome === 'skipped' || executed.length === 0) {
+    return null;
+  }
+  const entry = emptyTestMetrics({ key: `${suite} › ${file} › ${title}`, suite, file, title, path: filePath, line });
+  entry.runs = 1;
+  entry.retries = executed.filter((result) => result.retry > 0).length;
+  entry.flakyRuns = outcome === 'flaky' ? 1 : 0;
+  entry.failures = outcome === 'unexpected' ? 1 : 0;
+  for (const result of withDurations ? executed.filter(({ status }) => status === 'passed') : []) {
+    const duration = (result.duration || 0) + (result.beforeAll || 0);
+    entry.durationSum += duration;
+    entry.durationCount += 1;
+    entry.durationMax = Math.max(entry.durationMax, duration);
+    entry.setupSum += (result.beforeAll || 0) + (result.beforeEach || 0);
+  }
+  return entry;
+}
+
+/** Metrics from the `aca-e2e-metrics` report written by the e2e-metrics reporter (aca-playwright-shared). */
+function extractFromMetricsReport(report, fallbackSuite) {
+  return report.tests.map((test) =>
+    testMetrics({
+      suite: test.project || fallbackSuite,
+      file: test.file,
+      title: test.title,
+      path: test.path || null,
+      line: test.line || null,
+      outcome: test.outcome,
+      results: test.results || []
+    })
+  );
+}
+
+/**
+ * Metrics from a standard Playwright JSON report (written before the e2e-metrics reporter existed). Its durations
+ * leave out beforeAll hooks, so only runs, retries and failures are used to keep durations comparable.
+ */
+function extractFromPlaywrightJson(report, fallbackSuite) {
   // rootDir is the absolute testDir on the runner, e.g. /home/runner/work/<repo>/<repo>/e2e/playwright/<suite>/src/tests
   const testDir = /(?:^|\/)(e2e\/playwright\/.+)$/.exec(report.config?.rootDir || '')?.[1];
+  const metrics = [];
   for (const { spec, titlePath } of walkSpecs(report.suites)) {
     for (const test of spec.tests || []) {
-      const results = (test.results || []).filter((result) => result.status !== 'skipped');
-      if (test.status === 'skipped' || results.length === 0) {
-        continue;
-      }
-      const suite = test.projectName || fallbackSuite;
-      const title = titlePath.join(' › ');
-      const entry = emptyTestMetrics({
-        key: `${suite} › ${spec.file} › ${title}`,
-        suite,
-        file: spec.file,
-        title,
-        path: testDir ? path.posix.join(testDir, spec.file) : null,
-        line: spec.line || null
-      });
-      entry.runs = 1;
-      entry.retries = results.filter((result) => result.retry > 0).length;
-      entry.flakyRuns = test.status === 'flaky' ? 1 : 0;
-      entry.failures = test.status === 'unexpected' ? 1 : 0;
-      for (const result of results.filter(({ status }) => status === 'passed')) {
-        const duration = result.duration || 0;
-        entry.durationSum += duration;
-        entry.durationCount += 1;
-        entry.durationMax = Math.max(entry.durationMax, duration);
-      }
-      metrics.push(entry);
+      metrics.push(
+        testMetrics({
+          suite: test.projectName || fallbackSuite,
+          file: spec.file,
+          title: titlePath.join(' › '),
+          path: testDir ? path.posix.join(testDir, spec.file) : null,
+          line: spec.line || null,
+          outcome: test.status,
+          results: test.results || [],
+          withDurations: false
+        })
+      );
     }
   }
   return metrics;
+}
+
+/** Convert one suite attempt report (e2e-metrics reporter or Playwright JSON) into per-test metrics. */
+function extractTestMetrics(report, fallbackSuite) {
+  const metrics =
+    report.format === METRICS_REPORT_FORMAT ? extractFromMetricsReport(report, fallbackSuite) : extractFromPlaywrightJson(report, fallbackSuite);
+  return metrics.filter(Boolean);
 }
 
 /** Merge lists of test metrics by test key. */
@@ -228,6 +266,10 @@ function mergeTests(lists) {
 
 function averageDuration(test) {
   return test.durationCount > 0 ? test.durationSum / test.durationCount : 0;
+}
+
+function averageSetup(test) {
+  return test.durationCount > 0 ? (test.setupSum || 0) / test.durationCount : 0;
 }
 
 function formatDuration(ms) {
@@ -344,6 +386,7 @@ module.exports = {
   extractTestMetrics,
   mergeTests,
   averageDuration,
+  averageSetup,
   formatDuration,
   runUrl,
   dashboardUrl,

@@ -27,7 +27,8 @@
 /**
  * Builds the E2E report (weekly by default) from the daily metrics files produced by `collect-daily.js`:
  *  - flaky tests: retries per number of runs (sorted by retries),
- *  - slowest tests: average duration of passed attempts (sorted from longest to shortest).
+ *  - slowest tests: average duration of passed attempts including the beforeAll/beforeEach hooks of the test
+ *    (sorted from longest to shortest).
  * Writes the full report as JSON and Markdown (also to the job summary) and a compact Teams card with the
  * headline numbers and a link to the E2E dashboard, which is posted when TEAMS_WEBHOOK_URL is set.
  *
@@ -50,6 +51,7 @@ const {
   yesterdayUtc,
   mergeTests,
   averageDuration,
+  averageSetup,
   formatDuration,
   runUrl,
   dashboardUrl,
@@ -62,7 +64,11 @@ const {
 function buildReport(dates, dailies, title) {
   const available = dailies.filter(Boolean);
   const runs = available.flatMap((daily) => daily.runs);
-  const tests = mergeTests(available.map((daily) => daily.tests)).map((test) => ({ ...test, durationAvg: Math.round(averageDuration(test)) }));
+  const tests = mergeTests(available.map((daily) => daily.tests)).map((test) => ({
+    ...test,
+    durationAvg: Math.round(averageDuration(test)),
+    setupAvg: Math.round(averageSetup(test))
+  }));
 
   const flaky = tests
     .filter((test) => test.retries > 0 || test.failures > 0)
@@ -96,38 +102,88 @@ function buildReport(dates, dailies, title) {
   };
 }
 
-function testLabel(test) {
-  return `${test.title} (${test.suite})`;
+const WORKFLOW_NAMES = { 'cron-e2e-chrome.yml': 'daily chrome', 'populate-e2e-reports.yml': 'populate' };
+const numberFormat = new Intl.NumberFormat('en-GB');
+
+function count(value, singular, pluralForm = `${singular}s`) {
+  return `${numberFormat.format(value)} ${value === 1 ? singular : pluralForm}`;
+}
+
+function formatDay(date, withYear = false) {
+  return new Date(`${date}T00:00:00Z`).toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'short',
+    ...(withYear ? { year: 'numeric' } : {}),
+    timeZone: 'UTC'
+  });
+}
+
+/** e.g. "14 Oct – 20 Oct 2026" */
+function formatPeriod(report) {
+  return report.startDate === report.endDate
+    ? formatDay(report.endDate, true)
+    : `${formatDay(report.startDate)} – ${formatDay(report.endDate, true)}`;
+}
+
+function describeRuns(report) {
+  const parts = Object.entries(report.runsByWorkflow).map(([workflow, runs]) => `${runs} ${WORKFLOW_NAMES[workflow] || workflow}`);
+  return `${count(report.runs.length, 'workflow run')}${parts.length ? ` (${parts.join(', ')})` : ''}`;
+}
+
+/** One or two plain sentences with the headline numbers. */
+function describeTotals(report) {
+  const { tests, testRuns, retries, flakyTests } = report.totals;
+  const failures = report.flaky.reduce((sum, test) => sum + test.failures, 0);
+  const retriedText = flakyTests
+    ? `${numberFormat.format(flakyTests)} of ${count(tests, 'test')} needed a retry, with ${count(retries, 'retry', 'retries')} in ${count(testRuns, 'test run')}.`
+    : `None of the ${count(tests, 'test')} needed a retry in ${count(testRuns, 'test run')}.`;
+  return failures ? `${retriedText} ${count(failures, 'test run')} failed after all retries.` : retriedText;
+}
+
+/** Test title with its suite, unless the title already starts with the suite name. */
+function testName(test) {
+  return test.title.startsWith(test.suite) ? test.title : `${test.title} (${test.suite})`;
 }
 
 function buildCard(report, { dashboardLink, runLink, sourceBranch }) {
-  const workflowSummary = Object.entries(report.runsByWorkflow)
-    .map(([workflow, count]) => `${workflow}: ${count}`)
-    .join(', ');
-  const daysTotal = report.missingDays.length + report.daysCollected;
-  const facts = [
-    { title: 'Workflow runs', value: `${report.runs.length}${workflowSummary ? ` (${workflowSummary})` : ''}` },
-    { title: 'Tests / test runs', value: `${report.totals.tests} / ${report.totals.testRuns}` },
-    { title: 'Tests with retries', value: String(report.totals.flakyTests) },
-    { title: 'Total retries', value: String(report.totals.retries) },
-    { title: report.missingDays.length ? '⚠️ Days collected' : 'Days collected', value: `${report.daysCollected} / ${daysTotal}` }
-  ];
-  const [mostRetried] = report.flaky;
-  if (mostRetried) {
-    facts.push({ title: '🔁 Most retried', value: `${testLabel(mostRetried)}: ${mostRetried.retries} / ${mostRetried.runs}` });
-  }
-  const [slowest] = report.slowest;
-  if (slowest) {
-    facts.push({ title: '🐢 Slowest (avg)', value: `${testLabel(slowest)}: ${formatDuration(slowest.durationAvg)}` });
-  }
-
   const body = [
     { type: 'TextBlock', size: 'Large', weight: 'Bolder', text: report.title, wrap: true },
-    { type: 'TextBlock', text: `${report.startDate} → ${report.endDate} (UTC), ${sourceBranch}`, isSubtle: true, spacing: 'None' },
-    { type: 'FactSet', facts }
+    {
+      type: 'TextBlock',
+      text: `${formatPeriod(report)}, ${sourceBranch} branch, ${describeRuns(report)}`,
+      isSubtle: true,
+      spacing: 'None',
+      wrap: true
+    }
   ];
+
   if (report.totals.tests === 0) {
-    body.push({ type: 'TextBlock', text: 'No E2E metrics were collected for this period.', wrap: true, color: 'Warning', weight: 'Bolder' });
+    body.push({ type: 'TextBlock', text: 'No E2E results were collected for this period.', wrap: true, weight: 'Bolder', color: 'Warning' });
+  } else {
+    body.push({ type: 'TextBlock', text: describeTotals(report), wrap: true });
+    const facts = [];
+    const [mostRetried] = report.flaky;
+    if (mostRetried) {
+      facts.push({
+        title: '🔁 Most retried',
+        value: `${testName(mostRetried)}, ${count(mostRetried.retries, 'retry', 'retries')} in ${count(mostRetried.runs, 'run')}`
+      });
+    }
+    const [slowest] = report.slowest;
+    if (slowest) {
+      facts.push({ title: '🐢 Slowest on average', value: `${testName(slowest)}, ${formatDuration(slowest.durationAvg)}` });
+    }
+    body.push({ type: 'FactSet', facts });
+  }
+
+  if (report.missingDays.length) {
+    body.push({
+      type: 'TextBlock',
+      text: `Data is missing for ${report.missingDays.map((date) => formatDay(date)).join(', ')}.`,
+      wrap: true,
+      isSubtle: true,
+      size: 'Small'
+    });
   }
 
   const actions = [];
@@ -135,7 +191,7 @@ function buildCard(report, { dashboardLink, runLink, sourceBranch }) {
     actions.push({ type: 'Action.OpenUrl', title: 'Open dashboard', url: dashboardLink });
   }
   if (runLink) {
-    actions.push({ type: 'Action.OpenUrl', title: dashboardLink ? 'Open run' : 'Open run (full report)', url: runLink });
+    actions.push({ type: 'Action.OpenUrl', title: dashboardLink ? 'Open workflow run' : 'Open full report', url: runLink });
   }
 
   return {
@@ -153,37 +209,37 @@ function escapeMarkdown(text) {
 }
 
 function buildMarkdown(report, dashboardLink) {
-  const lines = [
-    `# ${report.title}: ${report.startDate} → ${report.endDate} (UTC)`,
-    '',
-    `- Workflow runs: ${report.runs.length} ${JSON.stringify(report.runsByWorkflow)}`,
-    `- Tests tracked: ${report.totals.tests}, test runs: ${report.totals.testRuns}`,
-    `- Tests with retries: ${report.totals.flakyTests}, total retries: ${report.totals.retries}`
-  ];
+  const lines = [`# ${report.title}, ${formatPeriod(report)}`, '', `${describeTotals(report)} Data from ${describeRuns(report)}.`];
   if (report.missingDays.length) {
-    lines.push(`- ⚠️ Missing daily data: ${report.missingDays.join(', ')}`);
+    lines.push('', `Data is missing for ${report.missingDays.map((date) => formatDay(date)).join(', ')}.`);
   }
   if (dashboardLink) {
-    lines.push(`- 📊 [E2E dashboard](${dashboardLink})`);
+    lines.push('', `[Open the E2E dashboard](${dashboardLink}) to filter, sort and see the numbers by day.`);
   }
 
   lines.push('', `## 🔁 Flaky tests (${report.flaky.length})`, '');
   if (report.flaky.length) {
-    lines.push('| # | Suite | Test | File | Retries / runs | Flaky runs | Failed runs |', '|---|---|---|---|---|---|---|');
+    lines.push('| # | Test | Suite | File | Retries | Runs | Flaky runs | Failed runs |', '|--:|---|---|---|--:|--:|--:|--:|');
     report.flaky.forEach((test, index) => {
       lines.push(
-        `| ${index + 1} | ${escapeMarkdown(test.suite)} | ${escapeMarkdown(test.title)} | ${escapeMarkdown(test.file)} | ${test.retries} / ${test.runs} | ${test.flakyRuns} | ${test.failures} |`
+        `| ${index + 1} | ${escapeMarkdown(test.title)} | ${escapeMarkdown(test.suite)} | ${escapeMarkdown(test.file)} | ${test.retries} | ${test.runs} | ${test.flakyRuns} | ${test.failures} |`
       );
     });
   } else {
     lines.push('No test needed a retry.');
   }
 
-  lines.push('', `## 🐢 Tests by average duration of passed attempts (${report.slowest.length})`, '');
-  lines.push('| # | Suite | Test | File | Avg | Max | Runs |', '|---|---|---|---|---|---|---|');
+  lines.push(
+    '',
+    `## 🐢 Slowest tests (${report.slowest.length})`,
+    '',
+    'Average of passed attempts. Setup is the time spent in beforeAll and beforeEach hooks and is included in the average.',
+    ''
+  );
+  lines.push('| # | Test | Suite | File | Average | Setup | Longest | Runs |', '|--:|---|---|---|--:|--:|--:|--:|');
   report.slowest.forEach((test, index) => {
     lines.push(
-      `| ${index + 1} | ${escapeMarkdown(test.suite)} | ${escapeMarkdown(test.title)} | ${escapeMarkdown(test.file)} | ${formatDuration(test.durationAvg)} | ${formatDuration(test.durationMax)} | ${test.runs} |`
+      `| ${index + 1} | ${escapeMarkdown(test.title)} | ${escapeMarkdown(test.suite)} | ${escapeMarkdown(test.file)} | ${formatDuration(test.durationAvg)} | ${formatDuration(test.setupAvg)} | ${formatDuration(test.durationMax)} | ${test.runs} |`
     );
   });
 
@@ -209,7 +265,7 @@ async function main() {
   if (process.env.GITHUB_STEP_SUMMARY) {
     fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, markdown);
   }
-  console.log(`${report.title} ${report.startDate} → ${report.endDate}: ${report.totals.tests} test(s), ${report.flaky.length} with retries.`);
+  console.log(`${report.title} ${report.startDate} to ${report.endDate}: ${report.totals.tests} test(s), ${report.flaky.length} with retries.`);
 
   await postToTeams(card);
 }
