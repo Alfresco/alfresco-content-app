@@ -370,35 +370,36 @@
         },
         "MESSAGES": {
             "ERRORS": {
-                "CANNOT_NAVIGATE_LOCATION": "Cannot open this location",
-                "MISSING_CONTENT": "This item no longer exists or you don't have permission to view it.",
-                "GENERIC": "The action was unsuccessful. Try again or contact your IT Team.",
-                "CONFLICT": "This name is already in use, try a different name.",
-                "NODE_MOVE": "Move unsuccessful, a file with the same name already exists.",
-                "MOVE_UNDO": "Move could not be reverted.",
-                "NODE_LINK_DUPLICATE": "Can't create a link, a link with the same name already exists in this location.",
-                "EXISTENT_FOLDER": "There's already a folder with this name. Try a different name.",
-                "NODE_DELETION": "{{ name }} couldn't be deleted",
-                "NODE_DELETION_PLURAL": "{{ number }} items couldn't be deleted",
-                "NODE_RESTORE": "{{ name }} couldn't be restored",
-                "NODE_RESTORE_PLURAL": "{{ number }} items couldn't be restored",
-                "PERMISSION": "You don't have access to do this",
-                "LOCK_NODE": "There was a problem locking the {{ fileName }} file",
-                "UNLOCK_NODE": "There was a problem unlocking the {{ fileName }} file",
-                "TRASH": {
-                    "NODES_PURGE": {
-                        "PLURAL": "{{ number }} items couldn't be deleted",
-                        "SINGULAR": "{{ name }} couldn't be deleted"
-                    },
-                    "NODES_RESTORE": {
-                        "PARTIAL_PLURAL": "{{ number }} items not restored because of issues with the restore location",
-                        "NODE_EXISTS": "Can't restore, {{ name }} already exists",
-                        "LOCATION_MISSING": "Can't restore {{ name }}, the original location no longer exists",
-                        "GENERIC": "There was a problem restoring {{ name }}"
-                    }
+              "CANNOT_NAVIGATE_LOCATION": "Cannot open this location",
+              "MISSING_CONTENT": "This item no longer exists or you don't have permission to view it.",
+              "GENERIC": "The action was unsuccessful. Try again or contact your IT Team.",
+              "CONFLICT": "This name is already in use, try a different name.",
+              "NODE_MOVE": "Move unsuccessful, a file with the same name already exists.",
+              "FILE_FOLDER_MOVE": "Move unsuccessful, a file or folder with the same name already exists.",
+              "MOVE_UNDO": "Move could not be reverted.",
+              "NODE_LINK_DUPLICATE": "Can't create a link, a link with the same name already exists in this location.",
+              "EXISTENT_FOLDER": "There's already a folder with this name. Try a different name.",
+              "NODE_DELETION": "{{ name }} couldn't be deleted",
+              "NODE_DELETION_PLURAL": "{{ number }} items couldn't be deleted",
+              "NODE_RESTORE": "{{ name }} couldn't be restored",
+              "NODE_RESTORE_PLURAL": "{{ number }} items couldn't be restored",
+              "PERMISSION": "You don't have access to do this",
+              "LOCK_NODE": "There was a problem locking the {{ fileName }} file",
+              "UNLOCK_NODE": "There was a problem unlocking the {{ fileName }} file",
+              "TRASH": {
+                "NODES_PURGE": {
+                  "PLURAL": "{{ number }} items couldn't be deleted",
+                  "SINGULAR": "{{ name }} couldn't be deleted"
                 },
-                "DELETE_LIBRARY_FAILED": "Cannot delete the library",
-                "LEAVE_LIBRARY_FAILED": "Cannot leave this library"
+                "NODES_RESTORE": {
+                  "PARTIAL_PLURAL": "{{ number }} items not restored because of issues with the restore location",
+                  "NODE_EXISTS": "Can't restore, {{ name }} already exists",
+                  "LOCATION_MISSING": "Can't restore {{ name }}, the original location no longer exists",
+                  "GENERIC": "There was a problem restoring {{ name }}"
+                }
+              },
+              "DELETE_LIBRARY_FAILED": "Cannot delete the library",
+              "LEAVE_LIBRARY_FAILED": "Cannot leave this library"
             },
             "UPLOAD": {
                 "ERROR": {

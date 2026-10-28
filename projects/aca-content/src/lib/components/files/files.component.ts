@@ -489,8 +489,18 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
           this.documentListService.reload();
           this.notificationService.showInfo(this.translateService.instant('APP.MESSAGES.INFO.NODE_MOVE.UNDO_SUCCESS'));
         },
-        error: () => {
-          this.notificationService.showError(this.translateService.instant('APP.MESSAGES.ERRORS.NODE_MOVE'));
+        error: (error: HttpErrorResponse) => {
+          let errorKey = 'APP.MESSAGES.ERRORS.GENERIC';
+          switch (error.status) {
+            case 403: {
+              errorKey = 'APP.MESSAGES.ERRORS.PERMISSION';
+              break;
+            }
+            case 409: {
+              errorKey = 'APP.MESSAGES.ERRORS.FILE_FOLDER_MOVE';
+            }
+          }
+          this.notificationService.showError(this.translateService.instant(errorKey));
         }
       });
   }
