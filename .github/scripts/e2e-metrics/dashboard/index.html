@@ -117,6 +117,14 @@
       .test-meta a:hover { text-decoration: underline; }
       tr.test-row { cursor: pointer; }
       tr.test-row:hover, tr.test-row[aria-expanded='true'] { background: var(--sunken); }
+      tr.group-row { cursor: pointer; }
+      tr.group-row:hover { background: var(--sunken); }
+      tr.group-suite { background: var(--band); }
+      tr.group-suite .group-name { font-weight: 600; }
+      .group-name { font-weight: 500; }
+      .group-kind { font-size: 11px; font-weight: 400; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.04em; }
+      .chevron { display: inline-block; width: 1em; color: var(--secondary); }
+      .tree-tools { display: flex; gap: 16px; padding-top: 8px; }
       .count-of { color: var(--secondary); }
       td.primary { font-size: 17px; font-weight: 600; }
       td.primary .count-of { font-size: 13px; font-weight: 400; }
@@ -195,7 +203,9 @@
         // Workflow run conclusions listed under Failed workflows; the order ranks results when sorting by Result.
         const FAILED_CONCLUSIONS = new Set(['failure', 'timed_out']);
         const CONCLUSION_ORDER = ['success', 'neutral', 'skipped', 'cancelled', null, 'timed_out', 'failure'];
-        const ALL_LIMIT = 200;
+        const TITLE_SEPARATOR = ' › ';
+        const GROUP_INDENT_PX = 20;
+        const GROUP_KINDS = { suite: 'Suite', file: 'File', describe: 'Describe' };
         const STALE_AFTER_HOURS = 36;
         const DAY_MS = 24 * 60 * 60 * 1000;
         const WEEKDAYS = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
@@ -231,7 +241,7 @@
         const TAB_INTRO = {
           flaky: 'Tests that needed at least one retry or failed in the selected period, ordered by retries.',
           slowest: 'Tests that passed at least once in the selected period, ordered by average duration.',
-          all: 'Every test that ran in the selected period.',
+          all: 'Every test that ran in the selected period, grouped by suite, test file and describe block. Group rows show the totals of their tests; click a group to expand or collapse it.',
           runs: 'Workflow runs whose test results are included: the daily chrome run and Populate E2E reports runs on ' + (metrics.branch || 'develop') + '.',
           failed: 'Workflow runs that failed or timed out. A failed run still provides results for the tests that ran.'
         };
@@ -248,6 +258,9 @@
         let legendOpen = false;
         let calendarMonth = lastDate.slice(0, 7);
         const expanded = new Set();
+        // Groups of the All tests tree the user opened (true) or closed (false); others use the default.
+        const groupToggles = new Map();
+        let visibleGroupKeys = [];
         // Tests whose per-run view shows all runs instead of the latest RUN_LIMIT.
         const allRunsShown = new Set();
 
@@ -414,9 +427,9 @@
           const tabs = [
             ['flaky', '🔁 Flaky tests', counts.flaky],
             ['slowest', '🐢 Slowest tests', null],
-            ['all', 'All tests', counts.all],
+            ['failed', 'Failed workflows', counts.failed],
             ['runs', 'Workflow runs', counts.runs],
-            ['failed', 'Failed workflows', counts.failed]
+            ['all', 'All tests', counts.all]
           ];
           $('tabs').innerHTML = tabs
             .map(([id, label, count]) => '<button type="button" role="tab" data-tab="' + id + '" aria-selected="' + (state.tab === id) + '">' + label + (count == null ? '' : ' <span class="secondary">' + numberFormat.format(count) + '</span>') + '</button>')
@@ -521,8 +534,9 @@
           ];
         }
 
-        function headerRow(columns, sort, ranked = true) {
-          return '<tr>' + (ranked ? '<th class="num" scope="col"><span class="secondary">#</span></th>' : '') + columns
+        function headerRow(columns, sort, lead = '#') {
+          const leadCell = lead === null ? '' : '<th class="num" scope="col"><span class="secondary">' + esc(lead) + '</span></th>';
+          return '<tr>' + leadCell + columns
             .map((c) => {
               const sorted = sort.key === c.key ? ' aria-sort="' + (sort.dir === 'asc' ? 'ascending' : 'descending') + '"' : '';
               return '<th scope="col" data-sort="' + c.key + '"' + sorted + (c.num ? ' class="num"' : '') + ' title="' + esc(c.help || COLUMN_HELP[c.key]) + '">' + esc(c.label) + '</th>';
@@ -613,18 +627,125 @@
             $('panel').innerHTML = '<p class="empty">No tests match these filters. Clear the search or choose a longer period.</p>' + help;
             return;
           }
-          const limit = state.tab === 'all' ? ALL_LIMIT : TOP_LIMIT;
-          const noun = state.tab === 'flaky' ? 'flaky tests' : state.tab === 'slowest' ? 'tests by duration' : 'tests';
+          if (state.tab === 'all') {
+            renderTree(rows, columns, sort, help);
+            return;
+          }
+          const limit = TOP_LIMIT;
+          const noun = state.tab === 'flaky' ? 'flaky tests' : 'tests by duration';
           const visible = showAll ? rows : rows.slice(0, limit);
           let html = '<div class="table-wrap"><table><thead>' + headerRow(columns, sort) + '</thead><tbody>';
           visible.forEach((test, i) => {
-            const open = expanded.has(test.index);
-            const cells = columns.map((c) => '<td class="' + [c.num ? 'num' : '', c.cls || '', c.primary ? 'primary' : ''].join(' ').trim() + '">' + c.render(test) + '</td>').join('');
-            html += '<tr class="test-row" tabindex="0" aria-expanded="' + open + '" data-index="' + test.index + '"><td class="num rank">' + (i + 1) + '</td>' + cells + '</tr>';
-            if (open) html += detailRow(test, columns.length);
+            html += testRow(test, columns, '<td class="num rank">' + (i + 1) + '</td>');
           });
           html += '</tbody></table></div>' + rowToggle(rows.length, limit, noun) + help;
           $('panel').innerHTML = html;
+        }
+
+        function cellClass(column) {
+          return [column.num ? 'num' : '', column.cls || '', column.primary ? 'primary' : ''].join(' ').trim();
+        }
+
+        function testRow(test, columns, leadCell, renderTitle) {
+          const open = expanded.has(test.index);
+          const cells = columns
+            .map((c) => '<td class="' + cellClass(c) + '">' + (c.key === 'title' && renderTitle ? renderTitle(test) : c.render(test)) + '</td>')
+            .join('');
+          const html = '<tr class="test-row" tabindex="0" aria-expanded="' + open + '" data-index="' + test.index + '">' + leadCell + cells + '</tr>';
+          return open ? html + detailRow(test, columns.length) : html;
+        }
+
+        function titleParts(test) {
+          const parts = test.title.split(TITLE_SEPARATOR);
+          return { describes: parts.slice(0, -1), name: parts[parts.length - 1] };
+        }
+
+        /** Suite › file › describe block(s) tree of the tests; every group carries the totals of its tests. */
+        function buildTree(tests) {
+          const newGroup = (kind, name, key, level) => ({ kind, name, key, level, groups: new Map(), tests: [] });
+          const root = newGroup('root', '', '', -1);
+          for (const test of tests) {
+            const path = [['suite', test.suite], ['file', test.file], ...titleParts(test).describes.map((name) => ['describe', name])];
+            let node = root;
+            path.forEach(([kind, name], level) => {
+              if (!node.groups.has(name)) {
+                node.groups.set(name, newGroup(kind, name, JSON.stringify(path.slice(0, level + 1).map(([, n]) => n)), level));
+              }
+              node = node.groups.get(name);
+            });
+            node.tests.push(test);
+          }
+          summarizeGroup(root);
+          return root;
+        }
+
+        function summarizeGroup(group) {
+          const totals = { testCount: 0, runs: 0, retries: 0, retried: 0, failures: 0, durationSum: 0, durationCount: 0, setupSum: 0, max: 0 };
+          const add = (item, testCount) => {
+            totals.testCount += testCount;
+            for (const key of ['runs', 'retries', 'retried', 'failures', 'durationSum', 'durationCount', 'setupSum']) totals[key] += item[key];
+            totals.max = Math.max(totals.max, item.max);
+          };
+          for (const child of group.groups.values()) add(summarizeGroup(child), child.testCount);
+          for (const test of group.tests) add(test, 1);
+          Object.assign(group, totals, {
+            avg: totals.durationCount ? totals.durationSum / totals.durationCount : 0,
+            setup: totals.durationCount ? totals.setupSum / totals.durationCount : 0,
+            rate: totals.runs ? totals.retried / totals.runs : 0
+          });
+          return group;
+        }
+
+        function isGroupOpen(group, siblingCount) {
+          if (groupToggles.has(group.key)) return groupToggles.get(group.key);
+          // Searching opens every group so the matches are visible; a lone group (e.g. one suite selected) opens too.
+          return Boolean(state.q.trim()) || siblingCount === 1;
+        }
+
+        function treeRows(group, columns, sort) {
+          const displayName = (item) => (item.kind ? item.name : titleParts(item).name);
+          const value = (item) => (sort.key === 'title' ? displayName(item) : item[sort.key]);
+          const sign = sort.dir === 'asc' ? 1 : -1;
+          const children = [...group.groups.values(), ...group.tests].sort((a, b) => {
+            const va = value(a), vb = value(b);
+            const cmp = typeof va === 'string' ? va.localeCompare(vb) : va - vb;
+            return cmp * sign || Boolean(b.kind) - Boolean(a.kind) || displayName(a).localeCompare(displayName(b));
+          });
+          const level = group.level + 1;
+          const indent = 'padding-left:' + level * GROUP_INDENT_PX + 'px';
+          return children
+            .map((child) => {
+              if (!child.kind) {
+                const title = (t) => '<div style="' + indent + '"><div class="test-title">' + esc(titleParts(t).name) + '</div><div class="test-meta">' + sourceLink(t) + '</div></div>';
+                return testRow(child, columns, '<td></td>', title);
+              }
+              const open = isGroupOpen(child, group.groups.size);
+              visibleGroupKeys.push(child.key);
+              const name = '<div class="group-name" style="' + indent + '"><span class="chevron" aria-hidden="true">' + (open ? '▾' : '▸') + '</span> ' +
+                '<span class="group-kind">' + GROUP_KINDS[child.kind] + '</span> ' + esc(child.name) + ' <span class="count-of">' + plural(child.testCount, 'test') + '</span></div>';
+              const cells = columns.map((c) => '<td class="' + cellClass(c) + '">' + (c.key === 'title' ? name : c.render(child)) + '</td>').join('');
+              const row = '<tr class="group-row group-' + child.kind + '" tabindex="0" aria-expanded="' + open + '" data-group="' + esc(child.key) + '"><td></td>' + cells + '</tr>';
+              return open ? row + treeRows(child, columns, sort) : row;
+            })
+            .join('');
+        }
+
+        function renderTree(rows, columns, sort, help) {
+          visibleGroupKeys = [];
+          const body = treeRows(buildTree(rows), columns, sort);
+          const tools = '<div class="tree-tools"><button type="button" class="link-button" data-groups="open">Expand all</button>' +
+            '<button type="button" class="link-button" data-groups="close">Collapse all</button></div>';
+          $('panel').innerHTML = tools + '<div class="table-wrap"><table><thead>' + headerRow(columns, sort, '') + '</thead><tbody>' + body + '</tbody></table></div>' + help;
+        }
+
+        function expandAllGroups(open) {
+          // Expanding reveals nested groups, so repeat until no new group shows up.
+          let count;
+          do {
+            count = visibleGroupKeys.length;
+            visibleGroupKeys.forEach((key) => groupToggles.set(key, open));
+            render();
+          } while (open && visibleGroupKeys.length > count);
         }
 
         function renderRuns(runs) {
@@ -636,7 +757,7 @@
             return;
           }
           const sort = sortRows(runs, columns, runTieBreak);
-          $('panel').innerHTML = '<div class="table-wrap"><table><thead>' + headerRow(columns, sort, false) + '</thead><tbody>' +
+          $('panel').innerHTML = '<div class="table-wrap"><table><thead>' + headerRow(columns, sort, null) + '</thead><tbody>' +
             runs.map((run) => '<tr>' + columns.map((c) => '<td>' + c.render(run) + '</td>').join('') + '</tr>').join('') +
             '</tbody></table></div>' + help;
         }
@@ -773,8 +894,21 @@
           document.querySelector('tr.test-row[data-index="' + index + '"]')?.focus();
         }
 
+        function toggleGroup(row) {
+          const key = row.dataset.group;
+          groupToggles.set(key, row.getAttribute('aria-expanded') !== 'true');
+          render();
+          document.querySelector('tr.group-row[data-group="' + CSS.escape(key) + '"]')?.focus();
+        }
+
         $('panel').addEventListener('click', (e) => {
           if (e.target.closest('a')) return;
+          const groupsButton = e.target.closest('[data-groups]');
+          if (groupsButton) {
+            expandAllGroups(groupsButton.dataset.groups === 'open');
+            $('panel').querySelector('[data-groups="' + groupsButton.dataset.groups + '"]')?.focus();
+            return;
+          }
           const runsToggle = e.target.closest('[data-runs-toggle]');
           if (runsToggle) {
             const index = Number(runsToggle.dataset.runsToggle);
@@ -797,16 +931,18 @@
           }
           const row = e.target.closest('tr.test-row');
           if (row) toggleRow(row);
+          const groupRow = e.target.closest('tr.group-row');
+          if (groupRow) toggleGroup(groupRow);
         });
         $('panel').addEventListener('toggle', (e) => {
           if (e.target.id === 'legend') legendOpen = e.target.open;
         }, true);
         $('panel').addEventListener('keydown', (e) => {
-          const row = e.target.closest('tr.test-row');
-          if (row && (e.key === 'Enter' || e.key === ' ')) {
-            e.preventDefault();
-            toggleRow(row);
-          }
+          if (e.key !== 'Enter' && e.key !== ' ') return;
+          const row = e.target.closest('tr.test-row, tr.group-row');
+          if (!row || e.target.closest('a, button')) return;
+          e.preventDefault();
+          row.classList.contains('group-row') ? toggleGroup(row) : toggleRow(row);
         });
         window.addEventListener('hashchange', () => {
           state = readState();
