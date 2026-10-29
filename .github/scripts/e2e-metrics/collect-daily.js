@@ -57,6 +57,8 @@ const DEFAULT_SOURCE_WORKFLOWS = 'cron-e2e-chrome.yml,populate-e2e-reports.yml';
 const DEFAULT_SOURCE_BRANCH = 'develop';
 // The jobs API intermittently returns 502; one retry is enough in practice.
 const JOBS_REQUEST_ATTEMPTS = 2;
+// Result of a run derived from its E2E suite jobs: the first conclusion found in this order, otherwise success.
+const E2E_CONCLUSION_PRIORITY = ['failure', 'timed_out', 'cancelled'];
 
 /** Read every suite-attempt report found in an extracted artifact directory. */
 function readArtifactMetrics(artifactDir, suite) {
@@ -83,22 +85,11 @@ function parseSuiteJobName(name) {
   return match ? { browser: match[1], suite: match[2] } : null;
 }
 
-/**
- * Job id of each collected suite, so the dashboard can link a result to its job instead of the whole run. Keyed by the
- * suite names used in the metrics (the Playwright project name, e.g. `Viewer`), which differ from the job/artifact
- * suite (`viewer`). Only the latest run attempt is used, as its metrics artifacts overwrite those of earlier attempts.
- */
-async function listSuiteJobs(github, run, metricSuitesByArtifact) {
-  const jobs = {};
+/** Jobs of the latest attempt of a run (its metrics artifacts overwrite those of earlier attempts), or null if unavailable. */
+async function listRunJobs(github, run) {
   for (let attempt = 1; attempt <= JOBS_REQUEST_ATTEMPTS; attempt++) {
     try {
-      for (const job of await github.paginate(`/actions/runs/${run.id}/jobs?filter=latest`, 'jobs')) {
-        const parsed = parseSuiteJobName(job.name);
-        for (const metricSuite of (parsed && metricSuitesByArtifact.get(`${parsed.browser}-${parsed.suite}`)) || []) {
-          jobs[metricSuite] = job.id;
-        }
-      }
-      return jobs;
+      return await github.paginate(`/actions/runs/${run.id}/jobs?filter=latest`, 'jobs');
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       if (attempt === JOBS_REQUEST_ATTEMPTS) {
@@ -106,7 +97,36 @@ async function listSuiteJobs(github, run, metricSuitesByArtifact) {
       }
     }
   }
-  return jobs;
+  return null;
+}
+
+/**
+ * Job id of each collected suite, so the dashboard can link a result to its job instead of the whole run. Keyed by the
+ * suite names used in the metrics (the Playwright project name, e.g. `Viewer`), which differ from the job/artifact
+ * suite (`viewer`).
+ */
+function suiteJobIds(jobs, metricSuitesByArtifact) {
+  const ids = {};
+  for (const job of jobs) {
+    const parsed = parseSuiteJobName(job.name);
+    for (const metricSuite of (parsed && metricSuitesByArtifact.get(`${parsed.browser}-${parsed.suite}`)) || []) {
+      ids[metricSuite] = job.id;
+    }
+  }
+  return ids;
+}
+
+/**
+ * Result of the E2E suite jobs of a run, for runs still in progress when collected (the run that publishes the report
+ * cannot know its own result). Null while a suite job is still running or when the run has no suite jobs.
+ */
+function e2eJobsConclusion(jobs) {
+  const suiteJobs = jobs.filter((job) => parseSuiteJobName(job.name));
+  if (!suiteJobs.length || suiteJobs.some((job) => job.status !== 'completed')) {
+    return null;
+  }
+  const conclusions = new Set(suiteJobs.map((job) => job.conclusion));
+  return E2E_CONCLUSION_PRIORITY.find((conclusion) => conclusions.has(conclusion)) || 'success';
 }
 
 async function collectRun(github, run, workDir) {
@@ -127,23 +147,33 @@ async function collectRun(github, run, workDir) {
       console.warn(`Skipping artifact ${artifact.name} of run ${run.id}: ${error instanceof Error ? error.message : String(error)}`);
     }
   }
-  const jobs = metricSuitesByArtifact.size ? await listSuiteJobs(github, run, metricSuitesByArtifact) : {};
-  return { artifactCount: artifacts.length, metrics, jobs };
+  const runJobs = metricSuitesByArtifact.size ? await listRunJobs(github, run) : null;
+  return {
+    artifactCount: artifacts.length,
+    metrics,
+    jobs: runJobs ? suiteJobIds(runJobs, metricSuitesByArtifact) : {},
+    e2eConclusion: runJobs && !run.conclusion ? e2eJobsConclusion(runJobs) : null
+  };
 }
 
-function toRunSummary(run, workflow, artifactCount, jobs) {
-  return {
+function toRunSummary(run, workflow, artifactCount, jobs, e2eConclusion) {
+  const summary = {
     id: run.id,
     workflow,
     title: run.display_title,
     branch: run.head_branch,
     event: run.event,
-    conclusion: run.conclusion,
+    conclusion: run.conclusion || e2eConclusion,
     createdAt: run.created_at,
     url: run.html_url,
     artifacts: artifactCount,
     jobs
   };
+  if (!run.conclusion && e2eConclusion) {
+    // The workflow was still running (e.g. publishing this report); the result is that of its E2E jobs.
+    summary.conclusionFrom = 'e2e-jobs';
+  }
+  return summary;
 }
 
 /** Completed runs of the source workflows created on `date` on `branch`, plus the optional in-progress run `includeRunId`. */
@@ -195,11 +225,11 @@ async function main() {
   const results = [];
   try {
     for (const { run, workflow } of await listRuns(github, { sourceWorkflows, date, branch, includeRunId })) {
-      const { artifactCount, metrics, jobs } = await collectRun(github, run, workDir);
+      const { artifactCount, metrics, jobs, e2eConclusion } = await collectRun(github, run, workDir);
       console.log(`${workflow} run ${run.id} (${run.display_title}): ${artifactCount} metrics artifact(s), ${metrics.length} test run(s)`);
       // Runs without usable reports (e.g. only legacy-format artifacts) would show up as empty runs, so they are left out.
       if (metrics.length > 0) {
-        runs.push(toRunSummary(run, workflow, artifactCount, jobs));
+        runs.push(toRunSummary(run, workflow, artifactCount, jobs, e2eConclusion));
         perRunMetrics.push(metrics);
         results.push(...metrics.map(({ key, suiteAttempt, detail }) => ({ key, runId: run.id, suiteAttempt, ...detail })));
       }

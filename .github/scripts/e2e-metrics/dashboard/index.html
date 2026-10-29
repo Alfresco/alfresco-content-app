@@ -177,6 +177,12 @@
       tr.detail table { width: auto; }
       tr.detail th, tr.detail td { padding: 5px 20px 5px 0; border-bottom: 1px solid var(--rule); }
       tr.detail tbody tr:last-child td { border-bottom: 0; }
+      /* In the All tests tree an expanded test and its runs are framed, so its numbers stand apart from the groups around it. */
+      table.tree tr.test-row[aria-expanded='true'] > td { border-top: 2px solid var(--link); border-bottom-color: transparent; }
+      table.tree tr.test-row[aria-expanded='true'] > td:first-child, table.tree tr.detail > td:first-child { border-left: 2px solid var(--link); }
+      table.tree tr.test-row[aria-expanded='true'] > td:last-child, table.tree tr.detail > td:last-child { border-right: 2px solid var(--link); }
+      table.tree tr.detail > td { border-bottom: 2px solid var(--link); }
+      tr.test-row[aria-expanded='true'] .test-title { font-weight: 600; }
       .detail-summary { margin: 4px 0 10px; }
       .detail-note { margin: 10px 0 0; font-size: 14px; color: var(--secondary); }
       .attempts { max-width: 420px; }
@@ -327,7 +333,7 @@
           date: 'Day the workflow run started (UTC).',
           workflow: 'Workflow file that produced the results.',
           run: 'Link to the workflow run on GitHub, with its logs and artifacts.',
-          result: 'Outcome of the whole workflow run. A failed run still provides results for the tests that ran. Sorting puts failed runs first, then timed out, in progress, cancelled and successful runs.'
+          result: 'Outcome of the whole workflow run. A failed run still provides results for the tests that ran. For a run that was still in progress when its data was collected (the run that publishes the dashboard), the result of its E2E jobs is shown instead, marked "(E2E jobs)". Sorting puts failed runs first, then timed out, in progress, cancelled and successful runs.'
         };
 
         let state = readState();
@@ -628,7 +634,11 @@
               label: 'Result',
               help: RUNS_HELP.result,
               sortValue: (run) => CONCLUSION_ORDER.indexOf(run.conclusion ?? null),
-              render: (run) => '<span class="' + (isFailedRun(run) ? 'is-failed' : '') + '">' + esc(conclusionLabel(run.conclusion)) + '</span>'
+              render: (run) =>
+                '<span class="' + (isFailedRun(run) ? 'is-failed' : '') + '">' + esc(conclusionLabel(run.conclusion)) + '</span>' +
+                (run.conclusionFrom === 'e2e-jobs'
+                  ? ' <span class="secondary" title="The workflow was still running when this data was collected (it publishes this dashboard), so this is the result of its E2E jobs.">(E2E jobs)</span>'
+                  : '')
             }
           ];
         }
@@ -843,7 +853,7 @@
           const body = treeRows(buildTree(rows), columns, sort);
           const tools = '<div class="tree-tools"><button type="button" class="link-button" data-groups="open">Expand all</button>' +
             '<button type="button" class="link-button" data-groups="close">Collapse all</button></div>';
-          $('panel').innerHTML = tools + '<div class="table-wrap"><table><thead>' + headerRow(columns, sort, '') + '</thead><tbody>' + body + '</tbody></table></div>' + help;
+          $('panel').innerHTML = tools + '<div class="table-wrap"><table class="tree"><thead>' + headerRow(columns, sort, '') + '</thead><tbody>' + body + '</tbody></table></div>' + help;
         }
 
         function expandAllGroups(open) {
@@ -997,7 +1007,13 @@
 
         function toggleRow(row) {
           const index = Number(row.dataset.index);
-          expanded.has(index) ? expanded.delete(index) : expanded.add(index);
+          if (expanded.has(index)) {
+            expanded.delete(index);
+          } else {
+            // Only one test is open at a time, so its numbers stay easy to follow.
+            expanded.clear();
+            expanded.add(index);
+          }
           render();
           document.querySelector('tr.test-row[data-index="' + index + '"]')?.focus();
         }
