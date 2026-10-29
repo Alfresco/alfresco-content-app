@@ -115,6 +115,9 @@ function compactRun(run) {
   if (run.jobs && Object.keys(run.jobs).length) {
     compact.jobs = run.jobs;
   }
+  if (run.conclusionFrom) {
+    compact.conclusionFrom = run.conclusionFrom;
+  }
   return compact;
 }
 
