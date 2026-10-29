@@ -28,7 +28,8 @@
  * Builds the E2E report (weekly by default) from the daily metrics files produced by `collect-daily.js`:
  *  - flaky tests: retries per number of runs (sorted by retries),
  *  - slowest tests: average duration of passed attempts including the beforeAll/beforeEach hooks of the test
- *    (sorted from longest to shortest).
+ *    (sorted from longest to shortest),
+ *  - recently flaky / fixed tests compared with the previous period of the same length (see lib.compareFlaky).
  * Writes the full report as JSON and Markdown (also to the job summary) and a compact Teams card with the
  * headline numbers and a link to the E2E dashboard, which is posted when TEAMS_WEBHOOK_URL is set.
  *
@@ -48,8 +49,11 @@ const path = require('path');
 const {
   SCHEMA_VERSION,
   assertDate,
+  shiftDate,
   yesterdayUtc,
   mergeTests,
+  compareFlaky,
+  FIXED_MIN_RUNS,
   averageDuration,
   averageSetup,
   formatDuration,
@@ -61,7 +65,7 @@ const {
   writeJson
 } = require('./lib');
 
-function buildReport(dates, dailies, title) {
+function buildReport(dates, dailies, title, previousDailies = []) {
   const available = dailies.filter(Boolean);
   const runs = available.flatMap((daily) => daily.runs);
   const tests = mergeTests(available.map((daily) => daily.tests)).map((test) => ({
@@ -69,6 +73,8 @@ function buildReport(dates, dailies, title) {
     durationAvg: Math.round(averageDuration(test)),
     setupAvg: Math.round(averageSetup(test))
   }));
+  const previousAvailable = previousDailies.filter(Boolean);
+  const comparison = compareFlaky(tests, mergeTests(previousAvailable.map((daily) => daily.tests)));
 
   const flaky = tests
     .filter((test) => test.retries > 0 || test.failures > 0)
@@ -98,7 +104,13 @@ function buildReport(dates, dailies, title) {
       flakyTests: flaky.length
     },
     flaky,
-    slowest
+    slowest,
+    // Recently flaky / fixed tests compared with the previous period of the same length; null without data for it.
+    comparison: comparison && {
+      days: dates.length,
+      recentlyFlaky: comparison.recentlyFlaky.map(({ key, suite, title: testTitle }) => ({ key, suite, title: testTitle })),
+      fixed: comparison.fixed.map(({ key, suite, title: testTitle }) => ({ key, suite, title: testTitle }))
+    }
   };
 }
 
@@ -138,6 +150,15 @@ function describeTotals(report) {
     ? `${numberFormat.format(flakyTests)} of ${count(tests, 'test')} needed a retry, with ${count(retries, 'retry', 'retries')} in ${count(testRuns, 'test run')}.`
     : `None of the ${count(tests, 'test')} needed a retry in ${count(testRuns, 'test run')}.`;
   return failures ? `${retriedText} ${count(failures, 'test run')} failed after all retries.` : retriedText;
+}
+
+/** e.g. "Compared with the previous 7 days: 2 recently flaky tests, 1 fixed." or null without data to compare. */
+function describeComparison(report) {
+  const { comparison } = report;
+  if (!comparison) {
+    return null;
+  }
+  return `Compared with the previous ${count(comparison.days, 'day')}: ${count(comparison.recentlyFlaky.length, 'recently flaky test')}, ${numberFormat.format(comparison.fixed.length)} fixed.`;
 }
 
 /** The test's own title, without its describe blocks. */
@@ -194,6 +215,10 @@ function buildCard(report, { dashboardLink, runLink, sourceBranch }) {
     body.push({ type: 'TextBlock', text: 'No E2E results were collected for this period.', wrap: true, weight: 'Bolder', color: 'Warning' });
   } else {
     body.push({ type: 'TextBlock', text: describeTotals(report), wrap: true });
+    const comparison = describeComparison(report);
+    if (comparison) {
+      body.push({ type: 'TextBlock', text: comparison, wrap: true, spacing: 'Small' });
+    }
     const highlights = highlightsTable(report);
     if (highlights) {
       body.push(highlights);
@@ -234,6 +259,10 @@ function escapeMarkdown(text) {
 
 function buildMarkdown(report, dashboardLink) {
   const lines = [`# ${report.title}, ${formatPeriod(report)}`, '', `${describeTotals(report)} Data from ${describeRuns(report)}.`];
+  const comparison = describeComparison(report);
+  if (comparison) {
+    lines.push('', comparison);
+  }
   if (report.missingDays.length) {
     lines.push('', `Data is missing for ${report.missingDays.map((date) => formatDay(date)).join(', ')}.`);
   }
@@ -251,6 +280,20 @@ function buildMarkdown(report, dashboardLink) {
     });
   } else {
     lines.push('No test needed a retry.');
+  }
+
+  if (report.comparison) {
+    const testList = (tests) => tests.map((test) => `- ${escapeMarkdown(test.title)} (${escapeMarkdown(test.suite)})`);
+    lines.push('', `## 📈 Recently flaky tests (${report.comparison.recentlyFlaky.length})`, '');
+    lines.push(...(report.comparison.recentlyFlaky.length ? testList(report.comparison.recentlyFlaky) : ['None.']));
+    lines.push(
+      '',
+      `## ✅ Fixed (${report.comparison.fixed.length})`,
+      '',
+      `Flaky in the previous period, no retry in at least ${FIXED_MIN_RUNS} runs in this one.`,
+      ''
+    );
+    lines.push(...(report.comparison.fixed.length ? testList(report.comparison.fixed) : ['None.']));
   }
 
   lines.push(
@@ -277,9 +320,12 @@ async function main() {
   const sourceBranch = process.env.SOURCE_BRANCH || 'develop';
   const outputDir = process.env.OUTPUT_DIR || 'e2e-metrics-weekly';
   const dates = dateRange(endDate, days);
+  // The period before, for recently flaky / fixed tests.
+  const previousDates = dateRange(shiftDate(endDate, -days), days);
   const dashboardLink = process.env.DASHBOARD_PUBLISHED === 'true' && dashboardUrl() ? `${dashboardUrl()}#days=${days}&end=${endDate}` : null;
 
-  const report = buildReport(dates, await loadDailies(dates), title);
+  const allDailies = await loadDailies([...previousDates, ...dates]);
+  const report = buildReport(dates, allDailies.slice(days), title, allDailies.slice(0, days));
   const markdown = buildMarkdown(report, dashboardLink);
   const card = buildCard(report, { dashboardLink, runLink: runUrl(), sourceBranch });
 

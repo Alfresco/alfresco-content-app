@@ -41,8 +41,9 @@
  *  - DAILY_DIR, REMOTE_DATA, GITHUB_TOKEN, GITHUB_REPOSITORY: see lib.loadDailies
  *  - DASHBOARD_URL: published dashboard URL (defaults to the repository's GitHub Pages URL)
  *  - SOURCE_BRANCH: branch the runs were collected from (default `develop`)
- *  - HISTORY_DAYS: days of history kept (default 14, the longest report window)
+ *  - HISTORY_DAYS: days of history kept (default 28, twice the longest report window, to compare periods)
  *  - DETAIL_DAYS: days for which per-run results are kept (default 14)
+ *  - TEST_CASE_URL: link for test case ids in titles, `{id}` is replaced (default: Hyland Jira)
  *  - SITE_DIR: output directory (default `e2e-dashboard`)
  */
 
@@ -51,12 +52,19 @@ const path = require('path');
 const { SCHEMA_VERSION, assertDate, shiftDate, yesterdayUtc, dashboardUrl, loadDailies, dateRange } = require('./lib');
 
 const TEMPLATE = path.join(__dirname, 'dashboard', 'index.html');
-const DEFAULT_HISTORY_DAYS = 14;
+// Twice the longest report window, so a period can be compared with the one before it (New/Fixed flaky tests).
+const DEFAULT_HISTORY_DAYS = 28;
 const DEFAULT_DETAIL_DAYS = 14;
 // Retention of the e2e-metrics-daily-<date> artifacts (e2e-metrics-report.yml).
 const DAILY_ARTIFACT_DAYS = 14;
+// Test case ids such as XAT-5016 in test titles link here ({id} is replaced); TEST_CASE_URL overrides it.
+const DEFAULT_TEST_CASE_URL = 'https://hyland.atlassian.net/browse/{id}';
 // Positions of the per-day test metrics in the compact history format.
 const METRIC_FIELDS = ['runs', 'retries', 'flakyRuns', 'failures', 'durationSum', 'durationCount', 'durationMax', 'setupSum'];
+// Positions of the per-suite job data of a run: job id, test step number, setup / tests / total seconds.
+const SUITE_FIELDS = ['job', 'step', 'setup', 'tests', 'total'];
+// Positions of a run's failure cause entries.
+const FAILURE_FIELDS = ['kind', 'name', 'job', 'step', 'stepName'];
 // Compact codes of per-run outcomes and attempt statuses.
 const OUTCOME_CODES = { expected: 'p', flaky: 'r', unexpected: 'f' };
 const STATUS_CODES = { passed: 'p', failed: 'f', timedOut: 't', interrupted: 'i' };
@@ -84,6 +92,18 @@ async function fetchPublishedHistory(siteUrl) {
 }
 
 const testKey = ([suite, file, title]) => `${suite} › ${file} › ${title}`;
+const toFields = (fields, object) => fields.map((field) => object[field] ?? null);
+const fromFields = (fields, values) => Object.fromEntries(fields.map((field, position) => [field, values[position] ?? null]));
+const mapValues = (object, fn) => Object.fromEntries(Object.entries(object || {}).map(([key, value]) => [key, fn(value)]));
+
+function expandRun(run) {
+  const { suites, failure, ...rest } = run;
+  const expanded = { ...rest, suites: mapValues(suites, (values) => fromFields(SUITE_FIELDS, values)) };
+  if (failure) {
+    expanded.failure = failure.map((values) => fromFields(FAILURE_FIELDS, values));
+  }
+  return expanded;
+}
 
 /** Expand the compact history format into daily metrics objects keyed by date. */
 function expandHistory(history) {
@@ -95,38 +115,56 @@ function expandHistory(history) {
       METRIC_FIELDS.forEach((field, position) => (test[field] = values[position] ?? 0));
       return test;
     });
+    const runs = day.runs.map(expandRun);
     const results = (day.results || []).map(([index, runIndex, suiteAttempt, outcome, retries, duration, setup, attempts]) => ({
       key: testKey(history.tests[index]),
-      runId: day.runs[runIndex]?.id,
+      runId: runs[runIndex]?.id,
       suiteAttempt,
       outcome: OUTCOMES[outcome],
       retries,
       duration,
       setup,
-      attempts: (attempts || []).map(([status, attemptDuration]) => ({ status: STATUSES[status] || status, duration: attemptDuration }))
+      attempts: (attempts || []).map(([status, attemptDuration, errorIndex]) => ({
+        status: STATUSES[status] || status,
+        duration: attemptDuration,
+        ...(errorIndex != null && day.errors?.[errorIndex] ? { error: day.errors[errorIndex] } : {})
+      }))
     }));
-    days.set(day.date, { date: day.date, runs: day.runs, tests, results });
+    days.set(day.date, { date: day.date, runs, tests, results });
   }
   return days;
 }
 
+/** Suite job data as `{ suite: [job, step, setup, tests, total] }` and failure causes as `[kind, name, job, step, stepName]`. */
 function compactRun(run) {
   const compact = { id: run.id, workflow: run.workflow, title: run.title, conclusion: run.conclusion, createdAt: run.createdAt, url: run.url };
-  if (run.jobs && Object.keys(run.jobs).length) {
-    compact.jobs = run.jobs;
+  if (run.suites && Object.keys(run.suites).length) {
+    compact.suites = mapValues(run.suites, (suite) => toFields(SUITE_FIELDS, suite));
   }
   if (run.conclusionFrom) {
     compact.conclusionFrom = run.conclusionFrom;
+  }
+  if (run.failure?.length) {
+    compact.failure = run.failure.map((entry) => toFields(FAILURE_FIELDS, entry));
   }
   return compact;
 }
 
 /**
  * Per-run results as `[testIndex, runIndex, suiteAttempt, outcome, retries, duration, setup, attempts?]`;
- * attempts (`[status, duration]` each) are only kept for runs that needed a retry or failed.
+ * attempts (`[status, duration, errorIndex?]` each) are only kept for runs that needed a retry or failed. Error
+ * messages repeat across retries and tests, so each day stores them once in `errors` and attempts refer to them.
  */
-function compactResults(day, indexByKey) {
+function compactResults(day, indexByKey, errors) {
   const runIndex = new Map(day.runs.map((run, index) => [run.id, index]));
+  const errorIndex = new Map();
+  const errorRef = (error) => {
+    if (!errorIndex.has(error)) {
+      errorIndex.set(error, errors.length);
+      errors.push(error);
+    }
+    return errorIndex.get(error);
+  };
   return (day.results || [])
     .filter((result) => indexByKey.has(result.key) && runIndex.has(result.runId))
     .map((result) => {
@@ -140,7 +178,11 @@ function compactResults(day, indexByKey) {
         result.setup ?? null
       ];
       if (result.outcome !== 'expected') {
-        row.push(result.attempts.map(({ status, duration }) => [STATUS_CODES[status] || status, duration ?? null]));
+        row.push(
+          result.attempts.map(({ status, duration, error }) =>
+            error ? [STATUS_CODES[status] || status, duration ?? null, errorRef(error)] : [STATUS_CODES[status] || status, duration ?? null]
+          )
+        );
       }
       return row;
     });
@@ -162,7 +204,11 @@ function compactHistory(days, meta, detailFrom) {
       });
       const compactDay = { date: day.date, runs: day.runs.map(compactRun), tests };
       if (day.date >= detailFrom && day.results?.length) {
-        compactDay.results = compactResults(day, indexByKey);
+        const errors = [];
+        compactDay.results = compactResults(day, indexByKey, errors);
+        if (errors.length) {
+          compactDay.errors = errors;
+        }
       }
       return compactDay;
     });
@@ -198,6 +244,7 @@ async function main() {
       repository: process.env.GITHUB_REPOSITORY || null,
       serverUrl: process.env.GITHUB_SERVER_URL || 'https://github.com',
       branch: process.env.SOURCE_BRANCH || 'develop',
+      testCaseUrl: process.env.TEST_CASE_URL || DEFAULT_TEST_CASE_URL,
       historyDays,
       detailDays
     },
