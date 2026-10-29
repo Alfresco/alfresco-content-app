@@ -27,7 +27,7 @@
 /**
  * Shared helpers for the E2E metrics pipeline:
  *  - GitHub REST API access (listing runs/artifacts, downloading artifact zips),
- *  - extracting per-test retry/duration metrics from Playwright JSON reports,
+ *  - extracting per-test retry/duration metrics from the e2e-metrics reporter output,
  *  - merging those metrics across runs and days,
  *  - loading daily metrics files (local or from `e2e-metrics-daily-<date>` artifacts).
  */
@@ -163,26 +163,13 @@ function addTestMetrics(target, source) {
   target.setupSum += source.setupSum || 0;
 }
 
-/** Walk Playwright JSON report suites, yielding every spec with its describe-block title path. */
-function* walkSpecs(suites, titlePath = [], isFileSuite = true) {
-  for (const suite of suites || []) {
-    // Top-level suites are the spec files; their title is the file path, which is tracked separately.
-    const suitePath = isFileSuite ? titlePath : [...titlePath, suite.title];
-    for (const spec of suite.specs || []) {
-      yield { spec, titlePath: [...suitePath, spec.title] };
-    }
-    yield* walkSpecs(suite.suites, suitePath, false);
-  }
-}
-
 /**
  * Per-test metrics of one suite attempt. Each non-skipped test counts as one run and every result with
  * `retry > 0` as one retry. Durations are tracked for passed attempts only, so failures and timeouts do not skew
  * them, and include the beforeAll hooks the test depends on. `setupSum` is the beforeAll + beforeEach part of the
- * durations. With `withDurations: false` only runs, retries and failures are counted.
- * `detail` describes this single run (outcome, retries, duration and every attempt) for the per-run view.
+ * durations. `detail` describes this single run (outcome, retries, duration and every attempt) for the per-run view.
  */
-function testMetrics({ suite, file, title, path: filePath, line, outcome, results, withDurations = true }) {
+function testMetrics({ suite, file, title, path: filePath, line, outcome, results }) {
   const executed = results.filter((result) => result.status !== 'skipped');
   if (outcome === 'skipped' || executed.length === 0) {
     return null;
@@ -192,9 +179,9 @@ function testMetrics({ suite, file, title, path: filePath, line, outcome, result
   entry.retries = executed.filter((result) => result.retry > 0).length;
   entry.flakyRuns = outcome === 'flaky' ? 1 : 0;
   entry.failures = outcome === 'unexpected' ? 1 : 0;
-  const attemptDuration = (result) => (withDurations ? (result.duration || 0) + (result.beforeAll || 0) : null);
-  const attemptSetup = (result) => (withDurations ? (result.beforeAll || 0) + (result.beforeEach || 0) : null);
-  for (const result of withDurations ? executed.filter(({ status }) => status === 'passed') : []) {
+  const attemptDuration = (result) => (result.duration || 0) + (result.beforeAll || 0);
+  const attemptSetup = (result) => (result.beforeAll || 0) + (result.beforeEach || 0);
+  for (const result of executed.filter(({ status }) => status === 'passed')) {
     const duration = attemptDuration(result);
     entry.durationSum += duration;
     entry.durationCount += 1;
@@ -212,9 +199,16 @@ function testMetrics({ suite, file, title, path: filePath, line, outcome, result
   return entry;
 }
 
-/** Metrics from the `aca-e2e-metrics` report written by the e2e-metrics reporter (aca-playwright-shared). */
-function extractFromMetricsReport(report, fallbackSuite) {
-  return report.tests.map((test) =>
+/**
+ * Convert one suite attempt report written by the e2e-metrics reporter into per-test metrics. Other formats (e.g. a
+ * plain Playwright JSON report) are rejected: they lack beforeAll hook timings and name test files differently, so
+ * mixing them in would split every test into two entries, one of them without durations.
+ */
+function extractTestMetrics(report, fallbackSuite) {
+  if (report.format !== METRICS_REPORT_FORMAT) {
+    throw new Error(`not an ${METRICS_REPORT_FORMAT} report`);
+  }
+  const metrics = report.tests.map((test) =>
     testMetrics({
       suite: test.project || fallbackSuite,
       file: test.file,
@@ -225,39 +219,6 @@ function extractFromMetricsReport(report, fallbackSuite) {
       results: test.results || []
     })
   );
-}
-
-/**
- * Metrics from a standard Playwright JSON report (written before the e2e-metrics reporter existed). Its durations
- * leave out beforeAll hooks, so only runs, retries and failures are used to keep durations comparable.
- */
-function extractFromPlaywrightJson(report, fallbackSuite) {
-  // rootDir is the absolute testDir on the runner, e.g. /home/runner/work/<repo>/<repo>/e2e/playwright/<suite>/src/tests
-  const testDir = /(?:^|\/)(e2e\/playwright\/.+)$/.exec(report.config?.rootDir || '')?.[1];
-  const metrics = [];
-  for (const { spec, titlePath } of walkSpecs(report.suites)) {
-    for (const test of spec.tests || []) {
-      metrics.push(
-        testMetrics({
-          suite: test.projectName || fallbackSuite,
-          file: spec.file,
-          title: titlePath.join(' › '),
-          path: testDir ? path.posix.join(testDir, spec.file) : null,
-          line: spec.line || null,
-          outcome: test.status,
-          results: test.results || [],
-          withDurations: false
-        })
-      );
-    }
-  }
-  return metrics;
-}
-
-/** Convert one suite attempt report (e2e-metrics reporter or Playwright JSON) into per-test metrics. */
-function extractTestMetrics(report, fallbackSuite) {
-  const metrics =
-    report.format === METRICS_REPORT_FORMAT ? extractFromMetricsReport(report, fallbackSuite) : extractFromPlaywrightJson(report, fallbackSuite);
   return metrics.filter(Boolean);
 }
 

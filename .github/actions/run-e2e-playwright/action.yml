@@ -17,7 +17,7 @@ inputs:
     required: false
     default: '1'
   metrics-dir:
-    description: 'If set, a Playwright JSON report of each suite attempt is written to this directory (attempt-<n>.json) for the weekly E2E metrics report'
+    description: 'If set, an e2e-metrics report of each suite attempt is written to this directory (attempt-<n>.json) for the daily E2E metrics dashboard'
     required: false
     default: ''
 
