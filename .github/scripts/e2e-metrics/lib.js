@@ -46,6 +46,8 @@ const METRICS_REPORT_FORMAT = 'aca-e2e-metrics';
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 const DAY_MS = 24 * 60 * 60 * 1000;
 const PAGE_SIZE = 100;
+// Clean runs a previously flaky test needs in a period to count as fixed, so one lucky run is not enough.
+const FIXED_MIN_RUNS = 3;
 
 function requireEnv(name) {
   const value = process.env[name];
@@ -194,7 +196,11 @@ function testMetrics({ suite, file, title, path: filePath, line, outcome, result
     retries: entry.retries,
     duration: passed ? attemptDuration(passed) : null,
     setup: passed ? attemptSetup(passed) : null,
-    attempts: executed.map((result) => ({ status: result.status, duration: attemptDuration(result) }))
+    attempts: executed.map((result) => ({
+      status: result.status,
+      duration: attemptDuration(result),
+      ...(result.error ? { error: result.error } : {})
+    }))
   };
   return entry;
 }
@@ -234,6 +240,26 @@ function mergeTests(lists) {
     }
   }
   return [...byKey.values()];
+}
+
+const isFlaky = (test) => test.retries > 0 || test.failures > 0;
+
+/**
+ * Compares the flaky tests of a period with the previous period of the same length (the dashboard applies the same rules):
+ *  - recently flaky: flaky in this period, but not in the previous one (including tests that did not run then),
+ *  - fixed: flaky in the previous period, and ran at least FIXED_MIN_RUNS times in this one without any retry.
+ * Returns null when the previous period has no data, as nothing can be compared.
+ */
+function compareFlaky(tests, previousTests) {
+  if (!previousTests.length) {
+    return null;
+  }
+  const previous = new Map(previousTests.map((test) => [test.key, test]));
+  const current = new Map(tests.map((test) => [test.key, test]));
+  return {
+    recentlyFlaky: tests.filter((test) => isFlaky(test) && !(previous.has(test.key) && isFlaky(previous.get(test.key)))),
+    fixed: previousTests.filter((test) => isFlaky(test) && current.get(test.key)?.runs >= FIXED_MIN_RUNS && !isFlaky(current.get(test.key)))
+  };
 }
 
 function averageDuration(test) {
@@ -357,6 +383,8 @@ module.exports = {
   parseRunArtifactName,
   extractTestMetrics,
   mergeTests,
+  compareFlaky,
+  FIXED_MIN_RUNS,
   averageDuration,
   averageSetup,
   formatDuration,

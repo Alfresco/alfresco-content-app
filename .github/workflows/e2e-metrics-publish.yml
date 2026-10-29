@@ -66,6 +66,8 @@ jobs:
       # Develop data comes from the published dashboard and the daily artifacts, other branches only use their own runs.
       REMOTE_DATA: ${{ inputs.source-branch == 'develop' }}
       DASHBOARD_URL: ${{ vars.E2E_DASHBOARD_URL }}
+      # Optional override of where test case ids (XAT-1234) link to; {id} is replaced.
+      TEST_CASE_URL: ${{ vars.E2E_TEST_CASE_URL }}
     steps:
       - name: Checkout
         uses: actions/checkout@v7

@@ -61,6 +61,7 @@ interface E2eMetricsResult {
   duration: number;
   beforeAll: number;
   beforeEach: number;
+  error?: string;
 }
 
 interface E2eMetricsTest {
@@ -76,6 +77,22 @@ interface E2eMetricsTest {
 const hookId = (location?: HookLocation): string | undefined => (location ? `${location.file}:${location.line}:${location.column}` : undefined);
 
 const average = (values: number[] = []): number => (values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : 0);
+
+// Long enough to tell errors apart (e.g. which locator timed out), short enough to keep the metrics files small.
+const ERROR_MAX_LENGTH = 200;
+// Terminal colour codes (ESC [ ... m) that Playwright adds to error messages.
+const ANSI_PATTERN = new RegExp(`${String.fromCharCode(27)}\\[[0-9;]*m`, 'g');
+
+/** First non-empty line of the error, without terminal colours, e.g. "TimeoutError: locator.click: Timeout 30000ms exceeded." */
+const errorSummary = (result: TestResult): string | undefined => {
+  const message = result.error?.message ?? result.error?.value;
+  const line = message
+    ?.replace(ANSI_PATTERN, '')
+    .split('\n')
+    .map((text) => text.trim())
+    .find(Boolean);
+  return line && line.length > ERROR_MAX_LENGTH ? `${line.slice(0, ERROR_MAX_LENGTH - 1)}…` : line;
+};
 
 export default class E2eMetricsReporter implements Reporter {
   private readonly outputFile: string;
@@ -168,12 +185,14 @@ export default class E2eMetricsReporter implements Reporter {
     for (const id of beforeAllIds) {
       beforeAll += hooks?.beforeAll.get(id) ?? average(this.hookDurations.get(id));
     }
-    return {
+    const metrics: E2eMetricsResult = {
       retry: result.retry,
       status: result.status,
       duration: result.duration,
       beforeAll: Math.round(beforeAll),
       beforeEach: Math.round(hooks?.beforeEach ?? 0)
     };
+    const error = result.status === 'passed' || result.status === 'skipped' ? undefined : errorSummary(result);
+    return error ? { ...metrics, error } : metrics;
   }
 }

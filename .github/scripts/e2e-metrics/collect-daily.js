@@ -59,6 +59,11 @@ const DEFAULT_SOURCE_BRANCH = 'develop';
 const JOBS_REQUEST_ATTEMPTS = 2;
 // Result of a run derived from its E2E suite jobs: the first conclusion found in this order, otherwise success.
 const E2E_CONCLUSION_PRIORITY = ['failure', 'timed_out', 'cancelled'];
+const FAILED_CONCLUSIONS = new Set(['failure', 'timed_out']);
+// A timed-out job reports its interrupted step as cancelled.
+const FAILED_STEP_CONCLUSIONS = new Set(['failure', 'timed_out', 'cancelled']);
+// Step of the E2E suite jobs (e2e-playwright-reusable.yml) that runs the tests.
+const RUN_TESTS_STEP = 'Run e2e playwright';
 
 /** Read every suite-attempt report found in an extracted artifact directory. */
 function readArtifactMetrics(artifactDir, suite) {
@@ -93,27 +98,61 @@ async function listRunJobs(github, run) {
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       if (attempt === JOBS_REQUEST_ATTEMPTS) {
-        console.warn(`Could not list jobs of run ${run.id}, linking its results to the run: ${message}`);
+        console.warn(`Could not list jobs of run ${run.id}, its results link to the run and have no job timing: ${message}`);
       }
     }
   }
   return null;
 }
 
+const seconds = (from, to) => (from && to ? Math.max(0, Math.round((Date.parse(to) - Date.parse(from)) / 1000)) : null);
+
 /**
- * Job id of each collected suite, so the dashboard can link a result to its job instead of the whole run. Keyed by the
+ * Per collected suite: its job, the number of the step that runs the tests (so links open it directly) and how the job
+ * time splits into setup before the tests (ACS deploy, installs...) and the tests themselves, in seconds. Keyed by the
  * suite names used in the metrics (the Playwright project name, e.g. `Viewer`), which differ from the job/artifact
  * suite (`viewer`).
  */
-function suiteJobIds(jobs, metricSuitesByArtifact) {
-  const ids = {};
+function suiteJobs(jobs, metricSuitesByArtifact) {
+  const suites = {};
   for (const job of jobs) {
     const parsed = parseSuiteJobName(job.name);
-    for (const metricSuite of (parsed && metricSuitesByArtifact.get(`${parsed.browser}-${parsed.suite}`)) || []) {
-      ids[metricSuite] = job.id;
+    const metricSuites = [...((parsed && metricSuitesByArtifact.get(`${parsed.browser}-${parsed.suite}`)) || [])];
+    if (!metricSuites.length) {
+      continue;
     }
+    const testStep = (job.steps || []).find((step) => step.name === RUN_TESTS_STEP);
+    const info = {
+      job: job.id,
+      step: testStep?.number ?? null,
+      setup: testStep ? seconds(job.started_at, testStep.started_at) : null,
+      tests: testStep ? seconds(testStep.started_at, testStep.completed_at) : null,
+      total: seconds(job.started_at, job.completed_at)
+    };
+    metricSuites.forEach((suite) => (suites[suite] = info));
   }
-  return ids;
+  return suites;
+}
+
+/**
+ * Why a run failed, one entry per failed job: `tests` when the step running the tests failed, otherwise `infra` with the
+ * step that failed (build, ACS deploy, browser install...). Suites are named like in the metrics when known.
+ */
+function failureCause(jobs, metricSuitesByArtifact) {
+  const cause = [];
+  for (const job of jobs.filter((candidate) => FAILED_CONCLUSIONS.has(candidate.conclusion))) {
+    const parsed = parseSuiteJobName(job.name);
+    const failedStep = (job.steps || []).find((step) => FAILED_STEP_CONCLUSIONS.has(step.conclusion));
+    const metricSuites = [...((parsed && metricSuitesByArtifact.get(`${parsed.browser}-${parsed.suite}`)) || [])];
+    cause.push({
+      kind: parsed && failedStep?.name === RUN_TESTS_STEP ? 'tests' : 'infra',
+      name: metricSuites[0] || parsed?.suite || job.name.split(' / ').pop(),
+      job: job.id,
+      step: failedStep?.number ?? null,
+      stepName: failedStep?.name ?? null
+    });
+  }
+  return cause;
 }
 
 /**
@@ -147,31 +186,37 @@ async function collectRun(github, run, workDir) {
       console.warn(`Skipping artifact ${artifact.name} of run ${run.id}: ${error instanceof Error ? error.message : String(error)}`);
     }
   }
-  const runJobs = metricSuitesByArtifact.size ? await listRunJobs(github, run) : null;
+  // Failed runs are looked at even without test results: their failure (e.g. a broken ACS deploy) is worth showing.
+  const runJobs = metricSuitesByArtifact.size || FAILED_CONCLUSIONS.has(run.conclusion) ? await listRunJobs(github, run) : null;
+  const conclusion = run.conclusion || (runJobs ? e2eJobsConclusion(runJobs) : null);
   return {
     artifactCount: artifacts.length,
     metrics,
-    jobs: runJobs ? suiteJobIds(runJobs, metricSuitesByArtifact) : {},
-    e2eConclusion: runJobs && !run.conclusion ? e2eJobsConclusion(runJobs) : null
+    conclusion,
+    suites: runJobs ? suiteJobs(runJobs, metricSuitesByArtifact) : {},
+    failure: runJobs && FAILED_CONCLUSIONS.has(conclusion) ? failureCause(runJobs, metricSuitesByArtifact) : []
   };
 }
 
-function toRunSummary(run, workflow, artifactCount, jobs, e2eConclusion) {
+function toRunSummary(run, workflow, { artifactCount, conclusion, suites, failure }) {
   const summary = {
     id: run.id,
     workflow,
     title: run.display_title,
     branch: run.head_branch,
     event: run.event,
-    conclusion: run.conclusion || e2eConclusion,
+    conclusion,
     createdAt: run.created_at,
     url: run.html_url,
     artifacts: artifactCount,
-    jobs
+    suites
   };
-  if (!run.conclusion && e2eConclusion) {
+  if (!run.conclusion && conclusion) {
     // The workflow was still running (e.g. publishing this report); the result is that of its E2E jobs.
     summary.conclusionFrom = 'e2e-jobs';
+  }
+  if (failure.length) {
+    summary.failure = failure;
   }
   return summary;
 }
@@ -225,11 +270,13 @@ async function main() {
   const results = [];
   try {
     for (const { run, workflow } of await listRuns(github, { sourceWorkflows, date, branch, includeRunId })) {
-      const { artifactCount, metrics, jobs, e2eConclusion } = await collectRun(github, run, workDir);
+      const collected = await collectRun(github, run, workDir);
+      const { artifactCount, metrics } = collected;
       console.log(`${workflow} run ${run.id} (${run.display_title}): ${artifactCount} metrics artifact(s), ${metrics.length} test run(s)`);
-      // Runs without usable reports (e.g. only legacy-format artifacts) would show up as empty runs, so they are left out.
-      if (metrics.length > 0) {
-        runs.push(toRunSummary(run, workflow, artifactCount, jobs, e2eConclusion));
+      // Runs without usable reports (e.g. only legacy-format artifacts) would show up as empty runs, so they are left
+      // out, unless they failed: a run that broke before any test ran (build, ACS deploy) is listed with its cause.
+      if (metrics.length > 0 || collected.failure.length > 0) {
+        runs.push(toRunSummary(run, workflow, collected));
         perRunMetrics.push(metrics);
         results.push(...metrics.map(({ key, suiteAttempt, detail }) => ({ key, runId: run.id, suiteAttempt, ...detail })));
       }
