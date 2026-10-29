@@ -25,7 +25,7 @@
 'use strict';
 
 /**
- * Collects the `e2e-metrics-<browser>-<suite>` artifacts (Playwright JSON reports) uploaded by the
+ * Collects the `e2e-metrics-<browser>-<suite>` artifacts (e2e-metrics reporter output) uploaded by the
  * E2E workflow runs created on a given UTC day on the source branch and compacts them into a single
  * daily metrics file with per-test runs, retries, failures and durations.
  *
@@ -55,6 +55,8 @@ const {
 
 const DEFAULT_SOURCE_WORKFLOWS = 'cron-e2e-chrome.yml,populate-e2e-reports.yml';
 const DEFAULT_SOURCE_BRANCH = 'develop';
+// The jobs API intermittently returns 502; one retry is enough in practice.
+const JOBS_REQUEST_ATTEMPTS = 2;
 
 /** Read every suite-attempt report found in an extracted artifact directory. */
 function readArtifactMetrics(artifactDir, suite) {
@@ -82,20 +84,27 @@ function parseSuiteJobName(name) {
 }
 
 /**
- * Job id of each collected suite, keyed by suite, so the dashboard can link a result to its job instead of the whole run.
- * Only the latest run attempt is used, as its metrics artifacts overwrite those of earlier attempts.
+ * Job id of each collected suite, so the dashboard can link a result to its job instead of the whole run. Keyed by the
+ * suite names used in the metrics (the Playwright project name, e.g. `Viewer`), which differ from the job/artifact
+ * suite (`viewer`). Only the latest run attempt is used, as its metrics artifacts overwrite those of earlier attempts.
  */
-async function listSuiteJobs(github, run, collectedSuites) {
+async function listSuiteJobs(github, run, metricSuitesByArtifact) {
   const jobs = {};
-  try {
-    for (const job of await github.paginate(`/actions/runs/${run.id}/jobs?filter=latest`, 'jobs')) {
-      const parsed = parseSuiteJobName(job.name);
-      if (parsed && collectedSuites.has(`${parsed.browser}-${parsed.suite}`)) {
-        jobs[parsed.suite] = job.id;
+  for (let attempt = 1; attempt <= JOBS_REQUEST_ATTEMPTS; attempt++) {
+    try {
+      for (const job of await github.paginate(`/actions/runs/${run.id}/jobs?filter=latest`, 'jobs')) {
+        const parsed = parseSuiteJobName(job.name);
+        for (const metricSuite of (parsed && metricSuitesByArtifact.get(`${parsed.browser}-${parsed.suite}`)) || []) {
+          jobs[metricSuite] = job.id;
+        }
+      }
+      return jobs;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      if (attempt === JOBS_REQUEST_ATTEMPTS) {
+        console.warn(`Could not list jobs of run ${run.id}, linking its results to the run: ${message}`);
       }
     }
-  } catch (error) {
-    console.warn(`Could not list jobs of run ${run.id}, linking its results to the run: ${error instanceof Error ? error.message : String(error)}`);
   }
   return jobs;
 }
@@ -105,19 +114,20 @@ async function collectRun(github, run, workDir) {
     (artifact) => !artifact.expired && parseRunArtifactName(artifact.name)
   );
   const metrics = [];
-  const collectedSuites = new Set();
+  const metricSuitesByArtifact = new Map();
   for (const artifact of artifacts) {
     const { browser, suite } = parseRunArtifactName(artifact.name);
-    collectedSuites.add(`${browser}-${suite}`);
     const artifactDir = path.join(workDir, String(run.id), artifact.name);
     try {
       await github.downloadArtifact(artifact.id, artifactDir);
-      metrics.push(...readArtifactMetrics(artifactDir, suite));
+      const artifactMetrics = readArtifactMetrics(artifactDir, suite);
+      metrics.push(...artifactMetrics);
+      metricSuitesByArtifact.set(`${browser}-${suite}`, new Set(artifactMetrics.map((metric) => metric.suite)));
     } catch (error) {
       console.warn(`Skipping artifact ${artifact.name} of run ${run.id}: ${error instanceof Error ? error.message : String(error)}`);
     }
   }
-  const jobs = artifacts.length ? await listSuiteJobs(github, run, collectedSuites) : {};
+  const jobs = metricSuitesByArtifact.size ? await listSuiteJobs(github, run, metricSuitesByArtifact) : {};
   return { artifactCount: artifacts.length, metrics, jobs };
 }
 
@@ -187,7 +197,8 @@ async function main() {
     for (const { run, workflow } of await listRuns(github, { sourceWorkflows, date, branch, includeRunId })) {
       const { artifactCount, metrics, jobs } = await collectRun(github, run, workDir);
       console.log(`${workflow} run ${run.id} (${run.display_title}): ${artifactCount} metrics artifact(s), ${metrics.length} test run(s)`);
-      if (artifactCount > 0) {
+      // Runs without usable reports (e.g. only legacy-format artifacts) would show up as empty runs, so they are left out.
+      if (metrics.length > 0) {
         runs.push(toRunSummary(run, workflow, artifactCount, jobs));
         perRunMetrics.push(metrics);
         results.push(...metrics.map(({ key, suiteAttempt, detail }) => ({ key, runId: run.id, suiteAttempt, ...detail })));
