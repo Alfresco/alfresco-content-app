@@ -556,10 +556,13 @@
           return text;
         }
 
-        function runLink(result) {
+        // Links to the suite's job when it is known (runs collected before job ids were stored only have the run URL).
+        function runLink(result, test) {
           const run = result.run || {};
           const name = WORKFLOW_NAMES[run.workflow] || run.workflow || 'Workflow run';
-          const link = run.url ? '<a href="' + esc(run.url) + '" target="_blank" rel="noopener">' + esc(name) + '</a>' : esc(name);
+          const jobId = run.jobs?.[test.suite];
+          const url = run.url && jobId ? run.url + '/job/' + jobId : run.url;
+          const link = url ? '<a href="' + esc(url) + '" target="_blank" rel="noopener">' + esc(name) + '</a>' : esc(name);
           return link + (result.suiteAttempt > 1 ? ' <span class="secondary">(suite re-run ' + result.suiteAttempt + ')</span>' : '');
         }
 
@@ -586,7 +589,7 @@
           const rows = visible
             .map((r) => {
               const [label, cls] = OUTCOME_LABELS[r.outcome] || [r.outcome, ''];
-              return '<tr><td>' + formatDate(r.date) + '</td><td>' + runLink(r) + '</td><td><span class="' + cls + '">' + label + '</span></td>' +
+              return '<tr><td>' + formatDate(r.date) + '</td><td>' + runLink(r, test) + '</td><td><span class="' + cls + '">' + label + '</span></td>' +
                 '<td class="num">' + (r.retries || '<span class="secondary">0</span>') + '</td><td class="attempts">' + attemptList(r) + '</td>' +
                 '<td class="num">' + (r.duration == null ? '<span class="secondary">–</span>' : formatDuration(r.duration)) + '</td>' +
                 '<td class="num">' + (r.setup == null ? '' : formatDuration(r.setup)) + '</td><td class="num">' + versusAverage(r, test) + '</td></tr>';
