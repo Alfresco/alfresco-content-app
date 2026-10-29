@@ -75,13 +75,40 @@ function readArtifactMetrics(artifactDir, suite) {
   return metrics;
 }
 
+/** Parse `E2E | <browser> | <suite> | Playwright` job names, optionally prefixed by the caller job (`chrome / E2E | ...`). */
+function parseSuiteJobName(name) {
+  const match = /(?:^|\/ )E2E \| (\S+) \| (.+) \| Playwright$/.exec(name || '');
+  return match ? { browser: match[1], suite: match[2] } : null;
+}
+
+/**
+ * Job id of each collected suite, keyed by suite, so the dashboard can link a result to its job instead of the whole run.
+ * Only the latest run attempt is used, as its metrics artifacts overwrite those of earlier attempts.
+ */
+async function listSuiteJobs(github, run, collectedSuites) {
+  const jobs = {};
+  try {
+    for (const job of await github.paginate(`/actions/runs/${run.id}/jobs?filter=latest`, 'jobs')) {
+      const parsed = parseSuiteJobName(job.name);
+      if (parsed && collectedSuites.has(`${parsed.browser}-${parsed.suite}`)) {
+        jobs[parsed.suite] = job.id;
+      }
+    }
+  } catch (error) {
+    console.warn(`Could not list jobs of run ${run.id}, linking its results to the run: ${error instanceof Error ? error.message : String(error)}`);
+  }
+  return jobs;
+}
+
 async function collectRun(github, run, workDir) {
   const artifacts = (await github.paginate(`/actions/runs/${run.id}/artifacts`, 'artifacts')).filter(
     (artifact) => !artifact.expired && parseRunArtifactName(artifact.name)
   );
   const metrics = [];
+  const collectedSuites = new Set();
   for (const artifact of artifacts) {
-    const { suite } = parseRunArtifactName(artifact.name);
+    const { browser, suite } = parseRunArtifactName(artifact.name);
+    collectedSuites.add(`${browser}-${suite}`);
     const artifactDir = path.join(workDir, String(run.id), artifact.name);
     try {
       await github.downloadArtifact(artifact.id, artifactDir);
@@ -90,10 +117,11 @@ async function collectRun(github, run, workDir) {
       console.warn(`Skipping artifact ${artifact.name} of run ${run.id}: ${error instanceof Error ? error.message : String(error)}`);
     }
   }
-  return { artifactCount: artifacts.length, metrics };
+  const jobs = artifacts.length ? await listSuiteJobs(github, run, collectedSuites) : {};
+  return { artifactCount: artifacts.length, metrics, jobs };
 }
 
-function toRunSummary(run, workflow, artifactCount) {
+function toRunSummary(run, workflow, artifactCount, jobs) {
   return {
     id: run.id,
     workflow,
@@ -103,7 +131,8 @@ function toRunSummary(run, workflow, artifactCount) {
     conclusion: run.conclusion,
     createdAt: run.created_at,
     url: run.html_url,
-    artifacts: artifactCount
+    artifacts: artifactCount,
+    jobs
   };
 }
 
@@ -156,10 +185,10 @@ async function main() {
   const results = [];
   try {
     for (const { run, workflow } of await listRuns(github, { sourceWorkflows, date, branch, includeRunId })) {
-      const { artifactCount, metrics } = await collectRun(github, run, workDir);
+      const { artifactCount, metrics, jobs } = await collectRun(github, run, workDir);
       console.log(`${workflow} run ${run.id} (${run.display_title}): ${artifactCount} metrics artifact(s), ${metrics.length} test run(s)`);
       if (artifactCount > 0) {
-        runs.push(toRunSummary(run, workflow, artifactCount));
+        runs.push(toRunSummary(run, workflow, artifactCount, jobs));
         perRunMetrics.push(metrics);
         results.push(...metrics.map(({ key, suiteAttempt, detail }) => ({ key, runId: run.id, suiteAttempt, ...detail })));
       }
@@ -180,4 +209,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { readArtifactMetrics };
+module.exports = { readArtifactMetrics, parseSuiteJobName };

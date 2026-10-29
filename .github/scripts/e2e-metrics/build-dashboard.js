@@ -111,7 +111,11 @@ function expandHistory(history) {
 }
 
 function compactRun(run) {
-  return { id: run.id, workflow: run.workflow, title: run.title, conclusion: run.conclusion, createdAt: run.createdAt, url: run.url };
+  const compact = { id: run.id, workflow: run.workflow, title: run.title, conclusion: run.conclusion, createdAt: run.createdAt, url: run.url };
+  if (run.jobs && Object.keys(run.jobs).length) {
+    compact.jobs = run.jobs;
+  }
+  return compact;
 }
 
 /**
