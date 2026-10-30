@@ -83,6 +83,59 @@ describe('ViewProfileComponent', () => {
     expect(appServiceMock.toggleAppNavBar$.next).toHaveBeenCalled();
   });
 
+  it('should show telephone number and phone number format hint of general details', () => {
+    component.generalSectionEditMode = true;
+    fixture.detectChanges();
+
+    const telephoneHint = unitTestingUtils.getByDataAutomationId('app-telephone-number-hint');
+    expect(telephoneHint.nativeElement.innerText.trim()).toBe('APP.EDIT_PROFILE.VALID_PHONE_FORMAT');
+
+    const phoneNumberHint = unitTestingUtils.getByDataAutomationId('app-phone-number-hint');
+    expect(phoneNumberHint.nativeElement.innerText.trim()).toBe('APP.EDIT_PROFILE.VALID_PHONE_FORMAT');
+  });
+
+  it('should not show phone number format hint of general details field if the user is not in edit mode', () => {
+    component.generalSectionEditMode = false;
+    fixture.detectChanges();
+
+    const telephoneHint = unitTestingUtils.getByDataAutomationId('app-telephone-number-hint');
+    expect(telephoneHint).toBeNull();
+  });
+
+  it('should show phone number format hint of general details field if the user is in edit mode', () => {
+    component.generalSectionEditMode = true;
+    fixture.detectChanges();
+
+    const telephoneHint = unitTestingUtils.getByDataAutomationId('app-telephone-number-hint');
+    expect(telephoneHint).not.toBeNull();
+  });
+
+  it('should not show the telephone number format hint of company details field if the company details is not expanded', () => {
+    component.contactSectionExpanded = false;
+    fixture.detectChanges();
+
+    const telephoneHint = unitTestingUtils.getByDataAutomationId('app-company-telephone-number-hint');
+    expect(telephoneHint).toBeNull();
+  });
+
+  it('should not show the telephone number format hint of company details field if the company details is expanded but user is not in edit mode', () => {
+    component.contactSectionExpanded = true;
+    component.contactSectionEditMode = false;
+    fixture.detectChanges();
+
+    const telephoneHint = unitTestingUtils.getByDataAutomationId('app-company-telephone-number-hint');
+    expect(telephoneHint).toBeNull();
+  });
+
+  it('should show the telephone number format hint of company details field if the company details is expanded and user is in edit mode', () => {
+    component.contactSectionExpanded = true;
+    component.contactSectionEditMode = true;
+    fixture.detectChanges();
+
+    const telephoneHint = unitTestingUtils.getByDataAutomationId('app-company-telephone-number-hint');
+    expect(telephoneHint).not.toBeNull();
+  });
+
   it('should disable save buttons if form is invalid', async () => {
     fixture.detectChanges();
 
