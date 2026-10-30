@@ -88,6 +88,11 @@
         <mat-form-field class="app-form-field">
           <mat-label>{{ 'APP.EDIT_PROFILE.TELEPHONE' | translate }}</mat-label>
           <input matInput [type]="'tel'" placeholder="{{ 'APP.EDIT_PROFILE.TELEPHONE' | translate }}" formControlName="telephone" />
+          @if (generalSectionEditMode) {
+            <mat-hint data-automation-id="app-telephone-number-hint">
+              {{ 'APP.EDIT_PROFILE.VALID_PHONE_FORMAT' | translate }}
+            </mat-hint>
+          }
           <mat-error>
             {{ 'APP.EDIT_PROFILE.INVALID_PHONE_FORMAT' | translate }}
           </mat-error>
@@ -96,6 +101,11 @@
         <mat-form-field class="app-form-field">
           <mat-label>{{ 'APP.EDIT_PROFILE.MOBILE' | translate }}</mat-label>
           <input matInput [type]="'tel'" placeholder="{{ 'APP.EDIT_PROFILE.MOBILE' | translate }}" formControlName="mobile" />
+          @if (generalSectionEditMode) {
+            <mat-hint data-automation-id="app-phone-number-hint">
+              {{ 'APP.EDIT_PROFILE.VALID_PHONE_FORMAT' | translate }}
+            </mat-hint>
+          }
           <mat-error>
             {{ 'APP.EDIT_PROFILE.INVALID_PHONE_FORMAT' | translate }}
           </mat-error>
@@ -174,6 +184,11 @@
         <mat-form-field class="app-form-field">
           <mat-label>{{ 'APP.EDIT_PROFILE.EMAIL' | translate }}</mat-label>
           <input matInput placeholder="{{ 'APP.EDIT_PROFILE.EMAIL' | translate }}" formControlName="companyEmail" />
+          @if (contactSectionEditMode) {
+            <mat-hint data-automation-id="app-company-telephone-number-hint">
+              {{ 'APP.EDIT_PROFILE.VALID_PHONE_FORMAT' | translate }}
+            </mat-hint>            
+          }
           <mat-error>
             {{ 'APP.EDIT_PROFILE.INVALID_EMAIL_FORMAT' | translate }}
           </mat-error>

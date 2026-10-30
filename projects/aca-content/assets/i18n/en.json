@@ -57,6 +57,7 @@
             "NAME": "Name",
             "ADDRESS": "Address",
             "POSTCODE": "Postcode",
+            "VALID_PHONE_FORMAT": "Enter numbers with optional hyphens. For international numbers, include the country code. Examples: US, 1-404-123-4567; UK, 44 20 7946 0958.",
             "INVALID_PHONE_FORMAT": "Please enter a valid phone number",
             "INVALID_EMAIL_FORMAT": "Please enter a valid email address",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Go to Personal Files"

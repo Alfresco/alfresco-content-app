@@ -70,14 +70,14 @@ export class ViewProfileComponent implements OnInit {
       lastName: new FormControl(''),
       jobTitle: new FormControl(''),
       location: new FormControl(''),
-      telephone: new FormControl('', [Validators.pattern('^([0-9]+-)*[0-9]+$')]),
-      mobile: new FormControl('', [Validators.pattern('^([0-9]+-)*[0-9]+$')])
+      telephone: new FormControl('', [Validators.pattern('^([0-9]+-?\\s?)*[0-9]+$')]),
+      mobile: new FormControl('', [Validators.pattern('^([0-9]+-?\\s?)*[0-9]+$')])
     }),
     company: new FormGroup({
       companyName: new FormControl(''),
       companyPostCode: new FormControl(''),
       companyAddress: new FormControl(''),
-      companyTelephone: new FormControl('', [Validators.pattern('^([0-9]+-)*[0-9]+$')]),
+      companyTelephone: new FormControl('', [Validators.pattern('^([0-9]+-?\\s?)*[0-9]+$')]),
       companyEmail: new FormControl('', [Validators.email])
     })
   });
