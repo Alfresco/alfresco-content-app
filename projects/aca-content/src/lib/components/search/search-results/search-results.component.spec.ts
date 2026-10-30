@@ -395,6 +395,45 @@ describe('SearchComponent', () => {
     expect(editSavedSearchesSpy).toHaveBeenCalledWith({ name: 'test', encodedUrl: 'test', order: 0, compiledQuery: 'compiledQuery' });
   });
 
+  it('should return templated compiled query when both compiledQuery and createdModifiedDateRange are present', () => {
+    spyOn(queryBuilder, 'buildQuery').and.returnValue({ query: { query: "cm:created:['a' TO 'b']" } } as SearchRequest);
+    queryBuilder.filterRawParams = {
+      createdModifiedDateRange: {
+        'cm:created': {
+          dateRangeType: 'IN_LAST',
+          inLastValueType: 'DAYS',
+          inLastValue: 2
+        }
+      }
+    };
+
+    expect(component.saveSearchCompiledQuery).toBe("cm:created:['${2_DAYS}' TO '${TODAY}']");
+  });
+
+  it('should return unaltered compiled query when createdModifiedDateRange is missing', () => {
+    const originalQuery = 'unchanged';
+
+    spyOn(queryBuilder, 'buildQuery').and.returnValue({ query: { query: originalQuery } });
+    queryBuilder.filterRawParams = {};
+
+    expect(component.saveSearchCompiledQuery).toBe(originalQuery);
+  });
+
+  it('should return empty compiled query when compiledQuery is empty even if createdModifiedDateRange is present', () => {
+    spyOn(queryBuilder, 'buildQuery').and.returnValue({ query: { query: '' } } as SearchRequest);
+    queryBuilder.filterRawParams = {
+      createdModifiedDateRange: {
+        'cm:created': {
+          dateRangeType: 'IN_LAST',
+          inLastValueType: 'DAYS',
+          inLastValue: 1
+        }
+      }
+    };
+
+    expect(component.saveSearchCompiledQuery).toBe('');
+  });
+
   it('should call execute once on page reload', fakeAsync(() => {
     spyOn(queryBuilder, 'execute');
     queryParams.next({ q: encodeQuery({ userQuery: 'cm:name:"test*"' }) });
