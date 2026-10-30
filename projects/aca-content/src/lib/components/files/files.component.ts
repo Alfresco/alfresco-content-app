@@ -465,6 +465,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
   private moveNode(id: string, targetId: string, targetName: string): void {
     this._movingFile = true;
+    const actualFolderId = this.node.id;
     this.documentListService
       .moveNode(id, targetId)
       .pipe(
@@ -482,7 +483,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
             .pipe(
               switchMap(() => {
                 this._movingFile = true;
-                return this.documentListService.moveNode(node.entry.id, this.node.id).pipe(
+                return this.documentListService.moveNode(node.entry.id, actualFolderId).pipe(
                   catchError(() => {
                     this._movingFile = false;
                     this.notificationService.showError(this.translateService.instant('APP.MESSAGES.ERRORS.MOVE_UNDO'));
