@@ -68,6 +68,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { extractFiltersFromEncodedQuery } from '../../utils/aca-search-utils';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { EMPTY } from 'rxjs';
+import { MatProgressBar } from '@angular/material/progress-bar';
 
 @Component({
   imports: [
@@ -89,7 +90,8 @@ import { EMPTY } from 'rxjs';
     DocumentListComponent,
     DataColumnListComponent,
     DataColumnComponent,
-    CustomEmptyContentTemplateDirective
+    CustomEmptyContentTemplateDirective,
+    MatProgressBar
   ],
   templateUrl: './files.component.html',
   encapsulation: ViewEncapsulation.None,
@@ -114,6 +116,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   isFilterHeaderActive = false;
   breadcrumbPathNames: string[] = [];
 
+  private _movingFile = false;
   private nodePath: PathElement[];
   private _errorTranslationKey = 'APP.MESSAGES.ERRORS.MISSING_CONTENT';
 
@@ -122,6 +125,10 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
   get errorTranslationKey(): string {
     return this._errorTranslationKey;
+  }
+
+  get movingFile(): boolean {
+    return this._movingFile;
   }
 
   ngOnInit() {
@@ -457,6 +464,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   }
 
   private moveNode(id: string, targetId: string, targetName: string): void {
+    this._movingFile = true;
     this.documentListService
       .moveNode(id, targetId)
       .pipe(
@@ -467,25 +475,28 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
             target: this.translateService.instant(targetName)
           });
           const actionLabel = this.translateService.instant('APP.ACTIONS.UNDO');
-
+          this._movingFile = false;
           return this.notificationService
             .showInfo(message, actionLabel)
             .onAction()
             .pipe(
-              switchMap(() =>
-                this.documentListService.moveNode(node.entry.id, this.node.id).pipe(
+              switchMap(() => {
+                this._movingFile = true;
+                return this.documentListService.moveNode(node.entry.id, this.node.id).pipe(
                   catchError(() => {
+                    this._movingFile = false;
                     this.notificationService.showError(this.translateService.instant('APP.MESSAGES.ERRORS.MOVE_UNDO'));
                     return EMPTY;
                   })
-                )
-              )
+                );
+              })
             );
         }),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe({
         next: () => {
+          this._movingFile = false;
           this.documentListService.reload();
           this.notificationService.showInfo(this.translateService.instant('APP.MESSAGES.INFO.NODE_MOVE.UNDO_SUCCESS'));
         },
@@ -500,6 +511,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
               errorKey = 'APP.MESSAGES.ERRORS.FILE_FOLDER_MOVE';
             }
           }
+          this._movingFile = false;
           this.notificationService.showError(this.translateService.instant(errorKey));
         }
       });
