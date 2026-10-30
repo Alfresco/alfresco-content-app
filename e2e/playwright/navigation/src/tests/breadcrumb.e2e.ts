@@ -82,7 +82,7 @@ test.describe('viewer action file', () => {
     test('[XAT-4397] Tooltip appears on hover on a step in breadcrumb', async ({ personalFiles }) => {
       await personalFiles.navigate({ remoteUrl: `#/personal-files/${subFolder2Id}` });
       const item = personalFiles.breadcrumb.items.nth(2);
-      await expect(item).toHaveAttribute('title', subFolder1);
+      await expect(item).toHaveAttribute('title', subFolder2);
     });
 
     test('[XAT-4399] Browser back navigates to previous location regardless of breadcrumb steps', async ({ personalFiles, trashPage }) => {
