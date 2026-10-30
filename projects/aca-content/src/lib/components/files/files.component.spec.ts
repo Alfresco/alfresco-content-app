@@ -26,11 +26,13 @@ import { TestBed, fakeAsync, tick, ComponentFixture } from '@angular/core/testin
 import { NO_ERRORS_SCHEMA, SimpleChange, SimpleChanges } from '@angular/core';
 import { Router, ActivatedRoute, convertToParamMap, ParamMap } from '@angular/router';
 import {
+  BreadcrumbComponent,
   DocumentListService,
   FileUploadCompleteEvent,
   FileUploadDeleteEvent,
   FilterSearch,
   SearchHeaderQueryBuilderService,
+  ShareDataRow,
   UploadService
 } from '@alfresco/adf-content-services';
 import { NodeActionsService } from '../../services/node-actions.service';
@@ -45,7 +47,7 @@ import {
   initialState,
   PaginationStateService
 } from '@alfresco/aca-shared';
-import { of, Subject, throwError } from 'rxjs';
+import { Observable, of, Subject, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { NodeEntry, NodePaging, Node, PathElement } from '@alfresco/js-api';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
@@ -53,8 +55,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { testHeader } from '../../testing/document-base-page-utils';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { getCurrentFolder } from '@alfresco/aca-shared/store';
-import { ShowHeaderMode, UnitTestingUtils } from '@alfresco/adf-core';
+import { DataRow, NotificationService, ShowHeaderMode, UnitTestingUtils } from '@alfresco/adf-core';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 describe('FilesComponent', () => {
   let node;
@@ -739,6 +742,118 @@ describe('FilesComponent', () => {
 
       expect(component.documentList.isDataProvidedExternally).toBe(false);
     });
+
+    it('should have assigned enableDragRows to true', () => {
+      fixture.detectChanges();
+      expect(component.documentList.enableDragRows).toBeTrue();
+    });
+
+    it('should have assigned correct dragBoundary', () => {
+      fixture.detectChanges();
+      expect(component.documentList.dragBoundary).toBe('aca-files');
+    });
+
+    it('should have assigned showDragIndicator to false', () => {
+      fixture.detectChanges();
+      expect(component.documentList.showDragIndicator).toBeFalse();
+    });
+
+    it('should have assigned useWholeRowAsDragPreview to false', () => {
+      fixture.detectChanges();
+      expect(component.documentList.useWholeRowAsDragPreview).toBeFalse();
+    });
+
+    it('should have assigned rowDropSortingDisabled to true', () => {
+      fixture.detectChanges();
+      expect(component.documentList.rowDropSortingDisabled).toBeTrue();
+    });
+
+    it('should call moveNode on DocumentListService when dropped is triggered', () => {
+      fixture.detectChanges();
+      spyOn(documentListService, 'moveNode').and.returnValue(new Subject());
+      spyOn(component.documentList.data, 'getRows').and.returnValue([
+        {
+          id: 'id1',
+          node: {
+            entry: {
+              isFolder: true,
+              name: 'files'
+            }
+          }
+        },
+        {
+          id: 'id2',
+          node: {
+            entry: {
+              isFolder: true,
+              name: 'files'
+            }
+          }
+        }
+      ] as ShareDataRow[]);
+
+      component.documentList.dragDropped.emit({
+        previousIndex: 0,
+        currentIndex: 1
+      });
+      expect(documentListService.moveNode).toHaveBeenCalledWith('id1', 'id2');
+    });
+
+    describe('undo after row drop', () => {
+      let notificationService: NotificationService;
+      let moveSubject: Subject<NodeEntry>;
+      let undoSubject: Subject<NodeEntry>;
+      let actionSubject: Subject<void>;
+      let moveNodeSpy: jasmine.Spy<(nodeId: string, targetParentId: string) => Observable<NodeEntry>>;
+
+      beforeEach(() => {
+        fixture.detectChanges();
+        notificationService = TestBed.inject(NotificationService);
+        moveSubject = new Subject<NodeEntry>();
+        undoSubject = new Subject<NodeEntry>();
+        actionSubject = new Subject<void>();
+        moveNodeSpy = spyOn(documentListService, 'moveNode').and.returnValues(moveSubject, undoSubject);
+        spyOn(documentListService, 'reload');
+        spyOn(notificationService, 'showInfo').and.returnValue({ onAction: () => actionSubject } as any);
+        spyOn(notificationService, 'showError');
+        spyOn(component.documentList.data, 'getRows').and.returnValue([
+          { id: 'id1', node: { entry: { isFolder: true, name: 'file' } } },
+          { id: 'id2', node: { entry: { isFolder: true, name: 'target' } } }
+        ] as ShareDataRow[]);
+
+        component.documentList.dragDropped.emit({ previousIndex: 0, currentIndex: 1 });
+        moveSubject.next({ entry: { id: 'id1', name: 'file' } } as NodeEntry);
+      });
+
+      it('should reload document list and show snackbar with undo action after successful move', () => {
+        expect(documentListService.reload).toHaveBeenCalled();
+        expect(notificationService.showInfo).toHaveBeenCalledTimes(1);
+        expect(notificationService.showInfo).toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_MOVE.FROM_TO', 'APP.ACTIONS.UNDO');
+      });
+
+      it('should move node back to the source folder when undo action is triggered', () => {
+        actionSubject.next();
+
+        expect(moveNodeSpy).toHaveBeenCalledTimes(2);
+        expect(moveNodeSpy.calls.mostRecent().args).toEqual(['id1', 'node-id']);
+      });
+
+      it('should show undo success notification after successful undo', () => {
+        actionSubject.next();
+        undoSubject.next({ entry: { id: 'id1', name: 'file' } } as NodeEntry);
+
+        expect(notificationService.showInfo).toHaveBeenCalledTimes(2);
+        expect(notificationService.showInfo).toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_MOVE.UNDO_SUCCESS');
+      });
+
+      it('should show move undo error when undo request fails', () => {
+        actionSubject.next();
+        undoSubject.error(new HttpErrorResponse({ status: 500 }));
+
+        expect(notificationService.showError).toHaveBeenCalledWith('APP.MESSAGES.ERRORS.MOVE_UNDO');
+        expect(notificationService.showInfo).toHaveBeenCalledTimes(1);
+      });
+    });
   });
 
   describe('Generic error', () => {
@@ -910,6 +1025,47 @@ describe('FilesComponent', () => {
 
         expect(getGenericErrorText()).toBe('APP.MESSAGES.ERRORS.MISSING_CONTENT');
       });
+    });
+  });
+
+  describe('Breadcrumb', () => {
+    const getBreadcrumb = (): BreadcrumbComponent => unitTestingUtils.getByDirective(BreadcrumbComponent).componentInstance;
+
+    it('should have assigned compactMode to true', () => {
+      fixture.detectChanges();
+      expect(getBreadcrumb().compactMode).toBeTrue();
+    });
+
+    it('should call moveNode on DocumentListService when dropped is triggered', () => {
+      fixture.detectChanges();
+      spyOn(documentListService, 'moveNode').and.returnValue(new Subject());
+
+      getBreadcrumb().dropped.emit({
+        item: {
+          data: {
+            id: 'id1'
+          }
+        },
+        container: {
+          data: {
+            id: 'id2',
+            name: 'node2'
+          }
+        }
+      } as CdkDragDrop<PathElement, PathElement, DataRow>);
+      expect(documentListService.moveNode).toHaveBeenCalledWith('id1', 'id2');
+    });
+
+    it('should have assigned correct connectedDropListSelector', () => {
+      fixture.detectChanges();
+      expect(getBreadcrumb().connectedDropListSelector).toBe('.adf-datatable-body adf-datatable-row');
+    });
+
+    it('should assign correct dropListConnectedTo to document list after emitting breadcrumbPathElementsChange', () => {
+      getBreadcrumb().breadcrumbPathElementsChange.emit(['path1', 'path2']);
+      fixture.detectChanges();
+
+      expect(component.documentList.dropListConnectedTo).toEqual(['path1', 'path2']);
     });
   });
 

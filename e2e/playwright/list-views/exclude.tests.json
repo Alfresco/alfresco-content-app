@@ -2,7 +2,8 @@
   "all": {
     "XAT-4525": "https://hyland.atlassian.net/browse/ACS-9741",
     "XAT-4403": "https://hyland.atlassian.net/browse/ACS-12214",
-    "XAT-4406": "https://hyland.atlassian.net/browse/ACS-12214"
+    "XAT-4406": "https://hyland.atlassian.net/browse/ACS-12214",
+    "XAT-4385": "https://hyland.atlassian.net/browse/MNT-25871"
   },
   "webkit": {
     "XAT-4455": "https://hyland.atlassian.net/browse/ACS-12214"
