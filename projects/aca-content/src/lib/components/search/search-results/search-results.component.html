@@ -57,12 +57,13 @@
                       mat-button
                       acaSaveSearch
                       [acaSaveSearchQuery]="encodedQuery"
+                      [acaSaveSearchCompiledQuery]="saveSearchCompiledQuery"
                       (searchSaved)="onSaveSearch()"
                       [disabled]="!encodedQuery"
                       class="aca-content__save-search-action"
                       title="{{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate }}"
                       [attr.aria-label]="'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate"
-                      >
+                    >
                       {{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON' | translate }}
                     </button>
                   }
@@ -72,16 +73,17 @@
                       (click)="editSavedSearch(initialSavedSearch)"
                       title="{{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_CHANGES' | translate }}"
                       [attr.aria-label]="'APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_CHANGES' | translate"
-                      >
+                    >
                       {{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_CHANGES' | translate }}
                     </button>
                     <button
                       mat-menu-item
                       acaSaveSearch
                       [acaSaveSearchQuery]="encodedQuery"
+                      [acaSaveSearchCompiledQuery]="saveSearchCompiledQuery"
                       title="{{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_AS_NEW' | translate }}"
                       [attr.aria-label]="'APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_AS_NEW' | translate"
-                      >
+                    >
                       {{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_AS_NEW' | translate }}
                     </button>
                   </mat-menu>

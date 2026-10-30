@@ -98,8 +98,8 @@ describe('SavedSearchesListUiComponent ', () => {
 
     it('should have assigned tags as rows', () => {
       const mockSavedSearches: SavedSearch[] = [
-        { name: '1', order: 0, encodedUrl: '123' },
-        { name: '2', order: 1, encodedUrl: '1234' }
+        { name: '1', order: 0, encodedUrl: '123', compiledQuery: 'compiledQuery' },
+        { name: '2', order: 1, encodedUrl: '1234', compiledQuery: 'compiledQuery' }
       ];
       component.savedSearches = mockSavedSearches;
 
@@ -162,7 +162,7 @@ describe('SavedSearchesListUiComponent ', () => {
     });
 
     it('should focus .adf-context-menu-source element when escape key is pressed and context menu exists', () => {
-      component.savedSearches = [{ name: '1', order: 0, encodedUrl: '123' }] as SavedSearch[];
+      component.savedSearches = [{ name: '1', order: 0, encodedUrl: '123', compiledQuery: 'compiledQuery' }] as SavedSearch[];
 
       fixture.detectChanges();
 

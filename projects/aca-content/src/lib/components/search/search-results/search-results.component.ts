@@ -81,6 +81,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatMenuModule } from '@angular/material/menu';
 import { IsFeatureSupportedInCurrentAcsPipe } from '../../../pipes/is-feature-supported.pipe';
 import { SavedSearchesContextService } from '../../../services/saved-searches-context.service';
+import { CreatedModifiedDateRangeFilterConfig, withInLastDatePlaceholders } from '../../../utils/aca-search-query-date-template.utils';
 
 @Component({
   imports: [
@@ -144,6 +145,13 @@ export class SearchResultsComponent extends PageComponent implements OnInit, OnD
   columns: DocumentListPresetRef[] = [];
   encodedQuery: string;
   isSmallScreen = window.innerWidth < 320;
+
+  get saveSearchCompiledQuery(): string {
+    const compiledQuery = this.queryBuilder.buildQuery()?.query?.query ?? '';
+    const createdModifiedDateRange = this.queryBuilder.filterRawParams?.createdModifiedDateRange as CreatedModifiedDateRangeFilterConfig | undefined;
+
+    return createdModifiedDateRange && compiledQuery ? withInLastDatePlaceholders(compiledQuery, createdModifiedDateRange) : compiledQuery;
+  }
 
   private previousEncodedQuery: string;
   private readonly resizeListener = () => {
@@ -333,6 +341,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit, OnD
 
   editSavedSearch(searchToSave: SavedSearch) {
     searchToSave.encodedUrl = this.encodedQuery;
+    searchToSave.compiledQuery = this.saveSearchCompiledQuery;
     this.savedSearchesService
       .editSavedSearch(searchToSave)
       .pipe(take(1))

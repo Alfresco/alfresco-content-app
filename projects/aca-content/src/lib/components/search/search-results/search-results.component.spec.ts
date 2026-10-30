@@ -28,7 +28,7 @@ import { AppConfigService, NotificationService, TranslationService, UnitTestingU
 import { Store } from '@ngrx/store';
 import { NavigateToFolder } from '@alfresco/aca-shared/store';
 import { Pagination, SearchRequest } from '@alfresco/js-api';
-import { FacetFieldBucket, SearchQueryBuilderService } from '@alfresco/adf-content-services';
+import { FacetFieldBucket, SavedSearch, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { ActivatedRoute, Event, NavigationStart, Params, Router } from '@angular/router';
 import { BehaviorSubject, Observable, of, Subject, throwError } from 'rxjs';
 import { AppTestingModule } from '../../../testing/app-testing.module';
@@ -99,7 +99,7 @@ describe('SearchComponent', () => {
         {
           provide: SavedSearchesContextService,
           useValue: {
-            savedSearches$: of([{ name: 'test', encodedUrl: encodeQuery({ name: 'test' }), order: 0 }]),
+            savedSearches$: of([{ name: 'test', encodedUrl: encodeQuery({ name: 'test' }), order: 0, compiledQuery: 'compiledQuery' }]),
             editSavedSearch: editSavedSearchesSpy
           }
         },
@@ -140,6 +140,9 @@ describe('SearchComponent', () => {
 
     fixture = TestBed.createComponent(SearchResultsComponent);
     component = fixture.componentInstance;
+
+    editSavedSearchesSpy.calls.reset();
+    editSavedSearchesSpy.and.returnValue(of({}));
 
     fixture.detectChanges();
     loader = TestbedHarnessEnvironment.loader(fixture);
@@ -300,13 +303,23 @@ describe('SearchComponent', () => {
   it('should get initial saved search when url matches', () => {
     route.queryParams = of({ q: encodeQuery({ name: 'test' }) });
     component.ngOnInit();
-    expect(component.initialSavedSearch).toEqual({ name: 'test', encodedUrl: encodeQuery({ name: 'test' }), order: 0 });
+    expect(component.initialSavedSearch).toEqual({
+      name: 'test',
+      encodedUrl: encodeQuery({ name: 'test' }),
+      order: 0,
+      compiledQuery: 'compiledQuery'
+    });
   });
 
   it('should get initial saved search after creating a new one', () => {
     route.queryParams = of({ q: encodeQuery({ name: 'test' }) });
     component.onSaveSearch();
-    expect(component.initialSavedSearch).toEqual({ name: 'test', encodedUrl: encodeQuery({ name: 'test' }), order: 0 });
+    expect(component.initialSavedSearch).toEqual({
+      name: 'test',
+      encodedUrl: encodeQuery({ name: 'test' }),
+      order: 0,
+      compiledQuery: 'compiledQuery'
+    });
   });
 
   it('should clear context save search in service on component destroy', () => {
@@ -354,17 +367,72 @@ describe('SearchComponent', () => {
 
   it('should dispatch success snackbar action when editing saved search is successful', fakeAsync(() => {
     editSavedSearchesSpy.and.returnValue(of({}));
-    component.editSavedSearch({ name: 'test', encodedUrl: 'test', order: 0 });
+    component.editSavedSearch({ name: 'test', encodedUrl: 'test', order: 0, compiledQuery: 'compiledQuery' });
     tick();
     expect(showInfoSpy).toHaveBeenCalledWith('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.SUCCESS_MESSAGE');
   }));
 
   it('should dispatch error snackbar action when editing saved search failed', fakeAsync(() => {
     editSavedSearchesSpy.and.returnValue(throwError(() => new Error('')));
-    component.editSavedSearch({ name: 'test', encodedUrl: 'test', order: 0 });
+    component.editSavedSearch({ name: 'test', encodedUrl: 'test', order: 0, compiledQuery: 'compiledQuery' });
     tick();
     expect(showErrorSpy).toHaveBeenCalledWith('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.ERROR_MESSAGE');
   }));
+
+  it('should update compiled query when editing saved search', () => {
+    spyOn(queryBuilder, 'buildQuery').and.returnValue({ query: { query: 'compiledQuery2' } } as SearchRequest);
+    component.encodedQuery = 'test';
+    component.editSavedSearch({ name: 'test', encodedUrl: 'test', order: 0, compiledQuery: 'compiledQuery' });
+
+    expect(editSavedSearchesSpy).toHaveBeenCalledWith({ name: 'test', encodedUrl: 'test', order: 0, compiledQuery: 'compiledQuery2' });
+  });
+
+  it('should add compiled query to the request when editing saved search if there were no previous compiled query', () => {
+    spyOn(queryBuilder, 'buildQuery').and.returnValue({ query: { query: 'compiledQuery' } } as SearchRequest);
+    component.encodedQuery = 'test';
+    component.editSavedSearch({ name: 'test', encodedUrl: 'test', order: 0 } as SavedSearch);
+
+    expect(editSavedSearchesSpy).toHaveBeenCalledWith({ name: 'test', encodedUrl: 'test', order: 0, compiledQuery: 'compiledQuery' });
+  });
+
+  it('should return templated compiled query when both compiledQuery and createdModifiedDateRange are present', () => {
+    spyOn(queryBuilder, 'buildQuery').and.returnValue({ query: { query: "cm:created:['a' TO 'b']" } } as SearchRequest);
+    queryBuilder.filterRawParams = {
+      createdModifiedDateRange: {
+        'cm:created': {
+          dateRangeType: 'IN_LAST',
+          inLastValueType: 'DAYS',
+          inLastValue: 2
+        }
+      }
+    };
+
+    expect(component.saveSearchCompiledQuery).toBe("cm:created:['${2_DAYS}' TO '${TODAY}']");
+  });
+
+  it('should return unaltered compiled query when createdModifiedDateRange is missing', () => {
+    const originalQuery = 'unchanged';
+
+    spyOn(queryBuilder, 'buildQuery').and.returnValue({ query: { query: originalQuery } });
+    queryBuilder.filterRawParams = {};
+
+    expect(component.saveSearchCompiledQuery).toBe(originalQuery);
+  });
+
+  it('should return empty compiled query when compiledQuery is empty even if createdModifiedDateRange is present', () => {
+    spyOn(queryBuilder, 'buildQuery').and.returnValue({ query: { query: '' } } as SearchRequest);
+    queryBuilder.filterRawParams = {
+      createdModifiedDateRange: {
+        'cm:created': {
+          dateRangeType: 'IN_LAST',
+          inLastValueType: 'DAYS',
+          inLastValue: 1
+        }
+      }
+    };
+
+    expect(component.saveSearchCompiledQuery).toBe('');
+  });
 
   it('should call execute once on page reload', fakeAsync(() => {
     spyOn(queryBuilder, 'execute');
