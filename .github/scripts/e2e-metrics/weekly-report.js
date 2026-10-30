@@ -30,16 +30,16 @@
  *  - slowest tests: average duration of passed attempts including the beforeAll/beforeEach hooks of the test
  *    (sorted from longest to shortest),
  *  - recently flaky / fixed tests compared with the previous period of the same length (see lib.compareFlaky).
- * Writes the full report as JSON and Markdown (also to the job summary) and a compact Teams card with the
- * headline numbers and a link to the E2E dashboard, which is posted when TEAMS_WEBHOOK_URL is set.
+ * Writes the full report as JSON and Markdown (also to the job summary) and a short Teams card (period, top 3 flaky
+ * and slowest tests, an "Open report" button), which is posted when TEAMS_WEBHOOK_URL is set.
  *
  * Env:
  *  - REPORT_END_DATE: last UTC day included in the report (YYYY-MM-DD), defaults to yesterday
  *  - REPORT_DAYS: number of days in the report window (default 7)
  *  - REPORT_TITLE: card/summary title (defaults to "ACA E2E weekly report" or "ACA E2E report - last <n> days")
  *  - DAILY_DIR, REMOTE_DATA, GITHUB_TOKEN, GITHUB_REPOSITORY: where the daily metrics come from (see lib.loadDailies)
- *  - SOURCE_BRANCH: branch the runs were collected from, shown in the report (default `develop`)
- *  - DASHBOARD_PUBLISHED: `true` when the dashboard was deployed with this data, adds an "Open dashboard" button
+ *  - DASHBOARD_PUBLISHED: `true` when the dashboard was deployed with this data; "Open report" then opens the dashboard
+ *    (DASHBOARD_URL, see lib.dashboardUrl), otherwise the workflow run with the report in its summary
  *  - OUTPUT_DIR: where to write the report files (default `e2e-metrics-weekly`)
  *  - TEAMS_WEBHOOK_URL: Teams webhook; posting is skipped when not set (see also post-teams.js)
  */
@@ -115,6 +115,8 @@ function buildReport(dates, dailies, title, previousDailies = []) {
 }
 
 const WORKFLOW_NAMES = { 'cron-e2e-chrome.yml': 'daily chrome', 'populate-e2e-reports.yml': 'populate' };
+// Tests listed per section in the Teams card; the full lists are in the report.
+const CARD_TOP_TESTS = 3;
 const numberFormat = new Intl.NumberFormat('en-GB');
 
 function count(value, singular, pluralForm = `${singular}s`) {
@@ -166,82 +168,43 @@ function testName(test) {
   return test.title.split(' › ').pop();
 }
 
-function tableRow(cells) {
-  return {
-    type: 'TableRow',
-    cells: cells.map(({ text, ...style }) => ({
-      type: 'TableCell',
-      verticalContentAlignment: 'Center',
-      items: [{ type: 'TextBlock', text, wrap: true, ...style }]
-    }))
-  };
+/** A heading and up to CARD_TOP_TESTS tests, each as "metric  test name". */
+function topTestsSection(heading, tests, metric) {
+  return [
+    { type: 'TextBlock', text: heading, weight: 'Bolder', spacing: 'Medium', wrap: true },
+    {
+      type: 'FactSet',
+      spacing: 'Small',
+      facts: tests.slice(0, CARD_TOP_TESTS).map((test) => ({ title: metric(test), value: testName(test) }))
+    }
+  ];
 }
 
-/** Table with the most retried and the slowest test. */
-function highlightsTable(report) {
-  const rows = [];
-  const [mostRetried] = report.flaky;
-  if (mostRetried) {
-    rows.push(
-      tableRow([
-        { text: '🔁 Most retried', weight: 'Bolder' },
-        { text: `${count(mostRetried.retries, 'retry', 'retries')} in ${count(mostRetried.runs, 'run')}`, color: 'Warning' },
-        { text: testName(mostRetried) }
-      ])
-    );
-  }
-  const [slowest] = report.slowest;
-  if (slowest) {
-    rows.push(tableRow([{ text: '🐢 Slowest test', weight: 'Bolder' }, { text: formatDuration(slowest.durationAvg) }, { text: testName(slowest) }]));
-  }
-  return rows.length
-    ? { type: 'Table', firstRowAsHeader: false, showGridLines: true, gridStyle: 'default', columns: [{ width: 2 }, { width: 2 }, { width: 5 }], rows }
-    : null;
-}
-
-function buildCard(report, { dashboardLink, runLink, sourceBranch }) {
+/**
+ * Short Teams card: period, the top flaky and slowest tests and one button to the full report. The button opens the
+ * dashboard when it was published with this data, otherwise the workflow run (its summary has the full report).
+ */
+function buildCard(report, { dashboardLink, runLink }) {
   const body = [
     { type: 'TextBlock', size: 'Large', weight: 'Bolder', text: report.title, wrap: true },
-    {
-      type: 'TextBlock',
-      text: `${formatPeriod(report)}, ${sourceBranch} branch, ${describeRuns(report)}`,
-      isSubtle: true,
-      spacing: 'None',
-      wrap: true
-    }
+    { type: 'TextBlock', text: formatPeriod(report), isSubtle: true, spacing: 'None', wrap: true }
   ];
 
   if (report.totals.tests === 0) {
-    body.push({ type: 'TextBlock', text: 'No E2E results were collected for this period.', wrap: true, weight: 'Bolder', color: 'Warning' });
+    body.push({ type: 'TextBlock', text: 'No E2E results were collected for this period.', wrap: true, color: 'Warning' });
   } else {
-    body.push({ type: 'TextBlock', text: describeTotals(report), wrap: true });
-    const comparison = describeComparison(report);
-    if (comparison) {
-      body.push({ type: 'TextBlock', text: comparison, wrap: true, spacing: 'Small' });
+    if (report.flaky.length) {
+      body.push(
+        ...topTestsSection('🔁 Most flaky', report.flaky, (test) => `${count(test.retries, 'retry', 'retries')} in ${count(test.runs, 'run')}`)
+      );
     }
-    const highlights = highlightsTable(report);
-    if (highlights) {
-      body.push(highlights);
+    if (report.slowest.length) {
+      body.push(...topTestsSection('🐢 Slowest', report.slowest, (test) => formatDuration(test.durationAvg)));
     }
   }
 
-  if (report.missingDays.length) {
-    body.push({
-      type: 'TextBlock',
-      text: `Data is missing for ${report.missingDays.map((date) => formatDay(date)).join(', ')}.`,
-      wrap: true,
-      isSubtle: true,
-      size: 'Small'
-    });
-  }
-
-  const actions = [];
-  if (dashboardLink) {
-    actions.push({ type: 'Action.OpenUrl', title: 'Open dashboard', url: dashboardLink });
-  }
-  if (runLink) {
-    actions.push({ type: 'Action.OpenUrl', title: dashboardLink ? 'Open workflow run' : 'Open full report', url: runLink });
-  }
+  const reportLink = dashboardLink || runLink;
+  const actions = reportLink ? [{ type: 'Action.OpenUrl', title: 'Open report', url: reportLink }] : [];
 
   return {
     type: 'AdaptiveCard',
@@ -317,7 +280,6 @@ async function main() {
   const endDate = assertDate(process.env.REPORT_END_DATE || yesterdayUtc(), 'REPORT_END_DATE');
   const days = Number(process.env.REPORT_DAYS) || 7;
   const title = process.env.REPORT_TITLE || (days === 7 ? 'ACA E2E weekly report' : `ACA E2E report - last ${days} days`);
-  const sourceBranch = process.env.SOURCE_BRANCH || 'develop';
   const outputDir = process.env.OUTPUT_DIR || 'e2e-metrics-weekly';
   const dates = dateRange(endDate, days);
   // The period before, for recently flaky / fixed tests.
@@ -327,7 +289,7 @@ async function main() {
   const allDailies = await loadDailies([...previousDates, ...dates]);
   const report = buildReport(dates, allDailies.slice(days), title, allDailies.slice(0, days));
   const markdown = buildMarkdown(report, dashboardLink);
-  const card = buildCard(report, { dashboardLink, runLink: runUrl(), sourceBranch });
+  const card = buildCard(report, { dashboardLink, runLink: runUrl() });
 
   writeJson(path.join(outputDir, 'report.json'), report);
   writeJson(path.join(outputDir, 'teams-card.json'), card);
