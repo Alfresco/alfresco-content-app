@@ -812,7 +812,6 @@ describe('FilesComponent', () => {
         moveSubject = new Subject<NodeEntry>();
         undoSubject = new Subject<NodeEntry>();
         actionSubject = new Subject<void>();
-        component.node = { id: 'source-folder-id' } as Node;
         moveNodeSpy = spyOn(documentListService, 'moveNode').and.returnValues(moveSubject, undoSubject);
         spyOn(documentListService, 'reload');
         spyOn(notificationService, 'showInfo').and.returnValue({ onAction: () => actionSubject } as any);
@@ -836,7 +835,7 @@ describe('FilesComponent', () => {
         actionSubject.next();
 
         expect(moveNodeSpy).toHaveBeenCalledTimes(2);
-        expect(moveNodeSpy.calls.mostRecent().args).toEqual(['id1', 'source-folder-id']);
+        expect(moveNodeSpy.calls.mostRecent().args).toEqual(['id1', 'node-id']);
       });
 
       it('should show undo success notification after successful undo', () => {
@@ -1038,6 +1037,7 @@ describe('FilesComponent', () => {
     });
 
     it('should call moveNode on DocumentListService when dropped is triggered', () => {
+      fixture.detectChanges();
       spyOn(documentListService, 'moveNode').and.returnValue(new Subject());
 
       getBreadcrumb().dropped.emit({
