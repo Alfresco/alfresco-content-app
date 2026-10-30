@@ -132,7 +132,7 @@
     "ng-packagr": "21.2.7",
     "node-stream-zip": "^1.14.0",
     "nx": "23.2.1",
-    "prettier": "3.8.1",
+    "prettier": "3.9.10",
     "stylelint": "^16.0.0",
     "stylelint-config-standard-scss": "^13.0.0",
     "ts-node": "^10.9.2",
