@@ -23,7 +23,7 @@
  */
 
 import { InLastDateType } from '@alfresco/adf-content-services';
-import { endOfToday, format, startOfDay, startOfMonth, startOfWeek, subDays, subMonths, subWeeks } from 'date-fns';
+import { endOfDay, format, startOfDay, startOfMonth, startOfWeek, subDays, subMonths, subWeeks } from 'date-fns';
 
 /**
  * Single date filter state for one metadata field in the search UI.
@@ -107,7 +107,7 @@ export function resolveInLastDatePlaceholders(compiledQuery: string, now = new D
     return compiledQuery;
   }
 
-  const todayDateTime = formatDateForQuery(endOfToday());
+  const todayDateTime = formatDateForQuery(endOfDay(now));
 
   return compiledQuery
     .replace(/\$\{TODAY\}/g, todayDateTime)
