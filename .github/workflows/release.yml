@@ -167,7 +167,7 @@ jobs:
       - uses: ./.github/actions/setup
         with:
           npm_tag: ${{ inputs.npm-tag }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/configure-git-author@b4b2716a50beebc3b17a38294242761251afacf9 #v19.1.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/configure-git-author@482401ef42e6503cfa54d5873f1a768a0ecb3e0e #v19.11.0
         with:
           username: ${{ vars.BOT_GITHUB_USERNAME }}
           email: ${{ vars.BOT_GITHUB_EMAIL }}
@@ -223,7 +223,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Push Source Files to Crowdin
-        uses: crowdin/github-action@9c23991700c0ec5256fd41089b9d9d7d540e424e # v3.3.0
+        uses: crowdin/github-action@959dc74ac104447731cba99a016f85d0ae719788 # v3.5.0
         with:
           upload_sources: true
           upload_sources_args: --delete-obsolete
