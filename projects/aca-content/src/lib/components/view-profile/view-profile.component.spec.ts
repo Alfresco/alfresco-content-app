@@ -191,7 +191,7 @@ describe('ViewProfileComponent', () => {
     expect(await isSaveButtonDisabled('contact')).toBeTrue();
   });
 
-  it('should enable save buttons if form has valid inputs', async () => {
+  it('should enable save buttons if form has valid phone format', async () => {
     fixture.detectChanges();
 
     unitTestingUtils.clickByCSS('#general-dropdown .app-general-edit');
@@ -201,12 +201,12 @@ describe('ViewProfileComponent', () => {
     const profileFormGroup = component.profileForm;
 
     profileFormGroup.setValue({
-      general: { firstName: 'John', lastName: 'Doe', jobTitle: 'Developer', location: 'US', telephone: '274-422-55', mobile: '886-632-2112' },
+      general: { firstName: 'John', lastName: 'Doe', jobTitle: 'Developer', location: 'US', telephone: '44 20 7946 0958', mobile: '886-632-2112' },
       company: {
         companyName: 'testCompany',
         companyPostCode: '12345',
         companyAddress: 'test address',
-        companyTelephone: '274-22-66',
+        companyTelephone: '44 20 7946 0958',
         companyEmail: 'testEmail@test.com'
       }
     });
@@ -214,6 +214,31 @@ describe('ViewProfileComponent', () => {
     await expect(profileFormGroup.valid).toEqual(true);
     expect(await isSaveButtonDisabled('general')).toBeFalse();
     expect(await isSaveButtonDisabled('contact')).toBeFalse();
+  });
+
+  it('should disable save buttons if form has invalid phone format', async () => {
+    fixture.detectChanges();
+
+    unitTestingUtils.clickByCSS('#general-dropdown .app-general-edit');
+    unitTestingUtils.clickByCSS('#contact-dropdown .app-general-edit');
+    fixture.detectChanges();
+
+    const profileFormGroup = component.profileForm;
+
+    profileFormGroup.setValue({
+      general: { firstName: 'John', lastName: 'Doe', jobTitle: 'Developer', location: 'US', telephone: '44+20 7946 0958', mobile: '886-632-2112' },
+      company: {
+        companyName: 'testCompany',
+        companyPostCode: '12345',
+        companyAddress: 'test address',
+        companyTelephone: '44 20 7946 0958',
+        companyEmail: 'testEmail@test.com'
+      }
+    });
+
+    await expect(profileFormGroup.valid).toEqual(false);
+    expect(await isSaveButtonDisabled('general')).toBeTrue();
+    expect(await isSaveButtonDisabled('contact')).toBeTrue();
   });
 
   it('should expand or compress general dropdown when arrow button is clicked', () => {
