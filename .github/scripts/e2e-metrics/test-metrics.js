@@ -29,8 +29,9 @@ const { DAILY_ARTIFACT_PREFIX } = require('./daily-metrics');
 const RUN_ARTIFACT_PREFIX = 'e2e-metrics-';
 const WEEKLY_ARTIFACT_PREFIX = 'e2e-metrics-weekly-';
 const E2E_METRICS_REPORTER_FORMAT = 'aca-e2e-metrics';
+const E2E_METRICS_REPORTER_FORMAT_INTRODUCED_ON = '2026-10-28';
 const MIN_FLAKY_RUNS_BEFORE_FIX = 5;
-const MIN_CLEAN_RUNS_TO_COUNT_AS_FIXED = 5;
+const MIN_CLEAN_RUNS_TO_COUNT_AS_FIXED = 3;
 
 function parseRunArtifactName(name) {
   const isAggregateArtifact = name.startsWith(DAILY_ARTIFACT_PREFIX) || name.startsWith(WEEKLY_ARTIFACT_PREFIX);
@@ -185,6 +186,7 @@ function formatDuration(ms) {
 module.exports = {
   parseRunArtifactName,
   isE2eMetricsReport,
+  E2E_METRICS_REPORTER_FORMAT_INTRODUCED_ON,
   extractTestMetrics,
   mergeTests,
   compareFlaky,

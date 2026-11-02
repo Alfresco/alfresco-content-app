@@ -30,7 +30,13 @@ const path = require('node:path');
 const { mapOneAtATime, requireEnv, createGithubClient } = require('./github-api');
 const { assertDate, yesterdayUtc } = require('./dates');
 const { SCHEMA_VERSION, writeJson } = require('./daily-metrics');
-const { parseRunArtifactName, isE2eMetricsReport, extractTestMetrics, mergeTests } = require('./test-metrics');
+const {
+  parseRunArtifactName,
+  isE2eMetricsReport,
+  E2E_METRICS_REPORTER_FORMAT_INTRODUCED_ON,
+  extractTestMetrics,
+  mergeTests
+} = require('./test-metrics');
 const { createDataIssueLog, appendIssuesToStepSummary } = require('./data-issues');
 
 const DEFAULT_SOURCE_WORKFLOWS = 'cron-e2e-chrome.yml,populate-e2e-reports.yml';
@@ -129,20 +135,46 @@ function failureCauses(jobs, metricSuitesByArtifact) {
   return causes;
 }
 
-function conclusionFromSuiteJobs(jobs) {
-  const suiteJobs = jobs.filter((job) => parseSuiteJobName(job.name));
-  if (!suiteJobs.length || suiteJobs.some((job) => job.status !== 'completed')) {
-    return null;
+function conclusionFromFinishedJobs(jobs) {
+  const finishedConclusions = new Set(jobs.filter((job) => job.status === 'completed').map((job) => job.conclusion));
+  const worstConclusion = RUN_CONCLUSIONS_BY_SEVERITY.find((conclusion) => finishedConclusions.has(conclusion));
+  if (worstConclusion) {
+    return worstConclusion;
   }
-  const conclusions = new Set(suiteJobs.map((job) => job.conclusion));
-  return RUN_CONCLUSIONS_BY_SEVERITY.find((conclusion) => conclusions.has(conclusion)) || 'success';
+  const suiteJobs = jobs.filter((job) => parseSuiteJobName(job.name));
+  const allSuitesFinished = suiteJobs.length > 0 && suiteJobs.every((job) => job.status === 'completed');
+  const anySuitePassed = suiteJobs.some((job) => job.conclusion === 'success');
+  return allSuitesFinished && anySuitePassed ? 'success' : null;
+}
+
+function recordExpiredArtifacts(expiredArtifacts, run, issueLog) {
+  const runPredatesReporterFormat = run.created_at?.slice(0, 10) < E2E_METRICS_REPORTER_FORMAT_INTRODUCED_ON;
+  if (runPredatesReporterFormat) {
+    return;
+  }
+  for (const artifact of expiredArtifacts) {
+    issueLog.add({
+      operation: 'artifact-expired',
+      runId: run.id,
+      runUrl: run.html_url,
+      artifact: artifact.name,
+      effect: `Results of suite ${parseRunArtifactName(artifact.name).suite} in run ${run.id} are missing: the test reports have expired`,
+      error: new Error(`Artifact ${artifact.name} expired on ${artifact.expires_at}`)
+    });
+  }
 }
 
 async function listRunArtifacts(github, run, issueLog) {
   try {
-    return (await github.paginate(`/actions/runs/${run.id}/artifacts`, 'artifacts')).filter(
-      (artifact) => !artifact.expired && parseRunArtifactName(artifact.name)
+    const metricsArtifacts = (await github.paginate(`/actions/runs/${run.id}/artifacts`, 'artifacts')).filter((artifact) =>
+      parseRunArtifactName(artifact.name)
     );
+    recordExpiredArtifacts(
+      metricsArtifacts.filter((artifact) => artifact.expired),
+      run,
+      issueLog
+    );
+    return metricsArtifacts.filter((artifact) => !artifact.expired);
   } catch (error) {
     issueLog.add({ operation: 'list-artifacts', runId: run.id, runUrl: run.html_url, effect: `Test results of run ${run.id} are missing`, error });
     return [];
@@ -176,8 +208,9 @@ async function collectRun(github, run, workDir, issueLog) {
   );
   const hasTestResults = metricSuitesByArtifact.size > 0;
   const runFailed = FAILED_CONCLUSIONS.has(run.conclusion);
-  const runJobs = hasTestResults || runFailed ? await listLatestAttemptJobs(github, run, issueLog) : null;
-  const conclusion = run.conclusion || (runJobs ? conclusionFromSuiteJobs(runJobs) : null);
+  const runStillInProgress = !run.conclusion;
+  const runJobs = hasTestResults || runFailed || runStillInProgress ? await listLatestAttemptJobs(github, run, issueLog) : null;
+  const conclusion = run.conclusion || (runJobs ? conclusionFromFinishedJobs(runJobs) : null);
   return {
     artifactCount: artifacts.length,
     metrics,

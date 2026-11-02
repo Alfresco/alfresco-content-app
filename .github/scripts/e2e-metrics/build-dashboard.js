@@ -154,6 +154,11 @@ function compactResults(day, indexByKey, dedupedErrors) {
     });
 }
 
+function useLatestSourceLocation(catalogEntry, test) {
+  catalogEntry[3] = test.path || catalogEntry[3];
+  catalogEntry[4] = test.line || catalogEntry[4];
+}
+
 function compactHistory(days, meta, detailFrom) {
   const catalog = [];
   const indexByKey = new Map();
@@ -164,6 +169,8 @@ function compactHistory(days, meta, detailFrom) {
         if (!indexByKey.has(test.key)) {
           indexByKey.set(test.key, catalog.length);
           catalog.push([test.suite, test.file, test.title, test.path || null, test.line || null]);
+        } else {
+          useLatestSourceLocation(catalog[indexByKey.get(test.key)], test);
         }
         return [indexByKey.get(test.key), ...COMPACT_TEST_METRIC_FIELDS.map((field) => test[field])];
       });

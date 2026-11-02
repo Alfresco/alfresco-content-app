@@ -322,7 +322,7 @@
         const DEFAULTS = { tab: 'flaky', days: '14', end: '', q: '', suite: '', sort: '', dir: '', test: '' };
         const TAB_SORT = { flaky: ['retries', 'desc'], slowest: ['avg', 'desc'], all: ['title', 'asc'], runs: ['date', 'desc'], failed: ['date', 'desc'] };
         const MIN_FLAKY_RUNS_BEFORE_FIX = 5;
-        const MIN_CLEAN_RUNS_TO_COUNT_AS_FIXED = 5;
+        const MIN_CLEAN_RUNS_TO_COUNT_AS_FIXED = 3;
         const TREND_SORT_WEIGHT_BY_DAY_RESULT = { f: 2, r: 1, p: 0 };
         const INFRA_FAILURE_SORT_RANK = 2;
         const TEST_FAILURE_SORT_RANK = 1;
@@ -332,15 +332,16 @@
         const firstDate = metrics.days.length ? metrics.days[0].date : lastDate;
         const keptHistoryDays = metrics.historyDays || 14;
         const PERIODS = [7, 14, 30, 90].filter((days) => days <= keptHistoryDays);
+        const LONGEST_PERIOD = PERIODS[PERIODS.length - 1];
+        const isPeriod = (days) => Number.isInteger(days) && days >= 1 && days <= LONGEST_PERIOD;
         const STATE_VALIDATORS = {
           tab: (value) => Object.hasOwn(TAB_SORT, value),
-          days: (value) => PERIODS.map(String).includes(value),
+          days: (value) => /^\d+$/.test(value) && isPeriod(Number(value)),
           end: (value) => value === '' || /^\d{4}-\d{2}-\d{2}$/.test(value),
           sort: (value) => /^[a-z]*$/.test(value),
           dir: (value) => value === '' || value === 'asc' || value === 'desc',
           test: (value) => /^[0-9a-z]*$/.test(value)
         };
-        $('days').innerHTML = PERIODS.map((days) => '<option value="' + days + '">Last ' + days + ' days</option>').join('');
         const datesWithData = new Set(metrics.days.map((day) => day.date));
 
         const COLUMN_HELP = {
@@ -457,7 +458,7 @@
 
         function periodDays() {
           const days = Number(state.days);
-          return PERIODS.includes(days) ? days : PERIODS[PERIODS.length - 1];
+          return isPeriod(days) ? days : LONGEST_PERIOD;
         }
 
         function rangeDates() {
@@ -620,7 +621,10 @@
         }
 
         function renderFilters(suites) {
-          $('days').value = String(periodDays());
+          const days = periodDays();
+          const periodOptions = [...new Set([...PERIODS, days])].sort((a, b) => a - b);
+          $('days').innerHTML = periodOptions.map((option) => '<option value="' + option + '">Last ' + plural(option, 'day') + '</option>').join('');
+          $('days').value = String(days);
           $('end').textContent = formatDate(state.end || lastDate, { year: 'numeric' });
           if ($('q').value !== state.q) $('q').value = state.q;
           $('suite').innerHTML = '<option value="">All suites</option>' + suites.map((s) => '<option' + (s === state.suite ? ' selected' : '') + '>' + esc(s) + '</option>').join('');
@@ -1255,7 +1259,9 @@
         $('reset').addEventListener('click', () => setState({ ...DEFAULTS, tab: state.tab }));
         $('tabs').addEventListener('click', (e) => {
           const tab = e.target.closest('button')?.dataset.tab;
-          if (tab) setState({ tab, sort: '', dir: '' });
+          if (!tab) return;
+          setState({ tab, sort: '', dir: '' });
+          $('tabs').querySelector('[data-tab="' + tab + '"]')?.focus({ preventScroll: true });
         });
         $('summary').addEventListener('click', (e) => {
           const tab = e.target.closest('button[data-tab]')?.dataset.tab;
