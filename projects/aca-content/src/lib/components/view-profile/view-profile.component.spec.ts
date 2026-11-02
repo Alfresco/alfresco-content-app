@@ -191,6 +191,31 @@ describe('ViewProfileComponent', () => {
     expect(await isSaveButtonDisabled('contact')).toBeTrue();
   });
 
+  it('should enable save buttons if form has valid inputs', async () => {
+    fixture.detectChanges();
+
+    unitTestingUtils.clickByCSS('#general-dropdown .app-general-edit');
+    unitTestingUtils.clickByCSS('#contact-dropdown .app-general-edit');
+    fixture.detectChanges();
+
+    const profileFormGroup = component.profileForm;
+
+    profileFormGroup.setValue({
+      general: { firstName: 'John', lastName: 'Doe', jobTitle: 'Developer', location: 'US', telephone: '274-422-55', mobile: '886-632-2112' },
+      company: {
+        companyName: 'testCompany',
+        companyPostCode: '12345',
+        companyAddress: 'test address',
+        companyTelephone: '274-22-66',
+        companyEmail: 'testEmail@test.com'
+      }
+    });
+
+    await expect(profileFormGroup.valid).toEqual(true);
+    expect(await isSaveButtonDisabled('general')).toBeFalse();
+    expect(await isSaveButtonDisabled('contact')).toBeFalse();
+  });
+
   it('should enable save buttons if form has valid phone format', async () => {
     fixture.detectChanges();
 
