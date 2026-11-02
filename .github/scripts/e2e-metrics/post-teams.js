@@ -25,7 +25,23 @@
 'use strict';
 
 const fs = require('fs');
-const { postToTeams } = require('./lib');
+async function postToTeams(card) {
+  const webhook = process.env.TEAMS_WEBHOOK_URL;
+  if (!webhook) {
+    console.warn('TEAMS_WEBHOOK_URL is not set, skipping Teams notification.');
+    return;
+  }
+
+  const response = await fetch(webhook, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ type: 'message', attachments: [{ contentType: 'application/vnd.microsoft.card.adaptive', content: card }] })
+  });
+  if (!response.ok) {
+    throw new Error(`Teams webhook returned ${response.status}: ${await response.text()}`);
+  }
+  console.log(`Posted E2E report to Teams (HTTP ${response.status}).`);
+}
 
 async function main() {
   const cardFile = process.env.CARD_FILE || 'e2e-metrics-weekly/teams-card.json';
@@ -38,3 +54,5 @@ if (require.main === module) {
     process.exit(1);
   });
 }
+
+module.exports = { postToTeams };

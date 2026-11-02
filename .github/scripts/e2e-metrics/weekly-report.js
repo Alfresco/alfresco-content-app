@@ -26,27 +26,24 @@
 
 const fs = require('fs');
 const path = require('path');
+const { runUrl, dashboardUrl } = require('./github-api');
+const { assertDate, shiftDate, yesterdayUtc, datesEndingOn } = require('./dates');
+const { SCHEMA_VERSION, loadDailies, writeJson } = require('./daily-metrics');
 const {
-  SCHEMA_VERSION,
-  assertDate,
-  shiftDate,
-  yesterdayUtc,
   mergeTests,
   compareFlaky,
+  MIN_FLAKY_RUNS_BEFORE_FIX,
   MIN_CLEAN_RUNS_TO_COUNT_AS_FIXED,
   averageDuration,
   averageSetup,
-  formatDuration,
-  runUrl,
-  dashboardUrl,
-  loadDailies,
-  datesEndingOn,
-  postToTeams,
-  writeJson
-} = require('./lib');
+  formatDuration
+} = require('./test-metrics');
+const { postToTeams } = require('./post-teams');
+const { createDataIssueLog } = require('./data-issues');
 
-function buildReport(dates, dailies, title, previousDailies = []) {
+function buildReport(dates, dailies, title, previousDailies = [], loadIssues = []) {
   const available = dailies.filter(Boolean);
+  const dataIssues = [...available.flatMap((daily) => daily.issues || []), ...loadIssues];
   const runs = available.flatMap((daily) => daily.runs);
   const tests = mergeTests(available.map((daily) => daily.tests)).map((test) => ({
     ...test,
@@ -74,6 +71,7 @@ function buildReport(dates, dailies, title, previousDailies = []) {
     endDate: dates[dates.length - 1],
     generatedAt: new Date().toISOString(),
     missingDays: dates.filter((_, index) => !dailies[index]),
+    ...(dataIssues.length ? { dataIssues } : {}),
     daysCollected: available.length,
     runs,
     runsByWorkflow,
@@ -153,11 +151,24 @@ function topTestsSection(heading, tests, metric) {
   ];
 }
 
+function describeDataIssues(report) {
+  const issuesInPeriod = (report.dataIssues || []).filter((issue) => !issue.date || (issue.date >= report.startDate && issue.date <= report.endDate));
+  if (!issuesInPeriod.length) {
+    return null;
+  }
+  const affectedDays = new Set(issuesInPeriod.map((issue) => issue.date).filter(Boolean)).size;
+  return `⚠️ Data incomplete: ${count(issuesInPeriod.length, 'problem')}${affectedDays ? ` on ${count(affectedDays, 'day')}` : ''}. Details in the report.`;
+}
+
 function buildCard(report, { dashboardLink, runLink }) {
   const body = [
     { type: 'TextBlock', size: 'Large', weight: 'Bolder', text: report.title, wrap: true },
     { type: 'TextBlock', text: formatPeriod(report), isSubtle: true, spacing: 'None', wrap: true }
   ];
+  const dataIssuesLine = describeDataIssues(report);
+  if (dataIssuesLine) {
+    body.push({ type: 'TextBlock', text: dataIssuesLine, wrap: true, color: 'Warning' });
+  }
 
   if (report.totals.tests === 0) {
     body.push({ type: 'TextBlock', text: 'No E2E results were collected for this period.', wrap: true, color: 'Warning' });
@@ -202,6 +213,22 @@ function buildMarkdown(report, dashboardLink) {
     lines.push('', `[Open the E2E dashboard](${dashboardLink}) to filter, sort and see the numbers by day.`);
   }
 
+  if (report.dataIssues) {
+    lines.push(
+      '',
+      `## ⚠️ Data problems (${report.dataIssues.length})`,
+      '',
+      'Some data could not be collected or loaded, so the numbers below may be incomplete.',
+      ''
+    );
+    lines.push(
+      ...report.dataIssues.map(
+        (issue) =>
+          `- ${issue.date ? `${formatDay(issue.date)}: ` : ''}${escapeMarkdown(issue.effect)}. \`${escapeMarkdown(issue.message).replace(/`/g, "'")}\``
+      )
+    );
+  }
+
   lines.push('', `## 🔁 Flaky tests (${report.flaky.length})`, '');
   if (report.flaky.length) {
     lines.push('| # | Test | Suite | File | Retries | Runs | Flaky runs | Failed runs |', '|--:|---|---|---|--:|--:|--:|--:|');
@@ -222,7 +249,7 @@ function buildMarkdown(report, dashboardLink) {
       '',
       `## ✅ Fixed (${report.comparison.fixed.length})`,
       '',
-      `Flaky in the previous period, no retry in at least ${MIN_CLEAN_RUNS_TO_COUNT_AS_FIXED} runs in this one.`,
+      `At least ${MIN_FLAKY_RUNS_BEFORE_FIX} flaky runs in the previous period, then at least ${MIN_CLEAN_RUNS_TO_COUNT_AS_FIXED} runs in this one, all without a retry.`,
       ''
     );
     lines.push(...(report.comparison.fixed.length ? testList(report.comparison.fixed) : ['None.']));
@@ -254,10 +281,16 @@ async function main() {
   const previousPeriodDates = datesEndingOn(shiftDate(endDate, -days), days);
   const dashboardLink = process.env.DASHBOARD_PUBLISHED === 'true' && dashboardUrl() ? `${dashboardUrl()}#days=${days}&end=${endDate}` : null;
 
-  const allDailies = await loadDailies([...previousPeriodDates, ...dates]);
+  const loadIssueLog = createDataIssueLog('load');
+  const allDailies = await loadDailies([...previousPeriodDates, ...dates], loadIssueLog);
   const previousPeriodDailies = allDailies.slice(0, days);
   const currentPeriodDailies = allDailies.slice(days);
-  const report = buildReport(dates, currentPeriodDailies, title, previousPeriodDailies);
+  const loadIssues = loadIssueLog.issues.map((issue) =>
+    previousPeriodDates.includes(issue.date)
+      ? { ...issue, effect: `${issue.effect} (previous period, used for recently flaky and fixed tests)` }
+      : issue
+  );
+  const report = buildReport(dates, currentPeriodDailies, title, previousPeriodDailies, loadIssues);
   const markdown = buildMarkdown(report, dashboardLink);
   const card = buildCard(report, { dashboardLink, runLink: runUrl() });
 

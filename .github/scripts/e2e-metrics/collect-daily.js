@@ -27,21 +27,14 @@
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
-const {
-  SCHEMA_VERSION,
-  requireEnv,
-  assertDate,
-  yesterdayUtc,
-  createGithubClient,
-  parseRunArtifactName,
-  extractTestMetrics,
-  mergeTests,
-  writeJson
-} = require('./lib');
+const { requireEnv, createGithubClient } = require('./github-api');
+const { assertDate, yesterdayUtc } = require('./dates');
+const { SCHEMA_VERSION, writeJson } = require('./daily-metrics');
+const { parseRunArtifactName, extractTestMetrics, mergeTests } = require('./test-metrics');
+const { createDataIssueLog, appendIssuesToStepSummary } = require('./data-issues');
 
 const DEFAULT_SOURCE_WORKFLOWS = 'cron-e2e-chrome.yml,populate-e2e-reports.yml';
 const DEFAULT_SOURCE_BRANCH = 'develop';
-const JOBS_REQUEST_ATTEMPTS = 2;
 const RUN_CONCLUSIONS_BY_SEVERITY = ['failure', 'timed_out', 'cancelled'];
 const FAILED_CONCLUSIONS = new Set(['failure', 'timed_out']);
 const TIMED_OUT_JOB_STEP_CONCLUSION = 'cancelled';
@@ -51,7 +44,7 @@ const SUITE_JOB_NAME_PATTERN = /(?:^|\/ )E2E \| (\S+) \| (.+) \| Playwright$/;
 
 const suiteAttemptFromFileName = (fileName) => Number(/attempt-(\d+)/.exec(fileName)?.[1]) || 1;
 
-function readArtifactMetrics(artifactDir, suite) {
+function readArtifactMetrics(artifactDir, suite, reportUnreadableFile) {
   const metrics = [];
   for (const file of fs
     .readdirSync(artifactDir)
@@ -62,7 +55,7 @@ function readArtifactMetrics(artifactDir, suite) {
       const suiteAttempt = suiteAttemptFromFileName(file);
       metrics.push(...extractTestMetrics(report, suite).map((metric) => ({ ...metric, suiteAttempt })));
     } catch (error) {
-      console.warn(`Skipping unreadable report ${artifactDir}/${file}: ${error instanceof Error ? error.message : String(error)}`);
+      reportUnreadableFile(file, error);
     }
   }
   return metrics;
@@ -73,18 +66,19 @@ function parseSuiteJobName(name) {
   return match ? { browser: match[1], suite: match[2] } : null;
 }
 
-async function listLatestAttemptJobs(github, run) {
-  for (let attempt = 1; attempt <= JOBS_REQUEST_ATTEMPTS; attempt++) {
-    try {
-      return await github.paginate(`/actions/runs/${run.id}/jobs?filter=latest`, 'jobs');
-    } catch (error) {
-      const message = error instanceof Error ? error.message : String(error);
-      if (attempt === JOBS_REQUEST_ATTEMPTS) {
-        console.warn(`Could not list jobs of run ${run.id}, its results link to the run and have no job timing: ${message}`);
-      }
-    }
+async function listLatestAttemptJobs(github, run, issueLog) {
+  try {
+    return await github.paginate(`/actions/runs/${run.id}/jobs?filter=latest`, 'jobs');
+  } catch (error) {
+    issueLog.add({
+      operation: 'list-jobs',
+      runId: run.id,
+      runUrl: run.html_url,
+      effect: `Job links, CI timing and failure causes of run ${run.id} are missing`,
+      error
+    });
+    return null;
   }
-  return null;
 }
 
 const secondsBetween = (from, to) => (from && to ? Math.max(0, Math.round((Date.parse(to) - Date.parse(from)) / 1000)) : null);
@@ -140,27 +134,39 @@ function conclusionFromSuiteJobs(jobs) {
   return RUN_CONCLUSIONS_BY_SEVERITY.find((conclusion) => conclusions.has(conclusion)) || 'success';
 }
 
-async function collectRun(github, run, workDir) {
-  const artifacts = (await github.paginate(`/actions/runs/${run.id}/artifacts`, 'artifacts')).filter(
-    (artifact) => !artifact.expired && parseRunArtifactName(artifact.name)
-  );
+async function listRunArtifacts(github, run, issueLog) {
+  try {
+    return (await github.paginate(`/actions/runs/${run.id}/artifacts`, 'artifacts')).filter(
+      (artifact) => !artifact.expired && parseRunArtifactName(artifact.name)
+    );
+  } catch (error) {
+    issueLog.add({ operation: 'list-artifacts', runId: run.id, runUrl: run.html_url, effect: `Test results of run ${run.id} are missing`, error });
+    return [];
+  }
+}
+
+async function collectRun(github, run, workDir, issueLog) {
+  const artifacts = await listRunArtifacts(github, run, issueLog);
   const metrics = [];
   const metricSuitesByArtifact = new Map();
   for (const artifact of artifacts) {
     const { browser, suite } = parseRunArtifactName(artifact.name);
     const artifactDir = path.join(workDir, String(run.id), artifact.name);
+    const issueContext = { runId: run.id, runUrl: run.html_url, artifact: artifact.name };
     try {
       await github.downloadAndExtractArtifact(artifact.id, artifactDir);
-      const artifactMetrics = readArtifactMetrics(artifactDir, suite);
+      const artifactMetrics = readArtifactMetrics(artifactDir, suite, (file, error) =>
+        issueLog.add({ ...issueContext, operation: 'read-report', effect: `Results of suite ${suite} (${file}) in run ${run.id} are missing`, error })
+      );
       metrics.push(...artifactMetrics);
       metricSuitesByArtifact.set(`${browser}-${suite}`, new Set(artifactMetrics.map((metric) => metric.suite)));
     } catch (error) {
-      console.warn(`Skipping artifact ${artifact.name} of run ${run.id}: ${error instanceof Error ? error.message : String(error)}`);
+      issueLog.add({ ...issueContext, operation: 'download-artifact', effect: `Results of suite ${suite} in run ${run.id} are missing`, error });
     }
   }
   const hasTestResults = metricSuitesByArtifact.size > 0;
   const runFailed = FAILED_CONCLUSIONS.has(run.conclusion);
-  const runJobs = hasTestResults || runFailed ? await listLatestAttemptJobs(github, run) : null;
+  const runJobs = hasTestResults || runFailed ? await listLatestAttemptJobs(github, run, issueLog) : null;
   const conclusion = run.conclusion || (runJobs ? conclusionFromSuiteJobs(runJobs) : null);
   return {
     artifactCount: artifacts.length,
@@ -194,7 +200,7 @@ function toRunSummary(run, workflow, { artifactCount, conclusion, suites, failur
   return summary;
 }
 
-async function listRuns(github, { sourceWorkflows, date, branch, includeRunId }) {
+async function listRuns(github, { sourceWorkflows, date, branch, includeRunId }, issueLog) {
   const runs = [];
   for (const workflow of sourceWorkflows) {
     try {
@@ -204,19 +210,24 @@ async function listRuns(github, { sourceWorkflows, date, branch, includeRunId })
       );
       runs.push(...workflowRuns.map((run) => ({ run, workflow })));
     } catch (error) {
-      if (error.status !== 404) {
-        throw error;
+      if (error.status === 404) {
+        console.warn(`Workflow ${workflow} not found (not on the default branch and never run), skipping.`);
+      } else {
+        issueLog.add({ operation: 'list-runs', workflow, effect: `Runs of ${workflow} are missing`, error });
       }
-      console.warn(`Workflow ${workflow} not found (not on the default branch and never run), skipping.`);
     }
   }
 
   if (includeRunId && !runs.some(({ run }) => String(run.id) === includeRunId)) {
-    const run = await github.getJson(`/actions/runs/${encodeURIComponent(includeRunId)}`);
-    if (run.head_branch === branch) {
-      runs.push({ run, workflow: path.basename(run.path || run.name) });
-    } else {
-      console.warn(`Run ${includeRunId} is on branch "${run.head_branch}", only "${branch}" runs are counted.`);
+    try {
+      const run = await github.getJson(`/actions/runs/${encodeURIComponent(includeRunId)}`);
+      if (run.head_branch === branch) {
+        runs.push({ run, workflow: path.basename(run.path || run.name) });
+      } else {
+        console.warn(`Run ${includeRunId} is on branch "${run.head_branch}", only "${branch}" runs are counted.`);
+      }
+    } catch (error) {
+      issueLog.add({ operation: 'get-run', runId: Number(includeRunId), effect: `Results of the current run ${includeRunId} are missing`, error });
     }
   }
   return runs;
@@ -238,14 +249,29 @@ async function main() {
   const runs = [];
   const perRunMetrics = [];
   const perRunTestResults = [];
+  const issueLog = createDataIssueLog('collect', { date });
   try {
-    for (const { run, workflow } of await listRuns(github, { sourceWorkflows, date, branch, includeRunId })) {
-      const collected = await collectRun(github, run, workDir);
+    for (const { run, workflow } of await listRuns(github, { sourceWorkflows, date, branch, includeRunId }, issueLog)) {
+      let collected;
+      try {
+        collected = await collectRun(github, run, workDir, issueLog);
+      } catch (error) {
+        issueLog.add({
+          operation: 'collect-run',
+          runId: run.id,
+          runUrl: run.html_url,
+          workflow,
+          effect: `Results of run ${run.id} are missing`,
+          error
+        });
+        continue;
+      }
       const { artifactCount, metrics } = collected;
       console.log(`${workflow} run ${run.id} (${run.display_title}): ${artifactCount} metrics artifact(s), ${metrics.length} test run(s)`);
       const hasTestResults = metrics.length > 0;
       const hasFailureCause = collected.failure.length > 0;
-      if (hasTestResults || hasFailureCause) {
+      const hasDataIssue = issueLog.issues.some((issue) => issue.runId === run.id);
+      if (hasTestResults || hasFailureCause || hasDataIssue) {
         runs.push(toRunSummary(run, workflow, collected));
         perRunMetrics.push(metrics);
         perRunTestResults.push(...metrics.map(({ key, suiteAttempt, detail }) => ({ key, runId: run.id, suiteAttempt, ...detail })));
@@ -256,8 +282,13 @@ async function main() {
   }
 
   const tests = mergeTests(perRunMetrics).sort((a, b) => a.key.localeCompare(b.key));
-  writeJson(outputFile, { schemaVersion: SCHEMA_VERSION, date, generatedAt: new Date().toISOString(), runs, tests, results: perRunTestResults });
-  console.log(`Wrote ${outputFile}: ${runs.length} run(s), ${tests.length} test(s).`);
+  const daily = { schemaVersion: SCHEMA_VERSION, date, generatedAt: new Date().toISOString(), runs, tests, results: perRunTestResults };
+  if (issueLog.issues.length) {
+    daily.issues = issueLog.issues;
+  }
+  writeJson(outputFile, daily);
+  appendIssuesToStepSummary(issueLog.issues, `E2E metrics collection problems for ${date}`);
+  console.log(`Wrote ${outputFile}: ${runs.length} run(s), ${tests.length} test(s), ${issueLog.issues.length} data problem(s).`);
 }
 
 if (require.main === module) {

@@ -110,6 +110,12 @@
       button.stat:hover { background: var(--sunken); }
       button.stat .label { text-decoration: underline; }
       .days-note { margin: 8px 0 0; font-size: 14px; color: var(--secondary); }
+      .data-issues { margin: 12px 0 0; padding: 8px 12px; border: 1px solid var(--retried); border-left-width: 4px; border-radius: 4px; background: var(--sunken); font-size: 14px; }
+      .data-issues summary { cursor: pointer; font-weight: 600; }
+      .data-issues ul { margin: 8px 0 0; padding-left: 20px; }
+      .data-issues li { margin: 4px 0; }
+      .data-issues code { display: block; font-size: 12px; color: var(--secondary); overflow-wrap: anywhere; }
+      .cause-data { color: var(--retried); font-weight: 600; }
 
       .tabs { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 32px; padding: 6px 6px 0; background: var(--band); border: 1px solid var(--rule); border-bottom: 0; border-radius: 6px 6px 0 0; }
       .tabs button { --accent: var(--secondary); border: 0; border-top: 3px solid var(--accent); border-radius: 4px 4px 0 0; background: none; padding: 8px 16px; color: var(--secondary); }
@@ -241,6 +247,7 @@
       <main>
         <section class="summary" id="summary" aria-label="Summary"></section>
         <p class="days-note" id="days-note" hidden></p>
+        <details class="data-issues" id="data-issues" hidden></details>
 
         <nav class="tabs" id="tabs" role="tablist"></nav>
         <div class="tab-panel" id="panel" role="tabpanel"></div>
@@ -313,7 +320,8 @@
 
         const DEFAULTS = { tab: 'flaky', days: '14', end: '', q: '', suite: '', sort: '', dir: '', test: '' };
         const TAB_SORT = { flaky: ['retries', 'desc'], slowest: ['avg', 'desc'], all: ['title', 'asc'], runs: ['date', 'desc'], failed: ['date', 'desc'] };
-        const MIN_CLEAN_RUNS_TO_COUNT_AS_FIXED = 3;
+        const MIN_FLAKY_RUNS_BEFORE_FIX = 5;
+        const MIN_CLEAN_RUNS_TO_COUNT_AS_FIXED = 5;
         const TREND_SORT_WEIGHT_BY_DAY_RESULT = { f: 2, r: 1, p: 0 };
         const INFRA_FAILURE_SORT_RANK = 2;
         const TEST_FAILURE_SORT_RANK = 1;
@@ -338,7 +346,7 @@
           trend: 'One dot per day of the period, oldest first: green passed, amber needed a retry, red failed after all retries, empty did not run. "Recently flaky" marks tests that were not flaky in the previous period of the same length.'
         };
         const TAB_INTRO = {
-          flaky: 'Tests that needed at least one retry or failed in the selected period, ordered by retries. "Recently flaky" under the trend marks tests that were not flaky in the previous period of the same length; tests flaky then but clean now are listed under the table as fixed.',
+          flaky: 'Tests that needed at least one retry or failed in the selected period, ordered by retries. "Recently flaky" under the trend marks tests that were not flaky in the previous period of the same length; tests that had at least ' + MIN_FLAKY_RUNS_BEFORE_FIX + ' flaky runs then and only clean runs now (at least ' + MIN_CLEAN_RUNS_TO_COUNT_AS_FIXED + ') are listed under the table as fixed.',
           slowest: 'Tests that passed at least once in the selected period, ordered by average duration.',
           all: 'Every test that ran in the selected period, grouped by suite, test file and describe block. Group rows show the totals of their tests; suite rows also show the average CI time of the suite job, split into setup before the tests (ACS deploy, installs) and the tests themselves. Click a group to expand or collapse it.',
           runs: 'Workflow runs whose test results are included: the daily chrome run and Populate E2E reports runs on ' + (metrics.branch || 'develop') + '.',
@@ -349,12 +357,13 @@
           workflow: 'Workflow file that produced the results.',
           run: 'Link to the workflow run on GitHub, with its logs and artifacts.',
           result: 'Outcome of the whole workflow run. A failed run still provides results for the tests that ran. For a run that was still in progress when its data was collected (the run that publishes the dashboard), the result of its E2E jobs is shown instead, marked "(E2E jobs)". Sorting puts failed runs first, then timed out, in progress, cancelled and successful runs.',
-          cause: 'Why a failed run failed: tests failing in a suite, or an infrastructure step (build, ACS deploy, installs) failing before or around the tests. Links open the failed step.'
+          cause: 'Why a failed run failed: tests failing in a suite, or an infrastructure step (build, ACS deploy, installs) failing before or around the tests. Links open the failed step. "Data missing" means part of the run\'s results could not be collected from GitHub, so its numbers are incomplete.'
         };
 
         let state = readState();
         let showAll = false;
         let legendOpen = false;
+        let dataIssuesOpen = false;
         let calendarMonth = lastDate.slice(0, 7);
         const testIds = metrics.tests.map(([suite, file, title]) => fnv1aHash(suite + TITLE_SEPARATOR + file + TITLE_SEPARATOR + title));
         const indexById = new Map(testIds.map((id, index) => [id, index]));
@@ -512,11 +521,12 @@
           const previousByIndex = new Map(previous.tests.map((t) => [t.index, t]));
           const currentByIndex = new Map(current.map((t) => [t.index, t]));
           const wasFlakyInPreviousPeriod = (t) => previousByIndex.has(t.index) && isFlaky(previousByIndex.get(t.index));
-          const ranCleanEnoughInCurrentPeriod = (t) => currentByIndex.get(t.index)?.runs >= MIN_CLEAN_RUNS_TO_COUNT_AS_FIXED && !isFlaky(currentByIndex.get(t.index));
+          const wasFlakyEnoughToCountAsFixed = (t) => t.retried >= MIN_FLAKY_RUNS_BEFORE_FIX;
+          const ranOnlyCleanEnoughInCurrentPeriod = (t) => currentByIndex.get(t.index)?.runs >= MIN_CLEAN_RUNS_TO_COUNT_AS_FIXED && !isFlaky(currentByIndex.get(t.index));
           return {
             days: dates.length,
             recentlyFlakyIndexes: new Set(current.filter((t) => isFlaky(t) && !wasFlakyInPreviousPeriod(t)).map((t) => t.index)),
-            fixed: previous.tests.filter((t) => isFlaky(t) && ranCleanEnoughInCurrentPeriod(t)).map((t) => currentByIndex.get(t.index))
+            fixed: previous.tests.filter((t) => wasFlakyEnoughToCountAsFixed(t) && ranOnlyCleanEnoughInCurrentPeriod(t)).map((t) => currentByIndex.get(t.index))
           };
         }
 
@@ -625,6 +635,26 @@
           const missing = dates.length - data.days.length;
           $('days-note').hidden = missing === 0;
           $('days-note').textContent = 'No data was collected for ' + missing + ' of the ' + plural(dates.length, 'day') + ' in this period.';
+          renderDataIssues(periodDataIssues(data, dates));
+        }
+
+        function periodDataIssues(data, dates) {
+          const collectIssues = data.days.flatMap((day) => (day.issues || []).map((issue) => ({ ...issue, date: issue.date || day.date })));
+          const loadIssues = (metrics.loadIssues || []).filter((issue) => dates.includes(issue.date));
+          return [...collectIssues, ...loadIssues].sort((a, b) => String(a.date).localeCompare(String(b.date)));
+        }
+
+        function renderDataIssues(issues) {
+          const box = $('data-issues');
+          box.hidden = issues.length === 0;
+          if (!issues.length) return;
+          const affectedDays = new Set(issues.map((issue) => issue.date)).size;
+          const item = (issue) =>
+            '<li><b>' + esc(formatDate(issue.date)) + '</b> ' + esc(issue.effect) +
+            (issue.runUrl ? ' (<a href="' + esc(issue.runUrl) + '" target="_blank" rel="noopener">run</a>)' : '') +
+            '<code>' + esc(issue.message) + '</code></li>';
+          box.innerHTML = '<summary>' + emoji('⚠️') + plural(issues.length, 'data problem') + ' on ' + plural(affectedDays, 'day') + ' in this period. The numbers may be incomplete.</summary><ul>' + issues.map(item).join('') + '</ul>';
+          box.open = dataIssuesOpen;
         }
 
         function renderTabs(counts) {
@@ -763,7 +793,10 @@
 
         function failureCause(run) {
           const entries = (run.failure || []).map(([kind, name, job, step, stepName]) => ({ kind, name, job, step, stepName }));
-          if (!entries.length) return isFailedRun(run) ? '<span class="secondary">–</span>' : '';
+          const dataProblems = (run.issues || []).length
+            ? '<span class="cause-data">' + emoji('⚠️') + 'Data missing:</span> ' + run.issues.map((issue) => esc(issue.effect)).join('; ')
+            : '';
+          if (!entries.length) return dataProblems || (isFailedRun(run) ? '<span class="secondary">–</span>' : '');
           const link = (entry, text) => (run.url && entry.job ? '<a href="' + esc(jobUrl(run, entry.job, entry.step)) + '" target="_blank" rel="noopener">' + esc(text) + '</a>' : esc(text));
           const tests = entries.filter((e) => e.kind === 'tests');
           const infra = entries.filter((e) => e.kind !== 'tests');
@@ -774,6 +807,7 @@
           if (tests.length) {
             parts.push('<span class="is-failed">Tests failed:</span> ' + tests.map((e) => link(e, e.name)).join(', '));
           }
+          if (dataProblems) parts.push(dataProblems);
           return parts.join('<br />');
         }
 
@@ -900,7 +934,7 @@
             return '<p class="detail-note">No data for the previous ' + plural(view.dates.length, 'day') + ', so recently flaky and fixed tests are not shown.</p>';
           }
           const fixed = view.comparison.fixed.filter(matchesFilters).sort((a, b) => String(a.title).localeCompare(String(b.title)));
-          const intro = 'Flaky in the previous ' + plural(view.comparison.days, 'day') + ', no retry in at least ' + MIN_CLEAN_RUNS_TO_COUNT_AS_FIXED + ' runs since.';
+          const intro = 'At least ' + plural(MIN_FLAKY_RUNS_BEFORE_FIX, 'flaky run') + ' in the previous ' + plural(view.comparison.days, 'day') + ', then at least ' + MIN_CLEAN_RUNS_TO_COUNT_AS_FIXED + ' runs since, all without a retry.';
           return '<section class="fixed"><h2>' + emoji('✅') + 'Fixed <span class="secondary">' + numberFormat.format(fixed.length) + '</span></h2><p class="detail-note">' + esc(intro) + '</p>' +
             (fixed.length
               ? '<ul>' + fixed.map((t) => '<li>' + escapeAndLinkTestCaseIds(titleParts(t).name) + ' <span class="secondary">' + esc(t.suite) + ', ' + plural(t.runs, 'clean run') + '</span></li>').join('') + '</ul>'
@@ -1071,7 +1105,7 @@
           const filtered = data.tests.filter(matchesFilters);
           const q = state.q.trim().toLowerCase();
           const runs = data.days
-            .flatMap((day) => day.runs.map((run) => ({ ...run, date: day.date })))
+            .flatMap((day) => day.runs.map((run) => ({ ...run, date: day.date, issues: (day.issues || []).filter((issue) => issue.runId === run.id) })))
             .filter((run) => !q || (run.title + ' ' + run.workflow).toLowerCase().includes(q));
           const failedRuns = runs.filter(isFailedRun);
           renderMasthead();
@@ -1265,6 +1299,7 @@
         $('panel').addEventListener('toggle', (e) => {
           if (e.target.id === 'legend') legendOpen = e.target.open;
         }, true);
+        $('data-issues').addEventListener('toggle', (e) => (dataIssuesOpen = e.target.open));
         $('panel').addEventListener('keydown', (e) => {
           if (e.key !== 'Enter' && e.key !== ' ') return;
           const row = e.target.closest('tr.test-row, tr.group-row');

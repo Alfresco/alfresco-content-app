@@ -26,7 +26,10 @@
 
 const fs = require('fs');
 const path = require('path');
-const { SCHEMA_VERSION, assertDate, shiftDate, yesterdayUtc, dashboardUrl, loadDailies, datesEndingOn } = require('./lib');
+const { dashboardUrl } = require('./github-api');
+const { assertDate, shiftDate, yesterdayUtc, datesEndingOn } = require('./dates');
+const { SCHEMA_VERSION, loadDailies } = require('./daily-metrics');
+const { createDataIssueLog, appendIssuesToStepSummary } = require('./data-issues');
 
 const TEMPLATE = path.join(__dirname, 'dashboard', 'index.html');
 const LONGEST_REPORT_DAYS = 14;
@@ -98,7 +101,7 @@ function expandHistory(history) {
         ...(errorIndex != null && day.errors?.[errorIndex] ? { error: day.errors[errorIndex] } : {})
       }))
     }));
-    days.set(day.date, { date: day.date, runs, tests, results });
+    days.set(day.date, { date: day.date, runs, tests, results, ...(day.issues ? { issues: day.issues } : {}) });
   }
   return days;
 }
@@ -172,6 +175,9 @@ function compactHistory(days, meta, detailFrom) {
           compactDay.errors = dedupedErrors;
         }
       }
+      if (day.issues?.length) {
+        compactDay.issues = day.issues;
+      }
       return compactDay;
     });
   return { schemaVersion: SCHEMA_VERSION, ...meta, tests: catalog, days: compactDays };
@@ -189,8 +195,13 @@ async function main() {
   const days = expandHistory(published);
 
   const refreshDates = datesEndingOn(endDate, DAILY_ARTIFACT_RETENTION_DAYS);
-  const dailies = await loadDailies(refreshDates);
+  const loadIssueLog = createDataIssueLog('load');
+  const dailies = await loadDailies(refreshDates, loadIssueLog);
   dailies.forEach((daily, index) => daily && days.set(refreshDates[index], daily));
+  const loadIssues = loadIssueLog.issues.map((issue) =>
+    days.has(issue.date) ? { ...issue, effect: `${issue.effect}, the previously published data for that day is shown` } : issue
+  );
+  appendIssuesToStepSummary(loadIssues, 'E2E dashboard data problems');
 
   const oldestKept = shiftDate(endDate, 1 - historyDays);
   for (const date of days.keys()) {
@@ -208,7 +219,8 @@ async function main() {
       branch: process.env.SOURCE_BRANCH || 'develop',
       testCaseUrl: process.env.TEST_CASE_URL || DEFAULT_TEST_CASE_URL,
       historyDays,
-      detailDays
+      detailDays,
+      ...(loadIssues.length ? { loadIssues } : {})
     },
     shiftDate(endDate, 1 - detailDays)
   );
