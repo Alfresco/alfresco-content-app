@@ -1,16 +1,11 @@
 <!doctype html>
-<!--
-  ACA E2E test health: flaky and slow Playwright tests, built by .github/scripts/e2e-metrics/build-dashboard.js.
-  Data is loaded from data/history.js (window.E2E_HISTORY). The view state is kept in the URL hash so links can be shared.
--->
 <html lang="en-GB">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>ACA E2E test health</title>
     <script>
-      // Applied before the page renders to avoid a flash: the saved choice, otherwise the system preference.
-      (function () {
+      (function applySavedOrSystemThemeBeforeFirstPaint() {
         let saved = null;
         try {
           saved = localStorage.getItem('e2e-dashboard-theme');
@@ -103,7 +98,6 @@
       .calendar-grid .day:disabled { color: var(--rule); cursor: default; }
       .calendar-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 14px; color: var(--secondary); }
 
-      /* Each stat has a left rule; the negative margin and overflow hide the rule at the start of every row. */
       .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); overflow: hidden; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
       .stat { padding: 12px 16px; margin-left: -1px; border-left: 1px solid var(--rule); }
       .stat .value { font-size: 23px; font-weight: 600; font-variant-numeric: tabular-nums; }
@@ -117,7 +111,6 @@
       button.stat .label { text-decoration: underline; }
       .days-note { margin: 8px 0 0; font-size: 14px; color: var(--secondary); }
 
-      /* Tabs sit on a tinted band; the selected tab opens into the panel below. Accents follow the data colours. */
       .tabs { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 32px; padding: 6px 6px 0; background: var(--band); border: 1px solid var(--rule); border-bottom: 0; border-radius: 6px 6px 0 0; }
       .tabs button { --accent: var(--secondary); border: 0; border-top: 3px solid var(--accent); border-radius: 4px 4px 0 0; background: none; padding: 8px 16px; color: var(--secondary); }
       .tabs button:hover { color: var(--ink); background: var(--page); }
@@ -155,7 +148,6 @@
       .kind-suite { color: var(--kind-suite); }
       .kind-file { color: var(--kind-file); }
       .kind-describe { color: var(--kind-describe); }
-      /* Tree depth: the title cell is indented by --level steps, with a vertical guide line under each parent's chevron. */
       td.tree-cell { --indent: 20px; padding-left: calc(var(--level) * var(--indent)); background-image: repeating-linear-gradient(to right, var(--guide) 0 1px, transparent 1px var(--indent)); background-size: calc(var(--level) * var(--indent)) 100%; background-repeat: no-repeat; background-position: 7px 0; }
       .chevron { display: inline-block; width: 1em; text-align: center; color: var(--secondary); }
       .path-toggle { padding: 0; border: 0; background: none; font-size: 13px; color: var(--secondary); }
@@ -178,7 +170,6 @@
       tr.detail table { width: auto; }
       tr.detail th, tr.detail td { padding: 5px 20px 5px 0; border-bottom: 1px solid var(--rule); }
       tr.detail tbody tr:last-child td { border-bottom: 0; }
-      /* In the All tests tree an expanded test and its runs are framed, so its numbers stand apart from the groups around it. */
       table.tree tr.test-row[aria-expanded='true'] > td { border-top: 2px solid var(--link); border-bottom-color: transparent; }
       table.tree tr.test-row[aria-expanded='true'] > td:first-child, table.tree tr.detail > td:first-child { border-left: 2px solid var(--link); }
       table.tree tr.test-row[aria-expanded='true'] > td:last-child, table.tree tr.detail > td:last-child { border-right: 2px solid var(--link); }
@@ -272,12 +263,11 @@
           }
         }
 
-        // The button names the mode it switches to.
         function apply(theme) {
           root.dataset.theme = theme;
-          const next = theme === 'dark' ? 'light' : 'dark';
-          button.innerHTML = '<span class="icon" aria-hidden="true">' + (next === 'dark' ? '☾' : '☀') + '</span> ' + (next === 'dark' ? 'Dark mode' : 'Light mode');
-          button.title = 'Switch to ' + next + ' mode';
+          const themeToSwitchTo = theme === 'dark' ? 'light' : 'dark';
+          button.innerHTML = '<span class="icon" aria-hidden="true">' + (themeToSwitchTo === 'dark' ? '☾' : '☀') + '</span> ' + (themeToSwitchTo === 'dark' ? 'Dark mode' : 'Light mode');
+          button.title = 'Switch to ' + themeToSwitchTo + ' mode';
         }
 
         button.addEventListener('click', () => {
@@ -287,9 +277,9 @@
           } catch (e) {}
           apply(theme);
         });
-        // Without a saved choice the page keeps following the system setting.
+        const followsSystemTheme = () => !savedTheme();
         systemDark.addEventListener('change', (e) => {
-          if (!savedTheme()) apply(e.matches ? 'dark' : 'light');
+          if (followsSystemTheme()) apply(e.matches ? 'dark' : 'light');
         });
         apply(root.dataset.theme);
       })();
@@ -301,14 +291,12 @@
 
         const TOP_LIMIT = 10;
         const RUN_LIMIT = 20;
-        // Runs this much slower than the test's average are highlighted in the per-run view.
-        const SLOW_RUN_RATIO = 0.2;
+        const SLOW_RUN_FRACTION_ABOVE_AVERAGE = 0.2;
         const WORKFLOW_NAMES = { 'cron-e2e-chrome.yml': 'Daily chrome run', 'populate-e2e-reports.yml': 'Populate run' };
         const OUTCOME_LABELS = { p: ['Passed', 'secondary'], r: ['Passed on retry', 'is-retried'], f: ['Failed', 'is-failed'] };
         const ATTEMPT_LABELS = { p: 'passed', f: 'failed', t: 'timed out', i: 'interrupted' };
-        // Workflow run conclusions listed under Failed workflows; the order ranks results when sorting by Result.
         const FAILED_CONCLUSIONS = new Set(['failure', 'timed_out']);
-        const CONCLUSION_ORDER = ['success', 'neutral', 'skipped', 'cancelled', null, 'timed_out', 'failure'];
+        const CONCLUSION_SORT_RANK_WORST_LAST = ['success', 'neutral', 'skipped', 'cancelled', null, 'timed_out', 'failure'];
         const TITLE_SEPARATOR = ' › ';
         const GROUP_KINDS = { suite: 'Suite', file: 'File', describe: 'Describe' };
         const STALE_AFTER_HOURS = 36;
@@ -325,18 +313,19 @@
 
         const DEFAULTS = { tab: 'flaky', days: '14', end: '', q: '', suite: '', sort: '', dir: '', test: '' };
         const TAB_SORT = { flaky: ['retries', 'desc'], slowest: ['avg', 'desc'], all: ['title', 'asc'], runs: ['date', 'desc'], failed: ['date', 'desc'] };
-        // A previously flaky test needs this many clean runs in the period to count as fixed (same rule as the weekly report).
-        const FIXED_MIN_RUNS = 3;
+        const MIN_CLEAN_RUNS_TO_COUNT_AS_FIXED = 3;
+        const TREND_SORT_WEIGHT_BY_DAY_RESULT = { f: 2, r: 1, p: 0 };
+        const INFRA_FAILURE_SORT_RANK = 2;
+        const TEST_FAILURE_SORT_RANK = 1;
         const TEST_ID_PATTERN = /\bXAT-\d+\b/g;
         const TREND_LABELS = { p: 'passed', r: 'needed a retry', f: 'failed' };
         const lastDate = metrics.days.length ? metrics.days[metrics.days.length - 1].date : new Date().toISOString().slice(0, 10);
         const firstDate = metrics.days.length ? metrics.days[0].date : lastDate;
-        // Periods that fit in the kept history (14 days by default).
-        const PERIODS = [7, 14, 30, 90].filter((days) => days <= (metrics.historyDays || 14));
+        const keptHistoryDays = metrics.historyDays || 14;
+        const PERIODS = [7, 14, 30, 90].filter((days) => days <= keptHistoryDays);
         $('days').innerHTML = PERIODS.map((days) => '<option value="' + days + '">Last ' + days + ' days</option>').join('');
         const datesWithData = new Set(metrics.days.map((day) => day.date));
 
-        // What each column means; shown as the column tooltip and in the legend below each list.
         const COLUMN_HELP = {
           title: 'Name of the test. In the flaky and slowest lists, Location shows its suite, file and describe blocks; in All tests they are the groups above it. Click a row to see every run of the test: its result, retries, each attempt and how long it took.',
           retries: 'How many times Playwright retried the test. On CI a failed test is retried up to 2 times, so one run can add 2 retries and the total can be higher than the number of runs.',
@@ -365,30 +354,22 @@
 
         let state = readState();
         let showAll = false;
-        // The legend is collapsed by default and stays as the user left it when the list re-renders.
         let legendOpen = false;
         let calendarMonth = lastDate.slice(0, 7);
-        // Stable id of every test in the catalog (the open test is kept in the URL as `test=<id>`).
-        const testIds = metrics.tests.map(([suite, file, title]) => hashKey(suite + TITLE_SEPARATOR + file + TITLE_SEPARATOR + title));
+        const testIds = metrics.tests.map(([suite, file, title]) => fnv1aHash(suite + TITLE_SEPARATOR + file + TITLE_SEPARATOR + title));
         const indexById = new Map(testIds.map((id, index) => [id, index]));
-        // Set on the first render with a test in the URL, so it is scrolled into view once.
         let scrollToOpenTest = Boolean(state.test);
-        // Groups of the All tests tree the user opened (true) or closed (false); others use the default.
-        const groupToggles = new Map();
+        const userToggledGroups = new Map();
         let visibleGroupKeys = [];
-        // Dates and the previous-period comparison of the current render, used by the column renderers.
         let view = { dates: [], comparison: null, suiteTimes: new Map() };
-        // Tests whose per-run view shows all runs instead of the latest RUN_LIMIT.
-        const allRunsShown = new Set();
-        // Tests of the flaky/slowest lists whose suite › file › describe path is shown under the name.
-        const pathsShown = new Set();
+        const testsShowingAllRuns = new Set();
+        const testsShowingLocation = new Set();
 
         function esc(value) {
           return String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
         }
 
-        // FNV-1a: short, stable ids for the URL; test keys are too long and catalog positions change between builds.
-        function hashKey(text) {
+        function fnv1aHash(text) {
           let hash = 0x811c9dc5;
           for (let i = 0; i < text.length; i++) {
             hash ^= text.charCodeAt(i);
@@ -401,8 +382,7 @@
           return state.test ? indexById.get(state.test) : undefined;
         }
 
-        // Escapes the text and links test case ids such as XAT-5016 (testCaseUrl of the history, {id} replaced).
-        function withTestLinks(text) {
+        function escapeAndLinkTestCaseIds(text) {
           const html = esc(text);
           if (!metrics.testCaseUrl) return html;
           return html.replace(TEST_ID_PATTERN, (id) => '<a class="test-id" href="' + esc(metrics.testCaseUrl.replace('{id}', id)) + '" target="_blank" rel="noopener">' + id + '</a>');
@@ -419,7 +399,6 @@
         function formatDuration(ms) {
           const totalSeconds = Math.round(ms / 100) / 10;
           if (totalSeconds < 60) return totalSeconds.toFixed(1) + 's';
-          // Round to whole seconds before splitting, so 119.6s becomes 2m 00s and not 1m 60s.
           const wholeSeconds = Math.round(ms / 1000);
           return Math.floor(wholeSeconds / 60) + 'm ' + String(wholeSeconds % 60).padStart(2, '0') + 's';
         }
@@ -438,8 +417,8 @@
           for (const key of Object.keys(DEFAULTS)) {
             if (params.has(key)) result[key] = params.get(key);
           }
-          // Links to a tab that no longer exists (e.g. the former Suites tab) open the default one.
-          if (!TAB_SORT[result.tab]) result.tab = DEFAULTS.tab;
+          const tabStillExists = Boolean(TAB_SORT[result.tab]);
+          if (!tabStillExists) result.tab = DEFAULTS.tab;
           return result;
         }
 
@@ -489,8 +468,8 @@
               test.durationCount += durationCount;
               test.setupSum += setupSum;
               test.max = Math.max(test.max, durationMax);
-              // Worst result of the day, for the trend dots.
-              test.daily.set(day.date, failures ? 'f' : flakyRuns || retries ? 'r' : 'p');
+              const worstResultOfDay = failures ? 'f' : flakyRuns || retries ? 'r' : 'p';
+              test.daily.set(day.date, worstResultOfDay);
               if (!day.results) test.daysWithoutDetail += 1;
             }
             for (const [index, runIndex, suiteAttempt, outcome, retries, duration, setup, attempts] of day.results || []) {
@@ -501,19 +480,14 @@
           for (const test of tests.values()) {
             test.avg = test.durationCount ? test.durationSum / test.durationCount : 0;
             test.setup = test.durationCount ? test.setupSum / test.durationCount : 0;
-            // Runs that needed at least one retry: flaky (passed on a retry) or failed after all retries.
             test.retried = test.flakyRuns + test.failures;
             test.rate = test.runs ? test.retried / test.runs : 0;
-            test.rescuedRuns = rescuedRuns(test.runResults);
+            test.runsRescuedBySuiteRerun = runsRescuedBySuiteRerun(test.runResults);
           }
           return { days, tests: [...tests.values()] };
         }
 
-        /**
-         * Workflow runs in which the test failed all its retries in the first suite attempt and passed only when the whole
-         * suite ran again: the re-run hides a test that is effectively broken.
-         */
-        function rescuedRuns(runResults) {
+        function runsRescuedBySuiteRerun(runResults) {
           const byRun = new Map();
           for (const result of runResults) {
             const id = result.run?.id;
@@ -522,29 +496,27 @@
           }
           const rescued = new Set();
           for (const [id, results] of byRun) {
-            const firstFailed = results.some((r) => r.suiteAttempt === 1 && r.outcome === 'f');
-            if (firstFailed && results.some((r) => r.suiteAttempt > 1 && r.outcome !== 'f')) rescued.add(id);
+            const failedInFirstSuiteAttempt = results.some((r) => r.suiteAttempt === 1 && r.outcome === 'f');
+            const passedInSuiteRerun = results.some((r) => r.suiteAttempt > 1 && r.outcome !== 'f');
+            if (failedInFirstSuiteAttempt && passedInSuiteRerun) rescued.add(id);
           }
           return rescued;
         }
 
         const isFlaky = (t) => t.retries > 0 || t.failures > 0;
 
-        /**
-         * Recently flaky / fixed tests compared with the period of the same length just before (same rules as the weekly report):
-         * recently flaky = flaky now but not then, fixed = flaky then and at least FIXED_MIN_RUNS runs without a retry now.
-         * Null when there is no data for the previous period.
-         */
-        function compareWithPrevious(dates, current) {
+        function compareFlakyWithPreviousPeriod(dates, current) {
           const previousDates = dates.map((date) => shiftDate(date, -dates.length));
           const previous = aggregate(previousDates);
           if (!previous.days.length) return null;
           const previousByIndex = new Map(previous.tests.map((t) => [t.index, t]));
           const currentByIndex = new Map(current.map((t) => [t.index, t]));
+          const wasFlakyInPreviousPeriod = (t) => previousByIndex.has(t.index) && isFlaky(previousByIndex.get(t.index));
+          const ranCleanEnoughInCurrentPeriod = (t) => currentByIndex.get(t.index)?.runs >= MIN_CLEAN_RUNS_TO_COUNT_AS_FIXED && !isFlaky(currentByIndex.get(t.index));
           return {
             days: dates.length,
-            recentlyFlakyIndexes: new Set(current.filter((t) => isFlaky(t) && !(previousByIndex.has(t.index) && isFlaky(previousByIndex.get(t.index)))).map((t) => t.index)),
-            fixed: previous.tests.filter((t) => isFlaky(t) && currentByIndex.get(t.index)?.runs >= FIXED_MIN_RUNS && !isFlaky(currentByIndex.get(t.index))).map((t) => currentByIndex.get(t.index))
+            recentlyFlakyIndexes: new Set(current.filter((t) => isFlaky(t) && !wasFlakyInPreviousPeriod(t)).map((t) => t.index)),
+            fixed: previous.tests.filter((t) => isFlaky(t) && ranCleanEnoughInCurrentPeriod(t)).map((t) => currentByIndex.get(t.index))
           };
         }
 
@@ -559,22 +531,20 @@
           return '<span class="group-kind kind-' + kind + '">' + GROUP_KINDS[kind] + '</span>';
         }
 
-        // Flaky/slowest lists show only the test name; the toggle reveals where the test lives.
         function testNameWithPath(test) {
           const { describes, name } = titleParts(test);
-          const open = pathsShown.has(test.index);
-          let html = '<div class="test-title">' + withTestLinks(name) + '</div>' +
+          const open = testsShowingLocation.has(test.index);
+          let html = '<div class="test-title">' + escapeAndLinkTestCaseIds(name) + '</div>' +
             '<div class="test-meta"><button type="button" class="path-toggle" data-path-toggle="' + test.index + '" aria-expanded="' + open + '" title="Show the suite, file and describe blocks of this test">' +
             (open ? '▾' : '▸') + ' Location</button></div>';
           if (open) {
             const levels = [kindBadge('suite') + ' ' + esc(test.suite), kindBadge('file') + ' ' + sourceLink(test), ...describes.map((d) => kindBadge('describe') + ' ' + esc(d))];
             html += '<ul class="test-path">' + levels.map((item, level) => '<li style="--level:' + level + '">' + item + '</li>').join('') +
-              '<li class="test-path-name" style="--level:' + levels.length + '">' + withTestLinks(name) + '</li></ul>';
+              '<li class="test-path-name" style="--level:' + levels.length + '">' + escapeAndLinkTestCaseIds(name) + '</li></ul>';
           }
           return html;
         }
 
-        // One dot per day of the period, oldest first; tests that only became flaky in this period are marked below.
         function trendDots(test) {
           const dots = '<span class="trend" aria-label="' + esc(trendLabel(test)) + '">' + view.dates
             .map((date) => {
@@ -670,7 +640,6 @@
             .join('');
         }
 
-        // Emoji glyphs render without the following space in some fonts, so the gap is a margin.
         function emoji(icon) {
           return icon ? '<span class="emoji" aria-hidden="true">' + icon + '</span>' : '';
         }
@@ -695,11 +664,10 @@
           return String(run.createdAt || run.date);
         }
 
-        // Equal tests: the one that failed more often first, so tests that never passed rank above flaky ones.
-        const testTieBreak = (a, b) => b.failures - a.failures || String(a.title).localeCompare(String(b.title));
-        const runTieBreak = (a, b) => runTime(b).localeCompare(runTime(a));
+        const mostFailuresFirstThenByTitle = (a, b) => b.failures - a.failures || String(a.title).localeCompare(String(b.title));
+        const newestRunFirst = (a, b) => runTime(b).localeCompare(runTime(a));
 
-        function sortRows(rows, columns, tieBreak = testTieBreak) {
+        function sortRows(rows, columns, tieBreak = mostFailuresFirstThenByTitle) {
           const [defaultKey, defaultDir] = TAB_SORT[state.tab];
           const key = columns.some((c) => c.key === state.sort) ? state.sort : defaultKey;
           const dir = state.sort === key && state.dir ? state.dir : defaultDir;
@@ -748,11 +716,9 @@
           const trend = {
             key: 'trend',
             label: 'Trend',
-            // Days with a failure count double, so the most troubled recent history sorts first.
-            sortValue: (t) => [...t.daily].reduce((sum, [date, status]) => sum + (view.dates.includes(date) ? { f: 2, r: 1, p: 0 }[status] : 0), 0),
+            sortValue: (t) => [...t.daily].reduce((sum, [date, status]) => sum + (view.dates.includes(date) ? TREND_SORT_WEIGHT_BY_DAY_RESULT[status] : 0), 0),
             render: trendDots
           };
-          // The key metric of each tab is shown larger.
           if (state.tab === 'flaky') return [test, { ...retries, primary: true }, rate, failures, trend, avg];
           if (state.tab === 'slowest') return [test, { ...avg, primary: true }, setup, max, runs];
           return [test, runs, retries, rate, failures, avg, setup, max];
@@ -774,7 +740,7 @@
               key: 'result',
               label: 'Result',
               help: RUNS_HELP.result,
-              sortValue: (run) => CONCLUSION_ORDER.indexOf(run.conclusion ?? null),
+              sortValue: (run) => CONCLUSION_SORT_RANK_WORST_LAST.indexOf(run.conclusion ?? null),
               render: (run) =>
                 '<span class="' + (isFailedRun(run) ? 'is-failed' : '') + '">' + esc(conclusionLabel(run.conclusion)) + '</span>' +
                 (run.conclusionFrom === 'e2e-jobs'
@@ -785,8 +751,7 @@
               key: 'cause',
               label: 'Cause',
               help: RUNS_HELP.cause,
-              // Infrastructure failures first: nothing was learned about the tests from those runs.
-              sortValue: (run) => (run.failure || []).reduce((rank, [kind]) => Math.max(rank, kind === 'infra' ? 2 : 1), 0),
+              sortValue: (run) => (run.failure || []).reduce((rank, [kind]) => Math.max(rank, kind === 'infra' ? INFRA_FAILURE_SORT_RANK : TEST_FAILURE_SORT_RANK), 0),
               render: failureCause
             }
           ];
@@ -796,7 +761,6 @@
           return run.url + '/job/' + job + (step ? '#step:' + step + ':1' : '');
         }
 
-        // e.g. "Tests failed: Viewer, Search" and "Infrastructure: Deploy local ACS (search)", each linked to the failed step.
         function failureCause(run) {
           const entries = (run.failure || []).map(([kind, name, job, step, stepName]) => ({ kind, name, job, step, stepName }));
           if (!entries.length) return isFailedRun(run) ? '<span class="secondary">–</span>' : '';
@@ -835,7 +799,6 @@
           return text;
         }
 
-        // Opens the step that ran the tests in the suite's job when known (older runs only have the run URL).
         function runLink(result, test) {
           const run = result.run || {};
           const name = WORKFLOW_NAMES[run.workflow] || run.workflow || 'Workflow run';
@@ -846,7 +809,6 @@
           return link + (result.suiteAttempt > 1 ? ' <span class="secondary">(suite re-run ' + result.suiteAttempt + ')</span>' : '');
         }
 
-        // Each attempt with its time; failed attempts also show their error message.
         function attemptList(result) {
           if (!result.attempts) return '';
           return result.attempts
@@ -860,18 +822,18 @@
           if (result.duration == null || !test.durationCount) return '';
           const diff = result.duration - test.avg;
           const text = (diff >= 0 ? '+' : '−') + formatDuration(Math.abs(diff));
-          return diff > test.avg * SLOW_RUN_RATIO ? '<span class="slower">' + text + '</span>' : '<span class="secondary">' + text + '</span>';
+          return diff > test.avg * SLOW_RUN_FRACTION_ABOVE_AVERAGE ? '<span class="slower">' + text + '</span>' : '<span class="secondary">' + text + '</span>';
         }
 
         function detailRow(test, colspan) {
           const results = test.runResults
             .slice()
             .sort((a, b) => String(b.run?.createdAt || b.date).localeCompare(String(a.run?.createdAt || a.date)) || b.suiteAttempt - a.suiteAttempt);
-          const showAllRuns = allRunsShown.has(test.index);
+          const showAllRuns = testsShowingAllRuns.has(test.index);
           const visible = showAllRuns ? results : results.slice(0, RUN_LIMIT);
           const rows = visible
             .map((r) => {
-              const rescued = r.suiteAttempt > 1 && r.outcome !== 'f' && test.rescuedRuns.has(r.run?.id);
+              const rescued = r.suiteAttempt > 1 && r.outcome !== 'f' && test.runsRescuedBySuiteRerun.has(r.run?.id);
               const [label, cls] = rescued ? ['Passed on suite re-run', 'is-retried'] : OUTCOME_LABELS[r.outcome] || [r.outcome, ''];
               return '<tr><td>' + formatDate(r.date) + '</td><td>' + runLink(r, test) + '</td><td><span class="' + cls + '">' + label + '</span></td>' +
                 '<td class="num">' + (r.retries || '<span class="secondary">0</span>') + '</td><td class="attempts">' + attemptList(r) + '</td>' +
@@ -923,9 +885,8 @@
           }
           const limit = TOP_LIMIT;
           const noun = state.tab === 'flaky' ? 'flaky tests' : 'tests by duration';
-          // A shared link may point to a test below the top list; show the whole list then so it is visible.
-          const openBelowTop = rows.findIndex((t) => t.index === openTestIndex()) >= limit;
-          const visible = showAll || openBelowTop ? rows : rows.slice(0, limit);
+          const openTestIsBelowTopList = rows.findIndex((t) => t.index === openTestIndex()) >= limit;
+          const visible = showAll || openTestIsBelowTopList ? rows : rows.slice(0, limit);
           let html = '<div class="table-wrap"><table><thead>' + headerRow(columns, sort) + '</thead><tbody>';
           visible.forEach((test, i) => {
             html += testRow(test, columns, '<td class="num rank">' + (i + 1) + '</td>');
@@ -934,16 +895,15 @@
           $('panel').innerHTML = html;
         }
 
-        // Tests that were flaky in the previous period and ran cleanly in this one, under the flaky list.
         function fixedSection() {
           if (!view.comparison) {
             return '<p class="detail-note">No data for the previous ' + plural(view.dates.length, 'day') + ', so recently flaky and fixed tests are not shown.</p>';
           }
           const fixed = view.comparison.fixed.filter(matchesFilters).sort((a, b) => String(a.title).localeCompare(String(b.title)));
-          const intro = 'Flaky in the previous ' + plural(view.comparison.days, 'day') + ', no retry in at least ' + FIXED_MIN_RUNS + ' runs since.';
+          const intro = 'Flaky in the previous ' + plural(view.comparison.days, 'day') + ', no retry in at least ' + MIN_CLEAN_RUNS_TO_COUNT_AS_FIXED + ' runs since.';
           return '<section class="fixed"><h2>' + emoji('✅') + 'Fixed <span class="secondary">' + numberFormat.format(fixed.length) + '</span></h2><p class="detail-note">' + esc(intro) + '</p>' +
             (fixed.length
-              ? '<ul>' + fixed.map((t) => '<li>' + withTestLinks(titleParts(t).name) + ' <span class="secondary">' + esc(t.suite) + ', ' + plural(t.runs, 'clean run') + '</span></li>').join('') + '</ul>'
+              ? '<ul>' + fixed.map((t) => '<li>' + escapeAndLinkTestCaseIds(titleParts(t).name) + ' <span class="secondary">' + esc(t.suite) + ', ' + plural(t.runs, 'clean run') + '</span></li>').join('') + '</ul>'
               : '<p class="secondary">None in this period.</p>') +
             '</section>';
         }
@@ -970,7 +930,6 @@
           return { describes: parts.slice(0, -1), name: parts[parts.length - 1] };
         }
 
-        /** Suite › file › describe block(s) tree of the tests; every group carries the totals of its tests. */
         function buildTree(tests) {
           const newGroup = (kind, name, key, level) => ({ kind, name, key, level, groups: new Map(), tests: [] });
           const root = newGroup('root', '', '', -1);
@@ -983,7 +942,6 @@
                 node.groups.set(name, newGroup(kind, name, JSON.stringify(path.slice(0, level + 1).map(([, n]) => n)), level));
               }
               node = node.groups.get(name);
-              // Groups around the open test (e.g. from a shared link) open by default.
               if (test.index === openIndex) node.containsOpenTest = true;
             });
             node.tests.push(test);
@@ -1010,9 +968,10 @@
         }
 
         function isGroupOpen(group, siblingCount) {
-          if (groupToggles.has(group.key)) return groupToggles.get(group.key);
-          // Searching opens every group so the matches are visible; a lone group (e.g. one suite selected) opens too.
-          return Boolean(state.q.trim()) || siblingCount === 1 || Boolean(group.containsOpenTest);
+          if (userToggledGroups.has(group.key)) return userToggledGroups.get(group.key);
+          const searching = Boolean(state.q.trim());
+          const onlyGroupAtThisLevel = siblingCount === 1;
+          return searching || onlyGroupAtThisLevel || Boolean(group.containsOpenTest);
         }
 
         function treeRows(group, columns, sort) {
@@ -1029,7 +988,7 @@
           return children
             .map((child) => {
               if (!child.kind) {
-                const title = (t) => '<div class="test-title">' + withTestLinks(titleParts(t).name) + '</div><div class="test-meta">' + sourceLink(t) + '</div>';
+                const title = (t) => '<div class="test-title">' + escapeAndLinkTestCaseIds(titleParts(t).name) + '</div><div class="test-meta">' + sourceLink(t) + '</div>';
                 return testRow(child, columns, '<td></td>', title, levelStyle);
               }
               const open = isGroupOpen(child, group.groups.size);
@@ -1055,13 +1014,12 @@
         }
 
         function expandAllGroups(open) {
-          // Expanding reveals nested groups, so repeat until no new group shows up.
-          let count;
+          let visibleGroupCountBefore;
           do {
-            count = visibleGroupKeys.length;
-            visibleGroupKeys.forEach((key) => groupToggles.set(key, open));
+            visibleGroupCountBefore = visibleGroupKeys.length;
+            visibleGroupKeys.forEach((key) => userToggledGroups.set(key, open));
             render();
-          } while (open && visibleGroupKeys.length > count);
+          } while (open && visibleGroupKeys.length > visibleGroupCountBefore);
         }
 
         function renderRuns(runs) {
@@ -1072,13 +1030,12 @@
             $('panel').innerHTML = '<p class="empty">' + empty + '</p>' + help;
             return;
           }
-          const sort = sortRows(runs, columns, runTieBreak);
+          const sort = sortRows(runs, columns, newestRunFirst);
           $('panel').innerHTML = '<div class="table-wrap"><table><thead>' + headerRow(columns, sort, null) + '</thead><tbody>' +
             runs.map((run) => '<tr>' + columns.map((c) => '<td>' + c.render(run) + '</td>').join('') + '</tr>').join('') +
             '</tbody></table></div>' + help;
         }
 
-        /** Average CI time of each suite job in the period, split into setup before the tests and the tests (seconds). */
         function suiteTimes(days) {
           const bySuite = new Map();
           for (const day of days) {
@@ -1097,7 +1054,6 @@
           return bySuite;
         }
 
-        // e.g. "CI job 12m 35s on average: 6m 50s setup (54%), 5m 11s tests"
         function suiteTiming(name) {
           const times = view.suiteTimes.get(name);
           if (!times) return '';
@@ -1110,7 +1066,7 @@
         function render() {
           const dates = rangeDates();
           const data = aggregate(dates);
-          view = { dates, comparison: compareWithPrevious(dates, data.tests), suiteTimes: suiteTimes(data.days) };
+          view = { dates, comparison: compareFlakyWithPreviousPeriod(dates, data.tests), suiteTimes: suiteTimes(data.days) };
           const suites = [...new Set(metrics.tests.map(([suite]) => suite))].sort();
           const filtered = data.tests.filter(matchesFilters);
           const q = state.q.trim().toLowerCase();
@@ -1131,7 +1087,6 @@
           }
         }
 
-        // Calendar for the "Up to" date: weeks start on Monday, days without data are marked.
         function addMonths(month, count) {
           const [year, monthIndex] = month.split('-').map(Number);
           return new Date(Date.UTC(year, monthIndex - 1 + count, 1)).toISOString().slice(0, 7);
@@ -1237,7 +1192,6 @@
           tabButton?.focus({ preventScroll: true });
         });
 
-        // Only one test is open at a time, so its numbers stay easy to follow; the open test is kept in the URL to share it.
         function toggleRow(row) {
           const index = Number(row.dataset.index);
           state = { ...state, test: openTestIndex() === index ? '' : testIds[index] };
@@ -1257,7 +1211,7 @@
 
         function toggleGroup(row) {
           const key = row.dataset.group;
-          groupToggles.set(key, row.getAttribute('aria-expanded') !== 'true');
+          userToggledGroups.set(key, row.getAttribute('aria-expanded') !== 'true');
           render();
           document.querySelector('tr.group-row[data-group="' + CSS.escape(key) + '"]')?.focus();
         }
@@ -1278,7 +1232,7 @@
           const runsToggle = e.target.closest('[data-runs-toggle]');
           if (runsToggle) {
             const index = Number(runsToggle.dataset.runsToggle);
-            allRunsShown.has(index) ? allRunsShown.delete(index) : allRunsShown.add(index);
+            testsShowingAllRuns.has(index) ? testsShowingAllRuns.delete(index) : testsShowingAllRuns.add(index);
             render();
             document.querySelector('[data-runs-toggle="' + index + '"]')?.focus();
             return;
@@ -1286,7 +1240,7 @@
           const pathToggle = e.target.closest('[data-path-toggle]');
           if (pathToggle) {
             const index = Number(pathToggle.dataset.pathToggle);
-            pathsShown.has(index) ? pathsShown.delete(index) : pathsShown.add(index);
+            testsShowingLocation.has(index) ? testsShowingLocation.delete(index) : testsShowingLocation.add(index);
             render();
             document.querySelector('[data-path-toggle="' + index + '"]')?.focus();
             return;

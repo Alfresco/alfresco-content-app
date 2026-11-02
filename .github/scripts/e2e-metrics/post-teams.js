@@ -24,11 +24,6 @@
 
 'use strict';
 
-/**
- * Posts an Adaptive Card built by `weekly-report.js` (CARD_FILE, default `e2e-metrics-weekly/teams-card.json`)
- * to Teams (TEAMS_WEBHOOK_URL). Used to notify only after the dashboard has been deployed.
- */
-
 const fs = require('fs');
 const { postToTeams } = require('./lib');
 

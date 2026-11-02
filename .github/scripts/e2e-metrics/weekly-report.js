@@ -24,26 +24,6 @@
 
 'use strict';
 
-/**
- * Builds the E2E report (weekly by default) from the daily metrics files produced by `collect-daily.js`:
- *  - flaky tests: retries per number of runs (sorted by retries),
- *  - slowest tests: average duration of passed attempts including the beforeAll/beforeEach hooks of the test
- *    (sorted from longest to shortest),
- *  - recently flaky / fixed tests compared with the previous period of the same length (see lib.compareFlaky).
- * Writes the full report as JSON and Markdown (also to the job summary) and a short Teams card (period, top 3 flaky
- * and slowest tests, an "Open report" button), which is posted when TEAMS_WEBHOOK_URL is set.
- *
- * Env:
- *  - REPORT_END_DATE: last UTC day included in the report (YYYY-MM-DD), defaults to yesterday
- *  - REPORT_DAYS: number of days in the report window (default 7)
- *  - REPORT_TITLE: card/summary title (defaults to "ACA E2E weekly report" or "ACA E2E report - last <n> days")
- *  - DAILY_DIR, REMOTE_DATA, GITHUB_TOKEN, GITHUB_REPOSITORY: where the daily metrics come from (see lib.loadDailies)
- *  - DASHBOARD_PUBLISHED: `true` when the dashboard was deployed with this data; "Open report" then opens the dashboard
- *    (DASHBOARD_URL, see lib.dashboardUrl), otherwise the workflow run with the report in its summary
- *  - OUTPUT_DIR: where to write the report files (default `e2e-metrics-weekly`)
- *  - TEAMS_WEBHOOK_URL: Teams webhook; posting is skipped when not set (see also post-teams.js)
- */
-
 const fs = require('fs');
 const path = require('path');
 const {
@@ -53,14 +33,14 @@ const {
   yesterdayUtc,
   mergeTests,
   compareFlaky,
-  FIXED_MIN_RUNS,
+  MIN_CLEAN_RUNS_TO_COUNT_AS_FIXED,
   averageDuration,
   averageSetup,
   formatDuration,
   runUrl,
   dashboardUrl,
   loadDailies,
-  dateRange,
+  datesEndingOn,
   postToTeams,
   writeJson
 } = require('./lib');
@@ -79,8 +59,8 @@ function buildReport(dates, dailies, title, previousDailies = []) {
   const flaky = tests
     .filter((test) => test.retries > 0 || test.failures > 0)
     .sort((a, b) => b.retries - a.retries || b.failures - a.failures || a.runs - b.runs || a.key.localeCompare(b.key));
-  // Tests that never passed have no duration and are only listed as flaky.
-  const slowest = tests.filter((test) => test.durationCount > 0).sort((a, b) => b.durationAvg - a.durationAvg || a.key.localeCompare(b.key));
+  const hasPassedAttempt = (test) => test.durationCount > 0;
+  const slowest = tests.filter(hasPassedAttempt).sort((a, b) => b.durationAvg - a.durationAvg || a.key.localeCompare(b.key));
 
   const runsByWorkflow = {};
   for (const run of runs) {
@@ -105,7 +85,6 @@ function buildReport(dates, dailies, title, previousDailies = []) {
     },
     flaky,
     slowest,
-    // Recently flaky / fixed tests compared with the previous period of the same length; null without data for it.
     comparison: comparison && {
       days: dates.length,
       recentlyFlaky: comparison.recentlyFlaky.map(({ key, suite, title: testTitle }) => ({ key, suite, title: testTitle })),
@@ -115,8 +94,7 @@ function buildReport(dates, dailies, title, previousDailies = []) {
 }
 
 const WORKFLOW_NAMES = { 'cron-e2e-chrome.yml': 'daily chrome', 'populate-e2e-reports.yml': 'populate' };
-// Tests listed per section in the Teams card; the full lists are in the report.
-const CARD_TOP_TESTS = 3;
+const CARD_TESTS_PER_SECTION = 3;
 const numberFormat = new Intl.NumberFormat('en-GB');
 
 function count(value, singular, pluralForm = `${singular}s`) {
@@ -132,7 +110,6 @@ function formatDay(date, withYear = false) {
   });
 }
 
-/** e.g. "14 Oct – 20 Oct 2026" */
 function formatPeriod(report) {
   return report.startDate === report.endDate
     ? formatDay(report.endDate, true)
@@ -144,7 +121,6 @@ function describeRuns(report) {
   return `${count(report.runs.length, 'workflow run')}${parts.length ? ` (${parts.join(', ')})` : ''}`;
 }
 
-/** One or two plain sentences with the headline numbers. */
 function describeTotals(report) {
   const { tests, testRuns, retries, flakyTests } = report.totals;
   const failures = report.flaky.reduce((sum, test) => sum + test.failures, 0);
@@ -154,7 +130,6 @@ function describeTotals(report) {
   return failures ? `${retriedText} ${count(failures, 'test run')} failed after all retries.` : retriedText;
 }
 
-/** e.g. "Compared with the previous 7 days: 2 recently flaky tests, 1 fixed." or null without data to compare. */
 function describeComparison(report) {
   const { comparison } = report;
   if (!comparison) {
@@ -163,27 +138,21 @@ function describeComparison(report) {
   return `Compared with the previous ${count(comparison.days, 'day')}: ${count(comparison.recentlyFlaky.length, 'recently flaky test')}, ${numberFormat.format(comparison.fixed.length)} fixed.`;
 }
 
-/** The test's own title, without its describe blocks. */
-function testName(test) {
+function titleWithoutDescribeBlocks(test) {
   return test.title.split(' › ').pop();
 }
 
-/** A heading and up to CARD_TOP_TESTS tests, each as "metric  test name". */
 function topTestsSection(heading, tests, metric) {
   return [
     { type: 'TextBlock', text: heading, weight: 'Bolder', spacing: 'Medium', wrap: true },
     {
       type: 'FactSet',
       spacing: 'Small',
-      facts: tests.slice(0, CARD_TOP_TESTS).map((test) => ({ title: metric(test), value: testName(test) }))
+      facts: tests.slice(0, CARD_TESTS_PER_SECTION).map((test) => ({ title: metric(test), value: titleWithoutDescribeBlocks(test) }))
     }
   ];
 }
 
-/**
- * Short Teams card: period, the top flaky and slowest tests and one button to the full report. The button opens the
- * dashboard when it was published with this data, otherwise the workflow run (its summary has the full report).
- */
 function buildCard(report, { dashboardLink, runLink }) {
   const body = [
     { type: 'TextBlock', size: 'Large', weight: 'Bolder', text: report.title, wrap: true },
@@ -253,7 +222,7 @@ function buildMarkdown(report, dashboardLink) {
       '',
       `## ✅ Fixed (${report.comparison.fixed.length})`,
       '',
-      `Flaky in the previous period, no retry in at least ${FIXED_MIN_RUNS} runs in this one.`,
+      `Flaky in the previous period, no retry in at least ${MIN_CLEAN_RUNS_TO_COUNT_AS_FIXED} runs in this one.`,
       ''
     );
     lines.push(...(report.comparison.fixed.length ? testList(report.comparison.fixed) : ['None.']));
@@ -281,13 +250,14 @@ async function main() {
   const days = Number(process.env.REPORT_DAYS) || 7;
   const title = process.env.REPORT_TITLE || (days === 7 ? 'ACA E2E weekly report' : `ACA E2E report - last ${days} days`);
   const outputDir = process.env.OUTPUT_DIR || 'e2e-metrics-weekly';
-  const dates = dateRange(endDate, days);
-  // The period before, for recently flaky / fixed tests.
-  const previousDates = dateRange(shiftDate(endDate, -days), days);
+  const dates = datesEndingOn(endDate, days);
+  const previousPeriodDates = datesEndingOn(shiftDate(endDate, -days), days);
   const dashboardLink = process.env.DASHBOARD_PUBLISHED === 'true' && dashboardUrl() ? `${dashboardUrl()}#days=${days}&end=${endDate}` : null;
 
-  const allDailies = await loadDailies([...previousDates, ...dates]);
-  const report = buildReport(dates, allDailies.slice(days), title, allDailies.slice(0, days));
+  const allDailies = await loadDailies([...previousPeriodDates, ...dates]);
+  const previousPeriodDailies = allDailies.slice(0, days);
+  const currentPeriodDailies = allDailies.slice(days);
+  const report = buildReport(dates, currentPeriodDailies, title, previousPeriodDailies);
   const markdown = buildMarkdown(report, dashboardLink);
   const card = buildCard(report, { dashboardLink, runLink: runUrl() });
 

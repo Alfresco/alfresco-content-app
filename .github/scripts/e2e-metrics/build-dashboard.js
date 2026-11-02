@@ -24,55 +24,25 @@
 
 'use strict';
 
-/**
- * Builds the static E2E dashboard site (GitHub Pages): copies `dashboard/index.html` and writes the metrics history
- * as `data/history.json` (read back by the next build) and `data/history.js` (loaded by the page, works from file:// too).
- *
- * History sources, later ones win for the same day:
- *  1. the history of the currently published dashboard (keeps days whose daily artifact is missing),
- *  2. `e2e-metrics-daily-<date>` artifacts of the last DAILY_ARTIFACT_DAYS days (their retention),
- *  3. `<date>.json` files in DAILY_DIR (e.g. today's runs collected by populate-e2e-reports).
- * Sources 1 and 2 are skipped when REMOTE_DATA is `false` (branch previews).
- * Per-run results (outcome, retries, attempts and duration of every test in every run) are kept for DETAIL_DAYS,
- * older days keep only the daily totals.
- *
- * Env:
- *  - END_DATE: last UTC day to refresh (YYYY-MM-DD), defaults to yesterday
- *  - DAILY_DIR, REMOTE_DATA, GITHUB_TOKEN, GITHUB_REPOSITORY: see lib.loadDailies
- *  - DASHBOARD_URL: published dashboard URL (defaults to the repository's GitHub Pages URL)
- *  - SOURCE_BRANCH: branch the runs were collected from (default `develop`)
- *  - HISTORY_DAYS: days of history kept (default 28, twice the longest report window, to compare periods)
- *  - DETAIL_DAYS: days for which per-run results are kept (default 14)
- *  - TEST_CASE_URL: link for test case ids in titles, `{id}` is replaced (default: Hyland Jira)
- *  - SITE_DIR: output directory (default `e2e-dashboard`)
- */
-
 const fs = require('fs');
 const path = require('path');
-const { SCHEMA_VERSION, assertDate, shiftDate, yesterdayUtc, dashboardUrl, loadDailies, dateRange } = require('./lib');
+const { SCHEMA_VERSION, assertDate, shiftDate, yesterdayUtc, dashboardUrl, loadDailies, datesEndingOn } = require('./lib');
 
 const TEMPLATE = path.join(__dirname, 'dashboard', 'index.html');
-// Twice the longest report window, so a period can be compared with the one before it (New/Fixed flaky tests).
-const DEFAULT_HISTORY_DAYS = 28;
-const DEFAULT_DETAIL_DAYS = 14;
-// Retention of the e2e-metrics-daily-<date> artifacts (e2e-metrics-report.yml).
-const DAILY_ARTIFACT_DAYS = 14;
-// Test case ids such as XAT-5016 in test titles link here ({id} is replaced); TEST_CASE_URL overrides it.
+const LONGEST_REPORT_DAYS = 14;
+const DEFAULT_HISTORY_DAYS = 2 * LONGEST_REPORT_DAYS;
+const DEFAULT_DETAIL_DAYS = LONGEST_REPORT_DAYS;
+const DAILY_ARTIFACT_RETENTION_DAYS = 14;
 const DEFAULT_TEST_CASE_URL = 'https://hyland.atlassian.net/browse/{id}';
-// Positions of the per-day test metrics in the compact history format.
-const METRIC_FIELDS = ['runs', 'retries', 'flakyRuns', 'failures', 'durationSum', 'durationCount', 'durationMax', 'setupSum'];
-// Positions of the per-suite job data of a run: job id, test step number, setup / tests / total seconds.
-const SUITE_FIELDS = ['job', 'step', 'setup', 'tests', 'total'];
-// Positions of a run's failure cause entries.
-const FAILURE_FIELDS = ['kind', 'name', 'job', 'step', 'stepName'];
-// Compact codes of per-run outcomes and attempt statuses.
+const COMPACT_TEST_METRIC_FIELDS = ['runs', 'retries', 'flakyRuns', 'failures', 'durationSum', 'durationCount', 'durationMax', 'setupSum'];
+const COMPACT_SUITE_JOB_FIELDS = ['job', 'step', 'setup', 'tests', 'total'];
+const COMPACT_FAILURE_CAUSE_FIELDS = ['kind', 'name', 'job', 'step', 'stepName'];
 const OUTCOME_CODES = { expected: 'p', flaky: 'r', unexpected: 'f' };
 const STATUS_CODES = { passed: 'p', failed: 'f', timedOut: 't', interrupted: 'i' };
 const decode = (codes) => Object.fromEntries(Object.entries(codes).map(([name, code]) => [code, name]));
 const OUTCOMES = decode(OUTCOME_CODES);
 const STATUSES = decode(STATUS_CODES);
 
-/** Fetch the history of the published dashboard; null when nothing is published yet. */
 async function fetchPublishedHistory(siteUrl) {
   const url = `${siteUrl}data/history.json`;
   const response = await fetch(url, { cache: 'no-store' });
@@ -81,8 +51,7 @@ async function fetchPublishedHistory(siteUrl) {
     return null;
   }
   if (!response.ok) {
-    // Failing is safer than publishing a dashboard that silently lost its history.
-    throw new Error(`Could not read the published history ${url}: HTTP ${response.status}`);
+    throw new Error(`Could not read the published history ${url}: HTTP ${response.status}. Not publishing, to keep the history.`);
   }
   const history = await response.json();
   if (history.schemaVersion !== SCHEMA_VERSION) {
@@ -98,21 +67,20 @@ const mapValues = (object, fn) => Object.fromEntries(Object.entries(object || {}
 
 function expandRun(run) {
   const { suites, failure, ...rest } = run;
-  const expanded = { ...rest, suites: mapValues(suites, (values) => fromFields(SUITE_FIELDS, values)) };
+  const expanded = { ...rest, suites: mapValues(suites, (values) => fromFields(COMPACT_SUITE_JOB_FIELDS, values)) };
   if (failure) {
-    expanded.failure = failure.map((values) => fromFields(FAILURE_FIELDS, values));
+    expanded.failure = failure.map((values) => fromFields(COMPACT_FAILURE_CAUSE_FIELDS, values));
   }
   return expanded;
 }
 
-/** Expand the compact history format into daily metrics objects keyed by date. */
 function expandHistory(history) {
   const days = new Map();
   for (const day of history?.days || []) {
     const tests = day.tests.map(([index, ...values]) => {
       const [suite, file, title, filePath, line] = history.tests[index];
       const test = { key: testKey(history.tests[index]), suite, file, title, path: filePath, line };
-      METRIC_FIELDS.forEach((field, position) => (test[field] = values[position] ?? 0));
+      COMPACT_TEST_METRIC_FIELDS.forEach((field, position) => (test[field] = values[position] ?? 0));
       return test;
     });
     const runs = day.runs.map(expandRun);
@@ -135,35 +103,33 @@ function expandHistory(history) {
   return days;
 }
 
-/** Suite job data as `{ suite: [job, step, setup, tests, total] }` and failure causes as `[kind, name, job, step, stepName]`. */
 function compactRun(run) {
   const compact = { id: run.id, workflow: run.workflow, title: run.title, conclusion: run.conclusion, createdAt: run.createdAt, url: run.url };
   if (run.suites && Object.keys(run.suites).length) {
-    compact.suites = mapValues(run.suites, (suite) => toFields(SUITE_FIELDS, suite));
+    compact.suites = mapValues(run.suites, (suite) => toFields(COMPACT_SUITE_JOB_FIELDS, suite));
   }
   if (run.conclusionFrom) {
     compact.conclusionFrom = run.conclusionFrom;
   }
   if (run.failure?.length) {
-    compact.failure = run.failure.map((entry) => toFields(FAILURE_FIELDS, entry));
+    compact.failure = run.failure.map((entry) => toFields(COMPACT_FAILURE_CAUSE_FIELDS, entry));
   }
   return compact;
 }
 
-/**
- * Per-run results as `[testIndex, runIndex, suiteAttempt, outcome, retries, duration, setup, attempts?]`;
- * attempts (`[status, duration, errorIndex?]` each) are only kept for runs that needed a retry or failed. Error
- * messages repeat across retries and tests, so each day stores them once in `errors` and attempts refer to them.
- */
-function compactResults(day, indexByKey, errors) {
+function compactResults(day, indexByKey, dedupedErrors) {
   const runIndex = new Map(day.runs.map((run, index) => [run.id, index]));
-  const errorIndex = new Map();
-  const errorRef = (error) => {
-    if (!errorIndex.has(error)) {
-      errorIndex.set(error, errors.length);
-      errors.push(error);
+  const dedupedErrorIndex = new Map();
+  const indexOfDedupedError = (error) => {
+    if (!dedupedErrorIndex.has(error)) {
+      dedupedErrorIndex.set(error, dedupedErrors.length);
+      dedupedErrors.push(error);
     }
-    return errorIndex.get(error);
+    return dedupedErrorIndex.get(error);
+  };
+  const compactAttempt = ({ status, duration, error }) => {
+    const statusAndDuration = [STATUS_CODES[status] || status, duration ?? null];
+    return error ? [...statusAndDuration, indexOfDedupedError(error)] : statusAndDuration;
   };
   return (day.results || [])
     .filter((result) => indexByKey.has(result.key) && runIndex.has(result.runId))
@@ -177,18 +143,14 @@ function compactResults(day, indexByKey, errors) {
         result.duration ?? null,
         result.setup ?? null
       ];
-      if (result.outcome !== 'expected') {
-        row.push(
-          result.attempts.map(({ status, duration, error }) =>
-            error ? [STATUS_CODES[status] || status, duration ?? null, errorRef(error)] : [STATUS_CODES[status] || status, duration ?? null]
-          )
-        );
+      const neededRetryOrFailed = result.outcome !== 'expected';
+      if (neededRetryOrFailed) {
+        row.push(result.attempts.map(compactAttempt));
       }
       return row;
     });
 }
 
-/** Compact history: a test catalog plus per-day `[testIndex, ...METRIC_FIELDS]` rows and per-run results. */
 function compactHistory(days, meta, detailFrom) {
   const catalog = [];
   const indexByKey = new Map();
@@ -200,14 +162,14 @@ function compactHistory(days, meta, detailFrom) {
           indexByKey.set(test.key, catalog.length);
           catalog.push([test.suite, test.file, test.title, test.path || null, test.line || null]);
         }
-        return [indexByKey.get(test.key), ...METRIC_FIELDS.map((field) => test[field])];
+        return [indexByKey.get(test.key), ...COMPACT_TEST_METRIC_FIELDS.map((field) => test[field])];
       });
       const compactDay = { date: day.date, runs: day.runs.map(compactRun), tests };
       if (day.date >= detailFrom && day.results?.length) {
-        const errors = [];
-        compactDay.results = compactResults(day, indexByKey, errors);
-        if (errors.length) {
-          compactDay.errors = errors;
+        const dedupedErrors = [];
+        compactDay.results = compactResults(day, indexByKey, dedupedErrors);
+        if (dedupedErrors.length) {
+          compactDay.errors = dedupedErrors;
         }
       }
       return compactDay;
@@ -226,7 +188,7 @@ async function main() {
   const published = remote && siteUrl ? await fetchPublishedHistory(siteUrl) : null;
   const days = expandHistory(published);
 
-  const refreshDates = dateRange(endDate, DAILY_ARTIFACT_DAYS);
+  const refreshDates = datesEndingOn(endDate, DAILY_ARTIFACT_RETENTION_DAYS);
   const dailies = await loadDailies(refreshDates);
   dailies.forEach((daily, index) => daily && days.set(refreshDates[index], daily));
 

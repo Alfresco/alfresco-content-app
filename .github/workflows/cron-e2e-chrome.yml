@@ -1,11 +1,9 @@
 name: "Cron chrome E2E run"
 run-name: ${{ github.event_name == 'workflow_dispatch' && 'Manual chrome E2E run' || 'Cron chrome E2E run' }}
 
-# Daily chrome run. Its per-test metrics are counted by the E2E metrics report (see e2e-metrics-report.yml).
-
 on:
   schedule:
-    - cron: '0 6 * * *' #At 06:00 every day.
+    - cron: '0 6 * * *'
   workflow_dispatch:
 
 jobs:

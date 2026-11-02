@@ -65,7 +65,6 @@ runs:
           echo "Running playwright tests with options $OPTIONS on browser ${PLAYWRIGHT_BROWSER} (suite attempt $attempt/${SUITE_ATTEMPTS:-1})"
           # Clear any blob report from a previous attempt so only the final attempt is reported.
           if [ -n "${PLAYWRIGHT_BLOB_DIR:-}" ]; then rm -rf -- "${PLAYWRIGHT_BLOB_DIR}"; fi
-          # Unlike the blob report, metrics keep every attempt so suite-level reruns count towards flakiness.
           if [ -n "${METRICS_DIR}" ]; then export E2E_METRICS_FILE="${METRICS_DIR}/attempt-${attempt}.json"; fi
           if E2E_TARGET=$OPTIONS pnpm ci:e2e; then
             exit 0

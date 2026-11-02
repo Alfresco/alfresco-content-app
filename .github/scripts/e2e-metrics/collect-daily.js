@@ -24,20 +24,6 @@
 
 'use strict';
 
-/**
- * Collects the `e2e-metrics-<browser>-<suite>` artifacts (e2e-metrics reporter output) uploaded by the
- * E2E workflow runs created on a given UTC day on the source branch and compacts them into a single
- * daily metrics file with per-test runs, retries, failures and durations.
- *
- * Env:
- *  - GITHUB_TOKEN, GITHUB_REPOSITORY (required)
- *  - METRICS_DATE: UTC day to collect (YYYY-MM-DD), defaults to yesterday
- *  - SOURCE_WORKFLOWS: comma-separated workflow file names to collect from
- *  - SOURCE_BRANCH: only runs on this branch are collected (default `develop`)
- *  - INCLUDE_RUN_ID: also collect this run even if it is still in progress (e.g. the current run)
- *  - OUTPUT_FILE: where to write the daily metrics JSON
- */
-
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
@@ -55,17 +41,16 @@ const {
 
 const DEFAULT_SOURCE_WORKFLOWS = 'cron-e2e-chrome.yml,populate-e2e-reports.yml';
 const DEFAULT_SOURCE_BRANCH = 'develop';
-// The jobs API intermittently returns 502; one retry is enough in practice.
 const JOBS_REQUEST_ATTEMPTS = 2;
-// Result of a run derived from its E2E suite jobs: the first conclusion found in this order, otherwise success.
-const E2E_CONCLUSION_PRIORITY = ['failure', 'timed_out', 'cancelled'];
+const RUN_CONCLUSIONS_BY_SEVERITY = ['failure', 'timed_out', 'cancelled'];
 const FAILED_CONCLUSIONS = new Set(['failure', 'timed_out']);
-// A timed-out job reports its interrupted step as cancelled.
-const FAILED_STEP_CONCLUSIONS = new Set(['failure', 'timed_out', 'cancelled']);
-// Step of the E2E suite jobs (e2e-playwright-reusable.yml) that runs the tests.
-const RUN_TESTS_STEP = 'Run e2e playwright';
+const TIMED_OUT_JOB_STEP_CONCLUSION = 'cancelled';
+const FAILED_STEP_CONCLUSIONS = new Set([...FAILED_CONCLUSIONS, TIMED_OUT_JOB_STEP_CONCLUSION]);
+const RUN_TESTS_STEP_NAME = 'Run e2e playwright';
+const SUITE_JOB_NAME_PATTERN = /(?:^|\/ )E2E \| (\S+) \| (.+) \| Playwright$/;
 
-/** Read every suite-attempt report found in an extracted artifact directory. */
+const suiteAttemptFromFileName = (fileName) => Number(/attempt-(\d+)/.exec(fileName)?.[1]) || 1;
+
 function readArtifactMetrics(artifactDir, suite) {
   const metrics = [];
   for (const file of fs
@@ -74,8 +59,7 @@ function readArtifactMetrics(artifactDir, suite) {
     .sort()) {
     try {
       const report = JSON.parse(fs.readFileSync(path.join(artifactDir, file), 'utf8'));
-      // attempt-<n>.json: n-th run of the whole suite within the workflow run.
-      const suiteAttempt = Number(/attempt-(\d+)/.exec(file)?.[1]) || 1;
+      const suiteAttempt = suiteAttemptFromFileName(file);
       metrics.push(...extractTestMetrics(report, suite).map((metric) => ({ ...metric, suiteAttempt })));
     } catch (error) {
       console.warn(`Skipping unreadable report ${artifactDir}/${file}: ${error instanceof Error ? error.message : String(error)}`);
@@ -84,14 +68,12 @@ function readArtifactMetrics(artifactDir, suite) {
   return metrics;
 }
 
-/** Parse `E2E | <browser> | <suite> | Playwright` job names, optionally prefixed by the caller job (`chrome / E2E | ...`). */
 function parseSuiteJobName(name) {
-  const match = /(?:^|\/ )E2E \| (\S+) \| (.+) \| Playwright$/.exec(name || '');
+  const match = SUITE_JOB_NAME_PATTERN.exec(name || '');
   return match ? { browser: match[1], suite: match[2] } : null;
 }
 
-/** Jobs of the latest attempt of a run (its metrics artifacts overwrite those of earlier attempts), or null if unavailable. */
-async function listRunJobs(github, run) {
+async function listLatestAttemptJobs(github, run) {
   for (let attempt = 1; attempt <= JOBS_REQUEST_ATTEMPTS; attempt++) {
     try {
       return await github.paginate(`/actions/runs/${run.id}/jobs?filter=latest`, 'jobs');
@@ -105,67 +87,57 @@ async function listRunJobs(github, run) {
   return null;
 }
 
-const seconds = (from, to) => (from && to ? Math.max(0, Math.round((Date.parse(to) - Date.parse(from)) / 1000)) : null);
+const secondsBetween = (from, to) => (from && to ? Math.max(0, Math.round((Date.parse(to) - Date.parse(from)) / 1000)) : null);
 
-/**
- * Per collected suite: its job, the number of the step that runs the tests (so links open it directly) and how the job
- * time splits into setup before the tests (ACS deploy, installs...) and the tests themselves, in seconds. Keyed by the
- * suite names used in the metrics (the Playwright project name, e.g. `Viewer`), which differ from the job/artifact
- * suite (`viewer`).
- */
-function suiteJobs(jobs, metricSuitesByArtifact) {
-  const suites = {};
+function metricSuitesOfJob(parsedJobName, metricSuitesByArtifact) {
+  return [...((parsedJobName && metricSuitesByArtifact.get(`${parsedJobName.browser}-${parsedJobName.suite}`)) || [])];
+}
+
+function jobTimingByMetricSuite(jobs, metricSuitesByArtifact) {
+  const timingBySuite = {};
   for (const job of jobs) {
-    const parsed = parseSuiteJobName(job.name);
-    const metricSuites = [...((parsed && metricSuitesByArtifact.get(`${parsed.browser}-${parsed.suite}`)) || [])];
+    const metricSuites = metricSuitesOfJob(parseSuiteJobName(job.name), metricSuitesByArtifact);
     if (!metricSuites.length) {
       continue;
     }
-    const testStep = (job.steps || []).find((step) => step.name === RUN_TESTS_STEP);
-    const info = {
+    const runTestsStep = (job.steps || []).find((step) => step.name === RUN_TESTS_STEP_NAME);
+    const timing = {
       job: job.id,
-      step: testStep?.number ?? null,
-      setup: testStep ? seconds(job.started_at, testStep.started_at) : null,
-      tests: testStep ? seconds(testStep.started_at, testStep.completed_at) : null,
-      total: seconds(job.started_at, job.completed_at)
+      step: runTestsStep?.number ?? null,
+      setup: runTestsStep ? secondsBetween(job.started_at, runTestsStep.started_at) : null,
+      tests: runTestsStep ? secondsBetween(runTestsStep.started_at, runTestsStep.completed_at) : null,
+      total: secondsBetween(job.started_at, job.completed_at)
     };
-    metricSuites.forEach((suite) => (suites[suite] = info));
+    metricSuites.forEach((suite) => (timingBySuite[suite] = timing));
   }
-  return suites;
+  return timingBySuite;
 }
 
-/**
- * Why a run failed, one entry per failed job: `tests` when the step running the tests failed, otherwise `infra` with the
- * step that failed (build, ACS deploy, browser install...). Suites are named like in the metrics when known.
- */
-function failureCause(jobs, metricSuitesByArtifact) {
-  const cause = [];
+function failureCauses(jobs, metricSuitesByArtifact) {
+  const causes = [];
   for (const job of jobs.filter((candidate) => FAILED_CONCLUSIONS.has(candidate.conclusion))) {
-    const parsed = parseSuiteJobName(job.name);
+    const parsedJobName = parseSuiteJobName(job.name);
     const failedStep = (job.steps || []).find((step) => FAILED_STEP_CONCLUSIONS.has(step.conclusion));
-    const metricSuites = [...((parsed && metricSuitesByArtifact.get(`${parsed.browser}-${parsed.suite}`)) || [])];
-    cause.push({
-      kind: parsed && failedStep?.name === RUN_TESTS_STEP ? 'tests' : 'infra',
-      name: metricSuites[0] || parsed?.suite || job.name.split(' / ').pop(),
+    const testsFailed = parsedJobName && failedStep?.name === RUN_TESTS_STEP_NAME;
+    const jobNameWithoutCallerPrefix = job.name.split(' / ').pop();
+    causes.push({
+      kind: testsFailed ? 'tests' : 'infra',
+      name: metricSuitesOfJob(parsedJobName, metricSuitesByArtifact)[0] || parsedJobName?.suite || jobNameWithoutCallerPrefix,
       job: job.id,
       step: failedStep?.number ?? null,
       stepName: failedStep?.name ?? null
     });
   }
-  return cause;
+  return causes;
 }
 
-/**
- * Result of the E2E suite jobs of a run, for runs still in progress when collected (the run that publishes the report
- * cannot know its own result). Null while a suite job is still running or when the run has no suite jobs.
- */
-function e2eJobsConclusion(jobs) {
+function conclusionFromSuiteJobs(jobs) {
   const suiteJobs = jobs.filter((job) => parseSuiteJobName(job.name));
   if (!suiteJobs.length || suiteJobs.some((job) => job.status !== 'completed')) {
     return null;
   }
   const conclusions = new Set(suiteJobs.map((job) => job.conclusion));
-  return E2E_CONCLUSION_PRIORITY.find((conclusion) => conclusions.has(conclusion)) || 'success';
+  return RUN_CONCLUSIONS_BY_SEVERITY.find((conclusion) => conclusions.has(conclusion)) || 'success';
 }
 
 async function collectRun(github, run, workDir) {
@@ -178,7 +150,7 @@ async function collectRun(github, run, workDir) {
     const { browser, suite } = parseRunArtifactName(artifact.name);
     const artifactDir = path.join(workDir, String(run.id), artifact.name);
     try {
-      await github.downloadArtifact(artifact.id, artifactDir);
+      await github.downloadAndExtractArtifact(artifact.id, artifactDir);
       const artifactMetrics = readArtifactMetrics(artifactDir, suite);
       metrics.push(...artifactMetrics);
       metricSuitesByArtifact.set(`${browser}-${suite}`, new Set(artifactMetrics.map((metric) => metric.suite)));
@@ -186,15 +158,16 @@ async function collectRun(github, run, workDir) {
       console.warn(`Skipping artifact ${artifact.name} of run ${run.id}: ${error instanceof Error ? error.message : String(error)}`);
     }
   }
-  // Failed runs are looked at even without test results: their failure (e.g. a broken ACS deploy) is worth showing.
-  const runJobs = metricSuitesByArtifact.size || FAILED_CONCLUSIONS.has(run.conclusion) ? await listRunJobs(github, run) : null;
-  const conclusion = run.conclusion || (runJobs ? e2eJobsConclusion(runJobs) : null);
+  const hasTestResults = metricSuitesByArtifact.size > 0;
+  const runFailed = FAILED_CONCLUSIONS.has(run.conclusion);
+  const runJobs = hasTestResults || runFailed ? await listLatestAttemptJobs(github, run) : null;
+  const conclusion = run.conclusion || (runJobs ? conclusionFromSuiteJobs(runJobs) : null);
   return {
     artifactCount: artifacts.length,
     metrics,
     conclusion,
-    suites: runJobs ? suiteJobs(runJobs, metricSuitesByArtifact) : {},
-    failure: runJobs && FAILED_CONCLUSIONS.has(conclusion) ? failureCause(runJobs, metricSuitesByArtifact) : []
+    suites: runJobs ? jobTimingByMetricSuite(runJobs, metricSuitesByArtifact) : {},
+    failure: runJobs && FAILED_CONCLUSIONS.has(conclusion) ? failureCauses(runJobs, metricSuitesByArtifact) : []
   };
 }
 
@@ -211,8 +184,8 @@ function toRunSummary(run, workflow, { artifactCount, conclusion, suites, failur
     artifacts: artifactCount,
     suites
   };
-  if (!run.conclusion && conclusion) {
-    // The workflow was still running (e.g. publishing this report); the result is that of its E2E jobs.
+  const runWasStillInProgress = !run.conclusion && conclusion;
+  if (runWasStillInProgress) {
     summary.conclusionFrom = 'e2e-jobs';
   }
   if (failure.length) {
@@ -221,7 +194,6 @@ function toRunSummary(run, workflow, { artifactCount, conclusion, suites, failur
   return summary;
 }
 
-/** Completed runs of the source workflows created on `date` on `branch`, plus the optional in-progress run `includeRunId`. */
 async function listRuns(github, { sourceWorkflows, date, branch, includeRunId }) {
   const runs = [];
   for (const workflow of sourceWorkflows) {
@@ -232,7 +204,6 @@ async function listRuns(github, { sourceWorkflows, date, branch, includeRunId })
       );
       runs.push(...workflowRuns.map((run) => ({ run, workflow })));
     } catch (error) {
-      // GitHub only knows workflows that are on the default branch or have run at least once.
       if (error.status !== 404) {
         throw error;
       }
@@ -266,19 +237,18 @@ async function main() {
 
   const runs = [];
   const perRunMetrics = [];
-  // One entry per test and suite attempt of each run, for the per-run view of the dashboard.
-  const results = [];
+  const perRunTestResults = [];
   try {
     for (const { run, workflow } of await listRuns(github, { sourceWorkflows, date, branch, includeRunId })) {
       const collected = await collectRun(github, run, workDir);
       const { artifactCount, metrics } = collected;
       console.log(`${workflow} run ${run.id} (${run.display_title}): ${artifactCount} metrics artifact(s), ${metrics.length} test run(s)`);
-      // Runs without usable reports (e.g. only legacy-format artifacts) would show up as empty runs, so they are left
-      // out, unless they failed: a run that broke before any test ran (build, ACS deploy) is listed with its cause.
-      if (metrics.length > 0 || collected.failure.length > 0) {
+      const hasTestResults = metrics.length > 0;
+      const hasFailureCause = collected.failure.length > 0;
+      if (hasTestResults || hasFailureCause) {
         runs.push(toRunSummary(run, workflow, collected));
         perRunMetrics.push(metrics);
-        results.push(...metrics.map(({ key, suiteAttempt, detail }) => ({ key, runId: run.id, suiteAttempt, ...detail })));
+        perRunTestResults.push(...metrics.map(({ key, suiteAttempt, detail }) => ({ key, runId: run.id, suiteAttempt, ...detail })));
       }
     }
   } finally {
@@ -286,7 +256,7 @@ async function main() {
   }
 
   const tests = mergeTests(perRunMetrics).sort((a, b) => a.key.localeCompare(b.key));
-  writeJson(outputFile, { schemaVersion: SCHEMA_VERSION, date, generatedAt: new Date().toISOString(), runs, tests, results });
+  writeJson(outputFile, { schemaVersion: SCHEMA_VERSION, date, generatedAt: new Date().toISOString(), runs, tests, results: perRunTestResults });
   console.log(`Wrote ${outputFile}: ${runs.length} run(s), ${tests.length} test(s).`);
 }
 

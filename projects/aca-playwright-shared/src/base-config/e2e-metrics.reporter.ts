@@ -26,15 +26,6 @@ import type { FullConfig, Reporter, Suite, TestCase, TestResult, TestStep } from
 import fs from 'node:fs';
 import path from 'node:path';
 
-/**
- * Writes per-test retry and duration metrics for the E2E metrics report (.github/scripts/e2e-metrics).
- *
- * Playwright's `result.duration` covers beforeEach/afterEach hooks and the test body, but not beforeAll hooks,
- * which run once per worker and are only reported as steps of the first test that needed them. To show the full
- * cost of every test, each test is charged all beforeAll hooks of its describe blocks: the measured duration when
- * the hook ran for that test, otherwise the average duration of that hook in this run. afterAll hooks are ignored.
- */
-
 export const E2E_METRICS_FORMAT = 'aca-e2e-metrics';
 
 type HookType = 'beforeAll' | 'beforeEach';
@@ -45,12 +36,11 @@ interface HookLocation {
   column: number;
 }
 
-// Suite hooks are not part of the public reporter API; without them only the hooks that ran for a test are counted.
-interface SuiteWithHooks extends Suite {
+interface SuiteWithPrivateHooks extends Suite {
   _hooks?: { type: string; location?: HookLocation }[];
 }
 
-interface ResultHooks {
+interface HookTimings {
   beforeAll: Map<string, number>;
   beforeEach: number;
 }
@@ -78,16 +68,14 @@ const hookId = (location?: HookLocation): string | undefined => (location ? `${l
 
 const average = (values: number[] = []): number => (values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : 0);
 
-// Long enough to tell errors apart (e.g. which locator timed out), short enough to keep the metrics files small.
 const ERROR_MAX_LENGTH = 200;
-// Terminal colour codes (ESC [ ... m) that Playwright adds to error messages.
-const ANSI_PATTERN = new RegExp(`${String.fromCharCode(27)}\\[[0-9;]*m`, 'g');
+const TITLE_PATH_ROOT_PROJECT_AND_FILE_SEGMENTS = 3;
+const ANSI_COLOR_CODES_PATTERN = new RegExp(`${String.fromCharCode(27)}\\[[0-9;]*m`, 'g');
 
-/** First non-empty line of the error, without terminal colours, e.g. "TimeoutError: locator.click: Timeout 30000ms exceeded." */
-const errorSummary = (result: TestResult): string | undefined => {
+const firstErrorLineWithoutColors = (result: TestResult): string | undefined => {
   const message = result.error?.message ?? result.error?.value;
   const line = message
-    ?.replace(ANSI_PATTERN, '')
+    ?.replace(ANSI_COLOR_CODES_PATTERN, '')
     .split('\n')
     .map((text) => text.trim())
     .find(Boolean);
@@ -97,9 +85,9 @@ const errorSummary = (result: TestResult): string | undefined => {
 export default class E2eMetricsReporter implements Reporter {
   private readonly outputFile: string;
   private readonly hookTypes = new Map<string, HookType>();
-  private readonly beforeAllByTest = new Map<TestCase, string[]>();
-  private readonly hookDurations = new Map<string, number[]>();
-  private readonly resultHooks = new Map<TestResult, ResultHooks>();
+  private readonly beforeAllHookIdsByTest = new Map<TestCase, string[]>();
+  private readonly successfulHookDurations = new Map<string, number[]>();
+  private readonly hookTimingsByResult = new Map<TestResult, HookTimings>();
   private rootSuite?: Suite;
 
   constructor(options: { outputFile?: string } = {}) {
@@ -114,7 +102,7 @@ export default class E2eMetricsReporter implements Reporter {
     this.rootSuite = suite;
     for (const test of suite.allTests()) {
       const beforeAll: string[] = [];
-      for (let parent: SuiteWithHooks | undefined = test.parent; parent; parent = parent.parent) {
+      for (let parent: SuiteWithPrivateHooks | undefined = test.parent; parent; parent = parent.parent) {
         for (const hook of parent._hooks ?? []) {
           const id = hookId(hook.location);
           if (id && (hook.type === 'beforeAll' || hook.type === 'beforeEach')) {
@@ -125,7 +113,7 @@ export default class E2eMetricsReporter implements Reporter {
           }
         }
       }
-      this.beforeAllByTest.set(test, beforeAll);
+      this.beforeAllHookIdsByTest.set(test, beforeAll);
     }
   }
 
@@ -136,15 +124,15 @@ export default class E2eMetricsReporter implements Reporter {
       return;
     }
 
-    const hooks = this.resultHooks.get(result) ?? { beforeAll: new Map<string, number>(), beforeEach: 0 };
-    this.resultHooks.set(result, hooks);
+    const hooks = this.hookTimingsByResult.get(result) ?? { beforeAll: new Map<string, number>(), beforeEach: 0 };
+    this.hookTimingsByResult.set(result, hooks);
     if (type === 'beforeEach') {
       hooks.beforeEach += step.duration;
       return;
     }
     hooks.beforeAll.set(id, step.duration);
     if (!step.error) {
-      this.hookDurations.set(id, [...(this.hookDurations.get(id) ?? []), step.duration]);
+      this.successfulHookDurations.set(id, [...(this.successfulHookDurations.get(id) ?? []), step.duration]);
     }
   }
 
@@ -172,27 +160,32 @@ export default class E2eMetricsReporter implements Reporter {
       file: path.relative(testDir, test.location.file).split(path.sep).join('/'),
       path: repoPath.startsWith('..') ? null : repoPath.split(path.sep).join('/'),
       line: test.location.line,
-      title: test.titlePath().slice(3).join(' › '),
+      title: test.titlePath().slice(TITLE_PATH_ROOT_PROJECT_AND_FILE_SEGMENTS).join(' › '),
       outcome: test.outcome(),
       results: test.results.map((result) => this.resultMetrics(test, result))
     };
   }
 
   private resultMetrics(test: TestCase, result: TestResult): E2eMetricsResult {
-    const hooks = this.resultHooks.get(result);
-    const beforeAllIds = new Set([...(this.beforeAllByTest.get(test) ?? []), ...(hooks?.beforeAll.keys() ?? [])]);
-    let beforeAll = 0;
-    for (const id of beforeAllIds) {
-      beforeAll += hooks?.beforeAll.get(id) ?? average(this.hookDurations.get(id));
-    }
+    const hookTimings = this.hookTimingsByResult.get(result);
     const metrics: E2eMetricsResult = {
       retry: result.retry,
       status: result.status,
       duration: result.duration,
-      beforeAll: Math.round(beforeAll),
-      beforeEach: Math.round(hooks?.beforeEach ?? 0)
+      beforeAll: Math.round(this.beforeAllDurationChargedToTest(test, hookTimings)),
+      beforeEach: Math.round(hookTimings?.beforeEach ?? 0)
     };
-    const error = result.status === 'passed' || result.status === 'skipped' ? undefined : errorSummary(result);
+    const error = result.status === 'passed' || result.status === 'skipped' ? undefined : firstErrorLineWithoutColors(result);
     return error ? { ...metrics, error } : metrics;
+  }
+
+  private beforeAllDurationChargedToTest(test: TestCase, hookTimings?: HookTimings): number {
+    const beforeAllHookIds = new Set([...(this.beforeAllHookIdsByTest.get(test) ?? []), ...(hookTimings?.beforeAll.keys() ?? [])]);
+    let total = 0;
+    for (const id of beforeAllHookIds) {
+      const measuredForThisTest = hookTimings?.beforeAll.get(id);
+      total += measuredForThisTest ?? average(this.successfulHookDurations.get(id));
+    }
+    return total;
   }
 }

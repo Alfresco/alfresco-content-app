@@ -24,14 +24,6 @@
 
 'use strict';
 
-/**
- * Shared helpers for the E2E metrics pipeline:
- *  - GitHub REST API access (listing runs/artifacts, downloading artifact zips),
- *  - extracting per-test retry/duration metrics from the e2e-metrics reporter output,
- *  - merging those metrics across runs and days,
- *  - loading daily metrics files (local or from `e2e-metrics-daily-<date>` artifacts).
- */
-
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
@@ -41,13 +33,11 @@ const SCHEMA_VERSION = 1;
 const RUN_ARTIFACT_PREFIX = 'e2e-metrics-';
 const DAILY_ARTIFACT_PREFIX = 'e2e-metrics-daily-';
 const WEEKLY_ARTIFACT_PREFIX = 'e2e-metrics-weekly-';
-// Written by projects/aca-playwright-shared/src/base-config/e2e-metrics.reporter.ts
-const METRICS_REPORT_FORMAT = 'aca-e2e-metrics';
+const E2E_METRICS_REPORTER_FORMAT = 'aca-e2e-metrics';
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 const DAY_MS = 24 * 60 * 60 * 1000;
 const PAGE_SIZE = 100;
-// Clean runs a previously flaky test needs in a period to count as fixed, so one lucky run is not enough.
-const FIXED_MIN_RUNS = 3;
+const MIN_CLEAN_RUNS_TO_COUNT_AS_FIXED = 3;
 
 function requireEnv(name) {
   const value = process.env[name];
@@ -90,7 +80,6 @@ function createGithubClient({ token, repository, apiUrl = 'https://api.github.co
     return response;
   }
 
-  /** Fetch every page of a list endpoint; `itemsKey` is the array property in the response body. */
   async function paginate(urlPath, itemsKey) {
     const items = [];
     const separator = urlPath.includes('?') ? '&' : '?';
@@ -104,8 +93,7 @@ function createGithubClient({ token, repository, apiUrl = 'https://api.github.co
     }
   }
 
-  /** Download an artifact zip and extract it into `targetDir`. */
-  async function downloadArtifact(artifactId, targetDir) {
+  async function downloadAndExtractArtifact(artifactId, targetDir) {
     const response = await request(`/actions/artifacts/${artifactId}/zip`);
     const zipFile = path.join(os.tmpdir(), `artifact-${artifactId}-${process.pid}.zip`);
     try {
@@ -121,12 +109,12 @@ function createGithubClient({ token, repository, apiUrl = 'https://api.github.co
     return (await request(urlPath)).json();
   }
 
-  return { getJson, paginate, downloadArtifact };
+  return { getJson, paginate, downloadAndExtractArtifact };
 }
 
-/** Parse `e2e-metrics-<browser>-<suite>` per-run artifact names (daily/weekly aggregates are ignored). */
 function parseRunArtifactName(name) {
-  if (!name.startsWith(RUN_ARTIFACT_PREFIX) || name.startsWith(DAILY_ARTIFACT_PREFIX) || name.startsWith(WEEKLY_ARTIFACT_PREFIX)) {
+  const isAggregateArtifact = name.startsWith(DAILY_ARTIFACT_PREFIX) || name.startsWith(WEEKLY_ARTIFACT_PREFIX);
+  if (!name.startsWith(RUN_ARTIFACT_PREFIX) || isAggregateArtifact) {
     return null;
   }
   const match = /^([^-]+)-(.+)$/.exec(name.slice(RUN_ARTIFACT_PREFIX.length));
@@ -165,54 +153,45 @@ function addTestMetrics(target, source) {
   target.setupSum += source.setupSum || 0;
 }
 
-/**
- * Per-test metrics of one suite attempt. Each non-skipped test counts as one run and every result with
- * `retry > 0` as one retry. Durations are tracked for passed attempts only, so failures and timeouts do not skew
- * them, and include the beforeAll hooks the test depends on. `setupSum` is the beforeAll + beforeEach part of the
- * durations. `detail` describes this single run (outcome, retries, duration and every attempt) for the per-run view.
- */
+const durationIncludingBeforeAll = (attempt) => (attempt.duration || 0) + (attempt.beforeAll || 0);
+const setupDuration = (attempt) => (attempt.beforeAll || 0) + (attempt.beforeEach || 0);
+
 function testMetrics({ suite, file, title, path: filePath, line, outcome, results }) {
-  const executed = results.filter((result) => result.status !== 'skipped');
-  if (outcome === 'skipped' || executed.length === 0) {
+  const executedAttempts = results.filter((result) => result.status !== 'skipped');
+  if (outcome === 'skipped' || executedAttempts.length === 0) {
     return null;
   }
+  const passedAttempts = executedAttempts.filter(({ status }) => status === 'passed');
   const entry = emptyTestMetrics({ key: `${suite} › ${file} › ${title}`, suite, file, title, path: filePath, line });
   entry.runs = 1;
-  entry.retries = executed.filter((result) => result.retry > 0).length;
+  entry.retries = executedAttempts.filter((attempt) => attempt.retry > 0).length;
   entry.flakyRuns = outcome === 'flaky' ? 1 : 0;
   entry.failures = outcome === 'unexpected' ? 1 : 0;
-  const attemptDuration = (result) => (result.duration || 0) + (result.beforeAll || 0);
-  const attemptSetup = (result) => (result.beforeAll || 0) + (result.beforeEach || 0);
-  for (const result of executed.filter(({ status }) => status === 'passed')) {
-    const duration = attemptDuration(result);
+  for (const attempt of passedAttempts) {
+    const duration = durationIncludingBeforeAll(attempt);
     entry.durationSum += duration;
     entry.durationCount += 1;
     entry.durationMax = Math.max(entry.durationMax, duration);
-    entry.setupSum += attemptSetup(result);
+    entry.setupSum += setupDuration(attempt);
   }
-  const passed = executed.find(({ status }) => status === 'passed');
+  const firstPassedAttempt = passedAttempts[0];
   entry.detail = {
     outcome,
     retries: entry.retries,
-    duration: passed ? attemptDuration(passed) : null,
-    setup: passed ? attemptSetup(passed) : null,
-    attempts: executed.map((result) => ({
-      status: result.status,
-      duration: attemptDuration(result),
-      ...(result.error ? { error: result.error } : {})
+    duration: firstPassedAttempt ? durationIncludingBeforeAll(firstPassedAttempt) : null,
+    setup: firstPassedAttempt ? setupDuration(firstPassedAttempt) : null,
+    attempts: executedAttempts.map((attempt) => ({
+      status: attempt.status,
+      duration: durationIncludingBeforeAll(attempt),
+      ...(attempt.error ? { error: attempt.error } : {})
     }))
   };
   return entry;
 }
 
-/**
- * Convert one suite attempt report written by the e2e-metrics reporter into per-test metrics. Other formats (e.g. a
- * plain Playwright JSON report) are rejected: they lack beforeAll hook timings and name test files differently, so
- * mixing them in would split every test into two entries, one of them without durations.
- */
 function extractTestMetrics(report, fallbackSuite) {
-  if (report.format !== METRICS_REPORT_FORMAT) {
-    throw new Error(`not an ${METRICS_REPORT_FORMAT} report`);
+  if (report.format !== E2E_METRICS_REPORTER_FORMAT) {
+    throw new Error(`not an ${E2E_METRICS_REPORTER_FORMAT} report`);
   }
   const metrics = report.tests.map((test) =>
     testMetrics({
@@ -228,7 +207,6 @@ function extractTestMetrics(report, fallbackSuite) {
   return metrics.filter(Boolean);
 }
 
-/** Merge lists of test metrics by test key. */
 function mergeTests(lists) {
   const byKey = new Map();
   for (const list of lists) {
@@ -244,21 +222,21 @@ function mergeTests(lists) {
 
 const isFlaky = (test) => test.retries > 0 || test.failures > 0;
 
-/**
- * Compares the flaky tests of a period with the previous period of the same length (the dashboard applies the same rules):
- *  - recently flaky: flaky in this period, but not in the previous one (including tests that did not run then),
- *  - fixed: flaky in the previous period, and ran at least FIXED_MIN_RUNS times in this one without any retry.
- * Returns null when the previous period has no data, as nothing can be compared.
- */
 function compareFlaky(tests, previousTests) {
-  if (!previousTests.length) {
+  const hasPreviousPeriodData = previousTests.length > 0;
+  if (!hasPreviousPeriodData) {
     return null;
   }
-  const previous = new Map(previousTests.map((test) => [test.key, test]));
-  const current = new Map(tests.map((test) => [test.key, test]));
+  const previousByKey = new Map(previousTests.map((test) => [test.key, test]));
+  const currentByKey = new Map(tests.map((test) => [test.key, test]));
+  const wasFlakyInPreviousPeriod = (test) => previousByKey.has(test.key) && isFlaky(previousByKey.get(test.key));
+  const ranCleanEnoughInCurrentPeriod = (test) => {
+    const current = currentByKey.get(test.key);
+    return current?.runs >= MIN_CLEAN_RUNS_TO_COUNT_AS_FIXED && !isFlaky(current);
+  };
   return {
-    recentlyFlaky: tests.filter((test) => isFlaky(test) && !(previous.has(test.key) && isFlaky(previous.get(test.key)))),
-    fixed: previousTests.filter((test) => isFlaky(test) && current.get(test.key)?.runs >= FIXED_MIN_RUNS && !isFlaky(current.get(test.key)))
+    recentlyFlaky: tests.filter((test) => isFlaky(test) && !wasFlakyInPreviousPeriod(test)),
+    fixed: previousTests.filter((test) => isFlaky(test) && ranCleanEnoughInCurrentPeriod(test))
   };
 }
 
@@ -275,7 +253,6 @@ function formatDuration(ms) {
   if (totalSeconds < 60) {
     return `${totalSeconds.toFixed(1)}s`;
   }
-  // Round to whole seconds before splitting, so 119.6s becomes 2m 00s and not 1m 60s.
   const wholeSeconds = Math.round(ms / 1000);
   return `${Math.floor(wholeSeconds / 60)}m ${String(wholeSeconds % 60).padStart(2, '0')}s`;
 }
@@ -285,13 +262,14 @@ function runUrl() {
   return GITHUB_SERVER_URL && GITHUB_REPOSITORY && GITHUB_RUN_ID ? `${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}` : null;
 }
 
-/** GitHub Pages URL of the E2E dashboard: DASHBOARD_URL, or the default project site of the repository. */
-function dashboardUrl() {
-  if (process.env.DASHBOARD_URL) {
-    return process.env.DASHBOARD_URL.replace(/\/?$/, '/');
-  }
+function defaultGithubPagesUrl() {
   const [owner, repo] = (process.env.GITHUB_REPOSITORY || '').split('/');
   return owner && repo ? `https://${owner.toLowerCase()}.github.io/${repo}/` : null;
+}
+
+function dashboardUrl() {
+  const withTrailingSlash = (url) => url.replace(/\/?$/, '/');
+  return process.env.DASHBOARD_URL ? withTrailingSlash(process.env.DASHBOARD_URL) : defaultGithubPagesUrl();
 }
 
 function readDailyFile(file) {
@@ -302,39 +280,40 @@ function readDailyFile(file) {
   return data;
 }
 
-async function downloadDaily(github, date, workDir) {
+async function downloadLatestDaily(github, date, workDir) {
   const name = `${DAILY_ARTIFACT_PREFIX}${date}`;
+  const newestFirst = (a, b) => b.created_at.localeCompare(a.created_at);
   const artifacts = (await github.paginate(`/actions/artifacts?name=${encodeURIComponent(name)}`, 'artifacts'))
     .filter((artifact) => !artifact.expired)
-    .sort((a, b) => b.created_at.localeCompare(a.created_at));
+    .sort(newestFirst);
   if (artifacts.length === 0) {
     return null;
   }
   const targetDir = path.join(workDir, name);
-  await github.downloadArtifact(artifacts[0].id, targetDir);
+  await github.downloadAndExtractArtifact(artifacts[0].id, targetDir);
   const file = fs.readdirSync(targetDir).find((entry) => entry.endsWith('.json'));
   return file ? readDailyFile(path.join(targetDir, file)) : null;
 }
 
-/**
- * Load the daily metrics of `dates` (null for days without data). Files `<date>.json` in DAILY_DIR take precedence;
- * other days are downloaded from `e2e-metrics-daily-<date>` artifacts unless REMOTE_DATA is `false` or GITHUB_TOKEN is not set.
- */
-async function loadDailies(dates) {
-  const dailyDir = process.env.DAILY_DIR;
-  const remote = process.env.REMOTE_DATA !== 'false' && !!process.env.GITHUB_TOKEN;
-  const github = remote
+function createDailyArtifactsClient() {
+  const remoteDataAllowed = process.env.REMOTE_DATA !== 'false' && !!process.env.GITHUB_TOKEN;
+  return remoteDataAllowed
     ? createGithubClient({ token: process.env.GITHUB_TOKEN, repository: requireEnv('GITHUB_REPOSITORY'), apiUrl: process.env.GITHUB_API_URL })
     : null;
+}
+
+async function loadDailies(dates) {
+  const localDailyFile = (date) => (process.env.DAILY_DIR ? path.join(process.env.DAILY_DIR, `${date}.json`) : null);
+  const github = createDailyArtifactsClient();
   const workDir = fs.mkdtempSync(path.join(os.tmpdir(), 'e2e-metrics-dailies-'));
   try {
     const dailies = [];
     for (const date of dates) {
-      const localFile = dailyDir ? path.join(dailyDir, `${date}.json`) : null;
+      const localFile = localDailyFile(date);
       if (localFile && fs.existsSync(localFile)) {
         dailies.push(readDailyFile(localFile));
       } else {
-        dailies.push(github ? await downloadDaily(github, date, workDir) : null);
+        dailies.push(github ? await downloadLatestDaily(github, date, workDir) : null);
       }
     }
     return dailies;
@@ -343,8 +322,7 @@ async function loadDailies(dates) {
   }
 }
 
-/** The `days` consecutive dates ending with `endDate`. */
-function dateRange(endDate, days) {
+function datesEndingOn(endDate, days) {
   return Array.from({ length: days }, (_, index) => shiftDate(endDate, index - days + 1));
 }
 
@@ -384,14 +362,14 @@ module.exports = {
   extractTestMetrics,
   mergeTests,
   compareFlaky,
-  FIXED_MIN_RUNS,
+  MIN_CLEAN_RUNS_TO_COUNT_AS_FIXED,
   averageDuration,
   averageSetup,
   formatDuration,
   runUrl,
   dashboardUrl,
   loadDailies,
-  dateRange,
+  datesEndingOn,
   postToTeams,
   writeJson
 };

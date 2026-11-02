@@ -1,18 +1,7 @@
 name: "Populate E2E reports"
 run-name: ${{ (inputs.send-report || github.event_name == 'push') && 'Populate E2E reports + publish report' || 'Populate E2E reports' }}
 
-# Runs the E2E suites (chrome) against a locally deployed ACS, the same way as the daily chrome cron run and pull
-# requests, and uploads per-test metrics counted by the E2E metrics report (see e2e-metrics-report.yml).
-# Only runs on develop are counted in the daily/weekly reports.
-# Optionally updates the E2E dashboard (GitHub Pages) with today's runs and sends a short report covering the last
-# `report-days` days to Teams. Runs outside develop only report that branch's runs of the last 14 days and do not deploy the
-# dashboard; a preview is uploaded as the `e2e-dashboard` artifact instead.
-
 on:
-  # Temporary, to test this workflow before it is merged (workflow_dispatch only works once it is on develop).
-  # Every push to the branch starts a run, so an empty commit (`git commit --allow-empty`) adds another run.
-  # Add `[report-only]` to the commit message to skip the E2E run and only rebuild the report/dashboard.
-  # Remove before merging ACS-13218.
   push:
     branches:
       - ACS-13218-improve-reports-teams
@@ -72,13 +61,10 @@ jobs:
     with:
       collect-today: true
       include-run-id: ${{ github.run_id }}
-      # Branches have no daily artifacts, so their runs of the whole report window are collected live.
       collect-days: ${{ github.ref_name == 'develop' && 1 || 14 }}
       source-branch: ${{ github.ref_name }}
-      # Only develop data is deployed; other branches get a dashboard preview artifact (e2e-dashboard) instead.
       deploy-dashboard: ${{ github.ref_name == 'develop' }}
       send-report: true
-      # Branch reports only contain that branch's runs, the develop history is not mixed in.
       report-days: ${{ inputs.report-days || 14 }}
       report-title: ${{ github.ref_name != 'develop' && format('ACA E2E report - {0} (branch test)', github.ref_name) || '' }}
     secrets:

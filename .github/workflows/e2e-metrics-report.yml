@@ -1,13 +1,9 @@
 name: "E2E metrics report"
 run-name: ${{ github.event_name == 'workflow_dispatch' && 'Manual E2E metrics collection' || 'Daily E2E metrics collection' }}
 
-# Every day: collects the per-test metrics uploaded by the previous day's E2E runs on develop (daily chrome cron,
-# populate E2E reports) into an `e2e-metrics-daily-<date>` artifact and deploys the E2E dashboard to GitHub Pages.
-# Every Monday: also posts a short weekly summary with a link to the dashboard to Teams.
-
 on:
   schedule:
-    - cron: '0 4 * * *' # At 04:00 UTC every day.
+    - cron: '0 4 * * *'
   workflow_dispatch:
     inputs:
       date:
@@ -78,7 +74,6 @@ jobs:
         with:
           name: e2e-metrics-daily-${{ steps.params.outputs.date }}
           path: e2e-metrics-daily/${{ steps.params.outputs.date }}.json
-          # Covers the 14-day report window; the dashboard keeps the same 14 days of history.
           retention-days: 14
           overwrite: true
 

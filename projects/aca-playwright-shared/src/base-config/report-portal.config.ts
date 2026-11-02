@@ -67,7 +67,6 @@ export const getReporter = (): ReporterDescription[] => {
     reporters.push(['blob', { outputDir: env.PLAYWRIGHT_BLOB_DIR || 'blob-report' }]);
   }
 
-  // Per-test retries and durations (including beforeAll/beforeEach hooks), gathered by the E2E metrics report.
   if (env.E2E_METRICS_FILE) {
     reporters.push([require.resolve('./e2e-metrics.reporter'), { outputFile: env.E2E_METRICS_FILE }]);
   }

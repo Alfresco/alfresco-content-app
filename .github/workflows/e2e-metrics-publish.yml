@@ -1,9 +1,5 @@
 name: "E2E metrics publish (Reusable)"
 
-# Builds the E2E dashboard (GitHub Pages) and the E2E report from the daily metrics, deploys the dashboard and
-# notifies Teams with a short summary linking to it.
-# Callers must grant `actions: read`, `contents: read`, `pages: write` and `id-token: write`.
-
 on:
   workflow_call:
     inputs:
@@ -63,10 +59,8 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       SOURCE_BRANCH: ${{ inputs.source-branch }}
-      # Develop data comes from the published dashboard and the daily artifacts, other branches only use their own runs.
       REMOTE_DATA: ${{ inputs.source-branch == 'develop' }}
       DASHBOARD_URL: ${{ vars.E2E_DASHBOARD_URL }}
-      # Optional override of where test case ids (XAT-1234) link to; {id} is replaced.
       TEST_CASE_URL: ${{ vars.E2E_TEST_CASE_URL }}
     steps:
       - name: Checkout
@@ -96,8 +90,6 @@ jobs:
           fi
           echo "end-date=$end_date" >> "$GITHUB_OUTPUT"
 
-      # The nightly collection only covers previous days of develop, so the end day's runs (including this one) and,
-      # for branches, the earlier days of the report window are collected here.
       - name: Collect metrics
         if: ${{ inputs.collect-today }}
         env:
@@ -107,7 +99,6 @@ jobs:
         run: |
           for offset in $(seq $(( ${COLLECT_DAYS:-1} - 1 )) -1 0); do
             date="$(date -u -d "$END_DATE - $offset day" +%F)"
-            # The in-progress run belongs to the end day only.
             include_run_id=""
             if [ "$date" = "$END_DATE" ]; then include_run_id="$RUN_ID"; fi
             METRICS_DATE="$date" INCLUDE_RUN_ID="$include_run_id" OUTPUT_FILE="e2e-metrics-daily/$date.json" \
@@ -131,7 +122,6 @@ jobs:
           OUTPUT_DIR: e2e-metrics-weekly
         run: node .github/scripts/e2e-metrics/weekly-report.js
 
-      # Develop has the live dashboard, so the preview is only uploaded for other branches.
       - name: Upload dashboard preview
         if: ${{ !(inputs.deploy-dashboard && inputs.source-branch == 'develop') }}
         uses: actions/upload-artifact@v7
