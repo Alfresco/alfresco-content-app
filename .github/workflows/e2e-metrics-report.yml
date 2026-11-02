@@ -74,13 +74,16 @@ jobs:
         with:
           name: e2e-metrics-daily-${{ steps.params.outputs.date }}
           path: e2e-metrics-daily/${{ steps.params.outputs.date }}.json
-          retention-days: 14
+          retention-days: 28
           overwrite: true
 
   publish:
     name: "Publish dashboard and report"
     needs: collect
     if: ${{ !cancelled() && needs.collect.result == 'success' }}
+    concurrency:
+      group: e2e-metrics-publish-${{ github.ref_name }}
+      cancel-in-progress: false
     permissions:
       actions: read
       contents: read

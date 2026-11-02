@@ -24,10 +24,10 @@
 
 'use strict';
 
-const fs = require('fs');
-const os = require('os');
-const path = require('path');
-const { execFileSync } = require('child_process');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+const { execFileSync } = require('node:child_process');
 
 const PAGE_SIZE = 100;
 const MAX_REQUEST_ATTEMPTS = 4;
@@ -65,6 +65,10 @@ function retryWaitMs(response, attempt) {
   return backoffMs(attempt);
 }
 
+function mapOneAtATime(items, mapItem) {
+  return items.reduce((previous, item) => previous.then(async (results) => [...results, await mapItem(item)]), Promise.resolve([]));
+}
+
 function requireEnv(name) {
   const value = process.env[name];
   if (!value) {
@@ -80,47 +84,40 @@ function createGithubClient({ token, repository, apiUrl = 'https://api.github.co
     'X-GitHub-Api-Version': '2022-11-28'
   };
 
-  async function request(urlPath) {
+  async function request(urlPath, attempt = 1) {
     const url = `${apiUrl}/repos/${repository}${urlPath}`;
-    for (let attempt = 1; ; attempt++) {
-      const isLastAttempt = attempt === MAX_REQUEST_ATTEMPTS;
-      let response;
-      try {
-        response = await fetch(url, { headers });
-      } catch (error) {
-        if (isLastAttempt) {
-          throw new GithubApiError(`GitHub API ${urlPath}: network error after ${attempt} attempts (${error.message})`, { status: null, urlPath });
-        }
-        await sleep(backoffMs(attempt));
-        continue;
+    const isLastAttempt = attempt === MAX_REQUEST_ATTEMPTS;
+    let response;
+    try {
+      response = await fetch(url, { headers });
+    } catch (error) {
+      if (isLastAttempt) {
+        throw new GithubApiError(`GitHub API ${urlPath}: network error after ${attempt} attempts (${error.message})`, { status: null, urlPath });
       }
-      if (response.ok) {
-        return response;
-      }
-      const waitMs = retryWaitMs(response, attempt);
-      if (isRetryable(response) && !isLastAttempt && waitMs <= MAX_RETRY_WAIT_MS) {
-        await sleep(waitMs);
-        continue;
-      }
-      const body = (await response.text()).slice(0, MAX_ERROR_BODY_LENGTH);
-      throw new GithubApiError(`GitHub API ${urlPath} returned HTTP ${response.status} after ${attempt} attempt(s): ${body}`, {
-        status: response.status,
-        urlPath
-      });
+      await sleep(backoffMs(attempt));
+      return request(urlPath, attempt + 1);
     }
+    if (response.ok) {
+      return response;
+    }
+    const waitMs = retryWaitMs(response, attempt);
+    if (isRetryable(response) && !isLastAttempt && waitMs <= MAX_RETRY_WAIT_MS) {
+      await sleep(waitMs);
+      return request(urlPath, attempt + 1);
+    }
+    const body = (await response.text()).slice(0, MAX_ERROR_BODY_LENGTH);
+    throw new GithubApiError(`GitHub API ${urlPath} returned HTTP ${response.status} after ${attempt} attempt(s): ${body}`, {
+      status: response.status,
+      urlPath
+    });
   }
 
-  async function paginate(urlPath, itemsKey) {
-    const items = [];
+  async function paginate(urlPath, itemsKey, page = 1) {
     const separator = urlPath.includes('?') ? '&' : '?';
-    for (let page = 1; ; page++) {
-      const body = await (await request(`${urlPath}${separator}per_page=${PAGE_SIZE}&page=${page}`)).json();
-      const pageItems = body[itemsKey] || [];
-      items.push(...pageItems);
-      if (pageItems.length < PAGE_SIZE) {
-        return items;
-      }
-    }
+    const body = await (await request(`${urlPath}${separator}per_page=${PAGE_SIZE}&page=${page}`)).json();
+    const pageItems = body[itemsKey] || [];
+    const isLastPage = pageItems.length < PAGE_SIZE;
+    return isLastPage ? pageItems : [...pageItems, ...(await paginate(urlPath, itemsKey, page + 1))];
   }
 
   async function downloadAndExtractArtifact(artifactId, targetDir) {
@@ -158,6 +155,7 @@ function dashboardUrl() {
 }
 
 module.exports = {
+  mapOneAtATime,
   requireEnv,
   createGithubClient,
   runUrl,

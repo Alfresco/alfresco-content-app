@@ -24,10 +24,10 @@
 
 'use strict';
 
-const fs = require('fs');
-const os = require('os');
-const path = require('path');
-const { requireEnv, createGithubClient } = require('./github-api');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+const { mapOneAtATime, requireEnv, createGithubClient } = require('./github-api');
 const { assertDate, yesterdayUtc } = require('./dates');
 const { SCHEMA_VERSION, writeJson } = require('./daily-metrics');
 const { parseRunArtifactName, isE2eMetricsReport, extractTestMetrics, mergeTests } = require('./test-metrics');
@@ -149,25 +149,31 @@ async function listRunArtifacts(github, run, issueLog) {
   }
 }
 
+async function collectArtifact(github, run, artifact, workDir, issueLog) {
+  const { browser, suite } = parseRunArtifactName(artifact.name);
+  const artifactDir = path.join(workDir, String(run.id), artifact.name);
+  const issueContext = { runId: run.id, runUrl: run.html_url, artifact: artifact.name };
+  try {
+    await github.downloadAndExtractArtifact(artifact.id, artifactDir);
+    const metrics = readArtifactMetrics(artifactDir, suite, (file, error) =>
+      issueLog.add({ ...issueContext, operation: 'read-report', effect: `Results of suite ${suite} (${file}) in run ${run.id} are missing`, error })
+    );
+    return { artifactKey: `${browser}-${suite}`, metrics };
+  } catch (error) {
+    issueLog.add({ ...issueContext, operation: 'download-artifact', effect: `Results of suite ${suite} in run ${run.id} are missing`, error });
+    return null;
+  }
+}
+
 async function collectRun(github, run, workDir, issueLog) {
   const artifacts = await listRunArtifacts(github, run, issueLog);
-  const metrics = [];
-  const metricSuitesByArtifact = new Map();
-  for (const artifact of artifacts) {
-    const { browser, suite } = parseRunArtifactName(artifact.name);
-    const artifactDir = path.join(workDir, String(run.id), artifact.name);
-    const issueContext = { runId: run.id, runUrl: run.html_url, artifact: artifact.name };
-    try {
-      await github.downloadAndExtractArtifact(artifact.id, artifactDir);
-      const artifactMetrics = readArtifactMetrics(artifactDir, suite, (file, error) =>
-        issueLog.add({ ...issueContext, operation: 'read-report', effect: `Results of suite ${suite} (${file}) in run ${run.id} are missing`, error })
-      );
-      metrics.push(...artifactMetrics);
-      metricSuitesByArtifact.set(`${browser}-${suite}`, new Set(artifactMetrics.map((metric) => metric.suite)));
-    } catch (error) {
-      issueLog.add({ ...issueContext, operation: 'download-artifact', effect: `Results of suite ${suite} in run ${run.id} are missing`, error });
-    }
-  }
+  const collectedArtifacts = (await mapOneAtATime(artifacts, (artifact) => collectArtifact(github, run, artifact, workDir, issueLog))).filter(
+    Boolean
+  );
+  const metrics = collectedArtifacts.flatMap((collected) => collected.metrics);
+  const metricSuitesByArtifact = new Map(
+    collectedArtifacts.map(({ artifactKey, metrics: artifactMetrics }) => [artifactKey, new Set(artifactMetrics.map((metric) => metric.suite))])
+  );
   const hasTestResults = metricSuitesByArtifact.size > 0;
   const runFailed = FAILED_CONCLUSIONS.has(run.conclusion);
   const runJobs = hasTestResults || runFailed ? await listLatestAttemptJobs(github, run, issueLog) : null;
@@ -179,6 +185,15 @@ async function collectRun(github, run, workDir, issueLog) {
     suites: runJobs ? jobTimingByMetricSuite(runJobs, metricSuitesByArtifact) : {},
     failure: runJobs && FAILED_CONCLUSIONS.has(conclusion) ? failureCauses(runJobs, metricSuitesByArtifact) : []
   };
+}
+
+async function collectRunOrRecordIssue(github, run, workflow, workDir, issueLog) {
+  try {
+    return await collectRun(github, run, workDir, issueLog);
+  } catch (error) {
+    issueLog.add({ operation: 'collect-run', runId: run.id, runUrl: run.html_url, workflow, effect: `Results of run ${run.id} are missing`, error });
+    return null;
+  }
 }
 
 function toRunSummary(run, workflow, { artifactCount, conclusion, suites, failure }) {
@@ -204,34 +219,46 @@ function toRunSummary(run, workflow, { artifactCount, conclusion, suites, failur
   return summary;
 }
 
-async function listRuns(github, { sourceWorkflows, date, branch, includeRunId }, issueLog) {
-  const runs = [];
-  for (const workflow of sourceWorkflows) {
-    try {
-      const workflowRuns = await github.paginate(
-        `/actions/workflows/${encodeURIComponent(workflow)}/runs?status=completed&branch=${encodeURIComponent(branch)}&created=${date}`,
-        'workflow_runs'
-      );
-      runs.push(...workflowRuns.map((run) => ({ run, workflow })));
-    } catch (error) {
-      if (error.status === 404) {
-        console.warn(`Workflow ${workflow} not found (not on the default branch and never run), skipping.`);
-      } else {
-        issueLog.add({ operation: 'list-runs', workflow, effect: `Runs of ${workflow} are missing`, error });
-      }
+async function listWorkflowRuns(github, workflow, { date, branch }, issueLog) {
+  try {
+    const workflowRuns = await github.paginate(
+      `/actions/workflows/${encodeURIComponent(workflow)}/runs?status=completed&branch=${encodeURIComponent(branch)}&created=${date}`,
+      'workflow_runs'
+    );
+    return workflowRuns.map((run) => ({ run, workflow }));
+  } catch (error) {
+    if (error.status === 404) {
+      console.warn(`Workflow ${workflow} not found (not on the default branch and never run), skipping.`);
+    } else {
+      issueLog.add({ operation: 'list-runs', workflow, effect: `Runs of ${workflow} are missing`, error });
     }
+    return [];
   }
+}
 
+async function getIncludedRun(github, { includeRunId, branch, date }, issueLog) {
+  try {
+    const run = await github.getJson(`/actions/runs/${encodeURIComponent(includeRunId)}`);
+    const createdOn = run.created_at?.slice(0, 10);
+    if (run.head_branch !== branch) {
+      console.warn(`Run ${includeRunId} is on branch "${run.head_branch}", only "${branch}" runs are counted.`);
+    } else if (createdOn !== date) {
+      console.warn(`Run ${includeRunId} started on ${createdOn}, so it is collected with that day, not ${date}.`);
+    } else {
+      return { run, workflow: path.basename(run.path || run.name) };
+    }
+  } catch (error) {
+    issueLog.add({ operation: 'get-run', runId: Number(includeRunId), effect: `Results of the current run ${includeRunId} are missing`, error });
+  }
+  return null;
+}
+
+async function listRuns(github, { sourceWorkflows, date, branch, includeRunId }, issueLog) {
+  const runs = (await mapOneAtATime(sourceWorkflows, (workflow) => listWorkflowRuns(github, workflow, { date, branch }, issueLog))).flat();
   if (includeRunId && !runs.some(({ run }) => String(run.id) === includeRunId)) {
-    try {
-      const run = await github.getJson(`/actions/runs/${encodeURIComponent(includeRunId)}`);
-      if (run.head_branch === branch) {
-        runs.push({ run, workflow: path.basename(run.path || run.name) });
-      } else {
-        console.warn(`Run ${includeRunId} is on branch "${run.head_branch}", only "${branch}" runs are counted.`);
-      }
-    } catch (error) {
-      issueLog.add({ operation: 'get-run', runId: Number(includeRunId), effect: `Results of the current run ${includeRunId} are missing`, error });
+    const includedRun = await getIncludedRun(github, { includeRunId, branch, date }, issueLog);
+    if (includedRun) {
+      runs.push(includedRun);
     }
   }
   return runs;
@@ -255,20 +282,12 @@ async function main() {
   const perRunTestResults = [];
   const issueLog = createDataIssueLog('collect', { date });
   try {
-    for (const { run, workflow } of await listRuns(github, { sourceWorkflows, date, branch, includeRunId }, issueLog)) {
-      let collected;
-      try {
-        collected = await collectRun(github, run, workDir, issueLog);
-      } catch (error) {
-        issueLog.add({
-          operation: 'collect-run',
-          runId: run.id,
-          runUrl: run.html_url,
-          workflow,
-          effect: `Results of run ${run.id} are missing`,
-          error
-        });
-        continue;
+    const listedRuns = await listRuns(github, { sourceWorkflows, date, branch, includeRunId }, issueLog);
+    const collectedRuns = await mapOneAtATime(listedRuns, ({ run, workflow }) => collectRunOrRecordIssue(github, run, workflow, workDir, issueLog));
+    listedRuns.forEach(({ run, workflow }, index) => {
+      const collected = collectedRuns[index];
+      if (!collected) {
+        return;
       }
       const { artifactCount, metrics } = collected;
       console.log(`${workflow} run ${run.id} (${run.display_title}): ${artifactCount} metrics artifact(s), ${metrics.length} test run(s)`);
@@ -280,7 +299,7 @@ async function main() {
         perRunMetrics.push(metrics);
         perRunTestResults.push(...metrics.map(({ key, suiteAttempt, detail }) => ({ key, runId: run.id, suiteAttempt, ...detail })));
       }
-    }
+    });
   } finally {
     fs.rmSync(workDir, { recursive: true, force: true });
   }

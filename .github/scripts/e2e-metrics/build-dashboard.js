@@ -24,8 +24,8 @@
 
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 const { dashboardUrl } = require('./github-api');
 const { assertDate, shiftDate, yesterdayUtc, datesEndingOn } = require('./dates');
 const { SCHEMA_VERSION, loadDailies } = require('./daily-metrics');
@@ -35,7 +35,7 @@ const TEMPLATE = path.join(__dirname, 'dashboard', 'index.html');
 const LONGEST_REPORT_DAYS = 14;
 const DEFAULT_HISTORY_DAYS = 2 * LONGEST_REPORT_DAYS;
 const DEFAULT_DETAIL_DAYS = LONGEST_REPORT_DAYS;
-const DAILY_ARTIFACT_RETENTION_DAYS = 14;
+const DAILY_ARTIFACT_RETENTION_DAYS = 28;
 const DEFAULT_TEST_CASE_URL = 'https://hyland.atlassian.net/browse/{id}';
 const COMPACT_TEST_METRIC_FIELDS = ['runs', 'retries', 'flakyRuns', 'failures', 'durationSum', 'durationCount', 'durationMax', 'setupSum'];
 const COMPACT_SUITE_JOB_FIELDS = ['job', 'step', 'setup', 'tests', 'total'];
@@ -183,6 +183,12 @@ function compactHistory(days, meta, detailFrom) {
   return { schemaVersion: SCHEMA_VERSION, ...meta, tests: catalog, days: compactDays };
 }
 
+function isIncompleteRefreshOfPublishedDay(refreshed, published) {
+  const refreshHasProblems = Boolean(refreshed.issues?.length);
+  const publishedKnowsAtLeastAsManyRuns = Boolean(published) && published.runs.length >= refreshed.runs.length;
+  return refreshHasProblems && publishedKnowsAtLeastAsManyRuns;
+}
+
 async function main() {
   const endDate = assertDate(process.env.END_DATE || yesterdayUtc(), 'END_DATE');
   const historyDays = Number(process.env.HISTORY_DAYS) || DEFAULT_HISTORY_DAYS;
@@ -197,9 +203,26 @@ async function main() {
   const refreshDates = datesEndingOn(endDate, DAILY_ARTIFACT_RETENTION_DAYS);
   const loadIssueLog = createDataIssueLog('load');
   const dailies = await loadDailies(refreshDates, loadIssueLog);
-  dailies.forEach((daily, index) => daily && days.set(refreshDates[index], daily));
+  dailies.forEach((daily, index) => {
+    const date = refreshDates[index];
+    if (!daily) {
+      return;
+    }
+    if (isIncompleteRefreshOfPublishedDay(daily, days.get(date))) {
+      loadIssueLog.add({
+        operation: 'refresh-incomplete',
+        date,
+        effect: `The latest collection of this day had ${daily.issues.length} data problem(s) and found no more runs than before, so the previously published data is kept`,
+        error: daily.issues[0].message
+      });
+      return;
+    }
+    days.set(date, daily);
+  });
   const loadIssues = loadIssueLog.issues.map((issue) =>
-    days.has(issue.date) ? { ...issue, effect: `${issue.effect}, the previously published data for that day is shown` } : issue
+    issue.operation === 'load-daily' && days.has(issue.date)
+      ? { ...issue, effect: `${issue.effect}, the previously published data for that day is shown` }
+      : issue
   );
   appendIssuesToStepSummary(loadIssues, 'E2E dashboard data problems');
 

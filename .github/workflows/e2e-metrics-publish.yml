@@ -76,9 +76,12 @@ jobs:
         env:
           INPUT_END_DATE: ${{ inputs.end-date }}
           COLLECT_TODAY: ${{ inputs.collect-today }}
+          INCLUDE_RUN_ID: ${{ inputs.include-run-id }}
         run: |
           if [ -n "$INPUT_END_DATE" ]; then
             end_date="$INPUT_END_DATE"
+          elif [ "$COLLECT_TODAY" = "true" ] && [ -n "$INCLUDE_RUN_ID" ]; then
+            end_date="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${INCLUDE_RUN_ID}" --jq '.created_at[0:10]' || date -u +%F)"
           elif [ "$COLLECT_TODAY" = "true" ]; then
             end_date="$(date -u +%F)"
           else

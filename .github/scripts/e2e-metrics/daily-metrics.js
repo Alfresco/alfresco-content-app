@@ -24,10 +24,10 @@
 
 'use strict';
 
-const fs = require('fs');
-const os = require('os');
-const path = require('path');
-const { createGithubClient, requireEnv } = require('./github-api');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+const { createGithubClient, mapOneAtATime, requireEnv } = require('./github-api');
 
 const SCHEMA_VERSION = 1;
 const DAILY_ARTIFACT_PREFIX = 'e2e-metrics-daily-';
@@ -40,11 +40,16 @@ function readDailyFile(file) {
   return data;
 }
 
+const isFromTrustedRun = (artifact) => {
+  const run = artifact.workflow_run;
+  return run?.head_branch === (process.env.SOURCE_BRANCH || 'develop') && run.head_repository_id === run.repository_id;
+};
+
 async function downloadLatestDaily(github, date, workDir) {
   const name = `${DAILY_ARTIFACT_PREFIX}${date}`;
   const newestFirst = (a, b) => b.created_at.localeCompare(a.created_at);
   const artifacts = (await github.paginate(`/actions/artifacts?name=${encodeURIComponent(name)}`, 'artifacts'))
-    .filter((artifact) => !artifact.expired)
+    .filter((artifact) => !artifact.expired && isFromTrustedRun(artifact))
     .sort(newestFirst);
   if (artifacts.length === 0) {
     return null;
@@ -73,17 +78,16 @@ async function loadDailies(dates, issueLog) {
     }
     return github ? downloadLatestDaily(github, date, workDir) : null;
   };
-  try {
-    const dailies = [];
-    for (const date of dates) {
-      try {
-        dailies.push(await loadDaily(date));
-      } catch (error) {
-        issueLog.add({ operation: 'load-daily', date, effect: "The day's data could not be loaded", error });
-        dailies.push(null);
-      }
+  const loadDailyOrRecordIssue = async (date) => {
+    try {
+      return await loadDaily(date);
+    } catch (error) {
+      issueLog.add({ operation: 'load-daily', date, effect: "The day's data could not be loaded", error });
+      return null;
     }
-    return dailies;
+  };
+  try {
+    return await mapOneAtATime(dates, loadDailyOrRecordIssue);
   } finally {
     fs.rmSync(workDir, { recursive: true, force: true });
   }

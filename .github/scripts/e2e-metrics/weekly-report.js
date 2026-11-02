@@ -24,8 +24,8 @@
 
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 const { runUrl, dashboardUrl } = require('./github-api');
 const { assertDate, shiftDate, yesterdayUtc, datesEndingOn } = require('./dates');
 const { SCHEMA_VERSION, loadDailies, writeJson } = require('./daily-metrics');
@@ -116,7 +116,8 @@ function formatPeriod(report) {
 
 function describeRuns(report) {
   const parts = Object.entries(report.runsByWorkflow).map(([workflow, runs]) => `${runs} ${WORKFLOW_NAMES[workflow] || workflow}`);
-  return `${count(report.runs.length, 'workflow run')}${parts.length ? ` (${parts.join(', ')})` : ''}`;
+  const runsBreakdown = parts.length ? ` (${parts.join(', ')})` : '';
+  return `${count(report.runs.length, 'workflow run')}${runsBreakdown}`;
 }
 
 function describeTotals(report) {
@@ -157,7 +158,8 @@ function describeDataIssues(report) {
     return null;
   }
   const affectedDays = new Set(issuesInPeriod.map((issue) => issue.date).filter(Boolean)).size;
-  return `⚠️ Data incomplete: ${count(issuesInPeriod.length, 'problem')}${affectedDays ? ` on ${count(affectedDays, 'day')}` : ''}. Details in the report.`;
+  const affectedDaysText = affectedDays ? ` on ${count(affectedDays, 'day')}` : '';
+  return `⚠️ Data incomplete: ${count(issuesInPeriod.length, 'problem')}${affectedDaysText}. Details in the report.`;
 }
 
 function buildCard(report, { dashboardLink, runLink }) {
@@ -196,7 +198,16 @@ function buildCard(report, { dashboardLink, runLink }) {
 }
 
 function escapeMarkdown(text) {
-  return String(text).replace(/\|/g, '\\|').replace(/\r?\n/g, ' ');
+  return String(text)
+    .replaceAll('\\', String.raw`\\`)
+    .replaceAll('|', String.raw`\|`)
+    .replace(/\r?\n/g, ' ');
+}
+
+function markdownIssueLine(issue) {
+  const dayPrefix = issue.date ? `${formatDay(issue.date)}: ` : '';
+  const message = escapeMarkdown(issue.message).replaceAll('`', "'");
+  return `- ${dayPrefix}${escapeMarkdown(issue.effect)}. \`${message}\``;
 }
 
 function buildMarkdown(report, dashboardLink) {
@@ -218,13 +229,8 @@ function buildMarkdown(report, dashboardLink) {
       `## ⚠️ Data problems (${report.dataIssues.length})`,
       '',
       'Some data could not be collected or loaded, so the numbers below may be incomplete.',
-      ''
-    );
-    lines.push(
-      ...report.dataIssues.map(
-        (issue) =>
-          `- ${issue.date ? `${formatDay(issue.date)}: ` : ''}${escapeMarkdown(issue.effect)}. \`${escapeMarkdown(issue.message).replace(/`/g, "'")}\``
-      )
+      '',
+      ...report.dataIssues.map(markdownIssueLine)
     );
   }
 
@@ -241,17 +247,19 @@ function buildMarkdown(report, dashboardLink) {
   }
 
   if (report.comparison) {
-    const testList = (tests) => tests.map((test) => `- ${escapeMarkdown(test.title)} (${escapeMarkdown(test.suite)})`);
-    lines.push('', `## 📈 Recently flaky tests (${report.comparison.recentlyFlaky.length})`, '');
-    lines.push(...(report.comparison.recentlyFlaky.length ? testList(report.comparison.recentlyFlaky) : ['None.']));
+    const testList = (tests) => (tests.length ? tests.map((test) => `- ${escapeMarkdown(test.title)} (${escapeMarkdown(test.suite)})`) : ['None.']);
     lines.push(
+      '',
+      `## 📈 Recently flaky tests (${report.comparison.recentlyFlaky.length})`,
+      '',
+      ...testList(report.comparison.recentlyFlaky),
       '',
       `## ✅ Fixed (${report.comparison.fixed.length})`,
       '',
       `At least ${MIN_FLAKY_RUNS_BEFORE_FIX} flaky runs in the previous period, then at least ${MIN_CLEAN_RUNS_TO_COUNT_AS_FIXED} runs in this one, all without a retry.`,
-      ''
+      '',
+      ...testList(report.comparison.fixed)
     );
-    lines.push(...(report.comparison.fixed.length ? testList(report.comparison.fixed) : ['None.']));
   }
 
   lines.push(
@@ -259,14 +267,14 @@ function buildMarkdown(report, dashboardLink) {
     `## 🐢 Slowest tests (${report.slowest.length})`,
     '',
     'Average of passed attempts. Setup is the time spent in beforeAll and beforeEach hooks and is included in the average.',
-    ''
+    '',
+    '| # | Test | Suite | File | Average | Setup | Longest | Runs |',
+    '|--:|---|---|---|--:|--:|--:|--:|',
+    ...report.slowest.map(
+      (test, index) =>
+        `| ${index + 1} | ${escapeMarkdown(test.title)} | ${escapeMarkdown(test.suite)} | ${escapeMarkdown(test.file)} | ${formatDuration(test.durationAvg)} | ${formatDuration(test.setupAvg)} | ${formatDuration(test.durationMax)} | ${test.runs} |`
+    )
   );
-  lines.push('| # | Test | Suite | File | Average | Setup | Longest | Runs |', '|--:|---|---|---|--:|--:|--:|--:|');
-  report.slowest.forEach((test, index) => {
-    lines.push(
-      `| ${index + 1} | ${escapeMarkdown(test.title)} | ${escapeMarkdown(test.suite)} | ${escapeMarkdown(test.file)} | ${formatDuration(test.durationAvg)} | ${formatDuration(test.setupAvg)} | ${formatDuration(test.durationMax)} | ${test.runs} |`
-    );
-  });
 
   return `${lines.join('\n')}\n`;
 }

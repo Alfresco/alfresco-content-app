@@ -84,7 +84,7 @@
 
       .date-field { position: relative; }
       .date-button { min-width: 140px; text-align: left; }
-      .calendar { position: absolute; top: 100%; left: 0; z-index: 10; width: 272px; margin-top: 4px; padding: 12px; background: var(--page); border: 1px solid var(--rule); border-radius: 6px; box-shadow: 0 6px 20px rgb(0 0 0 / 18%); color: var(--ink); }
+      .calendar { position: absolute; inset: 100% auto auto 0; z-index: 10; width: 272px; max-width: none; margin: 4px 0 0; padding: 12px; background: var(--page); border: 1px solid var(--rule); border-radius: 6px; box-shadow: 0 6px 20px rgb(0 0 0 / 18%); color: var(--ink); }
       .calendar-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
       .calendar-head button { border: 0; background: none; font-size: 19px; line-height: 1; padding: 4px 8px; }
       .calendar-head button:disabled { color: var(--rule); cursor: default; }
@@ -132,6 +132,7 @@
       th, td { padding: 8px 12px 8px 0; border-bottom: 1px solid var(--rule); text-align: left; vertical-align: top; }
       th { font-size: 14px; font-weight: 600; color: var(--secondary); white-space: nowrap; }
       th[data-sort] { cursor: pointer; }
+      .sort-button { padding: 0; border: 0; background: none; font: inherit; color: inherit; text-align: inherit; cursor: pointer; }
       th[aria-sort='descending']::after { content: ' ▾'; }
       th[aria-sort='ascending']::after { content: ' ▴'; }
       td.rank { width: 1%; color: var(--secondary); }
@@ -237,7 +238,7 @@
         <div class="field date-field" id="date-field">
           <span id="end-label">Up to</span>
           <button type="button" class="date-button" id="end" aria-haspopup="dialog" aria-expanded="false" aria-labelledby="end-label end"></button>
-          <div class="calendar" id="calendar" role="dialog" aria-label="Choose the last day of the period" hidden></div>
+          <dialog class="calendar" id="calendar" aria-label="Choose the last day of the period"></dialog>
         </div>
         <label>Search <input type="search" id="q" placeholder="Test title, file or XAT id" /></label>
         <label>Suite <select id="suite"></select></label>
@@ -331,6 +332,14 @@
         const firstDate = metrics.days.length ? metrics.days[0].date : lastDate;
         const keptHistoryDays = metrics.historyDays || 14;
         const PERIODS = [7, 14, 30, 90].filter((days) => days <= keptHistoryDays);
+        const STATE_VALIDATORS = {
+          tab: (value) => Object.hasOwn(TAB_SORT, value),
+          days: (value) => PERIODS.map(String).includes(value),
+          end: (value) => value === '' || /^\d{4}-\d{2}-\d{2}$/.test(value),
+          sort: (value) => /^[a-z]*$/.test(value),
+          dir: (value) => value === '' || value === 'asc' || value === 'desc',
+          test: (value) => /^[0-9a-z]*$/.test(value)
+        };
         $('days').innerHTML = PERIODS.map((days) => '<option value="' + days + '">Last ' + days + ' days</option>').join('');
         const datesWithData = new Set(metrics.days.map((day) => day.date));
 
@@ -381,7 +390,7 @@
         function fnv1aHash(text) {
           let hash = 0x811c9dc5;
           for (let i = 0; i < text.length; i++) {
-            hash ^= text.charCodeAt(i);
+            hash ^= text.codePointAt(i);
             hash = Math.imul(hash, 0x01000193);
           }
           return (hash >>> 0).toString(36);
@@ -424,10 +433,10 @@
           const params = new URLSearchParams(location.hash.slice(1));
           const result = { ...DEFAULTS };
           for (const key of Object.keys(DEFAULTS)) {
-            if (params.has(key)) result[key] = params.get(key);
+            const value = params.get(key);
+            const isAllowed = STATE_VALIDATORS[key] || (() => true);
+            if (value !== null && isAllowed(value)) result[key] = value;
           }
-          const tabStillExists = Boolean(TAB_SORT[result.tab]);
-          if (!tabStillExists) result.tab = DEFAULTS.tab;
           return result;
         }
 
@@ -457,42 +466,59 @@
           return Array.from({ length: days }, (_, i) => shiftDate(end, i - days + 1));
         }
 
+        function emptyTestTotals(index) {
+          const [suite, file, title, path, line] = metrics.tests[index];
+          return { index, suite, file, title, path, line, runs: 0, retries: 0, flakyRuns: 0, failures: 0, durationSum: 0, durationCount: 0, setupSum: 0, max: 0, runResults: [], daysWithoutDetail: 0, daily: new Map() };
+        }
+
+        function worstResultOfDay({ failures, flakyRuns, retries }) {
+          if (failures) return 'f';
+          if (flakyRuns || retries) return 'r';
+          return 'p';
+        }
+
+        function addDayTotals(tests, day) {
+          for (const [index, runs, retries, flakyRuns, failures, durationSum, durationCount, durationMax, setupSum = 0] of day.tests) {
+            if (!tests.has(index)) tests.set(index, emptyTestTotals(index));
+            const test = tests.get(index);
+            test.runs += runs;
+            test.retries += retries;
+            test.flakyRuns += flakyRuns;
+            test.failures += failures;
+            test.durationSum += durationSum;
+            test.durationCount += durationCount;
+            test.setupSum += setupSum;
+            test.max = Math.max(test.max, durationMax);
+            test.daily.set(day.date, worstResultOfDay({ failures, flakyRuns, retries }));
+            if (!day.results) test.daysWithoutDetail += 1;
+          }
+        }
+
+        function addDayRunResults(tests, day) {
+          const errorText = (errorIndex) => (errorIndex == null ? null : day.errors?.[errorIndex] ?? null);
+          for (const [index, runIndex, suiteAttempt, outcome, retries, duration, setup, attempts] of day.results || []) {
+            const withErrors = attempts?.map(([status, attemptDuration, errorIndex]) => [status, attemptDuration, errorText(errorIndex)]);
+            tests.get(index)?.runResults.push({ date: day.date, run: day.runs[runIndex], suiteAttempt, outcome, retries, duration, setup, attempts: withErrors });
+          }
+        }
+
+        function finishTestTotals(test) {
+          test.avg = test.durationCount ? test.durationSum / test.durationCount : 0;
+          test.setup = test.durationCount ? test.setupSum / test.durationCount : 0;
+          test.retried = test.flakyRuns + test.failures;
+          test.rate = test.runs ? test.retried / test.runs : 0;
+          test.runsRescuedBySuiteRerun = runsRescuedBySuiteRerun(test.runResults);
+        }
+
         function aggregate(dates) {
           const inRange = new Set(dates);
           const days = metrics.days.filter((day) => inRange.has(day.date));
           const tests = new Map();
           for (const day of days) {
-            for (const [index, runs, retries, flakyRuns, failures, durationSum, durationCount, durationMax, setupSum = 0] of day.tests) {
-              let test = tests.get(index);
-              if (!test) {
-                const [suite, file, title, path, line] = metrics.tests[index];
-                test = { index, suite, file, title, path, line, runs: 0, retries: 0, flakyRuns: 0, failures: 0, durationSum: 0, durationCount: 0, setupSum: 0, max: 0, runResults: [], daysWithoutDetail: 0, daily: new Map() };
-                tests.set(index, test);
-              }
-              test.runs += runs;
-              test.retries += retries;
-              test.flakyRuns += flakyRuns;
-              test.failures += failures;
-              test.durationSum += durationSum;
-              test.durationCount += durationCount;
-              test.setupSum += setupSum;
-              test.max = Math.max(test.max, durationMax);
-              const worstResultOfDay = failures ? 'f' : flakyRuns || retries ? 'r' : 'p';
-              test.daily.set(day.date, worstResultOfDay);
-              if (!day.results) test.daysWithoutDetail += 1;
-            }
-            for (const [index, runIndex, suiteAttempt, outcome, retries, duration, setup, attempts] of day.results || []) {
-              const withErrors = attempts && attempts.map(([status, attemptDuration, errorIndex]) => [status, attemptDuration, errorIndex == null ? null : day.errors?.[errorIndex] ?? null]);
-              tests.get(index)?.runResults.push({ date: day.date, run: day.runs[runIndex], suiteAttempt, outcome, retries, duration, setup, attempts: withErrors });
-            }
+            addDayTotals(tests, day);
+            addDayRunResults(tests, day);
           }
-          for (const test of tests.values()) {
-            test.avg = test.durationCount ? test.durationSum / test.durationCount : 0;
-            test.setup = test.durationCount ? test.setupSum / test.durationCount : 0;
-            test.retried = test.flakyRuns + test.failures;
-            test.rate = test.runs ? test.retried / test.runs : 0;
-            test.runsRescuedBySuiteRerun = runsRescuedBySuiteRerun(test.runResults);
-          }
+          tests.forEach(finishTestTotals);
           return { days, tests: [...tests.values()] };
         }
 
@@ -574,7 +600,8 @@
         }
 
         function measure(value, max, text) {
-          const width = max > 0 ? Math.max((value / max) * 100, value > 0 ? 2 : 0) : 0;
+          const minimumVisibleWidth = value > 0 ? 2 : 0;
+          const width = max > 0 ? Math.max((value / max) * 100, minimumVisibleWidth) : 0;
           return '<div class="measure"><span>' + text + '</span><div class="track"><div class="fill" style="width:' + width.toFixed(1) + '%"></div></div></div>';
         }
 
@@ -755,7 +782,7 @@
         }
 
         function runColumns() {
-          const conclusionLabel = (c) => (c ? c.charAt(0).toUpperCase() + c.slice(1).replace(/_/g, ' ') : 'In progress');
+          const conclusionLabel = (c) => (c ? c.charAt(0).toUpperCase() + c.slice(1).replaceAll('_', ' ') : 'In progress');
           return [
             { key: 'date', label: 'Date', help: RUNS_HELP.date, sortValue: runTime, render: (run) => formatDate(run.date) },
             { key: 'workflow', label: 'Workflow', help: RUNS_HELP.workflow, sortValue: (run) => String(run.workflow || ''), render: (run) => esc(run.workflow) },
@@ -815,16 +842,18 @@
           const leadCell = lead === null ? '' : '<th class="num" scope="col"><span class="secondary">' + esc(lead) + '</span></th>';
           return '<tr>' + leadCell + columns
             .map((c) => {
-              const sorted = sort.key === c.key ? ' aria-sort="' + (sort.dir === 'asc' ? 'ascending' : 'descending') + '"' : '';
-              return '<th scope="col" data-sort="' + c.key + '"' + sorted + (c.num ? ' class="num"' : '') + ' title="' + esc(c.help || COLUMN_HELP[c.key]) + '">' + esc(c.label) + '</th>';
+              const sortDirection = sort.dir === 'asc' ? 'ascending' : 'descending';
+              const sorted = sort.key === c.key ? ' aria-sort="' + sortDirection + '"' : '';
+              return '<th scope="col" data-sort="' + c.key + '"' + sorted + (c.num ? ' class="num"' : '') + ' title="' + esc(c.help || COLUMN_HELP[c.key]) + '"><button type="button" class="sort-button">' + esc(c.label) + '</button></th>';
             })
             .join('') + '</tr>';
         }
 
         function runSummary(test) {
           const runs = plural(test.runs, 'run');
+          const stillFailed = test.failures ? ', ' + numberFormat.format(test.failures) + ' of which still failed' : '';
           let text = test.retried
-            ? 'Needed a retry in ' + numberFormat.format(test.retried) + ' of ' + runs + (test.failures ? ', ' + numberFormat.format(test.failures) + ' of which still failed' : '') + '.'
+            ? 'Needed a retry in ' + numberFormat.format(test.retried) + ' of ' + runs + stillFailed + '.'
             : 'Passed on the first attempt in all ' + runs + '.';
           const durations = test.runResults.map((r) => r.duration).filter((d) => d != null);
           if (durations.length) {
@@ -910,7 +939,7 @@
           const sort = sortRows(rows, columns);
           const help = legend(columns.map((c) => [c.label, COLUMN_HELP[c.key]]));
           if (!rows.length) {
-            $('panel').innerHTML = '<p class="empty">No tests match these filters. Clear the search or choose a longer period.</p>' + help;
+            $('panel').innerHTML = '<p class="empty">No tests match these filters. Clear the search or choose a longer period.</p>' + (state.tab === 'flaky' ? fixedSection() : '') + help;
             return;
           }
           if (state.tab === 'all') {
@@ -1048,12 +1077,18 @@
         }
 
         function expandAllGroups(open) {
-          let visibleGroupCountBefore;
-          do {
-            visibleGroupCountBefore = visibleGroupKeys.length;
-            visibleGroupKeys.forEach((key) => userToggledGroups.set(key, open));
+          if (!open) {
+            visibleGroupKeys.forEach((key) => userToggledGroups.set(key, false));
             render();
-          } while (open && visibleGroupKeys.length > visibleGroupCountBefore);
+            return;
+          }
+          let hiddenGroupsRemain = true;
+          while (hiddenGroupsRemain) {
+            const visibleGroupCountBefore = visibleGroupKeys.length;
+            visibleGroupKeys.forEach((key) => userToggledGroups.set(key, true));
+            render();
+            hiddenGroupsRemain = visibleGroupKeys.length > visibleGroupCountBefore;
+          }
         }
 
         function renderRuns(runs) {
@@ -1138,7 +1173,7 @@
             const disabled = date > lastDate || date < firstDate;
             const hasData = datesWithData.has(date);
             const label = formatDate(date, { weekday: 'long', year: 'numeric' }) + (hasData ? '' : ', no data');
-            cells += '<button type="button" class="day' + (hasData ? ' has-data' : '') + '" data-date="' + date + '" aria-label="' + esc(label) + '" aria-pressed="' + (date === selected) + '" tabindex="' + (date === selected ? 0 : -1) + '"' + (disabled ? ' disabled' : '') + '>' + day + '</button>';
+            cells += '<button type="button" class="day' + (hasData ? ' has-data' : '') + '" data-date="' + esc(date) + '" aria-label="' + esc(label) + '" aria-pressed="' + (date === selected) + '" tabindex="' + (date === selected ? 0 : -1) + '"' + (disabled ? ' disabled' : '') + '>' + day + '</button>';
           }
           $('calendar').innerHTML =
             '<div class="calendar-head">' +
@@ -1146,7 +1181,7 @@
             '<strong>' + esc(title) + '</strong>' +
             '<button type="button" data-month="1" aria-label="Next month"' + (calendarMonth >= lastDate.slice(0, 7) ? ' disabled' : '') + '>›</button>' +
             '</div><div class="calendar-grid" role="group" aria-label="' + esc(title) + '">' + cells + '</div>' +
-            '<div class="calendar-foot"><span>Dot: day with data</span><button type="button" class="link-button" data-date="' + lastDate + '">Latest day</button></div>';
+            '<div class="calendar-foot"><span>Dot: day with data</span><button type="button" class="link-button" data-date="' + esc(lastDate) + '">Latest day</button></div>';
         }
 
         function focusDay(date) {
@@ -1158,22 +1193,28 @@
           }
         }
 
+        function clampToDataRange(date) {
+          if (date > lastDate) return lastDate;
+          if (date < firstDate) return firstDate;
+          return date;
+        }
+
         function openCalendar() {
           calendarMonth = (state.end || lastDate).slice(0, 7);
           renderCalendar();
-          $('calendar').hidden = false;
+          $('calendar').show();
           $('end').setAttribute('aria-expanded', 'true');
           focusDay(state.end || lastDate);
         }
 
         function closeCalendar(returnFocus) {
-          if ($('calendar').hidden) return;
-          $('calendar').hidden = true;
+          if (!$('calendar').open) return;
+          $('calendar').close();
           $('end').setAttribute('aria-expanded', 'false');
           if (returnFocus) $('end').focus();
         }
 
-        $('end').addEventListener('click', () => ($('calendar').hidden ? openCalendar() : closeCalendar(false)));
+        $('end').addEventListener('click', () => ($('calendar').open ? closeCalendar(false) : openCalendar()));
         $('calendar').addEventListener('click', (e) => {
           const monthButton = e.target.closest('[data-month]');
           if (monthButton) {
@@ -1197,8 +1238,7 @@
           const step = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -7, ArrowDown: 7 }[e.key];
           if (!day || !step) return;
           e.preventDefault();
-          let next = shiftDate(day.dataset.date, step);
-          next = next > lastDate ? lastDate : next < firstDate ? firstDate : next;
+          const next = clampToDataRange(shiftDate(day.dataset.date, step));
           if (next.slice(0, 7) !== calendarMonth) {
             calendarMonth = next.slice(0, 7);
             renderCalendar();
@@ -1240,6 +1280,7 @@
             button.textContent = 'Link copied';
           } catch (error) {
             button.textContent = 'Copy failed, use the address bar';
+            button.title = error.message;
           }
         }
 
@@ -1289,6 +1330,7 @@
           if (header) {
             const current = header.getAttribute('aria-sort');
             setState({ sort: header.dataset.sort, dir: current === 'descending' ? 'asc' : 'desc' });
+            $('panel').querySelector('th[data-sort="' + header.dataset.sort + '"] .sort-button')?.focus();
             return;
           }
           const row = e.target.closest('tr.test-row');

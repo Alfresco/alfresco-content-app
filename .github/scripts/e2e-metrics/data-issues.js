@@ -24,12 +24,13 @@
 
 'use strict';
 
-const fs = require('fs');
+const fs = require('node:fs');
 
 const MAX_MESSAGE_LENGTH = 300;
 
 const errorMessage = (error) => (error instanceof Error ? error.message : String(error));
-const escapeAnnotation = (text) => text.replace(/%/g, '%25').replace(/\r/g, '%0D').replace(/\n/g, '%0A');
+const escapeAnnotation = (text) => text.replaceAll('%', '%25').replaceAll('\r', '%0D').replaceAll('\n', '%0A');
+const datePrefix = (issue) => (issue.date ? `${issue.date}: ` : '');
 
 function createDataIssueLog(stage, defaults = {}) {
   const issues = [];
@@ -45,7 +46,8 @@ function createDataIssueLog(stage, defaults = {}) {
     };
     issues.push(issue);
     if (process.env.GITHUB_ACTIONS === 'true') {
-      console.log(`::warning title=E2E metrics data problem::${escapeAnnotation(`${effect}. ${issue.message}`)}`);
+      const annotationText = escapeAnnotation(`${effect}. ${issue.message}`);
+      console.log(`::warning title=E2E metrics data problem::${annotationText}`);
     } else {
       console.warn(`Data problem: ${effect}. ${issue.message}`);
     }
@@ -62,7 +64,7 @@ function appendIssuesToStepSummary(issues, heading) {
   const lines = [
     `### ⚠️ ${heading} (${issues.length})`,
     '',
-    ...issues.map((issue) => `- ${issue.date ? `${issue.date}: ` : ''}${issue.effect}. \`${issue.message}\``),
+    ...issues.map((issue) => `- ${datePrefix(issue)}${issue.effect}. \`${issue.message}\``),
     ''
   ];
   fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${lines.join('\n')}\n`);

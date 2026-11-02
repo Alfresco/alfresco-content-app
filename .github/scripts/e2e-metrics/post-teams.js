@@ -24,7 +24,7 @@
 
 'use strict';
 
-const fs = require('fs');
+const fs = require('node:fs');
 async function postToTeams(card) {
   const webhook = process.env.TEAMS_WEBHOOK_URL;
   if (!webhook) {

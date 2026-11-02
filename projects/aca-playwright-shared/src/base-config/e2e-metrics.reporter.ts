@@ -101,20 +101,24 @@ export default class E2eMetricsReporter implements Reporter {
   onBegin(_config: FullConfig, suite: Suite): void {
     this.rootSuite = suite;
     for (const test of suite.allTests()) {
-      const beforeAll: string[] = [];
-      for (let parent: SuiteWithPrivateHooks | undefined = test.parent; parent; parent = parent.parent) {
-        for (const hook of parent._hooks ?? []) {
-          const id = hookId(hook.location);
-          if (id && (hook.type === 'beforeAll' || hook.type === 'beforeEach')) {
-            this.hookTypes.set(id, hook.type);
-            if (hook.type === 'beforeAll') {
-              beforeAll.push(id);
-            }
+      this.beforeAllHookIdsByTest.set(test, this.registerHooksAbove(test));
+    }
+  }
+
+  private registerHooksAbove(test: TestCase): string[] {
+    const beforeAllHookIds: string[] = [];
+    for (let parent: SuiteWithPrivateHooks | undefined = test.parent; parent; parent = parent.parent) {
+      for (const hook of parent._hooks ?? []) {
+        const id = hookId(hook.location);
+        if (id && (hook.type === 'beforeAll' || hook.type === 'beforeEach')) {
+          this.hookTypes.set(id, hook.type);
+          if (hook.type === 'beforeAll') {
+            beforeAllHookIds.push(id);
           }
         }
       }
-      this.beforeAllHookIdsByTest.set(test, beforeAll);
     }
+    return beforeAllHookIds;
   }
 
   onStepEnd(_test: TestCase, result: TestResult, step: TestStep): void {

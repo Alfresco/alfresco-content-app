@@ -48,6 +48,9 @@ jobs:
     name: "Publish dashboard and report"
     needs: e2e
     if: ${{ !cancelled() && inputs.send-report }}
+    concurrency:
+      group: e2e-metrics-publish-${{ github.ref_name }}
+      cancel-in-progress: false
     permissions:
       actions: read
       contents: read
