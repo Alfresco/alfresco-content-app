@@ -1,3 +1,9 @@
 {
-  "all": {}
+  "all": {
+    "XAT-4388": "https://hyland.atlassian.net/browse/MNT-25871",
+    "XAT-4396": "https://hyland.atlassian.net/browse/MNT-25871",
+    "XAT-4399": "https://hyland.atlassian.net/browse/MNT-25871",
+    "XAT-4391": "https://hyland.atlassian.net/browse/MNT-25871",
+    "XAT-19605": "https://hyland.atlassian.net/browse/MNT-25871"
+  }
 }

@@ -56,7 +56,7 @@ test.describe('Edit folder', () => {
       folderNameToEditId = (await nodesApi.createFolder(folderNameToEdit, parentId)).entry.id;
       await nodesApi.createFolder(duplicateFolderName, parentId);
     } catch (error) {
-      console.error(`beforeAll failed : ${error}`);
+      console.error(`beforeAll failed : ${Utils.extractErrorMessage(error)}`);
     }
   });
 

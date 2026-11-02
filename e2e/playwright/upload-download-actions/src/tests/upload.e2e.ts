@@ -23,11 +23,12 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi, TEST_FILES } from '@alfresco/aca-playwright-shared';
+import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi, TEST_FILES, SearchApi } from '@alfresco/aca-playwright-shared';
 
 test.describe('Upload files', () => {
   let trashcanApi: TrashcanApi;
   let nodesApi: NodesApi;
+  let searchApi: SearchApi;
 
   const random = Utils.random();
   const username = `user-${Date.now()}-${random}`;
@@ -39,6 +40,7 @@ test.describe('Upload files', () => {
     await apiClientFactory.createUser({ username });
     trashcanApi = await TrashcanApi.initialize(username, username);
     nodesApi = await NodesApi.initialize(username, username);
+    searchApi = await SearchApi.initialize(username, username);
     await nodesApi.createFolder(folder1);
   });
 
@@ -52,7 +54,7 @@ test.describe('Upload files', () => {
       await personalFiles.acaHeader.uploadFileButton.click()
     ]);
     await fileChooserWindow.setFiles(TEST_FILES.JPG_FILE.path);
-    await personalFiles.page.waitForTimeout(1500);
+    await searchApi.waitForNodes(TEST_FILES.JPG_FILE.name, { expect: 1 });
   });
 
   test.afterAll(async () => {
@@ -60,8 +62,7 @@ test.describe('Upload files', () => {
   });
 
   test('[XAT-5279] Upload a file / multiple files', async ({ personalFiles }) => {
-    const uploadedFiles = await personalFiles.dataTable.isItemPresent(TEST_FILES.JPG_FILE.name);
-    expect(uploadedFiles, 'Uploaded file was not present in data table').toBe(true);
+    await expect(personalFiles.dataTable.getRowByName(TEST_FILES.JPG_FILE.name), 'Uploaded file was not visible in data table').toBeVisible();
   });
 
   test('[XAT-17778] The upload dialog can be closed', async ({ personalFiles }) => {

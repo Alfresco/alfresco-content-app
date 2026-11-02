@@ -161,7 +161,7 @@ test.describe('Info Drawer - file folder Properties', () => {
       await nodesApi.createFolder(nodePropertiesFolder, propertiesFolderId);
       await nodesApi.createFolder(nodeEditPropertiesFolder, propertiesFolderId);
     } catch (error) {
-      console.error(`beforeAll failed : ${error}`);
+      console.error(`beforeAll failed : ${Utils.extractErrorMessage(error)}`);
     }
   });
 

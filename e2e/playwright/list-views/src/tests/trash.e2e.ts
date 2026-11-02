@@ -63,7 +63,7 @@ test.describe('Trash', () => {
 
       await nodesApi.deleteNodes([fileSiteId, fileUserId, fileInFolderId, fileDeletedId, folderDeletedId], false);
     } catch (error) {
-      console.error(`----- beforeAll failed : ${error}`);
+      console.error(`----- beforeAll failed : ${Utils.extractErrorMessage(error)}`);
     }
   });
 

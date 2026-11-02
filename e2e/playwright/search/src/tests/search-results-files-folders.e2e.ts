@@ -31,23 +31,23 @@ test.describe('Search results - files and folders', () => {
   let searchApi: SearchApi;
 
   const random = Utils.random();
-  const username = `user-${random}`;
+  const usernameFilesFolders = `user-${random}`;
 
   test.beforeAll(async () => {
     try {
-      const apiClientFactory = new ApiClientFactory();
-      await apiClientFactory.setUpAcaBackend('admin');
-      await apiClientFactory.createUser({ username });
-      nodesApi = await NodesApi.initialize(username, username);
-      trashcanApi = await TrashcanApi.initialize(username, username);
-      searchApi = await SearchApi.initialize(username, username);
+      const apiClientFactoryFilesFolders = new ApiClientFactory();
+      await apiClientFactoryFilesFolders.setUpAcaBackend('admin');
+      await apiClientFactoryFilesFolders.createUser({ username: usernameFilesFolders });
+      nodesApi = await NodesApi.initialize(usernameFilesFolders, usernameFilesFolders);
+      trashcanApi = await TrashcanApi.initialize(usernameFilesFolders, usernameFilesFolders);
+      searchApi = await SearchApi.initialize(usernameFilesFolders, usernameFilesFolders);
     } catch (error) {
-      console.error(`beforeAll failed: ${error}`);
+      console.error(`search results - files and folders - beforeAll failed: ${Utils.extractErrorMessage(error)}`);
     }
   });
 
   test.beforeEach(async ({ loginPage }) => {
-    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+    await Utils.tryLoginUser(loginPage, usernameFilesFolders, usernameFilesFolders, 'beforeEach failed');
   });
 
   test.afterAll(async () => {

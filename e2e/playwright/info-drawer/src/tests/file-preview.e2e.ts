@@ -43,7 +43,7 @@ test.describe('File preview', () => {
       uploadApi = await UploadApi.initialize(username, username);
       searchApi = await SearchApi.initialize(username, username);
     } catch (error) {
-      console.error(`beforeAll failed : ${error}`);
+      console.error(`beforeAll failed : ${Utils.extractErrorMessage(error)}`);
     }
   });
 
@@ -63,7 +63,7 @@ test.describe('File preview', () => {
         await uploadApi.uploadFileWithRename(TEST_FILES.PDF.path, file17780, '-my-');
         await searchApi.waitForNodes(file17780, { expect: 1 });
       } catch (error) {
-        console.error(`beforeAll failed : ${error}`);
+        console.error(`beforeAll failed : ${Utils.extractErrorMessage(error)}`);
       }
     });
 
@@ -87,7 +87,7 @@ test.describe('File preview', () => {
         await uploadApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, file20360, '-my-');
         await searchApi.waitForNodes(file20360, { expect: 1 });
       } catch (error) {
-        console.error(`beforeAll failed : ${error}`);
+        console.error(`beforeAll failed : ${Utils.extractErrorMessage(error)}`);
       }
     });
 

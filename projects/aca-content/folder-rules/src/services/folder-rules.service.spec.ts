@@ -23,7 +23,7 @@
  */
 
 import { TestBed } from '@angular/core/testing';
-import { NoopTranslateModule, NotificationService } from '@alfresco/adf-core';
+import { NoopTranslateModule } from '@alfresco/adf-core';
 import { of } from 'rxjs';
 import { FolderRulesService } from './folder-rules.service';
 import {
@@ -42,7 +42,6 @@ import { AlfrescoApiService } from '@alfresco/adf-content-services';
 
 describe('FolderRulesService', () => {
   let folderRulesService: FolderRulesService;
-  let notificationService: NotificationService;
 
   let apiClientSpy: jasmine.SpyObj<{ callApi: jasmine.Spy }>;
 
@@ -74,7 +73,6 @@ describe('FolderRulesService', () => {
     });
 
     folderRulesService = TestBed.inject(FolderRulesService);
-    notificationService = TestBed.inject(NotificationService);
   });
 
   it('should load some rules into a rule set', () => {
@@ -261,7 +259,8 @@ describe('FolderRulesService', () => {
     expect(result).toEqual(mockedRule);
   });
 
-  it('should display error message and revert enabled state when updating rule fails', async () => {
+  it('should propagate the error when updating rule fails, so that the caller can report it', async () => {
+    const error = new Error(JSON.stringify({ error: { briefSummary: 'Error updating rule' } }));
     apiClientSpy.callApi
       .withArgs(
         `/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`,
@@ -274,12 +273,9 @@ describe('FolderRulesService', () => {
         ['application/json'],
         ['application/json']
       )
-      .and.returnValue(Promise.reject(new Error(JSON.stringify({ error: { briefSummary: 'Error updating rule' } }))));
-    spyOn(notificationService, 'showError');
+      .and.returnValue(Promise.reject(error));
 
-    const result = await folderRulesService.updateRule(nodeId, ruleId, mockedRule, ruleSetId);
-    expect(notificationService.showError).toHaveBeenCalledWith('Error updating rule');
-    expect(result.isEnabled).toBe(false);
+    await expectAsync(folderRulesService.updateRule(nodeId, ruleId, mockedRule, ruleSetId)).toBeRejectedWith(error);
   });
 
   it('should send correct GET request and return rule settings', async () => {

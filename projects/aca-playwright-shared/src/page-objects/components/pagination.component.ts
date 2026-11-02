@@ -24,7 +24,7 @@
 
 import { BaseComponent } from './base.component';
 import { Locator, Page } from '@playwright/test';
-import { timeouts } from '../../utils';
+import { timeouts, Utils } from '../../utils';
 
 export enum PaginationActionsType {
   PageSizeSelector = 'Page size selector',
@@ -82,7 +82,7 @@ export class PaginationComponent extends BaseComponent {
         await this.nextButton.click();
       }
     } catch (error) {
-      throw new Error(`Failed on previous click: ${error}`);
+      throw new Error(`Failed on previous click: ${Utils.extractErrorMessage(error)}`);
     }
   }
 
@@ -92,7 +92,7 @@ export class PaginationComponent extends BaseComponent {
         await this.previousButton.click();
       }
     } catch (error) {
-      throw new Error(`Failed on previous click: ${error}`);
+      throw new Error(`Failed on previous click: ${Utils.extractErrorMessage(error)}`);
     }
   }
 
@@ -101,7 +101,7 @@ export class PaginationComponent extends BaseComponent {
       await this.maxItemsButton.waitFor({ state: 'visible' });
       await this.maxItemsButton.click();
     } catch (error) {
-      throw new Error(`Open max items catch: ${error}`);
+      throw new Error(`Open max items catch: ${Utils.extractErrorMessage(error)}`);
     }
   }
 
@@ -111,7 +111,7 @@ export class PaginationComponent extends BaseComponent {
       await this.clickNthItem(1);
       await this.page.waitForTimeout(timeouts.tiny);
     } catch (error) {
-      throw new Error(`Reset to default page size catch: ${error}`);
+      throw new Error(`Reset to default page size catch: ${Utils.extractErrorMessage(error)}`);
     }
   }
 
@@ -119,7 +119,7 @@ export class PaginationComponent extends BaseComponent {
     try {
       await this.page.getByRole('menuitem', { name: menuItem }).click();
     } catch (e) {
-      throw new Error(`Click menu item catch : failed to click on: ${e}`);
+      throw new Error(`Click menu item catch : failed to click on: ${Utils.extractErrorMessage(e)}`);
     }
   }
 
@@ -135,7 +135,7 @@ export class PaginationComponent extends BaseComponent {
     try {
       await (await this.getNthItem(nth)).click();
     } catch (e) {
-      throw new Error(`Click nth menu item catch: ${e}`);
+      throw new Error(`Click nth menu item catch: ${Utils.extractErrorMessage(e)}`);
     }
   }
 

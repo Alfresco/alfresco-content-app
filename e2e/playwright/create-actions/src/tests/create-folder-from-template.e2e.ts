@@ -115,7 +115,7 @@ test.describe('Create folder from template', () => {
       trashcanApi = await TrashcanApi.initialize(username, username);
       folderLink = (await nodesApiAction.createLinkToFolderName(folderInRootFolder, await nodesApiAction.getSpaceTemplatesFolderId())).entry.name;
     } catch (error) {
-      console.error(`Main beforeAll failed : ${error}`);
+      console.error(`Main beforeAll failed : ${Utils.extractErrorMessage(error)}`);
     }
   });
 
@@ -135,7 +135,7 @@ test.describe('Create folder from template', () => {
       ]);
       await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
     } catch (error) {
-      console.error(`Main afterAll failed : ${error}`);
+      console.error(`Main afterAll failed : ${Utils.extractErrorMessage(error, true)}`);
     }
   });
 
@@ -144,7 +144,7 @@ test.describe('Create folder from template', () => {
       try {
         nodesApi = await NodesApi.initialize(username, username);
       } catch (error) {
-        console.error(`Personal Files page, beforeAll failed : ${error}`);
+        console.error(`Personal Files page, beforeAll failed : ${Utils.extractErrorMessage(error)}`);
       }
     });
 
@@ -156,7 +156,7 @@ test.describe('Create folder from template', () => {
         await toolbar.clickCreateFolderFromTemplate();
         await selectFolderTemplateDialog.loadMoreNodes();
       } catch (error) {
-        console.error(`Personal Files page, beforeEach failed : ${error}`);
+        console.error(`Personal Files page, beforeEach failed : ${Utils.extractErrorMessage(error)}`);
       }
     });
 
@@ -238,7 +238,7 @@ test.describe('Create folder from template', () => {
         try {
           await nodesApi.createFolder(commonFolderName);
         } catch (error) {
-          console.error(`Create from template dialog, beforeAll failed : ${error}`);
+          console.error(`Create from template dialog, beforeAll failed : ${Utils.extractErrorMessage(error)}`);
         }
       });
 
@@ -248,7 +248,7 @@ test.describe('Create folder from template', () => {
           await dataTable.getRowByName(templateFolder1).click();
           await selectFolderTemplateDialog.actionButton.click();
         } catch (error) {
-          console.error(`Create from template dialog, beforeEach failed : ${error}`);
+          console.error(`Create from template dialog, beforeEach failed : ${Utils.extractErrorMessage(error)}`);
         }
       });
 
@@ -365,7 +365,7 @@ test.describe('Create folder from template', () => {
           await dataTable.getRowByName(templateFolder1).click();
           await selectFolderTemplateDialog.actionButton.click();
         } catch (error) {
-          console.error(`Folder created from template on Personal Files, beforeEach failed : ${error}`);
+          console.error(`Folder created from template on Personal Files, beforeEach failed : ${Utils.extractErrorMessage(error)}`);
         }
       });
 
@@ -404,7 +404,7 @@ test.describe('Create folder from template', () => {
         const libraryGuId = await sitesApi.getDocLibId(randomLibraryName);
         await nodesApi.createFolder(commonFolderName, libraryGuId);
       } catch (error) {
-        console.error(`Folder created from template on Libraries, beforeAll failed : ${error}`);
+        console.error(`Folder created from template on Libraries, beforeAll failed : ${Utils.extractErrorMessage(error)}`);
       }
     });
 
@@ -426,7 +426,7 @@ test.describe('Create folder from template', () => {
         await dataTable.getRowByName(templateFolder1).click();
         await selectFolderTemplateDialog.actionButton.click();
       } catch (error) {
-        console.error(`Folder created from template on Personal Files Libraries, beforeEach failed : ${error}`);
+        console.error(`Folder created from template on Personal Files Libraries, beforeEach failed : ${Utils.extractErrorMessage(error)}`);
       }
     });
 
@@ -434,7 +434,7 @@ test.describe('Create folder from template', () => {
       try {
         await sitesApi.deleteSites([randomLibraryName]);
       } catch (error) {
-        console.error(`Folder created from template on Personal Files Libraries, afterAll failed : ${error}`);
+        console.error(`Folder created from template on Personal Files Libraries, afterAll failed : ${Utils.extractErrorMessage(error, true)}`);
       }
     });
 

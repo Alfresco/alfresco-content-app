@@ -1,11 +1,18 @@
+@if (movingFile) {
+  <mat-progress-bar mode="indeterminate" />
+}
 <aca-page-layout [hasError]="!isValidPath">
   <div class="aca-page-layout-header">
     <div class="aca-header-container">
       <adf-breadcrumb
         [root]="title"
         [folderNode]="node"
-        [selectedRowItemsCount]="selectedRowItemsCount" [maxItems]="isSmallScreen ? 1 : 0"
-        (navigate)="onBreadcrumbNavigate($event)" />
+        [selectedRowItemsCount]="selectedRowItemsCount"
+        [compactMode]="true"
+        (navigate)="onBreadcrumbNavigate($event)"
+        (breadcrumbPathElementsChange)="breadcrumbPathNames = $event"
+        (dropped)="onBreadcrumbDrop($event)"
+        [connectedDropListSelector]="'.adf-datatable-body adf-datatable-row'" />
       <aca-toolbar [items]="actions" />
     </div>
   </div>
@@ -46,7 +53,13 @@
             (selectedItemsCountChanged)="onSelectedItemsCountChanged($event)"
             (filterSelection)="onFilterSelected($event)"
             (error)="onError($event)"
-            >
+            [enableDragRows]="true"
+            [dropListConnectedTo]="breadcrumbPathNames"
+            [dragBoundary]="'aca-files'"
+            [showDragIndicator]="false"
+            [useWholeRowAsDragPreview]="false"
+            [rowDropSortingDisabled]="true"
+            (dragDropped)="onRowDrop($event)">
             <data-columns>
               @for (column of columns; track trackByColumnId($index, column)) {
                 @if (column.template && !(column.desktopOnly && isSmallScreen)) {
@@ -62,7 +75,7 @@
                     [isHidden]="column.isHidden"
                     [draggable]="column.draggable"
                     [resizable]="column.resizable"
-                    >
+                    [visibleInDragPreview]="column.visibleInDragPreview" >
                     <ng-template let-context>
                       <adf-dynamic-column [id]="column.template" [context]="context" />
                     </ng-template>
@@ -81,7 +94,7 @@
                     [isHidden]="column.isHidden"
                     [draggable]="column.draggable"
                     [resizable]="column.resizable"
-                    />
+                    [visibleInDragPreview]="column.visibleInDragPreview" />
                 }
               }
             </data-columns>

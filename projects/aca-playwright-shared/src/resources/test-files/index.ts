@@ -41,11 +41,6 @@ export const TEST_FILES = {
     extension: 'pdf',
     data: 'Lorem ipsum dolor sit amet'
   },
-  FILE_UNSUPPORTED: {
-    path: resolve(__dirname, 'file_unsupported.3DS'),
-    name: 'file_unsupported.3DS',
-    data: 'Lorem ipsum dolor sit amet'
-  },
   PDF_PROTECTED: {
     path: resolve(__dirname, 'file-pdf-protected.pdf'),
     name: 'file-pdf-protected',

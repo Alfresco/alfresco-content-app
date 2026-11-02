@@ -52,7 +52,7 @@ export class QueriesApi {
 
       return await Utils.retryCall(sites);
     } catch (error) {
-      logger.error(`QueriesApi waitForSites : catch : Expected: ${data.expect} items, but found ${error}`);
+      logger.error(`QueriesApi waitForSites : catch : Expected: ${data.expect} items, but found ${Utils.extractErrorMessage(error)}`);
       return null;
     }
   }
@@ -67,7 +67,7 @@ export class QueriesApi {
       const sites = await this.apiService.queries.findSites(searchTerm, opts);
       return sites.list.pagination.totalItems;
     } catch (error) {
-      logger.error(`QueriesApi findSitesTotalItems : catch : ${error}`);
+      logger.error(`QueriesApi findSitesTotalItems : catch : ${Utils.extractErrorMessage(error)}`);
       return null;
     }
   }

@@ -62,7 +62,7 @@ test.describe('Version actions', () => {
     await page.dataTable.selectItems(filenameAfterUpdate);
     await page.acaHeader.clickMoreActions();
     await page.matMenu.clickMenuItem('Manage Versions');
-    await page.manageVersionsDialog.clickListActionButtonForVersion('1.0');
+    await page.manageVersionsDialog.openActionMenuForVersion('1.0');
     await page.matMenu.clickMenuItem('View');
   }
 
@@ -101,7 +101,7 @@ test.describe('Version actions', () => {
       await sharedLinksApi.shareFilesByIds([fileId]);
       await sharedLinksApi.waitForFilesToBeShared([fileId]);
     } catch (error) {
-      throw new Error(`beforeAll failed: ${error}`);
+      throw new Error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
     }
   });
 
@@ -140,7 +140,7 @@ test.describe('Version actions', () => {
 
       await personalFiles.viewer.toolbar.clickMoreActions();
       await personalFiles.matMenu.clickMenuItem('Manage Versions');
-      await personalFiles.manageVersionsDialog.clickListActionButtonForVersion('2.0');
+      await personalFiles.manageVersionsDialog.openActionMenuForVersion('2.0');
       await Promise.all([Utils.waitForApiResponse(personalFiles, '2.0', 200), personalFiles.matMenu.clickMenuItem('View')]);
       await personalFiles.viewer.waitForViewerLoaderToFinish();
       await expect(personalFiles.viewer.unknownFormat).toBeHidden();

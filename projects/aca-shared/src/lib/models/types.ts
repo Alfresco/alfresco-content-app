@@ -23,6 +23,7 @@
  */
 
 import { ContentActionRef } from '@alfresco/adf-extensions';
+import { LayoutOrientedConfigLayoutBlock, PresetConfig } from '@alfresco/adf-content-services';
 import { Route } from '@angular/router';
 
 export interface ExtensionRoute extends Route {
@@ -37,4 +38,14 @@ export interface Badge extends Partial<Pick<ContentActionRef, 'component' | 'act
 
 export interface UserProfileSection extends Partial<Pick<ContentActionRef, 'component' | 'rules'>> {
   id: string;
+}
+
+export interface ContentMetadataGroup extends Partial<LayoutOrientedConfigLayoutBlock> {
+  id?: string;
+  disabled?: boolean;
+  [setting: string]: unknown;
+}
+
+export interface ContentMetadataPresets {
+  [presetName: string]: PresetConfig;
 }

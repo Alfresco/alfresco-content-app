@@ -22,39 +22,54 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Page } from '@playwright/test';
+import { Locator, Page } from '@playwright/test';
 import { BaseComponent } from '../base.component';
+import { VersionListComponent } from '../version-list.component';
 
 export class ManageVersionsDialog extends BaseComponent {
   private static readonly rootElement = '.adf-new-version-uploader-dialog';
 
-  async clickListActionButtonForVersion(version: string): Promise<void> {
-    await this.getChild(`[id="adf-version-list-action-menu-button-${version}"]`).click();
-  }
+  readonly versionList = new VersionListComponent(this.page, `${ManageVersionsDialog.rootElement} ${VersionListComponent.rootElement}`);
 
-  async isVersionPresent(version: string): Promise<boolean> {
-    return this.getChild(`[id="adf-version-list-item-version-${version}"]`).isVisible();
-  }
-
-  async isDescriptionPresent(version: string): Promise<boolean> {
-    return this.getChild(`[id="adf-version-list-item-comment-${version}"]`).isVisible();
-  }
-
-  async waitForProgressBarToDisappear(attachedTimeout = 5000): Promise<void> {
-    const loadingBar = this.getChild('[data-automation-id="version-history-loading-bar"]');
-    try {
-      await loadingBar.waitFor({ state: 'attached', timeout: attachedTimeout });
-    } catch {
-      return;
-    }
-    await loadingBar.waitFor({ state: 'detached' });
-  }
-
-  async waitForDialog(): Promise<void> {
-    await this.page.locator('[data-automation-id="new-version-uploader-dialog-title"]').waitFor();
-  }
+  readonly title = this.getChild('[data-automation-id="new-version-uploader-dialog-title"]');
 
   constructor(page: Page) {
     super(page, ManageVersionsDialog.rootElement);
+  }
+
+  versionLabel(version: string): Locator {
+    return this.versionList.versionLabel(version);
+  }
+
+  versionComment(version: string): Locator {
+    return this.versionList.versionComment(version);
+  }
+
+  versionModifiedBy(version: string): Locator {
+    return this.versionList.versionModifiedBy(version);
+  }
+
+  restoreAction(version: string): Locator {
+    return this.versionList.restoreAction(version);
+  }
+
+  async openActionMenuForVersion(version: string): Promise<void> {
+    await this.versionList.openActionMenuForVersion(version);
+  }
+
+  async clickDownloadForVersion(version: string): Promise<void> {
+    await this.versionList.clickDownloadForVersion(version);
+  }
+
+  async clickDeleteForVersion(version: string): Promise<void> {
+    await this.versionList.clickDeleteForVersion(version);
+  }
+
+  async waitForVersionListToLoad(): Promise<void> {
+    await this.versionList.waitForVersionListToLoad();
+  }
+
+  async waitForDialog(): Promise<void> {
+    await this.title.waitFor();
   }
 }

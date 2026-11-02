@@ -63,21 +63,21 @@ test.describe('Repository — Info drawer expand routing', () => {
   };
 
   test.describe('signed in as admin', () => {
-    let userNodesApi: NodesApi;
-    let trashcanApi: TrashcanApi;
+    let userNodesApiInfoDrawerRepo: NodesApi;
+    let trashcanApiInfoDrawerRepo: TrashcanApi;
     let favoritesApi: FavoritesApi;
     let testData!: RepositoryTestData;
 
     test.beforeAll(async () => {
       try {
-        userNodesApi = await NodesApi.initialize('admin');
-        trashcanApi = await TrashcanApi.initialize('admin');
+        userNodesApiInfoDrawerRepo = await NodesApi.initialize('admin');
+        trashcanApiInfoDrawerRepo = await TrashcanApi.initialize('admin');
         favoritesApi = await FavoritesApi.initialize('admin');
-        testData = await seedRepositoryTestData({ userNodesApi, adminNodesApi: userNodesApi });
+        testData = await seedRepositoryTestData({ userNodesApi: userNodesApiInfoDrawerRepo, adminNodesApi: userNodesApiInfoDrawerRepo });
 
         await favoritesApi.addFavoriteById('file', testData.repoFile.id);
       } catch (error) {
-        console.error(`beforeAll (admin) failed: ${error}`);
+        console.error(`info drawer repository - beforeAll (admin) failed: ${Utils.extractErrorMessage(error)}`);
         throw error;
       }
     });
@@ -87,8 +87,8 @@ test.describe('Repository — Info drawer expand routing', () => {
     });
 
     test.afterAll(async () => {
-      await cleanupRepositoryTestData(testData, { adminNodesApi: userNodesApi });
-      await Utils.deleteNodesSitesEmptyTrashcan(userNodesApi, trashcanApi, 'afterAll (admin) failed');
+      await cleanupRepositoryTestData(testData, { adminNodesApi: userNodesApiInfoDrawerRepo });
+      await Utils.deleteNodesSitesEmptyTrashcan(userNodesApiInfoDrawerRepo, trashcanApiInfoDrawerRepo, 'afterAll (admin) failed');
     });
 
     test('[XAT-19602] Expand info drawer on a Repository file preserves /repository route', async ({ personalFiles }) => {
@@ -139,7 +139,7 @@ test.describe('Repository — Info drawer expand routing', () => {
         const created = (await personalUserNodesApi.createFile(personalFileName)).entry;
         personalFile = { id: created.id, name: personalFileName };
       } catch (error) {
-        console.error(`beforeAll (personal user) failed: ${error}`);
+        console.error(`beforeAll (personal user) failed: ${Utils.extractErrorMessage(error)}`);
         throw error;
       }
     });

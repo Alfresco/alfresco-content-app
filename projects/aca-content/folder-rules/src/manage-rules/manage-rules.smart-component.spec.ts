@@ -39,7 +39,8 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActionsService } from '../services/actions.service';
 import { FolderRuleSetsService } from '../services/folder-rule-sets.service';
 import { ruleMock, ruleSettingsMock } from '../mock/rules.mock';
-import { AppService, GenericErrorComponent } from '@alfresco/aca-shared';
+import { ApiError, AppService, GenericErrorComponent } from '@alfresco/aca-shared';
+import { ErrorError } from '@alfresco/js-api';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatProgressBarHarness } from '@angular/material/progress-bar/testing';
@@ -355,11 +356,21 @@ describe('ManageRulesSmartComponent', () => {
       expect(addOrUpdateSpy).toHaveBeenCalledWith(updatedRule);
     });
 
-    it('should show error notification if submission fails', fakeAsync(() => {
+    it('should show the message sent by the backend if submission fails', fakeAsync(() => {
       const notificationService = TestBed.inject(NotificationService);
       const params = { name: 'Bad' } as Rule;
-      const error = new Error('Test error');
-      (error as any).response = { body: { error: { errorKey: 'ERROR_KEY' } } };
+      const error: ApiError = {
+        message: 'cannot POST /rules (500)',
+        response: {
+          body: {
+            error: {
+              errorKey: 'framework.exception.ApiDefault',
+              statusCode: 500,
+              briefSummary: 'Only admin or system user is allowed'
+            } as ErrorError
+          }
+        }
+      };
       spyOn(folderRulesService, 'createRule').and.returnValue(Promise.reject(error));
       spyOn(notificationService, 'showError');
 
@@ -367,7 +378,20 @@ describe('ManageRulesSmartComponent', () => {
       submit$.next(params);
       tick();
 
-      expect(notificationService.showError).toHaveBeenCalledWith('ERROR_KEY');
+      expect(notificationService.showError).toHaveBeenCalledWith('Only admin or system user is allowed');
+      expect(dialogRefMock.close).not.toHaveBeenCalled();
+    }));
+
+    it('should fall back to a generic message if the backend sent none', fakeAsync(() => {
+      const notificationService = TestBed.inject(NotificationService);
+      spyOn(folderRulesService, 'createRule').and.returnValue(Promise.reject(new Error('Failed to fetch')));
+      spyOn(notificationService, 'showError');
+
+      component.openCreateUpdateRuleDialog();
+      submit$.next({ name: 'Bad' } as Rule);
+      tick();
+
+      expect(notificationService.showError).toHaveBeenCalledWith('CORE.MESSAGES.ERRORS.GENERIC');
       expect(dialogRefMock.close).not.toHaveBeenCalled();
     }));
   });
@@ -466,11 +490,27 @@ describe('ManageRulesSmartComponent', () => {
       const addOrUpdateSpy = spyOn(folderRuleSetsService, 'addOrUpdateRuleInMainRuleSet');
       component.nodeId = 'node-123';
 
-      component.onRuleEnabledToggle(original, toggled.isEnabled);
+      void component.onRuleEnabledToggle(original, toggled.isEnabled);
       tick();
 
       expect(folderRulesService.updateRule).toHaveBeenCalledWith('node-123', original.id, { ...original, isEnabled: toggled.isEnabled });
       expect(addOrUpdateSpy).toHaveBeenCalledWith(toggled);
+    }));
+
+    it('should report the backend message and put the toggle back if updating the enabled state fails', fakeAsync(() => {
+      const notificationService = TestBed.inject(NotificationService);
+      const original = ruleMock('test');
+      const error: ApiError = { message: JSON.stringify({ error: { briefSummary: '05220073 Rule could not be updated' } }) };
+      spyOn(folderRulesService, 'updateRule').and.returnValue(Promise.reject(error));
+      const addOrUpdateSpy = spyOn(folderRuleSetsService, 'addOrUpdateRuleInMainRuleSet');
+      spyOn(notificationService, 'showError');
+      component.nodeId = 'node-123';
+
+      void component.onRuleEnabledToggle(original, !original.isEnabled);
+      tick();
+
+      expect(notificationService.showError).toHaveBeenCalledWith('05220073 Rule could not be updated');
+      expect(addOrUpdateSpy).toHaveBeenCalledWith({ ...original, isEnabled: original.isEnabled });
     }));
   });
 });

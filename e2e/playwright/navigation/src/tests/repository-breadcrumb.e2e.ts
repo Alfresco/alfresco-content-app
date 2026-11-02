@@ -53,7 +53,7 @@ test.describe('Repository — Breadcrumb', () => {
       subFolderId = (await adminNodesApi.createFolder(subFolderName, repoRootId)).entry.id;
       leafFolderId = (await adminNodesApi.createFolder(leafFolderName, subFolderId)).entry.id;
     } catch (error) {
-      console.error(`beforeAll failed: ${error}`);
+      console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
       throw error;
     }
   });
@@ -66,7 +66,7 @@ test.describe('Repository — Breadcrumb', () => {
     try {
       await adminNodesApi.deleteNodes([repoRootId], true);
     } catch (error) {
-      console.error(`Repository tree cleanup failed: ${error}`);
+      console.error(`Repository tree cleanup failed: ${Utils.extractErrorMessage(error, true)}`);
     }
     await Utils.deleteNodesSitesEmptyTrashcan(adminNodesApi, trashcanApi, 'afterAll failed');
   });

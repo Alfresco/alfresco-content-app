@@ -23,7 +23,7 @@
  */
 
 import { ApiClientFactory } from './api-client-factory';
-import { logger } from '../utils';
+import { logger, Utils } from '../utils';
 import {
   Site,
   SiteBodyCreate,
@@ -62,7 +62,7 @@ export class SitesApi {
         logger.warn(`[SitesApi] createSite: site "${siteId || title}" already exists, skipping creation`);
         return this.getSite(siteId || title);
       } else {
-        const message = `SitesApi ${this.createSite.name}: ${JSON.stringify(error)}`;
+        const message = `SitesApi ${this.createSite.name}: ${Utils.extractErrorMessage(error)}`;
         logger.error(message);
         throw new Error(message);
       }
@@ -79,7 +79,7 @@ export class SitesApi {
       }
       return id;
     } catch (error) {
-      const message = `Failed to get document library ID for site ${siteId}: ${error}`;
+      const message = `Failed to get document library ID for site ${siteId}: ${Utils.extractErrorMessage(error)}`;
       logger.error(message);
       throw new Error(message);
     }
@@ -98,7 +98,7 @@ export class SitesApi {
         }
       }
     } catch (error) {
-      logger.error(`SitesApi deleteSites: ${JSON.stringify(error)}`);
+      logger.error(`SitesApi deleteSites: ${Utils.extractErrorMessage(error)}`);
     }
   }
 
@@ -110,7 +110,7 @@ export class SitesApi {
     try {
       return await this.apiService.sites.updateSiteMembership(siteId, userId, siteRole);
     } catch (error) {
-      logger.error(`SitesApi updateSiteMember : catch : ${error}`);
+      logger.error(`SitesApi updateSiteMember : catch : ${Utils.extractErrorMessage(error)}`);
       return new SiteMemberEntry();
     }
   }
@@ -139,7 +139,7 @@ export class SitesApi {
     try {
       return this.apiService.sites.createSiteMembershipRequestForPerson(personId, body);
     } catch (error) {
-      const message = `Failed to create site membership request for person ${personId} and site ${siteId}: ${error}`;
+      const message = `Failed to create site membership request for person ${personId} and site ${siteId}: ${Utils.extractErrorMessage(error)}`;
       logger.error(message);
       throw new Error(message);
     }
@@ -149,7 +149,7 @@ export class SitesApi {
     try {
       return this.apiService.sites.approveSiteMembershipRequest(siteId, inviteeId);
     } catch (error) {
-      const message = `Failed to approve site membership request for invitee ${inviteeId} and site ${siteId}: ${error}`;
+      const message = `Failed to approve site membership request for invitee ${inviteeId} and site ${siteId}: ${Utils.extractErrorMessage(error)}`;
       logger.error(message);
       throw new Error(message);
     }
@@ -161,7 +161,7 @@ export class SitesApi {
       const requests = entries.map((e) => e.entry?.id).filter((id): id is string => !!id);
       return requests.includes(siteId);
     } catch (error) {
-      const message = `Failed to check site membership request for person ${personId} and site ${siteId}: ${error}`;
+      const message = `Failed to check site membership request for person ${personId} and site ${siteId}: ${Utils.extractErrorMessage(error)}`;
       logger.error(message);
       throw new Error(message);
     }
@@ -171,7 +171,7 @@ export class SitesApi {
     try {
       return this.apiService.sites.deleteSiteMembership(siteId, userId);
     } catch (error) {
-      logger.error(`SitesApi deleteSiteMember : catch : ${error}`);
+      logger.error(`SitesApi deleteSiteMember : catch : ${Utils.extractErrorMessage(error)}`);
     }
   }
 
@@ -179,7 +179,7 @@ export class SitesApi {
     try {
       return this.apiService.sites.getSite(siteId);
     } catch (error) {
-      const message = `Failed to get site ${siteId}: ${error}`;
+      const message = `Failed to get site ${siteId}: ${Utils.extractErrorMessage(error)}`;
       logger.error(message);
       throw new Error(message);
     }

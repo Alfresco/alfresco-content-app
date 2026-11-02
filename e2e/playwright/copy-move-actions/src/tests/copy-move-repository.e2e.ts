@@ -55,7 +55,7 @@ test.describe('Copy / Move — Repository destination', () => {
       adminNodesApi = userNodesApi;
       trashcanApi = await TrashcanApi.initialize('admin');
     } catch (error) {
-      console.error(`beforeAll failed: ${error}`);
+      console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
       throw error;
     }
   });
@@ -140,7 +140,7 @@ test.describe('Copy / Move — Repository destination', () => {
       try {
         await adminNodesApi.deleteNodes([recentFileId, recentDestFolderId], true);
       } catch (error) {
-        console.error(`TS-16 afterAll cleanup failed: ${error}`);
+        console.error(`TS-16 afterAll cleanup failed: ${Utils.extractErrorMessage(error, true)}`);
       }
     });
 

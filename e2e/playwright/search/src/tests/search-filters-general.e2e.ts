@@ -39,7 +39,7 @@ test.describe('Search - Filters - General', () => {
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username });
     } catch (error) {
-      console.error(`beforeAll failed: ${error}`);
+      console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
     }
   });
 

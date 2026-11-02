@@ -23,7 +23,7 @@
  */
 
 import { ApiClientFactory } from './api-client-factory';
-import { logger } from '../utils';
+import { logger, Utils } from '../utils';
 import { CategoryEntry, CategoryBody, CategoryQuery, CategoryPaging, CategoryLinkBody } from '@alfresco/js-api';
 
 export class CategoriesApi {
@@ -43,7 +43,7 @@ export class CategoriesApi {
     try {
       return this.apiService.categoriesApi.createSubcategories(categoryId, categoryBodyCreate, opts);
     } catch (error) {
-      logger.error(`${error}`);
+      logger.error(`${Utils.extractErrorMessage(error)}`);
       return null;
     }
   }
@@ -57,7 +57,7 @@ export class CategoriesApi {
     try {
       await this.apiService.categoriesApi.deleteCategory(categoryId);
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.deleteCategory.name}: ${error}`);
+      logger.error(`${this.constructor.name} ${this.deleteCategory.name}: ${Utils.extractErrorMessage(error)}`);
     }
   }
 
@@ -69,7 +69,7 @@ export class CategoriesApi {
     try {
       return this.apiService.categoriesApi.linkNodeToCategory(nodeId, categoryLinkBodyCreate, opts);
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.linkNodeToCategory.name}: ${error}`);
+      logger.error(`${this.constructor.name} ${this.linkNodeToCategory.name}: ${Utils.extractErrorMessage(error)}`);
       return null;
     }
   }

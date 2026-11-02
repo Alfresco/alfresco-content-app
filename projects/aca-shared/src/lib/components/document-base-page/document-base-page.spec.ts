@@ -33,8 +33,9 @@ import { Component } from '@angular/core';
 import { DiscoveryApiService, DocumentListService } from '@alfresco/adf-content-services';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { provideCoreAuth } from '@alfresco/adf-core';
-import { Subscription } from 'rxjs';
+import { firstValueFrom, Subscription } from 'rxjs';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'aca-test',
@@ -243,23 +244,25 @@ describe('Info Drawer state', () => {
     });
   });
 
-  it('should open info drawer even if viewer outlet is active', (done) => {
-    window.history.pushState({}, null, `${locationHref}#test(viewer:view)`);
+  it('should not open info drawer when viewer outlet is active on top of the page', async () => {
+    const router = TestBed.inject(Router);
+    router.resetConfig([
+      { path: 'personal-files', component: TestComponent },
+      { path: 'view/:nodeId', outlet: 'viewer', component: TestComponent }
+    ]);
+    await router.navigateByUrl('/personal-files');
+    store.setState({ app: { ...appState, infoDrawerOpened: true } });
     fixture.detectChanges();
 
-    void fixture.whenStable().then(() => {
-      component.infoDrawerOpened$.subscribe((state) => {
-        expect(state).toBe(true);
-        done();
-      });
-    });
+    const states: boolean[] = [];
+    component.infoDrawerOpened$.subscribe((state) => states.push(state));
+    expect(states).toEqual([true]);
 
-    store.setState({
-      app: {
-        ...appState,
-        infoDrawerOpened: true
-      }
-    });
+    await router.navigateByUrl('/personal-files(viewer:view/node-id)');
+    expect(states).toEqual([true, false]);
+
+    await router.navigateByUrl('/personal-files');
+    expect(states).toEqual([true, false, true]);
   });
 
   it('should not resolve custom image', () => {
@@ -322,5 +325,47 @@ describe('Info Drawer state', () => {
     const event = new CustomEvent('sorting-changed', { detail: { key: 'name', direction: 'asc' } });
     component.onSortingChanged(event);
     expect(component.filterSorting).toBe('name-asc');
+  });
+});
+
+describe('Info Drawer state inside viewer outlet', () => {
+  let component: TestComponent;
+  let fixture: ComponentFixture<TestComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [LibTestingModule, MatDialogModule],
+      declarations: [TestComponent],
+      providers: [
+        provideCoreAuth(),
+        { provide: DocumentBasePageService, useClass: DocumentBasePageServiceMock },
+        { provide: DiscoveryApiService, useValue: discoveryApiServiceMockValue },
+        { provide: ActivatedRoute, useValue: { pathFromRoot: [{ outlet: 'primary' }, { outlet: 'viewer' }] } },
+        provideMockStore({
+          initialState: {
+            app: {
+              selection: { count: 1, isEmpty: false, libraries: [], nodes: [] },
+              navigation: {},
+              infoDrawerOpened: true
+            }
+          }
+        })
+      ]
+    });
+
+    spyOnProperty(TestBed.inject(Router), 'url').and.returnValue('/personal-files/(viewer:view/node-id)');
+    fixture = TestBed.createComponent(TestComponent);
+    component = fixture.componentInstance;
+  });
+
+  afterEach(() => {
+    fixture.destroy();
+  });
+
+  it('should open info drawer when component is rendered inside the viewer outlet', async () => {
+    fixture.detectChanges();
+
+    const state = await firstValueFrom(component.infoDrawerOpened$);
+    expect(state).toBe(true);
   });
 });

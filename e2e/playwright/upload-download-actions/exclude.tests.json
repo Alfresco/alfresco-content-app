@@ -1,9 +1,3 @@
 {
-  "all": {
-    "XAT-5353": "https://hyland.atlassian.net/browse/ACS-11471",
-    "XAT-5354": "https://hyland.atlassian.net/browse/ACS-11471",
-    "XAT-5327": "https://hyland.atlassian.net/browse/ACS-11471",
-    "XAT-5328": "https://hyland.atlassian.net/browse/ACS-11471",
-    "XAT-5329": "https://hyland.atlassian.net/browse/ACS-11471"
-  }
+  "all": {}
 }

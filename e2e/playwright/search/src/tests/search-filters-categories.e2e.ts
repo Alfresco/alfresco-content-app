@@ -62,7 +62,7 @@ test.describe('Search - Filters - Categories', () => {
         await categoriesApi.linkNodeToCategory(jpgFileId, categoryLinkBodyCreate);
       }
     } catch (error) {
-      console.error(`beforeAll failed: ${error}`);
+      console.error(`beforeAll failed: ${Utils.extractErrorMessage(error)}`);
     }
   });
 

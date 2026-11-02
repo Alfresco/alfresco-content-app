@@ -26,6 +26,8 @@ import {
   CustomEmptyContentTemplateDirective,
   DataColumnComponent,
   DataColumnListComponent,
+  DataRow,
+  NotificationService,
   PaginationComponent,
   ShowHeaderMode
 } from '@alfresco/adf-core';
@@ -45,7 +47,7 @@ import {
   ToolbarComponent
 } from '@alfresco/aca-shared';
 import { isAdmin, SetCurrentFolderAction, showLoaderSelector, UploadFileVersionAction } from '@alfresco/aca-shared/store';
-import { debounceTime } from 'rxjs/operators';
+import { catchError, debounceTime, switchMap, tap } from 'rxjs/operators';
 import {
   BreadcrumbComponent,
   DocumentListComponent,
@@ -57,13 +59,16 @@ import {
 } from '@alfresco/adf-content-services';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
 import { PaginationMemoryDirective } from '../../directives/pagination-memory.directive';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpErrorResponse } from '@angular/common/http';
 import { extractFiltersFromEncodedQuery } from '../../utils/aca-search-utils';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { EMPTY } from 'rxjs';
+import { MatProgressBar } from '@angular/material/progress-bar';
 
 @Component({
   imports: [
@@ -85,7 +90,8 @@ import { extractFiltersFromEncodedQuery } from '../../utils/aca-search-utils';
     DocumentListComponent,
     DataColumnListComponent,
     DataColumnComponent,
-    CustomEmptyContentTemplateDirective
+    CustomEmptyContentTemplateDirective,
+    MatProgressBar
   ],
   templateUrl: './files.component.html',
   encapsulation: ViewEncapsulation.None,
@@ -95,9 +101,11 @@ import { extractFiltersFromEncodedQuery } from '../../utils/aca-search-utils';
 export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   private readonly contentApi = inject(ContentApiService);
   private readonly nodeActionsService = inject(NodeActionsService);
+  private readonly notificationService = inject(NotificationService);
   private readonly route = inject(ActivatedRoute);
   private readonly queryBuilderService = inject(SearchHeaderQueryBuilderService);
   private readonly paginationState = inject(PaginationStateService);
+  private readonly translateService = inject(TranslateService);
 
   isValidPath = true;
   isAdmin = false;
@@ -106,7 +114,9 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   showLoader$ = this.store.select(showLoaderSelector);
   columns: DocumentListPresetRef[] = [];
   isFilterHeaderActive = false;
+  breadcrumbPathNames: string[] = [];
 
+  private _movingFile = false;
   private nodePath: PathElement[];
   private _errorTranslationKey = 'APP.MESSAGES.ERRORS.MISSING_CONTENT';
 
@@ -115,6 +125,10 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
   get errorTranslationKey(): string {
     return this._errorTranslationKey;
+  }
+
+  get movingFile(): boolean {
+    return this._movingFile;
   }
 
   ngOnInit() {
@@ -435,5 +449,72 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
           this._errorTranslationKey = 'APP.BROWSE.LIBRARIES.ERRORS.LIBRARY_LOADING_ERROR';
       }
     }
+  }
+
+  onBreadcrumbDrop(event: CdkDragDrop<PathElement, PathElement, DataRow>): void {
+    this.moveNode(event.item.data.id, event.container.data.id, event.container.data.name);
+  }
+
+  onRowDrop(event: { previousIndex: number; currentIndex: number }): void {
+    const rows = this.documentList.data.getRows();
+    const targetNode = rows[event.currentIndex] as ShareDataRow;
+    if (targetNode.node.entry.isFolder) {
+      this.moveNode(rows[event.previousIndex].id, targetNode.id, targetNode.node.entry.name);
+    }
+  }
+
+  private moveNode(id: string, targetId: string, targetName: string): void {
+    this._movingFile = true;
+    const actualFolderId = this.node.id;
+    this.documentListService
+      .moveNode(id, targetId)
+      .pipe(
+        tap(() => this.documentListService.reload()),
+        switchMap((node) => {
+          const message = this.translateService.instant('APP.MESSAGES.INFO.NODE_MOVE.FROM_TO', {
+            node: node.entry.name,
+            target: this.translateService.instant(targetName)
+          });
+          const actionLabel = this.translateService.instant('APP.ACTIONS.UNDO');
+          this._movingFile = false;
+          return this.notificationService
+            .showInfo(message, actionLabel)
+            .onAction()
+            .pipe(
+              switchMap(() => {
+                this._movingFile = true;
+                return this.documentListService.moveNode(node.entry.id, actualFolderId).pipe(
+                  catchError(() => {
+                    this._movingFile = false;
+                    this.notificationService.showError(this.translateService.instant('APP.MESSAGES.ERRORS.MOVE_UNDO'));
+                    return EMPTY;
+                  })
+                );
+              })
+            );
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe({
+        next: () => {
+          this._movingFile = false;
+          this.documentListService.reload();
+          this.notificationService.showInfo(this.translateService.instant('APP.MESSAGES.INFO.NODE_MOVE.UNDO_SUCCESS'));
+        },
+        error: (error: HttpErrorResponse) => {
+          let errorKey = 'APP.MESSAGES.ERRORS.GENERIC';
+          switch (error.status) {
+            case 403: {
+              errorKey = 'APP.MESSAGES.ERRORS.PERMISSION';
+              break;
+            }
+            case 409: {
+              errorKey = 'APP.MESSAGES.ERRORS.FILE_FOLDER_MOVE';
+            }
+          }
+          this._movingFile = false;
+          this.notificationService.showError(this.translateService.instant(errorKey));
+        }
+      });
   }
 }
