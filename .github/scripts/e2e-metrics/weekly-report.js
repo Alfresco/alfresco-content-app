@@ -188,7 +188,6 @@ function buildCard(report, { dashboardLink, runLink }) {
 
   return {
     type: 'AdaptiveCard',
-    $schema: 'http://adaptivecards.io/schemas/adaptive-card.json',
     version: '1.5',
     msteams: { width: 'Full' },
     body,

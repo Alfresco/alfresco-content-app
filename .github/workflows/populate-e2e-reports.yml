@@ -1,10 +1,7 @@
 name: "Populate E2E reports"
-run-name: ${{ (inputs.send-report || github.event_name == 'push') && 'Populate E2E reports + publish report' || 'Populate E2E reports' }}
+run-name: ${{ inputs.send-report && 'Populate E2E reports + publish report' || 'Populate E2E reports' }}
 
 on:
-  push:
-    branches:
-      - ACS-13218-improve-reports-teams
   workflow_dispatch:
     inputs:
       send-report:
@@ -36,7 +33,6 @@ jobs:
   e2e:
     name: "E2E against local ACS - chrome"
     needs: check-branch
-    if: ${{ !contains(github.event.head_commit.message, '[report-only]') }}
     uses: ./.github/workflows/e2e-playwright-reusable.yml
     with:
       browser: chrome
@@ -51,7 +47,7 @@ jobs:
   publish:
     name: "Publish dashboard and report"
     needs: e2e
-    if: ${{ !cancelled() && (inputs.send-report || github.event_name == 'push') }}
+    if: ${{ !cancelled() && inputs.send-report }}
     permissions:
       actions: read
       contents: read

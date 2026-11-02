@@ -34,6 +34,7 @@ const MAX_REQUEST_ATTEMPTS = 4;
 const RETRY_BASE_DELAY_MS = Number(process.env.GITHUB_API_RETRY_BASE_DELAY_MS) || 2000;
 const MAX_RETRY_WAIT_MS = 60 * 1000;
 const MAX_ERROR_BODY_LENGTH = 200;
+const UNZIP_PATH = '/usr/bin/unzip';
 const RETRYABLE_STATUSES = new Set([429, 500, 502, 503, 504]);
 
 class GithubApiError extends Error {
@@ -128,7 +129,7 @@ function createGithubClient({ token, repository, apiUrl = 'https://api.github.co
     try {
       fs.writeFileSync(zipFile, Buffer.from(await response.arrayBuffer()));
       fs.mkdirSync(targetDir, { recursive: true });
-      execFileSync('unzip', ['-o', '-q', zipFile, '-d', targetDir], { stdio: 'inherit' });
+      execFileSync(UNZIP_PATH, ['-o', '-q', zipFile, '-d', targetDir], { stdio: 'inherit' });
     } finally {
       fs.rmSync(zipFile, { force: true });
     }
