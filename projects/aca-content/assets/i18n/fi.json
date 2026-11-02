@@ -375,6 +375,8 @@
                 "GENERIC": "Toiminto ei onnistunut. Yritä uudelleen tai ota yhteyttä IT-tukeen.",
                 "CONFLICT": "Tämä nimi on jo käytössä. Käytä toista nimeä.",
                 "NODE_MOVE": "Siirtäminen epäonnistui, koska samanniminen tiedosto on jo olemassa.",
+                "FILE_FOLDER_MOVE": "Move unsuccessful, a file or folder with the same name already exists.",
+                "MOVE_UNDO": "Move could not be reverted.",
                 "NODE_LINK_DUPLICATE": "Linkkiä ei voi luoda, samanniminen linkki on jo tässä sijainnissa.",
                 "EXISTENT_FOLDER": "Samanniminen kansio on jo olemassa. Käytä toista nimeä.",
                 "NODE_DELETION": "Kohteen {{ name }} poistaminen ei onnistunut",
@@ -447,6 +449,8 @@
                 "NODE_MOVE": {
                     "SINGULAR": "Siirrettiin {{ success }} kohde.",
                     "PLURAL": "Siirrettiin {{ success }} kohdetta.",
+                    "FROM_TO": "{{ node }} moved to {{ target }}",
+                    "UNDO_SUCCESS": "Move reverted successfully",
                     "PARTIAL": {
                         "SINGULAR": "Siirrettiin osittain {{ partially }} kohde.",
                         "PLURAL": "Siirrettiin osittain {{ partially }} kohdetta.",

@@ -375,6 +375,8 @@
                 "GENERIC": "A ação não teve êxito. Tente novamente ou entre em contato com sua equipa de TI.",
                 "CONFLICT": "Este nome já está em uso. Tente um nome diferente.",
                 "NODE_MOVE": "Falha ao mover, já existe um ficheiro com o mesmo nome.",
+                "FILE_FOLDER_MOVE": "Move unsuccessful, a file or folder with the same name already exists.",
+                "MOVE_UNDO": "Move could not be reverted.",
                 "NODE_LINK_DUPLICATE": "Não é possível criar uma ligação, já existe uma ligação com o mesmo nome nesta localização.",
                 "EXISTENT_FOLDER": "Já existe uma pasta com este nome. Tente um nome diferente.",
                 "NODE_DELETION": "Não foi possível eliminar {{ name }}",
@@ -447,6 +449,8 @@
                 "NODE_MOVE": {
                     "SINGULAR": "Movido {{ success }} item.",
                     "PLURAL": "Movidos {{ success }} itens.",
+                    "FROM_TO": "{{ node }} moved to {{ target }}",
+                    "UNDO_SUCCESS": "Move reverted successfully",
                     "PARTIAL": {
                         "SINGULAR": "Movido parcialmente {{ partially }} item.",
                         "PLURAL": "Movidos parcialmente {{ partially }} itens.",

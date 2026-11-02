@@ -375,6 +375,8 @@
                 "GENERIC": "كان الإجراء غير ناجح. حاول مرة أخرى أو اتصل بفريق تكنولوجيا المعلومات.",
                 "CONFLICT": "هذا الاسم قيد الاستخدام بالفعل، جرّب اسمًا مختلفًا.",
                 "NODE_MOVE": "نقل غير ناجح، يوجد ملف بنفس الاسم بالفعل.",
+                "FILE_FOLDER_MOVE": "Move unsuccessful, a file or folder with the same name already exists.",
+                "MOVE_UNDO": "Move could not be reverted.",
                 "NODE_LINK_DUPLICATE": "لا يمكن إنشاء ارتباط، يوجد ارتباط بالاسم نفسه في هذا الموقع بالفعل.",
                 "EXISTENT_FOLDER": "يوجد مجلد بهذا الاسم بالفعل. جرّب اسمًا مختلفًا.",
                 "NODE_DELETION": "تعذر حذف {{ name }}",
@@ -447,6 +449,8 @@
                 "NODE_MOVE": {
                     "SINGULAR": "عنصر {{ success }} تم نقله.",
                     "PLURAL": "عنصر {{ success }} تم نقله.",
+                    "FROM_TO": "{{ node }} moved to {{ target }}",
+                    "UNDO_SUCCESS": "Move reverted successfully",
                     "PARTIAL": {
                         "SINGULAR": "عنصر {{ partially }} تم نقله جزئيًا.",
                         "PLURAL": "عناصر {{ partially }} تم نقلها جزئيًا.",

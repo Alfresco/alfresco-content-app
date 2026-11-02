@@ -375,6 +375,8 @@
                 "GENERIC": "此操作未成功，请重试或联系您的 IT 团队。",
                 "CONFLICT": "此名称已使用，请尝试其他名称。",
                 "NODE_MOVE": "未成功移动，存在有相同名称的文件。",
+                "FILE_FOLDER_MOVE": "Move unsuccessful, a file or folder with the same name already exists.",
+                "MOVE_UNDO": "Move could not be reverted.",
                 "NODE_LINK_DUPLICATE": "无法创建链接，此位置已存在同名链接。",
                 "EXISTENT_FOLDER": "存在使用此名称的文件夹。请尝试使用其他名称。",
                 "NODE_DELETION": "{{ name }} 无法删除",
@@ -447,6 +449,8 @@
                 "NODE_MOVE": {
                     "SINGULAR": "已移动 {{ success }} 项目。",
                     "PLURAL": "已移动 {{ success }} 项目。",
+                    "FROM_TO": "{{ node }} moved to {{ target }}",
+                    "UNDO_SUCCESS": "Move reverted successfully",
                     "PARTIAL": {
                         "SINGULAR": "部分移动 {{ partially }} 项目。",
                         "PLURAL": "部分移动 {{ partially }} 项目。",
