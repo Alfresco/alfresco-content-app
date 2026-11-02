@@ -24,7 +24,7 @@
         --secondary: #5c6370;
         --rule: #dcdfe4;
         --link: #1f5fbf;
-        --retried: #b26b00;
+        --retried: #9a5c00;
         --failed: #c42b1c;
         --duration: #5b7fb8;
         --fresh: #1f6f43;
@@ -901,7 +901,12 @@
           const rows = visible
             .map((r) => {
               const rescued = r.suiteAttempt > 1 && r.outcome !== 'f' && test.runsRescuedBySuiteRerun.has(r.run?.id);
-              const [label, cls] = rescued ? ['Passed on suite re-run', 'is-retried'] : OUTCOME_LABELS[r.outcome] || [r.outcome, ''];
+              const rerunWithSerialGroup = r.outcome === 'p' && r.retries > 0;
+              const [label, cls] = rescued
+                ? ['Passed on suite re-run', 'is-retried']
+                : rerunWithSerialGroup
+                  ? ['Re-run with its serial group', 'is-retried']
+                  : OUTCOME_LABELS[r.outcome] || [r.outcome, ''];
               return '<tr><td>' + formatDate(r.date) + '</td><td>' + runLink(r, test) + '</td><td><span class="' + cls + '">' + label + '</span></td>' +
                 '<td class="num">' + (r.retries || '<span class="secondary">0</span>') + '</td><td class="attempts">' + attemptList(r) + '</td>' +
                 '<td class="num">' + (r.duration == null ? '<span class="secondary">–</span>' : formatDuration(r.duration)) + '</td>' +
@@ -1171,13 +1176,14 @@
           const daysInMonth = new Date(Date.UTC(year, monthIndex, 0)).getUTCDate();
           const offset = (new Date(Date.UTC(year, monthIndex - 1, 1)).getUTCDay() + 6) % 7;
           const title = new Date(Date.UTC(year, monthIndex - 1, 1)).toLocaleDateString('en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+          const tabStopDate = selected.startsWith(calendarMonth) ? selected : clampToDataRange(calendarMonth + '-01');
           let cells = WEEKDAYS.map((day) => '<span class="weekday" aria-hidden="true">' + day + '</span>').join('') + '<span></span>'.repeat(offset);
           for (let day = 1; day <= daysInMonth; day++) {
             const date = calendarMonth + '-' + String(day).padStart(2, '0');
             const disabled = date > lastDate || date < firstDate;
             const hasData = datesWithData.has(date);
             const label = formatDate(date, { weekday: 'long', year: 'numeric' }) + (hasData ? '' : ', no data');
-            cells += '<button type="button" class="day' + (hasData ? ' has-data' : '') + '" data-date="' + esc(date) + '" aria-label="' + esc(label) + '" aria-pressed="' + (date === selected) + '" tabindex="' + (date === selected ? 0 : -1) + '"' + (disabled ? ' disabled' : '') + '>' + day + '</button>';
+            cells += '<button type="button" class="day' + (hasData ? ' has-data' : '') + '" data-date="' + esc(date) + '" aria-label="' + esc(label) + '" aria-pressed="' + (date === selected) + '" tabindex="' + (date === tabStopDate ? 0 : -1) + '"' + (disabled ? ' disabled' : '') + '>' + day + '</button>';
           }
           $('calendar').innerHTML =
             '<div class="calendar-head">' +
@@ -1327,6 +1333,12 @@
             return;
           }
           if (e.target.id === 'toggle-rows') {
+            const openRowPosition = [...$('panel').querySelectorAll('tr.test-row')].findIndex((row) => row.getAttribute('aria-expanded') === 'true');
+            const collapseHidesOpenTest = showAll && openRowPosition >= TOP_LIMIT;
+            if (collapseHidesOpenTest) {
+              state = { ...state, test: '' };
+              writeState();
+            }
             showAll = !showAll;
             render();
             $('toggle-rows')?.focus();

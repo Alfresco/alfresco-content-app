@@ -87,7 +87,8 @@ function testMetrics({ suite, file, title, path: filePath, line, outcome, result
   const entry = emptyTestMetrics({ key: `${suite} › ${file} › ${title}`, suite, file, title, path: filePath, line });
   entry.runs = 1;
   entry.retries = executedAttempts.filter((attempt) => attempt.retry > 0).length;
-  entry.flakyRuns = outcome === 'flaky' ? 1 : 0;
+  const passedAfterSerialGroupRetry = outcome === 'expected' && entry.retries > 0;
+  entry.flakyRuns = outcome === 'flaky' || passedAfterSerialGroupRetry ? 1 : 0;
   entry.failures = outcome === 'unexpected' ? 1 : 0;
   for (const attempt of passedAttempts) {
     const duration = durationIncludingBeforeAll(attempt);

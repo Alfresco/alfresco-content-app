@@ -146,7 +146,7 @@ function compactResults(day, indexByKey, dedupedErrors) {
         result.duration ?? null,
         result.setup ?? null
       ];
-      const neededRetryOrFailed = result.outcome !== 'expected';
+      const neededRetryOrFailed = result.outcome !== 'expected' || result.retries > 0;
       if (neededRetryOrFailed) {
         row.push(result.attempts.map(compactAttempt));
       }
