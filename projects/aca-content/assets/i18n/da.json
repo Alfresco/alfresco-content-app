@@ -375,6 +375,8 @@
                 "GENERIC": "Handlingen blev ikke fuldført. Prøv igen, eller kontakt dit it-team.",
                 "CONFLICT": "Navnet er allerede i brug. Prøv et andet navn.",
                 "NODE_MOVE": "Flytningen lykkedes ikke, da der allerede findes en fil med samme navn.",
+                "FILE_FOLDER_MOVE": "Move unsuccessful, a file or folder with the same name already exists.",
+                "MOVE_UNDO": "Move could not be reverted.",
                 "NODE_LINK_DUPLICATE": "Kan ikke oprette link, et link med samme navn findes allerede på denne placering.",
                 "EXISTENT_FOLDER": "Der er allerede en mappe med det navn. Prøv et andet navn.",
                 "NODE_DELETION": "{{ name }} kunne ikke slettes",
@@ -447,6 +449,8 @@
                 "NODE_MOVE": {
                     "SINGULAR": "{{ success }} element er blevet flyttet.",
                     "PLURAL": "{{ success }} elementer er blevet flyttet.",
+                    "FROM_TO": "{{ node }} moved to {{ target }}",
+                    "UNDO_SUCCESS": "Move reverted successfully",
                     "PARTIAL": {
                         "SINGULAR": "{{ partially }} element er blevet delvist flyttet.",
                         "PLURAL": "{{ partially }} elementer er blevet delvist flyttet.",

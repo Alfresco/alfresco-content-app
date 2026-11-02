@@ -375,6 +375,8 @@
                 "GENERIC": "Akce se nezdařila. Zkuste to znovu nebo se obraťte na oddělení IT.",
                 "CONFLICT": "Tento název se již používá. Zvolte jiný.",
                 "NODE_MOVE": "Přesunutí se nezdařilo, protože soubor se stejným názvem již existuje.",
+                "FILE_FOLDER_MOVE": "Move unsuccessful, a file or folder with the same name already exists.",
+                "MOVE_UNDO": "Move could not be reverted.",
                 "NODE_LINK_DUPLICATE": "Nelze vytvořit odkaz, odkaz se stejným názvem již v tomto umístění existuje.",
                 "EXISTENT_FOLDER": "Složka s tímto názvem již existuje. Zadejte jiný název.",
                 "NODE_DELETION": "„{{ name }}“ nebylo možné odstranit",
@@ -447,6 +449,8 @@
                 "NODE_MOVE": {
                     "SINGULAR": "Přesunuté položky: {{ success }}",
                     "PLURAL": "Přesunuté položky: {{ success }}",
+                    "FROM_TO": "{{ node }} moved to {{ target }}",
+                    "UNDO_SUCCESS": "Move reverted successfully",
                     "PARTIAL": {
                         "SINGULAR": "Částečně přesunuté položky: {{ partially }}",
                         "PLURAL": "Částečně přesunuté položky: {{ partially }}",

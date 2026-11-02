@@ -375,6 +375,8 @@
                 "GENERIC": "De actie is mislukt. Probeer het opnieuw of neem contact op met het IT-team.",
                 "CONFLICT": "Deze naam wordt al gebruikt, probeer een andere naam.",
                 "NODE_MOVE": "Verplaatsen is mislukt, er bestaat al een bestand met dezelfde naam.",
+                "FILE_FOLDER_MOVE": "Move unsuccessful, a file or folder with the same name already exists.",
+                "MOVE_UNDO": "Move could not be reverted.",
                 "NODE_LINK_DUPLICATE": "Kan geen link maken, er bestaat al een link met dezelfde naam op deze locatie.",
                 "EXISTENT_FOLDER": "Er bestaat al een map met deze naam. Probeer een andere naam.",
                 "NODE_DELETION": "Kan {{ name }} niet verwijderen",
@@ -447,6 +449,8 @@
                 "NODE_MOVE": {
                     "SINGULAR": "{{ success }} item verplaatst.",
                     "PLURAL": "{{ success }} items verplaatst.",
+                    "FROM_TO": "{{ node }} moved to {{ target }}",
+                    "UNDO_SUCCESS": "Move reverted successfully",
                     "PARTIAL": {
                         "SINGULAR": "{{ partially }} item gedeeltelijk verplaatst.",
                         "PLURAL": "{{ partially }} items gedeeltelijk verplaatst.",

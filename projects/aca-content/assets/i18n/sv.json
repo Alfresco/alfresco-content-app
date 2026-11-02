@@ -375,6 +375,8 @@
                 "GENERIC": "Åtgärden lyckades inte. Försök igen eller kontakta din IT-avdelning.",
                 "CONFLICT": "Det här namnet används redan, testa ett annat namn.",
                 "NODE_MOVE": "Flytt lyckades inte, en fil med samma namn finns redan.",
+                "FILE_FOLDER_MOVE": "Move unsuccessful, a file or folder with the same name already exists.",
+                "MOVE_UNDO": "Move could not be reverted.",
                 "NODE_LINK_DUPLICATE": "Det går inte att skapa en länk, en länk med samma namn finns redan på den här platsen.",
                 "EXISTENT_FOLDER": "Det finns redan en mapp med det här namnet. Testa ett annat namn",
                 "NODE_DELETION": "{{ name }} kunde inte raderas",
@@ -447,6 +449,8 @@
                 "NODE_MOVE": {
                     "SINGULAR": "Flyttade {{ success }} objekt.",
                     "PLURAL": "Flyttade {{ success }} objekt.",
+                    "FROM_TO": "{{ node }} moved to {{ target }}",
+                    "UNDO_SUCCESS": "Move reverted successfully",
                     "PARTIAL": {
                         "SINGULAR": "Flyttade delvis {{ partially }} objekt.",
                         "PLURAL": "Flyttade delvis {{ partially }} objekt.",
