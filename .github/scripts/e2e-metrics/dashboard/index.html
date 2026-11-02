@@ -892,6 +892,14 @@
           return diff > test.avg * SLOW_RUN_FRACTION_ABOVE_AVERAGE ? '<span class="slower">' + text + '</span>' : '<span class="secondary">' + text + '</span>';
         }
 
+        function runResultLabel(result, test) {
+          const rescuedBySuiteRerun = result.suiteAttempt > 1 && result.outcome !== 'f' && test.runsRescuedBySuiteRerun.has(result.run?.id);
+          if (rescuedBySuiteRerun) return ['Passed on suite re-run', 'is-retried'];
+          const rerunWithSerialGroup = result.outcome === 'p' && result.retries > 0;
+          if (rerunWithSerialGroup) return ['Re-run with its serial group', 'is-retried'];
+          return OUTCOME_LABELS[result.outcome] || [result.outcome, ''];
+        }
+
         function detailRow(test, colspan) {
           const results = test.runResults
             .slice()
@@ -900,13 +908,7 @@
           const visible = showAllRuns ? results : results.slice(0, RUN_LIMIT);
           const rows = visible
             .map((r) => {
-              const rescued = r.suiteAttempt > 1 && r.outcome !== 'f' && test.runsRescuedBySuiteRerun.has(r.run?.id);
-              const rerunWithSerialGroup = r.outcome === 'p' && r.retries > 0;
-              const [label, cls] = rescued
-                ? ['Passed on suite re-run', 'is-retried']
-                : rerunWithSerialGroup
-                  ? ['Re-run with its serial group', 'is-retried']
-                  : OUTCOME_LABELS[r.outcome] || [r.outcome, ''];
+              const [label, cls] = runResultLabel(r, test);
               return '<tr><td>' + formatDate(r.date) + '</td><td>' + runLink(r, test) + '</td><td><span class="' + cls + '">' + label + '</span></td>' +
                 '<td class="num">' + (r.retries || '<span class="secondary">0</span>') + '</td><td class="attempts">' + attemptList(r) + '</td>' +
                 '<td class="num">' + (r.duration == null ? '<span class="secondary">–</span>' : formatDuration(r.duration)) + '</td>' +
@@ -1303,6 +1305,25 @@
           document.querySelector('tr.group-row[data-group="' + CSS.escape(key) + '"]')?.focus();
         }
 
+        function toggleTestInSet(testIndexes, index, toggleAttribute) {
+          if (testIndexes.has(index)) testIndexes.delete(index);
+          else testIndexes.add(index);
+          render();
+          document.querySelector('[' + toggleAttribute + '="' + index + '"]')?.focus();
+        }
+
+        function toggleTopList() {
+          const openRowPosition = [...$('panel').querySelectorAll('tr.test-row')].findIndex((row) => row.getAttribute('aria-expanded') === 'true');
+          const collapseHidesOpenTest = showAll && openRowPosition >= TOP_LIMIT;
+          if (collapseHidesOpenTest) {
+            state = { ...state, test: '' };
+            writeState();
+          }
+          showAll = !showAll;
+          render();
+          $('toggle-rows')?.focus();
+        }
+
         $('panel').addEventListener('click', (e) => {
           if (e.target.closest('a')) return;
           const copyButton = e.target.closest('[data-copy-link]');
@@ -1318,30 +1339,16 @@
           }
           const runsToggle = e.target.closest('[data-runs-toggle]');
           if (runsToggle) {
-            const index = Number(runsToggle.dataset.runsToggle);
-            testsShowingAllRuns.has(index) ? testsShowingAllRuns.delete(index) : testsShowingAllRuns.add(index);
-            render();
-            document.querySelector('[data-runs-toggle="' + index + '"]')?.focus();
+            toggleTestInSet(testsShowingAllRuns, Number(runsToggle.dataset.runsToggle), 'data-runs-toggle');
             return;
           }
           const pathToggle = e.target.closest('[data-path-toggle]');
           if (pathToggle) {
-            const index = Number(pathToggle.dataset.pathToggle);
-            testsShowingLocation.has(index) ? testsShowingLocation.delete(index) : testsShowingLocation.add(index);
-            render();
-            document.querySelector('[data-path-toggle="' + index + '"]')?.focus();
+            toggleTestInSet(testsShowingLocation, Number(pathToggle.dataset.pathToggle), 'data-path-toggle');
             return;
           }
           if (e.target.id === 'toggle-rows') {
-            const openRowPosition = [...$('panel').querySelectorAll('tr.test-row')].findIndex((row) => row.getAttribute('aria-expanded') === 'true');
-            const collapseHidesOpenTest = showAll && openRowPosition >= TOP_LIMIT;
-            if (collapseHidesOpenTest) {
-              state = { ...state, test: '' };
-              writeState();
-            }
-            showAll = !showAll;
-            render();
-            $('toggle-rows')?.focus();
+            toggleTopList();
             return;
           }
           const header = e.target.closest('th[data-sort]');
