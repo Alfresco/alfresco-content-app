@@ -222,7 +222,7 @@ jobs:
             id: 22
     steps:
       - name: Free hosted runner disk space
-        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@b4b2716a50beebc3b17a38294242761251afacf9 # v19.1.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@482401ef42e6503cfa54d5873f1a768a0ecb3e0e # v19.11.0
 
       - name: Checkout
         uses: actions/checkout@v7
@@ -309,7 +309,7 @@ jobs:
           fetch-depth: 2
 
       - name: Extract commit message
-        uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@b4b2716a50beebc3b17a38294242761251afacf9 #v19.1.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@482401ef42e6503cfa54d5873f1a768a0ecb3e0e #v19.11.0
 
       - name: Check ADF link
         shell: bash
