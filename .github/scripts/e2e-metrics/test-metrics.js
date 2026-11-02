@@ -110,8 +110,10 @@ function testMetrics({ suite, file, title, path: filePath, line, outcome, result
   return entry;
 }
 
+const isE2eMetricsReport = (report) => report?.format === E2E_METRICS_REPORTER_FORMAT;
+
 function extractTestMetrics(report, fallbackSuite) {
-  if (report.format !== E2E_METRICS_REPORTER_FORMAT) {
+  if (!isE2eMetricsReport(report)) {
     throw new Error(`not an ${E2E_METRICS_REPORTER_FORMAT} report`);
   }
   const metrics = report.tests.map((test) =>
@@ -182,6 +184,7 @@ function formatDuration(ms) {
 
 module.exports = {
   parseRunArtifactName,
+  isE2eMetricsReport,
   extractTestMetrics,
   mergeTests,
   compareFlaky,

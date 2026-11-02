@@ -30,7 +30,7 @@ const path = require('path');
 const { requireEnv, createGithubClient } = require('./github-api');
 const { assertDate, yesterdayUtc } = require('./dates');
 const { SCHEMA_VERSION, writeJson } = require('./daily-metrics');
-const { parseRunArtifactName, extractTestMetrics, mergeTests } = require('./test-metrics');
+const { parseRunArtifactName, isE2eMetricsReport, extractTestMetrics, mergeTests } = require('./test-metrics');
 const { createDataIssueLog, appendIssuesToStepSummary } = require('./data-issues');
 
 const DEFAULT_SOURCE_WORKFLOWS = 'cron-e2e-chrome.yml,populate-e2e-reports.yml';
@@ -52,6 +52,10 @@ function readArtifactMetrics(artifactDir, suite, reportUnreadableFile) {
     .sort()) {
     try {
       const report = JSON.parse(fs.readFileSync(path.join(artifactDir, file), 'utf8'));
+      if (!isE2eMetricsReport(report)) {
+        console.log(`Skipping ${path.basename(artifactDir)}/${file}: written before the aca-e2e-metrics format existed.`);
+        continue;
+      }
       const suiteAttempt = suiteAttemptFromFileName(file);
       metrics.push(...extractTestMetrics(report, suite).map((metric) => ({ ...metric, suiteAttempt })));
     } catch (error) {
