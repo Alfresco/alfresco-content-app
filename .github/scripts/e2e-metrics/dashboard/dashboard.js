@@ -38,7 +38,7 @@
     panel: $('panel')
   };
 
-  if (!metrics || !metrics.days) {
+  if (!metrics?.days) {
     document.querySelector('main').innerHTML =
       '<p class="aca-empty">The data file (data/history.js) could not be loaded. Check the last run of the E2E metrics report workflow.</p>';
     return;
@@ -55,11 +55,11 @@
   const TREND_LABELS = { passed: 'passed', retried: 'needed a retry', failed: 'failed' };
   const TREND_DOT_CLASSES = { passed: 'aca-dot-passed', retried: 'aca-dot-retried', failed: 'aca-dot-failed' };
   const NO_RUN_DOT_CLASS = 'aca-dot-none';
-  const lastDate = metrics.days.length ? metrics.days[metrics.days.length - 1].date : new Date().toISOString().slice(0, 10);
+  const lastDate = metrics.days.at(-1)?.date ?? new Date().toISOString().slice(0, 10);
   const firstDate = metrics.days.length ? metrics.days[0].date : lastDate;
   const keptHistoryDays = metrics.historyDays || 14;
   const PERIODS = [7, 14, 30, 90].filter((days) => days <= keptHistoryDays);
-  const LONGEST_PERIOD = PERIODS[PERIODS.length - 1];
+  const LONGEST_PERIOD = PERIODS.at(-1);
   const isPeriod = (days) => Number.isInteger(days) && days >= 1 && days <= LONGEST_PERIOD;
   const STATE_VALIDATORS = {
     tab: (value) => Object.hasOwn(TAB_SORT, value),
@@ -983,7 +983,7 @@
 
   function titleParts(test) {
     const parts = test.title.split(TITLE_SEPARATOR);
-    return { describes: parts.slice(0, -1), name: parts[parts.length - 1] };
+    return { describes: parts.slice(0, -1), name: parts.at(-1) };
   }
 
   function buildTree(tests) {
@@ -1183,7 +1183,7 @@
     const dates = rangeDates();
     const data = aggregate(dates);
     view = { dates, comparison: compareFlakyWithPreviousPeriod(dates, data.tests), suiteTimes: suiteTimes(data.days) };
-    const suites = [...new Set(metrics.tests.map(([suite]) => suite))].sort();
+    const suites = [...new Set(metrics.tests.map(([suite]) => suite))].sort((first, second) => first.localeCompare(second));
     const filtered = data.tests.filter(matchesFilters);
     const query = state.q.trim().toLowerCase();
     const runs = data.days
@@ -1391,7 +1391,7 @@
     if (event.target.closest('a')) return;
     const copyButton = event.target.closest('[data-copy-link]');
     if (copyButton) {
-      copyTestLink(copyButton);
+      void copyTestLink(copyButton);
       return;
     }
     const groupsButton = event.target.closest('[data-groups]');
@@ -1439,7 +1439,8 @@
     const row = event.target.closest('tr.aca-test-row, tr.aca-group-row');
     if (!row || event.target.closest('a, button')) return;
     event.preventDefault();
-    row.classList.contains('aca-group-row') ? toggleGroup(row) : toggleRow(row);
+    if (row.classList.contains('aca-group-row')) toggleGroup(row);
+    else toggleRow(row);
   });
   window.addEventListener('hashchange', () => {
     state = readState();

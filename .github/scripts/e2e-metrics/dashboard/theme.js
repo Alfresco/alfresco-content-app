@@ -2,14 +2,14 @@
   'use strict';
 
   const STORAGE_KEY = 'e2e-dashboard-theme';
-  const THEMES = ['light', 'dark'];
+  const THEMES = new Set(['light', 'dark']);
   const root = document.documentElement;
   const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 
   function savedTheme() {
     try {
       const theme = localStorage.getItem(STORAGE_KEY);
-      return THEMES.includes(theme) ? theme : null;
+      return THEMES.has(theme) ? theme : null;
     } catch {
       return null;
     }
@@ -18,7 +18,9 @@
   function saveTheme(theme) {
     try {
       localStorage.setItem(STORAGE_KEY, theme);
-    } catch {}
+    } catch (error) {
+      console.warn(`The ${theme} theme will not be remembered: ${error.message}`);
+    }
   }
 
   const systemTheme = () => (systemPrefersDark.matches ? 'dark' : 'light');
