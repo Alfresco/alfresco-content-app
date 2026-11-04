@@ -55,9 +55,14 @@ function buildReport(dates, dailies, title, previousDailies = [], loadIssues = [
 
   const flaky = tests
     .filter((test) => test.retries > 0 || test.failures > 0)
-    .sort((a, b) => b.retries - a.retries || b.failures - a.failures || a.runs - b.runs || a.key.localeCompare(b.key));
+    .sort(
+      (first, second) =>
+        second.retries - first.retries || second.failures - first.failures || first.runs - second.runs || first.key.localeCompare(second.key)
+    );
   const hasPassedAttempt = (test) => test.durationCount > 0;
-  const slowest = tests.filter(hasPassedAttempt).sort((a, b) => b.durationAvg - a.durationAvg || a.key.localeCompare(b.key));
+  const slowest = tests
+    .filter(hasPassedAttempt)
+    .sort((first, second) => second.durationAvg - first.durationAvg || first.key.localeCompare(second.key));
 
   const runsByWorkflow = {};
   for (const run of runs) {
@@ -312,11 +317,7 @@ async function main() {
   await postToTeams(card);
 }
 
-if (require.main === module) {
-  main().catch((error) => {
-    console.error(error);
-    process.exit(1);
-  });
-}
-
-module.exports = { buildReport, buildCard, buildMarkdown };
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});

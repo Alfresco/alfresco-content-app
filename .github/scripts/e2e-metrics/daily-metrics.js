@@ -47,7 +47,7 @@ const isFromTrustedRun = (artifact) => {
 
 async function downloadLatestDaily(github, date, workDir) {
   const name = `${DAILY_ARTIFACT_PREFIX}${date}`;
-  const newestFirst = (a, b) => b.created_at.localeCompare(a.created_at);
+  const newestFirst = (first, second) => second.created_at.localeCompare(first.created_at);
   const artifacts = (await github.paginate(`/actions/artifacts?name=${encodeURIComponent(name)}`, 'artifacts'))
     .filter((artifact) => !artifact.expired && isFromTrustedRun(artifact))
     .sort(newestFirst);

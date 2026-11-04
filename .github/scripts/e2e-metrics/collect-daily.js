@@ -337,7 +337,7 @@ async function main() {
     fs.rmSync(workDir, { recursive: true, force: true });
   }
 
-  const tests = mergeTests(perRunMetrics).sort((a, b) => a.key.localeCompare(b.key));
+  const tests = mergeTests(perRunMetrics).sort((first, second) => first.key.localeCompare(second.key));
   const daily = { schemaVersion: SCHEMA_VERSION, date, generatedAt: new Date().toISOString(), runs, tests, results: perRunTestResults };
   if (issueLog.issues.length) {
     daily.issues = issueLog.issues;

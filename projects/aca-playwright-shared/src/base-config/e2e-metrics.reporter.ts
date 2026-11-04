@@ -28,7 +28,14 @@ import path from 'node:path';
 
 export const E2E_METRICS_FORMAT = 'aca-e2e-metrics';
 
-type HookType = 'beforeAll' | 'beforeEach';
+const BEFORE_ALL = 'beforeAll';
+const BEFORE_EACH = 'beforeEach';
+const TRACKED_HOOK_TYPES = [BEFORE_ALL, BEFORE_EACH] as const;
+const HOOK_STEP_TITLE_SUFFIX = ' hook';
+
+type HookType = (typeof TRACKED_HOOK_TYPES)[number];
+
+const isTrackedHookType = (type: string): type is HookType => (TRACKED_HOOK_TYPES as readonly string[]).includes(type);
 
 interface HookLocation {
   file: string;
@@ -110,9 +117,9 @@ export default class E2eMetricsReporter implements Reporter {
     for (let parent: SuiteWithPrivateHooks | undefined = test.parent; parent; parent = parent.parent) {
       for (const hook of parent._hooks ?? []) {
         const id = hookId(hook.location);
-        if (id && (hook.type === 'beforeAll' || hook.type === 'beforeEach')) {
+        if (id && isTrackedHookType(hook.type)) {
           this.hookTypes.set(id, hook.type);
-          if (hook.type === 'beforeAll') {
+          if (hook.type === BEFORE_ALL) {
             beforeAllHookIds.push(id);
           }
         }
@@ -130,7 +137,7 @@ export default class E2eMetricsReporter implements Reporter {
 
     const hooks = this.hookTimingsByResult.get(result) ?? { beforeAll: new Map<string, number>(), beforeEach: 0 };
     this.hookTimingsByResult.set(result, hooks);
-    if (type === 'beforeEach') {
+    if (type === BEFORE_EACH) {
       hooks.beforeEach += step.duration;
       return;
     }
@@ -150,10 +157,7 @@ export default class E2eMetricsReporter implements Reporter {
     if (this.hookTypes.has(id)) {
       return this.hookTypes.get(id);
     }
-    if (step.title === 'beforeAll hook') {
-      return 'beforeAll';
-    }
-    return step.title === 'beforeEach hook' ? 'beforeEach' : undefined;
+    return TRACKED_HOOK_TYPES.find((type) => step.title === `${type}${HOOK_STEP_TITLE_SUFFIX}`);
   }
 
   private testMetrics(test: TestCase): E2eMetricsTest {

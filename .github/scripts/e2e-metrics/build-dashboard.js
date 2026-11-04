@@ -31,7 +31,7 @@ const { assertDate, shiftDate, yesterdayUtc, datesEndingOn } = require('./dates'
 const { SCHEMA_VERSION, loadDailies } = require('./daily-metrics');
 const { createDataIssueLog, appendIssuesToStepSummary } = require('./data-issues');
 
-const TEMPLATE = path.join(__dirname, 'dashboard', 'index.html');
+const DASHBOARD_PAGE_DIR = path.join(__dirname, 'dashboard');
 const LONGEST_REPORT_DAYS = 14;
 const DEFAULT_HISTORY_DAYS = 2 * LONGEST_REPORT_DAYS;
 const DEFAULT_DETAIL_DAYS = LONGEST_REPORT_DAYS;
@@ -66,7 +66,7 @@ async function fetchPublishedHistory(siteUrl) {
 const testKey = ([suite, file, title]) => `${suite} › ${file} › ${title}`;
 const toFields = (fields, object) => fields.map((field) => object[field] ?? null);
 const fromFields = (fields, values) => Object.fromEntries(fields.map((field, position) => [field, values[position] ?? null]));
-const mapValues = (object, fn) => Object.fromEntries(Object.entries(object || {}).map(([key, value]) => [key, fn(value)]));
+const mapValues = (object, transform) => Object.fromEntries(Object.entries(object || {}).map(([key, value]) => [key, transform(value)]));
 
 function expandRun(run) {
   const { suites, failure, ...rest } = run;
@@ -163,7 +163,7 @@ function compactHistory(days, meta, detailFrom) {
   const catalog = [];
   const indexByKey = new Map();
   const compactDays = [...days.values()]
-    .sort((a, b) => a.date.localeCompare(b.date))
+    .sort((firstDay, secondDay) => firstDay.date.localeCompare(secondDay.date))
     .map((day) => {
       const tests = day.tests.map((test) => {
         if (!indexByKey.has(test.key)) {
@@ -256,7 +256,7 @@ async function main() {
   );
 
   fs.mkdirSync(siteDir, { recursive: true });
-  fs.copyFileSync(TEMPLATE, path.join(siteDir, 'index.html'));
+  fs.cpSync(DASHBOARD_PAGE_DIR, siteDir, { recursive: true });
   const json = JSON.stringify(history);
   fs.mkdirSync(path.join(siteDir, 'data'), { recursive: true });
   fs.writeFileSync(path.join(siteDir, 'data', 'history.json'), json);
@@ -266,11 +266,7 @@ async function main() {
   );
 }
 
-if (require.main === module) {
-  main().catch((error) => {
-    console.error(error);
-    process.exit(1);
-  });
-}
-
-module.exports = { expandHistory, compactHistory };
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});

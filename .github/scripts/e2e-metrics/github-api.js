@@ -38,11 +38,10 @@ const UNZIP_PATH = '/usr/bin/unzip';
 const RETRYABLE_STATUSES = new Set([429, 500, 502, 503, 504]);
 
 class GithubApiError extends Error {
-  constructor(message, { status, urlPath }) {
+  constructor(message, { status }) {
     super(message);
     this.name = 'GithubApiError';
     this.status = status;
-    this.urlPath = urlPath;
   }
 }
 
@@ -92,7 +91,7 @@ function createGithubClient({ token, repository, apiUrl = 'https://api.github.co
       response = await fetch(url, { headers });
     } catch (error) {
       if (isLastAttempt) {
-        throw new GithubApiError(`GitHub API ${urlPath}: network error after ${attempt} attempts (${error.message})`, { status: null, urlPath });
+        throw new GithubApiError(`GitHub API ${urlPath}: network error after ${attempt} attempts (${error.message})`, { status: null });
       }
       await sleep(backoffMs(attempt));
       return request(urlPath, attempt + 1);
@@ -107,8 +106,7 @@ function createGithubClient({ token, repository, apiUrl = 'https://api.github.co
     }
     const body = (await response.text()).slice(0, MAX_ERROR_BODY_LENGTH);
     throw new GithubApiError(`GitHub API ${urlPath} returned HTTP ${response.status} after ${attempt} attempt(s): ${body}`, {
-      status: response.status,
-      urlPath
+      status: response.status
     });
   }
 
