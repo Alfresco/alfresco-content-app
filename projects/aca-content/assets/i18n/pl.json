@@ -375,8 +375,8 @@
                 "GENERIC": "Wykonanie czynności nie powiodło się. Spróbuj ponownie lub skontaktuj się z zespołem IT.",
                 "CONFLICT": "Ta nazwa jest już używana. Spróbuj użyć innej nazwy.",
                 "NODE_MOVE": "Przeniesienie zakończone niepowodzeniem, plik o tej samej nazwie już istnieje.",
-                "FILE_FOLDER_MOVE": "Move unsuccessful, a file or folder with the same name already exists.",
-                "MOVE_UNDO": "Move could not be reverted.",
+                "FILE_FOLDER_MOVE": "Przeniesienie zakończone niepowodzeniem, plik lub folder o tej samej nazwie już istnieje.",
+                "MOVE_UNDO": "Nie można odwrócić przeniesienia.",
                 "NODE_LINK_DUPLICATE": "Nie można utworzyć linku, link o tej samej nazwie już istnieje w tej lokalizacji.",
                 "EXISTENT_FOLDER": "Istnieje już folder o tej nazwie. Spróbuj użyć innej nazwy.",
                 "NODE_DELETION": "Nie można usunąć elementu {{ name }}.",
@@ -449,8 +449,8 @@
                 "NODE_MOVE": {
                     "SINGULAR": "Przeniesiono element: {{ success }}.",
                     "PLURAL": "Przeniesiono elementy: {{ success }}.",
-                    "FROM_TO": "{{ node }} moved to {{ target }}",
-                    "UNDO_SUCCESS": "Move reverted successfully",
+                    "FROM_TO": "{{ node }} przeniesiono do {{ target }}",
+                    "UNDO_SUCCESS": "Przeniesienie zostało pomyślnie odwrócone",
                     "PARTIAL": {
                         "SINGULAR": "Przeniesiono częściowo element: {{ partially }}.",
                         "PLURAL": "Przeniesiono częściowo elementy: {{ partially }}.",

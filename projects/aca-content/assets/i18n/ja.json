@@ -375,8 +375,8 @@
                 "GENERIC": "処理が失敗しました。もう一度操作をやり直すか、IT 担当者に連絡してください。",
                 "CONFLICT": "この名前は既に使用されています。別の名前を使用してください。",
                 "NODE_MOVE": "移動できません。同じ名前のファイルが既に存在します。",
-                "FILE_FOLDER_MOVE": "Move unsuccessful, a file or folder with the same name already exists.",
-                "MOVE_UNDO": "Move could not be reverted.",
+                "FILE_FOLDER_MOVE": "移動できません。同じ名前のファイルまたはフォルダが既に存在します。",
+                "MOVE_UNDO": "移動を元に戻せませんでした。",
                 "NODE_LINK_DUPLICATE": "リンクを作成できません。同じ名前のリンクがすでにこの場所に存在します。",
                 "EXISTENT_FOLDER": "この名前のフォルダは既に存在します。別の名前を使用してください。",
                 "NODE_DELETION": "{{ name }} を削除できませんでした",
@@ -449,8 +449,8 @@
                 "NODE_MOVE": {
                     "SINGULAR": "{{ success }} 件のアイテムを移動しました。",
                     "PLURAL": "{{ success }} 件のアイテムを移動しました。",
-                    "FROM_TO": "{{ node }} moved to {{ target }}",
-                    "UNDO_SUCCESS": "Move reverted successfully",
+                    "FROM_TO": "{{ node }} を {{ target }} に移動しました",
+                    "UNDO_SUCCESS": "移動を元に戻しました",
                     "PARTIAL": {
                         "SINGULAR": "一部のアイテム ({{ partially }} 件) を移動しました。",
                         "PLURAL": "一部のアイテム ({{ partially }} 件) を移動しました。",
