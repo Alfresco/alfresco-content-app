@@ -90,7 +90,7 @@
           <input matInput [type]="'tel'" placeholder="{{ 'APP.EDIT_PROFILE.TELEPHONE' | translate }}" formControlName="telephone" />
           @if (generalSectionEditMode) {
             <mat-hint data-automation-id="app-telephone-number-hint">
-              {{ 'APP.EDIT_PROFILE.VALID_PHONE_FORMAT' | translate }}
+              {{ 'APP.EDIT_PROFILE.VALID_PHONE_FORMAT_HINT' | translate }}
             </mat-hint>
           }
           <mat-error>
@@ -103,7 +103,7 @@
           <input matInput [type]="'tel'" placeholder="{{ 'APP.EDIT_PROFILE.MOBILE' | translate }}" formControlName="mobile" />
           @if (generalSectionEditMode) {
             <mat-hint data-automation-id="app-phone-number-hint">
-              {{ 'APP.EDIT_PROFILE.VALID_PHONE_FORMAT' | translate }}
+              {{ 'APP.EDIT_PROFILE.VALID_PHONE_FORMAT_HINT' | translate }}
             </mat-hint>
           }
           <mat-error>
@@ -178,7 +178,7 @@
           <input matInput placeholder="{{ 'APP.EDIT_PROFILE.TELEPHONE' | translate }}" formControlName="companyTelephone" />
           @if (contactSectionEditMode) {
             <mat-hint data-automation-id="app-company-telephone-number-hint">
-              {{ 'APP.EDIT_PROFILE.VALID_PHONE_FORMAT' | translate }}
+              {{ 'APP.EDIT_PROFILE.VALID_PHONE_FORMAT_HINT' | translate }}
             </mat-hint>            
           }
           <mat-error>
