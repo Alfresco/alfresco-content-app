@@ -375,8 +375,8 @@
                 "GENERIC": "Azione non eseguita correttamente. Riprovare o contattare il team IT.",
                 "CONFLICT": "Nome già in uso, provare un nome diverso.",
                 "NODE_MOVE": "Spostamento non eseguito correttamente, file con lo stesso nome già esistente.",
-                "FILE_FOLDER_MOVE": "Move unsuccessful, a file or folder with the same name already exists.",
-                "MOVE_UNDO": "Move could not be reverted.",
+                "FILE_FOLDER_MOVE": "Spostamento non eseguito correttamente, un file o una cartella con lo stesso nome già esistente.",
+                "MOVE_UNDO": "Non è stato possibile annullare lo spostamento.",
                 "NODE_LINK_DUPLICATE": "Impossibile creare il collegamento, esiste già un collegamento con lo stesso nome in questa posizione.",
                 "EXISTENT_FOLDER": "Esiste già una cartella con questo nome. Provare un nome diverso.",
                 "NODE_DELETION": "Impossibile eliminare {{ name }}",
@@ -449,8 +449,8 @@
                 "NODE_MOVE": {
                     "SINGULAR": "Spostato {{ success }} elemento.",
                     "PLURAL": "Spostati {{ success }} elementi.",
-                    "FROM_TO": "{{ node }} moved to {{ target }}",
-                    "UNDO_SUCCESS": "Move reverted successfully",
+                    "FROM_TO": "{{ node }} spostato in {{ target }}",
+                    "UNDO_SUCCESS": "Spostamento annullato con successo",
                     "PARTIAL": {
                         "SINGULAR": "Elemento {{ partially }} parzialmente spostato.",
                         "PLURAL": "Elementi {{ partially }} parzialmente spostati.",
