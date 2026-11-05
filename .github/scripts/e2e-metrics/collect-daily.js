@@ -347,11 +347,7 @@ async function main() {
   console.log(`Wrote ${outputFile}: ${runs.length} run(s), ${tests.length} test(s), ${issueLog.issues.length} data problem(s).`);
 }
 
-if (require.main === module) {
-  main().catch((error) => {
-    console.error(error);
-    process.exit(1);
-  });
-}
-
-module.exports = { readArtifactMetrics, parseSuiteJobName };
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});

@@ -6,7 +6,7 @@
   const root = document.documentElement;
   const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 
-  function savedTheme() {
+  function readSavedTheme() {
     try {
       const theme = localStorage.getItem(STORAGE_KEY);
       return THEMES.has(theme) ? theme : null;
@@ -23,30 +23,33 @@
     }
   }
 
-  const systemTheme = () => (systemPrefersDark.matches ? 'dark' : 'light');
-  const otherTheme = (theme) => (theme === 'dark' ? 'light' : 'dark');
+  const getSystemTheme = () => (systemPrefersDark.matches ? 'dark' : 'light');
+  const getOppositeTheme = (theme) => (theme === 'dark' ? 'light' : 'dark');
 
   function applyTheme(theme) {
     root.dataset.theme = theme;
     const button = document.getElementById('theme-toggle');
     if (!button) return;
-    const themeToSwitchTo = otherTheme(theme);
+    const themeToSwitchTo = getOppositeTheme(theme);
     const switchesToDark = themeToSwitchTo === 'dark';
-    button.innerHTML = `<span class="aca-icon" aria-hidden="true">${switchesToDark ? '☾' : '☀'}</span> ${switchesToDark ? 'Dark mode' : 'Light mode'}`;
+    button.innerHTML = `
+      <span class="aca-icon" aria-hidden="true">${switchesToDark ? '☾' : '☀'}</span>
+      ${switchesToDark ? 'Dark mode' : 'Light mode'}
+    `;
     button.title = `Switch to ${themeToSwitchTo} mode`;
   }
 
-  applyTheme(savedTheme() || systemTheme());
+  applyTheme(readSavedTheme() || getSystemTheme());
 
   document.addEventListener('DOMContentLoaded', () => {
     applyTheme(root.dataset.theme);
     document.getElementById('theme-toggle').addEventListener('click', () => {
-      const theme = otherTheme(root.dataset.theme);
+      const theme = getOppositeTheme(root.dataset.theme);
       saveTheme(theme);
       applyTheme(theme);
     });
     systemPrefersDark.addEventListener('change', () => {
-      if (!savedTheme()) applyTheme(systemTheme());
+      if (!readSavedTheme()) applyTheme(getSystemTheme());
     });
   });
 })();

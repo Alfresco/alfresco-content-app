@@ -40,11 +40,10 @@ const DEFAULT_TEST_CASE_URL = 'https://hyland.atlassian.net/browse/{id}';
 const COMPACT_TEST_METRIC_FIELDS = ['runs', 'retries', 'flakyRuns', 'failures', 'durationSum', 'durationCount', 'durationMax', 'setupSum'];
 const COMPACT_SUITE_JOB_FIELDS = ['job', 'step', 'setup', 'tests', 'total'];
 const COMPACT_FAILURE_CAUSE_FIELDS = ['kind', 'name', 'job', 'step', 'stepName'];
-const OUTCOME_CODES = { expected: 'p', flaky: 'r', unexpected: 'f' };
-const STATUS_CODES = { passed: 'p', failed: 'f', timedOut: 't', interrupted: 'i' };
-const decode = (codes) => Object.fromEntries(Object.entries(codes).map(([name, code]) => [code, name]));
-const OUTCOMES = decode(OUTCOME_CODES);
-const STATUSES = decode(STATUS_CODES);
+const DASHBOARD_OUTCOME_BY_PLAYWRIGHT_OUTCOME = { expected: 'passed', flaky: 'retried', unexpected: 'failed' };
+const PLAYWRIGHT_OUTCOME_BY_DASHBOARD_OUTCOME = Object.fromEntries(
+  Object.entries(DASHBOARD_OUTCOME_BY_PLAYWRIGHT_OUTCOME).map(([playwrightOutcome, dashboardOutcome]) => [dashboardOutcome, playwrightOutcome])
+);
 
 async function fetchPublishedHistory(siteUrl) {
   const url = `${siteUrl}data/history.json`;
@@ -91,12 +90,12 @@ function expandHistory(history) {
       key: testKey(history.tests[index]),
       runId: runs[runIndex]?.id,
       suiteAttempt,
-      outcome: OUTCOMES[outcome],
+      outcome: PLAYWRIGHT_OUTCOME_BY_DASHBOARD_OUTCOME[outcome],
       retries,
       duration,
       setup,
       attempts: (attempts || []).map(([status, attemptDuration, errorIndex]) => ({
-        status: STATUSES[status] || status,
+        status,
         duration: attemptDuration,
         ...(errorIndex != null && day.errors?.[errorIndex] ? { error: day.errors[errorIndex] } : {})
       }))
@@ -131,7 +130,7 @@ function compactResults(day, indexByKey, dedupedErrors) {
     return dedupedErrorIndex.get(error);
   };
   const compactAttempt = ({ status, duration, error }) => {
-    const statusAndDuration = [STATUS_CODES[status] || status, duration ?? null];
+    const statusAndDuration = [status, duration ?? null];
     return error ? [...statusAndDuration, indexOfDedupedError(error)] : statusAndDuration;
   };
   return (day.results || [])
@@ -141,7 +140,7 @@ function compactResults(day, indexByKey, dedupedErrors) {
         indexByKey.get(result.key),
         runIndex.get(result.runId),
         result.suiteAttempt || 1,
-        OUTCOME_CODES[result.outcome] || 'f',
+        DASHBOARD_OUTCOME_BY_PLAYWRIGHT_OUTCOME[result.outcome] || 'failed',
         result.retries,
         result.duration ?? null,
         result.setup ?? null
