@@ -58,6 +58,10 @@
       .adf-viewer__display-name {
         color: var(--adf-theme-foreground-text-color-087);
       }
+
+      .adf-breadcrumb-item-chevron {
+        font-family: var(--mat-icon-font-family, 'Material Icons Outlined');
+      }
     }
   }
 
