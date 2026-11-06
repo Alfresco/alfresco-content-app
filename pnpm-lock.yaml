@@ -13,10 +13,10 @@ importers:
     dependencies:
       '@alfresco/adf-content-services':
         specifier: 9.2.0-42190435384
-        version: 9.2.0-42190435384(1a29155abce6bd6d2b6e8f80a111a25c)
+        version: 9.2.0-42190435384(3dc5d331c1205eb0a409af28d29d1899)
       '@alfresco/adf-core':
         specifier: 9.2.0-42190435384
-        version: 9.2.0-42190435384(9427ba173f0ed824498c09b74280844e)
+        version: 9.2.0-42190435384(4599170bdacc4c34e9da3c93b6d0bf35)
       '@alfresco/adf-extensions':
         specifier: 9.2.0-42190435384
         version: 9.2.0-42190435384(@alfresco/js-api@10.2.0-42190435384)(@angular/common@21.2.22(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))
@@ -108,8 +108,8 @@ importers:
         specifier: ^1.13.12
         version: 1.13.14
       minimatch:
-        specifier: ^10.2.6
-        version: 10.2.6
+        specifier: ^11.0.1
+        version: 11.0.1
       pdfjs-dist:
         specifier: 5.1.91
         version: 5.1.91
@@ -1977,6 +1977,9 @@ packages:
   '@isaacs/fs-minipass@4.0.1':
     resolution: {integrity: sha512-wgm9Ehl2jpeqP3zw/7mo3kRHFp5MEDhqAdwy1fTGkHAwnkGOVsgpvQhL8B5n1qlb01jV3n/bI0ZfZp5lWA1k4w==}
     engines: {node: '>=18.0.0'}
+
+  '@isaacs/nonrecursive-glob-match@1.1.0':
+    resolution: {integrity: sha512-GPm/Dbvk5RLmhRnxXIa7nTpK0xtl4E0wj0MslsuNiJ1FIROU+2+9lgUC/dgF7Ey4QCWhfEsgxilMRMCdHPfDfw==}
 
   '@istanbuljs/schema@0.1.6':
     resolution: {integrity: sha512-+Sg6GCR/wy1oSmQDFq4LQDAhm3ETKnorxN+y5nbLULOR3P0c14f2Wurzj3/xqPXtasLFfHd5iRFQ7AJt4KH2cw==}
@@ -6162,6 +6165,10 @@ packages:
     resolution: {integrity: sha512-vpLQEs+VLCr1nU0BXS07maYoFwlDAH0gngQuuttxIwutDFEMHq2blX+8vpgxDdK3J1PwjCJiep77OitTZ4Ll1A==}
     engines: {node: 18 || 20 || >=22}
 
+  minimatch@11.0.1:
+    resolution: {integrity: sha512-t+Vn6DX4wPCxS23y03C0uhF7S1jpi1GfqPrnlEipCJaA2ykiNbMkVlDutZtmvLfRcUN6R8AYVlzTsQrT4RZoLQ==}
+    engines: {node: 18 || 20 || >=22}
+
   minimatch@3.1.5:
     resolution: {integrity: sha512-VgjWUsnnT6n+NUk6eZq77zeFdpW2LWDzP6zFGrCbHXiYNul5Dzqk2HHQ5uFH2DNW5Xbp8+jVzaeNt94ssEEl4w==}
 
@@ -8088,9 +8095,9 @@ snapshots:
       '@alfresco/js-api': 10.2.0-42190435384
       spdx-license-list: 5.0.0
 
-  '@alfresco/adf-content-services@9.2.0-42190435384(1a29155abce6bd6d2b6e8f80a111a25c)':
+  '@alfresco/adf-content-services@9.2.0-42190435384(3dc5d331c1205eb0a409af28d29d1899)':
     dependencies:
-      '@alfresco/adf-core': 9.2.0-42190435384(9427ba173f0ed824498c09b74280844e)
+      '@alfresco/adf-core': 9.2.0-42190435384(4599170bdacc4c34e9da3c93b6d0bf35)
       '@alfresco/js-api': 10.2.0-42190435384
       '@angular/cdk': 21.2.14(@angular/common@21.2.22(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))(@angular/platform-browser@21.2.22(@angular/animations@21.2.22(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3)))(@angular/common@21.2.22(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3)))(rxjs@7.8.2)
       '@angular/common': 21.2.22(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
@@ -8104,7 +8111,7 @@ snapshots:
       '@ngx-translate/core': 17.0.0(@angular/common@21.2.22(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))
       tslib: 2.8.1
 
-  '@alfresco/adf-core@9.2.0-42190435384(9427ba173f0ed824498c09b74280844e)':
+  '@alfresco/adf-core@9.2.0-42190435384(4599170bdacc4c34e9da3c93b6d0bf35)':
     dependencies:
       '@alfresco/adf-extensions': 9.2.0-42190435384(@alfresco/js-api@10.2.0-42190435384)(@angular/common@21.2.22(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))
       '@alfresco/js-api': 10.2.0-42190435384
@@ -8121,7 +8128,7 @@ snapshots:
       angular-oauth2-oidc: 19.0.0(@angular/common@21.2.22(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.22(@angular/compiler@21.2.22)(rxjs@7.8.2)(zone.js@0.16.3))
       cropperjs: 1.6.2
       date-fns: 2.30.0
-      minimatch: 10.2.6
+      minimatch: 11.0.1
       rxjs: 7.8.2
       tslib: 2.8.1
     optionalDependencies:
@@ -10156,6 +10163,8 @@ snapshots:
   '@isaacs/fs-minipass@4.0.1':
     dependencies:
       minipass: 7.1.3
+
+  '@isaacs/nonrecursive-glob-match@1.1.0': {}
 
   '@istanbuljs/schema@0.1.6': {}
 
@@ -14754,6 +14763,11 @@ snapshots:
 
   minimatch@10.2.6:
     dependencies:
+      brace-expansion: 5.0.12
+
+  minimatch@11.0.1:
+    dependencies:
+      '@isaacs/nonrecursive-glob-match': 1.1.0
       brace-expansion: 5.0.12
 
   minimatch@3.1.5:
