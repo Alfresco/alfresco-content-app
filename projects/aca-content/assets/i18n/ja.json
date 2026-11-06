@@ -57,6 +57,7 @@
             "NAME": "名前",
             "ADDRESS": "住所",
             "POSTCODE": "郵便番号",
+            "VALID_PHONE_FORMAT_HINT": "ハイフンを任意で使用して数字を入力してください。国際番号の場合は、国番号を含めてください。例：米国、1-404-123-4567；英国、44 20 7946 0958。",
             "INVALID_PHONE_FORMAT": "有効な電話番号を入力してください",
             "INVALID_EMAIL_FORMAT": "有効なメールアドレスを入力してください",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "個人ファイルに移動"

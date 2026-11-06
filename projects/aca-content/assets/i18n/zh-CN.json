@@ -57,6 +57,7 @@
             "NAME": "名称",
             "ADDRESS": "地址",
             "POSTCODE": "邮政编码",
+            "VALID_PHONE_FORMAT_HINT": "输入数字，可包含连字符。对于国际号码，请包含国家代码。示例：美国，1-404-123-4567；英国，44 20 7946 0958。",
             "INVALID_PHONE_FORMAT": "请输入有效的电话号码",
             "INVALID_EMAIL_FORMAT": "请输入有效的电子邮件地址",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "转到个人文件"

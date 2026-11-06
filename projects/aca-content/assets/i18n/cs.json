@@ -57,6 +57,7 @@
             "NAME": "Název",
             "ADDRESS": "Adresa",
             "POSTCODE": "PSČ",
+            "VALID_PHONE_FORMAT_HINT": "Zadejte čísla s volitelnými pomlčkami. U mezinárodních čísel uveďte kód země. Příklady: USA, 1-404-123-4567; UK, 44 20 7946 0958.",
             "INVALID_PHONE_FORMAT": "Zadejte platné telefonní číslo",
             "INVALID_EMAIL_FORMAT": "Zadejte platnou e‑mailovou adresu",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Přejít na osobní soubory"

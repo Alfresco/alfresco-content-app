@@ -57,6 +57,7 @@
             "NAME": "Nome",
             "ADDRESS": "Endereço",
             "POSTCODE": "Código postal",
+            "VALID_PHONE_FORMAT_HINT": "Digite números com hifens opcionais. Para números internacionais, inclua o código do país. Exemplos: EUA, 1-404-123-4567; Reino Unido, 44 20 7946 0958.",
             "INVALID_PHONE_FORMAT": "Insira um número de telefone válido",
             "INVALID_EMAIL_FORMAT": "Insira um endereço de e-mail válido",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Ir para Arquivos Pessoais"

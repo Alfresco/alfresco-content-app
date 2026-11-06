@@ -57,6 +57,7 @@
             "NAME": "Nome",
             "ADDRESS": "Indirizzo",
             "POSTCODE": "Codice postale",
+            "VALID_PHONE_FORMAT_HINT": "Inserisci i numeri con trattini facoltativi. Per i numeri internazionali, includi il prefisso internazionale. Esempi: USA, 1-404-123-4567; Regno Unito, 44 20 7946 0958.",
             "INVALID_PHONE_FORMAT": "Inserisci un numero di telefono valido",
             "INVALID_EMAIL_FORMAT": "Inserisci un indirizzo email valido",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Vai a File personali"
