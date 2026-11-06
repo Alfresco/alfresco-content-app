@@ -39,14 +39,16 @@ const elements = {
   panel: findById('panel')
 };
 
-let state = readState();
-let showAll = false;
-let legendOpen = false;
-let dataIssuesOpen = false;
-let calendarMonth = lastDate.slice(0, 7);
-let scrollToOpenTest = Boolean(state.test);
-let visibleGroupKeys = [];
-let view = { dates: [], comparison: null, suiteTimes: new Map() };
+const state = readState();
+const view = { dates: [], comparison: null, suiteTimes: new Map() };
+const ui = {
+  showAll: false,
+  legendOpen: false,
+  dataIssuesOpen: false,
+  calendarMonth: lastDate.slice(0, 7),
+  scrollToOpenTest: Boolean(state.test),
+  visibleGroupKeys: []
+};
 const userToggledGroups = new Map();
 const testsShowingAllRuns = new Set();
 const testsShowingLocation = new Set();
@@ -71,8 +73,8 @@ function writeState() {
 }
 
 function setState(patch) {
-  state = { ...state, ...patch };
-  showAll = false;
+  Object.assign(state, patch);
+  ui.showAll = false;
   writeState();
   render();
 }

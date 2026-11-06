@@ -140,7 +140,7 @@ function renderTests(rows) {
   }
   const noun = state.tab === 'flaky' ? 'flaky tests' : 'tests by duration';
   const openTestIsBelowTopList = rows.findIndex((test) => test.index === getOpenTestIndex()) >= TOP_LIMIT;
-  const visibleTests = showAll || openTestIsBelowTopList ? rows : rows.slice(0, TOP_LIMIT);
+  const visibleTests = ui.showAll || openTestIsBelowTopList ? rows : rows.slice(0, TOP_LIMIT);
   const testRows = visibleTests
     .map((test, position) => {
       const rankCell = `<td class="aca-num aca-rank">${position + 1}</td>`;

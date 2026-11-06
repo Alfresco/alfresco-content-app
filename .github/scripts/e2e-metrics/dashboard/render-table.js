@@ -65,7 +65,7 @@ function renderDefinition([term, text]) {
 
 function renderLegend(entries) {
   return `
-    <details class="aca-legend" id="legend"${legendOpen ? ' open' : ''}>
+    <details class="aca-legend" id="legend"${ui.legendOpen ? ' open' : ''}>
       <summary>What the columns mean</summary>
       <p>${escapeHtml(TAB_INTRO[state.tab])}</p>
       <dl>${entries.map(renderDefinition).join('')}</dl>
@@ -75,10 +75,10 @@ function renderLegend(entries) {
 
 function renderRowToggle(total, limit, noun) {
   if (total <= limit) return '';
-  const label = showAll ? `Show the top ${limit} only` : `Show all ${numberFormat.format(total)} ${noun}`;
+  const label = ui.showAll ? `Show the top ${limit} only` : `Show all ${numberFormat.format(total)} ${noun}`;
   return `
     <div class="aca-more">
-      <button type="button" id="toggle-rows" aria-expanded="${showAll}">${label}</button>
+      <button type="button" id="toggle-rows" aria-expanded="${ui.showAll}">${label}</button>
     </div>
   `;
 }

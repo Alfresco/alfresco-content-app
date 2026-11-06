@@ -116,7 +116,7 @@ function renderDataIssues(issues) {
     </summary>
     <ul>${issues.map(renderDataIssue).join('')}</ul>
   `;
-  box.open = dataIssuesOpen;
+  box.open = ui.dataIssuesOpen;
 }
 
 function renderTabs(counts) {

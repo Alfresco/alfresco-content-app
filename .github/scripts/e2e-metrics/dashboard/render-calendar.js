@@ -30,15 +30,15 @@ function renderCalendarDay(date, day, selected, tabStopDate) {
 
 function renderCalendar() {
   const selected = state.end || lastDate;
-  const [year, monthIndex] = calendarMonth.split('-').map(Number);
+  const [year, monthIndex] = ui.calendarMonth.split('-').map(Number);
   const daysInMonth = new Date(Date.UTC(year, monthIndex, 0)).getUTCDate();
   const offset = (new Date(Date.UTC(year, monthIndex - 1, 1)).getUTCDay() + 6) % 7;
   const title = new Date(Date.UTC(year, monthIndex - 1, 1)).toLocaleDateString('en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' });
-  const tabStopDate = selected.startsWith(calendarMonth) ? selected : clampToDataRange(`${calendarMonth}-01`);
+  const tabStopDate = selected.startsWith(ui.calendarMonth) ? selected : clampToDataRange(`${ui.calendarMonth}-01`);
   const weekdayCells = WEEKDAYS.map((day) => `<span class="aca-weekday" aria-hidden="true">${day}</span>`).join('');
   const dayCells = Array.from({ length: daysInMonth }, (_, offsetInMonth) => {
     const day = offsetInMonth + 1;
-    return renderCalendarDay(`${calendarMonth}-${String(day).padStart(2, '0')}`, day, selected, tabStopDate);
+    return renderCalendarDay(`${ui.calendarMonth}-${String(day).padStart(2, '0')}`, day, selected, tabStopDate);
   }).join('');
   elements.calendar.innerHTML = `
     <div class="aca-calendar-head">
@@ -46,14 +46,14 @@ function renderCalendar() {
         type="button"
         data-month="-1"
         aria-label="Previous month"
-        ${calendarMonth <= firstDate.slice(0, 7) ? 'disabled' : ''}
+        ${ui.calendarMonth <= firstDate.slice(0, 7) ? 'disabled' : ''}
       >‹</button>
       <strong>${escapeHtml(title)}</strong>
       <button
         type="button"
         data-month="1"
         aria-label="Next month"
-        ${calendarMonth >= lastDate.slice(0, 7) ? 'disabled' : ''}
+        ${ui.calendarMonth >= lastDate.slice(0, 7) ? 'disabled' : ''}
       >›</button>
     </div>
     <div class="aca-calendar-grid" role="group" aria-label="${escapeHtml(title)}">
@@ -76,7 +76,7 @@ function focusDay(date) {
 }
 
 function openCalendar() {
-  calendarMonth = (state.end || lastDate).slice(0, 7);
+  ui.calendarMonth = (state.end || lastDate).slice(0, 7);
   renderCalendar();
   elements.calendar.show();
   elements.end.setAttribute('aria-expanded', 'true');
@@ -93,7 +93,7 @@ function closeCalendar(returnFocus) {
 function handleCalendarClick(event) {
   const monthButton = event.target.closest('[data-month]');
   if (monthButton) {
-    calendarMonth = addMonths(calendarMonth, Number(monthButton.dataset.month));
+    ui.calendarMonth = addMonths(ui.calendarMonth, Number(monthButton.dataset.month));
     renderCalendar();
     elements.calendar.querySelector(`[data-month="${monthButton.dataset.month}"]`)?.focus();
     return;
@@ -115,8 +115,8 @@ function handleCalendarKeydown(event) {
   if (!day || !step) return;
   event.preventDefault();
   const next = clampToDataRange(shiftDate(day.dataset.date, step));
-  if (next.slice(0, 7) !== calendarMonth) {
-    calendarMonth = next.slice(0, 7);
+  if (next.slice(0, 7) !== ui.calendarMonth) {
+    ui.calendarMonth = next.slice(0, 7);
     renderCalendar();
   }
   focusDay(next);

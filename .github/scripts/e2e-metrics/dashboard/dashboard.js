@@ -10,7 +10,7 @@ function collectRuns(days) {
 function render() {
   const dates = getRangeDates();
   const data = aggregate(dates);
-  view = { dates, comparison: compareFlakyWithPreviousPeriod(dates, data.tests), suiteTimes: sumSuiteTimes(data.days) };
+  Object.assign(view, { dates, comparison: compareFlakyWithPreviousPeriod(dates, data.tests), suiteTimes: sumSuiteTimes(data.days) });
   const suites = [...new Set(metrics.tests.map(([suite]) => suite))].sort((first, second) => first.localeCompare(second));
   const filteredTests = data.tests.filter(matchesFilters);
   const runs = collectRuns(data.days);
@@ -22,8 +22,8 @@ function render() {
   if (state.tab === 'runs') renderRuns(runs);
   else if (state.tab === 'failed') renderRuns(failedRuns);
   else renderTests(filteredTests.filter(getTabFilter(state.tab)));
-  if (scrollToOpenTest) {
-    scrollToOpenTest = false;
+  if (ui.scrollToOpenTest) {
+    ui.scrollToOpenTest = false;
     document.querySelector('tr.aca-test-row[aria-expanded="true"]')?.scrollIntoView({ block: 'center' });
   }
 }
@@ -35,7 +35,7 @@ function showTab(tab) {
 
 function toggleRow(row) {
   const index = Number(row.dataset.index);
-  state = { ...state, test: getOpenTestIndex() === index ? '' : testIds[index] };
+  state.test = getOpenTestIndex() === index ? '' : testIds[index];
   writeState();
   render();
   document.querySelector(`tr.aca-test-row[data-index="${index}"]`)?.focus();
@@ -67,12 +67,12 @@ function toggleTestInSet(testIndexes, index, toggleAttribute) {
 
 function toggleTopList() {
   const openRowPosition = [...elements.panel.querySelectorAll('tr.aca-test-row')].findIndex((row) => row.getAttribute('aria-expanded') === 'true');
-  const collapseHidesOpenTest = showAll && openRowPosition >= TOP_LIMIT;
+  const collapseHidesOpenTest = ui.showAll && openRowPosition >= TOP_LIMIT;
   if (collapseHidesOpenTest) {
-    state = { ...state, test: '' };
+    state.test = '';
     writeState();
   }
-  showAll = !showAll;
+  ui.showAll = !ui.showAll;
   render();
   findById('toggle-rows')?.focus();
 }
@@ -147,15 +147,15 @@ function bindEvents() {
   elements.panel.addEventListener(
     'toggle',
     (event) => {
-      if (event.target.id === 'legend') legendOpen = event.target.open;
+      if (event.target.id === 'legend') ui.legendOpen = event.target.open;
     },
     true
   );
   elements.panel.addEventListener('keydown', handlePanelKeydown);
-  elements.dataIssues.addEventListener('toggle', (event) => (dataIssuesOpen = event.target.open));
+  elements.dataIssues.addEventListener('toggle', (event) => (ui.dataIssuesOpen = event.target.open));
   window.addEventListener('hashchange', () => {
-    state = readState();
-    scrollToOpenTest = Boolean(state.test);
+    Object.assign(state, readState());
+    ui.scrollToOpenTest = Boolean(state.test);
     render();
   });
 }

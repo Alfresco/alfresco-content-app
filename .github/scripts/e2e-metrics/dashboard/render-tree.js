@@ -115,7 +115,7 @@ function renderTreeRows(group, columns, sort) {
     .map((child) => {
       if (!child.kind) return renderTestRow(child, columns, '<td></td>', renderTreeTestTitle, levelStyle);
       const open = isGroupOpen(child, group.groups.size);
-      visibleGroupKeys.push(child.key);
+      ui.visibleGroupKeys.push(child.key);
       const row = renderGroupRow(child, open, columns, levelStyle);
       return open ? `${row}${renderTreeRows(child, columns, sort)}` : row;
     })
@@ -123,7 +123,7 @@ function renderTreeRows(group, columns, sort) {
 }
 
 function renderTree(rows, columns, sort, legend) {
-  visibleGroupKeys = [];
+  ui.visibleGroupKeys = [];
   const body = renderTreeRows(buildTree(rows), columns, sort);
   elements.panel.innerHTML = `
     <div class="aca-tree-tools">
@@ -142,15 +142,15 @@ function renderTree(rows, columns, sort, legend) {
 
 function expandAllGroups(open) {
   if (!open) {
-    visibleGroupKeys.forEach((key) => userToggledGroups.set(key, false));
+    ui.visibleGroupKeys.forEach((key) => userToggledGroups.set(key, false));
     render();
     return;
   }
   let hiddenGroupsRemain = true;
   while (hiddenGroupsRemain) {
-    const visibleGroupCountBefore = visibleGroupKeys.length;
-    visibleGroupKeys.forEach((key) => userToggledGroups.set(key, true));
+    const visibleGroupCountBefore = ui.visibleGroupKeys.length;
+    ui.visibleGroupKeys.forEach((key) => userToggledGroups.set(key, true));
     render();
-    hiddenGroupsRemain = visibleGroupKeys.length > visibleGroupCountBefore;
+    hiddenGroupsRemain = ui.visibleGroupKeys.length > visibleGroupCountBefore;
   }
 }
