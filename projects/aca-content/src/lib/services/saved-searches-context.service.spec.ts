@@ -111,7 +111,12 @@ describe('SavedSearchesContextService', () => {
     });
 
     it('should delegate saveSearch() call to a current strategy', (done) => {
-      const newSavedSearch = { name: 'Test Search', description: 'Test Description', encodedUrl: 'http://example.com' };
+      const newSavedSearch = {
+        name: 'Test Search',
+        description: 'Test Description',
+        encodedUrl: 'http://example.com',
+        compiledQuery: 'compiledQuery'
+      };
       service.saveSearch(newSavedSearch).subscribe(() => {
         expect(modernSpy.saveSearch).toHaveBeenCalledWith(newSavedSearch);
         done();
@@ -123,7 +128,8 @@ describe('SavedSearchesContextService', () => {
         name: 'Updated Search',
         description: 'Updated Description',
         encodedUrl: 'http://example.com',
-        order: 1
+        order: 1,
+        compiledQuery: 'compiledQuery'
       };
       service.editSavedSearch(updatedSavedSearch).subscribe(() => {
         expect(modernSpy.editSavedSearch).toHaveBeenCalledWith(updatedSavedSearch);
@@ -136,7 +142,8 @@ describe('SavedSearchesContextService', () => {
         name: 'Deleted Search',
         description: 'Deleted Description',
         encodedUrl: 'http://example.com',
-        order: 2
+        order: 2,
+        compiledQuery: 'compiledQuery'
       };
       service.deleteSavedSearch(deletedSavedSearch).subscribe(() => {
         expect(modernSpy.deleteSavedSearch).toHaveBeenCalledWith(deletedSavedSearch);
@@ -183,7 +190,12 @@ describe('SavedSearchesContextService', () => {
     });
 
     it('should delegate saveSearch() call to a current strategy', (done) => {
-      const newSavedSearch = { name: 'Test Search', description: 'Test Description', encodedUrl: 'http://example.com' } as SavedSearch;
+      const newSavedSearch = {
+        name: 'Test Search',
+        description: 'Test Description',
+        encodedUrl: 'http://example.com',
+        compiledQuery: 'compiledQuery'
+      } as SavedSearch;
       service.saveSearch(newSavedSearch).subscribe(() => {
         expect(legacySpy.saveSearch).toHaveBeenCalledWith(newSavedSearch);
         done();
@@ -195,7 +207,8 @@ describe('SavedSearchesContextService', () => {
         name: 'Updated Search',
         description: 'Updated Description',
         encodedUrl: 'http://example.com',
-        order: 1
+        order: 1,
+        compiledQuery: 'compiledQuery'
       };
       service.editSavedSearch(updatedSavedSearch).subscribe(() => {
         expect(legacySpy.editSavedSearch).toHaveBeenCalledWith(updatedSavedSearch);
@@ -208,7 +221,8 @@ describe('SavedSearchesContextService', () => {
         name: 'Deleted Search',
         description: 'Deleted Description',
         encodedUrl: 'http://example.com',
-        order: 2
+        order: 2,
+        compiledQuery: 'compiledQuery'
       };
       service.deleteSavedSearch(deletedSavedSearch).subscribe(() => {
         expect(legacySpy.deleteSavedSearch).toHaveBeenCalledWith(deletedSavedSearch);

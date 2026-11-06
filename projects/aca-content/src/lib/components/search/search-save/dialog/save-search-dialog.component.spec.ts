@@ -49,7 +49,7 @@ describe('SaveSearchDialogComponent', () => {
         { provide: MatDialogRef, useValue: dialogRef },
         provideMockStore(),
         { provide: SavedSearchesContextService, useValue: { saveSearch: () => of({}), getSavedSearches: () => of([]) } },
-        { provide: MAT_DIALOG_DATA, useValue: { searchUrl: 'abcdef' } }
+        { provide: MAT_DIALOG_DATA, useValue: { searchUrl: 'abcdef', compiledQuery: 'compiledQuery' } }
       ]
     });
     dialogRef.close.calls.reset();
@@ -112,7 +112,8 @@ describe('SaveSearchDialogComponent', () => {
     expect(savedSearchesService.saveSearch).toHaveBeenCalledWith({
       name: 'ABCDEF',
       description: 'TEST',
-      encodedUrl: 'abcdef'
+      encodedUrl: 'abcdef',
+      compiledQuery: 'compiledQuery'
     });
   }
 });

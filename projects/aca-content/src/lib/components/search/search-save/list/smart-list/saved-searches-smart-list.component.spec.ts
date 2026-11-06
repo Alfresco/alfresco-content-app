@@ -74,8 +74,8 @@ describe('SavedSearchesSmartListComponent', () => {
 
   it('should show the list of searches', async () => {
     const mockSavedSearches: SavedSearch[] = [
-      { name: '1', order: 0, encodedUrl: '' },
-      { name: '2', order: 1, encodedUrl: '' }
+      { name: '1', order: 0, encodedUrl: '', compiledQuery: 'compiledQuery' },
+      { name: '2', order: 1, encodedUrl: '', compiledQuery: 'compiledQuery' }
     ];
     fakeSavedSearches$.next(mockSavedSearches);
     fixture.detectChanges();
