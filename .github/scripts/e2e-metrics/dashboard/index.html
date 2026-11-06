@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ACA E2E test health</title>
+    <link rel="stylesheet" href="dashboard.css" />
+    <script src="theme.js"></script>
+  </head>
+  <body>
+    <div class="aca-page">
+      <header class="aca-masthead">
+        <div>
+          <h1>ACA E2E test health</h1>
+          <p class="aca-secondary" id="intro"></p>
+        </div>
+        <div class="aca-masthead-side">
+          <p class="aca-updated" id="updated"></p>
+          <button type="button" class="aca-theme-toggle" id="theme-toggle"></button>
+        </div>
+      </header>
+
+      <form class="aca-filters" id="filters" onsubmit="return false;">
+        <label
+          >Period
+          <select id="days"></select>
+        </label>
+        <div class="aca-field aca-date-field" id="date-field">
+          <span id="end-label">Up to</span>
+          <button
+            type="button"
+            class="aca-date-button"
+            id="end"
+            aria-haspopup="dialog"
+            aria-expanded="false"
+            aria-labelledby="end-label end"
+          ></button>
+          <dialog class="aca-calendar" id="calendar" aria-label="Choose the last day of the period"></dialog>
+        </div>
+        <label>Search <input type="search" id="q" placeholder="Test title, file or XAT id" /></label>
+        <label
+          >Suite
+          <select id="suite"></select
+        ></label>
+        <button class="aca-link-button" id="reset" type="button">Clear filters</button>
+      </form>
+
+      <main>
+        <section class="aca-summary" id="summary" aria-label="Summary"></section>
+        <p class="aca-days-note" id="days-note" hidden></p>
+        <details class="aca-data-issues" id="data-issues" hidden></details>
+
+        <nav class="aca-tabs" id="tabs" role="tablist"></nav>
+        <div class="aca-tab-panel" id="panel" role="tabpanel"></div>
+      </main>
+    </div>
+
+    <script src="data/history.js"></script>
+    <script src="format.js"></script>
+    <script src="constants.js"></script>
+    <script src="state.js"></script>
+    <script src="aggregate.js"></script>
+    <script src="render-summary.js"></script>
+    <script src="render-table.js"></script>
+    <script src="render-cells.js"></script>
+    <script src="render-test-details.js"></script>
+    <script src="render-tests.js"></script>
+    <script src="render-tree.js"></script>
+    <script src="render-runs.js"></script>
+    <script src="render-calendar.js"></script>
+    <script src="dashboard.js"></script>
+  </body>
+</html>

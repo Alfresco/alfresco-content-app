@@ -1,0 +1,70 @@
+name: "Populate E2E reports"
+run-name: ${{ inputs.send-report && 'Populate E2E reports + publish report' || 'Populate E2E reports' }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      send-report:
+        description: 'After the tests finish, update the E2E dashboard and send a report to the Teams channel'
+        required: false
+        type: boolean
+        default: false
+      report-days:
+        description: 'Number of days covered by the report, ending today (up to 14, the kept history)'
+        required: false
+        type: number
+        default: 14
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  check-branch:
+    name: "Check branch"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Warn when not on develop
+        if: ${{ github.ref_name != 'develop' }}
+        env:
+          REF_NAME: ${{ github.ref_name }}
+        run: echo "::warning::This run is on '${REF_NAME}', it is only counted in its own report, not in the develop E2E metrics reports."
+
+  e2e:
+    name: "E2E against local ACS - chrome"
+    needs: check-branch
+    uses: ./.github/workflows/e2e-playwright-reusable.yml
+    with:
+      browser: chrome
+      collect-metrics: true
+    secrets:
+      REPORT_PORTAL_TOKEN: ${{ secrets.REPORT_PORTAL_TOKEN }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+      QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+
+  publish:
+    name: "Publish dashboard and report"
+    needs: e2e
+    if: ${{ !cancelled() && inputs.send-report }}
+    concurrency:
+      group: e2e-metrics-publish-${{ github.ref_name }}
+      cancel-in-progress: false
+    permissions:
+      actions: read
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/e2e-metrics-publish.yml
+    with:
+      collect-today: true
+      include-run-id: ${{ github.run_id }}
+      collect-days: ${{ github.ref_name == 'develop' && 1 || 14 }}
+      source-branch: ${{ github.ref_name }}
+      deploy-dashboard: ${{ github.ref_name == 'develop' }}
+      send-report: true
+      report-days: ${{ inputs.report-days || 14 }}
+      report-title: ${{ github.ref_name != 'develop' && format('ACA E2E report - {0} (branch test)', github.ref_name) || '' }}
+    secrets:
+      TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_E2E_WEBHOOK_URL }}
