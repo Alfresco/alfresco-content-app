@@ -56,6 +56,7 @@ $gray-panel-background-color: rgba(0, 0, 0, 0.12);
 $list-item-hover-border-color: #1f74db;
 $list-item-hover-background: #eef5fd;
 $list-item-hover-text-color: #1f74db;
+$outline-color: #1f74db;
 
 // CSS Variables
 $defaults: (
@@ -116,7 +117,8 @@ $defaults: (
   --theme-gray-panel-background-color: $gray-panel-background-color,
   --theme-list-item-hover-border-color: $list-item-hover-border-color,
   --theme-list-item-hover-background: $list-item-hover-background,
-  --theme-list-item-hover-text-color: $list-item-hover-text-color
+  --theme-list-item-hover-text-color: $list-item-hover-text-color,
+  --adf-outline-color: $outline-color
 );
 
 // propagates SCSS variables into the CSS variables scope
