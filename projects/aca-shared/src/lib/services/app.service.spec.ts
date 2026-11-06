@@ -236,6 +236,20 @@ describe('AppService', () => {
     expect(contentApi.getRepositoryInformation).toHaveBeenCalled();
   });
 
+  it('should be ready and load startup data on init when withCredentials is enabled', () => {
+    spyOnProperty(service, 'withCredentials').and.returnValue(true);
+    let isReady = false;
+    service.ready$.subscribe((value) => {
+      isReady = value;
+    });
+
+    service.init();
+
+    expect(isReady).toBeTrue();
+    expect(contentApi.getRepositoryInformation).toHaveBeenCalled();
+    expect(loadUserProfileSpy).toHaveBeenCalled();
+  });
+
   describe('Init with unauthorized api error', () => {
     let router: Router;
     let matDialog: MatDialog;

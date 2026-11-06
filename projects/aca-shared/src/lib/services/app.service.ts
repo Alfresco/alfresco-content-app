@@ -134,6 +134,10 @@ export class AppService implements ShellAppService {
   }
 
   init(): void {
+    if (this.withCredentials) {
+      this.ready.next(true);
+    }
+
     this.alfrescoApiService.getInstance().on('error', (error: { status: number; response: any }) => {
       const shouldNavigateToLogin =
         error.status === 401 &&
