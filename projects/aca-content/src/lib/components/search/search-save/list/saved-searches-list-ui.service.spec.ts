@@ -56,7 +56,8 @@ describe('NodeTemplateService', () => {
     expect(dialog.open).toHaveBeenCalledWith(SavedSearchEditDialogComponent, {
       data: mockedSearch,
       width: '600px',
-      restoreFocus: false
+      restoreFocus: false,
+      role: 'dialog'
     });
   }));
 
@@ -66,7 +67,8 @@ describe('NodeTemplateService', () => {
     expect(dialog.open).toHaveBeenCalledWith(SavedSearchDeleteDialogComponent, {
       data: mockedSearch,
       minWidth: '500px',
-      restoreFocus: false
+      restoreFocus: false,
+      role: 'dialog'
     });
   }));
 
