@@ -297,7 +297,8 @@ export class ContentManagementService {
   createLibrary(): Observable<string> {
     const dialogInstance = this.dialogRef.open(LibraryDialogComponent, {
       autoFocus: false,
-      width: '400px'
+      width: '400px',
+      role: 'dialog'
     });
 
     dialogInstance.componentInstance.error.subscribe((message: string) => {
