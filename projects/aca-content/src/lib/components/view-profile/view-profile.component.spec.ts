@@ -83,6 +83,53 @@ describe('ViewProfileComponent', () => {
     expect(appServiceMock.toggleAppNavBar$.next).toHaveBeenCalled();
   });
 
+  it('should show telephone number and phone number format hint of general details if the user is in edit mode', () => {
+    component.generalSectionEditMode = true;
+    fixture.detectChanges();
+
+    const telephoneHint = unitTestingUtils.getByDataAutomationId('app-telephone-number-hint');
+    expect(telephoneHint).not.toBeNull();
+    expect(telephoneHint.nativeElement.innerText.trim()).toBe('APP.EDIT_PROFILE.VALID_PHONE_FORMAT_HINT');
+
+    const phoneNumberHint = unitTestingUtils.getByDataAutomationId('app-phone-number-hint');
+    expect(phoneNumberHint).not.toBeNull();
+    expect(phoneNumberHint.nativeElement.innerText.trim()).toBe('APP.EDIT_PROFILE.VALID_PHONE_FORMAT_HINT');
+  });
+
+  it('should not show phone number format hint of general details field if the user is not in edit mode', () => {
+    component.generalSectionEditMode = false;
+    fixture.detectChanges();
+
+    const telephoneHint = unitTestingUtils.getByDataAutomationId('app-telephone-number-hint');
+    expect(telephoneHint).toBeNull();
+  });
+
+  it('should not show the telephone number format hint of company details field if the company details is not expanded', () => {
+    component.contactSectionExpanded = false;
+    fixture.detectChanges();
+
+    const telephoneHint = unitTestingUtils.getByDataAutomationId('app-company-telephone-number-hint');
+    expect(telephoneHint).toBeNull();
+  });
+
+  it('should not show the telephone number format hint of company details field if the company details is expanded but user is not in edit mode', () => {
+    component.contactSectionExpanded = true;
+    component.contactSectionEditMode = false;
+    fixture.detectChanges();
+
+    const telephoneHint = unitTestingUtils.getByDataAutomationId('app-company-telephone-number-hint');
+    expect(telephoneHint).toBeNull();
+  });
+
+  it('should show the telephone number format hint of company details field if the company details is expanded and user is in edit mode', () => {
+    component.contactSectionExpanded = true;
+    component.contactSectionEditMode = true;
+    fixture.detectChanges();
+
+    const telephoneHint = unitTestingUtils.getByDataAutomationId('app-company-telephone-number-hint');
+    expect(telephoneHint).not.toBeNull();
+  });
+
   it('should disable save buttons if form is invalid', async () => {
     fixture.detectChanges();
 
@@ -161,6 +208,56 @@ describe('ViewProfileComponent', () => {
     await expect(profileFormGroup.valid).toEqual(true);
     expect(await isSaveButtonDisabled('general')).toBeFalse();
     expect(await isSaveButtonDisabled('contact')).toBeFalse();
+  });
+
+  it('should enable save buttons if form has valid phone format', async () => {
+    fixture.detectChanges();
+
+    unitTestingUtils.clickByCSS('#general-dropdown .app-general-edit');
+    unitTestingUtils.clickByCSS('#contact-dropdown .app-general-edit');
+    fixture.detectChanges();
+
+    const profileFormGroup = component.profileForm;
+
+    profileFormGroup.setValue({
+      general: { firstName: 'John', lastName: 'Doe', jobTitle: 'Developer', location: 'US', telephone: '44 20 7946 0958', mobile: '886-632-2112' },
+      company: {
+        companyName: 'testCompany',
+        companyPostCode: '12345',
+        companyAddress: 'test address',
+        companyTelephone: '44 20 7946 0958',
+        companyEmail: 'testEmail@test.com'
+      }
+    });
+
+    await expect(profileFormGroup.valid).toEqual(true);
+    expect(await isSaveButtonDisabled('general')).toBeFalse();
+    expect(await isSaveButtonDisabled('contact')).toBeFalse();
+  });
+
+  it('should disable save buttons if form has invalid phone format', async () => {
+    fixture.detectChanges();
+
+    unitTestingUtils.clickByCSS('#general-dropdown .app-general-edit');
+    unitTestingUtils.clickByCSS('#contact-dropdown .app-general-edit');
+    fixture.detectChanges();
+
+    const profileFormGroup = component.profileForm;
+
+    profileFormGroup.setValue({
+      general: { firstName: 'John', lastName: 'Doe', jobTitle: 'Developer', location: 'US', telephone: '44+20 7946 0958', mobile: '886-632-2112' },
+      company: {
+        companyName: 'testCompany',
+        companyPostCode: '12345',
+        companyAddress: 'test address',
+        companyTelephone: '44 20 7946 0958',
+        companyEmail: 'testEmail@test.com'
+      }
+    });
+
+    await expect(profileFormGroup.valid).toEqual(false);
+    expect(await isSaveButtonDisabled('general')).toBeTrue();
+    expect(await isSaveButtonDisabled('contact')).toBeTrue();
   });
 
   it('should expand or compress general dropdown when arrow button is clicked', () => {

@@ -56,6 +56,14 @@ app-view-profile {
           color: var(--theme-primary-color)
         )
       );
+
+      &:disabled {
+        @include mat.icon-overrides(
+          (
+            color: var(--adf-theme-foreground-disabled-text-color)
+          )
+        );
+      }
     }
 
     .app-general-edit {
