@@ -87,7 +87,10 @@ describe('DocumentListDirective', () => {
   };
 
   const nodeToSelect$ = new BehaviorSubject<NodeEntry | null>(null);
-  const appHookServiceMock = { nodeToSelect$ };
+  const appHookServiceMock = {
+    nodeToSelect$,
+    documentListReady$: new Subject<string>()
+  };
 
   const mockSelectedElement = { focus: jasmine.createSpy('focus') };
   const elementRefMock = {
