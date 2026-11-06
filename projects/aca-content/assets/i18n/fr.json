@@ -57,6 +57,7 @@
             "NAME": "Nom",
             "ADDRESS": "Adresse",
             "POSTCODE": "Code postal",
+            "VALID_PHONE_FORMAT_HINT": "Saisissez des nombres avec des tirets facultatifs. Pour les numéros internationaux, incluez le code pays. Exemples : États-Unis, 1-404-123-4567 ; Royaume-Uni, 44 20 7946 0958.",
             "INVALID_PHONE_FORMAT": "Veuillez saisir un numéro de téléphone valide",
             "INVALID_EMAIL_FORMAT": "Veuillez saisir une adresse e‑mail valide",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Accéder aux fichiers personnels"
