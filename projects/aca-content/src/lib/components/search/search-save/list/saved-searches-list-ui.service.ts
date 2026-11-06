@@ -37,7 +37,8 @@ export class SavedSearchesListUiService {
       .open(SavedSearchEditDialogComponent, {
         data: savedSearch,
         width: '600px',
-        restoreFocus: false
+        restoreFocus: false,
+        role: 'dialog'
       })
       .afterClosed()
       .subscribe(() => this.focusAfterClose(savedSearch.name, fromContextMenu));
@@ -48,7 +49,8 @@ export class SavedSearchesListUiService {
       .open(SavedSearchDeleteDialogComponent, {
         data: savedSearch,
         minWidth: '500px',
-        restoreFocus: false
+        restoreFocus: false,
+        role: 'dialog'
       })
       .afterClosed()
       .subscribe(() => this.focusAfterClose(savedSearch.name, fromContextMenu));
