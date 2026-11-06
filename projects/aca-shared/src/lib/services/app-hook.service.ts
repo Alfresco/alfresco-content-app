@@ -89,4 +89,9 @@ export class AppHookService {
    * Holds the node that should be pre-selected in the document list after navigation.
    */
   nodeToSelect$ = new BehaviorSubject<NodeEntry | null>(null);
+
+  /**
+   * Emits the id of the folder whose content has just been loaded into the document list.
+   */
+  documentListReady$ = new Subject<string>();
 }

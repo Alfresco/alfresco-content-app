@@ -43,13 +43,13 @@ import {
   ViewNodeAction
 } from '@alfresco/aca-shared/store';
 import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
-import { Node, VersionEntry, VersionsApi, LazyApi } from '@alfresco/js-api';
+import { Node, VersionEntry, VersionsApi, LazyApi, PathElement } from '@alfresco/js-api';
 import { Component, DestroyRef, HostListener, inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, PRIMARY_OUTLET, Router } from '@angular/router';
+import { ActivatedRoute, NavigationStart, PRIMARY_OUTLET, Router, UrlSegment } from '@angular/router';
 import { ViewerOpenWithComponent, ViewerSidebarComponent, ViewerToolbarActionsComponent } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
-import { from, Observable } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { from, Observable, of } from 'rxjs';
+import { debounceTime, filter, take, timeout } from 'rxjs/operators';
 import { Actions, ofType } from '@ngrx/effects';
 import { AlfrescoApiService, AlfrescoViewerComponent, DocumentListService, NodesApiService, UploadService } from '@alfresco/adf-content-services';
 import { CommonModule } from '@angular/common';
@@ -261,6 +261,41 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
 
     const location = this.getFileLocation();
     this.store.dispatch(new ViewNodeAction(this.nextNodeId, { location }));
+  }
+
+  async onBreadcrumbNavigate(route: PathElement): Promise<void> {
+    const folderWithViewerUrl = this.router.parseUrl(this.router.url);
+    const primary = folderWithViewerUrl.root.children[PRIMARY_OUTLET];
+    if (!primary?.segments.length) {
+      return;
+    }
+
+    const path = primary.segments[0].path;
+
+    if (route.id === this.node?.parentId) {
+      await this.router.navigate([path, route.id]);
+      return;
+    }
+
+    primary.segments = [new UrlSegment(path, {}), new UrlSegment(route.id, {})];
+
+    this.appHookService.documentListReady$
+      .pipe(
+        filter((folderId) => folderId === route.id),
+        take(1),
+        timeout({ first: 5000, with: () => of(null) }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(() => void this.router.navigate([path, route.id], { replaceUrl: true }));
+
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationStart),
+        take(1)
+      )
+      .subscribe(() => this.store.dispatch(new SetSelectedNodesAction([{ entry: this.node }])));
+
+    await this.router.navigateByUrl(folderWithViewerUrl);
   }
 
   @HostListener('document:keydown', ['$event'])
