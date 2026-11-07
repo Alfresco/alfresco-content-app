@@ -108,11 +108,16 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
   toolbarActions: ContentActionRef[] = [];
   versionId: string = null;
 
+  private _breadcrumbsRoot = 'APP.BROWSE.PERSONAL.TITLE';
   private navigationPath: string;
   private previewLocation: string;
   private readonly containersSkipNavigation = ['adf-viewer__sidebar', 'cdk-overlay-container', 'adf-image-viewer'];
 
   private readonly destroyRef = inject(DestroyRef);
+
+  get breadcrumbsRoot(): string {
+    return this._breadcrumbsRoot;
+  }
 
   ngOnInit() {
     this.infoDrawerOpened$ = this.store.select(isInfoDrawerOpened);
@@ -168,6 +173,9 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
       const source = this.route.snapshot.data.navigateSource.toLowerCase();
       if (this.navigationSources.includes(source)) {
         this.navigateSource = this.route.snapshot.data.navigateSource;
+        if (source === 'libraries') {
+          this._breadcrumbsRoot = 'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE';
+        }
       }
     }
 
@@ -272,8 +280,23 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
 
     const path = primary.segments[0].path;
 
+    const elements = this.node?.path?.elements ?? [];
+    const isSitesPath = elements[1]?.nodeType === 'st:sites';
+    const isRootClicked = route.id === elements[0]?.id && ['personal-files', 'libraries'].includes(path);
+
+    // breadcrumb root (and 'Sites' in libraries) stands for the whole list, which is opened without a folder id
+    if (isRootClicked || (path === 'libraries' && isSitesPath && route.id === elements[1].id)) {
+      await this.router.navigateByUrl(`/${path}`);
+      return;
+    }
+
+    // site entry opens the site content, which is its 'documentLibrary' child
+    if (path === 'libraries' && isSitesPath && route.id === elements[2]?.id && elements[3]) {
+      route = elements[3];
+    }
+
     if (route.id === this.node?.parentId) {
-      await this.router.navigate([path, route.id]);
+      await this.router.navigateByUrl(`/${path}/${route.id}`);
       return;
     }
 

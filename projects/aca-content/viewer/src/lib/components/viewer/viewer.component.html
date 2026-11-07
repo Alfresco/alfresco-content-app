@@ -22,7 +22,8 @@
     (navigateBefore)="onNavigateBefore($event)"
     (navigateNext)="onNavigateNext($event)"
     (breadcrumbNavigate)="onBreadcrumbNavigate($event)"
-    [showBreadcrumbs]="true" >
+    [showBreadcrumbs]="true"
+    [breadcrumbsRoot]="breadcrumbsRoot">
     @if (infoDrawerOpened$ | async) {
       <adf-viewer-sidebar>
         <aca-info-drawer [node]="selection.file" />
