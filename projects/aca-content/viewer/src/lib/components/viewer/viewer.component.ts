@@ -174,7 +174,9 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
       if (this.navigationSources.includes(source)) {
         this.navigateSource = this.route.snapshot.data.navigateSource;
         if (source === 'libraries') {
-          this._breadcrumbsRoot = 'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE';
+          this._breadcrumbsRoot = this.navigationPath?.startsWith('/favorite')
+            ? 'APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.TITLE'
+            : 'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE';
         }
       }
     }
@@ -278,29 +280,25 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const path = primary.segments[0].path;
-
+    const area = primary.segments[0].path;
+    const isLibraries = area === 'libraries' || area === 'favorite';
+    const baseCommands = area === 'favorite' ? [area, 'libraries'] : [area];
+    const basePath = baseCommands.join('/');
     const elements = this.node?.path?.elements ?? [];
     const isSitesPath = elements[1]?.nodeType === 'st:sites';
-    const isRootClicked = route.id === elements[0]?.id && ['personal-files', 'libraries'].includes(path);
-
-    // breadcrumb root (and 'Sites' in libraries) stands for the whole list, which is opened without a folder id
-    if (isRootClicked || (path === 'libraries' && isSitesPath && route.id === elements[1].id)) {
-      await this.router.navigateByUrl(`/${path}`);
+    const isRootClicked = route.id === elements[0]?.id && (isLibraries || area === 'personal-files');
+    if (isRootClicked || (isLibraries && isSitesPath && route.id === elements[1].id)) {
+      await this.router.navigateByUrl(`/${basePath}`);
       return;
     }
-
-    // site entry opens the site content, which is its 'documentLibrary' child
-    if (path === 'libraries' && isSitesPath && route.id === elements[2]?.id && elements[3]) {
+    if (isLibraries && isSitesPath && route.id === elements[2]?.id && elements[3]) {
       route = elements[3];
     }
-
     if (route.id === this.node?.parentId) {
-      await this.router.navigateByUrl(`/${path}/${route.id}`);
+      await this.router.navigateByUrl(`/${basePath}/${route.id}`);
       return;
     }
-
-    primary.segments = [new UrlSegment(path, {}), new UrlSegment(route.id, {})];
+    primary.segments = [...baseCommands, route.id].map((segment) => new UrlSegment(segment, {}));
 
     this.appHookService.documentListReady$
       .pipe(
@@ -309,8 +307,7 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
         timeout({ first: 5000, with: () => of(null) }),
         takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe(() => void this.router.navigate([path, route.id], { replaceUrl: true }));
-
+      .subscribe(() => void this.router.navigate([...baseCommands, route.id], { replaceUrl: true }));
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationStart),
