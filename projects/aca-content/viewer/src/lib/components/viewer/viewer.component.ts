@@ -173,11 +173,6 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
       const source = this.route.snapshot.data.navigateSource.toLowerCase();
       if (this.navigationSources.includes(source)) {
         this.navigateSource = this.route.snapshot.data.navigateSource;
-        if (source === 'libraries') {
-          this._breadcrumbsRoot = this.navigationPath?.startsWith('/favorite')
-            ? 'APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.TITLE'
-            : 'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE';
-        }
       }
     }
 
@@ -229,6 +224,11 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
     if (nodeId) {
       try {
         this.node = await this.contentApi.getNodeInfo(nodeId).toPromise();
+        if (this.node.path?.elements?.[1]?.nodeType === 'st:sites') {
+          this._breadcrumbsRoot = this.navigationPath?.startsWith('/favorite')
+            ? 'APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.TITLE'
+            : 'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE';
+        }
         this.store.dispatch(new SetSelectedNodesAction([{ entry: this.node }]));
         this.navigateMultiple = this.extensions.canShowViewerNavigation({ entry: this.node });
 
@@ -279,14 +279,14 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
     if (!primary?.segments.length) {
       return;
     }
-
-    const area = primary.segments[0].path;
-    const isLibraries = area === 'libraries' || area === 'favorite';
-    const baseCommands = area === 'favorite' ? [area, 'libraries'] : [area];
-    const basePath = baseCommands.join('/');
     const elements = this.node?.path?.elements ?? [];
     const isSitesPath = elements[1]?.nodeType === 'st:sites';
-    const isRootClicked = route.id === elements[0]?.id && (isLibraries || area === 'personal-files');
+    const browsingAreas = ['personal-files', 'libraries', 'favorite'];
+    const path = browsingAreas.includes(primary.segments[0].path) ? primary.segments[0].path : isSitesPath ? 'libraries' : 'personal-files';
+    const isLibraries = path === 'libraries' || path === 'favorite';
+    const baseCommands = path === 'favorite' ? [path, 'libraries'] : [path];
+    const basePath = baseCommands.join('/');
+    const isRootClicked = route.id === elements[0]?.id && (isLibraries || path === 'personal-files');
     if (isRootClicked || (isLibraries && isSitesPath && route.id === elements[1].id)) {
       await this.router.navigateByUrl(`/${basePath}`);
       return;
@@ -294,7 +294,8 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
     if (isLibraries && isSitesPath && route.id === elements[2]?.id && elements[3]) {
       route = elements[3];
     }
-    if (route.id === this.node?.parentId) {
+    const isAreaChanged = primary.segments[0].path !== path;
+    if (route.id === this.node?.parentId || isAreaChanged) {
       await this.router.navigateByUrl(`/${basePath}/${route.id}`);
       return;
     }
