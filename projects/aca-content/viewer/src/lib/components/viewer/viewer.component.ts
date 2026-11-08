@@ -224,8 +224,10 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
     if (nodeId) {
       try {
         this.node = await this.contentApi.getNodeInfo(nodeId).toPromise();
-        if (this.node.path?.elements?.[1]?.nodeType === 'st:sites') {
-          this._breadcrumbsRoot = this.navigationPath?.startsWith('/favorite')
+        if (this.router.url.startsWith('/repository')) {
+          this._breadcrumbsRoot = 'APP.BROWSE.REPOSITORY_VIEW.TITLE';
+        } else if (this.node.path?.elements?.[1]?.nodeType === 'st:sites') {
+          this._breadcrumbsRoot = this.navigationPath?.startsWith('/favorite/')
             ? 'APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.TITLE'
             : 'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE';
         }
@@ -281,12 +283,12 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
     }
     const elements = this.node?.path?.elements ?? [];
     const isSitesPath = elements[1]?.nodeType === 'st:sites';
-    const browsingAreas = ['personal-files', 'libraries', 'favorite'];
+    const browsingAreas = ['personal-files', 'libraries', 'favorite', 'repository'];
     const path = browsingAreas.includes(primary.segments[0].path) ? primary.segments[0].path : isSitesPath ? 'libraries' : 'personal-files';
     const isLibraries = path === 'libraries' || path === 'favorite';
     const baseCommands = path === 'favorite' ? [path, 'libraries'] : [path];
     const basePath = baseCommands.join('/');
-    const isRootClicked = route.id === elements[0]?.id && (isLibraries || path === 'personal-files');
+    const isRootClicked = route.id === elements[0]?.id && (isLibraries || path === 'personal-files' || path === 'repository');
     if (isRootClicked || (isLibraries && isSitesPath && route.id === elements[1].id)) {
       await this.router.navigateByUrl(`/${basePath}`);
       return;
