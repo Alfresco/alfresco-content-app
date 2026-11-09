@@ -139,4 +139,4 @@ year changed across the barrels). `@alfresco/aca-content` gains two new exports:
 | Saved searches    | The Saved Search navbar title is now translated (ACS-9119).                                                                                       |
 | Login             | The license displayed on the login page is updated from SSO (ACS-9213).                                                                           |
 | Search input      | Search-input focus styles were fixed (ACA-4735).                                                                                                  |
-| Documentation     | Product documentation links moved from `docs.alfresco.com` to `support.hyland.com` (ACS-9371); update any hardcoded doc links in a fork.          |
+| Documentation     | Product documentation links moved from `docs.alfresco.com` to `docs.hyland.com` (ACS-9371); update any hardcoded doc links in a fork.             |
