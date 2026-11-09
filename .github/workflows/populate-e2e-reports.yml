@@ -90,7 +90,11 @@ jobs:
             exit 0
           fi
           message="Publishing the E2E dashboard did not succeed (E2E tests: '${E2E_RESULT:-not started}', publish: '${PUBLISH_RESULT:-not started}')."
-          fix="Run the 'E2E dashboard - Daily collection' workflow on ${REF_NAME} with date '${run_date}' and 'post-report' checked to publish this run."
+          if [ "$REF_NAME" = "develop" ]; then
+            fix="Run the 'E2E dashboard - Daily collection' workflow on develop with date '${run_date}' and 'post-report' checked to publish this run."
+          else
+            fix="Re-run the failed jobs of this 'E2E dashboard - Populate E2E Reports' run to rebuild the '${REF_NAME}' preview and resend its report."
+          fi
           echo "::error::${message} ${fix}"
           {
             echo "### E2E dashboard was not published"
