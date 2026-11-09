@@ -28,7 +28,7 @@ import { AppTestingModule } from '../testing/app-testing.module';
 import { Store } from '@ngrx/store';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { NodeTemplateService } from './node-template.service';
-import { ResultSetPaging } from '@alfresco/js-api';
+import { Node, ResultSetPaging } from '@alfresco/js-api';
 import { NotificationService } from '@alfresco/adf-core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { provideEffects } from '@ngrx/effects';
@@ -46,6 +46,21 @@ describe('NodeTemplateService', () => {
   const folderTemplateConfig = {
     primaryPathName: 'parent-folder-templates',
     selectionType: 'folder'
+  };
+  const node: Node = {
+    name: 'node-name',
+    id: 'node-id',
+    nodeType: 'cm:content',
+    isFolder: false,
+    isFile: true,
+    modifiedAt: null,
+    modifiedByUser: null,
+    createdAt: null,
+    createdByUser: null,
+    properties: {
+      'cm:title': 'title',
+      'cm:description': 'description'
+    }
   };
 
   beforeEach(() => {
@@ -100,7 +115,23 @@ describe('NodeTemplateService', () => {
     nodeTemplateService.selectTemplateDialog(fileTemplateConfig);
     tick();
 
+    expect(dialog.open['calls'].argsFor(0)[1]).toEqual(jasmine.objectContaining({ restoreFocus: true }));
+  }));
+
+  it('should open createTemplateDialog with role set to dialog', fakeAsync(() => {
+    spyOn(dialog, 'open');
+    nodeTemplateService.createTemplateDialog(node);
+    tick();
+
     expect(dialog.open['calls'].argsFor(0)[1]).toEqual(jasmine.objectContaining({ role: 'dialog' }));
+  }));
+
+  it('should open createTemplateDialog with restoreFocus set to true', fakeAsync(() => {
+    spyOn(dialog, 'open');
+    nodeTemplateService.createTemplateDialog(node);
+    tick();
+
+    expect(dialog.open['calls'].argsFor(0)[1]).toEqual(jasmine.objectContaining({ restoreFocus: true }));
   }));
 
   it('should remove parents path for templates breadcrumb', fakeAsync(() => {
