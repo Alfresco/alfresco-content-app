@@ -1,5 +1,5 @@
-name: "Populate E2E reports"
-run-name: ${{ inputs.send-report && 'Populate E2E reports + publish report' || 'Populate E2E reports' }}
+name: "E2E dashboard - Populate E2E Reports"
+run-name: ${{ inputs.send-report && 'E2E dashboard - Populate E2E Reports + publish' || 'E2E dashboard - Populate E2E Reports' }}
 
 on:
   workflow_dispatch:
@@ -28,7 +28,7 @@ jobs:
         if: ${{ github.ref_name != 'develop' }}
         env:
           REF_NAME: ${{ github.ref_name }}
-        run: echo "::warning::This run is on '${REF_NAME}', it is only counted in its own report, not in the develop E2E metrics reports."
+        run: echo "::warning::This run is on '${REF_NAME}', it is only counted in its own report, not in the develop E2E dashboard."
 
   e2e:
     name: "E2E against local ACS - chrome"
@@ -48,9 +48,6 @@ jobs:
     name: "Publish dashboard and report"
     needs: e2e
     if: ${{ !cancelled() && inputs.send-report }}
-    concurrency:
-      group: e2e-metrics-publish-${{ github.ref_name }}
-      cancel-in-progress: false
     permissions:
       actions: read
       contents: read
@@ -68,3 +65,42 @@ jobs:
       report-title: ${{ github.ref_name != 'develop' && format('ACA E2E report - {0} (branch test)', github.ref_name) || '' }}
     secrets:
       TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_E2E_WEBHOOK_URL }}
+
+  check-publish:
+    name: "Check that the dashboard was published"
+    needs: [e2e, publish]
+    if: ${{ !cancelled() && inputs.send-report }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report the publish result
+        env:
+          GH_TOKEN: ${{ github.token }}
+          E2E_RESULT: ${{ needs.e2e.result }}
+          PUBLISH_RESULT: ${{ needs.publish.result }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          run_date="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" --jq '.created_at[0:10]' || date -u +%F)"
+          echo "E2E tests: ${E2E_RESULT:-not started}, publish: ${PUBLISH_RESULT:-not started}, run date: ${run_date}, branch: ${REF_NAME}"
+          if [ "$PUBLISH_RESULT" = "success" ]; then
+            if [ "$REF_NAME" = "develop" ]; then
+              echo "::notice::The E2E dashboard and report were published for ${run_date}."
+            else
+              echo "::notice::The report for '${REF_NAME}' was built and sent. Dashboards are only deployed from develop; download the e2e-dashboard artifact for a preview."
+            fi
+            exit 0
+          fi
+          message="Publishing the E2E dashboard did not succeed (E2E tests: '${E2E_RESULT:-not started}', publish: '${PUBLISH_RESULT:-not started}')."
+          if [ "$REF_NAME" = "develop" ]; then
+            fix="Run the 'E2E dashboard - Daily collection' workflow on develop with date '${run_date}' and 'post-report' checked to publish this run."
+          else
+            fix="Re-run the failed jobs of this 'E2E dashboard - Populate E2E Reports' run to rebuild the '${REF_NAME}' preview and resend its report."
+          fi
+          echo "::error::${message} ${fix}"
+          {
+            echo "### E2E dashboard was not published"
+            echo ""
+            echo "${message}"
+            echo ""
+            echo "${fix}"
+          } >> "$GITHUB_STEP_SUMMARY"
+          exit 1

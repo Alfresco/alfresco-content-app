@@ -1,5 +1,5 @@
-name: "Cron chrome E2E run"
-run-name: ${{ github.event_name == 'workflow_dispatch' && 'Manual chrome E2E run' || 'Cron chrome E2E run' }}
+name: "E2E dashboard - Daily chrome E2E run"
+run-name: ${{ github.event_name == 'workflow_dispatch' && 'E2E dashboard - Manual chrome E2E run' || 'E2E dashboard - Daily chrome E2E run' }}
 
 on:
   schedule:

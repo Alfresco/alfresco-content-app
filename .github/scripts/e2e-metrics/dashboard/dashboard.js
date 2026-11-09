@@ -166,7 +166,7 @@ if (historyLoaded) {
 } else {
   document.querySelector('main').innerHTML = `
     <p class="aca-empty">
-      The data file (data/history.js) could not be loaded. Check the last run of the E2E metrics report workflow.
+      The data file (data/history.js) could not be loaded. Check the last run of the "E2E dashboard - Daily collection" workflow.
     </p>
   `;
 }

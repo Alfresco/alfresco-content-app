@@ -50,7 +50,7 @@ const TAB_INTRO = {
   flaky: `Tests that needed at least one retry or failed in the selected period, ordered by retries. "Recently flaky" under the trend marks tests that were not flaky in the previous period of the same length; tests that had at least ${MIN_FLAKY_RUNS_BEFORE_FIX} flaky runs then and only clean runs now (at least ${MIN_CLEAN_RUNS_TO_COUNT_AS_FIXED}) are listed under the table as fixed.`,
   slowest: 'Tests that passed at least once in the selected period, ordered by average duration.',
   all: 'Every test that ran in the selected period, grouped by suite, test file and describe block. Group rows show the totals of their tests; suite rows also show the average CI time of the suite job, split into setup before the tests (ACS deploy, installs) and the tests themselves. Click a group to expand or collapse it.',
-  runs: `Workflow runs whose test results are included: the daily chrome run and Populate E2E reports runs on ${BRANCH}.`,
+  runs: `Workflow runs whose test results are included: the daily chrome E2E run and "E2E dashboard - Populate E2E Reports" runs on ${BRANCH}.`,
   failed: 'Workflow runs that failed or timed out. A failed run still provides results for the tests that ran.'
 };
 const RUNS_HELP = {

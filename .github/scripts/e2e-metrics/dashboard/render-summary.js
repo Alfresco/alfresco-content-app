@@ -11,7 +11,7 @@ function renderMasthead() {
   const generated = new Date(metrics.generatedAt);
   const stale = Date.now() - generated.getTime() > STALE_AFTER_HOURS * 60 * 60 * 1000;
   const updated = generated.toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' });
-  const staleTitle = stale ? ' title="Not updated in the last day. Check the E2E metrics report workflow."' : '';
+  const staleTitle = stale ? ' title="Not updated in the last day. Check the E2E dashboard - Daily collection workflow."' : '';
   elements.updated.classList.toggle('aca-is-stale', stale);
   elements.updated.innerHTML = `
     Updated <time datetime="${escapeHtml(metrics.generatedAt)}"${staleTitle}>${escapeHtml(updated)}</time>
