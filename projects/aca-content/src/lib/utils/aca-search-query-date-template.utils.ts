@@ -139,9 +139,6 @@ function formatDateForQuery(date: Date): string {
   return format(date, "yyyy-MM-dd'T'HH:mm:ssXXX");
 }
 
-/**
- * Escapes regex metacharacters so dynamic field names can be matched literally.
- */
 function escapeRegex(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
