@@ -1,4 +1,4 @@
-name: "E2E metrics publish (Reusable)"
+name: "E2E dashboard - Build and deploy (reusable, not run directly)"
 
 on:
   workflow_call:

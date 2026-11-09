@@ -1,5 +1,5 @@
-name: "E2E metrics report"
-run-name: ${{ github.event_name == 'workflow_dispatch' && 'Manual E2E metrics collection' || 'Daily E2E metrics collection' }}
+name: "E2E dashboard - Daily collection"
+run-name: ${{ github.event_name == 'workflow_dispatch' && 'E2E dashboard - Manual collection' || 'E2E dashboard - Daily collection' }}
 
 on:
   schedule:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       date:
-        description: 'UTC day to collect (YYYY-MM-DD). Defaults to yesterday.'
+        description: 'UTC day to collect (YYYY-MM-DD). Defaults to today; runs still in progress are not collected.'
         required: false
         default: ''
       post-report:
@@ -46,7 +46,13 @@ jobs:
           INPUT_DATE: ${{ inputs.date }}
           INPUT_POST_REPORT: ${{ inputs.post-report }}
         run: |
-          date="${INPUT_DATE:-$(date -u -d yesterday +%F)}"
+          if [ -n "$INPUT_DATE" ]; then
+            date="$INPUT_DATE"
+          elif [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]; then
+            date="$(date -u +%F)"
+          else
+            date="$(date -u -d yesterday +%F)"
+          fi
           if ! [[ "$date" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
             echo "::error::Invalid date '$date', expected YYYY-MM-DD."
             exit 1
@@ -81,9 +87,6 @@ jobs:
     name: "Publish dashboard and report"
     needs: collect
     if: ${{ !cancelled() && needs.collect.result == 'success' }}
-    concurrency:
-      group: e2e-metrics-publish-${{ github.ref_name }}
-      cancel-in-progress: false
     permissions:
       actions: read
       contents: read

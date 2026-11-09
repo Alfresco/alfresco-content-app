@@ -345,6 +345,9 @@ async function main() {
   writeJson(outputFile, daily);
   appendIssuesToStepSummary(issueLog.issues, `E2E metrics collection problems for ${date}`);
   console.log(`Wrote ${outputFile}: ${runs.length} run(s), ${tests.length} test(s), ${issueLog.issues.length} data problem(s).`);
+  if (runs.length === 0) {
+    console.log(`::warning::No completed ${sourceWorkflows.join(' or ')} runs on ${branch} were found for ${date}, so this day has no E2E data.`);
+  }
 }
 
 main().catch((error) => {
