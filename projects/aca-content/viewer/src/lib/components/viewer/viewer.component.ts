@@ -226,7 +226,7 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
         this.node = await this.contentApi.getNodeInfo(nodeId).toPromise();
         if (this.router.url.startsWith('/repository')) {
           this._breadcrumbsRoot = 'APP.BROWSE.REPOSITORY_VIEW.TITLE';
-        } else if (this.node.path?.elements?.[1]?.nodeType === 'st:sites') {
+        } else if (this.node.path?.elements?.[1]?.nodeType === 'st:sites' && !this.router.url.startsWith('/personal-files')) {
           this._breadcrumbsRoot = this.navigationPath?.startsWith('/favorite/')
             ? 'APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.TITLE'
             : 'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE';
