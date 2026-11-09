@@ -77,6 +77,32 @@ describe('NodeTemplateService', () => {
     expect(dialog.open['calls'].argsFor(0)[1].data).toEqual(jasmine.objectContaining({ currentFolderId: 'parent-node-id' }));
   }));
 
+  it('should open selectTemplateDialog with role set to dialog', fakeAsync(() => {
+    spyOn(nodeTemplateService.searchApi, 'search').and.returnValue(
+      Promise.resolve({
+        list: { entries: [{ entry: { id: 'parent-node-id' } }] }
+      } as ResultSetPaging)
+    );
+    spyOn(dialog, 'open');
+    nodeTemplateService.selectTemplateDialog(fileTemplateConfig);
+    tick();
+
+    expect(dialog.open['calls'].argsFor(0)[1]).toEqual(jasmine.objectContaining({ role: 'dialog' }));
+  }));
+
+  it('should open selectTemplateDialog with restoreFocus set to true', fakeAsync(() => {
+    spyOn(nodeTemplateService.searchApi, 'search').and.returnValue(
+      Promise.resolve({
+        list: { entries: [{ entry: { id: 'parent-node-id' } }] }
+      } as ResultSetPaging)
+    );
+    spyOn(dialog, 'open');
+    nodeTemplateService.selectTemplateDialog(fileTemplateConfig);
+    tick();
+
+    expect(dialog.open['calls'].argsFor(0)[1]).toEqual(jasmine.objectContaining({ role: 'dialog' }));
+  }));
+
   it('should remove parents path for templates breadcrumb', fakeAsync(() => {
     spyOn(nodeTemplateService.searchApi, 'search').and.returnValue(
       Promise.resolve({
