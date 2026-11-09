@@ -67,5 +67,9 @@ export const getReporter = (): ReporterDescription[] => {
     reporters.push(['blob', { outputDir: env.PLAYWRIGHT_BLOB_DIR || 'blob-report' }]);
   }
 
+  if (env.E2E_METRICS_FILE) {
+    reporters.push([require.resolve('./e2e-metrics.reporter'), { outputFile: env.E2E_METRICS_FILE }]);
+  }
+
   return reporters;
 };
