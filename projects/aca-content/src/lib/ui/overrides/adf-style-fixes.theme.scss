@@ -777,6 +777,10 @@
     }
   }
 
+  .adf-dropdown-breadcrumb-trigger:focus-visible {
+    --mat-sys-primary: var(--theme-blue-button-color);
+  }
+
   .adf-dialog-action-button {
     @include mat.button-overrides(
       (
