@@ -117,12 +117,13 @@ export class NodeTemplateService {
   }
 
   createTemplateDialog(node: Node): MatDialogRef<CreateFromTemplateDialogComponent> {
-    const dialog = this.dialog.open(CreateFromTemplateDialogComponent, {
+    return this.dialog.open(CreateFromTemplateDialogComponent, {
       data: node,
       panelClass: 'aca-create-from-template-dialog',
-      width: '630px'
+      width: '630px',
+      role: 'dialog',
+      restoreFocus: true
     });
-    return dialog;
   }
 
   private transformNode(node: Node): Node {
