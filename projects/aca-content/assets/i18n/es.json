@@ -57,6 +57,7 @@
             "NAME": "Nombre",
             "ADDRESS": "Dirección",
             "POSTCODE": "Código postal",
+            "VALID_PHONE_FORMAT_HINT": "Introduzca números con guiones opcionales. Para números internacionales, incluya el código de país. Ejemplos: EE. UU., 1-404-123-4567; Reino Unido, 44 20 7946 0958.",
             "INVALID_PHONE_FORMAT": "Introduzca un número de teléfono válido",
             "INVALID_EMAIL_FORMAT": "Introduzca una dirección de correo electrónico válida",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Ir a Archivos personales"

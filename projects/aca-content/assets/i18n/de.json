@@ -57,6 +57,7 @@
             "NAME": "Name",
             "ADDRESS": "Anschrift",
             "POSTCODE": "Postleitzahl",
+            "VALID_PHONE_FORMAT_HINT": "Geben Sie Zahlen mit optionalen Bindestrichen ein. Bei internationalen Nummern geben Sie die Landesvorwahl an. Beispiele: USA, 1-404-123-4567; UK, 44 20 7946 0958.",
             "INVALID_PHONE_FORMAT": "Bitte geben Sie eine gültige Telefonnummer ein",
             "INVALID_EMAIL_FORMAT": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Zu persönlichen Dateien wechseln"

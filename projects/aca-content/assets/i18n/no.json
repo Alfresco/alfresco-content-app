@@ -57,6 +57,7 @@
             "NAME": "Navn",
             "ADDRESS": "Adresse",
             "POSTCODE": "Postnummer",
+            "VALID_PHONE_FORMAT_HINT": "Skriv inn tall med valgfrie bindestreker. For internasjonale nummer, inkluder landskoden. Eksempler: USA, 1-404-123-4567; UK, 44 20 7946 0958.",
             "INVALID_PHONE_FORMAT": "Angi et gyldig telefonnummer",
             "INVALID_EMAIL_FORMAT": "Angi en gyldig e‑postadresse",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Gå til personlige filer"

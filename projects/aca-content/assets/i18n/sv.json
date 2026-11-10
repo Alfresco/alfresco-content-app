@@ -57,6 +57,7 @@
             "NAME": "Namn",
             "ADDRESS": "Adress",
             "POSTCODE": "Postnummer",
+            "VALID_PHONE_FORMAT_HINT": "Ange nummer med valfria bindestreck. För internationella nummer, inkludera landskoden. Exempel: USA, 1-404-123-4567; Storbritannien, 44 20 7946 0958.",
             "INVALID_PHONE_FORMAT": "Ange ett giltigt telefonnummer",
             "INVALID_EMAIL_FORMAT": "Ange en giltig e‑postadress",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Gå till personliga filer"

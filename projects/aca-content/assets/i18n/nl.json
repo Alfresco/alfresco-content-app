@@ -57,6 +57,7 @@
             "NAME": "Naam",
             "ADDRESS": "Adres",
             "POSTCODE": "Postcode",
+            "VALID_PHONE_FORMAT_HINT": "Voer cijfers in met optionele koppeltekens. Voor internationale nummers voegt u de landcode toe. Voorbeelden: VS, 1-404-123-4567; VK, 44 20 7946 0958.",
             "INVALID_PHONE_FORMAT": "Voer een geldig telefoonnummer in",
             "INVALID_EMAIL_FORMAT": "Voer een geldig e-mailadres in",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Ga naar persoonlijke bestanden"
