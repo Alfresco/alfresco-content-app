@@ -20,17 +20,21 @@ function addFailedAttempt(reason, test, result, error) {
   if (seen > reason.lastSeen) reason.lastSeen = seen;
 }
 
+function addFailedAttemptsOfResult(reasons, test, result) {
+  for (const [status, , error] of result.attempts || []) {
+    if (status === 'passed' || !error) continue;
+    const key = normalizeErrorMessage(error);
+    if (!reasons.has(key)) reasons.set(key, createFailureReason(key));
+    addFailedAttempt(reasons.get(key), test, result, error);
+  }
+}
+
 function collectFailureReasons(tests) {
   const reasons = new Map();
   for (const test of tests) {
     for (const result of test.runResults) {
       if (result.environment && isHidingEnvironmentProblems()) continue;
-      for (const [status, , error] of result.attempts || []) {
-        if (status === 'passed' || !error) continue;
-        const key = normalizeErrorMessage(error);
-        if (!reasons.has(key)) reasons.set(key, createFailureReason(key));
-        addFailedAttempt(reasons.get(key), test, result, error);
-      }
+      addFailedAttemptsOfResult(reasons, test, result);
     }
   }
   return [...reasons.values()].map((reason) => ({

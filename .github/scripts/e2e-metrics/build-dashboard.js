@@ -225,7 +225,7 @@ function useLatestSourceLocation(catalogEntry, test) {
 }
 
 function latestExcludedTests(published, dailies, oldestKept) {
-  const excludedBySuite = { ...(published?.excluded || {}) };
+  const excludedBySuite = { ...published?.excluded };
   for (const daily of dailies.filter(Boolean)) {
     for (const [suite, { tests }] of Object.entries(daily.excluded || {})) {
       const known = excludedBySuite[suite];

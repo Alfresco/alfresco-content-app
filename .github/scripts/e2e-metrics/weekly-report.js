@@ -155,9 +155,11 @@ function describeTotals(report) {
 
 function describeLeftOutTestRuns(report) {
   const { environmentTestRuns } = report.totals;
-  return environmentTestRuns
-    ? `${count(environmentTestRuns, 'test run')} affected by environment problems ${environmentTestRuns === 1 ? 'is' : 'are'} left out of these numbers.`
-    : null;
+  if (!environmentTestRuns) {
+    return null;
+  }
+  const is = environmentTestRuns === 1 ? 'is' : 'are';
+  return `${count(environmentTestRuns, 'test run')} affected by environment problems ${is} left out of these numbers.`;
 }
 
 function describeEnvironmentProblems(report) {

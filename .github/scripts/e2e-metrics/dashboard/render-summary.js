@@ -104,10 +104,14 @@ function renderSummary(data, dates) {
 function renderEnvironmentNote(environmentRuns) {
   elements.environmentNote.hidden = environmentRuns === 0;
   elements.environmentNote.title = ENVIRONMENT_HELP;
-  const affected = `${pluralize(environmentRuns, 'test run')} ${environmentRuns === 1 ? 'was' : 'were'} affected by environment problems`;
+  const isSingle = environmentRuns === 1;
+  const was = isSingle ? 'was' : 'were';
+  const is = isSingle ? 'is' : 'are';
+  const them = isSingle ? 'it' : 'them';
+  const affected = `${pluralize(environmentRuns, 'test run')} ${was} affected by environment problems`;
   elements.environmentNote.textContent = isHidingEnvironmentProblems()
-    ? `${affected} and ${environmentRuns === 1 ? 'is' : 'are'} not counted. Uncheck "Hide environment problems" to count ${environmentRuns === 1 ? 'it' : 'them'}.`
-    : `${affected} and ${environmentRuns === 1 ? 'is' : 'are'} counted.`;
+    ? `${affected} and ${is} not counted. Uncheck "Hide environment problems" to count ${them}.`
+    : `${affected} and ${is} counted.`;
 }
 
 function renderDataIssue(issue) {

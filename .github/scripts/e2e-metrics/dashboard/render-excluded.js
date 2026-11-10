@@ -10,7 +10,7 @@ function collectExcludedTests() {
 
 function renderExclusionReason(reason) {
   if (!/^https?:\/\//.test(reason)) return escapeHtml(reason);
-  const ticket = reason.split('/').filter(Boolean).pop();
+  const ticket = reason.split('/').findLast(Boolean);
   return renderExternalLink(reason, escapeHtml(ticket));
 }
 

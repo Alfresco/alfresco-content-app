@@ -36,7 +36,7 @@ const MIN_AFFECTED_TESTS_FOR_INCIDENT = 4;
 const MIN_AFFECTED_SHARE_FOR_INCIDENT = 0.5;
 const ENVIRONMENT_ERROR_PATTERN = new RegExp(
   [
-    String.raw`net::ERR_(?!ABORTED)[A-Z_]+`,
+    'net::ERR_(?!ABORTED)[A-Z_]+',
     String.raw`\b(?:ECONNRESET|ECONNREFUSED|ETIMEDOUT|EAI_AGAIN|EPIPE)\b`,
     'socket hang up',
     'Bad Gateway|Service Unavailable|Gateway Time-?out',
