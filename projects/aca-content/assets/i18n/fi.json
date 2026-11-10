@@ -57,6 +57,7 @@
             "NAME": "Nimi",
             "ADDRESS": "Osoite",
             "POSTCODE": "Postinumero",
+            "VALID_PHONE_FORMAT_HINT": "Syötä numerot käyttäen valinnaisia yhdysviivoja. Kansainvälisissä numeroissa käytä maakoodia. Esimerkkejä: USA, 1-404-123-4567; UK, 44 20 7946 0958.",
             "INVALID_PHONE_FORMAT": "Anna voimassa oleva puhelinnumero",
             "INVALID_EMAIL_FORMAT": "Anna voimassa oleva sähköpostiosoite",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Siirry henkilökohtaisiin tiedostoihin"

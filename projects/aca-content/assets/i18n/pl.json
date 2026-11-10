@@ -57,6 +57,7 @@
             "NAME": "Nazwa",
             "ADDRESS": "Adres",
             "POSTCODE": "Kod pocztowy",
+            "VALID_PHONE_FORMAT_HINT": "Wprowadź numer, opcjonalnie z myślnikami. W przypadku numerów międzynarodowych podaj kod kraju. Przykłady: USA, 1-404-123-4567; Wielka Brytania, 44 20 7946 0958.",
             "INVALID_PHONE_FORMAT": "Wprowadź prawidłowy numer telefonu",
             "INVALID_EMAIL_FORMAT": "Wprowadź prawidłowy adres e‑mail",
             "GO_TO_PERSONAL_FILES_BUTTON_LABEL": "Przejdź do plików osobistych"
