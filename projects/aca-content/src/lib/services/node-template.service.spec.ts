@@ -38,6 +38,7 @@ describe('NodeTemplateService', () => {
   let store: Store<any>;
   let nodeTemplateService: NodeTemplateService;
   let showErrorSpy: jasmine.Spy;
+  let node: Node;
 
   const fileTemplateConfig = {
     primaryPathName: 'parent-file-templates',
@@ -46,21 +47,6 @@ describe('NodeTemplateService', () => {
   const folderTemplateConfig = {
     primaryPathName: 'parent-folder-templates',
     selectionType: 'folder'
-  };
-  const node: Node = {
-    name: 'node-name',
-    id: 'node-id',
-    nodeType: 'cm:content',
-    isFolder: false,
-    isFile: true,
-    modifiedAt: null,
-    modifiedByUser: null,
-    createdAt: null,
-    createdByUser: null,
-    properties: {
-      'cm:title': 'title',
-      'cm:description': 'description'
-    }
   };
 
   beforeEach(() => {
@@ -76,6 +62,22 @@ describe('NodeTemplateService', () => {
 
     const notificationService = TestBed.inject(NotificationService);
     showErrorSpy = spyOn(notificationService, 'showError');
+
+    node = {
+      name: 'node-name',
+      id: 'node-id',
+      nodeType: 'cm:content',
+      isFolder: false,
+      isFile: true,
+      modifiedAt: null,
+      modifiedByUser: null,
+      createdAt: null,
+      createdByUser: null,
+      properties: {
+        'cm:title': 'title',
+        'cm:description': 'description'
+      }
+    };
   });
 
   it('should open dialog with parent node `id` as data property', fakeAsync(() => {
@@ -92,46 +94,23 @@ describe('NodeTemplateService', () => {
     expect(dialog.open['calls'].argsFor(0)[1].data).toEqual(jasmine.objectContaining({ currentFolderId: 'parent-node-id' }));
   }));
 
-  it('should open selectTemplateDialog with role set to dialog', fakeAsync(() => {
-    spyOn(nodeTemplateService.searchApi, 'search').and.returnValue(
-      Promise.resolve({
-        list: { entries: [{ entry: { id: 'parent-node-id' } }] }
-      } as ResultSetPaging)
-    );
+  it('should open selectTemplateDialog with role set to dialog and restoreFocus set to true', fakeAsync(() => {
+    spyOn(nodeTemplateService.searchApi, 'search').and.resolveTo({
+      list: { entries: [{ entry: { id: 'parent-node-id' } }] }
+    } as ResultSetPaging);
     spyOn(dialog, 'open');
     nodeTemplateService.selectTemplateDialog(fileTemplateConfig);
     tick();
 
-    expect(dialog.open['calls'].argsFor(0)[1]).toEqual(jasmine.objectContaining({ role: 'dialog' }));
+    expect(dialog.open['calls'].argsFor(0)[1]).toEqual(jasmine.objectContaining({ role: 'dialog', restoreFocus: true }));
   }));
 
-  it('should open selectTemplateDialog with restoreFocus set to true', fakeAsync(() => {
-    spyOn(nodeTemplateService.searchApi, 'search').and.returnValue(
-      Promise.resolve({
-        list: { entries: [{ entry: { id: 'parent-node-id' } }] }
-      } as ResultSetPaging)
-    );
-    spyOn(dialog, 'open');
-    nodeTemplateService.selectTemplateDialog(fileTemplateConfig);
-    tick();
-
-    expect(dialog.open['calls'].argsFor(0)[1]).toEqual(jasmine.objectContaining({ restoreFocus: true }));
-  }));
-
-  it('should open createTemplateDialog with role set to dialog', fakeAsync(() => {
+  it('should open createTemplateDialog with role set to dialog and restoreFocus set to true', fakeAsync(() => {
     spyOn(dialog, 'open');
     nodeTemplateService.createTemplateDialog(node);
     tick();
 
-    expect(dialog.open['calls'].argsFor(0)[1]).toEqual(jasmine.objectContaining({ role: 'dialog' }));
-  }));
-
-  it('should open createTemplateDialog with restoreFocus set to true', fakeAsync(() => {
-    spyOn(dialog, 'open');
-    nodeTemplateService.createTemplateDialog(node);
-    tick();
-
-    expect(dialog.open['calls'].argsFor(0)[1]).toEqual(jasmine.objectContaining({ restoreFocus: true }));
+    expect(dialog.open['calls'].argsFor(0)[1]).toEqual(jasmine.objectContaining({ role: 'dialog', restoreFocus: true }));
   }));
 
   it('should remove parents path for templates breadcrumb', fakeAsync(() => {

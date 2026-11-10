@@ -2066,20 +2066,16 @@ describe('ContentManagementService', () => {
       });
     });
 
-    it('should open LibraryDialogComponent with autoFocus set to false', () => {
+    it('should open LibraryDialogComponent with proper params', () => {
       dialogRefMock.afterClosed.and.returnValue(of(null));
       spyOn(dialog, 'open').and.returnValue(dialogRefMock);
       contentManagementService.createLibrary();
 
-      expect(dialog.open).toHaveBeenCalledWith(LibraryDialogComponent, jasmine.objectContaining({ autoFocus: false }));
-    });
-
-    it('should open LibraryDialogComponent with role set to dialog', () => {
-      dialogRefMock.afterClosed.and.returnValue(of(null));
-      spyOn(dialog, 'open').and.returnValue(dialogRefMock);
-      contentManagementService.createLibrary();
-
-      expect(dialog.open).toHaveBeenCalledWith(LibraryDialogComponent, jasmine.objectContaining({ role: 'dialog' }));
+      expect(dialog.open).toHaveBeenCalledWith(LibraryDialogComponent, {
+        autoFocus: false,
+        width: '400px',
+        role: 'dialog'
+      });
     });
 
     it('should show library creation error notifications', () => {

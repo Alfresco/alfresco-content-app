@@ -28,7 +28,7 @@ import { of, throwError } from 'rxjs';
 import { SavedSearchEditDialogComponent } from './saved-search-edit-dialog.component';
 import { SavedSearch } from '@alfresco/adf-content-services';
 import { provideMockStore } from '@ngrx/store/testing';
-import { NotificationService } from '@alfresco/adf-core';
+import { NotificationService, UnitTestingUtils } from '@alfresco/adf-core';
 import { AppTestingModule } from '../../../../../testing/app-testing.module';
 import { SavedSearchesContextService } from '../../../../../services/saved-searches-context.service';
 
@@ -38,6 +38,7 @@ describe('SaveSearchEditDialogComponent', () => {
   let notificationService: NotificationService;
   let savedSearchesService: SavedSearchesContextService;
   let submitButton: HTMLButtonElement;
+  let testingUtils: UnitTestingUtils;
 
   const savedSearchToDelete: SavedSearch = {
     name: 'test',
@@ -64,12 +65,19 @@ describe('SaveSearchEditDialogComponent', () => {
     component = fixture.componentInstance;
     notificationService = TestBed.inject(NotificationService);
     savedSearchesService = TestBed.inject(SavedSearchesContextService);
+    testingUtils = new UnitTestingUtils(fixture.debugElement);
 
     submitButton = fixture.nativeElement.querySelector('#aca-saved-search-edit-dialog-submit-button');
   });
 
   afterEach(() => {
     fixture.destroy();
+  });
+
+  it('should have the title inside mat dialog title', () => {
+    fixture.detectChanges();
+    const title = testingUtils.getByCSS('[mat-dialog-title]');
+    expect(title.nativeElement.textContent.trim()).toBe('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.TITLE');
   });
 
   it('should not save search if form is invalid', fakeAsync(() => {
