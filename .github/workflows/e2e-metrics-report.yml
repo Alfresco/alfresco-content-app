@@ -16,10 +16,6 @@ on:
         type: boolean
         default: false
 
-permissions:
-  actions: read
-  contents: read
-
 concurrency:
   group: e2e-metrics-report
   cancel-in-progress: false
@@ -28,6 +24,9 @@ jobs:
   collect:
     name: "Collect daily E2E metrics"
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
     outputs:
       date: ${{ steps.params.outputs.date }}
       post-report: ${{ steps.params.outputs.post-report }}
@@ -107,6 +106,9 @@ jobs:
     needs: [collect, publish]
     if: ${{ always() && needs.collect.result == 'success' && needs.collect.outputs.post-report == 'true' }}
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
