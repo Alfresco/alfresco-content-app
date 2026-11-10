@@ -89,6 +89,6 @@ runs:
         fi
         mkdir -p -- "${METRICS_DIR}"
         export E2E_EXCLUDED_TESTS_FILE="$(cd -- "${METRICS_DIR}" && pwd)/excluded.json"
-        if ! npx playwright test --config="$config" --list > /dev/null; then
+        if ! ./node_modules/.bin/playwright test --config="$config" --list > /dev/null; then
           echo "::warning::Could not list the excluded tests of ${OPTIONS}."
         fi

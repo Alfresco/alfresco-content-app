@@ -32,7 +32,7 @@ const E2E_METRICS_REPORTER_FORMAT = 'aca-e2e-metrics';
 const E2E_METRICS_REPORTER_FORMAT_INTRODUCED_ON = '2026-10-28';
 const MIN_FLAKY_RUNS_BEFORE_FIX = 5;
 const MIN_CLEAN_RUNS_TO_COUNT_AS_FIXED = 3;
-const MIN_SUITE_TESTS_FOR_INCIDENT = 4;
+const MIN_AFFECTED_TESTS_FOR_INCIDENT = 4;
 const MIN_AFFECTED_SHARE_FOR_INCIDENT = 0.5;
 const ENVIRONMENT_ERROR_PATTERN = new RegExp(
   [
@@ -175,7 +175,7 @@ function findSuiteIncidents(metrics) {
   const incidents = [];
   for (const suiteMetrics of testsBySuiteAttempt.values()) {
     const affected = suiteMetrics.filter(neededRetryOrFailed).length;
-    const isIncident = suiteMetrics.length >= MIN_SUITE_TESTS_FOR_INCIDENT && affected / suiteMetrics.length >= MIN_AFFECTED_SHARE_FOR_INCIDENT;
+    const isIncident = affected >= MIN_AFFECTED_TESTS_FOR_INCIDENT && affected / suiteMetrics.length >= MIN_AFFECTED_SHARE_FOR_INCIDENT;
     if (isIncident) {
       incidents.push({ suite: suiteMetrics[0].suite, suiteAttempt: suiteMetrics[0].suiteAttempt || 1, affected, tests: suiteMetrics.length });
     }

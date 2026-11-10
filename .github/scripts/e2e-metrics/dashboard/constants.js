@@ -58,7 +58,7 @@ const ENVIRONMENT_REASON_LABELS = {
   error: 'environment error'
 };
 const ENVIRONMENT_HELP =
-  'Every E2E job deploys its own local ACS. A test run counts as affected by an environment problem when at least half of its suite\'s tests needed a retry or failed in the same suite attempt (suite incident), or when all its failed attempts failed with an environment error: a network error, an HTTP 5xx, 401 or 403 response, or a search indexing helper that gave up after its retries ("… not found after 90 retries", "… not indexed for …", "… not found in search results"). A failed "Deploy local ACS" or "Before e2e" step stops the job before its tests run, so it only shows as the cause of the failed run. With "Hide environment problems" checked, the affected test runs are not counted in runs, retries and failures; durations always include them.';
+  'Every E2E job deploys its own local ACS. A test run counts as affected by an environment problem when at least 4 and at least half of its suite\'s tests needed a retry or failed in the same suite attempt (suite incident), or when all its failed attempts failed with an environment error: a network error, an HTTP 5xx, 401 or 403 response, or a search indexing helper that gave up after its retries ("… not found after 90 retries", "… not indexed for …", "… not found in search results"). A failed "Deploy local ACS" or "Before e2e" step stops the job before its tests run, so it only shows as the cause of the failed run. With "Hide environment problems" checked, the affected test runs are not counted in runs, retries and failures; durations always include them.';
 
 const COLUMN_HELP = {
   title:
@@ -86,7 +86,7 @@ const TAB_INTRO = {
     'Tests that are currently excluded from the chrome E2E runs, so they never run and do not appear in the other tabs. The list comes from the latest collected run of each suite and does not depend on the selected period.'
 };
 const SUITE_HEALTH_HELP =
-  'How often the CI job of this suite failed in the selected period (because of its tests or a failed "Deploy local ACS" or "Before e2e" step), out of the workflow runs that ran it, and how many suite incidents it had: suite attempts where at least half of its tests needed a retry or failed. "Failed runs" in the columns counts single test runs instead.';
+  'How often the CI job of this suite failed in the selected period (because of its tests or a failed "Deploy local ACS" or "Before e2e" step), out of the workflow runs that ran it, and how many suite incidents it had: suite attempts where at least 4 and at least half of its tests needed a retry or failed. "Failed runs" in the columns counts single test runs instead.';
 const COLUMN_NOTES = {
   avg: 'The setup is counted in full for every test instead of once for the whole suite, so the duration is how long the test would take if it ran on its own.'
 };
@@ -112,5 +112,5 @@ const RUNS_HELP = {
   result:
     'Outcome of the whole workflow run. A failed run still provides results for the tests that ran. For a run that was still in progress when its data was collected (the run that publishes the dashboard), the result of its E2E jobs is shown instead, marked "(E2E jobs)". Sorting puts failed runs first, then timed out, in progress, cancelled and successful runs.',
   cause:
-    'Why a failed run failed: tests failing in a suite, an environment check ("Deploy local ACS" or "Before e2e") failing before the tests, or another infrastructure step (build, installs) failing before or around the tests. Suite incidents (at least half of a suite\'s tests needed a retry or failed in one suite attempt) are listed too. Links open the failed step. "Data missing" means part of the run\'s results could not be collected from GitHub, so its numbers are incomplete.'
+    'Why a failed run failed: tests failing in a suite, an environment check ("Deploy local ACS" or "Before e2e") failing before the tests, or another infrastructure step (build, installs) failing before or around the tests. Suite incidents (at least 4 and at least half of a suite\'s tests needed a retry or failed in one suite attempt) are listed too. Links open the failed step. "Data missing" means part of the run\'s results could not be collected from GitHub, so its numbers are incomplete.'
 };

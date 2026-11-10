@@ -50,7 +50,7 @@ const RUN_TESTS_STEP_NAME = 'Run e2e playwright';
 const SUITE_JOB_NAME_PATTERN = /(?:^|\/ )E2E \| (\S+) \| (.+) \| Playwright$/;
 const ENVIRONMENT_CHECK_STEP_NAMES = new Set(['Deploy local ACS', 'Before e2e']);
 const TESTS_RAN_STEP_CONCLUSIONS = new Set(['success', 'failure']);
-const ARTIFACT_ISSUE_OPERATIONS = new Set(['list-artifacts', 'download-artifact', 'read-report', 'artifact-expired']);
+const ARTIFACT_ISSUE_OPERATIONS = new Set(['download-artifact', 'read-report', 'artifact-expired']);
 const EXCLUDED_TESTS_REPORT_KIND = 'excluded';
 
 const suiteAttemptFromFileName = (fileName) => Number(/attempt-(\d+)/.exec(fileName)?.[1]) || 1;
@@ -242,16 +242,21 @@ async function collectArtifact(github, run, artifact, workDir, issueLog) {
 
 function recordSuitesWithoutMetrics(runJobs, reportedArtifactKeys, run, issueLog) {
   const runPredatesReporterFormat = run.created_at?.slice(0, 10) < E2E_METRICS_REPORTER_FORMAT_INTRODUCED_ON;
-  const artifactsAlreadyReported = issueLog.issues.some((issue) => issue.runId === run.id && ARTIFACT_ISSUE_OPERATIONS.has(issue.operation));
-  if (runPredatesReporterFormat || artifactsAlreadyReported) {
+  const runIssues = issueLog.issues.filter((issue) => issue.runId === run.id);
+  const artifactsNotListed = runIssues.some((issue) => issue.operation === 'list-artifacts');
+  if (runPredatesReporterFormat || artifactsNotListed) {
     return;
   }
+  const artifactsWithReportedProblems = new Set(
+    runIssues.filter((issue) => ARTIFACT_ISSUE_OPERATIONS.has(issue.operation)).map((issue) => issue.artifact)
+  );
   for (const job of runJobs) {
     const parsedJobName = parseSuiteJobName(job.name);
     const runTestsStep = (job.steps || []).find((step) => step.name === RUN_TESTS_STEP_NAME);
     const testsRan = TESTS_RAN_STEP_CONCLUSIONS.has(runTestsStep?.conclusion);
     const artifactKey = parsedJobName && `${parsedJobName.browser}-${parsedJobName.suite}`;
-    if (parsedJobName && testsRan && !reportedArtifactKeys.has(artifactKey)) {
+    const artifactProblemReported = artifactsWithReportedProblems.has(`e2e-metrics-${artifactKey}`);
+    if (parsedJobName && testsRan && !reportedArtifactKeys.has(artifactKey) && !artifactProblemReported) {
       issueLog.add({
         operation: 'missing-metrics',
         runId: run.id,

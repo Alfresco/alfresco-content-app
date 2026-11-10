@@ -166,7 +166,7 @@ function describeEnvironmentProblems(report) {
   if (!runsWithFailedChecks && !incidents) {
     return null;
   }
-  return `Environment problems: ${count(runsWithFailedChecks, 'run')} with failed environment checks, ${count(incidents, 'suite incident')} (at least half of a suite's tests needed a retry or failed in one suite attempt).`;
+  return `Environment problems: ${count(runsWithFailedChecks, 'run')} with failed environment checks, ${count(incidents, 'suite incident')} (at least 4 and at least half of a suite's tests needed a retry or failed in one suite attempt).`;
 }
 
 const PERCENT_POINTS = 100;

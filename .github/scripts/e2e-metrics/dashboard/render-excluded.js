@@ -56,14 +56,15 @@ function renderExcludedTestRow(test, columns, levelStyle) {
   `;
 }
 
-function renderExcludedTreeRows(group, columns) {
+function renderExcludedTreeRows(group, columns, sort) {
   const levelStyle = `--level:${group.level + 1}`;
-  const groups = [...group.groups.values()].sort((first, second) => first.name.localeCompare(second.name));
+  const groupSign = sort.key === 'title' && sort.dir === 'desc' ? -1 : 1;
+  const groups = [...group.groups.values()].sort((first, second) => first.name.localeCompare(second.name) * groupSign);
   const groupRows = groups.map((child) => {
     const open = isGroupOpen(child, group.groups.size);
     ui.visibleGroupKeys.push(child.key);
     const row = renderGroupRow(child, open, columns, levelStyle);
-    return open ? `${row}${renderExcludedTreeRows(child, columns)}` : row;
+    return open ? `${row}${renderExcludedTreeRows(child, columns, sort)}` : row;
   });
   const testRows = group.tests.map((test) => renderExcludedTestRow(test, columns, levelStyle));
   return [...groupRows, ...testRows].join('');
@@ -82,7 +83,7 @@ function renderExcluded(rows) {
     return;
   }
   ui.visibleGroupKeys = [];
-  const body = renderExcludedTreeRows(buildTree(rows), columns);
+  const body = renderExcludedTreeRows(buildTree(rows), columns, sort);
   elements.panel.innerHTML = `
     <div class="aca-tree-tools">
       <button type="button" class="aca-link-button" data-groups="open">Expand all</button>
