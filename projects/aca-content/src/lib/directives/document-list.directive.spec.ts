@@ -157,6 +157,23 @@ describe('DocumentListDirective', () => {
     expect(documentListMock.stickyHeader).toBeTruthy();
   });
 
+  it('should call next on documentListReady$ from AppHookService when document list is ready', () => {
+    documentListDirective.ngOnInit();
+    spyOn(appHookServiceMock.documentListReady$, 'next');
+    documentListMock.currentFolderId = '-my-';
+
+    documentListMock.ready.next();
+    expect(appHookServiceMock.documentListReady$.next).toHaveBeenCalledWith('-my-');
+  });
+
+  it('should not call next on documentListReady$ from AppHookService when document list is not ready', () => {
+    documentListDirective.ngOnInit();
+    spyOn(appHookServiceMock.documentListReady$, 'next');
+    documentListMock.currentFolderId = '-my-';
+
+    expect(appHookServiceMock.documentListReady$.next).not.toHaveBeenCalled();
+  });
+
   it('should set include fields', () => {
     mockRouter.url = '/some-route';
     documentListMock.currentFolderId = '-my-';
