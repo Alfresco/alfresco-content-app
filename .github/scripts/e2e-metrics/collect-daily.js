@@ -82,7 +82,10 @@ function readArtifactMetrics(artifactDir, suite, reportUnreadableFile) {
       }
       reported = true;
       const suiteAttempt = suiteAttemptFromFileName(file);
-      metrics.push(...extractTestMetrics(report, suite).map((metric) => ({ ...metric, suiteAttempt })));
+      const scheduledTestsOfSuite = (metricSuite) => report.tests.filter((test) => (test.project || suite) === metricSuite).length;
+      metrics.push(
+        ...extractTestMetrics(report, suite).map((metric) => ({ ...metric, suiteAttempt, scheduledTests: scheduledTestsOfSuite(metric.suite) }))
+      );
     } catch (error) {
       reportUnreadableFile(file, error);
     }
@@ -142,6 +145,7 @@ const isEnvironmentCheckFailure = (failedStep) => ENVIRONMENT_CHECK_STEP_NAMES.h
 
 function environmentCheckFailures(jobs, metricSuitesByArtifact) {
   return jobs
+    .filter((job) => FAILED_CONCLUSIONS.has(job.conclusion))
     .map((job) => ({ job, failedStep: findFailedStep(job) }))
     .filter(({ failedStep }) => isEnvironmentCheckFailure(failedStep))
     .map(({ job, failedStep }) => {
@@ -172,7 +176,8 @@ function failureCauses(jobs, metricSuitesByArtifact) {
       name: metricSuitesOfJob(parsedJobName, metricSuitesByArtifact)[0] || parsedJobName?.suite || jobNameWithoutCallerPrefix(job),
       job: job.id,
       step: failedStep?.number ?? null,
-      stepName: failedStep?.name ?? null
+      stepName: failedStep?.name ?? null,
+      suiteJob: Boolean(parsedJobName)
     });
   }
   return causes;
@@ -253,7 +258,8 @@ function recordSuitesWithoutMetrics(runJobs, reportedArtifactKeys, run, issueLog
   for (const job of runJobs) {
     const parsedJobName = parseSuiteJobName(job.name);
     const runTestsStep = (job.steps || []).find((step) => step.name === RUN_TESTS_STEP_NAME);
-    const testsRan = TESTS_RAN_STEP_CONCLUSIONS.has(runTestsStep?.conclusion);
+    const timedOutWhileRunningTests = runTestsStep?.conclusion === TIMED_OUT_JOB_STEP_CONCLUSION && FAILED_CONCLUSIONS.has(job.conclusion);
+    const testsRan = TESTS_RAN_STEP_CONCLUSIONS.has(runTestsStep?.conclusion) || timedOutWhileRunningTests;
     const artifactKey = parsedJobName && `${parsedJobName.browser}-${parsedJobName.suite}`;
     const artifactProblemReported = artifactsWithReportedProblems.has(`e2e-metrics-${artifactKey}`);
     if (parsedJobName && testsRan && !reportedArtifactKeys.has(artifactKey) && !artifactProblemReported) {

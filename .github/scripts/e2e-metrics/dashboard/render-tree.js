@@ -4,16 +4,35 @@ function createGroup(kind, name, key, level) {
   return { kind, name, key, level, groups: new Map(), tests: [] };
 }
 
+function getGroupKey(groupNames) {
+  return JSON.stringify(groupNames);
+}
+
+function getGroupNamesOfTest(test) {
+  return [test.suite, test.file, ...splitTitle(test).describes];
+}
+
+function expandGroupsOfTest(index) {
+  const [suite, file, title] = metrics.tests[index];
+  const groupNames = getGroupNamesOfTest({ suite, file, title });
+  groupNames.forEach((_, level) => userToggledGroups.set(getGroupKey(groupNames.slice(0, level + 1)), true));
+}
+
+function getGroupKind(level) {
+  if (level === 0) return 'suite';
+  if (level === 1) return 'file';
+  return 'describe';
+}
+
 function buildTree(tests) {
   const root = createGroup('root', '', '', -1);
   const openIndex = getOpenTestIndex();
   for (const test of tests) {
-    const path = [['suite', test.suite], ['file', test.file], ...splitTitle(test).describes.map((name) => ['describe', name])];
+    const groupNames = getGroupNamesOfTest(test);
     let node = root;
-    path.forEach(([kind, name], level) => {
+    groupNames.forEach((name, level) => {
       if (!node.groups.has(name)) {
-        const key = JSON.stringify(path.slice(0, level + 1).map(([, groupName]) => groupName));
-        node.groups.set(name, createGroup(kind, name, key, level));
+        node.groups.set(name, createGroup(getGroupKind(level), name, getGroupKey(groupNames.slice(0, level + 1)), level));
       }
       node = node.groups.get(name);
       if (test.index === openIndex) node.containsOpenTest = true;

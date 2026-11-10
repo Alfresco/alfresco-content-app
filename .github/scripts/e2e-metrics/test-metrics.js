@@ -40,7 +40,8 @@ const ENVIRONMENT_ERROR_PATTERN = new RegExp(
     String.raw`\b(?:ECONNRESET|ECONNREFUSED|ETIMEDOUT|EAI_AGAIN|EPIPE)\b`,
     'socket hang up',
     'Bad Gateway|Service Unavailable|Gateway Time-?out',
-    String.raw`status(?:Code)?\W{0,3}(?:5\d\d|40[13])\b`,
+    String.raw`status(?:\s?code)?\W{0,3}(?:5\d\d|40[13])\b`,
+    String.raw`\bHTTP(?:\/[\d.]+)?\s+(?:5\d\d|40[13])\b`,
     String.raw`\b40[13] (?:Unauthorized|Forbidden)\b`,
     String.raw`not found after \d+ retries`,
     String.raw`but found \d+ after \d+ retries`,
@@ -175,9 +176,10 @@ function findSuiteIncidents(metrics) {
   const incidents = [];
   for (const suiteMetrics of testsBySuiteAttempt.values()) {
     const affected = suiteMetrics.filter(neededRetryOrFailed).length;
-    const isIncident = affected >= MIN_AFFECTED_TESTS_FOR_INCIDENT && affected / suiteMetrics.length >= MIN_AFFECTED_SHARE_FOR_INCIDENT;
+    const scheduledTests = Math.max(suiteMetrics.length, suiteMetrics[0].scheduledTests || 0);
+    const isIncident = affected >= MIN_AFFECTED_TESTS_FOR_INCIDENT && affected / scheduledTests >= MIN_AFFECTED_SHARE_FOR_INCIDENT;
     if (isIncident) {
-      incidents.push({ suite: suiteMetrics[0].suite, suiteAttempt: suiteMetrics[0].suiteAttempt || 1, affected, tests: suiteMetrics.length });
+      incidents.push({ suite: suiteMetrics[0].suite, suiteAttempt: suiteMetrics[0].suiteAttempt || 1, affected, tests: scheduledTests });
     }
   }
   return incidents;

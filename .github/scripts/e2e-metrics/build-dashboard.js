@@ -55,7 +55,7 @@ const COMPACT_TEST_METRIC_FIELDS = [
   'environmentFailures'
 ];
 const COMPACT_SUITE_JOB_FIELDS = ['job', 'step', 'setup', 'tests', 'total'];
-const COMPACT_FAILURE_CAUSE_FIELDS = ['kind', 'name', 'job', 'step', 'stepName'];
+const COMPACT_FAILURE_CAUSE_FIELDS = ['kind', 'name', 'job', 'step', 'stepName', 'suiteJob'];
 const COMPACT_ENVIRONMENT_CHECK_FIELDS = ['name', 'job', 'step', 'stepName'];
 const COMPACT_INCIDENT_FIELDS = ['suite', 'suiteAttempt', 'affected', 'tests'];
 const COMPACT_EXCLUDED_TEST_FIELDS = ['file', 'title', 'path', 'line', 'id', 'reason', 'scope'];
@@ -275,9 +275,13 @@ function isIncompleteRefreshOfPublishedDay(refreshed, published) {
     return false;
   }
   const publishedIssueKeys = new Set((published.issues || []).map(issueKey));
-  const refreshHasNewProblems = refreshed.issues.some((issue) => !publishedIssueKeys.has(issueKey(issue)));
+  const publishedRunIds = new Set(published.runs.map((run) => run.id));
+  const affectsPublishedData = (issue) => !issue.runId || publishedRunIds.has(issue.runId);
+  const refreshHasNewProblemsInPublishedData = refreshed.issues.some(
+    (issue) => !publishedIssueKeys.has(issueKey(issue)) && affectsPublishedData(issue)
+  );
   const refreshLostRuns = refreshed.runs.length < published.runs.length;
-  return refreshHasNewProblems || refreshLostRuns;
+  return refreshHasNewProblemsInPublishedData || refreshLostRuns;
 }
 
 async function main() {
@@ -295,6 +299,7 @@ async function main() {
   const refreshDates = datesEndingOn(endDate, DAILY_ARTIFACT_RETENTION_DAYS);
   const loadIssueLog = createDataIssueLog('load');
   const dailies = await loadDailies(refreshDates, loadIssueLog);
+  const acceptedDailies = [];
   dailies.forEach((daily, index) => {
     const date = refreshDates[index];
     if (!daily) {
@@ -310,6 +315,7 @@ async function main() {
       return;
     }
     days.set(date, daily);
+    acceptedDailies.push(daily);
   });
   const loadIssues = loadIssueLog.issues.map((issue) =>
     issue.operation === 'load-daily' && days.has(issue.date)
@@ -333,7 +339,7 @@ async function main() {
       serverUrl: process.env.GITHUB_SERVER_URL || 'https://github.com',
       branch: process.env.SOURCE_BRANCH || 'develop',
       testCaseUrl: process.env.TEST_CASE_URL || DEFAULT_TEST_CASE_URL,
-      excluded: latestExcludedTests(published, dailies, oldestKept),
+      excluded: latestExcludedTests(published, acceptedDailies, oldestKept),
       environmentErrorPattern: { source: ENVIRONMENT_ERROR_PATTERN.source, flags: ENVIRONMENT_ERROR_PATTERN.flags },
       historyDays,
       detailDays,

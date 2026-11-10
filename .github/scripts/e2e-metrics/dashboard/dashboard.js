@@ -114,6 +114,7 @@ function handlePanelClick(event) {
   }
   const openTestButton = event.target.closest('[data-open-test]');
   if (openTestButton) {
+    expandGroupsOfTest(indexById.get(openTestButton.dataset.openTest));
     ui.scrollToOpenTest = true;
     setState({ tab: 'all', sort: '', dir: '', test: openTestButton.dataset.openTest });
     return;

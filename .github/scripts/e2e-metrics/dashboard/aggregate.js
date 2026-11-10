@@ -175,7 +175,8 @@ function addSuiteJobTimes(statsBySuite, run) {
 }
 
 function addSuiteJobOutcomes(statsBySuite, run) {
-  const failureKindBySuite = new Map((run.failure || []).filter(([kind]) => kind !== 'infra').map(([kind, name]) => [getSuiteStatsKey(name), kind]));
+  const isSuiteJobFailure = ([kind, , , , , suiteJob]) => kind !== 'infra' || Boolean(suiteJob);
+  const failureKindBySuite = new Map((run.failure || []).filter(isSuiteJobFailure).map(([kind, name]) => [getSuiteStatsKey(name), kind]));
   const suitesInRun = new Set([...Object.keys(run.suites || {}).map(getSuiteStatsKey), ...failureKindBySuite.keys()]);
   for (const key of suitesInRun) {
     const suite = getSuiteStats(statsBySuite, key);

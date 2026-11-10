@@ -68,6 +68,8 @@ function buildReport(dates, dailies, title, previousDailies = [], loadIssues = [
   const previousAvailable = previousDailies.filter(Boolean);
   const previousTests = countedTestsOfPeriod(previousAvailable);
   const comparison = compareFlaky(tests, previousTests);
+  const previousPeriodComplete = previousDailies.length === dates.length && previousDailies.every(Boolean);
+  const canCompareWithPreviousPeriod = tests.length > 0 && previousTests.length > 0 && previousPeriodComplete;
 
   const flaky = tests
     .filter((test) => test.retries > 0 || test.failures > 0)
@@ -77,6 +79,7 @@ function buildReport(dates, dailies, title, previousDailies = [], loadIssues = [
     );
   const hasPassedAttempt = (test) => test.durationCount > 0;
   const slowest = allTests
+    .map(withoutEnvironmentProblems)
     .map(withAverages)
     .filter(hasPassedAttempt)
     .sort((first, second) => second.durationAvg - first.durationAvg || first.key.localeCompare(second.key));
@@ -106,7 +109,7 @@ function buildReport(dates, dailies, title, previousDailies = [], loadIssues = [
     },
     flaky,
     slowest,
-    weekOverWeek: previousTests.length ? { days: dates.length, current: periodTotals(tests), previous: periodTotals(previousTests) } : null,
+    weekOverWeek: canCompareWithPreviousPeriod ? { days: dates.length, current: periodTotals(tests), previous: periodTotals(previousTests) } : null,
     comparison: comparison && {
       days: dates.length,
       recentlyFlaky: comparison.recentlyFlaky.map(({ key, suite, title: testTitle }) => ({ key, suite, title: testTitle })),

@@ -34,7 +34,7 @@ const LEGACY_FAILED_TAB = 'failed';
 const ONLY_FAILED_RUNS = 'only';
 const RANDOM_ERROR_PARTS = [
   [/\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b/gi, '<uuid>'],
-  [/\b(?!\d+m?s\b)(?!e2es?\b)(?=[A-Za-z0-9]*\d)(?=[A-Za-z0-9]*[A-Za-z])[A-Za-z0-9]{4,}\b/g, '<id>'],
+  [/(?<=[A-Za-z0-9]-)(?=[a-z0-9]*\d)(?=[a-z0-9]*[a-z])[a-z0-9]{5}(?![A-Za-z0-9])/g, '<id>'],
   [/\b\d{6,}\b/g, '<number>']
 ];
 const MIN_FLAKY_RUNS_BEFORE_FIX = 5;
