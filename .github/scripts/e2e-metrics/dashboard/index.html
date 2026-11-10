@@ -42,12 +42,14 @@
           >Suite
           <select id="suite"></select
         ></label>
+        <label class="aca-check"><input type="checkbox" id="hide-environment" /> Hide environment problems</label>
         <button class="aca-link-button" id="reset" type="button">Clear filters</button>
       </form>
 
       <main>
         <section class="aca-summary" id="summary" aria-label="Summary"></section>
         <p class="aca-days-note" id="days-note" hidden></p>
+        <p class="aca-days-note" id="environment-note" hidden></p>
         <details class="aca-data-issues" id="data-issues" hidden></details>
 
         <nav class="aca-tabs" id="tabs" role="tablist"></nav>
@@ -67,6 +69,8 @@
     <script src="render-tests.js"></script>
     <script src="render-tree.js"></script>
     <script src="render-runs.js"></script>
+    <script src="render-excluded.js"></script>
+    <script src="render-failure-reasons.js"></script>
     <script src="render-calendar.js"></script>
     <script src="dashboard.js"></script>
   </body>

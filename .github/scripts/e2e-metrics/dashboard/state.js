@@ -13,6 +13,8 @@ const indexById = new Map(testIds.map((id, index) => [id, index]));
 
 const isPeriod = (days) => Number.isInteger(days) && days >= 1 && days <= LONGEST_PERIOD;
 const STATE_VALIDATORS = {
+  env: (value) => value === '' || value === 'include',
+  failed: (value) => value === '' || value === ONLY_FAILED_RUNS,
   tab: (value) => Object.hasOwn(TAB_SORT, value),
   days: (value) => /^\d+$/.test(value) && isPeriod(Number(value)),
   end: (value) => value === '' || /^\d{4}-\d{2}-\d{2}$/.test(value),
@@ -34,19 +36,22 @@ const elements = {
   reset: findById('reset'),
   summary: findById('summary'),
   daysNote: findById('days-note'),
+  hideEnvironment: findById('hide-environment'),
+  environmentNote: findById('environment-note'),
   dataIssues: findById('data-issues'),
   tabs: findById('tabs'),
   panel: findById('panel')
 };
 
 const state = readState();
-const view = { dates: [], comparison: null, suiteTimes: new Map() };
+const view = { dates: [], comparison: null, suiteStats: new Map() };
 const ui = {
   showAll: false,
   legendOpen: false,
   dataIssuesOpen: false,
   calendarMonth: lastDate.slice(0, 7),
   scrollToOpenTest: Boolean(state.test),
+  openReasonKey: null,
   visibleGroupKeys: []
 };
 const userToggledGroups = new Map();
@@ -61,7 +66,20 @@ function readState() {
     const isAllowed = STATE_VALIDATORS[key] || (() => true);
     if (value !== null && isAllowed(value)) result[key] = value;
   }
+  if (params.get('tab') === LEGACY_FAILED_TAB) Object.assign(result, { tab: 'runs', failed: ONLY_FAILED_RUNS });
   return result;
+}
+
+const environmentErrorPattern = metrics.environmentErrorPattern
+  ? new RegExp(metrics.environmentErrorPattern.source, metrics.environmentErrorPattern.flags)
+  : null;
+
+function isHidingEnvironmentProblems() {
+  return state.env !== 'include';
+}
+
+function isEnvironmentError(error) {
+  return Boolean(error && environmentErrorPattern?.test(error));
 }
 
 function writeState() {

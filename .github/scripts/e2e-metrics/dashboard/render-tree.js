@@ -48,9 +48,28 @@ function isGroupOpen(group, siblingCount) {
   return searching || onlyGroupAtThisLevel || Boolean(group.containsOpenTest);
 }
 
+function renderSuiteHealth(name) {
+  const stats = view.suiteStats.get(getSuiteStatsKey(name));
+  if (!stats || state.tab === 'excluded') return '';
+  const parts = [];
+  if (stats.failedRuns) {
+    const environmentPart = stats.environmentFailedRuns ? ` (${numberFormat.format(stats.environmentFailedRuns)} on an environment check)` : '';
+    parts.push(
+      `<span class="aca-is-failed">CI job failed in ${numberFormat.format(stats.failedRuns)} of ${pluralize(stats.runs, 'run')}</span>${environmentPart}`
+    );
+  }
+  if (stats.incidents) {
+    parts.push(pluralize(stats.incidents, 'suite incident'));
+  }
+  if (!parts.length) return '';
+  return `
+    <div class="aca-suite-timing" title="${escapeHtml(SUITE_HEALTH_HELP)}">${parts.join(' · ')}</div>
+  `;
+}
+
 function renderSuiteTiming(name) {
-  const times = view.suiteTimes.get(name);
-  if (!times) return '';
+  const times = view.suiteStats.get(getSuiteStatsKey(name));
+  if (!times?.jobs || state.tab === 'excluded') return '';
   const share = times.setup / times.total;
   const formatAverageSeconds = (sum) => formatDuration((sum / times.jobs) * 1000);
   const title = `Average of ${pluralize(times.jobs, 'suite job')} in this period. Setup is the time before the tests start: runner preparation, ACS deploy, installs and browser setup.`;
@@ -78,7 +97,7 @@ function renderGroupRow(group, open, columns, levelStyle) {
       ${escapeHtml(group.name)}
       <span class="aca-count-of">${pluralize(group.testCount, 'test')}</span>
     </div>
-    ${group.kind === 'suite' ? renderSuiteTiming(group.name) : ''}
+    ${group.kind === 'suite' ? `${renderSuiteTiming(group.name)}${renderSuiteHealth(group.name)}` : ''}
   `;
   const cells = columns
     .map((column) =>

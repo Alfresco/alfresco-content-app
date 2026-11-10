@@ -124,7 +124,7 @@ function renderFixedSection() {
 function renderTests(rows) {
   const columns = buildTestColumns(rows);
   const sort = sortRows(rows, columns);
-  const legend = renderLegend(columns.map((column) => [column.label, COLUMN_HELP[column.key]]));
+  const legend = renderLegend(columns.map((column) => [column.label, COLUMN_HELP[column.key], COLUMN_NOTES[column.key]]));
   const fixedSection = state.tab === 'flaky' ? renderFixedSection() : '';
   if (!rows.length) {
     elements.panel.innerHTML = `

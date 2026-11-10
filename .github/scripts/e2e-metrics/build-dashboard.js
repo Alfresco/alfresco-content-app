@@ -25,25 +25,65 @@
 'use strict';
 
 const fs = require('node:fs');
+const os = require('node:os');
 const path = require('node:path');
 const { dashboardUrl } = require('./github-api');
 const { assertDate, shiftDate, yesterdayUtc, datesEndingOn } = require('./dates');
-const { SCHEMA_VERSION, loadDailies } = require('./daily-metrics');
+const { SCHEMA_VERSION, createDailyArtifactsClient, downloadLatestTrustedArtifact, loadDailies } = require('./daily-metrics');
 const { createDataIssueLog, appendIssuesToStepSummary } = require('./data-issues');
+const { ENVIRONMENT_ERROR_PATTERN } = require('./test-metrics');
 
 const DASHBOARD_PAGE_DIR = path.join(__dirname, 'dashboard');
+const PUBLISHED_HISTORY_ARTIFACT = 'e2e-dashboard-history';
 const LONGEST_REPORT_DAYS = 14;
 const DEFAULT_HISTORY_DAYS = 2 * LONGEST_REPORT_DAYS;
 const DEFAULT_DETAIL_DAYS = LONGEST_REPORT_DAYS;
 const DAILY_ARTIFACT_RETENTION_DAYS = 28;
 const DEFAULT_TEST_CASE_URL = 'https://hyland.atlassian.net/browse/{id}';
-const COMPACT_TEST_METRIC_FIELDS = ['runs', 'retries', 'flakyRuns', 'failures', 'durationSum', 'durationCount', 'durationMax', 'setupSum'];
+const COMPACT_TEST_METRIC_FIELDS = [
+  'runs',
+  'retries',
+  'flakyRuns',
+  'failures',
+  'durationSum',
+  'durationCount',
+  'durationMax',
+  'setupSum',
+  'environmentRuns',
+  'environmentRetries',
+  'environmentFlakyRuns',
+  'environmentFailures'
+];
 const COMPACT_SUITE_JOB_FIELDS = ['job', 'step', 'setup', 'tests', 'total'];
 const COMPACT_FAILURE_CAUSE_FIELDS = ['kind', 'name', 'job', 'step', 'stepName'];
+const COMPACT_ENVIRONMENT_CHECK_FIELDS = ['name', 'job', 'step', 'stepName'];
+const COMPACT_INCIDENT_FIELDS = ['suite', 'suiteAttempt', 'affected', 'tests'];
+const COMPACT_EXCLUDED_TEST_FIELDS = ['file', 'title', 'path', 'line', 'id', 'reason', 'scope'];
 const DASHBOARD_OUTCOME_BY_PLAYWRIGHT_OUTCOME = { expected: 'passed', flaky: 'retried', unexpected: 'failed' };
 const PLAYWRIGHT_OUTCOME_BY_DASHBOARD_OUTCOME = Object.fromEntries(
   Object.entries(DASHBOARD_OUTCOME_BY_PLAYWRIGHT_OUTCOME).map(([playwrightOutcome, dashboardOutcome]) => [dashboardOutcome, playwrightOutcome])
 );
+
+function readPublishedHistory(history, source) {
+  if (history.schemaVersion !== SCHEMA_VERSION) {
+    throw new Error(`Unsupported schemaVersion ${history.schemaVersion} of the published history from ${source}`);
+  }
+  return history;
+}
+
+async function downloadPublishedHistoryArtifact(github) {
+  const workDir = fs.mkdtempSync(path.join(os.tmpdir(), 'e2e-dashboard-history-'));
+  try {
+    const file = await downloadLatestTrustedArtifact(github, PUBLISHED_HISTORY_ARTIFACT, workDir);
+    return file ? readPublishedHistory(JSON.parse(fs.readFileSync(file, 'utf8')), `the ${PUBLISHED_HISTORY_ARTIFACT} artifact`) : null;
+  } catch (error) {
+    throw new Error(
+      `Could not read the published history artifact ${PUBLISHED_HISTORY_ARTIFACT}: ${error.message}. Not publishing, to keep the history.`
+    );
+  } finally {
+    fs.rmSync(workDir, { recursive: true, force: true });
+  }
+}
 
 async function fetchPublishedHistory(siteUrl) {
   const url = `${siteUrl}data/history.json`;
@@ -55,11 +95,20 @@ async function fetchPublishedHistory(siteUrl) {
   if (!response.ok) {
     throw new Error(`Could not read the published history ${url}: HTTP ${response.status}. Not publishing, to keep the history.`);
   }
-  const history = await response.json();
-  if (history.schemaVersion !== SCHEMA_VERSION) {
-    throw new Error(`Unsupported published history schemaVersion ${history.schemaVersion}`);
+  return readPublishedHistory(await response.json(), url);
+}
+
+async function loadPublishedHistory(github, siteUrl) {
+  const fromArtifact = github ? await downloadPublishedHistoryArtifact(github) : null;
+  if (fromArtifact) {
+    console.log(`Read the published history from the ${PUBLISHED_HISTORY_ARTIFACT} artifact.`);
+    return fromArtifact;
   }
-  return history;
+  if (!siteUrl) {
+    return null;
+  }
+  console.log(`No ${PUBLISHED_HISTORY_ARTIFACT} artifact found, reading the published history from the dashboard site.`);
+  return fetchPublishedHistory(siteUrl);
 }
 
 const testKey = ([suite, file, title]) => `${suite} › ${file} › ${title}`;
@@ -68,10 +117,16 @@ const fromFields = (fields, values) => Object.fromEntries(fields.map((field, pos
 const mapValues = (object, transform) => Object.fromEntries(Object.entries(object || {}).map(([key, value]) => [key, transform(value)]));
 
 function expandRun(run) {
-  const { suites, failure, ...rest } = run;
+  const { suites, failure, environment, incidents, ...rest } = run;
   const expanded = { ...rest, suites: mapValues(suites, (values) => fromFields(COMPACT_SUITE_JOB_FIELDS, values)) };
   if (failure) {
     expanded.failure = failure.map((values) => fromFields(COMPACT_FAILURE_CAUSE_FIELDS, values));
+  }
+  if (environment) {
+    expanded.environment = environment.map((values) => fromFields(COMPACT_ENVIRONMENT_CHECK_FIELDS, values));
+  }
+  if (incidents) {
+    expanded.incidents = incidents.map((values) => fromFields(COMPACT_INCIDENT_FIELDS, values));
   }
   return expanded;
 }
@@ -86,7 +141,7 @@ function expandHistory(history) {
       return test;
     });
     const runs = day.runs.map(expandRun);
-    const results = (day.results || []).map(([index, runIndex, suiteAttempt, outcome, retries, duration, setup, attempts]) => ({
+    const results = (day.results || []).map(([index, runIndex, suiteAttempt, outcome, retries, duration, setup, attempts, environment]) => ({
       key: testKey(history.tests[index]),
       runId: runs[runIndex]?.id,
       suiteAttempt,
@@ -98,7 +153,8 @@ function expandHistory(history) {
         status,
         duration: attemptDuration,
         ...(errorIndex != null && day.errors?.[errorIndex] ? { error: day.errors[errorIndex] } : {})
-      }))
+      })),
+      ...(environment ? { environment } : {})
     }));
     days.set(day.date, { date: day.date, runs, tests, results, ...(day.issues ? { issues: day.issues } : {}) });
   }
@@ -115,6 +171,12 @@ function compactRun(run) {
   }
   if (run.failure?.length) {
     compact.failure = run.failure.map((entry) => toFields(COMPACT_FAILURE_CAUSE_FIELDS, entry));
+  }
+  if (run.environment?.length) {
+    compact.environment = run.environment.map((entry) => toFields(COMPACT_ENVIRONMENT_CHECK_FIELDS, entry));
+  }
+  if (run.incidents?.length) {
+    compact.incidents = run.incidents.map((entry) => toFields(COMPACT_INCIDENT_FIELDS, entry));
   }
   return compact;
 }
@@ -149,6 +211,10 @@ function compactResults(day, indexByKey, dedupedErrors) {
       if (neededRetryOrFailed) {
         row.push(result.attempts.map(compactAttempt));
       }
+      if (result.environment) {
+        row[7] = row[7] ?? null;
+        row.push(result.environment);
+      }
       return row;
     });
 }
@@ -156,6 +222,19 @@ function compactResults(day, indexByKey, dedupedErrors) {
 function useLatestSourceLocation(catalogEntry, test) {
   catalogEntry[3] = test.path || catalogEntry[3];
   catalogEntry[4] = test.line || catalogEntry[4];
+}
+
+function latestExcludedTests(published, dailies, oldestKept) {
+  const excludedBySuite = { ...(published?.excluded || {}) };
+  for (const daily of dailies.filter(Boolean)) {
+    for (const [suite, { tests }] of Object.entries(daily.excluded || {})) {
+      const known = excludedBySuite[suite];
+      if (!known || daily.date >= known.date) {
+        excludedBySuite[suite] = { date: daily.date, tests: tests.map((test) => toFields(COMPACT_EXCLUDED_TEST_FIELDS, test)) };
+      }
+    }
+  }
+  return Object.fromEntries(Object.entries(excludedBySuite).filter(([, { date }]) => date >= oldestKept));
 }
 
 function compactHistory(days, meta, detailFrom) {
@@ -189,10 +268,16 @@ function compactHistory(days, meta, detailFrom) {
   return { schemaVersion: SCHEMA_VERSION, ...meta, tests: catalog, days: compactDays };
 }
 
+const issueKey = (issue) => [issue.operation, issue.runId, issue.artifact, issue.effect].join('|');
+
 function isIncompleteRefreshOfPublishedDay(refreshed, published) {
-  const refreshHasProblems = Boolean(refreshed.issues?.length);
-  const publishedKnowsAtLeastAsManyRuns = Boolean(published) && published.runs.length >= refreshed.runs.length;
-  return refreshHasProblems && publishedKnowsAtLeastAsManyRuns;
+  if (!published || !refreshed.issues?.length) {
+    return false;
+  }
+  const publishedIssueKeys = new Set((published.issues || []).map(issueKey));
+  const refreshHasNewProblems = refreshed.issues.some((issue) => !publishedIssueKeys.has(issueKey(issue)));
+  const refreshLostRuns = refreshed.runs.length < published.runs.length;
+  return refreshHasNewProblems || refreshLostRuns;
 }
 
 async function main() {
@@ -202,8 +287,9 @@ async function main() {
   const siteDir = process.env.SITE_DIR || 'e2e-dashboard';
   const siteUrl = dashboardUrl();
   const remote = process.env.REMOTE_DATA !== 'false';
+  const github = createDailyArtifactsClient();
 
-  const published = remote && siteUrl ? await fetchPublishedHistory(siteUrl) : null;
+  const published = remote ? await loadPublishedHistory(github, siteUrl) : null;
   const days = expandHistory(published);
 
   const refreshDates = datesEndingOn(endDate, DAILY_ARTIFACT_RETENTION_DAYS);
@@ -218,7 +304,7 @@ async function main() {
       loadIssueLog.add({
         operation: 'refresh-incomplete',
         date,
-        effect: `The latest collection of this day had ${daily.issues.length} data problem(s) and found no more runs than before, so the previously published data is kept`,
+        effect: `The latest collection of this day had ${daily.issues.length} data problem(s), so the previously published data is kept. Run the E2E dashboard - Daily collection workflow for this date again to add newer runs`,
         error: daily.issues[0].message
       });
       return;
@@ -247,6 +333,8 @@ async function main() {
       serverUrl: process.env.GITHUB_SERVER_URL || 'https://github.com',
       branch: process.env.SOURCE_BRANCH || 'develop',
       testCaseUrl: process.env.TEST_CASE_URL || DEFAULT_TEST_CASE_URL,
+      excluded: latestExcludedTests(published, dailies, oldestKept),
+      environmentErrorPattern: { source: ENVIRONMENT_ERROR_PATTERN.source, flags: ENVIRONMENT_ERROR_PATTERN.flags },
       historyDays,
       detailDays,
       ...(loadIssues.length ? { loadIssues } : {})

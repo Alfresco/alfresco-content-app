@@ -35,6 +35,7 @@ const {
   isE2eMetricsReport,
   E2E_METRICS_REPORTER_FORMAT_INTRODUCED_ON,
   extractTestMetrics,
+  markEnvironmentProblems,
   mergeTests
 } = require('./test-metrics');
 const { createDataIssueLog, appendIssuesToStepSummary } = require('./data-issues');
@@ -47,11 +48,24 @@ const TIMED_OUT_JOB_STEP_CONCLUSION = 'cancelled';
 const FAILED_STEP_CONCLUSIONS = new Set([...FAILED_CONCLUSIONS, TIMED_OUT_JOB_STEP_CONCLUSION]);
 const RUN_TESTS_STEP_NAME = 'Run e2e playwright';
 const SUITE_JOB_NAME_PATTERN = /(?:^|\/ )E2E \| (\S+) \| (.+) \| Playwright$/;
+const ENVIRONMENT_CHECK_STEP_NAMES = new Set(['Deploy local ACS', 'Before e2e']);
+const TESTS_RAN_STEP_CONCLUSIONS = new Set(['success', 'failure']);
+const ARTIFACT_ISSUE_OPERATIONS = new Set(['list-artifacts', 'download-artifact', 'read-report', 'artifact-expired']);
+const EXCLUDED_TESTS_REPORT_KIND = 'excluded';
 
 const suiteAttemptFromFileName = (fileName) => Number(/attempt-(\d+)/.exec(fileName)?.[1]) || 1;
 
+function toExcludedTests(report, fallbackSuite) {
+  return {
+    suite: report.suite || fallbackSuite,
+    tests: report.tests.map(({ file, title, path: filePath, line, id, reason, scope }) => ({ file, title, path: filePath, line, id, reason, scope }))
+  };
+}
+
 function readArtifactMetrics(artifactDir, suite, reportUnreadableFile) {
   const metrics = [];
+  let reported = false;
+  let excluded = null;
   for (const file of fs
     .readdirSync(artifactDir)
     .filter((name) => name.endsWith('.json'))
@@ -62,13 +76,18 @@ function readArtifactMetrics(artifactDir, suite, reportUnreadableFile) {
         console.log(`Skipping ${path.basename(artifactDir)}/${file}: written before the aca-e2e-metrics format existed.`);
         continue;
       }
+      if (report.kind === EXCLUDED_TESTS_REPORT_KIND) {
+        excluded = toExcludedTests(report, suite);
+        continue;
+      }
+      reported = true;
       const suiteAttempt = suiteAttemptFromFileName(file);
       metrics.push(...extractTestMetrics(report, suite).map((metric) => ({ ...metric, suiteAttempt })));
     } catch (error) {
       reportUnreadableFile(file, error);
     }
   }
-  return metrics;
+  return { metrics, reported, excluded };
 }
 
 function parseSuiteJobName(name) {
@@ -117,16 +136,40 @@ function jobTimingByMetricSuite(jobs, metricSuitesByArtifact) {
   return timingBySuite;
 }
 
+const jobNameWithoutCallerPrefix = (job) => job.name.split(' / ').pop();
+const findFailedStep = (job) => (job.steps || []).find((step) => FAILED_STEP_CONCLUSIONS.has(step.conclusion));
+const isEnvironmentCheckFailure = (failedStep) => ENVIRONMENT_CHECK_STEP_NAMES.has(failedStep?.name);
+
+function environmentCheckFailures(jobs, metricSuitesByArtifact) {
+  return jobs
+    .map((job) => ({ job, failedStep: findFailedStep(job) }))
+    .filter(({ failedStep }) => isEnvironmentCheckFailure(failedStep))
+    .map(({ job, failedStep }) => {
+      const parsedJobName = parseSuiteJobName(job.name);
+      return {
+        name: metricSuitesOfJob(parsedJobName, metricSuitesByArtifact)[0] || parsedJobName?.suite || jobNameWithoutCallerPrefix(job),
+        job: job.id,
+        step: failedStep.number ?? null,
+        stepName: failedStep.name
+      };
+    });
+}
+
+function failureKind(parsedJobName, failedStep) {
+  if (parsedJobName && failedStep?.name === RUN_TESTS_STEP_NAME) {
+    return 'tests';
+  }
+  return isEnvironmentCheckFailure(failedStep) ? 'environment' : 'infra';
+}
+
 function failureCauses(jobs, metricSuitesByArtifact) {
   const causes = [];
   for (const job of jobs.filter((candidate) => FAILED_CONCLUSIONS.has(candidate.conclusion))) {
     const parsedJobName = parseSuiteJobName(job.name);
-    const failedStep = (job.steps || []).find((step) => FAILED_STEP_CONCLUSIONS.has(step.conclusion));
-    const testsFailed = parsedJobName && failedStep?.name === RUN_TESTS_STEP_NAME;
-    const jobNameWithoutCallerPrefix = job.name.split(' / ').pop();
+    const failedStep = findFailedStep(job);
     causes.push({
-      kind: testsFailed ? 'tests' : 'infra',
-      name: metricSuitesOfJob(parsedJobName, metricSuitesByArtifact)[0] || parsedJobName?.suite || jobNameWithoutCallerPrefix,
+      kind: failureKind(parsedJobName, failedStep),
+      name: metricSuitesOfJob(parsedJobName, metricSuitesByArtifact)[0] || parsedJobName?.suite || jobNameWithoutCallerPrefix(job),
       job: job.id,
       step: failedStep?.number ?? null,
       stepName: failedStep?.name ?? null
@@ -187,13 +230,36 @@ async function collectArtifact(github, run, artifact, workDir, issueLog) {
   const issueContext = { runId: run.id, runUrl: run.html_url, artifact: artifact.name };
   try {
     await github.downloadAndExtractArtifact(artifact.id, artifactDir);
-    const metrics = readArtifactMetrics(artifactDir, suite, (file, error) =>
+    const artifactMetrics = readArtifactMetrics(artifactDir, suite, (file, error) =>
       issueLog.add({ ...issueContext, operation: 'read-report', effect: `Results of suite ${suite} (${file}) in run ${run.id} are missing`, error })
     );
-    return { artifactKey: `${browser}-${suite}`, metrics };
+    return { artifactKey: `${browser}-${suite}`, ...artifactMetrics };
   } catch (error) {
     issueLog.add({ ...issueContext, operation: 'download-artifact', effect: `Results of suite ${suite} in run ${run.id} are missing`, error });
     return null;
+  }
+}
+
+function recordSuitesWithoutMetrics(runJobs, reportedArtifactKeys, run, issueLog) {
+  const runPredatesReporterFormat = run.created_at?.slice(0, 10) < E2E_METRICS_REPORTER_FORMAT_INTRODUCED_ON;
+  const artifactsAlreadyReported = issueLog.issues.some((issue) => issue.runId === run.id && ARTIFACT_ISSUE_OPERATIONS.has(issue.operation));
+  if (runPredatesReporterFormat || artifactsAlreadyReported) {
+    return;
+  }
+  for (const job of runJobs) {
+    const parsedJobName = parseSuiteJobName(job.name);
+    const runTestsStep = (job.steps || []).find((step) => step.name === RUN_TESTS_STEP_NAME);
+    const testsRan = TESTS_RAN_STEP_CONCLUSIONS.has(runTestsStep?.conclusion);
+    const artifactKey = parsedJobName && `${parsedJobName.browser}-${parsedJobName.suite}`;
+    if (parsedJobName && testsRan && !reportedArtifactKeys.has(artifactKey)) {
+      issueLog.add({
+        operation: 'missing-metrics',
+        runId: run.id,
+        runUrl: run.html_url,
+        effect: `Suite "${parsedJobName.suite}" ran its tests in run ${run.id} but no E2E metrics report of it was found, so its results are missing. Check that its job passes metrics-dir to the run-e2e-playwright action and uploads the e2e-metrics-${artifactKey} artifact`,
+        error: new Error(`No e2e-metrics report in artifact e2e-metrics-${artifactKey}`)
+      });
+    }
   }
 }
 
@@ -206,14 +272,19 @@ async function collectRun(github, run, workDir, issueLog) {
   const metricSuitesByArtifact = new Map(
     collectedArtifacts.map(({ artifactKey, metrics: artifactMetrics }) => [artifactKey, new Set(artifactMetrics.map((metric) => metric.suite))])
   );
-  const hasTestResults = metricSuitesByArtifact.size > 0;
-  const runFailed = FAILED_CONCLUSIONS.has(run.conclusion);
-  const runStillInProgress = !run.conclusion;
-  const runJobs = hasTestResults || runFailed || runStillInProgress ? await listLatestAttemptJobs(github, run, issueLog) : null;
+  const runJobs = await listLatestAttemptJobs(github, run, issueLog);
   const conclusion = run.conclusion || (runJobs ? conclusionFromFinishedJobs(runJobs) : null);
+  if (runJobs) {
+    const reportedArtifactKeys = new Set(collectedArtifacts.filter((collected) => collected.reported).map((collected) => collected.artifactKey));
+    recordSuitesWithoutMetrics(runJobs, reportedArtifactKeys, run, issueLog);
+  }
+  const marked = markEnvironmentProblems(metrics);
   return {
     artifactCount: artifacts.length,
-    metrics,
+    metrics: marked.metrics,
+    excluded: collectedArtifacts.map((collected) => collected.excluded).filter(Boolean),
+    environment: runJobs ? environmentCheckFailures(runJobs, metricSuitesByArtifact) : [],
+    incidents: marked.incidents,
     conclusion,
     suites: runJobs ? jobTimingByMetricSuite(runJobs, metricSuitesByArtifact) : {},
     failure: runJobs && FAILED_CONCLUSIONS.has(conclusion) ? failureCauses(runJobs, metricSuitesByArtifact) : []
@@ -229,7 +300,7 @@ async function collectRunOrRecordIssue(github, run, workflow, workDir, issueLog)
   }
 }
 
-function toRunSummary(run, workflow, { artifactCount, conclusion, suites, failure }) {
+function toRunSummary(run, workflow, { artifactCount, conclusion, suites, failure, environment, incidents }) {
   const summary = {
     id: run.id,
     workflow,
@@ -248,6 +319,12 @@ function toRunSummary(run, workflow, { artifactCount, conclusion, suites, failur
   }
   if (failure.length) {
     summary.failure = failure;
+  }
+  if (environment.length) {
+    summary.environment = environment;
+  }
+  if (incidents.length) {
+    summary.incidents = incidents;
   }
   return summary;
 }
@@ -297,6 +374,19 @@ async function listRuns(github, { sourceWorkflows, date, branch, includeRunId },
   return runs;
 }
 
+function latestExcludedTestsBySuite(listedRuns, collectedRuns) {
+  const excludedBySuite = {};
+  const runsOldestFirst = listedRuns
+    .map(({ run }, index) => ({ createdAt: run.created_at || '', collected: collectedRuns[index] }))
+    .sort((first, second) => first.createdAt.localeCompare(second.createdAt));
+  for (const { collected } of runsOldestFirst) {
+    for (const { suite, tests } of collected?.excluded || []) {
+      excludedBySuite[suite] = { tests };
+    }
+  }
+  return excludedBySuite;
+}
+
 async function main() {
   const repository = requireEnv('GITHUB_REPOSITORY');
   const date = assertDate(process.env.METRICS_DATE || yesterdayUtc(), 'METRICS_DATE');
@@ -311,6 +401,7 @@ async function main() {
   const workDir = fs.mkdtempSync(path.join(os.tmpdir(), 'e2e-metrics-'));
 
   const runs = [];
+  let excludedBySuite = {};
   const perRunMetrics = [];
   const perRunTestResults = [];
   const issueLog = createDataIssueLog('collect', { date });
@@ -325,7 +416,7 @@ async function main() {
       const { artifactCount, metrics } = collected;
       console.log(`${workflow} run ${run.id} (${run.display_title}): ${artifactCount} metrics artifact(s), ${metrics.length} test run(s)`);
       const hasTestResults = metrics.length > 0;
-      const hasFailureCause = collected.failure.length > 0;
+      const hasFailureCause = collected.failure.length > 0 || collected.environment.length > 0;
       const hasDataIssue = issueLog.issues.some((issue) => issue.runId === run.id);
       if (hasTestResults || hasFailureCause || hasDataIssue) {
         runs.push(toRunSummary(run, workflow, collected));
@@ -333,12 +424,16 @@ async function main() {
         perRunTestResults.push(...metrics.map(({ key, suiteAttempt, detail }) => ({ key, runId: run.id, suiteAttempt, ...detail })));
       }
     });
+    excludedBySuite = latestExcludedTestsBySuite(listedRuns, collectedRuns);
   } finally {
     fs.rmSync(workDir, { recursive: true, force: true });
   }
 
   const tests = mergeTests(perRunMetrics).sort((first, second) => first.key.localeCompare(second.key));
   const daily = { schemaVersion: SCHEMA_VERSION, date, generatedAt: new Date().toISOString(), runs, tests, results: perRunTestResults };
+  if (Object.keys(excludedBySuite).length) {
+    daily.excluded = excludedBySuite;
+  }
   if (issueLog.issues.length) {
     daily.issues = issueLog.issues;
   }

@@ -34,6 +34,7 @@ const {
   compareFlaky,
   MIN_FLAKY_RUNS_BEFORE_FIX,
   MIN_CLEAN_RUNS_TO_COUNT_AS_FIXED,
+  withoutEnvironmentProblems,
   averageDuration,
   averageSetup,
   formatDuration
@@ -41,17 +42,32 @@ const {
 const { postToTeams } = require('./post-teams');
 const { createDataIssueLog } = require('./data-issues');
 
+function periodTotals(tests) {
+  const testRuns = tests.reduce((sum, test) => sum + test.runs, 0);
+  const retriedTestRuns = tests.reduce((sum, test) => sum + test.flakyRuns + test.failures, 0);
+  return {
+    flakyTests: tests.filter((test) => test.retries > 0 || test.failures > 0).length,
+    failedTestRuns: tests.reduce((sum, test) => sum + test.failures, 0),
+    retriedShare: testRuns ? retriedTestRuns / testRuns : 0
+  };
+}
+
+const countedTestsOfPeriod = (dailies) =>
+  mergeTests(dailies.map((daily) => daily.tests))
+    .map(withoutEnvironmentProblems)
+    .filter((test) => test.runs > 0);
+
+const withAverages = (test) => ({ ...test, durationAvg: Math.round(averageDuration(test)), setupAvg: Math.round(averageSetup(test)) });
+
 function buildReport(dates, dailies, title, previousDailies = [], loadIssues = []) {
   const available = dailies.filter(Boolean);
   const dataIssues = [...available.flatMap((daily) => daily.issues || []), ...loadIssues];
   const runs = available.flatMap((daily) => daily.runs);
-  const tests = mergeTests(available.map((daily) => daily.tests)).map((test) => ({
-    ...test,
-    durationAvg: Math.round(averageDuration(test)),
-    setupAvg: Math.round(averageSetup(test))
-  }));
+  const allTests = mergeTests(available.map((daily) => daily.tests));
+  const tests = countedTestsOfPeriod(available).map(withAverages);
   const previousAvailable = previousDailies.filter(Boolean);
-  const comparison = compareFlaky(tests, mergeTests(previousAvailable.map((daily) => daily.tests)));
+  const previousTests = countedTestsOfPeriod(previousAvailable);
+  const comparison = compareFlaky(tests, previousTests);
 
   const flaky = tests
     .filter((test) => test.retries > 0 || test.failures > 0)
@@ -60,7 +76,8 @@ function buildReport(dates, dailies, title, previousDailies = [], loadIssues = [
         second.retries - first.retries || second.failures - first.failures || first.runs - second.runs || first.key.localeCompare(second.key)
     );
   const hasPassedAttempt = (test) => test.durationCount > 0;
-  const slowest = tests
+  const slowest = allTests
+    .map(withAverages)
     .filter(hasPassedAttempt)
     .sort((first, second) => second.durationAvg - first.durationAvg || first.key.localeCompare(second.key));
 
@@ -84,10 +101,12 @@ function buildReport(dates, dailies, title, previousDailies = [], loadIssues = [
       tests: tests.length,
       testRuns: tests.reduce((sum, test) => sum + test.runs, 0),
       retries: tests.reduce((sum, test) => sum + test.retries, 0),
-      flakyTests: flaky.length
+      flakyTests: flaky.length,
+      environmentTestRuns: allTests.reduce((sum, test) => sum + test.environmentRuns, 0)
     },
     flaky,
     slowest,
+    weekOverWeek: previousTests.length ? { days: dates.length, current: periodTotals(tests), previous: periodTotals(previousTests) } : null,
     comparison: comparison && {
       days: dates.length,
       recentlyFlaky: comparison.recentlyFlaky.map(({ key, suite, title: testTitle }) => ({ key, suite, title: testTitle })),
@@ -134,6 +153,49 @@ function describeTotals(report) {
   return failures ? `${retriedText} ${count(failures, 'test run')} failed after all retries.` : retriedText;
 }
 
+function describeLeftOutTestRuns(report) {
+  const { environmentTestRuns } = report.totals;
+  return environmentTestRuns
+    ? `${count(environmentTestRuns, 'test run')} affected by environment problems ${environmentTestRuns === 1 ? 'is' : 'are'} left out of these numbers.`
+    : null;
+}
+
+function describeEnvironmentProblems(report) {
+  const runsWithFailedChecks = report.runs.filter((run) => run.environment?.length).length;
+  const incidents = report.runs.reduce((sum, run) => sum + (run.incidents?.length || 0), 0);
+  if (!runsWithFailedChecks && !incidents) {
+    return null;
+  }
+  return `Environment problems: ${count(runsWithFailedChecks, 'run')} with failed environment checks, ${count(incidents, 'suite incident')} (at least half of a suite's tests needed a retry or failed in one suite attempt).`;
+}
+
+const PERCENT_POINTS = 100;
+
+function describeChange(difference, format = (value) => numberFormat.format(value)) {
+  if (difference > 0) {
+    return `↑${format(difference)}`;
+  }
+  return difference < 0 ? `↓${format(-difference)}` : 'no change';
+}
+
+function describeWeekOverWeek(report) {
+  const { weekOverWeek } = report;
+  if (!weekOverWeek) {
+    return null;
+  }
+  const { current, previous, days } = weekOverWeek;
+  const formatPoints = (share) => (share * PERCENT_POINTS).toFixed(1);
+  const parts = [
+    `${count(current.flakyTests, 'flaky test')} (${describeChange(current.flakyTests - previous.flakyTests)})`,
+    `${count(current.failedTestRuns, 'failed test run')} (${describeChange(current.failedTestRuns - previous.failedTestRuns)})`,
+    `${formatPoints(current.retriedShare)}% of test runs needed a retry (${describeChange(
+      Number(formatPoints(current.retriedShare)) - Number(formatPoints(previous.retriedShare)),
+      (value) => `${value.toFixed(1)} pts`
+    )})`
+  ];
+  return `Change since the previous ${count(days, 'day')}: ${parts.join(', ')}.`;
+}
+
 function describeComparison(report) {
   const { comparison } = report;
   if (!comparison) {
@@ -177,8 +239,18 @@ function buildCard(report, { dashboardLink, runLink }) {
     body.push({ type: 'TextBlock', text: dataIssuesLine, wrap: true, color: 'Warning' });
   }
 
-  if (report.totals.tests === 0) {
-    body.push({ type: 'TextBlock', text: 'No E2E results were collected for this period.', wrap: true, color: 'Warning' });
+  const weekOverWeek = describeWeekOverWeek(report);
+  if (weekOverWeek) {
+    body.push({ type: 'TextBlock', text: `📊 ${weekOverWeek}`, spacing: 'Small', wrap: true });
+  }
+  const leftOut = describeLeftOutTestRuns(report);
+  if (leftOut) {
+    body.push({ type: 'TextBlock', text: leftOut, isSubtle: true, spacing: 'Small', wrap: true });
+  }
+
+  if (report.totals.tests === 0 && report.slowest.length === 0) {
+    const noResults = leftOut ? 'No other E2E results were collected for this period.' : 'No E2E results were collected for this period.';
+    body.push({ type: 'TextBlock', text: noResults, wrap: true, color: 'Warning' });
   } else {
     if (report.flaky.length) {
       body.push(
@@ -217,6 +289,18 @@ function markdownIssueLine(issue) {
 
 function buildMarkdown(report, dashboardLink) {
   const lines = [`# ${report.title}, ${formatPeriod(report)}`, '', `${describeTotals(report)} Data from ${describeRuns(report)}.`];
+  const weekOverWeek = describeWeekOverWeek(report);
+  if (weekOverWeek) {
+    lines.push('', weekOverWeek);
+  }
+  const leftOut = describeLeftOutTestRuns(report);
+  if (leftOut) {
+    lines.push('', leftOut);
+  }
+  const environmentProblems = describeEnvironmentProblems(report);
+  if (environmentProblems) {
+    lines.push('', environmentProblems);
+  }
   const comparison = describeComparison(report);
   if (comparison) {
     lines.push('', comparison);

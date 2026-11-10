@@ -32,7 +32,7 @@ function renderHeaderCell(column, sort) {
       data-sort="${column.key}"
       ${ariaSort}
       ${numClass}
-      title="${escapeHtml(column.help || COLUMN_HELP[column.key])}"
+      title="${escapeHtml([column.help || COLUMN_HELP[column.key], COLUMN_NOTES[column.key] && `Important: ${COLUMN_NOTES[column.key]}`].filter(Boolean).join(' '))}"
     >
       <button type="button" class="aca-sort-button">${escapeHtml(column.label)}</button>
     </th>
@@ -56,10 +56,23 @@ function renderHeaderRow(columns, sort, lead = '#') {
   `;
 }
 
-function renderDefinition([term, text]) {
+function renderDefinitionNote(note) {
+  if (!note) return '';
+  return `
+    <p class="aca-legend-note">
+      <span class="aca-info-icon" aria-hidden="true">i</span>
+      <span><strong>Important:</strong> ${escapeHtml(note)}</span>
+    </p>
+  `;
+}
+
+function renderDefinition([term, text, note]) {
   return `
     <dt>${escapeHtml(term)}</dt>
-    <dd>${escapeHtml(text)}</dd>
+    <dd>
+      ${escapeHtml(text)}
+      ${renderDefinitionNote(note)}
+    </dd>
   `;
 }
 
