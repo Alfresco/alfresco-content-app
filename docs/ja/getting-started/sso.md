@@ -8,7 +8,7 @@ nav: ja
 Basic 認証に加えて、Content Application を以下で使用できます:
 
 - [Keycloak](https://www.keycloak.org/)
-- [Identity Service](https://support.hyland.com/r/Alfresco/Alfresco-Process-Services/24.3/Alfresco-Process-Services/Configure/Authentication/Identity-Service)
+- [Identity Service](https://docs.hyland.com/r/Alfresco/Alfresco-Process-Services/24.3/Alfresco-Process-Services/Configure/Authentication/Identity-Service)
 - Kerberos
 
 アプリケーションには、シングルサインオン (別名 SSO) セットアップの適切なデフォルトの設定が含まれています。
