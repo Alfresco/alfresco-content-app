@@ -1006,6 +1006,11 @@ tr.aca-reason-row[aria-expanded='true'] {
   padding-left: 20px;
 }
 
+.aca-reason-more summary {
+  cursor: pointer;
+  color: var(--link);
+}
+
 .aca-reason-list li {
   margin: 4px 0;
   overflow-wrap: anywhere;

@@ -116,8 +116,15 @@ function renderReasonDetailRow(reason, colspan) {
   const byMostAttempts = (first, second) => second[1] - first[1];
   const tests = [...reason.testAttempts].sort(byMostAttempts);
   const messages = [...reason.messages].sort(byMostAttempts);
-  const hiddenMessages = messages.length - REASON_MESSAGE_LIMIT;
-  const moreMessages = hiddenMessages > 0 ? `<li class="aca-secondary">and ${pluralize(hiddenMessages, 'other message')}</li>` : '';
+  const hiddenMessages = messages.slice(REASON_MESSAGE_LIMIT);
+  const moreMessages = hiddenMessages.length
+    ? `
+      <details class="aca-reason-more">
+        <summary>Show ${pluralize(hiddenMessages.length, 'other message')}</summary>
+        <ul class="aca-reason-list">${hiddenMessages.map(renderReasonOriginalMessage).join('')}</ul>
+      </details>
+    `
+    : '';
   return `
     <tr class="aca-detail">
       <td></td>
@@ -125,7 +132,8 @@ function renderReasonDetailRow(reason, colspan) {
         <h2>Tests</h2>
         <ul class="aca-reason-list">${tests.map(renderReasonTest).join('')}</ul>
         <h2>Original messages</h2>
-        <ul class="aca-reason-list">${messages.slice(0, REASON_MESSAGE_LIMIT).map(renderReasonOriginalMessage).join('')}${moreMessages}</ul>
+        <ul class="aca-reason-list">${messages.slice(0, REASON_MESSAGE_LIMIT).map(renderReasonOriginalMessage).join('')}</ul>
+        ${moreMessages}
       </td>
     </tr>
   `;
@@ -143,11 +151,27 @@ function renderReasonRow(reason, position, columns) {
   return open ? `${row}${renderReasonDetailRow(reason, columns.length)}` : row;
 }
 
+function renderDaysWithoutDetailsNote() {
+  const daysWithoutDetails = metrics.days.filter((day) => view.dates.includes(day.date) && day.tests.length && !day.results);
+  if (!daysWithoutDetails.length) return '';
+  const firstDay = formatDate(daysWithoutDetails[0].date);
+  const lastDay = formatDate(daysWithoutDetails.at(-1).date);
+  const range = firstDay === lastDay ? firstDay : `${firstDay} – ${lastDay}`;
+  return `
+    <p class="aca-detail-note">
+      Failed attempts and their errors are kept for ${metrics.detailDays || 14} days, so
+      ${pluralize(daysWithoutDetails.length, 'selected day')} (${range}) ${daysWithoutDetails.length === 1 ? 'is' : 'are'} not included here.
+    </p>
+  `;
+}
+
 function renderFailureReasons(reasons) {
   const columns = buildReasonColumns();
   const legend = renderLegend(columns.map((column) => [column.label, column.help]));
+  const daysWithoutDetailsNote = renderDaysWithoutDetailsNote();
   if (!reasons.length) {
     elements.panel.innerHTML = `
+      ${daysWithoutDetailsNote}
       <p class="aca-empty">No failed attempts with an error message match these filters in this period.</p>
       ${legend}
     `;
@@ -156,6 +180,7 @@ function renderFailureReasons(reasons) {
   const sort = sortRows(reasons, columns, (first, second) => first.key.localeCompare(second.key));
   const visibleReasons = ui.showAll ? reasons : reasons.slice(0, TOP_LIMIT);
   elements.panel.innerHTML = `
+    ${daysWithoutDetailsNote}
     <div class="aca-table-wrap">
       <table>
         <thead>${renderHeaderRow(columns, sort)}</thead>

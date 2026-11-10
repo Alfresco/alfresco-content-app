@@ -68,8 +68,8 @@ function buildReport(dates, dailies, title, previousDailies = [], loadIssues = [
   const previousAvailable = previousDailies.filter(Boolean);
   const previousTests = countedTestsOfPeriod(previousAvailable);
   const comparison = compareFlaky(tests, previousTests);
-  const previousPeriodComplete = previousDailies.length === dates.length && previousDailies.every(Boolean);
-  const canCompareWithPreviousPeriod = tests.length > 0 && previousTests.length > 0 && previousPeriodComplete;
+  const isCompletePeriod = (periodDailies) => periodDailies.length === dates.length && periodDailies.every(Boolean);
+  const canCompareWithPreviousPeriod = tests.length > 0 && previousTests.length > 0 && isCompletePeriod(dailies) && isCompletePeriod(previousDailies);
 
   const flaky = tests
     .filter((test) => test.retries > 0 || test.failures > 0)

@@ -11,7 +11,9 @@ function render() {
   const dates = getRangeDates();
   const data = aggregate(dates);
   Object.assign(view, { dates, comparison: compareFlakyWithPreviousPeriod(dates, data.tests), suiteStats: collectSuiteStats(data.days) });
-  const suites = [...new Set(metrics.tests.map(([suite]) => suite))].sort((first, second) => first.localeCompare(second));
+  const suites = [...new Set([...metrics.tests.map(([suite]) => suite), ...Object.keys(metrics.excluded || {})])].sort((first, second) =>
+    first.localeCompare(second)
+  );
   const filteredTests = data.tests.filter(matchesFilters);
   const runs = collectRuns(data.days);
   const failedRuns = runs.filter(isFailedRun);

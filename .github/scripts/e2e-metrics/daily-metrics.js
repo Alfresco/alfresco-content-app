@@ -55,7 +55,10 @@ async function downloadLatestTrustedArtifact(github, name, targetDir) {
   }
   await github.downloadAndExtractArtifact(artifacts[0].id, targetDir);
   const file = fs.readdirSync(targetDir).find((entry) => entry.endsWith('.json'));
-  return file ? path.join(targetDir, file) : null;
+  if (!file) {
+    throw new Error(`Artifact ${name} (id ${artifacts[0].id}) contains no JSON file`);
+  }
+  return path.join(targetDir, file);
 }
 
 async function downloadLatestDaily(github, date, workDir) {

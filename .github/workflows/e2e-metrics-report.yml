@@ -136,6 +136,14 @@ jobs:
           OUTPUT_DIR: e2e-metrics-weekly
         run: node .github/scripts/e2e-metrics/weekly-report.js
 
+      - name: Upload report
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2e-metrics-weekly-${{ needs.collect.outputs.date }}
+          path: e2e-metrics-weekly
+          retention-days: 14
+          overwrite: true
+
       - name: Post to Teams
         env:
           TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_E2E_WEBHOOK_URL }}
