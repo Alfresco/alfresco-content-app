@@ -48,7 +48,7 @@ import { Component, DestroyRef, HostListener, inject, OnDestroy, OnInit, ViewEnc
 import { ActivatedRoute, NavigationStart, PRIMARY_OUTLET, Router, UrlSegment } from '@angular/router';
 import { ViewerOpenWithComponent, ViewerSidebarComponent, ViewerToolbarActionsComponent } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
-import { from, Observable, of } from 'rxjs';
+import { from, Observable, of, Subscription } from 'rxjs';
 import { debounceTime, filter, take, timeout } from 'rxjs/operators';
 import { Actions, ofType } from '@ngrx/effects';
 import { AlfrescoApiService, AlfrescoViewerComponent, DocumentListService, NodesApiService, UploadService } from '@alfresco/adf-content-services';
@@ -110,9 +110,10 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
 
   private _breadcrumbsRoot = 'APP.BROWSE.PERSONAL.TITLE';
   private navigationPath: string;
+  private pendingBreadcrumbNavigation: Subscription;
   private previewLocation: string;
-  private readonly containersSkipNavigation = ['adf-viewer__sidebar', 'cdk-overlay-container', 'adf-image-viewer'];
 
+  private readonly containersSkipNavigation = ['adf-viewer__sidebar', 'cdk-overlay-container', 'adf-image-viewer'];
   private readonly destroyRef = inject(DestroyRef);
 
   get breadcrumbsRoot(): string {
@@ -282,6 +283,8 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
     if (!primary?.segments.length) {
       return;
     }
+
+    this.pendingBreadcrumbNavigation?.unsubscribe();
     const elements = this.node?.path?.elements ?? [];
     const isSitesPath = elements[1]?.nodeType === 'st:sites';
     const browsingAreas = ['personal-files', 'libraries', 'favorite', 'repository'];
@@ -304,7 +307,7 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
     }
     primary.segments = [...baseCommands, route.id].map((segment) => new UrlSegment(segment, {}));
 
-    this.appHookService.documentListReady$
+    this.pendingBreadcrumbNavigation = this.appHookService.documentListReady$
       .pipe(
         filter((folderId) => folderId === route.id),
         take(1),
