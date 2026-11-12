@@ -8,6 +8,14 @@ minimumReleaseAgeExclude:
 overrides:
   # Security fixes
   '@module-federation/sdk>node-fetch': '^2.7.0'
+  # GHSA-g3hv-75wg-m249: minimatch 11 removed makeRe(), so only parents that don't use it are moved to 11.
+  # nx still calls minimatch.makeRe() and stays on 10.2.x until https://github.com/nrwl/nx/issues/37727 is fixed.
+  '@nx/devkit>minimatch@<11.0.1': '11.0.5'
+  '@typescript-eslint/typescript-estree>minimatch@<11.0.1': '11.0.5'
+  '@tufjs/models>minimatch@<11.0.1': '11.0.5'
+  'ignore-walk>minimatch@<11.0.1': '11.0.5'
+  # glob 10-13 can't use minimatch 11; glob 14 keeps the glob()/globSync()/sync() API their parents call here.
+  'glob@>=10.0.0 <14.0.0': '14.0.4'
 
 allowBuilds:
   '@esbuild/darwin-arm64': true
