@@ -87,7 +87,10 @@ describe('DocumentListDirective', () => {
   };
 
   const nodeToSelect$ = new BehaviorSubject<NodeEntry | null>(null);
-  const appHookServiceMock = { nodeToSelect$ };
+  const appHookServiceMock = {
+    nodeToSelect$,
+    documentListReady$: new Subject<string>()
+  };
 
   const mockSelectedElement = { focus: jasmine.createSpy('focus') };
   const elementRefMock = {
@@ -152,6 +155,23 @@ describe('DocumentListDirective', () => {
     documentListMock.ready.next();
 
     expect(documentListMock.stickyHeader).toBeTruthy();
+  });
+
+  it('should call next on documentListReady$ from AppHookService when document list is ready', () => {
+    documentListDirective.ngOnInit();
+    spyOn(appHookServiceMock.documentListReady$, 'next');
+    documentListMock.folderNode = { id: 'loaded-folder' };
+
+    documentListMock.ready.next();
+    expect(appHookServiceMock.documentListReady$.next).toHaveBeenCalledWith('loaded-folder');
+  });
+
+  it('should not call next on documentListReady$ from AppHookService when document list is not ready', () => {
+    documentListDirective.ngOnInit();
+    spyOn(appHookServiceMock.documentListReady$, 'next');
+    documentListMock.folderNode = { id: 'loaded-folder' };
+
+    expect(appHookServiceMock.documentListReady$.next).not.toHaveBeenCalled();
   });
 
   it('should set include fields', () => {

@@ -43,13 +43,13 @@ import {
   ViewNodeAction
 } from '@alfresco/aca-shared/store';
 import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
-import { Node, VersionEntry, VersionsApi, LazyApi } from '@alfresco/js-api';
+import { Node, VersionEntry, VersionsApi, LazyApi, PathElement } from '@alfresco/js-api';
 import { Component, DestroyRef, HostListener, inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, PRIMARY_OUTLET, Router } from '@angular/router';
+import { ActivatedRoute, NavigationStart, PRIMARY_OUTLET, Router, UrlSegment } from '@angular/router';
 import { ViewerOpenWithComponent, ViewerSidebarComponent, ViewerToolbarActionsComponent } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
-import { from, Observable } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { from, Observable, of, Subscription } from 'rxjs';
+import { debounceTime, filter, take, timeout } from 'rxjs/operators';
 import { Actions, ofType } from '@ngrx/effects';
 import { AlfrescoApiService, AlfrescoViewerComponent, DocumentListService, NodesApiService, UploadService } from '@alfresco/adf-content-services';
 import { CommonModule } from '@angular/common';
@@ -108,11 +108,17 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
   toolbarActions: ContentActionRef[] = [];
   versionId: string = null;
 
+  private _breadcrumbsRoot = 'APP.BROWSE.PERSONAL.TITLE';
   private navigationPath: string;
+  private pendingBreadcrumbNavigation: Subscription;
   private previewLocation: string;
-  private readonly containersSkipNavigation = ['adf-viewer__sidebar', 'cdk-overlay-container', 'adf-image-viewer'];
 
+  private readonly containersSkipNavigation = ['adf-viewer__sidebar', 'cdk-overlay-container', 'adf-image-viewer'];
   private readonly destroyRef = inject(DestroyRef);
+
+  get breadcrumbsRoot(): string {
+    return this._breadcrumbsRoot;
+  }
 
   ngOnInit() {
     this.infoDrawerOpened$ = this.store.select(isInfoDrawerOpened);
@@ -219,6 +225,7 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
     if (nodeId) {
       try {
         this.node = await this.contentApi.getNodeInfo(nodeId).toPromise();
+        this.setBreadcrumbsRoot();
         this.store.dispatch(new SetSelectedNodesAction([{ entry: this.node }]));
         this.navigateMultiple = this.extensions.canShowViewerNavigation({ entry: this.node });
 
@@ -263,6 +270,59 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
     this.store.dispatch(new ViewNodeAction(this.nextNodeId, { location }));
   }
 
+  async onBreadcrumbNavigate(route: PathElement): Promise<void> {
+    const folderWithViewerUrl = this.router.parseUrl(this.router.url);
+    const primary = folderWithViewerUrl.root.children[PRIMARY_OUTLET];
+    if (!primary?.segments.length) {
+      return;
+    }
+
+    this.pendingBreadcrumbNavigation?.unsubscribe();
+    const elements = this.node?.path?.elements ?? [];
+    const isSitesPath = elements[1]?.nodeType === 'st:sites';
+    const browsingAreas = ['personal-files', 'libraries', 'favorite', 'repository'];
+    let path: string;
+    if (browsingAreas.includes(primary.segments[0].path)) {
+      path = primary.segments[0].path;
+    } else {
+      path = isSitesPath ? 'libraries' : 'personal-files';
+    }
+    const isLibraries = path === 'libraries' || path === 'favorite';
+    const baseCommands = path === 'favorite' ? [path, 'libraries'] : [path];
+    const basePath = baseCommands.join('/');
+    const isRootClicked = route.id === elements[0]?.id && (isLibraries || path === 'personal-files' || path === 'repository');
+    if (isRootClicked || (isLibraries && isSitesPath && route.id === elements[1].id)) {
+      await this.router.navigateByUrl(`/${basePath}`);
+      return;
+    }
+    if (isLibraries && isSitesPath && route.id === elements[2]?.id && elements[3]) {
+      route = elements[3];
+    }
+    const isAreaChanged = primary.segments[0].path !== path;
+    if (route.id === this.node?.parentId || isAreaChanged) {
+      await this.router.navigateByUrl(`/${basePath}/${route.id}`);
+      return;
+    }
+    primary.segments = [...baseCommands, route.id].map((segment) => new UrlSegment(segment, {}));
+
+    this.pendingBreadcrumbNavigation = this.appHookService.documentListReady$
+      .pipe(
+        filter((folderId) => folderId === route.id),
+        take(1),
+        timeout({ first: 5000, with: () => of(null) }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(() => void this.router.navigate([...baseCommands, route.id], { replaceUrl: true }));
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationStart),
+        take(1)
+      )
+      .subscribe(() => this.store.dispatch(new SetSelectedNodesAction([{ entry: this.node }])));
+
+    await this.router.navigateByUrl(folderWithViewerUrl);
+  }
+
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     const key = event.key;
@@ -294,5 +354,16 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
 
   private isChild(list: DOMTokenList): boolean {
     return Array.from(list).some((className: string) => this.containersSkipNavigation.includes(className));
+  }
+
+  private setBreadcrumbsRoot(): void {
+    this._breadcrumbsRoot = 'APP.BROWSE.PERSONAL.TITLE';
+    if (this.router.url.startsWith('/repository')) {
+      this._breadcrumbsRoot = 'APP.BROWSE.REPOSITORY_VIEW.TITLE';
+    } else if (this.node.path?.elements?.[1]?.nodeType === 'st:sites' && !this.router.url.startsWith('/personal-files')) {
+      this._breadcrumbsRoot = this.navigationPath?.startsWith('/favorite/')
+        ? 'APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.TITLE'
+        : 'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE';
+    }
   }
 }

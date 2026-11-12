@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { AuthenticationService, UnitTestingUtils } from '@alfresco/adf-core';
 import {
@@ -31,11 +31,12 @@ import {
   DocumentListService,
   FileUploadCompleteEvent,
   NodesApiService,
+  PeopleContentService,
   UploadService
 } from '@alfresco/adf-content-services';
-import { ClosePreviewAction, RefreshPreviewAction, ViewNodeAction } from '@alfresco/aca-shared/store';
+import { ClosePreviewAction, RefreshPreviewAction, SetSelectedNodesAction, ViewNodeAction } from '@alfresco/aca-shared/store';
 import { AcaViewerComponent } from './viewer.component';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import {
   AppHookService,
   ContentApiService,
@@ -45,7 +46,7 @@ import {
   LibTestingModule
 } from '@alfresco/aca-shared';
 import { Store } from '@ngrx/store';
-import { Node } from '@alfresco/js-api';
+import { Node, PathElement } from '@alfresco/js-api';
 
 const apiError = `{
 "error": {
@@ -73,13 +74,21 @@ describe('AcaViewerComponent', () => {
   let store: Store<any>;
   let testingUtils: UnitTestingUtils;
 
+  const getAlfrescoViewerComponent = (): AlfrescoViewerComponent => testingUtils.getByDirective(AlfrescoViewerComponent).componentInstance;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [LibTestingModule, AcaViewerComponent],
       providers: [
         { provide: DocumentBasePageService, useClass: DocumentBasePageServiceMock },
         { provide: DiscoveryApiService, useValue: discoveryApiServiceMockValue },
-        { provide: AuthenticationService, useValue: {} }
+        { provide: AuthenticationService, useValue: {} },
+        {
+          provide: PeopleContentService,
+          useValue: {
+            getCurrentPerson: () => of({ id: 'userId' })
+          }
+        }
       ]
     });
 
@@ -215,20 +224,272 @@ describe('AcaViewerComponent', () => {
     expect(component.displayNode).not.toHaveBeenCalled();
   }));
 
-  it('should set readOnly on the viewer when the node is a checked-out original (cm:checkedOut aspect)', () => {
-    component.nodeId = 'checked-out-node';
-    component.node = { id: 'checked-out-node', aspectNames: ['cm:checkedOut'] } as Node;
-    fixture.detectChanges();
+  describe('Alfresco viewer', () => {
+    it('should set readOnly on the viewer when the node is a checked-out original (cm:checkedOut aspect)', () => {
+      component.nodeId = 'checked-out-node';
+      component.node = { id: 'checked-out-node', aspectNames: ['cm:checkedOut'] } as Node;
+      fixture.detectChanges();
 
-    expect(testingUtils.getByDirective(AlfrescoViewerComponent).componentInstance.readOnly).toBe(true);
-  });
+      expect(getAlfrescoViewerComponent().readOnly).toBe(true);
+    });
 
-  it('should not set readOnly on the viewer when the node is not checked out', () => {
-    component.nodeId = 'regular-node';
-    component.node = { id: 'regular-node', aspectNames: [] } as Node;
-    fixture.detectChanges();
+    it('should not set readOnly on the viewer when the node is not checked out', () => {
+      component.nodeId = 'regular-node';
+      component.node = { id: 'regular-node', aspectNames: [] } as Node;
+      fixture.detectChanges();
 
-    expect(testingUtils.getByDirective(AlfrescoViewerComponent).componentInstance.readOnly).toBe(false);
+      expect(getAlfrescoViewerComponent().readOnly).toBe(false);
+    });
+
+    it('should have assigned true to showBreadcrumbs', () => {
+      component.nodeId = 'regular-node';
+      fixture.detectChanges();
+
+      expect(getAlfrescoViewerComponent().showBreadcrumbs).toBeTrue();
+    });
+
+    it('should have assigned correct default value to breadcrumbsRoot', () => {
+      component.nodeId = 'regular-node';
+      fixture.detectChanges();
+
+      expect(getAlfrescoViewerComponent().breadcrumbsRoot).toBe('APP.BROWSE.PERSONAL.TITLE');
+    });
+
+    describe('breadcrumbsRoot', () => {
+      let personalPath: PathElement[];
+      let sitePath: PathElement[];
+
+      const displayNodeFrom = async (url: string, elements: PathElement[], navigationPath?: string): Promise<void> => {
+        spyOnProperty(router, 'url').and.returnValue(url);
+        spyOn(contentApi, 'getNodeInfo').and.returnValue(
+          of({
+            id: 'file',
+            isFile: true,
+            path: { elements }
+          } as Node)
+        );
+        route.queryParams = of({ location: navigationPath });
+        fixture.detectChanges();
+
+        await component.displayNode('file');
+      };
+
+      beforeEach(() => {
+        personalPath = [
+          { id: 'root', name: 'Company Home' },
+          { id: 'user-homes', name: 'User Homes' }
+        ];
+        sitePath = [
+          { id: 'root', name: 'Company Home' },
+          { id: 'sites', name: 'Sites', nodeType: 'st:sites' },
+          { id: 'site', name: 'site' }
+        ];
+      });
+
+      it('should be the repository title when viewer is opened from repository', async () => {
+        await displayNodeFrom('/repository/folder/(viewer:view/file)', sitePath);
+
+        expect(component.breadcrumbsRoot).toBe('APP.BROWSE.REPOSITORY_VIEW.TITLE');
+      });
+
+      it('should be the my libraries title when file from a library is opened from libraries', async () => {
+        await displayNodeFrom('/libraries/folder/(viewer:view/file)', sitePath, '/libraries/folder');
+
+        expect(component.breadcrumbsRoot).toBe('APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE');
+      });
+
+      it('should be the favorite libraries title when file from a library is opened from favorite libraries', async () => {
+        await displayNodeFrom('/favorite/libraries/folder/(viewer:view/file)', sitePath, '/favorite/libraries/folder');
+
+        expect(component.breadcrumbsRoot).toBe('APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.TITLE');
+      });
+
+      it('should be the my libraries title when file from a library is opened from favorites', async () => {
+        await displayNodeFrom('/favorites/(viewer:view/file)', sitePath, '/favorites');
+
+        expect(component.breadcrumbsRoot).toBe('APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE');
+      });
+
+      it('should be the my libraries title when file from a library is opened from recent files', async () => {
+        await displayNodeFrom('/recent-files/(viewer:view/file)', sitePath, '/recent-files');
+
+        expect(component.breadcrumbsRoot).toBe('APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE');
+      });
+
+      it('should be the personal files title when file from a library is opened from personal files', async () => {
+        await displayNodeFrom('/personal-files/folder/(viewer:view/file)', sitePath, '/personal-files/folder');
+
+        expect(component.breadcrumbsRoot).toBe('APP.BROWSE.PERSONAL.TITLE');
+      });
+
+      it('should be the personal files title when file outside of libraries is opened from recent files', async () => {
+        await displayNodeFrom('/recent-files/(viewer:view/file)', personalPath, '/recent-files');
+
+        expect(component.breadcrumbsRoot).toBe('APP.BROWSE.PERSONAL.TITLE');
+      });
+    });
+
+    describe('breadcrumbNavigate event', () => {
+      let personalPath: PathElement[];
+      let sitePath: PathElement[];
+
+      let navigatedUrl: string;
+
+      const setup = (url: string, elements: PathElement[], parentId = elements[elements.length - 1].id): void => {
+        spyOnProperty(router, 'url').and.returnValue(url);
+        component.node = {
+          id: 'file',
+          parentId,
+          path: { elements }
+        } as Node;
+        spyOn(router, 'navigateByUrl').and.callFake((urlToNavigate) => {
+          navigatedUrl = urlToNavigate.toString();
+          return Promise.resolve(true);
+        });
+        spyOn(router, 'navigate').and.resolveTo(true);
+      };
+
+      beforeEach(() => {
+        const company: PathElement = { id: 'root', name: 'Company Home' };
+        personalPath = [company, { id: 'user-homes', name: 'User Homes' }, { id: 'user', name: 'user' }, { id: 'folder', name: 'folder' }];
+        sitePath = [
+          company,
+          { id: 'sites', name: 'Sites', nodeType: 'st:sites' },
+          { id: 'site', name: 'site' },
+          { id: 'doc-lib', name: 'documentLibrary' },
+          { id: 'folder', name: 'folder' }
+        ];
+      });
+
+      it('should not navigate when url has no primary segments', async () => {
+        setup('/(viewer:view/file)', personalPath);
+
+        await component.onBreadcrumbNavigate(personalPath[0]);
+
+        expect(router.navigateByUrl).not.toHaveBeenCalled();
+        expect(router.navigate).not.toHaveBeenCalled();
+      });
+
+      it('should navigate to the personal files list when root is clicked', async () => {
+        setup('/personal-files/folder/(viewer:view/file)', personalPath);
+
+        await component.onBreadcrumbNavigate(personalPath[0]);
+
+        expect(router.navigateByUrl).toHaveBeenCalledWith('/personal-files');
+      });
+
+      it('should navigate to the repository page when root is clicked in repository', async () => {
+        setup('/repository/folder/(viewer:view/file)', personalPath);
+
+        await component.onBreadcrumbNavigate(personalPath[0]);
+
+        expect(router.navigateByUrl).toHaveBeenCalledWith('/repository');
+      });
+
+      it('should navigate to the libraries list when root is clicked in libraries', async () => {
+        setup('/libraries/folder/(viewer:view/file)', sitePath);
+
+        await component.onBreadcrumbNavigate(sitePath[0]);
+
+        expect(router.navigateByUrl).toHaveBeenCalledWith('/libraries');
+      });
+
+      it('should navigate to the documentLibrary when a site is clicked', async () => {
+        setup('/libraries/doc-lib/(viewer:view/file)', sitePath, 'doc-lib');
+
+        await component.onBreadcrumbNavigate(sitePath[2]);
+
+        expect(router.navigateByUrl).toHaveBeenCalledWith('/libraries/doc-lib');
+      });
+
+      it('should navigate with an absolute url when parent folder of the file is clicked', async () => {
+        setup('/personal-files/folder/(viewer:view/file)', personalPath);
+
+        await component.onBreadcrumbNavigate(personalPath[3]);
+
+        expect(router.navigateByUrl).toHaveBeenCalledWith('/personal-files/folder');
+      });
+
+      it('should navigate to the favorite libraries folder when parent folder is clicked in favorite libraries', async () => {
+        setup('/favorite/libraries/folder/(viewer:view/file)', sitePath);
+
+        await component.onBreadcrumbNavigate(sitePath[4]);
+
+        expect(router.navigateByUrl).toHaveBeenCalledWith('/favorite/libraries/folder');
+      });
+
+      it('should navigate to personal files folder when a folder is clicked in an area without folder routes', async () => {
+        setup('/recent-files/(viewer:view/file)', personalPath);
+
+        await component.onBreadcrumbNavigate(personalPath[2]);
+
+        expect(router.navigateByUrl).toHaveBeenCalledWith('/personal-files/user');
+      });
+
+      it('should navigate to libraries folder when a folder of a library is clicked in an area without folder routes', async () => {
+        setup('/recent-files/(viewer:view/file)', sitePath);
+
+        await component.onBreadcrumbNavigate(sitePath[3]);
+
+        expect(router.navigateByUrl).toHaveBeenCalledWith('/libraries/doc-lib');
+      });
+
+      describe('when other folder than the parent is clicked', () => {
+        it('should navigate to the clicked folder keeping the viewer url until its list is loaded', async () => {
+          setup('/personal-files/folder/(viewer:view/file)', personalPath);
+
+          await component.onBreadcrumbNavigate(personalPath[2]);
+
+          expect(navigatedUrl).toContain('/personal-files/user');
+          expect(navigatedUrl).toContain('viewer:view/file');
+          expect(router.navigate).not.toHaveBeenCalled();
+
+          appHookService.documentListReady$.next('user');
+          expect(router.navigate).toHaveBeenCalledOnceWith(['personal-files', 'user'], { replaceUrl: true });
+        });
+
+        it('should not close the viewer when a list of another folder is loaded', async () => {
+          setup('/personal-files/folder/(viewer:view/file)', personalPath);
+
+          await component.onBreadcrumbNavigate(personalPath[2]);
+          appHookService.documentListReady$.next('another-folder');
+
+          expect(router.navigate).not.toHaveBeenCalled();
+          appHookService.documentListReady$.next('user');
+        });
+
+        it('should close the viewer when the list is not loaded within the timeout', fakeAsync(() => {
+          setup('/personal-files/folder/(viewer:view/file)', personalPath);
+
+          component.onBreadcrumbNavigate(personalPath[2]).catch(fail);
+          tick(5000);
+
+          expect(router.navigate).toHaveBeenCalledOnceWith(['personal-files', 'user'], { replaceUrl: true });
+        }));
+
+        it('should use favorite libraries route when folder is clicked in favorite libraries', async () => {
+          setup('/favorite/libraries/folder/(viewer:view/file)', sitePath);
+
+          await component.onBreadcrumbNavigate(sitePath[3]);
+          appHookService.documentListReady$.next('doc-lib');
+
+          expect(navigatedUrl).toContain('/favorite/libraries/doc-lib');
+          expect(router.navigate).toHaveBeenCalledOnceWith(['favorite', 'libraries', 'doc-lib'], { replaceUrl: true });
+        });
+
+        it('should restore the selection of the displayed file when navigation starts', async () => {
+          setup('/personal-files/folder/(viewer:view/file)', personalPath);
+          spyOn(store, 'dispatch');
+
+          const navigation = component.onBreadcrumbNavigate(personalPath[2]);
+          (router.events as Subject<unknown>).next(new NavigationStart(1, '/personal-files/user'));
+          await navigation;
+
+          expect(store.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({ ...new SetSelectedNodesAction([{ entry: component.node }]) }));
+          appHookService.documentListReady$.next('user');
+        });
+      });
+    });
   });
 
   describe('return on event', () => {

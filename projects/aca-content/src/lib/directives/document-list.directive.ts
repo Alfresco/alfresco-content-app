@@ -105,6 +105,10 @@ export class DocumentListDirective implements OnInit {
     }
 
     this.documentList.ready
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.appHookService.documentListReady$.next(this.documentList.folderNode?.id));
+
+    this.documentList.ready
       .pipe(
         filter(() => !this.router.url.includes('viewer:view')),
         takeUntilDestroyed(this.destroyRef)
