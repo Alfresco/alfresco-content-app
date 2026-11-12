@@ -225,14 +225,7 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
     if (nodeId) {
       try {
         this.node = await this.contentApi.getNodeInfo(nodeId).toPromise();
-        this._breadcrumbsRoot = 'APP.BROWSE.PERSONAL.TITLE';
-        if (this.router.url.startsWith('/repository')) {
-          this._breadcrumbsRoot = 'APP.BROWSE.REPOSITORY_VIEW.TITLE';
-        } else if (this.node.path?.elements?.[1]?.nodeType === 'st:sites' && !this.router.url.startsWith('/personal-files')) {
-          this._breadcrumbsRoot = this.navigationPath?.startsWith('/favorite/')
-            ? 'APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.TITLE'
-            : 'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE';
-        }
+        this.setBreadcrumbsRoot();
         this.store.dispatch(new SetSelectedNodesAction([{ entry: this.node }]));
         this.navigateMultiple = this.extensions.canShowViewerNavigation({ entry: this.node });
 
@@ -288,7 +281,12 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
     const elements = this.node?.path?.elements ?? [];
     const isSitesPath = elements[1]?.nodeType === 'st:sites';
     const browsingAreas = ['personal-files', 'libraries', 'favorite', 'repository'];
-    const path = browsingAreas.includes(primary.segments[0].path) ? primary.segments[0].path : isSitesPath ? 'libraries' : 'personal-files';
+    let path: string;
+    if (browsingAreas.includes(primary.segments[0].path)) {
+      path = primary.segments[0].path;
+    } else {
+      path = isSitesPath ? 'libraries' : 'personal-files';
+    }
     const isLibraries = path === 'libraries' || path === 'favorite';
     const baseCommands = path === 'favorite' ? [path, 'libraries'] : [path];
     const basePath = baseCommands.join('/');
@@ -356,5 +354,16 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
 
   private isChild(list: DOMTokenList): boolean {
     return Array.from(list).some((className: string) => this.containersSkipNavigation.includes(className));
+  }
+
+  private setBreadcrumbsRoot(): void {
+    this._breadcrumbsRoot = 'APP.BROWSE.PERSONAL.TITLE';
+    if (this.router.url.startsWith('/repository')) {
+      this._breadcrumbsRoot = 'APP.BROWSE.REPOSITORY_VIEW.TITLE';
+    } else if (this.node.path?.elements?.[1]?.nodeType === 'st:sites' && !this.router.url.startsWith('/personal-files')) {
+      this._breadcrumbsRoot = this.navigationPath?.startsWith('/favorite/')
+        ? 'APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.TITLE'
+        : 'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE';
+    }
   }
 }
