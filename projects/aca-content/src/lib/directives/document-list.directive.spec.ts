@@ -160,16 +160,16 @@ describe('DocumentListDirective', () => {
   it('should call next on documentListReady$ from AppHookService when document list is ready', () => {
     documentListDirective.ngOnInit();
     spyOn(appHookServiceMock.documentListReady$, 'next');
-    documentListMock.currentFolderId = '-my-';
+    documentListMock.folderNode = { id: 'loaded-folder' };
 
     documentListMock.ready.next();
-    expect(appHookServiceMock.documentListReady$.next).toHaveBeenCalledWith('-my-');
+    expect(appHookServiceMock.documentListReady$.next).toHaveBeenCalledWith('loaded-folder');
   });
 
   it('should not call next on documentListReady$ from AppHookService when document list is not ready', () => {
     documentListDirective.ngOnInit();
     spyOn(appHookServiceMock.documentListReady$, 'next');
-    documentListMock.currentFolderId = '-my-';
+    documentListMock.folderNode = { id: 'loaded-folder' };
 
     expect(appHookServiceMock.documentListReady$.next).not.toHaveBeenCalled();
   });
