@@ -29,21 +29,31 @@ function render() {
     reasons: failureReasons.length,
     excluded: excludedTests.length
   });
-  if (state.tab === 'runs') renderRuns(state.failed === ONLY_FAILED_RUNS ? failedRuns : runs, failedRuns.length);
-  else if (state.tab === 'excluded') renderExcluded(excludedTests);
-  else if (state.tab === 'reasons') renderFailureReasons(failureReasons);
-  else if (state.tab === 'slowest') renderTests(data.timedTests.filter(matchesFilters));
-  else renderTests(filteredTests.filter(getTabFilter(state.tab)));
+  switch (state.tab) {
+    case 'runs':
+      renderRuns(state.failed === ONLY_FAILED_RUNS ? failedRuns : runs, failedRuns.length);
+      break;
+    case 'excluded':
+      renderExcluded(excludedTests);
+      break;
+    case 'reasons':
+      renderFailureReasons(failureReasons);
+      break;
+    case 'slowest':
+      renderTests(data.timedTests.filter(matchesFilters));
+      break;
+    default:
+      renderTests(filteredTests.filter(getTabFilter(state.tab)));
+  }
   if (ui.scrollToOpenTest) {
     ui.scrollToOpenTest = false;
     document.querySelector('tr.aca-test-row[aria-expanded="true"]')?.scrollIntoView({ block: 'center' });
   }
 }
 
-const TAB_KEY_STEPS = { ArrowRight: 1, ArrowLeft: -1 };
-
 function getTargetTabPosition(key, current, count) {
-  if (key in TAB_KEY_STEPS) return (current + TAB_KEY_STEPS[key] + count) % count;
+  const tabKeySteps = { ArrowRight: 1, ArrowLeft: -1 };
+  if (key in tabKeySteps) return (current + tabKeySteps[key] + count) % count;
   if (key === 'Home') return 0;
   if (key === 'End') return count - 1;
   return null;

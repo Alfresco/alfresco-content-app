@@ -34,7 +34,7 @@ const {
   compareFlaky,
   MIN_FLAKY_RUNS_BEFORE_FIX,
   MIN_CLEAN_RUNS_TO_COUNT_AS_FIXED,
-  withoutEnvironmentProblems,
+  subtractEnvironmentProblems,
   averageDuration,
   averageSetup,
   formatDuration
@@ -42,7 +42,7 @@ const {
 const { postToTeams } = require('./post-teams');
 const { createDataIssueLog } = require('./data-issues');
 
-function periodTotals(tests) {
+function calculatePeriodTotals(tests) {
   const testRuns = tests.reduce((sum, test) => sum + test.runs, 0);
   const retriedTestRuns = tests.reduce((sum, test) => sum + test.flakyRuns + test.failures, 0);
   return {
@@ -52,21 +52,21 @@ function periodTotals(tests) {
   };
 }
 
-const countedTestsOfPeriod = (dailies) =>
+const getCountedTestsOfPeriod = (dailies) =>
   mergeTests(dailies.map((daily) => daily.tests))
-    .map(withoutEnvironmentProblems)
+    .map(subtractEnvironmentProblems)
     .filter((test) => test.runs > 0);
 
-const withAverages = (test) => ({ ...test, durationAvg: Math.round(averageDuration(test)), setupAvg: Math.round(averageSetup(test)) });
+const addAverages = (test) => ({ ...test, durationAvg: Math.round(averageDuration(test)), setupAvg: Math.round(averageSetup(test)) });
 
 function buildReport(dates, dailies, title, previousDailies = [], loadIssues = []) {
   const available = dailies.filter(Boolean);
   const dataIssues = [...available.flatMap((daily) => daily.issues || []), ...loadIssues];
   const runs = available.flatMap((daily) => daily.runs);
   const allTests = mergeTests(available.map((daily) => daily.tests));
-  const tests = countedTestsOfPeriod(available).map(withAverages);
+  const tests = getCountedTestsOfPeriod(available).map(addAverages);
   const previousAvailable = previousDailies.filter(Boolean);
-  const previousTests = countedTestsOfPeriod(previousAvailable);
+  const previousTests = getCountedTestsOfPeriod(previousAvailable);
   const comparison = compareFlaky(tests, previousTests);
   const isCompletePeriod = (periodDailies) => periodDailies.length === dates.length && periodDailies.every(Boolean);
   const canCompareWithPreviousPeriod = tests.length > 0 && previousTests.length > 0 && isCompletePeriod(dailies) && isCompletePeriod(previousDailies);
@@ -79,8 +79,8 @@ function buildReport(dates, dailies, title, previousDailies = [], loadIssues = [
     );
   const hasPassedAttempt = (test) => test.durationCount > 0;
   const slowest = allTests
-    .map(withoutEnvironmentProblems)
-    .map(withAverages)
+    .map(subtractEnvironmentProblems)
+    .map(addAverages)
     .filter(hasPassedAttempt)
     .sort((first, second) => second.durationAvg - first.durationAvg || first.key.localeCompare(second.key));
 
@@ -109,7 +109,9 @@ function buildReport(dates, dailies, title, previousDailies = [], loadIssues = [
     },
     flaky,
     slowest,
-    weekOverWeek: canCompareWithPreviousPeriod ? { days: dates.length, current: periodTotals(tests), previous: periodTotals(previousTests) } : null,
+    weekOverWeek: canCompareWithPreviousPeriod
+      ? { days: dates.length, current: calculatePeriodTotals(tests), previous: calculatePeriodTotals(previousTests) }
+      : null,
     comparison: comparison && {
       days: dates.length,
       recentlyFlaky: comparison.recentlyFlaky.map(({ key, suite, title: testTitle }) => ({ key, suite, title: testTitle })),
@@ -174,8 +176,6 @@ function describeEnvironmentProblems(report) {
   return `Environment problems: ${count(runsWithFailedChecks, 'run')} with failed environment checks, ${count(incidents, 'suite incident')} (at least 4 and at least half of a suite's tests needed a retry or failed in one suite attempt).`;
 }
 
-const PERCENT_POINTS = 100;
-
 function describeChange(difference, format = (value) => numberFormat.format(value)) {
   if (difference > 0) {
     return `↑${format(difference)}`;
@@ -189,7 +189,8 @@ function describeWeekOverWeek(report) {
     return null;
   }
   const { current, previous, days } = weekOverWeek;
-  const formatPoints = (share) => (share * PERCENT_POINTS).toFixed(1);
+  const percentPoints = 100;
+  const formatPoints = (share) => (share * percentPoints).toFixed(1);
   const parts = [
     `${count(current.flakyTests, 'flaky test')} (${describeChange(current.flakyTests - previous.flakyTests)})`,
     `${count(current.failedTestRuns, 'failed test run')} (${describeChange(current.failedTestRuns - previous.failedTestRuns)})`,

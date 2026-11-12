@@ -61,7 +61,10 @@ function renderDefinitionNote(note) {
   return `
     <p class="aca-legend-note">
       <span class="aca-info-icon" aria-hidden="true">i</span>
-      <span><strong>Important:</strong> ${escapeHtml(note)}</span>
+      <span>
+        <strong>Important:</strong>
+        ${escapeHtml(note)}
+      </span>
     </p>
   `;
 }

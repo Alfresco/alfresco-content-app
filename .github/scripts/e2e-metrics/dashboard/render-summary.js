@@ -139,17 +139,16 @@ function renderDataIssues(issues) {
   box.open = ui.dataIssuesOpen;
 }
 
-const TAB_LABELS = {
-  flaky: ['🔁', 'Flaky tests', 'flaky'],
-  slowest: ['🐢', 'Slowest tests', null],
-  all: ['', 'All tests', 'all'],
-  excluded: ['', 'Excluded tests', 'excluded'],
-  runs: ['', 'Workflow runs', 'runs'],
-  reasons: ['', 'Failure reasons', 'reasons']
-};
-
 function renderTab(id, counts) {
-  const [icon, label, countKey] = TAB_LABELS[id];
+  const tabLabels = {
+    flaky: ['🔁', 'Flaky tests', 'flaky'],
+    slowest: ['🐢', 'Slowest tests', null],
+    all: ['', 'All tests', 'all'],
+    excluded: ['', 'Excluded tests', 'excluded'],
+    runs: ['', 'Workflow runs', 'runs'],
+    reasons: ['', 'Failure reasons', 'reasons']
+  };
+  const [icon, label, countKey] = tabLabels[id];
   const count = countKey ? counts[countKey] : null;
   const countBadge = count == null ? '' : ` <span class="aca-secondary">${numberFormat.format(count)}</span>`;
   const selected = state.tab === id;

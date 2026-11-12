@@ -108,7 +108,10 @@ function renderOnlyFailedToggle(failedCount) {
   const checked = state.failed === ONLY_FAILED_RUNS ? ' checked' : '';
   return `
     <div class="aca-runs-tools">
-      <label class="aca-check"><input type="checkbox" data-only-failed${checked} /> Only failed runs (${numberFormat.format(failedCount)})</label>
+      <label class="aca-check">
+        <input type="checkbox" data-only-failed${checked} />
+        Only failed runs (${numberFormat.format(failedCount)})
+      </label>
     </div>
   `;
 }

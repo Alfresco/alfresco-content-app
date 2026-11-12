@@ -81,14 +81,13 @@ const hookId = (location?: HookLocation): string | undefined => (location ? `${l
 
 const average = (values: number[] = []): number => (values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : 0);
 
-const EXCLUDED_TESTS_FILE_NAME = 'exclude.tests.json';
-const EXCLUDED_TESTS_REPORT_KIND = 'excluded';
 const ERROR_MAX_LENGTH = 200;
 const TITLE_PATH_ROOT_PROJECT_AND_FILE_SEGMENTS = 3;
 const ANSI_COLOR_CODES_PATTERN = new RegExp(`${String.fromCharCode(27)}\\[[0-9;]*m`, 'g');
 
 const readExclusions = (configFile?: string): TestExclusion[] => {
-  const exclusionsFile = configFile ? path.join(path.dirname(configFile), EXCLUDED_TESTS_FILE_NAME) : '';
+  const excludedTestsFileName = 'exclude.tests.json';
+  const exclusionsFile = configFile ? path.join(path.dirname(configFile), excludedTestsFileName) : '';
   if (!exclusionsFile || !fs.existsSync(exclusionsFile)) {
     return [];
   }
@@ -109,12 +108,12 @@ const firstErrorLineWithoutColors = (result: TestResult): string | undefined => 
 export default class E2eMetricsReporter implements Reporter {
   private readonly outputFile: string;
   private readonly excludedOnly: boolean;
-  private excludedTests: E2eExcludedTest[] = [];
-  private excludedTestsSuite: string | null = null;
   private readonly hookTypes = new Map<string, HookType>();
   private readonly beforeAllHookIdsByTest = new Map<TestCase, string[]>();
   private readonly successfulHookDurations = new Map<string, number[]>();
   private readonly hookTimingsByResult = new Map<TestResult, HookTimings>();
+  private excludedTests: E2eExcludedTest[] = [];
+  private excludedTestsSuite: string | null = null;
   private rootSuite?: Suite;
 
   constructor(options: { outputFile?: string; excludedOnly?: boolean } = {}) {
@@ -174,8 +173,9 @@ export default class E2eMetricsReporter implements Reporter {
   }
 
   onEnd(): void {
+    const excludedTestsReportKind = 'excluded';
     const report = this.excludedOnly
-      ? { kind: EXCLUDED_TESTS_REPORT_KIND, suite: this.excludedTestsSuite, tests: this.excludedTests }
+      ? { kind: excludedTestsReportKind, suite: this.excludedTestsSuite, tests: this.excludedTests }
       : { tests: (this.rootSuite?.allTests() ?? []).map((test) => this.testMetrics(test)) };
     fs.mkdirSync(path.dirname(path.resolve(this.outputFile)), { recursive: true });
     fs.writeFileSync(this.outputFile, JSON.stringify({ format: E2E_METRICS_FORMAT, version: 1, ...report }));

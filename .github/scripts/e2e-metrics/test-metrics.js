@@ -32,8 +32,6 @@ const E2E_METRICS_REPORTER_FORMAT = 'aca-e2e-metrics';
 const E2E_METRICS_REPORTER_FORMAT_INTRODUCED_ON = '2026-10-28';
 const MIN_FLAKY_RUNS_BEFORE_FIX = 5;
 const MIN_CLEAN_RUNS_TO_COUNT_AS_FIXED = 3;
-const MIN_AFFECTED_TESTS_FOR_INCIDENT = 4;
-const MIN_AFFECTED_SHARE_FOR_INCIDENT = 0.5;
 const ENVIRONMENT_ERROR_PATTERN = new RegExp(
   [
     'net::ERR_(?!ABORTED)[A-Z_]+',
@@ -164,20 +162,22 @@ function extractTestMetrics(report, fallbackSuite) {
   return metrics.filter(Boolean);
 }
 
-const neededRetryOrFailed = (metric) => metric.retries > 0 || metric.failures > 0;
-const suiteAttemptKey = (metric) => `${metric.suite}#${metric.suiteAttempt || 1}`;
+const hasNeededRetryOrFailed = (metric) => metric.retries > 0 || metric.failures > 0;
+const getSuiteAttemptKey = (metric) => `${metric.suite}#${metric.suiteAttempt || 1}`;
 
 function findSuiteIncidents(metrics) {
+  const minAffectedTestsForIncident = 4;
+  const minAffectedShareForIncident = 0.5;
   const testsBySuiteAttempt = new Map();
   for (const metric of metrics) {
-    const key = suiteAttemptKey(metric);
+    const key = getSuiteAttemptKey(metric);
     testsBySuiteAttempt.set(key, [...(testsBySuiteAttempt.get(key) || []), metric]);
   }
   const incidents = [];
   for (const suiteMetrics of testsBySuiteAttempt.values()) {
-    const affected = suiteMetrics.filter(neededRetryOrFailed).length;
+    const affected = suiteMetrics.filter(hasNeededRetryOrFailed).length;
     const scheduledTests = Math.max(suiteMetrics.length, suiteMetrics[0].scheduledTests || 0);
-    const isIncident = affected >= MIN_AFFECTED_TESTS_FOR_INCIDENT && affected / scheduledTests >= MIN_AFFECTED_SHARE_FOR_INCIDENT;
+    const isIncident = affected >= minAffectedTestsForIncident && affected / scheduledTests >= minAffectedShareForIncident;
     if (isIncident) {
       incidents.push({ suite: suiteMetrics[0].suite, suiteAttempt: suiteMetrics[0].suiteAttempt || 1, affected, tests: scheduledTests });
     }
@@ -187,23 +187,23 @@ function findSuiteIncidents(metrics) {
 
 const isEnvironmentError = (error) => Boolean(error) && ENVIRONMENT_ERROR_PATTERN.test(error);
 
-function failedOnlyWithEnvironmentErrors(detail) {
+function hasFailedOnlyWithEnvironmentErrors(detail) {
   const failedAttempts = (detail?.attempts || []).filter((attempt) => attempt.status !== 'passed');
   return failedAttempts.length > 0 && failedAttempts.every((attempt) => isEnvironmentError(attempt.error));
 }
 
-function environmentReason(metric, incidentSuiteAttempts) {
-  if (incidentSuiteAttempts.has(suiteAttemptKey(metric))) {
+function getEnvironmentReason(metric, incidentSuiteAttempts) {
+  if (incidentSuiteAttempts.has(getSuiteAttemptKey(metric))) {
     return 'incident';
   }
-  return failedOnlyWithEnvironmentErrors(metric.detail) ? 'error' : null;
+  return hasFailedOnlyWithEnvironmentErrors(metric.detail) ? 'error' : null;
 }
 
 function markEnvironmentProblems(metrics) {
   const incidents = findSuiteIncidents(metrics);
-  const incidentSuiteAttempts = new Set(incidents.map(suiteAttemptKey));
+  const incidentSuiteAttempts = new Set(incidents.map(getSuiteAttemptKey));
   const markedMetrics = metrics.map((metric) => {
-    const environment = environmentReason(metric, incidentSuiteAttempts);
+    const environment = getEnvironmentReason(metric, incidentSuiteAttempts);
     if (!environment) {
       return metric;
     }
@@ -213,7 +213,7 @@ function markEnvironmentProblems(metrics) {
   return { metrics: markedMetrics, incidents };
 }
 
-function withoutEnvironmentProblems(test) {
+function subtractEnvironmentProblems(test) {
   const counted = { ...test };
   for (const [field, environmentField] of ENVIRONMENT_METRIC_FIELDS) {
     counted[field] = test[field] - (test[environmentField] || 0);
@@ -280,7 +280,7 @@ module.exports = {
   extractTestMetrics,
   ENVIRONMENT_ERROR_PATTERN,
   markEnvironmentProblems,
-  withoutEnvironmentProblems,
+  subtractEnvironmentProblems,
   mergeTests,
   compareFlaky,
   MIN_FLAKY_RUNS_BEFORE_FIX,

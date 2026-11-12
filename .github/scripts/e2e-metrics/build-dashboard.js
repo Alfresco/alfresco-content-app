@@ -58,7 +58,6 @@ const COMPACT_SUITE_JOB_FIELDS = ['job', 'step', 'setup', 'tests', 'total'];
 const COMPACT_FAILURE_CAUSE_FIELDS = ['kind', 'name', 'job', 'step', 'stepName', 'suiteJob'];
 const COMPACT_ENVIRONMENT_CHECK_FIELDS = ['name', 'job', 'step', 'stepName'];
 const COMPACT_INCIDENT_FIELDS = ['suite', 'suiteAttempt', 'affected', 'tests'];
-const COMPACT_EXCLUDED_TEST_FIELDS = ['file', 'title', 'path', 'line', 'id', 'reason', 'scope'];
 const DASHBOARD_OUTCOME_BY_PLAYWRIGHT_OUTCOME = { expected: 'passed', flaky: 'retried', unexpected: 'failed' };
 const PLAYWRIGHT_OUTCOME_BY_DASHBOARD_OUTCOME = Object.fromEntries(
   Object.entries(DASHBOARD_OUTCOME_BY_PLAYWRIGHT_OUTCOME).map(([playwrightOutcome, dashboardOutcome]) => [dashboardOutcome, playwrightOutcome])
@@ -208,11 +207,11 @@ function compactResults(day, indexByKey, dedupedErrors) {
         result.setup ?? null
       ];
       const neededRetryOrFailed = result.outcome !== 'expected' || result.retries > 0;
-      if (neededRetryOrFailed) {
-        row.push(result.attempts.map(compactAttempt));
+      const attempts = neededRetryOrFailed ? result.attempts.map(compactAttempt) : null;
+      if (attempts || result.environment) {
+        row.push(attempts);
       }
       if (result.environment) {
-        row[7] = row[7] ?? null;
         row.push(result.environment);
       }
       return row;
@@ -224,13 +223,14 @@ function useLatestSourceLocation(catalogEntry, test) {
   catalogEntry[4] = test.line || catalogEntry[4];
 }
 
-function latestExcludedTests(published, dailies, oldestKept) {
+function getLatestExcludedTests(published, dailies, oldestKept) {
+  const compactExcludedTestFields = ['file', 'title', 'path', 'line', 'id', 'reason', 'scope'];
   const excludedBySuite = { ...published?.excluded };
   for (const daily of dailies.filter(Boolean)) {
     for (const [suite, { tests }] of Object.entries(daily.excluded || {})) {
       const known = excludedBySuite[suite];
       if (!known || daily.date >= known.date) {
-        excludedBySuite[suite] = { date: daily.date, tests: tests.map((test) => toFields(COMPACT_EXCLUDED_TEST_FIELDS, test)) };
+        excludedBySuite[suite] = { date: daily.date, tests: tests.map((test) => toFields(compactExcludedTestFields, test)) };
       }
     }
   }
@@ -268,17 +268,17 @@ function compactHistory(days, meta, detailFrom) {
   return { schemaVersion: SCHEMA_VERSION, ...meta, tests: catalog, days: compactDays };
 }
 
-const issueKey = (issue) => [issue.operation, issue.runId, issue.artifact, issue.effect].join('|');
+const getIssueKey = (issue) => [issue.operation, issue.runId, issue.artifact, issue.effect].join('|');
 
 function isIncompleteRefreshOfPublishedDay(refreshed, published) {
   if (!published || !refreshed.issues?.length) {
     return false;
   }
-  const publishedIssueKeys = new Set((published.issues || []).map(issueKey));
+  const publishedIssueKeys = new Set((published.issues || []).map(getIssueKey));
   const publishedRunIds = new Set(published.runs.map((run) => run.id));
   const affectsPublishedData = (issue) => !issue.runId || publishedRunIds.has(issue.runId);
   const refreshHasNewProblemsInPublishedData = refreshed.issues.some(
-    (issue) => !publishedIssueKeys.has(issueKey(issue)) && affectsPublishedData(issue)
+    (issue) => !publishedIssueKeys.has(getIssueKey(issue)) && affectsPublishedData(issue)
   );
   const refreshLostRuns = refreshed.runs.length < published.runs.length;
   return refreshHasNewProblemsInPublishedData || refreshLostRuns;
@@ -339,7 +339,7 @@ async function main() {
       serverUrl: process.env.GITHUB_SERVER_URL || 'https://github.com',
       branch: process.env.SOURCE_BRANCH || 'develop',
       testCaseUrl: process.env.TEST_CASE_URL || DEFAULT_TEST_CASE_URL,
-      excluded: latestExcludedTests(published, acceptedDailies, oldestKept),
+      excluded: getLatestExcludedTests(published, acceptedDailies, oldestKept),
       environmentErrorPattern: { source: ENVIRONMENT_ERROR_PATTERN.source, flags: ENVIRONMENT_ERROR_PATTERN.flags },
       historyDays,
       detailDays,

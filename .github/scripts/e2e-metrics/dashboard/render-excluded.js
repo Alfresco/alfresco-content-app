@@ -49,7 +49,7 @@ function renderExcludedTestRow(test, columns, levelStyle) {
     )
     .join('');
   return `
-    <tr class="aca-excluded-row">
+    <tr>
       <td></td>
       ${cells}
     </tr>

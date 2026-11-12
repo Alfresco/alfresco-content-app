@@ -1,7 +1,5 @@
 'use strict';
 
-const REASON_MESSAGE_LIMIT = 10;
-
 function normalizeErrorMessage(error) {
   return RANDOM_ERROR_PARTS.reduce((text, [pattern, placeholder]) => text.replace(pattern, placeholder), error);
 }
@@ -113,10 +111,11 @@ function renderReasonOriginalMessage([message, attempts]) {
 }
 
 function renderReasonDetailRow(reason, colspan) {
+  const reasonMessageLimit = 10;
   const byMostAttempts = (first, second) => second[1] - first[1];
   const tests = [...reason.testAttempts].sort(byMostAttempts);
   const messages = [...reason.messages].sort(byMostAttempts);
-  const hiddenMessages = messages.slice(REASON_MESSAGE_LIMIT);
+  const hiddenMessages = messages.slice(reasonMessageLimit);
   const moreMessages = hiddenMessages.length
     ? `
       <details class="aca-reason-more">
@@ -132,7 +131,7 @@ function renderReasonDetailRow(reason, colspan) {
         <h2>Tests</h2>
         <ul class="aca-reason-list">${tests.map(renderReasonTest).join('')}</ul>
         <h2>Original messages</h2>
-        <ul class="aca-reason-list">${messages.slice(0, REASON_MESSAGE_LIMIT).map(renderReasonOriginalMessage).join('')}</ul>
+        <ul class="aca-reason-list">${messages.slice(0, reasonMessageLimit).map(renderReasonOriginalMessage).join('')}</ul>
         ${moreMessages}
       </td>
     </tr>
