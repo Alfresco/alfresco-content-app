@@ -4,16 +4,35 @@ function createGroup(kind, name, key, level) {
   return { kind, name, key, level, groups: new Map(), tests: [] };
 }
 
+function getGroupKey(groupNames) {
+  return JSON.stringify(groupNames);
+}
+
+function getGroupNamesOfTest(test) {
+  return [test.suite, test.file, ...splitTitle(test).describes];
+}
+
+function expandGroupsOfTest(index) {
+  const [suite, file, title] = metrics.tests[index];
+  const groupNames = getGroupNamesOfTest({ suite, file, title });
+  groupNames.forEach((_, level) => userToggledGroups.set(getGroupKey(groupNames.slice(0, level + 1)), true));
+}
+
+function getGroupKind(level) {
+  if (level === 0) return 'suite';
+  if (level === 1) return 'file';
+  return 'describe';
+}
+
 function buildTree(tests) {
   const root = createGroup('root', '', '', -1);
   const openIndex = getOpenTestIndex();
   for (const test of tests) {
-    const path = [['suite', test.suite], ['file', test.file], ...splitTitle(test).describes.map((name) => ['describe', name])];
+    const groupNames = getGroupNamesOfTest(test);
     let node = root;
-    path.forEach(([kind, name], level) => {
+    groupNames.forEach((name, level) => {
       if (!node.groups.has(name)) {
-        const key = JSON.stringify(path.slice(0, level + 1).map(([, groupName]) => groupName));
-        node.groups.set(name, createGroup(kind, name, key, level));
+        node.groups.set(name, createGroup(getGroupKind(level), name, getGroupKey(groupNames.slice(0, level + 1)), level));
       }
       node = node.groups.get(name);
       if (test.index === openIndex) node.containsOpenTest = true;
@@ -48,9 +67,28 @@ function isGroupOpen(group, siblingCount) {
   return searching || onlyGroupAtThisLevel || Boolean(group.containsOpenTest);
 }
 
+function renderSuiteHealth(name) {
+  const stats = view.suiteStats.get(getSuiteStatsKey(name));
+  if (!stats || state.tab === 'excluded') return '';
+  const parts = [];
+  if (stats.failedRuns) {
+    const environmentPart = stats.environmentFailedRuns ? ` (${numberFormat.format(stats.environmentFailedRuns)} on an environment check)` : '';
+    parts.push(
+      `<span class="aca-is-failed">CI job failed in ${numberFormat.format(stats.failedRuns)} of ${pluralize(stats.runs, 'run')}</span>${environmentPart}`
+    );
+  }
+  if (stats.incidents) {
+    parts.push(pluralize(stats.incidents, 'suite incident'));
+  }
+  if (!parts.length) return '';
+  return `
+    <div class="aca-suite-timing" title="${escapeHtml(SUITE_HEALTH_HELP)}">${parts.join(' · ')}</div>
+  `;
+}
+
 function renderSuiteTiming(name) {
-  const times = view.suiteTimes.get(name);
-  if (!times) return '';
+  const times = view.suiteStats.get(getSuiteStatsKey(name));
+  if (!times?.jobs || state.tab === 'excluded') return '';
   const share = times.setup / times.total;
   const formatAverageSeconds = (sum) => formatDuration((sum / times.jobs) * 1000);
   const title = `Average of ${pluralize(times.jobs, 'suite job')} in this period. Setup is the time before the tests start: runner preparation, ACS deploy, installs and browser setup.`;
@@ -78,7 +116,7 @@ function renderGroupRow(group, open, columns, levelStyle) {
       ${escapeHtml(group.name)}
       <span class="aca-count-of">${pluralize(group.testCount, 'test')}</span>
     </div>
-    ${group.kind === 'suite' ? renderSuiteTiming(group.name) : ''}
+    ${group.kind === 'suite' ? `${renderSuiteTiming(group.name)}${renderSuiteHealth(group.name)}` : ''}
   `;
   const cells = columns
     .map((column) =>

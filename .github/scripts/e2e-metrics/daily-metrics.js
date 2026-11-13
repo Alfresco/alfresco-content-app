@@ -45,8 +45,7 @@ const isFromTrustedRun = (artifact) => {
   return run?.head_branch === (process.env.SOURCE_BRANCH || 'develop') && run.head_repository_id === run.repository_id;
 };
 
-async function downloadLatestDaily(github, date, workDir) {
-  const name = `${DAILY_ARTIFACT_PREFIX}${date}`;
+async function downloadLatestTrustedArtifact(github, name, targetDir) {
   const newestFirst = (first, second) => second.created_at.localeCompare(first.created_at);
   const artifacts = (await github.paginate(`/actions/artifacts?name=${encodeURIComponent(name)}`, 'artifacts'))
     .filter((artifact) => !artifact.expired && isFromTrustedRun(artifact))
@@ -54,10 +53,18 @@ async function downloadLatestDaily(github, date, workDir) {
   if (artifacts.length === 0) {
     return null;
   }
-  const targetDir = path.join(workDir, name);
   await github.downloadAndExtractArtifact(artifacts[0].id, targetDir);
   const file = fs.readdirSync(targetDir).find((entry) => entry.endsWith('.json'));
-  return file ? readDailyFile(path.join(targetDir, file)) : null;
+  if (!file) {
+    throw new Error(`Artifact ${name} (id ${artifacts[0].id}) contains no JSON file`);
+  }
+  return path.join(targetDir, file);
+}
+
+async function downloadLatestDaily(github, date, workDir) {
+  const name = `${DAILY_ARTIFACT_PREFIX}${date}`;
+  const file = await downloadLatestTrustedArtifact(github, name, path.join(workDir, name));
+  return file ? readDailyFile(file) : null;
 }
 
 function createDailyArtifactsClient() {
@@ -101,6 +108,8 @@ function writeJson(file, data) {
 module.exports = {
   SCHEMA_VERSION,
   DAILY_ARTIFACT_PREFIX,
+  createDailyArtifactsClient,
+  downloadLatestTrustedArtifact,
   loadDailies,
   writeJson
 };

@@ -32,6 +32,29 @@ const E2E_METRICS_REPORTER_FORMAT = 'aca-e2e-metrics';
 const E2E_METRICS_REPORTER_FORMAT_INTRODUCED_ON = '2026-10-28';
 const MIN_FLAKY_RUNS_BEFORE_FIX = 5;
 const MIN_CLEAN_RUNS_TO_COUNT_AS_FIXED = 3;
+const ENVIRONMENT_ERROR_PATTERN = new RegExp(
+  [
+    'net::ERR_(?!ABORTED)[A-Z_]+',
+    String.raw`\b(?:ECONNRESET|ECONNREFUSED|ETIMEDOUT|EAI_AGAIN|EPIPE)\b`,
+    'socket hang up',
+    'Bad Gateway|Service Unavailable|Gateway Time-?out',
+    String.raw`status(?:\s?code)?\W{0,3}(?:5\d\d|40[13])\b`,
+    String.raw`\bHTTP(?:\/[\d.]+)?\s+(?:5\d\d|40[13])\b`,
+    String.raw`\b40[13] (?:Unauthorized|Forbidden)\b`,
+    String.raw`not found after \d+ retries`,
+    String.raw`but found \d+ after \d+ retries`,
+    String.raw`not indexed for .+ after \d+ retries`,
+    'not found in search results',
+    'waitForNodes: Timed out waiting'
+  ].join('|'),
+  'i'
+);
+const ENVIRONMENT_METRIC_FIELDS = [
+  ['runs', 'environmentRuns'],
+  ['retries', 'environmentRetries'],
+  ['flakyRuns', 'environmentFlakyRuns'],
+  ['failures', 'environmentFailures']
+];
 
 function parseRunArtifactName(name) {
   const isAggregateArtifact = name.startsWith(DAILY_ARTIFACT_PREFIX) || name.startsWith(WEEKLY_ARTIFACT_PREFIX);
@@ -57,7 +80,11 @@ function emptyTestMetrics({ key, suite, file, title, path: filePath = null, line
     durationSum: 0,
     durationCount: 0,
     durationMax: 0,
-    setupSum: 0
+    setupSum: 0,
+    environmentRuns: 0,
+    environmentRetries: 0,
+    environmentFlakyRuns: 0,
+    environmentFailures: 0
   };
 }
 
@@ -72,6 +99,9 @@ function addTestMetrics(target, source) {
   target.durationCount += source.durationCount;
   target.durationMax = Math.max(target.durationMax, source.durationMax);
   target.setupSum += source.setupSum || 0;
+  for (const [, environmentField] of ENVIRONMENT_METRIC_FIELDS) {
+    target[environmentField] += source[environmentField] || 0;
+  }
 }
 
 const durationIncludingBeforeAll = (attempt) => (attempt.duration || 0) + (attempt.beforeAll || 0);
@@ -132,6 +162,65 @@ function extractTestMetrics(report, fallbackSuite) {
   return metrics.filter(Boolean);
 }
 
+const hasNeededRetryOrFailed = (metric) => metric.retries > 0 || metric.failures > 0;
+const getSuiteAttemptKey = (metric) => `${metric.suite}#${metric.suiteAttempt || 1}`;
+
+function findSuiteIncidents(metrics) {
+  const minAffectedTestsForIncident = 4;
+  const minAffectedShareForIncident = 0.5;
+  const testsBySuiteAttempt = new Map();
+  for (const metric of metrics) {
+    const key = getSuiteAttemptKey(metric);
+    testsBySuiteAttempt.set(key, [...(testsBySuiteAttempt.get(key) || []), metric]);
+  }
+  const incidents = [];
+  for (const suiteMetrics of testsBySuiteAttempt.values()) {
+    const affected = suiteMetrics.filter(hasNeededRetryOrFailed).length;
+    const scheduledTests = Math.max(suiteMetrics.length, suiteMetrics[0].scheduledTests || 0);
+    const isIncident = affected >= minAffectedTestsForIncident && affected / scheduledTests >= minAffectedShareForIncident;
+    if (isIncident) {
+      incidents.push({ suite: suiteMetrics[0].suite, suiteAttempt: suiteMetrics[0].suiteAttempt || 1, affected, tests: scheduledTests });
+    }
+  }
+  return incidents;
+}
+
+const isEnvironmentError = (error) => Boolean(error) && ENVIRONMENT_ERROR_PATTERN.test(error);
+
+function hasFailedOnlyWithEnvironmentErrors(detail) {
+  const failedAttempts = (detail?.attempts || []).filter((attempt) => attempt.status !== 'passed');
+  return failedAttempts.length > 0 && failedAttempts.every((attempt) => isEnvironmentError(attempt.error));
+}
+
+function getEnvironmentReason(metric, incidentSuiteAttempts) {
+  if (incidentSuiteAttempts.has(getSuiteAttemptKey(metric))) {
+    return 'incident';
+  }
+  return hasFailedOnlyWithEnvironmentErrors(metric.detail) ? 'error' : null;
+}
+
+function markEnvironmentProblems(metrics) {
+  const incidents = findSuiteIncidents(metrics);
+  const incidentSuiteAttempts = new Set(incidents.map(getSuiteAttemptKey));
+  const markedMetrics = metrics.map((metric) => {
+    const environment = getEnvironmentReason(metric, incidentSuiteAttempts);
+    if (!environment) {
+      return metric;
+    }
+    const environmentCounts = Object.fromEntries(ENVIRONMENT_METRIC_FIELDS.map(([field, environmentField]) => [environmentField, metric[field]]));
+    return { ...metric, ...environmentCounts, detail: { ...metric.detail, environment } };
+  });
+  return { metrics: markedMetrics, incidents };
+}
+
+function subtractEnvironmentProblems(test) {
+  const counted = { ...test };
+  for (const [field, environmentField] of ENVIRONMENT_METRIC_FIELDS) {
+    counted[field] = test[field] - (test[environmentField] || 0);
+  }
+  return counted;
+}
+
 function mergeTests(lists) {
   const byKey = new Map();
   for (const list of lists) {
@@ -189,6 +278,9 @@ module.exports = {
   isE2eMetricsReport,
   E2E_METRICS_REPORTER_FORMAT_INTRODUCED_ON,
   extractTestMetrics,
+  ENVIRONMENT_ERROR_PATTERN,
+  markEnvironmentProblems,
+  subtractEnvironmentProblems,
   mergeTests,
   compareFlaky,
   MIN_FLAKY_RUNS_BEFORE_FIX,

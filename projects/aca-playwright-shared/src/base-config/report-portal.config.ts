@@ -57,15 +57,15 @@ export const getReportPortalConfig = () => {
 };
 
 export const getReporter = (): ReporterDescription[] => {
+  if (env.E2E_EXCLUDED_TESTS_FILE) {
+    return [[require.resolve('./e2e-metrics.reporter'), { outputFile: env.E2E_EXCLUDED_TESTS_FILE, excludedOnly: true }]];
+  }
+
   if (!env.CI) {
     return [['html']];
   }
 
   const reporters: ReporterDescription[] = [['@reportportal/agent-js-playwright', getReportPortalConfig()], ['github']];
-
-  if (env.E2E_BLOB_REPORT === 'true') {
-    reporters.push(['blob', { outputDir: env.PLAYWRIGHT_BLOB_DIR || 'blob-report' }]);
-  }
 
   if (env.E2E_METRICS_FILE) {
     reporters.push([require.resolve('./e2e-metrics.reporter'), { outputFile: env.E2E_METRICS_FILE }]);

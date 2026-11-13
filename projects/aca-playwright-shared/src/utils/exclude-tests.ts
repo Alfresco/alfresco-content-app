@@ -22,31 +22,35 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
+export interface TestExclusion {
+  id: string;
+  reason: string;
+  scope: string;
+}
+
+export type ExclusionJson = Record<string, Record<string, string> | undefined>;
+
+const ALL_BROWSERS_SCOPE = 'all';
+const BROWSER_SCOPES = ['firefox', 'chromium', 'webkit', 'msedge'];
+
 const getCurrentBrowser = (): string => (process.env.PLAYWRIGHT_BROWSER || 'chrome').toLowerCase();
 
-export const getExcludedTestsRegExpArray = (excludedJson: any, projectName: string) => {
-  const prefix = `[ 🎭 Playwright Excludes - ${projectName} ]`;
+export const getTestExclusions = (excludedJson: ExclusionJson): TestExclusion[] => {
   const currentBrowser = getCurrentBrowser();
-  const browserKeys = ['all', 'firefox', 'chromium', 'webkit', 'msedge'];
-  const relevantKeys: string[] = [];
-  const testIdsToExclude: string[] = [];
+  const scopes = [ALL_BROWSERS_SCOPE, ...BROWSER_SCOPES.filter((scope) => scope === currentBrowser)];
+  return scopes.flatMap((scope) => Object.entries(excludedJson[scope] ?? {}).map(([id, reason]) => ({ id, reason, scope })));
+};
 
-  // Always include 'all' if it exists
-  if (excludedJson.all && typeof excludedJson.all === 'object') {
-    const allTestIds = Object.keys(excludedJson.all);
-    testIdsToExclude.push(...allTestIds);
-    relevantKeys.push('all');
+export const getExcludedTestsRegExpArray = (excludedJson: ExclusionJson, projectName: string): RegExp[] => {
+  const prefix = `[ 🎭 Playwright Excludes - ${projectName} ]`;
+  if (process.env.E2E_EXCLUDED_TESTS_FILE) {
+    console.info(`${prefix} Listing all tests to find the excluded ones, so nothing is excluded`);
+    return [];
   }
-
-  // Include current browser-specific exclusions
-  const browserKey = browserKeys.find((key) => key.toLowerCase() === currentBrowser);
-  if (browserKey && excludedJson[browserKey] && typeof excludedJson[browserKey] === 'object') {
-    const browserTestIds = Object.keys(excludedJson[browserKey]);
-    testIdsToExclude.push(...browserTestIds);
-    if (!relevantKeys.includes(browserKey)) {
-      relevantKeys.push(browserKey);
-    }
-  }
+  const currentBrowser = getCurrentBrowser();
+  const exclusions = getTestExclusions(excludedJson);
+  const testIdsToExclude = exclusions.map((exclusion) => exclusion.id);
+  const relevantKeys = [...new Set(exclusions.map((exclusion) => exclusion.scope))];
 
   if (testIdsToExclude.length > 0) {
     console.warn(

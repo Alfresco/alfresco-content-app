@@ -10,26 +10,66 @@ function collectRuns(days) {
 function render() {
   const dates = getRangeDates();
   const data = aggregate(dates);
-  Object.assign(view, { dates, comparison: compareFlakyWithPreviousPeriod(dates, data.tests), suiteTimes: sumSuiteTimes(data.days) });
-  const suites = [...new Set(metrics.tests.map(([suite]) => suite))].sort((first, second) => first.localeCompare(second));
+  Object.assign(view, { dates, comparison: compareFlakyWithPreviousPeriod(dates, data.tests), suiteStats: collectSuiteStats(data.days) });
+  const suites = [...new Set([...metrics.tests.map(([suite]) => suite), ...Object.keys(metrics.excluded || {})])].sort((first, second) =>
+    first.localeCompare(second)
+  );
   const filteredTests = data.tests.filter(matchesFilters);
   const runs = collectRuns(data.days);
   const failedRuns = runs.filter(isFailedRun);
   renderMasthead();
   renderFilters(suites);
   renderSummary(data, dates);
-  renderTabs({ flaky: filteredTests.filter(getTabFilter('flaky')).length, all: filteredTests.length, runs: runs.length, failed: failedRuns.length });
-  if (state.tab === 'runs') renderRuns(runs);
-  else if (state.tab === 'failed') renderRuns(failedRuns);
-  else renderTests(filteredTests.filter(getTabFilter(state.tab)));
+  const excludedTests = collectExcludedTests();
+  const failureReasons = collectFailureReasons(filteredTests);
+  renderTabs({
+    flaky: filteredTests.filter(getTabFilter('flaky')).length,
+    all: filteredTests.length,
+    runs: runs.length,
+    reasons: failureReasons.length,
+    excluded: excludedTests.length
+  });
+  switch (state.tab) {
+    case 'runs':
+      renderRuns(state.failed === ONLY_FAILED_RUNS ? failedRuns : runs, failedRuns.length);
+      break;
+    case 'excluded':
+      renderExcluded(excludedTests);
+      break;
+    case 'reasons':
+      renderFailureReasons(failureReasons);
+      break;
+    case 'slowest':
+      renderTests(data.timedTests.filter(matchesFilters));
+      break;
+    default:
+      renderTests(filteredTests.filter(getTabFilter(state.tab)));
+  }
   if (ui.scrollToOpenTest) {
     ui.scrollToOpenTest = false;
     document.querySelector('tr.aca-test-row[aria-expanded="true"]')?.scrollIntoView({ block: 'center' });
   }
 }
 
-function showTab(tab) {
-  setState({ tab, sort: '', dir: '' });
+function getTargetTabPosition(key, current, count) {
+  const tabKeySteps = { ArrowRight: 1, ArrowLeft: -1 };
+  if (key in tabKeySteps) return (current + tabKeySteps[key] + count) % count;
+  if (key === 'Home') return 0;
+  if (key === 'End') return count - 1;
+  return null;
+}
+
+function handleTabKeydown(event, activateTab) {
+  const tabs = [...event.currentTarget.querySelectorAll('[role="tab"]')];
+  const current = tabs.indexOf(event.target.closest('[role="tab"]'));
+  const target = current < 0 ? null : getTargetTabPosition(event.key, current, tabs.length);
+  if (target === null) return;
+  event.preventDefault();
+  activateTab(tabs[target])?.focus({ preventScroll: true });
+}
+
+function showTab(tab, patch = {}) {
+  setState({ tab, sort: '', dir: '', failed: '', ...patch });
   return elements.tabs.querySelector(`[data-tab="${tab}"]`);
 }
 
@@ -84,6 +124,13 @@ function handlePanelClick(event) {
     void copyTestLink(copyButton);
     return;
   }
+  const openTestButton = event.target.closest('[data-open-test]');
+  if (openTestButton) {
+    expandGroupsOfTest(indexById.get(openTestButton.dataset.openTest));
+    ui.scrollToOpenTest = true;
+    setState({ tab: 'all', sort: '', dir: '', test: openTestButton.dataset.openTest });
+    return;
+  }
   const groupsButton = event.target.closest('[data-groups]');
   if (groupsButton) {
     expandAllGroups(groupsButton.dataset.groups === 'open');
@@ -111,6 +158,11 @@ function handlePanelClick(event) {
     elements.panel.querySelector(`th[data-sort="${header.dataset.sort}"] .aca-sort-button`)?.focus();
     return;
   }
+  const reasonRow = event.target.closest('tr.aca-reason-row');
+  if (reasonRow) {
+    toggleReason(reasonRow);
+    return;
+  }
   const row = event.target.closest('tr.aca-test-row');
   if (row) toggleRow(row);
   const groupRow = event.target.closest('tr.aca-group-row');
@@ -119,10 +171,11 @@ function handlePanelClick(event) {
 
 function handlePanelKeydown(event) {
   if (event.key !== 'Enter' && event.key !== ' ') return;
-  const row = event.target.closest('tr.aca-test-row, tr.aca-group-row');
+  const row = event.target.closest('tr.aca-test-row, tr.aca-group-row, tr.aca-reason-row');
   if (!row || event.target.closest('a, button')) return;
   event.preventDefault();
-  if (row.classList.contains('aca-group-row')) toggleGroup(row);
+  if (row.classList.contains('aca-reason-row')) toggleReason(row);
+  else if (row.classList.contains('aca-group-row')) toggleGroup(row);
   else toggleRow(row);
 }
 
@@ -131,19 +184,26 @@ function bindEvents() {
   elements.days.addEventListener('change', (event) => setState({ days: event.target.value }));
   elements.search.addEventListener('input', (event) => setState({ q: event.target.value }));
   elements.suite.addEventListener('change', (event) => setState({ suite: event.target.value }));
+  elements.hideEnvironment.addEventListener('change', (event) => setState({ env: event.target.checked ? '' : 'include' }));
   elements.reset.addEventListener('click', () => setState({ ...DEFAULTS, tab: state.tab }));
   elements.tabs.addEventListener('click', (event) => {
     const tab = event.target.closest('button')?.dataset.tab;
     if (tab) showTab(tab)?.focus({ preventScroll: true });
   });
+  elements.tabs.addEventListener('keydown', (event) => handleTabKeydown(event, (tab) => showTab(tab.dataset.tab)));
   elements.summary.addEventListener('click', (event) => {
-    const tab = event.target.closest('button[data-tab]')?.dataset.tab;
-    if (!tab) return;
-    const tabButton = showTab(tab);
+    const statButton = event.target.closest('button[data-tab]');
+    if (!statButton) return;
+    const tabButton = showTab(statButton.dataset.tab, statButton.dataset.failed ? { failed: statButton.dataset.failed } : {});
     tabButton?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     tabButton?.focus({ preventScroll: true });
   });
   elements.panel.addEventListener('click', handlePanelClick);
+  elements.panel.addEventListener('change', (event) => {
+    if (!event.target.matches('[data-only-failed]')) return;
+    setState({ failed: event.target.checked ? ONLY_FAILED_RUNS : '' });
+    elements.panel.querySelector('[data-only-failed]')?.focus();
+  });
   elements.panel.addEventListener(
     'toggle',
     (event) => {

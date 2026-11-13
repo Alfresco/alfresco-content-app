@@ -16,7 +16,9 @@ function renderMasthead() {
   elements.updated.innerHTML = `
     Updated <time datetime="${escapeHtml(metrics.generatedAt)}"${staleTitle}>${escapeHtml(updated)}</time>
     <br />
-    ${pluralize(metrics.days.length, 'day')} of history
+    <span title="${escapeHtml(`${pluralize(metrics.days.length, 'day')} collected`)}">
+      ${pluralize(metrics.days.filter((day) => day.runs.length).length, 'day')} with E2E runs
+    </span>
   `;
 }
 
@@ -35,18 +37,21 @@ function renderFilters(suites) {
   elements.days.value = String(days);
   elements.end.textContent = formatDate(state.end || lastDate, { year: 'numeric' });
   if (elements.search.value !== state.q) elements.search.value = state.q;
+  elements.hideEnvironment.checked = isHidingEnvironmentProblems();
+  elements.hideEnvironment.parentElement.title = ENVIRONMENT_HELP;
   elements.suite.innerHTML = `
     <option value="">All suites</option>
     ${suites.map(renderSuiteOption).join('')}
   `;
 }
 
-function renderStat({ tab, label, value, cls = '', title }) {
+function renderStat({ tab, failed = '', label, value, cls = '', title }) {
   return `
     <button
       type="button"
       class="aca-stat ${cls}"
       data-tab="${tab}"
+      data-failed="${failed}"
       title="${escapeHtml(title || `Show the ${label.toLowerCase()}`)}"
     >
       <div class="aca-value">${value}</div>
@@ -60,7 +65,7 @@ function renderSummary(data, dates) {
   const failedRuns = runs.filter(isFailedRun);
   const flakyCount = data.tests.filter(getTabFilter('flaky')).length;
   const recentlyFlakyCount = view.comparison ? view.comparison.recentlyFlakyIndexes.size : 0;
-  const slowest = data.tests.filter(getTabFilter('slowest')).reduce((top, test) => (!top || test.avg > top.avg ? test : top), null);
+  const slowest = data.timedTests.reduce((top, test) => (!top || test.avg > top.avg ? test : top), null);
   const recentlyFlakyText = recentlyFlakyCount ? `, ${numberFormat.format(recentlyFlakyCount)} recently flaky` : '';
   const stats = [
     {
@@ -81,17 +86,32 @@ function renderSummary(data, dates) {
     },
     { tab: 'runs', label: 'Workflow runs', value: numberFormat.format(runs.length) },
     {
-      tab: 'failed',
+      tab: 'runs',
+      failed: ONLY_FAILED_RUNS,
       label: 'Failed workflows',
       value: numberFormat.format(failedRuns.length),
       cls: failedRuns.length ? 'aca-is-failed' : ''
     }
   ];
   elements.summary.innerHTML = stats.map(renderStat).join('');
-  const missing = dates.length - data.days.length;
-  elements.daysNote.hidden = missing === 0;
-  elements.daysNote.textContent = `No data was collected for ${missing} of the ${pluralize(dates.length, 'day')} in this period.`;
+  const daysWithoutRuns = dates.length - data.days.filter((day) => day.runs.length).length;
+  elements.daysNote.hidden = daysWithoutRuns === 0;
+  elements.daysNote.textContent = `No E2E runs were collected for ${daysWithoutRuns} of the ${pluralize(dates.length, 'day')} in this period.`;
+  renderEnvironmentNote(data.environmentRuns);
   renderDataIssues(collectPeriodDataIssues(data, dates));
+}
+
+function renderEnvironmentNote(environmentRuns) {
+  elements.environmentNote.hidden = environmentRuns === 0;
+  elements.environmentNote.title = ENVIRONMENT_HELP;
+  const isSingle = environmentRuns === 1;
+  const was = isSingle ? 'was' : 'were';
+  const is = isSingle ? 'is' : 'are';
+  const them = isSingle ? 'it' : 'them';
+  const affected = `${pluralize(environmentRuns, 'test run')} ${was} affected by environment problems`;
+  elements.environmentNote.textContent = isHidingEnvironmentProblems()
+    ? `${affected} and ${is} not counted. Uncheck "Hide environment problems" to count ${them}.`
+    : `${affected} and ${is} counted.`;
 }
 
 function renderDataIssue(issue) {
@@ -119,22 +139,42 @@ function renderDataIssues(issues) {
   box.open = ui.dataIssuesOpen;
 }
 
+function renderTab(id, counts) {
+  const tabLabels = {
+    flaky: ['🔁', 'Flaky tests', 'flaky'],
+    slowest: ['🐢', 'Slowest tests', null],
+    all: ['', 'All tests', 'all'],
+    excluded: ['', 'Excluded tests', 'excluded'],
+    runs: ['', 'Workflow runs', 'runs'],
+    reasons: ['', 'Failure reasons', 'reasons']
+  };
+  const [icon, label, countKey] = tabLabels[id];
+  const count = countKey ? counts[countKey] : null;
+  const countBadge = count == null ? '' : ` <span class="aca-secondary">${numberFormat.format(count)}</span>`;
+  const selected = state.tab === id;
+  return `
+    <button
+      type="button"
+      role="tab"
+      id="tab-${id}"
+      data-tab="${id}"
+      aria-selected="${selected}"
+      aria-controls="panel"
+      tabindex="${selected ? 0 : -1}"
+    >
+      ${renderEmoji(icon)}${label}${countBadge}
+    </button>
+  `;
+}
+
 function renderTabs(counts) {
-  const tabs = [
-    ['flaky', '🔁', 'Flaky tests', counts.flaky],
-    ['slowest', '🐢', 'Slowest tests', null],
-    ['failed', '', 'Failed workflows', counts.failed],
-    ['all', '', 'All tests', counts.all],
-    ['runs', '', 'Workflow runs', counts.runs]
-  ];
-  elements.tabs.innerHTML = tabs
-    .map(([id, icon, label, count]) => {
-      const countBadge = count == null ? '' : ` <span class="aca-secondary">${numberFormat.format(count)}</span>`;
-      return `
-        <button type="button" role="tab" data-tab="${id}" aria-selected="${state.tab === id}">
-          ${renderEmoji(icon)}${label}${countBadge}
-        </button>
-      `;
-    })
-    .join('');
+  elements.tabs.innerHTML = TAB_GROUPS.map(
+    (group) => `
+      <div class="aca-tab-group" role="presentation">
+        <span class="aca-tab-group-label" aria-hidden="true">${escapeHtml(group.label)}</span>
+        <div class="aca-tab-group-tabs" role="presentation">${group.tabs.map((id) => renderTab(id, counts)).join('')}</div>
+      </div>
+    `
+  ).join('');
+  elements.panel.setAttribute('aria-labelledby', `tab-${state.tab}`);
 }

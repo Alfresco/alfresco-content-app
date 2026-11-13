@@ -408,13 +408,41 @@ button.aca-stat .aca-label {
 .aca-tabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
+  align-items: flex-end;
+  gap: 6px 0;
   margin-top: 32px;
   padding: 6px 6px 0;
   background: var(--band);
   border: 1px solid var(--rule);
   border-bottom: 0;
   border-radius: 6px 6px 0 0;
+}
+
+.aca-tab-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.aca-tab-group + .aca-tab-group {
+  margin-left: 12px;
+  padding-left: 12px;
+  border-left: 1px solid var(--rule);
+}
+
+.aca-tab-group-label {
+  padding: 0 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--secondary);
+}
+
+.aca-tab-group-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
 }
 
 .aca-tabs button {
@@ -447,8 +475,12 @@ button.aca-stat .aca-label {
   --accent: var(--duration);
 }
 
-.aca-tabs button[data-tab='failed'] {
+.aca-tabs button[data-tab='reasons'] {
   --accent: var(--failed);
+}
+
+.aca-tabs button[data-tab='excluded'] {
+  --accent: var(--guide);
 }
 
 .aca-tabs button[data-tab='all'] {
@@ -878,6 +910,10 @@ tr.aca-test-row[aria-expanded='true'] .aca-test-title {
   border-color: var(--failed);
 }
 
+.aca-dot-environment {
+  border-color: var(--kind-describe);
+}
+
 .aca-detail-head {
   display: flex;
   align-items: baseline;
@@ -919,4 +955,101 @@ a.aca-test-id {
 
 a.aca-test-id:hover {
   text-decoration: underline;
+}
+
+.aca-filters .aca-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--secondary);
+  cursor: pointer;
+}
+
+.aca-cause-environment {
+  color: var(--kind-describe);
+  font-weight: 600;
+}
+
+.aca-environment-badge {
+  display: block;
+  max-width: 220px;
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--kind-describe);
+}
+
+tr.aca-reason-row {
+  cursor: pointer;
+}
+
+tr.aca-reason-row:hover,
+tr.aca-reason-row[aria-expanded='true'] {
+  background: var(--sunken);
+}
+
+.aca-reason {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.aca-placeholder {
+  padding: 0 2px;
+  border-radius: 3px;
+  background: var(--band);
+  color: var(--secondary);
+}
+
+.aca-reason-list {
+  margin: 4px 0 16px;
+  padding-left: 20px;
+}
+
+.aca-reason-more summary {
+  cursor: pointer;
+  color: var(--link);
+}
+
+.aca-reason-list li {
+  margin: 4px 0;
+  overflow-wrap: anywhere;
+}
+
+.aca-legend .aca-legend-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 6px 0 0;
+  padding: 6px 10px;
+  border-left: 3px solid var(--link);
+  border-radius: 4px;
+  background: var(--sunken);
+  color: var(--ink);
+}
+
+.aca-info-icon {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--link);
+  color: var(--page);
+  font-size: 12px;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.aca-runs-tools {
+  margin: 0 0 12px;
+}
+
+.aca-runs-tools .aca-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  cursor: pointer;
 }

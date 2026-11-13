@@ -16,10 +16,6 @@ on:
         type: boolean
         default: false
 
-permissions:
-  actions: read
-  contents: read
-
 concurrency:
   group: e2e-metrics-report
   cancel-in-progress: false
@@ -28,6 +24,9 @@ jobs:
   collect:
     name: "Collect daily E2E metrics"
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
     outputs:
       date: ${{ steps.params.outputs.date }}
       post-report: ${{ steps.params.outputs.post-report }}
@@ -92,11 +91,61 @@ jobs:
       contents: read
       pages: write
       id-token: write
+    concurrency:
+      group: e2e-dashboard-publish-${{ github.ref_name }}
+      cancel-in-progress: false
     uses: ./.github/workflows/e2e-metrics-publish.yml
     with:
       end-date: ${{ needs.collect.outputs.date }}
       deploy-dashboard: ${{ github.ref_name == 'develop' }}
-      send-report: ${{ needs.collect.outputs.post-report == 'true' }}
+      send-report: false
       report-days: 7
-    secrets:
-      TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_E2E_WEBHOOK_URL }}
+
+  report:
+    name: "Send weekly report to Teams"
+    needs: [collect, publish]
+    if: ${{ always() && needs.collect.result == 'success' && needs.collect.outputs.post-report == 'true' }}
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Download daily metrics
+        uses: actions/download-artifact@v8
+        with:
+          name: e2e-metrics-daily-${{ needs.collect.outputs.date }}
+          path: e2e-metrics-daily
+
+      - name: Build report
+        env:
+          REPORT_END_DATE: ${{ needs.collect.outputs.date }}
+          REPORT_DAYS: 7
+          DAILY_DIR: e2e-metrics-daily
+          DASHBOARD_PUBLISHED: ${{ needs.publish.result == 'success' && github.ref_name == 'develop' }}
+          DASHBOARD_URL: ${{ needs.publish.outputs.dashboard-url }}
+          OUTPUT_DIR: e2e-metrics-weekly
+        run: node .github/scripts/e2e-metrics/weekly-report.js
+
+      - name: Upload report
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2e-metrics-weekly-${{ needs.collect.outputs.date }}
+          path: e2e-metrics-weekly
+          retention-days: 14
+          overwrite: true
+
+      - name: Post to Teams
+        env:
+          TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_E2E_WEBHOOK_URL }}
+          CARD_FILE: e2e-metrics-weekly/teams-card.json
+        run: node .github/scripts/e2e-metrics/post-teams.js

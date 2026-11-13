@@ -201,17 +201,6 @@ jobs:
           metrics-dir: ${{ inputs.collect-metrics && format('{0}/e2e-metrics', github.workspace) || '' }}
         env:
           PLAYWRIGHT_BROWSER: ${{ matrix.browser }}
-          E2E_BLOB_REPORT: 'true'
-          PLAYWRIGHT_BLOB_DIR: ${{ github.workspace }}/blob-report
-
-      - name: Upload blob report
-        if: always()
-        uses: actions/upload-artifact@v7
-        with:
-          name: blob-${{ matrix.browser }}-${{ matrix.e2e-suites.name }}
-          path: ${{ github.workspace }}/blob-report
-          if-no-files-found: ignore
-          retention-days: 3
 
       - name: Upload E2E metrics
         if: ${{ always() && inputs.collect-metrics }}

@@ -51,16 +51,21 @@ on:
     secrets:
       TEAMS_WEBHOOK_URL:
         required: false
+    outputs:
+      dashboard-url:
+        description: 'URL of the published dashboard (empty when it could not be resolved)'
+        value: ${{ jobs.build.outputs.dashboard-url }}
 
 jobs:
   build:
     name: "Build dashboard and report"
     runs-on: ubuntu-latest
+    outputs:
+      dashboard-url: ${{ steps.dashboard-url.outputs.url }}
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       SOURCE_BRANCH: ${{ inputs.source-branch }}
       REMOTE_DATA: ${{ inputs.source-branch == 'develop' }}
-      DASHBOARD_URL: ${{ vars.E2E_DASHBOARD_URL }}
       TEST_CASE_URL: ${{ vars.E2E_TEST_CASE_URL }}
     steps:
       - name: Checkout
@@ -70,6 +75,22 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version-file: '.nvmrc'
+
+      - name: Resolve dashboard URL
+        id: dashboard-url
+        env:
+          CONFIGURED_DASHBOARD_URL: ${{ vars.E2E_DASHBOARD_URL }}
+        run: |
+          dashboard_url="$CONFIGURED_DASHBOARD_URL"
+          if [ -z "$dashboard_url" ]; then
+            dashboard_url="$(gh api "repos/${GITHUB_REPOSITORY}/pages" --jq '.html_url' 2>/dev/null)" || dashboard_url=""
+          fi
+          if ! [[ "$dashboard_url" =~ ^https?://[^[:space:]]+$ ]]; then
+            dashboard_url=""
+          fi
+          echo "Dashboard URL: ${dashboard_url:-not found, using the default GitHub Pages URL}"
+          echo "DASHBOARD_URL=$dashboard_url" >> "$GITHUB_ENV"
+          echo "url=$dashboard_url" >> "$GITHUB_OUTPUT"
 
       - name: Resolve end date
         id: params
@@ -140,6 +161,16 @@ jobs:
           name: e2e-metrics-weekly-${{ steps.params.outputs.end-date }}
           path: e2e-metrics-weekly
           retention-days: 14
+          overwrite: true
+
+      - name: Upload published history
+        if: ${{ inputs.deploy-dashboard && inputs.source-branch == 'develop' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2e-dashboard-history
+          path: e2e-dashboard/data/history.json
+          if-no-files-found: error
+          retention-days: 90
           overwrite: true
 
       - name: Upload Pages artifact

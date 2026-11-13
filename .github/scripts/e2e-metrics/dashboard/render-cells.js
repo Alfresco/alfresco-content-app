@@ -66,9 +66,10 @@ function renderTestNameWithPath(test) {
 }
 
 function describeTrend(test) {
-  const counts = { passed: 0, retried: 0, failed: 0 };
+  const counts = { passed: 0, retried: 0, failed: 0, environment: 0 };
   test.daily.forEach((status, date) => view.dates.includes(date) && counts[status]++);
-  return `Days passed ${counts.passed}, needed a retry ${counts.retried}, failed ${counts.failed}`;
+  const environmentDays = counts.environment ? `, not counted ${counts.environment}` : '';
+  return `Days passed ${counts.passed}, needed a retry ${counts.retried}, failed ${counts.failed}${environmentDays}`;
 }
 
 function renderTrendDot(test, date) {

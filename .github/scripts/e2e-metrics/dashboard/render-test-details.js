@@ -37,7 +37,8 @@ function renderRunLink(result, test) {
 function renderAttempt([status, duration, error]) {
   const statusClass = status === 'passed' ? '' : 'aca-attempt-failed';
   const durationText = duration == null ? '' : ` ${formatDuration(duration)}`;
-  const errorBlock = error ? `<div class="aca-attempt-error">${escapeHtml(error)}</div>` : '';
+  const environmentBadge = isEnvironmentError(error) ? '<span class="aca-environment-badge">likely environment</span>' : '';
+  const errorBlock = error ? `<div class="aca-attempt-error">${environmentBadge}${escapeHtml(error)}</div>` : '';
   return `
     <div class="aca-attempt">
       <span class="${statusClass}">${ATTEMPT_LABELS[status] || status}${durationText}</span>
@@ -66,6 +67,16 @@ function getRunResultLabel(result, test) {
   return OUTCOME_LABELS[result.outcome] || [result.outcome, ''];
 }
 
+function renderResultEnvironmentNote(result) {
+  if (!result.environment) return '';
+  const counted = isHidingEnvironmentProblems() ? 'not counted' : 'counted';
+  return `
+    <div class="aca-environment-badge" title="${escapeHtml(ENVIRONMENT_HELP)}">
+      Environment: ${escapeHtml(ENVIRONMENT_REASON_LABELS[result.environment] || result.environment)}, ${counted}
+    </div>
+  `;
+}
+
 function renderRunResultRow(result, test) {
   const [label, labelClass] = getRunResultLabel(result, test);
   const duration = result.duration == null ? '<span class="aca-secondary">–</span>' : formatDuration(result.duration);
@@ -74,7 +85,7 @@ function renderRunResultRow(result, test) {
     <tr>
       <td>${formatDate(result.date)}</td>
       <td>${renderRunLink(result, test)}</td>
-      <td><span class="${labelClass}">${label}</span></td>
+      <td><span class="${labelClass}">${label}</span>${renderResultEnvironmentNote(result)}</td>
       <td class="aca-num">${result.retries || '<span class="aca-secondary">0</span>'}</td>
       <td class="aca-attempts">${renderAttemptList(result)}</td>
       <td class="aca-num">${duration}</td>
