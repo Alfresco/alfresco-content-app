@@ -23,12 +23,12 @@
  */
 
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { of, throwError } from 'rxjs';
 import { SaveSearchDialogComponent } from './save-search-dialog.component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { AppTestingModule } from '../../../../testing/app-testing.module';
-import { NoopTranslateModule, NotificationService } from '@alfresco/adf-core';
+import { NoopTranslateModule, NotificationService, UnitTestingUtils } from '@alfresco/adf-core';
 import { SavedSearchesContextService } from '../../../../services/saved-searches-context.service';
 
 describe('SaveSearchDialogComponent', () => {
@@ -37,6 +37,7 @@ describe('SaveSearchDialogComponent', () => {
   let notificationService: NotificationService;
   let savedSearchesService: SavedSearchesContextService;
   let submitButton: HTMLButtonElement;
+  let testingUtils: UnitTestingUtils;
 
   const dialogRef = {
     close: jasmine.createSpy('close')
@@ -57,12 +58,19 @@ describe('SaveSearchDialogComponent', () => {
     component = fixture.componentInstance;
     notificationService = TestBed.inject(NotificationService);
     savedSearchesService = TestBed.inject(SavedSearchesContextService);
+    testingUtils = new UnitTestingUtils(fixture.debugElement);
 
     submitButton = fixture.nativeElement.querySelector('#aca-save-search-dialog-save-button');
   });
 
   afterEach(() => {
     fixture.destroy();
+  });
+
+  it('should have the title inside mat dialog title', () => {
+    fixture.detectChanges();
+    const title = testingUtils.getByDirective(MatDialogTitle);
+    expect(title.nativeElement.textContent.trim()).toBe('APP.BROWSE.SEARCH.SAVE_SEARCH.MODAL_HEADER');
   });
 
   it('should disable submit button if form is invalid', () => {

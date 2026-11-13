@@ -100,7 +100,9 @@ export class NodeTemplateService {
             .open(ContentNodeSelectorComponent, {
               data,
               panelClass: ['adf-content-node-selector-dialog', 'aca-template-node-selector-dialog'],
-              width: '630px'
+              width: '630px',
+              restoreFocus: true,
+              role: 'dialog'
             })
             .afterClosed();
         }),
@@ -115,13 +117,13 @@ export class NodeTemplateService {
   }
 
   createTemplateDialog(node: Node): MatDialogRef<CreateFromTemplateDialogComponent> {
-    const dialog = this.dialog.open(CreateFromTemplateDialogComponent, {
+    return this.dialog.open(CreateFromTemplateDialogComponent, {
       data: node,
       panelClass: 'aca-create-from-template-dialog',
-      width: '630px'
+      width: '630px',
+      role: 'dialog',
+      restoreFocus: true
     });
-    dialog.afterClosed().subscribe(() => this.focusCreateMenuButton());
-    return dialog;
   }
 
   private transformNode(node: Node): Node {
@@ -145,7 +147,6 @@ export class NodeTemplateService {
 
   private close() {
     this.dialog.closeAll();
-    this.focusCreateMenuButton();
   }
 
   private title(selectionType: string) {
@@ -163,9 +164,5 @@ export class NodeTemplateService {
 
   private getPathElements(node: Node): PathElement[] {
     return node.path.elements.filter((pathElement) => !this.rootNode.path.elements.some((rootPathElement) => pathElement.id === rootPathElement.id));
-  }
-
-  private focusCreateMenuButton(): void {
-    document.querySelector<HTMLElement>('app-toolbar-menu button[id="app.toolbar.create"]').focus();
   }
 }

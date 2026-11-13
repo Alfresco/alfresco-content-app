@@ -28,16 +28,19 @@ import { AppTestingModule } from '../testing/app-testing.module';
 import { Store } from '@ngrx/store';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { NodeTemplateService } from './node-template.service';
-import { ResultSetPaging } from '@alfresco/js-api';
+import { Node, ResultSetPaging } from '@alfresco/js-api';
 import { NotificationService } from '@alfresco/adf-core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { provideEffects } from '@ngrx/effects';
+import { ContentNodeSelectorComponent } from '@alfresco/adf-content-services';
+import { CreateFromTemplateDialogComponent } from '../dialogs/node-template/create-from-template.dialog';
 
 describe('NodeTemplateService', () => {
   let dialog: MatDialog;
   let store: Store<any>;
   let nodeTemplateService: NodeTemplateService;
   let showErrorSpy: jasmine.Spy;
+  let mockNode: Node;
 
   const fileTemplateConfig = {
     primaryPathName: 'parent-file-templates',
@@ -61,6 +64,22 @@ describe('NodeTemplateService', () => {
 
     const notificationService = TestBed.inject(NotificationService);
     showErrorSpy = spyOn(notificationService, 'showError');
+
+    mockNode = {
+      name: 'node-name',
+      id: 'node-id',
+      nodeType: 'cm:content',
+      isFolder: false,
+      isFile: true,
+      modifiedAt: null,
+      modifiedByUser: null,
+      createdAt: null,
+      createdByUser: null,
+      properties: {
+        'cm:title': 'title',
+        'cm:description': 'description'
+      }
+    };
   });
 
   it('should open dialog with parent node `id` as data property', fakeAsync(() => {
@@ -75,6 +94,37 @@ describe('NodeTemplateService', () => {
     tick();
 
     expect(dialog.open['calls'].argsFor(0)[1].data).toEqual(jasmine.objectContaining({ currentFolderId: 'parent-node-id' }));
+  }));
+
+  it('should open selectTemplateDialog with correct parameters', fakeAsync(() => {
+    spyOn(nodeTemplateService.searchApi, 'search').and.resolveTo({
+      list: { entries: [{ entry: { id: 'parent-node-id' } }] }
+    } as ResultSetPaging);
+    spyOn(dialog, 'open');
+    nodeTemplateService.selectTemplateDialog(fileTemplateConfig);
+    tick();
+
+    expect(dialog.open).toHaveBeenCalledWith(ContentNodeSelectorComponent, {
+      data: jasmine.objectContaining({ currentFolderId: 'parent-node-id', selectionMode: 'single' }),
+      panelClass: ['adf-content-node-selector-dialog', 'aca-template-node-selector-dialog'],
+      width: '630px',
+      restoreFocus: true,
+      role: 'dialog'
+    });
+  }));
+
+  it('should open createTemplateDialog with correct parameters', fakeAsync(() => {
+    spyOn(dialog, 'open');
+    nodeTemplateService.createTemplateDialog(mockNode);
+    tick();
+
+    expect(dialog.open).toHaveBeenCalledWith(CreateFromTemplateDialogComponent, {
+      data: mockNode,
+      panelClass: 'aca-create-from-template-dialog',
+      width: '630px',
+      role: 'dialog',
+      restoreFocus: true
+    });
   }));
 
   it('should remove parents path for templates breadcrumb', fakeAsync(() => {

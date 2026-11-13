@@ -23,11 +23,11 @@
  */
 
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { of, throwError } from 'rxjs';
 import { SavedSearchDeleteDialogComponent } from './saved-search-delete-dialog.component';
 import { SavedSearch } from '@alfresco/adf-content-services';
-import { NotificationService } from '@alfresco/adf-core';
+import { UnitTestingUtils, NotificationService } from '@alfresco/adf-core';
 import { AppTestingModule } from '../../../../../testing/app-testing.module';
 import { SavedSearchesContextService } from '../../../../../services/saved-searches-context.service';
 
@@ -37,6 +37,7 @@ describe('SaveSearchDeleteDialogComponent', () => {
   let savedSearchesService: SavedSearchesContextService;
   let submitButton: HTMLButtonElement;
   let cancelButton: HTMLButtonElement;
+  let testingUtils: UnitTestingUtils;
 
   const savedSearchToDelete: SavedSearch = {
     name: 'test',
@@ -62,6 +63,7 @@ describe('SaveSearchDeleteDialogComponent', () => {
     fixture = TestBed.createComponent(SavedSearchDeleteDialogComponent);
     savedSearchesService = TestBed.inject(SavedSearchesContextService);
     notificationService = TestBed.inject(NotificationService);
+    testingUtils = new UnitTestingUtils(fixture.debugElement);
 
     submitButton = fixture.nativeElement.querySelector('#aca-save-search-delete-dialog-submit-button');
     cancelButton = fixture.nativeElement.querySelector('#aca-save-search-delete-dialog-cancel-button');
@@ -69,6 +71,12 @@ describe('SaveSearchDeleteDialogComponent', () => {
 
   afterEach(() => {
     fixture.destroy();
+  });
+
+  it('should have the title inside mat dialog title', () => {
+    fixture.detectChanges();
+    const title = testingUtils.getByDirective(MatDialogTitle);
+    expect(title.nativeElement.textContent.trim()).toBe('APP.BROWSE.SEARCH.SAVE_SEARCH.DELETE_DIALOG.TITLE');
   });
 
   it('should not delete and close dialog window if cancel button clicked', () => {
