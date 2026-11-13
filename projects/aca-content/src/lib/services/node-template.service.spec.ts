@@ -32,6 +32,8 @@ import { Node, ResultSetPaging } from '@alfresco/js-api';
 import { NotificationService } from '@alfresco/adf-core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { provideEffects } from '@ngrx/effects';
+import { ContentNodeSelectorComponent } from '@alfresco/adf-content-services';
+import { CreateFromTemplateDialogComponent } from '../dialogs/node-template/create-from-template.dialog';
 
 describe('NodeTemplateService', () => {
   let dialog: MatDialog;
@@ -102,7 +104,7 @@ describe('NodeTemplateService', () => {
     nodeTemplateService.selectTemplateDialog(fileTemplateConfig);
     tick();
 
-    expect(dialog.open['calls'].argsFor(0)[1]).toEqual({
+    expect(dialog.open).toHaveBeenCalledWith(ContentNodeSelectorComponent, {
       data: jasmine.objectContaining({ currentFolderId: 'parent-node-id', selectionMode: 'single' }),
       panelClass: ['adf-content-node-selector-dialog', 'aca-template-node-selector-dialog'],
       width: '630px',
@@ -116,7 +118,7 @@ describe('NodeTemplateService', () => {
     nodeTemplateService.createTemplateDialog(mockNode);
     tick();
 
-    expect(dialog.open['calls'].argsFor(0)[1]).toEqual({
+    expect(dialog.open).toHaveBeenCalledWith(CreateFromTemplateDialogComponent, {
       data: mockNode,
       panelClass: 'aca-create-from-template-dialog',
       width: '630px',
