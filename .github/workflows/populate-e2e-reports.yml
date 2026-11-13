@@ -53,9 +53,6 @@ jobs:
       contents: read
       pages: write
       id-token: write
-    concurrency:
-      group: e2e-dashboard-publish-${{ github.ref_name }}
-      cancel-in-progress: false
     uses: ./.github/workflows/e2e-metrics-publish.yml
     with:
       collect-today: true
