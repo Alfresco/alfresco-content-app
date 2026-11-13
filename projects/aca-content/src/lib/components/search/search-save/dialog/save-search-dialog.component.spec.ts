@@ -23,7 +23,7 @@
  */
 
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { of, throwError } from 'rxjs';
 import { SaveSearchDialogComponent } from './save-search-dialog.component';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -69,7 +69,7 @@ describe('SaveSearchDialogComponent', () => {
 
   it('should have the title inside mat dialog title', () => {
     fixture.detectChanges();
-    const title = testingUtils.getByCSS('[mat-dialog-title]');
+    const title = testingUtils.getByDirective(MatDialogTitle);
     expect(title.nativeElement.textContent.trim()).toBe('APP.BROWSE.SEARCH.SAVE_SEARCH.MODAL_HEADER');
   });
 

@@ -23,7 +23,7 @@
  */
 
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { of, throwError } from 'rxjs';
 import { SavedSearchEditDialogComponent } from './saved-search-edit-dialog.component';
 import { SavedSearch } from '@alfresco/adf-content-services';
@@ -76,7 +76,7 @@ describe('SaveSearchEditDialogComponent', () => {
 
   it('should have the title inside mat dialog title', () => {
     fixture.detectChanges();
-    const title = testingUtils.getByCSS('[mat-dialog-title]');
+    const title = testingUtils.getByDirective(MatDialogTitle);
     expect(title.nativeElement.textContent.trim()).toBe('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.TITLE');
   });
 

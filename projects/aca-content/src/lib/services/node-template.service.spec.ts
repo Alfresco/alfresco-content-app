@@ -38,7 +38,7 @@ describe('NodeTemplateService', () => {
   let store: Store<any>;
   let nodeTemplateService: NodeTemplateService;
   let showErrorSpy: jasmine.Spy;
-  let node: Node;
+  let mockNode: Node;
 
   const fileTemplateConfig = {
     primaryPathName: 'parent-file-templates',
@@ -63,7 +63,7 @@ describe('NodeTemplateService', () => {
     const notificationService = TestBed.inject(NotificationService);
     showErrorSpy = spyOn(notificationService, 'showError');
 
-    node = {
+    mockNode = {
       name: 'node-name',
       id: 'node-id',
       nodeType: 'cm:content',
@@ -94,7 +94,7 @@ describe('NodeTemplateService', () => {
     expect(dialog.open['calls'].argsFor(0)[1].data).toEqual(jasmine.objectContaining({ currentFolderId: 'parent-node-id' }));
   }));
 
-  it('should open selectTemplateDialog with role set to dialog and restoreFocus set to true', fakeAsync(() => {
+  it('should open selectTemplateDialog with correct parameters', fakeAsync(() => {
     spyOn(nodeTemplateService.searchApi, 'search').and.resolveTo({
       list: { entries: [{ entry: { id: 'parent-node-id' } }] }
     } as ResultSetPaging);
@@ -102,15 +102,27 @@ describe('NodeTemplateService', () => {
     nodeTemplateService.selectTemplateDialog(fileTemplateConfig);
     tick();
 
-    expect(dialog.open['calls'].argsFor(0)[1]).toEqual(jasmine.objectContaining({ role: 'dialog', restoreFocus: true }));
+    expect(dialog.open['calls'].argsFor(0)[1]).toEqual({
+      data: jasmine.objectContaining({ currentFolderId: 'parent-node-id', selectionMode: 'single' }),
+      panelClass: ['adf-content-node-selector-dialog', 'aca-template-node-selector-dialog'],
+      width: '630px',
+      restoreFocus: true,
+      role: 'dialog'
+    });
   }));
 
-  it('should open createTemplateDialog with role set to dialog and restoreFocus set to true', fakeAsync(() => {
+  it('should open createTemplateDialog with correct parameters', fakeAsync(() => {
     spyOn(dialog, 'open');
-    nodeTemplateService.createTemplateDialog(node);
+    nodeTemplateService.createTemplateDialog(mockNode);
     tick();
 
-    expect(dialog.open['calls'].argsFor(0)[1]).toEqual(jasmine.objectContaining({ role: 'dialog', restoreFocus: true }));
+    expect(dialog.open['calls'].argsFor(0)[1]).toEqual({
+      data: mockNode,
+      panelClass: 'aca-create-from-template-dialog',
+      width: '630px',
+      role: 'dialog',
+      restoreFocus: true
+    });
   }));
 
   it('should remove parents path for templates breadcrumb', fakeAsync(() => {
