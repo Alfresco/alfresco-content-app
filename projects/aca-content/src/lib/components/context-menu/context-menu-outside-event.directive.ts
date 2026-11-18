@@ -49,7 +49,7 @@ export class OutsideEventDirective implements OnInit {
       .subscribe(() => this.clickOutside.next());
   }
 
-  @HostListener('document:keydown.escape', ['$event'])
+  @HostListener('document:keydown.escape')
   onEscapeKeydown() {
     document.querySelector<HTMLElement>(this.focusTargetSelector)?.focus();
   }

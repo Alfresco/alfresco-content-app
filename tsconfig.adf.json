@@ -55,7 +55,6 @@
     "preserveWhitespaces": false,
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
-    "typeCheckHostBindings": false,
     "strictTemplates": true
   }
 }

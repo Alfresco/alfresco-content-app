@@ -138,14 +138,15 @@ export class DocumentListDirective implements OnInit {
       });
   }
 
-  @HostListener('sorting-changed', ['$event'])
-  onSortingChanged(event: CustomEvent<SortingChangedEventDetail>) {
+  @HostListener('sorting-changed', ['$event as CustomEvent<SortingChangedEventDetail>'])
+  onSortingChanged(event: any) {
+    const sortingEvent = event as CustomEvent<SortingChangedEventDetail>;
     if (this.sortingPreferenceKey) {
       if (this.documentList.sortingMode === 'client') {
         this.storePreviousSorting();
-        this.persistSorting(event.detail);
+        this.persistSorting(sortingEvent.detail);
       } else {
-        this.pendingSorting = event.detail;
+        this.pendingSorting = sortingEvent.detail;
       }
     }
   }
