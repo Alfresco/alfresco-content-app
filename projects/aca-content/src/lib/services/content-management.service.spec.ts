@@ -851,6 +851,30 @@ describe('ContentManagementService', () => {
       });
     });
 
+    it('should raise conflict message when deleting a folder that contains a file being edited returns 409', (done) => {
+      spyOn(translationService, 'instant').and.callFake((key) => key);
+      spyOn(contentApi, 'deleteNode').and.returnValue(throwError(() => new Error(JSON.stringify({ error: { statusCode: 409 } }))));
+      const selection = [{ entry: { id: '1', name: 'folder1', isFolder: true } }] as NodeEntry[];
+
+      store.dispatch(new DeleteNodesAction(selection));
+      setTimeout(() => {
+        expect(showErrorSpy).toHaveBeenCalledWith('APP.MESSAGES.ERRORS.NODE_DELETION_CONFLICT_FOLDER');
+        done();
+      });
+    });
+
+    it('should raise conflict message when deleting a file being edited returns 409', (done) => {
+      spyOn(translationService, 'instant').and.callFake((key) => key);
+      spyOn(contentApi, 'deleteNode').and.returnValue(throwError(() => new Error(JSON.stringify({ error: { statusCode: 409 } }))));
+      const selection = [{ entry: { id: '1', name: 'file1', isFolder: false } }] as NodeEntry[];
+
+      store.dispatch(new DeleteNodesAction(selection));
+      setTimeout(() => {
+        expect(showErrorSpy).toHaveBeenCalledWith('APP.MESSAGES.ERRORS.NODE_DELETION_CONFLICT_FILE');
+        done();
+      });
+    });
+
     it('should raise info message on successful multiple files deletion', () => {
       spyOn(contentApi, 'deleteNode').and.returnValue(of(null));
       const selection: any[] = [{ entry: { id: '1', name: 'name1' } }, { entry: { id: '2', name: 'name2' } }];
