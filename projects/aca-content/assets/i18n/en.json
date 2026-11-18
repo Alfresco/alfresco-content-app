@@ -382,6 +382,8 @@
               "EXISTENT_FOLDER": "There's already a folder with this name. Try a different name.",
               "NODE_DELETION": "{{ name }} couldn't be deleted",
               "NODE_DELETION_PLURAL": "{{ number }} items couldn't be deleted",
+              "NODE_DELETION_CONFLICT_FOLDER": "This folder cannot be deleted because it contains a file being edited. Upload the edited file, or cancel editing, and then delete the folder",
+              "NODE_DELETION_CONFLICT_FILE": "This file cannot be deleted because it is being edited. Upload the edited file, or cancel editing, and then delete the file",
               "NODE_RESTORE": "{{ name }} couldn't be restored",
               "NODE_RESTORE_PLURAL": "{{ number }} items couldn't be restored",
               "PERMISSION": "You don't have access to do this",

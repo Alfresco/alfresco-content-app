@@ -1131,7 +1131,7 @@ export class ContentManagementService {
   }
 
   private deleteNode(node: any): Observable<DeletedNodeInfo> {
-    const { name } = node.entry;
+    const { name, isFolder } = node.entry;
     const id = node.entry.nodeId || node.entry.id;
 
     return this.contentApi.deleteNode(id).pipe(
@@ -1140,14 +1140,28 @@ export class ContentManagementService {
         name,
         status: 1
       })),
-      catchError(() =>
+      catchError((error) =>
         of({
           id,
           name,
-          status: 0
+          status: 0,
+          isFolder: !!isFolder,
+          statusCode: this.getErrorStatusCode(error)
         })
       )
     );
+  }
+
+  private getErrorStatusCode(error: { status?: number; message?: string } | null): number | undefined {
+    if (error?.status) {
+      return error.status;
+    }
+
+    try {
+      return JSON.parse(error?.message ?? '')?.error?.statusCode;
+    } catch {
+      return undefined;
+    }
   }
 
   private getDeleteMessageData(status: DeleteStatus): SnackbarMessageData | null {
@@ -1180,6 +1194,14 @@ export class ContentManagementService {
         key: 'APP.MESSAGES.INFO.NODE_DELETION.PARTIAL_SINGULAR',
         params: { success: status.success.length, failed: status.fail.length },
         type: 'warning'
+      };
+    }
+
+    if (status.oneFailed && !status.someSucceeded && status.fail[0].statusCode === 409) {
+      return {
+        key: status.fail[0].isFolder ? 'APP.MESSAGES.ERRORS.NODE_DELETION_CONFLICT_FOLDER' : 'APP.MESSAGES.ERRORS.NODE_DELETION_CONFLICT_FILE',
+        params: {},
+        type: 'error'
       };
     }
 
