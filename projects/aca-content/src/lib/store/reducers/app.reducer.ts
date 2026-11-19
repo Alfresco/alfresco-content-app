@@ -103,9 +103,7 @@ function updateUser(state: AppState, action: SetUserProfileAction): AppState {
 }
 
 function updateCurrentFolder(state: AppState, action: SetCurrentFolderAction) {
-  const newState = { ...state };
-  newState.navigation.currentFolder = action.payload;
-  return newState;
+  return { ...state, navigation: { ...state.navigation, currentFolder: action.payload } };
 }
 
 function updateCurrentNodeVersion(state: AppState, action: SetCurrentNodeVersionAction) {
@@ -115,9 +113,7 @@ function updateCurrentNodeVersion(state: AppState, action: SetCurrentNodeVersion
 }
 
 function updateCurrentUrl(state: AppState, action: SetCurrentUrlAction) {
-  const newState = { ...state };
-  newState.navigation.url = action.payload;
-  return newState;
+  return { ...state, navigation: { ...state.navigation, url: action.payload } };
 }
 
 function toggleInfoDrawer(state: AppState) {
