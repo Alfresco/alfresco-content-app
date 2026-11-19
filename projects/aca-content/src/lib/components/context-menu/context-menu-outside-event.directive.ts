@@ -50,7 +50,7 @@ export class OutsideEventDirective implements OnInit {
   }
 
   @HostListener('document:keydown.escape')
-  onEscapeKeydown() {
+  onEscapeKeydown(): void {
     document.querySelector<HTMLElement>(this.focusTargetSelector)?.focus();
   }
 

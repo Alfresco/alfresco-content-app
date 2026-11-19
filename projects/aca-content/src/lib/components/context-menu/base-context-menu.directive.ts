@@ -42,7 +42,7 @@ export class BaseContextMenuDirective {
   trigger: MatMenuTrigger;
 
   @HostListener('keydown.escape', ['$event'])
-  handleKeydownEscape(event: Event) {
+  handleKeydownEscape(event: Event): void {
     if (event && this.contextMenuOverlayRef) {
       this.contextMenuOverlayRef.close();
     }

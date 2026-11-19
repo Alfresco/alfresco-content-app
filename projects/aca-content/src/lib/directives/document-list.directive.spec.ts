@@ -56,7 +56,14 @@ describe('DocumentListDirective', () => {
     error: new Subject<HttpErrorResponse>(),
     setColumnsWidths: {},
     setColumnsVisibility: {},
-    setColumnsOrder: {}
+    setColumnsOrder: {},
+    columnsWidthChanged: new Subject<{
+      [columnId: string]: number;
+    }>(),
+    columnsVisibilityChanged: new Subject<{
+      [columnId: string]: boolean;
+    }>(),
+    columnsOrderChanged: new Subject<string[]>()
   };
 
   const storeMock: any = {
@@ -232,30 +239,40 @@ describe('DocumentListDirective', () => {
   });
 
   it('should set user preferences for columns visibility`', () => {
-    const event = new CustomEvent('columnsVisibilityChanged', { detail: { 'app.tags': true, 'app.name': false } });
+    const columnsVisibilityByIds: {
+      [columnId: string]: boolean;
+    } = {
+      'app.tags': true,
+      'app.name': false
+    };
     mockRoute.snapshot.data.sortingPreferenceKey = preferenceKey;
     documentListDirective.ngOnInit();
-    documentListDirective.onColumnsVisibilityChange(event);
 
-    expect(userPreferencesServiceMock.set).toHaveBeenCalledWith('files.columns.visibility', JSON.stringify(event));
+    documentListMock.columnsVisibilityChanged.next(columnsVisibilityByIds);
+    expect(userPreferencesServiceMock.set).toHaveBeenCalledWith('files.columns.visibility', JSON.stringify(columnsVisibilityByIds));
   });
 
   it('should set user preferences for columns order`', () => {
-    const event = new CustomEvent('columnsOrderChanged', { detail: ['app.tags', 'app.name'] });
+    const columns = ['app.tags', 'app.name'];
     mockRoute.snapshot.data.sortingPreferenceKey = preferenceKey;
     documentListDirective.ngOnInit();
-    documentListDirective.onColumnOrderChanged(event);
 
-    expect(userPreferencesServiceMock.set).toHaveBeenCalledWith('files.columns.order', JSON.stringify(event));
+    documentListMock.columnsOrderChanged.next(columns);
+    expect(userPreferencesServiceMock.set).toHaveBeenCalledWith('files.columns.order', JSON.stringify(columns));
   });
 
   it('should set user preferences for columns width`', () => {
-    const event = new CustomEvent('columnsWidthChanged', { detail: { 'app.tags': 65, 'app.name': 75 } });
+    const columnsWidthByIds: {
+      [columnId: string]: number;
+    } = {
+      'app.tags': 65,
+      'app.name': 75
+    };
     mockRoute.snapshot.data.sortingPreferenceKey = preferenceKey;
     documentListDirective.ngOnInit();
-    documentListDirective.onColumnsWidthChanged(event);
 
-    expect(userPreferencesServiceMock.set).toHaveBeenCalledWith('files.columns.width', JSON.stringify(event));
+    documentListMock.columnsWidthChanged.next(columnsWidthByIds);
+    expect(userPreferencesServiceMock.set).toHaveBeenCalledWith('files.columns.width', JSON.stringify(columnsWidthByIds));
   });
 
   it('should set document list properties from user preferences`', () => {
