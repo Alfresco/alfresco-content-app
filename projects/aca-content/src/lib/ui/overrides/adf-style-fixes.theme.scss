@@ -481,6 +481,10 @@
         inactive-focus-label-text-color: var(--adf-theme-foreground-text-color-064)
       )
     );
+
+    div[role='tab']:focus-visible {
+      --mat-sys-primary: var(--theme-primary-color);
+    }
   }
 
   adf-login .adf-login-content .adf-ie11FixerParent .adf-ie11FixerChild mat-card.adf-login-card-wide {
