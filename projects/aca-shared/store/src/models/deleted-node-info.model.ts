@@ -26,4 +26,6 @@ export interface DeletedNodeInfo {
   id: string;
   name: string;
   status: number;
+  isFolder?: boolean;
+  statusCode?: number;
 }
