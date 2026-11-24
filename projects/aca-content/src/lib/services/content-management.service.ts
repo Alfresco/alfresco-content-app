@@ -57,6 +57,7 @@ import { Store } from '@ngrx/store';
 import { forkJoin, Observable, of, zip, EMPTY } from 'rxjs';
 import { catchError, map, mergeMap, take, tap } from 'rxjs/operators';
 import { LinkOperationResult, NodeActionsService } from './node-actions.service';
+import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NodeInformationComponent } from '../dialogs/node-details/node-information.component';
 
@@ -1131,7 +1132,7 @@ export class ContentManagementService {
   }
 
   private deleteNode(node: any): Observable<DeletedNodeInfo> {
-    const { name } = node.entry;
+    const { name, isFolder } = node.entry;
     const id = node.entry.nodeId || node.entry.id;
 
     return this.contentApi.deleteNode(id).pipe(
@@ -1140,18 +1141,36 @@ export class ContentManagementService {
         name,
         status: 1
       })),
-      catchError(() =>
+      catchError((error) =>
         of({
           id,
           name,
-          status: 0
+          status: 0,
+          isFolder: !!isFolder,
+          statusCode: this.getErrorStatusCode(error)
         })
       )
     );
   }
 
+  private getErrorStatusCode(error: HttpErrorResponse | null): number | undefined {
+    if (error?.status) {
+      return error.status;
+    }
+
+    try {
+      return JSON.parse(error?.message ?? '')?.error?.statusCode;
+    } catch {
+      return undefined;
+    }
+  }
+
   private getDeleteMessageData(status: DeleteStatus): SnackbarMessageData | null {
-    if (status.allFailed && !status.oneFailed) {
+    if (status.oneFailed && !status.someSucceeded) {
+      return this.getSingleFailureMessageData(status.fail[0]);
+    }
+
+    if (status.allFailed) {
       return {
         key: 'APP.MESSAGES.ERRORS.NODE_DELETION_PLURAL',
         params: { number: status.fail.length },
@@ -1183,14 +1202,6 @@ export class ContentManagementService {
       };
     }
 
-    if (status.oneFailed && !status.someSucceeded) {
-      return {
-        key: 'APP.MESSAGES.ERRORS.NODE_DELETION',
-        params: { name: status.fail[0].name },
-        type: 'error'
-      };
-    }
-
     if (status.oneSucceeded && !status.someFailed) {
       return {
         key: 'APP.MESSAGES.INFO.NODE_DELETION.SINGULAR',
@@ -1200,6 +1211,22 @@ export class ContentManagementService {
     }
 
     return null;
+  }
+
+  private getSingleFailureMessageData(failed: DeletedNodeInfo): SnackbarMessageData {
+    if (failed.statusCode === 409) {
+      return {
+        key: failed.isFolder ? 'APP.MESSAGES.ERRORS.NODE_DELETION_CONFLICT_FOLDER' : 'APP.MESSAGES.ERRORS.NODE_DELETION_CONFLICT_FILE',
+        params: {},
+        type: 'error'
+      };
+    }
+
+    return {
+      key: 'APP.MESSAGES.ERRORS.NODE_DELETION',
+      params: { name: failed.name },
+      type: 'error'
+    };
   }
 
   private showMoveMessage(nodes: Array<NodeEntry>, info: any, moveResponse?: any) {
