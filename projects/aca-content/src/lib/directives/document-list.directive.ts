@@ -69,6 +69,13 @@ export class DocumentListDirective implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
   ngOnInit() {
+    this.documentList.columnsWidthChanged
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((columnsWidthByIds) => this.onColumnsWidthChanged(columnsWidthByIds));
+    this.documentList.columnsVisibilityChanged
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((columnsVisibilityByIds) => this.onColumnsVisibilityChange(columnsVisibilityByIds));
+    this.documentList.columnsOrderChanged.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((columns) => this.onColumnOrderChanged(columns));
     this.documentList.stickyHeader = true;
     this.documentList.includeFields = this.documentList.currentFolderId === '-recent-' ? SEARCH_INCLUDE_FIELDS : INCLUDE_FIELDS;
 
@@ -139,43 +146,27 @@ export class DocumentListDirective implements OnInit {
   }
 
   @HostListener('sorting-changed', ['$event'])
-  onSortingChanged(event: CustomEvent<SortingChangedEventDetail>) {
+  onSortingChanged(event: Event): void {
+    const { detail } = event as CustomEvent<SortingChangedEventDetail>;
     if (this.sortingPreferenceKey) {
       if (this.documentList.sortingMode === 'client') {
         this.storePreviousSorting();
-        this.persistSorting(event.detail);
+        this.persistSorting(detail);
       } else {
-        this.pendingSorting = event.detail;
+        this.pendingSorting = detail;
       }
     }
   }
 
-  @HostListener('columnsWidthChanged', ['$event'])
-  onColumnsWidthChanged(event: CustomEvent) {
-    if (this.sortingPreferenceKey) {
-      this.preferences.set(`${this.sortingPreferenceKey}.columns.width`, JSON.stringify(event));
-    }
-  }
-
-  @HostListener('columnsVisibilityChanged', ['$event'])
-  onColumnsVisibilityChange(event: CustomEvent) {
-    if (this.sortingPreferenceKey) {
-      this.preferences.set(`${this.sortingPreferenceKey}.columns.visibility`, JSON.stringify(event));
-    }
-  }
-
-  @HostListener('columnsOrderChanged', ['$event'])
-  onColumnOrderChanged(event: CustomEvent) {
-    if (this.sortingPreferenceKey) {
-      this.preferences.set(`${this.sortingPreferenceKey}.columns.order`, JSON.stringify(event));
-    }
-  }
-
   @HostListener('node-select', ['$event'])
-  onNodeSelect(event: CustomEvent) {
-    if (!!event.detail && !!event.detail.node) {
+  onNodeSelect(event: Event): void {
+    const { detail } = event as CustomEvent<{
+      node: NodeEntry;
+      selection: NodeEntry[];
+    }>;
+    if (detail?.node) {
       this.updateSelection();
-      this.selectedNode = event.detail.node;
+      this.selectedNode = detail.node;
     }
   }
 
@@ -199,6 +190,24 @@ export class DocumentListDirective implements OnInit {
         this.documentList.preselectNodes = [];
         this.appHookService.nodeToSelect$.next(null);
       }
+    }
+  }
+
+  private onColumnsWidthChanged(columnsWidthByIds: { [columnId: string]: number }): void {
+    if (this.sortingPreferenceKey) {
+      this.preferences.set(`${this.sortingPreferenceKey}.columns.width`, JSON.stringify(columnsWidthByIds));
+    }
+  }
+
+  private onColumnsVisibilityChange(columnsVisibilityByIds: { [columnId: string]: boolean }): void {
+    if (this.sortingPreferenceKey) {
+      this.preferences.set(`${this.sortingPreferenceKey}.columns.visibility`, JSON.stringify(columnsVisibilityByIds));
+    }
+  }
+
+  private onColumnOrderChanged(columns: string[]): void {
+    if (this.sortingPreferenceKey) {
+      this.preferences.set(`${this.sortingPreferenceKey}.columns.order`, JSON.stringify(columns));
     }
   }
 
