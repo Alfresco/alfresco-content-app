@@ -23,7 +23,14 @@
  */
 
 import * as app from './app.rules';
-import { createVersionRule, getFileExtension, isPreferencesApiAvailable, isNodeInfoAvailable, isBulkActionsAvailable } from './app.rules';
+import {
+  createVersionRule,
+  getFileExtension,
+  isPreferencesApiAvailable,
+  isNodeInfoAvailable,
+  isBulkActionsAvailable,
+  isCheckoutAvailable
+} from './app.rules';
 import { TestRuleContext } from './test-rule-context';
 import { NodeEntry, RepositoryInfo, SharedLink, StatusInfo } from '@alfresco/js-api';
 import { ProfileState, RuleContext } from '@alfresco/adf-extensions';
@@ -1092,6 +1099,7 @@ describe('app.evaluators', () => {
   describe('canToggleFileLock', () => {
     beforeEach(() => {
       context.profile = {} as ProfileState;
+      context.repository.version.display = '26.2.0';
     });
 
     it('should return false when permission requirements are not met, regardless of file lock', () => {
@@ -1136,6 +1144,49 @@ describe('app.evaluators', () => {
       context.selection.file = { entry: { properties: {} } } as NodeEntry;
       context.permissions = { check: () => true };
       expect(app.canToggleFileLock(context)).toBeFalse();
+    });
+
+    describe('legacy lock toggle (ACS below 26.2.0)', () => {
+      beforeEach(() => {
+        context.repository.version.display = '26.1.0';
+      });
+
+      it('should return true when file is not locked and permission requirements are met', () => {
+        context.selection.file = { entry: { properties: {} } } as NodeEntry;
+        context.permissions = { check: () => true };
+        expect(app.canToggleFileLock(context)).toBeTrue();
+      });
+
+      it('should return true when file is write locked and user is the owner of the lock', () => {
+        const file = { entry: { isFile: true, properties: { 'cm:lockType': 'WRITE_LOCK', 'cm:lockOwner': { id: 'test1' } } } } as NodeEntry;
+        context.selection.file = file;
+        context.selection.first = file;
+        context.profile.id = 'test1';
+        context.permissions = { check: () => false };
+        expect(app.canToggleFileLock(context)).toBeTrue();
+      });
+
+      it('should return false when file is write locked by another user without delete permission', () => {
+        context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK', 'cm:lockOwner': { id: 'test' } } } } as NodeEntry;
+        context.profile.id = 'test1';
+        context.permissions = { check: () => false };
+        expect(app.canToggleFileLock(context)).toBeFalse();
+      });
+
+      it('should return false when any selected node is a link', () => {
+        context.selection.isEmpty = false;
+        context.selection.nodes = [{ entry: { nodeType: 'app:filelink' } }] as NodeEntry[];
+        context.selection.file = { entry: { properties: {} } } as NodeEntry;
+        context.permissions = { check: () => true };
+        expect(app.canToggleFileLock(context)).toBeFalse();
+      });
+
+      it('should use legacy lock toggle when ACS version is missing', () => {
+        context.repository.version = undefined;
+        context.selection.file = { entry: { properties: {} } } as NodeEntry;
+        context.permissions = { check: () => true };
+        expect(app.canToggleFileLock(context)).toBeTrue();
+      });
     });
   });
 
@@ -1513,6 +1564,29 @@ describe('Versions compatibility', () => {
     it('should return false if ACS version is missing', () => {
       expect(isBulkActionsAvailable(makeContext())).toBe(false);
       expect(isBulkActionsAvailable({ repository: {} } as any)).toBe(false);
+    });
+  });
+
+  describe('isCheckoutAvailable', () => {
+    it('should return true if ACS version is equal to minimal version', () => {
+      expect(isCheckoutAvailable(makeContext('26.2.0'))).toBe(true);
+    });
+
+    it('should return true if ACS version is greater than minimal version', () => {
+      expect(isCheckoutAvailable(makeContext('26.2.1'))).toBe(true);
+      expect(isCheckoutAvailable(makeContext('26.3.0'))).toBe(true);
+      expect(isCheckoutAvailable(makeContext('27.0.0'))).toBe(true);
+    });
+
+    it('should return false if ACS version is less than minimal version', () => {
+      expect(isCheckoutAvailable(makeContext('26.1.0'))).toBe(false);
+      expect(isCheckoutAvailable(makeContext('25.1.0'))).toBe(false);
+      expect(isCheckoutAvailable(makeContext('24.4.0'))).toBe(false);
+    });
+
+    it('should return false if ACS version is missing', () => {
+      expect(isCheckoutAvailable(makeContext())).toBe(false);
+      expect(isCheckoutAvailable({ repository: {} } as any)).toBe(false);
     });
   });
 
