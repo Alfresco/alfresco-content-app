@@ -26,7 +26,7 @@ import { ToggleEditOfflineComponent } from './toggle-edit-offline.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { NodeEntry } from '@alfresco/js-api';
+import { NodeEntry, NodesApi } from '@alfresco/js-api';
 import {
   CancelCheckoutNodeAction,
   CheckoutNodeAction,
@@ -46,8 +46,8 @@ describe('ToggleEditOfflineComponent', () => {
   let dispatchSpy: jasmine.Spy;
   let selectSpy: jasmine.Spy;
   let selection: any;
-  let notificationMock: { showError: jasmine.Spy };
-  let documentListMock: { reloadSilently: jasmine.Spy };
+  let notificationMock: { showError: jasmine.Spy<NotificationService['showError']> };
+  let documentListMock: { reloadSilently: jasmine.Spy<DocumentListService['reloadSilently']> };
 
   const extensionsMock = {
     updateSidebarActions: jasmine.createSpy('updateSidebarActions'),
@@ -155,7 +155,10 @@ describe('ToggleEditOfflineComponent', () => {
   });
 
   it('should not call the legacy lock API or reload the document list when check-out is available', async () => {
-    const nodesApiMock = { lockNode: jasmine.createSpy('lockNode'), unlockNode: jasmine.createSpy('unlockNode') };
+    const nodesApiMock = {
+      lockNode: jasmine.createSpy<NodesApi['lockNode']>('lockNode'),
+      unlockNode: jasmine.createSpy<NodesApi['unlockNode']>('unlockNode')
+    };
     Object.defineProperty(component, 'nodesApi', { value: nodesApiMock });
     extensionsMock.updateSidebarActions.calls.reset();
     selectSpy.and.returnValue(of(selection));
@@ -170,16 +173,19 @@ describe('ToggleEditOfflineComponent', () => {
   });
 
   describe('legacy lock flow (ACS version without check-in / check-out support)', () => {
-    let nodesApiMock: { lockNode: jasmine.Spy; unlockNode: jasmine.Spy };
+    let nodesApiMock: {
+      lockNode: jasmine.Spy<NodesApi['lockNode']>;
+      unlockNode: jasmine.Spy<NodesApi['unlockNode']>;
+    };
 
     beforeEach(() => {
       extensionsMock.isFeatureSupported.and.returnValue(false);
 
       nodesApiMock = {
-        lockNode: jasmine.createSpy('lockNode').and.resolveTo({
+        lockNode: jasmine.createSpy<NodesApi['lockNode']>('lockNode').and.resolveTo({
           entry: { properties: { 'cm:lockType': 'WRITE_LOCK', 'cm:lockOwner': { id: 'user' }, 'cm:lockLifetime': 'PERSISTENT' } }
-        }),
-        unlockNode: jasmine.createSpy('unlockNode').and.resolveTo({ entry: { properties: {} } })
+        } as NodeEntry),
+        unlockNode: jasmine.createSpy<NodesApi['unlockNode']>('unlockNode').and.resolveTo({ entry: { properties: {} } } as NodeEntry)
       };
       Object.defineProperty(component, 'nodesApi', { value: nodesApiMock });
 

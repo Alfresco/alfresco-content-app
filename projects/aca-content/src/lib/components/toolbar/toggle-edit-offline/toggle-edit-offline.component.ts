@@ -151,14 +151,14 @@ export class ToggleEditOfflineComponent implements OnInit {
     return this.nodesApi.unlockNode(nodeId);
   }
 
-  private update(data: Node): void {
-    if (data?.properties) {
+  private update(node: Node): void {
+    if (node?.properties) {
       const properties = this.selection.entry.properties || {};
 
-      properties['cm:lockLifetime'] = data.properties['cm:lockLifetime'];
-      properties['cm:lockOwner'] = data.properties['cm:lockOwner'];
-      properties['cm:lockType'] = data.properties['cm:lockType'];
-      this.selection.entry.isLocked = data.isLocked ?? !!properties['cm:lockType'];
+      properties['cm:lockLifetime'] = node.properties['cm:lockLifetime'];
+      properties['cm:lockOwner'] = node.properties['cm:lockOwner'];
+      properties['cm:lockType'] = node.properties['cm:lockType'];
+      this.selection.entry.isLocked = node.isLocked ?? !!properties['cm:lockType'];
 
       this.selection.entry.properties = properties;
     }
