@@ -563,7 +563,7 @@ describe('SearchComponent', () => {
       component.totalResults = 1;
       fixture.detectChanges();
 
-      expect(getStatusText()).toBeNull();
+      expect(getStatusText()).toBe('');
     });
 
     it('should have no results status when search is complete and no results are present', () => {
