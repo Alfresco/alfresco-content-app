@@ -382,6 +382,8 @@
                 "EXISTENT_FOLDER": "Ya existe una carpeta con este nombre. Pruebe un nombre diferente.",
                 "NODE_DELETION": "{{ name }} no se ha podido eliminar",
                 "NODE_DELETION_PLURAL": "{{ number }} elementos no se han podido eliminar",
+                "NODE_DELETION_CONFLICT_FOLDER": "Esta carpeta no se puede eliminar porque contiene un archivo que se está editando. Cargue el archivo editado o cancele la edición y, a continuación, elimine la carpeta",
+                "NODE_DELETION_CONFLICT_FILE": "Este archivo no se puede eliminar porque se está editando. Cargue el archivo editado o cancele la edición y, a continuación, elimine el archivo",
                 "NODE_RESTORE": "{{ name }} no se ha podido restaurar",
                 "NODE_RESTORE_PLURAL": "{{ number }} elementos no se han podido restaurar",
                 "PERMISSION": "No tiene acceso para hacer esto",

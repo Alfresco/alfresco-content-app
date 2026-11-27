@@ -382,6 +382,8 @@
                 "EXISTENT_FOLDER": "Det finns redan en mapp med det här namnet. Testa ett annat namn",
                 "NODE_DELETION": "{{ name }} kunde inte raderas",
                 "NODE_DELETION_PLURAL": "{{ number }} objekt kunde inte raderas",
+                "NODE_DELETION_CONFLICT_FOLDER": "Den här mappen kan inte tas bort eftersom den innehåller en fil som redigeras. Ladda upp den redigerade filen, eller avbryt redigering, och ta sedan bort mappen",
+                "NODE_DELETION_CONFLICT_FILE": "Den här filen kan inte tas bort eftersom den redigeras. Ladda upp den redigerade filen, eller avbryt redigering, och ta sedan bort filen",
                 "NODE_RESTORE": "{{ name }} kunde inte återställas",
                 "NODE_RESTORE_PLURAL": "{{ number }} objekt kunde inte återställas",
                 "PERMISSION": "Du har inte behörighet att göra detta",

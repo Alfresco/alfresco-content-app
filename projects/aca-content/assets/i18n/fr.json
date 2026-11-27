@@ -382,6 +382,8 @@
                 "EXISTENT_FOLDER": "Un dossier du même nom existe déjà. Essayez avec un nom différent.",
                 "NODE_DELETION": "{{ name }} n'a pas pu être supprimé",
                 "NODE_DELETION_PLURAL": "{{ number }} éléments n'ont pas pu être supprimés",
+                "NODE_DELETION_CONFLICT_FOLDER": "Ce dossier ne peut pas être supprimé car il contient un fichier en cours d'édition. Téléchargez le fichier modifié ou annulez l'édition, puis supprimez le dossier",
+                "NODE_DELETION_CONFLICT_FILE": "Ce fichier ne peut pas être supprimé car il est en cours d'édition. Téléchargez le fichier modifié ou annulez l'édition, puis supprimez le fichier",
                 "NODE_RESTORE": "{{ name }} n'a pas pu être restauré",
                 "NODE_RESTORE_PLURAL": "{{ number }} éléments n'ont pas pu être restaurés",
                 "PERMISSION": "Vous n'avez pas les droits d'accès requis pour effectuer cette action",

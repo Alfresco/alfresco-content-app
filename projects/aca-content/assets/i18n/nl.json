@@ -382,6 +382,8 @@
                 "EXISTENT_FOLDER": "Er bestaat al een map met deze naam. Probeer een andere naam.",
                 "NODE_DELETION": "Kan {{ name }} niet verwijderen",
                 "NODE_DELETION_PLURAL": "Kan {{ number }} items niet verwijderen",
+                "NODE_DELETION_CONFLICT_FOLDER": "Deze map kan niet worden verwijderd omdat deze een bestand bevat dat wordt bewerkt. Upload het bewerkte bestand of annuleer het bewerken en verwijder daarna de map",
+                "NODE_DELETION_CONFLICT_FILE": "Dit bestand kan niet worden verwijderd omdat het wordt bewerkt. Upload het bewerkte bestand of annuleer het bewerken en verwijder daarna het bestand",
                 "NODE_RESTORE": "Kan {{ name }} niet herstellen",
                 "NODE_RESTORE_PLURAL": "Kan {{ number }} items niet herstellen",
                 "PERMISSION": "U hebt geen toegang om dit te doen",

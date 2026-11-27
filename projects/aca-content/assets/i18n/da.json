@@ -382,6 +382,8 @@
                 "EXISTENT_FOLDER": "Der er allerede en mappe med det navn. Prøv et andet navn.",
                 "NODE_DELETION": "{{ name }} kunne ikke slettes",
                 "NODE_DELETION_PLURAL": "{{ number }} elementer kunne ikke slettes",
+                "NODE_DELETION_CONFLICT_FOLDER": "Denne mappe kan ikke slettes, fordi den indeholder en fil, der er ved at blive redigeret. Upload den redigerede fil, eller annuller redigeringen, og slet derefter mappen",
+                "NODE_DELETION_CONFLICT_FILE": "Denne fil kan ikke slettes, fordi den er ved at blive redigeret. Upload den redigerede fil, eller annuller redigeringen, og slet derefter filen",
                 "NODE_RESTORE": "{{ name }} kunne ikke gendannes",
                 "NODE_RESTORE_PLURAL": "{{ number }} elementer kunne ikke gendannes",
                 "PERMISSION": "Du har ikke adgang til dette",
