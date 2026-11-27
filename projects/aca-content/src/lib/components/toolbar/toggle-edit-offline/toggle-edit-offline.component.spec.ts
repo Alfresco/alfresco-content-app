@@ -100,31 +100,31 @@ describe('ToggleEditOfflineComponent', () => {
     expect(component.selection).toEqual(selection.file);
   });
 
-  it('should dispatch CheckoutNodeAction when node is not locked', () => {
+  it('should dispatch CheckoutNodeAction when node is not locked', async () => {
     selectSpy.and.returnValue(of(selection));
     fixture.detectChanges();
 
-    component.onClick();
+    await component.onClick();
 
     expect(dispatchSpy).toHaveBeenCalledWith(new CheckoutNodeAction(selection.file as NodeEntry));
   });
 
-  it('should dispatch CancelCheckoutNodeAction when node is locked', () => {
+  it('should dispatch CancelCheckoutNodeAction when node is locked', async () => {
     selection.file.entry.isLocked = true;
     selectSpy.and.returnValue(of(selection));
     fixture.detectChanges();
 
-    component.onClick();
+    await component.onClick();
 
     expect(dispatchSpy).toHaveBeenCalledWith(new CancelCheckoutNodeAction(selection.file as NodeEntry));
   });
 
-  it('should dispatch CancelCheckoutNodeAction when node is a working copy', () => {
+  it('should dispatch CancelCheckoutNodeAction when node is a working copy', async () => {
     selection.file.entry.aspectNames = ['cm:workingcopy'];
     selectSpy.and.returnValue(of(selection));
     fixture.detectChanges();
 
-    component.onClick();
+    await component.onClick();
 
     expect(dispatchSpy).toHaveBeenCalledWith(new CancelCheckoutNodeAction(selection.file as NodeEntry));
   });
