@@ -268,8 +268,6 @@
                         "EXECUTE_SEARCH": "Execute Search"
                     }
                 },
-                "FOUND_RESULTS": "{{ number }} results found",
-                "FOUND_ONE_RESULT": "{{ number }} result found",
                 "CUSTOM_ROW": {
                     "MODIFIED": "Modified",
                     "BY_USER": "by {{ user }}",
