@@ -558,6 +558,14 @@ describe('SearchComponent', () => {
       expect(getStatusText()).not.toBe('APP.BROWSE.SEARCH.LOADING');
     });
 
+    it('should keep the live region empty when there are results because the count is announced by pagination component', () => {
+      component.isLoading = false;
+      component.totalResults = 1;
+      fixture.detectChanges();
+
+      expect(getStatusText()).toBeNull();
+    });
+
     it('should have no results status when search is complete and no results are present', () => {
       component.isLoading = false;
       component.totalResults = 0;
