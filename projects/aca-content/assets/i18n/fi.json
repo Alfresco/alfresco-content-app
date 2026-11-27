@@ -382,6 +382,8 @@
                 "EXISTENT_FOLDER": "Samanniminen kansio on jo olemassa. Käytä toista nimeä.",
                 "NODE_DELETION": "Kohteen {{ name }} poistaminen ei onnistunut",
                 "NODE_DELETION_PLURAL": "{{ number }} kohteen poistaminen ei onnistunut",
+                "NODE_DELETION_CONFLICT_FOLDER": "Tätä kansiota ei voi poistaa, koska se sisältää muokattavan tiedoston. Lataa muokattu tiedosto tai peruuta muokkaus ja poista sitten kansio",
+                "NODE_DELETION_CONFLICT_FILE": "Tätä tiedostoa ei voi poistaa, koska sitä muokataan. Lataa muokattu tiedosto tai peruuta muokkaus ja poista sitten tiedosto",
                 "NODE_RESTORE": "Kohteen {{ name }} palauttaminen ei onnistunut",
                 "NODE_RESTORE_PLURAL": "{{ number }} kohteen palauttaminen ei onnistunut",
                 "PERMISSION": "Sinulla ei ole oikeuksia tähän",

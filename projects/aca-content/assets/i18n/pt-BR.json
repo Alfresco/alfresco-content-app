@@ -382,6 +382,8 @@
                 "EXISTENT_FOLDER": "Já existe uma pasta com este nome. Tente outro nome.",
                 "NODE_DELETION": "Não foi possível excluir {{ name }}",
                 "NODE_DELETION_PLURAL": "Não foi possível excluir {{ number }} itens",
+                "NODE_DELETION_CONFLICT_FOLDER": "Esta pasta não pode ser excluída porque contém um arquivo que está sendo editado. Carregue o arquivo editado ou cancele a edição e, em seguida, exclua a pasta",
+                "NODE_DELETION_CONFLICT_FILE": "Este arquivo não pode ser excluído porque está sendo editado. Carregue o arquivo editado ou cancele a edição e, em seguida, exclua o arquivo",
                 "NODE_RESTORE": "Não foi possível restaurar {{ name }}",
                 "NODE_RESTORE_PLURAL": "Não foi possível restaurar {{ number }} itens",
                 "PERMISSION": "Você não tem acesso para fazer isso",

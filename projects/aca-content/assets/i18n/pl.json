@@ -382,6 +382,8 @@
                 "EXISTENT_FOLDER": "Istnieje już folder o tej nazwie. Spróbuj użyć innej nazwy.",
                 "NODE_DELETION": "Nie można usunąć elementu {{ name }}.",
                 "NODE_DELETION_PLURAL": "Nie można usunąć następującej liczby elementów: {{ number }}.",
+                "NODE_DELETION_CONFLICT_FOLDER": "Nie można usunąć tego folderu, ponieważ zawiera plik, który jest edytowany. Przekaż edytowany plik lub anuluj edytowanie, a następnie usuń folder",
+                "NODE_DELETION_CONFLICT_FILE": "Nie można usunąć tego pliku, ponieważ jest edytowany. Przekaż edytowany plik lub anuluj edytowanie, a następnie usuń plik",
                 "NODE_RESTORE": "Nie można przywrócić elementu {{ name }}",
                 "NODE_RESTORE_PLURAL": "Nie można przywrócić następującej liczby elementów: {{ number }}",
                 "PERMISSION": "Nie masz dostępu umożliwiającego wykonanie tej czynności",

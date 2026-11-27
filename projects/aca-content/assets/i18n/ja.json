@@ -382,6 +382,8 @@
                 "EXISTENT_FOLDER": "この名前のフォルダは既に存在します。別の名前を使用してください。",
                 "NODE_DELETION": "{{ name }} を削除できませんでした",
                 "NODE_DELETION_PLURAL": "{{ number }} 件のアイテムを削除できませんでした",
+                "NODE_DELETION_CONFLICT_FOLDER": "このフォルダには編集中のファイルが含まれているため削除できません。編集済みファイルをアップロードするか、編集をキャンセルしてから、フォルダを削除してください",
+                "NODE_DELETION_CONFLICT_FILE": "このファイルは編集中のため削除できません。編集済みファイルをアップロードするか、編集をキャンセルしてから、ファイルを削除してください",
                 "NODE_RESTORE": "{{ name }} を復元できませんでした",
                 "NODE_RESTORE_PLURAL": "{{ number }} 件のアイテムを復元できませんでした",
                 "PERMISSION": "この操作を行うための権限がありません",

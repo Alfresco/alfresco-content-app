@@ -382,6 +382,8 @@
                 "EXISTENT_FOLDER": "Složka s tímto názvem již existuje. Zadejte jiný název.",
                 "NODE_DELETION": "„{{ name }}“ nebylo možné odstranit",
                 "NODE_DELETION_PLURAL": "Některé položky ({{ number }}) nebylo možné odstranit",
+                "NODE_DELETION_CONFLICT_FOLDER": "Tuto složku nelze smazat, protože obsahuje soubor, který je upravován. Nahrajte upravený soubor, nebo zrušte úpravu, a poté složku smažte",
+                "NODE_DELETION_CONFLICT_FILE": "Tento soubor nelze smazat, protože je upravován. Nahrajte upravený soubor, nebo zrušte úpravu, a poté soubor smažte",
                 "NODE_RESTORE": "„{{ name }}“ nebylo možné obnovit",
                 "NODE_RESTORE_PLURAL": "Některé položky ({{ number }}) nebylo možné obnovit",
                 "PERMISSION": "Nemáte dostatečná přístupová oprávnění",

@@ -382,6 +382,8 @@
                 "EXISTENT_FOLDER": "存在使用此名称的文件夹。请尝试使用其他名称。",
                 "NODE_DELETION": "{{ name }} 无法删除",
                 "NODE_DELETION_PLURAL": "{{ number }} 个项目无法删除",
+                "NODE_DELETION_CONFLICT_FOLDER": "此文件夹无法删除,因为它包含一个正在编辑的文件。请上传已编辑的文件,或取消编辑,然后再删除该文件夹",
+                "NODE_DELETION_CONFLICT_FILE": "此文件无法删除,因为它正在被编辑。请上传已编辑的文件,或取消编辑,然后再删除该文件",
                 "NODE_RESTORE": "{{ name }} 无法恢复",
                 "NODE_RESTORE_PLURAL": "{{ number }} 个项目无法恢复",
                 "PERMISSION": "您没有执行此操作的访问权",

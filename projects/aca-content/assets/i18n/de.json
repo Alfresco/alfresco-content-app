@@ -382,6 +382,8 @@
                 "EXISTENT_FOLDER": "Es gibt bereits einen Ordner mit diesem Namen. Probieren Sie es mit einem anderen Namen.",
                 "NODE_DELETION": "{{ name }} konnte nicht gelöscht werden",
                 "NODE_DELETION_PLURAL": "{{ number }} Elemente konnten nicht gelöscht werden",
+                "NODE_DELETION_CONFLICT_FOLDER": "Dieser Ordner kann nicht gelöscht werden, da er eine Datei enthält, die gerade bearbeitet wird. Laden Sie die bearbeitete Datei hoch oder brechen Sie die Bearbeitung ab und löschen Sie dann den Ordner",
+                "NODE_DELETION_CONFLICT_FILE": "Diese Datei kann nicht gelöscht werden, da sie gerade bearbeitet wird. Laden Sie die bearbeitete Datei hoch oder brechen Sie die Bearbeitung ab und löschen Sie dann die Datei",
                 "NODE_RESTORE": "{{ name }} konnte nicht wiederhergestellt werden",
                 "NODE_RESTORE_PLURAL": "{{ number }} Elemente konnten nicht wiederhergestellt werden",
                 "PERMISSION": "Sie haben nicht die nötigen Benutzerrechte hierfür",

@@ -382,6 +382,8 @@
                 "EXISTENT_FOLDER": "Esiste già una cartella con questo nome. Provare un nome diverso.",
                 "NODE_DELETION": "Impossibile eliminare {{ name }}",
                 "NODE_DELETION_PLURAL": "Impossibile eliminare {{ number }} elementi",
+                "NODE_DELETION_CONFLICT_FOLDER": "Questa cartella non può essere eliminata perché contiene un file in fase di modifica. Carica il file modificato o annulla la modifica, quindi elimina la cartella",
+                "NODE_DELETION_CONFLICT_FILE": "Questo file non può essere eliminato perché è in fase di modifica. Carica il file modificato o annulla la modifica, quindi elimina il file",
                 "NODE_RESTORE": "Impossibile ripristinare {{ name }}",
                 "NODE_RESTORE_PLURAL": "Impossibile ripristinare {{ number }} elementi",
                 "PERMISSION": "Non si dispone dell'accesso per eseguire questa operazione",
