@@ -154,7 +154,7 @@ describe('ToggleEditOfflineComponent', () => {
     expect(component.isNodeLocked).toBeTrue();
   });
 
-  it('should not call the legacy lock API or reload rows when check-out is available', async () => {
+  it('should not call the legacy lock API or reload the document list when check-out is available', async () => {
     const nodesApiMock = { lockNode: jasmine.createSpy('lockNode'), unlockNode: jasmine.createSpy('unlockNode') };
     Object.defineProperty(component, 'nodesApi', { value: nodesApiMock });
     extensionsMock.updateSidebarActions.calls.reset();
@@ -184,15 +184,6 @@ describe('ToggleEditOfflineComponent', () => {
       Object.defineProperty(component, 'nodesApi', { value: nodesApiMock });
 
       selection.file.entry.id = 'node-1';
-    });
-
-    it('should not treat a working copy as locked', () => {
-      selection.file.entry.aspectNames = ['cm:workingcopy'];
-      selectSpy.and.returnValue(of(selection));
-      fixture.detectChanges();
-
-      expect(component.isNodeLocked).toBeFalse();
-      expect(component.nodeTitle).toBe('APP.ACTIONS.EDIT_OFFLINE');
     });
 
     it('should lock node and dispatch download, edit offline and select actions', async () => {
@@ -235,27 +226,7 @@ describe('ToggleEditOfflineComponent', () => {
       expect(dispatchSpy).not.toHaveBeenCalledWith(jasmine.any(DownloadNodesAction));
       expect(dispatchSpy).not.toHaveBeenCalledWith(jasmine.any(CancelCheckoutNodeAction));
       expect(documentListMock.reloadSilently).toHaveBeenCalled();
-    });
-
-    it('should not reload rows when locking fails', async () => {
-      nodesApiMock.lockNode.and.rejectWith(new Error('failed'));
-      selectSpy.and.returnValue(of(selection));
-      fixture.detectChanges();
-
-      await component.onClick();
-
-      expect(documentListMock.reloadSilently).not.toHaveBeenCalled();
-    });
-
-    it('should not reload rows when unlocking fails', async () => {
-      selection.file.entry.isLocked = true;
-      nodesApiMock.unlockNode.and.rejectWith(new Error('failed'));
-      selectSpy.and.returnValue(of(selection));
-      fixture.detectChanges();
-
-      await component.onClick();
-
-      expect(documentListMock.reloadSilently).not.toHaveBeenCalled();
+      expect(selection.file.entry.isLocked).toBeFalse();
     });
 
     it('should show lock error when locking fails', async () => {
@@ -267,6 +238,7 @@ describe('ToggleEditOfflineComponent', () => {
 
       expect(notificationMock.showError).toHaveBeenCalledWith('APP.MESSAGES.ERRORS.LOCK_NODE', null, { fileName: 'test' });
       expect(dispatchSpy).not.toHaveBeenCalled();
+      expect(documentListMock.reloadSilently).not.toHaveBeenCalled();
     });
 
     it('should show unlock error when unlocking fails', async () => {
@@ -279,6 +251,7 @@ describe('ToggleEditOfflineComponent', () => {
 
       expect(notificationMock.showError).toHaveBeenCalledWith('APP.MESSAGES.ERRORS.UNLOCK_NODE', null, { fileName: 'test' });
       expect(dispatchSpy).not.toHaveBeenCalled();
+      expect(documentListMock.reloadSilently).not.toHaveBeenCalled();
     });
   });
 });

@@ -158,6 +158,7 @@ export class ToggleEditOfflineComponent implements OnInit {
       properties['cm:lockLifetime'] = data.properties['cm:lockLifetime'];
       properties['cm:lockOwner'] = data.properties['cm:lockOwner'];
       properties['cm:lockType'] = data.properties['cm:lockType'];
+      this.selection.entry.isLocked = data.isLocked ?? !!properties['cm:lockType'];
 
       this.selection.entry.properties = properties;
     }
