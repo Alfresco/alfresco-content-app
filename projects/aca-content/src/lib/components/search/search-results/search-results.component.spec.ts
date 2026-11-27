@@ -558,19 +558,6 @@ describe('SearchComponent', () => {
       expect(getStatusText()).not.toBe('APP.BROWSE.SEARCH.LOADING');
     });
 
-    it('should have the correct result status when search is complete and results are present', () => {
-      component.isLoading = false;
-      component.totalResults = 1;
-      fixture.detectChanges();
-
-      expect(getStatusText()).toBe('APP.BROWSE.SEARCH.FOUND_ONE_RESULT');
-
-      component.totalResults = 5;
-      fixture.detectChanges();
-
-      expect(getStatusText()).toBe('APP.BROWSE.SEARCH.FOUND_RESULTS');
-    });
-
     it('should have no results status when search is complete and no results are present', () => {
       component.isLoading = false;
       component.totalResults = 0;

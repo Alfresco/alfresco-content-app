@@ -19,12 +19,8 @@
           <output class="cdk-visually-hidden" aria-live="polite">
             @if (isLoading) {
               {{ 'APP.BROWSE.SEARCH.LOADING' | translate }}
-            } @else {
-              @if (totalResults > 0) {
-                {{ (totalResults === 1 ? 'APP.BROWSE.SEARCH.FOUND_ONE_RESULT' : 'APP.BROWSE.SEARCH.FOUND_RESULTS') | translate: { number: totalResults } }}
-              } @else {
-                {{ 'APP.BROWSE.SEARCH.NO_RESULTS' | translate }}
-              }
+            } @else if (totalResults === 0) {
+              {{ 'APP.BROWSE.SEARCH.NO_RESULTS' | translate }}
             }
           </output>
           <div class="adf-search-results__content-header aca-content">
