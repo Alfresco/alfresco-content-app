@@ -143,6 +143,7 @@ import { IsFeatureSupportedInCurrentAcsPipe } from './pipes/is-feature-supported
         isPreferencesApiAvailable: rules.isPreferencesApiAvailable,
         isNodeInfoAvailable: rules.isNodeInfoAvailable,
         isBulkActionsAvailable: rules.isBulkActionsAvailable,
+        isCheckoutAvailable: rules.isCheckoutAvailable,
 
         'app.selection.canDelete': rules.canDeleteSelection,
         'app.selection.canDownload': rules.canDownloadSelection,

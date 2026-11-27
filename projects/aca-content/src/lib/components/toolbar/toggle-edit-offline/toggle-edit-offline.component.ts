@@ -22,11 +22,21 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppStore, CancelCheckoutNodeAction, CheckoutNodeAction, getAppSelection } from '@alfresco/aca-shared/store';
-import { NodeEntry } from '@alfresco/js-api';
+import {
+  AppStore,
+  CancelCheckoutNodeAction,
+  CheckoutNodeAction,
+  DownloadNodesAction,
+  EditOfflineAction,
+  SetSelectedNodesAction,
+  getAppSelection
+} from '@alfresco/aca-shared/store';
+import { NodeEntry, SharedLinkEntry, Node, NodesApi, LazyApi } from '@alfresco/js-api';
 import { Component, inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppExtensionService, isLocked } from '@alfresco/aca-shared';
+import { NotificationService } from '@alfresco/adf-core';
+import { AlfrescoApiService, DocumentListService } from '@alfresco/adf-content-services';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatMenuItem, MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
@@ -46,9 +56,15 @@ import { MatIconModule } from '@angular/material/icon';
 export class ToggleEditOfflineComponent implements OnInit {
   private readonly store = inject<Store<AppStore>>(Store);
   private readonly extensions = inject(AppExtensionService);
+  private readonly alfrescoApiService = inject(AlfrescoApiService);
+  private readonly notificationService = inject(NotificationService);
+  private readonly documentListService = inject(DocumentListService);
 
   @ViewChild(MatMenuItem)
   menuItem: MatMenuItem;
+
+  @LazyApi((self: ToggleEditOfflineComponent) => new NodesApi(self.alfrescoApiService.getInstance()))
+  declare nodesApi: NodesApi;
 
   selection: NodeEntry;
   nodeTitle = '';
@@ -62,16 +78,89 @@ export class ToggleEditOfflineComponent implements OnInit {
     });
   }
 
-  onClick() {
-    if (this.isCancelable(this.selection)) {
-      this.store.dispatch(new CancelCheckoutNodeAction(this.selection));
+  async onClick() {
+    if (this.isCheckoutAvailable()) {
+      if (this.isCancelable(this.selection)) {
+        this.store.dispatch(new CancelCheckoutNodeAction(this.selection));
+      } else {
+        this.store.dispatch(new CheckoutNodeAction(this.selection));
+      }
     } else {
-      this.store.dispatch(new CheckoutNodeAction(this.selection));
+      await this.toggleLock(this.selection);
     }
     this.extensions.updateSidebarActions();
   }
 
+  private isCheckoutAvailable(): boolean {
+    return this.extensions.isFeatureSupported('isCheckoutAvailable');
+  }
+
   private isCancelable(node: NodeEntry): boolean {
+    if (!this.isCheckoutAvailable()) {
+      return isLocked(node);
+    }
     return isLocked(node) || (node?.entry?.aspectNames ?? []).includes('cm:workingcopy');
+  }
+
+  /* Legacy lock / unlock flow for ACS versions without check-in / check-out support. */
+  private async toggleLock(node: NodeEntry | SharedLinkEntry): Promise<void> {
+    const id = (node as SharedLinkEntry).entry.nodeId || node.entry.id;
+
+    if (isLocked(this.selection)) {
+      try {
+        const response = await this.unlockNode(id);
+
+        this.update(response?.entry);
+        this.store.dispatch(new EditOfflineAction(this.selection));
+        this.store.dispatch(new SetSelectedNodesAction([this.selection]));
+        this.documentListService.reloadSilently();
+      } catch {
+        this.onUnlockError();
+      }
+    } else {
+      try {
+        const response = await this.lockNode(id);
+
+        this.update(response?.entry);
+        this.store.dispatch(new DownloadNodesAction([this.selection]));
+        this.store.dispatch(new EditOfflineAction(this.selection));
+        this.store.dispatch(new SetSelectedNodesAction([this.selection]));
+        this.documentListService.reloadSilently();
+      } catch {
+        this.onLockError();
+      }
+    }
+  }
+
+  private onLockError(): void {
+    this.notificationService.showError('APP.MESSAGES.ERRORS.LOCK_NODE', null, { fileName: this.selection.entry.name });
+  }
+
+  private onUnlockError(): void {
+    this.notificationService.showError('APP.MESSAGES.ERRORS.UNLOCK_NODE', null, { fileName: this.selection.entry.name });
+  }
+
+  private lockNode(nodeId: string): Promise<NodeEntry> {
+    return this.nodesApi.lockNode(nodeId, {
+      type: 'ALLOW_OWNER_CHANGES',
+      lifetime: 'PERSISTENT'
+    });
+  }
+
+  private unlockNode(nodeId: string): Promise<NodeEntry> {
+    return this.nodesApi.unlockNode(nodeId);
+  }
+
+  private update(node: Node): void {
+    if (node?.properties) {
+      const properties = this.selection.entry.properties || {};
+
+      properties['cm:lockLifetime'] = node.properties['cm:lockLifetime'];
+      properties['cm:lockOwner'] = node.properties['cm:lockOwner'];
+      properties['cm:lockType'] = node.properties['cm:lockType'];
+      this.selection.entry.isLocked = node.isLocked ?? !!properties['cm:lockType'];
+
+      this.selection.entry.properties = properties;
+    }
   }
 }

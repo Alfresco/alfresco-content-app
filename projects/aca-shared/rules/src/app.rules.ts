@@ -449,7 +449,14 @@ export const canEditAspects = (context: RuleContext): boolean =>
     repository.isMajorVersionAvailable(context, '7')
   ].every(Boolean);
 
-export const canToggleFileLock = (context: RuleContext): boolean => canCheckout(context) || canCancelCheckout(context);
+/**
+ * Legacy visibility of the lock / unlock toggle, used on ACS versions without check-in / check-out support.
+ * @param context Rule execution context
+ */
+const canToggleLegacyFileLock = (context: RuleContext): boolean => !isNodeLink(context) && (canLockFile(context) || canUnlockFile(context));
+
+export const canToggleFileLock = (context: RuleContext): boolean =>
+  isCheckoutAvailable(context) ? canCheckout(context) || canCancelCheckout(context) : canToggleLegacyFileLock(context);
 
 /**
  * @deprecated Uses workarounds for for recent files and search api issues.
@@ -567,6 +574,13 @@ export const isNodeInfoAvailable = createVersionRule('23.4.0');
  * JSON ref: `isBulkActionsAvailable`
  */
 export const isBulkActionsAvailable = createVersionRule('23.3.0');
+
+/**
+ * Checks if check-in / check-out support is provided by current ACS version.
+ * Older versions fall back to the legacy lock / unlock API.
+ * JSON ref: `isCheckoutAvailable`
+ */
+export const isCheckoutAvailable = createVersionRule('26.2.0');
 
 /**
  * Partially applies minimal version of a feature against a core compatibility evaluation.

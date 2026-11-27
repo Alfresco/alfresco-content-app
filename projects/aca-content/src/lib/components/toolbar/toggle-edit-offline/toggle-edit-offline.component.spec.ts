@@ -26,10 +26,18 @@ import { ToggleEditOfflineComponent } from './toggle-edit-offline.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { NodeEntry } from '@alfresco/js-api';
-import { CancelCheckoutNodeAction, CheckoutNodeAction } from '@alfresco/aca-shared/store';
+import { NodeEntry, NodesApi } from '@alfresco/js-api';
+import {
+  CancelCheckoutNodeAction,
+  CheckoutNodeAction,
+  DownloadNodesAction,
+  EditOfflineAction,
+  SetSelectedNodesAction
+} from '@alfresco/aca-shared/store';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AppExtensionService } from '@alfresco/aca-shared';
+import { NotificationService } from '@alfresco/adf-core';
+import { DocumentListService } from '@alfresco/adf-content-services';
 
 describe('ToggleEditOfflineComponent', () => {
   let fixture: ComponentFixture<ToggleEditOfflineComponent>;
@@ -38,12 +46,19 @@ describe('ToggleEditOfflineComponent', () => {
   let dispatchSpy: jasmine.Spy;
   let selectSpy: jasmine.Spy;
   let selection: any;
+  let notificationMock: { showError: jasmine.Spy<NotificationService['showError']> };
+  let documentListMock: { reloadSilently: jasmine.Spy<DocumentListService['reloadSilently']> };
 
   const extensionsMock = {
-    updateSidebarActions: jasmine.createSpy('updateSidebarActions')
+    updateSidebarActions: jasmine.createSpy('updateSidebarActions'),
+    isFeatureSupported: jasmine.createSpy('isFeatureSupported')
   };
 
   beforeEach(() => {
+    extensionsMock.isFeatureSupported.and.returnValue(true);
+    notificationMock = { showError: jasmine.createSpy('showError') };
+    documentListMock = { reloadSilently: jasmine.createSpy('reloadSilently') };
+
     TestBed.configureTestingModule({
       imports: [AppTestingModule, ToggleEditOfflineComponent],
       providers: [
@@ -57,6 +72,14 @@ describe('ToggleEditOfflineComponent', () => {
         {
           provide: AppExtensionService,
           useValue: extensionsMock
+        },
+        {
+          provide: NotificationService,
+          useValue: notificationMock
+        },
+        {
+          provide: DocumentListService,
+          useValue: documentListMock
         }
       ]
     });
@@ -77,31 +100,31 @@ describe('ToggleEditOfflineComponent', () => {
     expect(component.selection).toEqual(selection.file);
   });
 
-  it('should dispatch CheckoutNodeAction when node is not locked', () => {
+  it('should dispatch CheckoutNodeAction when node is not locked', async () => {
     selectSpy.and.returnValue(of(selection));
     fixture.detectChanges();
 
-    component.onClick();
+    await component.onClick();
 
     expect(dispatchSpy).toHaveBeenCalledWith(new CheckoutNodeAction(selection.file as NodeEntry));
   });
 
-  it('should dispatch CancelCheckoutNodeAction when node is locked', () => {
+  it('should dispatch CancelCheckoutNodeAction when node is locked', async () => {
     selection.file.entry.isLocked = true;
     selectSpy.and.returnValue(of(selection));
     fixture.detectChanges();
 
-    component.onClick();
+    await component.onClick();
 
     expect(dispatchSpy).toHaveBeenCalledWith(new CancelCheckoutNodeAction(selection.file as NodeEntry));
   });
 
-  it('should dispatch CancelCheckoutNodeAction when node is a working copy', () => {
+  it('should dispatch CancelCheckoutNodeAction when node is a working copy', async () => {
     selection.file.entry.aspectNames = ['cm:workingcopy'];
     selectSpy.and.returnValue(of(selection));
     fixture.detectChanges();
 
-    component.onClick();
+    await component.onClick();
 
     expect(dispatchSpy).toHaveBeenCalledWith(new CancelCheckoutNodeAction(selection.file as NodeEntry));
   });
@@ -129,5 +152,112 @@ describe('ToggleEditOfflineComponent', () => {
     fixture.detectChanges();
 
     expect(component.isNodeLocked).toBeTrue();
+  });
+
+  it('should not call the legacy lock API or reload the document list when check-out is available', async () => {
+    const nodesApiMock = {
+      lockNode: jasmine.createSpy<NodesApi['lockNode']>('lockNode'),
+      unlockNode: jasmine.createSpy<NodesApi['unlockNode']>('unlockNode')
+    };
+    Object.defineProperty(component, 'nodesApi', { value: nodesApiMock });
+    extensionsMock.updateSidebarActions.calls.reset();
+    selectSpy.and.returnValue(of(selection));
+    fixture.detectChanges();
+
+    await component.onClick();
+
+    expect(nodesApiMock.lockNode).not.toHaveBeenCalled();
+    expect(nodesApiMock.unlockNode).not.toHaveBeenCalled();
+    expect(documentListMock.reloadSilently).not.toHaveBeenCalled();
+    expect(extensionsMock.updateSidebarActions).toHaveBeenCalled();
+  });
+
+  describe('legacy lock flow (ACS version without check-in / check-out support)', () => {
+    let nodesApiMock: {
+      lockNode: jasmine.Spy<NodesApi['lockNode']>;
+      unlockNode: jasmine.Spy<NodesApi['unlockNode']>;
+    };
+
+    beforeEach(() => {
+      extensionsMock.isFeatureSupported.and.returnValue(false);
+
+      nodesApiMock = {
+        lockNode: jasmine.createSpy<NodesApi['lockNode']>('lockNode').and.resolveTo({
+          entry: { properties: { 'cm:lockType': 'WRITE_LOCK', 'cm:lockOwner': { id: 'user' }, 'cm:lockLifetime': 'PERSISTENT' } }
+        } as NodeEntry),
+        unlockNode: jasmine.createSpy<NodesApi['unlockNode']>('unlockNode').and.resolveTo({ entry: { properties: {} } } as NodeEntry)
+      };
+      Object.defineProperty(component, 'nodesApi', { value: nodesApiMock });
+
+      selection.file.entry.id = 'node-1';
+    });
+
+    it('should lock node and dispatch download, edit offline and select actions', async () => {
+      selectSpy.and.returnValue(of(selection));
+      fixture.detectChanges();
+
+      await component.onClick();
+
+      expect(nodesApiMock.lockNode).toHaveBeenCalledWith('node-1', { type: 'ALLOW_OWNER_CHANGES', lifetime: 'PERSISTENT' });
+      expect(dispatchSpy).toHaveBeenCalledWith(jasmine.any(DownloadNodesAction));
+      expect(dispatchSpy).toHaveBeenCalledWith(jasmine.any(EditOfflineAction));
+      expect(dispatchSpy).toHaveBeenCalledWith(jasmine.any(SetSelectedNodesAction));
+      expect(dispatchSpy).not.toHaveBeenCalledWith(jasmine.any(CheckoutNodeAction));
+      expect(documentListMock.reloadSilently).toHaveBeenCalled();
+      expect(extensionsMock.updateSidebarActions).toHaveBeenCalled();
+    });
+
+    it('should update lock properties of the selection after locking', async () => {
+      selectSpy.and.returnValue(of(selection));
+      fixture.detectChanges();
+
+      await component.onClick();
+
+      expect(selection.file.entry.properties['cm:lockType']).toBe('WRITE_LOCK');
+      expect(selection.file.entry.properties['cm:lockOwner']).toEqual({ id: 'user' });
+      expect(selection.file.entry.properties['cm:lockLifetime']).toBe('PERSISTENT');
+    });
+
+    it('should unlock node when it is locked', async () => {
+      selection.file.entry.isLocked = true;
+      selectSpy.and.returnValue(of(selection));
+      fixture.detectChanges();
+
+      await component.onClick();
+
+      expect(nodesApiMock.unlockNode).toHaveBeenCalledWith('node-1');
+      expect(nodesApiMock.lockNode).not.toHaveBeenCalled();
+      expect(dispatchSpy).toHaveBeenCalledWith(jasmine.any(EditOfflineAction));
+      expect(dispatchSpy).toHaveBeenCalledWith(jasmine.any(SetSelectedNodesAction));
+      expect(dispatchSpy).not.toHaveBeenCalledWith(jasmine.any(DownloadNodesAction));
+      expect(dispatchSpy).not.toHaveBeenCalledWith(jasmine.any(CancelCheckoutNodeAction));
+      expect(documentListMock.reloadSilently).toHaveBeenCalled();
+      expect(selection.file.entry.isLocked).toBeFalse();
+    });
+
+    it('should show lock error when locking fails', async () => {
+      nodesApiMock.lockNode.and.rejectWith(new Error('failed'));
+      selectSpy.and.returnValue(of(selection));
+      fixture.detectChanges();
+
+      await component.onClick();
+
+      expect(notificationMock.showError).toHaveBeenCalledWith('APP.MESSAGES.ERRORS.LOCK_NODE', null, { fileName: 'test' });
+      expect(dispatchSpy).not.toHaveBeenCalled();
+      expect(documentListMock.reloadSilently).not.toHaveBeenCalled();
+    });
+
+    it('should show unlock error when unlocking fails', async () => {
+      selection.file.entry.isLocked = true;
+      nodesApiMock.unlockNode.and.rejectWith(new Error('failed'));
+      selectSpy.and.returnValue(of(selection));
+      fixture.detectChanges();
+
+      await component.onClick();
+
+      expect(notificationMock.showError).toHaveBeenCalledWith('APP.MESSAGES.ERRORS.UNLOCK_NODE', null, { fileName: 'test' });
+      expect(dispatchSpy).not.toHaveBeenCalled();
+      expect(documentListMock.reloadSilently).not.toHaveBeenCalled();
+    });
   });
 });
